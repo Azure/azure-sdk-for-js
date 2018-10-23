@@ -710,6 +710,102 @@
             }
         }
     };
+    var OperationalizationClusterProperties = {
+        serializedName: "OperationalizationClusterProperties",
+        type: {
+            name: "Composite",
+            className: "OperationalizationClusterProperties",
+            modelProperties: {
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "String"
+                    }
+                },
+                createdOn: {
+                    readOnly: true,
+                    serializedName: "createdOn",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                modifiedOn: {
+                    readOnly: true,
+                    serializedName: "modifiedOn",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                provisioningErrors: {
+                    readOnly: true,
+                    serializedName: "provisioningErrors",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "ErrorResponseWrapper"
+                            }
+                        }
+                    }
+                },
+                clusterType: {
+                    required: true,
+                    serializedName: "clusterType",
+                    type: {
+                        name: "String"
+                    }
+                },
+                storageAccount: {
+                    serializedName: "storageAccount",
+                    type: {
+                        name: "Composite",
+                        className: "StorageAccountProperties"
+                    }
+                },
+                containerRegistry: {
+                    serializedName: "containerRegistry",
+                    type: {
+                        name: "Composite",
+                        className: "ContainerRegistryProperties"
+                    }
+                },
+                containerService: {
+                    serializedName: "containerService",
+                    type: {
+                        name: "Composite",
+                        className: "AcsClusterProperties"
+                    }
+                },
+                appInsights: {
+                    serializedName: "appInsights",
+                    type: {
+                        name: "Composite",
+                        className: "AppInsightsProperties"
+                    }
+                },
+                globalServiceConfiguration: {
+                    serializedName: "globalServiceConfiguration",
+                    type: {
+                        name: "Composite",
+                        className: "GlobalServiceConfiguration",
+                        additionalProperties: {
+                            type: {
+                                name: "Object"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
     var OperationalizationCluster = {
         serializedName: "OperationalizationCluster",
         type: {
@@ -1188,6 +1284,7 @@
         ServiceAuthConfiguration: ServiceAuthConfiguration,
         AutoScaleConfiguration: AutoScaleConfiguration,
         GlobalServiceConfiguration: GlobalServiceConfiguration,
+        OperationalizationClusterProperties: OperationalizationClusterProperties,
         OperationalizationCluster: OperationalizationCluster,
         OperationalizationClusterUpdateParameters: OperationalizationClusterUpdateParameters,
         StorageAccountCredentials: StorageAccountCredentials,

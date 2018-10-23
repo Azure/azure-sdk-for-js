@@ -214,6 +214,56 @@ export interface RemediationDeploymentSummary {
 
 /**
  * @interface
+ * An interface representing RemediationProperties.
+ * The remediation properties.
+ *
+ */
+export interface RemediationProperties {
+  /**
+   * @member {string} [policyAssignmentId] The resource ID of the policy
+   * assignment that should be remediated.
+   */
+  policyAssignmentId?: string;
+  /**
+   * @member {string} [policyDefinitionReferenceId] The policy definition
+   * reference ID of the individual definition that should be remediated.
+   * Required when the policy assignment being remediated assigns a policy set
+   * definition.
+   */
+  policyDefinitionReferenceId?: string;
+  /**
+   * @member {string} [provisioningState] The status of the remediation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {Date} [createdOn] The time at which the remediation was created.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdOn?: Date;
+  /**
+   * @member {Date} [lastUpdatedOn] The time at which the remediation was last
+   * updated.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastUpdatedOn?: Date;
+  /**
+   * @member {RemediationFilters} [filters] The filters that will be applied to
+   * determine which resources to remediate.
+   */
+  filters?: RemediationFilters;
+  /**
+   * @member {RemediationDeploymentSummary} [deploymentStatus] The deployment
+   * status summary for all deplyoments created by the remediation.
+   */
+  deploymentStatus?: RemediationDeploymentSummary;
+}
+
+/**
+ * @interface
  * An interface representing Remediation.
  * The remediation definition.
  *

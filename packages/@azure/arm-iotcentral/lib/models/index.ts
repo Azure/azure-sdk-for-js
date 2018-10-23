@@ -16,6 +16,36 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
+ * An interface representing AppProperties.
+ * The properties of an IoT Central application.
+ *
+ */
+export interface AppProperties {
+  /**
+   * @member {string} [applicationId] The ID of the application.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly applicationId?: string;
+  /**
+   * @member {string} [displayName] The display name of the application.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [subdomain] The subdomain of the application.
+   */
+  subdomain?: string;
+  /**
+   * @member {string} [template] The ID of the application template, which is a
+   * blueprint that defines the characteristics and behaviors of an
+   * application. Optional; if not specified, defaults to a blank blueprint and
+   * allows the application to be defined from scratch.
+   */
+  template?: string;
+}
+
+/**
+ * @interface
  * An interface representing AppSkuInfo.
  * Information about the SKU of the IoT Central application.
  *
@@ -135,38 +165,6 @@ export interface AppPatch {
 
 /**
  * @interface
- * An interface representing ErrorResponseBody.
- * Details of error response.
- *
- */
-export interface ErrorResponseBody {
-  /**
-   * @member {string} [code] The error code.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly code?: string;
-  /**
-   * @member {string} [message] The error message.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly message?: string;
-  /**
-   * @member {string} [target] The target of the particular error.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly target?: string;
-  /**
-   * @member {ErrorResponseBody[]} [details] A list of additional details about
-   * the error.
-   */
-  details?: ErrorResponseBody[];
-}
-
-/**
- * @interface
  * An interface representing ErrorDetails.
  * Error details.
  *
@@ -190,11 +188,6 @@ export interface ErrorDetails {
    * the server.**
    */
   readonly target?: string;
-  /**
-   * @member {ErrorResponseBody[]} [details] A list of additional details about
-   * the error.
-   */
-  details?: ErrorResponseBody[];
 }
 
 /**
@@ -263,21 +256,16 @@ export interface OperationInputs {
    * check.
    */
   name: string;
-  /**
-   * @member {string} [type] The type of the IoT Central resource to query.
-   * Default value: 'IoTApps' .
-   */
-  type?: string;
 }
 
 /**
  * @interface
- * An interface representing AppAvailabilityInfo.
- * The properties indicating whether a given IoT Central application name or
- * subdomain is available.
+ * An interface representing AppNameAvailabilityInfo.
+ * The properties indicating whether a given IoT Central application name is
+ * available.
  *
  */
-export interface AppAvailabilityInfo {
+export interface AppNameAvailabilityInfo {
   /**
    * @member {boolean} [nameAvailable] The value which indicates whether the
    * provided name is available.
@@ -286,17 +274,16 @@ export interface AppAvailabilityInfo {
    */
   readonly nameAvailable?: boolean;
   /**
-   * @member {string} [reason] The reason for unavailability.
+   * @member {AppNameUnavailabilityReason} [reason] The reason for
+   * unavailability. Possible values include: 'Invalid', 'AlreadyExists'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly reason?: string;
+  readonly reason?: AppNameUnavailabilityReason;
   /**
    * @member {string} [message] The detailed reason message.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly message?: string;
+  message?: string;
 }
 
 /**
@@ -356,6 +343,17 @@ export interface OperationListResult extends Array<Operation> {
 export enum AppSku {
   F1 = 'F1',
   S1 = 'S1',
+}
+
+/**
+ * Defines values for AppNameUnavailabilityReason.
+ * Possible values include: 'Invalid', 'AlreadyExists'
+ * @readonly
+ * @enum {string}
+ */
+export enum AppNameUnavailabilityReason {
+  Invalid = 'Invalid',
+  AlreadyExists = 'AlreadyExists',
 }
 
 /**
@@ -456,7 +454,7 @@ export type AppsListByResourceGroupResponse = AppListResult & {
 /**
  * Contains response data for the checkNameAvailability operation.
  */
-export type AppsCheckNameAvailabilityResponse = AppAvailabilityInfo & {
+export type AppsCheckNameAvailabilityResponse = AppNameAvailabilityInfo & {
   /**
    * The underlying HTTP response.
    */
@@ -468,26 +466,7 @@ export type AppsCheckNameAvailabilityResponse = AppAvailabilityInfo & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: AppAvailabilityInfo;
-    };
-};
-
-/**
- * Contains response data for the checkSubdomainAvailability operation.
- */
-export type AppsCheckSubdomainAvailabilityResponse = AppAvailabilityInfo & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AppAvailabilityInfo;
+      parsedBody: AppNameAvailabilityInfo;
     };
 };
 

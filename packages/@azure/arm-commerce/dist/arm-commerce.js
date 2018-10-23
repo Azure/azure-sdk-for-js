@@ -104,6 +104,88 @@
             }
         }
     };
+    var UsageSample = {
+        serializedName: "UsageSample",
+        type: {
+            name: "Composite",
+            className: "UsageSample",
+            modelProperties: {
+                subscriptionId: {
+                    serializedName: "subscriptionId",
+                    type: {
+                        name: "Uuid"
+                    }
+                },
+                meterId: {
+                    serializedName: "meterId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                usageStartTime: {
+                    serializedName: "usageStartTime",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                usageEndTime: {
+                    serializedName: "usageEndTime",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                quantity: {
+                    serializedName: "quantity",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                unit: {
+                    serializedName: "unit",
+                    type: {
+                        name: "String"
+                    }
+                },
+                meterName: {
+                    serializedName: "meterName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                meterCategory: {
+                    serializedName: "meterCategory",
+                    type: {
+                        name: "String"
+                    }
+                },
+                meterSubCategory: {
+                    serializedName: "meterSubCategory",
+                    type: {
+                        name: "String"
+                    }
+                },
+                meterRegion: {
+                    serializedName: "meterRegion",
+                    type: {
+                        name: "String"
+                    }
+                },
+                infoFields: {
+                    serializedName: "infoFields",
+                    type: {
+                        name: "Composite",
+                        className: "InfoField"
+                    }
+                },
+                instanceData: {
+                    serializedName: "instanceData",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var UsageAggregation = {
         serializedName: "UsageAggregation",
         type: {
@@ -535,6 +617,7 @@
         CloudError: CloudError,
         BaseResource: BaseResource,
         InfoField: InfoField,
+        UsageSample: UsageSample,
         UsageAggregation: UsageAggregation,
         RateCardQueryParameters: RateCardQueryParameters,
         OfferTermInfo: OfferTermInfo,

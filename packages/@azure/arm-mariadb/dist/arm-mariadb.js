@@ -269,6 +269,62 @@
             }
         }
     };
+    var ServerProperties = {
+        serializedName: "ServerProperties",
+        type: {
+            name: "Composite",
+            className: "ServerProperties",
+            modelProperties: {
+                administratorLogin: {
+                    serializedName: "administratorLogin",
+                    type: {
+                        name: "String"
+                    }
+                },
+                version: {
+                    serializedName: "version",
+                    type: {
+                        name: "String"
+                    }
+                },
+                sslEnforcement: {
+                    serializedName: "sslEnforcement",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Enabled",
+                            "Disabled"
+                        ]
+                    }
+                },
+                userVisibleState: {
+                    serializedName: "userVisibleState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                fullyQualifiedDomainName: {
+                    serializedName: "fullyQualifiedDomainName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                earliestRestoreDate: {
+                    serializedName: "earliestRestoreDate",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                storageProfile: {
+                    serializedName: "storageProfile",
+                    type: {
+                        name: "Composite",
+                        className: "StorageProfile"
+                    }
+                }
+            }
+        }
+    };
     var ServerPropertiesForCreate = {
         serializedName: "ServerPropertiesForCreate",
         type: {
@@ -516,6 +572,44 @@
             }
         }
     };
+    var ServerUpdateParametersProperties = {
+        serializedName: "ServerUpdateParameters_properties",
+        type: {
+            name: "Composite",
+            className: "ServerUpdateParametersProperties",
+            modelProperties: {
+                storageProfile: {
+                    serializedName: "storageProfile",
+                    type: {
+                        name: "Composite",
+                        className: "StorageProfile"
+                    }
+                },
+                administratorLoginPassword: {
+                    serializedName: "administratorLoginPassword",
+                    type: {
+                        name: "String"
+                    }
+                },
+                version: {
+                    serializedName: "version",
+                    type: {
+                        name: "String"
+                    }
+                },
+                sslEnforcement: {
+                    serializedName: "sslEnforcement",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Enabled",
+                            "Disabled"
+                        ]
+                    }
+                }
+            }
+        }
+    };
     var ServerUpdateParameters = {
         serializedName: "ServerUpdateParameters",
         type: {
@@ -572,6 +666,35 @@
             }
         }
     };
+    var FirewallRuleProperties = {
+        serializedName: "FirewallRuleProperties",
+        type: {
+            name: "Composite",
+            className: "FirewallRuleProperties",
+            modelProperties: {
+                startIpAddress: {
+                    required: true,
+                    serializedName: "startIpAddress",
+                    constraints: {
+                        Pattern: /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/
+                    },
+                    type: {
+                        name: "String"
+                    }
+                },
+                endIpAddress: {
+                    required: true,
+                    serializedName: "endIpAddress",
+                    constraints: {
+                        Pattern: /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/
+                    },
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var FirewallRule = {
         serializedName: "FirewallRule",
         type: {
@@ -598,6 +721,27 @@
                 } })
         }
     };
+    var DatabaseProperties = {
+        serializedName: "DatabaseProperties",
+        type: {
+            name: "Composite",
+            className: "DatabaseProperties",
+            modelProperties: {
+                charset: {
+                    serializedName: "charset",
+                    type: {
+                        name: "String"
+                    }
+                },
+                collation: {
+                    serializedName: "collation",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var Database = {
         serializedName: "Database",
         type: {
@@ -614,6 +758,55 @@
                         name: "String"
                     }
                 } })
+        }
+    };
+    var ConfigurationProperties = {
+        serializedName: "ConfigurationProperties",
+        type: {
+            name: "Composite",
+            className: "ConfigurationProperties",
+            modelProperties: {
+                value: {
+                    serializedName: "value",
+                    type: {
+                        name: "String"
+                    }
+                },
+                description: {
+                    readOnly: true,
+                    serializedName: "description",
+                    type: {
+                        name: "String"
+                    }
+                },
+                defaultValue: {
+                    readOnly: true,
+                    serializedName: "defaultValue",
+                    type: {
+                        name: "String"
+                    }
+                },
+                dataType: {
+                    readOnly: true,
+                    serializedName: "dataType",
+                    type: {
+                        name: "String"
+                    }
+                },
+                allowedValues: {
+                    readOnly: true,
+                    serializedName: "allowedValues",
+                    type: {
+                        name: "String"
+                    }
+                },
+                source: {
+                    serializedName: "source",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
         }
     };
     var Configuration = {
@@ -754,6 +947,48 @@
                                 className: "Operation"
                             }
                         }
+                    }
+                }
+            }
+        }
+    };
+    var LogFileProperties = {
+        serializedName: "LogFileProperties",
+        type: {
+            name: "Composite",
+            className: "LogFileProperties",
+            modelProperties: {
+                sizeInKB: {
+                    serializedName: "sizeInKB",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                createdTime: {
+                    readOnly: true,
+                    serializedName: "createdTime",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                lastModifiedTime: {
+                    readOnly: true,
+                    serializedName: "lastModifiedTime",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                type: {
+                    serializedName: "type",
+                    type: {
+                        name: "String"
+                    }
+                },
+                url: {
+                    readOnly: true,
+                    serializedName: "url",
+                    type: {
+                        name: "String"
                     }
                 }
             }
@@ -923,6 +1158,72 @@
                     serializedName: "reason",
                     type: {
                         name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var SecurityAlertPolicyProperties = {
+        serializedName: "SecurityAlertPolicyProperties",
+        type: {
+            name: "Composite",
+            className: "SecurityAlertPolicyProperties",
+            modelProperties: {
+                state: {
+                    required: true,
+                    serializedName: "state",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Enabled",
+                            "Disabled"
+                        ]
+                    }
+                },
+                disabledAlerts: {
+                    serializedName: "disabledAlerts",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                emailAddresses: {
+                    serializedName: "emailAddresses",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                emailAccountAdmins: {
+                    serializedName: "emailAccountAdmins",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                storageEndpoint: {
+                    serializedName: "storageEndpoint",
+                    type: {
+                        name: "String"
+                    }
+                },
+                storageAccountAccessKey: {
+                    serializedName: "storageAccountAccessKey",
+                    type: {
+                        name: "String"
+                    }
+                },
+                retentionDays: {
+                    serializedName: "retentionDays",
+                    type: {
+                        name: "Number"
                     }
                 }
             }
@@ -1125,6 +1426,7 @@
         ProxyResource: ProxyResource,
         TrackedResource: TrackedResource,
         StorageProfile: StorageProfile,
+        ServerProperties: ServerProperties,
         ServerPropertiesForCreate: ServerPropertiesForCreate,
         ServerPropertiesForDefaultCreate: ServerPropertiesForDefaultCreate,
         ServerPropertiesForRestore: ServerPropertiesForRestore,
@@ -1132,18 +1434,24 @@
         Sku: Sku,
         Server: Server,
         ServerForCreate: ServerForCreate,
+        ServerUpdateParametersProperties: ServerUpdateParametersProperties,
         ServerUpdateParameters: ServerUpdateParameters,
+        FirewallRuleProperties: FirewallRuleProperties,
         FirewallRule: FirewallRule,
+        DatabaseProperties: DatabaseProperties,
         Database: Database,
+        ConfigurationProperties: ConfigurationProperties,
         Configuration: Configuration,
         OperationDisplay: OperationDisplay,
         Operation: Operation,
         OperationListResult: OperationListResult,
+        LogFileProperties: LogFileProperties,
         LogFile: LogFile,
         PerformanceTierServiceLevelObjectives: PerformanceTierServiceLevelObjectives,
         PerformanceTierProperties: PerformanceTierProperties,
         NameAvailabilityRequest: NameAvailabilityRequest,
         NameAvailability: NameAvailability,
+        SecurityAlertPolicyProperties: SecurityAlertPolicyProperties,
         ServerSecurityAlertPolicy: ServerSecurityAlertPolicy,
         ServerListResult: ServerListResult,
         FirewallRuleListResult: FirewallRuleListResult,

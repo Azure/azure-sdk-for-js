@@ -103,6 +103,32 @@ export interface CognitiveServicesAccountUpdateParameters {
 
 /**
  * @interface
+ * An interface representing CognitiveServicesAccountProperties.
+ * Properties of Cognitive Services account.
+ *
+ */
+export interface CognitiveServicesAccountProperties {
+  /**
+   * @member {ProvisioningState} [provisioningState] Gets the status of the
+   * cognitive services account at the time the operation was called. Possible
+   * values include: 'Creating', 'ResolvingDNS', 'Moving', 'Deleting',
+   * 'Succeeded', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * @member {string} [endpoint] Endpoint of the created account.
+   */
+  endpoint?: string;
+  /**
+   * @member {string} [internalId] The internal identifier.
+   */
+  internalId?: string;
+}
+
+/**
+ * @interface
  * An interface representing CognitiveServicesAccount.
  * Cognitive Services Account is an Azure resource representing the provisioned
  * account, its type, location and SKU.

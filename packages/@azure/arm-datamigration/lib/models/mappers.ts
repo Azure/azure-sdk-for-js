@@ -5486,6 +5486,36 @@ export const ServiceSku: msRest.CompositeMapper = {
   }
 };
 
+export const DataMigrationServiceProperties: msRest.CompositeMapper = {
+  serializedName: "DataMigrationServiceProperties",
+  type: {
+    name: "Composite",
+    className: "DataMigrationServiceProperties",
+    modelProperties: {
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      publicKey: {
+        serializedName: "publicKey",
+        type: {
+          name: "String"
+        }
+      },
+      virtualSubnetId: {
+        required: true,
+        serializedName: "virtualSubnetId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DataMigrationService: msRest.CompositeMapper = {
   serializedName: "DataMigrationService",
   type: {
@@ -5567,6 +5597,80 @@ export const DatabaseInfo: msRest.CompositeMapper = {
       sourceDatabaseName: {
         required: true,
         serializedName: "sourceDatabaseName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ProjectProperties: msRest.CompositeMapper = {
+  serializedName: "ProjectProperties",
+  type: {
+    name: "Composite",
+    className: "ProjectProperties",
+    modelProperties: {
+      sourcePlatform: {
+        required: true,
+        serializedName: "sourcePlatform",
+        type: {
+          name: "String"
+        }
+      },
+      targetPlatform: {
+        required: true,
+        serializedName: "targetPlatform",
+        type: {
+          name: "String"
+        }
+      },
+      creationTime: {
+        readOnly: true,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      sourceConnectionInfo: {
+        serializedName: "sourceConnectionInfo",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "ConnectionInfo",
+          className: "ConnectionInfo"
+        }
+      },
+      targetConnectionInfo: {
+        serializedName: "targetConnectionInfo",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "ConnectionInfo",
+          className: "ConnectionInfo"
+        }
+      },
+      databasesInfo: {
+        serializedName: "databasesInfo",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DatabaseInfo"
+            }
+          }
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
         type: {
           name: "String"
         }

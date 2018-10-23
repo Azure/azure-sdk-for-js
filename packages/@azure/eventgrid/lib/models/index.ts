@@ -1409,21 +1409,12 @@ export interface MediaJobError {
 }
 
 /**
- * Contains the possible cases for MediaJobOutput.
- */
-export type MediaJobOutputUnion = MediaJobOutput | MediaJobOutputAsset;
-
-/**
  * @interface
  * An interface representing MediaJobOutput.
  * The event data for a Job output.
  *
  */
 export interface MediaJobOutput {
-  /**
-   * @member {string} odatatype Polymorphic Discriminator
-   */
-  odatatype: "MediaJobOutput";
   /**
    * @member {MediaJobError} [error] Gets the Job output error.
    */
@@ -1449,30 +1440,9 @@ export interface MediaJobOutput {
  * An interface representing MediaJobOutputAsset.
  * The event data for a Job output asset.
  *
+ * @extends MediaJobOutput
  */
-export interface MediaJobOutputAsset {
-  /**
-   * @member {string} odatatype Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.JobOutputAsset";
-  /**
-   * @member {MediaJobError} [error] Gets the Job output error.
-   */
-  error?: MediaJobError;
-  /**
-   * @member {string} [label] Gets the Job output label.
-   */
-  label?: string;
-  /**
-   * @member {number} progress Gets the Job output progress.
-   */
-  progress: number;
-  /**
-   * @member {MediaJobState} state Gets the Job output state. Possible values
-   * include: 'Canceled', 'Canceling', 'Error', 'Finished', 'Processing',
-   * 'Queued', 'Scheduled'
-   */
-  state: MediaJobState;
+export interface MediaJobOutputAsset extends MediaJobOutput {
   /**
    * @member {string} [assetName] Gets the Job output asset name.
    */
@@ -1496,9 +1466,9 @@ export interface MediaJobOutputStateChangeEventData {
    */
   readonly previousState?: MediaJobState;
   /**
-   * @member {MediaJobOutputUnion} [output] Gets the output.
+   * @member {MediaJobOutput} [output] Gets the output.
    */
-  output?: MediaJobOutputUnion;
+  output?: MediaJobOutput;
   /**
    * @member {{ [propertyName: string]: string }} [jobCorrelationData] Gets the
    * Job correlation data.
@@ -1545,9 +1515,9 @@ export interface MediaJobCancelingEventData extends MediaJobStateChangeEventData
  */
 export interface MediaJobFinishedEventData extends MediaJobStateChangeEventData {
   /**
-   * @member {MediaJobOutputUnion[]} [outputs] Gets the Job outputs.
+   * @member {MediaJobOutput[]} [outputs] Gets the Job outputs.
    */
-  outputs?: MediaJobOutputUnion[];
+  outputs?: MediaJobOutput[];
 }
 
 /**
@@ -1559,9 +1529,9 @@ export interface MediaJobFinishedEventData extends MediaJobStateChangeEventData 
  */
 export interface MediaJobCanceledEventData extends MediaJobStateChangeEventData {
   /**
-   * @member {MediaJobOutputUnion[]} [outputs] Gets the Job outputs.
+   * @member {MediaJobOutput[]} [outputs] Gets the Job outputs.
    */
-  outputs?: MediaJobOutputUnion[];
+  outputs?: MediaJobOutput[];
 }
 
 /**
@@ -1573,9 +1543,9 @@ export interface MediaJobCanceledEventData extends MediaJobStateChangeEventData 
  */
 export interface MediaJobErroredEventData extends MediaJobStateChangeEventData {
   /**
-   * @member {MediaJobOutputUnion[]} [outputs] Gets the Job outputs.
+   * @member {MediaJobOutput[]} [outputs] Gets the Job outputs.
    */
-  outputs?: MediaJobOutputUnion[];
+  outputs?: MediaJobOutput[];
 }
 
 /**

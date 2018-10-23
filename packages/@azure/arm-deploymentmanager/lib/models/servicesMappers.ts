@@ -34,6 +34,8 @@ export {
   ResourceOperation,
   Message,
   ServiceTopologyResource,
+  ServiceResourceProperties,
+  ServiceUnitResourceProperties,
   ServiceUnitResource,
   StepResource,
   StepProperties,

@@ -206,6 +206,22 @@
             }
         }
     };
+    var LinkedServiceProperties = {
+        serializedName: "LinkedServiceProperties",
+        type: {
+            name: "Composite",
+            className: "LinkedServiceProperties",
+            modelProperties: {
+                resourceId: {
+                    required: true,
+                    serializedName: "resourceId",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var LinkedService = {
         serializedName: "LinkedService",
         type: {
@@ -381,6 +397,63 @@
             }
         }
     };
+    var ManagementGroupProperties = {
+        serializedName: "ManagementGroupProperties",
+        type: {
+            name: "Composite",
+            className: "ManagementGroupProperties",
+            modelProperties: {
+                serverCount: {
+                    serializedName: "serverCount",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                isGateway: {
+                    serializedName: "isGateway",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                name: {
+                    serializedName: "name",
+                    type: {
+                        name: "String"
+                    }
+                },
+                id: {
+                    serializedName: "id",
+                    type: {
+                        name: "String"
+                    }
+                },
+                created: {
+                    serializedName: "created",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                dataReceived: {
+                    serializedName: "dataReceived",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                version: {
+                    serializedName: "version",
+                    type: {
+                        name: "String"
+                    }
+                },
+                sku: {
+                    serializedName: "sku",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var ManagementGroup = {
         serializedName: "ManagementGroup",
         type: {
@@ -449,6 +522,56 @@
                     serializedName: "name",
                     type: {
                         name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var WorkspaceProperties = {
+        serializedName: "WorkspaceProperties",
+        type: {
+            name: "Composite",
+            className: "WorkspaceProperties",
+            modelProperties: {
+                provisioningState: {
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                source: {
+                    serializedName: "source",
+                    type: {
+                        name: "String"
+                    }
+                },
+                customerId: {
+                    serializedName: "customerId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                portalUrl: {
+                    serializedName: "portalUrl",
+                    type: {
+                        name: "String"
+                    }
+                },
+                sku: {
+                    serializedName: "sku",
+                    type: {
+                        name: "Composite",
+                        className: "Sku"
+                    }
+                },
+                retentionInDays: {
+                    serializedName: "retentionInDays",
+                    constraints: {
+                        InclusiveMaximum: 730,
+                        InclusiveMinimum: -1
+                    },
+                    type: {
+                        name: "Number"
                     }
                 }
             }
@@ -743,6 +866,7 @@
         BaseResource: BaseResource,
         OperationDisplay: OperationDisplay,
         Operation: Operation,
+        LinkedServiceProperties: LinkedServiceProperties,
         LinkedService: LinkedService,
         DataSource: DataSource,
         DataSourceFilter: DataSourceFilter,
@@ -750,8 +874,10 @@
         SharedKeys: SharedKeys,
         MetricName: MetricName,
         UsageMetric: UsageMetric,
+        ManagementGroupProperties: ManagementGroupProperties,
         ManagementGroup: ManagementGroup,
         Sku: Sku,
+        WorkspaceProperties: WorkspaceProperties,
         Workspace: Workspace,
         Resource: Resource,
         ProxyResource: ProxyResource,

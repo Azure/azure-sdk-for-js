@@ -872,6 +872,99 @@ export interface TagsResource {
 
 /**
  * @interface
+ * An interface representing ApplicationInsightsComponentProperties.
+ * Properties that define an Application Insights component resource.
+ *
+ */
+export interface ApplicationInsightsComponentProperties {
+  /**
+   * @member {string} [applicationId] The unique ID of your application. This
+   * field mirrors the 'Name' field and cannot be changed.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly applicationId?: string;
+  /**
+   * @member {string} [appId] Application Insights Unique ID for your
+   * Application.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly appId?: string;
+  /**
+   * @member {ApplicationType} applicationType Type of application being
+   * monitored. Possible values include: 'web', 'other'. Default value: 'web' .
+   */
+  applicationType: ApplicationType;
+  /**
+   * @member {FlowType} [flowType] Used by the Application Insights system to
+   * determine what kind of flow this component was created by. This is to be
+   * set to 'Bluefield' when creating/updating a component via the REST API.
+   * Possible values include: 'Bluefield'. Default value: 'Bluefield' .
+   */
+  flowType?: FlowType;
+  /**
+   * @member {RequestSource} [requestSource] Describes what tool created this
+   * Application Insights component. Customers using this API should set this
+   * to the default 'rest'. Possible values include: 'rest'. Default value:
+   * 'rest' .
+   */
+  requestSource?: RequestSource;
+  /**
+   * @member {string} [instrumentationKey] Application Insights Instrumentation
+   * key. A read-only value that applications can use to identify the
+   * destination for all telemetry sent to Azure Application Insights. This
+   * value will be supplied upon construction of each new Application Insights
+   * component.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly instrumentationKey?: string;
+  /**
+   * @member {Date} [creationDate] Creation Date for the Application Insights
+   * component, in ISO 8601 format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationDate?: Date;
+  /**
+   * @member {string} [tenantId] Azure Tenant Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * @member {string} [hockeyAppId] The unique application ID created when a
+   * new application is added to HockeyApp, used for communications with
+   * HockeyApp.
+   */
+  hockeyAppId?: string;
+  /**
+   * @member {string} [hockeyAppToken] Token used to authenticate
+   * communications with between Application Insights and HockeyApp.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly hockeyAppToken?: string;
+  /**
+   * @member {string} [provisioningState] Current state of this component:
+   * whether or not is has been provisioned within the resource group it is
+   * defined. Users cannot change this value but are able to read from it.
+   * Values will include Succeeded, Deploying, Canceled, and Failed.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {number} [samplingPercentage] Percentage of the data produced by
+   * the application being monitored that is being sampled for Application
+   * Insights telemetry.
+   */
+  samplingPercentage?: number;
+}
+
+/**
+ * @interface
  * An interface representing ApplicationInsightsComponent.
  * An Application Insights component definition.
  *
@@ -1287,6 +1380,74 @@ export interface WebTestPropertiesConfiguration {
 
 /**
  * @interface
+ * An interface representing WebTestProperties.
+ * Metadata describing a web test for an Azure resource.
+ *
+ */
+export interface WebTestProperties {
+  /**
+   * @member {string} syntheticMonitorId Unique ID of this WebTest. This is
+   * typically the same value as the Name field.
+   */
+  syntheticMonitorId: string;
+  /**
+   * @member {string} webTestName User defined name if this WebTest.
+   */
+  webTestName: string;
+  /**
+   * @member {string} [description] Purpose/user defined descriptive test for
+   * this WebTest.
+   */
+  description?: string;
+  /**
+   * @member {boolean} [enabled] Is the test actively being monitored.
+   */
+  enabled?: boolean;
+  /**
+   * @member {number} [frequency] Interval in seconds between test runs for
+   * this WebTest. Default value is 300. Default value: 300 .
+   */
+  frequency?: number;
+  /**
+   * @member {number} [timeout] Seconds until this WebTest will timeout and
+   * fail. Default value is 30. Default value: 30 .
+   */
+  timeout?: number;
+  /**
+   * @member {WebTestKind} webTestKind The kind of web test this is, valid
+   * choices are ping and multistep. Possible values include: 'ping',
+   * 'multistep'. Default value: 'ping' .
+   */
+  webTestKind: WebTestKind;
+  /**
+   * @member {boolean} [retryEnabled] Allow for retries should this WebTest
+   * fail.
+   */
+  retryEnabled?: boolean;
+  /**
+   * @member {WebTestGeolocation[]} locations A list of where to physically run
+   * the tests from to give global coverage for accessibility of your
+   * application.
+   */
+  locations: WebTestGeolocation[];
+  /**
+   * @member {WebTestPropertiesConfiguration} [configuration] An XML
+   * configuration specification for a WebTest.
+   */
+  configuration?: WebTestPropertiesConfiguration;
+  /**
+   * @member {string} [provisioningState] Current state of this component,
+   * whether or not is has been provisioned within the resource group it is
+   * defined. Users cannot change this value but are able to read from it.
+   * Values will include Succeeded, Deploying, Canceled, and Failed.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+}
+
+/**
+ * @interface
  * An interface representing WebTest.
  * An Application Insights web test definition.
  *
@@ -1468,6 +1629,68 @@ export interface WorkbookResource extends BaseResource {
    * @member {{ [propertyName: string]: string }} [tags] Resource tags
    */
   tags?: { [propertyName: string]: string };
+}
+
+/**
+ * @interface
+ * An interface representing WorkbookProperties.
+ * Properties that contain a workbook.
+ *
+ */
+export interface WorkbookProperties {
+  /**
+   * @member {string} name The user-defined name of the workbook.
+   */
+  name: string;
+  /**
+   * @member {string} serializedData Configuration of this particular workbook.
+   * Configuration data is a string containing valid JSON
+   */
+  serializedData: string;
+  /**
+   * @member {string} [version] This instance's version of the data model. This
+   * can change as new features are added that can be marked workbook.
+   */
+  version?: string;
+  /**
+   * @member {string} workbookId Internally assigned unique id of the workbook
+   * definition.
+   */
+  workbookId: string;
+  /**
+   * @member {SharedTypeKind} sharedTypeKind Enum indicating if this workbook
+   * definition is owned by a specific user or is shared between all users with
+   * access to the Application Insights component. Possible values include:
+   * 'user', 'shared'. Default value: 'shared' .
+   */
+  sharedTypeKind: SharedTypeKind;
+  /**
+   * @member {string} [timeModified] Date and time in UTC of the last
+   * modification that was made to this workbook definition.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly timeModified?: string;
+  /**
+   * @member {string} category Workbook category, as defined by the user at
+   * creation time.
+   */
+  category: string;
+  /**
+   * @member {string[]} [tags] A list of 0 or more tags that are associated
+   * with this workbook definition
+   */
+  tags?: string[];
+  /**
+   * @member {string} userId Unique user id of the specific user that owns this
+   * workbook.
+   */
+  userId: string;
+  /**
+   * @member {string} [sourceResourceId] Optional resourceId for a source
+   * resource.
+   */
+  sourceResourceId?: string;
 }
 
 /**

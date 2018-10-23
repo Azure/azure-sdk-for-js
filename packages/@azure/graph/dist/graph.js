@@ -93,6 +93,42 @@
      */
     var CloudError = msRestAzure.CloudErrorMapper;
     var BaseResource = msRestAzure.BaseResourceMapper;
+    var ErrorMessage = {
+        serializedName: "ErrorMessage",
+        type: {
+            name: "Composite",
+            className: "ErrorMessage",
+            modelProperties: {
+                message: {
+                    serializedName: "value",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var OdataError = {
+        serializedName: "OdataError",
+        type: {
+            name: "Composite",
+            className: "OdataError",
+            modelProperties: {
+                code: {
+                    serializedName: "code",
+                    type: {
+                        name: "String"
+                    }
+                },
+                message: {
+                    serializedName: "message.value",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var GraphError = {
         serializedName: "GraphError",
         type: {
@@ -1949,6 +1985,8 @@
     var mappers = /*#__PURE__*/Object.freeze({
         CloudError: CloudError,
         BaseResource: BaseResource,
+        ErrorMessage: ErrorMessage,
+        OdataError: OdataError,
         GraphError: GraphError,
         DirectoryObject: DirectoryObject,
         KeyCredential: KeyCredential,

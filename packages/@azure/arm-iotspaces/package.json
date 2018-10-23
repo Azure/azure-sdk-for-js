@@ -4,8 +4,8 @@
   "description": "IoTSpacesClient Library with typescript type definitions for node.js and browser.",
   "version": "1.0.0-preview",
   "dependencies": {
-    "ms-rest-azure-js": "^1.0.176",
-    "ms-rest-js": "^1.0.455",
+    "ms-rest-azure-js": "^1.0.172",
+    "ms-rest-js": "^1.0.443",
     "tslib": "^1.9.3"
   },
   "keywords": [
@@ -25,7 +25,7 @@
     "rollup-plugin-node-resolve": "^3.4.0",
     "uglify-js": "^3.4.9"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/@azure/arm-iotspaces",
+  "homepage": "https://github.com/azure/azure-sdk-for-js",
   "repository": {
     "type": "git",
     "url": "https://github.com/azure/azure-sdk-for-js.git"

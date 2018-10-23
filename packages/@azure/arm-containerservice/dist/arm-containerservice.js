@@ -381,22 +381,6 @@
         ContainerServiceOrchestratorTypes["Custom"] = "Custom";
     })(ContainerServiceOrchestratorTypes || (ContainerServiceOrchestratorTypes = {}));
     /**
-     * Defines values for AgentPoolType.
-     * Possible values include: 'VirtualMachineScaleSets', 'AvailabilitySet'
-     * There could be more values for this enum apart from the ones defined here.If
-     * you want to set a value that is not from the known values then you can do
-     * the following:
-     * let param: AgentPoolType =
-     * <AgentPoolType>"someUnknownValueThatWillStillBeValid";
-     * @readonly
-     * @enum {string}
-     */
-    var AgentPoolType;
-    (function (AgentPoolType) {
-        AgentPoolType["VirtualMachineScaleSets"] = "VirtualMachineScaleSets";
-        AgentPoolType["AvailabilitySet"] = "AvailabilitySet";
-    })(AgentPoolType || (AgentPoolType = {}));
-    /**
      * Defines values for NetworkPlugin.
      * Possible values include: 'azure', 'kubenet'
      * There could be more values for this enum apart from the ones defined here.If
@@ -435,7 +419,6 @@
         get ContainerServiceStorageProfileTypes () { return ContainerServiceStorageProfileTypes; },
         get ContainerServiceVMSizeTypes () { return ContainerServiceVMSizeTypes; },
         get ContainerServiceOrchestratorTypes () { return ContainerServiceOrchestratorTypes; },
-        get AgentPoolType () { return AgentPoolType; },
         get NetworkPlugin () { return NetworkPlugin; },
         get NetworkPolicy () { return NetworkPolicy; }
     });
@@ -1406,7 +1389,6 @@
                     }
                 },
                 count: {
-                    required: true,
                     serializedName: "count",
                     defaultValue: 1,
                     constraints: {
@@ -1430,6 +1412,13 @@
                         name: "Number"
                     }
                 },
+                storageProfile: {
+                    readOnly: true,
+                    serializedName: "storageProfile",
+                    type: {
+                        name: "String"
+                    }
+                },
                 vnetSubnetID: {
                     serializedName: "vnetSubnetID",
                     type: {
@@ -1445,30 +1434,6 @@
                 osType: {
                     serializedName: "osType",
                     defaultValue: 'Linux',
-                    type: {
-                        name: "String"
-                    }
-                },
-                maxCount: {
-                    serializedName: "maxCount",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                minCount: {
-                    serializedName: "minCount",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                enableAutoScaling: {
-                    serializedName: "enableAutoScaling",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                type: {
-                    serializedName: "type",
                     type: {
                         name: "String"
                     }
@@ -2187,7 +2152,7 @@
             required: true,
             isConstant: true,
             serializedName: "api-version",
-            defaultValue: '2018-08-01-preview',
+            defaultValue: '2018-03-31',
             type: {
                 name: "String"
             }

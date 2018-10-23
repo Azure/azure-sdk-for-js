@@ -96,6 +96,53 @@ export const ResourceNamespacePatch: msRest.CompositeMapper = {
   }
 };
 
+export const HybridConnectionProperties: msRest.CompositeMapper = {
+  serializedName: "HybridConnection_properties",
+  type: {
+    name: "Composite",
+    className: "HybridConnectionProperties",
+    modelProperties: {
+      createdAt: {
+        readOnly: true,
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      updatedAt: {
+        readOnly: true,
+        serializedName: "updatedAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      listenerCount: {
+        readOnly: true,
+        serializedName: "listenerCount",
+        constraints: {
+          InclusiveMaximum: 25,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      requiresClientAuthorization: {
+        serializedName: "requiresClientAuthorization",
+        type: {
+          name: "Boolean"
+        }
+      },
+      userMetadata: {
+        serializedName: "userMetadata",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const HybridConnection: msRest.CompositeMapper = {
   serializedName: "HybridConnection",
   type: {
@@ -136,6 +183,76 @@ export const HybridConnection: msRest.CompositeMapper = {
       },
       userMetadata: {
         serializedName: "properties.userMetadata",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WcfRelayProperties: msRest.CompositeMapper = {
+  serializedName: "WcfRelay_properties",
+  type: {
+    name: "Composite",
+    className: "WcfRelayProperties",
+    modelProperties: {
+      isDynamic: {
+        readOnly: true,
+        serializedName: "isDynamic",
+        type: {
+          name: "Boolean"
+        }
+      },
+      createdAt: {
+        readOnly: true,
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      updatedAt: {
+        readOnly: true,
+        serializedName: "updatedAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      listenerCount: {
+        readOnly: true,
+        serializedName: "listenerCount",
+        constraints: {
+          InclusiveMaximum: 25,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      relayType: {
+        serializedName: "relayType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "NetTcp",
+            "Http"
+          ]
+        }
+      },
+      requiresClientAuthorization: {
+        serializedName: "requiresClientAuthorization",
+        type: {
+          name: "Boolean"
+        }
+      },
+      requiresTransportSecurity: {
+        serializedName: "requiresTransportSecurity",
+        type: {
+          name: "Boolean"
+        }
+      },
+      userMetadata: {
+        serializedName: "userMetadata",
         type: {
           name: "String"
         }
@@ -237,6 +354,59 @@ export const Sku: msRest.CompositeMapper = {
           allowedValues: [
             "Standard"
           ]
+        }
+      }
+    }
+  }
+};
+
+export const RelayNamespaceProperties: msRest.CompositeMapper = {
+  serializedName: "RelayNamespaceProperties",
+  type: {
+    name: "Composite",
+    className: "RelayNamespaceProperties",
+    modelProperties: {
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Created",
+            "Succeeded",
+            "Deleted",
+            "Failed",
+            "Updating",
+            "Unknown"
+          ]
+        }
+      },
+      createdAt: {
+        readOnly: true,
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      updatedAt: {
+        readOnly: true,
+        serializedName: "updatedAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      serviceBusEndpoint: {
+        readOnly: true,
+        serializedName: "serviceBusEndpoint",
+        type: {
+          name: "String"
+        }
+      },
+      metricId: {
+        readOnly: true,
+        serializedName: "metricId",
+        type: {
+          name: "String"
         }
       }
     }
@@ -359,6 +529,36 @@ export const RelayUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.metricId",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AuthorizationRuleProperties: msRest.CompositeMapper = {
+  serializedName: "AuthorizationRule_properties",
+  type: {
+    name: "Composite",
+    className: "AuthorizationRuleProperties",
+    modelProperties: {
+      rights: {
+        required: true,
+        serializedName: "rights",
+        constraints: {
+          UniqueItems: true
+        },
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Enum",
+              allowedValues: [
+                "Manage",
+                "Send",
+                "Listen"
+              ]
+            }
+          }
         }
       }
     }

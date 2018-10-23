@@ -104,6 +104,28 @@ export interface FilterTrackSelection {
 
 /**
  * @interface
+ * An interface representing MediaFilterProperties.
+ * The Media Filter properties.
+ *
+ */
+export interface MediaFilterProperties {
+  /**
+   * @member {PresentationTimeRange} [presentationTimeRange] The presentation
+   * time range.
+   */
+  presentationTimeRange?: PresentationTimeRange;
+  /**
+   * @member {FirstQuality} [firstQuality] The first quality.
+   */
+  firstQuality?: FirstQuality;
+  /**
+   * @member {FilterTrackSelection[]} [tracks] The tracks selection conditions.
+   */
+  tracks?: FilterTrackSelection[];
+}
+
+/**
+ * @interface
  * An interface representing Resource.
  * The core properties of ARM resources.
  *
@@ -460,6 +482,26 @@ export interface SyncStorageKeysInput {
 
 /**
  * @interface
+ * An interface representing MediaServiceProperties.
+ * Properties of the Media Services account.
+ *
+ */
+export interface MediaServiceProperties {
+  /**
+   * @member {string} [mediaServiceId] The Media Services account ID.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly mediaServiceId?: string;
+  /**
+   * @member {StorageAccount[]} [storageAccounts] The storage accounts for this
+   * resource.
+   */
+  storageAccounts?: StorageAccount[];
+}
+
+/**
+ * @interface
  * An interface representing MediaService.
  * A Media Services account.
  *
@@ -516,6 +558,57 @@ export interface CheckNameAvailabilityInput {
    * this should be 'MediaServices'.
    */
   type?: string;
+}
+
+/**
+ * @interface
+ * An interface representing AssetProperties.
+ * The Asset properties.
+ *
+ */
+export interface AssetProperties {
+  /**
+   * @member {string} [assetId] The Asset ID.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly assetId?: string;
+  /**
+   * @member {Date} [created] The creation date of the Asset.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly created?: Date;
+  /**
+   * @member {Date} [lastModified] The last modified date of the Asset.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastModified?: Date;
+  /**
+   * @member {string} [alternateId] The alternate ID of the Asset.
+   */
+  alternateId?: string;
+  /**
+   * @member {string} [description] The Asset description.
+   */
+  description?: string;
+  /**
+   * @member {string} [container] The name of the asset blob container.
+   */
+  container?: string;
+  /**
+   * @member {string} [storageAccountName] The name of the storage account.
+   */
+  storageAccountName?: string;
+  /**
+   * @member {AssetStorageEncryptionFormat} [storageEncryptionFormat] The Asset
+   * encryption format. One of None or MediaStorageEncryption. Possible values
+   * include: 'None', 'MediaStorageClientEncryption'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly storageEncryptionFormat?: AssetStorageEncryptionFormat;
 }
 
 /**
@@ -2723,6 +2816,39 @@ export interface TransformOutput {
 
 /**
  * @interface
+ * An interface representing TransformProperties.
+ * A Transform.
+ *
+ */
+export interface TransformProperties {
+  /**
+   * @member {Date} [created] The UTC date and time when the Transform was
+   * created, in 'YYYY-MM-DDThh:mm:ssZ' format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly created?: Date;
+  /**
+   * @member {string} [description] An optional verbose description of the
+   * Transform.
+   */
+  description?: string;
+  /**
+   * @member {Date} [lastModified] The UTC date and time when the Transform was
+   * last updated, in 'YYYY-MM-DDThh:mm:ssZ' format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastModified?: Date;
+  /**
+   * @member {TransformOutput[]} outputs An array of one or more
+   * TransformOutputs that the Transform should generate.
+   */
+  outputs: TransformOutput[];
+}
+
+/**
+ * @interface
  * An interface representing Transform.
  * A Transform encapsulates the rules or instructions for generating desired
  * outputs from input media, such as by transcoding or by extracting insights.
@@ -3067,6 +3193,63 @@ export interface JobOutputAsset {
    * @member {string} assetName The name of the output Asset.
    */
   assetName: string;
+}
+
+/**
+ * @interface
+ * An interface representing JobProperties.
+ * Properties of the Job.
+ *
+ */
+export interface JobProperties {
+  /**
+   * @member {Date} [created] The UTC date and time when the Job was created,
+   * in 'YYYY-MM-DDThh:mm:ssZ' format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly created?: Date;
+  /**
+   * @member {JobState} [state] The current state of the job. Possible values
+   * include: 'Canceled', 'Canceling', 'Error', 'Finished', 'Processing',
+   * 'Queued', 'Scheduled'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: JobState;
+  /**
+   * @member {string} [description] Optional customer supplied description of
+   * the Job.
+   */
+  description?: string;
+  /**
+   * @member {JobInputUnion} input The inputs for the Job.
+   */
+  input: JobInputUnion;
+  /**
+   * @member {Date} [lastModified] The UTC date and time when the Job was last
+   * updated, in 'YYYY-MM-DDThh:mm:ssZ' format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastModified?: Date;
+  /**
+   * @member {JobOutputUnion[]} outputs The outputs for the Job.
+   */
+  outputs: JobOutputUnion[];
+  /**
+   * @member {Priority} [priority] Priority with which the job should be
+   * processed. Higher priority jobs are processed before lower priority jobs.
+   * If not set, the default is normal. Possible values include: 'Low',
+   * 'Normal', 'High'
+   */
+  priority?: Priority;
+  /**
+   * @member {{ [propertyName: string]: string }} [correlationData] Customer
+   * provided correlation data that will be returned in Job and JobOutput state
+   * events.
+   */
+  correlationData?: { [propertyName: string]: string };
 }
 
 /**
@@ -3457,6 +3640,45 @@ export interface CommonEncryptionCbcs {
 
 /**
  * @interface
+ * An interface representing StreamingPolicyProperties.
+ * Class to specify properties of Streaming Policy
+ *
+ */
+export interface StreamingPolicyProperties {
+  /**
+   * @member {Date} [created] Creation time of Streaming Policy
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly created?: Date;
+  /**
+   * @member {string} [defaultContentKeyPolicyName] Default ContentKey used by
+   * current Streaming Policy
+   */
+  defaultContentKeyPolicyName?: string;
+  /**
+   * @member {EnvelopeEncryption} [envelopeEncryption] Configuration of
+   * EnvelopeEncryption
+   */
+  envelopeEncryption?: EnvelopeEncryption;
+  /**
+   * @member {CommonEncryptionCenc} [commonEncryptionCenc] Configuration of
+   * CommonEncryptionCenc
+   */
+  commonEncryptionCenc?: CommonEncryptionCenc;
+  /**
+   * @member {CommonEncryptionCbcs} [commonEncryptionCbcs] Configuration of
+   * CommonEncryptionCbcs
+   */
+  commonEncryptionCbcs?: CommonEncryptionCbcs;
+  /**
+   * @member {NoEncryption} [noEncryption] Configurations of NoEncryption
+   */
+  noEncryption?: NoEncryption;
+}
+
+/**
+ * @interface
  * An interface representing StreamingPolicy.
  * A Streaming Policy resource
  *
@@ -3565,6 +3787,63 @@ export interface StreamingPath {
 
 /**
  * @interface
+ * An interface representing StreamingLocatorProperties.
+ * Properties of the Streaming Locator.
+ *
+ */
+export interface StreamingLocatorProperties {
+  /**
+   * @member {string} assetName Asset Name
+   */
+  assetName: string;
+  /**
+   * @member {Date} [created] The creation time of the Streaming Locator.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly created?: Date;
+  /**
+   * @member {Date} [startTime] The start time of the Streaming Locator.
+   */
+  startTime?: Date;
+  /**
+   * @member {Date} [endTime] The end time of the Streaming Locator.
+   */
+  endTime?: Date;
+  /**
+   * @member {string} [streamingLocatorId] The StreamingLocatorId of the
+   * Streaming Locator.
+   */
+  streamingLocatorId?: string;
+  /**
+   * @member {string} streamingPolicyName Name of the Streaming Policy used by
+   * this Streaming Locator. Either specify the name of Streaming Policy you
+   * created or use one of the predefined Streaming Policies. The predefined
+   * Streaming Policies available are: 'Predefined_DownloadOnly',
+   * 'Predefined_ClearStreamingOnly', 'Predefined_DownloadAndClearStreaming',
+   * 'Predefined_ClearKey', 'Predefined_MultiDrmCencStreaming' and
+   * 'Predefined_MultiDrmStreaming'
+   */
+  streamingPolicyName: string;
+  /**
+   * @member {string} [defaultContentKeyPolicyName] Name of the default
+   * ContentKeyPolicy used by this Streaming Locator.
+   */
+  defaultContentKeyPolicyName?: string;
+  /**
+   * @member {StreamingLocatorContentKey[]} [contentKeys] The ContentKeys used
+   * by this Streaming Locator.
+   */
+  contentKeys?: StreamingLocatorContentKey[];
+  /**
+   * @member {string} [alternativeMediaId] Alternative Media ID of this
+   * Streaming Locator
+   */
+  alternativeMediaId?: string;
+}
+
+/**
+ * @interface
  * An interface representing ListContentKeysResponse.
  * Class of response for listContentKeys action
  *
@@ -3666,6 +3945,71 @@ export interface Hls {
    * Live Streaming (HLS) segment.
    */
   fragmentsPerTsSegment?: number;
+}
+
+/**
+ * @interface
+ * An interface representing LiveOutputProperties.
+ * The JSON object that contains the properties required to create a Live
+ * Output.
+ *
+ */
+export interface LiveOutputProperties {
+  /**
+   * @member {string} [description] The description of the Live Output.
+   */
+  description?: string;
+  /**
+   * @member {string} assetName The asset name.
+   */
+  assetName: string;
+  /**
+   * @member {string} archiveWindowLength ISO 8601 timespan duration of the
+   * archive window length. This is duration that customer want to retain the
+   * recorded content.
+   */
+  archiveWindowLength: string;
+  /**
+   * @member {string} [manifestName] The manifest file name.  If not provided,
+   * the service will generate one automatically.
+   */
+  manifestName?: string;
+  /**
+   * @member {Hls} [hls] The HLS configuration.
+   */
+  hls?: Hls;
+  /**
+   * @member {number} [outputSnapTime] The output snapshot time.
+   */
+  outputSnapTime?: number;
+  /**
+   * @member {Date} [created] The exact time the Live Output was created.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly created?: Date;
+  /**
+   * @member {Date} [lastModified] The exact time the Live Output was last
+   * modified.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastModified?: Date;
+  /**
+   * @member {string} [provisioningState] The provisioning state of the Live
+   * Output.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {LiveOutputResourceState} [resourceState] The resource state of
+   * the Live Output. Possible values include: 'Creating', 'Running',
+   * 'Deleting'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resourceState?: LiveOutputResourceState;
 }
 
 /**
@@ -3943,6 +4287,76 @@ export interface LiveEventActionInput {
 
 /**
  * @interface
+ * An interface representing LiveEventProperties.
+ * The Live Event properties.
+ *
+ */
+export interface LiveEventProperties {
+  /**
+   * @member {string} [description] The Live Event description.
+   */
+  description?: string;
+  /**
+   * @member {LiveEventInput} input The Live Event input.
+   */
+  input: LiveEventInput;
+  /**
+   * @member {LiveEventPreview} [preview] The Live Event preview.
+   */
+  preview?: LiveEventPreview;
+  /**
+   * @member {LiveEventEncoding} [encoding] The Live Event encoding.
+   */
+  encoding?: LiveEventEncoding;
+  /**
+   * @member {string} [provisioningState] The provisioning state of the Live
+   * Event.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {LiveEventResourceState} [resourceState] The resource state of the
+   * Live Event. Possible values include: 'Stopped', 'Starting', 'Running',
+   * 'Stopping', 'Deleting'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resourceState?: LiveEventResourceState;
+  /**
+   * @member {CrossSiteAccessPolicies} [crossSiteAccessPolicies] The Live Event
+   * access policies.
+   */
+  crossSiteAccessPolicies?: CrossSiteAccessPolicies;
+  /**
+   * @member {boolean} [vanityUrl] Specifies whether to use a vanity url with
+   * the Live Event.  This value is specified at creation time and cannot be
+   * updated.
+   */
+  vanityUrl?: boolean;
+  /**
+   * @member {StreamOptionsFlag[]} [streamOptions] The options to use for the
+   * LiveEvent.  This value is specified at creation time and cannot be
+   * updated.
+   */
+  streamOptions?: StreamOptionsFlag[];
+  /**
+   * @member {Date} [created] The exact time the Live Event was created.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly created?: Date;
+  /**
+   * @member {Date} [lastModified] The exact time the Live Event was last
+   * modified.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastModified?: Date;
+}
+
+/**
+ * @interface
  * An interface representing LiveEvent.
  * The Live Event.
  *
@@ -4077,6 +4491,101 @@ export interface StreamingEntityScaleUnit {
    * StreamingEndpoint.
    */
   scaleUnit?: number;
+}
+
+/**
+ * @interface
+ * An interface representing StreamingEndpointProperties.
+ * The StreamingEndpoint properties.
+ *
+ */
+export interface StreamingEndpointProperties {
+  /**
+   * @member {string} [description] The StreamingEndpoint description.
+   */
+  description?: string;
+  /**
+   * @member {number} scaleUnits The number of scale units.  Use the Scale
+   * operation to adjust this value.
+   */
+  scaleUnits: number;
+  /**
+   * @member {string} [availabilitySetName] The name of the AvailabilitySet
+   * used with this StreamingEndpoint for high availability streaming.  This
+   * value can only be set at creation time.
+   */
+  availabilitySetName?: string;
+  /**
+   * @member {StreamingEndpointAccessControl} [accessControl] The access
+   * control definition of the StreamingEndpoint.
+   */
+  accessControl?: StreamingEndpointAccessControl;
+  /**
+   * @member {number} [maxCacheAge] Max cache age
+   */
+  maxCacheAge?: number;
+  /**
+   * @member {string[]} [customHostNames] The custom host names of the
+   * StreamingEndpoint
+   */
+  customHostNames?: string[];
+  /**
+   * @member {string} [hostName] The StreamingEndpoint host name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly hostName?: string;
+  /**
+   * @member {boolean} [cdnEnabled] The CDN enabled flag.
+   */
+  cdnEnabled?: boolean;
+  /**
+   * @member {string} [cdnProvider] The CDN provider name.
+   */
+  cdnProvider?: string;
+  /**
+   * @member {string} [cdnProfile] The CDN profile name.
+   */
+  cdnProfile?: string;
+  /**
+   * @member {string} [provisioningState] The provisioning state of the
+   * StreamingEndpoint.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {StreamingEndpointResourceState} [resourceState] The resource
+   * state of the StreamingEndpoint. Possible values include: 'Stopped',
+   * 'Starting', 'Running', 'Stopping', 'Deleting', 'Scaling'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resourceState?: StreamingEndpointResourceState;
+  /**
+   * @member {CrossSiteAccessPolicies} [crossSiteAccessPolicies] The
+   * StreamingEndpoint access policies.
+   */
+  crossSiteAccessPolicies?: CrossSiteAccessPolicies;
+  /**
+   * @member {Date} [freeTrialEndTime] The free trial expiration time.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly freeTrialEndTime?: Date;
+  /**
+   * @member {Date} [created] The exact time the StreamingEndpoint was created.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly created?: Date;
+  /**
+   * @member {Date} [lastModified] The exact time the StreamingEndpoint was
+   * last modified.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastModified?: Date;
 }
 
 /**

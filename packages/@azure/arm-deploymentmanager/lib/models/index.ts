@@ -80,6 +80,35 @@ export interface Step {
 
 /**
  * @interface
+ * An interface representing RolloutRequestProperties.
+ * The properties for defining a rollout.
+ *
+ */
+export interface RolloutRequestProperties {
+  /**
+   * @member {string} buildVersion The version of the build being deployed.
+   */
+  buildVersion: string;
+  /**
+   * @member {string} [artifactSourceId] The reference to the artifact source
+   * resource Id where the payload is located.
+   */
+  artifactSourceId?: string;
+  /**
+   * @member {string} targetServiceTopologyId The resource Id of the service
+   * topology from which service units are being referenced in step groups to
+   * be deployed.
+   */
+  targetServiceTopologyId: string;
+  /**
+   * @member {Step[]} stepGroups The list of step groups that define the
+   * orchestration.
+   */
+  stepGroups: Step[];
+}
+
+/**
+ * @interface
  * An interface representing Resource.
  * @extends BaseResource
  */
@@ -160,6 +189,45 @@ export interface RolloutRequest extends TrackedResource {
 
 /**
  * @interface
+ * An interface representing ArtifactSourcePropertiesModel.
+ * The properties that define the source location where the artifacts are
+ * located.
+ *
+ */
+export interface ArtifactSourcePropertiesModel {
+  /**
+   * @member {string} sourceType The type of artifact source used.
+   */
+  sourceType: string;
+  /**
+   * @member {string} [artifactRoot] The path from the location that the
+   * 'authentication' property [say, a SAS URI to the blob container] refers
+   * to, to the location of the artifacts. This can be used to differentiate
+   * different versions of the artifacts. Or, different types of artifacts like
+   * binaries or templates. The location referenced by the authentication
+   * property concatenated with this optional artifactRoot path forms the
+   * artifact source location where the artifacts are expected to be found.
+   */
+  artifactRoot?: string;
+  /**
+   * @member {AuthenticationUnion} authentication The authentication method to
+   * use to access the artifact source.
+   */
+  authentication: AuthenticationUnion;
+}
+
+/**
+ * @interface
+ * An interface representing ArtifactSourceProperties.
+ * The properties that define the artifact source.
+ *
+ * @extends ArtifactSourcePropertiesModel
+ */
+export interface ArtifactSourceProperties extends ArtifactSourcePropertiesModel {
+}
+
+/**
+ * @interface
  * An interface representing ArtifactSource.
  * The resource that defines the source location where the artifacts are
  * located.
@@ -208,31 +276,17 @@ export interface Authentication {
 
 /**
  * @interface
- * An interface representing ArtifactSourcePropertiesModel.
- * The properties that define the source location where the artifacts are
- * located.
+ * An interface representing SasProperties.
+ * The properties that define SAS authentication.
  *
  */
-export interface ArtifactSourcePropertiesModel {
+export interface SasProperties {
   /**
-   * @member {string} sourceType The type of artifact source used.
+   * @member {string} sasUri The SAS URI to the Azure Storage blob container.
+   * Any offset from the root of the container to where the artifacts are
+   * located can be defined in the artifactRoot.
    */
-  sourceType: string;
-  /**
-   * @member {string} [artifactRoot] The path from the location that the
-   * 'authentication' property [say, a SAS URI to the blob container] refers
-   * to, to the location of the artifacts. This can be used to differentiate
-   * different versions of the artifacts. Or, different types of artifacts like
-   * binaries or templates. The location referenced by the authentication
-   * property concatenated with this optional artifactRoot path forms the
-   * artifact source location where the artifacts are expected to be found.
-   */
-  artifactRoot?: string;
-  /**
-   * @member {AuthenticationUnion} authentication The authentication method to
-   * use to access the artifact source.
-   */
-  authentication: AuthenticationUnion;
+  sasUri: string;
 }
 
 /**
@@ -571,6 +625,62 @@ export interface Service extends ServiceProperties {
 
 /**
  * @interface
+ * An interface representing RolloutProperties.
+ * The properties that define a rollout.
+ *
+ */
+export interface RolloutProperties {
+  /**
+   * @member {string} buildVersion The version of the build being deployed.
+   */
+  buildVersion: string;
+  /**
+   * @member {string} [artifactSourceId] The reference to the artifact source
+   * resource Id where the payload is located.
+   */
+  artifactSourceId?: string;
+  /**
+   * @member {string} targetServiceTopologyId The resource Id of the service
+   * topology from which service units are being referenced in step groups to
+   * be deployed.
+   */
+  targetServiceTopologyId: string;
+  /**
+   * @member {Step[]} stepGroups The list of step groups that define the
+   * orchestration.
+   */
+  stepGroups: Step[];
+  /**
+   * @member {string} [status] The current status of the rollout.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: string;
+  /**
+   * @member {number} [totalRetryAttempts] The cardinal count of total number
+   * of retries performed on the rollout at a given time.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly totalRetryAttempts?: number;
+  /**
+   * @member {RolloutOperationInfo} [operationInfo] Operational information of
+   * the rollout.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly operationInfo?: RolloutOperationInfo;
+  /**
+   * @member {Service[]} [services] The detailed information on the services
+   * being deployed.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly services?: Service[];
+}
+
+/**
+ * @interface
  * An interface representing Rollout.
  * Defines the rollout.
  *
@@ -668,6 +778,30 @@ export interface RolloutPropertiesModel {
 
 /**
  * @interface
+ * An interface representing ServiceTopologyProperties.
+ * The properties of a service topology.
+ *
+ */
+export interface ServiceTopologyProperties {
+  /**
+   * @member {string} [artifactSourceId] The resource Id of the artifact source
+   * that contains the artifacts that can be referenced in the service units.
+   */
+  artifactSourceId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ServiceTopologyResourceProperties.
+ * The properties that define the service topology.
+ *
+ * @extends ServiceTopologyProperties
+ */
+export interface ServiceTopologyResourceProperties extends ServiceTopologyProperties {
+}
+
+/**
+ * @interface
  * An interface representing ServiceTopologyResource.
  * The resource representation of a service topology.
  *
@@ -683,16 +817,12 @@ export interface ServiceTopologyResource extends TrackedResource {
 
 /**
  * @interface
- * An interface representing ServiceTopologyProperties.
- * The properties of a service topology.
+ * An interface representing ServiceResourceProperties.
+ * The properties that define a service in a service topology.
  *
+ * @extends ServiceProperties
  */
-export interface ServiceTopologyProperties {
-  /**
-   * @member {string} [artifactSourceId] The resource Id of the artifact source
-   * that contains the artifacts that can be referenced in the service units.
-   */
-  artifactSourceId?: string;
+export interface ServiceResourceProperties extends ServiceProperties {
 }
 
 /**
@@ -713,6 +843,16 @@ export interface ServiceResource extends TrackedResource {
    * resources in the service belong to or should be deployed to.
    */
   targetSubscriptionId: string;
+}
+
+/**
+ * @interface
+ * An interface representing ServiceUnitResourceProperties.
+ * The properties that define the service unit.
+ *
+ * @extends ServiceUnitProperties
+ */
+export interface ServiceUnitResourceProperties extends ServiceUnitProperties {
 }
 
 /**

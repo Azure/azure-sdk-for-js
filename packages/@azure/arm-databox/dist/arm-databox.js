@@ -570,6 +570,40 @@
             }
         }
     };
+    var AddressValidationProperties = {
+        serializedName: "AddressValidationProperties",
+        type: {
+            name: "Composite",
+            className: "AddressValidationProperties",
+            modelProperties: {
+                validationStatus: {
+                    readOnly: true,
+                    serializedName: "validationStatus",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Valid",
+                            "Invalid",
+                            "Ambiguous"
+                        ]
+                    }
+                },
+                alternateAddresses: {
+                    readOnly: true,
+                    serializedName: "alternateAddresses",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "ShippingAddress"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
     var AddressValidationOutput = {
         serializedName: "AddressValidationOutput",
         type: {
@@ -800,6 +834,89 @@
                 meterType: {
                     readOnly: true,
                     serializedName: "meterType",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var SkuProperties = {
+        serializedName: "SkuProperties",
+        type: {
+            name: "Composite",
+            className: "SkuProperties",
+            modelProperties: {
+                destinationToServiceLocationMap: {
+                    readOnly: true,
+                    serializedName: "destinationToServiceLocationMap",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "DestinationToServiceLocationMap"
+                            }
+                        }
+                    }
+                },
+                capacity: {
+                    readOnly: true,
+                    serializedName: "capacity",
+                    type: {
+                        name: "Composite",
+                        className: "SkuCapacity"
+                    }
+                },
+                costs: {
+                    readOnly: true,
+                    serializedName: "costs",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "SkuCost"
+                            }
+                        }
+                    }
+                },
+                apiVersions: {
+                    readOnly: true,
+                    serializedName: "apiVersions",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                disabledReason: {
+                    readOnly: true,
+                    serializedName: "disabledReason",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "None",
+                            "Country",
+                            "Region",
+                            "Feature",
+                            "OfferType"
+                        ]
+                    }
+                },
+                disabledReasonMessage: {
+                    readOnly: true,
+                    serializedName: "disabledReasonMessage",
+                    type: {
+                        name: "String"
+                    }
+                },
+                requiredFeature: {
+                    readOnly: true,
+                    serializedName: "requiredFeature",
                     type: {
                         name: "String"
                     }
@@ -1860,6 +1977,92 @@
             }
         }
     };
+    var JobProperties = {
+        serializedName: "JobProperties",
+        type: {
+            name: "Composite",
+            className: "JobProperties",
+            modelProperties: {
+                isCancellable: {
+                    readOnly: true,
+                    serializedName: "isCancellable",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                isDeletable: {
+                    readOnly: true,
+                    serializedName: "isDeletable",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                isShippingAddressEditable: {
+                    readOnly: true,
+                    serializedName: "isShippingAddressEditable",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                status: {
+                    readOnly: true,
+                    serializedName: "status",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "DeviceOrdered",
+                            "DevicePrepared",
+                            "Dispatched",
+                            "Delivered",
+                            "PickedUp",
+                            "AtAzureDC",
+                            "DataCopy",
+                            "Completed",
+                            "CompletedWithErrors",
+                            "Cancelled",
+                            "Failed_IssueReportedAtCustomer",
+                            "Failed_IssueDetectedAtAzureDC",
+                            "Aborted"
+                        ]
+                    }
+                },
+                startTime: {
+                    readOnly: true,
+                    serializedName: "startTime",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                error: {
+                    readOnly: true,
+                    serializedName: "error",
+                    type: {
+                        name: "Composite",
+                        className: "ErrorModel"
+                    }
+                },
+                details: {
+                    serializedName: "details",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "jobDetailsType",
+                            clientName: "jobDetailsType"
+                        },
+                        uberParent: "JobDetails",
+                        className: "JobDetails"
+                    }
+                },
+                cancellationReason: {
+                    readOnly: true,
+                    serializedName: "cancellationReason",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var Resource = {
         serializedName: "Resource",
         type: {
@@ -2008,6 +2211,34 @@
                     type: {
                         name: "Composite",
                         className: "ShippingAddress"
+                    }
+                }
+            }
+        }
+    };
+    var UpdateJobProperties = {
+        serializedName: "UpdateJobProperties",
+        type: {
+            name: "Composite",
+            className: "UpdateJobProperties",
+            modelProperties: {
+                details: {
+                    serializedName: "details",
+                    type: {
+                        name: "Composite",
+                        className: "UpdateJobDetails"
+                    }
+                },
+                destinationAccountDetails: {
+                    serializedName: "destinationAccountDetails",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "DestinationAccountDetails"
+                            }
+                        }
                     }
                 }
             }
@@ -2359,6 +2590,7 @@
         ShareCredentialDetails: ShareCredentialDetails,
         AccountCredentialDetails: AccountCredentialDetails,
         ShippingAddress: ShippingAddress,
+        AddressValidationProperties: AddressValidationProperties,
         AddressValidationOutput: AddressValidationOutput,
         ApplianceNetworkConfiguration: ApplianceNetworkConfiguration,
         ArmBaseObject: ArmBaseObject,
@@ -2367,6 +2599,7 @@
         DestinationToServiceLocationMap: DestinationToServiceLocationMap,
         SkuCapacity: SkuCapacity,
         SkuCost: SkuCost,
+        SkuProperties: SkuProperties,
         SkuInformation: SkuInformation,
         CancellationReason: CancellationReason,
         NotificationPreference: NotificationPreference,
@@ -2394,9 +2627,11 @@
         JobStages: JobStages,
         PackageShippingDetails: PackageShippingDetails,
         Preferences: Preferences,
+        JobProperties: JobProperties,
         Resource: Resource,
         JobResource: JobResource,
         UpdateJobDetails: UpdateJobDetails,
+        UpdateJobProperties: UpdateJobProperties,
         JobResourceUpdateParameter: JobResourceUpdateParameter,
         OperationDisplay: OperationDisplay,
         Operation: Operation,

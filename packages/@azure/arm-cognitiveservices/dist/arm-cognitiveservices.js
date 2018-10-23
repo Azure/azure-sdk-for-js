@@ -362,6 +362,34 @@
             }
         }
     };
+    var CognitiveServicesAccountProperties = {
+        serializedName: "CognitiveServicesAccountProperties",
+        type: {
+            name: "Composite",
+            className: "CognitiveServicesAccountProperties",
+            modelProperties: {
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                endpoint: {
+                    serializedName: "endpoint",
+                    type: {
+                        name: "String"
+                    }
+                },
+                internalId: {
+                    serializedName: "internalId",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var CognitiveServicesAccount = {
         serializedName: "CognitiveServicesAccount",
         type: {
@@ -1073,6 +1101,7 @@
         Sku: Sku,
         CognitiveServicesAccountCreateParameters: CognitiveServicesAccountCreateParameters,
         CognitiveServicesAccountUpdateParameters: CognitiveServicesAccountUpdateParameters,
+        CognitiveServicesAccountProperties: CognitiveServicesAccountProperties,
         CognitiveServicesAccount: CognitiveServicesAccount,
         CognitiveServicesAccountKeys: CognitiveServicesAccountKeys,
         RegenerateKeyParameters: RegenerateKeyParameters,

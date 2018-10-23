@@ -396,6 +396,42 @@
             }
         }
     };
+    var NetworkResourceProperties = {
+        serializedName: "NetworkResourceProperties",
+        type: {
+            name: "Composite",
+            className: "NetworkResourceProperties",
+            modelProperties: {
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "String"
+                    }
+                },
+                addressPrefix: {
+                    required: true,
+                    serializedName: "addressPrefix",
+                    type: {
+                        name: "String"
+                    }
+                },
+                ingressConfig: {
+                    serializedName: "ingressConfig",
+                    type: {
+                        name: "Composite",
+                        className: "IngressConfig"
+                    }
+                }
+            }
+        }
+    };
     var NetworkResourceDescription = {
         serializedName: "NetworkResourceDescription",
         type: {
@@ -485,6 +521,44 @@
             }
         }
     };
+    var VolumeResourceProperties = {
+        serializedName: "VolumeResourceProperties",
+        type: {
+            name: "Composite",
+            className: "VolumeResourceProperties",
+            modelProperties: {
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "String"
+                    }
+                },
+                provider: {
+                    required: true,
+                    isConstant: true,
+                    serializedName: "provider",
+                    defaultValue: 'SFAzureFile',
+                    type: {
+                        name: "String"
+                    }
+                },
+                azureFileParameters: {
+                    serializedName: "azureFileParameters",
+                    type: {
+                        name: "Composite",
+                        className: "VolumeProviderParametersAzureFile"
+                    }
+                }
+            }
+        }
+    };
     var VolumeResourceDescription = {
         serializedName: "VolumeResourceDescription",
         type: {
@@ -547,6 +621,83 @@
                     }
                 }
             }
+        }
+    };
+    var ServiceReplicaProperties = {
+        serializedName: "ServiceReplicaProperties",
+        type: {
+            name: "Composite",
+            className: "ServiceReplicaProperties",
+            modelProperties: {
+                osType: {
+                    required: true,
+                    serializedName: "osType",
+                    type: {
+                        name: "String"
+                    }
+                },
+                codePackages: {
+                    required: true,
+                    serializedName: "codePackages",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "ContainerCodePackageProperties"
+                            }
+                        }
+                    }
+                },
+                networkRefs: {
+                    serializedName: "networkRefs",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "NetworkRef"
+                            }
+                        }
+                    }
+                },
+                diagnostics: {
+                    serializedName: "diagnostics",
+                    type: {
+                        name: "Composite",
+                        className: "DiagnosticsRef"
+                    }
+                }
+            }
+        }
+    };
+    var ServiceResourceProperties = {
+        serializedName: "ServiceResourceProperties",
+        type: {
+            name: "Composite",
+            className: "ServiceResourceProperties",
+            modelProperties: __assign({}, ServiceReplicaProperties.type.modelProperties, { description: {
+                    serializedName: "description",
+                    type: {
+                        name: "String"
+                    }
+                }, replicaCount: {
+                    serializedName: "replicaCount",
+                    type: {
+                        name: "Number"
+                    }
+                }, healthState: {
+                    serializedName: "healthState",
+                    type: {
+                        name: "String"
+                    }
+                }, status: {
+                    readOnly: true,
+                    serializedName: "status",
+                    type: {
+                        name: "String"
+                    }
+                } })
         }
     };
     var ServiceResourceDescription = {
@@ -684,6 +835,93 @@
                                 name: "String"
                             }
                         }
+                    }
+                }
+            }
+        }
+    };
+    var ApplicationResourceProperties = {
+        serializedName: "ApplicationResourceProperties",
+        type: {
+            name: "Composite",
+            className: "ApplicationResourceProperties",
+            modelProperties: {
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "String"
+                    }
+                },
+                debugParams: {
+                    serializedName: "debugParams",
+                    type: {
+                        name: "String"
+                    }
+                },
+                services: {
+                    serializedName: "services",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "ServiceResourceDescription"
+                            }
+                        }
+                    }
+                },
+                healthState: {
+                    readOnly: true,
+                    serializedName: "healthState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                unhealthyEvaluation: {
+                    readOnly: true,
+                    serializedName: "unhealthyEvaluation",
+                    type: {
+                        name: "String"
+                    }
+                },
+                status: {
+                    readOnly: true,
+                    serializedName: "status",
+                    type: {
+                        name: "String"
+                    }
+                },
+                statusDetails: {
+                    readOnly: true,
+                    serializedName: "statusDetails",
+                    type: {
+                        name: "String"
+                    }
+                },
+                serviceNames: {
+                    readOnly: true,
+                    serializedName: "serviceNames",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                diagnostics: {
+                    serializedName: "diagnostics",
+                    type: {
+                        name: "Composite",
+                        className: "DiagnosticsDescription"
                     }
                 }
             }
@@ -1442,54 +1680,6 @@
             }
         }
     };
-    var ServiceReplicaProperties = {
-        serializedName: "ServiceReplicaProperties",
-        type: {
-            name: "Composite",
-            className: "ServiceReplicaProperties",
-            modelProperties: {
-                osType: {
-                    required: true,
-                    serializedName: "osType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                codePackages: {
-                    required: true,
-                    serializedName: "codePackages",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "ContainerCodePackageProperties"
-                            }
-                        }
-                    }
-                },
-                networkRefs: {
-                    serializedName: "networkRefs",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "NetworkRef"
-                            }
-                        }
-                    }
-                },
-                diagnostics: {
-                    serializedName: "diagnostics",
-                    type: {
-                        name: "Composite",
-                        className: "DiagnosticsRef"
-                    }
-                }
-            }
-        }
-    };
     var ServiceReplicaDescription = {
         serializedName: "ServiceReplicaDescription",
         type: {
@@ -1731,14 +1921,19 @@
         ProvisionedResourceProperties: ProvisionedResourceProperties,
         Layer4IngressConfig: Layer4IngressConfig,
         IngressConfig: IngressConfig,
+        NetworkResourceProperties: NetworkResourceProperties,
         NetworkResourceDescription: NetworkResourceDescription,
         NetworkProperties: NetworkProperties,
         VolumeProviderParametersAzureFile: VolumeProviderParametersAzureFile,
+        VolumeResourceProperties: VolumeResourceProperties,
         VolumeResourceDescription: VolumeResourceDescription,
         VolumeProperties: VolumeProperties,
+        ServiceReplicaProperties: ServiceReplicaProperties,
+        ServiceResourceProperties: ServiceResourceProperties,
         ServiceResourceDescription: ServiceResourceDescription,
         DiagnosticsSinkProperties: DiagnosticsSinkProperties,
         DiagnosticsDescription: DiagnosticsDescription,
+        ApplicationResourceProperties: ApplicationResourceProperties,
         ApplicationResourceDescription: ApplicationResourceDescription,
         ApplicationProperties: ApplicationProperties,
         ContainerState: ContainerState,
@@ -1759,7 +1954,6 @@
         ContainerVolume: ContainerVolume,
         DiagnosticsRef: DiagnosticsRef,
         ContainerCodePackageProperties: ContainerCodePackageProperties,
-        ServiceReplicaProperties: ServiceReplicaProperties,
         ServiceReplicaDescription: ServiceReplicaDescription,
         NetworkRef: NetworkRef,
         AzureInternalMonitoringPipelineSinkDescription: AzureInternalMonitoringPipelineSinkDescription,
@@ -2379,7 +2573,8 @@
         ContainerEvent: ContainerEvent,
         DiagnosticsRef: DiagnosticsRef,
         NetworkRef: NetworkRef,
-        CloudError: CloudError
+        CloudError: CloudError,
+        ServiceResourceProperties: ServiceResourceProperties
     });
 
     /*

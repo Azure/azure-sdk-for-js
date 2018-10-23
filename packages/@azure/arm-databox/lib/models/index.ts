@@ -137,6 +137,30 @@ export interface ShippingAddress {
 
 /**
  * @interface
+ * An interface representing AddressValidationProperties.
+ * The address validation output.
+ *
+ */
+export interface AddressValidationProperties {
+  /**
+   * @member {AddressValidationStatus} [validationStatus] The address
+   * validation status. Possible values include: 'Valid', 'Invalid',
+   * 'Ambiguous'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly validationStatus?: AddressValidationStatus;
+  /**
+   * @member {ShippingAddress[]} [alternateAddresses] List of alternate
+   * addresses.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly alternateAddresses?: ShippingAddress[];
+}
+
+/**
+ * @interface
  * An interface representing AddressValidationOutput.
  * Output of the address validation api.
  *
@@ -314,6 +338,62 @@ export interface SkuCost {
    * the server.**
    */
   readonly meterType?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SkuProperties.
+ * Properties of the sku.
+ *
+ */
+export interface SkuProperties {
+  /**
+   * @member {DestinationToServiceLocationMap[]}
+   * [destinationToServiceLocationMap] The map of destination location to
+   * service location.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly destinationToServiceLocationMap?: DestinationToServiceLocationMap[];
+  /**
+   * @member {SkuCapacity} [capacity] Capacity of the Sku.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly capacity?: SkuCapacity;
+  /**
+   * @member {SkuCost[]} [costs] Cost of the Sku.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly costs?: SkuCost[];
+  /**
+   * @member {string[]} [apiVersions] Api versions that support this Sku.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly apiVersions?: string[];
+  /**
+   * @member {SkuDisabledReason} [disabledReason] Reason why the Sku is
+   * disabled. Possible values include: 'None', 'Country', 'Region', 'Feature',
+   * 'OfferType'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly disabledReason?: SkuDisabledReason;
+  /**
+   * @member {string} [disabledReasonMessage] Message for why the Sku is
+   * disabled.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly disabledReasonMessage?: string;
+  /**
+   * @member {string} [requiredFeature] Required feature to access the sku.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly requiredFeature?: string;
 }
 
 /**
@@ -1364,6 +1444,70 @@ export interface Preferences {
 
 /**
  * @interface
+ * An interface representing JobProperties.
+ * Job Properties
+ *
+ */
+export interface JobProperties {
+  /**
+   * @member {boolean} [isCancellable] Describes whether the job is cancellable
+   * or not.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isCancellable?: boolean;
+  /**
+   * @member {boolean} [isDeletable] Describes whether the job is deletable or
+   * not.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isDeletable?: boolean;
+  /**
+   * @member {boolean} [isShippingAddressEditable] Describes whether the
+   * shipping address is editable or not.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isShippingAddressEditable?: boolean;
+  /**
+   * @member {StageName} [status] Name of the stage which is in progress.
+   * Possible values include: 'DeviceOrdered', 'DevicePrepared', 'Dispatched',
+   * 'Delivered', 'PickedUp', 'AtAzureDC', 'DataCopy', 'Completed',
+   * 'CompletedWithErrors', 'Cancelled', 'Failed_IssueReportedAtCustomer',
+   * 'Failed_IssueDetectedAtAzureDC', 'Aborted'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: StageName;
+  /**
+   * @member {Date} [startTime] Time at which the job was started in UTC ISO
+   * 8601 format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly startTime?: Date;
+  /**
+   * @member {ErrorModel} [error] Top level error for the job.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly error?: ErrorModel;
+  /**
+   * @member {JobDetailsUnion} [details] Details of a job run. This field will
+   * only be sent for expand details filter.
+   */
+  details?: JobDetailsUnion;
+  /**
+   * @member {string} [cancellationReason] Reason for cancellation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly cancellationReason?: string;
+}
+
+/**
+ * @interface
  * An interface representing Resource.
  * Model of the Resource.
  *
@@ -1490,6 +1634,24 @@ export interface UpdateJobDetails {
    * customer.
    */
   shippingAddress?: ShippingAddress;
+}
+
+/**
+ * @interface
+ * An interface representing UpdateJobProperties.
+ * Job Properties for update
+ *
+ */
+export interface UpdateJobProperties {
+  /**
+   * @member {UpdateJobDetails} [details] Details of a job to be updated.
+   */
+  details?: UpdateJobDetails;
+  /**
+   * @member {DestinationAccountDetails[]} [destinationAccountDetails]
+   * Destination account details.
+   */
+  destinationAccountDetails?: DestinationAccountDetails[];
 }
 
 /**

@@ -1189,6 +1189,41 @@
             }
         }
     };
+    var MediaFilterProperties = {
+        serializedName: "MediaFilterProperties",
+        type: {
+            name: "Composite",
+            className: "MediaFilterProperties",
+            modelProperties: {
+                presentationTimeRange: {
+                    serializedName: "presentationTimeRange",
+                    type: {
+                        name: "Composite",
+                        className: "PresentationTimeRange"
+                    }
+                },
+                firstQuality: {
+                    serializedName: "firstQuality",
+                    type: {
+                        name: "Composite",
+                        className: "FirstQuality"
+                    }
+                },
+                tracks: {
+                    serializedName: "tracks",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "FilterTrackSelection"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
     var Resource = {
         serializedName: "Resource",
         type: {
@@ -1645,6 +1680,35 @@
             }
         }
     };
+    var MediaServiceProperties = {
+        serializedName: "MediaServiceProperties",
+        type: {
+            name: "Composite",
+            className: "MediaServiceProperties",
+            modelProperties: {
+                mediaServiceId: {
+                    nullable: false,
+                    readOnly: true,
+                    serializedName: "mediaServiceId",
+                    type: {
+                        name: "Uuid"
+                    }
+                },
+                storageAccounts: {
+                    serializedName: "storageAccounts",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "StorageAccount"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
     var MediaService = {
         serializedName: "MediaService",
         type: {
@@ -1713,6 +1777,75 @@
                     serializedName: "type",
                     type: {
                         name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var AssetProperties = {
+        serializedName: "AssetProperties",
+        type: {
+            name: "Composite",
+            className: "AssetProperties",
+            modelProperties: {
+                assetId: {
+                    nullable: false,
+                    readOnly: true,
+                    serializedName: "assetId",
+                    type: {
+                        name: "Uuid"
+                    }
+                },
+                created: {
+                    nullable: false,
+                    readOnly: true,
+                    serializedName: "created",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                lastModified: {
+                    nullable: false,
+                    readOnly: true,
+                    serializedName: "lastModified",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                alternateId: {
+                    serializedName: "alternateId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "String"
+                    }
+                },
+                container: {
+                    serializedName: "container",
+                    type: {
+                        name: "String"
+                    }
+                },
+                storageAccountName: {
+                    serializedName: "storageAccountName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                storageEncryptionFormat: {
+                    nullable: false,
+                    readOnly: true,
+                    serializedName: "storageEncryptionFormat",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "None",
+                            "MediaStorageClientEncryption"
+                        ]
                     }
                 }
             }
@@ -3630,6 +3763,50 @@
             }
         }
     };
+    var TransformProperties = {
+        serializedName: "TransformProperties",
+        type: {
+            name: "Composite",
+            className: "TransformProperties",
+            modelProperties: {
+                created: {
+                    nullable: false,
+                    readOnly: true,
+                    serializedName: "created",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "String"
+                    }
+                },
+                lastModified: {
+                    nullable: false,
+                    readOnly: true,
+                    serializedName: "lastModified",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                outputs: {
+                    required: true,
+                    serializedName: "outputs",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "TransformOutput"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
     var Transform = {
         serializedName: "Transform",
         type: {
@@ -3944,6 +4121,107 @@
                         name: "String"
                     }
                 } })
+        }
+    };
+    var JobProperties = {
+        serializedName: "JobProperties",
+        type: {
+            name: "Composite",
+            className: "JobProperties",
+            modelProperties: {
+                created: {
+                    nullable: false,
+                    readOnly: true,
+                    serializedName: "created",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                state: {
+                    nullable: false,
+                    readOnly: true,
+                    serializedName: "state",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Canceled",
+                            "Canceling",
+                            "Error",
+                            "Finished",
+                            "Processing",
+                            "Queued",
+                            "Scheduled"
+                        ]
+                    }
+                },
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "String"
+                    }
+                },
+                input: {
+                    required: true,
+                    serializedName: "input",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "@odata.type",
+                            clientName: "odatatype"
+                        },
+                        uberParent: "JobInput",
+                        className: "JobInput"
+                    }
+                },
+                lastModified: {
+                    nullable: false,
+                    readOnly: true,
+                    serializedName: "lastModified",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                outputs: {
+                    required: true,
+                    serializedName: "outputs",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                polymorphicDiscriminator: {
+                                    serializedName: "@odata.type",
+                                    clientName: "odatatype"
+                                },
+                                uberParent: "JobOutput",
+                                className: "JobOutput"
+                            }
+                        }
+                    }
+                },
+                priority: {
+                    serializedName: "priority",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Low",
+                            "Normal",
+                            "High"
+                        ]
+                    }
+                },
+                correlationData: {
+                    serializedName: "correlationData",
+                    type: {
+                        name: "Dictionary",
+                        value: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                }
+            }
         }
     };
     var Job = {
@@ -4467,6 +4745,57 @@
             }
         }
     };
+    var StreamingPolicyProperties = {
+        serializedName: "StreamingPolicyProperties",
+        type: {
+            name: "Composite",
+            className: "StreamingPolicyProperties",
+            modelProperties: {
+                created: {
+                    nullable: false,
+                    readOnly: true,
+                    serializedName: "created",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                defaultContentKeyPolicyName: {
+                    serializedName: "defaultContentKeyPolicyName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                envelopeEncryption: {
+                    serializedName: "envelopeEncryption",
+                    type: {
+                        name: "Composite",
+                        className: "EnvelopeEncryption"
+                    }
+                },
+                commonEncryptionCenc: {
+                    serializedName: "commonEncryptionCenc",
+                    type: {
+                        name: "Composite",
+                        className: "CommonEncryptionCenc"
+                    }
+                },
+                commonEncryptionCbcs: {
+                    serializedName: "commonEncryptionCbcs",
+                    type: {
+                        name: "Composite",
+                        className: "CommonEncryptionCbcs"
+                    }
+                },
+                noEncryption: {
+                    serializedName: "noEncryption",
+                    type: {
+                        name: "Composite",
+                        className: "NoEncryption"
+                    }
+                }
+            }
+        }
+    };
     var StreamingPolicy = {
         serializedName: "StreamingPolicy",
         type: {
@@ -4618,6 +4947,79 @@
             }
         }
     };
+    var StreamingLocatorProperties = {
+        serializedName: "StreamingLocatorProperties",
+        type: {
+            name: "Composite",
+            className: "StreamingLocatorProperties",
+            modelProperties: {
+                assetName: {
+                    required: true,
+                    serializedName: "assetName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                created: {
+                    nullable: false,
+                    readOnly: true,
+                    serializedName: "created",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                startTime: {
+                    serializedName: "startTime",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                endTime: {
+                    serializedName: "endTime",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                streamingLocatorId: {
+                    serializedName: "streamingLocatorId",
+                    type: {
+                        name: "Uuid"
+                    }
+                },
+                streamingPolicyName: {
+                    required: true,
+                    serializedName: "streamingPolicyName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                defaultContentKeyPolicyName: {
+                    serializedName: "defaultContentKeyPolicyName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                contentKeys: {
+                    serializedName: "contentKeys",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "StreamingLocatorContentKey"
+                            }
+                        }
+                    }
+                },
+                alternativeMediaId: {
+                    serializedName: "alternativeMediaId",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var ListContentKeysResponse = {
         serializedName: "ListContentKeysResponse",
         type: {
@@ -4744,6 +5146,87 @@
                     serializedName: "fragmentsPerTsSegment",
                     type: {
                         name: "Number"
+                    }
+                }
+            }
+        }
+    };
+    var LiveOutputProperties = {
+        serializedName: "LiveOutputProperties",
+        type: {
+            name: "Composite",
+            className: "LiveOutputProperties",
+            modelProperties: {
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "String"
+                    }
+                },
+                assetName: {
+                    required: true,
+                    serializedName: "assetName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                archiveWindowLength: {
+                    required: true,
+                    serializedName: "archiveWindowLength",
+                    type: {
+                        name: "TimeSpan"
+                    }
+                },
+                manifestName: {
+                    serializedName: "manifestName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                hls: {
+                    serializedName: "hls",
+                    type: {
+                        name: "Composite",
+                        className: "Hls"
+                    }
+                },
+                outputSnapTime: {
+                    serializedName: "outputSnapTime",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                created: {
+                    readOnly: true,
+                    serializedName: "created",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                lastModified: {
+                    readOnly: true,
+                    serializedName: "lastModified",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                resourceState: {
+                    readOnly: true,
+                    serializedName: "resourceState",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Creating",
+                            "Running",
+                            "Deleting"
+                        ]
                     }
                 }
             }
@@ -5078,6 +5561,106 @@
             }
         }
     };
+    var LiveEventProperties = {
+        serializedName: "LiveEventProperties",
+        type: {
+            name: "Composite",
+            className: "LiveEventProperties",
+            modelProperties: {
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "String"
+                    }
+                },
+                input: {
+                    required: true,
+                    serializedName: "input",
+                    type: {
+                        name: "Composite",
+                        className: "LiveEventInput"
+                    }
+                },
+                preview: {
+                    serializedName: "preview",
+                    type: {
+                        name: "Composite",
+                        className: "LiveEventPreview"
+                    }
+                },
+                encoding: {
+                    serializedName: "encoding",
+                    type: {
+                        name: "Composite",
+                        className: "LiveEventEncoding"
+                    }
+                },
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                resourceState: {
+                    readOnly: true,
+                    serializedName: "resourceState",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Stopped",
+                            "Starting",
+                            "Running",
+                            "Stopping",
+                            "Deleting"
+                        ]
+                    }
+                },
+                crossSiteAccessPolicies: {
+                    serializedName: "crossSiteAccessPolicies",
+                    type: {
+                        name: "Composite",
+                        className: "CrossSiteAccessPolicies"
+                    }
+                },
+                vanityUrl: {
+                    serializedName: "vanityUrl",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                streamOptions: {
+                    serializedName: "streamOptions",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Enum",
+                                allowedValues: [
+                                    "Default",
+                                    "LowLatency"
+                                ]
+                            }
+                        }
+                    }
+                },
+                created: {
+                    readOnly: true,
+                    serializedName: "created",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                lastModified: {
+                    readOnly: true,
+                    serializedName: "lastModified",
+                    type: {
+                        name: "DateTime"
+                    }
+                }
+            }
+        }
+    };
     var LiveEvent = {
         serializedName: "LiveEvent",
         type: {
@@ -5247,6 +5830,133 @@
                     serializedName: "scaleUnit",
                     type: {
                         name: "Number"
+                    }
+                }
+            }
+        }
+    };
+    var StreamingEndpointProperties = {
+        serializedName: "StreamingEndpointProperties",
+        type: {
+            name: "Composite",
+            className: "StreamingEndpointProperties",
+            modelProperties: {
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "String"
+                    }
+                },
+                scaleUnits: {
+                    required: true,
+                    serializedName: "scaleUnits",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                availabilitySetName: {
+                    serializedName: "availabilitySetName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                accessControl: {
+                    serializedName: "accessControl",
+                    type: {
+                        name: "Composite",
+                        className: "StreamingEndpointAccessControl"
+                    }
+                },
+                maxCacheAge: {
+                    serializedName: "maxCacheAge",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                customHostNames: {
+                    serializedName: "customHostNames",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                hostName: {
+                    readOnly: true,
+                    serializedName: "hostName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                cdnEnabled: {
+                    serializedName: "cdnEnabled",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                cdnProvider: {
+                    serializedName: "cdnProvider",
+                    type: {
+                        name: "String"
+                    }
+                },
+                cdnProfile: {
+                    serializedName: "cdnProfile",
+                    type: {
+                        name: "String"
+                    }
+                },
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                resourceState: {
+                    readOnly: true,
+                    serializedName: "resourceState",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Stopped",
+                            "Starting",
+                            "Running",
+                            "Stopping",
+                            "Deleting",
+                            "Scaling"
+                        ]
+                    }
+                },
+                crossSiteAccessPolicies: {
+                    serializedName: "crossSiteAccessPolicies",
+                    type: {
+                        name: "Composite",
+                        className: "CrossSiteAccessPolicies"
+                    }
+                },
+                freeTrialEndTime: {
+                    readOnly: true,
+                    serializedName: "freeTrialEndTime",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                created: {
+                    readOnly: true,
+                    serializedName: "created",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                lastModified: {
+                    readOnly: true,
+                    serializedName: "lastModified",
+                    type: {
+                        name: "DateTime"
                     }
                 }
             }
@@ -5822,6 +6532,7 @@
         FilterTrackPropertyCondition: FilterTrackPropertyCondition,
         FirstQuality: FirstQuality,
         FilterTrackSelection: FilterTrackSelection,
+        MediaFilterProperties: MediaFilterProperties,
         Resource: Resource,
         ProxyResource: ProxyResource,
         AccountFilter: AccountFilter,
@@ -5839,9 +6550,11 @@
         EntityNameAvailabilityCheckOutput: EntityNameAvailabilityCheckOutput,
         StorageAccount: StorageAccount,
         SyncStorageKeysInput: SyncStorageKeysInput,
+        MediaServiceProperties: MediaServiceProperties,
         MediaService: MediaService,
         SubscriptionMediaService: SubscriptionMediaService,
         CheckNameAvailabilityInput: CheckNameAvailabilityInput,
+        AssetProperties: AssetProperties,
         AssetContainerSas: AssetContainerSas,
         AssetFileEncryptionMetadata: AssetFileEncryptionMetadata,
         StorageEncryptedAssetDecryptionData: StorageEncryptedAssetDecryptionData,
@@ -5909,6 +6622,7 @@
         TransportStreamFormat: TransportStreamFormat,
         VideoOverlay: VideoOverlay,
         TransformOutput: TransformOutput,
+        TransformProperties: TransformProperties,
         Transform: Transform,
         JobInput: JobInput,
         JobInputClip: JobInputClip,
@@ -5919,6 +6633,7 @@
         JobError: JobError,
         JobOutput: JobOutput,
         JobOutputAsset: JobOutputAsset,
+        JobProperties: JobProperties,
         Job: Job,
         TrackPropertyCondition: TrackPropertyCondition,
         TrackSelection: TrackSelection,
@@ -5935,13 +6650,16 @@
         EnvelopeEncryption: EnvelopeEncryption,
         CommonEncryptionCenc: CommonEncryptionCenc,
         CommonEncryptionCbcs: CommonEncryptionCbcs,
+        StreamingPolicyProperties: StreamingPolicyProperties,
         StreamingPolicy: StreamingPolicy,
         StreamingLocatorContentKey: StreamingLocatorContentKey,
         StreamingPath: StreamingPath,
+        StreamingLocatorProperties: StreamingLocatorProperties,
         ListContentKeysResponse: ListContentKeysResponse,
         ListPathsResponse: ListPathsResponse,
         StreamingLocator: StreamingLocator,
         Hls: Hls,
+        LiveOutputProperties: LiveOutputProperties,
         LiveOutput: LiveOutput,
         LiveEventEndpoint: LiveEventEndpoint,
         IPRange: IPRange,
@@ -5953,11 +6671,13 @@
         LiveEventEncoding: LiveEventEncoding,
         CrossSiteAccessPolicies: CrossSiteAccessPolicies,
         LiveEventActionInput: LiveEventActionInput,
+        LiveEventProperties: LiveEventProperties,
         LiveEvent: LiveEvent,
         AkamaiSignatureHeaderAuthenticationKey: AkamaiSignatureHeaderAuthenticationKey,
         AkamaiAccessControl: AkamaiAccessControl,
         StreamingEndpointAccessControl: StreamingEndpointAccessControl,
         StreamingEntityScaleUnit: StreamingEntityScaleUnit,
+        StreamingEndpointProperties: StreamingEndpointProperties,
         StreamingEndpoint: StreamingEndpoint,
         AccountFilterCollection: AccountFilterCollection,
         OperationCollection: OperationCollection,

@@ -528,6 +528,112 @@
      */
     var CloudError = msRestAzure.CloudErrorMapper;
     var BaseResource = msRestAzure.BaseResourceMapper;
+    var FrontDoorUpdateParameters = {
+        serializedName: "FrontDoorUpdateParameters",
+        type: {
+            name: "Composite",
+            className: "FrontDoorUpdateParameters",
+            modelProperties: {
+                friendlyName: {
+                    serializedName: "friendlyName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                routingRules: {
+                    serializedName: "routingRules",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "RoutingRule"
+                            }
+                        }
+                    }
+                },
+                loadBalancingSettings: {
+                    serializedName: "loadBalancingSettings",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "LoadBalancingSettingsModel"
+                            }
+                        }
+                    }
+                },
+                healthProbeSettings: {
+                    serializedName: "healthProbeSettings",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "HealthProbeSettingsModel"
+                            }
+                        }
+                    }
+                },
+                backendPools: {
+                    serializedName: "backendPools",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "BackendPool"
+                            }
+                        }
+                    }
+                },
+                frontendEndpoints: {
+                    serializedName: "frontendEndpoints",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "FrontendEndpoint"
+                            }
+                        }
+                    }
+                },
+                enabledState: {
+                    serializedName: "enabledState",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var FrontDoorProperties = {
+        serializedName: "FrontDoorProperties",
+        type: {
+            name: "Composite",
+            className: "FrontDoorProperties",
+            modelProperties: __assign({}, FrontDoorUpdateParameters.type.modelProperties, { resourceState: {
+                    serializedName: "resourceState",
+                    type: {
+                        name: "String"
+                    }
+                }, provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                }, cname: {
+                    readOnly: true,
+                    serializedName: "cname",
+                    type: {
+                        name: "String"
+                    }
+                } })
+        }
+    };
     var Resource = {
         serializedName: "Resource",
         type: {
@@ -665,6 +771,94 @@
                 } })
         }
     };
+    var RoutingRuleUpdateParameters = {
+        serializedName: "RoutingRuleUpdateParameters",
+        type: {
+            name: "Composite",
+            className: "RoutingRuleUpdateParameters",
+            modelProperties: {
+                frontendEndpoints: {
+                    serializedName: "frontendEndpoints",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "SubResource"
+                            }
+                        }
+                    }
+                },
+                acceptedProtocols: {
+                    serializedName: "acceptedProtocols",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                patternsToMatch: {
+                    serializedName: "patternsToMatch",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                customForwardingPath: {
+                    serializedName: "customForwardingPath",
+                    type: {
+                        name: "String"
+                    }
+                },
+                forwardingProtocol: {
+                    serializedName: "forwardingProtocol",
+                    type: {
+                        name: "String"
+                    }
+                },
+                cacheConfiguration: {
+                    serializedName: "cacheConfiguration",
+                    type: {
+                        name: "Composite",
+                        className: "CacheConfiguration"
+                    }
+                },
+                backendPool: {
+                    serializedName: "backendPool",
+                    type: {
+                        name: "Composite",
+                        className: "SubResource"
+                    }
+                },
+                enabledState: {
+                    serializedName: "enabledState",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var RoutingRuleProperties = {
+        serializedName: "RoutingRuleProperties",
+        type: {
+            name: "Composite",
+            className: "RoutingRuleProperties",
+            modelProperties: __assign({}, RoutingRuleUpdateParameters.type.modelProperties, { resourceState: {
+                    serializedName: "resourceState",
+                    type: {
+                        name: "String"
+                    }
+                } })
+        }
+    };
     var SubResource = {
         serializedName: "SubResource",
         type: {
@@ -762,6 +956,46 @@
                 } })
         }
     };
+    var LoadBalancingSettingsUpdateParameters = {
+        serializedName: "LoadBalancingSettingsUpdateParameters",
+        type: {
+            name: "Composite",
+            className: "LoadBalancingSettingsUpdateParameters",
+            modelProperties: {
+                sampleSize: {
+                    serializedName: "sampleSize",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                successfulSamplesRequired: {
+                    serializedName: "successfulSamplesRequired",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                additionalLatencyMilliseconds: {
+                    serializedName: "additionalLatencyMilliseconds",
+                    type: {
+                        name: "Number"
+                    }
+                }
+            }
+        }
+    };
+    var LoadBalancingSettingsProperties = {
+        serializedName: "LoadBalancingSettingsProperties",
+        type: {
+            name: "Composite",
+            className: "LoadBalancingSettingsProperties",
+            modelProperties: __assign({}, LoadBalancingSettingsUpdateParameters.type.modelProperties, { resourceState: {
+                    serializedName: "resourceState",
+                    type: {
+                        name: "String"
+                    }
+                } })
+        }
+    };
     var LoadBalancingSettingsModel = {
         serializedName: "LoadBalancingSettingsModel",
         type: {
@@ -801,6 +1035,46 @@
                 } })
         }
     };
+    var HealthProbeSettingsUpdateParameters = {
+        serializedName: "HealthProbeSettingsUpdateParameters",
+        type: {
+            name: "Composite",
+            className: "HealthProbeSettingsUpdateParameters",
+            modelProperties: {
+                path: {
+                    serializedName: "path",
+                    type: {
+                        name: "String"
+                    }
+                },
+                protocol: {
+                    serializedName: "protocol",
+                    type: {
+                        name: "String"
+                    }
+                },
+                intervalInSeconds: {
+                    serializedName: "intervalInSeconds",
+                    type: {
+                        name: "Number"
+                    }
+                }
+            }
+        }
+    };
+    var HealthProbeSettingsProperties = {
+        serializedName: "HealthProbeSettingsProperties",
+        type: {
+            name: "Composite",
+            className: "HealthProbeSettingsProperties",
+            modelProperties: __assign({}, HealthProbeSettingsUpdateParameters.type.modelProperties, { resourceState: {
+                    serializedName: "resourceState",
+                    type: {
+                        name: "String"
+                    }
+                } })
+        }
+    };
     var HealthProbeSettingsModel = {
         serializedName: "HealthProbeSettingsModel",
         type: {
@@ -834,6 +1108,54 @@
                 }, type: {
                     readOnly: true,
                     serializedName: "type",
+                    type: {
+                        name: "String"
+                    }
+                } })
+        }
+    };
+    var BackendPoolUpdateParameters = {
+        serializedName: "BackendPoolUpdateParameters",
+        type: {
+            name: "Composite",
+            className: "BackendPoolUpdateParameters",
+            modelProperties: {
+                backends: {
+                    serializedName: "backends",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "Backend"
+                            }
+                        }
+                    }
+                },
+                loadBalancingSettings: {
+                    serializedName: "loadBalancingSettings",
+                    type: {
+                        name: "Composite",
+                        className: "SubResource"
+                    }
+                },
+                healthProbeSettings: {
+                    serializedName: "healthProbeSettings",
+                    type: {
+                        name: "Composite",
+                        className: "SubResource"
+                    }
+                }
+            }
+        }
+    };
+    var BackendPoolProperties = {
+        serializedName: "BackendPoolProperties",
+        type: {
+            name: "Composite",
+            className: "BackendPoolProperties",
+            modelProperties: __assign({}, BackendPoolUpdateParameters.type.modelProperties, { resourceState: {
+                    serializedName: "resourceState",
                     type: {
                         name: "String"
                     }
@@ -902,6 +1224,49 @@
             }
         }
     };
+    var KeyVaultCertificateSourceParameters = {
+        serializedName: "KeyVaultCertificateSourceParameters",
+        type: {
+            name: "Composite",
+            className: "KeyVaultCertificateSourceParameters",
+            modelProperties: {
+                vault: {
+                    serializedName: "vault",
+                    type: {
+                        name: "Composite",
+                        className: "KeyVaultCertificateSourceParametersVault"
+                    }
+                },
+                secretName: {
+                    serializedName: "secretName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                secretVersion: {
+                    serializedName: "secretVersion",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var FrontDoorCertificateSourceParameters = {
+        serializedName: "FrontDoorCertificateSourceParameters",
+        type: {
+            name: "Composite",
+            className: "FrontDoorCertificateSourceParameters",
+            modelProperties: {
+                certificateType: {
+                    serializedName: "certificateType",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var CustomHttpsConfiguration = {
         serializedName: "CustomHttpsConfiguration",
         type: {
@@ -946,6 +1311,72 @@
                     }
                 }
             }
+        }
+    };
+    var FrontendEndpointUpdateParameters = {
+        serializedName: "FrontendEndpointUpdateParameters",
+        type: {
+            name: "Composite",
+            className: "FrontendEndpointUpdateParameters",
+            modelProperties: {
+                hostName: {
+                    serializedName: "hostName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                sessionAffinityEnabledState: {
+                    serializedName: "sessionAffinityEnabledState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                sessionAffinityTtlSeconds: {
+                    serializedName: "sessionAffinityTtlSeconds",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                webApplicationFirewallPolicyLink: {
+                    serializedName: "webApplicationFirewallPolicyLink",
+                    type: {
+                        name: "Composite",
+                        className: "FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink"
+                    }
+                }
+            }
+        }
+    };
+    var FrontendEndpointProperties = {
+        serializedName: "FrontendEndpointProperties",
+        type: {
+            name: "Composite",
+            className: "FrontendEndpointProperties",
+            modelProperties: __assign({}, FrontendEndpointUpdateParameters.type.modelProperties, { resourceState: {
+                    serializedName: "resourceState",
+                    type: {
+                        name: "String"
+                    }
+                }, customHttpsProvisioningState: {
+                    readOnly: true,
+                    serializedName: "customHttpsProvisioningState",
+                    type: {
+                        name: "String"
+                    }
+                }, customHttpsProvisioningSubstate: {
+                    readOnly: true,
+                    serializedName: "customHttpsProvisioningSubstate",
+                    type: {
+                        name: "String"
+                    }
+                }, customHttpsConfiguration: {
+                    readOnly: true,
+                    serializedName: "customHttpsConfiguration",
+                    type: {
+                        name: "Composite",
+                        className: "CustomHttpsConfiguration"
+                    }
+                } })
         }
     };
     var FrontendEndpoint = {
@@ -1012,87 +1443,6 @@
                 } })
         }
     };
-    var FrontDoorUpdateParameters = {
-        serializedName: "FrontDoorUpdateParameters",
-        type: {
-            name: "Composite",
-            className: "FrontDoorUpdateParameters",
-            modelProperties: {
-                friendlyName: {
-                    serializedName: "friendlyName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                routingRules: {
-                    serializedName: "routingRules",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "RoutingRule"
-                            }
-                        }
-                    }
-                },
-                loadBalancingSettings: {
-                    serializedName: "loadBalancingSettings",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "LoadBalancingSettingsModel"
-                            }
-                        }
-                    }
-                },
-                healthProbeSettings: {
-                    serializedName: "healthProbeSettings",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "HealthProbeSettingsModel"
-                            }
-                        }
-                    }
-                },
-                backendPools: {
-                    serializedName: "backendPools",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "BackendPool"
-                            }
-                        }
-                    }
-                },
-                frontendEndpoints: {
-                    serializedName: "frontendEndpoints",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "FrontendEndpoint"
-                            }
-                        }
-                    }
-                },
-                enabledState: {
-                    serializedName: "enabledState",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var PurgeParameters = {
         serializedName: "PurgeParameters",
         type: {
@@ -1128,81 +1478,6 @@
                 },
                 dynamicCompression: {
                     serializedName: "dynamicCompression",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var RoutingRuleUpdateParameters = {
-        serializedName: "RoutingRuleUpdateParameters",
-        type: {
-            name: "Composite",
-            className: "RoutingRuleUpdateParameters",
-            modelProperties: {
-                frontendEndpoints: {
-                    serializedName: "frontendEndpoints",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "SubResource"
-                            }
-                        }
-                    }
-                },
-                acceptedProtocols: {
-                    serializedName: "acceptedProtocols",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                patternsToMatch: {
-                    serializedName: "patternsToMatch",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                customForwardingPath: {
-                    serializedName: "customForwardingPath",
-                    type: {
-                        name: "String"
-                    }
-                },
-                forwardingProtocol: {
-                    serializedName: "forwardingProtocol",
-                    type: {
-                        name: "String"
-                    }
-                },
-                cacheConfiguration: {
-                    serializedName: "cacheConfiguration",
-                    type: {
-                        name: "Composite",
-                        className: "CacheConfiguration"
-                    }
-                },
-                backendPool: {
-                    serializedName: "backendPool",
-                    type: {
-                        name: "Composite",
-                        className: "SubResource"
-                    }
-                },
-                enabledState: {
-                    serializedName: "enabledState",
                     type: {
                         name: "String"
                     }
@@ -1277,95 +1552,6 @@
             }
         }
     };
-    var LoadBalancingSettingsUpdateParameters = {
-        serializedName: "LoadBalancingSettingsUpdateParameters",
-        type: {
-            name: "Composite",
-            className: "LoadBalancingSettingsUpdateParameters",
-            modelProperties: {
-                sampleSize: {
-                    serializedName: "sampleSize",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                successfulSamplesRequired: {
-                    serializedName: "successfulSamplesRequired",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                additionalLatencyMilliseconds: {
-                    serializedName: "additionalLatencyMilliseconds",
-                    type: {
-                        name: "Number"
-                    }
-                }
-            }
-        }
-    };
-    var HealthProbeSettingsUpdateParameters = {
-        serializedName: "HealthProbeSettingsUpdateParameters",
-        type: {
-            name: "Composite",
-            className: "HealthProbeSettingsUpdateParameters",
-            modelProperties: {
-                path: {
-                    serializedName: "path",
-                    type: {
-                        name: "String"
-                    }
-                },
-                protocol: {
-                    serializedName: "protocol",
-                    type: {
-                        name: "String"
-                    }
-                },
-                intervalInSeconds: {
-                    serializedName: "intervalInSeconds",
-                    type: {
-                        name: "Number"
-                    }
-                }
-            }
-        }
-    };
-    var BackendPoolUpdateParameters = {
-        serializedName: "BackendPoolUpdateParameters",
-        type: {
-            name: "Composite",
-            className: "BackendPoolUpdateParameters",
-            modelProperties: {
-                backends: {
-                    serializedName: "backends",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "Backend"
-                            }
-                        }
-                    }
-                },
-                loadBalancingSettings: {
-                    serializedName: "loadBalancingSettings",
-                    type: {
-                        name: "Composite",
-                        className: "SubResource"
-                    }
-                },
-                healthProbeSettings: {
-                    serializedName: "healthProbeSettings",
-                    type: {
-                        name: "Composite",
-                        className: "SubResource"
-                    }
-                }
-            }
-        }
-    };
     var FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink = {
         serializedName: "FrontendEndpointUpdateParameters_webApplicationFirewallPolicyLink",
         type: {
@@ -1376,40 +1562,6 @@
                     serializedName: "id",
                     type: {
                         name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var FrontendEndpointUpdateParameters = {
-        serializedName: "FrontendEndpointUpdateParameters",
-        type: {
-            name: "Composite",
-            className: "FrontendEndpointUpdateParameters",
-            modelProperties: {
-                hostName: {
-                    serializedName: "hostName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                sessionAffinityEnabledState: {
-                    serializedName: "sessionAffinityEnabledState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                sessionAffinityTtlSeconds: {
-                    serializedName: "sessionAffinityTtlSeconds",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                webApplicationFirewallPolicyLink: {
-                    serializedName: "webApplicationFirewallPolicyLink",
-                    type: {
-                        name: "Composite",
-                        className: "FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink"
                     }
                 }
             }
@@ -1885,6 +2037,50 @@
             }
         }
     };
+    var WebApplicationFirewallPolicyPropertiesFormat = {
+        serializedName: "WebApplicationFirewallPolicyPropertiesFormat",
+        type: {
+            name: "Composite",
+            className: "WebApplicationFirewallPolicyPropertiesFormat",
+            modelProperties: {
+                policySettings: {
+                    serializedName: "policySettings",
+                    type: {
+                        name: "Composite",
+                        className: "PolicySettings"
+                    }
+                },
+                customRules: {
+                    serializedName: "customRules",
+                    type: {
+                        name: "Composite",
+                        className: "CustomRules"
+                    }
+                },
+                managedRules: {
+                    serializedName: "managedRules",
+                    type: {
+                        name: "Composite",
+                        className: "ManagedRuleSets"
+                    }
+                },
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                resourceState: {
+                    readOnly: true,
+                    serializedName: "resourceState",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var WebApplicationFirewallPolicy1 = {
         serializedName: "WebApplicationFirewallPolicy",
         type: {
@@ -2176,26 +2372,34 @@
     var Mappers = /*#__PURE__*/Object.freeze({
         CloudError: CloudError,
         BaseResource: BaseResource,
+        FrontDoorUpdateParameters: FrontDoorUpdateParameters,
+        FrontDoorProperties: FrontDoorProperties,
         Resource: Resource,
         FrontDoor: FrontDoor,
+        RoutingRuleUpdateParameters: RoutingRuleUpdateParameters,
+        RoutingRuleProperties: RoutingRuleProperties,
         SubResource: SubResource,
         RoutingRule: RoutingRule,
+        LoadBalancingSettingsUpdateParameters: LoadBalancingSettingsUpdateParameters,
+        LoadBalancingSettingsProperties: LoadBalancingSettingsProperties,
         LoadBalancingSettingsModel: LoadBalancingSettingsModel,
+        HealthProbeSettingsUpdateParameters: HealthProbeSettingsUpdateParameters,
+        HealthProbeSettingsProperties: HealthProbeSettingsProperties,
         HealthProbeSettingsModel: HealthProbeSettingsModel,
+        BackendPoolUpdateParameters: BackendPoolUpdateParameters,
+        BackendPoolProperties: BackendPoolProperties,
         BackendPool: BackendPool,
         KeyVaultCertificateSourceParametersVault: KeyVaultCertificateSourceParametersVault,
+        KeyVaultCertificateSourceParameters: KeyVaultCertificateSourceParameters,
+        FrontDoorCertificateSourceParameters: FrontDoorCertificateSourceParameters,
         CustomHttpsConfiguration: CustomHttpsConfiguration,
+        FrontendEndpointUpdateParameters: FrontendEndpointUpdateParameters,
+        FrontendEndpointProperties: FrontendEndpointProperties,
         FrontendEndpoint: FrontendEndpoint,
-        FrontDoorUpdateParameters: FrontDoorUpdateParameters,
         PurgeParameters: PurgeParameters,
         CacheConfiguration: CacheConfiguration,
-        RoutingRuleUpdateParameters: RoutingRuleUpdateParameters,
         Backend: Backend,
-        LoadBalancingSettingsUpdateParameters: LoadBalancingSettingsUpdateParameters,
-        HealthProbeSettingsUpdateParameters: HealthProbeSettingsUpdateParameters,
-        BackendPoolUpdateParameters: BackendPoolUpdateParameters,
         FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink: FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink,
-        FrontendEndpointUpdateParameters: FrontendEndpointUpdateParameters,
         ValidateCustomDomainInput: ValidateCustomDomainInput,
         ValidateCustomDomainOutput: ValidateCustomDomainOutput,
         ErrorResponse: ErrorResponse,
@@ -2211,6 +2415,7 @@
         CustomRules: CustomRules,
         ManagedRuleSet: ManagedRuleSet,
         ManagedRuleSets: ManagedRuleSets,
+        WebApplicationFirewallPolicyPropertiesFormat: WebApplicationFirewallPolicyPropertiesFormat,
         WebApplicationFirewallPolicy1: WebApplicationFirewallPolicy1,
         AzureManagedOverrideRuleGroup: AzureManagedOverrideRuleGroup,
         AzureManagedRuleSet: AzureManagedRuleSet,

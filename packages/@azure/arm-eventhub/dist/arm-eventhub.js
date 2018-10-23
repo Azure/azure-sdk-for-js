@@ -190,21 +190,6 @@
         RoleDisasterRecovery["PrimaryNotReplicating"] = "PrimaryNotReplicating";
         RoleDisasterRecovery["Secondary"] = "Secondary";
     })(RoleDisasterRecovery || (RoleDisasterRecovery = {}));
-    /**
-     * Defines values for IPAction.
-     * Possible values include: 'Accept', 'Reject'
-     * There could be more values for this enum apart from the ones defined here.If
-     * you want to set a value that is not from the known values then you can do
-     * the following:
-     * let param: IPAction = <IPAction>"someUnknownValueThatWillStillBeValid";
-     * @readonly
-     * @enum {string}
-     */
-    var IPAction;
-    (function (IPAction) {
-        IPAction["Accept"] = "Accept";
-        IPAction["Reject"] = "Reject";
-    })(IPAction || (IPAction = {}));
 
     var index = /*#__PURE__*/Object.freeze({
         get SkuName () { return SkuName; },
@@ -215,8 +200,7 @@
         get EncodingCaptureDescription () { return EncodingCaptureDescription; },
         get UnavailableReason () { return UnavailableReason; },
         get ProvisioningStateDR () { return ProvisioningStateDR; },
-        get RoleDisasterRecovery () { return RoleDisasterRecovery; },
-        get IPAction () { return IPAction; }
+        get RoleDisasterRecovery () { return RoleDisasterRecovery; }
     });
 
     /*
@@ -315,6 +299,66 @@
             }
         }
     };
+    var EHNamespaceProperties = {
+        serializedName: "EHNamespace_properties",
+        type: {
+            name: "Composite",
+            className: "EHNamespaceProperties",
+            modelProperties: {
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                createdAt: {
+                    readOnly: true,
+                    serializedName: "createdAt",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                updatedAt: {
+                    readOnly: true,
+                    serializedName: "updatedAt",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                serviceBusEndpoint: {
+                    readOnly: true,
+                    serializedName: "serviceBusEndpoint",
+                    type: {
+                        name: "String"
+                    }
+                },
+                metricId: {
+                    readOnly: true,
+                    serializedName: "metricId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                isAutoInflateEnabled: {
+                    serializedName: "isAutoInflateEnabled",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                maximumThroughputUnits: {
+                    serializedName: "maximumThroughputUnits",
+                    constraints: {
+                        InclusiveMaximum: 20,
+                        InclusiveMinimum: 0
+                    },
+                    type: {
+                        name: "Number"
+                    }
+                }
+            }
+        }
+    };
     var EHNamespace = {
         serializedName: "EHNamespace",
         type: {
@@ -370,12 +414,28 @@
                     type: {
                         name: "Number"
                     }
-                }, kafkaEnabled: {
-                    serializedName: "properties.kafkaEnabled",
-                    type: {
-                        name: "Boolean"
-                    }
                 } })
+        }
+    };
+    var AuthorizationRuleProperties = {
+        serializedName: "AuthorizationRule_properties",
+        type: {
+            name: "Composite",
+            className: "AuthorizationRuleProperties",
+            modelProperties: {
+                rights: {
+                    required: true,
+                    serializedName: "rights",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                }
+            }
         }
     };
     var AuthorizationRule = {
@@ -481,6 +541,33 @@
             }
         }
     };
+    var DestinationProperties = {
+        serializedName: "Destination_properties",
+        type: {
+            name: "Composite",
+            className: "DestinationProperties",
+            modelProperties: {
+                storageAccountResourceId: {
+                    serializedName: "storageAccountResourceId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                blobContainer: {
+                    serializedName: "blobContainer",
+                    type: {
+                        name: "String"
+                    }
+                },
+                archiveNameFormat: {
+                    serializedName: "archiveNameFormat",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var Destination = {
         serializedName: "Destination",
         type: {
@@ -566,6 +653,83 @@
             }
         }
     };
+    var EventhubProperties = {
+        serializedName: "Eventhub_properties",
+        type: {
+            name: "Composite",
+            className: "EventhubProperties",
+            modelProperties: {
+                partitionIds: {
+                    readOnly: true,
+                    serializedName: "partitionIds",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                createdAt: {
+                    readOnly: true,
+                    serializedName: "createdAt",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                updatedAt: {
+                    readOnly: true,
+                    serializedName: "updatedAt",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                messageRetentionInDays: {
+                    serializedName: "messageRetentionInDays",
+                    constraints: {
+                        InclusiveMinimum: 1
+                    },
+                    type: {
+                        name: "Number"
+                    }
+                },
+                partitionCount: {
+                    serializedName: "partitionCount",
+                    constraints: {
+                        InclusiveMinimum: 1
+                    },
+                    type: {
+                        name: "Number"
+                    }
+                },
+                status: {
+                    serializedName: "status",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Active",
+                            "Disabled",
+                            "Restoring",
+                            "SendDisabled",
+                            "ReceiveDisabled",
+                            "Creating",
+                            "Deleting",
+                            "Renaming",
+                            "Unknown"
+                        ]
+                    }
+                },
+                captureDescription: {
+                    serializedName: "captureDescription",
+                    type: {
+                        name: "Composite",
+                        className: "CaptureDescription"
+                    }
+                }
+            }
+        }
+    };
     var Eventhub = {
         serializedName: "Eventhub",
         type: {
@@ -633,6 +797,35 @@
                         className: "CaptureDescription"
                     }
                 } })
+        }
+    };
+    var ConsumerGroupProperties = {
+        serializedName: "ConsumerGroup_properties",
+        type: {
+            name: "Composite",
+            className: "ConsumerGroupProperties",
+            modelProperties: {
+                createdAt: {
+                    readOnly: true,
+                    serializedName: "createdAt",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                updatedAt: {
+                    readOnly: true,
+                    serializedName: "updatedAt",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                userMetadata: {
+                    serializedName: "userMetadata",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
         }
     };
     var ConsumerGroup = {
@@ -786,6 +979,58 @@
             }
         }
     };
+    var ArmDisasterRecoveryProperties = {
+        serializedName: "ArmDisasterRecovery_properties",
+        type: {
+            name: "Composite",
+            className: "ArmDisasterRecoveryProperties",
+            modelProperties: {
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Accepted",
+                            "Succeeded",
+                            "Failed"
+                        ]
+                    }
+                },
+                partnerNamespace: {
+                    serializedName: "partnerNamespace",
+                    type: {
+                        name: "String"
+                    }
+                },
+                alternateName: {
+                    serializedName: "alternateName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                role: {
+                    readOnly: true,
+                    serializedName: "role",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Primary",
+                            "PrimaryNotReplicating",
+                            "Secondary"
+                        ]
+                    }
+                },
+                pendingReplicationOperationsCount: {
+                    readOnly: true,
+                    serializedName: "pendingReplicationOperationsCount",
+                    type: {
+                        name: "Number"
+                    }
+                }
+            }
+        }
+    };
     var ArmDisasterRecovery = {
         serializedName: "ArmDisasterRecovery",
         type: {
@@ -869,6 +1114,43 @@
                 } })
         }
     };
+    var MessagingPlanProperties = {
+        serializedName: "MessagingPlan_properties",
+        type: {
+            name: "Composite",
+            className: "MessagingPlanProperties",
+            modelProperties: {
+                sku: {
+                    readOnly: true,
+                    serializedName: "sku",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                selectedEventHubUnit: {
+                    readOnly: true,
+                    serializedName: "selectedEventHubUnit",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                updatedAt: {
+                    readOnly: true,
+                    serializedName: "updatedAt",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                revision: {
+                    readOnly: true,
+                    serializedName: "revision",
+                    type: {
+                        name: "Number"
+                    }
+                }
+            }
+        }
+    };
     var MessagingPlan = {
         serializedName: "MessagingPlan",
         type: {
@@ -897,42 +1179,6 @@
                     serializedName: "properties.revision",
                     type: {
                         name: "Number"
-                    }
-                } })
-        }
-    };
-    var IpFilterRule = {
-        serializedName: "IpFilterRule",
-        type: {
-            name: "Composite",
-            className: "IpFilterRule",
-            modelProperties: __assign({}, Resource.type.modelProperties, { ipMask: {
-                    serializedName: "properties.ipMask",
-                    type: {
-                        name: "String"
-                    }
-                }, action: {
-                    serializedName: "properties.action",
-                    type: {
-                        name: "String"
-                    }
-                }, filterName: {
-                    serializedName: "properties.filterName",
-                    type: {
-                        name: "String"
-                    }
-                } })
-        }
-    };
-    var VirtualNetworkRule = {
-        serializedName: "VirtualNetworkRule",
-        type: {
-            name: "Composite",
-            className: "VirtualNetworkRule",
-            modelProperties: __assign({}, Resource.type.modelProperties, { virtualNetworkSubnetId: {
-                    serializedName: "properties.virtualNetworkSubnetId",
-                    type: {
-                        name: "String"
                     }
                 } })
         }
@@ -1007,60 +1253,6 @@
                             type: {
                                 name: "Composite",
                                 className: "AuthorizationRule"
-                            }
-                        }
-                    }
-                },
-                nextLink: {
-                    serializedName: "nextLink",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var IpFilterRuleListResult = {
-        serializedName: "IpFilterRuleListResult",
-        type: {
-            name: "Composite",
-            className: "IpFilterRuleListResult",
-            modelProperties: {
-                value: {
-                    serializedName: "",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "IpFilterRule"
-                            }
-                        }
-                    }
-                },
-                nextLink: {
-                    serializedName: "nextLink",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var VirtualNetworkRuleListResult = {
-        serializedName: "VirtualNetworkRuleListResult",
-        type: {
-            name: "Composite",
-            className: "VirtualNetworkRuleListResult",
-            modelProperties: {
-                value: {
-                    serializedName: "",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "VirtualNetworkRule"
                             }
                         }
                     }
@@ -1191,30 +1383,33 @@
         Resource: Resource,
         TrackedResource: TrackedResource,
         Sku: Sku,
+        EHNamespaceProperties: EHNamespaceProperties,
         EHNamespace: EHNamespace,
+        AuthorizationRuleProperties: AuthorizationRuleProperties,
         AuthorizationRule: AuthorizationRule,
         AccessKeys: AccessKeys,
         RegenerateAccessKeyParameters: RegenerateAccessKeyParameters,
+        DestinationProperties: DestinationProperties,
         Destination: Destination,
         CaptureDescription: CaptureDescription,
+        EventhubProperties: EventhubProperties,
         Eventhub: Eventhub,
+        ConsumerGroupProperties: ConsumerGroupProperties,
         ConsumerGroup: ConsumerGroup,
         CheckNameAvailabilityParameter: CheckNameAvailabilityParameter,
         CheckNameAvailabilityResult: CheckNameAvailabilityResult,
         OperationDisplay: OperationDisplay,
         Operation: Operation,
         ErrorResponse: ErrorResponse,
+        ArmDisasterRecoveryProperties: ArmDisasterRecoveryProperties,
         ArmDisasterRecovery: ArmDisasterRecovery,
         MessagingRegionsProperties: MessagingRegionsProperties,
         MessagingRegions: MessagingRegions,
+        MessagingPlanProperties: MessagingPlanProperties,
         MessagingPlan: MessagingPlan,
-        IpFilterRule: IpFilterRule,
-        VirtualNetworkRule: VirtualNetworkRule,
         OperationListResult: OperationListResult,
         EHNamespaceListResult: EHNamespaceListResult,
         AuthorizationRuleListResult: AuthorizationRuleListResult,
-        IpFilterRuleListResult: IpFilterRuleListResult,
-        VirtualNetworkRuleListResult: VirtualNetworkRuleListResult,
         ArmDisasterRecoveryListResult: ArmDisasterRecoveryListResult,
         EventHubListResult: EventHubListResult,
         ConsumerGroupListResult: ConsumerGroupListResult,
@@ -1321,19 +1516,6 @@
             }
         }
     };
-    var ipFilterRuleName = {
-        parameterPath: "ipFilterRuleName",
-        mapper: {
-            required: true,
-            serializedName: "ipFilterRuleName",
-            constraints: {
-                MinLength: 1
-            },
-            type: {
-                name: "String"
-            }
-        }
-    };
     var namespaceName = {
         parameterPath: "namespaceName",
         mapper: {
@@ -1426,19 +1608,6 @@
             },
             type: {
                 name: "Number"
-            }
-        }
-    };
-    var virtualNetworkRuleName = {
-        parameterPath: "virtualNetworkRuleName",
-        mapper: {
-            required: true,
-            serializedName: "virtualNetworkRuleName",
-            constraints: {
-                MinLength: 1
-            },
-            type: {
-                name: "String"
             }
         }
     };
@@ -1541,10 +1710,6 @@
         AuthorizationRule: AuthorizationRule,
         AccessKeys: AccessKeys,
         RegenerateAccessKeyParameters: RegenerateAccessKeyParameters,
-        IpFilterRuleListResult: IpFilterRuleListResult,
-        IpFilterRule: IpFilterRule,
-        VirtualNetworkRuleListResult: VirtualNetworkRuleListResult,
-        VirtualNetworkRule: VirtualNetworkRule,
         Eventhub: Eventhub,
         CaptureDescription: CaptureDescription,
         Destination: Destination,
@@ -1685,70 +1850,6 @@
                 options: options
             }, regenerateKeysOperationSpec, callback);
         };
-        Namespaces.prototype.listIPFilterRules = function (resourceGroupName$$1, namespaceName$$1, options, callback) {
-            return this.client.sendOperationRequest({
-                resourceGroupName: resourceGroupName$$1,
-                namespaceName: namespaceName$$1,
-                options: options
-            }, listIPFilterRulesOperationSpec, callback);
-        };
-        Namespaces.prototype.createOrUpdateIpFilterRule = function (resourceGroupName$$1, namespaceName$$1, ipFilterRuleName$$1, parameters, options, callback) {
-            return this.client.sendOperationRequest({
-                resourceGroupName: resourceGroupName$$1,
-                namespaceName: namespaceName$$1,
-                ipFilterRuleName: ipFilterRuleName$$1,
-                parameters: parameters,
-                options: options
-            }, createOrUpdateIpFilterRuleOperationSpec, callback);
-        };
-        Namespaces.prototype.deleteIpFilterRule = function (resourceGroupName$$1, namespaceName$$1, ipFilterRuleName$$1, options, callback) {
-            return this.client.sendOperationRequest({
-                resourceGroupName: resourceGroupName$$1,
-                namespaceName: namespaceName$$1,
-                ipFilterRuleName: ipFilterRuleName$$1,
-                options: options
-            }, deleteIpFilterRuleOperationSpec, callback);
-        };
-        Namespaces.prototype.getIpFilterRule = function (resourceGroupName$$1, namespaceName$$1, ipFilterRuleName$$1, options, callback) {
-            return this.client.sendOperationRequest({
-                resourceGroupName: resourceGroupName$$1,
-                namespaceName: namespaceName$$1,
-                ipFilterRuleName: ipFilterRuleName$$1,
-                options: options
-            }, getIpFilterRuleOperationSpec, callback);
-        };
-        Namespaces.prototype.listVirtualNetworkRules = function (resourceGroupName$$1, namespaceName$$1, options, callback) {
-            return this.client.sendOperationRequest({
-                resourceGroupName: resourceGroupName$$1,
-                namespaceName: namespaceName$$1,
-                options: options
-            }, listVirtualNetworkRulesOperationSpec, callback);
-        };
-        Namespaces.prototype.createOrUpdateVirtualNetworkRule = function (resourceGroupName$$1, namespaceName$$1, virtualNetworkRuleName$$1, parameters, options, callback) {
-            return this.client.sendOperationRequest({
-                resourceGroupName: resourceGroupName$$1,
-                namespaceName: namespaceName$$1,
-                virtualNetworkRuleName: virtualNetworkRuleName$$1,
-                parameters: parameters,
-                options: options
-            }, createOrUpdateVirtualNetworkRuleOperationSpec, callback);
-        };
-        Namespaces.prototype.deleteVirtualNetworkRule = function (resourceGroupName$$1, namespaceName$$1, virtualNetworkRuleName$$1, options, callback) {
-            return this.client.sendOperationRequest({
-                resourceGroupName: resourceGroupName$$1,
-                namespaceName: namespaceName$$1,
-                virtualNetworkRuleName: virtualNetworkRuleName$$1,
-                options: options
-            }, deleteVirtualNetworkRuleOperationSpec, callback);
-        };
-        Namespaces.prototype.getVirtualNetworkRule = function (resourceGroupName$$1, namespaceName$$1, virtualNetworkRuleName$$1, options, callback) {
-            return this.client.sendOperationRequest({
-                resourceGroupName: resourceGroupName$$1,
-                namespaceName: namespaceName$$1,
-                virtualNetworkRuleName: virtualNetworkRuleName$$1,
-                options: options
-            }, getVirtualNetworkRuleOperationSpec, callback);
-        };
         /**
          * Creates or updates a namespace. Once created, this namespace's resource manifest is immutable.
          * This operation is idempotent.
@@ -1798,18 +1899,6 @@
                 nextPageLink: nextPageLink$$1,
                 options: options
             }, listAuthorizationRulesNextOperationSpec, callback);
-        };
-        Namespaces.prototype.listIPFilterRulesNext = function (nextPageLink$$1, options, callback) {
-            return this.client.sendOperationRequest({
-                nextPageLink: nextPageLink$$1,
-                options: options
-            }, listIPFilterRulesNextOperationSpec, callback);
-        };
-        Namespaces.prototype.listVirtualNetworkRulesNext = function (nextPageLink$$1, options, callback) {
-            return this.client.sendOperationRequest({
-                nextPageLink: nextPageLink$$1,
-                options: options
-            }, listVirtualNetworkRulesNextOperationSpec, callback);
         };
         return Namespaces;
     }());
@@ -2125,210 +2214,6 @@
         },
         serializer: serializer$1
     };
-    var listIPFilterRulesOperationSpec = {
-        httpMethod: "GET",
-        path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/ipfilterrules",
-        urlParameters: [
-            resourceGroupName,
-            namespaceName,
-            subscriptionId
-        ],
-        queryParameters: [
-            apiVersion
-        ],
-        headerParameters: [
-            acceptLanguage
-        ],
-        responses: {
-            200: {
-                bodyMapper: IpFilterRuleListResult
-            },
-            default: {
-                bodyMapper: ErrorResponse
-            }
-        },
-        serializer: serializer$1
-    };
-    var createOrUpdateIpFilterRuleOperationSpec = {
-        httpMethod: "PUT",
-        path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/ipfilterrules/{ipFilterRuleName}",
-        urlParameters: [
-            resourceGroupName,
-            namespaceName,
-            ipFilterRuleName,
-            subscriptionId
-        ],
-        queryParameters: [
-            apiVersion
-        ],
-        headerParameters: [
-            acceptLanguage
-        ],
-        requestBody: {
-            parameterPath: "parameters",
-            mapper: __assign({}, IpFilterRule, { required: true })
-        },
-        responses: {
-            200: {
-                bodyMapper: IpFilterRule
-            },
-            default: {
-                bodyMapper: ErrorResponse
-            }
-        },
-        serializer: serializer$1
-    };
-    var deleteIpFilterRuleOperationSpec = {
-        httpMethod: "DELETE",
-        path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/ipfilterrules/{ipFilterRuleName}",
-        urlParameters: [
-            resourceGroupName,
-            namespaceName,
-            ipFilterRuleName,
-            subscriptionId
-        ],
-        queryParameters: [
-            apiVersion
-        ],
-        headerParameters: [
-            acceptLanguage
-        ],
-        responses: {
-            200: {},
-            204: {},
-            default: {
-                bodyMapper: ErrorResponse
-            }
-        },
-        serializer: serializer$1
-    };
-    var getIpFilterRuleOperationSpec = {
-        httpMethod: "GET",
-        path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/ipfilterrules/{ipFilterRuleName}",
-        urlParameters: [
-            resourceGroupName,
-            namespaceName,
-            ipFilterRuleName,
-            subscriptionId
-        ],
-        queryParameters: [
-            apiVersion
-        ],
-        headerParameters: [
-            acceptLanguage
-        ],
-        responses: {
-            200: {
-                bodyMapper: IpFilterRule
-            },
-            default: {
-                bodyMapper: ErrorResponse
-            }
-        },
-        serializer: serializer$1
-    };
-    var listVirtualNetworkRulesOperationSpec = {
-        httpMethod: "GET",
-        path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/virtualnetworkrules",
-        urlParameters: [
-            resourceGroupName,
-            namespaceName,
-            subscriptionId
-        ],
-        queryParameters: [
-            apiVersion
-        ],
-        headerParameters: [
-            acceptLanguage
-        ],
-        responses: {
-            200: {
-                bodyMapper: VirtualNetworkRuleListResult
-            },
-            default: {
-                bodyMapper: ErrorResponse
-            }
-        },
-        serializer: serializer$1
-    };
-    var createOrUpdateVirtualNetworkRuleOperationSpec = {
-        httpMethod: "PUT",
-        path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/virtualnetworkrules/{virtualNetworkRuleName}",
-        urlParameters: [
-            resourceGroupName,
-            namespaceName,
-            virtualNetworkRuleName,
-            subscriptionId
-        ],
-        queryParameters: [
-            apiVersion
-        ],
-        headerParameters: [
-            acceptLanguage
-        ],
-        requestBody: {
-            parameterPath: "parameters",
-            mapper: __assign({}, VirtualNetworkRule, { required: true })
-        },
-        responses: {
-            200: {
-                bodyMapper: VirtualNetworkRule
-            },
-            default: {
-                bodyMapper: ErrorResponse
-            }
-        },
-        serializer: serializer$1
-    };
-    var deleteVirtualNetworkRuleOperationSpec = {
-        httpMethod: "DELETE",
-        path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/virtualnetworkrules/{virtualNetworkRuleName}",
-        urlParameters: [
-            resourceGroupName,
-            namespaceName,
-            virtualNetworkRuleName,
-            subscriptionId
-        ],
-        queryParameters: [
-            apiVersion
-        ],
-        headerParameters: [
-            acceptLanguage
-        ],
-        responses: {
-            200: {},
-            204: {},
-            default: {
-                bodyMapper: ErrorResponse
-            }
-        },
-        serializer: serializer$1
-    };
-    var getVirtualNetworkRuleOperationSpec = {
-        httpMethod: "GET",
-        path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/virtualnetworkrules/{virtualNetworkRuleName}",
-        urlParameters: [
-            resourceGroupName,
-            namespaceName,
-            virtualNetworkRuleName,
-            subscriptionId
-        ],
-        queryParameters: [
-            apiVersion
-        ],
-        headerParameters: [
-            acceptLanguage
-        ],
-        responses: {
-            200: {
-                bodyMapper: VirtualNetworkRule
-            },
-            default: {
-                bodyMapper: ErrorResponse
-            }
-        },
-        serializer: serializer$1
-    };
     var beginCreateOrUpdateOperationSpec = {
         httpMethod: "PUT",
         path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}",
@@ -2445,46 +2330,6 @@
         },
         serializer: serializer$1
     };
-    var listIPFilterRulesNextOperationSpec = {
-        httpMethod: "GET",
-        baseUrl: "https://management.azure.com",
-        path: "{nextLink}",
-        urlParameters: [
-            nextPageLink
-        ],
-        headerParameters: [
-            acceptLanguage
-        ],
-        responses: {
-            200: {
-                bodyMapper: IpFilterRuleListResult
-            },
-            default: {
-                bodyMapper: ErrorResponse
-            }
-        },
-        serializer: serializer$1
-    };
-    var listVirtualNetworkRulesNextOperationSpec = {
-        httpMethod: "GET",
-        baseUrl: "https://management.azure.com",
-        path: "{nextLink}",
-        urlParameters: [
-            nextPageLink
-        ],
-        headerParameters: [
-            acceptLanguage
-        ],
-        responses: {
-            200: {
-                bodyMapper: VirtualNetworkRuleListResult
-            },
-            default: {
-                bodyMapper: ErrorResponse
-            }
-        },
-        serializer: serializer$1
-    };
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2516,9 +2361,7 @@
         ConsumerGroup: ConsumerGroup,
         MessagingRegions: MessagingRegions,
         MessagingRegionsProperties: MessagingRegionsProperties,
-        MessagingPlan: MessagingPlan,
-        IpFilterRule: IpFilterRule,
-        VirtualNetworkRule: VirtualNetworkRule
+        MessagingPlan: MessagingPlan
     });
 
     /*
@@ -2960,9 +2803,7 @@
         ArmDisasterRecovery: ArmDisasterRecovery,
         MessagingRegions: MessagingRegions,
         MessagingRegionsProperties: MessagingRegionsProperties,
-        MessagingPlan: MessagingPlan,
-        IpFilterRule: IpFilterRule,
-        VirtualNetworkRule: VirtualNetworkRule
+        MessagingPlan: MessagingPlan
     });
 
     /*
@@ -3419,9 +3260,7 @@
         ArmDisasterRecovery: ArmDisasterRecovery,
         MessagingRegions: MessagingRegions,
         MessagingRegionsProperties: MessagingRegionsProperties,
-        MessagingPlan: MessagingPlan,
-        IpFilterRule: IpFilterRule,
-        VirtualNetworkRule: VirtualNetworkRule
+        MessagingPlan: MessagingPlan
     });
 
     /*
@@ -3643,9 +3482,7 @@
         Destination: Destination,
         ConsumerGroup: ConsumerGroup,
         ArmDisasterRecovery: ArmDisasterRecovery,
-        MessagingPlan: MessagingPlan,
-        IpFilterRule: IpFilterRule,
-        VirtualNetworkRule: VirtualNetworkRule
+        MessagingPlan: MessagingPlan
     });
 
     /*

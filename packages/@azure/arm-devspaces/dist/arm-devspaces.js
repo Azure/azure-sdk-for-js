@@ -137,6 +137,50 @@
             }
         }
     };
+    var ControllerProperties = {
+        serializedName: "ControllerProperties",
+        type: {
+            name: "Composite",
+            className: "ControllerProperties",
+            modelProperties: {
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                hostSuffix: {
+                    required: true,
+                    serializedName: "hostSuffix",
+                    type: {
+                        name: "String"
+                    }
+                },
+                dataPlaneFqdn: {
+                    readOnly: true,
+                    serializedName: "dataPlaneFqdn",
+                    type: {
+                        name: "String"
+                    }
+                },
+                targetContainerHostResourceId: {
+                    required: true,
+                    serializedName: "targetContainerHostResourceId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                targetContainerHostCredentialsBase64: {
+                    required: true,
+                    serializedName: "targetContainerHostCredentialsBase64",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var Sku = {
         serializedName: "Sku",
         type: {
@@ -545,6 +589,7 @@
         CloudError: CloudError,
         BaseResource: BaseResource,
         ContainerHostMapping: ContainerHostMapping,
+        ControllerProperties: ControllerProperties,
         Sku: Sku,
         Resource: Resource,
         TrackedResource: TrackedResource,

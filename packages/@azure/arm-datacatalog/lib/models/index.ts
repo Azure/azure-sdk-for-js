@@ -33,6 +33,42 @@ export interface Principals {
 
 /**
  * @interface
+ * An interface representing ADCCatalogProperties.
+ * Properties of the data catalog.
+ *
+ */
+export interface ADCCatalogProperties {
+  /**
+   * @member {SkuType} [sku] Azure data catalog SKU. Possible values include:
+   * 'Free', 'Standard'
+   */
+  sku?: SkuType;
+  /**
+   * @member {number} [units] Azure data catalog units.
+   */
+  units?: number;
+  /**
+   * @member {Principals[]} [admins] Azure data catalog admin list.
+   */
+  admins?: Principals[];
+  /**
+   * @member {Principals[]} [users] Azure data catalog user list.
+   */
+  users?: Principals[];
+  /**
+   * @member {boolean} [successfullyProvisioned] Azure data catalog provision
+   * status.
+   */
+  successfullyProvisioned?: boolean;
+  /**
+   * @member {boolean} [enableAutomaticUnitAdjustment] Automatic unit
+   * adjustment enabled or not.
+   */
+  enableAutomaticUnitAdjustment?: boolean;
+}
+
+/**
+ * @interface
  * An interface representing Resource.
  * The Resource model definition.
  *

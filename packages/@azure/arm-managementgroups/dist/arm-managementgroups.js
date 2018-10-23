@@ -446,6 +446,27 @@
             }
         }
     };
+    var ManagementGroupInfoProperties = {
+        serializedName: "ManagementGroupInfoProperties",
+        type: {
+            name: "Composite",
+            className: "ManagementGroupInfoProperties",
+            modelProperties: {
+                tenantId: {
+                    serializedName: "tenantId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                displayName: {
+                    serializedName: "displayName",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var ManagementGroupInfo = {
         serializedName: "ManagementGroupInfo",
         type: {
@@ -605,6 +626,59 @@
             }
         }
     };
+    var ManagementGroupProperties = {
+        serializedName: "ManagementGroupProperties",
+        type: {
+            name: "Composite",
+            className: "ManagementGroupProperties",
+            modelProperties: {
+                tenantId: {
+                    serializedName: "tenantId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                displayName: {
+                    serializedName: "displayName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                roles: {
+                    nullable: true,
+                    serializedName: "roles",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                details: {
+                    serializedName: "details",
+                    type: {
+                        name: "Composite",
+                        className: "ManagementGroupDetails"
+                    }
+                },
+                children: {
+                    nullable: true,
+                    serializedName: "children",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "ManagementGroupChildInfo"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
     var ManagementGroup = {
         serializedName: "ManagementGroup",
         type: {
@@ -679,6 +753,21 @@
             }
         }
     };
+    var OperationResultsProperties = {
+        serializedName: "OperationResults_properties",
+        type: {
+            name: "Composite",
+            className: "OperationResultsProperties",
+            modelProperties: {
+                provisioningState: {
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var OperationResults = {
         serializedName: "OperationResults",
         type: {
@@ -725,6 +814,94 @@
                     serializedName: "id",
                     type: {
                         name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var EntityInfoProperties = {
+        serializedName: "EntityInfoProperties",
+        type: {
+            name: "Composite",
+            className: "EntityInfoProperties",
+            modelProperties: {
+                tenantId: {
+                    nullable: true,
+                    serializedName: "tenantId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                displayName: {
+                    nullable: true,
+                    serializedName: "displayName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                parent: {
+                    nullable: true,
+                    serializedName: "parent",
+                    type: {
+                        name: "Composite",
+                        className: "EntityParentGroupInfo"
+                    }
+                },
+                permissions: {
+                    serializedName: "permissions",
+                    type: {
+                        name: "String"
+                    }
+                },
+                inheritedPermissions: {
+                    serializedName: "inheritedPermissions",
+                    type: {
+                        name: "String"
+                    }
+                },
+                numberOfDescendants: {
+                    nullable: true,
+                    serializedName: "numberOfDescendants",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                numberOfChildren: {
+                    nullable: true,
+                    serializedName: "numberOfChildren",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                numberOfChildGroups: {
+                    nullable: true,
+                    serializedName: "numberOfChildGroups",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                parentDisplayNameChain: {
+                    nullable: true,
+                    serializedName: "parentDisplayNameChain",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                parentNameChain: {
+                    nullable: true,
+                    serializedName: "parentNameChain",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
                     }
                 }
             }
@@ -834,6 +1011,40 @@
                         element: {
                             type: {
                                 name: "String"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
+    var EntityHierarchyItemProperties = {
+        serializedName: "EntityHierarchyItemProperties",
+        type: {
+            name: "Composite",
+            className: "EntityHierarchyItemProperties",
+            modelProperties: {
+                displayName: {
+                    serializedName: "displayName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                permissions: {
+                    serializedName: "permissions",
+                    type: {
+                        name: "String"
+                    }
+                },
+                children: {
+                    nullable: true,
+                    serializedName: "children",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "EntityHierarchyItem"
                             }
                         }
                     }
@@ -1032,6 +1243,63 @@
                     }
                 },
                 children: {
+                    readOnly: true,
+                    serializedName: "children",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "CreateManagementGroupChildInfo"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
+    var CreateManagementGroupProperties = {
+        serializedName: "CreateManagementGroupProperties",
+        type: {
+            name: "Composite",
+            className: "CreateManagementGroupProperties",
+            modelProperties: {
+                tenantId: {
+                    readOnly: true,
+                    serializedName: "tenantId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                displayName: {
+                    nullable: true,
+                    serializedName: "displayName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                roles: {
+                    nullable: true,
+                    readOnly: true,
+                    serializedName: "roles",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                details: {
+                    serializedName: "details",
+                    type: {
+                        name: "Composite",
+                        className: "CreateManagementGroupDetails"
+                    }
+                },
+                children: {
+                    nullable: true,
                     readOnly: true,
                     serializedName: "children",
                     type: {
@@ -1250,19 +1518,25 @@
         Operation: Operation,
         CheckNameAvailabilityResult: CheckNameAvailabilityResult,
         TenantBackfillStatusResult: TenantBackfillStatusResult,
+        ManagementGroupInfoProperties: ManagementGroupInfoProperties,
         ManagementGroupInfo: ManagementGroupInfo,
         ParentGroupInfo: ParentGroupInfo,
         ManagementGroupDetails: ManagementGroupDetails,
         ManagementGroupChildInfo: ManagementGroupChildInfo,
+        ManagementGroupProperties: ManagementGroupProperties,
         ManagementGroup: ManagementGroup,
+        OperationResultsProperties: OperationResultsProperties,
         OperationResults: OperationResults,
         EntityParentGroupInfo: EntityParentGroupInfo,
+        EntityInfoProperties: EntityInfoProperties,
         EntityInfo: EntityInfo,
+        EntityHierarchyItemProperties: EntityHierarchyItemProperties,
         EntityHierarchyItem: EntityHierarchyItem,
         PatchManagementGroupRequest: PatchManagementGroupRequest,
         CreateParentGroupInfo: CreateParentGroupInfo,
         CreateManagementGroupDetails: CreateManagementGroupDetails,
         CreateManagementGroupChildInfo: CreateManagementGroupChildInfo,
+        CreateManagementGroupProperties: CreateManagementGroupProperties,
         CreateManagementGroupRequest: CreateManagementGroupRequest,
         CheckNameAvailabilityRequest: CheckNameAvailabilityRequest,
         ManagementGroupListResult: ManagementGroupListResult,

@@ -14,6 +14,23 @@ import * as msRest from "ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
+export const EnrollmentAccountProperties: msRest.CompositeMapper = {
+  serializedName: "EnrollmentAccountProperties",
+  type: {
+    name: "Composite",
+    className: "EnrollmentAccountProperties",
+    modelProperties: {
+      principalName: {
+        readOnly: true,
+        serializedName: "principalName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
@@ -57,6 +74,42 @@ export const EnrollmentAccount: msRest.CompositeMapper = {
         serializedName: "properties.principalName",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BillingPeriodProperties: msRest.CompositeMapper = {
+  serializedName: "BillingPeriodProperties",
+  type: {
+    name: "Composite",
+    className: "BillingPeriodProperties",
+    modelProperties: {
+      billingPeriodStartDate: {
+        readOnly: true,
+        serializedName: "billingPeriodStartDate",
+        type: {
+          name: "Date"
+        }
+      },
+      billingPeriodEndDate: {
+        readOnly: true,
+        serializedName: "billingPeriodEndDate",
+        type: {
+          name: "Date"
+        }
+      },
+      invoiceIds: {
+        readOnly: true,
+        serializedName: "invoiceIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -166,6 +219,49 @@ export const ErrorResponse: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ErrorDetails"
+        }
+      }
+    }
+  }
+};
+
+export const InvoiceProperties: msRest.CompositeMapper = {
+  serializedName: "InvoiceProperties",
+  type: {
+    name: "Composite",
+    className: "InvoiceProperties",
+    modelProperties: {
+      downloadUrl: {
+        serializedName: "downloadUrl",
+        type: {
+          name: "Composite",
+          className: "DownloadUrl"
+        }
+      },
+      invoicePeriodStartDate: {
+        readOnly: true,
+        serializedName: "invoicePeriodStartDate",
+        type: {
+          name: "Date"
+        }
+      },
+      invoicePeriodEndDate: {
+        readOnly: true,
+        serializedName: "invoicePeriodEndDate",
+        type: {
+          name: "Date"
+        }
+      },
+      billingPeriodIds: {
+        readOnly: true,
+        serializedName: "billingPeriodIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }

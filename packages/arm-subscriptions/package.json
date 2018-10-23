@@ -1,0 +1,39 @@
+{
+  "name": "arm-subscriptions",
+  "author": "Microsoft Corporation",
+  "description": "SubscriptionClient Library with typescript type definitions for node.js and browser.",
+  "version": "1.0.0",
+  "dependencies": {
+    "ms-rest-azure-js": "~0.17.165",
+    "ms-rest-js": "~0.22.434"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "license": "MIT",
+  "main": "./cjs/subscriptionClient.js",
+  "module": "./esm/subscriptionClient.js",
+  "types": "./cjs/subscriptionClient.d.ts",
+  "devDependencies": {
+    "tslib": "^1.9.3",
+    "typescript": "^3.0.3",
+    "webpack": "^4.17.2",
+    "webpack-cli": "^3.1.0"
+  },
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/arm-subscriptions",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/azure/azure-sdk-for-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+  },
+  "scripts": {
+    "build": "tsc && tsc -p tsconfig.esm.json && webpack",
+    "prepare": "npm run build"
+  }
+}

@@ -14,6 +14,64 @@ import * as msRest from "ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
+export const PartnerProperties: msRest.CompositeMapper = {
+  serializedName: "PartnerProperties",
+  type: {
+    name: "Composite",
+    className: "PartnerProperties",
+    modelProperties: {
+      partnerId: {
+        serializedName: "partnerId",
+        type: {
+          name: "String"
+        }
+      },
+      partnerName: {
+        serializedName: "partnerName",
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        type: {
+          name: "String"
+        }
+      },
+      objectId: {
+        serializedName: "objectId",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      },
+      updatedTime: {
+        serializedName: "updatedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      createdTime: {
+        serializedName: "createdTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const PartnerResponse: msRest.CompositeMapper = {
   serializedName: "PartnerResponse",
   type: {

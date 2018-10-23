@@ -114,6 +114,63 @@
             }
         }
     };
+    var ADCCatalogProperties = {
+        serializedName: "ADCCatalogProperties",
+        type: {
+            name: "Composite",
+            className: "ADCCatalogProperties",
+            modelProperties: {
+                sku: {
+                    serializedName: "sku",
+                    type: {
+                        name: "String"
+                    }
+                },
+                units: {
+                    serializedName: "units",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                admins: {
+                    serializedName: "admins",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "Principals"
+                            }
+                        }
+                    }
+                },
+                users: {
+                    serializedName: "users",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "Principals"
+                            }
+                        }
+                    }
+                },
+                successfullyProvisioned: {
+                    serializedName: "successfullyProvisioned",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                enableAutomaticUnitAdjustment: {
+                    serializedName: "enableAutomaticUnitAdjustment",
+                    type: {
+                        name: "Boolean"
+                    }
+                }
+            }
+        }
+    };
     var Resource = {
         serializedName: "Resource",
         type: {
@@ -319,6 +376,7 @@
         CloudError: CloudError,
         BaseResource: BaseResource,
         Principals: Principals,
+        ADCCatalogProperties: ADCCatalogProperties,
         Resource: Resource,
         ADCCatalog: ADCCatalog,
         ADCCatalogsListResult: ADCCatalogsListResult,

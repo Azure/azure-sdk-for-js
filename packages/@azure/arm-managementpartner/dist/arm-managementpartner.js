@@ -99,6 +99,63 @@
      */
     var CloudError = msRestAzure.CloudErrorMapper;
     var BaseResource = msRestAzure.BaseResourceMapper;
+    var PartnerProperties = {
+        serializedName: "PartnerProperties",
+        type: {
+            name: "Composite",
+            className: "PartnerProperties",
+            modelProperties: {
+                partnerId: {
+                    serializedName: "partnerId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                partnerName: {
+                    serializedName: "partnerName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                tenantId: {
+                    serializedName: "tenantId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                objectId: {
+                    serializedName: "objectId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                version: {
+                    serializedName: "version",
+                    type: {
+                        name: "String"
+                    }
+                },
+                updatedTime: {
+                    serializedName: "updatedTime",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                createdTime: {
+                    serializedName: "createdTime",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                state: {
+                    serializedName: "state",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var PartnerResponse = {
         serializedName: "PartnerResponse",
         type: {
@@ -312,6 +369,7 @@
     var mappers = /*#__PURE__*/Object.freeze({
         CloudError: CloudError,
         BaseResource: BaseResource,
+        PartnerProperties: PartnerProperties,
         PartnerResponse: PartnerResponse,
         ExtendedErrorInfo: ExtendedErrorInfo,
         ErrorModel: ErrorModel,

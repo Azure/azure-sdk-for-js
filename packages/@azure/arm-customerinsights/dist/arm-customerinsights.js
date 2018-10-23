@@ -454,6 +454,49 @@
             }
         }
     };
+    var HubPropertiesFormat = {
+        serializedName: "HubPropertiesFormat",
+        type: {
+            name: "Composite",
+            className: "HubPropertiesFormat",
+            modelProperties: {
+                apiEndpoint: {
+                    readOnly: true,
+                    serializedName: "apiEndpoint",
+                    type: {
+                        name: "String"
+                    }
+                },
+                webEndpoint: {
+                    readOnly: true,
+                    serializedName: "webEndpoint",
+                    type: {
+                        name: "String"
+                    }
+                },
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                tenantFeatures: {
+                    serializedName: "tenantFeatures",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                hubBillingInfo: {
+                    serializedName: "hubBillingInfo",
+                    type: {
+                        name: "Composite",
+                        className: "HubBillingInfoFormat"
+                    }
+                }
+            }
+        }
+    };
     var Resource = {
         serializedName: "Resource",
         type: {
@@ -640,6 +683,50 @@
                                 name: "String"
                             }
                         }
+                    }
+                }
+            }
+        }
+    };
+    var DataSource = {
+        serializedName: "DataSource",
+        type: {
+            name: "Composite",
+            className: "DataSource",
+            modelProperties: {
+                name: {
+                    readOnly: true,
+                    serializedName: "name",
+                    type: {
+                        name: "String"
+                    }
+                },
+                dataSourceType: {
+                    readOnly: true,
+                    serializedName: "dataSourceType",
+                    type: {
+                        name: "String"
+                    }
+                },
+                status: {
+                    readOnly: true,
+                    serializedName: "status",
+                    type: {
+                        name: "String"
+                    }
+                },
+                id: {
+                    readOnly: true,
+                    serializedName: "id",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                dataSourceReferenceId: {
+                    readOnly: true,
+                    serializedName: "dataSourceReferenceId",
+                    type: {
+                        name: "String"
                     }
                 }
             }
@@ -1116,6 +1203,101 @@
             }
         }
     };
+    var Connector = {
+        serializedName: "Connector",
+        type: {
+            name: "Composite",
+            className: "Connector",
+            modelProperties: {
+                connectorId: {
+                    readOnly: true,
+                    serializedName: "connectorId",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                connectorName: {
+                    serializedName: "connectorName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                connectorType: {
+                    required: true,
+                    serializedName: "connectorType",
+                    type: {
+                        name: "String"
+                    }
+                },
+                displayName: {
+                    serializedName: "displayName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "String"
+                    }
+                },
+                connectorProperties: {
+                    required: true,
+                    serializedName: "connectorProperties",
+                    type: {
+                        name: "Dictionary",
+                        value: {
+                            type: {
+                                name: "Object"
+                            }
+                        }
+                    }
+                },
+                created: {
+                    readOnly: true,
+                    serializedName: "created",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                lastModified: {
+                    readOnly: true,
+                    serializedName: "lastModified",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                state: {
+                    readOnly: true,
+                    serializedName: "state",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Creating",
+                            "Created",
+                            "Ready",
+                            "Expiring",
+                            "Deleting",
+                            "Failed"
+                        ]
+                    }
+                },
+                tenantId: {
+                    readOnly: true,
+                    serializedName: "tenantId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                isInternal: {
+                    serializedName: "isInternal",
+                    type: {
+                        name: "Boolean"
+                    }
+                }
+            }
+        }
+    };
     var ConnectorMappingErrorManagement = {
         serializedName: "ConnectorMappingErrorManagement",
         type: {
@@ -1349,6 +1531,134 @@
                     type: {
                         name: "Composite",
                         className: "ConnectorMappingCompleteOperation"
+                    }
+                }
+            }
+        }
+    };
+    var ConnectorMapping = {
+        serializedName: "ConnectorMapping",
+        type: {
+            name: "Composite",
+            className: "ConnectorMapping",
+            modelProperties: {
+                connectorName: {
+                    readOnly: true,
+                    serializedName: "connectorName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                connectorType: {
+                    serializedName: "connectorType",
+                    type: {
+                        name: "String"
+                    }
+                },
+                created: {
+                    readOnly: true,
+                    serializedName: "created",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                lastModified: {
+                    readOnly: true,
+                    serializedName: "lastModified",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                entityType: {
+                    required: true,
+                    serializedName: "entityType",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "None",
+                            "Profile",
+                            "Interaction",
+                            "Relationship"
+                        ]
+                    }
+                },
+                entityTypeName: {
+                    required: true,
+                    serializedName: "entityTypeName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                connectorMappingName: {
+                    readOnly: true,
+                    serializedName: "connectorMappingName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                displayName: {
+                    serializedName: "displayName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "String"
+                    }
+                },
+                dataFormatId: {
+                    readOnly: true,
+                    serializedName: "dataFormatId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                mappingProperties: {
+                    required: true,
+                    serializedName: "mappingProperties",
+                    defaultValue: {},
+                    type: {
+                        name: "Composite",
+                        className: "ConnectorMappingProperties"
+                    }
+                },
+                nextRunTime: {
+                    readOnly: true,
+                    serializedName: "nextRunTime",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                runId: {
+                    readOnly: true,
+                    serializedName: "runId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                state: {
+                    readOnly: true,
+                    serializedName: "state",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Creating",
+                            "Created",
+                            "Failed",
+                            "Ready",
+                            "Running",
+                            "Stopped",
+                            "Expiring"
+                        ]
+                    }
+                },
+                tenantId: {
+                    readOnly: true,
+                    serializedName: "tenantId",
+                    type: {
+                        name: "String"
                     }
                 }
             }
@@ -1704,6 +2014,140 @@
             }
         }
     };
+    var WidgetType = {
+        serializedName: "WidgetType",
+        type: {
+            name: "Composite",
+            className: "WidgetType",
+            modelProperties: {
+                widgetTypeName: {
+                    readOnly: true,
+                    serializedName: "widgetTypeName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                definition: {
+                    required: true,
+                    serializedName: "definition",
+                    type: {
+                        name: "String"
+                    }
+                },
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "String"
+                    }
+                },
+                displayName: {
+                    serializedName: "displayName",
+                    type: {
+                        name: "Dictionary",
+                        value: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                imageUrl: {
+                    serializedName: "imageUrl",
+                    type: {
+                        name: "String"
+                    }
+                },
+                tenantId: {
+                    readOnly: true,
+                    serializedName: "tenantId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                widgetVersion: {
+                    serializedName: "widgetVersion",
+                    type: {
+                        name: "String"
+                    }
+                },
+                changed: {
+                    readOnly: true,
+                    serializedName: "changed",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                created: {
+                    readOnly: true,
+                    serializedName: "created",
+                    type: {
+                        name: "DateTime"
+                    }
+                }
+            }
+        }
+    };
+    var View = {
+        serializedName: "View",
+        type: {
+            name: "Composite",
+            className: "View",
+            modelProperties: {
+                viewName: {
+                    readOnly: true,
+                    serializedName: "viewName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                userId: {
+                    serializedName: "userId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                tenantId: {
+                    readOnly: true,
+                    serializedName: "tenantId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                displayName: {
+                    serializedName: "displayName",
+                    type: {
+                        name: "Dictionary",
+                        value: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                definition: {
+                    required: true,
+                    serializedName: "definition",
+                    type: {
+                        name: "String"
+                    }
+                },
+                changed: {
+                    readOnly: true,
+                    serializedName: "changed",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                created: {
+                    readOnly: true,
+                    serializedName: "created",
+                    type: {
+                        name: "DateTime"
+                    }
+                }
+            }
+        }
+    };
     var TypePropertiesMapping = {
         serializedName: "TypePropertiesMapping",
         type: {
@@ -1760,6 +2204,139 @@
             }
         }
     };
+    var LinkDefinition = {
+        serializedName: "LinkDefinition",
+        type: {
+            name: "Composite",
+            className: "LinkDefinition",
+            modelProperties: {
+                tenantId: {
+                    readOnly: true,
+                    serializedName: "tenantId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                linkName: {
+                    readOnly: true,
+                    serializedName: "linkName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                sourceEntityType: {
+                    required: true,
+                    serializedName: "sourceEntityType",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "None",
+                            "Profile",
+                            "Interaction",
+                            "Relationship"
+                        ]
+                    }
+                },
+                targetEntityType: {
+                    required: true,
+                    serializedName: "targetEntityType",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "None",
+                            "Profile",
+                            "Interaction",
+                            "Relationship"
+                        ]
+                    }
+                },
+                sourceEntityTypeName: {
+                    required: true,
+                    serializedName: "sourceEntityTypeName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                targetEntityTypeName: {
+                    required: true,
+                    serializedName: "targetEntityTypeName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                displayName: {
+                    serializedName: "displayName",
+                    type: {
+                        name: "Dictionary",
+                        value: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "Dictionary",
+                        value: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                mappings: {
+                    serializedName: "mappings",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "TypePropertiesMapping"
+                            }
+                        }
+                    }
+                },
+                participantPropertyReferences: {
+                    required: true,
+                    serializedName: "participantPropertyReferences",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "ParticipantPropertyReference"
+                            }
+                        }
+                    }
+                },
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                referenceOnly: {
+                    serializedName: "referenceOnly",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                operationType: {
+                    serializedName: "operationType",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Upsert",
+                            "Delete"
+                        ]
+                    }
+                }
+            }
+        }
+    };
     var RelationshipTypeFieldMapping = {
         serializedName: "RelationshipTypeFieldMapping",
         type: {
@@ -1800,6 +2377,120 @@
                                 className: "RelationshipTypeFieldMapping"
                             }
                         }
+                    }
+                }
+            }
+        }
+    };
+    var RelationshipDefinition = {
+        serializedName: "RelationshipDefinition",
+        type: {
+            name: "Composite",
+            className: "RelationshipDefinition",
+            modelProperties: {
+                cardinality: {
+                    serializedName: "cardinality",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "OneToOne",
+                            "OneToMany",
+                            "ManyToMany"
+                        ]
+                    }
+                },
+                displayName: {
+                    serializedName: "displayName",
+                    type: {
+                        name: "Dictionary",
+                        value: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "Dictionary",
+                        value: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                expiryDateTimeUtc: {
+                    serializedName: "expiryDateTimeUtc",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                fields: {
+                    serializedName: "fields",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "PropertyDefinition"
+                            }
+                        }
+                    }
+                },
+                lookupMappings: {
+                    serializedName: "lookupMappings",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "RelationshipTypeMapping"
+                            }
+                        }
+                    }
+                },
+                profileType: {
+                    required: true,
+                    serializedName: "profileType",
+                    type: {
+                        name: "String"
+                    }
+                },
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                relationshipName: {
+                    readOnly: true,
+                    serializedName: "relationshipName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                relatedProfileType: {
+                    required: true,
+                    serializedName: "relatedProfileType",
+                    type: {
+                        name: "String"
+                    }
+                },
+                relationshipGuidId: {
+                    readOnly: true,
+                    serializedName: "relationshipGuidId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                tenantId: {
+                    readOnly: true,
+                    serializedName: "tenantId",
+                    type: {
+                        name: "String"
                     }
                 }
             }
@@ -1854,6 +2545,117 @@
                 profilePropertyName: {
                     required: true,
                     serializedName: "profilePropertyName",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var RelationshipLinkDefinition = {
+        serializedName: "RelationshipLinkDefinition",
+        type: {
+            name: "Composite",
+            className: "RelationshipLinkDefinition",
+            modelProperties: {
+                displayName: {
+                    serializedName: "displayName",
+                    type: {
+                        name: "Dictionary",
+                        value: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "Dictionary",
+                        value: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                interactionType: {
+                    required: true,
+                    serializedName: "interactionType",
+                    type: {
+                        name: "String"
+                    }
+                },
+                linkName: {
+                    readOnly: true,
+                    serializedName: "linkName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                mappings: {
+                    serializedName: "mappings",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "RelationshipLinkFieldMapping"
+                            }
+                        }
+                    }
+                },
+                profilePropertyReferences: {
+                    required: true,
+                    serializedName: "profilePropertyReferences",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "ParticipantProfilePropertyReference"
+                            }
+                        }
+                    }
+                },
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                relatedProfilePropertyReferences: {
+                    required: true,
+                    serializedName: "relatedProfilePropertyReferences",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "ParticipantProfilePropertyReference"
+                            }
+                        }
+                    }
+                },
+                relationshipName: {
+                    required: true,
+                    serializedName: "relationshipName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                relationshipGuidId: {
+                    readOnly: true,
+                    serializedName: "relationshipGuidId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                tenantId: {
+                    readOnly: true,
+                    serializedName: "tenantId",
                     type: {
                         name: "String"
                     }
@@ -1925,6 +2727,87 @@
             }
         }
     };
+    var InteractionTypeDefinition = {
+        serializedName: "InteractionTypeDefinition",
+        type: {
+            name: "Composite",
+            className: "InteractionTypeDefinition",
+            modelProperties: __assign({}, EntityTypeDefinition.type.modelProperties, { idPropertyNames: {
+                    serializedName: "idPropertyNames",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                }, participantProfiles: {
+                    serializedName: "participantProfiles",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "Participant"
+                            }
+                        }
+                    }
+                }, primaryParticipantProfilePropertyName: {
+                    serializedName: "primaryParticipantProfilePropertyName",
+                    type: {
+                        name: "String"
+                    }
+                }, dataSourcePrecedenceRules: {
+                    readOnly: true,
+                    serializedName: "dataSourcePrecedenceRules",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "DataSourcePrecedence"
+                            }
+                        }
+                    }
+                }, name: {
+                    readOnly: true,
+                    serializedName: "defaultDataSource.name",
+                    type: {
+                        name: "String"
+                    }
+                }, dataSourceType: {
+                    readOnly: true,
+                    serializedName: "defaultDataSource.dataSourceType",
+                    type: {
+                        name: "String"
+                    }
+                }, status: {
+                    readOnly: true,
+                    serializedName: "defaultDataSource.status",
+                    type: {
+                        name: "String"
+                    }
+                }, id: {
+                    readOnly: true,
+                    serializedName: "defaultDataSource.id",
+                    type: {
+                        name: "Number"
+                    }
+                }, dataSourceReferenceId: {
+                    readOnly: true,
+                    serializedName: "defaultDataSource.dataSourceReferenceId",
+                    type: {
+                        name: "String"
+                    }
+                }, isActivity: {
+                    serializedName: "isActivity",
+                    type: {
+                        name: "Boolean"
+                    }
+                } })
+        }
+    };
     var StrongId = {
         serializedName: "StrongId",
         type: {
@@ -1973,6 +2856,25 @@
                     }
                 }
             }
+        }
+    };
+    var ProfileTypeDefinition = {
+        serializedName: "ProfileTypeDefinition",
+        type: {
+            name: "Composite",
+            className: "ProfileTypeDefinition",
+            modelProperties: __assign({}, EntityTypeDefinition.type.modelProperties, { strongIds: {
+                    serializedName: "strongIds",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "StrongId"
+                            }
+                        }
+                    }
+                } })
         }
     };
     var ProfileResourceFormat = {
@@ -3257,6 +4159,177 @@
             }
         }
     };
+    var RoleAssignment = {
+        serializedName: "RoleAssignment",
+        type: {
+            name: "Composite",
+            className: "RoleAssignment",
+            modelProperties: {
+                tenantId: {
+                    readOnly: true,
+                    serializedName: "tenantId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                assignmentName: {
+                    readOnly: true,
+                    serializedName: "assignmentName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                displayName: {
+                    serializedName: "displayName",
+                    type: {
+                        name: "Dictionary",
+                        value: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "Dictionary",
+                        value: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                role: {
+                    required: true,
+                    serializedName: "role",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Admin",
+                            "Reader",
+                            "ManageAdmin",
+                            "ManageReader",
+                            "DataAdmin",
+                            "DataReader"
+                        ]
+                    }
+                },
+                principals: {
+                    required: true,
+                    serializedName: "principals",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "AssignmentPrincipal"
+                            }
+                        }
+                    }
+                },
+                profiles: {
+                    serializedName: "profiles",
+                    type: {
+                        name: "Composite",
+                        className: "ResourceSetDescription"
+                    }
+                },
+                interactions: {
+                    serializedName: "interactions",
+                    type: {
+                        name: "Composite",
+                        className: "ResourceSetDescription"
+                    }
+                },
+                links: {
+                    serializedName: "links",
+                    type: {
+                        name: "Composite",
+                        className: "ResourceSetDescription"
+                    }
+                },
+                kpis: {
+                    serializedName: "kpis",
+                    type: {
+                        name: "Composite",
+                        className: "ResourceSetDescription"
+                    }
+                },
+                sasPolicies: {
+                    serializedName: "sasPolicies",
+                    type: {
+                        name: "Composite",
+                        className: "ResourceSetDescription"
+                    }
+                },
+                connectors: {
+                    serializedName: "connectors",
+                    type: {
+                        name: "Composite",
+                        className: "ResourceSetDescription"
+                    }
+                },
+                views: {
+                    serializedName: "views",
+                    type: {
+                        name: "Composite",
+                        className: "ResourceSetDescription"
+                    }
+                },
+                relationshipLinks: {
+                    serializedName: "relationshipLinks",
+                    type: {
+                        name: "Composite",
+                        className: "ResourceSetDescription"
+                    }
+                },
+                relationships: {
+                    serializedName: "relationships",
+                    type: {
+                        name: "Composite",
+                        className: "ResourceSetDescription"
+                    }
+                },
+                widgetTypes: {
+                    serializedName: "widgetTypes",
+                    type: {
+                        name: "Composite",
+                        className: "ResourceSetDescription"
+                    }
+                },
+                roleAssignments: {
+                    serializedName: "roleAssignments",
+                    type: {
+                        name: "Composite",
+                        className: "ResourceSetDescription"
+                    }
+                },
+                conflationPolicies: {
+                    serializedName: "conflationPolicies",
+                    type: {
+                        name: "Composite",
+                        className: "ResourceSetDescription"
+                    }
+                },
+                segments: {
+                    serializedName: "segments",
+                    type: {
+                        name: "Composite",
+                        className: "ResourceSetDescription"
+                    }
+                }
+            }
+        }
+    };
     var RoleAssignmentResourceFormat = {
         serializedName: "RoleAssignmentResourceFormat",
         type: {
@@ -3405,6 +4478,27 @@
                         className: "ResourceSetDescription"
                     }
                 } })
+        }
+    };
+    var Role = {
+        serializedName: "Role",
+        type: {
+            name: "Composite",
+            className: "Role",
+            modelProperties: {
+                roleName: {
+                    serializedName: "roleName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
         }
     };
     var RoleResourceFormat = {
@@ -3658,6 +4752,160 @@
                                 name: "String"
                             }
                         }
+                    }
+                }
+            }
+        }
+    };
+    var Prediction = {
+        serializedName: "Prediction",
+        type: {
+            name: "Composite",
+            className: "Prediction",
+            modelProperties: {
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "Dictionary",
+                        value: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                displayName: {
+                    serializedName: "displayName",
+                    type: {
+                        name: "Dictionary",
+                        value: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                involvedInteractionTypes: {
+                    serializedName: "involvedInteractionTypes",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                involvedKpiTypes: {
+                    serializedName: "involvedKpiTypes",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                involvedRelationships: {
+                    serializedName: "involvedRelationships",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                negativeOutcomeExpression: {
+                    required: true,
+                    serializedName: "negativeOutcomeExpression",
+                    type: {
+                        name: "String"
+                    }
+                },
+                positiveOutcomeExpression: {
+                    required: true,
+                    serializedName: "positiveOutcomeExpression",
+                    type: {
+                        name: "String"
+                    }
+                },
+                primaryProfileType: {
+                    required: true,
+                    serializedName: "primaryProfileType",
+                    type: {
+                        name: "String"
+                    }
+                },
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                predictionName: {
+                    serializedName: "predictionName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                scopeExpression: {
+                    required: true,
+                    serializedName: "scopeExpression",
+                    type: {
+                        name: "String"
+                    }
+                },
+                tenantId: {
+                    readOnly: true,
+                    serializedName: "tenantId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                autoAnalyze: {
+                    required: true,
+                    serializedName: "autoAnalyze",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                mappings: {
+                    required: true,
+                    serializedName: "mappings",
+                    type: {
+                        name: "Composite",
+                        className: "PredictionMappings"
+                    }
+                },
+                scoreLabel: {
+                    required: true,
+                    serializedName: "scoreLabel",
+                    type: {
+                        name: "String"
+                    }
+                },
+                grades: {
+                    serializedName: "grades",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "PredictionGradesItem"
+                            }
+                        }
+                    }
+                },
+                systemGeneratedEntities: {
+                    readOnly: true,
+                    serializedName: "systemGeneratedEntities",
+                    type: {
+                        name: "Composite",
+                        className: "PredictionSystemGeneratedEntities"
                     }
                 }
             }
@@ -4566,10 +5814,12 @@
         CloudError: CloudError,
         BaseResource: BaseResource,
         HubBillingInfoFormat: HubBillingInfoFormat,
+        HubPropertiesFormat: HubPropertiesFormat,
         Resource: Resource,
         Hub: Hub,
         MetadataDefinitionBase: MetadataDefinitionBase,
         ProfileEnumValidValuesFormat: ProfileEnumValidValuesFormat,
+        DataSource: DataSource,
         DataSourcePrecedence: DataSourcePrecedence,
         PropertyDefinition: PropertyDefinition,
         EntityTypeDefinition: EntityTypeDefinition,
@@ -4580,12 +5830,14 @@
         AzureBlobConnectorProperties: AzureBlobConnectorProperties,
         CrmConnectorEntities: CrmConnectorEntities,
         CrmConnectorProperties: CrmConnectorProperties,
+        Connector: Connector,
         ConnectorMappingErrorManagement: ConnectorMappingErrorManagement,
         ConnectorMappingFormat: ConnectorMappingFormat,
         ConnectorMappingAvailability: ConnectorMappingAvailability,
         ConnectorMappingStructure: ConnectorMappingStructure,
         ConnectorMappingCompleteOperation: ConnectorMappingCompleteOperation,
         ConnectorMappingProperties: ConnectorMappingProperties,
+        ConnectorMapping: ConnectorMapping,
         KpiThresholds: KpiThresholds,
         KpiGroupByMetadata: KpiGroupByMetadata,
         KpiParticipantProfilesMetadata: KpiParticipantProfilesMetadata,
@@ -4593,14 +5845,21 @@
         KpiExtract: KpiExtract,
         KpiDefinition: KpiDefinition,
         ProxyResource: ProxyResource,
+        WidgetType: WidgetType,
+        View: View,
         TypePropertiesMapping: TypePropertiesMapping,
         ParticipantPropertyReference: ParticipantPropertyReference,
+        LinkDefinition: LinkDefinition,
         RelationshipTypeFieldMapping: RelationshipTypeFieldMapping,
         RelationshipTypeMapping: RelationshipTypeMapping,
+        RelationshipDefinition: RelationshipDefinition,
         RelationshipLinkFieldMapping: RelationshipLinkFieldMapping,
         ParticipantProfilePropertyReference: ParticipantProfilePropertyReference,
+        RelationshipLinkDefinition: RelationshipLinkDefinition,
         Participant: Participant,
+        InteractionTypeDefinition: InteractionTypeDefinition,
         StrongId: StrongId,
+        ProfileTypeDefinition: ProfileTypeDefinition,
         ProfileResourceFormat: ProfileResourceFormat,
         InteractionResourceFormat: InteractionResourceFormat,
         KpiResourceFormat: KpiResourceFormat,
@@ -4615,7 +5874,9 @@
         WidgetTypeResourceFormat: WidgetTypeResourceFormat,
         AssignmentPrincipal: AssignmentPrincipal,
         ResourceSetDescription: ResourceSetDescription,
+        RoleAssignment: RoleAssignment,
         RoleAssignmentResourceFormat: RoleAssignmentResourceFormat,
+        Role: Role,
         RoleResourceFormat: RoleResourceFormat,
         GetImageUploadUrlInput: GetImageUploadUrlInput,
         ImageDefinition: ImageDefinition,
@@ -4624,6 +5885,7 @@
         PredictionMappings: PredictionMappings,
         PredictionGradesItem: PredictionGradesItem,
         PredictionSystemGeneratedEntities: PredictionSystemGeneratedEntities,
+        Prediction: Prediction,
         PredictionDistributionDefinitionDistributionsItem: PredictionDistributionDefinitionDistributionsItem,
         PredictionDistributionDefinition: PredictionDistributionDefinition,
         CanonicalProfileDefinitionPropertiesItem: CanonicalProfileDefinitionPropertiesItem,

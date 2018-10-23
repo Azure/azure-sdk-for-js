@@ -190,6 +190,41 @@ export const ShippingAddress: msRest.CompositeMapper = {
   }
 };
 
+export const AddressValidationProperties: msRest.CompositeMapper = {
+  serializedName: "AddressValidationProperties",
+  type: {
+    name: "Composite",
+    className: "AddressValidationProperties",
+    modelProperties: {
+      validationStatus: {
+        readOnly: true,
+        serializedName: "validationStatus",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Valid",
+            "Invalid",
+            "Ambiguous"
+          ]
+        }
+      },
+      alternateAddresses: {
+        readOnly: true,
+        serializedName: "alternateAddresses",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ShippingAddress"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const AddressValidationOutput: msRest.CompositeMapper = {
   serializedName: "AddressValidationOutput",
   type: {
@@ -427,6 +462,90 @@ export const SkuCost: msRest.CompositeMapper = {
       meterType: {
         readOnly: true,
         serializedName: "meterType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SkuProperties: msRest.CompositeMapper = {
+  serializedName: "SkuProperties",
+  type: {
+    name: "Composite",
+    className: "SkuProperties",
+    modelProperties: {
+      destinationToServiceLocationMap: {
+        readOnly: true,
+        serializedName: "destinationToServiceLocationMap",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DestinationToServiceLocationMap"
+            }
+          }
+        }
+      },
+      capacity: {
+        readOnly: true,
+        serializedName: "capacity",
+        type: {
+          name: "Composite",
+          className: "SkuCapacity"
+        }
+      },
+      costs: {
+        readOnly: true,
+        serializedName: "costs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SkuCost"
+            }
+          }
+        }
+      },
+      apiVersions: {
+        readOnly: true,
+        serializedName: "apiVersions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      disabledReason: {
+        readOnly: true,
+        serializedName: "disabledReason",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "None",
+            "Country",
+            "Region",
+            "Feature",
+            "OfferType"
+          ]
+        }
+      },
+      disabledReasonMessage: {
+        readOnly: true,
+        serializedName: "disabledReasonMessage",
+        type: {
+          name: "String"
+        }
+      },
+      requiredFeature: {
+        readOnly: true,
+        serializedName: "requiredFeature",
         type: {
           name: "String"
         }
@@ -1551,6 +1670,93 @@ export const Preferences: msRest.CompositeMapper = {
   }
 };
 
+export const JobProperties: msRest.CompositeMapper = {
+  serializedName: "JobProperties",
+  type: {
+    name: "Composite",
+    className: "JobProperties",
+    modelProperties: {
+      isCancellable: {
+        readOnly: true,
+        serializedName: "isCancellable",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isDeletable: {
+        readOnly: true,
+        serializedName: "isDeletable",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isShippingAddressEditable: {
+        readOnly: true,
+        serializedName: "isShippingAddressEditable",
+        type: {
+          name: "Boolean"
+        }
+      },
+      status: {
+        readOnly: true,
+        serializedName: "status",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "DeviceOrdered",
+            "DevicePrepared",
+            "Dispatched",
+            "Delivered",
+            "PickedUp",
+            "AtAzureDC",
+            "DataCopy",
+            "Completed",
+            "CompletedWithErrors",
+            "Cancelled",
+            "Failed_IssueReportedAtCustomer",
+            "Failed_IssueDetectedAtAzureDC",
+            "Aborted"
+          ]
+        }
+      },
+      startTime: {
+        readOnly: true,
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      error: {
+        readOnly: true,
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorModel"
+        }
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "jobDetailsType",
+            clientName: "jobDetailsType"
+          },
+          uberParent: "JobDetails",
+          className: "JobDetails"
+        }
+      },
+      cancellationReason: {
+        readOnly: true,
+        serializedName: "cancellationReason",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
@@ -1714,6 +1920,35 @@ export const UpdateJobDetails: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ShippingAddress"
+        }
+      }
+    }
+  }
+};
+
+export const UpdateJobProperties: msRest.CompositeMapper = {
+  serializedName: "UpdateJobProperties",
+  type: {
+    name: "Composite",
+    className: "UpdateJobProperties",
+    modelProperties: {
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Composite",
+          className: "UpdateJobDetails"
+        }
+      },
+      destinationAccountDetails: {
+        serializedName: "destinationAccountDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DestinationAccountDetails"
+            }
+          }
         }
       }
     }

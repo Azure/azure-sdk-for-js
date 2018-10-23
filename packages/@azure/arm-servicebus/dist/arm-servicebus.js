@@ -346,6 +346,50 @@
             }
         }
     };
+    var SBNamespaceProperties = {
+        serializedName: "SBNamespaceProperties",
+        type: {
+            name: "Composite",
+            className: "SBNamespaceProperties",
+            modelProperties: {
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                createdAt: {
+                    readOnly: true,
+                    serializedName: "createdAt",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                updatedAt: {
+                    readOnly: true,
+                    serializedName: "updatedAt",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                serviceBusEndpoint: {
+                    readOnly: true,
+                    serializedName: "serviceBusEndpoint",
+                    type: {
+                        name: "String"
+                    }
+                },
+                metricId: {
+                    readOnly: true,
+                    serializedName: "metricId",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var SBNamespace = {
         serializedName: "SBNamespace",
         type: {
@@ -432,6 +476,32 @@
                         name: "String"
                     }
                 } })
+        }
+    };
+    var SBAuthorizationRuleProperties = {
+        serializedName: "SBAuthorizationRule_properties",
+        type: {
+            name: "Composite",
+            className: "SBAuthorizationRuleProperties",
+            modelProperties: {
+                rights: {
+                    required: true,
+                    serializedName: "rights",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Enum",
+                                allowedValues: [
+                                    "Manage",
+                                    "Send",
+                                    "Listen"
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
         }
     };
     var SBAuthorizationRule = {
@@ -612,6 +682,159 @@
             }
         }
     };
+    var SBQueueProperties = {
+        serializedName: "SBQueueProperties",
+        type: {
+            name: "Composite",
+            className: "SBQueueProperties",
+            modelProperties: {
+                countDetails: {
+                    readOnly: true,
+                    serializedName: "countDetails",
+                    type: {
+                        name: "Composite",
+                        className: "MessageCountDetails"
+                    }
+                },
+                createdAt: {
+                    readOnly: true,
+                    serializedName: "createdAt",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                updatedAt: {
+                    readOnly: true,
+                    serializedName: "updatedAt",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                accessedAt: {
+                    readOnly: true,
+                    serializedName: "accessedAt",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                sizeInBytes: {
+                    readOnly: true,
+                    serializedName: "sizeInBytes",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                messageCount: {
+                    readOnly: true,
+                    serializedName: "messageCount",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                lockDuration: {
+                    serializedName: "lockDuration",
+                    type: {
+                        name: "TimeSpan"
+                    }
+                },
+                maxSizeInMegabytes: {
+                    serializedName: "maxSizeInMegabytes",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                requiresDuplicateDetection: {
+                    serializedName: "requiresDuplicateDetection",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                requiresSession: {
+                    serializedName: "requiresSession",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                defaultMessageTimeToLive: {
+                    serializedName: "defaultMessageTimeToLive",
+                    type: {
+                        name: "TimeSpan"
+                    }
+                },
+                deadLetteringOnMessageExpiration: {
+                    serializedName: "deadLetteringOnMessageExpiration",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                duplicateDetectionHistoryTimeWindow: {
+                    serializedName: "duplicateDetectionHistoryTimeWindow",
+                    type: {
+                        name: "TimeSpan"
+                    }
+                },
+                maxDeliveryCount: {
+                    serializedName: "maxDeliveryCount",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                status: {
+                    serializedName: "status",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Active",
+                            "Disabled",
+                            "Restoring",
+                            "SendDisabled",
+                            "ReceiveDisabled",
+                            "Creating",
+                            "Deleting",
+                            "Renaming",
+                            "Unknown"
+                        ]
+                    }
+                },
+                enableBatchedOperations: {
+                    serializedName: "enableBatchedOperations",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                autoDeleteOnIdle: {
+                    serializedName: "autoDeleteOnIdle",
+                    type: {
+                        name: "TimeSpan"
+                    }
+                },
+                enablePartitioning: {
+                    serializedName: "enablePartitioning",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                enableExpress: {
+                    serializedName: "enableExpress",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                forwardTo: {
+                    serializedName: "forwardTo",
+                    type: {
+                        name: "String"
+                    }
+                },
+                forwardDeadLetteredMessagesTo: {
+                    serializedName: "forwardDeadLetteredMessagesTo",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var SBQueue = {
         serializedName: "SBQueue",
         type: {
@@ -743,6 +966,129 @@
                 } })
         }
     };
+    var SBTopicProperties = {
+        serializedName: "SBTopicProperties",
+        type: {
+            name: "Composite",
+            className: "SBTopicProperties",
+            modelProperties: {
+                sizeInBytes: {
+                    readOnly: true,
+                    serializedName: "sizeInBytes",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                createdAt: {
+                    readOnly: true,
+                    serializedName: "createdAt",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                updatedAt: {
+                    readOnly: true,
+                    serializedName: "updatedAt",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                accessedAt: {
+                    readOnly: true,
+                    serializedName: "accessedAt",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                subscriptionCount: {
+                    readOnly: true,
+                    serializedName: "subscriptionCount",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                countDetails: {
+                    readOnly: true,
+                    serializedName: "countDetails",
+                    type: {
+                        name: "Composite",
+                        className: "MessageCountDetails"
+                    }
+                },
+                defaultMessageTimeToLive: {
+                    serializedName: "defaultMessageTimeToLive",
+                    type: {
+                        name: "TimeSpan"
+                    }
+                },
+                maxSizeInMegabytes: {
+                    serializedName: "maxSizeInMegabytes",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                requiresDuplicateDetection: {
+                    serializedName: "requiresDuplicateDetection",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                duplicateDetectionHistoryTimeWindow: {
+                    serializedName: "duplicateDetectionHistoryTimeWindow",
+                    type: {
+                        name: "TimeSpan"
+                    }
+                },
+                enableBatchedOperations: {
+                    serializedName: "enableBatchedOperations",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                status: {
+                    serializedName: "status",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Active",
+                            "Disabled",
+                            "Restoring",
+                            "SendDisabled",
+                            "ReceiveDisabled",
+                            "Creating",
+                            "Deleting",
+                            "Renaming",
+                            "Unknown"
+                        ]
+                    }
+                },
+                supportOrdering: {
+                    serializedName: "supportOrdering",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                autoDeleteOnIdle: {
+                    serializedName: "autoDeleteOnIdle",
+                    type: {
+                        name: "TimeSpan"
+                    }
+                },
+                enablePartitioning: {
+                    serializedName: "enablePartitioning",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                enableExpress: {
+                    serializedName: "enableExpress",
+                    type: {
+                        name: "Boolean"
+                    }
+                }
+            }
+        }
+    };
     var SBTopic = {
         serializedName: "SBTopic",
         type: {
@@ -847,6 +1193,134 @@
                         name: "Boolean"
                     }
                 } })
+        }
+    };
+    var SBSubscriptionProperties = {
+        serializedName: "SBSubscriptionProperties",
+        type: {
+            name: "Composite",
+            className: "SBSubscriptionProperties",
+            modelProperties: {
+                messageCount: {
+                    readOnly: true,
+                    serializedName: "messageCount",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                createdAt: {
+                    readOnly: true,
+                    serializedName: "createdAt",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                accessedAt: {
+                    readOnly: true,
+                    serializedName: "accessedAt",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                updatedAt: {
+                    readOnly: true,
+                    serializedName: "updatedAt",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                countDetails: {
+                    readOnly: true,
+                    serializedName: "countDetails",
+                    type: {
+                        name: "Composite",
+                        className: "MessageCountDetails"
+                    }
+                },
+                lockDuration: {
+                    serializedName: "lockDuration",
+                    type: {
+                        name: "TimeSpan"
+                    }
+                },
+                requiresSession: {
+                    serializedName: "requiresSession",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                defaultMessageTimeToLive: {
+                    serializedName: "defaultMessageTimeToLive",
+                    type: {
+                        name: "TimeSpan"
+                    }
+                },
+                deadLetteringOnFilterEvaluationExceptions: {
+                    serializedName: "deadLetteringOnFilterEvaluationExceptions",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                deadLetteringOnMessageExpiration: {
+                    serializedName: "deadLetteringOnMessageExpiration",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                duplicateDetectionHistoryTimeWindow: {
+                    serializedName: "duplicateDetectionHistoryTimeWindow",
+                    type: {
+                        name: "TimeSpan"
+                    }
+                },
+                maxDeliveryCount: {
+                    serializedName: "maxDeliveryCount",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                status: {
+                    serializedName: "status",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Active",
+                            "Disabled",
+                            "Restoring",
+                            "SendDisabled",
+                            "ReceiveDisabled",
+                            "Creating",
+                            "Deleting",
+                            "Renaming",
+                            "Unknown"
+                        ]
+                    }
+                },
+                enableBatchedOperations: {
+                    serializedName: "enableBatchedOperations",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                autoDeleteOnIdle: {
+                    serializedName: "autoDeleteOnIdle",
+                    type: {
+                        name: "TimeSpan"
+                    }
+                },
+                forwardTo: {
+                    serializedName: "forwardTo",
+                    type: {
+                        name: "String"
+                    }
+                },
+                forwardDeadLetteredMessagesTo: {
+                    serializedName: "forwardDeadLetteredMessagesTo",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
         }
     };
     var SBSubscription = {
@@ -1218,6 +1692,46 @@
             }
         }
     };
+    var Ruleproperties = {
+        serializedName: "Ruleproperties",
+        type: {
+            name: "Composite",
+            className: "Ruleproperties",
+            modelProperties: {
+                action: {
+                    serializedName: "action",
+                    type: {
+                        name: "Composite",
+                        className: "Action"
+                    }
+                },
+                filterType: {
+                    serializedName: "filterType",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "SqlFilter",
+                            "CorrelationFilter"
+                        ]
+                    }
+                },
+                sqlFilter: {
+                    serializedName: "sqlFilter",
+                    type: {
+                        name: "Composite",
+                        className: "SqlFilter"
+                    }
+                },
+                correlationFilter: {
+                    serializedName: "correlationFilter",
+                    type: {
+                        name: "Composite",
+                        className: "CorrelationFilter"
+                    }
+                }
+            }
+        }
+    };
     var Rule = {
         serializedName: "Rule",
         type: {
@@ -1296,6 +1810,33 @@
                         className: "PremiumMessagingRegionsProperties"
                     }
                 } })
+        }
+    };
+    var DestinationProperties = {
+        serializedName: "Destination_properties",
+        type: {
+            name: "Composite",
+            className: "DestinationProperties",
+            modelProperties: {
+                storageAccountResourceId: {
+                    serializedName: "storageAccountResourceId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                blobContainer: {
+                    serializedName: "blobContainer",
+                    type: {
+                        name: "String"
+                    }
+                },
+                archiveNameFormat: {
+                    serializedName: "archiveNameFormat",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
         }
     };
     var Destination = {
@@ -1383,6 +1924,85 @@
             }
         }
     };
+    var EventhubProperties = {
+        serializedName: "Eventhub_properties",
+        type: {
+            name: "Composite",
+            className: "EventhubProperties",
+            modelProperties: {
+                partitionIds: {
+                    readOnly: true,
+                    serializedName: "partitionIds",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                createdAt: {
+                    readOnly: true,
+                    serializedName: "createdAt",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                updatedAt: {
+                    readOnly: true,
+                    serializedName: "updatedAt",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                messageRetentionInDays: {
+                    serializedName: "messageRetentionInDays",
+                    constraints: {
+                        InclusiveMaximum: 7,
+                        InclusiveMinimum: 1
+                    },
+                    type: {
+                        name: "Number"
+                    }
+                },
+                partitionCount: {
+                    serializedName: "partitionCount",
+                    constraints: {
+                        InclusiveMaximum: 32,
+                        InclusiveMinimum: 1
+                    },
+                    type: {
+                        name: "Number"
+                    }
+                },
+                status: {
+                    serializedName: "status",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Active",
+                            "Disabled",
+                            "Restoring",
+                            "SendDisabled",
+                            "ReceiveDisabled",
+                            "Creating",
+                            "Deleting",
+                            "Renaming",
+                            "Unknown"
+                        ]
+                    }
+                },
+                captureDescription: {
+                    serializedName: "captureDescription",
+                    type: {
+                        name: "Composite",
+                        className: "CaptureDescription"
+                    }
+                }
+            }
+        }
+    };
     var Eventhub = {
         serializedName: "Eventhub",
         type: {
@@ -1454,6 +2074,58 @@
                 } })
         }
     };
+    var ArmDisasterRecoveryProperties = {
+        serializedName: "ArmDisasterRecovery_properties",
+        type: {
+            name: "Composite",
+            className: "ArmDisasterRecoveryProperties",
+            modelProperties: {
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Accepted",
+                            "Succeeded",
+                            "Failed"
+                        ]
+                    }
+                },
+                pendingReplicationOperationsCount: {
+                    readOnly: true,
+                    serializedName: "pendingReplicationOperationsCount",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                partnerNamespace: {
+                    serializedName: "partnerNamespace",
+                    type: {
+                        name: "String"
+                    }
+                },
+                alternateName: {
+                    serializedName: "alternateName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                role: {
+                    readOnly: true,
+                    serializedName: "role",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Primary",
+                            "PrimaryNotReplicating",
+                            "Secondary"
+                        ]
+                    }
+                }
+            }
+        }
+    };
     var ArmDisasterRecovery = {
         serializedName: "ArmDisasterRecovery",
         type: {
@@ -1500,6 +2172,50 @@
                 } })
         }
     };
+    var MigrationConfigPropertiesProperties = {
+        serializedName: "MigrationConfigProperties_properties",
+        type: {
+            name: "Composite",
+            className: "MigrationConfigPropertiesProperties",
+            modelProperties: {
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                pendingReplicationOperationsCount: {
+                    readOnly: true,
+                    serializedName: "pendingReplicationOperationsCount",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                targetNamespace: {
+                    required: true,
+                    serializedName: "targetNamespace",
+                    type: {
+                        name: "String"
+                    }
+                },
+                postMigrationName: {
+                    required: true,
+                    serializedName: "postMigrationName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                migrationState: {
+                    readOnly: true,
+                    serializedName: "migrationState",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var MigrationConfigProperties = {
         serializedName: "MigrationConfigProperties",
         type: {
@@ -1538,6 +2254,33 @@
                 } })
         }
     };
+    var IpFilterRuleProperties = {
+        serializedName: "IpFilterRule_properties",
+        type: {
+            name: "Composite",
+            className: "IpFilterRuleProperties",
+            modelProperties: {
+                ipMask: {
+                    serializedName: "ipMask",
+                    type: {
+                        name: "String"
+                    }
+                },
+                action: {
+                    serializedName: "action",
+                    type: {
+                        name: "String"
+                    }
+                },
+                filterName: {
+                    serializedName: "filterName",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var IpFilterRule = {
         serializedName: "IpFilterRule",
         type: {
@@ -1559,6 +2302,21 @@
                         name: "String"
                     }
                 } })
+        }
+    };
+    var VirtualNetworkRuleProperties = {
+        serializedName: "VirtualNetworkRule_properties",
+        type: {
+            name: "Composite",
+            className: "VirtualNetworkRuleProperties",
+            modelProperties: {
+                virtualNetworkSubnetId: {
+                    serializedName: "virtualNetworkSubnetId",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
         }
     };
     var VirtualNetworkRule = {
@@ -1939,15 +2697,20 @@
         TrackedResource: TrackedResource,
         ResourceNamespacePatch: ResourceNamespacePatch,
         SBSku: SBSku,
+        SBNamespaceProperties: SBNamespaceProperties,
         SBNamespace: SBNamespace,
         SBNamespaceUpdateParameters: SBNamespaceUpdateParameters,
+        SBAuthorizationRuleProperties: SBAuthorizationRuleProperties,
         SBAuthorizationRule: SBAuthorizationRule,
         AuthorizationRuleProperties: AuthorizationRuleProperties,
         AccessKeys: AccessKeys,
         RegenerateAccessKeyParameters: RegenerateAccessKeyParameters,
         MessageCountDetails: MessageCountDetails,
+        SBQueueProperties: SBQueueProperties,
         SBQueue: SBQueue,
+        SBTopicProperties: SBTopicProperties,
         SBTopic: SBTopic,
+        SBSubscriptionProperties: SBSubscriptionProperties,
         SBSubscription: SBSubscription,
         CheckNameAvailability: CheckNameAvailability,
         CheckNameAvailabilityResult: CheckNameAvailabilityResult,
@@ -1957,16 +2720,23 @@
         Action: Action,
         SqlFilter: SqlFilter,
         CorrelationFilter: CorrelationFilter,
+        Ruleproperties: Ruleproperties,
         Rule: Rule,
         SqlRuleAction: SqlRuleAction,
         PremiumMessagingRegionsProperties: PremiumMessagingRegionsProperties,
         PremiumMessagingRegions: PremiumMessagingRegions,
+        DestinationProperties: DestinationProperties,
         Destination: Destination,
         CaptureDescription: CaptureDescription,
+        EventhubProperties: EventhubProperties,
         Eventhub: Eventhub,
+        ArmDisasterRecoveryProperties: ArmDisasterRecoveryProperties,
         ArmDisasterRecovery: ArmDisasterRecovery,
+        MigrationConfigPropertiesProperties: MigrationConfigPropertiesProperties,
         MigrationConfigProperties: MigrationConfigProperties,
+        IpFilterRuleProperties: IpFilterRuleProperties,
         IpFilterRule: IpFilterRule,
+        VirtualNetworkRuleProperties: VirtualNetworkRuleProperties,
         VirtualNetworkRule: VirtualNetworkRule,
         OperationListResult: OperationListResult,
         SBNamespaceListResult: SBNamespaceListResult,

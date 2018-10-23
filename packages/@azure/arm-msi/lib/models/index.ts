@@ -16,6 +16,45 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
+ * An interface representing IdentityProperties.
+ * @summary Identity properties.
+ *
+ * The properties associated with the identity.
+ *
+ */
+export interface IdentityProperties {
+  /**
+   * @member {string} [tenantId] The id of the tenant which the identity
+   * belongs to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * @member {string} [principalId] The id of the service principal object
+   * associated with the created identity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * @member {string} [clientId] The id of the app associated with the
+   * identity. This is a random generated UUID by MSI.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly clientId?: string;
+  /**
+   * @member {string} [clientSecretUrl] The ManagedServiceIdentity DataPlane
+   * URL that can be queried to obtain the identity credentials.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly clientSecretUrl?: string;
+}
+
+/**
+ * @interface
  * An interface representing Identity.
  * Describes an identity resource.
  *

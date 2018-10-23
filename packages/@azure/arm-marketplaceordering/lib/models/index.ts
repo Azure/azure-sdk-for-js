@@ -16,6 +16,53 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
+ * An interface representing AgreementProperties.
+ * Agreement Terms definition
+ *
+ */
+export interface AgreementProperties {
+  /**
+   * @member {string} [publisher] Publisher identifier string of image being
+   * deployed.
+   */
+  publisher?: string;
+  /**
+   * @member {string} [product] Offer identifier string of image being
+   * deployed.
+   */
+  product?: string;
+  /**
+   * @member {string} [plan] Plan identifier string of image being deployed.
+   */
+  plan?: string;
+  /**
+   * @member {string} [licenseTextLink] Link to HTML with Microsoft and
+   * Publisher terms.
+   */
+  licenseTextLink?: string;
+  /**
+   * @member {string} [privacyPolicyLink] Link to the privacy policy of the
+   * publisher.
+   */
+  privacyPolicyLink?: string;
+  /**
+   * @member {string} [retrieveDatetime] Date and time in UTC of when the terms
+   * were accepted. This is empty if Accepted is false.
+   */
+  retrieveDatetime?: string;
+  /**
+   * @member {string} [signature] Terms signature.
+   */
+  signature?: string;
+  /**
+   * @member {boolean} [accepted] If any version of the terms have been
+   * accepted, otherwise false.
+   */
+  accepted?: boolean;
+}
+
+/**
+ * @interface
  * An interface representing Resource.
  * ARM resource.
  *

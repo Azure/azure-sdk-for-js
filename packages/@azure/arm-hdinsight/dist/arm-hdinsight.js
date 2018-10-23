@@ -95,20 +95,6 @@
         Tier["Premium"] = "Premium";
     })(Tier || (Tier = {}));
     /**
-     * Defines values for ResourceIdentityType.
-     * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,
-     * UserAssigned', 'None'
-     * @readonly
-     * @enum {string}
-     */
-    var ResourceIdentityType;
-    (function (ResourceIdentityType) {
-        ResourceIdentityType["SystemAssigned"] = "SystemAssigned";
-        ResourceIdentityType["UserAssigned"] = "UserAssigned";
-        ResourceIdentityType["SystemAssignedUserAssigned"] = "SystemAssigned, UserAssigned";
-        ResourceIdentityType["None"] = "None";
-    })(ResourceIdentityType || (ResourceIdentityType = {}));
-    /**
      * Defines values for HDInsightClusterProvisioningState.
      * Possible values include: 'InProgress', 'Failed', 'Succeeded', 'Canceled',
      * 'Deleting'
@@ -140,7 +126,6 @@
         get DirectoryType () { return DirectoryType; },
         get OSType () { return OSType; },
         get Tier () { return Tier; },
-        get ResourceIdentityType () { return ResourceIdentityType; },
         get HDInsightClusterProvisioningState () { return HDInsightClusterProvisioningState; },
         get AsyncOperationState () { return AsyncOperationState; }
     });
@@ -661,76 +646,6 @@
             }
         }
     };
-    var ClusterIdentityUserAssignedIdentitiesValue = {
-        serializedName: "ClusterIdentity_userAssignedIdentitiesValue",
-        type: {
-            name: "Composite",
-            className: "ClusterIdentityUserAssignedIdentitiesValue",
-            modelProperties: {
-                principalId: {
-                    readOnly: true,
-                    serializedName: "principalId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                clientId: {
-                    readOnly: true,
-                    serializedName: "clientId",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var ClusterIdentity = {
-        serializedName: "ClusterIdentity",
-        type: {
-            name: "Composite",
-            className: "ClusterIdentity",
-            modelProperties: {
-                principalId: {
-                    readOnly: true,
-                    serializedName: "principalId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                tenantId: {
-                    readOnly: true,
-                    serializedName: "tenantId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                type: {
-                    serializedName: "type",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "SystemAssigned",
-                            "UserAssigned",
-                            "SystemAssigned, UserAssigned",
-                            "None"
-                        ]
-                    }
-                },
-                userAssignedIdentities: {
-                    serializedName: "userAssignedIdentities",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Composite",
-                                className: "ClusterIdentityUserAssignedIdentitiesValue"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var ClusterCreateParametersExtended = {
         serializedName: "ClusterCreateParametersExtended",
         type: {
@@ -759,13 +674,6 @@
                     type: {
                         name: "Composite",
                         className: "ClusterCreateProperties"
-                    }
-                },
-                identity: {
-                    serializedName: "identity",
-                    type: {
-                        name: "Composite",
-                        className: "ClusterIdentity"
                     }
                 }
             }
@@ -1042,12 +950,6 @@
                     type: {
                         name: "Composite",
                         className: "ClusterGetProperties"
-                    }
-                }, identity: {
-                    serializedName: "identity",
-                    type: {
-                        name: "Composite",
-                        className: "ClusterIdentity"
                     }
                 } })
         }
@@ -1946,8 +1848,6 @@
         StorageAccount: StorageAccount,
         StorageProfile: StorageProfile,
         ClusterCreateProperties: ClusterCreateProperties,
-        ClusterIdentityUserAssignedIdentitiesValue: ClusterIdentityUserAssignedIdentitiesValue,
-        ClusterIdentity: ClusterIdentity,
         ClusterCreateParametersExtended: ClusterCreateParametersExtended,
         ClusterPatchParameters: ClusterPatchParameters,
         QuotaInfo: QuotaInfo,
@@ -2014,8 +1914,6 @@
         ScriptAction: ScriptAction,
         StorageProfile: StorageProfile,
         StorageAccount: StorageAccount,
-        ClusterIdentity: ClusterIdentity,
-        ClusterIdentityUserAssignedIdentitiesValue: ClusterIdentityUserAssignedIdentitiesValue,
         Cluster: Cluster,
         TrackedResource: TrackedResource,
         Resource: Resource,
@@ -2635,9 +2533,7 @@
         ClusterDefinition: ClusterDefinition,
         SecurityProfile: SecurityProfile,
         QuotaInfo: QuotaInfo,
-        ConnectivityEndpoint: ConnectivityEndpoint,
-        ClusterIdentity: ClusterIdentity,
-        ClusterIdentityUserAssignedIdentitiesValue: ClusterIdentityUserAssignedIdentitiesValue
+        ConnectivityEndpoint: ConnectivityEndpoint
     });
 
     /*

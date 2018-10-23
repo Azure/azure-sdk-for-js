@@ -871,6 +871,39 @@
                 } })
         }
     };
+    var VaultExtendedInfo = {
+        serializedName: "VaultExtendedInfo",
+        type: {
+            name: "Composite",
+            className: "VaultExtendedInfo",
+            modelProperties: {
+                integrityKey: {
+                    serializedName: "integrityKey",
+                    type: {
+                        name: "String"
+                    }
+                },
+                encryptionKey: {
+                    serializedName: "encryptionKey",
+                    type: {
+                        name: "String"
+                    }
+                },
+                encryptionKeyThumbprint: {
+                    serializedName: "encryptionKeyThumbprint",
+                    type: {
+                        name: "String"
+                    }
+                },
+                algorithm: {
+                    serializedName: "algorithm",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var VaultExtendedInfoResource = {
         serializedName: "VaultExtendedInfoResource",
         type: {
@@ -1094,6 +1127,7 @@
         VaultProperties: VaultProperties,
         Vault: Vault,
         PatchVault: PatchVault,
+        VaultExtendedInfo: VaultExtendedInfo,
         VaultExtendedInfoResource: VaultExtendedInfoResource,
         NameInfo: NameInfo,
         VaultUsage: VaultUsage,

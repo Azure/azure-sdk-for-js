@@ -333,6 +333,132 @@
             }
         }
     };
+    var DatabaseAccountProperties = {
+        serializedName: "DatabaseAccountProperties",
+        type: {
+            name: "Composite",
+            className: "DatabaseAccountProperties",
+            modelProperties: {
+                provisioningState: {
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                documentEndpoint: {
+                    readOnly: true,
+                    serializedName: "documentEndpoint",
+                    type: {
+                        name: "String"
+                    }
+                },
+                databaseAccountOfferType: {
+                    readOnly: true,
+                    serializedName: "databaseAccountOfferType",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Standard"
+                        ]
+                    }
+                },
+                ipRangeFilter: {
+                    serializedName: "ipRangeFilter",
+                    type: {
+                        name: "String"
+                    }
+                },
+                isVirtualNetworkFilterEnabled: {
+                    serializedName: "isVirtualNetworkFilterEnabled",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                enableAutomaticFailover: {
+                    serializedName: "enableAutomaticFailover",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                consistencyPolicy: {
+                    serializedName: "consistencyPolicy",
+                    type: {
+                        name: "Composite",
+                        className: "ConsistencyPolicy"
+                    }
+                },
+                capabilities: {
+                    serializedName: "capabilities",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "Capability"
+                            }
+                        }
+                    }
+                },
+                writeLocations: {
+                    readOnly: true,
+                    serializedName: "writeLocations",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "Location"
+                            }
+                        }
+                    }
+                },
+                readLocations: {
+                    readOnly: true,
+                    serializedName: "readLocations",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "Location"
+                            }
+                        }
+                    }
+                },
+                failoverPolicies: {
+                    readOnly: true,
+                    serializedName: "failoverPolicies",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "FailoverPolicy"
+                            }
+                        }
+                    }
+                },
+                virtualNetworkRules: {
+                    serializedName: "virtualNetworkRules",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "VirtualNetworkRule"
+                            }
+                        }
+                    }
+                },
+                enableMultipleWriteLocations: {
+                    serializedName: "enableMultipleWriteLocations",
+                    type: {
+                        name: "Boolean"
+                    }
+                }
+            }
+        }
+    };
     var Resource = {
         serializedName: "Resource",
         type: {
@@ -553,6 +679,113 @@
                     serializedName: "region",
                     type: {
                         name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var DatabaseAccountPatchProperties = {
+        serializedName: "DatabaseAccountPatchProperties",
+        type: {
+            name: "Composite",
+            className: "DatabaseAccountPatchProperties",
+            modelProperties: {
+                capabilities: {
+                    serializedName: "capabilities",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "Capability"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
+    var DatabaseAccountCreateUpdateProperties = {
+        serializedName: "DatabaseAccountCreateUpdateProperties",
+        type: {
+            name: "Composite",
+            className: "DatabaseAccountCreateUpdateProperties",
+            modelProperties: {
+                consistencyPolicy: {
+                    serializedName: "consistencyPolicy",
+                    type: {
+                        name: "Composite",
+                        className: "ConsistencyPolicy"
+                    }
+                },
+                locations: {
+                    required: true,
+                    serializedName: "locations",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "Location"
+                            }
+                        }
+                    }
+                },
+                databaseAccountOfferType: {
+                    required: true,
+                    isConstant: true,
+                    serializedName: "databaseAccountOfferType",
+                    defaultValue: 'Standard',
+                    type: {
+                        name: "String"
+                    }
+                },
+                ipRangeFilter: {
+                    serializedName: "ipRangeFilter",
+                    type: {
+                        name: "String"
+                    }
+                },
+                isVirtualNetworkFilterEnabled: {
+                    serializedName: "isVirtualNetworkFilterEnabled",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                enableAutomaticFailover: {
+                    serializedName: "enableAutomaticFailover",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                capabilities: {
+                    serializedName: "capabilities",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "Capability"
+                            }
+                        }
+                    }
+                },
+                virtualNetworkRules: {
+                    serializedName: "virtualNetworkRules",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "VirtualNetworkRule"
+                            }
+                        }
+                    }
+                },
+                enableMultipleWriteLocations: {
+                    serializedName: "enableMultipleWriteLocations",
+                    type: {
+                        name: "Boolean"
                     }
                 }
             }
@@ -1432,11 +1665,14 @@
         Location: Location,
         FailoverPolicy: FailoverPolicy,
         VirtualNetworkRule: VirtualNetworkRule,
+        DatabaseAccountProperties: DatabaseAccountProperties,
         Resource: Resource,
         DatabaseAccount: DatabaseAccount,
         ErrorResponse: ErrorResponse,
         FailoverPolicies: FailoverPolicies,
         RegionForOnlineOffline: RegionForOnlineOffline,
+        DatabaseAccountPatchProperties: DatabaseAccountPatchProperties,
+        DatabaseAccountCreateUpdateProperties: DatabaseAccountCreateUpdateProperties,
         DatabaseAccountCreateUpdateParameters: DatabaseAccountCreateUpdateParameters,
         DatabaseAccountPatchParameters: DatabaseAccountPatchParameters,
         DatabaseAccountListReadOnlyKeysResult: DatabaseAccountListReadOnlyKeysResult,

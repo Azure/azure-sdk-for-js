@@ -93,6 +93,63 @@
      */
     var CloudError = msRestAzure.CloudErrorMapper;
     var BaseResource = msRestAzure.BaseResourceMapper;
+    var WorkspaceProperties = {
+        serializedName: "WorkspaceProperties",
+        type: {
+            name: "Composite",
+            className: "WorkspaceProperties",
+            modelProperties: {
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "String"
+                    }
+                },
+                accountId: {
+                    readOnly: true,
+                    serializedName: "accountId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                workspaceId: {
+                    readOnly: true,
+                    serializedName: "workspaceId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                friendlyName: {
+                    required: true,
+                    serializedName: "friendlyName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                creationDate: {
+                    readOnly: true,
+                    serializedName: "creationDate",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Creating",
+                            "Succeeded",
+                            "Updating",
+                            "Deleting",
+                            "Failed"
+                        ]
+                    }
+                }
+            }
+        }
+    };
     var Resource = {
         serializedName: "Resource",
         type: {
@@ -191,6 +248,27 @@
                 } })
         }
     };
+    var WorkspacePropertiesUpdateParameters = {
+        serializedName: "WorkspacePropertiesUpdateParameters",
+        type: {
+            name: "Composite",
+            className: "WorkspacePropertiesUpdateParameters",
+            modelProperties: {
+                friendlyName: {
+                    serializedName: "friendlyName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var WorkspaceUpdateParameters = {
         serializedName: "WorkspaceUpdateParameters",
         type: {
@@ -218,6 +296,76 @@
                     serializedName: "properties.description",
                     type: {
                         name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var ProjectProperties = {
+        serializedName: "ProjectProperties",
+        type: {
+            name: "Composite",
+            className: "ProjectProperties",
+            modelProperties: {
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "String"
+                    }
+                },
+                accountId: {
+                    readOnly: true,
+                    serializedName: "accountId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                workspaceId: {
+                    readOnly: true,
+                    serializedName: "workspaceId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                projectId: {
+                    readOnly: true,
+                    serializedName: "projectId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                gitrepo: {
+                    serializedName: "gitrepo",
+                    type: {
+                        name: "String"
+                    }
+                },
+                friendlyName: {
+                    required: true,
+                    serializedName: "friendlyName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                creationDate: {
+                    readOnly: true,
+                    serializedName: "creationDate",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Creating",
+                            "Succeeded",
+                            "Updating",
+                            "Deleting",
+                            "Failed"
+                        ]
                     }
                 }
             }
@@ -282,6 +430,33 @@
                         ]
                     }
                 } })
+        }
+    };
+    var ProjectPropertiesUpdateParameters = {
+        serializedName: "ProjectPropertiesUpdateParameters",
+        type: {
+            name: "Composite",
+            className: "ProjectPropertiesUpdateParameters",
+            modelProperties: {
+                friendlyName: {
+                    serializedName: "friendlyName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "String"
+                    }
+                },
+                gitrepo: {
+                    serializedName: "gitrepo",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
         }
     };
     var ProjectUpdateParameters = {
@@ -368,6 +543,90 @@
             }
         }
     };
+    var AccountProperties = {
+        serializedName: "AccountProperties",
+        type: {
+            name: "Composite",
+            className: "AccountProperties",
+            modelProperties: {
+                vsoAccountId: {
+                    required: true,
+                    serializedName: "vsoAccountId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                accountId: {
+                    readOnly: true,
+                    serializedName: "accountId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "String"
+                    }
+                },
+                friendlyName: {
+                    serializedName: "friendlyName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                keyVaultId: {
+                    required: true,
+                    serializedName: "keyVaultId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                seats: {
+                    serializedName: "seats",
+                    type: {
+                        name: "String"
+                    }
+                },
+                discoveryUri: {
+                    readOnly: true,
+                    serializedName: "discoveryUri",
+                    type: {
+                        name: "String"
+                    }
+                },
+                creationDate: {
+                    readOnly: true,
+                    serializedName: "creationDate",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                storageAccount: {
+                    required: true,
+                    serializedName: "storageAccount",
+                    type: {
+                        name: "Composite",
+                        className: "StorageAccountProperties"
+                    }
+                },
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Creating",
+                            "Succeeded",
+                            "Updating",
+                            "Deleting",
+                            "Failed"
+                        ]
+                    }
+                }
+            }
+        }
+    };
     var Account = {
         serializedName: "Account",
         type: {
@@ -439,6 +698,39 @@
                         ]
                     }
                 } })
+        }
+    };
+    var AccountPropertiesUpdateParameters = {
+        serializedName: "AccountPropertiesUpdateParameters",
+        type: {
+            name: "Composite",
+            className: "AccountPropertiesUpdateParameters",
+            modelProperties: {
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "String"
+                    }
+                },
+                friendlyName: {
+                    serializedName: "friendlyName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                seats: {
+                    serializedName: "seats",
+                    type: {
+                        name: "String"
+                    }
+                },
+                storageAccountKey: {
+                    serializedName: "storageAccountKey",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
         }
     };
     var AccountUpdateParameters = {
@@ -646,14 +938,20 @@
     var mappers = /*#__PURE__*/Object.freeze({
         CloudError: CloudError,
         BaseResource: BaseResource,
+        WorkspaceProperties: WorkspaceProperties,
         Resource: Resource,
         Workspace: Workspace,
+        WorkspacePropertiesUpdateParameters: WorkspacePropertiesUpdateParameters,
         WorkspaceUpdateParameters: WorkspaceUpdateParameters,
+        ProjectProperties: ProjectProperties,
         Project: Project,
+        ProjectPropertiesUpdateParameters: ProjectPropertiesUpdateParameters,
         ProjectUpdateParameters: ProjectUpdateParameters,
         ErrorResponse: ErrorResponse,
         StorageAccountProperties: StorageAccountProperties,
+        AccountProperties: AccountProperties,
         Account: Account,
+        AccountPropertiesUpdateParameters: AccountPropertiesUpdateParameters,
         AccountUpdateParameters: AccountUpdateParameters,
         OperationDisplay: OperationDisplay,
         Operation: Operation,

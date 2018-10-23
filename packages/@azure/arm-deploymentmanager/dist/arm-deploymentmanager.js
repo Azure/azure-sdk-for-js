@@ -191,6 +191,48 @@
             }
         }
     };
+    var RolloutRequestProperties = {
+        serializedName: "RolloutRequestProperties",
+        type: {
+            name: "Composite",
+            className: "RolloutRequestProperties",
+            modelProperties: {
+                buildVersion: {
+                    required: true,
+                    serializedName: "buildVersion",
+                    type: {
+                        name: "String"
+                    }
+                },
+                artifactSourceId: {
+                    serializedName: "artifactSourceId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                targetServiceTopologyId: {
+                    required: true,
+                    serializedName: "targetServiceTopologyId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                stepGroups: {
+                    required: true,
+                    serializedName: "stepGroups",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "Step"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
     var Resource = {
         serializedName: "Resource",
         type: {
@@ -289,6 +331,49 @@
                 } })
         }
     };
+    var ArtifactSourcePropertiesModel = {
+        serializedName: "ArtifactSourceProperties",
+        type: {
+            name: "Composite",
+            className: "ArtifactSourcePropertiesModel",
+            modelProperties: {
+                sourceType: {
+                    required: true,
+                    serializedName: "sourceType",
+                    type: {
+                        name: "String"
+                    }
+                },
+                artifactRoot: {
+                    serializedName: "artifactRoot",
+                    type: {
+                        name: "String"
+                    }
+                },
+                authentication: {
+                    required: true,
+                    serializedName: "authentication",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "type",
+                            clientName: "type"
+                        },
+                        uberParent: "Authentication",
+                        className: "Authentication"
+                    }
+                }
+            }
+        }
+    };
+    var ArtifactSourceProperties = {
+        serializedName: "ArtifactSource_properties",
+        type: {
+            name: "Composite",
+            className: "ArtifactSourceProperties",
+            modelProperties: __assign({}, ArtifactSourcePropertiesModel.type.modelProperties)
+        }
+    };
     var ArtifactSource = {
         serializedName: "ArtifactSource",
         type: {
@@ -341,36 +426,17 @@
             }
         }
     };
-    var ArtifactSourcePropertiesModel = {
-        serializedName: "ArtifactSourceProperties",
+    var SasProperties = {
+        serializedName: "SasProperties",
         type: {
             name: "Composite",
-            className: "ArtifactSourcePropertiesModel",
+            className: "SasProperties",
             modelProperties: {
-                sourceType: {
+                sasUri: {
                     required: true,
-                    serializedName: "sourceType",
+                    serializedName: "sasUri",
                     type: {
                         name: "String"
-                    }
-                },
-                artifactRoot: {
-                    serializedName: "artifactRoot",
-                    type: {
-                        name: "String"
-                    }
-                },
-                authentication: {
-                    required: true,
-                    serializedName: "authentication",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "Authentication",
-                        className: "Authentication"
                     }
                 }
             }
@@ -769,6 +835,83 @@
                 } })
         }
     };
+    var RolloutProperties = {
+        serializedName: "Rollout_properties",
+        type: {
+            name: "Composite",
+            className: "RolloutProperties",
+            modelProperties: {
+                buildVersion: {
+                    required: true,
+                    serializedName: "buildVersion",
+                    type: {
+                        name: "String"
+                    }
+                },
+                artifactSourceId: {
+                    serializedName: "artifactSourceId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                targetServiceTopologyId: {
+                    required: true,
+                    serializedName: "targetServiceTopologyId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                stepGroups: {
+                    required: true,
+                    serializedName: "stepGroups",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "Step"
+                            }
+                        }
+                    }
+                },
+                status: {
+                    readOnly: true,
+                    serializedName: "status",
+                    type: {
+                        name: "String"
+                    }
+                },
+                totalRetryAttempts: {
+                    readOnly: true,
+                    serializedName: "totalRetryAttempts",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                operationInfo: {
+                    readOnly: true,
+                    serializedName: "operationInfo",
+                    type: {
+                        name: "Composite",
+                        className: "RolloutOperationInfo"
+                    }
+                },
+                services: {
+                    readOnly: true,
+                    serializedName: "services",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "Service"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
     var Rollout = {
         serializedName: "Rollout",
         type: {
@@ -887,19 +1030,6 @@
             }
         }
     };
-    var ServiceTopologyResource = {
-        serializedName: "ServiceTopologyResource",
-        type: {
-            name: "Composite",
-            className: "ServiceTopologyResource",
-            modelProperties: __assign({}, TrackedResource.type.modelProperties, { artifactSourceId: {
-                    serializedName: "properties.artifactSourceId",
-                    type: {
-                        name: "String"
-                    }
-                } })
-        }
-    };
     var ServiceTopologyProperties = {
         serializedName: "ServiceTopologyProperties",
         type: {
@@ -913,6 +1043,35 @@
                     }
                 }
             }
+        }
+    };
+    var ServiceTopologyResourceProperties = {
+        serializedName: "ServiceTopologyResource_properties",
+        type: {
+            name: "Composite",
+            className: "ServiceTopologyResourceProperties",
+            modelProperties: __assign({}, ServiceTopologyProperties.type.modelProperties)
+        }
+    };
+    var ServiceTopologyResource = {
+        serializedName: "ServiceTopologyResource",
+        type: {
+            name: "Composite",
+            className: "ServiceTopologyResource",
+            modelProperties: __assign({}, TrackedResource.type.modelProperties, { artifactSourceId: {
+                    serializedName: "properties.artifactSourceId",
+                    type: {
+                        name: "String"
+                    }
+                } })
+        }
+    };
+    var ServiceResourceProperties = {
+        serializedName: "ServiceResource_properties",
+        type: {
+            name: "Composite",
+            className: "ServiceResourceProperties",
+            modelProperties: __assign({}, ServiceProperties.type.modelProperties)
         }
     };
     var ServiceResource = {
@@ -933,6 +1092,14 @@
                         name: "String"
                     }
                 } })
+        }
+    };
+    var ServiceUnitResourceProperties = {
+        serializedName: "ServiceUnitResource_properties",
+        type: {
+            name: "Composite",
+            className: "ServiceUnitResourceProperties",
+            modelProperties: __assign({}, ServiceUnitProperties.type.modelProperties)
         }
     };
     var ServiceUnitResource = {
@@ -1203,12 +1370,15 @@
         Identity: Identity,
         PrePostStep: PrePostStep,
         Step: Step,
+        RolloutRequestProperties: RolloutRequestProperties,
         Resource: Resource,
         TrackedResource: TrackedResource,
         RolloutRequest: RolloutRequest,
+        ArtifactSourcePropertiesModel: ArtifactSourcePropertiesModel,
+        ArtifactSourceProperties: ArtifactSourceProperties,
         ArtifactSource: ArtifactSource,
         Authentication: Authentication,
-        ArtifactSourcePropertiesModel: ArtifactSourcePropertiesModel,
+        SasProperties: SasProperties,
         SasAuthentication: SasAuthentication,
         CloudErrorBody: CloudErrorBody,
         RolloutOperationInfo: RolloutOperationInfo,
@@ -1220,11 +1390,15 @@
         ServiceUnit: ServiceUnit,
         ServiceProperties: ServiceProperties,
         Service: Service,
+        RolloutProperties: RolloutProperties,
         Rollout: Rollout,
         RolloutPropertiesModel: RolloutPropertiesModel,
-        ServiceTopologyResource: ServiceTopologyResource,
         ServiceTopologyProperties: ServiceTopologyProperties,
+        ServiceTopologyResourceProperties: ServiceTopologyResourceProperties,
+        ServiceTopologyResource: ServiceTopologyResource,
+        ServiceResourceProperties: ServiceResourceProperties,
         ServiceResource: ServiceResource,
+        ServiceUnitResourceProperties: ServiceUnitResourceProperties,
         ServiceUnitResource: ServiceUnitResource,
         ServiceUnitArtifacts: ServiceUnitArtifacts,
         OperationDetail: OperationDetail,
@@ -1275,7 +1449,9 @@
         StepOperationInfo: StepOperationInfo,
         ResourceOperation: ResourceOperation,
         Message: Message,
+        ServiceResourceProperties: ServiceResourceProperties,
         ServiceResource: ServiceResource,
+        ServiceUnitResourceProperties: ServiceUnitResourceProperties,
         ServiceUnitResource: ServiceUnitResource,
         StepResource: StepResource,
         StepProperties: StepProperties,
@@ -1580,6 +1756,8 @@
         ResourceOperation: ResourceOperation,
         Message: Message,
         ServiceTopologyResource: ServiceTopologyResource,
+        ServiceResourceProperties: ServiceResourceProperties,
+        ServiceUnitResourceProperties: ServiceUnitResourceProperties,
         ServiceUnitResource: ServiceUnitResource,
         StepResource: StepResource,
         StepProperties: StepProperties,
@@ -1752,7 +1930,9 @@
         ResourceOperation: ResourceOperation,
         Message: Message,
         ServiceTopologyResource: ServiceTopologyResource,
+        ServiceResourceProperties: ServiceResourceProperties,
         ServiceResource: ServiceResource,
+        ServiceUnitResourceProperties: ServiceUnitResourceProperties,
         StepResource: StepResource,
         StepProperties: StepProperties,
         WaitStepProperties: WaitStepProperties,
@@ -1959,7 +2139,9 @@
         ResourceOperation: ResourceOperation,
         Message: Message,
         ServiceTopologyResource: ServiceTopologyResource,
+        ServiceResourceProperties: ServiceResourceProperties,
         ServiceResource: ServiceResource,
+        ServiceUnitResourceProperties: ServiceUnitResourceProperties,
         ServiceUnitResource: ServiceUnitResource,
         WaitStepProperties: WaitStepProperties,
         WaitStepAttributes: WaitStepAttributes,
@@ -2125,7 +2307,9 @@
         Authentication: Authentication,
         SasAuthentication: SasAuthentication,
         ServiceTopologyResource: ServiceTopologyResource,
+        ServiceResourceProperties: ServiceResourceProperties,
         ServiceResource: ServiceResource,
+        ServiceUnitResourceProperties: ServiceUnitResourceProperties,
         ServiceUnitResource: ServiceUnitResource,
         StepResource: StepResource,
         StepProperties: StepProperties,
@@ -2379,7 +2563,9 @@
         ResourceOperation: ResourceOperation,
         Message: Message,
         ServiceTopologyResource: ServiceTopologyResource,
+        ServiceResourceProperties: ServiceResourceProperties,
         ServiceResource: ServiceResource,
+        ServiceUnitResourceProperties: ServiceUnitResourceProperties,
         ServiceUnitResource: ServiceUnitResource,
         StepResource: StepResource,
         StepProperties: StepProperties,

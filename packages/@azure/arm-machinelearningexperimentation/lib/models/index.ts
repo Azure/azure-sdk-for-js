@@ -16,6 +16,54 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
+ * An interface representing WorkspaceProperties.
+ * The properties of a machine learning team account workspace.
+ *
+ */
+export interface WorkspaceProperties {
+  /**
+   * @member {string} [description] The description of this workspace.
+   */
+  description?: string;
+  /**
+   * @member {string} [accountId] The immutable id of the team account which
+   * contains this workspace.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly accountId?: string;
+  /**
+   * @member {string} [workspaceId] The immutable id of this workspace.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly workspaceId?: string;
+  /**
+   * @member {string} friendlyName The friendly name for this workspace. This
+   * will be the workspace name in the arm id when the workspace object gets
+   * created
+   */
+  friendlyName: string;
+  /**
+   * @member {Date} [creationDate] The creation date of the machine learning
+   * workspace in ISO8601 format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationDate?: Date;
+  /**
+   * @member {ProvisioningState} [provisioningState] The current deployment
+   * state of team account workspace resource. The provisioningState is to
+   * indicate states for resource provisioning. Possible values include:
+   * 'Creating', 'Succeeded', 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/**
+ * @interface
  * An interface representing Resource.
  * An Azure resource.
  *
@@ -103,6 +151,24 @@ export interface Workspace extends Resource {
 
 /**
  * @interface
+ * An interface representing WorkspacePropertiesUpdateParameters.
+ * The parameters for updating the properties of a machine learning team
+ * account workspace.
+ *
+ */
+export interface WorkspacePropertiesUpdateParameters {
+  /**
+   * @member {string} [friendlyName] Friendly name of this workspace.
+   */
+  friendlyName?: string;
+  /**
+   * @member {string} [description] Description for this workspace.
+   */
+  description?: string;
+}
+
+/**
+ * @interface
  * An interface representing WorkspaceUpdateParameters.
  * The parameters for updating a machine learning team account workspace.
  *
@@ -121,6 +187,63 @@ export interface WorkspaceUpdateParameters {
    * @member {string} [description] Description for this workspace.
    */
   description?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ProjectProperties.
+ * The properties of a machine learning project.
+ *
+ */
+export interface ProjectProperties {
+  /**
+   * @member {string} [description] The description of this project.
+   */
+  description?: string;
+  /**
+   * @member {string} [accountId] The immutable id of the team account which
+   * contains this project.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly accountId?: string;
+  /**
+   * @member {string} [workspaceId] The immutable id of the workspace which
+   * contains this project.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly workspaceId?: string;
+  /**
+   * @member {string} [projectId] The immutable id of this project.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly projectId?: string;
+  /**
+   * @member {string} [gitrepo] The reference to git repo for this project.
+   */
+  gitrepo?: string;
+  /**
+   * @member {string} friendlyName The friendly name for this project.
+   */
+  friendlyName: string;
+  /**
+   * @member {Date} [creationDate] The creation date of the project in ISO8601
+   * format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationDate?: Date;
+  /**
+   * @member {ProvisioningState} [provisioningState] The current deployment
+   * state of project resource. The provisioningState is to indicate states for
+   * resource provisioning. Possible values include: 'Creating', 'Succeeded',
+   * 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
 }
 
 /**
@@ -183,6 +306,27 @@ export interface Project extends Resource {
 
 /**
  * @interface
+ * An interface representing ProjectPropertiesUpdateParameters.
+ * The parameters for updating the properties of a project.
+ *
+ */
+export interface ProjectPropertiesUpdateParameters {
+  /**
+   * @member {string} [friendlyName] The friendly name for this project.
+   */
+  friendlyName?: string;
+  /**
+   * @member {string} [description] The description of this project.
+   */
+  description?: string;
+  /**
+   * @member {string} [gitrepo] The reference to git repo for this project.
+   */
+  gitrepo?: string;
+}
+
+/**
+ * @interface
  * An interface representing ProjectUpdateParameters.
  * The parameters for updating a machine learning project.
  *
@@ -240,6 +384,75 @@ export interface StorageAccountProperties {
    * @member {string} accessKey The access key to the storage account.
    */
   accessKey: string;
+}
+
+/**
+ * @interface
+ * An interface representing AccountProperties.
+ * The properties of a machine learning team account.
+ *
+ */
+export interface AccountProperties {
+  /**
+   * @member {string} vsoAccountId The fully qualified arm id of the vso
+   * account to be used for this team account.
+   */
+  vsoAccountId: string;
+  /**
+   * @member {string} [accountId] The immutable id associated with this team
+   * account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly accountId?: string;
+  /**
+   * @member {string} [description] The description of this workspace.
+   */
+  description?: string;
+  /**
+   * @member {string} [friendlyName] The friendly name for this workspace. This
+   * will be the workspace name in the arm id when the workspace object gets
+   * created
+   */
+  friendlyName?: string;
+  /**
+   * @member {string} keyVaultId The fully qualified arm id of the user key
+   * vault.
+   */
+  keyVaultId: string;
+  /**
+   * @member {string} [seats] The no of users/seats who can access this team
+   * account. This property defines the charge on the team account.
+   */
+  seats?: string;
+  /**
+   * @member {string} [discoveryUri] The uri for this machine learning team
+   * account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly discoveryUri?: string;
+  /**
+   * @member {Date} [creationDate] The creation date of the machine learning
+   * team account in ISO8601 format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationDate?: Date;
+  /**
+   * @member {StorageAccountProperties} storageAccount The properties of the
+   * storage account for the machine learning team account.
+   */
+  storageAccount: StorageAccountProperties;
+  /**
+   * @member {ProvisioningState} [provisioningState] The current deployment
+   * state of team account resource. The provisioningState is to indicate
+   * states for resource provisioning. Possible values include: 'Creating',
+   * 'Succeeded', 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
 }
 
 /**
@@ -310,6 +523,36 @@ export interface Account extends Resource {
    * the server.**
    */
   readonly provisioningState?: ProvisioningState;
+}
+
+/**
+ * @interface
+ * An interface representing AccountPropertiesUpdateParameters.
+ * The parameters for updating the properties of a machine learning team
+ * account.
+ *
+ */
+export interface AccountPropertiesUpdateParameters {
+  /**
+   * @member {string} [description] The description of this workspace.
+   */
+  description?: string;
+  /**
+   * @member {string} [friendlyName] The friendly name for this workspace. This
+   * will be the workspace name in the arm id when the workspace object gets
+   * created
+   */
+  friendlyName?: string;
+  /**
+   * @member {string} [seats] The no of users/seats who can access this team
+   * account. This property defines the charge on the team account.
+   */
+  seats?: string;
+  /**
+   * @member {string} [storageAccountKey] The key for storage account
+   * associated with this team account
+   */
+  storageAccountKey?: string;
 }
 
 /**
