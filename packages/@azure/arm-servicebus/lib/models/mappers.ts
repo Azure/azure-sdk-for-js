@@ -247,30 +247,6 @@ export const SBNamespaceUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
-export const SBNamespaceMigrate: msRest.CompositeMapper = {
-  serializedName: "SBNamespaceMigrate",
-  type: {
-    name: "Composite",
-    className: "SBNamespaceMigrate",
-    modelProperties: {
-      targetNamespaceType: {
-        required: true,
-        serializedName: "targetNamespaceType",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Messaging",
-            "NotificationHub",
-            "Mixed",
-            "EventHub",
-            "Relay"
-          ]
-        }
-      }
-    }
-  }
-};
-
 export const SBAuthorizationRule: msRest.CompositeMapper = {
   serializedName: "SBAuthorizationRule",
   type: {

@@ -372,7 +372,7 @@
     })(ProvisioningState || (ProvisioningState = {}));
     /**
      * Defines values for SyncType.
-     * Possible values include: 'IncrementalSync', 'FullSync'
+     * Possible values include: 'PartialSync', 'FullSync'
      * There could be more values for this enum apart from the ones defined here.If
      * you want to set a value that is not from the known values then you can do
      * the following:
@@ -382,7 +382,7 @@
      */
     var SyncType;
     (function (SyncType) {
-        SyncType["IncrementalSync"] = "IncrementalSync";
+        SyncType["PartialSync"] = "PartialSync";
         SyncType["FullSync"] = "FullSync";
     })(SyncType || (SyncType = {}));
     /**

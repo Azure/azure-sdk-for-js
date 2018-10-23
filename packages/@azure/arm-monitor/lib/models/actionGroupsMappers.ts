@@ -22,7 +22,6 @@ export {
   VoiceReceiver,
   LogicAppReceiver,
   AzureFunctionReceiver,
-  ArmRoleReceiver,
   ErrorResponse,
   ActionGroupPatchBody,
   ActionGroupList,

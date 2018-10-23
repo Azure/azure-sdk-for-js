@@ -424,42 +424,6 @@ export class Namespaces {
   }
 
   /**
-   * This operation Migrate the given namespace to provided name type
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param parameters Parameters supplied to migrate namespace type.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  migrate(resourceGroupName: string, namespaceName: string, parameters: Models.SBNamespaceMigrate, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param parameters Parameters supplied to migrate namespace type.
-   * @param callback The callback
-   */
-  migrate(resourceGroupName: string, namespaceName: string, parameters: Models.SBNamespaceMigrate, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param parameters Parameters supplied to migrate namespace type.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  migrate(resourceGroupName: string, namespaceName: string, parameters: Models.SBNamespaceMigrate, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  migrate(resourceGroupName: string, namespaceName: string, parameters: Models.SBNamespaceMigrate, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        namespaceName,
-        parameters,
-        options
-      },
-      migrateOperationSpec,
-      callback);
-  }
-
-  /**
    * Gets a list of IP Filter rules for a Namespace.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -1229,36 +1193,6 @@ const regenerateKeysOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.AccessKeys
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const migrateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrate",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.namespaceName1,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.SBNamespaceMigrate,
-      required: true
-    }
-  },
-  responses: {
-    200: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

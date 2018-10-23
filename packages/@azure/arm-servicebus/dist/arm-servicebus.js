@@ -87,21 +87,6 @@
         SkuTier["Premium"] = "Premium";
     })(SkuTier || (SkuTier = {}));
     /**
-     * Defines values for NameSpaceType.
-     * Possible values include: 'Messaging', 'NotificationHub', 'Mixed',
-     * 'EventHub', 'Relay'
-     * @readonly
-     * @enum {string}
-     */
-    var NameSpaceType;
-    (function (NameSpaceType) {
-        NameSpaceType["Messaging"] = "Messaging";
-        NameSpaceType["NotificationHub"] = "NotificationHub";
-        NameSpaceType["Mixed"] = "Mixed";
-        NameSpaceType["EventHub"] = "EventHub";
-        NameSpaceType["Relay"] = "Relay";
-    })(NameSpaceType || (NameSpaceType = {}));
-    /**
      * Defines values for AccessRights.
      * Possible values include: 'Manage', 'Send', 'Listen'
      * @readonly
@@ -224,7 +209,6 @@
     var index = /*#__PURE__*/Object.freeze({
         get SkuName () { return SkuName; },
         get SkuTier () { return SkuTier; },
-        get NameSpaceType () { return NameSpaceType; },
         get AccessRights () { return AccessRights; },
         get KeyType () { return KeyType; },
         get EntityStatus () { return EntityStatus; },
@@ -448,29 +432,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var SBNamespaceMigrate = {
-        serializedName: "SBNamespaceMigrate",
-        type: {
-            name: "Composite",
-            className: "SBNamespaceMigrate",
-            modelProperties: {
-                targetNamespaceType: {
-                    required: true,
-                    serializedName: "targetNamespaceType",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Messaging",
-                            "NotificationHub",
-                            "Mixed",
-                            "EventHub",
-                            "Relay"
-                        ]
-                    }
-                }
-            }
         }
     };
     var SBAuthorizationRule = {
@@ -1980,7 +1941,6 @@
         SBSku: SBSku,
         SBNamespace: SBNamespace,
         SBNamespaceUpdateParameters: SBNamespaceUpdateParameters,
-        SBNamespaceMigrate: SBNamespaceMigrate,
         SBAuthorizationRule: SBAuthorizationRule,
         AuthorizationRuleProperties: AuthorizationRuleProperties,
         AccessKeys: AccessKeys,
@@ -2394,7 +2354,6 @@
         SBAuthorizationRule: SBAuthorizationRule,
         AccessKeys: AccessKeys,
         RegenerateAccessKeyParameters: RegenerateAccessKeyParameters,
-        SBNamespaceMigrate: SBNamespaceMigrate,
         IpFilterRuleListResult: IpFilterRuleListResult,
         IpFilterRule: IpFilterRule,
         VirtualNetworkRuleListResult: VirtualNetworkRuleListResult,
@@ -2540,14 +2499,6 @@
                 parameters: parameters,
                 options: options
             }, regenerateKeysOperationSpec, callback);
-        };
-        Namespaces.prototype.migrate = function (resourceGroupName$$1, namespaceName, parameters, options, callback) {
-            return this.client.sendOperationRequest({
-                resourceGroupName: resourceGroupName$$1,
-                namespaceName: namespaceName,
-                parameters: parameters,
-                options: options
-            }, migrateOperationSpec, callback);
         };
         Namespaces.prototype.listIpFilterRules = function (resourceGroupName$$1, namespaceName, options, callback) {
             return this.client.sendOperationRequest({
@@ -2956,32 +2907,6 @@
             200: {
                 bodyMapper: AccessKeys
             },
-            default: {
-                bodyMapper: ErrorResponse
-            }
-        },
-        serializer: serializer$1
-    };
-    var migrateOperationSpec = {
-        httpMethod: "POST",
-        path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrate",
-        urlParameters: [
-            resourceGroupName,
-            namespaceName1,
-            subscriptionId
-        ],
-        queryParameters: [
-            apiVersion
-        ],
-        headerParameters: [
-            acceptLanguage
-        ],
-        requestBody: {
-            parameterPath: "parameters",
-            mapper: __assign({}, SBNamespaceMigrate, { required: true })
-        },
-        responses: {
-            200: {},
             default: {
                 bodyMapper: ErrorResponse
             }
