@@ -78,7 +78,7 @@ gulp.task('codegen', async () => {
     .options({
       "debugger": {
         boolean: true,
-        alias: "d",
+        alias: ["d", "use-debugger"],
         description: "Enables debugger attaching to autorest.typescript process"
       },
       "use": {
