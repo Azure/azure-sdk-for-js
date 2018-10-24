@@ -14,6 +14,8 @@ export {
   MetricsResultInfo,
   MetricsSegmentInfo,
   ErrorResponse,
+  ErrorInfo,
+  ErrorDetail,
   MetricsPostBodySchema,
   MetricsPostBodySchemaParameters,
   MetricsResultsItem
