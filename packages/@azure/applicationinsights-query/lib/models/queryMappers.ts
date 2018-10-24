@@ -14,8 +14,6 @@ export {
   QueryResults,
   Table,
   Column,
-  ErrorResponse,
-  ErrorInfo,
-  ErrorDetail
+  ErrorResponse
 } from "../models/mappers";
 

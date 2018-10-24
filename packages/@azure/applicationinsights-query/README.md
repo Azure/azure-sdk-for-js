@@ -11,7 +11,7 @@ npm install @azure/applicationinsights-query
 ```
 - browser
 ```html
-<script type="text/javascript" src="@azure/applicationinsights-query/dist/applicationinsights-query.js"></script>
+<script type="text/javascript" src="@azure/applicationinsights-query/applicationInsightsDataClientBundle.js"></script>
 ```
 
 ## How to use
@@ -51,13 +51,13 @@ client.metrics.get(appId, metricId, timespan, interval, aggregation, segment, to
 <html lang="en">
   <head>
     <title>@azure/applicationinsights-query sample</title>
-    <script type="text/javascript" src="./node_modules/ms-rest-js/dist/msRest.browser.js"></script>
-    <script type="text/javascript" src="./dist/applicationinsights-query.js"></script>
+    <script type="text/javascript" src="./node_modules/ms-rest-js/msRestBundle.js"></script>
+    <script type="text/javascript" src="./applicationInsightsDataClientBundle.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
       const token = "<access_token>";
       const creds = new msRest.TokenCredentials(token);
-      const client = new Azure.ApplicationinsightsQuery.ApplicationInsightsDataClient(creds, subscriptionId);
+      const client = new ApplicationInsightsDataClient(creds, subscriptionId);
       const appId = "testappId";
       const metricId = "requests/count";
       const timespan = "testtimespan";
