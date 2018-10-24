@@ -854,12 +854,6 @@ export const VirtualMachineReimageParameters: msRest.CompositeMapper = {
     name: "Composite",
     className: "VirtualMachineReimageParameters",
     modelProperties: {
-      osDisk: {
-        serializedName: "osDisk",
-        type: {
-          name: "Boolean"
-        }
-      },
       tempDisk: {
         serializedName: "tempDisk",
         type: {
@@ -4040,18 +4034,7 @@ export const VirtualMachineScaleSetVMReimageParameters: msRest.CompositeMapper =
     name: "Composite",
     className: "VirtualMachineScaleSetVMReimageParameters",
     modelProperties: {
-      ...VirtualMachineReimageParameters.type.modelProperties,
-      dataDisks: {
-        serializedName: "dataDisks",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Number"
-            }
-          }
-        }
-      }
+      ...VirtualMachineReimageParameters.type.modelProperties
     }
   }
 };
