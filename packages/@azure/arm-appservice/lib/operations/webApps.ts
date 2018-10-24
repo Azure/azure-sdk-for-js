@@ -3823,16 +3823,16 @@ export class WebApps {
    * @param name Name of the app.
    * @param operationId GUID of the operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsGetNetworkTraceOperationOldResponse>
+   * @returns Promise<Models.WebAppsGetNetworkTraceOperationResponse>
    */
-  getNetworkTraceOperationOld(resourceGroupName: string, name: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetNetworkTraceOperationOldResponse>;
+  getNetworkTraceOperation(resourceGroupName: string, name: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetNetworkTraceOperationResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param operationId GUID of the operation.
    * @param callback The callback
    */
-  getNetworkTraceOperationOld(resourceGroupName: string, name: string, operationId: string, callback: msRest.ServiceCallback<any>): void;
+  getNetworkTraceOperation(resourceGroupName: string, name: string, operationId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
@@ -3840,8 +3840,8 @@ export class WebApps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getNetworkTraceOperationOld(resourceGroupName: string, name: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  getNetworkTraceOperationOld(resourceGroupName: string, name: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<any>): Promise<Models.WebAppsGetNetworkTraceOperationOldResponse> {
+  getNetworkTraceOperation(resourceGroupName: string, name: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getNetworkTraceOperation(resourceGroupName: string, name: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<any>): Promise<Models.WebAppsGetNetworkTraceOperationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -3849,8 +3849,8 @@ export class WebApps {
         operationId,
         options
       },
-      getNetworkTraceOperationOldOperationSpec,
-      callback) as Promise<Models.WebAppsGetNetworkTraceOperationOldResponse>;
+      getNetworkTraceOperationOperationSpec,
+      callback) as Promise<Models.WebAppsGetNetworkTraceOperationResponse>;
   }
 
   /**
@@ -3940,82 +3940,6 @@ export class WebApps {
    * @param name Name of the app.
    * @param operationId GUID of the operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsGetNetworkTracesOldResponse>
-   */
-  getNetworkTracesOld(resourceGroupName: string, name: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetNetworkTracesOldResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param operationId GUID of the operation.
-   * @param callback The callback
-   */
-  getNetworkTracesOld(resourceGroupName: string, name: string, operationId: string, callback: msRest.ServiceCallback<Models.NetworkTrace[]>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param operationId GUID of the operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getNetworkTracesOld(resourceGroupName: string, name: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkTrace[]>): void;
-  getNetworkTracesOld(resourceGroupName: string, name: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkTrace[]>): Promise<Models.WebAppsGetNetworkTracesOldResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        operationId,
-        options
-      },
-      getNetworkTracesOldOperationSpec,
-      callback) as Promise<Models.WebAppsGetNetworkTracesOldResponse>;
-  }
-
-  /**
-   * Gets a named operation for a network trace capturing (or deployment slot, if specified).
-   * @summary Gets a named operation for a network trace capturing (or deployment slot, if
-   * specified).
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param operationId GUID of the operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsGetNetworkTraceOperationResponse>
-   */
-  getNetworkTraceOperation(resourceGroupName: string, name: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetNetworkTraceOperationResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param operationId GUID of the operation.
-   * @param callback The callback
-   */
-  getNetworkTraceOperation(resourceGroupName: string, name: string, operationId: string, callback: msRest.ServiceCallback<any>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param operationId GUID of the operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getNetworkTraceOperation(resourceGroupName: string, name: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  getNetworkTraceOperation(resourceGroupName: string, name: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<any>): Promise<Models.WebAppsGetNetworkTraceOperationResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        operationId,
-        options
-      },
-      getNetworkTraceOperationOperationSpec,
-      callback) as Promise<Models.WebAppsGetNetworkTraceOperationResponse>;
-  }
-
-  /**
-   * Gets a named operation for a network trace capturing (or deployment slot, if specified).
-   * @summary Gets a named operation for a network trace capturing (or deployment slot, if
-   * specified).
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param operationId GUID of the operation.
-   * @param [options] The optional parameters
    * @returns Promise<Models.WebAppsGetNetworkTracesResponse>
    */
   getNetworkTraces(resourceGroupName: string, name: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetNetworkTracesResponse>;
@@ -4044,6 +3968,82 @@ export class WebApps {
       },
       getNetworkTracesOperationSpec,
       callback) as Promise<Models.WebAppsGetNetworkTracesResponse>;
+  }
+
+  /**
+   * Gets a named operation for a network trace capturing (or deployment slot, if specified).
+   * @summary Gets a named operation for a network trace capturing (or deployment slot, if
+   * specified).
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param operationId GUID of the operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetNetworkTraceOperationV2Response>
+   */
+  getNetworkTraceOperationV2(resourceGroupName: string, name: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetNetworkTraceOperationV2Response>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param operationId GUID of the operation.
+   * @param callback The callback
+   */
+  getNetworkTraceOperationV2(resourceGroupName: string, name: string, operationId: string, callback: msRest.ServiceCallback<any>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param operationId GUID of the operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getNetworkTraceOperationV2(resourceGroupName: string, name: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getNetworkTraceOperationV2(resourceGroupName: string, name: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<any>): Promise<Models.WebAppsGetNetworkTraceOperationV2Response> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        operationId,
+        options
+      },
+      getNetworkTraceOperationV2OperationSpec,
+      callback) as Promise<Models.WebAppsGetNetworkTraceOperationV2Response>;
+  }
+
+  /**
+   * Gets a named operation for a network trace capturing (or deployment slot, if specified).
+   * @summary Gets a named operation for a network trace capturing (or deployment slot, if
+   * specified).
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param operationId GUID of the operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetNetworkTracesV2Response>
+   */
+  getNetworkTracesV2(resourceGroupName: string, name: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetNetworkTracesV2Response>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param operationId GUID of the operation.
+   * @param callback The callback
+   */
+  getNetworkTracesV2(resourceGroupName: string, name: string, operationId: string, callback: msRest.ServiceCallback<Models.NetworkTrace[]>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param operationId GUID of the operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getNetworkTracesV2(resourceGroupName: string, name: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkTrace[]>): void;
+  getNetworkTracesV2(resourceGroupName: string, name: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkTrace[]>): Promise<Models.WebAppsGetNetworkTracesV2Response> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        operationId,
+        options
+      },
+      getNetworkTracesV2OperationSpec,
+      callback) as Promise<Models.WebAppsGetNetworkTracesV2Response>;
   }
 
   /**
@@ -9431,9 +9431,9 @@ export class WebApps {
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get an
    * operation for the production slot.
    * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsGetNetworkTraceOperationSlotOldResponse>
+   * @returns Promise<Models.WebAppsGetNetworkTraceOperationSlotResponse>
    */
-  getNetworkTraceOperationSlotOld(resourceGroupName: string, name: string, operationId: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetNetworkTraceOperationSlotOldResponse>;
+  getNetworkTraceOperationSlot(resourceGroupName: string, name: string, operationId: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetNetworkTraceOperationSlotResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
@@ -9442,7 +9442,7 @@ export class WebApps {
    * operation for the production slot.
    * @param callback The callback
    */
-  getNetworkTraceOperationSlotOld(resourceGroupName: string, name: string, operationId: string, slot: string, callback: msRest.ServiceCallback<any>): void;
+  getNetworkTraceOperationSlot(resourceGroupName: string, name: string, operationId: string, slot: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
@@ -9452,8 +9452,8 @@ export class WebApps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getNetworkTraceOperationSlotOld(resourceGroupName: string, name: string, operationId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  getNetworkTraceOperationSlotOld(resourceGroupName: string, name: string, operationId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<any>): Promise<Models.WebAppsGetNetworkTraceOperationSlotOldResponse> {
+  getNetworkTraceOperationSlot(resourceGroupName: string, name: string, operationId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getNetworkTraceOperationSlot(resourceGroupName: string, name: string, operationId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<any>): Promise<Models.WebAppsGetNetworkTraceOperationSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -9462,8 +9462,8 @@ export class WebApps {
         slot,
         options
       },
-      getNetworkTraceOperationSlotOldOperationSpec,
-      callback) as Promise<Models.WebAppsGetNetworkTraceOperationSlotOldResponse>;
+      getNetworkTraceOperationSlotOperationSpec,
+      callback) as Promise<Models.WebAppsGetNetworkTraceOperationSlotResponse>;
   }
 
   /**
@@ -9564,96 +9564,6 @@ export class WebApps {
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get an
    * operation for the production slot.
    * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsGetNetworkTracesSlotOldResponse>
-   */
-  getNetworkTracesSlotOld(resourceGroupName: string, name: string, operationId: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetNetworkTracesSlotOldResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param operationId GUID of the operation.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will get an
-   * operation for the production slot.
-   * @param callback The callback
-   */
-  getNetworkTracesSlotOld(resourceGroupName: string, name: string, operationId: string, slot: string, callback: msRest.ServiceCallback<Models.NetworkTrace[]>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param operationId GUID of the operation.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will get an
-   * operation for the production slot.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getNetworkTracesSlotOld(resourceGroupName: string, name: string, operationId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkTrace[]>): void;
-  getNetworkTracesSlotOld(resourceGroupName: string, name: string, operationId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkTrace[]>): Promise<Models.WebAppsGetNetworkTracesSlotOldResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        operationId,
-        slot,
-        options
-      },
-      getNetworkTracesSlotOldOperationSpec,
-      callback) as Promise<Models.WebAppsGetNetworkTracesSlotOldResponse>;
-  }
-
-  /**
-   * Gets a named operation for a network trace capturing (or deployment slot, if specified).
-   * @summary Gets a named operation for a network trace capturing (or deployment slot, if
-   * specified).
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param operationId GUID of the operation.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will get an
-   * operation for the production slot.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsGetNetworkTraceOperationSlotResponse>
-   */
-  getNetworkTraceOperationSlot(resourceGroupName: string, name: string, operationId: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetNetworkTraceOperationSlotResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param operationId GUID of the operation.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will get an
-   * operation for the production slot.
-   * @param callback The callback
-   */
-  getNetworkTraceOperationSlot(resourceGroupName: string, name: string, operationId: string, slot: string, callback: msRest.ServiceCallback<any>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param operationId GUID of the operation.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will get an
-   * operation for the production slot.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getNetworkTraceOperationSlot(resourceGroupName: string, name: string, operationId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  getNetworkTraceOperationSlot(resourceGroupName: string, name: string, operationId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<any>): Promise<Models.WebAppsGetNetworkTraceOperationSlotResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        operationId,
-        slot,
-        options
-      },
-      getNetworkTraceOperationSlotOperationSpec,
-      callback) as Promise<Models.WebAppsGetNetworkTraceOperationSlotResponse>;
-  }
-
-  /**
-   * Gets a named operation for a network trace capturing (or deployment slot, if specified).
-   * @summary Gets a named operation for a network trace capturing (or deployment slot, if
-   * specified).
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param operationId GUID of the operation.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will get an
-   * operation for the production slot.
-   * @param [options] The optional parameters
    * @returns Promise<Models.WebAppsGetNetworkTracesSlotResponse>
    */
   getNetworkTracesSlot(resourceGroupName: string, name: string, operationId: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetNetworkTracesSlotResponse>;
@@ -9687,6 +9597,96 @@ export class WebApps {
       },
       getNetworkTracesSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetNetworkTracesSlotResponse>;
+  }
+
+  /**
+   * Gets a named operation for a network trace capturing (or deployment slot, if specified).
+   * @summary Gets a named operation for a network trace capturing (or deployment slot, if
+   * specified).
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param operationId GUID of the operation.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will get an
+   * operation for the production slot.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetNetworkTraceOperationSlotV2Response>
+   */
+  getNetworkTraceOperationSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetNetworkTraceOperationSlotV2Response>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param operationId GUID of the operation.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will get an
+   * operation for the production slot.
+   * @param callback The callback
+   */
+  getNetworkTraceOperationSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, callback: msRest.ServiceCallback<any>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param operationId GUID of the operation.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will get an
+   * operation for the production slot.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getNetworkTraceOperationSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getNetworkTraceOperationSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<any>): Promise<Models.WebAppsGetNetworkTraceOperationSlotV2Response> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        operationId,
+        slot,
+        options
+      },
+      getNetworkTraceOperationSlotV2OperationSpec,
+      callback) as Promise<Models.WebAppsGetNetworkTraceOperationSlotV2Response>;
+  }
+
+  /**
+   * Gets a named operation for a network trace capturing (or deployment slot, if specified).
+   * @summary Gets a named operation for a network trace capturing (or deployment slot, if
+   * specified).
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param operationId GUID of the operation.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will get an
+   * operation for the production slot.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetNetworkTracesSlotV2Response>
+   */
+  getNetworkTracesSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetNetworkTracesSlotV2Response>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param operationId GUID of the operation.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will get an
+   * operation for the production slot.
+   * @param callback The callback
+   */
+  getNetworkTracesSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, callback: msRest.ServiceCallback<Models.NetworkTrace[]>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param operationId GUID of the operation.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will get an
+   * operation for the production slot.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getNetworkTracesSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkTrace[]>): void;
+  getNetworkTracesSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkTrace[]>): Promise<Models.WebAppsGetNetworkTracesSlotV2Response> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        operationId,
+        slot,
+        options
+      },
+      getNetworkTracesSlotV2OperationSpec,
+      callback) as Promise<Models.WebAppsGetNetworkTracesSlotV2Response>;
   }
 
   /**
@@ -18249,7 +18249,7 @@ const listNetworkFeaturesOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getNetworkTraceOperationOldOperationSpec: msRest.OperationSpec = {
+const getNetworkTraceOperationOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkTrace/operationresults/{operationId}",
   urlParameters: [
@@ -18346,7 +18346,7 @@ const stopWebSiteNetworkTraceOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getNetworkTracesOldOperationSpec: msRest.OperationSpec = {
+const getNetworkTracesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkTrace/{operationId}",
   urlParameters: [
@@ -18383,7 +18383,7 @@ const getNetworkTracesOldOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getNetworkTraceOperationOperationSpec: msRest.OperationSpec = {
+const getNetworkTraceOperationV2OperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkTraces/current/operationresults/{operationId}",
   urlParameters: [
@@ -18423,7 +18423,7 @@ const getNetworkTraceOperationOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getNetworkTracesOperationSpec: msRest.OperationSpec = {
+const getNetworkTracesV2OperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkTraces/{operationId}",
   urlParameters: [
@@ -21978,7 +21978,7 @@ const listNetworkFeaturesSlotOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getNetworkTraceOperationSlotOldOperationSpec: msRest.OperationSpec = {
+const getNetworkTraceOperationSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkTrace/operationresults/{operationId}",
   urlParameters: [
@@ -22078,7 +22078,7 @@ const stopWebSiteNetworkTraceSlotOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getNetworkTracesSlotOldOperationSpec: msRest.OperationSpec = {
+const getNetworkTracesSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkTrace/{operationId}",
   urlParameters: [
@@ -22116,7 +22116,7 @@ const getNetworkTracesSlotOldOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getNetworkTraceOperationSlotOperationSpec: msRest.OperationSpec = {
+const getNetworkTraceOperationSlotV2OperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkTraces/current/operationresults/{operationId}",
   urlParameters: [
@@ -22157,7 +22157,7 @@ const getNetworkTraceOperationSlotOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getNetworkTracesSlotOperationSpec: msRest.OperationSpec = {
+const getNetworkTracesSlotV2OperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkTraces/{operationId}",
   urlParameters: [

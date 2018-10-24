@@ -16229,9 +16229,9 @@ export type WebAppsListNetworkFeaturesResponse = NetworkFeatures & {
 };
 
 /**
- * Contains response data for the getNetworkTraceOperationOld operation.
+ * Contains response data for the getNetworkTraceOperation operation.
  */
-export type WebAppsGetNetworkTraceOperationOldResponse = {
+export type WebAppsGetNetworkTraceOperationResponse = {
   /**
    * The parsed response body.
    */
@@ -16298,9 +16298,9 @@ export type WebAppsStartWebSiteNetworkTraceOperationResponse = {
 };
 
 /**
- * Contains response data for the getNetworkTracesOld operation.
+ * Contains response data for the getNetworkTraces operation.
  */
-export type WebAppsGetNetworkTracesOldResponse = Array<NetworkTrace> & {
+export type WebAppsGetNetworkTracesResponse = Array<NetworkTrace> & {
   /**
    * The underlying HTTP response.
    */
@@ -16317,9 +16317,9 @@ export type WebAppsGetNetworkTracesOldResponse = Array<NetworkTrace> & {
 };
 
 /**
- * Contains response data for the getNetworkTraceOperation operation.
+ * Contains response data for the getNetworkTraceOperationV2 operation.
  */
-export type WebAppsGetNetworkTraceOperationResponse = {
+export type WebAppsGetNetworkTraceOperationV2Response = {
   /**
    * The parsed response body.
    */
@@ -16340,9 +16340,9 @@ export type WebAppsGetNetworkTraceOperationResponse = {
 };
 
 /**
- * Contains response data for the getNetworkTraces operation.
+ * Contains response data for the getNetworkTracesV2 operation.
  */
-export type WebAppsGetNetworkTracesResponse = Array<NetworkTrace> & {
+export type WebAppsGetNetworkTracesV2Response = Array<NetworkTrace> & {
   /**
    * The underlying HTTP response.
    */
@@ -18421,9 +18421,9 @@ export type WebAppsListNetworkFeaturesSlotResponse = NetworkFeatures & {
 };
 
 /**
- * Contains response data for the getNetworkTraceOperationSlotOld operation.
+ * Contains response data for the getNetworkTraceOperationSlot operation.
  */
-export type WebAppsGetNetworkTraceOperationSlotOldResponse = {
+export type WebAppsGetNetworkTraceOperationSlotResponse = {
   /**
    * The parsed response body.
    */
@@ -18490,9 +18490,9 @@ export type WebAppsStartWebSiteNetworkTraceOperationSlotResponse = {
 };
 
 /**
- * Contains response data for the getNetworkTracesSlotOld operation.
+ * Contains response data for the getNetworkTracesSlot operation.
  */
-export type WebAppsGetNetworkTracesSlotOldResponse = Array<NetworkTrace> & {
+export type WebAppsGetNetworkTracesSlotResponse = Array<NetworkTrace> & {
   /**
    * The underlying HTTP response.
    */
@@ -18509,9 +18509,9 @@ export type WebAppsGetNetworkTracesSlotOldResponse = Array<NetworkTrace> & {
 };
 
 /**
- * Contains response data for the getNetworkTraceOperationSlot operation.
+ * Contains response data for the getNetworkTraceOperationSlotV2 operation.
  */
-export type WebAppsGetNetworkTraceOperationSlotResponse = {
+export type WebAppsGetNetworkTraceOperationSlotV2Response = {
   /**
    * The parsed response body.
    */
@@ -18532,9 +18532,9 @@ export type WebAppsGetNetworkTraceOperationSlotResponse = {
 };
 
 /**
- * Contains response data for the getNetworkTracesSlot operation.
+ * Contains response data for the getNetworkTracesSlotV2 operation.
  */
-export type WebAppsGetNetworkTracesSlotResponse = Array<NetworkTrace> & {
+export type WebAppsGetNetworkTracesSlotV2Response = Array<NetworkTrace> & {
   /**
    * The underlying HTTP response.
    */
