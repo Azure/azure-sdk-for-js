@@ -14,44 +14,6 @@ import * as msRest from "ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
-export const RecoverableDatabaseProperties: msRest.CompositeMapper = {
-  serializedName: "RecoverableDatabaseProperties",
-  type: {
-    name: "Composite",
-    className: "RecoverableDatabaseProperties",
-    modelProperties: {
-      edition: {
-        readOnly: true,
-        serializedName: "edition",
-        type: {
-          name: "String"
-        }
-      },
-      serviceLevelObjective: {
-        readOnly: true,
-        serializedName: "serviceLevelObjective",
-        type: {
-          name: "String"
-        }
-      },
-      elasticPoolName: {
-        readOnly: true,
-        serializedName: "elasticPoolName",
-        type: {
-          name: "String"
-        }
-      },
-      lastAvailableBackupDate: {
-        readOnly: true,
-        serializedName: "lastAvailableBackupDate",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
@@ -125,72 +87,6 @@ export const RecoverableDatabase: msRest.CompositeMapper = {
       lastAvailableBackupDate: {
         readOnly: true,
         serializedName: "properties.lastAvailableBackupDate",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const RestorableDroppedDatabaseProperties: msRest.CompositeMapper = {
-  serializedName: "RestorableDroppedDatabaseProperties",
-  type: {
-    name: "Composite",
-    className: "RestorableDroppedDatabaseProperties",
-    modelProperties: {
-      databaseName: {
-        readOnly: true,
-        serializedName: "databaseName",
-        type: {
-          name: "String"
-        }
-      },
-      edition: {
-        readOnly: true,
-        serializedName: "edition",
-        type: {
-          name: "String"
-        }
-      },
-      maxSizeBytes: {
-        readOnly: true,
-        serializedName: "maxSizeBytes",
-        type: {
-          name: "String"
-        }
-      },
-      serviceLevelObjective: {
-        readOnly: true,
-        serializedName: "serviceLevelObjective",
-        type: {
-          name: "String"
-        }
-      },
-      elasticPoolName: {
-        readOnly: true,
-        serializedName: "elasticPoolName",
-        type: {
-          name: "String"
-        }
-      },
-      creationDate: {
-        readOnly: true,
-        serializedName: "creationDate",
-        type: {
-          name: "DateTime"
-        }
-      },
-      deletionDate: {
-        readOnly: true,
-        serializedName: "deletionDate",
-        type: {
-          name: "DateTime"
-        }
-      },
-      earliestRestoreDate: {
-        readOnly: true,
-        serializedName: "earliestRestoreDate",
         type: {
           name: "DateTime"
         }
@@ -370,28 +266,6 @@ export const CheckNameAvailabilityResponse: msRest.CompositeMapper = {
   }
 };
 
-export const ServerConnectionPolicyProperties: msRest.CompositeMapper = {
-  serializedName: "ServerConnectionPolicyProperties",
-  type: {
-    name: "Composite",
-    className: "ServerConnectionPolicyProperties",
-    modelProperties: {
-      connectionType: {
-        required: true,
-        serializedName: "connectionType",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Default",
-            "Proxy",
-            "Redirect"
-          ]
-        }
-      }
-    }
-  }
-};
-
 export const ServerConnectionPolicy: msRest.CompositeMapper = {
   serializedName: "ServerConnectionPolicy",
   type: {
@@ -422,78 +296,6 @@ export const ServerConnectionPolicy: msRest.CompositeMapper = {
             "Default",
             "Proxy",
             "Redirect"
-          ]
-        }
-      }
-    }
-  }
-};
-
-export const DatabaseSecurityAlertPolicyProperties: msRest.CompositeMapper = {
-  serializedName: "DatabaseSecurityAlertPolicyProperties",
-  type: {
-    name: "Composite",
-    className: "DatabaseSecurityAlertPolicyProperties",
-    modelProperties: {
-      state: {
-        required: true,
-        serializedName: "state",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "New",
-            "Enabled",
-            "Disabled"
-          ]
-        }
-      },
-      disabledAlerts: {
-        serializedName: "disabledAlerts",
-        type: {
-          name: "String"
-        }
-      },
-      emailAddresses: {
-        serializedName: "emailAddresses",
-        type: {
-          name: "String"
-        }
-      },
-      emailAccountAdmins: {
-        serializedName: "emailAccountAdmins",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Enabled",
-            "Disabled"
-          ]
-        }
-      },
-      storageEndpoint: {
-        serializedName: "storageEndpoint",
-        type: {
-          name: "String"
-        }
-      },
-      storageAccountAccessKey: {
-        serializedName: "storageAccountAccessKey",
-        type: {
-          name: "String"
-        }
-      },
-      retentionDays: {
-        serializedName: "retentionDays",
-        type: {
-          name: "Number"
-        }
-      },
-      useServerDefault: {
-        serializedName: "useServerDefault",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Enabled",
-            "Disabled"
           ]
         }
       }
@@ -587,47 +389,6 @@ export const DatabaseSecurityAlertPolicy: msRest.CompositeMapper = {
   }
 };
 
-export const DataMaskingPolicyProperties: msRest.CompositeMapper = {
-  serializedName: "DataMaskingPolicyProperties",
-  type: {
-    name: "Composite",
-    className: "DataMaskingPolicyProperties",
-    modelProperties: {
-      dataMaskingState: {
-        required: true,
-        serializedName: "dataMaskingState",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Disabled",
-            "Enabled"
-          ]
-        }
-      },
-      exemptPrincipals: {
-        serializedName: "exemptPrincipals",
-        type: {
-          name: "String"
-        }
-      },
-      applicationPrincipals: {
-        readOnly: true,
-        serializedName: "applicationPrincipals",
-        type: {
-          name: "String"
-        }
-      },
-      maskingLevel: {
-        readOnly: true,
-        serializedName: "maskingLevel",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const DataMaskingPolicy: msRest.CompositeMapper = {
   serializedName: "DataMaskingPolicy",
   type: {
@@ -676,105 +437,6 @@ export const DataMaskingPolicy: msRest.CompositeMapper = {
       kind: {
         readOnly: true,
         serializedName: "kind",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DataMaskingRuleProperties: msRest.CompositeMapper = {
-  serializedName: "DataMaskingRuleProperties",
-  type: {
-    name: "Composite",
-    className: "DataMaskingRuleProperties",
-    modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      aliasName: {
-        serializedName: "aliasName",
-        type: {
-          name: "String"
-        }
-      },
-      ruleState: {
-        serializedName: "ruleState",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Disabled",
-            "Enabled"
-          ]
-        }
-      },
-      schemaName: {
-        required: true,
-        serializedName: "schemaName",
-        type: {
-          name: "String"
-        }
-      },
-      tableName: {
-        required: true,
-        serializedName: "tableName",
-        type: {
-          name: "String"
-        }
-      },
-      columnName: {
-        required: true,
-        serializedName: "columnName",
-        type: {
-          name: "String"
-        }
-      },
-      maskingFunction: {
-        required: true,
-        serializedName: "maskingFunction",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Default",
-            "CCN",
-            "Email",
-            "Number",
-            "SSN",
-            "Text"
-          ]
-        }
-      },
-      numberFrom: {
-        serializedName: "numberFrom",
-        type: {
-          name: "String"
-        }
-      },
-      numberTo: {
-        serializedName: "numberTo",
-        type: {
-          name: "String"
-        }
-      },
-      prefixSize: {
-        serializedName: "prefixSize",
-        type: {
-          name: "String"
-        }
-      },
-      suffixSize: {
-        serializedName: "suffixSize",
-        type: {
-          name: "String"
-        }
-      },
-      replacementString: {
-        serializedName: "replacementString",
         type: {
           name: "String"
         }
@@ -897,30 +559,6 @@ export const DataMaskingRule: msRest.CompositeMapper = {
   }
 };
 
-export const FirewallRuleProperties: msRest.CompositeMapper = {
-  serializedName: "FirewallRuleProperties",
-  type: {
-    name: "Composite",
-    className: "FirewallRuleProperties",
-    modelProperties: {
-      startIpAddress: {
-        required: true,
-        serializedName: "startIpAddress",
-        type: {
-          name: "String"
-        }
-      },
-      endIpAddress: {
-        required: true,
-        serializedName: "endIpAddress",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const FirewallRule: msRest.CompositeMapper = {
   serializedName: "FirewallRule",
   type: {
@@ -952,34 +590,6 @@ export const FirewallRule: msRest.CompositeMapper = {
       endIpAddress: {
         required: true,
         serializedName: "properties.endIpAddress",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const GeoBackupPolicyProperties: msRest.CompositeMapper = {
-  serializedName: "GeoBackupPolicyProperties",
-  type: {
-    name: "Composite",
-    className: "GeoBackupPolicyProperties",
-    modelProperties: {
-      state: {
-        required: true,
-        serializedName: "state",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Disabled",
-            "Enabled"
-          ]
-        }
-      },
-      storageType: {
-        readOnly: true,
-        serializedName: "storageType",
         type: {
           name: "String"
         }
@@ -1023,86 +633,6 @@ export const GeoBackupPolicy: msRest.CompositeMapper = {
       location: {
         readOnly: true,
         serializedName: "location",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ExportRequest: msRest.CompositeMapper = {
-  serializedName: "ExportRequest",
-  type: {
-    name: "Composite",
-    className: "ExportRequest",
-    modelProperties: {
-      storageKeyType: {
-        required: true,
-        serializedName: "storageKeyType",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "StorageAccessKey",
-            "SharedAccessKey"
-          ]
-        }
-      },
-      storageKey: {
-        required: true,
-        serializedName: "storageKey",
-        type: {
-          name: "String"
-        }
-      },
-      storageUri: {
-        required: true,
-        serializedName: "storageUri",
-        type: {
-          name: "String"
-        }
-      },
-      administratorLogin: {
-        required: true,
-        serializedName: "administratorLogin",
-        type: {
-          name: "String"
-        }
-      },
-      administratorLoginPassword: {
-        required: true,
-        serializedName: "administratorLoginPassword",
-        type: {
-          name: "String"
-        }
-      },
-      authenticationType: {
-        serializedName: "authenticationType",
-        defaultValue: 'SQL',
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "SQL",
-            "ADPassword"
-          ]
-        }
-      }
-    }
-  }
-};
-
-export const ImportExtensionProperties: msRest.CompositeMapper = {
-  serializedName: "ImportExtensionProperties",
-  type: {
-    name: "Composite",
-    className: "ImportExtensionProperties",
-    modelProperties: {
-      ...ExportRequest.type.modelProperties,
-      operationMode: {
-        required: true,
-        isConstant: true,
-        serializedName: "operationMode",
-        defaultValue: 'Import',
         type: {
           name: "String"
         }
@@ -1192,79 +722,6 @@ export const ImportExtensionRequest: msRest.CompositeMapper = {
   }
 };
 
-export const ImportExportResponseProperties: msRest.CompositeMapper = {
-  serializedName: "ImportExportResponseProperties",
-  type: {
-    name: "Composite",
-    className: "ImportExportResponseProperties",
-    modelProperties: {
-      requestType: {
-        readOnly: true,
-        serializedName: "requestType",
-        type: {
-          name: "String"
-        }
-      },
-      requestId: {
-        readOnly: true,
-        serializedName: "requestId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      serverName: {
-        readOnly: true,
-        serializedName: "serverName",
-        type: {
-          name: "String"
-        }
-      },
-      databaseName: {
-        readOnly: true,
-        serializedName: "databaseName",
-        type: {
-          name: "String"
-        }
-      },
-      status: {
-        readOnly: true,
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedTime: {
-        readOnly: true,
-        serializedName: "lastModifiedTime",
-        type: {
-          name: "String"
-        }
-      },
-      queuedTime: {
-        readOnly: true,
-        serializedName: "queuedTime",
-        type: {
-          name: "String"
-        }
-      },
-      blobUri: {
-        readOnly: true,
-        serializedName: "blobUri",
-        type: {
-          name: "String"
-        }
-      },
-      errorMessage: {
-        readOnly: true,
-        serializedName: "errorMessage",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ImportExportResponse: msRest.CompositeMapper = {
   serializedName: "ImportExportResponse",
   type: {
@@ -1333,6 +790,66 @@ export const ImportExportResponse: msRest.CompositeMapper = {
         serializedName: "properties.errorMessage",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ExportRequest: msRest.CompositeMapper = {
+  serializedName: "ExportRequest",
+  type: {
+    name: "Composite",
+    className: "ExportRequest",
+    modelProperties: {
+      storageKeyType: {
+        required: true,
+        serializedName: "storageKeyType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "StorageAccessKey",
+            "SharedAccessKey"
+          ]
+        }
+      },
+      storageKey: {
+        required: true,
+        serializedName: "storageKey",
+        type: {
+          name: "String"
+        }
+      },
+      storageUri: {
+        required: true,
+        serializedName: "storageUri",
+        type: {
+          name: "String"
+        }
+      },
+      administratorLogin: {
+        required: true,
+        serializedName: "administratorLogin",
+        type: {
+          name: "String"
+        }
+      },
+      administratorLoginPassword: {
+        required: true,
+        serializedName: "administratorLoginPassword",
+        type: {
+          name: "String"
+        }
+      },
+      authenticationType: {
+        serializedName: "authenticationType",
+        defaultValue: 'SQL',
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "SQL",
+            "ADPassword"
+          ]
         }
       }
     }
@@ -1617,101 +1134,6 @@ export const RecommendedElasticPoolMetric: msRest.CompositeMapper = {
   }
 };
 
-export const RecommendedElasticPoolProperties: msRest.CompositeMapper = {
-  serializedName: "RecommendedElasticPoolProperties",
-  type: {
-    name: "Composite",
-    className: "RecommendedElasticPoolProperties",
-    modelProperties: {
-      databaseEdition: {
-        readOnly: true,
-        serializedName: "databaseEdition",
-        type: {
-          name: "String"
-        }
-      },
-      dtu: {
-        serializedName: "dtu",
-        type: {
-          name: "Number"
-        }
-      },
-      databaseDtuMin: {
-        serializedName: "databaseDtuMin",
-        type: {
-          name: "Number"
-        }
-      },
-      databaseDtuMax: {
-        serializedName: "databaseDtuMax",
-        type: {
-          name: "Number"
-        }
-      },
-      storageMB: {
-        serializedName: "storageMB",
-        type: {
-          name: "Number"
-        }
-      },
-      observationPeriodStart: {
-        readOnly: true,
-        serializedName: "observationPeriodStart",
-        type: {
-          name: "DateTime"
-        }
-      },
-      observationPeriodEnd: {
-        readOnly: true,
-        serializedName: "observationPeriodEnd",
-        type: {
-          name: "DateTime"
-        }
-      },
-      maxObservedDtu: {
-        readOnly: true,
-        serializedName: "maxObservedDtu",
-        type: {
-          name: "Number"
-        }
-      },
-      maxObservedStorageMB: {
-        readOnly: true,
-        serializedName: "maxObservedStorageMB",
-        type: {
-          name: "Number"
-        }
-      },
-      databases: {
-        readOnly: true,
-        serializedName: "databases",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "TrackedResource"
-            }
-          }
-        }
-      },
-      metrics: {
-        readOnly: true,
-        serializedName: "metrics",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "RecommendedElasticPoolMetric"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const RecommendedElasticPool: msRest.CompositeMapper = {
   serializedName: "RecommendedElasticPool",
   type: {
@@ -1802,100 +1224,6 @@ export const RecommendedElasticPool: msRest.CompositeMapper = {
               className: "RecommendedElasticPoolMetric"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const ReplicationLinkProperties: msRest.CompositeMapper = {
-  serializedName: "ReplicationLinkProperties",
-  type: {
-    name: "Composite",
-    className: "ReplicationLinkProperties",
-    modelProperties: {
-      isTerminationAllowed: {
-        readOnly: true,
-        serializedName: "isTerminationAllowed",
-        type: {
-          name: "Boolean"
-        }
-      },
-      replicationMode: {
-        readOnly: true,
-        serializedName: "replicationMode",
-        type: {
-          name: "String"
-        }
-      },
-      partnerServer: {
-        readOnly: true,
-        serializedName: "partnerServer",
-        type: {
-          name: "String"
-        }
-      },
-      partnerDatabase: {
-        readOnly: true,
-        serializedName: "partnerDatabase",
-        type: {
-          name: "String"
-        }
-      },
-      partnerLocation: {
-        readOnly: true,
-        serializedName: "partnerLocation",
-        type: {
-          name: "String"
-        }
-      },
-      role: {
-        readOnly: true,
-        serializedName: "role",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Primary",
-            "Secondary",
-            "NonReadableSecondary",
-            "Source",
-            "Copy"
-          ]
-        }
-      },
-      partnerRole: {
-        readOnly: true,
-        serializedName: "partnerRole",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Primary",
-            "Secondary",
-            "NonReadableSecondary",
-            "Source",
-            "Copy"
-          ]
-        }
-      },
-      startTime: {
-        readOnly: true,
-        serializedName: "startTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      percentComplete: {
-        readOnly: true,
-        serializedName: "percentComplete",
-        type: {
-          name: "Number"
-        }
-      },
-      replicationState: {
-        readOnly: true,
-        serializedName: "replicationState",
-        type: {
-          name: "String"
         }
       }
     }
@@ -2004,46 +1332,6 @@ export const ReplicationLink: msRest.CompositeMapper = {
   }
 };
 
-export const ServerAdministratorProperties: msRest.CompositeMapper = {
-  serializedName: "ServerAdministratorProperties",
-  type: {
-    name: "Composite",
-    className: "ServerAdministratorProperties",
-    modelProperties: {
-      administratorType: {
-        required: true,
-        isConstant: true,
-        serializedName: "administratorType",
-        defaultValue: 'ActiveDirectory',
-        type: {
-          name: "String"
-        }
-      },
-      login: {
-        required: true,
-        serializedName: "login",
-        type: {
-          name: "String"
-        }
-      },
-      sid: {
-        required: true,
-        serializedName: "sid",
-        type: {
-          name: "Uuid"
-        }
-      },
-      tenantId: {
-        required: true,
-        serializedName: "tenantId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
-  }
-};
-
 export const ServerAzureADAdministrator: msRest.CompositeMapper = {
   serializedName: "ServerAzureADAdministrator",
   type: {
@@ -2085,30 +1373,6 @@ export const ServerAzureADAdministrator: msRest.CompositeMapper = {
   }
 };
 
-export const ServerCommunicationLinkProperties: msRest.CompositeMapper = {
-  serializedName: "ServerCommunicationLinkProperties",
-  type: {
-    name: "Composite",
-    className: "ServerCommunicationLinkProperties",
-    modelProperties: {
-      state: {
-        readOnly: true,
-        serializedName: "state",
-        type: {
-          name: "String"
-        }
-      },
-      partnerServer: {
-        required: true,
-        serializedName: "partnerServer",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ServerCommunicationLink: msRest.CompositeMapper = {
   serializedName: "ServerCommunicationLink",
   type: {
@@ -2142,54 +1406,6 @@ export const ServerCommunicationLink: msRest.CompositeMapper = {
         serializedName: "kind",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ServiceObjectiveProperties: msRest.CompositeMapper = {
-  serializedName: "ServiceObjectiveProperties",
-  type: {
-    name: "Composite",
-    className: "ServiceObjectiveProperties",
-    modelProperties: {
-      serviceObjectiveName: {
-        readOnly: true,
-        serializedName: "serviceObjectiveName",
-        type: {
-          name: "String"
-        }
-      },
-      isDefault: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "isDefault",
-        type: {
-          name: "Boolean"
-        }
-      },
-      isSystem: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "isSystem",
-        type: {
-          name: "Boolean"
-        }
-      },
-      description: {
-        readOnly: true,
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      },
-      enabled: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "enabled",
-        type: {
-          name: "Boolean"
         }
       }
     }
@@ -2239,157 +1455,6 @@ export const ServiceObjective: msRest.CompositeMapper = {
         serializedName: "properties.enabled",
         type: {
           name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const ElasticPoolActivityProperties: msRest.CompositeMapper = {
-  serializedName: "ElasticPoolActivityProperties",
-  type: {
-    name: "Composite",
-    className: "ElasticPoolActivityProperties",
-    modelProperties: {
-      endTime: {
-        readOnly: true,
-        serializedName: "endTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      errorCode: {
-        readOnly: true,
-        serializedName: "errorCode",
-        type: {
-          name: "Number"
-        }
-      },
-      errorMessage: {
-        readOnly: true,
-        serializedName: "errorMessage",
-        type: {
-          name: "String"
-        }
-      },
-      errorSeverity: {
-        readOnly: true,
-        serializedName: "errorSeverity",
-        type: {
-          name: "Number"
-        }
-      },
-      operation: {
-        readOnly: true,
-        serializedName: "operation",
-        type: {
-          name: "String"
-        }
-      },
-      operationId: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "operationId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      percentComplete: {
-        readOnly: true,
-        serializedName: "percentComplete",
-        type: {
-          name: "Number"
-        }
-      },
-      requestedDatabaseDtuMax: {
-        readOnly: true,
-        serializedName: "requestedDatabaseDtuMax",
-        type: {
-          name: "Number"
-        }
-      },
-      requestedDatabaseDtuMin: {
-        readOnly: true,
-        serializedName: "requestedDatabaseDtuMin",
-        type: {
-          name: "Number"
-        }
-      },
-      requestedDtu: {
-        readOnly: true,
-        serializedName: "requestedDtu",
-        type: {
-          name: "Number"
-        }
-      },
-      requestedElasticPoolName: {
-        readOnly: true,
-        serializedName: "requestedElasticPoolName",
-        type: {
-          name: "String"
-        }
-      },
-      requestedStorageLimitInGB: {
-        readOnly: true,
-        serializedName: "requestedStorageLimitInGB",
-        type: {
-          name: "Number"
-        }
-      },
-      elasticPoolName: {
-        readOnly: true,
-        serializedName: "elasticPoolName",
-        type: {
-          name: "String"
-        }
-      },
-      serverName: {
-        readOnly: true,
-        serializedName: "serverName",
-        type: {
-          name: "String"
-        }
-      },
-      startTime: {
-        readOnly: true,
-        serializedName: "startTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      state: {
-        readOnly: true,
-        serializedName: "state",
-        type: {
-          name: "String"
-        }
-      },
-      requestedStorageLimitInMB: {
-        readOnly: true,
-        serializedName: "requestedStorageLimitInMB",
-        type: {
-          name: "Number"
-        }
-      },
-      requestedDatabaseDtuGuarantee: {
-        readOnly: true,
-        serializedName: "requestedDatabaseDtuGuarantee",
-        type: {
-          name: "Number"
-        }
-      },
-      requestedDatabaseDtuCap: {
-        readOnly: true,
-        serializedName: "requestedDatabaseDtuCap",
-        type: {
-          name: "Number"
-        }
-      },
-      requestedDtuGuarantee: {
-        readOnly: true,
-        serializedName: "requestedDtuGuarantee",
-        type: {
-          name: "Number"
         }
       }
     }
@@ -2548,122 +1613,6 @@ export const ElasticPoolActivity: msRest.CompositeMapper = {
         serializedName: "properties.requestedDtuGuarantee",
         type: {
           name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const ElasticPoolDatabaseActivityProperties: msRest.CompositeMapper = {
-  serializedName: "ElasticPoolDatabaseActivityProperties",
-  type: {
-    name: "Composite",
-    className: "ElasticPoolDatabaseActivityProperties",
-    modelProperties: {
-      databaseName: {
-        readOnly: true,
-        serializedName: "databaseName",
-        type: {
-          name: "String"
-        }
-      },
-      endTime: {
-        readOnly: true,
-        serializedName: "endTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      errorCode: {
-        readOnly: true,
-        serializedName: "errorCode",
-        type: {
-          name: "Number"
-        }
-      },
-      errorMessage: {
-        readOnly: true,
-        serializedName: "errorMessage",
-        type: {
-          name: "String"
-        }
-      },
-      errorSeverity: {
-        readOnly: true,
-        serializedName: "errorSeverity",
-        type: {
-          name: "Number"
-        }
-      },
-      operation: {
-        readOnly: true,
-        serializedName: "operation",
-        type: {
-          name: "String"
-        }
-      },
-      operationId: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "operationId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      percentComplete: {
-        readOnly: true,
-        serializedName: "percentComplete",
-        type: {
-          name: "Number"
-        }
-      },
-      requestedElasticPoolName: {
-        readOnly: true,
-        serializedName: "requestedElasticPoolName",
-        type: {
-          name: "String"
-        }
-      },
-      currentElasticPoolName: {
-        readOnly: true,
-        serializedName: "currentElasticPoolName",
-        type: {
-          name: "String"
-        }
-      },
-      currentServiceObjective: {
-        readOnly: true,
-        serializedName: "currentServiceObjective",
-        type: {
-          name: "String"
-        }
-      },
-      requestedServiceObjective: {
-        readOnly: true,
-        serializedName: "requestedServiceObjective",
-        type: {
-          name: "String"
-        }
-      },
-      serverName: {
-        readOnly: true,
-        serializedName: "serverName",
-        type: {
-          name: "String"
-        }
-      },
-      startTime: {
-        readOnly: true,
-        serializedName: "startTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      state: {
-        readOnly: true,
-        serializedName: "state",
-        type: {
-          name: "String"
         }
       }
     }
@@ -2831,146 +1780,6 @@ export const OperationImpact: msRest.CompositeMapper = {
   }
 };
 
-export const RecommendedIndexProperties: msRest.CompositeMapper = {
-  serializedName: "RecommendedIndexProperties",
-  type: {
-    name: "Composite",
-    className: "RecommendedIndexProperties",
-    modelProperties: {
-      action: {
-        readOnly: true,
-        serializedName: "action",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Create",
-            "Drop",
-            "Rebuild"
-          ]
-        }
-      },
-      state: {
-        readOnly: true,
-        serializedName: "state",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Active",
-            "Pending",
-            "Executing",
-            "Verifying",
-            "Pending Revert",
-            "Reverting",
-            "Reverted",
-            "Ignored",
-            "Expired",
-            "Blocked",
-            "Success"
-          ]
-        }
-      },
-      created: {
-        readOnly: true,
-        serializedName: "created",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModified: {
-        readOnly: true,
-        serializedName: "lastModified",
-        type: {
-          name: "DateTime"
-        }
-      },
-      indexType: {
-        readOnly: true,
-        serializedName: "indexType",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "CLUSTERED",
-            "NONCLUSTERED",
-            "COLUMNSTORE",
-            "CLUSTERED COLUMNSTORE"
-          ]
-        }
-      },
-      schema: {
-        readOnly: true,
-        serializedName: "schema",
-        type: {
-          name: "String"
-        }
-      },
-      table: {
-        readOnly: true,
-        serializedName: "table",
-        type: {
-          name: "String"
-        }
-      },
-      columns: {
-        readOnly: true,
-        serializedName: "columns",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      includedColumns: {
-        readOnly: true,
-        serializedName: "includedColumns",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      indexScript: {
-        readOnly: true,
-        serializedName: "indexScript",
-        type: {
-          name: "String"
-        }
-      },
-      estimatedImpact: {
-        readOnly: true,
-        serializedName: "estimatedImpact",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "OperationImpact"
-            }
-          }
-        }
-      },
-      reportedImpact: {
-        readOnly: true,
-        serializedName: "reportedImpact",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "OperationImpact"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const RecommendedIndex: msRest.CompositeMapper = {
   serializedName: "RecommendedIndex",
   type: {
@@ -3112,26 +1921,6 @@ export const RecommendedIndex: msRest.CompositeMapper = {
   }
 };
 
-export const TransparentDataEncryptionProperties: msRest.CompositeMapper = {
-  serializedName: "TransparentDataEncryptionProperties",
-  type: {
-    name: "Composite",
-    className: "TransparentDataEncryptionProperties",
-    modelProperties: {
-      status: {
-        serializedName: "status",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Enabled",
-            "Disabled"
-          ]
-        }
-      }
-    }
-  }
-};
-
 export const TransparentDataEncryption: msRest.CompositeMapper = {
   serializedName: "TransparentDataEncryption",
   type: {
@@ -3185,156 +1974,6 @@ export const SloUsageMetric: msRest.CompositeMapper = {
         nullable: false,
         readOnly: true,
         serializedName: "inRangeTimeRatio",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const ServiceTierAdvisorProperties: msRest.CompositeMapper = {
-  serializedName: "ServiceTierAdvisorProperties",
-  type: {
-    name: "Composite",
-    className: "ServiceTierAdvisorProperties",
-    modelProperties: {
-      observationPeriodStart: {
-        readOnly: true,
-        serializedName: "observationPeriodStart",
-        type: {
-          name: "DateTime"
-        }
-      },
-      observationPeriodEnd: {
-        readOnly: true,
-        serializedName: "observationPeriodEnd",
-        type: {
-          name: "DateTime"
-        }
-      },
-      activeTimeRatio: {
-        readOnly: true,
-        serializedName: "activeTimeRatio",
-        type: {
-          name: "Number"
-        }
-      },
-      minDtu: {
-        readOnly: true,
-        serializedName: "minDtu",
-        type: {
-          name: "Number"
-        }
-      },
-      avgDtu: {
-        readOnly: true,
-        serializedName: "avgDtu",
-        type: {
-          name: "Number"
-        }
-      },
-      maxDtu: {
-        readOnly: true,
-        serializedName: "maxDtu",
-        type: {
-          name: "Number"
-        }
-      },
-      maxSizeInGB: {
-        readOnly: true,
-        serializedName: "maxSizeInGB",
-        type: {
-          name: "Number"
-        }
-      },
-      serviceLevelObjectiveUsageMetrics: {
-        readOnly: true,
-        serializedName: "serviceLevelObjectiveUsageMetrics",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SloUsageMetric"
-            }
-          }
-        }
-      },
-      currentServiceLevelObjective: {
-        readOnly: true,
-        serializedName: "currentServiceLevelObjective",
-        type: {
-          name: "String"
-        }
-      },
-      currentServiceLevelObjectiveId: {
-        readOnly: true,
-        serializedName: "currentServiceLevelObjectiveId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      usageBasedRecommendationServiceLevelObjective: {
-        readOnly: true,
-        serializedName: "usageBasedRecommendationServiceLevelObjective",
-        type: {
-          name: "String"
-        }
-      },
-      usageBasedRecommendationServiceLevelObjectiveId: {
-        readOnly: true,
-        serializedName: "usageBasedRecommendationServiceLevelObjectiveId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      databaseSizeBasedRecommendationServiceLevelObjective: {
-        readOnly: true,
-        serializedName: "databaseSizeBasedRecommendationServiceLevelObjective",
-        type: {
-          name: "String"
-        }
-      },
-      databaseSizeBasedRecommendationServiceLevelObjectiveId: {
-        readOnly: true,
-        serializedName: "databaseSizeBasedRecommendationServiceLevelObjectiveId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      disasterPlanBasedRecommendationServiceLevelObjective: {
-        readOnly: true,
-        serializedName: "disasterPlanBasedRecommendationServiceLevelObjective",
-        type: {
-          name: "String"
-        }
-      },
-      disasterPlanBasedRecommendationServiceLevelObjectiveId: {
-        readOnly: true,
-        serializedName: "disasterPlanBasedRecommendationServiceLevelObjectiveId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      overallRecommendationServiceLevelObjective: {
-        readOnly: true,
-        serializedName: "overallRecommendationServiceLevelObjective",
-        type: {
-          name: "String"
-        }
-      },
-      overallRecommendationServiceLevelObjectiveId: {
-        readOnly: true,
-        serializedName: "overallRecommendationServiceLevelObjectiveId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      confidence: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "confidence",
         type: {
           name: "Number"
         }
@@ -3486,30 +2125,6 @@ export const ServiceTierAdvisor: msRest.CompositeMapper = {
         nullable: false,
         readOnly: true,
         serializedName: "properties.confidence",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const TransparentDataEncryptionActivityProperties: msRest.CompositeMapper = {
-  serializedName: "TransparentDataEncryptionActivityProperties",
-  type: {
-    name: "Composite",
-    className: "TransparentDataEncryptionActivityProperties",
-    modelProperties: {
-      status: {
-        readOnly: true,
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      },
-      percentComplete: {
-        readOnly: true,
-        serializedName: "percentComplete",
         type: {
           name: "Number"
         }
@@ -3723,53 +2338,6 @@ export const AutomaticTuningOptions: msRest.CompositeMapper = {
   }
 };
 
-export const DatabaseAutomaticTuningProperties: msRest.CompositeMapper = {
-  serializedName: "DatabaseAutomaticTuningProperties",
-  type: {
-    name: "Composite",
-    className: "DatabaseAutomaticTuningProperties",
-    modelProperties: {
-      desiredState: {
-        serializedName: "desiredState",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Inherit",
-            "Custom",
-            "Auto",
-            "Unspecified"
-          ]
-        }
-      },
-      actualState: {
-        readOnly: true,
-        serializedName: "actualState",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Inherit",
-            "Custom",
-            "Auto",
-            "Unspecified"
-          ]
-        }
-      },
-      options: {
-        serializedName: "options",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Composite",
-              className: "AutomaticTuningOptions"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const DatabaseAutomaticTuning: msRest.CompositeMapper = {
   serializedName: "DatabaseAutomaticTuning",
   type: {
@@ -3812,50 +2380,6 @@ export const DatabaseAutomaticTuning: msRest.CompositeMapper = {
               className: "AutomaticTuningOptions"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const EncryptionProtectorProperties: msRest.CompositeMapper = {
-  serializedName: "EncryptionProtectorProperties",
-  type: {
-    name: "Composite",
-    className: "EncryptionProtectorProperties",
-    modelProperties: {
-      subregion: {
-        readOnly: true,
-        serializedName: "subregion",
-        type: {
-          name: "String"
-        }
-      },
-      serverKeyName: {
-        serializedName: "serverKeyName",
-        type: {
-          name: "String"
-        }
-      },
-      serverKeyType: {
-        required: true,
-        serializedName: "serverKeyType",
-        type: {
-          name: "String"
-        }
-      },
-      uri: {
-        readOnly: true,
-        serializedName: "uri",
-        type: {
-          name: "String"
-        }
-      },
-      thumbprint: {
-        readOnly: true,
-        serializedName: "thumbprint",
-        type: {
-          name: "String"
         }
       }
     }
@@ -3990,69 +2514,6 @@ export const PartnerInfo: msRest.CompositeMapper = {
   }
 };
 
-export const FailoverGroupProperties: msRest.CompositeMapper = {
-  serializedName: "FailoverGroupProperties",
-  type: {
-    name: "Composite",
-    className: "FailoverGroupProperties",
-    modelProperties: {
-      readWriteEndpoint: {
-        required: true,
-        serializedName: "readWriteEndpoint",
-        type: {
-          name: "Composite",
-          className: "FailoverGroupReadWriteEndpoint"
-        }
-      },
-      readOnlyEndpoint: {
-        serializedName: "readOnlyEndpoint",
-        type: {
-          name: "Composite",
-          className: "FailoverGroupReadOnlyEndpoint"
-        }
-      },
-      replicationRole: {
-        readOnly: true,
-        serializedName: "replicationRole",
-        type: {
-          name: "String"
-        }
-      },
-      replicationState: {
-        readOnly: true,
-        serializedName: "replicationState",
-        type: {
-          name: "String"
-        }
-      },
-      partnerServers: {
-        required: true,
-        serializedName: "partnerServers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PartnerInfo"
-            }
-          }
-        }
-      },
-      databases: {
-        serializedName: "databases",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const FailoverGroup: msRest.CompositeMapper = {
   serializedName: "FailoverGroup",
   type: {
@@ -4122,41 +2583,6 @@ export const FailoverGroup: msRest.CompositeMapper = {
       },
       databases: {
         serializedName: "properties.databases",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const FailoverGroupUpdateProperties: msRest.CompositeMapper = {
-  serializedName: "FailoverGroupUpdateProperties",
-  type: {
-    name: "Composite",
-    className: "FailoverGroupUpdateProperties",
-    modelProperties: {
-      readWriteEndpoint: {
-        serializedName: "readWriteEndpoint",
-        type: {
-          name: "Composite",
-          className: "FailoverGroupReadWriteEndpoint"
-        }
-      },
-      readOnlyEndpoint: {
-        serializedName: "readOnlyEndpoint",
-        type: {
-          name: "Composite",
-          className: "FailoverGroupReadOnlyEndpoint"
-        }
-      },
-      databases: {
-        serializedName: "databases",
         type: {
           name: "Sequence",
           element: {
@@ -4287,86 +2713,6 @@ export const Sku: msRest.CompositeMapper = {
   }
 };
 
-export const ManagedInstanceProperties: msRest.CompositeMapper = {
-  serializedName: "ManagedInstanceProperties",
-  type: {
-    name: "Composite",
-    className: "ManagedInstanceProperties",
-    modelProperties: {
-      fullyQualifiedDomainName: {
-        readOnly: true,
-        serializedName: "fullyQualifiedDomainName",
-        type: {
-          name: "String"
-        }
-      },
-      administratorLogin: {
-        serializedName: "administratorLogin",
-        type: {
-          name: "String"
-        }
-      },
-      administratorLoginPassword: {
-        serializedName: "administratorLoginPassword",
-        type: {
-          name: "String"
-        }
-      },
-      subnetId: {
-        serializedName: "subnetId",
-        type: {
-          name: "String"
-        }
-      },
-      state: {
-        readOnly: true,
-        serializedName: "state",
-        type: {
-          name: "String"
-        }
-      },
-      licenseType: {
-        serializedName: "licenseType",
-        type: {
-          name: "String"
-        }
-      },
-      vCores: {
-        serializedName: "vCores",
-        type: {
-          name: "Number"
-        }
-      },
-      storageSizeInGB: {
-        serializedName: "storageSizeInGB",
-        type: {
-          name: "Number"
-        }
-      },
-      collation: {
-        readOnly: true,
-        serializedName: "collation",
-        type: {
-          name: "String"
-        }
-      },
-      dnsZone: {
-        readOnly: true,
-        serializedName: "dnsZone",
-        type: {
-          name: "String"
-        }
-      },
-      dnsZonePartner: {
-        serializedName: "dnsZonePartner",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ManagedInstance: msRest.CompositeMapper = {
   serializedName: "ManagedInstance",
   type: {
@@ -4439,7 +2785,6 @@ export const ManagedInstance: msRest.CompositeMapper = {
         }
       },
       collation: {
-        readOnly: true,
         serializedName: "properties.collation",
         type: {
           name: "String"
@@ -4526,7 +2871,6 @@ export const ManagedInstanceUpdate: msRest.CompositeMapper = {
         }
       },
       collation: {
-        readOnly: true,
         serializedName: "properties.collation",
         type: {
           name: "String"
@@ -4642,48 +2986,6 @@ export const Operation: msRest.CompositeMapper = {
   }
 };
 
-export const ServerKeyProperties: msRest.CompositeMapper = {
-  serializedName: "ServerKeyProperties",
-  type: {
-    name: "Composite",
-    className: "ServerKeyProperties",
-    modelProperties: {
-      subregion: {
-        readOnly: true,
-        serializedName: "subregion",
-        type: {
-          name: "String"
-        }
-      },
-      serverKeyType: {
-        required: true,
-        serializedName: "serverKeyType",
-        type: {
-          name: "String"
-        }
-      },
-      uri: {
-        serializedName: "uri",
-        type: {
-          name: "String"
-        }
-      },
-      thumbprint: {
-        serializedName: "thumbprint",
-        type: {
-          name: "String"
-        }
-      },
-      creationDate: {
-        serializedName: "creationDate",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
 export const ServerKey: msRest.CompositeMapper = {
   serializedName: "ServerKey",
   type: {
@@ -4734,48 +3036,6 @@ export const ServerKey: msRest.CompositeMapper = {
         serializedName: "properties.creationDate",
         type: {
           name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const ServerProperties: msRest.CompositeMapper = {
-  serializedName: "ServerProperties",
-  type: {
-    name: "Composite",
-    className: "ServerProperties",
-    modelProperties: {
-      administratorLogin: {
-        serializedName: "administratorLogin",
-        type: {
-          name: "String"
-        }
-      },
-      administratorLoginPassword: {
-        serializedName: "administratorLoginPassword",
-        type: {
-          name: "String"
-        }
-      },
-      version: {
-        serializedName: "version",
-        type: {
-          name: "String"
-        }
-      },
-      state: {
-        readOnly: true,
-        serializedName: "state",
-        type: {
-          name: "String"
-        }
-      },
-      fullyQualifiedDomainName: {
-        readOnly: true,
-        serializedName: "fullyQualifiedDomainName",
-        type: {
-          name: "String"
         }
       }
     }
@@ -4892,64 +3152,6 @@ export const ServerUpdate: msRest.CompositeMapper = {
   }
 };
 
-export const SyncAgentProperties: msRest.CompositeMapper = {
-  serializedName: "SyncAgentProperties",
-  type: {
-    name: "Composite",
-    className: "SyncAgentProperties",
-    modelProperties: {
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      syncDatabaseId: {
-        serializedName: "syncDatabaseId",
-        type: {
-          name: "String"
-        }
-      },
-      lastAliveTime: {
-        readOnly: true,
-        serializedName: "lastAliveTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      state: {
-        readOnly: true,
-        serializedName: "state",
-        type: {
-          name: "String"
-        }
-      },
-      isUpToDate: {
-        readOnly: true,
-        serializedName: "isUpToDate",
-        type: {
-          name: "Boolean"
-        }
-      },
-      expiryTime: {
-        readOnly: true,
-        serializedName: "expiryTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      version: {
-        readOnly: true,
-        serializedName: "version",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const SyncAgent: msRest.CompositeMapper = {
   serializedName: "SyncAgent",
   type: {
@@ -5018,58 +3220,6 @@ export const SyncAgentKeyProperties: msRest.CompositeMapper = {
       syncAgentKey: {
         readOnly: true,
         serializedName: "syncAgentKey",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SyncAgentLinkedDatabaseProperties: msRest.CompositeMapper = {
-  serializedName: "SyncAgentLinkedDatabaseProperties",
-  type: {
-    name: "Composite",
-    className: "SyncAgentLinkedDatabaseProperties",
-    modelProperties: {
-      databaseType: {
-        readOnly: true,
-        serializedName: "databaseType",
-        type: {
-          name: "String"
-        }
-      },
-      databaseId: {
-        readOnly: true,
-        serializedName: "databaseId",
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        readOnly: true,
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      },
-      serverName: {
-        readOnly: true,
-        serializedName: "serverName",
-        type: {
-          name: "String"
-        }
-      },
-      databaseName: {
-        readOnly: true,
-        serializedName: "databaseName",
-        type: {
-          name: "String"
-        }
-      },
-      userName: {
-        readOnly: true,
-        serializedName: "userName",
         type: {
           name: "String"
         }
@@ -5424,67 +3574,6 @@ export const SyncGroupSchema: msRest.CompositeMapper = {
   }
 };
 
-export const SyncGroupProperties: msRest.CompositeMapper = {
-  serializedName: "SyncGroupProperties",
-  type: {
-    name: "Composite",
-    className: "SyncGroupProperties",
-    modelProperties: {
-      interval: {
-        serializedName: "interval",
-        type: {
-          name: "Number"
-        }
-      },
-      lastSyncTime: {
-        readOnly: true,
-        serializedName: "lastSyncTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      conflictResolutionPolicy: {
-        serializedName: "conflictResolutionPolicy",
-        type: {
-          name: "String"
-        }
-      },
-      syncDatabaseId: {
-        serializedName: "syncDatabaseId",
-        type: {
-          name: "String"
-        }
-      },
-      hubDatabaseUserName: {
-        serializedName: "hubDatabaseUserName",
-        type: {
-          name: "String"
-        }
-      },
-      hubDatabasePassword: {
-        serializedName: "hubDatabasePassword",
-        type: {
-          name: "String"
-        }
-      },
-      syncState: {
-        readOnly: true,
-        serializedName: "syncState",
-        type: {
-          name: "String"
-        }
-      },
-      schema: {
-        serializedName: "schema",
-        type: {
-          name: "Composite",
-          className: "SyncGroupSchema"
-        }
-      }
-    }
-  }
-};
-
 export const SyncGroup: msRest.CompositeMapper = {
   serializedName: "SyncGroup",
   type: {
@@ -5541,71 +3630,6 @@ export const SyncGroup: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SyncGroupSchema"
-        }
-      }
-    }
-  }
-};
-
-export const SyncMemberProperties: msRest.CompositeMapper = {
-  serializedName: "SyncMemberProperties",
-  type: {
-    name: "Composite",
-    className: "SyncMemberProperties",
-    modelProperties: {
-      databaseType: {
-        serializedName: "databaseType",
-        type: {
-          name: "String"
-        }
-      },
-      syncAgentId: {
-        serializedName: "syncAgentId",
-        type: {
-          name: "String"
-        }
-      },
-      sqlServerDatabaseId: {
-        serializedName: "sqlServerDatabaseId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      serverName: {
-        serializedName: "serverName",
-        type: {
-          name: "String"
-        }
-      },
-      databaseName: {
-        serializedName: "databaseName",
-        type: {
-          name: "String"
-        }
-      },
-      userName: {
-        serializedName: "userName",
-        type: {
-          name: "String"
-        }
-      },
-      password: {
-        serializedName: "password",
-        type: {
-          name: "String"
-        }
-      },
-      syncDirection: {
-        serializedName: "syncDirection",
-        type: {
-          name: "String"
-        }
-      },
-      syncState: {
-        readOnly: true,
-        serializedName: "syncState",
-        type: {
-          name: "String"
         }
       }
     }
@@ -5678,44 +3702,6 @@ export const SyncMember: msRest.CompositeMapper = {
   }
 };
 
-export const SubscriptionUsageProperties: msRest.CompositeMapper = {
-  serializedName: "SubscriptionUsageProperties",
-  type: {
-    name: "Composite",
-    className: "SubscriptionUsageProperties",
-    modelProperties: {
-      displayName: {
-        readOnly: true,
-        serializedName: "displayName",
-        type: {
-          name: "String"
-        }
-      },
-      currentValue: {
-        readOnly: true,
-        serializedName: "currentValue",
-        type: {
-          name: "Number"
-        }
-      },
-      limit: {
-        readOnly: true,
-        serializedName: "limit",
-        type: {
-          name: "Number"
-        }
-      },
-      unit: {
-        readOnly: true,
-        serializedName: "unit",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const SubscriptionUsage: msRest.CompositeMapper = {
   serializedName: "SubscriptionUsage",
   type: {
@@ -5755,36 +3741,6 @@ export const SubscriptionUsage: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualNetworkRuleProperties: msRest.CompositeMapper = {
-  serializedName: "VirtualNetworkRuleProperties",
-  type: {
-    name: "Composite",
-    className: "VirtualNetworkRuleProperties",
-    modelProperties: {
-      virtualNetworkSubnetId: {
-        required: true,
-        serializedName: "virtualNetworkSubnetId",
-        type: {
-          name: "String"
-        }
-      },
-      ignoreMissingVnetServiceEndpoint: {
-        serializedName: "ignoreMissingVnetServiceEndpoint",
-        type: {
-          name: "Boolean"
-        }
-      },
-      state: {
-        readOnly: true,
-        serializedName: "state",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const VirtualNetworkRule: msRest.CompositeMapper = {
   serializedName: "VirtualNetworkRule",
   type: {
@@ -5810,74 +3766,6 @@ export const VirtualNetworkRule: msRest.CompositeMapper = {
         serializedName: "properties.state",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ExtendedDatabaseBlobAuditingPolicyProperties: msRest.CompositeMapper = {
-  serializedName: "ExtendedDatabaseBlobAuditingPolicyProperties",
-  type: {
-    name: "Composite",
-    className: "ExtendedDatabaseBlobAuditingPolicyProperties",
-    modelProperties: {
-      predicateExpression: {
-        serializedName: "predicateExpression",
-        type: {
-          name: "String"
-        }
-      },
-      state: {
-        required: true,
-        serializedName: "state",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Enabled",
-            "Disabled"
-          ]
-        }
-      },
-      storageEndpoint: {
-        serializedName: "storageEndpoint",
-        type: {
-          name: "String"
-        }
-      },
-      storageAccountAccessKey: {
-        serializedName: "storageAccountAccessKey",
-        type: {
-          name: "String"
-        }
-      },
-      retentionDays: {
-        serializedName: "retentionDays",
-        type: {
-          name: "Number"
-        }
-      },
-      auditActionsAndGroups: {
-        serializedName: "auditActionsAndGroups",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      storageAccountSubscriptionId: {
-        serializedName: "storageAccountSubscriptionId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      isStorageSecondaryKeyInUse: {
-        serializedName: "isStorageSecondaryKeyInUse",
-        type: {
-          name: "Boolean"
         }
       }
     }
@@ -5945,74 +3833,6 @@ export const ExtendedDatabaseBlobAuditingPolicy: msRest.CompositeMapper = {
       },
       isStorageSecondaryKeyInUse: {
         serializedName: "properties.isStorageSecondaryKeyInUse",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const ExtendedServerBlobAuditingPolicyProperties: msRest.CompositeMapper = {
-  serializedName: "ExtendedServerBlobAuditingPolicyProperties",
-  type: {
-    name: "Composite",
-    className: "ExtendedServerBlobAuditingPolicyProperties",
-    modelProperties: {
-      predicateExpression: {
-        serializedName: "predicateExpression",
-        type: {
-          name: "String"
-        }
-      },
-      state: {
-        required: true,
-        serializedName: "state",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Enabled",
-            "Disabled"
-          ]
-        }
-      },
-      storageEndpoint: {
-        serializedName: "storageEndpoint",
-        type: {
-          name: "String"
-        }
-      },
-      storageAccountAccessKey: {
-        serializedName: "storageAccountAccessKey",
-        type: {
-          name: "String"
-        }
-      },
-      retentionDays: {
-        serializedName: "retentionDays",
-        type: {
-          name: "Number"
-        }
-      },
-      auditActionsAndGroups: {
-        serializedName: "auditActionsAndGroups",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      storageAccountSubscriptionId: {
-        serializedName: "storageAccountSubscriptionId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      isStorageSecondaryKeyInUse: {
-        serializedName: "isStorageSecondaryKeyInUse",
         type: {
           name: "Boolean"
         }
@@ -6090,68 +3910,6 @@ export const ExtendedServerBlobAuditingPolicy: msRest.CompositeMapper = {
   }
 };
 
-export const ServerBlobAuditingPolicyProperties: msRest.CompositeMapper = {
-  serializedName: "ServerBlobAuditingPolicyProperties",
-  type: {
-    name: "Composite",
-    className: "ServerBlobAuditingPolicyProperties",
-    modelProperties: {
-      state: {
-        required: true,
-        serializedName: "state",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Enabled",
-            "Disabled"
-          ]
-        }
-      },
-      storageEndpoint: {
-        serializedName: "storageEndpoint",
-        type: {
-          name: "String"
-        }
-      },
-      storageAccountAccessKey: {
-        serializedName: "storageAccountAccessKey",
-        type: {
-          name: "String"
-        }
-      },
-      retentionDays: {
-        serializedName: "retentionDays",
-        type: {
-          name: "Number"
-        }
-      },
-      auditActionsAndGroups: {
-        serializedName: "auditActionsAndGroups",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      storageAccountSubscriptionId: {
-        serializedName: "storageAccountSubscriptionId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      isStorageSecondaryKeyInUse: {
-        serializedName: "isStorageSecondaryKeyInUse",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
 export const ServerBlobAuditingPolicy: msRest.CompositeMapper = {
   serializedName: "ServerBlobAuditingPolicy",
   type: {
@@ -6207,68 +3965,6 @@ export const ServerBlobAuditingPolicy: msRest.CompositeMapper = {
       },
       isStorageSecondaryKeyInUse: {
         serializedName: "properties.isStorageSecondaryKeyInUse",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const DatabaseBlobAuditingPolicyProperties: msRest.CompositeMapper = {
-  serializedName: "DatabaseBlobAuditingPolicyProperties",
-  type: {
-    name: "Composite",
-    className: "DatabaseBlobAuditingPolicyProperties",
-    modelProperties: {
-      state: {
-        required: true,
-        serializedName: "state",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Enabled",
-            "Disabled"
-          ]
-        }
-      },
-      storageEndpoint: {
-        serializedName: "storageEndpoint",
-        type: {
-          name: "String"
-        }
-      },
-      storageAccountAccessKey: {
-        serializedName: "storageAccountAccessKey",
-        type: {
-          name: "String"
-        }
-      },
-      retentionDays: {
-        serializedName: "retentionDays",
-        type: {
-          name: "Number"
-        }
-      },
-      auditActionsAndGroups: {
-        serializedName: "auditActionsAndGroups",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      storageAccountSubscriptionId: {
-        serializedName: "storageAccountSubscriptionId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      isStorageSecondaryKeyInUse: {
-        serializedName: "isStorageSecondaryKeyInUse",
         type: {
           name: "Boolean"
         }
@@ -6369,29 +4065,6 @@ export const DatabaseVulnerabilityAssessmentRuleBaselineItem: msRest.CompositeMa
   }
 };
 
-export const DatabaseVulnerabilityAssessmentRuleBaselineProperties: msRest.CompositeMapper = {
-  serializedName: "DatabaseVulnerabilityAssessmentRuleBaselineProperties",
-  type: {
-    name: "Composite",
-    className: "DatabaseVulnerabilityAssessmentRuleBaselineProperties",
-    modelProperties: {
-      baselineResults: {
-        required: true,
-        serializedName: "baselineResults",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DatabaseVulnerabilityAssessmentRuleBaselineItem"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const DatabaseVulnerabilityAssessmentRuleBaseline: msRest.CompositeMapper = {
   serializedName: "DatabaseVulnerabilityAssessmentRuleBaseline",
   type: {
@@ -6450,42 +4123,6 @@ export const VulnerabilityAssessmentRecurringScansProperties: msRest.CompositeMa
   }
 };
 
-export const DatabaseVulnerabilityAssessmentProperties: msRest.CompositeMapper = {
-  serializedName: "DatabaseVulnerabilityAssessmentProperties",
-  type: {
-    name: "Composite",
-    className: "DatabaseVulnerabilityAssessmentProperties",
-    modelProperties: {
-      storageContainerPath: {
-        required: true,
-        serializedName: "storageContainerPath",
-        type: {
-          name: "String"
-        }
-      },
-      storageContainerSasKey: {
-        serializedName: "storageContainerSasKey",
-        type: {
-          name: "String"
-        }
-      },
-      storageAccountAccessKey: {
-        serializedName: "storageAccountAccessKey",
-        type: {
-          name: "String"
-        }
-      },
-      recurringScans: {
-        serializedName: "recurringScans",
-        type: {
-          name: "Composite",
-          className: "VulnerabilityAssessmentRecurringScansProperties"
-        }
-      }
-    }
-  }
-};
-
 export const DatabaseVulnerabilityAssessment: msRest.CompositeMapper = {
   serializedName: "DatabaseVulnerabilityAssessment",
   type: {
@@ -6517,30 +4154,6 @@ export const DatabaseVulnerabilityAssessment: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "VulnerabilityAssessmentRecurringScansProperties"
-        }
-      }
-    }
-  }
-};
-
-export const JobAgentProperties: msRest.CompositeMapper = {
-  serializedName: "JobAgentProperties",
-  type: {
-    name: "Composite",
-    className: "JobAgentProperties",
-    modelProperties: {
-      databaseId: {
-        required: true,
-        serializedName: "databaseId",
-        type: {
-          name: "String"
-        }
-      },
-      state: {
-        readOnly: true,
-        serializedName: "state",
-        type: {
-          name: "String"
         }
       }
     }
@@ -6600,30 +4213,6 @@ export const JobAgentUpdate: msRest.CompositeMapper = {
   }
 };
 
-export const JobCredentialProperties: msRest.CompositeMapper = {
-  serializedName: "JobCredentialProperties",
-  type: {
-    name: "Composite",
-    className: "JobCredentialProperties",
-    modelProperties: {
-      username: {
-        required: true,
-        serializedName: "username",
-        type: {
-          name: "String"
-        }
-      },
-      password: {
-        required: true,
-        serializedName: "password",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const JobCredential: msRest.CompositeMapper = {
   serializedName: "JobCredential",
   type: {
@@ -6674,107 +4263,6 @@ export const JobExecutionTarget: msRest.CompositeMapper = {
         serializedName: "databaseName",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const JobExecutionProperties: msRest.CompositeMapper = {
-  serializedName: "JobExecutionProperties",
-  type: {
-    name: "Composite",
-    className: "JobExecutionProperties",
-    modelProperties: {
-      jobVersion: {
-        readOnly: true,
-        serializedName: "jobVersion",
-        type: {
-          name: "Number"
-        }
-      },
-      stepName: {
-        readOnly: true,
-        serializedName: "stepName",
-        type: {
-          name: "String"
-        }
-      },
-      stepId: {
-        readOnly: true,
-        serializedName: "stepId",
-        type: {
-          name: "Number"
-        }
-      },
-      jobExecutionId: {
-        readOnly: true,
-        serializedName: "jobExecutionId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      lifecycle: {
-        readOnly: true,
-        serializedName: "lifecycle",
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        readOnly: true,
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      createTime: {
-        readOnly: true,
-        serializedName: "createTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      startTime: {
-        readOnly: true,
-        serializedName: "startTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      endTime: {
-        readOnly: true,
-        serializedName: "endTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      currentAttempts: {
-        serializedName: "currentAttempts",
-        type: {
-          name: "Number"
-        }
-      },
-      currentAttemptStartTime: {
-        readOnly: true,
-        serializedName: "currentAttemptStartTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastMessage: {
-        readOnly: true,
-        serializedName: "lastMessage",
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        readOnly: true,
-        serializedName: "target",
-        type: {
-          name: "Composite",
-          className: "JobExecutionTarget"
         }
       }
     }
@@ -6924,37 +4412,6 @@ export const JobSchedule: msRest.CompositeMapper = {
         serializedName: "interval",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const JobProperties: msRest.CompositeMapper = {
-  serializedName: "JobProperties",
-  type: {
-    name: "Composite",
-    className: "JobProperties",
-    modelProperties: {
-      description: {
-        serializedName: "description",
-        defaultValue: '',
-        type: {
-          name: "String"
-        }
-      },
-      version: {
-        readOnly: true,
-        serializedName: "version",
-        type: {
-          name: "Number"
-        }
-      },
-      schedule: {
-        serializedName: "schedule",
-        type: {
-          name: "Composite",
-          className: "JobSchedule"
         }
       }
     }
@@ -7133,58 +4590,6 @@ export const JobStepExecutionOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobStepProperties: msRest.CompositeMapper = {
-  serializedName: "JobStepProperties",
-  type: {
-    name: "Composite",
-    className: "JobStepProperties",
-    modelProperties: {
-      stepId: {
-        serializedName: "stepId",
-        type: {
-          name: "Number"
-        }
-      },
-      targetGroup: {
-        required: true,
-        serializedName: "targetGroup",
-        type: {
-          name: "String"
-        }
-      },
-      credential: {
-        required: true,
-        serializedName: "credential",
-        type: {
-          name: "String"
-        }
-      },
-      action: {
-        required: true,
-        serializedName: "action",
-        type: {
-          name: "Composite",
-          className: "JobStepAction"
-        }
-      },
-      output: {
-        serializedName: "output",
-        type: {
-          name: "Composite",
-          className: "JobStepOutput"
-        }
-      },
-      executionOptions: {
-        serializedName: "executionOptions",
-        type: {
-          name: "Composite",
-          className: "JobStepExecutionOptions"
-        }
-      }
-    }
-  }
-};
-
 export const JobStep: msRest.CompositeMapper = {
   serializedName: "JobStep",
   type: {
@@ -7296,29 +4701,6 @@ export const JobTarget: msRest.CompositeMapper = {
   }
 };
 
-export const JobTargetGroupProperties: msRest.CompositeMapper = {
-  serializedName: "JobTargetGroupProperties",
-  type: {
-    name: "Composite",
-    className: "JobTargetGroupProperties",
-    modelProperties: {
-      members: {
-        required: true,
-        serializedName: "members",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "JobTarget"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const JobTargetGroup: msRest.CompositeMapper = {
   serializedName: "JobTargetGroup",
   type: {
@@ -7350,58 +4732,6 @@ export const JobVersion: msRest.CompositeMapper = {
     className: "JobVersion",
     modelProperties: {
       ...ProxyResource.type.modelProperties
-    }
-  }
-};
-
-export const LongTermRetentionBackupProperties: msRest.CompositeMapper = {
-  serializedName: "LongTermRetentionBackupProperties",
-  type: {
-    name: "Composite",
-    className: "LongTermRetentionBackupProperties",
-    modelProperties: {
-      serverName: {
-        readOnly: true,
-        serializedName: "serverName",
-        type: {
-          name: "String"
-        }
-      },
-      serverCreateTime: {
-        readOnly: true,
-        serializedName: "serverCreateTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      databaseName: {
-        readOnly: true,
-        serializedName: "databaseName",
-        type: {
-          name: "String"
-        }
-      },
-      databaseDeletionTime: {
-        readOnly: true,
-        serializedName: "databaseDeletionTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      backupTime: {
-        readOnly: true,
-        serializedName: "backupTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      backupExpirationTime: {
-        readOnly: true,
-        serializedName: "backupExpirationTime",
-        type: {
-          name: "DateTime"
-        }
-      }
     }
   }
 };
@@ -7459,40 +4789,6 @@ export const LongTermRetentionBackup: msRest.CompositeMapper = {
   }
 };
 
-export const LongTermRetentionPolicyProperties: msRest.CompositeMapper = {
-  serializedName: "LongTermRetentionPolicyProperties",
-  type: {
-    name: "Composite",
-    className: "LongTermRetentionPolicyProperties",
-    modelProperties: {
-      weeklyRetention: {
-        serializedName: "weeklyRetention",
-        type: {
-          name: "String"
-        }
-      },
-      monthlyRetention: {
-        serializedName: "monthlyRetention",
-        type: {
-          name: "String"
-        }
-      },
-      yearlyRetention: {
-        serializedName: "yearlyRetention",
-        type: {
-          name: "String"
-        }
-      },
-      weekOfYear: {
-        serializedName: "weekOfYear",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
 export const BackupLongTermRetentionPolicy: msRest.CompositeMapper = {
   serializedName: "BackupLongTermRetentionPolicy",
   type: {
@@ -7537,93 +4833,6 @@ export const CompleteDatabaseRestoreDefinition: msRest.CompositeMapper = {
       lastBackupName: {
         required: true,
         serializedName: "lastBackupName",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ManagedDatabaseProperties: msRest.CompositeMapper = {
-  serializedName: "ManagedDatabaseProperties",
-  type: {
-    name: "Composite",
-    className: "ManagedDatabaseProperties",
-    modelProperties: {
-      collation: {
-        serializedName: "collation",
-        type: {
-          name: "String"
-        }
-      },
-      status: {
-        readOnly: true,
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      },
-      creationDate: {
-        readOnly: true,
-        serializedName: "creationDate",
-        type: {
-          name: "DateTime"
-        }
-      },
-      earliestRestorePoint: {
-        readOnly: true,
-        serializedName: "earliestRestorePoint",
-        type: {
-          name: "DateTime"
-        }
-      },
-      restorePointInTime: {
-        serializedName: "restorePointInTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      defaultSecondaryLocation: {
-        readOnly: true,
-        serializedName: "defaultSecondaryLocation",
-        type: {
-          name: "String"
-        }
-      },
-      catalogCollation: {
-        serializedName: "catalogCollation",
-        type: {
-          name: "String"
-        }
-      },
-      createMode: {
-        serializedName: "createMode",
-        type: {
-          name: "String"
-        }
-      },
-      storageContainerUri: {
-        serializedName: "storageContainerUri",
-        type: {
-          name: "String"
-        }
-      },
-      sourceDatabaseId: {
-        serializedName: "sourceDatabaseId",
-        type: {
-          name: "String"
-        }
-      },
-      storageContainerSasToken: {
-        serializedName: "storageContainerSasToken",
-        type: {
-          name: "String"
-        }
-      },
-      failoverGroupId: {
-        readOnly: true,
-        serializedName: "failoverGroupId",
         type: {
           name: "String"
         }
@@ -7869,51 +5078,6 @@ export const AutomaticTuningServerOptions: msRest.CompositeMapper = {
   }
 };
 
-export const AutomaticTuningServerProperties: msRest.CompositeMapper = {
-  serializedName: "AutomaticTuningServerProperties",
-  type: {
-    name: "Composite",
-    className: "AutomaticTuningServerProperties",
-    modelProperties: {
-      desiredState: {
-        serializedName: "desiredState",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Custom",
-            "Auto",
-            "Unspecified"
-          ]
-        }
-      },
-      actualState: {
-        readOnly: true,
-        serializedName: "actualState",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Custom",
-            "Auto",
-            "Unspecified"
-          ]
-        }
-      },
-      options: {
-        serializedName: "options",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Composite",
-              className: "AutomaticTuningServerOptions"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const ServerAutomaticTuning: msRest.CompositeMapper = {
   serializedName: "ServerAutomaticTuning",
   type: {
@@ -7960,23 +5124,6 @@ export const ServerAutomaticTuning: msRest.CompositeMapper = {
   }
 };
 
-export const ServerDnsAliasProperties: msRest.CompositeMapper = {
-  serializedName: "ServerDnsAliasProperties",
-  type: {
-    name: "Composite",
-    className: "ServerDnsAliasProperties",
-    modelProperties: {
-      azureDnsRecord: {
-        readOnly: true,
-        serializedName: "azureDnsRecord",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ServerDnsAlias: msRest.CompositeMapper = {
   serializedName: "ServerDnsAlias",
   type: {
@@ -8005,74 +5152,6 @@ export const ServerDnsAliasAcquisition: msRest.CompositeMapper = {
         serializedName: "oldServerDnsAliasId",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SecurityAlertPolicyProperties: msRest.CompositeMapper = {
-  serializedName: "SecurityAlertPolicyProperties",
-  type: {
-    name: "Composite",
-    className: "SecurityAlertPolicyProperties",
-    modelProperties: {
-      state: {
-        required: true,
-        serializedName: "state",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "New",
-            "Enabled",
-            "Disabled"
-          ]
-        }
-      },
-      disabledAlerts: {
-        serializedName: "disabledAlerts",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      emailAddresses: {
-        serializedName: "emailAddresses",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      emailAccountAdmins: {
-        serializedName: "emailAccountAdmins",
-        type: {
-          name: "Boolean"
-        }
-      },
-      storageEndpoint: {
-        serializedName: "storageEndpoint",
-        type: {
-          name: "String"
-        }
-      },
-      storageAccountAccessKey: {
-        serializedName: "storageAccountAccessKey",
-        type: {
-          name: "String"
-        }
-      },
-      retentionDays: {
-        serializedName: "retentionDays",
-        type: {
-          name: "Number"
         }
       }
     }
@@ -8148,48 +5227,6 @@ export const ServerSecurityAlertPolicy: msRest.CompositeMapper = {
   }
 };
 
-export const RestorePointProperties: msRest.CompositeMapper = {
-  serializedName: "RestorePointProperties",
-  type: {
-    name: "Composite",
-    className: "RestorePointProperties",
-    modelProperties: {
-      restorePointType: {
-        readOnly: true,
-        serializedName: "restorePointType",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "CONTINUOUS",
-            "DISCRETE"
-          ]
-        }
-      },
-      earliestRestoreDate: {
-        readOnly: true,
-        serializedName: "earliestRestoreDate",
-        type: {
-          name: "DateTime"
-        }
-      },
-      restorePointCreationDate: {
-        readOnly: true,
-        serializedName: "restorePointCreationDate",
-        type: {
-          name: "DateTime"
-        }
-      },
-      restorePointLabel: {
-        readOnly: true,
-        serializedName: "restorePointLabel",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const RestorePoint: msRest.CompositeMapper = {
   serializedName: "RestorePoint",
   type: {
@@ -8251,114 +5288,6 @@ export const CreateDatabaseRestorePointDefinition: msRest.CompositeMapper = {
         serializedName: "restorePointLabel",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DatabaseOperationProperties: msRest.CompositeMapper = {
-  serializedName: "DatabaseOperationProperties",
-  type: {
-    name: "Composite",
-    className: "DatabaseOperationProperties",
-    modelProperties: {
-      databaseName: {
-        readOnly: true,
-        serializedName: "databaseName",
-        type: {
-          name: "String"
-        }
-      },
-      operation: {
-        readOnly: true,
-        serializedName: "operation",
-        type: {
-          name: "String"
-        }
-      },
-      operationFriendlyName: {
-        readOnly: true,
-        serializedName: "operationFriendlyName",
-        type: {
-          name: "String"
-        }
-      },
-      percentComplete: {
-        readOnly: true,
-        serializedName: "percentComplete",
-        type: {
-          name: "Number"
-        }
-      },
-      serverName: {
-        readOnly: true,
-        serializedName: "serverName",
-        type: {
-          name: "String"
-        }
-      },
-      startTime: {
-        readOnly: true,
-        serializedName: "startTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      state: {
-        readOnly: true,
-        serializedName: "state",
-        type: {
-          name: "String"
-        }
-      },
-      errorCode: {
-        readOnly: true,
-        serializedName: "errorCode",
-        type: {
-          name: "Number"
-        }
-      },
-      errorDescription: {
-        readOnly: true,
-        serializedName: "errorDescription",
-        type: {
-          name: "String"
-        }
-      },
-      errorSeverity: {
-        readOnly: true,
-        serializedName: "errorSeverity",
-        type: {
-          name: "Number"
-        }
-      },
-      isUserError: {
-        readOnly: true,
-        serializedName: "isUserError",
-        type: {
-          name: "Boolean"
-        }
-      },
-      estimatedCompletionTime: {
-        readOnly: true,
-        serializedName: "estimatedCompletionTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      description: {
-        readOnly: true,
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      },
-      isCancellable: {
-        readOnly: true,
-        serializedName: "isCancellable",
-        type: {
-          name: "Boolean"
         }
       }
     }
@@ -8466,114 +5395,6 @@ export const DatabaseOperation: msRest.CompositeMapper = {
       isCancellable: {
         readOnly: true,
         serializedName: "properties.isCancellable",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const ElasticPoolOperationProperties: msRest.CompositeMapper = {
-  serializedName: "ElasticPoolOperationProperties",
-  type: {
-    name: "Composite",
-    className: "ElasticPoolOperationProperties",
-    modelProperties: {
-      elasticPoolName: {
-        readOnly: true,
-        serializedName: "elasticPoolName",
-        type: {
-          name: "String"
-        }
-      },
-      operation: {
-        readOnly: true,
-        serializedName: "operation",
-        type: {
-          name: "String"
-        }
-      },
-      operationFriendlyName: {
-        readOnly: true,
-        serializedName: "operationFriendlyName",
-        type: {
-          name: "String"
-        }
-      },
-      percentComplete: {
-        readOnly: true,
-        serializedName: "percentComplete",
-        type: {
-          name: "Number"
-        }
-      },
-      serverName: {
-        readOnly: true,
-        serializedName: "serverName",
-        type: {
-          name: "String"
-        }
-      },
-      startTime: {
-        readOnly: true,
-        serializedName: "startTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      state: {
-        readOnly: true,
-        serializedName: "state",
-        type: {
-          name: "String"
-        }
-      },
-      errorCode: {
-        readOnly: true,
-        serializedName: "errorCode",
-        type: {
-          name: "Number"
-        }
-      },
-      errorDescription: {
-        readOnly: true,
-        serializedName: "errorDescription",
-        type: {
-          name: "String"
-        }
-      },
-      errorSeverity: {
-        readOnly: true,
-        serializedName: "errorSeverity",
-        type: {
-          name: "Number"
-        }
-      },
-      isUserError: {
-        readOnly: true,
-        serializedName: "isUserError",
-        type: {
-          name: "Boolean"
-        }
-      },
-      estimatedCompletionTime: {
-        readOnly: true,
-        serializedName: "estimatedCompletionTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      description: {
-        readOnly: true,
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      },
-      isCancellable: {
-        readOnly: true,
-        serializedName: "isCancellable",
         type: {
           name: "Boolean"
         }
@@ -9631,183 +6452,6 @@ export const LocationCapabilities: msRest.CompositeMapper = {
   }
 };
 
-export const DatabaseProperties: msRest.CompositeMapper = {
-  serializedName: "DatabaseProperties",
-  type: {
-    name: "Composite",
-    className: "DatabaseProperties",
-    modelProperties: {
-      createMode: {
-        serializedName: "createMode",
-        type: {
-          name: "String"
-        }
-      },
-      collation: {
-        serializedName: "collation",
-        type: {
-          name: "String"
-        }
-      },
-      maxSizeBytes: {
-        serializedName: "maxSizeBytes",
-        type: {
-          name: "Number"
-        }
-      },
-      sampleName: {
-        serializedName: "sampleName",
-        type: {
-          name: "String"
-        }
-      },
-      elasticPoolId: {
-        serializedName: "elasticPoolId",
-        type: {
-          name: "String"
-        }
-      },
-      sourceDatabaseId: {
-        serializedName: "sourceDatabaseId",
-        type: {
-          name: "String"
-        }
-      },
-      status: {
-        readOnly: true,
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      },
-      databaseId: {
-        readOnly: true,
-        serializedName: "databaseId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      creationDate: {
-        readOnly: true,
-        serializedName: "creationDate",
-        type: {
-          name: "DateTime"
-        }
-      },
-      currentServiceObjectiveName: {
-        readOnly: true,
-        serializedName: "currentServiceObjectiveName",
-        type: {
-          name: "String"
-        }
-      },
-      requestedServiceObjectiveName: {
-        readOnly: true,
-        serializedName: "requestedServiceObjectiveName",
-        type: {
-          name: "String"
-        }
-      },
-      defaultSecondaryLocation: {
-        readOnly: true,
-        serializedName: "defaultSecondaryLocation",
-        type: {
-          name: "String"
-        }
-      },
-      failoverGroupId: {
-        readOnly: true,
-        serializedName: "failoverGroupId",
-        type: {
-          name: "String"
-        }
-      },
-      restorePointInTime: {
-        serializedName: "restorePointInTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      sourceDatabaseDeletionDate: {
-        serializedName: "sourceDatabaseDeletionDate",
-        type: {
-          name: "DateTime"
-        }
-      },
-      recoveryServicesRecoveryPointId: {
-        serializedName: "recoveryServicesRecoveryPointId",
-        type: {
-          name: "String"
-        }
-      },
-      longTermRetentionBackupResourceId: {
-        serializedName: "longTermRetentionBackupResourceId",
-        type: {
-          name: "String"
-        }
-      },
-      recoverableDatabaseId: {
-        serializedName: "recoverableDatabaseId",
-        type: {
-          name: "String"
-        }
-      },
-      restorableDroppedDatabaseId: {
-        serializedName: "restorableDroppedDatabaseId",
-        type: {
-          name: "String"
-        }
-      },
-      catalogCollation: {
-        serializedName: "catalogCollation",
-        type: {
-          name: "String"
-        }
-      },
-      zoneRedundant: {
-        serializedName: "zoneRedundant",
-        type: {
-          name: "Boolean"
-        }
-      },
-      licenseType: {
-        serializedName: "licenseType",
-        type: {
-          name: "String"
-        }
-      },
-      maxLogSizeBytes: {
-        readOnly: true,
-        serializedName: "maxLogSizeBytes",
-        type: {
-          name: "Number"
-        }
-      },
-      earliestRestoreDate: {
-        readOnly: true,
-        serializedName: "earliestRestoreDate",
-        type: {
-          name: "DateTime"
-        }
-      },
-      readScale: {
-        serializedName: "readScale",
-        type: {
-          name: "String"
-        }
-      },
-      currentSku: {
-        readOnly: true,
-        serializedName: "currentSku",
-        type: {
-          name: "Composite",
-          className: "Sku"
-        }
-      }
-    }
-  }
-};
-
 export const Database: msRest.CompositeMapper = {
   serializedName: "Database",
   type: {
@@ -10241,55 +6885,6 @@ export const ElasticPoolPerDatabaseSettings: msRest.CompositeMapper = {
   }
 };
 
-export const ElasticPoolProperties: msRest.CompositeMapper = {
-  serializedName: "ElasticPoolProperties",
-  type: {
-    name: "Composite",
-    className: "ElasticPoolProperties",
-    modelProperties: {
-      state: {
-        readOnly: true,
-        serializedName: "state",
-        type: {
-          name: "String"
-        }
-      },
-      creationDate: {
-        readOnly: true,
-        serializedName: "creationDate",
-        type: {
-          name: "DateTime"
-        }
-      },
-      maxSizeBytes: {
-        serializedName: "maxSizeBytes",
-        type: {
-          name: "Number"
-        }
-      },
-      perDatabaseSettings: {
-        serializedName: "perDatabaseSettings",
-        type: {
-          name: "Composite",
-          className: "ElasticPoolPerDatabaseSettings"
-        }
-      },
-      zoneRedundant: {
-        serializedName: "zoneRedundant",
-        type: {
-          name: "Boolean"
-        }
-      },
-      licenseType: {
-        serializedName: "licenseType",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ElasticPool: msRest.CompositeMapper = {
   serializedName: "ElasticPool",
   type: {
@@ -10346,41 +6941,6 @@ export const ElasticPool: msRest.CompositeMapper = {
       },
       licenseType: {
         serializedName: "properties.licenseType",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ElasticPoolUpdateProperties: msRest.CompositeMapper = {
-  serializedName: "ElasticPoolUpdateProperties",
-  type: {
-    name: "Composite",
-    className: "ElasticPoolUpdateProperties",
-    modelProperties: {
-      maxSizeBytes: {
-        serializedName: "maxSizeBytes",
-        type: {
-          name: "Number"
-        }
-      },
-      perDatabaseSettings: {
-        serializedName: "perDatabaseSettings",
-        type: {
-          name: "Composite",
-          className: "ElasticPoolPerDatabaseSettings"
-        }
-      },
-      zoneRedundant: {
-        serializedName: "zoneRedundant",
-        type: {
-          name: "Boolean"
-        }
-      },
-      licenseType: {
-        serializedName: "licenseType",
         type: {
           name: "String"
         }
@@ -10466,78 +7026,6 @@ export const VulnerabilityAssessmentScanError: msRest.CompositeMapper = {
   }
 };
 
-export const VulnerabilityAssessmentScanRecordProperties: msRest.CompositeMapper = {
-  serializedName: "VulnerabilityAssessmentScanRecordProperties",
-  type: {
-    name: "Composite",
-    className: "VulnerabilityAssessmentScanRecordProperties",
-    modelProperties: {
-      scanId: {
-        readOnly: true,
-        serializedName: "scanId",
-        type: {
-          name: "String"
-        }
-      },
-      triggerType: {
-        readOnly: true,
-        serializedName: "triggerType",
-        type: {
-          name: "String"
-        }
-      },
-      state: {
-        readOnly: true,
-        serializedName: "state",
-        type: {
-          name: "String"
-        }
-      },
-      startTime: {
-        readOnly: true,
-        serializedName: "startTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      endTime: {
-        readOnly: true,
-        serializedName: "endTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      errors: {
-        readOnly: true,
-        serializedName: "errors",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "VulnerabilityAssessmentScanError"
-            }
-          }
-        }
-      },
-      storageContainerPath: {
-        readOnly: true,
-        serializedName: "storageContainerPath",
-        type: {
-          name: "String"
-        }
-      },
-      numberOfFailedSecurityChecks: {
-        readOnly: true,
-        serializedName: "numberOfFailedSecurityChecks",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
 export const VulnerabilityAssessmentScanRecord: msRest.CompositeMapper = {
   serializedName: "VulnerabilityAssessmentScanRecord",
   type: {
@@ -10605,23 +7093,6 @@ export const VulnerabilityAssessmentScanRecord: msRest.CompositeMapper = {
         serializedName: "properties.numberOfFailedSecurityChecks",
         type: {
           name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const DatabaseVulnerabilityAssessmentScanExportProperties: msRest.CompositeMapper = {
-  serializedName: "DatabaseVulnerabilityAssessmentScanExportProperties",
-  type: {
-    name: "Composite",
-    className: "DatabaseVulnerabilityAssessmentScanExportProperties",
-    modelProperties: {
-      exportedReportLocation: {
-        readOnly: true,
-        serializedName: "exportedReportLocation",
-        type: {
-          name: "String"
         }
       }
     }
@@ -10730,71 +7201,6 @@ export const ManagedInstancePairInfo: msRest.CompositeMapper = {
   }
 };
 
-export const InstanceFailoverGroupProperties: msRest.CompositeMapper = {
-  serializedName: "InstanceFailoverGroupProperties",
-  type: {
-    name: "Composite",
-    className: "InstanceFailoverGroupProperties",
-    modelProperties: {
-      readWriteEndpoint: {
-        required: true,
-        serializedName: "readWriteEndpoint",
-        type: {
-          name: "Composite",
-          className: "InstanceFailoverGroupReadWriteEndpoint"
-        }
-      },
-      readOnlyEndpoint: {
-        serializedName: "readOnlyEndpoint",
-        type: {
-          name: "Composite",
-          className: "InstanceFailoverGroupReadOnlyEndpoint"
-        }
-      },
-      replicationRole: {
-        readOnly: true,
-        serializedName: "replicationRole",
-        type: {
-          name: "String"
-        }
-      },
-      replicationState: {
-        readOnly: true,
-        serializedName: "replicationState",
-        type: {
-          name: "String"
-        }
-      },
-      partnerRegions: {
-        required: true,
-        serializedName: "partnerRegions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PartnerRegionInfo"
-            }
-          }
-        }
-      },
-      managedInstancePairs: {
-        required: true,
-        serializedName: "managedInstancePairs",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ManagedInstancePairInfo"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const InstanceFailoverGroup: msRest.CompositeMapper = {
   serializedName: "InstanceFailoverGroup",
   type: {
@@ -10861,22 +7267,6 @@ export const InstanceFailoverGroup: msRest.CompositeMapper = {
   }
 };
 
-export const BackupShortTermRetentionPolicyProperties: msRest.CompositeMapper = {
-  serializedName: "BackupShortTermRetentionPolicyProperties",
-  type: {
-    name: "Composite",
-    className: "BackupShortTermRetentionPolicyProperties",
-    modelProperties: {
-      retentionDays: {
-        serializedName: "retentionDays",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
 export const BackupShortTermRetentionPolicy: msRest.CompositeMapper = {
   serializedName: "BackupShortTermRetentionPolicy",
   type: {
@@ -10888,29 +7278,6 @@ export const BackupShortTermRetentionPolicy: msRest.CompositeMapper = {
         serializedName: "properties.retentionDays",
         type: {
           name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const TdeCertificateProperties: msRest.CompositeMapper = {
-  serializedName: "TdeCertificateProperties",
-  type: {
-    name: "Composite",
-    className: "TdeCertificateProperties",
-    modelProperties: {
-      privateBlob: {
-        required: true,
-        serializedName: "privateBlob",
-        type: {
-          name: "String"
-        }
-      },
-      certPassword: {
-        serializedName: "certPassword",
-        type: {
-          name: "String"
         }
       }
     }
@@ -10935,43 +7302,6 @@ export const TdeCertificate: msRest.CompositeMapper = {
         serializedName: "properties.certPassword",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ManagedInstanceKeyProperties: msRest.CompositeMapper = {
-  serializedName: "ManagedInstanceKeyProperties",
-  type: {
-    name: "Composite",
-    className: "ManagedInstanceKeyProperties",
-    modelProperties: {
-      serverKeyType: {
-        required: true,
-        serializedName: "serverKeyType",
-        type: {
-          name: "String"
-        }
-      },
-      uri: {
-        serializedName: "uri",
-        type: {
-          name: "String"
-        }
-      },
-      thumbprint: {
-        readOnly: true,
-        serializedName: "thumbprint",
-        type: {
-          name: "String"
-        }
-      },
-      creationDate: {
-        readOnly: true,
-        serializedName: "creationDate",
-        type: {
-          name: "DateTime"
         }
       }
     }
@@ -11017,43 +7347,6 @@ export const ManagedInstanceKey: msRest.CompositeMapper = {
         serializedName: "properties.creationDate",
         type: {
           name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const ManagedInstanceEncryptionProtectorProperties: msRest.CompositeMapper = {
-  serializedName: "ManagedInstanceEncryptionProtectorProperties",
-  type: {
-    name: "Composite",
-    className: "ManagedInstanceEncryptionProtectorProperties",
-    modelProperties: {
-      serverKeyName: {
-        serializedName: "serverKeyName",
-        type: {
-          name: "String"
-        }
-      },
-      serverKeyType: {
-        required: true,
-        serializedName: "serverKeyType",
-        type: {
-          name: "String"
-        }
-      },
-      uri: {
-        readOnly: true,
-        serializedName: "uri",
-        type: {
-          name: "String"
-        }
-      },
-      thumbprint: {
-        readOnly: true,
-        serializedName: "thumbprint",
-        type: {
-          name: "String"
         }
       }
     }
