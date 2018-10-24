@@ -52,7 +52,7 @@ gulp.task('default', () => {
 gulp.task("install", async () => {
   _logger.log(`Passed arguments: ${Argv.print()}`);
   const argv = Argv.construct(Argv.Options.Package, Argv.Options.Repository)
-    .usage("gulp install --package @azure/arm-mariadb")
+    .usage("Example: gulp install --package @azure/arm-mariadb")
     .argv;
 
   const packageFolderPath: string | undefined = await getPackageFolderPathFromPackageArgument(
@@ -69,7 +69,7 @@ gulp.task("install", async () => {
 gulp.task("build", async () => {
   _logger.log(`Passed arguments: ${Argv.print()}`);
   const argv = Argv.construct(Argv.Options.Package, Argv.Options.Repository)
-    .usage("gulp build --package @azure/arm-mariadb")
+    .usage("Example: gulp build --package @azure/arm-mariadb")
     .argv;
 
   const packageFolderPath: string | undefined = await getPackageFolderPathFromPackageArgument(
@@ -87,10 +87,21 @@ gulp.task("build", async () => {
 gulp.task('codegen', async () => {
   _logger.log(`Passed arguments: ${Argv.print()}`);
   const argv = Argv.construct(Argv.Options.Package, Argv.Options.Repository)
-    .usage("gulp codegen --package @azure/arm-mariadb")
+    .options({
+      "debugger": {
+        boolean: true,
+        alias: ["d", "use-debugger"],
+        description: "Enables debugger attaching to autorest.typescript process"
+      },
+      "use": {
+        string: true,
+        description: "Specifies location for the generator to use"
+      }
+    })
+    .usage("Example: gulp codegen --package @azure/arm-mariadb")
     .argv;
 
-  await generateSdk(argv.azureRestAPISpecsRoot, argv.azureSDKForJSRepoRoot, argv.package);
+  await generateSdk(argv.azureRestAPISpecsRoot, argv.azureSDKForJSRepoRoot, argv.package, argv.use, argv.debugger);
 });
 
 gulp.task('pack', () => {
@@ -185,7 +196,7 @@ gulp.task("find-missing-sdks", async () => {
   try {
     _logger.log(`Passed arguments: ${Argv.print()}`);
     const argv = Argv.construct(Argv.Options.Repository)
-      .usage("gulp find-missing-sdks")
+      .usage("Example: gulp find-missing-sdks")
       .argv;
 
     const azureRestApiSpecsRepositoryPath = argv.azureRestAPISpecsRoot;
@@ -206,7 +217,7 @@ gulp.task("generate-readme", async () => {
           alias: "dir",
           description: "Forces generating readme in the specified directory"
         }
-      }).usage("gulp generate-readme --package @azure/arm-mariadb --type rm")
+      }).usage("Example: gulp generate-readme --package @azure/arm-mariadb --type rm")
       .argv;
 
     await generateTsReadme(argv.package, argv.type, argv.azureRestAPISpecsRoot, argv.dir);
@@ -234,7 +245,7 @@ gulp.task("generate-all-missing-sdks", async () => {
   try {
     _logger.log(`Passed arguments: ${Argv.print()}`);
     const argv = Argv.construct(Argv.Options.Repository, Argv.Options.Generate)
-      .usage("gulp find-missing-sdks")
+      .usage("Example: gulp find-missing-sdks")
       .argv;
 
     await generateAllMissingSdks(argv.azureSDKForJSRepoRoot, argv.azureRestAPISpecsRoot, argv["skip-spec"], argv["skip-sdk"]);
@@ -272,7 +283,7 @@ gulp.task("regenerate", async () => {
           boolean: true,
           description: "Determines if review should be automatically requested on matching pull request"
         }
-      }).usage("gulp regenerate --branch 'restapi_auto_daschult/sql'").argv;
+      }).usage("Example: gulp regenerate --branch 'restapi_auto_daschult/sql'").argv;
 
     getDataFromPullRequest(argv["pull-request"]).then(data => {
       const branchName = argv.branch || data.branchName;
@@ -290,7 +301,7 @@ gulp.task("regenerate", async () => {
 gulp.task("find-wrong-packages", async () => {
   _logger.log(`Passed arguments: ${Argv.print()}`);
   const argv = Argv.construct(Argv.Options.Repository, Argv.Options.Generate)
-    .usage("gulp find-missing-sdks")
+    .usage("Example: gulp find-missing-sdks")
     .argv;
 
   const incorrectPackages = await findWrongPackages(argv.azureRestAPISpecsRoot, argv.azureSDKForJSRepoRoot);
