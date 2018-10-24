@@ -32,7 +32,7 @@ describe("Session Token", function() {
     id: containerId,
     partitionKey: { paths: ["/id"], kind: PartitionKind.Hash }
   };
-  const containerOptions = { offerThroughput: 10100 };
+  const containerOptions = { offerThroughput: 25100 };
 
   const clientContext: ClientContext = (client as any).clientContext;
   const requestHandler: RequestHandler = (clientContext as any).requestHandler;

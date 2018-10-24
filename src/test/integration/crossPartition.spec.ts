@@ -66,7 +66,7 @@ describe("Cross Partition", function() {
         kind: PartitionKind.Hash
       }
     };
-    const containerOptions = { offerThroughput: 10100 };
+    const containerOptions = { offerThroughput: 25100 };
 
     let container: Container;
 
