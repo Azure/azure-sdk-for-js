@@ -9,12 +9,12 @@
  */
 
 export {
-  VirtualNetworkRule,
+  ManagedBackupShortTermRetentionPolicy,
   ProxyResource,
   Resource,
   BaseResource,
   CloudError,
-  VirtualNetworkRuleListResult,
+  ManagedBackupShortTermRetentionPolicyListResult,
   RecoverableDatabase,
   RestorableDroppedDatabase,
   TrackedResource,
@@ -59,6 +59,7 @@ export {
   SyncGroupSchemaTableColumn,
   SyncMember,
   SubscriptionUsage,
+  VirtualNetworkRule,
   ExtendedDatabaseBlobAuditingPolicy,
   ExtendedServerBlobAuditingPolicy,
   ServerBlobAuditingPolicy,
@@ -82,7 +83,6 @@ export {
   JobVersion,
   LongTermRetentionBackup,
   BackupLongTermRetentionPolicy,
-  ManagedBackupShortTermRetentionPolicy,
   ManagedDatabase,
   ServerAutomaticTuning,
   AutomaticTuningServerOptions,

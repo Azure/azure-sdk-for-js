@@ -4826,6 +4826,23 @@ export const BackupLongTermRetentionPolicy: msRest.CompositeMapper = {
   }
 };
 
+export const ManagedBackupShortTermRetentionPolicy: msRest.CompositeMapper = {
+  serializedName: "ManagedBackupShortTermRetentionPolicy",
+  type: {
+    name: "Composite",
+    className: "ManagedBackupShortTermRetentionPolicy",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      retentionDays: {
+        serializedName: "properties.retentionDays",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const CompleteDatabaseRestoreDefinition: msRest.CompositeMapper = {
   serializedName: "CompleteDatabaseRestoreDefinition",
   type: {
@@ -8566,6 +8583,36 @@ export const LongTermRetentionBackupListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "LongTermRetentionBackup"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedBackupShortTermRetentionPolicyListResult: msRest.CompositeMapper = {
+  serializedName: "ManagedBackupShortTermRetentionPolicyListResult",
+  type: {
+    name: "Composite",
+    className: "ManagedBackupShortTermRetentionPolicyListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedBackupShortTermRetentionPolicy"
             }
           }
         }
