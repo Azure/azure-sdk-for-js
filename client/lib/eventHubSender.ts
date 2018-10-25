@@ -310,10 +310,6 @@ export class EventHubSender extends LinkEntity {
         }
       }
 
-      if (!batchMessage.message_id) {
-        batchMessage.message_id = uuid();
-      }
-
       // Finally encode the envelope (batch message).
       const encodedBatchMessage = message.encode(batchMessage);
       log.sender("[%s] Sender '%s', sending encoded batch message.",
@@ -365,7 +361,7 @@ export class EventHubSender extends LinkEntity {
         this._sender!.credit, this._sender!.session.outgoing.available());
       if (this._sender!.sendable()) {
         log.sender("[%s] Sender '%s', sending message with id '%s'.", this._context.connectionId,
-          this.name, message.message_id || tag);
+          this.name, message.message_id || tag || '<not specified>');
         let onRejected: Func<EventContext, void>;
         let onReleased: Func<EventContext, void>;
         let onModified: Func<EventContext, void>;
