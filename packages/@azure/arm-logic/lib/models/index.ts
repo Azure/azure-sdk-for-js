@@ -4090,6 +4090,93 @@ export interface BatchConfiguration extends Resource {
 
 /**
  * @interface
+ * An interface representing Request.
+ * A request.
+ *
+ */
+export interface Request {
+  /**
+   * @member {any} [headers] A list of all the headers attached to the request.
+   */
+  headers?: any;
+  /**
+   * @member {string} [uri] The destination for the request.
+   */
+  uri?: string;
+  /**
+   * @member {string} [method] The HTTP method used for the request.
+   */
+  method?: string;
+}
+
+/**
+ * @interface
+ * An interface representing Response.
+ * A response.
+ *
+ */
+export interface Response {
+  /**
+   * @member {any} [headers] A list of all the headers attached to the
+   * response.
+   */
+  headers?: any;
+  /**
+   * @member {number} [statusCode] The status code of the response.
+   */
+  statusCode?: number;
+  /**
+   * @member {ContentLink} [bodyLink] Details on the location of the body
+   * content.
+   */
+  bodyLink?: ContentLink;
+}
+
+/**
+ * @interface
+ * An interface representing RequestHistory.
+ * The request history.
+ *
+ * @extends Resource
+ */
+export interface RequestHistory extends Resource {
+  /**
+   * @member {Date} [startTime] The time the request started.
+   */
+  startTime?: Date;
+  /**
+   * @member {Date} [endTime] The time the request ended.
+   */
+  endTime?: Date;
+  /**
+   * @member {Request} [request] The request.
+   */
+  request?: Request;
+  /**
+   * @member {Response} [response] The response.
+   */
+  response?: Response;
+}
+
+/**
+ * @interface
+ * An interface representing RequestHistoryListResult.
+ * The list of workflow request histories.
+ *
+ */
+export interface RequestHistoryListResult {
+  /**
+   * @member {RequestHistory[]} [value] A list of workflow request histories.
+   */
+  value?: RequestHistory[];
+  /**
+   * @member {string} [nextLink] The URL to get the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing WorkflowsListBySubscriptionOptionalParams.
  * Optional Parameters.
  *
@@ -5887,6 +5974,82 @@ export type WorkflowRunActionRepetitionsListExpressionTracesResponse = Expressio
        * The response body as parsed JSON or XML
        */
       parsedBody: ExpressionTraces;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type WorkflowRunActionRepetitionsRequestHistoriesListResponse = RequestHistoryListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RequestHistoryListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type WorkflowRunActionRepetitionsRequestHistoriesGetResponse = RequestHistory & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RequestHistory;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type WorkflowRunActionRequestHistoriesListResponse = RequestHistoryListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RequestHistoryListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type WorkflowRunActionRequestHistoriesGetResponse = RequestHistory & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RequestHistory;
     };
 };
 

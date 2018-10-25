@@ -5568,6 +5568,128 @@ export const BatchConfiguration: msRest.CompositeMapper = {
   }
 };
 
+export const Request: msRest.CompositeMapper = {
+  serializedName: "Request",
+  type: {
+    name: "Composite",
+    className: "Request",
+    modelProperties: {
+      headers: {
+        serializedName: "headers",
+        type: {
+          name: "Object"
+        }
+      },
+      uri: {
+        serializedName: "uri",
+        type: {
+          name: "String"
+        }
+      },
+      method: {
+        serializedName: "method",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Response: msRest.CompositeMapper = {
+  serializedName: "Response",
+  type: {
+    name: "Composite",
+    className: "Response",
+    modelProperties: {
+      headers: {
+        serializedName: "headers",
+        type: {
+          name: "Object"
+        }
+      },
+      statusCode: {
+        serializedName: "statusCode",
+        type: {
+          name: "Number"
+        }
+      },
+      bodyLink: {
+        serializedName: "bodyLink",
+        type: {
+          name: "Composite",
+          className: "ContentLink"
+        }
+      }
+    }
+  }
+};
+
+export const RequestHistory: msRest.CompositeMapper = {
+  serializedName: "RequestHistory",
+  type: {
+    name: "Composite",
+    className: "RequestHistory",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      request: {
+        serializedName: "request",
+        type: {
+          name: "Composite",
+          className: "Request"
+        }
+      },
+      response: {
+        serializedName: "response",
+        type: {
+          name: "Composite",
+          className: "Response"
+        }
+      }
+    }
+  }
+};
+
+export const RequestHistoryListResult: msRest.CompositeMapper = {
+  serializedName: "RequestHistoryListResult",
+  type: {
+    name: "Composite",
+    className: "RequestHistoryListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RequestHistory"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const WorkflowListResult: msRest.CompositeMapper = {
   serializedName: "WorkflowListResult",
   type: {

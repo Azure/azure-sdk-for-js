@@ -9,16 +9,14 @@
  */
 
 export {
-  BatchConfigurationCollection,
-  BatchConfiguration,
+  RequestHistoryListResult,
+  RequestHistory,
   Resource,
   BaseResource,
-  BatchConfigurationProperties,
-  ArtifactProperties,
-  BatchReleaseCriteria,
-  WorkflowTriggerRecurrence,
-  RecurrenceSchedule,
-  RecurrenceScheduleOccurrence,
+  Request,
+  Response,
+  ContentLink,
+  ContentHash,
   CloudError,
   SubResource,
   Workflow,
@@ -27,10 +25,11 @@ export {
   WorkflowParameter,
   WorkflowVersion,
   WorkflowTrigger,
+  WorkflowTriggerRecurrence,
+  RecurrenceSchedule,
+  RecurrenceScheduleOccurrence,
   WorkflowTriggerHistory,
   Correlation,
-  ContentLink,
-  ContentHash,
   WorkflowOutputParameter,
   WorkflowRun,
   WorkflowRunTrigger,
@@ -100,8 +99,9 @@ export {
   AssemblyDefinition,
   AssemblyProperties,
   ArtifactContentPropertiesDefinition,
-  RequestHistory,
-  Request,
-  Response
+  ArtifactProperties,
+  BatchConfigurationProperties,
+  BatchReleaseCriteria,
+  BatchConfiguration
 } from "../models/mappers";
 
