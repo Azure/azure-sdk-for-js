@@ -2727,6 +2727,13 @@ export const ApplicationGatewayPathRule: msRest.CompositeMapper = {
           className: "SubResource"
         }
       },
+      rewriteRuleSet: {
+        serializedName: "properties.rewriteRuleSet",
+        type: {
+          name: "Composite",
+          className: "SubResource"
+        }
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         type: {
@@ -2913,6 +2920,13 @@ export const ApplicationGatewayRequestRoutingRule: msRest.CompositeMapper = {
           className: "SubResource"
         }
       },
+      rewriteRuleSet: {
+        serializedName: "properties.rewriteRuleSet",
+        type: {
+          name: "Composite",
+          className: "SubResource"
+        }
+      },
       redirectConfiguration: {
         serializedName: "properties.redirectConfiguration",
         type: {
@@ -2940,6 +2954,116 @@ export const ApplicationGatewayRequestRoutingRule: msRest.CompositeMapper = {
       },
       type: {
         serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApplicationGatewayHeaderConfiguration: msRest.CompositeMapper = {
+  serializedName: "ApplicationGatewayHeaderConfiguration",
+  type: {
+    name: "Composite",
+    className: "ApplicationGatewayHeaderConfiguration",
+    modelProperties: {
+      headerName: {
+        serializedName: "headerName",
+        type: {
+          name: "String"
+        }
+      },
+      headerValue: {
+        serializedName: "headerValue",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApplicationGatewayRewriteRuleActionSet: msRest.CompositeMapper = {
+  serializedName: "ApplicationGatewayRewriteRuleActionSet",
+  type: {
+    name: "Composite",
+    className: "ApplicationGatewayRewriteRuleActionSet",
+    modelProperties: {
+      requestHeaderConfigurations: {
+        serializedName: "requestHeaderConfigurations",
+        type: {
+          name: "Composite",
+          className: "ApplicationGatewayHeaderConfiguration"
+        }
+      },
+      responseHeaderConfigurations: {
+        serializedName: "responseHeaderConfigurations",
+        type: {
+          name: "Composite",
+          className: "ApplicationGatewayHeaderConfiguration"
+        }
+      }
+    }
+  }
+};
+
+export const ApplicationGatewayRewriteRule: msRest.CompositeMapper = {
+  serializedName: "ApplicationGatewayRewriteRule",
+  type: {
+    name: "Composite",
+    className: "ApplicationGatewayRewriteRule",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      actionSet: {
+        serializedName: "actionSet",
+        type: {
+          name: "Composite",
+          className: "ApplicationGatewayRewriteRuleActionSet"
+        }
+      }
+    }
+  }
+};
+
+export const ApplicationGatewayRewriteRuleSet: msRest.CompositeMapper = {
+  serializedName: "ApplicationGatewayRewriteRuleSet",
+  type: {
+    name: "Composite",
+    className: "ApplicationGatewayRewriteRuleSet",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      rewriteRules: {
+        serializedName: "properties.rewriteRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ApplicationGatewayRewriteRule"
+            }
+          }
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        serializedName: "etag",
         type: {
           name: "String"
         }
@@ -3060,6 +3184,13 @@ export const ApplicationGatewayUrlPathMap: msRest.CompositeMapper = {
       },
       defaultBackendHttpSettings: {
         serializedName: "properties.defaultBackendHttpSettings",
+        type: {
+          name: "Composite",
+          className: "SubResource"
+        }
+      },
+      defaultRewriteRuleSet: {
+        serializedName: "properties.defaultRewriteRuleSet",
         type: {
           name: "Composite",
           className: "SubResource"
@@ -3394,6 +3525,18 @@ export const ApplicationGateway: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "ApplicationGatewayRequestRoutingRule"
+            }
+          }
+        }
+      },
+      rewriteRuleSets: {
+        serializedName: "properties.rewriteRuleSets",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ApplicationGatewayRewriteRuleSet"
             }
           }
         }
