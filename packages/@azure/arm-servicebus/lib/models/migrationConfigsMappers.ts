@@ -34,8 +34,6 @@ export {
   Eventhub,
   CaptureDescription,
   Destination,
-  ArmDisasterRecovery,
-  IpFilterRule,
-  VirtualNetworkRule
+  ArmDisasterRecovery
 } from "../models/mappers";
 
