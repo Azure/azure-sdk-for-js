@@ -231,7 +231,10 @@ export function getOutputFolderFromReadmeTypeScriptMdFileContents(readmeTypeScri
     return readmeTypeScriptMdFileContents.match(/output-folder: (\S*)/)[1].replace(/\"/g, "");
 }
 
-export function getAbsolutePackageFolderPathFromReadmeFileContents(azureSDKForJSRepoRoot: string, typeScriptReadmeFileContents: string): string {
+export function getAbsolutePackageFolderPathFromReadmeFileContents(
+    azureSDKForJSRepoRoot: string,
+    typeScriptReadmeFileContents: string,
+): string {
     const outputFolderPath: string = getOutputFolderFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
     return outputFolderPath.replace("$(typescript-sdks-folder)", azureSDKForJSRepoRoot);
 }
