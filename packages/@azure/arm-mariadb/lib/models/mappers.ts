@@ -465,6 +465,37 @@ export const FirewallRule: msRest.CompositeMapper = {
   }
 };
 
+export const VirtualNetworkRule: msRest.CompositeMapper = {
+  serializedName: "VirtualNetworkRule",
+  type: {
+    name: "Composite",
+    className: "VirtualNetworkRule",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      virtualNetworkSubnetId: {
+        required: true,
+        serializedName: "properties.virtualNetworkSubnetId",
+        type: {
+          name: "String"
+        }
+      },
+      ignoreMissingVnetServiceEndpoint: {
+        serializedName: "properties.ignoreMissingVnetServiceEndpoint",
+        type: {
+          name: "Boolean"
+        }
+      },
+      state: {
+        readOnly: true,
+        serializedName: "properties.state",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Database: msRest.CompositeMapper = {
   serializedName: "Database",
   type: {
@@ -930,6 +961,36 @@ export const FirewallRuleListResult: msRest.CompositeMapper = {
               className: "FirewallRule"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const VirtualNetworkRuleListResult: msRest.CompositeMapper = {
+  serializedName: "VirtualNetworkRuleListResult",
+  type: {
+    name: "Composite",
+    className: "VirtualNetworkRuleListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VirtualNetworkRule"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
         }
       }
     }
