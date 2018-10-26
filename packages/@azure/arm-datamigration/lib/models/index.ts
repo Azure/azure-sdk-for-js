@@ -16,6 +16,108 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
+ * An interface representing Resource.
+ * ARM resource.
+ *
+ * @extends BaseResource
+ */
+export interface Resource extends BaseResource {
+  /**
+   * @member {string} [id] Resource ID.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [name] Resource name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [type] Resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * @interface
+ * An interface representing TrackedResource.
+ * ARM tracked top level resource.
+ *
+ * @extends Resource
+ */
+export interface TrackedResource extends Resource {
+  /**
+   * @member {{ [propertyName: string]: string }} [tags] Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * @member {string} location Resource location.
+   */
+  location: string;
+}
+
+/**
+ * @interface
+ * An interface representing ProjectFileProperties.
+ * Base class for file properties.
+ *
+ */
+export interface ProjectFileProperties {
+  /**
+   * @member {string} [extension] Optional File extension. If submitted it
+   * should not have a leading period and must match the extension from
+   * filePath.
+   */
+  extension?: string;
+  /**
+   * @member {string} [filePath] Relative path of this file resource. This
+   * property can be set when creating or updating the file resource.
+   */
+  filePath?: string;
+  /**
+   * @member {Date} [lastModified] Modification DateTime.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastModified?: Date;
+  /**
+   * @member {string} [mediaType] File content type. This propery can be
+   * modified to reflect the file content type.
+   */
+  mediaType?: string;
+  /**
+   * @member {number} [size] File size.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly size?: number;
+}
+
+/**
+ * @interface
+ * An interface representing ProjectFile.
+ * A file resource
+ *
+ * @extends Resource
+ */
+export interface ProjectFile extends Resource {
+  /**
+   * @member {string} [etag] HTTP strong entity tag value. This is ignored if
+   * submitted.
+   */
+  etag?: string;
+  /**
+   * @member {ProjectFileProperties} [properties] Custom file properties
+   */
+  properties?: ProjectFileProperties;
+}
+
+/**
+ * @interface
  * An interface representing ODataError.
  * Error information in OData format.
  *
@@ -176,52 +278,6 @@ export interface MigrateSyncCompleteCommandProperties {
 
 /**
  * @interface
- * An interface representing Resource.
- * ARM resource.
- *
- * @extends BaseResource
- */
-export interface Resource extends BaseResource {
-  /**
-   * @member {string} [id] Resource ID.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [name] Resource name.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {string} [type] Resource type.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * @interface
- * An interface representing TrackedResource.
- * ARM tracked top level resource.
- *
- * @extends Resource
- */
-export interface TrackedResource extends Resource {
-  /**
-   * @member {{ [propertyName: string]: string }} [tags] Resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * @member {string} location Resource location.
-   */
-  location: string;
-}
-
-/**
- * @interface
  * An interface representing GetTdeCertificatesSqlTaskOutput.
  * Output of the task that gets TDE certificates in Base64 encoded format.
  *
@@ -286,7 +342,7 @@ export interface FileShare {
 /**
  * Contains the possible cases for ConnectionInfo.
  */
-export type ConnectionInfoUnion = ConnectionInfo | PostgreSqlConnectionInfo | MySqlConnectionInfo | SqlConnectionInfo;
+export type ConnectionInfoUnion = ConnectionInfo | PostgreSqlConnectionInfo | MySqlConnectionInfo | MongoDbConnectionInfo | SqlConnectionInfo;
 
 /**
  * @interface
@@ -373,6 +429,33 @@ export interface MySqlConnectionInfo {
 
 /**
  * @interface
+ * An interface representing MongoDbConnectionInfo.
+ * Describes a connection to a MongoDB data source
+ *
+ */
+export interface MongoDbConnectionInfo {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "MongoDbConnectionInfo";
+  /**
+   * @member {string} [userName] User name
+   */
+  userName?: string;
+  /**
+   * @member {string} [password] Password credential.
+   */
+  password?: string;
+  /**
+   * @member {string} connectionString A MongoDB connection string or blob
+   * container URL. The user name and password can be specified here or in the
+   * userName and password properties
+   */
+  connectionString: string;
+}
+
+/**
+ * @interface
  * An interface representing SqlConnectionInfo.
  * Information for connecting to SQL database server
  *
@@ -451,7 +534,7 @@ export interface GetTdeCertificatesSqlTaskInput {
 /**
  * Contains the possible cases for ProjectTaskProperties.
  */
-export type ProjectTaskPropertiesUnion = ProjectTaskProperties | GetTdeCertificatesSqlTaskProperties | ValidateMigrationInputSqlServerSqlMITaskProperties | ValidateMigrationInputSqlServerSqlDbSyncTaskProperties | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties | MigrateMySqlAzureDbForMySqlSyncTaskProperties | MigrateSqlServerSqlDbSyncTaskProperties | MigrateSqlServerSqlDbTaskProperties | MigrateSqlServerSqlMITaskProperties | ConnectToTargetAzureDbForMySqlTaskProperties | ConnectToTargetSqlMITaskProperties | GetUserTablesSqlSyncTaskProperties | GetUserTablesSqlTaskProperties | ConnectToTargetSqlSqlDbSyncTaskProperties | ConnectToTargetSqlDbTaskProperties | ConnectToSourceSqlServerSyncTaskProperties | ConnectToSourceSqlServerTaskProperties | ConnectToSourceMySqlTaskProperties | MigrateSchemaSqlServerSqlDbTaskProperties;
+export type ProjectTaskPropertiesUnion = ProjectTaskProperties | GetTdeCertificatesSqlTaskProperties | ValidateMongoDbTaskProperties | ValidateMigrationInputSqlServerSqlMITaskProperties | ValidateMigrationInputSqlServerSqlDbSyncTaskProperties | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties | MigrateMySqlAzureDbForMySqlSyncTaskProperties | MigrateSqlServerSqlDbSyncTaskProperties | MigrateSqlServerSqlDbTaskProperties | MigrateSqlServerSqlMITaskProperties | MigrateMongoDbTaskProperties | ConnectToTargetAzureDbForMySqlTaskProperties | ConnectToTargetSqlMITaskProperties | GetUserTablesSqlSyncTaskProperties | GetUserTablesSqlTaskProperties | ConnectToTargetSqlSqlDbSyncTaskProperties | ConnectToTargetSqlDbTaskProperties | ConnectToSourceSqlServerSyncTaskProperties | ConnectToSourceSqlServerTaskProperties | ConnectToMongoDbTaskProperties | ConnectToSourceMySqlTaskProperties | MigrateSchemaSqlServerSqlDbTaskProperties;
 
 /**
  * @interface
@@ -531,6 +614,358 @@ export interface GetTdeCertificatesSqlTaskProperties {
    * the server.**
    */
   readonly output?: GetTdeCertificatesSqlTaskOutput[];
+}
+
+/**
+ * @interface
+ * An interface representing MongoDbError.
+ * Describes an error or warning that occurred during a MongoDB migration
+ *
+ */
+export interface MongoDbError {
+  /**
+   * @member {string} [code] The non-localized, machine-readable code that
+   * describes the error or warning
+   */
+  code?: string;
+  /**
+   * @member {number} [count] The number of times the error or warning has
+   * occurred
+   */
+  count?: number;
+  /**
+   * @member {string} [message] The localized, human-readable message that
+   * describes the error or warning
+   */
+  message?: string;
+  /**
+   * @member {MongoDbErrorType} [type] The type of error or warning. Possible
+   * values include: 'Error', 'ValidationError', 'Warning'
+   */
+  type?: MongoDbErrorType;
+}
+
+/**
+ * @interface
+ * An interface representing MongoDbProgress.
+ * Base class for MongoDB migration outputs
+ *
+ */
+export interface MongoDbProgress {
+  /**
+   * @member {number} bytesCopied The number of document bytes copied during
+   * the Copying stage
+   */
+  bytesCopied: number;
+  /**
+   * @member {number} documentsCopied The number of documents copied during the
+   * Copying stage
+   */
+  documentsCopied: number;
+  /**
+   * @member {string} elapsedTime The elapsed time in the format
+   * [ddd.]hh:mm:ss[.fffffff] (i.e. TimeSpan format)
+   */
+  elapsedTime: string;
+  /**
+   * @member {{ [propertyName: string]: MongoDbError }} errors The errors and
+   * warnings that have occurred for the current object. The keys are the error
+   * codes.
+   */
+  errors: { [propertyName: string]: MongoDbError };
+  /**
+   * @member {number} eventsPending The number of oplog events awaiting replay
+   */
+  eventsPending: number;
+  /**
+   * @member {number} eventsReplayed The number of oplog events replayed so far
+   */
+  eventsReplayed: number;
+  /**
+   * @member {Date} [lastEventTime] The timestamp of the last oplog event
+   * received, or null if no oplog event has been received yet
+   */
+  lastEventTime?: Date;
+  /**
+   * @member {Date} [lastReplayTime] The timestamp of the last oplog event
+   * replayed, or null if no oplog event has been replayed yet
+   */
+  lastReplayTime?: Date;
+  /**
+   * @member {string} [name] The name of the progress object. For a collection,
+   * this is the unqualified collection name. For a database, this is the
+   * database name. For the overall migration, this is null.
+   */
+  name?: string;
+  /**
+   * @member {string} [qualifiedName] The qualified name of the progress
+   * object. For a collection, this is the database-qualified name. For a
+   * database, this is the database name. For the overall migration, this is
+   * null.
+   */
+  qualifiedName?: string;
+  /**
+   * @member {ResultType} resultType The type of progress object. Possible
+   * values include: 'Migration', 'Database', 'Collection'
+   */
+  resultType: ResultType;
+  /**
+   * @member {MongoDbMigrationState} state Possible values include:
+   * 'NotStarted', 'ValidatingInput', 'Initializing', 'Restarting', 'Copying',
+   * 'InitialReplay', 'Replaying', 'Finalizing', 'Complete', 'Canceled',
+   * 'Failed'
+   */
+  state: MongoDbMigrationState;
+  /**
+   * @member {number} totalBytes The total number of document bytes on the
+   * source at the beginning of the Copying stage, or -1 if the total size was
+   * unknown
+   */
+  totalBytes: number;
+  /**
+   * @member {number} totalDocuments The total number of documents on the
+   * source at the beginning of the Copying stage, or -1 if the total count was
+   * unknown
+   */
+  totalDocuments: number;
+}
+
+/**
+ * @interface
+ * An interface representing MongoDbCollectionProgress.
+ * Describes the progress of a collection
+ *
+ * @extends MongoDbProgress
+ */
+export interface MongoDbCollectionProgress extends MongoDbProgress {
+}
+
+/**
+ * @interface
+ * An interface representing MongoDbDatabaseProgress.
+ * Describes the progress of a database
+ *
+ * @extends MongoDbProgress
+ */
+export interface MongoDbDatabaseProgress extends MongoDbProgress {
+  /**
+   * @member {{ [propertyName: string]: MongoDbCollectionProgress }}
+   * [collections] The progress of the collections in the database. The keys
+   * are the unqualified names of the collections
+   */
+  collections?: { [propertyName: string]: MongoDbCollectionProgress };
+}
+
+/**
+ * @interface
+ * An interface representing MongoDbMigrationProgress.
+ * Describes the progress of the overall migration
+ *
+ * @extends MongoDbProgress
+ */
+export interface MongoDbMigrationProgress extends MongoDbProgress {
+  /**
+   * @member {{ [propertyName: string]: MongoDbDatabaseProgress }} [databases]
+   * The progress of the databases in the migration. The keys are the names of
+   * the databases
+   */
+  databases?: { [propertyName: string]: MongoDbDatabaseProgress };
+}
+
+/**
+ * @interface
+ * An interface representing MongoDbThrottlingSettings.
+ * Specifies resource limits for the migration
+ *
+ */
+export interface MongoDbThrottlingSettings {
+  /**
+   * @member {number} [minFreeCpu] The percentage of CPU time that the migrator
+   * will try to avoid using, from 0 to 100
+   */
+  minFreeCpu?: number;
+  /**
+   * @member {number} [minFreeMemoryMb] The number of megabytes of RAM that the
+   * migrator will try to avoid using
+   */
+  minFreeMemoryMb?: number;
+  /**
+   * @member {number} [maxParallelism] The maximum number of work items (e.g.
+   * collection copies) that will be processed in parallel
+   */
+  maxParallelism?: number;
+}
+
+/**
+ * @interface
+ * An interface representing MongoDbShardKeyField.
+ * Describes a field reference within a MongoDB shard key
+ *
+ */
+export interface MongoDbShardKeyField {
+  /**
+   * @member {string} name The name of the field
+   */
+  name: string;
+  /**
+   * @member {MongoDbShardKeyOrder} order The field ordering. Possible values
+   * include: 'Forward', 'Reverse', 'Hashed'
+   */
+  order: MongoDbShardKeyOrder;
+}
+
+/**
+ * @interface
+ * An interface representing MongoDbShardKeySetting.
+ * Describes a MongoDB shard key
+ *
+ */
+export interface MongoDbShardKeySetting {
+  /**
+   * @member {MongoDbShardKeyField[]} fields The fields within the shard key
+   */
+  fields: MongoDbShardKeyField[];
+  /**
+   * @member {boolean} isUnique Whether the shard key is unique
+   */
+  isUnique: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing MongoDbCollectionSettings.
+ * Describes how an individual MongoDB collection should be migrated
+ *
+ */
+export interface MongoDbCollectionSettings {
+  /**
+   * @member {boolean} [canDelete] Whether the migrator is allowed to drop the
+   * target collection in the course of performing a migration. The default is
+   * true.
+   */
+  canDelete?: boolean;
+  /**
+   * @member {MongoDbShardKeySetting} [shardKey]
+   */
+  shardKey?: MongoDbShardKeySetting;
+  /**
+   * @member {number} [targetRUs] The RUs that should be configured on a
+   * CosmosDB target, or null to use the default. This has no effect on
+   * non-CosmosDB targets.
+   */
+  targetRUs?: number;
+}
+
+/**
+ * @interface
+ * An interface representing MongoDbDatabaseSettings.
+ * Describes how an individual MongoDB database should be migrated
+ *
+ */
+export interface MongoDbDatabaseSettings {
+  /**
+   * @member {{ [propertyName: string]: MongoDbCollectionSettings }}
+   * collections The collections on the source database to migrate to the
+   * target. The keys are the unqualified names of the collections.
+   */
+  collections: { [propertyName: string]: MongoDbCollectionSettings };
+  /**
+   * @member {number} [targetRUs] The RUs that should be configured on a
+   * CosmosDB target, or null to use the default, or 0 if throughput should not
+   * be provisioned for the database. This has no effect on non-CosmosDB
+   * targets.
+   */
+  targetRUs?: number;
+}
+
+/**
+ * @interface
+ * An interface representing MongoDbMigrationSettings.
+ * Describes how a MongoDB data migration should be performed
+ *
+ */
+export interface MongoDbMigrationSettings {
+  /**
+   * @member {number} [boostRUs] The RU limit on a CosmosDB target that
+   * collections will be temporarily increased to (if lower) during the initial
+   * copy of a migration, from 10,000 to 1,000,000, or 0 to use the default
+   * boost (which is generally the maximum), or null to not boost the RUs. This
+   * setting has no effect on non-CosmosDB targets.
+   */
+  boostRUs?: number;
+  /**
+   * @member {{ [propertyName: string]: MongoDbDatabaseSettings }} databases
+   * The databases on the source cluster to migrate to the target. The keys are
+   * the names of the databases.
+   */
+  databases: { [propertyName: string]: MongoDbDatabaseSettings };
+  /**
+   * @member {MongoDbReplication} [replication] Describes how changes will be
+   * replicated from the source to the target. The default is OneTime. Possible
+   * values include: 'Disabled', 'OneTime', 'Continuous'
+   */
+  replication?: MongoDbReplication;
+  /**
+   * @member {MongoDbConnectionInfo} source Settings used to connect to the
+   * source cluster
+   */
+  source: MongoDbConnectionInfo;
+  /**
+   * @member {MongoDbConnectionInfo} target Settings used to connect to the
+   * target cluster
+   */
+  target: MongoDbConnectionInfo;
+  /**
+   * @member {MongoDbThrottlingSettings} [throttling] Settings used to limit
+   * the resource usage of the migration
+   */
+  throttling?: MongoDbThrottlingSettings;
+}
+
+/**
+ * @interface
+ * An interface representing ValidateMongoDbTaskProperties.
+ * Properties for the task that validates a migration between MongoDB data
+ * sources
+ *
+ */
+export interface ValidateMongoDbTaskProperties {
+  /**
+   * @member {string} taskType Polymorphic Discriminator
+   */
+  taskType: "Validate.MongoDb";
+  /**
+   * @member {ODataError[]} [errors] Array of errors. This is ignored if
+   * submitted.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errors?: ODataError[];
+  /**
+   * @member {TaskState} [state] The state of the task. This is ignored if
+   * submitted. Possible values include: 'Unknown', 'Queued', 'Running',
+   * 'Canceled', 'Succeeded', 'Failed', 'FailedInputValidation', 'Faulted'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: TaskState;
+  /**
+   * @member {CommandPropertiesUnion[]} [commands] Array of command properties.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly commands?: CommandPropertiesUnion[];
+  /**
+   * @member {MongoDbMigrationSettings} [input]
+   */
+  input?: MongoDbMigrationSettings;
+  /**
+   * @member {MongoDbMigrationProgress[]} [output] An array containing a single
+   * MongoDbMigrationProgress object
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly output?: MongoDbMigrationProgress[];
 }
 
 /**
@@ -3677,6 +4112,49 @@ export interface MigrateSqlServerSqlMITaskProperties {
 
 /**
  * @interface
+ * An interface representing MigrateMongoDbTaskProperties.
+ * Properties for the task that migrates data between MongoDB data sources
+ *
+ */
+export interface MigrateMongoDbTaskProperties {
+  /**
+   * @member {string} taskType Polymorphic Discriminator
+   */
+  taskType: "Migrate.MongoDb";
+  /**
+   * @member {ODataError[]} [errors] Array of errors. This is ignored if
+   * submitted.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errors?: ODataError[];
+  /**
+   * @member {TaskState} [state] The state of the task. This is ignored if
+   * submitted. Possible values include: 'Unknown', 'Queued', 'Running',
+   * 'Canceled', 'Succeeded', 'Failed', 'FailedInputValidation', 'Faulted'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: TaskState;
+  /**
+   * @member {CommandPropertiesUnion[]} [commands] Array of command properties.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly commands?: CommandPropertiesUnion[];
+  /**
+   * @member {MongoDbMigrationSettings} [input]
+   */
+  input?: MongoDbMigrationSettings;
+  /**
+   * @member {MongoDbProgress[]} [output] **NOTE: This property will not be
+   * serialized. It can only be populated by the server.**
+   */
+  readonly output?: MongoDbProgress[];
+}
+
+/**
+ * @interface
  * An interface representing ConnectToTargetAzureDbForMySqlTaskOutput.
  * Output for the task that validates connection to Azure Database for MySQL
  * and target server requirements
@@ -4735,6 +5213,198 @@ export interface ConnectToSourceSqlServerTaskProperties {
 
 /**
  * @interface
+ * An interface representing MongoDbShardKeyInfo.
+ * Describes a MongoDB shard key
+ *
+ */
+export interface MongoDbShardKeyInfo {
+  /**
+   * @member {MongoDbShardKeyField[]} fields The fields within the shard key
+   */
+  fields: MongoDbShardKeyField[];
+  /**
+   * @member {boolean} isUnique Whether the shard key is unique
+   */
+  isUnique: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing MongoDbObjectInfo.
+ * Describes a database or collection within a MongoDB data source
+ *
+ */
+export interface MongoDbObjectInfo {
+  /**
+   * @member {number} averageDocumentSize The average document size, or -1 if
+   * the average size is unknown
+   */
+  averageDocumentSize: number;
+  /**
+   * @member {number} dataSize The estimated total data size, in bytes, or -1
+   * if the size is unknown.
+   */
+  dataSize: number;
+  /**
+   * @member {number} documentCount The estimated total number of documents, or
+   * -1 if the document count is unknown
+   */
+  documentCount: number;
+  /**
+   * @member {string} name The unqualified name of the database or collection
+   */
+  name: string;
+  /**
+   * @member {string} qualifiedName The qualified name of the database or
+   * collection. For a collection, this is the database-qualified name.
+   */
+  qualifiedName: string;
+}
+
+/**
+ * @interface
+ * An interface representing MongoDbCollectionInfo.
+ * Describes a supported collection within a MongoDB database
+ *
+ * @extends MongoDbObjectInfo
+ */
+export interface MongoDbCollectionInfo extends MongoDbObjectInfo {
+  /**
+   * @member {string} databaseName The name of the database containing the
+   * collection
+   */
+  databaseName: string;
+  /**
+   * @member {boolean} isCapped Whether the collection is a capped collection
+   * (i.e. whether it has a fixed size and acts like a circular buffer)
+   */
+  isCapped: boolean;
+  /**
+   * @member {boolean} isSystemCollection Whether the collection is system
+   * collection
+   */
+  isSystemCollection: boolean;
+  /**
+   * @member {boolean} isView Whether the collection is a view of another
+   * collection
+   */
+  isView: boolean;
+  /**
+   * @member {MongoDbShardKeyInfo} [shardKey] The shard key on the collection,
+   * or null if the collection is not sharded
+   */
+  shardKey?: MongoDbShardKeyInfo;
+  /**
+   * @member {boolean} supportsSharding Whether the database has sharding
+   * enabled. Note that the migration task will enable sharding on the target
+   * if necessary.
+   */
+  supportsSharding: boolean;
+  /**
+   * @member {string} [viewOf] The name of the collection that this is a view
+   * of, if IsView is true
+   */
+  viewOf?: string;
+}
+
+/**
+ * @interface
+ * An interface representing MongoDbDatabaseInfo.
+ * Describes a database within a MongoDB data source
+ *
+ * @extends MongoDbObjectInfo
+ */
+export interface MongoDbDatabaseInfo extends MongoDbObjectInfo {
+  /**
+   * @member {MongoDbCollectionInfo[]} collections A list of supported
+   * collections in a MongoDB database
+   */
+  collections: MongoDbCollectionInfo[];
+  /**
+   * @member {boolean} supportsSharding Whether the database has sharding
+   * enabled. Note that the migration task will enable sharding on the target
+   * if necessary.
+   */
+  supportsSharding: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing MongoDbClusterInfo.
+ * Describes a MongoDB data source
+ *
+ */
+export interface MongoDbClusterInfo {
+  /**
+   * @member {MongoDbDatabaseInfo[]} databases A list of non-system databases
+   * in the cluster
+   */
+  databases: MongoDbDatabaseInfo[];
+  /**
+   * @member {boolean} supportsSharding Whether the cluster supports sharded
+   * collections
+   */
+  supportsSharding: boolean;
+  /**
+   * @member {MongoDbClusterType} type The type of data source. Possible values
+   * include: 'BlobContainer', 'CosmosDb', 'MongoDb'
+   */
+  type: MongoDbClusterType;
+  /**
+   * @member {string} version The version of the data source in the form x.y.z
+   * (e.g. 3.6.7). Not used if Type is BlobContainer.
+   */
+  version: string;
+}
+
+/**
+ * @interface
+ * An interface representing ConnectToMongoDbTaskProperties.
+ * Properties for the task that validates the connection to and provides
+ * information about a MongoDB server
+ *
+ */
+export interface ConnectToMongoDbTaskProperties {
+  /**
+   * @member {string} taskType Polymorphic Discriminator
+   */
+  taskType: "Connect.MongoDb";
+  /**
+   * @member {ODataError[]} [errors] Array of errors. This is ignored if
+   * submitted.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errors?: ODataError[];
+  /**
+   * @member {TaskState} [state] The state of the task. This is ignored if
+   * submitted. Possible values include: 'Unknown', 'Queued', 'Running',
+   * 'Canceled', 'Succeeded', 'Failed', 'FailedInputValidation', 'Faulted'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: TaskState;
+  /**
+   * @member {CommandPropertiesUnion[]} [commands] Array of command properties.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly commands?: CommandPropertiesUnion[];
+  /**
+   * @member {MongoDbConnectionInfo} [input]
+   */
+  input?: MongoDbConnectionInfo;
+  /**
+   * @member {MongoDbClusterInfo[]} [output] An array containing a single
+   * MongoDbClusterInfo object
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly output?: MongoDbClusterInfo[];
+}
+
+/**
+ * @interface
  * An interface representing ProjectTask.
  * A task resource
  *
@@ -4871,13 +5541,14 @@ export interface DatabaseInfo {
 export interface Project extends TrackedResource {
   /**
    * @member {ProjectSourcePlatform} sourcePlatform Source platform for the
-   * project. Possible values include: 'SQL', 'MySQL', 'PostgreSql', 'Unknown'
+   * project. Possible values include: 'SQL', 'MySQL', 'PostgreSql', 'MongoDb',
+   * 'Unknown'
    */
   sourcePlatform: ProjectSourcePlatform;
   /**
    * @member {ProjectTargetPlatform} targetPlatform Target platform for the
    * project. Possible values include: 'SQLDB', 'SQLMI', 'AzureDbForMySql',
-   * 'AzureDbForPostgreSql', 'Unknown'
+   * 'AzureDbForPostgreSql', 'MongoDb', 'Unknown'
    */
   targetPlatform: ProjectTargetPlatform;
   /**
@@ -4920,6 +5591,23 @@ export interface ApiError {
    * @member {ODataError} [error] Error information in OData format
    */
   error?: ODataError;
+}
+
+/**
+ * @interface
+ * An interface representing FileStorageInfo.
+ * File storage information.
+ *
+ */
+export interface FileStorageInfo {
+  /**
+   * @member {string} [uri] A URI that can be used to access the file content.
+   */
+  uri?: string;
+  /**
+   * @member {{ [propertyName: string]: string }} [headers]
+   */
+  headers?: { [propertyName: string]: string };
 }
 
 /**
@@ -5530,6 +6218,10 @@ export interface SchemaMigrationSetting {
  *
  */
 export interface MigrateSchemaSqlServerSqlDbDatabaseInput {
+  /**
+   * @member {string} [name] Name of source database
+   */
+  name?: string;
   /**
    * @member {string} [targetDatabaseName] Name of target database
    */
@@ -6487,6 +7179,20 @@ export interface ServiceOperationList extends Array<ServiceOperation> {
 }
 
 /**
+ * @interface
+ * An interface representing the FileList.
+ * OData page of files
+ *
+ * @extends Array<ProjectFile>
+ */
+export interface FileList extends Array<ProjectFile> {
+  /**
+   * @member {string} [nextLink] URL to load the next page of files
+   */
+  nextLink?: string;
+}
+
+/**
  * Defines values for CommandState.
  * Possible values include: 'Unknown', 'Accepted', 'Running', 'Succeeded',
  * 'Failed'
@@ -6539,6 +7245,84 @@ export enum AuthenticationType {
   SqlAuthentication = 'SqlAuthentication',
   ActiveDirectoryIntegrated = 'ActiveDirectoryIntegrated',
   ActiveDirectoryPassword = 'ActiveDirectoryPassword',
+}
+
+/**
+ * Defines values for MongoDbErrorType.
+ * Possible values include: 'Error', 'ValidationError', 'Warning'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: MongoDbErrorType =
+ * <MongoDbErrorType>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum MongoDbErrorType {
+  Error = 'Error',
+  ValidationError = 'ValidationError',
+  Warning = 'Warning',
+}
+
+/**
+ * Defines values for MongoDbMigrationState.
+ * Possible values include: 'NotStarted', 'ValidatingInput', 'Initializing',
+ * 'Restarting', 'Copying', 'InitialReplay', 'Replaying', 'Finalizing',
+ * 'Complete', 'Canceled', 'Failed'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: MongoDbMigrationState =
+ * <MongoDbMigrationState>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum MongoDbMigrationState {
+  NotStarted = 'NotStarted',
+  ValidatingInput = 'ValidatingInput',
+  Initializing = 'Initializing',
+  Restarting = 'Restarting',
+  Copying = 'Copying',
+  InitialReplay = 'InitialReplay',
+  Replaying = 'Replaying',
+  Finalizing = 'Finalizing',
+  Complete = 'Complete',
+  Canceled = 'Canceled',
+  Failed = 'Failed',
+}
+
+/**
+ * Defines values for MongoDbShardKeyOrder.
+ * Possible values include: 'Forward', 'Reverse', 'Hashed'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: MongoDbShardKeyOrder =
+ * <MongoDbShardKeyOrder>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum MongoDbShardKeyOrder {
+  Forward = 'Forward',
+  Reverse = 'Reverse',
+  Hashed = 'Hashed',
+}
+
+/**
+ * Defines values for MongoDbReplication.
+ * Possible values include: 'Disabled', 'OneTime', 'Continuous'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: MongoDbReplication =
+ * <MongoDbReplication>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum MongoDbReplication {
+  Disabled = 'Disabled',
+  OneTime = 'OneTime',
+  Continuous = 'Continuous',
 }
 
 /**
@@ -6903,6 +7687,23 @@ export enum ServerLevelPermissionsGroup {
 }
 
 /**
+ * Defines values for MongoDbClusterType.
+ * Possible values include: 'BlobContainer', 'CosmosDb', 'MongoDb'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: MongoDbClusterType =
+ * <MongoDbClusterType>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum MongoDbClusterType {
+  BlobContainer = 'BlobContainer',
+  CosmosDb = 'CosmosDb',
+  MongoDb = 'MongoDb',
+}
+
+/**
  * Defines values for TaskState.
  * Possible values include: 'Unknown', 'Queued', 'Running', 'Canceled',
  * 'Succeeded', 'Failed', 'FailedInputValidation', 'Faulted'
@@ -6953,7 +7754,7 @@ export enum ServiceProvisioningState {
 /**
  * Defines values for ProjectTargetPlatform.
  * Possible values include: 'SQLDB', 'SQLMI', 'AzureDbForMySql',
- * 'AzureDbForPostgreSql', 'Unknown'
+ * 'AzureDbForPostgreSql', 'MongoDb', 'Unknown'
  * There could be more values for this enum apart from the ones defined here.If
  * you want to set a value that is not from the known values then you can do
  * the following:
@@ -6967,12 +7768,13 @@ export enum ProjectTargetPlatform {
   SQLMI = 'SQLMI',
   AzureDbForMySql = 'AzureDbForMySql',
   AzureDbForPostgreSql = 'AzureDbForPostgreSql',
+  MongoDb = 'MongoDb',
   Unknown = 'Unknown',
 }
 
 /**
  * Defines values for ProjectSourcePlatform.
- * Possible values include: 'SQL', 'MySQL', 'PostgreSql', 'Unknown'
+ * Possible values include: 'SQL', 'MySQL', 'PostgreSql', 'MongoDb', 'Unknown'
  * There could be more values for this enum apart from the ones defined here.If
  * you want to set a value that is not from the known values then you can do
  * the following:
@@ -6985,6 +7787,7 @@ export enum ProjectSourcePlatform {
   SQL = 'SQL',
   MySQL = 'MySQL',
   PostgreSql = 'PostgreSql',
+  MongoDb = 'MongoDb',
   Unknown = 'Unknown',
 }
 
@@ -7179,6 +7982,22 @@ export enum ErrorType {
   Default = 'Default',
   Warning = 'Warning',
   Error = 'Error',
+}
+
+/**
+ * Defines values for ResultType.
+ * Possible values include: 'Migration', 'Database', 'Collection'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ResultType = <ResultType>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum ResultType {
+  Migration = 'Migration',
+  Database = 'Database',
+  Collection = 'Collection',
 }
 
 /**
@@ -7786,5 +8605,138 @@ export type OperationsListNextResponse = ServiceOperationList & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ServiceOperationList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type FilesListResponse = FileList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FileList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type FilesGetResponse = ProjectFile & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProjectFile;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type FilesCreateOrUpdateResponse = ProjectFile & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProjectFile;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type FilesUpdateResponse = ProjectFile & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProjectFile;
+    };
+};
+
+/**
+ * Contains response data for the read operation.
+ */
+export type FilesReadResponse = FileStorageInfo & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FileStorageInfo;
+    };
+};
+
+/**
+ * Contains response data for the readWrite operation.
+ */
+export type FilesReadWriteResponse = FileStorageInfo & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FileStorageInfo;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type FilesListNextResponse = FileList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FileList;
     };
 };
