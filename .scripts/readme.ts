@@ -211,7 +211,12 @@ export function findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot: string): 
     _logger.logDebug(`Looking for "readme.typescript.md" files in "${azureRestAPISpecsRoot}"...`);
 
     const specificationFolderPath: string = path.resolve(azureRestAPISpecsRoot, 'specification');
-    const readmeTypeScriptMdFilePaths: string[] = glob.sync('**/readme.typescript.md', { absolute: true, cwd: specificationFolderPath });
+    const readmeTypeScriptMdFilePaths: string[] = glob.sync(
+        '**/readme.typescript.md',
+        { absolute: true, cwd: specificationFolderPath }
+    );
+    _logger.log("filePaths:")
+    _logger.log(JSON.stringify(readmeTypeScriptMdFilePaths))
     if (readmeTypeScriptMdFilePaths) {
         for (let i = 0; i < readmeTypeScriptMdFilePaths.length; ++i) {
             const readmeTypeScriptMdFilePath: string = readmeTypeScriptMdFilePaths[i];
