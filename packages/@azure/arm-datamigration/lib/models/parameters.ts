@@ -56,6 +56,16 @@ export const expand: msRest.OperationQueryParameter = {
     }
   }
 };
+export const fileName: msRest.OperationURLParameter = {
+  parameterPath: "fileName",
+  mapper: {
+    required: true,
+    serializedName: "fileName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const groupName: msRest.OperationURLParameter = {
   parameterPath: "groupName",
   mapper: {
