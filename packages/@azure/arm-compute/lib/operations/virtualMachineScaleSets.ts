@@ -1317,9 +1317,9 @@ const beginReimageOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: [
       "options",
-      "vmInstanceIDs"
+      "vmScaleSetReimageInput"
     ],
-    mapper: Mappers.VirtualMachineScaleSetVMInstanceIDs
+    mapper: Mappers.VirtualMachineScaleSetReimageParameters
   },
   responses: {
     200: {},
