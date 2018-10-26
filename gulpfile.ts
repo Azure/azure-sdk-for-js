@@ -294,6 +294,10 @@ gulp.task("regenerate", async () => {
       const branchName = argv.branch || pullRequestData.branchName;
       const packageName = argv.package || pullRequestData.packageName;
 
+      if (!branchName) {
+        throw new Error("Unable to find the name of the package. Please specify the --package parameter");
+      }
+
       regenerate(branchName, packageName, argv["azure-sdk-for-js-root"], argv["azure-rest-api-specs-root"], pullRequestData.prId, argv["skip-version-bump"], argv["request-review"])
 });
 

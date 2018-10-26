@@ -151,10 +151,6 @@ function getPackageNameFromPath(rootFolder: string): string | undefined {
 }
 
 function getRootFolder(changedFiles: string[]): string {
-    if (changedFiles.length == 0) {
-        throw new Error("No changed files in the PR. Unable to find the name of the package. Please specify the --package parameter");
-    }
-
     const pathsParts = changedFiles.map(changedFile => changedFile.split("/"));
     let commonParts = [];
     if (changedFiles.length == 1) {
