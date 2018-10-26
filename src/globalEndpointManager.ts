@@ -190,7 +190,7 @@ export class GlobalEndpointManager {
    * Gets the locational endpoint using the location name passed to it using the default endpoint.
    * @memberof GlobalEndpointManager
    * @instance
-   * @param {string} defaultEndpoint - The default endpoint to use for teh endpoint.
+   * @param {string} defaultEndpoint - The default endpoint to use for the endpoint.
    * @param {string} locationName    - The location name for the azure region like "East US".
    */
   private static getLocationalEndpoint(defaultEndpoint: string, locationName: string) {

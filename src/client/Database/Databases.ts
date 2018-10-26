@@ -75,7 +75,7 @@ export class Databases {
    * with the database being the logical container for data.
    *
    * Each Database consists of one or more containers, each of which in turn contain one or more
-   * documents. Since databases are an an administrative resource, the Service Master Key will be
+   * documents. Since databases are an administrative resource, the Service Master Key will be
    * required in order to access and successfully complete any action using the User APIs.
    *
    * @param body The {@link DatabaseDefinition} that represents the {@link Database} to be created.

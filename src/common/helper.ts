@@ -41,7 +41,7 @@ export class Helper {
          The result of split will be in the form of
          [[[resourceType], [resourceId] ... ,[resourceType], [resourceId], ""]
          In the first case, to extract the resourceId it will the element before last ( at length -2 )
-         and the the type will before it ( at length -3 )
+         and the type will be before it ( at length -3 )
          In the second case, to extract the resource type it will the element before last ( at length -2 )
         */
     const pathParts = resourcePath.split("/");

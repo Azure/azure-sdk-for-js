@@ -1,5 +1,5 @@
 /**
- * Represents a SQL query in teh Azure Cosmos DB service.
+ * Represents a SQL query in the Azure Cosmos DB service.
  *
  * Queries with inputs should be parameterized to protect against SQL injection.
  *
