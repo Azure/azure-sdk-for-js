@@ -214,8 +214,8 @@ export class ManagementClient extends LinkEntity {
           }
         };
         const sropt: SenderOptions = { target: { address: this.address } };
-        log.mgmt("[%s] Creating sender/receiver links on a session for $management endpoint.",
-          this._context.connectionId);
+        log.mgmt("[%s] Creating sender/receiver links on a session for $management endpoint with " +
+          "srOpts: %o, receiverOpts: %O.", this._context.connectionId, sropt, rxopt);
         this._mgmtReqResLink =
           await RequestResponseLink.create(this._context.connection, sropt, rxopt);
         this._mgmtReqResLink.sender.on(SenderEvents.senderError, (context: EventContext) => {

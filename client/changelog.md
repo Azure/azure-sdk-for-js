@@ -1,3 +1,6 @@
+### 2018-10-25 1.0.7
+- Only set `message_id` while sending the message, when provided by caller [PR](https://github.com/Azure/azure-event-hubs-node/pull/169).
+
 ### 2018-10-01 1.0.6
 - export `EventHubConnectionConfig` from the library.
 
