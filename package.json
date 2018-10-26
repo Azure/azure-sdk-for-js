@@ -45,7 +45,7 @@
     "build": "npm run tslint && npm run tsc",
     "test": "npm run build && npm run unit",
     "unit": "nyc --reporter=lcov --reporter=text-lcov mocha -r ts-node/register -t 50000 ./tests/**/*.spec.ts",
-    "prepare": "npm run build"
+    "prepack": "npm i && npm run build"
   },
   "homepage": "https://github.com/Azure/amqp-common-js",
   "repository": {
