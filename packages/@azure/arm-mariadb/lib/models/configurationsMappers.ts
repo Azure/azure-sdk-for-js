@@ -20,6 +20,7 @@ export {
   Sku,
   StorageProfile,
   FirewallRule,
+  VirtualNetworkRule,
   Database,
   LogFile,
   ServerSecurityAlertPolicy
