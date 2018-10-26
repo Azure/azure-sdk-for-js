@@ -641,6 +641,20 @@ export interface Usage {
 
 /**
  * @interface
+ * An interface representing VirtualMachineReimageParameters.
+ * Paramaters for Reimaging Virtual Machine. Default value for OSDisk : true.
+ *
+ */
+export interface VirtualMachineReimageParameters {
+  /**
+   * @member {boolean} [tempDisk] Specified whether to reimage temp disk.
+   * Default value: false.
+   */
+  tempDisk?: boolean;
+}
+
+/**
+ * @interface
  * An interface representing VirtualMachineCaptureParameters.
  * Capture Virtual Machine parameters.
  *
@@ -3337,6 +3351,33 @@ export interface VirtualMachineScaleSet extends Resource {
 
 /**
  * @interface
+ * An interface representing VirtualMachineScaleSetVMReimageParameters.
+ * Describes a Virtual Machine Scale Set VM Reimage Parameters.
+ *
+ * @extends VirtualMachineReimageParameters
+ */
+export interface VirtualMachineScaleSetVMReimageParameters extends VirtualMachineReimageParameters {
+}
+
+/**
+ * @interface
+ * An interface representing VirtualMachineScaleSetReimageParameters.
+ * Describes a Virtual Machine Scale Set VM Reimage Parameters.
+ *
+ * @extends VirtualMachineScaleSetVMReimageParameters
+ */
+export interface VirtualMachineScaleSetReimageParameters extends VirtualMachineScaleSetVMReimageParameters {
+  /**
+   * @member {string[]} [instanceIds] The virtual machine scale set instance
+   * ids. Omitting the virtual machine scale set instance ids will result in
+   * the operation being performed on all virtual machines in the virtual
+   * machine scale set.
+   */
+  instanceIds?: string[];
+}
+
+/**
+ * @interface
  * An interface representing VirtualMachineScaleSetUpdate.
  * Describes a Virtual Machine Scale Set.
  *
@@ -5850,6 +5891,36 @@ export interface VirtualMachinesGetOptionalParams extends msRest.RequestOptionsB
 
 /**
  * @interface
+ * An interface representing VirtualMachinesReimageOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface VirtualMachinesReimageOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {VirtualMachineReimageParameters} [parameters] Parameters supplied
+   * to the Reimage Virtual Machine operation.
+   */
+  parameters?: VirtualMachineReimageParameters;
+}
+
+/**
+ * @interface
+ * An interface representing VirtualMachinesBeginReimageOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface VirtualMachinesBeginReimageOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {VirtualMachineReimageParameters} [parameters] Parameters supplied
+   * to the Reimage Virtual Machine operation.
+   */
+  parameters?: VirtualMachineReimageParameters;
+}
+
+/**
+ * @interface
  * An interface representing ImagesGetOptionalParams.
  * Optional Parameters.
  *
@@ -5961,10 +6032,10 @@ export interface VirtualMachineScaleSetsPerformMaintenanceOptionalParams extends
  */
 export interface VirtualMachineScaleSetsReimageOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {VirtualMachineScaleSetVMInstanceIDs} [vmInstanceIDs] A list of
-   * virtual machine instance IDs from the VM scale set.
+   * @member {VirtualMachineScaleSetReimageParameters} [vmScaleSetReimageInput]
+   * Parameters for Reimaging VM ScaleSet.
    */
-  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
+  vmScaleSetReimageInput?: VirtualMachineScaleSetReimageParameters;
 }
 
 /**
@@ -6081,10 +6152,10 @@ export interface VirtualMachineScaleSetsBeginPerformMaintenanceOptionalParams ex
  */
 export interface VirtualMachineScaleSetsBeginReimageOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {VirtualMachineScaleSetVMInstanceIDs} [vmInstanceIDs] A list of
-   * virtual machine instance IDs from the VM scale set.
+   * @member {VirtualMachineScaleSetReimageParameters} [vmScaleSetReimageInput]
+   * Parameters for Reimaging VM ScaleSet.
    */
-  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
+  vmScaleSetReimageInput?: VirtualMachineScaleSetReimageParameters;
 }
 
 /**
@@ -6118,6 +6189,22 @@ export interface VirtualMachineScaleSetExtensionsGetOptionalParams extends msRes
 
 /**
  * @interface
+ * An interface representing VirtualMachineScaleSetVMsReimageOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface VirtualMachineScaleSetVMsReimageOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {VirtualMachineScaleSetVMReimageParameters}
+   * [vmScaleSetVMReimageInput] Parameters for the Reimaging Virtual machine in
+   * ScaleSet.
+   */
+  vmScaleSetVMReimageInput?: VirtualMachineScaleSetVMReimageParameters;
+}
+
+/**
+ * @interface
  * An interface representing VirtualMachineScaleSetVMsListOptionalParams.
  * Optional Parameters.
  *
@@ -6136,6 +6223,22 @@ export interface VirtualMachineScaleSetVMsListOptionalParams extends msRest.Requ
    * @member {string} [expand] The expand expression to apply to the operation.
    */
   expand?: string;
+}
+
+/**
+ * @interface
+ * An interface representing VirtualMachineScaleSetVMsBeginReimageOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface VirtualMachineScaleSetVMsBeginReimageOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {VirtualMachineScaleSetVMReimageParameters}
+   * [vmScaleSetVMReimageInput] Parameters for the Reimaging Virtual machine in
+   * ScaleSet.
+   */
+  vmScaleSetVMReimageInput?: VirtualMachineScaleSetVMReimageParameters;
 }
 
 /**
