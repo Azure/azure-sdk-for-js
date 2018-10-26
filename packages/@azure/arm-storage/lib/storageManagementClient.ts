@@ -15,7 +15,7 @@ import * as operations from "./operations";
 import { StorageManagementClientContext } from "./storageManagementClientContext";
 
 
-class StorageManagementClientJS extends StorageManagementClientContext {
+class StorageManagementClient extends StorageManagementClientContext {
   // Operation groups
   operations: operations.Operations;
   skus: operations.Skus;
@@ -44,7 +44,7 @@ class StorageManagementClientJS extends StorageManagementClientContext {
 // Operation Specifications
 
 export {
-  StorageManagementClientJS,
+  StorageManagementClient,
   StorageManagementClientContext,
   Models as StorageManagementModels,
   Mappers as StorageManagementMappers
