@@ -365,6 +365,19 @@ export class VirtualMachines {
   }
 
   /**
+   * Reimages (upgrade the operating system) virtual machine. This operation is only supported for
+   * differencing OS disks.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  reimage(resourceGroupName: string, vmName: string, options?: Models.VirtualMachinesReimageOptionalParams): Promise<msRest.RestResponse> {
+    return this.beginReimage(resourceGroupName,vmName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * The operation to perform maintenance on a virtual machine.
    * @param resourceGroupName The name of the resource group.
    * @param vmName The name of the virtual machine.
@@ -576,6 +589,25 @@ export class VirtualMachines {
         options
       },
       beginRedeployOperationSpec,
+      options);
+  }
+
+  /**
+   * Reimages (upgrade the operating system) virtual machine. This operation is only supported for
+   * differencing OS disks.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginReimage(resourceGroupName: string, vmName: string, options?: Models.VirtualMachinesBeginReimageOptionalParams): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        vmName,
+        options
+      },
+      beginReimageOperationSpec,
       options);
   }
 
@@ -1138,6 +1170,37 @@ const beginRedeployOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginReimageOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/reimage",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.vmName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: [
+      "options",
+      "parameters"
+    ],
+    mapper: Mappers.VirtualMachineReimageParameters
+  },
   responses: {
     200: {},
     202: {},

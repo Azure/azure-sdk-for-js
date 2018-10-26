@@ -53,6 +53,7 @@ export {
   VoiceReceiver,
   LogicAppReceiver,
   AzureFunctionReceiver,
+  ArmRoleReceiver,
   MetricAlertResource,
   MetricAlertCriteria,
   MetricAlertAction,

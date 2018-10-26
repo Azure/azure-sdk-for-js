@@ -2166,9 +2166,9 @@ export interface AzureQueryProperties {
    */
   scope?: string[];
   /**
-   * @member {string[]} [location] List of locations to scope the query to.
+   * @member {string[]} [locations] List of locations to scope the query to.
    */
-  location?: string[];
+  locations?: string[];
   /**
    * @member {TagSettingsProperties} [tagSettings] Tag settings for the VM.
    */
@@ -2235,6 +2235,41 @@ export interface UpdateConfiguration {
 
 /**
  * @interface
+ * An interface representing TaskProperties.
+ * Task properties of the software update configuration.
+ *
+ */
+export interface TaskProperties {
+  /**
+   * @member {{ [propertyName: string]: string }} [parameters] Gets or sets the
+   * parameters of the task.
+   */
+  parameters?: { [propertyName: string]: string };
+  /**
+   * @member {string} [source] Gets or sets the name of the runbook.
+   */
+  source?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SoftwareUpdateConfigurationTasks.
+ * Task properties of the software update configuration.
+ *
+ */
+export interface SoftwareUpdateConfigurationTasks {
+  /**
+   * @member {TaskProperties} [preTask] Pre task properties.
+   */
+  preTask?: TaskProperties;
+  /**
+   * @member {TaskProperties} [postTask] Post task properties.
+   */
+  postTask?: TaskProperties;
+}
+
+/**
+ * @interface
  * An interface representing SoftwareUpdateConfiguration.
  * Software update configuration properties.
  *
@@ -2277,18 +2312,18 @@ export interface SoftwareUpdateConfiguration extends BaseResource {
    */
   readonly provisioningState?: string;
   /**
-   * @member {ErrorResponse} [error] detailes of provisioning error
+   * @member {ErrorResponse} [error] Details of provisioning error
    */
   error?: ErrorResponse;
   /**
-   * @member {Date} [creationTime] Creation time of theresource, which only
+   * @member {Date} [creationTime] Creation time of the resource, which only
    * appears in the response.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly creationTime?: Date;
   /**
-   * @member {string} [createdBy] createdBy property, which only appears in the
+   * @member {string} [createdBy] CreatedBy property, which only appears in the
    * response.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -2302,12 +2337,17 @@ export interface SoftwareUpdateConfiguration extends BaseResource {
    */
   readonly lastModifiedTime?: Date;
   /**
-   * @member {string} [lastModifiedBy] lastModifiedBy property, which only
+   * @member {string} [lastModifiedBy] LastModifiedBy property, which only
    * appears in the response.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly lastModifiedBy?: string;
+  /**
+   * @member {SoftwareUpdateConfigurationTasks} [tasks] Tasks information for
+   * the Software update configuration.
+   */
+  tasks?: SoftwareUpdateConfigurationTasks;
 }
 
 /**
@@ -2424,6 +2464,46 @@ export interface UpdateConfigurationNavigation {
 
 /**
  * @interface
+ * An interface representing SoftareUpdateConfigurationRunTaskProperties.
+ * Task properties of the software update configuration.
+ *
+ */
+export interface SoftareUpdateConfigurationRunTaskProperties {
+  /**
+   * @member {string} [status] The status of the task.
+   */
+  status?: string;
+  /**
+   * @member {string} [source] The name of the source of the task.
+   */
+  source?: string;
+  /**
+   * @member {string} [jobId] The job id of the task.
+   */
+  jobId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SoftareUpdateConfigurationRunTasks.
+ * Software update configuration run tasks model.
+ *
+ */
+export interface SoftareUpdateConfigurationRunTasks {
+  /**
+   * @member {SoftareUpdateConfigurationRunTaskProperties} [preTask] Pre task
+   * properties.
+   */
+  preTask?: SoftareUpdateConfigurationRunTaskProperties;
+  /**
+   * @member {SoftareUpdateConfigurationRunTaskProperties} [postTask] Post task
+   * properties.
+   */
+  postTask?: SoftareUpdateConfigurationRunTaskProperties;
+}
+
+/**
+ * @interface
  * An interface representing SoftwareUpdateConfigurationRun.
  * Software update configuration Run properties.
  *
@@ -2453,7 +2533,7 @@ export interface SoftwareUpdateConfigurationRun {
    */
   readonly status?: string;
   /**
-   * @member {string} [configuredDuration] configured duration for the software
+   * @member {string} [configuredDuration] Configured duration for the software
    * update configuration run.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -2467,7 +2547,7 @@ export interface SoftwareUpdateConfigurationRun {
    */
   readonly osType?: string;
   /**
-   * @member {Date} [startTime] Etart time of the software update configuration
+   * @member {Date} [startTime] Start time of the software update configuration
    * run.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -2501,7 +2581,7 @@ export interface SoftwareUpdateConfigurationRun {
    */
   readonly creationTime?: Date;
   /**
-   * @member {string} [createdBy] createdBy property, which only appears in the
+   * @member {string} [createdBy] CreatedBy property, which only appears in the
    * response.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -2515,12 +2595,17 @@ export interface SoftwareUpdateConfigurationRun {
    */
   readonly lastModifiedTime?: Date;
   /**
-   * @member {string} [lastModifiedBy] lastModifiedBy property, which only
+   * @member {string} [lastModifiedBy] LastModifiedBy property, which only
    * appears in the response.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly lastModifiedBy?: string;
+  /**
+   * @member {SoftareUpdateConfigurationRunTasks} [tasks] Software update
+   * configuration tasks triggered in this run
+   */
+  tasks?: SoftareUpdateConfigurationRunTasks;
 }
 
 /**
@@ -2677,6 +2762,10 @@ export interface SoftwareUpdateConfigurationMachineRun {
    * the server.**
    */
   readonly lastModifiedBy?: string;
+  /**
+   * @member {ErrorResponse} [error] detailes of provisioning error
+   */
+  error?: ErrorResponse;
 }
 
 /**
@@ -2907,7 +2996,7 @@ export interface SourceControlSyncJob {
   readonly endTime?: Date;
   /**
    * @member {SyncType} [syncType] The sync type. Possible values include:
-   * 'IncrementalSync', 'FullSync'
+   * 'PartialSync', 'FullSync'
    */
   syncType?: SyncType;
 }
@@ -2966,7 +3055,7 @@ export interface SourceControlSyncJobById {
   readonly endTime?: Date;
   /**
    * @member {SyncType} [syncType] The sync type. Possible values include:
-   * 'IncrementalSync', 'FullSync'
+   * 'PartialSync', 'FullSync'
    */
   syncType?: SyncType;
   /**
@@ -4559,7 +4648,7 @@ export interface SoftwareUpdateConfigurationRunsListOptionalParams extends msRes
    */
   filter?: string;
   /**
-   * @member {string} [skip] number of entries you skip before returning
+   * @member {string} [skip] Number of entries you skip before returning
    * results
    */
   skip?: string;
@@ -5683,7 +5772,7 @@ export enum ProvisioningState {
 
 /**
  * Defines values for SyncType.
- * Possible values include: 'IncrementalSync', 'FullSync'
+ * Possible values include: 'PartialSync', 'FullSync'
  * There could be more values for this enum apart from the ones defined here.If
  * you want to set a value that is not from the known values then you can do
  * the following:
@@ -5692,7 +5781,7 @@ export enum ProvisioningState {
  * @enum {string}
  */
 export enum SyncType {
-  IncrementalSync = 'IncrementalSync',
+  PartialSync = 'PartialSync',
   FullSync = 'FullSync',
 }
 

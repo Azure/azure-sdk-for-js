@@ -226,7 +226,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.ruleName
   ],
   queryParameters: [
-    Parameters.apiVersion7
+    Parameters.apiVersion8
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -261,7 +261,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion7
+    Parameters.apiVersion8
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -286,7 +286,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.ruleName
   ],
   queryParameters: [
-    Parameters.apiVersion7
+    Parameters.apiVersion8
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -318,7 +318,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion7
+    Parameters.apiVersion8
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -340,7 +340,7 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion7,
+    Parameters.apiVersion8,
     Parameters.filter
   ],
   headerParameters: [
@@ -365,7 +365,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion7,
+    Parameters.apiVersion8,
     Parameters.filter
   ],
   headerParameters: [
