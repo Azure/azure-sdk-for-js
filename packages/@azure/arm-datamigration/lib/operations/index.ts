@@ -14,3 +14,4 @@ export * from "./tasks";
 export * from "./projects";
 export * from "./usages";
 export * from "./operations";
+export * from "./files";
