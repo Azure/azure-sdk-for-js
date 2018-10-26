@@ -22,3 +22,4 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     pathtoPublish: $(Build.SourcesDirectory)/pack
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
