@@ -9,12 +9,20 @@
  */
 
 export {
-  OperationEntityListResult,
-  OperationEntity,
-  OperationDisplayInfo,
-  OperationsListHeaders,
-  StorageSyncError,
-  StorageSyncApiError,
-  StorageSyncErrorDetails
+  discriminators,
+  VirtualNetworkRule,
+  ProxyResource,
+  BaseResource,
+  CloudError,
+  VirtualNetworkRuleListResult,
+  TrackedResource,
+  Server,
+  Sku,
+  StorageProfile,
+  FirewallRule,
+  Database,
+  Configuration,
+  LogFile,
+  ServerSecurityAlertPolicy
 } from "../models/mappers";
 

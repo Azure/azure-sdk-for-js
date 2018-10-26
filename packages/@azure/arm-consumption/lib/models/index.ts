@@ -2200,6 +2200,68 @@ export interface MarketplacesListForBillingPeriodByEnrollmentAccountOptionalPara
 
 /**
  * @interface
+ * An interface representing MarketplacesListByManagementGroupOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface MarketplacesListByManagementGroupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] May be used to filter marketplaces by
+   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
+   * properties/resourceGroup, properties/instanceName or
+   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
+   * and 'and'. It does not currently support 'ne', 'or', or 'not'.
+   */
+  filter?: string;
+  /**
+   * @member {number} [top] May be used to limit the number of results to the
+   * most recent N marketplaces.
+   */
+  top?: number;
+  /**
+   * @member {string} [skiptoken] Skiptoken is only used if a previous
+   * operation returned a partial result. If a previous response contains a
+   * nextLink element, the value of the nextLink element will include a
+   * skiptoken parameter that specifies a starting point to use for subsequent
+   * calls.
+   */
+  skiptoken?: string;
+}
+
+/**
+ * @interface
+ * An interface representing MarketplacesListForBillingPeriodByManagementGroupOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface MarketplacesListForBillingPeriodByManagementGroupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] May be used to filter marketplaces by
+   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
+   * properties/resourceGroup, properties/instanceName or
+   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
+   * and 'and'. It does not currently support 'ne', 'or', or 'not'.
+   */
+  filter?: string;
+  /**
+   * @member {number} [top] May be used to limit the number of results to the
+   * most recent N marketplaces.
+   */
+  top?: number;
+  /**
+   * @member {string} [skiptoken] Skiptoken is only used if a previous
+   * operation returned a partial result. If a previous response contains a
+   * nextLink element, the value of the nextLink element will include a
+   * skiptoken parameter that specifies a starting point to use for subsequent
+   * calls.
+   */
+  skiptoken?: string;
+}
+
+/**
+ * @interface
  * An interface representing ReservationsSummariesListByReservationOrderOptionalParams.
  * Optional Parameters.
  *
@@ -3217,6 +3279,44 @@ export type MarketplacesListForBillingPeriodByEnrollmentAccountResponse = Market
 };
 
 /**
+ * Contains response data for the listByManagementGroup operation.
+ */
+export type MarketplacesListByManagementGroupResponse = MarketplacesListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MarketplacesListResult;
+    };
+};
+
+/**
+ * Contains response data for the listForBillingPeriodByManagementGroup operation.
+ */
+export type MarketplacesListForBillingPeriodByManagementGroupResponse = MarketplacesListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MarketplacesListResult;
+    };
+};
+
+/**
  * Contains response data for the listNext operation.
  */
 export type MarketplacesListNextResponse = MarketplacesListResult & {
@@ -3353,6 +3453,44 @@ export type MarketplacesListByEnrollmentAccountNextResponse = MarketplacesListRe
  * Contains response data for the listForBillingPeriodByEnrollmentAccountNext operation.
  */
 export type MarketplacesListForBillingPeriodByEnrollmentAccountNextResponse = MarketplacesListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MarketplacesListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByManagementGroupNext operation.
+ */
+export type MarketplacesListByManagementGroupNextResponse = MarketplacesListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MarketplacesListResult;
+    };
+};
+
+/**
+ * Contains response data for the listForBillingPeriodByManagementGroupNext operation.
+ */
+export type MarketplacesListForBillingPeriodByManagementGroupNextResponse = MarketplacesListResult & {
   /**
    * The underlying HTTP response.
    */
