@@ -256,49 +256,53 @@ gulp.task("generate-all-missing-sdks", async () => {
 });
 
 gulp.task("regenerate", async () => {
-    const argv = Argv.construct(Argv.Options.Repository)
-      .options({
-        "branch": {
-          alias: "b",
-          string: true,
-          description: "Name of the AutoPR branch",
-          implies: "package"
-        },
-        "package": {
-          alias: "p",
-          string: true,
-          description: "Name of the regenerated package"
-        },
-        "pull-request": {
-          alias: "pr",
-          string: true,
-          description: "URL to GitHub pull request",
-          conflicts: ["branch"]
-        },
-        "skip-version-bump": {
-          boolean: true,
-          description: "Determines if version bumping should be skipped"
-        },
-        "request-review": {
-          boolean: true,
-          description: "Determines if review should be automatically requested on matching pull request"
-        }
-      }).usage("Example: gulp regenerate --branch 'restapi_auto_daschult/sql'").argv;
-
-      const pullRequestUrl = argv["pull-request"];
-      let pullRequestData;
-      if (pullRequestUrl) {
-        pullRequestData = await getDataFromPullRequest(argv["pull-request"]);
+  const argv = Argv.construct(Argv.Options.Repository)
+    .options({
+      "branch": {
+        alias: "b",
+        string: true,
+        description: "Name of the AutoPR branch",
+        implies: "package"
+      },
+      "package": {
+        alias: "p",
+        string: true,
+        description: "Name of the regenerated package"
+      },
+      "pull-request": {
+        alias: "pr",
+        string: true,
+        description: "URL to GitHub pull request",
+        conflicts: ["branch"]
+      },
+      "skip-version-bump": {
+        boolean: true,
+        description: "Determines if version bumping should be skipped"
+      },
+      "request-review": {
+        boolean: true,
+        description: "Determines if review should be automatically requested on matching pull request"
       }
+    }).usage("Example: gulp regenerate --branch 'restapi_auto_daschult/sql'").argv;
 
-      const branchName = argv.branch || pullRequestData.branchName;
-      const packageName = argv.package || pullRequestData.packageName;
+  try {
+    const pullRequestUrl = argv["pull-request"];
+    let pullRequestData;
+    if (pullRequestUrl) {
+      pullRequestData = await getDataFromPullRequest(argv["pull-request"]);
+    }
 
-      if (!branchName) {
-        throw new Error("Unable to find the name of the package. Please specify the --package parameter");
-      }
+    const branchName = argv.branch || pullRequestData.branchName;
+    const packageName = argv.package || pullRequestData.packageName;
 
-      regenerate(branchName, packageName, argv["azure-sdk-for-js-root"], argv["azure-rest-api-specs-root"], pullRequestData.prId, argv["skip-version-bump"], argv["request-review"])
+    if (!branchName) {
+      throw new Error("Unable to find the name of the package. Please specify the --package parameter");
+    }
+
+    regenerate(branchName, packageName, argv["azure-sdk-for-js-root"], argv["azure-rest-api-specs-root"], pullRequestData.prId, argv["skip-version-bump"], argv["request-review"])
+  } catch (error) {
+    _logger.logError(error);
+  }
 });
 
 gulp.task("find-wrong-packages", async () => {
