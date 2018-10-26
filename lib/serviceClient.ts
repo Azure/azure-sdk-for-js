@@ -12,7 +12,7 @@ import { isStreamOperation, OperationSpec } from "./operationSpec";
 import { deserializationPolicy, DeserializationContentTypes } from "./policies/deserializationPolicy";
 import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
 import { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
-import { msRestUserAgentPolicy } from "./policies/msRestUserAgentPolicy";
+import { userAgentPolicy } from "./policies/userAgentPolicy";
 import { redirectPolicy } from "./policies/redirectPolicy";
 import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./policies/requestPolicy";
 import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
@@ -21,7 +21,6 @@ import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 import { QueryCollectionFormat } from "./queryCollectionFormat";
 import { CompositeMapper, DictionaryMapper, Mapper, MapperType, Serializer } from "./serializer";
 import { URLBuilder } from "./url";
-import { Constants } from "./util/constants";
 import * as utils from "./util/utils";
 import { stringifyXML } from "./util/xml";
 import { RequestOptionsBase, RequestPrepareOptions, WebResource } from "./webResource";
@@ -71,6 +70,10 @@ export interface ServiceClientOptions {
    * The content-types that will be associated with JSON or XML serialization.
    */
   deserializationContentTypes?: DeserializationContentTypes;
+  /**
+   * The string to be set to the telemetry header while sending the request.
+   */
+  userAgent?: string;
 }
 
 /**
@@ -90,11 +93,6 @@ export class ServiceClient {
    */
   protected requestContentType?: string;
 
-  /**
-   * The string to be appended to the User-Agent header while sending the request.
-   * This will be applicable only for node.js environment as the fetch library in browser does not allow setting custom UA.
-   */
-  userAgentInfo: { value: string[] };
 
   /**
    * The HTTP client that will be used to send requests.
@@ -104,6 +102,7 @@ export class ServiceClient {
 
   private readonly _requestPolicyFactories: RequestPolicyFactory[];
   private readonly _withCredentials: boolean;
+  private readonly _overriddenUserAgent?: string;
 
   /**
    * The ServiceClient constructor
@@ -116,36 +115,16 @@ export class ServiceClient {
       options = {};
     }
 
-    this.userAgentInfo = { value: [] };
-
     if (credentials && !credentials.signRequest) {
       throw new Error("credentials argument needs to implement signRequest method");
-    }
-
-    try {
-      const moduleName = "ms-rest-js";
-      const moduleVersion = Constants.msRestVersion;
-      this.addUserAgentInfo(`${moduleName}/${moduleVersion}`);
-    } catch (err) {
-      // do nothing
     }
 
     this._withCredentials = options.withCredentials || false;
     this._httpClient = options.httpClient || new DefaultHttpClient();
     this._requestPolicyOptions = new RequestPolicyOptions(options.httpPipelineLogger);
+    this._overriddenUserAgent = options.userAgent || undefined;
 
-    this._requestPolicyFactories = options.requestPolicyFactories || createDefaultRequestPolicyFactories(credentials, options, this.userAgentInfo.value);
-  }
-
-  /**
-   * Adds custom information to user agent header
-   * @param {string} additionalUserAgentInfo information to be added to user agent header, as string.
-   */
-  addUserAgentInfo(additionalUserAgentInfo: string): void {
-    if (this.userAgentInfo.value.indexOf(additionalUserAgentInfo) === -1) {
-      this.userAgentInfo.value.push(additionalUserAgentInfo);
-    }
-    return;
+    this._requestPolicyFactories = options.requestPolicyFactories || createDefaultRequestPolicyFactories(credentials, options, this._overriddenUserAgent);
   }
 
   /**
@@ -366,7 +345,7 @@ function isRequestPolicyFactory(instance: any): instance is RequestPolicyFactory
   return typeof instance.create === "function";
 }
 
-function createDefaultRequestPolicyFactories(credentials: ServiceClientCredentials | RequestPolicyFactory | undefined, options: ServiceClientOptions, userAgentInfo: string[]): RequestPolicyFactory[] {
+function createDefaultRequestPolicyFactories(credentials: ServiceClientCredentials | RequestPolicyFactory | undefined, options: ServiceClientOptions, userAgent?: string): RequestPolicyFactory[] {
   const factories: RequestPolicyFactory[] = [];
 
   if (options.generateClientRequestIdHeader) {
@@ -381,10 +360,7 @@ function createDefaultRequestPolicyFactories(credentials: ServiceClientCredentia
     }
   }
 
-  if (utils.isNode) {
-    factories.push(msRestUserAgentPolicy(userAgentInfo));
-  }
-
+  factories.push(userAgentPolicy({ value: userAgent }));
   factories.push(redirectPolicy());
   factories.push(rpRegistrationPolicy(options.rpRegistrationRetryTimeout));
 

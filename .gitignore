@@ -94,3 +94,5 @@ dist/
 # Rollup
 !rollup.config.js
 *stats.html
+
+*.log

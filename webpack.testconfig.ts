@@ -1,27 +1,28 @@
-import * as webpack from 'webpack';
-import * as glob from 'glob';
-import * as path from 'path';
+import * as webpack from "webpack";
+import * as glob from "glob";
+import * as path from "path";
 
 const config: webpack.Configuration = {
-  entry: [...glob.sync(path.join(__dirname, 'test/shared/**/*.ts')), ...glob.sync(path.join(__dirname, 'test/browser/**/*.ts'))],
-  mode: 'development',
-  devtool: 'source-map',
+  entry: [...glob.sync(path.join(__dirname, "test/shared/**/*.ts")), ...glob.sync(path.join(__dirname, "test/browser/**/*.ts"))],
+  mode: "development",
+  devtool: "source-map",
   output: {
-    filename: 'testBundle.js',
+    filename: "testBundle.js",
     path: __dirname
   },
   plugins: [
     new webpack.NormalModuleReplacementPlugin(/(\.).+util\/base64/, path.resolve(__dirname, "./lib/util/base64.browser.ts")),
     new webpack.NormalModuleReplacementPlugin(/(\.).+util\/xml/, path.resolve(__dirname, "./lib/util/xml.browser.ts")),
-    new webpack.NormalModuleReplacementPlugin(/(\.).+defaultHttpClient/, path.resolve(__dirname, "./lib/defaultHttpClient.browser.ts"))
+    new webpack.NormalModuleReplacementPlugin(/(\.).+defaultHttpClient/, path.resolve(__dirname, "./lib/defaultHttpClient.browser.ts")),
+    new webpack.NormalModuleReplacementPlugin(/(\.).+msRestUserAgentPolicy/, path.resolve(__dirname, "./lib/policies/msRestUserAgentPolicy.browser.ts"))
   ],
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: 'ts-loader',
+        loader: "ts-loader",
         exclude: /(node_modules)/,
-        options: { configFile: path.join(__dirname, './tsconfig.es.json') }
+        options: { configFile: path.join(__dirname, "./tsconfig.es.json") }
       }
     ]
   },
