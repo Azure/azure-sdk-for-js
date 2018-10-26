@@ -142,7 +142,7 @@ function parsePullRequestUrl(pullRequestUrl: string): PullRequestsGetParams {
 }
 
 function getPackageNameFromPath(rootFolder: string): string | undefined {
-    if (!rootFolder || !rootFolder.startsWith("packages/")) {
+    if (!rootFolder || !rootFolder.startsWith("packages/") || rootFolder === "" || rootFolder === "packages/" || rootFolder === "packages/@azure/") {
         _logger.logDebug(`Can't get package name from '${rootFolder}' path`);
         return undefined;
     }
@@ -151,6 +151,10 @@ function getPackageNameFromPath(rootFolder: string): string | undefined {
 }
 
 function getRootFolder(changedFiles: string[]): string {
+    if (changedFiles.length == 0) {
+        throw new Error("No changed files in the PR. Unable to find the name of the package. Please specify the --package parameter");
+    }
+
     const pathsParts = changedFiles.map(changedFile => changedFile.split("/"));
     let commonParts = [];
     if (changedFiles.length == 1) {
@@ -174,6 +178,7 @@ function getRootFolder(changedFiles: string[]): string {
 
     const commonPath = commonParts.join("/");
     _logger.logTrace(`Found "${commonPath}" common path for files in the pull request`)
+
     return commonPath;
 }
 

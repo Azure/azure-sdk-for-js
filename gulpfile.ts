@@ -256,7 +256,6 @@ gulp.task("generate-all-missing-sdks", async () => {
 });
 
 gulp.task("regenerate", async () => {
-  return new Promise((resolve, reject) => {
     const argv = Argv.construct(Argv.Options.Repository)
       .options({
         "branch": {
@@ -286,17 +285,16 @@ gulp.task("regenerate", async () => {
         }
       }).usage("Example: gulp regenerate --branch 'restapi_auto_daschult/sql'").argv;
 
-    getDataFromPullRequest(argv["pull-request"]).then(data => {
-      const branchName = argv.branch || data.branchName;
-      const packageName = argv.package || data.packageName;
+      const pullRequestUrl = argv["pull-request"];
+      let pullRequestData;
+      if (pullRequestUrl) {
+        pullRequestData = await getDataFromPullRequest(argv["pull-request"]);
+      }
 
-      regenerate(branchName, packageName, argv["azure-sdk-for-js-root"], argv["azure-rest-api-specs-root"], data.prId, argv["skip-version-bump"], argv["request-review"])
-        .then(_ => resolve(),
-          error => reject(error));
-    }).catch(error => {
-      reject(error)
-    });
-  });
+      const branchName = argv.branch || pullRequestData.branchName;
+      const packageName = argv.package || pullRequestData.packageName;
+
+      regenerate(branchName, packageName, argv["azure-sdk-for-js-root"], argv["azure-rest-api-specs-root"], pullRequestData.prId, argv["skip-version-bump"], argv["request-review"])
 });
 
 gulp.task("find-wrong-packages", async () => {
