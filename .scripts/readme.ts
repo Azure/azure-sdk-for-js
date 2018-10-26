@@ -215,8 +215,6 @@ export function findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot: string): 
         '**/readme.typescript.md',
         { absolute: true, cwd: specificationFolderPath }
     );
-    _logger.log("filePaths:")
-    _logger.log(JSON.stringify(readmeTypeScriptMdFilePaths))
     if (readmeTypeScriptMdFilePaths) {
         for (let i = 0; i < readmeTypeScriptMdFilePaths.length; ++i) {
             const readmeTypeScriptMdFilePath: string = readmeTypeScriptMdFilePaths[i];
