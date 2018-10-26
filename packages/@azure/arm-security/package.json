@@ -1,8 +1,8 @@
 {
-  "name": "@azure/arm-storagesync",
+  "name": "@azure/arm-security",
   "author": "Microsoft Corporation",
-  "description": "StorageSyncManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "1.0.0",
+  "description": "SecurityCenter Library with typescript type definitions for node.js and browser.",
+  "version": "1.0.0-preview",
   "dependencies": {
     "ms-rest-azure-js": "^1.0.176",
     "ms-rest-js": "^1.0.455",
@@ -16,16 +16,16 @@
     "isomorphic"
   ],
   "license": "MIT",
-  "main": "./dist/arm-storagesync.js",
-  "module": "./esm/storageSyncManagementClient.js",
-  "types": "./esm/storageSyncManagementClient.d.ts",
+  "main": "./dist/arm-security.js",
+  "module": "./esm/securityCenter.js",
+  "types": "./esm/securityCenter.d.ts",
   "devDependencies": {
     "typescript": "^3.1.1",
     "rollup": "^0.66.2",
     "rollup-plugin-node-resolve": "^3.4.0",
     "uglify-js": "^3.4.9"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/@azure/arm-storagesync",
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/@azure/arm-security",
   "repository": {
     "type": "git",
     "url": "https://github.com/azure/azure-sdk-for-js.git"
@@ -48,7 +48,7 @@
   ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-storagesync.js.map'\" -o ./dist/arm-storagesync.min.js ./dist/arm-storagesync.js",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-security.js.map'\" -o ./dist/arm-security.min.js ./dist/arm-security.js",
     "prepack": "npm install && npm run build"
   },
   "sideEffects": false
