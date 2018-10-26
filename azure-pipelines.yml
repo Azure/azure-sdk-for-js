@@ -13,8 +13,11 @@ steps:
   displayName: 'Install Node.js'
 
 - script: cd .. && git clone https://github.com/Azure/azure-rest-api-specs
+  displayName: git clone https://github.com/Azure/azure-rest-api-specs
 - script: npm install
+  displayName: npm install
 - script: npm run build
+  displayName: npm run build
 
 - task: PublishBuildArtifacts@1
   inputs:
