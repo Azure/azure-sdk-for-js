@@ -390,34 +390,6 @@ export interface FirewallRule extends ProxyResource {
 
 /**
  * @interface
- * An interface representing VirtualNetworkRule.
- * A virtual network rule.
- *
- * @extends ProxyResource
- */
-export interface VirtualNetworkRule extends ProxyResource {
-  /**
-   * @member {string} virtualNetworkSubnetId The ARM resource id of the virtual
-   * network subnet.
-   */
-  virtualNetworkSubnetId: string;
-  /**
-   * @member {boolean} [ignoreMissingVnetServiceEndpoint] Create firewall rule
-   * before the virtual network has vnet service endpoint enabled.
-   */
-  ignoreMissingVnetServiceEndpoint?: boolean;
-  /**
-   * @member {VirtualNetworkRuleState} [state] Virtual Network Rule State.
-   * Possible values include: 'Initializing', 'InProgress', 'Ready',
-   * 'Deleting', 'Unknown'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly state?: VirtualNetworkRuleState;
-}
-
-/**
- * @interface
  * An interface representing Database.
  * Represents a Database.
  *
@@ -779,22 +751,6 @@ export interface FirewallRuleListResult extends Array<FirewallRule> {
 
 /**
  * @interface
- * An interface representing the VirtualNetworkRuleListResult.
- * A list of virtual network rules.
- *
- * @extends Array<VirtualNetworkRule>
- */
-export interface VirtualNetworkRuleListResult extends Array<VirtualNetworkRule> {
-  /**
-   * @member {string} [nextLink] Link to retrieve next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
  * An interface representing the DatabaseListResult.
  * A List of databases.
  *
@@ -907,26 +863,6 @@ export enum SkuTier {
   Basic = 'Basic',
   GeneralPurpose = 'GeneralPurpose',
   MemoryOptimized = 'MemoryOptimized',
-}
-
-/**
- * Defines values for VirtualNetworkRuleState.
- * Possible values include: 'Initializing', 'InProgress', 'Ready', 'Deleting',
- * 'Unknown'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VirtualNetworkRuleState =
- * <VirtualNetworkRuleState>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum VirtualNetworkRuleState {
-  Initializing = 'Initializing',
-  InProgress = 'InProgress',
-  Ready = 'Ready',
-  Deleting = 'Deleting',
-  Unknown = 'Unknown',
 }
 
 /**
@@ -1163,101 +1099,6 @@ export type FirewallRulesBeginCreateOrUpdateResponse = FirewallRule & {
        * The response body as parsed JSON or XML
        */
       parsedBody: FirewallRule;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type VirtualNetworkRulesGetResponse = VirtualNetworkRule & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkRule;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type VirtualNetworkRulesCreateOrUpdateResponse = VirtualNetworkRule & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkRule;
-    };
-};
-
-/**
- * Contains response data for the listByServer operation.
- */
-export type VirtualNetworkRulesListByServerResponse = VirtualNetworkRuleListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkRuleListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type VirtualNetworkRulesBeginCreateOrUpdateResponse = VirtualNetworkRule & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkRule;
-    };
-};
-
-/**
- * Contains response data for the listByServerNext operation.
- */
-export type VirtualNetworkRulesListByServerNextResponse = VirtualNetworkRuleListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkRuleListResult;
     };
 };
 

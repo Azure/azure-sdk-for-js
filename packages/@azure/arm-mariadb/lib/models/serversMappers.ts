@@ -25,7 +25,6 @@ export {
   ServerPropertiesForRestore,
   ServerPropertiesForGeoRestore,
   FirewallRule,
-  VirtualNetworkRule,
   Database,
   Configuration,
   LogFile,
