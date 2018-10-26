@@ -15,3 +15,7 @@ steps:
 - script: cd .. && git clone https://github.com/Azure/azure-rest-api-specs
 - script: npm install
 - script: npm run build
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPulish: $(Build.SourcesDirectory)/pack
