@@ -35,7 +35,7 @@ export class VirtualMachineScaleSetVMs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  reimage(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  reimage(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: Models.VirtualMachineScaleSetVMsReimageOptionalParams): Promise<msRest.RestResponse> {
     return this.beginReimage(resourceGroupName,vmScaleSetName,instanceId,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -290,7 +290,7 @@ export class VirtualMachineScaleSetVMs {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginReimage(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginReimage(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: Models.VirtualMachineScaleSetVMsBeginReimageOptionalParams): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -638,6 +638,13 @@ const beginReimageOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  requestBody: {
+    parameterPath: [
+      "options",
+      "vmScaleSetVMReimageInput"
+    ],
+    mapper: Mappers.VirtualMachineScaleSetVMReimageParameters
+  },
   responses: {
     200: {},
     202: {},
