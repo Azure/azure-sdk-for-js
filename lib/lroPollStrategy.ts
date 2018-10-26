@@ -261,8 +261,21 @@ const terminalStates: LongRunningOperationStates[] = ["Succeeded", "Failed", "Ca
  * @param status The current status of a long-running operation.
  * @returns Whether or not a long-running operation with the provided status is finished.
  */
-function isFinished(status: LongRunningOperationStates): boolean {
-  return terminalStates.indexOf(status) !== -1;
+export function isFinished(status: LongRunningOperationStates): boolean {
+  let result = false;
+  for (const terminalState of terminalStates) {
+    if (longRunningOperationStatesEqual(status, terminalState)) {
+      result = true;
+      break;
+    }
+  }
+  return result;
+}
+
+export function longRunningOperationStatesEqual(lhs: LongRunningOperationStates, rhs: LongRunningOperationStates): boolean {
+  const lhsLowerCased: string = lhs && lhs.toLowerCase();
+  const rhsLowerCased: string = rhs && rhs.toLowerCase();
+  return lhsLowerCased === rhsLowerCased;
 }
 
 /**
@@ -395,7 +408,7 @@ class LocationLROPollStrategy extends LROPollStrategy {
     const lroPollState: LROPollState = this._pollState;
     const initialResponse: HttpOperationResponse = lroPollState.initialResponse;
     const initialResponseStatusCode: number = initialResponse.status;
-    return lroPollState.state === "Succeeded" ||
+    return longRunningOperationStatesEqual(lroPollState.state, "Succeeded") ||
       (initialResponse.request.method === "POST" && lroPollState.mostRecentResponse.status === 404 &&
         (initialResponseStatusCode === 200 ||
           initialResponseStatusCode === 201 ||
@@ -525,7 +538,7 @@ class AzureAsyncOperationLROPollStrategy extends LROPollStrategy {
     const lroPollState: LROPollState = this._pollState;
     const initialResponse: HttpOperationResponse = lroPollState.initialResponse;
     const initialResponseStatusCode: number = initialResponse.status;
-    return lroPollState.state === "Succeeded" ||
+    return longRunningOperationStatesEqual(lroPollState.state, "Succeeded") ||
       (initialResponse.request.method === "POST" && (initialResponseStatusCode === 200 || initialResponseStatusCode === 201));
   }
 }
@@ -560,7 +573,7 @@ class GetResourceLROPollStrategy extends LROPollStrategy {
   }
 
   public isFinalStatusAcceptable(): boolean {
-    return this._pollState.state === "Succeeded";
+    return longRunningOperationStatesEqual(this._pollState.state, "Succeeded");
   }
 
   protected doFinalGetResourceRequest(): Promise<void> {
