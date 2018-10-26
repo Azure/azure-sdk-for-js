@@ -12,5 +12,6 @@ steps:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
+- script: cd .. && git clone https://github.com/Azure/azure-rest-api-specs
 - script: npm install
 - script: npm run build
