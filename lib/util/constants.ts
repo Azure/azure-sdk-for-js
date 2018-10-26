@@ -8,7 +8,7 @@
  * @const
  * @type {string}
  */
-export type LongRunningOperationStates = "InProgress" | "Succeeded" | "Failed" | "Canceled";
+export type LongRunningOperationStates = "InProgress" | "Succeeded" | "Failed" | "Canceled" | "Cancelled";
 
 /**
  * The default language in the request header.

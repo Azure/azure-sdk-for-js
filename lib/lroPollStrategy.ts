@@ -254,7 +254,7 @@ function getStatusFromResponse(response: HttpOperationResponse, responseBody?: a
   return result;
 }
 
-const terminalStates: LongRunningOperationStates[] = ["Succeeded", "Failed", "Canceled"];
+const terminalStates: LongRunningOperationStates[] = ["Succeeded", "Failed", "Canceled", "Cancelled"];
 
 /**
  * Get whether or not a long-running operation with the provided status is finished.

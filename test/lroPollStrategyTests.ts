@@ -98,11 +98,11 @@ describe("LROPollStrategy", function () {
     });
 
     it(`with "cancelled"`, function () {
-      assert(!isFinished("cancelled" as any));
+      assert(isFinished("cancelled" as any));
     });
 
     it(`with "Cancelled"`, function () {
-      assert(!isFinished("Cancelled" as any));
+      assert(isFinished("Cancelled"));
     });
 
     it(`with "canceled"`, function () {
