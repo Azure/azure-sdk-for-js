@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Tests",
-            "program": "${workspaceFolder}/processor/node_modules/mocha/bin/_mocha",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
             "args": [
                 "-u",
                 "tdd",
@@ -17,10 +17,10 @@
                 "-t",
                 "999999",
                 "--colors",
-                "${workspaceFolder}/processor/tests/config.spec.ts"
+                "${workspaceFolder}/tests/requestResponse.spec.ts"
             ],
             "internalConsoleOptions": "openOnSessionStart",
-            "envFile": "${workspaceFolder}/processor/.env" // You can take a look at the sample.env file for supported environment variables.
+            "envFile": "${workspaceFolder}/.env" // You can take a look at the sample.env file for supported environment variables.
         },
         {
             "type": "node",

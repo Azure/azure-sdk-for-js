@@ -1,6 +1,6 @@
 {
   "name": "@azure/amqp-common",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Common library for amqp based azure sdks like @azure/event-hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -25,6 +25,7 @@
     "@types/dotenv": "^4.0.3",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.37",
+    "@types/sinon": "^5.0.5",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "dotenv": "^6.1.0",
@@ -32,6 +33,7 @@
     "nyc": "^12.0.2",
     "rhea-promise": "^0.1.7",
     "rimraf": "^2.6.2",
+    "sinon": "^7.1.0",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "typescript": "^3.1.3"

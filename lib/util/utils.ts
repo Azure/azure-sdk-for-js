@@ -118,12 +118,13 @@ export const defaultLock: AsyncLock = new AsyncLock({ maxPending: 10000 });
  */
 export class Timeout {
 
-  private _timer?: NodeJS.Timer;
+  private _timer?: number;
 
   set<T>(t: number, value?: T): Promise<T> {
-    const self = this;
-    return new Promise<T>((resolve) => {
-      self._timer = setTimeout(() => resolve(value), t);
+    return new Promise<T>((resolve, reject) => {
+      this.clear();
+      const callback = value ? () => reject(new Error(`${value}`)) : resolve;
+      this._timer = setTimeout(callback, t);
     });
   }
 

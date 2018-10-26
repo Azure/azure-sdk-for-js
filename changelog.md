@@ -1,3 +1,6 @@
+### 2018-10-19 0.1.7
+- message_id in the request for `RequestResponseLink.sendRequest()` should be different in every attempt.
+
 ### 2018-10-19 0.1.6
 - Fixed error stack propogation
 - Added more constants

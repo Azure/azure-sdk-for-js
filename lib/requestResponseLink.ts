@@ -80,13 +80,13 @@ export class RequestResponseLink implements ReqResLink {
       throw new Error("request is a required parameter and must be of type 'object'.");
     }
 
-    if (!request.message_id) request.message_id = generate_uuid();
-
     if (!options) options = {};
 
     if (!options.timeoutInSeconds) {
       options.timeoutInSeconds = 10;
     }
+
+    let count: number = 0;
 
     const sendRequestPromise = () => new Promise<AmqpMessage>((resolve: any, reject: any) => {
       let waitTimer: any;
@@ -96,6 +96,13 @@ export class RequestResponseLink implements ReqResLink {
         statusDescription: string;
         errorCondition: string;
       };
+
+      count++;
+      if (count !== 1) { // Generate a new message_id every time after the first attempt
+        request.message_id = generate_uuid();
+      } else if (!request.message_id) { // Set the message_id in the first attempt only if it is not set
+        request.message_id = generate_uuid();
+      }
 
       // Handle different variations of property names in responses emitted by EventHubs and ServiceBus.
       const getCodeDescriptionAndError = (props: any): NormalizedInfo => {
