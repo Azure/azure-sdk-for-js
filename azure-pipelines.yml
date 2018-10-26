@@ -18,4 +18,4 @@ steps:
 
 - task: PublishBuildArtifacts@1
   inputs:
-    pathtoPulish: $(Build.SourcesDirectory)/pack
+    pathtoPublish: $(Build.SourcesDirectory)/pack
