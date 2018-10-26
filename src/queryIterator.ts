@@ -1,3 +1,4 @@
+/// <reference lib="esnext.asynciterable" />
 import { ClientContext } from "./ClientContext";
 import {
   FetchFunctionCallback,
