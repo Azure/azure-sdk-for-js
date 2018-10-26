@@ -451,7 +451,6 @@ export const EntityRecord: msRest.CompositeMapper = {
         }
       },
       matches: {
-        readOnly: true,
         serializedName: "matches",
         type: {
           name: "Sequence",
@@ -484,6 +483,18 @@ export const EntityRecord: msRest.CompositeMapper = {
       },
       bingId: {
         serializedName: "bingId",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      subType: {
+        serializedName: "subType",
         type: {
           name: "String"
         }

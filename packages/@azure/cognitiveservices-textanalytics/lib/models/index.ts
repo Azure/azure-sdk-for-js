@@ -295,10 +295,8 @@ export interface EntityRecord {
   /**
    * @member {MatchRecord[]} [matches] List of instances this entity appears in
    * the text.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly matches?: MatchRecord[];
+  matches?: MatchRecord[];
   /**
    * @member {string} [wikipediaLanguage] Wikipedia language for which the
    * WikipediaId and WikipediaUrl refers to.
@@ -322,6 +320,15 @@ export interface EntityRecord {
    * relevant information.
    */
   bingId?: string;
+  /**
+   * @member {string} [type] Entity type from Named Entity Recognition model
+   */
+  type?: string;
+  /**
+   * @member {string} [subType] Entity sub type from Named Entity Recognition
+   * model
+   */
+  subType?: string;
 }
 
 /**
