@@ -104,7 +104,9 @@ gulp.task('codegen', async () => {
   await generateSdk(argv.azureRestAPISpecsRoot, argv.azureSDKForJSRepoRoot, argv.package, argv.use, argv.debugger);
 });
 
-gulp.task('pack', () => {
+type CreatePackageType = "pack" | "publish"
+
+const createPackages = (type: CreatePackageType = "pack") => {
   const typeScriptReadmeFilePaths: string[] = findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot);
 
   let errorPackages = 0;
@@ -166,7 +168,7 @@ gulp.task('pack', () => {
                   npmInstall(packageFolderPath);
                   // TODO: `npm install` should be removed after we regenerate all packages.
                   execSync("npm install", { cwd: packageFolderPath });
-                  execSync(`npm pack`, { cwd: packageFolderPath });
+                  execSync(`npm ${type}`, { cwd: packageFolderPath });
                   const packFileName = `${packageName.replace("/", "-").replace("@", "")}-${localPackageVersion}.tgz`
                   const packFilePath = path.join(packageFolderPath, packFileName);
                   fs.renameSync(packFilePath, path.join(packPath, packFileName));
@@ -191,7 +193,11 @@ gulp.task('pack', () => {
   _logger.log(`Up to date packages:        ${upToDatePackages}`);
   _logger.log(`Packed packages:         ${publishedPackages}`);
   _logger.log(`Skipped packages: ${publishedPackagesSkipped}`);
-});
+}
+
+gulp.task('pack', () => createPackages());
+
+gulp.task('publish', () => createPackages("publish"));
 
 gulp.task("find-missing-sdks", async () => {
   try {
