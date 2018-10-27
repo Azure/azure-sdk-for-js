@@ -8,7 +8,11 @@ import { getCommandLineOptions, Argv } from "./.scripts/commandLine";
 import { endsWith, npmInstall, npmRunBuild } from "./.scripts/common";
 import { findMissingSdks, findWrongPackages } from "./.scripts/packages";
 import { generateTsReadme, generateMissingSdk, generateAllMissingSdks, regenerate, generateSdk } from "./.scripts/gulp";
-import { findReadmeTypeScriptMdFilePaths, getAbsolutePackageFolderPathFromReadmeFileContents, getPackageFolderPathFromPackageArgument } from "./.scripts/readme";
+import {
+  findReadmeTypeScriptMdFilePaths,
+  getAbsolutePackageFolderPathFromReadmeFileContents,
+  getPackageFolderPathFromPackageArgument,
+} from "./.scripts/readme";
 import { Logger } from "./.scripts/logger";
 import * as fs from "fs";
 import * as gulp from "gulp";
@@ -38,7 +42,7 @@ gulp.task('default', () => {
   _logger.log('  --package');
   _logger.log('    NPM package to regenerate. If no package is specified, then all packages will be regenerated.');
   _logger.log();
-  _logger.log('gulp publish [--package <package name>] [--whatif]');
+  _logger.log('gulp pack [--package <package name>] [--whatif]');
   _logger.log('  --package');
   _logger.log('    The name of the package to publish. If no package is specified, then all packages will be published.');
   _logger.log('  --whatif');
@@ -51,7 +55,11 @@ gulp.task("install", async () => {
     .usage("Example: gulp install --package @azure/arm-mariadb")
     .argv;
 
-  const packageFolderPath: string | undefined = await getPackageFolderPathFromPackageArgument(argv.package, argv.azureRestAPISpecsRoot, argv.azureSDKForJSRepoRoot);
+  const packageFolderPath: string | undefined = await getPackageFolderPathFromPackageArgument(
+    argv.package,
+    argv.azureRestAPISpecsRoot,
+    argv.azureSDKForJSRepoRoot,
+  );
   if (packageFolderPath) {
     _logger.logWithPath(packageFolderPath, "npm install");
     npmInstall(packageFolderPath);
@@ -64,7 +72,11 @@ gulp.task("build", async () => {
     .usage("Example: gulp build --package @azure/arm-mariadb")
     .argv;
 
-  const packageFolderPath: string | undefined = await getPackageFolderPathFromPackageArgument(argv.package, argv.azureRestAPISpecsRoot, argv.azureSDKForJSRepoRoot);
+  const packageFolderPath: string | undefined = await getPackageFolderPathFromPackageArgument(
+    argv.package,
+    argv.azureRestAPISpecsRoot,
+    argv.azureSDKForJSRepoRoot,
+  );
   if (packageFolderPath) {
     _logger.logWithPath(packageFolderPath, "npm run build");
     npmRunBuild(packageFolderPath);
@@ -92,7 +104,9 @@ gulp.task('codegen', async () => {
   await generateSdk(argv.azureRestAPISpecsRoot, argv.azureSDKForJSRepoRoot, argv.package, argv.use, argv.debugger);
 });
 
-gulp.task('publish', () => {
+type CreatePackageType = "pack" | "publish"
+
+const createPackages = (type: CreatePackageType = "pack") => {
   const typeScriptReadmeFilePaths: string[] = findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot);
 
   let errorPackages = 0;
@@ -100,12 +114,18 @@ gulp.task('publish', () => {
   let publishedPackages = 0;
   let publishedPackagesSkipped = 0;
 
-  for (let i = 0; i < typeScriptReadmeFilePaths.length; ++i) {
-    const typeScriptReadmeFilePath: string = typeScriptReadmeFilePaths[i];
+  const packPath = path.join(azureSDKForJSRepoRoot, "pack");
+  if (!fs.existsSync(packPath)) {
+    fs.mkdirSync(packPath);
+  }
+  for (const typeScriptReadmeFilePath of typeScriptReadmeFilePaths) {
     _logger.logTrace(`INFO: Processing ${typeScriptReadmeFilePath}`);
 
     const typeScriptReadmeFileContents: string = fs.readFileSync(typeScriptReadmeFilePath, 'utf8');
-    const packageFolderPath: string = getAbsolutePackageFolderPathFromReadmeFileContents(azureSDKForJSRepoRoot, typeScriptReadmeFileContents);
+    const packageFolderPath: string = getAbsolutePackageFolderPathFromReadmeFileContents(
+      azureSDKForJSRepoRoot,
+      typeScriptReadmeFileContents
+    );
     if (!fs.existsSync(packageFolderPath)) {
       _logger.log(`ERROR: Package folder ${packageFolderPath} has not been generated.`);
       errorPackages++;
@@ -129,7 +149,9 @@ gulp.task('publish', () => {
           else {
             let npmPackageVersion: string;
             try {
-              const npmViewResult: { [propertyName: string]: any } = JSON.parse(execSync(`npm view ${packageName} --json`, { stdio: ['pipe', 'pipe', 'ignore'] }).toString());
+              const npmViewResult: { [propertyName: string]: any } = JSON.parse(
+                execSync(`npm view ${packageName} --json`, { stdio: ['pipe', 'pipe', 'ignore'] }).toString()
+              );
               npmPackageVersion = npmViewResult['dist-tags']['latest'];
             }
             catch (error) {
@@ -140,11 +162,17 @@ gulp.task('publish', () => {
               upToDatePackages++;
             }
             else {
-              _logger.log(`Publishing package "${packageName}" with version "${localPackageVersion}"...${args.whatif ? " (SKIPPED)" : ""}`);
+              _logger.log(`Packing package "${packageName}" with version "${localPackageVersion}"...${args.whatif ? " (SKIPPED)" : ""}`);
               if (!args.whatif) {
                 try {
                   npmInstall(packageFolderPath);
-                  execSync(`npm publish`, { cwd: packageFolderPath });
+                  // TODO: `npm install` should be removed after we regenerate all packages.
+                  execSync("npm install", { cwd: packageFolderPath });
+                  execSync(`npm ${type}`, { cwd: packageFolderPath });
+                  const packFileName = `${packageName.replace("/", "-").replace("@", "")}-${localPackageVersion}.tgz`
+                  const packFilePath = path.join(packageFolderPath, packFileName);
+                  fs.renameSync(packFilePath, path.join(packPath, packFileName));
+                  console.log(`Filename: ${packFileName}`);
                   publishedPackages++;
                 }
                 catch (error) {
@@ -163,9 +191,13 @@ gulp.task('publish', () => {
   _logger.log();
   _logger.log(`Error packages:             ${errorPackages}`);
   _logger.log(`Up to date packages:        ${upToDatePackages}`);
-  _logger.log(`Published packages:         ${publishedPackages}`);
-  _logger.log(`Published packages skipped: ${publishedPackagesSkipped}`);
-});
+  _logger.log(`Packed packages:         ${publishedPackages}`);
+  _logger.log(`Skipped packages: ${publishedPackagesSkipped}`);
+}
+
+gulp.task('pack', () => createPackages());
+
+gulp.task('publish', () => createPackages("publish"));
 
 gulp.task("find-missing-sdks", async () => {
   try {

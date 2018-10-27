@@ -211,7 +211,10 @@ export function findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot: string): 
     _logger.logDebug(`Looking for "readme.typescript.md" files in "${azureRestAPISpecsRoot}"...`);
 
     const specificationFolderPath: string = path.resolve(azureRestAPISpecsRoot, 'specification');
-    const readmeTypeScriptMdFilePaths: string[] = glob.sync('**/readme.typescript.md', { absolute: true, cwd: specificationFolderPath });
+    const readmeTypeScriptMdFilePaths: string[] = glob.sync(
+        '**/readme.typescript.md',
+        { absolute: true, cwd: specificationFolderPath }
+    );
     if (readmeTypeScriptMdFilePaths) {
         for (let i = 0; i < readmeTypeScriptMdFilePaths.length; ++i) {
             const readmeTypeScriptMdFilePath: string = readmeTypeScriptMdFilePaths[i];
@@ -231,7 +234,10 @@ export function getOutputFolderFromReadmeTypeScriptMdFileContents(readmeTypeScri
     return readmeTypeScriptMdFileContents.match(/output-folder: (\S*)/)[1].replace(/\"/g, "");
 }
 
-export function getAbsolutePackageFolderPathFromReadmeFileContents(azureSDKForJSRepoRoot: string, typeScriptReadmeFileContents: string): string {
+export function getAbsolutePackageFolderPathFromReadmeFileContents(
+    azureSDKForJSRepoRoot: string,
+    typeScriptReadmeFileContents: string,
+): string {
     const outputFolderPath: string = getOutputFolderFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
     return outputFolderPath.replace("$(typescript-sdks-folder)", azureSDKForJSRepoRoot);
 }

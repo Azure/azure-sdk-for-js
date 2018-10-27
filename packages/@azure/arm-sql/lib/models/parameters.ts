@@ -184,28 +184,6 @@ export const credentialName: msRest.OperationURLParameter = {
     }
   }
 };
-export const databaseName: msRest.OperationURLParameter = {
-  parameterPath: "databaseName",
-  mapper: {
-    required: true,
-    serializedName: "databaseName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const databaseState: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "databaseState"
-  ],
-  mapper: {
-    serializedName: "databaseState",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const dataMaskingPolicyName: msRest.OperationURLParameter = {
   parameterPath: "dataMaskingPolicyName",
   mapper: {
@@ -223,6 +201,28 @@ export const dataMaskingRuleName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "dataMaskingRuleName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const databaseName: msRest.OperationURLParameter = {
+  parameterPath: "databaseName",
+  mapper: {
+    required: true,
+    serializedName: "databaseName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const databaseState: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "databaseState"
+  ],
+  mapper: {
+    serializedName: "databaseState",
     type: {
       name: "String"
     }
