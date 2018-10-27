@@ -1,6 +1,6 @@
 # Azure SDK for Javascript
 
-[![Build Status](https://travis-ci.org/Azure/azure-sdk-for-js.png?branch=master)](https://travis-ci.org/Azure/azure-sdk-for-js)
+[![Build Status](https://devdiv.visualstudio.com/DevDiv/_apis/build/status/AzureSdkTools/Azure.azure-sdk-for-js)](https://devdiv.visualstudio.com/DevDiv/_build/latest?definitionId=10291)
 
 This project provides a Javascript package that makes it easy to consume and manage
 Microsoft Azure Services.
