@@ -11,6 +11,8 @@
     "ts-node": "^7.0.1"
   },
   "scripts": {
-    "test": "ts-node ./sample.ts"
+    "test": "npm run test-node & npm run test-node-js",
+    "test-node": "ts-node ./sampleNode.ts",
+    "test-node-js": "ts-node ./sampleNodeJs.ts"
   }
 }
