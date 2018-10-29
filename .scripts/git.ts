@@ -144,7 +144,11 @@ export async function getValidatedRepository(repositoryPath: string): Promise<Re
 
 export async function mergeBranch(repository: Repository, toBranch: Branch, fromBranch: Branch): Promise<Oid> {
     _logger.logTrace(`Merging "${fromBranch.fullName()}" to "${toBranch.fullName()}" branch in ${repository.path()} repository`);
-    return repository.mergeBranches(toBranch.name, fromBranch.shorthand(), Signature.default(repository), Merge.PREFERENCE.NONE);
+    try {
+        return repository.mergeBranches(toBranch.name, fromBranch.shorthand(), Signature.default(repository), Merge.PREFERENCE.NONE);
+    } catch (error) {
+        throw new Error(`Probable merge conflicts. Error: ${error}`);
+    }
 }
 
 export async function mergeMasterIntoBranch(repository: Repository, toBranch: Branch): Promise<Oid> {
