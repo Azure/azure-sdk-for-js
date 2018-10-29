@@ -142,7 +142,7 @@ function parsePullRequestUrl(pullRequestUrl: string): PullRequestsGetParams {
 }
 
 function getPackageNameFromPath(rootFolder: string): string | undefined {
-    if (!rootFolder || !rootFolder.startsWith("packages/") || rootFolder === "" || rootFolder === "packages/" || rootFolder === "packages/@azure/") {
+    if (!rootFolder || !rootFolder.startsWith("packages/") || rootFolder === "packages/" || rootFolder === "packages/@azure/") {
         _logger.logDebug(`Can't get package name from '${rootFolder}' path`);
         return undefined;
     }
