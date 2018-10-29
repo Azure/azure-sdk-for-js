@@ -194,6 +194,10 @@ export async function regenerate(branchName: string, packageName: string, azureS
         _logger.log(`Successfully updated version in package.json`);
     }
 
+    const azureRestAPISpecsRepository = await getValidatedRepository(azureRestAPISpecsPath);
+    await refreshRepository(azureRestAPISpecsRepository);
+    _logger.log(`Refreshed ${azureRestAPISpecsRepository.path()} repository successfully`);
+
     await generateSdk(azureRestAPISpecsPath, azureSdkForJsRepoPath, packageName)
     _logger.log(`Generated sdk successfully`);
 
