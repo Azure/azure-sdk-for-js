@@ -2639,7 +2639,7 @@ export type UsagesListByLocationResponse = UsageListResult & {
 /**
  * Contains response data for the setServiceProperties operation.
  */
-export type BlobServiceSetServicePropertiesResponse = BlobServiceProperties & {
+export type BlobServicesSetServicePropertiesResponse = BlobServiceProperties & {
   /**
    * The underlying HTTP response.
    */
@@ -2658,7 +2658,7 @@ export type BlobServiceSetServicePropertiesResponse = BlobServiceProperties & {
 /**
  * Contains response data for the getServiceProperties operation.
  */
-export type BlobServiceGetServicePropertiesResponse = BlobServiceProperties & {
+export type BlobServicesGetServicePropertiesResponse = BlobServiceProperties & {
   /**
    * The underlying HTTP response.
    */
