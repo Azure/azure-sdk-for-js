@@ -2150,6 +2150,9 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.AppServicePlan
     },
+    201: {
+      bodyMapper: Mappers.AppServicePlan
+    },
     202: {
       bodyMapper: Mappers.AppServicePlan
     },

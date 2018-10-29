@@ -16,9 +16,16 @@ const packageName = "@azure/arm-appservice";
 const packageVersion = "1.0.0";
 
 export class WebSiteManagementClientContext extends msRestAzure.AzureServiceClient {
+
   credentials: msRest.ServiceClientCredentials;
+
   subscriptionId: string;
-  apiVersion?: string;
+
+  apiVersion: string;
+
+  acceptLanguage: string;
+
+  longRunningOperationRetryTimeout: number;
 
   /**
    * Initializes a new instance of the WebSiteManagementClient class.
