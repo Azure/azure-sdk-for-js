@@ -4,8 +4,8 @@
   "description": "DataMigrationServiceClient Library with typescript type definitions for node.js and browser.",
   "version": "1.0.0-preview",
   "dependencies": {
-    "ms-rest-azure-js": "^1.0.176",
-    "ms-rest-js": "^1.0.455",
+    "ms-rest-azure-js": "^1.0.166",
+    "ms-rest-js": "^1.0.439",
     "tslib": "^1.9.3"
   },
   "keywords": [
@@ -33,23 +33,10 @@
   "bugs": {
     "url": "https://github.com/azure/azure-sdk-for-js/issues"
   },
-  "files": [
-    "dist/**/*.js",
-    "dist/**/*.js.map",
-    "dist/**/*.d.ts",
-    "dist/**/*.d.ts.map",
-    "esm/**/*.js",
-    "esm/**/*.js.map",
-    "esm/**/*.d.ts",
-    "esm/**/*.d.ts.map",
-    "lib/**/*.ts",
-    "rollup.config.js",
-    "tsconfig.json"
-  ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-datamigration.js.map'\" -o ./dist/arm-datamigration.min.js ./dist/arm-datamigration.js",
-    "prepack": "npm install && npm run build"
+    "prepare": "npm run build"
   },
   "sideEffects": false
 }
