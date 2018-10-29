@@ -19,6 +19,7 @@ class MariaDBManagementClient extends MariaDBManagementClientContext {
   // Operation groups
   servers: operations.Servers;
   firewallRules: operations.FirewallRules;
+  virtualNetworkRules: operations.VirtualNetworkRules;
   databases: operations.Databases;
   configurations: operations.Configurations;
   logFiles: operations.LogFiles;
@@ -37,6 +38,7 @@ class MariaDBManagementClient extends MariaDBManagementClientContext {
     super(credentials, subscriptionId, options);
     this.servers = new operations.Servers(this);
     this.firewallRules = new operations.FirewallRules(this);
+    this.virtualNetworkRules = new operations.VirtualNetworkRules(this);
     this.databases = new operations.Databases(this);
     this.configurations = new operations.Configurations(this);
     this.logFiles = new operations.LogFiles(this);

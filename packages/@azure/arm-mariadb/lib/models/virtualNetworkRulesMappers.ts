@@ -10,19 +10,19 @@
 
 export {
   discriminators,
-  LogFileListResult,
-  LogFile,
+  VirtualNetworkRule,
   ProxyResource,
   BaseResource,
   CloudError,
+  VirtualNetworkRuleListResult,
   TrackedResource,
   Server,
   Sku,
   StorageProfile,
   FirewallRule,
-  VirtualNetworkRule,
   Database,
   Configuration,
+  LogFile,
   ServerSecurityAlertPolicy
 } from "../models/mappers";
 
