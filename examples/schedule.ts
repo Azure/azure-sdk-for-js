@@ -13,12 +13,13 @@ let ns: Namespace;
 async function main(): Promise<void> {
   ns = Namespace.createFromConnectionString(str);
   const client = ns.createQueueClient(path);
-  const scheduleTime = new Date(Date.now() + 300000); // 5 minutes from now
-  const sequenceNumber = await client.scheduleMessage({ body: "Hello sb world!!" }, scheduleTime);
+  const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now
+  const sequenceNumber = await client.scheduleMessage(
+    { body: "Hello sb world!!" + scheduleTime.toString() }, scheduleTime);
   console.log("***********Created sender and sent the message... %d", sequenceNumber);
   await delay(3000);
   console.log(">>>> Cancelling the scheduled message");
-  await client.cancelScheduleMessage(sequenceNumber);
+  await client.cancelScheduledMessage(sequenceNumber);
   console.log(">>>>>>>> Done cancelling the scheduled message..");
 }
 
