@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import * as Long from "long";
 import * as log from "./log";
 import { Delivery } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
@@ -11,7 +12,7 @@ import { BatchingReceiver } from "./batchingReceiver";
 import { ServiceBusMessage, SendableMessageInfo, ReceivedMessageInfo } from "./serviceBusMessage";
 import { Client } from "./client";
 import { ReceiveMode } from "./messageReceiver";
-import * as Long from "long";
+import { ScheduleMessage } from "./managementClient";
 
 /**
  * Describes the options that can be provided while creating the QueueClient.
@@ -227,16 +228,42 @@ export class QueueClient extends Client {
    * scheduled.
    */
   async scheduleMessage(message: SendableMessageInfo, scheduledEnqueueTimeUtc: Date): Promise<Long> {
-    return await this._context.managementClient!.scheduleMessage(message, scheduledEnqueueTimeUtc);
+    const scheduleMessages: ScheduleMessage[] = [
+      { message: message, scheduledEnqueueTimeUtc: scheduledEnqueueTimeUtc }
+    ];
+    const result = await this._context.managementClient!.scheduleMessages(scheduleMessages);
+    return result[0];
+  }
+
+  /**
+   * Schedules a message to appear on Service Bus at a later time.
+   *
+   * @param message - Message that needs to be scheduled.
+   * @param scheduledEnqueueTimeUtc - The UTC time at which the message should be available
+   * for processing.
+   * @returns Promise<number> - The sequence number of the message that was
+   * scheduled.
+   */
+  async scheduleMessages(messages: ScheduleMessage[]): Promise<Long[]> {
+    return await this._context.managementClient!.scheduleMessages(messages);
   }
 
   /**
    * Cancels a message that was scheduled.
-   * @param {Long} sequenceNumber The sequence number of the message to be cancelled.
-   * @returns {Promise<void>} Promise<void>
+   * @param sequenceNumber - The sequence number of the message to be cancelled.
+   * @returns Promise<void>
    */
-  async cancelScheduleMessage(sequenceNumber: Long): Promise<void> {
-    return await this._context.managementClient!.cancelScheduledMessage(sequenceNumber);
+  async cancelScheduledMessage(sequenceNumber: Long): Promise<void> {
+    return await this._context.managementClient!.cancelScheduledMessages([sequenceNumber]);
+  }
+
+  /**
+   * Cancels an array of messages that were scheduled.
+   * @param sequenceNumbers - An Array of sequence numbers of the message to be cancelled.
+   * @returns Promise<void>
+   */
+  async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
+    return await this._context.managementClient!.cancelScheduledMessages(sequenceNumbers);
   }
 
   /**

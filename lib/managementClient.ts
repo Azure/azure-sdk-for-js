@@ -23,6 +23,22 @@ export enum DispositionStatus {
   renewed = "renewed"
 }
 
+/**
+ * Provides information about the message to be scheduled.
+ * @interface ScheduleMessage
+ */
+export interface ScheduleMessage {
+  /**
+   * @property message - The message to be scheduled
+   */
+  message: SendableMessageInfo;
+  /**
+   * @property scheduledEnqueueTimeUtc - The UTC time at which the message should be available
+   * for processing.
+   */
+  scheduledEnqueueTimeUtc: Date;
+}
+
 export interface DispositionStatusOptions {
   /**
    * @property [propertiesToModify] A dictionary of Service Bus brokered message properties
@@ -240,50 +256,60 @@ export class ManagementClient extends LinkEntity {
   }
 
   /**
-   * Schedules a message to appear on Service Bus at a later time.
+   * Schedules an array of messages to appear on Service Bus at a later time.
    *
-   * @param {SendableMessageInfo} message message that needs to be scheduled.
-   * @param {Date} scheduledEnqueueTimeUtc The UTC time at which the message should be available
-   * for processing.
-   * @returns {Promise<number>} Promise<number> The sequence number of the message that was
-   * scheduled.
+   * @param messages - An array of messages that needs to be scheduled.
+   * @returns Promise<number> The sequence numbers of messages that were scheduled.
    */
-  async scheduleMessage(message: SendableMessageInfo, scheduledEnqueueTimeUtc: Date): Promise<Long> {
-    if (typeof message !== "object") {
-      throw new Error("'message' is a required parameter and must be of type 'object'.");
+  async scheduleMessages(messages: ScheduleMessage[]): Promise<Long[]> {
+    if (!Array.isArray(messages)) {
+      throw new Error("'messages' is a required parameter of type 'Array'.");
     }
-    if (!(scheduledEnqueueTimeUtc instanceof Date)) {
-      throw new Error("'scheduledEnqueueTimeUtc' is a required parameter and must be of type 'Date'.");
-    }
-    const now = Date.now();
-    const enqueueTimeInMs = scheduledEnqueueTimeUtc.getTime();
-    if (enqueueTimeInMs < now) {
-      throw new Error(`Cannot schedule messages in the past. Given scheduledEnqueueTimeUtc` +
-        `(${enqueueTimeInMs}) < current time (${now}).`);
-    }
-    message.scheduledEnqueueTimeUtc = scheduledEnqueueTimeUtc;
-    if (!message.messageId) message.messageId = generate_uuid();
-    SendableMessageInfo.validate(message);
-    const amqpMessage = SendableMessageInfo.toAmqpMessage(message);
+    const messageBody: any[] = [];
+    for (let i = 0; i < messages.length; i++) {
+      const item = messages[i];
+      if (typeof item.message !== "object") {
+        throw new Error("'message' is a required property and must be of type 'object'.");
+      }
+      if (!(item.scheduledEnqueueTimeUtc instanceof Date)) {
+        throw new Error("'scheduledEnqueueTimeUtc' is a required property and must be of type 'Date'.");
+      }
+      const now = Date.now();
+      const enqueueTimeInMs = item.scheduledEnqueueTimeUtc.getTime();
+      if (enqueueTimeInMs < now) {
+        throw new Error(`Cannot schedule messages in the past. Given scheduledEnqueueTimeUtc` +
+          `(${enqueueTimeInMs}) < current time (${now}).`);
+      }
+      item.message.scheduledEnqueueTimeUtc = item.scheduledEnqueueTimeUtc;
+      if (!item.message.messageId) item.message.messageId = generate_uuid();
+      SendableMessageInfo.validate(item.message);
+      const amqpMessage = SendableMessageInfo.toAmqpMessage(item.message);
 
+      try {
+        const entry: any = {
+          "message": RheaMessageUtil.encode(amqpMessage),
+          "message-id": item.message.messageId
+        };
+        if (item.message.sessionId) {
+          entry["session-id"] = item.message.sessionId;
+        }
+        if (item.message.partitionKey) {
+          entry["partition-key"] = item.message.partitionKey;
+        }
+        if (item.message.viaPartitionKey) {
+          entry["via-partition-key"] = item.message.viaPartitionKey;
+        }
+
+        const wrappedEntry = types.wrap_map(entry);
+        messageBody.push(wrappedEntry);
+      } catch (err) {
+        const error = translate(err);
+        log.error("An error occurred while encoding the item at position %d in the messages array" +
+          ": %O", i, error);
+        throw error;
+      }
+    }
     try {
-      const entry: any = {
-        "message": RheaMessageUtil.encode(amqpMessage),
-        "message-id": message.messageId
-      };
-      if (message.sessionId) {
-        entry["session-id"] = message.sessionId;
-      }
-      if (message.partitionKey) {
-        entry["partition-key"] = message.partitionKey;
-      }
-      if (message.viaPartitionKey) {
-        entry["via-partition-key"] = message.viaPartitionKey;
-      }
-
-      const wrappedEntry = types.wrap_map(entry);
-      const messageBody: any[] = [wrappedEntry];
-
       const request: AmqpMessage = {
         body: { messages: messageBody },
         reply_to: this.replyTo,
@@ -292,38 +318,58 @@ export class ManagementClient extends LinkEntity {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt("Schedule message request: %O.", request);
+      log.mgmt("Schedule messages request body: %O.", request.body);
       log.mgmt("[%s] Acquiring lock to get the management req res link.",
         this._context.namespace.connectionId);
       await defaultLock.acquire(this.managementLock, () => { return this._init(); });
       const result = await this._mgmtReqResLink!.sendRequest(request);
-      if (typeof result.body[Constants.sequenceNumbers][0] === "number") {
-        return Long.fromNumber(result.body[Constants.sequenceNumbers][0]);
-      } else {
-        return Long.fromBytesBE(result.body[Constants.sequenceNumbers][0]);
+      const sequenceNumbers = result.body[Constants.sequenceNumbers];
+      const sequenceNumbersAsLong = [];
+      for (let i = 0; i < sequenceNumbers.length; i++) {
+        if (typeof sequenceNumbers[i] === "number") {
+          sequenceNumbersAsLong.push(Long.fromNumber(sequenceNumbers[i]));
+        } else {
+          sequenceNumbersAsLong.push(Long.fromBytesBE(sequenceNumbers[i]));
+        }
       }
+      return sequenceNumbersAsLong;
     } catch (err) {
       const error = translate(err);
-      log.error("An error occurred while sending the request to schedule message to " +
+      log.error("An error occurred while sending the request to schedule messages to " +
         "$management endpoint: %O", error);
       throw error;
     }
   }
 
   /**
-   * Cancels a message that was scheduled.
-   * @param {Long} sequenceNumber The sequence number of the message to be cancelled.
-   * @returns {Promise<void>} Promise<void>
+   * Cancels an array of messages that were scheduled.
+   * @param sequenceNumbers - An Array of sequence numbers of the message to be cancelled.
+   * @returns Promise<void>
    */
-  async cancelScheduledMessage(sequenceNumber: Long): Promise<void> {
-    if (!Long.isLong(sequenceNumber)) {
-      throw new Error("'sequenceNumber' is a required parameter and must be an instance of 'Long'.");
+  async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
+    if (!Array.isArray(sequenceNumbers)) {
+      throw new Error("'sequenceNumbers' is a required parameter of type 'Array'.");
+    }
+    const messageBody: any = {};
+    messageBody[Constants.sequenceNumbers] = [];
+    for (let i = 0; i < sequenceNumbers.length; i++) {
+      const sequenceNumber = sequenceNumbers[i];
+      if (!Long.isLong(sequenceNumber)) {
+        throw new Error("An item in the 'sequenceNumbers' Array must be an instance of 'Long'.");
+      }
+      try {
+        messageBody[Constants.sequenceNumbers].push(Buffer.from(sequenceNumber.toBytesBE()));
+      } catch (err) {
+        const error = translate(err);
+        log.error("An error occurred while encoding the item at position %d in the " +
+          "sequenceNumbers array: %O", i, error);
+        throw error;
+      }
     }
 
     try {
-      const messageBody: any = {};
       messageBody[Constants.sequenceNumbers] =
-        types.wrap_array([Buffer.from(sequenceNumber.toBytesBE())], 0x81, undefined);
+        types.wrap_array(messageBody[Constants.sequenceNumbers], 0x81, undefined);
       const request: AmqpMessage = {
         body: messageBody,
         message_id: generate_uuid(),
@@ -333,11 +379,10 @@ export class ManagementClient extends LinkEntity {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt("Cancel scheduled message request: %O.", request);
+      log.mgmt("Cancel scheduled messages request body: %O.", request.body);
       log.mgmt("[%s] Acquiring lock to get the management req res link.",
         this._context.namespace.connectionId);
       await defaultLock.acquire(this.managementLock, () => { return this._init(); });
-
       await this._mgmtReqResLink!.sendRequest(request);
     } catch (err) {
       const error = translate(err);
