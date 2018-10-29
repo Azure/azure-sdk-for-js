@@ -20,26 +20,27 @@ npm install @azure/cognitiveservices-visualsearch
 
 ```ts
 import * as msRest from "ms-rest-js";
+import * as msRestNodeAuth from "ms-rest-nodeauth";
 import { VisualSearchAPIClient, VisualSearchAPIModels, VisualSearchAPIMappers } from "@azure/cognitiveservices-visualsearch";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
-const token = "<access_token>";
-const creds = new msRest.TokenCredentials(token);
-const client = new VisualSearchAPIClient(creds, subscriptionId);
-const acceptLanguage = "testacceptLanguage";
-const contentType = "testcontentType";
-const userAgent = "testuserAgent";
-const clientId = "testclientId";
-const clientIp = "testclientIp";
-const location = "westus";
-const market = "testmarket";
-const safeSearch = "Off";
-const setLang = "testsetLang";
-const knowledgeRequest = "testknowledgeRequest";
-const image = new ReadableStream();
-client.images.visualSearch(acceptLanguage, contentType, userAgent, clientId, clientIp, location, market, safeSearch, setLang, knowledgeRequest, image).then((result) => {
-  console.log("The result is:");
-  console.log(result);
+msRestNodeAuth.interactiveLogin().then((creds) => {
+  const client = new VisualSearchAPIClient(creds, subscriptionId);
+  const acceptLanguage = "testacceptLanguage";
+  const contentType = "testcontentType";
+  const userAgent = "testuserAgent";
+  const clientId = "testclientId";
+  const clientIp = "testclientIp";
+  const location = "westus";
+  const market = "testmarket";
+  const safeSearch = "Off";
+  const setLang = "testsetLang";
+  const knowledgeRequest = "testknowledgeRequest";
+  const image = new require("stream").Readable();
+  client.images.visualSearch(acceptLanguage, contentType, userAgent, clientId, clientIp, location, market, safeSearch, setLang, knowledgeRequest, image).then((result) => {
+    console.log("The result is:");
+    console.log(result);
+  });
 }).catch((err) => {
   console.error(err);
 });
@@ -53,29 +54,39 @@ client.images.visualSearch(acceptLanguage, contentType, userAgent, clientId, cli
 <html lang="en">
   <head>
     <title>@azure/cognitiveservices-visualsearch sample</title>
-    <script type="text/javascript" src="./node_modules/ms-rest-js/dist/msRest.browser.js"></script>
-    <script type="text/javascript" src="./dist/cognitiveservices-visualsearch.js"></script>
+    <script src="node_modules/ms-rest-js/dist/msRest.browser.js"></script>
+    <script src="node_modules/ms-rest-browserauth/dist/msAuth.js"></script>
+    <script src="node_modules/@azure/cognitiveservices-visualsearch/dist/cognitiveservices-visualsearch.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
-      const token = "<access_token>";
-      const creds = new msRest.TokenCredentials(token);
-      const client = new Azure.CognitiveservicesVisualsearch.VisualSearchAPIClient(creds, subscriptionId);
-      const acceptLanguage = "testacceptLanguage";
-      const contentType = "testcontentType";
-      const userAgent = "testuserAgent";
-      const clientId = "testclientId";
-      const clientIp = "testclientIp";
-      const location = "westus";
-      const market = "testmarket";
-      const safeSearch = "Off";
-      const setLang = "testsetLang";
-      const knowledgeRequest = "testknowledgeRequest";
-      const image = new ReadableStream();
-      client.images.visualSearch(acceptLanguage, contentType, userAgent, clientId, clientIp, location, market, safeSearch, setLang, knowledgeRequest, image).then((result) => {
-        console.log("The result is:");
-        console.log(result);
-      }).catch((err) => {
-        console.error(err);
+      const authManager = new msAuth.AuthManager({
+        clientId: "<client id for your Azure AD app>",
+        tenant: "<optional tenant for your organization>"
+      });
+      authManager.finalizeLogin().then((res) => {
+        if (!res.isLoggedIn) {
+          // may cause redirects
+          authManager.login();
+        }
+        const client = new Azure.CognitiveservicesVisualsearch.VisualSearchAPIClient(res.creds, subscriptionId);
+        const acceptLanguage = "testacceptLanguage";
+        const contentType = "testcontentType";
+        const userAgent = "testuserAgent";
+        const clientId = "testclientId";
+        const clientIp = "testclientIp";
+        const location = "westus";
+        const market = "testmarket";
+        const safeSearch = "Off";
+        const setLang = "testsetLang";
+        const knowledgeRequest = "testknowledgeRequest";
+        const image = new ReadableStream();
+        client.images.visualSearch(acceptLanguage, contentType, userAgent, clientId, clientIp, location, market, safeSearch, setLang, knowledgeRequest, image).then((result) => {
+          console.log("The result is:");
+          console.log(result);
+        }).catch((err) => {
+          console.log("An error occurred:");
+          console.error(err);
+        });
       });
     </script>
   </head>
