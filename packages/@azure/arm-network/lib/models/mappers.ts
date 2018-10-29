@@ -13973,34 +13973,6 @@ export const VirtualNetworkPeeringListResult: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualNetworkTapListResult: msRest.CompositeMapper = {
-  serializedName: "VirtualNetworkTapListResult",
-  type: {
-    name: "Composite",
-    className: "VirtualNetworkTapListResult",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "VirtualNetworkTap"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const VirtualNetworkGatewayListResult: msRest.CompositeMapper = {
   serializedName: "VirtualNetworkGatewayListResult",
   type: {
@@ -14108,6 +14080,34 @@ export const LocalNetworkGatewayListResult: msRest.CompositeMapper = {
       },
       nextLink: {
         readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualNetworkTapListResult: msRest.CompositeMapper = {
+  serializedName: "VirtualNetworkTapListResult",
+  type: {
+    name: "Composite",
+    className: "VirtualNetworkTapListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VirtualNetworkTap"
+            }
+          }
+        }
+      },
+      nextLink: {
         serializedName: "nextLink",
         type: {
           name: "String"

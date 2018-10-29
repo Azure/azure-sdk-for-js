@@ -10528,20 +10528,6 @@ export interface VirtualNetworkPeeringListResult extends Array<VirtualNetworkPee
 
 /**
  * @interface
- * An interface representing the VirtualNetworkTapListResult.
- * Response for ListVirtualNetworkTap API service call.
- *
- * @extends Array<VirtualNetworkTap>
- */
-export interface VirtualNetworkTapListResult extends Array<VirtualNetworkTap> {
-  /**
-   * @member {string} [nextLink] The URL to get the next set of results.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
  * An interface representing the VirtualNetworkGatewayListResult.
  * Response for the ListVirtualNetworkGateways API service call.
  *
@@ -10602,6 +10588,20 @@ export interface LocalNetworkGatewayListResult extends Array<LocalNetworkGateway
    * the server.**
    */
   readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the VirtualNetworkTapListResult.
+ * Response for ListVirtualNetworkTap API service call.
+ *
+ * @extends Array<VirtualNetworkTap>
+ */
+export interface VirtualNetworkTapListResult extends Array<VirtualNetworkTap> {
+  /**
+   * @member {string} [nextLink] The URL to get the next set of results.
+   */
+  nextLink?: string;
 }
 
 /**
@@ -18606,177 +18606,6 @@ export type VirtualNetworkPeeringsListNextResponse = VirtualNetworkPeeringListRe
 };
 
 /**
- * Contains response data for the get operation.
- */
-export type VirtualNetworkTapsGetResponse = VirtualNetworkTap & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTap;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type VirtualNetworkTapsCreateOrUpdateResponse = VirtualNetworkTap & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTap;
-    };
-};
-
-/**
- * Contains response data for the updateTags operation.
- */
-export type VirtualNetworkTapsUpdateTagsResponse = VirtualNetworkTap & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTap;
-    };
-};
-
-/**
- * Contains response data for the listAll operation.
- */
-export type VirtualNetworkTapsListAllResponse = VirtualNetworkTapListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTapListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type VirtualNetworkTapsListByResourceGroupResponse = VirtualNetworkTapListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTapListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type VirtualNetworkTapsBeginCreateOrUpdateResponse = VirtualNetworkTap & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTap;
-    };
-};
-
-/**
- * Contains response data for the beginUpdateTags operation.
- */
-export type VirtualNetworkTapsBeginUpdateTagsResponse = VirtualNetworkTap & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTap;
-    };
-};
-
-/**
- * Contains response data for the listAllNext operation.
- */
-export type VirtualNetworkTapsListAllNextResponse = VirtualNetworkTapListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTapListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type VirtualNetworkTapsListByResourceGroupNextResponse = VirtualNetworkTapListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTapListResult;
-    };
-};
-
-/**
  * Contains response data for the createOrUpdate operation.
  */
 export type VirtualNetworkGatewaysCreateOrUpdateResponse = VirtualNetworkGateway & {
@@ -19717,6 +19546,177 @@ export type LocalNetworkGatewaysListNextResponse = LocalNetworkGatewayListResult
        * The response body as parsed JSON or XML
        */
       parsedBody: LocalNetworkGatewayListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type VirtualNetworkTapsGetResponse = VirtualNetworkTap & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTap;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type VirtualNetworkTapsCreateOrUpdateResponse = VirtualNetworkTap & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTap;
+    };
+};
+
+/**
+ * Contains response data for the updateTags operation.
+ */
+export type VirtualNetworkTapsUpdateTagsResponse = VirtualNetworkTap & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTap;
+    };
+};
+
+/**
+ * Contains response data for the listAll operation.
+ */
+export type VirtualNetworkTapsListAllResponse = VirtualNetworkTapListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTapListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type VirtualNetworkTapsListByResourceGroupResponse = VirtualNetworkTapListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTapListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type VirtualNetworkTapsBeginCreateOrUpdateResponse = VirtualNetworkTap & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTap;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateTags operation.
+ */
+export type VirtualNetworkTapsBeginUpdateTagsResponse = VirtualNetworkTap & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTap;
+    };
+};
+
+/**
+ * Contains response data for the listAllNext operation.
+ */
+export type VirtualNetworkTapsListAllNextResponse = VirtualNetworkTapListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTapListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type VirtualNetworkTapsListByResourceGroupNextResponse = VirtualNetworkTapListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTapListResult;
     };
 };
 
