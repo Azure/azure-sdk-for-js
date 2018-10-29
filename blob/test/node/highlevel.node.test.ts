@@ -1,7 +1,9 @@
 import * as assert from "assert";
 import * as fs from "fs";
 import * as path from "path";
+
 import { BlobURL, BlockBlobURL, ContainerURL } from "../../lib";
+import { PassThrough } from "stream";
 import { Aborter } from "../../lib/Aborter";
 import {
   downloadBlobToBuffer,
@@ -197,6 +199,33 @@ describe("Highlevel", () => {
     const downloadedBuffer = fs.readFileSync(downloadFilePath);
     const uploadedBuffer = fs.readFileSync(tempFileLarge);
     assert.ok(uploadedBuffer.equals(downloadedBuffer));
+
+    fs.unlinkSync(downloadFilePath);
+  });
+
+  it("uploadStreamToBlockBlob should success for tiny buffers", async () => {
+    const buf = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]);
+    const bufferStream = new PassThrough();
+    bufferStream.end(buf);
+
+    await uploadStreamToBlockBlob(
+      Aborter.none,
+      bufferStream,
+      blockBlobURL,
+      4 * 1024 * 1024,
+      20
+    );
+
+    const downloadResponse = await blockBlobURL.download(Aborter.none, 0);
+
+    const downloadFilePath = path.join("./", getUniqueName("downloadFile"));
+    await readStreamToLocalFile(
+      downloadResponse.readableStreamBody!,
+      downloadFilePath
+    );
+
+    const downloadedBuffer = fs.readFileSync(downloadFilePath);
+    assert.ok(buf.equals(downloadedBuffer));
 
     fs.unlinkSync(downloadFilePath);
   });
