@@ -3,7 +3,7 @@
 This project provides JavaScript & Node.js SDK library for [SQL API](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sql-query) of [Azure Cosmos
 Database Service](https://azure.microsoft.com/en-us/services/cosmos-db/). This project also includes samples, tools, and utilities.
 
-[![latest npm badge](https://img.shields.io/npm/v/%40azure%2Fcosmos/latest.svg)](https://www.npmjs.com/package/@azure/cosmos)
+[![latest npm badge](https://img.shields.io/npm/v/%40azure%2Fcosmos/latest.svg)](https://www.npmjs.com/package/@azure/cosmos) [![Build Status](https://travis-ci.org/Azure/azure-cosmos-js.svg?branch=master)](https://travis-ci.org/Azure/azure-cosmos-js) [![Build Status](https://cosmos-db-sdk-public.visualstudio.com/cosmos-db-sdk-public/_apis/build/status/azure-cosmos-js-Emulator)](https://cosmos-db-sdk-public.visualstudio.com/cosmos-db-sdk-public/_build/latest?definitionId=1)
 
 ```js
 // JavaScript
