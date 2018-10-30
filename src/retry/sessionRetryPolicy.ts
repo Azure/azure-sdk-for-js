@@ -11,11 +11,10 @@ import { RetryContext } from "./RetryContext";
  * @hidden
  */
 export class SessionRetryPolicy implements IRetryPolicy {
-  /** Retry interval in milliseconds. */
-  public static readonly retryAfterInMilliseconds = 0;
   /** Current retry attempt count. */
   public currentRetryAttemptCount = 0;
-  public retryAfterInMilliseconds = SessionRetryPolicy.retryAfterInMilliseconds;
+  /** Retry interval in milliseconds. */
+  public retryAfterInMilliseconds = 0;
 
   /**
    * @constructor SessionReadRetryPolicy
