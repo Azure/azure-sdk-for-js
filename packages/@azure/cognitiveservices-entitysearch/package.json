@@ -32,10 +32,23 @@
   "bugs": {
     "url": "https://github.com/azure/azure-sdk-for-js/issues"
   },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.js.map",
+    "dist/**/*.d.ts",
+    "dist/**/*.d.ts.map",
+    "esm/**/*.js",
+    "esm/**/*.js.map",
+    "esm/**/*.d.ts",
+    "esm/**/*.d.ts.map",
+    "lib/**/*.ts",
+    "rollup.config.js",
+    "tsconfig.json"
+  ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/cognitiveservices-entitysearch.js.map'\" -o ./dist/cognitiveservices-entitysearch.min.js ./dist/cognitiveservices-entitysearch.js",
-    "prepare": "npm run build"
+    "prepack": "npm install && npm run build"
   },
   "sideEffects": false
 }

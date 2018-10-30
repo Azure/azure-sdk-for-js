@@ -10,17 +10,19 @@
 
 export {
   discriminators,
-  GetObjectsParameters,
-  DirectoryObjectListResult,
-  DirectoryObject,
+  VirtualNetworkRule,
+  ProxyResource,
+  BaseResource,
   CloudError,
-  Application,
-  AppRole,
-  RequiredResourceAccess,
-  ResourceAccess,
-  ADGroup,
-  ServicePrincipal,
-  User,
-  SignInName
+  VirtualNetworkRuleListResult,
+  TrackedResource,
+  Server,
+  Sku,
+  StorageProfile,
+  FirewallRule,
+  Database,
+  Configuration,
+  LogFile,
+  ServerSecurityAlertPolicy
 } from "../models/mappers";
 

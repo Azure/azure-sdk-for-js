@@ -20,32 +20,33 @@ npm install @azure/cognitiveservices-newssearch
 
 ```ts
 import * as msRest from "ms-rest-js";
+import * as msRestNodeAuth from "ms-rest-nodeauth";
 import { NewsSearchAPIClient, NewsSearchAPIModels, NewsSearchAPIMappers } from "@azure/cognitiveservices-newssearch";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
-const token = "<access_token>";
-const creds = new msRest.TokenCredentials(token);
-const client = new NewsSearchAPIClient(creds, subscriptionId);
-const query = "testquery";
-const acceptLanguage = "testacceptLanguage";
-const userAgent = "testuserAgent";
-const clientId = "testclientId";
-const clientIp = "testclientIp";
-const location = "westus";
-const countryCode = "testcountryCode";
-const count = 1;
-const freshness = "Day";
-const market = "testmarket";
-const offset = 1;
-const originalImage = true;
-const safeSearch = "Off";
-const setLang = "testsetLang";
-const sortBy = "testsortBy";
-const textDecorations = true;
-const textFormat = "Raw";
-client.news.search(query, acceptLanguage, userAgent, clientId, clientIp, location, countryCode, count, freshness, market, offset, originalImage, safeSearch, setLang, sortBy, textDecorations, textFormat).then((result) => {
-  console.log("The result is:");
-  console.log(result);
+msRestNodeAuth.interactiveLogin().then((creds) => {
+  const client = new NewsSearchAPIClient(creds, subscriptionId);
+  const query = "testquery";
+  const acceptLanguage = "testacceptLanguage";
+  const userAgent = "testuserAgent";
+  const clientId = "testclientId";
+  const clientIp = "testclientIp";
+  const location = "westus";
+  const countryCode = "testcountryCode";
+  const count = 1;
+  const freshness = "Day";
+  const market = "testmarket";
+  const offset = 1;
+  const originalImage = true;
+  const safeSearch = "Off";
+  const setLang = "testsetLang";
+  const sortBy = "testsortBy";
+  const textDecorations = true;
+  const textFormat = "Raw";
+  client.news.search(query, acceptLanguage, userAgent, clientId, clientIp, location, countryCode, count, freshness, market, offset, originalImage, safeSearch, setLang, sortBy, textDecorations, textFormat).then((result) => {
+    console.log("The result is:");
+    console.log(result);
+  });
 }).catch((err) => {
   console.error(err);
 });
@@ -59,35 +60,45 @@ client.news.search(query, acceptLanguage, userAgent, clientId, clientIp, locatio
 <html lang="en">
   <head>
     <title>@azure/cognitiveservices-newssearch sample</title>
-    <script type="text/javascript" src="./node_modules/ms-rest-js/dist/msRest.browser.js"></script>
-    <script type="text/javascript" src="./dist/cognitiveservices-newssearch.js"></script>
+    <script src="node_modules/ms-rest-js/dist/msRest.browser.js"></script>
+    <script src="node_modules/ms-rest-browserauth/dist/msAuth.js"></script>
+    <script src="node_modules/@azure/cognitiveservices-newssearch/dist/cognitiveservices-newssearch.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
-      const token = "<access_token>";
-      const creds = new msRest.TokenCredentials(token);
-      const client = new Azure.CognitiveservicesNewssearch.NewsSearchAPIClient(creds, subscriptionId);
-      const query = "testquery";
-      const acceptLanguage = "testacceptLanguage";
-      const userAgent = "testuserAgent";
-      const clientId = "testclientId";
-      const clientIp = "testclientIp";
-      const location = "westus";
-      const countryCode = "testcountryCode";
-      const count = 1;
-      const freshness = "Day";
-      const market = "testmarket";
-      const offset = 1;
-      const originalImage = true;
-      const safeSearch = "Off";
-      const setLang = "testsetLang";
-      const sortBy = "testsortBy";
-      const textDecorations = true;
-      const textFormat = "Raw";
-      client.news.search(query, acceptLanguage, userAgent, clientId, clientIp, location, countryCode, count, freshness, market, offset, originalImage, safeSearch, setLang, sortBy, textDecorations, textFormat).then((result) => {
-        console.log("The result is:");
-        console.log(result);
-      }).catch((err) => {
-        console.error(err);
+      const authManager = new msAuth.AuthManager({
+        clientId: "<client id for your Azure AD app>",
+        tenant: "<optional tenant for your organization>"
+      });
+      authManager.finalizeLogin().then((res) => {
+        if (!res.isLoggedIn) {
+          // may cause redirects
+          authManager.login();
+        }
+        const client = new Azure.CognitiveservicesNewssearch.NewsSearchAPIClient(res.creds, subscriptionId);
+        const query = "testquery";
+        const acceptLanguage = "testacceptLanguage";
+        const userAgent = "testuserAgent";
+        const clientId = "testclientId";
+        const clientIp = "testclientIp";
+        const location = "westus";
+        const countryCode = "testcountryCode";
+        const count = 1;
+        const freshness = "Day";
+        const market = "testmarket";
+        const offset = 1;
+        const originalImage = true;
+        const safeSearch = "Off";
+        const setLang = "testsetLang";
+        const sortBy = "testsortBy";
+        const textDecorations = true;
+        const textFormat = "Raw";
+        client.news.search(query, acceptLanguage, userAgent, clientId, clientIp, location, countryCode, count, freshness, market, offset, originalImage, safeSearch, setLang, sortBy, textDecorations, textFormat).then((result) => {
+          console.log("The result is:");
+          console.log(result);
+        }).catch((err) => {
+          console.log("An error occurred:");
+          console.error(err);
+        });
       });
     </script>
   </head>
