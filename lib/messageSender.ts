@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as uuid from "uuid/v4";
 import * as log from "./log";
 import {
   messageProperties, Sender, EventContext, OnAmqpEvent, SenderOptions, Delivery, SenderEvents,
-  message, AmqpError
+  message, AmqpError, generate_uuid
 } from "rhea-promise";
 import {
   defaultLock, Func, retry, translate, AmqpMessage, ErrorNameConditionMapper,
   RetryConfig, RetryOperationType, Constants, randomNumberFromInterval
 } from "@azure/amqp-common";
-import { ServiceBusMessage } from "./message";
+import { SendableMessageInfo } from "./serviceBusMessage";
 import { ClientEntityContext } from "./clientEntityContext";
 import { LinkEntity } from "./linkEntity";
 import { getUniqueName } from "./util/utils";
@@ -33,7 +32,7 @@ export class MessageSender extends LinkEntity {
    * lock for establishing a sender link by an entity on that connection.
    * @readonly
    */
-  readonly senderLock: string = `sender-${uuid()}`;
+  readonly senderLock: string = `sender-${generate_uuid()}`;
   /**
    * @property {OnAmqpEvent} _onAmqpError The handler function to handle errors that happen on the
    * underlying sender.
@@ -244,7 +243,7 @@ export class MessageSender extends LinkEntity {
    * @param {any} data Message to send.  Will be sent as UTF8-encoded JSON string.
    * @returns {Promise<Delivery>} Promise<Delivery>
    */
-  async send(data: ServiceBusMessage): Promise<Delivery> {
+  async send(data: SendableMessageInfo): Promise<Delivery> {
     try {
       if (!data || (data && typeof data !== "object")) {
         throw new Error("data is required and it must be of type object.");
@@ -255,7 +254,7 @@ export class MessageSender extends LinkEntity {
           "possibly the connection.", this.senderLock);
         await defaultLock.acquire(this.senderLock, () => { return this._init(); });
       }
-      const message = ServiceBusMessage.toAmqpMessage(data);
+      const message = SendableMessageInfo.toAmqpMessage(data);
       message.body = this._context.namespace.dataTransformer.encode(data.body);
       return await this._trySend(message);
     } catch (err) {
@@ -272,7 +271,7 @@ export class MessageSender extends LinkEntity {
    * Batch message.
    * @return {Promise<Delivery>} Promise<Delivery>
    */
-  async sendBatch(datas: ServiceBusMessage[]): Promise<Delivery> {
+  async sendBatch(datas: SendableMessageInfo[]): Promise<Delivery> {
     try {
       if (!datas || (datas && !Array.isArray(datas))) {
         throw new Error("data is required and it must be an Array.");
@@ -288,7 +287,7 @@ export class MessageSender extends LinkEntity {
       const messages: AmqpMessage[] = [];
       // Convert Message to AmqpMessage.
       for (let i = 0; i < datas.length; i++) {
-        const message = ServiceBusMessage.toAmqpMessage(datas[i]);
+        const message = SendableMessageInfo.toAmqpMessage(datas[i]);
         message.body = this._context.namespace.dataTransformer.encode(datas[i].body);
         messages[i] = message;
       }
@@ -354,7 +353,7 @@ export class MessageSender extends LinkEntity {
    * @param message The message to be sent to ServiceBus.
    * @return {Promise<Delivery>} Promise<Delivery>
    */
-  private _trySend(message: ServiceBusMessage, tag?: any, format?: number): Promise<Delivery> {
+  private _trySend(message: SendableMessageInfo, tag?: any, format?: number): Promise<Delivery> {
     const sendEventPromise = () => new Promise<Delivery>((resolve, reject) => {
       let waitTimer: any;
       log.sender("[%s] Sender '%s', credit: %d available: %d", this._context.namespace.connectionId,

@@ -9,12 +9,13 @@ export {
   AmqpError, Delivery, Dictionary, MessageProperties, MessageHeader
 } from "rhea-promise";
 export {
-  Message, ReceivedSBMessage, ServiceBusMessage, ServiceBusDeliveryAnnotations,
+  ServiceBusMessage, ReceivedMessageInfo, SendableMessageInfo, ServiceBusDeliveryAnnotations,
   ServiceBusMessageAnnotations, DeadLetterOptions
-} from "./message";
+} from "./serviceBusMessage";
 export { ReceiveHandler } from "./streamingReceiver";
 export { ReceiveOptions, OnError, OnMessage, ReceiveMode } from "./messageReceiver";
 export { QueueClientOptions, QueueClient } from "./queueClient";
 export { Namespace, NamespaceOptions } from "./namespace";
 export { TopicClient } from "./topicClient";
 export { SubscriptionClient, SubscriptionClientOptions } from "./subscriptionClient";
+export { ScheduleMessage } from "./managementClient";

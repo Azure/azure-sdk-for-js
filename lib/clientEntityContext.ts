@@ -9,11 +9,13 @@ import { ConnectionContext } from "./connectionContext";
 import { Dictionary, AmqpError } from "rhea-promise";
 import { Client } from "./client";
 import { BatchingReceiver } from "./batchingReceiver";
+import { ConcurrentExpiringMap } from './util/concurrentExpiringMap';
 
 /**
  * @interface ClientEntityContext
- * Provides contextual information like the underlying amqp connection, cbs session, management session,
- * tokenProvider, senders, receivers, etc. about the ServiceBus client.
+ * Provides contextual information like the underlying amqp connection, cbs session,
+ * management session, tokenProvider, senders, receivers, etc. about the ServiceBus client.
+ * @ignore
  */
 export interface ClientEntityContextBase {
   /**
@@ -27,34 +29,53 @@ export interface ClientEntityContextBase {
    */
   entityPath: string;
   /**
-   * @property {ManagementClient} managementSession A reference to the management session
+   * @property {ManagementClient} [managementClient] A reference to the management client
    * ($management endpoint) on the underlying amqp connection for the ServiceBus Client.
    */
-  managementSession?: ManagementClient;
+  managementClient?: ManagementClient;
   /**
-   * @property {MessageReceiver} receiver The ServiceBus receiver associated with the client entity.
+   * @property {StreamingReceiver} [receiver] The ServiceBus receiver associated with the
+   * client entity for streaming messages.
    */
   streamingReceiver?: StreamingReceiver;
-
+  /**
+   * @property {BatchingReceiver} [batchingReceiver] The ServiceBus receiver associated with the
+   * client entity for receiving a batch of messages.
+   */
   batchingReceiver?: BatchingReceiver;
   /**
-   * @property {MessageSender} sender The ServiceBus sender associated with the client entity.
+   * @property {MessageSender} [sender] The ServiceBus sender associated with the client entity.
    */
   sender?: MessageSender;
+  /**
+   * @property {ConcurrentExpiringMap<string>} [requestResponseLockedMessages] A map of locked
+   * messages received using the management client.
+   */
+  requestResponseLockedMessages: ConcurrentExpiringMap<string>;
 }
 
+/**
+ * @ignore
+ */
 export interface ClientEntityContext extends ClientEntityContextBase {
   detached(error?: AmqpError | Error): Promise<void>;
 }
 
+/**
+ * @ignore
+ */
 export interface ClientEntityContextOptions {
-  managementSessionAddress?: string;
-  managementSessionAudience?: string;
+  managementClientAddress?: string;
+  managementClientAudience?: string;
 }
 
-
+/**
+ * @ignore
+ */
 export namespace ClientEntityContext {
-
+  /**
+   * @ignore
+   */
   export function create(entityPath: string, context: ConnectionContext, options?: ClientEntityContextOptions): ClientEntityContext {
     if (!entityPath || typeof entityPath !== "string") {
       throw new Error("'entityPath' is a required parameter and must be of type 'string'.");
@@ -65,7 +86,8 @@ export namespace ClientEntityContext {
     if (!options) options = {};
     const entityContext: ClientEntityContextBase = {
       namespace: context,
-      entityPath: entityPath
+      entityPath: entityPath,
+      requestResponseLockedMessages: new ConcurrentExpiringMap<string>()
     };
 
     (entityContext as ClientEntityContext).detached = async (error?: AmqpError | Error) => {
@@ -106,26 +128,26 @@ export namespace ClientEntityContext {
         }
       }
     };
-    let managementSession = getManagementSession(context.clients, entityPath);
-    if (!managementSession) {
+    let managementClient = getManagementClient(context.clients, entityPath);
+    if (!managementClient) {
       const mOptions: ManagementClientOptions = {
-        address: options.managementSessionAddress,
-        audience: options.managementSessionAudience
+        address: options.managementClientAddress || `${entityPath}/$management`,
+        audience: options.managementClientAudience
       };
-      managementSession = new ManagementClient(entityContext as ClientEntityContext, mOptions);
+      managementClient = new ManagementClient(entityContext as ClientEntityContext, mOptions);
     }
-    entityContext.managementSession = managementSession;
+    entityContext.managementClient = managementClient;
     log.entityCtxt("Created client entity context: %O", entityContext);
     return entityContext as ClientEntityContext;
   }
 }
 
 // Multiple Queue clients for the same queue should be using the same management client.
-function getManagementSession(clients: Dictionary<Client>, name: string): ManagementClient | undefined {
+function getManagementClient(clients: Dictionary<Client>, name: string): ManagementClient | undefined {
   let result: ManagementClient | undefined;
   for (const id of Object.keys(clients)) {
     if (clients[id].name === name) {
-      result = (clients[id] as any)._context.managementSession;
+      result = (clients[id] as any)._context.managementClient;
       break;
     }
   }
