@@ -196,6 +196,16 @@ export const expressRouteGatewayName: msRest.OperationURLParameter = {
     }
   }
 };
+export const expressRoutePortName: msRest.OperationURLParameter = {
+  parameterPath: "expressRoutePortName",
+  mapper: {
+    required: true,
+    serializedName: "expressRoutePortName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const frontendIPConfigurationName: msRest.OperationURLParameter = {
   parameterPath: "frontendIPConfigurationName",
   mapper: {
@@ -249,11 +259,9 @@ export const interfaceEndpointName: msRest.OperationURLParameter = {
   }
 };
 export const ipAddress: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "ipAddress"
-  ],
+  parameterPath: "ipAddress",
   mapper: {
+    required: true,
     serializedName: "ipAddress",
     type: {
       name: "String"
@@ -265,6 +273,16 @@ export const ipConfigurationName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "ipConfigurationName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const linkName: msRest.OperationURLParameter = {
+  parameterPath: "linkName",
+  mapper: {
+    required: true,
+    serializedName: "linkName",
     type: {
       name: "String"
     }
@@ -326,6 +344,16 @@ export const location1: msRest.OperationURLParameter = {
     }
   }
 };
+export const locationName: msRest.OperationURLParameter = {
+  parameterPath: "locationName",
+  mapper: {
+    required: true,
+    serializedName: "locationName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const networkInterfaceName: msRest.OperationURLParameter = {
   parameterPath: "networkInterfaceName",
   mapper: {
@@ -376,6 +404,16 @@ export const nextPageLink: msRest.OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+export const outboundRuleName: msRest.OperationURLParameter = {
+  parameterPath: "outboundRuleName",
+  mapper: {
+    required: true,
+    serializedName: "outboundRuleName",
+    type: {
+      name: "String"
+    }
+  }
 };
 export const p2SVpnServerConfigurationName: msRest.OperationURLParameter = {
   parameterPath: "p2SVpnServerConfigurationName",
