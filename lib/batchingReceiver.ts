@@ -4,7 +4,7 @@
 import * as log from "./log";
 import { Func, Constants, translate, MessagingError } from "@azure/amqp-common";
 import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents } from "rhea-promise";
-import { Message } from "./message";
+import { ServiceBusMessage } from "./serviceBusMessage";
 import { MessageReceiver, ReceiveOptions, ReceiverType } from "./messageReceiver";
 import { ClientEntityContext } from "./clientEntityContext";
 
@@ -41,9 +41,9 @@ export class BatchingReceiver extends MessageReceiver {
    * @param {number} maxMessageCount The maximum message count. Must be a value greater than 0.
    * @param {number} [maxWaitTimeInSeconds] The maximum wait time in seconds for which the Receiver
    * should wait to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
-   * @returns {Promise<Message[]>} A promise that resolves with an array of Message objects.
+   * @returns {Promise<ServiceBusMessage[]>} A promise that resolves with an array of Message objects.
    */
-  receive(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<Message[]> {
+  receive(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ServiceBusMessage[]> {
     if (!maxMessageCount || (maxMessageCount && typeof maxMessageCount !== 'number')) {
       throw new Error("'maxMessageCount' is a required parameter of type number with a value " +
         "greater than 0.");
@@ -53,10 +53,10 @@ export class BatchingReceiver extends MessageReceiver {
       maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
     }
 
-    const brokeredMessages: Message[] = [];
+    const brokeredMessages: ServiceBusMessage[] = [];
     let timeOver = false;
     this.isReceivingMessages = true;
-    return new Promise<Message[]>((resolve, reject) => {
+    return new Promise<ServiceBusMessage[]>((resolve, reject) => {
       let onReceiveMessage: OnAmqpEvent;
       let onReceiveError: OnAmqpEvent;
       let onReceiveClose: OnAmqpEvent;
@@ -69,7 +69,7 @@ export class BatchingReceiver extends MessageReceiver {
         this._receiver!.addCredit(0);
       };
       // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
-      const finalAction = (timeOver: boolean, data?: Message) => {
+      const finalAction = (timeOver: boolean, data?: ServiceBusMessage) => {
         // Resetting the mode. Now anyone can call start() or receive() again.
         if (this._receiver) {
           this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
@@ -96,8 +96,8 @@ export class BatchingReceiver extends MessageReceiver {
 
       // Action to be performed on the "message" event.
       onReceiveMessage = (context: EventContext) => {
-        const data: Message = new Message(context.message!, context.delivery!);
-        data.body = this._context.namespace.dataTransformer.decode(context.message!.body);
+        const data: ServiceBusMessage = new ServiceBusMessage(this._context,
+          context.message!, context.delivery!);
         if (brokeredMessages.length <= maxMessageCount) {
           brokeredMessages.push(data);
         }

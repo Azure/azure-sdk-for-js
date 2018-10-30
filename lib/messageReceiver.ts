@@ -8,7 +8,7 @@ import {
   translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig
 } from "@azure/amqp-common";
 import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions, AmqpError } from "rhea-promise";
-import { Message } from "./message";
+import { ServiceBusMessage } from "./serviceBusMessage";
 import { getUniqueName } from "./util/utils";
 
 /**
@@ -74,7 +74,7 @@ export interface ReceiveOptions {
 /**
  * Describes the message handler signature.
  */
-export type OnMessage = (message: Message) => Promise<void>;
+export type OnMessage = (message: ServiceBusMessage) => Promise<void>;
 
 /**
  * Describes the error handler signature.
@@ -169,19 +169,24 @@ export class MessageReceiver extends LinkEntity {
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
     this._onAmqpMessage = async (context: EventContext) => {
       const connectionId = this._context.namespace.connectionId;
-      const bMessage: Message = new Message(context.message!, context.delivery!);
+      const bMessage: ServiceBusMessage = new ServiceBusMessage(this._context, context.message!,
+        context.delivery!);
       try {
-        bMessage.body = this._context.namespace.dataTransformer.decode(context.message!.body);
         await this._onMessage(bMessage);
         if (this.autoComplete) {
           log[this.receiverType]("[%s] Auto completing the message with id '%s' on the receiver '%s'.",
             connectionId, bMessage.messageId, this.name);
-          bMessage.complete();
+          await bMessage.complete();
         }
       } catch (err) {
         log.error("[%s] Abandoning the message with id '%s' on the receiver '%s' since an error " +
           "occured: %O.", connectionId, bMessage.messageId, this.name);
-        bMessage.abandon();
+        try {
+          await bMessage.abandon();
+        } catch (error) {
+          log.error("[%s] An error occurred while abandoning the message with id '%s' on the " +
+            "receiver '%s': %O.", connectionId, bMessage.messageId, this.name);
+        }
       }
     };
 

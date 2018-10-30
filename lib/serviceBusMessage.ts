@@ -1,11 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import * as Long from "long";
 import {
   Delivery, uuid_to_string, AmqpError, MessageAnnotations, DeliveryAnnotations
 } from "rhea-promise";
 import { Constants, Dictionary, AmqpMessage } from "@azure/amqp-common";
 import * as log from "./log";
+import { ClientEntityContext } from "./clientEntityContext";
+import { DispositionStatus } from './managementClient';
 
 /**
  * Describes the delivery annotations for ServiceBus.
@@ -78,9 +81,9 @@ export interface DeadLetterOptions {
 
 /**
  * Describes the message to be sent to ServiceBus.
- * @interface ServiceBusMessage.
+ * @interface SendableMessageInfo.
  */
-export interface ServiceBusMessage {
+export interface SendableMessageInfo {
   /**
    * @property {any} body - The message body that needs to be sent or is received.
    */
@@ -187,92 +190,109 @@ export interface ServiceBusMessage {
   userProperties?: Dictionary<any>;
 }
 
-export module ServiceBusMessage {
+export module SendableMessageInfo {
 
-  export function validate(msg: ServiceBusMessage): void {
+  export function validate(msg: SendableMessageInfo): void {
     if (!msg) {
-      throw new Error("msg cannot be null or undefined.");
+      throw new Error("'msg' cannot be null or undefined.");
     }
 
     if (msg.contentType && typeof msg.contentType !== "string") {
-      throw new Error("contentType must be of type string");
+      throw new Error("'contentType' must be of type 'string'");
     }
 
     if (msg.label && typeof msg.label !== "string") {
-      throw new Error("label must be of type string");
+      throw new Error("'label' must be of type 'string'");
     }
 
     if (msg.to && typeof msg.to !== "string") {
-      throw new Error("to must be of type string");
+      throw new Error("'to' must be of type 'string'");
     }
 
     if (msg.replyToSessionId && typeof msg.replyToSessionId !== "string") {
-      throw new Error("replyToSessionId must be of type string");
+      throw new Error("'replyToSessionId' must be of type 'string'");
     }
 
     if (msg.timeToLive && typeof msg.timeToLive !== "number") {
-      throw new Error("timeToLive must be of type number.");
+      throw new Error("'timeToLive' must be of type 'number'.");
     }
 
     if (msg.scheduledEnqueueTimeUtc && !(msg.scheduledEnqueueTimeUtc instanceof Date) &&
       msg.scheduledEnqueueTimeUtc!.toString() === "Invalid Date") {
-      throw new Error("scheduledEnqueueTimeUtc must be an instance of a valid Date.");
+      throw new Error("'scheduledEnqueueTimeUtc' must be an instance of a valid 'Date'.");
     }
 
     if (msg.partitionKey && typeof msg.partitionKey !== "string" ||
       (typeof msg.partitionKey === "string" &&
         msg.partitionKey.length > Constants.maxPartitionKeyLength)) {
-      throw new Error("partitionKey must be of type string with a length less than 128 characters.");
+      throw new Error("'partitionKey' must be of type 'string' with a length less than 128 characters.");
     }
 
     if (msg.viaPartitionKey && typeof msg.viaPartitionKey !== "string" ||
       (typeof msg.partitionKey === "string" &&
         msg.partitionKey.length > Constants.maxPartitionKeyLength)) {
-      throw new Error("viaPartitionKey must be of type string with a length less than 128 characters.");
+      throw new Error("'viaPartitionKey' must be of type 'string' with a length less than 128 characters.");
     }
 
     if (msg.sessionId && typeof msg.sessionId !== "string") {
-      throw new Error("sessionId must be of type string");
+      throw new Error("'sessionId' must be of type 'string'");
     }
 
     if (msg.sessionId && typeof msg.sessionId === "string" &&
       msg.sessionId.length > Constants.maxSessionIdLength) {
-      throw new Error("Length of sessionId of type string cannot be greater than 128 characters.");
+      throw new Error("Length of 'sessionId' of type 'string' cannot be greater than 128 characters.");
     }
 
     if (msg.messageId && typeof msg.messageId !== "string" && typeof msg.messageId !== "number"
       && !Buffer.isBuffer(msg.messageId)) {
-      throw new Error("messageId must be of type string | number | Buffer.");
+      throw new Error("'messageId' must be of type 'string' | 'number' | Buffer.");
     }
 
     if (msg.messageId && typeof msg.messageId === "string" &&
       msg.messageId.length > Constants.maxMessageIdLength) {
-      throw new Error("Length of messageId of type string cannot be greater than 128 characters.");
+      throw new Error("Length of 'messageId' of type 'string' cannot be greater than 128 characters.");
     }
 
     if (msg.correlationId && typeof msg.correlationId !== "string" &&
       typeof msg.correlationId !== "number" && !Buffer.isBuffer(msg.correlationId)) {
-      throw new Error("correlationId must be of type string | number | Buffer.");
+      throw new Error("'correlationId' must be of type 'string' | 'number' | Buffer.");
     }
   }
 
-  export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
+  export function toAmqpMessage(msg: SendableMessageInfo): AmqpMessage {
     validate(msg);
     const amqpMsg: AmqpMessage = {
       body: msg.body,
       message_annotations: {}
     };
-    if (msg.userProperties) amqpMsg.application_properties = msg.userProperties;
-    if (msg.contentType) amqpMsg.content_type = msg.contentType;
-    if (msg.contentType) amqpMsg.content_type = msg.contentType;
-    if (msg.sessionId) amqpMsg.group_id = msg.sessionId;
-    if (msg.replyTo) amqpMsg.reply_to = msg.replyTo;
-    if (msg.to) amqpMsg.to = msg.to;
-    if (msg.label) amqpMsg.subject = msg.label;
-    if (msg.messageId) amqpMsg.message_id = msg.messageId;
-    if (msg.correlationId) amqpMsg.correlation_id = msg.correlationId;
-    if (msg.replyToSessionId) amqpMsg.reply_to_group_id = msg.replyToSessionId;
-    if (msg.timeToLive && msg.timeToLive !== Constants.maxDurationValue) {
+    if (msg.userProperties != undefined) {
+      amqpMsg.application_properties = msg.userProperties;
+    }
+    if (msg.contentType != undefined) {
+      amqpMsg.content_type = msg.contentType;
+    }
+    if (msg.sessionId != undefined) {
+      amqpMsg.group_id = msg.sessionId;
+    }
+    if (msg.replyTo != undefined) {
+      amqpMsg.reply_to = msg.replyTo;
+    }
+    if (msg.to != undefined) {
+      amqpMsg.to = msg.to;
+    }
+    if (msg.label != undefined) {
+      amqpMsg.subject = msg.label;
+    }
+    if (msg.messageId != undefined) {
+      amqpMsg.message_id = msg.messageId;
+    }
+    if (msg.correlationId != undefined) {
+      amqpMsg.correlation_id = msg.correlationId;
+    }
+    if (msg.replyToSessionId != undefined) {
+      amqpMsg.reply_to_group_id = msg.replyToSessionId;
+    }
+    if (msg.timeToLive != undefined && msg.timeToLive !== Constants.maxDurationValue) {
       amqpMsg.ttl = msg.timeToLive;
       amqpMsg.creation_time = Date.now();
       if (Constants.maxAbsoluteExpiryTime - amqpMsg.creation_time > amqpMsg.ttl) {
@@ -281,36 +301,68 @@ export module ServiceBusMessage {
         amqpMsg.absolute_expiry_time = Constants.maxAbsoluteExpiryTime;
       }
     }
-    if (msg.partitionKey) amqpMsg.message_annotations![Constants.partitionKey] = msg.partitionKey;
-    if (msg.viaPartitionKey) amqpMsg.message_annotations![Constants.viaPartitionKey] = msg.viaPartitionKey;
-    if (msg.scheduledEnqueueTimeUtc) amqpMsg.message_annotations![Constants.scheduledEnqueueTime] = msg.scheduledEnqueueTimeUtc;
+    if (msg.partitionKey != undefined) {
+      amqpMsg.message_annotations![Constants.partitionKey] = msg.partitionKey;
+    }
+    if (msg.viaPartitionKey != undefined) {
+      amqpMsg.message_annotations![Constants.viaPartitionKey] = msg.viaPartitionKey;
+    }
+    if (msg.scheduledEnqueueTimeUtc != undefined) {
+      amqpMsg.message_annotations![Constants.scheduledEnqueueTime] = msg.scheduledEnqueueTimeUtc;
+    }
     log.message("SBMessage to AmqpMessage: %O", amqpMsg);
     return amqpMsg;
   }
 
-  export function fromAmqpMessage(msg: AmqpMessage): ServiceBusMessage {
+  export function fromAmqpMessage(msg: AmqpMessage): SendableMessageInfo {
     if (!msg) {
-      throw new Error("msg cannot be null or undefined.");
+      throw new Error("'msg' cannot be null or undefined.");
     }
-    const sbmsg: ServiceBusMessage = {
+    const sbmsg: SendableMessageInfo = {
       body: msg.body,
     };
 
-    if (msg.application_properties) sbmsg.userProperties = msg.application_properties;
-    if (msg.content_type) sbmsg.contentType = msg.content_type;
-    if (msg.group_id) sbmsg.sessionId = msg.group_id;
-    if (msg.reply_to) sbmsg.replyTo = msg.reply_to;
-    if (msg.to) sbmsg.to = msg.to;
-    if (msg.ttl) sbmsg.timeToLive = msg.ttl;
-    if (msg.subject) sbmsg.label = msg.subject;
-    if (msg.message_id) sbmsg.messageId = msg.message_id;
-    if (msg.correlation_id) sbmsg.correlationId = msg.correlation_id;
-    if (msg.reply_to_group_id) sbmsg.replyToSessionId = msg.reply_to_group_id;
+    if (msg.application_properties != undefined) {
+      sbmsg.userProperties = msg.application_properties;
+    }
+    if (msg.content_type != undefined) {
+      sbmsg.contentType = msg.content_type;
+    }
+    if (msg.group_id != undefined) {
+      sbmsg.sessionId = msg.group_id;
+    }
+    if (msg.reply_to != undefined) {
+      sbmsg.replyTo = msg.reply_to;
+    }
+    if (msg.to != undefined) {
+      sbmsg.to = msg.to;
+    }
+    if (msg.ttl != undefined) {
+      sbmsg.timeToLive = msg.ttl;
+    }
+    if (msg.subject != undefined) {
+      sbmsg.label = msg.subject;
+    }
+    if (msg.message_id != undefined) {
+      sbmsg.messageId = msg.message_id;
+    }
+    if (msg.correlation_id != undefined) {
+      sbmsg.correlationId = msg.correlation_id;
+    }
+    if (msg.reply_to_group_id != undefined) {
+      sbmsg.replyToSessionId = msg.reply_to_group_id;
+    }
 
-    if (msg.message_annotations) {
-      if (msg.message_annotations[Constants.partitionKey]) sbmsg.partitionKey = msg.message_annotations[Constants.partitionKey];
-      if (msg.message_annotations[Constants.viaPartitionKey]) sbmsg.viaPartitionKey = msg.message_annotations[Constants.viaPartitionKey];
-      if (msg.message_annotations[Constants.scheduledEnqueueTime]) sbmsg.scheduledEnqueueTimeUtc = msg.message_annotations[Constants.scheduledEnqueueTime];
+    if (msg.message_annotations != undefined) {
+      if (msg.message_annotations[Constants.partitionKey] != undefined) {
+        sbmsg.partitionKey = msg.message_annotations[Constants.partitionKey];
+      }
+      if (msg.message_annotations[Constants.viaPartitionKey] != undefined) {
+        sbmsg.viaPartitionKey = msg.message_annotations[Constants.viaPartitionKey];
+      }
+      if (msg.message_annotations[Constants.scheduledEnqueueTime] != undefined) {
+        sbmsg.scheduledEnqueueTimeUtc = msg.message_annotations[Constants.scheduledEnqueueTime];
+      }
     }
     log.message("AmqpMessage to SBMessage: %O", sbmsg);
     return sbmsg;
@@ -321,7 +373,7 @@ export module ServiceBusMessage {
  * Describes the message received from ServiceBus.
  * @class ReceivedSBMessage
  */
-export interface ReceivedSBMessage extends ServiceBusMessage {
+export interface ReceivedMessageInfo extends SendableMessageInfo {
   /**
    * @property {string} [lockToken] The lock token for the current message. The lock token is a
    * reference to the lock that is being held by the broker in `ReceiveMode.PeekLock` mode. Locks
@@ -359,9 +411,8 @@ export interface ReceivedSBMessage extends ServiceBusMessage {
    * not pre-settled) this property reflects the UTC instant until which the message is held
    * locked in the queue/subscription. When the lock expires, the `deliveryCount` is incremented
    * and the message is again available for retrieval.
-   * @readonly
    */
-  readonly lockedUntilUtc?: Date;
+  lockedUntilUtc?: Date;
   /**
    * @property {number} [enqueuedSequenceNumber] The original sequence number of the message. For
    * messages that have been auto-forwarded, this property reflects the sequence number that had
@@ -375,9 +426,14 @@ export interface ReceivedSBMessage extends ServiceBusMessage {
    * and stored by the broker and functions as its true identifier. For partitioned entities,
    * the topmost 16 bits reflect the partition identifier. Sequence numbers monotonically increase.
    * They roll over to 0 when the 48-64 bit range is exhausted.
+   *
+   * **Max safe integer** that Javascript currently supports is `2^53 - 1`. The sequence number
+   * is an AMQP `Long` type which can be upto 64 bits long. To represent that we are using a
+   * library named {@link https://github.com/dcodeIO/long.js long.js}. We expect customers
+   * to use the **`Long`** type exported by this library.
    * @readonly
    */
-  readonly sequenceNumber?: number;
+  readonly sequenceNumber?: Long;
   /**
    * @property {string} [deadLetterSource] The name of the queue or subscription that this message
    * was enqueued on, before it was deadlettered. Only set in messages that have been dead-lettered
@@ -391,103 +447,114 @@ export interface ReceivedSBMessage extends ServiceBusMessage {
    * @readonly
    */
   readonly _amqpMessage: AmqpMessage;
-  /**
-   * Completes a message using it's lock token. This will delete the message from ServiceBus.
-   * @return void.
-   */
-  complete(): void;
-  /**
-   * Abandons a message using it's lock token. This will make the message available again for
-   * processing.
-   * @param {Dictionary<any>} propertiesToModify The properties of the message to modify while
-   * abandoning the message. Abandoning a message will increase the delivery count on the message.
-   * @return void.
-   */
-  abandon(propertiesToModify?: Dictionary<any>): void;
-  /**
-   * Indicates that the receiver wants to defer the processing for the message. In order to receive
-   * this message again in the future, you will need to save the `sequenceNumber` and receive it
-   * using `receiveDeferredMessage(sequenceNumber)`. Deferring messages does not impact message's
-   * expiration, meaning that deferred messages can still expire.
-   * @param {Dictionary<any>} propertiesToModify The properties of the message to modify while
-   * deferring the message
-   */
-  defer(propertiesToModify?: Dictionary<any>): number;
 }
 
-export namespace ReceivedSBMessage {
+/**
+ * Describes the module that is responsible for converting the message received from ServiceBus
+ * to/from AmqpMessage.
+ */
+export module ReceivedMessageInfo {
 
-  export function validate(msg: ReceivedSBMessage): void {
-    ServiceBusMessage.validate(msg);
+  export function validate(msg: ReceivedMessageInfo): void {
+    SendableMessageInfo.validate(msg);
     if (msg.lockToken && typeof msg.lockToken !== "string") {
-      throw new Error("contentType must be of type string.");
+      throw new Error("'lockToken' must be of type 'string'.");
     }
 
     if (msg.deliveryCount && typeof msg.deliveryCount !== "number") {
-      throw new Error("deliveryCount must be of type number.");
+      throw new Error("'deliveryCount' must be of type 'number'.");
     }
 
-    if (msg.sequenceNumber && typeof msg.sequenceNumber !== "number") {
-      throw new Error("sequenceNumber must be of type .");
+    if (msg.sequenceNumber && !Long.isLong(msg.sequenceNumber)) {
+      throw new Error("'sequenceNumber' must be an instance of 'Long' .");
     }
 
     if (msg.enqueuedSequenceNumber && typeof msg.enqueuedSequenceNumber !== "number") {
-      throw new Error("enqueuedSequenceNumber must be of type number.");
+      throw new Error("'enqueuedSequenceNumber' must be of type 'number'.");
     }
 
     if (msg.enqueuedTimeUtc && !(msg.enqueuedTimeUtc instanceof Date) &&
       msg.enqueuedTimeUtc!.toString() === "Invalid Date") {
-      throw new Error("enqueuedTimeUtc must be an instance of a valid Date.");
+      throw new Error("'enqueuedTimeUtc' must be an instance of a valid 'Date'.");
     }
 
     if (msg.expiresAtUtc && !(msg.expiresAtUtc instanceof Date) &&
       msg.expiresAtUtc!.toString() === "Invalid Date") {
-      throw new Error("expiresAtUtc must be an instance of a valid Date.");
+      throw new Error("'expiresAtUtc' must be an instance of a valid 'Date'.");
     }
 
     if (msg.lockedUntilUtc && !(msg.lockedUntilUtc instanceof Date) &&
       msg.lockedUntilUtc!.toString() === "Invalid Date") {
-      throw new Error("lockedUntilUtc must be an instance of a valid Date.");
+      throw new Error("'lockedUntilUtc' must be an instance of a valid 'Date'.");
     }
   }
 
-  export function toAmqpMessage(msg: ReceivedSBMessage): AmqpMessage {
-    ReceivedSBMessage.validate(msg);
-    const amqpMsg: AmqpMessage = ServiceBusMessage.toAmqpMessage(msg);
-    if (msg.deliveryCount) amqpMsg.delivery_count = msg.deliveryCount;
-    if (!amqpMsg.message_annotations) amqpMsg.message_annotations = {};
-    if (msg.deadLetterSource) amqpMsg.message_annotations[Constants.deadLetterSource] = msg.deadLetterSource;
-    if (msg.enqueuedSequenceNumber) amqpMsg.message_annotations[Constants.enqueueSequenceNumber] = msg.enqueuedSequenceNumber;
-    if (msg.sequenceNumber) amqpMsg.message_annotations[Constants.sequenceNumber] = msg.sequenceNumber;
-    if (msg.enqueuedTimeUtc) amqpMsg.message_annotations[Constants.enqueuedTime] = msg.enqueuedTimeUtc;
-    if (msg.lockedUntilUtc) amqpMsg.message_annotations[Constants.lockedUntil] = msg.lockedUntilUtc;
+  export function toAmqpMessage(msg: ReceivedMessageInfo): AmqpMessage {
+    ReceivedMessageInfo.validate(msg);
+    const amqpMsg: AmqpMessage = SendableMessageInfo.toAmqpMessage(msg);
+    if (msg.deliveryCount != undefined) {
+      amqpMsg.delivery_count = msg.deliveryCount;
+    }
+    if (!amqpMsg.message_annotations) {
+      amqpMsg.message_annotations = {};
+    }
+    if (msg.deadLetterSource != undefined) {
+      amqpMsg.message_annotations[Constants.deadLetterSource] = msg.deadLetterSource;
+    }
+    if (msg.enqueuedSequenceNumber != undefined) {
+      amqpMsg.message_annotations[Constants.enqueueSequenceNumber] = msg.enqueuedSequenceNumber;
+    }
+    if (msg.sequenceNumber != undefined) {
+      amqpMsg.message_annotations[Constants.sequenceNumber] = msg.sequenceNumber;
+    }
+    if (msg.enqueuedTimeUtc != undefined) {
+      amqpMsg.message_annotations[Constants.enqueuedTime] = msg.enqueuedTimeUtc;
+    }
+    if (msg.lockedUntilUtc != undefined) {
+      amqpMsg.message_annotations[Constants.lockedUntil] = msg.lockedUntilUtc;
+    }
     log.message("ReceivedSBMessage to AmqpMessage: %O", amqpMsg);
     return amqpMsg;
   }
 
-  export function fromAmqpMessage(msg: AmqpMessage, delivery: Delivery): ReceivedSBMessage {
-    const sbmsg: ServiceBusMessage = ServiceBusMessage.fromAmqpMessage(msg);
+  export function fromAmqpMessage(msg: AmqpMessage, delivery?: Delivery): ReceivedMessageInfo {
+    const sbmsg: SendableMessageInfo = SendableMessageInfo.fromAmqpMessage(msg);
     const props: any = {};
-    if (msg.message_annotations) {
-      if (msg.message_annotations[Constants.deadLetterSource]) props.deadLetterSource = msg.message_annotations[Constants.deadLetterSource];
-      if (msg.message_annotations[Constants.enqueueSequenceNumber]) props.enqueuedSequenceNumber = msg.message_annotations[Constants.enqueueSequenceNumber];
-      if (msg.message_annotations[Constants.sequenceNumber]) props.sequenceNumber = msg.message_annotations[Constants.sequenceNumber];
-      if (Buffer.isBuffer(props.sequenceNumber)) {
-        props.sequenceNumber = props.sequenceNumber.readInt32BE();
+    if (msg.message_annotations != undefined) {
+      if (msg.message_annotations[Constants.deadLetterSource] != undefined) {
+        props.deadLetterSource = msg.message_annotations[Constants.deadLetterSource];
       }
-      if (msg.message_annotations[Constants.enqueuedTime]) props.enqueuedTimeUtc = new Date(msg.message_annotations[Constants.enqueuedTime] as number);
-      if (msg.message_annotations[Constants.lockedUntil]) props.lockedUntilUtc = new Date(msg.message_annotations[Constants.lockedUntil] as number);
+      if (msg.message_annotations[Constants.enqueueSequenceNumber] != undefined) {
+        props.enqueuedSequenceNumber = msg.message_annotations[Constants.enqueueSequenceNumber];
+      }
+      if (msg.message_annotations[Constants.sequenceNumber] != undefined) {
+        if (Buffer.isBuffer(msg.message_annotations[Constants.sequenceNumber])) {
+          props.sequenceNumber = Long.fromBytesBE(msg.message_annotations[Constants.sequenceNumber]);
+        } else {
+          props.sequenceNumber = Long.fromNumber(msg.message_annotations[Constants.sequenceNumber]);
+        }
+      }
+      if (msg.message_annotations[Constants.enqueuedTime] != undefined) {
+        props.enqueuedTimeUtc = new Date(msg.message_annotations[Constants.enqueuedTime] as number);
+      }
+      if (msg.message_annotations[Constants.lockedUntil] != undefined) {
+        props.lockedUntilUtc = new Date(msg.message_annotations[Constants.lockedUntil] as number);
+      }
     }
-    if (msg.ttl && msg.ttl >= (Constants.maxDurationValue) - props.enqueuedTimeUtc.getTime()) {
+    if (msg.ttl != undefined && msg.ttl >= (Constants.maxDurationValue) - props.enqueuedTimeUtc.getTime()) {
       props.expiresAtUtc = new Date(Constants.maxDurationValue);
     } else {
       props.expiresAtUtc = new Date(props.enqueuedTimeUtc.getTime() + msg.ttl!);
     }
-    const rcvdsbmsg: ReceivedSBMessage = {
+    const rcvdsbmsg: ReceivedMessageInfo = {
       _amqpMessage: msg,
       _delivery: delivery,
       deliveryCount: msg.delivery_count,
-      lockToken: uuid_to_string(typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag),
+      lockToken: delivery
+        ? uuid_to_string(typeof delivery.tag === "string"
+          ? Buffer.from(delivery.tag)
+          : delivery.tag)
+        : undefined,
       ...sbmsg,
       ...props
     };
@@ -499,9 +566,46 @@ export namespace ReceivedSBMessage {
 
 /**
  * Describes the message received from ServiceBus.
- * @class Message
+ * @interface ReceivedMessage
  */
-export class Message implements ReceivedSBMessage {
+export interface ReceivedMessage extends ReceivedMessageInfo {
+  /**
+   * Completes a message using its lock token. This will delete the message from ServiceBus.
+   * @returns Promise<void>.
+   */
+  complete(): Promise<void>;
+  /**
+   * Abandons a message using its lock token. This will make the message available again for
+   * processing.
+   * @param {Dictionary<any>} [propertiesToModify] The properties of the message to modify while
+   * abandoning the message. Abandoning a message will increase the delivery count on the message.
+   * @return Promise<void>.
+   */
+  abandon(propertiesToModify?: Dictionary<any>): Promise<void>;
+  /**
+   * Indicates that the receiver wants to defer the processing for the message. In order to receive
+   * this message again in the future, you will need to save the `sequenceNumber` and receive it
+   * using `client.receiveDeferredMessage(sequenceNumber)`. Deferring messages does not impact
+   * message's expiration, meaning that deferred messages can still expire.
+   * @param {Dictionary<any>} [propertiesToModify] The properties of the message to modify while
+   * deferring the message
+   * @return Promise<void>.
+   */
+  defer(propertiesToModify?: Dictionary<any>): Promise<void>;
+  /**
+   * Moves the message to the deadletter sub-queue.
+   * @param {DeadLetterOptions} [options] The DeadLetter options that can be provided while rejecting
+   * the message.
+   * @returns Promise<void>
+   */
+  deadLetter(options?: DeadLetterOptions): Promise<void>;
+}
+
+/**
+ * Describes the message received from ServiceBus.
+ * @class ServiceBusMessage
+ */
+export class ServiceBusMessage implements ReceivedMessage {
   /**
    * @property {any} body - The message body that needs to be sent or is received.
    */
@@ -643,9 +747,8 @@ export class Message implements ReceivedSBMessage {
    * not pre-settled) this property reflects the UTC instant until which the message is held
    * locked in the queue/subscription. When the lock expires, the `deliveryCount` is incremented
    * and the message is again available for retrieval.
-   * @readonly
    */
-  readonly lockedUntilUtc?: Date;
+  lockedUntilUtc?: Date;
   /**
    * @property {number} [enqueuedSequenceNumber] The original sequence number of the message. For
    * messages that have been auto-forwarded, this property reflects the sequence number that had
@@ -661,7 +764,7 @@ export class Message implements ReceivedSBMessage {
    * They roll over to 0 when the 48-64 bit range is exhausted.
    * @readonly
    */
-  readonly sequenceNumber?: number;
+  readonly sequenceNumber?: Long;
   /**
    * @property {string} [deadLetterSource] The name of the queue or subscription that this message
    * was enqueued on, before it was deadlettered. Only set in messages that have been dead-lettered
@@ -679,18 +782,31 @@ export class Message implements ReceivedSBMessage {
    * The associated delivery of the received message.
    */
   private readonly _delivery: Delivery;
+  /**
+   * @property {ClientEntityContext} _context The client entity context.
+   * @readonly
+   */
+  private readonly _context: ClientEntityContext;
 
-  constructor(msg: AmqpMessage, delivery: Delivery) {
-    Object.assign(this, ReceivedSBMessage.fromAmqpMessage(msg, delivery));
+  constructor(context: ClientEntityContext, msg: AmqpMessage, delivery: Delivery) {
+    Object.assign(this, ReceivedMessageInfo.fromAmqpMessage(msg, delivery));
+    this._context = context;
+    if (msg.body) {
+      this.body = this._context.namespace.dataTransformer.decode(msg.body);
+    }
     this._amqpMessage = msg;
     this._delivery = delivery;
   }
 
   /**
    * Completes a message using it's lock token. This will delete the message from ServiceBus.
-   * @return void.
+   * @returns Promise<void>.
    */
-  complete(): void {
+  async complete(): Promise<void> {
+    if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
+      return await this._context.managementClient!.updateDispositionStatus([this.lockToken!],
+        DispositionStatus.completed);
+    }
     return this._delivery.accept();
   }
   /**
@@ -698,11 +814,18 @@ export class Message implements ReceivedSBMessage {
    * processing.
    * @param {Dictionary<any>} propertiesToModify The properties of the message to modify while
    * abandoning the message. Abandoning a message will increase the delivery count on the message.
-   * @return void.
+   * @return Promise<void>.
    */
-  abandon(propertiesToModify?: Dictionary<any>): void {
+  async abandon(propertiesToModify?: Dictionary<any>): Promise<void> {
     // TODO: Figure out a mechanism to convert specified properties to message_annotations.
-    return this._delivery.modified({ message_annotations: propertiesToModify, undeliverable_here: false });
+    if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
+      return await this._context.managementClient!.updateDispositionStatus([this.lockToken!],
+        DispositionStatus.abandoned, { propertiesToModify: propertiesToModify });
+    }
+    return this._delivery.modified({
+      message_annotations: propertiesToModify,
+      undeliverable_here: false
+    });
   }
 
   /**
@@ -712,25 +835,39 @@ export class Message implements ReceivedSBMessage {
    * expiration, meaning that deferred messages can still expire.
    * @param {Dictionary<any>} propertiesToModify The properties of the message to modify while
    * deferring the message
-   * @returns {number} sequenceNumber of the message that was deferred.
+   * @returns Promise<Long> sequenceNumber of the message that was deferred.
    */
-  defer(propertiesToModify?: Dictionary<any>): number {
-    this._delivery.modified({ message_annotations: propertiesToModify, undeliverable_here: true });
-    return this.sequenceNumber!;
+  async defer(propertiesToModify?: Dictionary<any>): Promise<void> {
+    if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
+      return await this._context.managementClient!.updateDispositionStatus([this.lockToken!],
+        DispositionStatus.defered, { propertiesToModify: propertiesToModify });
+    }
+    return this._delivery.modified({
+      message_annotations: propertiesToModify,
+      undeliverable_here: true
+    });
   }
 
   /**
    * Moves the message to the deadletter sub-queue.
    * @param {DeadLetterOptions} [options] The DeadLetter options that can be provided while rejecting
    * the message.
+   * @returns Promise<void>
    */
-  deadLetter(options?: DeadLetterOptions): void {
+  async deadLetter(options?: DeadLetterOptions): Promise<void> {
     let error: AmqpError = {};
     if (options) {
       error = {
         condition: options.deadletterReason,
         description: options.deadLetterErrorDescription
       };
+    }
+    if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
+      return await this._context.managementClient!.updateDispositionStatus([this.lockToken!],
+        DispositionStatus.suspended, {
+          deadLetterReason: error.condition,
+          deadLetterDescription: error.description
+        });
     }
     return this._delivery.reject(error);
   }

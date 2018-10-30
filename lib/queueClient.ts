@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import * as Long from "long";
 import * as log from "./log";
 import { Delivery } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
@@ -8,9 +9,10 @@ import { MessageSender } from "./messageSender";
 import { ReceiveOptions, OnError, OnMessage } from ".";
 import { StreamingReceiver, ReceiveHandler, MessageHandlerOptions } from "./streamingReceiver";
 import { BatchingReceiver } from "./batchingReceiver";
-import { Message, ServiceBusMessage } from "./message";
+import { ServiceBusMessage, SendableMessageInfo, ReceivedMessageInfo } from "./serviceBusMessage";
 import { Client } from "./client";
 import { ReceiveMode } from "./messageReceiver";
+import { ScheduleMessage } from "./managementClient";
 
 /**
  * Describes the options that can be provided while creating the QueueClient.
@@ -77,7 +79,7 @@ export class QueueClient extends Client {
    * @param {any} data  Message to send.  Will be sent as UTF8-encoded JSON string.
    * @returns {Promise<Delivery>} Promise<Delivery>
    */
-  async send(data: ServiceBusMessage): Promise<Delivery> {
+  async send(data: SendableMessageInfo): Promise<Delivery> {
     const sender = MessageSender.create(this._context);
     return await sender.send(data);
   }
@@ -86,12 +88,12 @@ export class QueueClient extends Client {
    * Send a batch of Message to the ServiceBus Queue. The "message_annotations", "application_properties"
    * and "properties" of the first message will be set as that of the envelope (batch message).
    *
-   * @param {Array<Message>} datas  An array of Message objects to be sent in a Batch
+   * @param {Array<ServiceBusMessage>} datas  An array of Message objects to be sent in a Batch
    * message.
    *
    * @return {Promise<Delivery>} Promise<Delivery>
    */
-  async sendBatch(datas: ServiceBusMessage[]): Promise<Delivery> {
+  async sendBatch(datas: SendableMessageInfo[]): Promise<Delivery> {
     const sender = MessageSender.create(this._context);
     return await sender.sendBatch(datas);
   }
@@ -130,15 +132,48 @@ export class QueueClient extends Client {
   }
 
   /**
+   * Fetches the next batch of active messages. The first call to `peek()` fetches the first
+   * active message for this client. Each subsequent call fetches the subsequent message in the
+   * entity.
+   *
+   * Unlike a `received` message, `peeked` message will not have lock token associated with it,
+   * and hence it cannot be `Completed/Abandoned/Deferred/Deadlettered/Renewed`. Also, unlike
+   * `receive() | receiveBatch()` this method will fetch even Deferred messages
+   * (but not Deadlettered message).
+   *
+   * It is especially important to keep in mind when attempting to recover deferred messages from
+   * the queue. A message for which the `expiresAtUtc` instant has passed is no longer eligible for
+   * regular retrieval by any other means, even when it's being returned by `peek()`. Returning
+   * these messages is deliberate, since `peek()` is a diagnostics tool reflecting the current
+   * state of the log.
+   *
+   * @param {number} [messageCount] The number of messages to retrieve. Default value `1`.
+   * @returns Promise<ReceivedSBMessage[]>
+   */
+  async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
+    return await this._context.managementClient!.peek(messageCount);
+  }
+
+  /**
+   * Peeks the desired number of messages from the specified sequence number.
+   * @param {Long} fromSequenceNumber The sequence number from where to read the message.
+   * @param {number} [messageCount] The number of messages to retrieve. Default value `1`.
+   * @returns Promise<ReceivedSBMessage[]>
+   */
+  async peekBySequenceNumber(fromSequenceNumber: Long, messageCount?: number): Promise<ReceivedMessageInfo[]> {
+    return await this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, messageCount);
+  }
+
+  /**
    * Receives a batch of Message objects from a ServiceBus Queue for a given count and a
    * given max wait time in seconds, whichever happens first.
    * @param {number} maxMessageCount        The maximum message count. Must be a value greater than 0.
    * @param {number} [maxWaitTimeInSeconds] The maximum wait time in seconds for which the Receiver
    * should wait to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
    *
-   * @returns {Promise<Message[]>} A promise that resolves with an array of Message objects.
+   * @returns {Promise<ServiceBusMessage[]>} A promise that resolves with an array of Message objects.
    */
-  async receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<Message[]> {
+  async receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ServiceBusMessage[]> {
     if (!this._context.batchingReceiver ||
       (this._context.batchingReceiver && !this._context.batchingReceiver.isOpen()) ||
       (this._context.batchingReceiver && !this._context.batchingReceiver.isReceivingMessages)) {
@@ -164,5 +199,111 @@ export class QueueClient extends Client {
         `then call receiveBatch() again.`;
       throw new Error(msg);
     }
+  }
+
+  /**
+   * Renews the lock on the message. The lock will be renewed based on the setting specified on
+   * the queue.
+   *
+   * When a message is received in `PeekLock` mode, the message is locked on the server for this
+   * receiver instance for a duration as specified during the Queue/Subscription creation
+   * (LockDuration). If processing of the message requires longer than this duration, the
+   * lock needs to be renewed. For each renewal, it resets the time the message is locked by the
+   * LockDuration set on the Entity.
+   *
+   * @param {string | ServiceBusMessage} lockTokenOrMessage Lock token of the message or the message itself.
+   * @returns {Promise<Date>} Promise<Date> New lock token expiry date and time in UTC format.
+   */
+  async renewLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date> {
+    return await this._context.managementClient!.renewLock(lockTokenOrMessage);
+  }
+
+  /**
+   * Schedules a message to appear on Service Bus at a later time.
+   *
+   * @param {SendableMessageInfo} message message that needs to be scheduled.
+   * @param scheduledEnqueueTimeUtc The UTC time at which the message should be available
+   * for processing.
+   * @returns {Promise<Long>} Promise<Long> The sequence number of the message that was
+   * scheduled. Please save the `Long` type as-is in your application. Do not convert it to a
+   * number as that may cause loss of precision, since JS only supports 53 bit numbers.
+   * `Long` type provides methods for mathematical operations.
+   * If you want to save it to a log file, then save the stringifed form
+   * `const result = Long.toString();`. When deserializing it, please use
+   * `Long.fromString("result");`. This will ensure that precision is preserved.
+   */
+  async scheduleMessage(message: SendableMessageInfo, scheduledEnqueueTimeUtc: Date): Promise<Long> {
+    const scheduleMessages: ScheduleMessage[] = [
+      { message: message, scheduledEnqueueTimeUtc: scheduledEnqueueTimeUtc }
+    ];
+    const result = await this._context.managementClient!.scheduleMessages(scheduleMessages);
+    return result[0];
+  }
+
+  /**
+   * Schedules a message to appear on Service Bus at a later time.
+   *
+   * @param message - Message that needs to be scheduled.
+   * @param scheduledEnqueueTimeUtc - The UTC time at which the message should be available
+   * for processing.
+   * @returns Promise<Long[]> - The sequence numbers of messages that were scheduled. Please
+   * save the `Long` type as-is in your application. Do not convert it to a number as that may
+   * cause loss of precision, since JS only supports 53 bit numbers. `Long` type provides methods
+   * for mathematical operations. If you want to save it to a log file, then save the stringifed
+   * form `const result = Long.toString();`. When deserializing it, please use
+   * `Long.fromString("result");`. This will ensure that precision is preserved.
+   */
+  async scheduleMessages(messages: ScheduleMessage[]): Promise<Long[]> {
+    return await this._context.managementClient!.scheduleMessages(messages);
+  }
+
+  /**
+   * Cancels a message that was scheduled.
+   * @param sequenceNumber - The sequence number of the message to be cancelled.
+   * @returns Promise<void>
+   */
+  async cancelScheduledMessage(sequenceNumber: Long): Promise<void> {
+    return await this._context.managementClient!.cancelScheduledMessages([sequenceNumber]);
+  }
+
+  /**
+   * Cancels an array of messages that were scheduled.
+   * @param sequenceNumbers - An Array of sequence numbers of the message to be cancelled.
+   * @returns Promise<void>
+   */
+  async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
+    return await this._context.managementClient!.cancelScheduledMessages(sequenceNumbers);
+  }
+
+  /**
+   * Receives a specific deferred message identified by `sequenceNumber` of the `Message`.
+   * @param sequenceNumber The sequence number of the message that will be received.
+   * @returns Promise<ServiceBusMessage | undefined>
+   * - Returns `Message` identified by sequence number.
+   * - Returns `undefined` if no such message is found.
+   * - Throws an error if the message has not been deferred.
+   */
+  async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
+    if (this.receiveMode !== ReceiveMode.peekLock) {
+      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+    }
+    return await this._context.managementClient!.receiveDeferredMessage(sequenceNumber,
+      this.receiveMode);
+  }
+
+  /**
+   * Receives a list of deferred messages identified by `sequenceNumbers`.
+   * @param sequenceNumbers A list containing the sequence numbers to receive.
+   * @returns {Promise<ReceivedMessageInfo[]>} Promise<ReceivedSBMessage[]>
+   * - Returns a list of messages identified by the given sequenceNumbers.
+   * - Returns an empty list if no messages are found.
+   * - Throws an error if the messages have not been deferred.
+   */
+  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ReceivedMessageInfo[]> {
+    if (this.receiveMode !== ReceiveMode.peekLock) {
+      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+    }
+    return await this._context.managementClient!.receiveDeferredMessages(sequenceNumbers,
+      this.receiveMode);
   }
 }
