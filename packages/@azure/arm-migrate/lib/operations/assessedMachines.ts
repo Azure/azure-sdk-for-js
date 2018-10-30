@@ -34,7 +34,6 @@ export class AssessedMachines {
    * 'status' field of Assessment object reports 'Computing'.
    * During the period when the assessment is under computation, the list of assessed machines is
    * empty and no assessed machines are returned by this call.
-   *
    * @summary Get assessed machines for assessment.
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
