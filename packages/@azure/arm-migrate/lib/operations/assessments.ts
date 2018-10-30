@@ -30,7 +30,6 @@ export class Assessments {
    * Get all assessments created for the specified group.
    *
    * Returns a json array of objects of type 'assessment' as specified in Models section.
-   *
    * @summary Get all assessments created for the specified group.
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
@@ -70,7 +69,6 @@ export class Assessments {
    * Get all assessments created in the project.
    *
    * Returns a json array of objects of type 'assessment' as specified in Models section.
-   *
    * @summary Get all assessments created in the project.
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
@@ -157,7 +155,6 @@ export class Assessments {
    * operations can happen on the assessment.
    *
    * When assessment is under computation, any PUT will lead to a 400 - Bad Request error.
-   *
    * @summary Create or Update assessment.
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
@@ -203,7 +200,6 @@ export class Assessments {
    *
    * When an assessment is under computation, as indicated by the 'computationState' field, it cannot
    * be deleted. Any such attempt will return a 400 - Bad Request.
-   *
    * @summary Deletes an assessment from the project.
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.

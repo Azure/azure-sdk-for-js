@@ -23,6 +23,7 @@ class DataMigrationServiceClient extends DataMigrationServiceClientContext {
   projects: operations.Projects;
   usages: operations.Usages;
   operations: operations.Operations;
+  files: operations.Files;
 
   /**
    * Initializes a new instance of the DataMigrationServiceClient class.
@@ -38,6 +39,7 @@ class DataMigrationServiceClient extends DataMigrationServiceClientContext {
     this.projects = new operations.Projects(this);
     this.usages = new operations.Usages(this);
     this.operations = new operations.Operations(this);
+    this.files = new operations.Files(this);
   }
 }
 

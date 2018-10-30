@@ -104,7 +104,9 @@ gulp.task('codegen', async () => {
   await generateSdk(argv.azureRestAPISpecsRoot, argv.azureSDKForJSRepoRoot, argv.package, argv.use, argv.debugger);
 });
 
-gulp.task('pack', () => {
+type CreatePackageType = "pack" | "publish"
+
+const createPackages = (type: CreatePackageType = "pack") => {
   const typeScriptReadmeFilePaths: string[] = findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot);
 
   let errorPackages = 0;
@@ -166,7 +168,7 @@ gulp.task('pack', () => {
                   npmInstall(packageFolderPath);
                   // TODO: `npm install` should be removed after we regenerate all packages.
                   execSync("npm install", { cwd: packageFolderPath });
-                  execSync(`npm pack`, { cwd: packageFolderPath });
+                  execSync(`npm ${type}`, { cwd: packageFolderPath });
                   const packFileName = `${packageName.replace("/", "-").replace("@", "")}-${localPackageVersion}.tgz`
                   const packFilePath = path.join(packageFolderPath, packFileName);
                   fs.renameSync(packFilePath, path.join(packPath, packFileName));
@@ -191,7 +193,11 @@ gulp.task('pack', () => {
   _logger.log(`Up to date packages:        ${upToDatePackages}`);
   _logger.log(`Packed packages:         ${publishedPackages}`);
   _logger.log(`Skipped packages: ${publishedPackagesSkipped}`);
-});
+}
+
+gulp.task('pack', () => createPackages());
+
+gulp.task('publish', () => createPackages("publish"));
 
 gulp.task("find-missing-sdks", async () => {
   try {
@@ -256,47 +262,53 @@ gulp.task("generate-all-missing-sdks", async () => {
 });
 
 gulp.task("regenerate", async () => {
-  return new Promise((resolve, reject) => {
-    const argv = Argv.construct(Argv.Options.Repository)
-      .options({
-        "branch": {
-          alias: "b",
-          string: true,
-          description: "Name of the AutoPR branch",
-          implies: "package"
-        },
-        "package": {
-          alias: "p",
-          string: true,
-          description: "Name of the regenerated package"
-        },
-        "pull-request": {
-          alias: "pr",
-          string: true,
-          description: "URL to GitHub pull request",
-          conflicts: ["branch", "package"]
-        },
-        "skip-version-bump": {
-          boolean: true,
-          description: "Determines if version bumping should be skipped"
-        },
-        "request-review": {
-          boolean: true,
-          description: "Determines if review should be automatically requested on matching pull request"
-        }
-      }).usage("Example: gulp regenerate --branch 'restapi_auto_daschult/sql'").argv;
+  const argv = Argv.construct(Argv.Options.Repository)
+    .options({
+      "branch": {
+        alias: "b",
+        string: true,
+        description: "Name of the AutoPR branch",
+        implies: "package"
+      },
+      "package": {
+        alias: "p",
+        string: true,
+        description: "Name of the regenerated package"
+      },
+      "pull-request": {
+        alias: "pr",
+        string: true,
+        description: "URL to GitHub pull request",
+        conflicts: ["branch"]
+      },
+      "skip-version-bump": {
+        boolean: true,
+        description: "Determines if version bumping should be skipped"
+      },
+      "request-review": {
+        boolean: true,
+        description: "Determines if review should be automatically requested on matching pull request"
+      }
+    }).usage("Example: gulp regenerate --branch 'restapi_auto_daschult/sql'").argv;
 
-    getDataFromPullRequest(argv["pull-request"]).then(data => {
-      const branchName = argv.branch || data.branchName;
-      const packageName = argv.package || data.packageName;
+  try {
+    const pullRequestUrl = argv["pull-request"];
+    let pullRequestData;
+    if (pullRequestUrl) {
+      pullRequestData = await getDataFromPullRequest(argv["pull-request"]);
+    }
 
-      regenerate(branchName, packageName, argv["azure-sdk-for-js-root"], argv["azure-rest-api-specs-root"], data.prId, argv["skip-version-bump"], argv["request-review"])
-        .then(_ => resolve(),
-          error => reject(error));
-    }).catch(error => {
-      reject(error)
-    });
-  });
+    const branchName = argv.branch || pullRequestData.branchName;
+    const packageName = argv.package || pullRequestData.packageName;
+
+    if (!branchName) {
+      throw new Error("Unable to find the name of the package. Please specify the --package parameter");
+    }
+
+    regenerate(branchName, packageName, argv["azure-sdk-for-js-root"], argv["azure-rest-api-specs-root"], pullRequestData.prId, argv["skip-version-bump"], argv["request-review"])
+  } catch (error) {
+    _logger.logError(error);
+  }
 });
 
 gulp.task("find-wrong-packages", async () => {
