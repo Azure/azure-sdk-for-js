@@ -16,14 +16,8 @@ const packageName = "@azure/arm-datamigration";
 const packageVersion = "1.0.0-preview";
 
 export class DataMigrationServiceClientContext extends msRestAzure.AzureServiceClient {
-
   credentials: msRest.ServiceClientCredentials;
-
   subscriptionId: string;
-
-  acceptLanguage: string;
-
-  longRunningOperationRetryTimeout: number;
 
   /**
    * Initializes a new instance of the DataMigrationServiceClient class.
