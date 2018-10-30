@@ -1,4 +1,3 @@
-import BigInt from "big-integer";
 import { isNumber } from "util";
 
 /**
@@ -20,7 +19,7 @@ export class VectorSessionToken {
   constructor(
     private readonly version: number,
     private readonly globalLsn: number,
-    private readonly localLsnByregion: Map<number, BigInt.BigInteger>,
+    private readonly localLsnByregion: Map<number, string>,
     private readonly sessionToken?: string
   ) {
     if (!this.sessionToken) {
@@ -53,7 +52,7 @@ export class VectorSessionToken {
       return null;
     }
 
-    const lsnByRegion = new Map<number, BigInt.BigInteger>();
+    const lsnByRegion = new Map<number, string>();
     for (const regionSegment of regionSegments) {
       const [regionIdStr, localLsnStr] = regionSegment.split(VectorSessionToken.REGION_PROGRESS_SEPARATOR);
 
@@ -62,9 +61,9 @@ export class VectorSessionToken {
       }
 
       const regionId = parseInt(regionIdStr, 10);
-      let localLsn: BigInt.BigInteger;
+      let localLsn: string;
       try {
-        localLsn = BigInt(localLsnStr);
+        localLsn = localLsnStr;
       } catch (err) {
         // TODO: log error
         return null;
@@ -99,12 +98,12 @@ export class VectorSessionToken {
     const [higherVersionSessionToken, lowerVersionSessionToken]: [VectorSessionToken, VectorSessionToken] =
       this.version < other.version ? [other, this] : [this, other];
 
-    const highestLocalLsnByRegion = new Map<number, BigInt.BigInteger>();
+    const highestLocalLsnByRegion = new Map<number, string>();
 
     for (const [regionId, highLocalLsn] of higherVersionSessionToken.localLsnByregion.entries()) {
       const lowLocalLsn = lowerVersionSessionToken.localLsnByregion.get(regionId);
       if (lowLocalLsn) {
-        highestLocalLsnByRegion.set(regionId, BigInt.max(highLocalLsn, lowLocalLsn));
+        highestLocalLsnByRegion.set(regionId, max(highLocalLsn, lowLocalLsn));
       } else if (this.version === other.version) {
         throw new Error(
           `Compared session tokens have unexpected regions. Session 1: ${this.sessionToken} - Session 2: ${
@@ -127,7 +126,7 @@ export class VectorSessionToken {
     return this.sessionToken;
   }
 
-  private areRegionProgressEqual(other: Map<number, BigInt.BigInteger>): boolean {
+  private areRegionProgressEqual(other: Map<number, string>): boolean {
     if (this.localLsnByregion.size !== other.size) {
       return false;
     }
@@ -140,5 +139,16 @@ export class VectorSessionToken {
       }
     }
     return true;
+  }
+}
+
+function max(int1: string, int2: string) {
+  // NOTE: This only works for positive numbers
+  if (int1.length === int2.length) {
+    return int1 > int2 ? int1 : int2;
+  } else if (int1.length > int2.length) {
+    return int1;
+  } else {
+    return int2;
   }
 }

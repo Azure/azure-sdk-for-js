@@ -1,4 +1,4 @@
-﻿import { Constants, EMPTY, Helper, ResourceId } from "../common";
+﻿import { Constants, Helper } from "../common";
 import { IHeaders } from "../queryExecutionContext";
 import { SessionContext } from "./SessionContext";
 import { VectorSessionToken } from "./VectorSessionToken";
@@ -56,22 +56,28 @@ export class SessionContainer {
       return;
     }
 
-    const resourceIdObject = new ResourceId();
-    const resourceId = resourceIdObject.parse(ownerId);
-
-    if (resourceId.documentCollection !== EMPTY && containerName) {
-      const containerRid = resourceId.getUniqueDocumentCollectionId();
-      if (!this.collectionResourceIdToSessionTokens.has(containerRid)) {
-        this.collectionResourceIdToSessionTokens.set(containerRid, new Map());
+    if (containerName && this.validateOwnerID(ownerId)) {
+      if (!this.collectionResourceIdToSessionTokens.has(ownerId)) {
+        this.collectionResourceIdToSessionTokens.set(ownerId, new Map());
       }
 
       if (!this.collectionNameToCollectionResourceId.has(containerName)) {
-        this.collectionNameToCollectionResourceId.set(containerName, containerRid);
+        this.collectionNameToCollectionResourceId.set(containerName, ownerId);
       }
 
-      const containerSessionContainer = this.collectionResourceIdToSessionTokens.get(containerRid);
+      const containerSessionContainer = this.collectionResourceIdToSessionTokens.get(ownerId);
       SessionContainer.compareAndSetToken(sessionTokenString, containerSessionContainer);
     }
+  }
+
+  private validateOwnerID(ownerId: string) {
+    const ownerIdBuffer = Buffer.from(ownerId, "base64");
+    // If ownerId contains exactly 8 bytes it represents a unique database+collection identifier. Otherwise it represents another resource
+    // The first 4 bytes are the database. The last 4 bytes are the collection.
+    if (ownerIdBuffer.length === 8) {
+      return true;
+    }
+    return false;
   }
 
   private getPartitionKeyRangeIdToTokenMap(collectionName: string): Map<string, VectorSessionToken> {
