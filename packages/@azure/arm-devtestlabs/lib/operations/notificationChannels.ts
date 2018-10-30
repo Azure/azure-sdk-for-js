@@ -39,15 +39,15 @@ export class NotificationChannels {
    * @param labName The name of the lab.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationNotificationChannel>): void;
+  list(resourceGroupName: string, labName: string, callback: msRest.ServiceCallback<Models.NotificationChannelList>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, options: Models.NotificationChannelsListOptionalParams, callback: msRest.ServiceCallback<Models.ResponseWithContinuationNotificationChannel>): void;
-  list(resourceGroupName: string, labName: string, options?: Models.NotificationChannelsListOptionalParams, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationNotificationChannel>): Promise<Models.NotificationChannelsListResponse> {
+  list(resourceGroupName: string, labName: string, options: Models.NotificationChannelsListOptionalParams, callback: msRest.ServiceCallback<Models.NotificationChannelList>): void;
+  list(resourceGroupName: string, labName: string, options?: Models.NotificationChannelsListOptionalParams, callback?: msRest.ServiceCallback<Models.NotificationChannelList>): Promise<Models.NotificationChannelsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -261,14 +261,14 @@ export class NotificationChannels {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationNotificationChannel>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NotificationChannelList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResponseWithContinuationNotificationChannel>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationNotificationChannel>): Promise<Models.NotificationChannelsListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NotificationChannelList>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NotificationChannelList>): Promise<Models.NotificationChannelsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -301,7 +301,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ResponseWithContinuationNotificationChannel
+      bodyMapper: Mappers.NotificationChannelList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -474,7 +474,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ResponseWithContinuationNotificationChannel
+      bodyMapper: Mappers.NotificationChannelList
     },
     default: {
       bodyMapper: Mappers.CloudError
