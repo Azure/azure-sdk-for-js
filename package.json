@@ -42,7 +42,7 @@
     "build": "npm run tslint && npm run tsc",
     "test": "npm run build",
     "unit": "nyc --reporter=lcov --reporter=text-lcov mocha -r ts-node/register -t 50000 test/**/*.spec.ts",
-    "prepare": "npm run build"
+    "prepack": "npm i && npm run build"
   },
   "homepage": "http://github.com/azure/azure-servcie-bus-node",
   "repository": {
