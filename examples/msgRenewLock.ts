@@ -16,9 +16,8 @@ async function main(): Promise<void> {
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     console.log(">>> Message: ", brokeredMessage);
     console.log("### Actual message:", brokeredMessage.body ? brokeredMessage.body.toString() : null);
-    const result = await client.renewLock(brokeredMessage.lockToken!);
+    const result = await client.renewLock(brokeredMessage);
     console.log("Renew Lock result is: %O", result);
-    (brokeredMessage as any).lockedUntilUtc = result;
     console.log("Locked Until: %s", brokeredMessage.lockedUntilUtc);
     console.log(">>>>>> Explicitly completing the message...");
     await delay(2000);
