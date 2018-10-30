@@ -16,6 +16,8 @@ export {
   CloudError,
   Application,
   AppRole,
+  RequiredResourceAccess,
+  ResourceAccess,
   ADGroup,
   ServicePrincipal,
   User,
