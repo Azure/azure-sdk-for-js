@@ -9,10 +9,11 @@
  */
 
 export {
-  AzureFirewallFqdnTagListResult,
-  AzureFirewallFqdnTag,
+  ExpressRoutePortsLocationListResult,
+  ExpressRoutePortsLocation,
   Resource,
   BaseResource,
+  ExpressRoutePortsLocationBandwidths,
   CloudError,
   SubResource,
   ApplicationSecurityGroup,
@@ -84,6 +85,7 @@ export {
   AzureFirewallNetworkRuleCollection,
   AzureFirewallNetworkRule,
   AzureFirewall,
+  AzureFirewallFqdnTag,
   DdosProtectionPlan,
   EndpointServiceResult,
   ExpressRouteCircuitAuthorization,
@@ -109,8 +111,6 @@ export {
   ExpressRouteGatewayPropertiesAutoScaleConfiguration,
   ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds,
   VirtualHubId,
-  ExpressRoutePortsLocation,
-  ExpressRoutePortsLocationBandwidths,
   ExpressRouteLink,
   ExpressRoutePort,
   LoadBalancingRule,
