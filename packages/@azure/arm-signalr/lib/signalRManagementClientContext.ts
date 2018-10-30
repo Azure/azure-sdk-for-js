@@ -16,16 +16,9 @@ const packageName = "@azure/arm-signalr";
 const packageVersion = "1.0.0-preview";
 
 export class SignalRManagementClientContext extends msRestAzure.AzureServiceClient {
-
   credentials: msRest.ServiceClientCredentials;
-
-  apiVersion: string;
-
+  apiVersion?: string;
   subscriptionId: string;
-
-  acceptLanguage: string;
-
-  longRunningOperationRetryTimeout: number;
 
   /**
    * Initializes a new instance of the SignalRManagementClient class.
