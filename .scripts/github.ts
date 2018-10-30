@@ -142,7 +142,7 @@ function parsePullRequestUrl(pullRequestUrl: string): PullRequestsGetParams {
 }
 
 function getPackageNameFromPath(rootFolder: string): string | undefined {
-    if (!rootFolder || !rootFolder.startsWith("packages/")) {
+    if (!rootFolder || !rootFolder.startsWith("packages/") || rootFolder === "packages/" || rootFolder === "packages/@azure/") {
         _logger.logDebug(`Can't get package name from '${rootFolder}' path`);
         return undefined;
     }
@@ -174,6 +174,7 @@ function getRootFolder(changedFiles: string[]): string {
 
     const commonPath = commonParts.join("/");
     _logger.logTrace(`Found "${commonPath}" common path for files in the pull request`)
+
     return commonPath;
 }
 

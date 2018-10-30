@@ -16,16 +16,9 @@ const packageName = "@azure/arm-storagesync";
 const packageVersion = "1.0.0";
 
 export class StorageSyncManagementClientContext extends msRestAzure.AzureServiceClient {
-
   credentials: msRest.ServiceClientCredentials;
-
-  apiVersion: string;
-
+  apiVersion?: string;
   subscriptionId: string;
-
-  acceptLanguage: string;
-
-  longRunningOperationRetryTimeout: number;
 
   /**
    * Initializes a new instance of the StorageSyncManagementClient class.
@@ -49,7 +42,7 @@ export class StorageSyncManagementClientContext extends msRestAzure.AzureService
     this.apiVersion = '2018-07-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
-    this.baseUri = options.baseUri || this.baseUri || "https://azure.microsoft.com";
+    this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
