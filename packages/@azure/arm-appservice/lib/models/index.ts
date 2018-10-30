@@ -9972,6 +9972,30 @@ export interface WebAppsRestartSlotOptionalParams extends msRest.RequestOptionsB
 
 /**
  * @interface
+ * An interface representing WebAppsStartNetworkTraceSlotOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface WebAppsStartNetworkTraceSlotOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {number} [durationInSeconds] The duration to keep capturing in
+   * seconds.
+   */
+  durationInSeconds?: number;
+  /**
+   * @member {number} [maxFrameLength] The maximum frame length in bytes
+   * (Optional).
+   */
+  maxFrameLength?: number;
+  /**
+   * @member {string} [sasUrl] The Blob URL to store capture file.
+   */
+  sasUrl?: string;
+}
+
+/**
+ * @interface
  * An interface representing WebAppsListUsagesSlotOptionalParams.
  * Optional Parameters.
  *
@@ -9985,6 +10009,30 @@ export interface WebAppsListUsagesSlotOptionalParams extends msRest.RequestOptio
    * eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
    */
   filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing WebAppsStartNetworkTraceOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface WebAppsStartNetworkTraceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {number} [durationInSeconds] The duration to keep capturing in
+   * seconds.
+   */
+  durationInSeconds?: number;
+  /**
+   * @member {number} [maxFrameLength] The maximum frame length in bytes
+   * (Optional).
+   */
+  maxFrameLength?: number;
+  /**
+   * @member {string} [sasUrl] The Blob URL to store capture file.
+   */
+  sasUrl?: string;
 }
 
 /**
@@ -10036,6 +10084,54 @@ export interface WebAppsBeginStartWebSiteNetworkTraceOperationOptionalParams ext
  * @extends RequestOptionsBase
  */
 export interface WebAppsBeginStartWebSiteNetworkTraceOperationSlotOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {number} [durationInSeconds] The duration to keep capturing in
+   * seconds.
+   */
+  durationInSeconds?: number;
+  /**
+   * @member {number} [maxFrameLength] The maximum frame length in bytes
+   * (Optional).
+   */
+  maxFrameLength?: number;
+  /**
+   * @member {string} [sasUrl] The Blob URL to store capture file.
+   */
+  sasUrl?: string;
+}
+
+/**
+ * @interface
+ * An interface representing WebAppsBeginStartNetworkTraceSlotOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface WebAppsBeginStartNetworkTraceSlotOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {number} [durationInSeconds] The duration to keep capturing in
+   * seconds.
+   */
+  durationInSeconds?: number;
+  /**
+   * @member {number} [maxFrameLength] The maximum frame length in bytes
+   * (Optional).
+   */
+  maxFrameLength?: number;
+  /**
+   * @member {string} [sasUrl] The Blob URL to store capture file.
+   */
+  sasUrl?: string;
+}
+
+/**
+ * @interface
+ * An interface representing WebAppsBeginStartNetworkTraceOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface WebAppsBeginStartNetworkTraceOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {number} [durationInSeconds] The duration to keep capturing in
    * seconds.
@@ -16221,6 +16317,48 @@ export type WebAppsGetNetworkTracesResponse = Array<NetworkTrace> & {
 };
 
 /**
+ * Contains response data for the getNetworkTraceOperationV2 operation.
+ */
+export type WebAppsGetNetworkTraceOperationV2Response = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
+    };
+};
+
+/**
+ * Contains response data for the getNetworkTracesV2 operation.
+ */
+export type WebAppsGetNetworkTracesV2Response = Array<NetworkTrace> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkTrace[];
+    };
+};
+
+/**
  * Contains response data for the listPerfMonCounters operation.
  */
 export type WebAppsListPerfMonCountersResponse = PerfMonCounterCollection & {
@@ -18371,6 +18509,48 @@ export type WebAppsGetNetworkTracesSlotResponse = Array<NetworkTrace> & {
 };
 
 /**
+ * Contains response data for the getNetworkTraceOperationSlotV2 operation.
+ */
+export type WebAppsGetNetworkTraceOperationSlotV2Response = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
+    };
+};
+
+/**
+ * Contains response data for the getNetworkTracesSlotV2 operation.
+ */
+export type WebAppsGetNetworkTracesSlotV2Response = Array<NetworkTrace> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkTrace[];
+    };
+};
+
+/**
  * Contains response data for the listPerfMonCountersSlot operation.
  */
 export type WebAppsListPerfMonCountersSlotResponse = PerfMonCounterCollection & {
@@ -18894,6 +19074,29 @@ export type WebAppsUpdateSourceControlSlotResponse = SiteSourceControl & {
 };
 
 /**
+ * Contains response data for the startNetworkTraceSlot operation.
+ */
+export type WebAppsStartNetworkTraceSlotResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
+    };
+};
+
+/**
  * Contains response data for the listTriggeredWebJobsSlot operation.
  */
 export type WebAppsListTriggeredWebJobsSlotResponse = TriggeredWebJobCollection & {
@@ -19251,6 +19454,29 @@ export type WebAppsUpdateSourceControlResponse = SiteSourceControl & {
        * The response body as parsed JSON or XML
        */
       parsedBody: SiteSourceControl;
+    };
+};
+
+/**
+ * Contains response data for the startNetworkTrace operation.
+ */
+export type WebAppsStartNetworkTraceResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
     };
 };
 
@@ -19852,6 +20078,29 @@ export type WebAppsBeginCreateOrUpdateSourceControlSlotResponse = SiteSourceCont
 };
 
 /**
+ * Contains response data for the beginStartNetworkTraceSlot operation.
+ */
+export type WebAppsBeginStartNetworkTraceSlotResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
+    };
+};
+
+/**
  * Contains response data for the beginCreateOrUpdateSourceControl operation.
  */
 export type WebAppsBeginCreateOrUpdateSourceControlResponse = SiteSourceControl & {
@@ -19867,6 +20116,29 @@ export type WebAppsBeginCreateOrUpdateSourceControlResponse = SiteSourceControl 
        * The response body as parsed JSON or XML
        */
       parsedBody: SiteSourceControl;
+    };
+};
+
+/**
+ * Contains response data for the beginStartNetworkTrace operation.
+ */
+export type WebAppsBeginStartNetworkTraceResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
     };
 };
 

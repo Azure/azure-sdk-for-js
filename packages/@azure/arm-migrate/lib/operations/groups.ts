@@ -107,7 +107,6 @@ export class Groups {
    * update.
    *
    * This operation is Idempotent.
-   *
    * @summary Create a new group with specified settings. If group with the name provided already
    * exists, then the existing group is updated.
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
@@ -150,7 +149,6 @@ export class Groups {
    *
    * A group is an aggregation mechanism for machines in a project. Therefore, deleting group does
    * not delete machines in it.
-   *
    * @summary Delete the group
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
