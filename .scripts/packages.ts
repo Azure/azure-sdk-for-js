@@ -4,14 +4,14 @@
  * license information.
  */
 
+import { exec, ExecException } from "child_process";
 import * as fssync from "fs";
 import { promises as fs } from "fs";
 import * as path from "path";
-import { SdkType, parseSdkType } from "./commandLine";
-import { pathExists, isDirectory, arrayContains, getChildDirectories } from "./common";
+import { parseSdkType, SdkType } from "./commandLine";
+import { arrayContains, getChildDirectories, isDirectory, pathExists } from "./common";
 import { Logger } from "./logger";
 import { doesReadmeMdFileSpecifiesTypescriptSdk, findReadmeTypeScriptMdFilePaths, getAbsolutePackageFolderPathFromReadmeFileContents, getPackageNamesFromReadmeTypeScriptMdFileContents } from "./readme";
-import { exec, ExecException } from "child_process";
 
 export type SdkInfo = { sdkName: string; sdkType: SdkType };
 export type PackageInfo = {
@@ -88,7 +88,7 @@ async function findChildDirectoriesRecursively(directoryPath: string): Promise<s
         }
     }
 
-    const allDirectories = [];
+    const allDirectories: string[] = [];
     await _findChildDirectoriesRecursively(directoryPath, allDirectories);
     return allDirectories;
 }
@@ -151,7 +151,7 @@ async function findPackagesWithIncorrectOutput(packageInfos: PackageInfo[]): Pro
     const incorrectPackages: PackageFault[] = [];
 
     for (const packageInfo of packageInfos) {
-        if (!fssync.existsSync(packageInfo.outputPath)) {
+        if (packageInfo.outputPath && !fssync.existsSync(packageInfo.outputPath)) {
             incorrectPackages.push({
                 package: packageInfo,
                 message: "Output path in azure-sdk-for-js repository doesn't exists. Hint: try regenerating the package."
@@ -254,15 +254,17 @@ async function getPackageMetadataFromReadmeFile(azureSdkForJsRoot: string, azure
 async function getPackagesWithBuildErrors(azureSdkForJsRoot: string, jsonPackageInfos: PackageInfo[]): Promise<PackageFault[]> {
     const faultyPackages: PackageFault[] = [];
     for (const packageInfo of jsonPackageInfos) {
-        const packagePath = path.resolve(azureSdkForJsRoot, packageInfo.outputPath);
-        _logger.logTrace(`Building ${packagePath} directory.`);
-        const error = await buildAndGetErrorOutput(packagePath);
-        if (error) {
-            faultyPackages.push({
-                package: packageInfo,
-                message: "Package doesn't build correctly. Look into details property to see build failures",
-                details: error
-            });
+        if (packageInfo.outputPath) {
+            const packagePath = path.resolve(azureSdkForJsRoot, packageInfo.outputPath);
+            _logger.logTrace(`Building ${packagePath} directory.`);
+            const error = await buildAndGetErrorOutput(packagePath);
+            if (error) {
+                faultyPackages.push({
+                    package: packageInfo,
+                    message: "Package doesn't build correctly. Look into details property to see build failures",
+                    details: error
+                });
+            }
         }
     }
 
@@ -272,7 +274,7 @@ async function getPackagesWithBuildErrors(azureSdkForJsRoot: string, jsonPackage
 
 async function buildAndGetErrorOutput(packagePath: string): Promise<string | undefined> {
     return new Promise<string | undefined>((resolve) => {
-        exec("npm install && npm run build", { cwd: packagePath }, (error: ExecException, stdout: string) => {
+        exec("npm install && npm run build", { cwd: packagePath }, (error: ExecException | null, stdout: string) => {
             if (error) {
                 resolve(`Status code: ${error.code}\n\tOutput: ${stdout}\n\tMessage: ${error.message}`);
             } else {

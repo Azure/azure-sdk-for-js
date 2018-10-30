@@ -4,10 +4,10 @@
  * license information.
  */
 
-import * as fssync from "fs";
-import * as path from "path";
-import { promises as fs } from "fs";
 import { execSync } from "child_process";
+import * as fssync from "fs";
+import { promises as fs } from "fs";
+import * as path from "path";
 
 export function arrayContains<T>(array: T[], el: T): boolean {
     return array.indexOf(el) != -1
@@ -31,11 +31,11 @@ export async function pathExists(path: string): Promise<boolean> {
 }
 
 export function startsWith(value: string, prefix: string): boolean {
-    return value && prefix && value.indexOf(prefix) === 0;
+    return !!(value && prefix && value.indexOf(prefix) === 0);
 }
 
 export function endsWith(value: string, suffix: string): boolean {
-    return value && suffix && value.length >= suffix.length && value.lastIndexOf(suffix) === value.length - suffix.length;
+    return !!(value && suffix && value.length >= suffix.length && value.lastIndexOf(suffix) === value.length - suffix.length);
 }
 
 export function contains(values: string[], searchString: string): boolean {
@@ -69,7 +69,7 @@ export async function getChildDirectories(parent: string): Promise<string[]> {
     return childDirectories;
 }
 
-export function findAzureRestApiSpecsRepositoryPathSync(): string {
+export function findAzureRestApiSpecsRepositoryPathSync(): string | undefined {
     const repositoryName = "azure-rest-api-specs";
     let currentDirectory = __dirname;
     const pathData = path.parse(currentDirectory);
