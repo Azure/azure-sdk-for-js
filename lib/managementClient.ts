@@ -291,7 +291,7 @@ export class ManagementClient extends LinkEntity {
           "message-id": item.message.messageId
         };
         if (item.message.sessionId) {
-          entry["session-id"] = item.message.sessionId;
+          entry[Constants.sessionIdMapKey] = item.message.sessionId;
         }
         if (item.message.partitionKey) {
           entry["partition-key"] = item.message.partitionKey;
@@ -435,7 +435,8 @@ export class ManagementClient extends LinkEntity {
 
     try {
       const messageBody: any = {};
-      messageBody["sequence-numbers"] = types.wrap_array(sequenceNumbers.map((i) => { return Buffer.from(i.toBytesBE()); }), 0x81, undefined);
+      messageBody["sequence-numbers"] = types.wrap_array(sequenceNumbers.map(
+        (i) => Buffer.from(i.toBytesBE())), 0x81, undefined);
       const receiverSettleMode: number = receiveMode === ReceiveMode.receiveAndDelete ? 0 : 1;
       messageBody[Constants.receiverSettleMode] = types.wrap_ubyte(receiverSettleMode);
       const request: AmqpMessage = {

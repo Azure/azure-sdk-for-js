@@ -225,7 +225,12 @@ export class QueueClient extends Client {
    * @param scheduledEnqueueTimeUtc The UTC time at which the message should be available
    * for processing.
    * @returns {Promise<Long>} Promise<Long> The sequence number of the message that was
-   * scheduled.
+   * scheduled. Please save the `Long` type as-is in your application. Do not convert it to a
+   * number as that may cause loss of precision, since JS only supports 53 bit numbers.
+   * `Long` type provides methods for mathematical operations.
+   * If you want to save it to a log file, then save the stringifed form
+   * `const result = Long.toString();`. When deserializing it, please use
+   * `Long.fromString("result");`. This will ensure that precision is preserved.
    */
   async scheduleMessage(message: SendableMessageInfo, scheduledEnqueueTimeUtc: Date): Promise<Long> {
     const scheduleMessages: ScheduleMessage[] = [
@@ -241,8 +246,12 @@ export class QueueClient extends Client {
    * @param message - Message that needs to be scheduled.
    * @param scheduledEnqueueTimeUtc - The UTC time at which the message should be available
    * for processing.
-   * @returns Promise<number> - The sequence number of the message that was
-   * scheduled.
+   * @returns Promise<Long[]> - The sequence numbers of messages that were scheduled. Please
+   * save the `Long` type as-is in your application. Do not convert it to a number as that may
+   * cause loss of precision, since JS only supports 53 bit numbers. `Long` type provides methods
+   * for mathematical operations. If you want to save it to a log file, then save the stringifed
+   * form `const result = Long.toString();`. When deserializing it, please use
+   * `Long.fromString("result");`. This will ensure that precision is preserved.
    */
   async scheduleMessages(messages: ScheduleMessage[]): Promise<Long[]> {
     return await this._context.managementClient!.scheduleMessages(messages);

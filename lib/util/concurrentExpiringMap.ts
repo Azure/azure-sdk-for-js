@@ -6,6 +6,10 @@ import { generate_uuid } from "rhea-promise";
 import { delay, AsyncLock } from "@azure/amqp-common";
 import * as log from "../log";
 
+/**
+ * Describes a map that ensures, deleting a an entry from the map is concurrency safe.
+ * @class ConcurrentExpiringMap<TKey>
+ */
 export class ConcurrentExpiringMap<TKey> {
 
   private readonly _map: Map<TKey, Date> = new Map();
@@ -19,6 +23,12 @@ export class ConcurrentExpiringMap<TKey> {
     this._delayBetweenCleanupInSeconds = options.delayBetweenCleanupInSeconds || 30;
   }
 
+  /**
+   * Sets the key and it's expiration time as the value in the map.
+   * @param key The key to be set.
+   * @param expiration Expiration time for the key.
+   * @returns void
+   */
   set(key: TKey, expiration: Date): void {
     this._map.set(key, expiration);
     this._scheduleCleanup().catch((err) => {
@@ -27,6 +37,11 @@ export class ConcurrentExpiringMap<TKey> {
     });
   }
 
+  /**
+   * Determines whether the key is present in the map.
+   * @param key The key whose presence in the map needs to be checked.
+   * @returns boolean
+   */
   has(key: TKey): boolean {
     const value = this._map.get(key) as Date;
     const result: boolean = value && value.getTime() > Date.now();
