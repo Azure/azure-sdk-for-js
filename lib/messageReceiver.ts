@@ -5,11 +5,13 @@ import * as log from "./log";
 import { LinkEntity } from "./linkEntity";
 import { ClientEntityContext } from "./clientEntityContext";
 import {
-  translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig
+  translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig,
+  ConditionErrorNameMapper
 } from "@azure/amqp-common";
 import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions, AmqpError } from "rhea-promise";
 import { ServiceBusMessage } from "./serviceBusMessage";
-import { getUniqueName } from "./util/utils";
+import { getUniqueName, calculateRenewAfterDuration } from "./util/utils";
+import { MessageHandlerOptions } from "./streamingReceiver";
 
 /**
  * @interface CreateReceiverOptions
@@ -46,7 +48,7 @@ export enum ReceiverType {
   streaming = "streaming"
 }
 
-export interface ReceiveOptions {
+export interface ReceiveOptions extends MessageHandlerOptions {
   /**
    * @property {number} [receiveMode] The mode in which messages should be received.
    * Default: ReceiveMode.peekLock
@@ -56,19 +58,6 @@ export interface ReceiveOptions {
    * @property {string} [name] The name of the receiver. If not provided then we will set a GUID by default.
    */
   name?: string;
-  /**
-   * @property {number} [maxConcurrentCalls] The maximum number of messages that should be
-   * processed concurrently while in peek lock mode. Once this limit has been reached, more
-   * messages will not be received until messages currently being processed have been settled.
-   * Default: 1
-   */
-  maxConcurrentCalls?: number;
-  /**
-   * @property {boolean} [autoComplete] Indicates whether `Message.complete()` should be called
-   * automatically after the message processing is complete while receiving messages with handlers
-   * or while messages are received using receiveBatch(). Default: false.
-   */
-  autoComplete?: boolean;
 }
 
 /**
@@ -103,11 +92,23 @@ export class MessageReceiver extends LinkEntity {
    */
   receiveMode: ReceiveMode;
   /**
-   * @property {boolean} [autoComplete] Indicates whether `Message.complete()` should be called
+   * @property {boolean} autoComplete Indicates whether `Message.complete()` should be called
    * automatically after the message processing is complete while receiving messages with handlers
    * or while messages are received using receiveBatch(). Default: false.
    */
   autoComplete: boolean;
+  /**
+   * @property {number} maxAutoRenewDurationInSeconds The maximum duration within which the
+   * lock will be renewed automatically. This value should be greater than the longest message
+   * lock duration; for example, the `lockDuration` property on the received message.
+   *
+   * Default: `300` (5 minutes);
+   */
+  maxAutoRenewDurationInSeconds: number;
+  /**
+   * @property {boolean} autoRenewLock Should lock renewal happen automatically.
+   */
+  autoRenewLock: boolean;
   /**
    * @property {Receiver} [_receiver] The AMQP receiver link.
    * @protected
@@ -163,29 +164,99 @@ export class MessageReceiver extends LinkEntity {
     });
     if (!options) options = {};
     this.receiverType = receiverType;
+    this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
     this.maxConcurrentCalls = options.maxConcurrentCalls != undefined ?
       options.maxConcurrentCalls : 1;
     this.autoComplete = !!options.autoComplete;
-    this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
+    this.maxAutoRenewDurationInSeconds = options.maxAutoRenewDurationInSeconds != undefined
+      ? options.maxAutoRenewDurationInSeconds
+      : 300;
+    this.autoRenewLock = this.maxAutoRenewDurationInSeconds > 0 && this.receiveMode === ReceiveMode.peekLock;
     this._onAmqpMessage = async (context: EventContext) => {
       const connectionId = this._context.namespace.connectionId;
       const bMessage: ServiceBusMessage = new ServiceBusMessage(this._context, context.message!,
         context.delivery!);
+      let timer: NodeJS.Timer | undefined = undefined;
+      let continueExecution: boolean = true;
+      if (this.autoRenewLock) {
+        // - We need to renew locks before they expire by looking at bMessage.lockedUntilUtc.
+        // - This autorenewal needs to happen **NO MORE** than maxAutoRenewDurationInSeconds
+        // - We should be able to clear the renewal timer when the user's message handler
+        // is done (whether it succeeds or fails).
+        log.receiver("[%s] message with id '%s' is locked until %s.",
+          connectionId, bMessage.messageId, bMessage.lockedUntilUtc!.toString());
+        const totalAutoLockRenewDuration = Date.now() + (this.maxAutoRenewDurationInSeconds * 1000);
+        log.receiver("[%s] Total autolockrenew duration for message with id '%s' is: ",
+          connectionId, bMessage.messageId, new Date(totalAutoLockRenewDuration).toString());
+        const autoRenewLockTask = (): void => {
+          if (Date.now() < totalAutoLockRenewDuration && continueExecution) {
+            const amount = calculateRenewAfterDuration(bMessage.lockedUntilUtc!);
+            log.receiver("[%s] Sleeping for %d milliseconds while renewing the lock for message " +
+              "with id '%s' is: ", connectionId, amount, bMessage.messageId);
+            timer = setTimeout(async () => {
+              try {
+                log.receiver("[%s] Attempting to renew the lock for message with id '%s'.",
+                  connectionId, bMessage.messageId);
+                await this._context.managementClient!.renewLock(bMessage);
+                log.receiver("[%s] Successfully renewed the lock for message with id '%s'.",
+                  connectionId, bMessage.messageId);
+              } catch (err) {
+                log.error("[%s] An error occured while auto renewing the message lock '%s' for " +
+                  "message with id '%s': %O.", connectionId, bMessage.lockToken,
+                  bMessage.messageId, err);
+              }
+              log.receiver("[%s] Calling the autorenewlock task again for message with id '%s'.",
+                connectionId, bMessage.messageId);
+              autoRenewLockTask();
+            }, amount);
+          }
+        };
+        // start
+        autoRenewLockTask();
+      }
       try {
         await this._onMessage(bMessage);
-        if (this.autoComplete) {
-          log[this.receiverType]("[%s] Auto completing the message with id '%s' on the receiver '%s'.",
-            connectionId, bMessage.messageId, this.name);
-          await bMessage.complete();
-        }
+        continueExecution = false;
+        clearTimeout(timer);
+        log.receiver("[%s] Stopping lock renewal for message with id '%s'.", connectionId,
+          bMessage.messageId);
       } catch (err) {
-        log.error("[%s] Abandoning the message with id '%s' on the receiver '%s' since an error " +
-          "occured: %O.", connectionId, bMessage.messageId, this.name);
+        // Do not want renewLock to happen unnecessarily, while abandoning the message. Hence,
+        // doing this here. Otherwise, this should be done in finally.
+        continueExecution = false;
+        clearTimeout(timer);
+        log.receiver("[%s] Stopping lock renewal for message with id '%s'.", connectionId,
+          bMessage.messageId);
+        const error = translate(err);
+        // Nothing much to do if user's message handler throws. Let us try abandoning the message.
+        if (error.name !== ConditionErrorNameMapper["com.microsoft:message-lock-lost"] &&
+          this.receiveMode === ReceiveMode.peekLock) {
+          try {
+            log.error("[%s] Abandoning the message with id '%s' on the receiver '%s' since " +
+              "an error occured: %O.", connectionId, bMessage.messageId, this.name, error);
+            await bMessage.abandon();
+          } catch (abandonError) {
+            const translatedError = translate(abandonError);
+            log.error("[%s] An error occurred while abandoning the message with id '%s' on the " +
+              "receiver '%s': %O.", connectionId, bMessage.messageId, this.name, translatedError);
+            this._onError!(translatedError);
+          }
+        }
+        return;
+      }
+
+      // If we've made it this far, then user's message handler completed fine. Let us try
+      // completing the message.
+      if (this.autoComplete && this.receiveMode === ReceiveMode.peekLock) {
         try {
-          await bMessage.abandon();
-        } catch (error) {
-          log.error("[%s] An error occurred while abandoning the message with id '%s' on the " +
-            "receiver '%s': %O.", connectionId, bMessage.messageId, this.name);
+          log[this.receiverType]("[%s] Auto completing the message with id '%s' on " +
+            "the receiver '%s'.", connectionId, bMessage.messageId, this.name);
+          await bMessage.complete();
+        } catch (completeError) {
+          const translatedError = translate(completeError);
+          log.error("[%s] An error occurred while completing the message with id '%s' on the " +
+            "receiver '%s': %O.", connectionId, bMessage.messageId, this.name, translatedError);
+          this._onError!(translatedError);
         }
       }
     };

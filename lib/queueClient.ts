@@ -112,7 +112,8 @@ export class QueueClient extends Client {
       const rcvOptions: ReceiveOptions = {
         maxConcurrentCalls: options.maxConcurrentCalls || 1,
         receiveMode: this.receiveMode,
-        autoComplete: options.autoComplete
+        autoComplete: options.autoComplete,
+        maxAutoRenewDurationInSeconds: options.maxAutoRenewDurationInSeconds
       };
       const sReceiver = StreamingReceiver.create(this._context, rcvOptions);
       this._context.streamingReceiver = sReceiver;

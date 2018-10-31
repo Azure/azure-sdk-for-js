@@ -103,6 +103,14 @@ export interface MessageHandlerOptions {
    * Default: 1
    */
   maxConcurrentCalls?: number;
+  /**
+   * @property {number} [maxAutoRenewDurationInSeconds] The maximum duration within which the
+   * lock will be renewed automatically. This value should be greater than the longest message
+   * lock duration; for example, the `lockDuration` property on the received message.
+   *
+   * Default: `300` (5 minutes);
+   */
+  maxAutoRenewDurationInSeconds?: number;
 }
 
 /**
