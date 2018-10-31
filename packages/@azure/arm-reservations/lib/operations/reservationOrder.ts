@@ -55,20 +55,17 @@ export class ReservationOrder {
    * Get the details of the `ReservationOrder`.
    * @summary Get a specific `ReservationOrder`.
    * @param reservationOrderId Order Id of the reservation
-   *
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationOrderGetResponse>
    */
   get(reservationOrderId: string, options?: msRest.RequestOptionsBase): Promise<Models.ReservationOrderGetResponse>;
   /**
    * @param reservationOrderId Order Id of the reservation
-   *
    * @param callback The callback
    */
   get(reservationOrderId: string, callback: msRest.ServiceCallback<Models.ReservationOrderResponse>): void;
   /**
    * @param reservationOrderId Order Id of the reservation
-   *
    * @param options The optional parameters
    * @param callback The callback
    */
