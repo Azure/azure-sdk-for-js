@@ -23,7 +23,7 @@ export async function isDirectory(directoryPath: string): Promise<boolean> {
 }
 
 export async function pathExists(path: string): Promise<boolean> {
-    return new Promise<boolean>((resolve, reject) => {
+    return new Promise<boolean>((resolve) => {
         fssync.exists(path, exists => {
             resolve(exists);
         });
