@@ -43,16 +43,16 @@ export class ScriptExecutionHistory {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
-   * @param optionsOrCallback The optional parameters or the callback
+   * @param options The optional parameters
    * @param callback The callback
    */
-  listByCluster(resourceGroupName: string, clusterName: string, optionsOrCallback: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScriptActionExecutionHistoryList>, callback: msRest.ServiceCallback<Models.ScriptActionExecutionHistoryList>): void;
-  listByCluster(resourceGroupName: string, clusterName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScriptActionExecutionHistoryList>, callback?: msRest.ServiceCallback<Models.ScriptActionExecutionHistoryList>): Promise<Models.ScriptExecutionHistoryListByClusterResponse> {
+  listByCluster(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ScriptActionExecutionHistoryList>): void;
+  listByCluster(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ScriptActionExecutionHistoryList>): Promise<Models.ScriptExecutionHistoryListByClusterResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         clusterName,
-        optionsOrCallback
+        options
       },
       listByClusterOperationSpec,
       callback) as Promise<Models.ScriptExecutionHistoryListByClusterResponse>;
@@ -78,17 +78,17 @@ export class ScriptExecutionHistory {
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param scriptExecutionId The script execution Id
-   * @param optionsOrCallback The optional parameters or the callback
+   * @param options The optional parameters
    * @param callback The callback
    */
-  promote(resourceGroupName: string, clusterName: string, scriptExecutionId: string, optionsOrCallback: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback: msRest.ServiceCallback<void>): void;
-  promote(resourceGroupName: string, clusterName: string, scriptExecutionId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  promote(resourceGroupName: string, clusterName: string, scriptExecutionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  promote(resourceGroupName: string, clusterName: string, scriptExecutionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         clusterName,
         scriptExecutionId,
-        optionsOrCallback
+        options
       },
       promoteOperationSpec,
       callback);
@@ -108,15 +108,15 @@ export class ScriptExecutionHistory {
   listByClusterNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ScriptActionExecutionHistoryList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param optionsOrCallback The optional parameters or the callback
+   * @param options The optional parameters
    * @param callback The callback
    */
-  listByClusterNext(nextPageLink: string, optionsOrCallback: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScriptActionExecutionHistoryList>, callback: msRest.ServiceCallback<Models.ScriptActionExecutionHistoryList>): void;
-  listByClusterNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScriptActionExecutionHistoryList>, callback?: msRest.ServiceCallback<Models.ScriptActionExecutionHistoryList>): Promise<Models.ScriptExecutionHistoryListByClusterNextResponse> {
+  listByClusterNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ScriptActionExecutionHistoryList>): void;
+  listByClusterNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ScriptActionExecutionHistoryList>): Promise<Models.ScriptExecutionHistoryListByClusterNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listByClusterNextOperationSpec,
       callback) as Promise<Models.ScriptExecutionHistoryListByClusterNextResponse>;

@@ -37,14 +37,14 @@ export class Operations {
    */
   list(callback: msRest.ServiceCallback<Models.OperationListResult>): void;
   /**
-   * @param optionsOrCallback The optional parameters or the callback
+   * @param options The optional parameters
    * @param callback The callback
    */
-  list(optionsOrCallback: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationListResult>, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
-  list(optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationListResult>, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.OperationsListResponse> {
+  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.OperationsListResponse> {
     return this.client.sendOperationRequest(
       {
-        optionsOrCallback
+        options
       },
       listOperationSpec,
       callback) as Promise<Models.OperationsListResponse>;
@@ -64,15 +64,15 @@ export class Operations {
   listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param optionsOrCallback The optional parameters or the callback
+   * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, optionsOrCallback: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationListResult>, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
-  listNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationListResult>, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.OperationsListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.OperationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listNextOperationSpec,
       callback) as Promise<Models.OperationsListNextResponse>;

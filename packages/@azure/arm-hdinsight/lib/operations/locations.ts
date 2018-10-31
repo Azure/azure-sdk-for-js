@@ -40,15 +40,15 @@ export class Locations {
   listUsages(location: string, callback: msRest.ServiceCallback<Models.UsagesListResult>): void;
   /**
    * @param location The location to get capabilities for.
-   * @param optionsOrCallback The optional parameters or the callback
+   * @param options The optional parameters
    * @param callback The callback
    */
-  listUsages(location: string, optionsOrCallback: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsagesListResult>, callback: msRest.ServiceCallback<Models.UsagesListResult>): void;
-  listUsages(location: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsagesListResult>, callback?: msRest.ServiceCallback<Models.UsagesListResult>): Promise<Models.LocationsListUsagesResponse> {
+  listUsages(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsagesListResult>): void;
+  listUsages(location: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UsagesListResult>): Promise<Models.LocationsListUsagesResponse> {
     return this.client.sendOperationRequest(
       {
         location,
-        optionsOrCallback
+        options
       },
       listUsagesOperationSpec,
       callback) as Promise<Models.LocationsListUsagesResponse>;

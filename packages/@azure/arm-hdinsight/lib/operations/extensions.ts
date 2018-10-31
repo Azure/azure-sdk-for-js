@@ -57,16 +57,16 @@ export class Extensions {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
-   * @param optionsOrCallback The optional parameters or the callback
+   * @param options The optional parameters
    * @param callback The callback
    */
-  getMonitoringStatus(resourceGroupName: string, clusterName: string, optionsOrCallback: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterMonitoringResponse>, callback: msRest.ServiceCallback<Models.ClusterMonitoringResponse>): void;
-  getMonitoringStatus(resourceGroupName: string, clusterName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterMonitoringResponse>, callback?: msRest.ServiceCallback<Models.ClusterMonitoringResponse>): Promise<Models.ExtensionsGetMonitoringStatusResponse> {
+  getMonitoringStatus(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterMonitoringResponse>): void;
+  getMonitoringStatus(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ClusterMonitoringResponse>): Promise<Models.ExtensionsGetMonitoringStatusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         clusterName,
-        optionsOrCallback
+        options
       },
       getMonitoringStatusOperationSpec,
       callback) as Promise<Models.ExtensionsGetMonitoringStatusResponse>;
@@ -118,17 +118,17 @@ export class Extensions {
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param extensionName The name of the cluster extension.
-   * @param optionsOrCallback The optional parameters or the callback
+   * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, extensionName: string, optionsOrCallback: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Extension>, callback: msRest.ServiceCallback<Models.Extension>): void;
-  get(resourceGroupName: string, clusterName: string, extensionName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Extension>, callback?: msRest.ServiceCallback<Models.Extension>): Promise<Models.ExtensionsGetResponse> {
+  get(resourceGroupName: string, clusterName: string, extensionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Extension>): void;
+  get(resourceGroupName: string, clusterName: string, extensionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Extension>): Promise<Models.ExtensionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         clusterName,
         extensionName,
-        optionsOrCallback
+        options
       },
       getOperationSpec,
       callback) as Promise<Models.ExtensionsGetResponse>;

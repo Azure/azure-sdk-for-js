@@ -60,17 +60,17 @@ export class Clusters {
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param parameters The cluster patch request.
-   * @param optionsOrCallback The optional parameters or the callback
+   * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, clusterName: string, parameters: Models.ClusterPatchParameters, optionsOrCallback: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Cluster>, callback: msRest.ServiceCallback<Models.Cluster>): void;
-  update(resourceGroupName: string, clusterName: string, parameters: Models.ClusterPatchParameters, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Cluster>, callback?: msRest.ServiceCallback<Models.Cluster>): Promise<Models.ClustersUpdateResponse> {
+  update(resourceGroupName: string, clusterName: string, parameters: Models.ClusterPatchParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Cluster>): void;
+  update(resourceGroupName: string, clusterName: string, parameters: Models.ClusterPatchParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Cluster>): Promise<Models.ClustersUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         clusterName,
         parameters,
-        optionsOrCallback
+        options
       },
       updateOperationSpec,
       callback) as Promise<Models.ClustersUpdateResponse>;
@@ -105,16 +105,16 @@ export class Clusters {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
-   * @param optionsOrCallback The optional parameters or the callback
+   * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, optionsOrCallback: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Cluster>, callback: msRest.ServiceCallback<Models.Cluster>): void;
-  get(resourceGroupName: string, clusterName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Cluster>, callback?: msRest.ServiceCallback<Models.Cluster>): Promise<Models.ClustersGetResponse> {
+  get(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Cluster>): void;
+  get(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Cluster>): Promise<Models.ClustersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         clusterName,
-        optionsOrCallback
+        options
       },
       getOperationSpec,
       callback) as Promise<Models.ClustersGetResponse>;
@@ -134,15 +134,15 @@ export class Clusters {
   listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
-   * @param optionsOrCallback The optional parameters or the callback
+   * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, optionsOrCallback: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
-  listByResourceGroup(resourceGroupName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        optionsOrCallback
+        options
       },
       listByResourceGroupOperationSpec,
       callback) as Promise<Models.ClustersListByResourceGroupResponse>;
@@ -172,14 +172,14 @@ export class Clusters {
    */
   list(callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
   /**
-   * @param optionsOrCallback The optional parameters or the callback
+   * @param options The optional parameters
    * @param callback The callback
    */
-  list(optionsOrCallback: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
-  list(optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListResponse> {
+  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListResponse> {
     return this.client.sendOperationRequest(
       {
-        optionsOrCallback
+        options
       },
       listOperationSpec,
       callback) as Promise<Models.ClustersListResponse>;
@@ -290,15 +290,15 @@ export class Clusters {
   listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param optionsOrCallback The optional parameters or the callback
+   * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, optionsOrCallback: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listByResourceGroupNextOperationSpec,
       callback) as Promise<Models.ClustersListByResourceGroupNextResponse>;
@@ -318,15 +318,15 @@ export class Clusters {
   listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param optionsOrCallback The optional parameters or the callback
+   * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, optionsOrCallback: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
-  listNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listNextOperationSpec,
       callback) as Promise<Models.ClustersListNextResponse>;
