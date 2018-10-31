@@ -3469,6 +3469,69 @@ export const ApplicationGateway: msRest.CompositeMapper = {
   }
 };
 
+export const ApplicationGatewayAvailableServerVariablesResult: msRest.CompositeMapper = {
+  serializedName: "ApplicationGatewayAvailableServerVariablesResult",
+  type: {
+    name: "Composite",
+    className: "ApplicationGatewayAvailableServerVariablesResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ApplicationGatewayAvailableRequestHeadersResult: msRest.CompositeMapper = {
+  serializedName: "ApplicationGatewayAvailableRequestHeadersResult",
+  type: {
+    name: "Composite",
+    className: "ApplicationGatewayAvailableRequestHeadersResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ApplicationGatewayAvailableResponseHeadersResult: msRest.CompositeMapper = {
+  serializedName: "ApplicationGatewayAvailableResponseHeadersResult",
+  type: {
+    name: "Composite",
+    className: "ApplicationGatewayAvailableResponseHeadersResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ApplicationGatewayFirewallRule: msRest.CompositeMapper = {
   serializedName: "ApplicationGatewayFirewallRule",
   type: {

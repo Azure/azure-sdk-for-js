@@ -2589,6 +2589,48 @@ export interface ApplicationGateway extends Resource {
 
 /**
  * @interface
+ * An interface representing ApplicationGatewayAvailableServerVariablesResult.
+ * Response for ApplicationGatewayAvailableServerVariables API service call.
+ *
+ */
+export interface ApplicationGatewayAvailableServerVariablesResult {
+  /**
+   * @member {string[]} [value] The list of supported server variables in
+   * application gateway.
+   */
+  value?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationGatewayAvailableRequestHeadersResult.
+ * Response for ApplicationGatewayAvailableRequestHeaders API service call.
+ *
+ */
+export interface ApplicationGatewayAvailableRequestHeadersResult {
+  /**
+   * @member {string[]} [value] The list of supported request headers in
+   * application gateway.
+   */
+  value?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationGatewayAvailableResponseHeadersResult.
+ * Response for ApplicationGatewayAvailableResponeHeaders API service call.
+ *
+ */
+export interface ApplicationGatewayAvailableResponseHeadersResult {
+  /**
+   * @member {string[]} [value] The list of supported response header in
+   * application gateway.
+   */
+  value?: string[];
+}
+
+/**
+ * @interface
  * An interface representing ApplicationGatewayFirewallRule.
  * A web application firewall rule.
  *
@@ -12389,6 +12431,63 @@ export type ApplicationGatewaysBackendHealthResponse = ApplicationGatewayBackend
        * The response body as parsed JSON or XML
        */
       parsedBody: ApplicationGatewayBackendHealth;
+    };
+};
+
+/**
+ * Contains response data for the listAvailableServerVariables operation.
+ */
+export type ApplicationGatewaysListAvailableServerVariablesResponse = ApplicationGatewayAvailableServerVariablesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApplicationGatewayAvailableServerVariablesResult;
+    };
+};
+
+/**
+ * Contains response data for the listAvailableRequestHeaders operation.
+ */
+export type ApplicationGatewaysListAvailableRequestHeadersResponse = ApplicationGatewayAvailableRequestHeadersResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApplicationGatewayAvailableRequestHeadersResult;
+    };
+};
+
+/**
+ * Contains response data for the listAvailableResponseHeaders operation.
+ */
+export type ApplicationGatewaysListAvailableResponseHeadersResponse = ApplicationGatewayAvailableResponseHeadersResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApplicationGatewayAvailableResponseHeadersResult;
     };
 };
 
