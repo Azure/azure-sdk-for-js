@@ -99,32 +99,32 @@ async function analyzeSingleDirectory(directoryPath: string, serviceDirectory: s
 
     if (!(await isDirectory(fullSdkPath))) {
         _logger.logWarn(`"${directoryPath}" is not a directory. Skipping`);
-        return undefined;
-    }
+    } else {
+        const readmeFiles = (await fs.readdir(fullSdkPath)).filter(file => /^readme/.test(file));
+        const fullSpecName = `${serviceDirectory} [${sdkTypeDirectory}]`
+        const sdk = { sdkName: serviceDirectory, sdkType: parseSdkType(sdkTypeDirectory) };
 
-    const readmeFiles = (await fs.readdir(fullSdkPath)).filter(file => /^readme/.test(file));
-    const fullSpecName = `${serviceDirectory} [${sdkTypeDirectory}]`
-    const sdk = { sdkName: serviceDirectory, sdkType: parseSdkType(sdkTypeDirectory) };
-
-    if (readmeFiles.length <= 0) {
-        // No readme.md
-        return undefined;
-    } else if (arrayContains(readmeFiles, "readme.nodejs.md")) {
-        if (!arrayContains(readmeFiles, "readme.typescript.md")) {
-            _logger.logWithDebugDetails(`${fullSpecName}`.negative, "readme.nodejs.md exists but no matching readme.typescript.md");
-            return sdk;
-        } else {
-            _logger.logDebug(fullSpecName.positive);
-        }
-    } else if (arrayContains(readmeFiles, "readme.md")) {
-        const readmeMdPath = path.resolve(fullSdkPath, "readme.md");
-        if (await doesReadmeMdFileSpecifiesTypescriptSdk(readmeMdPath)) {
-            _logger.logWithDebugDetails(`${fullSpecName}`.negative, "typescript mentioned in readme.md but no readme.typescript.md exists");
-            return sdk;
-        } else {
-            _logger.logDebug(fullSpecName.positive);
+        if (readmeFiles.length <= 0) {
+            // No readme.md
+        } else if (arrayContains(readmeFiles, "readme.nodejs.md")) {
+            if (!arrayContains(readmeFiles, "readme.typescript.md")) {
+                _logger.logWithDebugDetails(`${fullSpecName}`.negative, "readme.nodejs.md exists but no matching readme.typescript.md");
+                return sdk;
+            } else {
+                _logger.logDebug(fullSpecName.positive);
+            }
+        } else if (arrayContains(readmeFiles, "readme.md")) {
+            const readmeMdPath = path.resolve(fullSdkPath, "readme.md");
+            if (await doesReadmeMdFileSpecifiesTypescriptSdk(readmeMdPath)) {
+                _logger.logWithDebugDetails(`${fullSpecName}`.negative, "typescript mentioned in readme.md but no readme.typescript.md exists");
+                return sdk;
+            } else {
+                _logger.logDebug(fullSpecName.positive);
+            }
         }
     }
+
+    return undefined;
 }
 
 export async function saveContentToFile(filePath: string, content: string): Promise<void> {
@@ -234,30 +234,26 @@ async function getPackageInformationFromReadmeFiles(azureRestApiSpecsRoot: strin
 }
 
 async function getPackageMetadataFromReadmeFile(azureSdkForJsRoot: string, azureRestApiSpecsRoot: string, tsReadmePath: string): Promise<PackageInfo[]> {
-    const readmeBuffer = await fs.readFile(tsReadmePath);
-    const readmeContent = readmeBuffer.toString()
-    const absoluteOutputPath = getAbsolutePackageFolderPathFromReadmeFileContents(azureSdkForJsRoot, readmeContent);
-    const packageNames = getPackageNamesFromReadmeTypeScriptMdFileContents(readmeContent);
-    const packageName = packageNames.length == 1 ? packageNames[0] : JSON.stringify(packageNames);
-
-    const packageInfos = packageNames.map(name => {
+    const readmeBuffer: Buffer = await fs.readFile(tsReadmePath);
+    const readmeContent: string = readmeBuffer.toString()
+    const absoluteOutputPath: string | undefined = getAbsolutePackageFolderPathFromReadmeFileContents(azureSdkForJsRoot, readmeContent);
+    const packageNames: string[] = getPackageNamesFromReadmeTypeScriptMdFileContents(readmeContent);
+    return packageNames.map((name: string) => {
         return {
             name: name,
             outputPath: absoluteOutputPath,
             readmePath: tsReadmePath.replace(azureRestApiSpecsRoot, "")
         }
     });
-
-    return packageInfos;
 }
 
 async function getPackagesWithBuildErrors(azureSdkForJsRoot: string, jsonPackageInfos: PackageInfo[]): Promise<PackageFault[]> {
     const faultyPackages: PackageFault[] = [];
     for (const packageInfo of jsonPackageInfos) {
         if (packageInfo.outputPath) {
-            const packagePath = path.resolve(azureSdkForJsRoot, packageInfo.outputPath);
+            const packagePath: string = path.resolve(azureSdkForJsRoot, packageInfo.outputPath);
             _logger.logTrace(`Building ${packagePath} directory.`);
-            const error = await buildAndGetErrorOutput(packagePath);
+            const error: string | undefined = await buildAndGetErrorOutput(packagePath);
             if (error) {
                 faultyPackages.push({
                     package: packageInfo,

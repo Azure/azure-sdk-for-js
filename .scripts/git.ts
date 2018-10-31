@@ -83,7 +83,7 @@ function unlock(repositoryPath: string) {
 async function waitUntilUnlocked(repositoryPath: string): Promise<void> {
     _logger.logTrace("Waiting for the repository to be unlocked");
 
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<void>((resolve) => {
         const wait = () => {
             setTimeout(() => {
                 _logger.logTrace(`Repository is ${isLocked(repositoryPath) ? "locked" : "unlocked"}`);
@@ -257,7 +257,7 @@ export async function commitChanges(repository: Repository, commitMessage: strin
     const index = await repository.refreshIndex();
     if (typeof validateEach === "string") {
         const folderName = validateEach;
-        validateEach = (path, pattern) => {
+        validateEach = (path) => {
              return path.startsWith(folderName) ? 0 : 1;
         }
     }
@@ -281,7 +281,7 @@ export async function pushBranch(repository: Repository, localBranch: Branch, fo
     return new Promise<number>((resolve, reject) => {
         remote.push([refSpec], {
             callbacks: {
-                credentials: (url: string, userName: string) => {
+                credentials: () => {
                     return Cred.userpassPlaintextNew(getToken(), "x-oauth-basic");
                 }
             }
