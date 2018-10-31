@@ -917,6 +917,12 @@ export interface ApplicationGetHttpsEndpoint {
    * @member {number} [publicPort] The public port to connect to.
    */
   publicPort?: number;
+  /**
+   * @property Describes unknown properties. The value of an unknown property
+   * MUST be of type "string". Due to valid TS constraints we have modeled this
+   * as a union of `string | any`.
+   */
+  [property: string]: string | any;
 }
 
 /**
@@ -1005,6 +1011,11 @@ export interface ApplicationProperties {
    * the server.**
    */
   readonly marketplaceIdentifier?: string;
+  /**
+   * @member {string} [additionalProperties] The additional properties for
+   * application.
+   */
+  additionalProperties?: string;
 }
 
 /**

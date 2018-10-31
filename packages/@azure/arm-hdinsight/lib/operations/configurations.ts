@@ -61,17 +61,17 @@ export class Configurations {
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param configurationName The name of the cluster configuration.
-   * @param options The optional parameters
+   * @param optionsOrCallback The optional parameters or the callback
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, configurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<{ [propertyName: string]: string }>): void;
-  get(resourceGroupName: string, clusterName: string, configurationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<{ [propertyName: string]: string }>): Promise<Models.ConfigurationsGetResponse> {
+  get(resourceGroupName: string, clusterName: string, configurationName: string, optionsOrCallback: msRest.RequestOptionsBase | msRest.ServiceCallback<{ [propertyName: string]: string }>, callback: msRest.ServiceCallback<{ [propertyName: string]: string }>): void;
+  get(resourceGroupName: string, clusterName: string, configurationName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<{ [propertyName: string]: string }>, callback?: msRest.ServiceCallback<{ [propertyName: string]: string }>): Promise<Models.ConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         clusterName,
         configurationName,
-        options
+        optionsOrCallback
       },
       getOperationSpec,
       callback) as Promise<Models.ConfigurationsGetResponse>;

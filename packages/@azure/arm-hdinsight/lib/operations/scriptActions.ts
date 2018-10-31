@@ -46,17 +46,17 @@ export class ScriptActions {
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param scriptName The name of the script.
-   * @param options The optional parameters
+   * @param optionsOrCallback The optional parameters or the callback
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, clusterName: string, scriptName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, clusterName: string, scriptName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, clusterName: string, scriptName: string, optionsOrCallback: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, clusterName: string, scriptName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         clusterName,
         scriptName,
-        options
+        optionsOrCallback
       },
       deleteMethodOperationSpec,
       callback);
@@ -79,16 +79,16 @@ export class ScriptActions {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
-   * @param options The optional parameters
+   * @param optionsOrCallback The optional parameters or the callback
    * @param callback The callback
    */
-  listByCluster(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ScriptActionsList>): void;
-  listByCluster(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ScriptActionsList>): Promise<Models.ScriptActionsListByClusterResponse> {
+  listByCluster(resourceGroupName: string, clusterName: string, optionsOrCallback: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScriptActionsList>, callback: msRest.ServiceCallback<Models.ScriptActionsList>): void;
+  listByCluster(resourceGroupName: string, clusterName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScriptActionsList>, callback?: msRest.ServiceCallback<Models.ScriptActionsList>): Promise<Models.ScriptActionsListByClusterResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         clusterName,
-        options
+        optionsOrCallback
       },
       listByClusterOperationSpec,
       callback) as Promise<Models.ScriptActionsListByClusterResponse>;
@@ -114,17 +114,17 @@ export class ScriptActions {
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param scriptExecutionId The script execution Id
-   * @param options The optional parameters
+   * @param optionsOrCallback The optional parameters or the callback
    * @param callback The callback
    */
-  getExecutionDetail(resourceGroupName: string, clusterName: string, scriptExecutionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RuntimeScriptActionDetail>): void;
-  getExecutionDetail(resourceGroupName: string, clusterName: string, scriptExecutionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RuntimeScriptActionDetail>): Promise<Models.ScriptActionsGetExecutionDetailResponse> {
+  getExecutionDetail(resourceGroupName: string, clusterName: string, scriptExecutionId: string, optionsOrCallback: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RuntimeScriptActionDetail>, callback: msRest.ServiceCallback<Models.RuntimeScriptActionDetail>): void;
+  getExecutionDetail(resourceGroupName: string, clusterName: string, scriptExecutionId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RuntimeScriptActionDetail>, callback?: msRest.ServiceCallback<Models.RuntimeScriptActionDetail>): Promise<Models.ScriptActionsGetExecutionDetailResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         clusterName,
         scriptExecutionId,
-        options
+        optionsOrCallback
       },
       getExecutionDetailOperationSpec,
       callback) as Promise<Models.ScriptActionsGetExecutionDetailResponse>;
@@ -144,15 +144,15 @@ export class ScriptActions {
   listByClusterNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ScriptActionsList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
+   * @param optionsOrCallback The optional parameters or the callback
    * @param callback The callback
    */
-  listByClusterNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ScriptActionsList>): void;
-  listByClusterNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ScriptActionsList>): Promise<Models.ScriptActionsListByClusterNextResponse> {
+  listByClusterNext(nextPageLink: string, optionsOrCallback: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScriptActionsList>, callback: msRest.ServiceCallback<Models.ScriptActionsList>): void;
+  listByClusterNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScriptActionsList>, callback?: msRest.ServiceCallback<Models.ScriptActionsList>): Promise<Models.ScriptActionsListByClusterNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        options
+        optionsOrCallback
       },
       listByClusterNextOperationSpec,
       callback) as Promise<Models.ScriptActionsListByClusterNextResponse>;
