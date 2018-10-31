@@ -106,6 +106,27 @@ export const AccountResourceListResult: msRest.CompositeMapper = {
   }
 };
 
+export const AccountTagRequest: msRest.CompositeMapper = {
+  serializedName: "AccountTagRequest",
+  type: {
+    name: "Composite",
+    className: "AccountTagRequest",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const AccountResourceRequest: msRest.CompositeMapper = {
   serializedName: "AccountResourceRequest",
   type: {
