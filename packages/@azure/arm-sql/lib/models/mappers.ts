@@ -3838,6 +3838,12 @@ export const ExtendedDatabaseBlobAuditingPolicy: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      isAzureMonitorTargetEnabled: {
+        serializedName: "properties.isAzureMonitorTargetEnabled",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -3907,6 +3913,12 @@ export const ExtendedServerBlobAuditingPolicy: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      isAzureMonitorTargetEnabled: {
+        serializedName: "properties.isAzureMonitorTargetEnabled",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -3967,6 +3979,12 @@ export const ServerBlobAuditingPolicy: msRest.CompositeMapper = {
       },
       isStorageSecondaryKeyInUse: {
         serializedName: "properties.isStorageSecondaryKeyInUse",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isAzureMonitorTargetEnabled: {
+        serializedName: "properties.isAzureMonitorTargetEnabled",
         type: {
           name: "Boolean"
         }
@@ -4037,6 +4055,12 @@ export const DatabaseBlobAuditingPolicy: msRest.CompositeMapper = {
       },
       isStorageSecondaryKeyInUse: {
         serializedName: "properties.isStorageSecondaryKeyInUse",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isAzureMonitorTargetEnabled: {
+        serializedName: "properties.isAzureMonitorTargetEnabled",
         type: {
           name: "Boolean"
         }
