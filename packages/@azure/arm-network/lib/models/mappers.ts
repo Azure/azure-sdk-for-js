@@ -8411,6 +8411,29 @@ export const RetentionPolicyParameters: msRest.CompositeMapper = {
   }
 };
 
+export const FlowLogFormatParameters: msRest.CompositeMapper = {
+  serializedName: "FlowLogFormatParameters",
+  type: {
+    name: "Composite",
+    className: "FlowLogFormatParameters",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        defaultValue: 0,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const FlowLogStatusParameters: msRest.CompositeMapper = {
   serializedName: "FlowLogStatusParameters",
   type: {
@@ -8516,6 +8539,13 @@ export const FlowLogInformation: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "RetentionPolicyParameters"
+        }
+      },
+      format: {
+        serializedName: "properties.format",
+        type: {
+          name: "Composite",
+          className: "FlowLogFormatParameters"
         }
       },
       flowAnalyticsConfiguration: {
