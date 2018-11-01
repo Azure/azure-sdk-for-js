@@ -22,7 +22,7 @@ export { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
 export { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 export { redirectPolicy } from "./policies/redirectPolicy";
 export { signingPolicy } from "./policies/signingPolicy";
-export { userAgentPolicy } from "./policies/userAgentPolicy";
+export { userAgentPolicy, getDefaultUserAgentValue } from "./policies/userAgentPolicy";
 export { deserializationPolicy, deserializeResponseBody } from "./policies/deserializationPolicy";
 export {
   MapperType, SimpleMapperType, CompositeMapperType, DictionaryMapperType, SequenceMapperType, EnumMapperType,

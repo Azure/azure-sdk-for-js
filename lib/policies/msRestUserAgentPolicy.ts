@@ -10,15 +10,15 @@ export function getDefaultUserAgentKey(): string {
 }
 
 export function getPlatformSpecificData(): TelemetryInfo[] {
-  const osInfo = {
-    key: "OS",
-    value: `(${os.arch()}-${os.type()}-${os.release()})`
-  };
-
   const runtimeInfo = {
     key: "Node",
     value: process.version
   };
 
-  return [osInfo, runtimeInfo];
+  const osInfo = {
+    key: "OS",
+    value: `(${os.arch()}-${os.type()}-${os.release()})`
+  };
+
+  return [runtimeInfo, osInfo];
 }

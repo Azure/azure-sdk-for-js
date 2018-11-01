@@ -102,7 +102,6 @@ export class ServiceClient {
 
   private readonly _requestPolicyFactories: RequestPolicyFactory[];
   private readonly _withCredentials: boolean;
-  private readonly _overriddenUserAgent?: string;
 
   /**
    * The ServiceClient constructor
@@ -122,9 +121,8 @@ export class ServiceClient {
     this._withCredentials = options.withCredentials || false;
     this._httpClient = options.httpClient || new DefaultHttpClient();
     this._requestPolicyOptions = new RequestPolicyOptions(options.httpPipelineLogger);
-    this._overriddenUserAgent = options.userAgent || undefined;
 
-    this._requestPolicyFactories = options.requestPolicyFactories || createDefaultRequestPolicyFactories(credentials, options, this._overriddenUserAgent);
+    this._requestPolicyFactories = options.requestPolicyFactories || createDefaultRequestPolicyFactories(credentials, options);
   }
 
   /**
@@ -345,7 +343,7 @@ function isRequestPolicyFactory(instance: any): instance is RequestPolicyFactory
   return typeof instance.create === "function";
 }
 
-function createDefaultRequestPolicyFactories(credentials: ServiceClientCredentials | RequestPolicyFactory | undefined, options: ServiceClientOptions, userAgent?: string): RequestPolicyFactory[] {
+function createDefaultRequestPolicyFactories(credentials: ServiceClientCredentials | RequestPolicyFactory | undefined, options: ServiceClientOptions): RequestPolicyFactory[] {
   const factories: RequestPolicyFactory[] = [];
 
   if (options.generateClientRequestIdHeader) {
@@ -360,7 +358,7 @@ function createDefaultRequestPolicyFactories(credentials: ServiceClientCredentia
     }
   }
 
-  factories.push(userAgentPolicy({ value: userAgent }));
+  factories.push(userAgentPolicy({ value: options.userAgent }));
   factories.push(redirectPolicy());
   factories.push(rpRegistrationPolicy(options.rpRegistrationRetryTimeout));
 

@@ -9,16 +9,12 @@ import { getPlatformSpecificData, getDefaultUserAgentKey } from "./msRestUserAge
 export type TelemetryInfo = { key?: string; value?: string };
 
 function getRuntimeInfo(): TelemetryInfo[] {
-    const sdkSignature = {
-        key: "azure-sdk-for-js"
-    };
-
     const msRestRuntime = {
         key: "ms-rest-js",
         value: Constants.msRestVersion
     };
 
-    return [sdkSignature, msRestRuntime];
+    return [msRestRuntime];
 }
 
 function getUserAgentString(telemetryInfo: TelemetryInfo[], keySeparator = " ", valueSeparator = "/"): string {
@@ -28,7 +24,7 @@ function getUserAgentString(telemetryInfo: TelemetryInfo[], keySeparator = " ", 
     }).join(keySeparator);
 }
 
-function getDefaultHeaderValue(): string {
+export function getDefaultUserAgentValue(): string {
     const runtimeInfo = getRuntimeInfo();
     const platformSpecificData = getPlatformSpecificData();
     const userAgent = getUserAgentString(runtimeInfo.concat(platformSpecificData));
@@ -36,8 +32,8 @@ function getDefaultHeaderValue(): string {
 }
 
 export function userAgentPolicy(userAgentData?: TelemetryInfo): RequestPolicyFactory {
-    const key: string = (userAgentData && userAgentData.key) || getDefaultUserAgentKey();
-    const value: string = (userAgentData && userAgentData.value) || getDefaultHeaderValue();
+    const key: string = (!userAgentData || userAgentData.key === undefined) ? getDefaultUserAgentKey() : userAgentData.key;
+    const value: string = (!userAgentData || userAgentData.value === undefined) ?  getDefaultUserAgentValue() : userAgentData.value;
 
     return {
         create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
@@ -61,7 +57,7 @@ export class UserAgentPolicy extends BaseRequestPolicy {
             request.headers = new HttpHeaders();
         }
 
-        if (!request.headers.get(this.headerKey)) {
+        if (!request.headers.get(this.headerKey) && this.headerValue) {
             request.headers.set(this.headerKey, this.headerValue);
         }
     }

@@ -50,21 +50,21 @@ describe("MsRestUserAgentPolicy (Browser)", () => {
     userAgentHeader.should.be.equal(customUserAgent);
   });
 
-  it("should be space delimited and contain three fields", async () => {
+  it("should be space delimited and contain two fields", async () => {
     const userAgent = await getUserAgent();
     const userAgentParts = userAgent.split(" ");
-    userAgentParts.length.should.be.equal(3);
+    userAgentParts.length.should.be.equal(2);
   });
 
   it("should contain runtime information", async () => {
     const userAgent = await getUserAgent();
-    userAgent.should.match(/azure-sdk-for-js ms-rest-js\/[\d\.]+ .+/);
+    userAgent.should.match(/ms-rest-js\/[\d\.]+ .+/);
   });
 
-  it("should have operating system information at the third place", async () => {
+  it("should have operating system information at the second place", async () => {
     const userAgent = await getUserAgent();
     const userAgentParts = userAgent.split(" ");
-    const osInfo = userAgentParts[2];
+    const osInfo = userAgentParts[1];
     osInfo.should.match(/OS\/[\w\d\.\-]+/);
   });
 });

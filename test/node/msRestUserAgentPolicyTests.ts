@@ -42,6 +42,18 @@ describe("MsRestUserAgentPolicy (NodeJS)", () => {
     userAgentHeader.should.be.equal(customUserAgent);
   });
 
+  it("should not set the user agent header if custom user agent is empty", async () => {
+    const customUserAgent = "";
+    const factory = userAgentPolicy({ value: customUserAgent });
+    const nodeUserAgentPolicy = factory.create(emptyRequestPolicy, new RequestPolicyOptions());
+    const resource = new WebResource();
+    await nodeUserAgentPolicy.sendRequest(resource);
+
+    const userAgentHeader: string = resource.headers.get(userAgentHeaderKey)!;
+
+    (userAgentHeader === undefined).should.be.true;
+  });
+
   it("should use injected user agent string if provided", async () => {
     const customUserAgent = "my custom user agent";
     const factory = userAgentPolicy({ value: customUserAgent });
@@ -54,15 +66,15 @@ describe("MsRestUserAgentPolicy (NodeJS)", () => {
     userAgentHeader.should.be.equal(customUserAgent);
   });
 
-  it("should be space delimited and contain four fields", async () => {
+  it("should be space delimited and contain three fields", async () => {
     const userAgent = await getUserAgent();
     const userAgentParts = userAgent.split(" ");
-    userAgentParts.length.should.be.equal(4);
+    userAgentParts.length.should.be.equal(3);
   });
 
   it("should contain runtime information", async () => {
     const userAgent = await getUserAgent();
-    userAgent.should.match(/azure-sdk-for-js ms-rest-js\/[\d\.]+ .+/);
+    userAgent.should.match(/ms-rest-js\/[\d\.]+ .+/);
   });
 
   it("should have operating system information at the third place", async () => {
@@ -72,10 +84,10 @@ describe("MsRestUserAgentPolicy (NodeJS)", () => {
     osInfo.should.match(/OS\/\([\w\d\.\-]+\)/);
   });
 
-  it("should have Node information at the fourth place", async () => {
+  it("should have Node information at the second place", async () => {
     const userAgent = await getUserAgent();
     const userAgentParts = userAgent.split(" ");
-    const osInfo = userAgentParts[3];
+    const osInfo = userAgentParts[1];
     osInfo.should.match(/Node\/v[\d.]+/);
   });
 });
