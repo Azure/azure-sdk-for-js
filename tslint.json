@@ -44,6 +44,7 @@
     "no-use-before-declare": true,
     "no-var-keyword": true,
     "no-floating-promises": true,
+    "no-return-await": true,
     "triple-equals": [
       true,
       "allow-null-check",
