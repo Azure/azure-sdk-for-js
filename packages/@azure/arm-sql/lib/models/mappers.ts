@@ -3914,43 +3914,8 @@ export const ExtendedServerBlobAuditingPolicy: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
-      storageEndpoint: {
-        serializedName: "storageEndpoint",
-        type: {
-          name: "String"
-        }
-      },
-      storageAccountAccessKey: {
-        serializedName: "storageAccountAccessKey",
-        type: {
-          name: "String"
-        }
-      },
-      retentionDays: {
-        serializedName: "retentionDays",
-        type: {
-          name: "Number"
-        }
-      },
-      auditActionsAndGroups: {
-        serializedName: "auditActionsAndGroups",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      storageAccountSubscriptionId: {
-        serializedName: "storageAccountSubscriptionId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      isStorageSecondaryKeyInUse: {
-        serializedName: "isStorageSecondaryKeyInUse",
+      isAzureMonitorTargetEnabled: {
+        serializedName: "properties.isAzureMonitorTargetEnabled",
         type: {
           name: "Boolean"
         }
