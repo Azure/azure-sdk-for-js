@@ -3112,6 +3112,41 @@ export const AppServicePlan: msRest.CompositeMapper = {
           ]
         }
       },
+      mdmId: {
+        readOnly: true,
+        serializedName: "properties.mdmId",
+        type: {
+          name: "String"
+        }
+      },
+      currentNumberOfWorkers: {
+        readOnly: true,
+        serializedName: "properties.currentNumberOfWorkers",
+        type: {
+          name: "Number"
+        }
+      },
+      currentWorkerSize: {
+        readOnly: true,
+        serializedName: "properties.currentWorkerSize",
+        type: {
+          name: "String"
+        }
+      },
+      numberOfWorkers: {
+        readOnly: true,
+        serializedName: "properties.numberOfWorkers",
+        type: {
+          name: "Number"
+        }
+      },
+      workerSize: {
+        readOnly: true,
+        serializedName: "properties.workerSize",
+        type: {
+          name: "String"
+        }
+      },
       sku: {
         serializedName: "sku",
         type: {
