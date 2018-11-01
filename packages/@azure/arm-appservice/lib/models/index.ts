@@ -18489,9 +18489,9 @@ export type WebAppsGetNetworkTracesSlotResponse = Array<NetworkTrace> & {
 };
 
 /**
- * Contains response data for the getNetworkTraceOperationV2Slot operation.
+ * Contains response data for the getNetworkTraceOperationSlotV2 operation.
  */
-export type WebAppsGetNetworkTraceOperationV2SlotResponse = Array<NetworkTrace> & {
+export type WebAppsGetNetworkTraceOperationSlotV2Response = Array<NetworkTrace> & {
   /**
    * The underlying HTTP response.
    */
@@ -18508,9 +18508,9 @@ export type WebAppsGetNetworkTraceOperationV2SlotResponse = Array<NetworkTrace> 
 };
 
 /**
- * Contains response data for the getNetworkTracesV2Slot operation.
+ * Contains response data for the getNetworkTracesSlotV2 operation.
  */
-export type WebAppsGetNetworkTracesV2SlotResponse = Array<NetworkTrace> & {
+export type WebAppsGetNetworkTracesSlotV2Response = Array<NetworkTrace> & {
   /**
    * The underlying HTTP response.
    */
