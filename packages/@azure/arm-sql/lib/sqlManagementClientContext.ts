@@ -36,11 +36,6 @@ export class SqlManagementClientContext extends msRestAzure.AzureServiceClient {
     if (!options) {
       options = {};
     }
-    if (!options.userAgent) {
-      const defaultUserAgent = msRest.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
-
     super(credentials, options);
 
     this.acceptLanguage = 'en-US';
@@ -50,6 +45,7 @@ export class SqlManagementClientContext extends msRestAzure.AzureServiceClient {
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
 
+    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
