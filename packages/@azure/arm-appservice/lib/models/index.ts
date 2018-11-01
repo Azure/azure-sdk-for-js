@@ -2367,6 +2367,11 @@ export interface AppServicePlan extends Resource {
    */
   readonly provisioningState?: ProvisioningState;
   /**
+   * @member {string} [appServicePlanKind] **NOTE: This property will not be
+   * serialized. It can only be populated by the server.**
+   */
+  readonly appServicePlanKind?: string;
+  /**
    * @member {string} [mdmId] **NOTE: This property will not be serialized. It
    * can only be populated by the server.**
    */

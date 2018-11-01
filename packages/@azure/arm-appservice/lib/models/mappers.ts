@@ -3112,6 +3112,13 @@ export const AppServicePlan: msRest.CompositeMapper = {
           ]
         }
       },
+      appServicePlanKind: {
+        readOnly: true,
+        serializedName: "properties.kind",
+        type: {
+          name: "String"
+        }
+      },
       mdmId: {
         readOnly: true,
         serializedName: "properties.mdmId",
