@@ -42,10 +42,10 @@ export class TopLevelDomains {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TopLevelDomainCollection>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TopLevelDomainCollection>): Promise<Models.TopLevelDomainsListResponse> {
+  list(optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopLevelDomainCollection>, callback?: msRest.ServiceCallback<Models.TopLevelDomainCollection>): Promise<Models.TopLevelDomainsListResponse> {
     return this.client.sendOperationRequest(
       {
-        options
+        optionsOrCallback
       },
       listOperationSpec,
       callback) as Promise<Models.TopLevelDomainsListResponse>;
@@ -70,11 +70,11 @@ export class TopLevelDomains {
    * @param callback The callback
    */
   get(name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TopLevelDomain>): void;
-  get(name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TopLevelDomain>): Promise<Models.TopLevelDomainsGetResponse> {
+  get(name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopLevelDomain>, callback?: msRest.ServiceCallback<Models.TopLevelDomain>): Promise<Models.TopLevelDomainsGetResponse> {
     return this.client.sendOperationRequest(
       {
         name,
-        options
+        optionsOrCallback
       },
       getOperationSpec,
       callback) as Promise<Models.TopLevelDomainsGetResponse>;
@@ -102,12 +102,12 @@ export class TopLevelDomains {
    * @param callback The callback
    */
   listAgreements(name: string, agreementOption: Models.TopLevelDomainAgreementOption, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TldLegalAgreementCollection>): void;
-  listAgreements(name: string, agreementOption: Models.TopLevelDomainAgreementOption, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TldLegalAgreementCollection>): Promise<Models.TopLevelDomainsListAgreementsResponse> {
+  listAgreements(name: string, agreementOption: Models.TopLevelDomainAgreementOption, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TldLegalAgreementCollection>, callback?: msRest.ServiceCallback<Models.TldLegalAgreementCollection>): Promise<Models.TopLevelDomainsListAgreementsResponse> {
     return this.client.sendOperationRequest(
       {
         name,
         agreementOption,
-        options
+        optionsOrCallback
       },
       listAgreementsOperationSpec,
       callback) as Promise<Models.TopLevelDomainsListAgreementsResponse>;
@@ -132,11 +132,11 @@ export class TopLevelDomains {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TopLevelDomainCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TopLevelDomainCollection>): Promise<Models.TopLevelDomainsListNextResponse> {
+  listNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopLevelDomainCollection>, callback?: msRest.ServiceCallback<Models.TopLevelDomainCollection>): Promise<Models.TopLevelDomainsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        options
+        optionsOrCallback
       },
       listNextOperationSpec,
       callback) as Promise<Models.TopLevelDomainsListNextResponse>;
@@ -161,11 +161,11 @@ export class TopLevelDomains {
    * @param callback The callback
    */
   listAgreementsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TldLegalAgreementCollection>): void;
-  listAgreementsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TldLegalAgreementCollection>): Promise<Models.TopLevelDomainsListAgreementsNextResponse> {
+  listAgreementsNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TldLegalAgreementCollection>, callback?: msRest.ServiceCallback<Models.TldLegalAgreementCollection>): Promise<Models.TopLevelDomainsListAgreementsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        options
+        optionsOrCallback
       },
       listAgreementsNextOperationSpec,
       callback) as Promise<Models.TopLevelDomainsListAgreementsNextResponse>;

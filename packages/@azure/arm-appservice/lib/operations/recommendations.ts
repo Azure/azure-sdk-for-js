@@ -42,10 +42,10 @@ export class Recommendations {
    * @param callback The callback
    */
   list(options: Models.RecommendationsListOptionalParams, callback: msRest.ServiceCallback<Models.RecommendationCollection>): void;
-  list(options?: Models.RecommendationsListOptionalParams, callback?: msRest.ServiceCallback<Models.RecommendationCollection>): Promise<Models.RecommendationsListResponse> {
+  list(optionsOrCallback?: Models.RecommendationsListOptionalParams | msRest.ServiceCallback<Models.RecommendationCollection>, callback?: msRest.ServiceCallback<Models.RecommendationCollection>): Promise<Models.RecommendationsListResponse> {
     return this.client.sendOperationRequest(
       {
-        options
+        optionsOrCallback
       },
       listOperationSpec,
       callback) as Promise<Models.RecommendationsListResponse>;
@@ -67,10 +67,10 @@ export class Recommendations {
    * @param callback The callback
    */
   resetAllFilters(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  resetAllFilters(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  resetAllFilters(optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
-        options
+        optionsOrCallback
       },
       resetAllFiltersOperationSpec,
       callback);
@@ -95,11 +95,11 @@ export class Recommendations {
    * @param callback The callback
    */
   disableRecommendationForSubscription(name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  disableRecommendationForSubscription(name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  disableRecommendationForSubscription(name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         name,
-        options
+        optionsOrCallback
       },
       disableRecommendationForSubscriptionOperationSpec,
       callback);
@@ -127,12 +127,12 @@ export class Recommendations {
    * @param callback The callback
    */
   listHistoryForWebApp(resourceGroupName: string, siteName: string, options: Models.RecommendationsListHistoryForWebAppOptionalParams, callback: msRest.ServiceCallback<Models.RecommendationCollection>): void;
-  listHistoryForWebApp(resourceGroupName: string, siteName: string, options?: Models.RecommendationsListHistoryForWebAppOptionalParams, callback?: msRest.ServiceCallback<Models.RecommendationCollection>): Promise<Models.RecommendationsListHistoryForWebAppResponse> {
+  listHistoryForWebApp(resourceGroupName: string, siteName: string, optionsOrCallback?: Models.RecommendationsListHistoryForWebAppOptionalParams | msRest.ServiceCallback<Models.RecommendationCollection>, callback?: msRest.ServiceCallback<Models.RecommendationCollection>): Promise<Models.RecommendationsListHistoryForWebAppResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         siteName,
-        options
+        optionsOrCallback
       },
       listHistoryForWebAppOperationSpec,
       callback) as Promise<Models.RecommendationsListHistoryForWebAppResponse>;
@@ -160,12 +160,12 @@ export class Recommendations {
    * @param callback The callback
    */
   listRecommendedRulesForWebApp(resourceGroupName: string, siteName: string, options: Models.RecommendationsListRecommendedRulesForWebAppOptionalParams, callback: msRest.ServiceCallback<Models.RecommendationCollection>): void;
-  listRecommendedRulesForWebApp(resourceGroupName: string, siteName: string, options?: Models.RecommendationsListRecommendedRulesForWebAppOptionalParams, callback?: msRest.ServiceCallback<Models.RecommendationCollection>): Promise<Models.RecommendationsListRecommendedRulesForWebAppResponse> {
+  listRecommendedRulesForWebApp(resourceGroupName: string, siteName: string, optionsOrCallback?: Models.RecommendationsListRecommendedRulesForWebAppOptionalParams | msRest.ServiceCallback<Models.RecommendationCollection>, callback?: msRest.ServiceCallback<Models.RecommendationCollection>): Promise<Models.RecommendationsListRecommendedRulesForWebAppResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         siteName,
-        options
+        optionsOrCallback
       },
       listRecommendedRulesForWebAppOperationSpec,
       callback) as Promise<Models.RecommendationsListRecommendedRulesForWebAppResponse>;
@@ -193,12 +193,12 @@ export class Recommendations {
    * @param callback The callback
    */
   disableAllForWebApp(resourceGroupName: string, siteName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  disableAllForWebApp(resourceGroupName: string, siteName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  disableAllForWebApp(resourceGroupName: string, siteName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         siteName,
-        options
+        optionsOrCallback
       },
       disableAllForWebAppOperationSpec,
       callback);
@@ -226,12 +226,12 @@ export class Recommendations {
    * @param callback The callback
    */
   resetAllFiltersForWebApp(resourceGroupName: string, siteName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  resetAllFiltersForWebApp(resourceGroupName: string, siteName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  resetAllFiltersForWebApp(resourceGroupName: string, siteName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         siteName,
-        options
+        optionsOrCallback
       },
       resetAllFiltersForWebAppOperationSpec,
       callback);
@@ -262,13 +262,13 @@ export class Recommendations {
    * @param callback The callback
    */
   getRuleDetailsByWebApp(resourceGroupName: string, siteName: string, name: string, options: Models.RecommendationsGetRuleDetailsByWebAppOptionalParams, callback: msRest.ServiceCallback<Models.RecommendationRule>): void;
-  getRuleDetailsByWebApp(resourceGroupName: string, siteName: string, name: string, options?: Models.RecommendationsGetRuleDetailsByWebAppOptionalParams, callback?: msRest.ServiceCallback<Models.RecommendationRule>): Promise<Models.RecommendationsGetRuleDetailsByWebAppResponse> {
+  getRuleDetailsByWebApp(resourceGroupName: string, siteName: string, name: string, optionsOrCallback?: Models.RecommendationsGetRuleDetailsByWebAppOptionalParams | msRest.ServiceCallback<Models.RecommendationRule>, callback?: msRest.ServiceCallback<Models.RecommendationRule>): Promise<Models.RecommendationsGetRuleDetailsByWebAppResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         siteName,
         name,
-        options
+        optionsOrCallback
       },
       getRuleDetailsByWebAppOperationSpec,
       callback) as Promise<Models.RecommendationsGetRuleDetailsByWebAppResponse>;
@@ -299,13 +299,13 @@ export class Recommendations {
    * @param callback The callback
    */
   disableRecommendationForSite(resourceGroupName: string, siteName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  disableRecommendationForSite(resourceGroupName: string, siteName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  disableRecommendationForSite(resourceGroupName: string, siteName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         siteName,
         name,
-        options
+        optionsOrCallback
       },
       disableRecommendationForSiteOperationSpec,
       callback);
@@ -330,11 +330,11 @@ export class Recommendations {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecommendationCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RecommendationCollection>): Promise<Models.RecommendationsListNextResponse> {
+  listNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecommendationCollection>, callback?: msRest.ServiceCallback<Models.RecommendationCollection>): Promise<Models.RecommendationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        options
+        optionsOrCallback
       },
       listNextOperationSpec,
       callback) as Promise<Models.RecommendationsListNextResponse>;
@@ -359,11 +359,11 @@ export class Recommendations {
    * @param callback The callback
    */
   listHistoryForWebAppNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecommendationCollection>): void;
-  listHistoryForWebAppNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RecommendationCollection>): Promise<Models.RecommendationsListHistoryForWebAppNextResponse> {
+  listHistoryForWebAppNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecommendationCollection>, callback?: msRest.ServiceCallback<Models.RecommendationCollection>): Promise<Models.RecommendationsListHistoryForWebAppNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        options
+        optionsOrCallback
       },
       listHistoryForWebAppNextOperationSpec,
       callback) as Promise<Models.RecommendationsListHistoryForWebAppNextResponse>;
@@ -388,11 +388,11 @@ export class Recommendations {
    * @param callback The callback
    */
   listRecommendedRulesForWebAppNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecommendationCollection>): void;
-  listRecommendedRulesForWebAppNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RecommendationCollection>): Promise<Models.RecommendationsListRecommendedRulesForWebAppNextResponse> {
+  listRecommendedRulesForWebAppNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecommendationCollection>, callback?: msRest.ServiceCallback<Models.RecommendationCollection>): Promise<Models.RecommendationsListRecommendedRulesForWebAppNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        options
+        optionsOrCallback
       },
       listRecommendedRulesForWebAppNextOperationSpec,
       callback) as Promise<Models.RecommendationsListRecommendedRulesForWebAppNextResponse>;
