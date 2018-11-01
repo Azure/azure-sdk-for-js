@@ -3832,7 +3832,7 @@ export class WebApps {
    * @param operationId GUID of the operation.
    * @param callback The callback
    */
-  getNetworkTraceOperation(resourceGroupName: string, name: string, operationId: string, callback: msRest.ServiceCallback<any>): void;
+  getNetworkTraceOperation(resourceGroupName: string, name: string, operationId: string, callback: msRest.ServiceCallback<Models.NetworkTrace[]>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
@@ -3840,8 +3840,8 @@ export class WebApps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getNetworkTraceOperation(resourceGroupName: string, name: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  getNetworkTraceOperation(resourceGroupName: string, name: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<any>): Promise<Models.WebAppsGetNetworkTraceOperationResponse> {
+  getNetworkTraceOperation(resourceGroupName: string, name: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkTrace[]>): void;
+  getNetworkTraceOperation(resourceGroupName: string, name: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkTrace[]>): Promise<Models.WebAppsGetNetworkTraceOperationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -3987,7 +3987,7 @@ export class WebApps {
    * @param operationId GUID of the operation.
    * @param callback The callback
    */
-  getNetworkTraceOperationV2(resourceGroupName: string, name: string, operationId: string, callback: msRest.ServiceCallback<any>): void;
+  getNetworkTraceOperationV2(resourceGroupName: string, name: string, operationId: string, callback: msRest.ServiceCallback<Models.NetworkTrace[]>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
@@ -3995,8 +3995,8 @@ export class WebApps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getNetworkTraceOperationV2(resourceGroupName: string, name: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  getNetworkTraceOperationV2(resourceGroupName: string, name: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<any>): Promise<Models.WebAppsGetNetworkTraceOperationV2Response> {
+  getNetworkTraceOperationV2(resourceGroupName: string, name: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkTrace[]>): void;
+  getNetworkTraceOperationV2(resourceGroupName: string, name: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkTrace[]>): Promise<Models.WebAppsGetNetworkTraceOperationV2Response> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -9442,7 +9442,7 @@ export class WebApps {
    * operation for the production slot.
    * @param callback The callback
    */
-  getNetworkTraceOperationSlot(resourceGroupName: string, name: string, operationId: string, slot: string, callback: msRest.ServiceCallback<any>): void;
+  getNetworkTraceOperationSlot(resourceGroupName: string, name: string, operationId: string, slot: string, callback: msRest.ServiceCallback<Models.NetworkTrace[]>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
@@ -9452,8 +9452,8 @@ export class WebApps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getNetworkTraceOperationSlot(resourceGroupName: string, name: string, operationId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  getNetworkTraceOperationSlot(resourceGroupName: string, name: string, operationId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<any>): Promise<Models.WebAppsGetNetworkTraceOperationSlotResponse> {
+  getNetworkTraceOperationSlot(resourceGroupName: string, name: string, operationId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkTrace[]>): void;
+  getNetworkTraceOperationSlot(resourceGroupName: string, name: string, operationId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkTrace[]>): Promise<Models.WebAppsGetNetworkTraceOperationSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -9620,7 +9620,7 @@ export class WebApps {
    * operation for the production slot.
    * @param callback The callback
    */
-  getNetworkTraceOperationSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, callback: msRest.ServiceCallback<any>): void;
+  getNetworkTraceOperationSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, callback: msRest.ServiceCallback<Models.NetworkTrace[]>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
@@ -9630,8 +9630,8 @@ export class WebApps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getNetworkTraceOperationSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  getNetworkTraceOperationSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<any>): Promise<Models.WebAppsGetNetworkTraceOperationSlotV2Response> {
+  getNetworkTraceOperationSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkTrace[]>): void;
+  getNetworkTraceOperationSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkTrace[]>): Promise<Models.WebAppsGetNetworkTraceOperationSlotV2Response> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -18280,7 +18280,18 @@ const getNetworkTraceOperationOperationSpec: msRest.OperationSpec = {
       }
     },
     202: {
-      bodyMapper: Mappers.Operation
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NetworkTrace"
+            }
+          }
+        }
+      }
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -18414,7 +18425,18 @@ const getNetworkTraceOperationV2OperationSpec: msRest.OperationSpec = {
       }
     },
     202: {
-      bodyMapper: Mappers.Operation
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NetworkTrace"
+            }
+          }
+        }
+      }
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -22010,7 +22032,18 @@ const getNetworkTraceOperationSlotOperationSpec: msRest.OperationSpec = {
       }
     },
     202: {
-      bodyMapper: Mappers.Operation
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NetworkTrace"
+            }
+          }
+        }
+      }
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -22148,7 +22181,18 @@ const getNetworkTraceOperationSlotV2OperationSpec: msRest.OperationSpec = {
       }
     },
     202: {
-      bodyMapper: Mappers.Operation
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NetworkTrace"
+            }
+          }
+        }
+      }
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -24805,7 +24849,18 @@ const beginStartWebSiteNetworkTraceOperationOperationSpec: msRest.OperationSpec 
       }
     },
     202: {
-      bodyMapper: Mappers.Operation
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NetworkTrace"
+            }
+          }
+        }
+      }
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -25169,7 +25224,18 @@ const beginStartWebSiteNetworkTraceOperationSlotOperationSpec: msRest.OperationS
       }
     },
     202: {
-      bodyMapper: Mappers.Operation
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NetworkTrace"
+            }
+          }
+        }
+      }
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -25410,7 +25476,18 @@ const beginStartNetworkTraceSlotOperationSpec: msRest.OperationSpec = {
       }
     },
     202: {
-      bodyMapper: Mappers.Operation
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NetworkTrace"
+            }
+          }
+        }
+      }
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -25521,7 +25598,18 @@ const beginStartNetworkTraceOperationSpec: msRest.OperationSpec = {
       }
     },
     202: {
-      bodyMapper: Mappers.Operation
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NetworkTrace"
+            }
+          }
+        }
+      }
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
