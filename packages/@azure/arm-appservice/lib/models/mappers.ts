@@ -2968,6 +2968,12 @@ export const AppServicePlan: msRest.CompositeMapper = {
     className: "AppServicePlan",
     modelProperties: {
       ...Resource.type.modelProperties,
+      appServicePlanName: {
+        serializedName: "properties.name",
+        type: {
+          name: "String"
+        }
+      },
       workerTierName: {
         serializedName: "properties.workerTierName",
         type: {

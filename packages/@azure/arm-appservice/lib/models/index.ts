@@ -2253,6 +2253,10 @@ export interface SkuDescription {
  */
 export interface AppServicePlan extends Resource {
   /**
+   * @member {string} [appServicePlanName] Name for the App Service plan.
+   */
+  appServicePlanName?: string;
+  /**
    * @member {string} [workerTierName] Target worker tier assigned to the App
    * Service plan.
    */
