@@ -16,16 +16,9 @@ const packageName = "@azure/arm-datafactory";
 const packageVersion = "1.0.0";
 
 export class DataFactoryManagementClientContext extends msRestAzure.AzureServiceClient {
-
   credentials: msRest.ServiceClientCredentials;
-
   subscriptionId: string;
-
-  apiVersion: string;
-
-  acceptLanguage: string;
-
-  longRunningOperationRetryTimeout: number;
+  apiVersion?: string;
 
   /**
    * Initializes a new instance of the DataFactoryManagementClient class.
