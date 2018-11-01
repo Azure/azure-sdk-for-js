@@ -40,15 +40,15 @@ export class Users {
    * @param labName The name of the lab.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationUser>): void;
+  list(resourceGroupName: string, labName: string, callback: msRest.ServiceCallback<Models.UserList>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, options: Models.UsersListOptionalParams, callback: msRest.ServiceCallback<Models.ResponseWithContinuationUser>): void;
-  list(resourceGroupName: string, labName: string, options?: Models.UsersListOptionalParams, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationUser>): Promise<Models.UsersListResponse> {
+  list(resourceGroupName: string, labName: string, options: Models.UsersListOptionalParams, callback: msRest.ServiceCallback<Models.UserList>): void;
+  list(resourceGroupName: string, labName: string, options?: Models.UsersListOptionalParams, callback?: msRest.ServiceCallback<Models.UserList>): Promise<Models.UsersListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +96,7 @@ export class Users {
   }
 
   /**
-   * Create or replace an existing user profile.
+   * Create or replace an existing user profile. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the user profile.
@@ -104,35 +104,9 @@ export class Users {
    * @param [options] The optional parameters
    * @returns Promise<Models.UsersCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, labName: string, name: string, user: Models.User, options?: msRest.RequestOptionsBase): Promise<Models.UsersCreateOrUpdateResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param labName The name of the lab.
-   * @param name The name of the user profile.
-   * @param user Profile of a lab user.
-   * @param callback The callback
-   */
-  createOrUpdate(resourceGroupName: string, labName: string, name: string, user: Models.User, callback: msRest.ServiceCallback<Models.User>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param labName The name of the lab.
-   * @param name The name of the user profile.
-   * @param user Profile of a lab user.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  createOrUpdate(resourceGroupName: string, labName: string, name: string, user: Models.User, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.User>): void;
-  createOrUpdate(resourceGroupName: string, labName: string, name: string, user: Models.User, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.User>): Promise<Models.UsersCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        labName,
-        name,
-        user,
-        options
-      },
-      createOrUpdateOperationSpec,
-      callback) as Promise<Models.UsersCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, labName: string, name: string, user: Models.User, options?: msRest.RequestOptionsBase): Promise<Models.UsersCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,labName,name,user,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.UsersCreateOrUpdateResponse>;
   }
 
   /**
@@ -189,6 +163,28 @@ export class Users {
   }
 
   /**
+   * Create or replace an existing user profile. This operation can take a while to complete.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param name The name of the user profile.
+   * @param user Profile of a lab user.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, user: Models.User, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        labName,
+        name,
+        user,
+        options
+      },
+      beginCreateOrUpdateOperationSpec,
+      options);
+  }
+
+  /**
    * Delete user profile. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -219,14 +215,14 @@ export class Users {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationUser>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.UserList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResponseWithContinuationUser>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationUser>): Promise<Models.UsersListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserList>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UserList>): Promise<Models.UsersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -259,7 +255,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ResponseWithContinuationUser
+      bodyMapper: Mappers.UserList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -286,42 +282,6 @@ const getOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.User
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{name}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.labName,
-    Parameters.name
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "user",
-    mapper: {
-      ...Mappers.User,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.User
-    },
-    201: {
       bodyMapper: Mappers.User
     },
     default: {
@@ -364,6 +324,42 @@ const updateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{name}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.labName,
+    Parameters.name
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "user",
+    mapper: {
+      ...Mappers.User,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.User
+    },
+    201: {
+      bodyMapper: Mappers.User
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{name}",
@@ -380,6 +376,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
+    200: {},
     202: {},
     204: {},
     default: {
@@ -401,7 +398,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ResponseWithContinuationUser
+      bodyMapper: Mappers.UserList
     },
     default: {
       bodyMapper: Mappers.CloudError
