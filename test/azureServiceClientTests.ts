@@ -14,21 +14,18 @@ describe("AzureServiceClient", () => {
       const client = new AzureServiceClient(new TokenCredentials("my-fake-token"));
       assert.strictEqual(client.acceptLanguage, "en-us");
       assert.strictEqual(client.longRunningOperationRetryTimeout, undefined);
-      assert.deepStrictEqual(client.userAgentInfo, { value: ["ms-rest-js/0.1.0", "ms-rest-azure/0.1.0"] });
     });
 
     it("with acceptLanguage provided", () => {
       const client = new AzureServiceClient(new TokenCredentials("my-fake-token"), { acceptLanguage: "my-fake-language" });
       assert.strictEqual(client.acceptLanguage, "my-fake-language");
       assert.strictEqual(client.longRunningOperationRetryTimeout, undefined);
-      assert.deepStrictEqual(client.userAgentInfo, { value: ["ms-rest-js/0.1.0", "ms-rest-azure/0.1.0"] });
     });
 
     it("with longRunningOperationRetryTimeout provided", () => {
       const client = new AzureServiceClient(new TokenCredentials("my-fake-token"), { longRunningOperationRetryTimeout: 2 });
       assert.strictEqual(client.acceptLanguage, "en-us");
       assert.strictEqual(client.longRunningOperationRetryTimeout, 2);
-      assert.deepStrictEqual(client.userAgentInfo, { value: ["ms-rest-js/0.1.0", "ms-rest-azure/0.1.0"] });
     });
 
     it("should apply the resourceManagerEndpointUrl from credentials", async function() {
@@ -2521,29 +2518,60 @@ describe("AzureServiceClient", () => {
   });
 
   describe("updateOptionsWithDefaultValues()", () => {
+    function assertOptionEqual(actual: AzureServiceClientOptions, expected: AzureServiceClientOptions) {
+      const actualUserAgent = actual.userAgent;
+      delete actual.userAgent;
+      delete expected.userAgent;
+
+      assert.deepEqual(actual, expected);
+      assert(actualUserAgent!.match(/ms-rest-azure-js\/[\d\.]+ ms-rest-js\/[\d\.]+ .+/));
+    }
+
     it("with undefined", () => {
-      assert.deepStrictEqual(updateOptionsWithDefaultValues(undefined), { generateClientRequestIdHeader: true });
+      assertOptionEqual(updateOptionsWithDefaultValues(undefined), { generateClientRequestIdHeader: true });
     });
 
     it("with {}", () => {
       const options: AzureServiceClientOptions = {};
       const newOptions: AzureServiceClientOptions = updateOptionsWithDefaultValues(options);
-      assert.deepStrictEqual(newOptions, { generateClientRequestIdHeader: true });
-      assert.strictEqual(newOptions, options);
+      assertOptionEqual(newOptions, { generateClientRequestIdHeader: true });
     });
 
     it("with { generateClientRequestIdHeader: false }", () => {
       const options: AzureServiceClientOptions = { generateClientRequestIdHeader: false };
       const newOptions: AzureServiceClientOptions = updateOptionsWithDefaultValues(options);
-      assert.deepStrictEqual(newOptions, { generateClientRequestIdHeader: false });
-      assert.strictEqual(newOptions, options);
+      assertOptionEqual(newOptions, { generateClientRequestIdHeader: false });
     });
 
     it("with { generateClientRequestIdHeader: true }", () => {
       const options: AzureServiceClientOptions = { generateClientRequestIdHeader: true };
       const newOptions: AzureServiceClientOptions = updateOptionsWithDefaultValues(options);
-      assert.deepStrictEqual(newOptions, { generateClientRequestIdHeader: true });
-      assert.strictEqual(newOptions, options);
+      assertOptionEqual(newOptions, { generateClientRequestIdHeader: true });
+    });
+  });
+
+  describe("sendRequest", () => {
+    it ("adds custom user agent if specified", async () => {
+      const client = new AzureServiceClient(new TokenCredentials("fake-token"), { userAgent: "custom-ua" });
+      const request = new WebResource("https://example.com");
+      await client.sendRequest(request);
+
+      const telemetry = request.headers.get("user-agent")!;
+      assert.equal(telemetry, "custom-ua");
+    });
+
+    it ("adds user agent header that looks similar to \"ms-rest-azure-js/0.1.0 ms-rest-js/0.1.0 Node/v10.11.0 OS/(x64-Windows_NT-10.0.18267)\"", async () => {
+      const client = new AzureServiceClient(new TokenCredentials("my-fake-token"));
+      const request = new WebResource("https://example.com");
+      await client.sendRequest(request);
+
+      const telemetry = request.headers.get("user-agent")!;
+      const parts = telemetry.split(" ");
+
+      assert(parts[0].includes("ms-rest-azure-js/"));
+      assert(parts[1].includes("ms-rest-js/"));
+      assert(parts[2].includes("Node/"));
+      assert(parts[3].includes("OS/"));
     });
   });
 });
