@@ -64,6 +64,18 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     }
   }
 };
+export const blobServicesName: msRest.OperationURLParameter = {
+  parameterPath: "blobServicesName",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "BlobServicesName",
+    defaultValue: 'default',
+    type: {
+      name: "String"
+    }
+  }
+};
 export const containerName: msRest.OperationURLParameter = {
   parameterPath: "containerName",
   mapper: {

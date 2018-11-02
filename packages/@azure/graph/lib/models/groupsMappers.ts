@@ -24,6 +24,8 @@ export {
   AddOwnerParameters,
   Application,
   AppRole,
+  RequiredResourceAccess,
+  ResourceAccess,
   ServicePrincipal,
   User,
   SignInName
