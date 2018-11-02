@@ -43,10 +43,10 @@ export class WebApps {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebAppCollection>): void;
-  list(optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebAppCollection>, callback?: msRest.ServiceCallback<Models.WebAppCollection>): Promise<Models.WebAppsListResponse> {
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebAppCollection>): Promise<Models.WebAppsListResponse> {
     return this.client.sendOperationRequest(
       {
-        optionsOrCallback
+        options
       },
       listOperationSpec,
       callback) as Promise<Models.WebAppsListResponse>;
@@ -71,11 +71,11 @@ export class WebApps {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: Models.WebAppsListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.WebAppCollection>): void;
-  listByResourceGroup(resourceGroupName: string, optionsOrCallback?: Models.WebAppsListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.WebAppCollection>, callback?: msRest.ServiceCallback<Models.WebAppCollection>): Promise<Models.WebAppsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: Models.WebAppsListByResourceGroupOptionalParams, callback?: msRest.ServiceCallback<Models.WebAppCollection>): Promise<Models.WebAppsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        optionsOrCallback
+        options
       },
       listByResourceGroupOperationSpec,
       callback) as Promise<Models.WebAppsListByResourceGroupResponse>;
@@ -103,12 +103,12 @@ export class WebApps {
    * @param callback The callback
    */
   get(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Site>): void;
-  get(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Site>, callback?: msRest.ServiceCallback<Models.Site>): Promise<Models.WebAppsGetResponse> {
+  get(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Site>): Promise<Models.WebAppsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       getOperationSpec,
       callback) as Promise<Models.WebAppsGetResponse>;
@@ -152,12 +152,12 @@ export class WebApps {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, name: string, options: Models.WebAppsDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, name: string, optionsOrCallback?: Models.WebAppsDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, name: string, options?: Models.WebAppsDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       deleteMethodOperationSpec,
       callback);
@@ -192,13 +192,13 @@ export class WebApps {
    * @param callback The callback
    */
   update(resourceGroupName: string, name: string, siteEnvelope: Models.SitePatchResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Site>): void;
-  update(resourceGroupName: string, name: string, siteEnvelope: Models.SitePatchResource, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Site>, callback?: msRest.ServiceCallback<Models.Site>): Promise<Models.WebAppsUpdateResponse> {
+  update(resourceGroupName: string, name: string, siteEnvelope: Models.SitePatchResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Site>): Promise<Models.WebAppsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         siteEnvelope,
-        optionsOrCallback
+        options
       },
       updateOperationSpec,
       callback) as Promise<Models.WebAppsUpdateResponse>;
@@ -226,12 +226,12 @@ export class WebApps {
    * @param callback The callback
    */
   analyzeCustomHostname(resourceGroupName: string, name: string, options: Models.WebAppsAnalyzeCustomHostnameOptionalParams, callback: msRest.ServiceCallback<Models.CustomHostnameAnalysisResult>): void;
-  analyzeCustomHostname(resourceGroupName: string, name: string, optionsOrCallback?: Models.WebAppsAnalyzeCustomHostnameOptionalParams | msRest.ServiceCallback<Models.CustomHostnameAnalysisResult>, callback?: msRest.ServiceCallback<Models.CustomHostnameAnalysisResult>): Promise<Models.WebAppsAnalyzeCustomHostnameResponse> {
+  analyzeCustomHostname(resourceGroupName: string, name: string, options?: Models.WebAppsAnalyzeCustomHostnameOptionalParams, callback?: msRest.ServiceCallback<Models.CustomHostnameAnalysisResult>): Promise<Models.WebAppsAnalyzeCustomHostnameResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       analyzeCustomHostnameOperationSpec,
       callback) as Promise<Models.WebAppsAnalyzeCustomHostnameResponse>;
@@ -262,13 +262,13 @@ export class WebApps {
    * @param callback The callback
    */
   applySlotConfigToProduction(resourceGroupName: string, name: string, slotSwapEntity: Models.CsmSlotEntity, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  applySlotConfigToProduction(resourceGroupName: string, name: string, slotSwapEntity: Models.CsmSlotEntity, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  applySlotConfigToProduction(resourceGroupName: string, name: string, slotSwapEntity: Models.CsmSlotEntity, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slotSwapEntity,
-        optionsOrCallback
+        options
       },
       applySlotConfigToProductionOperationSpec,
       callback);
@@ -302,13 +302,13 @@ export class WebApps {
    * @param callback The callback
    */
   backup(resourceGroupName: string, name: string, request: Models.BackupRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupItem>): void;
-  backup(resourceGroupName: string, name: string, request: Models.BackupRequest, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupItem>, callback?: msRest.ServiceCallback<Models.BackupItem>): Promise<Models.WebAppsBackupResponse> {
+  backup(resourceGroupName: string, name: string, request: Models.BackupRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupItem>): Promise<Models.WebAppsBackupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         request,
-        optionsOrCallback
+        options
       },
       backupOperationSpec,
       callback) as Promise<Models.WebAppsBackupResponse>;
@@ -336,12 +336,12 @@ export class WebApps {
    * @param callback The callback
    */
   listBackups(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupItemCollection>): void;
-  listBackups(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupItemCollection>, callback?: msRest.ServiceCallback<Models.BackupItemCollection>): Promise<Models.WebAppsListBackupsResponse> {
+  listBackups(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupItemCollection>): Promise<Models.WebAppsListBackupsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listBackupsOperationSpec,
       callback) as Promise<Models.WebAppsListBackupsResponse>;
@@ -372,13 +372,13 @@ export class WebApps {
    * @param callback The callback
    */
   getBackupStatus(resourceGroupName: string, name: string, backupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupItem>): void;
-  getBackupStatus(resourceGroupName: string, name: string, backupId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupItem>, callback?: msRest.ServiceCallback<Models.BackupItem>): Promise<Models.WebAppsGetBackupStatusResponse> {
+  getBackupStatus(resourceGroupName: string, name: string, backupId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupItem>): Promise<Models.WebAppsGetBackupStatusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         backupId,
-        optionsOrCallback
+        options
       },
       getBackupStatusOperationSpec,
       callback) as Promise<Models.WebAppsGetBackupStatusResponse>;
@@ -409,13 +409,13 @@ export class WebApps {
    * @param callback The callback
    */
   deleteBackup(resourceGroupName: string, name: string, backupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteBackup(resourceGroupName: string, name: string, backupId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteBackup(resourceGroupName: string, name: string, backupId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         backupId,
-        optionsOrCallback
+        options
       },
       deleteBackupOperationSpec,
       callback);
@@ -453,14 +453,14 @@ export class WebApps {
    * @param callback The callback
    */
   listBackupStatusSecrets(resourceGroupName: string, name: string, backupId: string, request: Models.BackupRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupItem>): void;
-  listBackupStatusSecrets(resourceGroupName: string, name: string, backupId: string, request: Models.BackupRequest, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupItem>, callback?: msRest.ServiceCallback<Models.BackupItem>): Promise<Models.WebAppsListBackupStatusSecretsResponse> {
+  listBackupStatusSecrets(resourceGroupName: string, name: string, backupId: string, request: Models.BackupRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupItem>): Promise<Models.WebAppsListBackupStatusSecretsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         backupId,
         request,
-        optionsOrCallback
+        options
       },
       listBackupStatusSecretsOperationSpec,
       callback) as Promise<Models.WebAppsListBackupStatusSecretsResponse>;
@@ -503,12 +503,12 @@ export class WebApps {
    * @param callback The callback
    */
   listConfigurations(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteConfigResourceCollection>): void;
-  listConfigurations(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteConfigResourceCollection>, callback?: msRest.ServiceCallback<Models.SiteConfigResourceCollection>): Promise<Models.WebAppsListConfigurationsResponse> {
+  listConfigurations(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteConfigResourceCollection>): Promise<Models.WebAppsListConfigurationsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listConfigurationsOperationSpec,
       callback) as Promise<Models.WebAppsListConfigurationsResponse>;
@@ -539,13 +539,13 @@ export class WebApps {
    * @param callback The callback
    */
   updateApplicationSettings(resourceGroupName: string, name: string, appSettings: Models.StringDictionary, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
-  updateApplicationSettings(resourceGroupName: string, name: string, appSettings: Models.StringDictionary, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.WebAppsUpdateApplicationSettingsResponse> {
+  updateApplicationSettings(resourceGroupName: string, name: string, appSettings: Models.StringDictionary, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.WebAppsUpdateApplicationSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         appSettings,
-        optionsOrCallback
+        options
       },
       updateApplicationSettingsOperationSpec,
       callback) as Promise<Models.WebAppsUpdateApplicationSettingsResponse>;
@@ -573,12 +573,12 @@ export class WebApps {
    * @param callback The callback
    */
   listApplicationSettings(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
-  listApplicationSettings(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.WebAppsListApplicationSettingsResponse> {
+  listApplicationSettings(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.WebAppsListApplicationSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listApplicationSettingsOperationSpec,
       callback) as Promise<Models.WebAppsListApplicationSettingsResponse>;
@@ -609,13 +609,13 @@ export class WebApps {
    * @param callback The callback
    */
   updateAuthSettings(resourceGroupName: string, name: string, siteAuthSettings: Models.SiteAuthSettings, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteAuthSettings>): void;
-  updateAuthSettings(resourceGroupName: string, name: string, siteAuthSettings: Models.SiteAuthSettings, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteAuthSettings>, callback?: msRest.ServiceCallback<Models.SiteAuthSettings>): Promise<Models.WebAppsUpdateAuthSettingsResponse> {
+  updateAuthSettings(resourceGroupName: string, name: string, siteAuthSettings: Models.SiteAuthSettings, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteAuthSettings>): Promise<Models.WebAppsUpdateAuthSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         siteAuthSettings,
-        optionsOrCallback
+        options
       },
       updateAuthSettingsOperationSpec,
       callback) as Promise<Models.WebAppsUpdateAuthSettingsResponse>;
@@ -643,12 +643,12 @@ export class WebApps {
    * @param callback The callback
    */
   getAuthSettings(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteAuthSettings>): void;
-  getAuthSettings(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteAuthSettings>, callback?: msRest.ServiceCallback<Models.SiteAuthSettings>): Promise<Models.WebAppsGetAuthSettingsResponse> {
+  getAuthSettings(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteAuthSettings>): Promise<Models.WebAppsGetAuthSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       getAuthSettingsOperationSpec,
       callback) as Promise<Models.WebAppsGetAuthSettingsResponse>;
@@ -679,13 +679,13 @@ export class WebApps {
    * @param callback The callback
    */
   updateAzureStorageAccounts(resourceGroupName: string, name: string, azureStorageAccounts: Models.AzureStoragePropertyDictionaryResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureStoragePropertyDictionaryResource>): void;
-  updateAzureStorageAccounts(resourceGroupName: string, name: string, azureStorageAccounts: Models.AzureStoragePropertyDictionaryResource, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureStoragePropertyDictionaryResource>, callback?: msRest.ServiceCallback<Models.AzureStoragePropertyDictionaryResource>): Promise<Models.WebAppsUpdateAzureStorageAccountsResponse> {
+  updateAzureStorageAccounts(resourceGroupName: string, name: string, azureStorageAccounts: Models.AzureStoragePropertyDictionaryResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AzureStoragePropertyDictionaryResource>): Promise<Models.WebAppsUpdateAzureStorageAccountsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         azureStorageAccounts,
-        optionsOrCallback
+        options
       },
       updateAzureStorageAccountsOperationSpec,
       callback) as Promise<Models.WebAppsUpdateAzureStorageAccountsResponse>;
@@ -713,12 +713,12 @@ export class WebApps {
    * @param callback The callback
    */
   listAzureStorageAccounts(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureStoragePropertyDictionaryResource>): void;
-  listAzureStorageAccounts(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureStoragePropertyDictionaryResource>, callback?: msRest.ServiceCallback<Models.AzureStoragePropertyDictionaryResource>): Promise<Models.WebAppsListAzureStorageAccountsResponse> {
+  listAzureStorageAccounts(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AzureStoragePropertyDictionaryResource>): Promise<Models.WebAppsListAzureStorageAccountsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listAzureStorageAccountsOperationSpec,
       callback) as Promise<Models.WebAppsListAzureStorageAccountsResponse>;
@@ -749,13 +749,13 @@ export class WebApps {
    * @param callback The callback
    */
   updateBackupConfiguration(resourceGroupName: string, name: string, request: Models.BackupRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupRequest>): void;
-  updateBackupConfiguration(resourceGroupName: string, name: string, request: Models.BackupRequest, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupRequest>, callback?: msRest.ServiceCallback<Models.BackupRequest>): Promise<Models.WebAppsUpdateBackupConfigurationResponse> {
+  updateBackupConfiguration(resourceGroupName: string, name: string, request: Models.BackupRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupRequest>): Promise<Models.WebAppsUpdateBackupConfigurationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         request,
-        optionsOrCallback
+        options
       },
       updateBackupConfigurationOperationSpec,
       callback) as Promise<Models.WebAppsUpdateBackupConfigurationResponse>;
@@ -783,12 +783,12 @@ export class WebApps {
    * @param callback The callback
    */
   deleteBackupConfiguration(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteBackupConfiguration(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteBackupConfiguration(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       deleteBackupConfigurationOperationSpec,
       callback);
@@ -816,12 +816,12 @@ export class WebApps {
    * @param callback The callback
    */
   getBackupConfiguration(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupRequest>): void;
-  getBackupConfiguration(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupRequest>, callback?: msRest.ServiceCallback<Models.BackupRequest>): Promise<Models.WebAppsGetBackupConfigurationResponse> {
+  getBackupConfiguration(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupRequest>): Promise<Models.WebAppsGetBackupConfigurationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       getBackupConfigurationOperationSpec,
       callback) as Promise<Models.WebAppsGetBackupConfigurationResponse>;
@@ -852,13 +852,13 @@ export class WebApps {
    * @param callback The callback
    */
   updateConnectionStrings(resourceGroupName: string, name: string, connectionStrings: Models.ConnectionStringDictionary, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectionStringDictionary>): void;
-  updateConnectionStrings(resourceGroupName: string, name: string, connectionStrings: Models.ConnectionStringDictionary, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionStringDictionary>, callback?: msRest.ServiceCallback<Models.ConnectionStringDictionary>): Promise<Models.WebAppsUpdateConnectionStringsResponse> {
+  updateConnectionStrings(resourceGroupName: string, name: string, connectionStrings: Models.ConnectionStringDictionary, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ConnectionStringDictionary>): Promise<Models.WebAppsUpdateConnectionStringsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         connectionStrings,
-        optionsOrCallback
+        options
       },
       updateConnectionStringsOperationSpec,
       callback) as Promise<Models.WebAppsUpdateConnectionStringsResponse>;
@@ -886,12 +886,12 @@ export class WebApps {
    * @param callback The callback
    */
   listConnectionStrings(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectionStringDictionary>): void;
-  listConnectionStrings(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionStringDictionary>, callback?: msRest.ServiceCallback<Models.ConnectionStringDictionary>): Promise<Models.WebAppsListConnectionStringsResponse> {
+  listConnectionStrings(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ConnectionStringDictionary>): Promise<Models.WebAppsListConnectionStringsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listConnectionStringsOperationSpec,
       callback) as Promise<Models.WebAppsListConnectionStringsResponse>;
@@ -919,12 +919,12 @@ export class WebApps {
    * @param callback The callback
    */
   getDiagnosticLogsConfiguration(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteLogsConfig>): void;
-  getDiagnosticLogsConfiguration(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteLogsConfig>, callback?: msRest.ServiceCallback<Models.SiteLogsConfig>): Promise<Models.WebAppsGetDiagnosticLogsConfigurationResponse> {
+  getDiagnosticLogsConfiguration(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteLogsConfig>): Promise<Models.WebAppsGetDiagnosticLogsConfigurationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       getDiagnosticLogsConfigurationOperationSpec,
       callback) as Promise<Models.WebAppsGetDiagnosticLogsConfigurationResponse>;
@@ -958,13 +958,13 @@ export class WebApps {
    * @param callback The callback
    */
   updateDiagnosticLogsConfig(resourceGroupName: string, name: string, siteLogsConfig: Models.SiteLogsConfig, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteLogsConfig>): void;
-  updateDiagnosticLogsConfig(resourceGroupName: string, name: string, siteLogsConfig: Models.SiteLogsConfig, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteLogsConfig>, callback?: msRest.ServiceCallback<Models.SiteLogsConfig>): Promise<Models.WebAppsUpdateDiagnosticLogsConfigResponse> {
+  updateDiagnosticLogsConfig(resourceGroupName: string, name: string, siteLogsConfig: Models.SiteLogsConfig, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteLogsConfig>): Promise<Models.WebAppsUpdateDiagnosticLogsConfigResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         siteLogsConfig,
-        optionsOrCallback
+        options
       },
       updateDiagnosticLogsConfigOperationSpec,
       callback) as Promise<Models.WebAppsUpdateDiagnosticLogsConfigResponse>;
@@ -995,13 +995,13 @@ export class WebApps {
    * @param callback The callback
    */
   updateMetadata(resourceGroupName: string, name: string, metadata: Models.StringDictionary, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
-  updateMetadata(resourceGroupName: string, name: string, metadata: Models.StringDictionary, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.WebAppsUpdateMetadataResponse> {
+  updateMetadata(resourceGroupName: string, name: string, metadata: Models.StringDictionary, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.WebAppsUpdateMetadataResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         metadata,
-        optionsOrCallback
+        options
       },
       updateMetadataOperationSpec,
       callback) as Promise<Models.WebAppsUpdateMetadataResponse>;
@@ -1029,12 +1029,12 @@ export class WebApps {
    * @param callback The callback
    */
   listMetadata(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
-  listMetadata(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.WebAppsListMetadataResponse> {
+  listMetadata(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.WebAppsListMetadataResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listMetadataOperationSpec,
       callback) as Promise<Models.WebAppsListMetadataResponse>;
@@ -1078,13 +1078,13 @@ export class WebApps {
    * @param callback The callback
    */
   updateSitePushSettings(resourceGroupName: string, name: string, pushSettings: Models.PushSettings, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PushSettings>): void;
-  updateSitePushSettings(resourceGroupName: string, name: string, pushSettings: Models.PushSettings, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PushSettings>, callback?: msRest.ServiceCallback<Models.PushSettings>): Promise<Models.WebAppsUpdateSitePushSettingsResponse> {
+  updateSitePushSettings(resourceGroupName: string, name: string, pushSettings: Models.PushSettings, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PushSettings>): Promise<Models.WebAppsUpdateSitePushSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         pushSettings,
-        optionsOrCallback
+        options
       },
       updateSitePushSettingsOperationSpec,
       callback) as Promise<Models.WebAppsUpdateSitePushSettingsResponse>;
@@ -1112,12 +1112,12 @@ export class WebApps {
    * @param callback The callback
    */
   listSitePushSettings(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PushSettings>): void;
-  listSitePushSettings(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PushSettings>, callback?: msRest.ServiceCallback<Models.PushSettings>): Promise<Models.WebAppsListSitePushSettingsResponse> {
+  listSitePushSettings(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PushSettings>): Promise<Models.WebAppsListSitePushSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listSitePushSettingsOperationSpec,
       callback) as Promise<Models.WebAppsListSitePushSettingsResponse>;
@@ -1146,12 +1146,12 @@ export class WebApps {
    * @param callback The callback
    */
   listSlotConfigurationNames(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SlotConfigNamesResource>): void;
-  listSlotConfigurationNames(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SlotConfigNamesResource>, callback?: msRest.ServiceCallback<Models.SlotConfigNamesResource>): Promise<Models.WebAppsListSlotConfigurationNamesResponse> {
+  listSlotConfigurationNames(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SlotConfigNamesResource>): Promise<Models.WebAppsListSlotConfigurationNamesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listSlotConfigurationNamesOperationSpec,
       callback) as Promise<Models.WebAppsListSlotConfigurationNamesResponse>;
@@ -1184,13 +1184,13 @@ export class WebApps {
    * @param callback The callback
    */
   updateSlotConfigurationNames(resourceGroupName: string, name: string, slotConfigNames: Models.SlotConfigNamesResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SlotConfigNamesResource>): void;
-  updateSlotConfigurationNames(resourceGroupName: string, name: string, slotConfigNames: Models.SlotConfigNamesResource, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SlotConfigNamesResource>, callback?: msRest.ServiceCallback<Models.SlotConfigNamesResource>): Promise<Models.WebAppsUpdateSlotConfigurationNamesResponse> {
+  updateSlotConfigurationNames(resourceGroupName: string, name: string, slotConfigNames: Models.SlotConfigNamesResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SlotConfigNamesResource>): Promise<Models.WebAppsUpdateSlotConfigurationNamesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slotConfigNames,
-        optionsOrCallback
+        options
       },
       updateSlotConfigurationNamesOperationSpec,
       callback) as Promise<Models.WebAppsUpdateSlotConfigurationNamesResponse>;
@@ -1218,12 +1218,12 @@ export class WebApps {
    * @param callback The callback
    */
   getSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  getSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionResponse> {
+  getSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       getSwiftVirtualNetworkConnectionOperationSpec,
       callback) as Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionResponse>;
@@ -1260,13 +1260,13 @@ export class WebApps {
    * @param callback The callback
    */
   createOrUpdateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  createOrUpdateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse> {
+  createOrUpdateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         connectionEnvelope,
-        optionsOrCallback
+        options
       },
       createOrUpdateSwiftVirtualNetworkConnectionOperationSpec,
       callback) as Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse>;
@@ -1294,12 +1294,12 @@ export class WebApps {
    * @param callback The callback
    */
   deleteSwiftVirtualNetwork(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteSwiftVirtualNetwork(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteSwiftVirtualNetwork(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       deleteSwiftVirtualNetworkOperationSpec,
       callback);
@@ -1336,13 +1336,13 @@ export class WebApps {
    * @param callback The callback
    */
   updateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  updateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionResponse> {
+  updateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         connectionEnvelope,
-        optionsOrCallback
+        options
       },
       updateSwiftVirtualNetworkConnectionOperationSpec,
       callback) as Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionResponse>;
@@ -1372,12 +1372,12 @@ export class WebApps {
    * @param callback The callback
    */
   getConfiguration(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteConfigResource>): void;
-  getConfiguration(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteConfigResource>, callback?: msRest.ServiceCallback<Models.SiteConfigResource>): Promise<Models.WebAppsGetConfigurationResponse> {
+  getConfiguration(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteConfigResource>): Promise<Models.WebAppsGetConfigurationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       getConfigurationOperationSpec,
       callback) as Promise<Models.WebAppsGetConfigurationResponse>;
@@ -1408,13 +1408,13 @@ export class WebApps {
    * @param callback The callback
    */
   createOrUpdateConfiguration(resourceGroupName: string, name: string, siteConfig: Models.SiteConfigResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteConfigResource>): void;
-  createOrUpdateConfiguration(resourceGroupName: string, name: string, siteConfig: Models.SiteConfigResource, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteConfigResource>, callback?: msRest.ServiceCallback<Models.SiteConfigResource>): Promise<Models.WebAppsCreateOrUpdateConfigurationResponse> {
+  createOrUpdateConfiguration(resourceGroupName: string, name: string, siteConfig: Models.SiteConfigResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteConfigResource>): Promise<Models.WebAppsCreateOrUpdateConfigurationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         siteConfig,
-        optionsOrCallback
+        options
       },
       createOrUpdateConfigurationOperationSpec,
       callback) as Promise<Models.WebAppsCreateOrUpdateConfigurationResponse>;
@@ -1445,13 +1445,13 @@ export class WebApps {
    * @param callback The callback
    */
   updateConfiguration(resourceGroupName: string, name: string, siteConfig: Models.SiteConfigResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteConfigResource>): void;
-  updateConfiguration(resourceGroupName: string, name: string, siteConfig: Models.SiteConfigResource, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteConfigResource>, callback?: msRest.ServiceCallback<Models.SiteConfigResource>): Promise<Models.WebAppsUpdateConfigurationResponse> {
+  updateConfiguration(resourceGroupName: string, name: string, siteConfig: Models.SiteConfigResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteConfigResource>): Promise<Models.WebAppsUpdateConfigurationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         siteConfig,
-        optionsOrCallback
+        options
       },
       updateConfigurationOperationSpec,
       callback) as Promise<Models.WebAppsUpdateConfigurationResponse>;
@@ -1481,12 +1481,12 @@ export class WebApps {
    * @param callback The callback
    */
   listConfigurationSnapshotInfo(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteConfigurationSnapshotInfoCollection>): void;
-  listConfigurationSnapshotInfo(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteConfigurationSnapshotInfoCollection>, callback?: msRest.ServiceCallback<Models.SiteConfigurationSnapshotInfoCollection>): Promise<Models.WebAppsListConfigurationSnapshotInfoResponse> {
+  listConfigurationSnapshotInfo(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteConfigurationSnapshotInfoCollection>): Promise<Models.WebAppsListConfigurationSnapshotInfoResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listConfigurationSnapshotInfoOperationSpec,
       callback) as Promise<Models.WebAppsListConfigurationSnapshotInfoResponse>;
@@ -1517,13 +1517,13 @@ export class WebApps {
    * @param callback The callback
    */
   getConfigurationSnapshot(resourceGroupName: string, name: string, snapshotId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteConfigResource>): void;
-  getConfigurationSnapshot(resourceGroupName: string, name: string, snapshotId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteConfigResource>, callback?: msRest.ServiceCallback<Models.SiteConfigResource>): Promise<Models.WebAppsGetConfigurationSnapshotResponse> {
+  getConfigurationSnapshot(resourceGroupName: string, name: string, snapshotId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteConfigResource>): Promise<Models.WebAppsGetConfigurationSnapshotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         snapshotId,
-        optionsOrCallback
+        options
       },
       getConfigurationSnapshotOperationSpec,
       callback) as Promise<Models.WebAppsGetConfigurationSnapshotResponse>;
@@ -1554,13 +1554,13 @@ export class WebApps {
    * @param callback The callback
    */
   recoverSiteConfigurationSnapshot(resourceGroupName: string, name: string, snapshotId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  recoverSiteConfigurationSnapshot(resourceGroupName: string, name: string, snapshotId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  recoverSiteConfigurationSnapshot(resourceGroupName: string, name: string, snapshotId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         snapshotId,
-        optionsOrCallback
+        options
       },
       recoverSiteConfigurationSnapshotOperationSpec,
       callback);
@@ -1588,12 +1588,12 @@ export class WebApps {
    * @param callback The callback
    */
   getWebSiteContainerLogs(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getWebSiteContainerLogs(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.WebAppsGetWebSiteContainerLogsResponse> {
+  getWebSiteContainerLogs(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.WebAppsGetWebSiteContainerLogsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       getWebSiteContainerLogsOperationSpec,
       callback) as Promise<Models.WebAppsGetWebSiteContainerLogsResponse>;
@@ -1621,12 +1621,12 @@ export class WebApps {
    * @param callback The callback
    */
   getContainerLogsZip(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getContainerLogsZip(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.WebAppsGetContainerLogsZipResponse> {
+  getContainerLogsZip(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.WebAppsGetContainerLogsZipResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       getContainerLogsZipOperationSpec,
       callback) as Promise<Models.WebAppsGetContainerLogsZipResponse>;
@@ -1654,12 +1654,12 @@ export class WebApps {
    * @param callback The callback
    */
   listContinuousWebJobs(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContinuousWebJobCollection>): void;
-  listContinuousWebJobs(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContinuousWebJobCollection>, callback?: msRest.ServiceCallback<Models.ContinuousWebJobCollection>): Promise<Models.WebAppsListContinuousWebJobsResponse> {
+  listContinuousWebJobs(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ContinuousWebJobCollection>): Promise<Models.WebAppsListContinuousWebJobsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listContinuousWebJobsOperationSpec,
       callback) as Promise<Models.WebAppsListContinuousWebJobsResponse>;
@@ -1690,13 +1690,13 @@ export class WebApps {
    * @param callback The callback
    */
   getContinuousWebJob(resourceGroupName: string, name: string, webJobName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContinuousWebJob>): void;
-  getContinuousWebJob(resourceGroupName: string, name: string, webJobName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContinuousWebJob>, callback?: msRest.ServiceCallback<Models.ContinuousWebJob>): Promise<Models.WebAppsGetContinuousWebJobResponse> {
+  getContinuousWebJob(resourceGroupName: string, name: string, webJobName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ContinuousWebJob>): Promise<Models.WebAppsGetContinuousWebJobResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         webJobName,
-        optionsOrCallback
+        options
       },
       getContinuousWebJobOperationSpec,
       callback) as Promise<Models.WebAppsGetContinuousWebJobResponse>;
@@ -1727,13 +1727,13 @@ export class WebApps {
    * @param callback The callback
    */
   deleteContinuousWebJob(resourceGroupName: string, name: string, webJobName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteContinuousWebJob(resourceGroupName: string, name: string, webJobName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteContinuousWebJob(resourceGroupName: string, name: string, webJobName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         webJobName,
-        optionsOrCallback
+        options
       },
       deleteContinuousWebJobOperationSpec,
       callback);
@@ -1764,13 +1764,13 @@ export class WebApps {
    * @param callback The callback
    */
   startContinuousWebJob(resourceGroupName: string, name: string, webJobName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  startContinuousWebJob(resourceGroupName: string, name: string, webJobName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  startContinuousWebJob(resourceGroupName: string, name: string, webJobName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         webJobName,
-        optionsOrCallback
+        options
       },
       startContinuousWebJobOperationSpec,
       callback);
@@ -1801,13 +1801,13 @@ export class WebApps {
    * @param callback The callback
    */
   stopContinuousWebJob(resourceGroupName: string, name: string, webJobName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  stopContinuousWebJob(resourceGroupName: string, name: string, webJobName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  stopContinuousWebJob(resourceGroupName: string, name: string, webJobName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         webJobName,
-        optionsOrCallback
+        options
       },
       stopContinuousWebJobOperationSpec,
       callback);
@@ -1835,12 +1835,12 @@ export class WebApps {
    * @param callback The callback
    */
   listDeployments(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentCollection>): void;
-  listDeployments(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentCollection>, callback?: msRest.ServiceCallback<Models.DeploymentCollection>): Promise<Models.WebAppsListDeploymentsResponse> {
+  listDeployments(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DeploymentCollection>): Promise<Models.WebAppsListDeploymentsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listDeploymentsOperationSpec,
       callback) as Promise<Models.WebAppsListDeploymentsResponse>;
@@ -1871,13 +1871,13 @@ export class WebApps {
    * @param callback The callback
    */
   getDeployment(resourceGroupName: string, name: string, id: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Deployment>): void;
-  getDeployment(resourceGroupName: string, name: string, id: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Deployment>, callback?: msRest.ServiceCallback<Models.Deployment>): Promise<Models.WebAppsGetDeploymentResponse> {
+  getDeployment(resourceGroupName: string, name: string, id: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Deployment>): Promise<Models.WebAppsGetDeploymentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         id,
-        optionsOrCallback
+        options
       },
       getDeploymentOperationSpec,
       callback) as Promise<Models.WebAppsGetDeploymentResponse>;
@@ -1911,14 +1911,14 @@ export class WebApps {
    * @param callback The callback
    */
   createDeployment(resourceGroupName: string, name: string, id: string, deployment: Models.Deployment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Deployment>): void;
-  createDeployment(resourceGroupName: string, name: string, id: string, deployment: Models.Deployment, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Deployment>, callback?: msRest.ServiceCallback<Models.Deployment>): Promise<Models.WebAppsCreateDeploymentResponse> {
+  createDeployment(resourceGroupName: string, name: string, id: string, deployment: Models.Deployment, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Deployment>): Promise<Models.WebAppsCreateDeploymentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         id,
         deployment,
-        optionsOrCallback
+        options
       },
       createDeploymentOperationSpec,
       callback) as Promise<Models.WebAppsCreateDeploymentResponse>;
@@ -1949,13 +1949,13 @@ export class WebApps {
    * @param callback The callback
    */
   deleteDeployment(resourceGroupName: string, name: string, id: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteDeployment(resourceGroupName: string, name: string, id: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteDeployment(resourceGroupName: string, name: string, id: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         id,
-        optionsOrCallback
+        options
       },
       deleteDeploymentOperationSpec,
       callback);
@@ -1989,13 +1989,13 @@ export class WebApps {
    * @param callback The callback
    */
   listDeploymentLog(resourceGroupName: string, name: string, id: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Deployment>): void;
-  listDeploymentLog(resourceGroupName: string, name: string, id: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Deployment>, callback?: msRest.ServiceCallback<Models.Deployment>): Promise<Models.WebAppsListDeploymentLogResponse> {
+  listDeploymentLog(resourceGroupName: string, name: string, id: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Deployment>): Promise<Models.WebAppsListDeploymentLogResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         id,
-        optionsOrCallback
+        options
       },
       listDeploymentLogOperationSpec,
       callback) as Promise<Models.WebAppsListDeploymentLogResponse>;
@@ -2031,13 +2031,13 @@ export class WebApps {
    * @param callback The callback
    */
   discoverBackup(resourceGroupName: string, name: string, request: Models.RestoreRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RestoreRequest>): void;
-  discoverBackup(resourceGroupName: string, name: string, request: Models.RestoreRequest, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RestoreRequest>, callback?: msRest.ServiceCallback<Models.RestoreRequest>): Promise<Models.WebAppsDiscoverBackupResponse> {
+  discoverBackup(resourceGroupName: string, name: string, request: Models.RestoreRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RestoreRequest>): Promise<Models.WebAppsDiscoverBackupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         request,
-        optionsOrCallback
+        options
       },
       discoverBackupOperationSpec,
       callback) as Promise<Models.WebAppsDiscoverBackupResponse>;
@@ -2065,12 +2065,12 @@ export class WebApps {
    * @param callback The callback
    */
   listDomainOwnershipIdentifiers(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IdentifierCollection>): void;
-  listDomainOwnershipIdentifiers(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IdentifierCollection>, callback?: msRest.ServiceCallback<Models.IdentifierCollection>): Promise<Models.WebAppsListDomainOwnershipIdentifiersResponse> {
+  listDomainOwnershipIdentifiers(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IdentifierCollection>): Promise<Models.WebAppsListDomainOwnershipIdentifiersResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listDomainOwnershipIdentifiersOperationSpec,
       callback) as Promise<Models.WebAppsListDomainOwnershipIdentifiersResponse>;
@@ -2101,13 +2101,13 @@ export class WebApps {
    * @param callback The callback
    */
   getDomainOwnershipIdentifier(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Identifier>): void;
-  getDomainOwnershipIdentifier(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Identifier>, callback?: msRest.ServiceCallback<Models.Identifier>): Promise<Models.WebAppsGetDomainOwnershipIdentifierResponse> {
+  getDomainOwnershipIdentifier(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Identifier>): Promise<Models.WebAppsGetDomainOwnershipIdentifierResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         domainOwnershipIdentifierName,
-        optionsOrCallback
+        options
       },
       getDomainOwnershipIdentifierOperationSpec,
       callback) as Promise<Models.WebAppsGetDomainOwnershipIdentifierResponse>;
@@ -2142,14 +2142,14 @@ export class WebApps {
    * @param callback The callback
    */
   createOrUpdateDomainOwnershipIdentifier(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, domainOwnershipIdentifier: Models.Identifier, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Identifier>): void;
-  createOrUpdateDomainOwnershipIdentifier(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, domainOwnershipIdentifier: Models.Identifier, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Identifier>, callback?: msRest.ServiceCallback<Models.Identifier>): Promise<Models.WebAppsCreateOrUpdateDomainOwnershipIdentifierResponse> {
+  createOrUpdateDomainOwnershipIdentifier(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, domainOwnershipIdentifier: Models.Identifier, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Identifier>): Promise<Models.WebAppsCreateOrUpdateDomainOwnershipIdentifierResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         domainOwnershipIdentifierName,
         domainOwnershipIdentifier,
-        optionsOrCallback
+        options
       },
       createOrUpdateDomainOwnershipIdentifierOperationSpec,
       callback) as Promise<Models.WebAppsCreateOrUpdateDomainOwnershipIdentifierResponse>;
@@ -2180,13 +2180,13 @@ export class WebApps {
    * @param callback The callback
    */
   deleteDomainOwnershipIdentifier(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteDomainOwnershipIdentifier(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteDomainOwnershipIdentifier(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         domainOwnershipIdentifierName,
-        optionsOrCallback
+        options
       },
       deleteDomainOwnershipIdentifierOperationSpec,
       callback);
@@ -2221,14 +2221,14 @@ export class WebApps {
    * @param callback The callback
    */
   updateDomainOwnershipIdentifier(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, domainOwnershipIdentifier: Models.Identifier, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Identifier>): void;
-  updateDomainOwnershipIdentifier(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, domainOwnershipIdentifier: Models.Identifier, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Identifier>, callback?: msRest.ServiceCallback<Models.Identifier>): Promise<Models.WebAppsUpdateDomainOwnershipIdentifierResponse> {
+  updateDomainOwnershipIdentifier(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, domainOwnershipIdentifier: Models.Identifier, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Identifier>): Promise<Models.WebAppsUpdateDomainOwnershipIdentifierResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         domainOwnershipIdentifierName,
         domainOwnershipIdentifier,
-        optionsOrCallback
+        options
       },
       updateDomainOwnershipIdentifierOperationSpec,
       callback) as Promise<Models.WebAppsUpdateDomainOwnershipIdentifierResponse>;
@@ -2256,12 +2256,12 @@ export class WebApps {
    * @param callback The callback
    */
   getMSDeployStatus(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MSDeployStatus>): void;
-  getMSDeployStatus(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MSDeployStatus>, callback?: msRest.ServiceCallback<Models.MSDeployStatus>): Promise<Models.WebAppsGetMSDeployStatusResponse> {
+  getMSDeployStatus(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MSDeployStatus>): Promise<Models.WebAppsGetMSDeployStatusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       getMSDeployStatusOperationSpec,
       callback) as Promise<Models.WebAppsGetMSDeployStatusResponse>;
@@ -2303,12 +2303,12 @@ export class WebApps {
    * @param callback The callback
    */
   getMSDeployLog(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MSDeployLog>): void;
-  getMSDeployLog(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MSDeployLog>, callback?: msRest.ServiceCallback<Models.MSDeployLog>): Promise<Models.WebAppsGetMSDeployLogResponse> {
+  getMSDeployLog(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MSDeployLog>): Promise<Models.WebAppsGetMSDeployLogResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       getMSDeployLogOperationSpec,
       callback) as Promise<Models.WebAppsGetMSDeployLogResponse>;
@@ -2336,12 +2336,12 @@ export class WebApps {
    * @param callback The callback
    */
   listFunctions(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FunctionEnvelopeCollection>): void;
-  listFunctions(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FunctionEnvelopeCollection>, callback?: msRest.ServiceCallback<Models.FunctionEnvelopeCollection>): Promise<Models.WebAppsListFunctionsResponse> {
+  listFunctions(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FunctionEnvelopeCollection>): Promise<Models.WebAppsListFunctionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listFunctionsOperationSpec,
       callback) as Promise<Models.WebAppsListFunctionsResponse>;
@@ -2369,12 +2369,12 @@ export class WebApps {
    * @param callback The callback
    */
   getFunctionsAdminToken(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  getFunctionsAdminToken(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.WebAppsGetFunctionsAdminTokenResponse> {
+  getFunctionsAdminToken(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.WebAppsGetFunctionsAdminTokenResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       getFunctionsAdminTokenOperationSpec,
       callback) as Promise<Models.WebAppsGetFunctionsAdminTokenResponse>;
@@ -2405,13 +2405,13 @@ export class WebApps {
    * @param callback The callback
    */
   getFunction(resourceGroupName: string, name: string, functionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FunctionEnvelope>): void;
-  getFunction(resourceGroupName: string, name: string, functionName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FunctionEnvelope>, callback?: msRest.ServiceCallback<Models.FunctionEnvelope>): Promise<Models.WebAppsGetFunctionResponse> {
+  getFunction(resourceGroupName: string, name: string, functionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FunctionEnvelope>): Promise<Models.WebAppsGetFunctionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         functionName,
-        optionsOrCallback
+        options
       },
       getFunctionOperationSpec,
       callback) as Promise<Models.WebAppsGetFunctionResponse>;
@@ -2457,13 +2457,13 @@ export class WebApps {
    * @param callback The callback
    */
   deleteFunction(resourceGroupName: string, name: string, functionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteFunction(resourceGroupName: string, name: string, functionName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteFunction(resourceGroupName: string, name: string, functionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         functionName,
-        optionsOrCallback
+        options
       },
       deleteFunctionOperationSpec,
       callback);
@@ -2494,13 +2494,13 @@ export class WebApps {
    * @param callback The callback
    */
   listFunctionSecrets(resourceGroupName: string, name: string, functionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FunctionSecrets>): void;
-  listFunctionSecrets(resourceGroupName: string, name: string, functionName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FunctionSecrets>, callback?: msRest.ServiceCallback<Models.FunctionSecrets>): Promise<Models.WebAppsListFunctionSecretsResponse> {
+  listFunctionSecrets(resourceGroupName: string, name: string, functionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FunctionSecrets>): Promise<Models.WebAppsListFunctionSecretsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         functionName,
-        optionsOrCallback
+        options
       },
       listFunctionSecretsOperationSpec,
       callback) as Promise<Models.WebAppsListFunctionSecretsResponse>;
@@ -2528,12 +2528,12 @@ export class WebApps {
    * @param callback The callback
    */
   listHostNameBindings(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HostNameBindingCollection>): void;
-  listHostNameBindings(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HostNameBindingCollection>, callback?: msRest.ServiceCallback<Models.HostNameBindingCollection>): Promise<Models.WebAppsListHostNameBindingsResponse> {
+  listHostNameBindings(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HostNameBindingCollection>): Promise<Models.WebAppsListHostNameBindingsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listHostNameBindingsOperationSpec,
       callback) as Promise<Models.WebAppsListHostNameBindingsResponse>;
@@ -2564,13 +2564,13 @@ export class WebApps {
    * @param callback The callback
    */
   getHostNameBinding(resourceGroupName: string, name: string, hostName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HostNameBinding>): void;
-  getHostNameBinding(resourceGroupName: string, name: string, hostName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HostNameBinding>, callback?: msRest.ServiceCallback<Models.HostNameBinding>): Promise<Models.WebAppsGetHostNameBindingResponse> {
+  getHostNameBinding(resourceGroupName: string, name: string, hostName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HostNameBinding>): Promise<Models.WebAppsGetHostNameBindingResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         hostName,
-        optionsOrCallback
+        options
       },
       getHostNameBindingOperationSpec,
       callback) as Promise<Models.WebAppsGetHostNameBindingResponse>;
@@ -2607,14 +2607,14 @@ export class WebApps {
    * @param callback The callback
    */
   createOrUpdateHostNameBinding(resourceGroupName: string, name: string, hostName: string, hostNameBinding: Models.HostNameBinding, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HostNameBinding>): void;
-  createOrUpdateHostNameBinding(resourceGroupName: string, name: string, hostName: string, hostNameBinding: Models.HostNameBinding, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HostNameBinding>, callback?: msRest.ServiceCallback<Models.HostNameBinding>): Promise<Models.WebAppsCreateOrUpdateHostNameBindingResponse> {
+  createOrUpdateHostNameBinding(resourceGroupName: string, name: string, hostName: string, hostNameBinding: Models.HostNameBinding, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HostNameBinding>): Promise<Models.WebAppsCreateOrUpdateHostNameBindingResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         hostName,
         hostNameBinding,
-        optionsOrCallback
+        options
       },
       createOrUpdateHostNameBindingOperationSpec,
       callback) as Promise<Models.WebAppsCreateOrUpdateHostNameBindingResponse>;
@@ -2645,13 +2645,13 @@ export class WebApps {
    * @param callback The callback
    */
   deleteHostNameBinding(resourceGroupName: string, name: string, hostName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteHostNameBinding(resourceGroupName: string, name: string, hostName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteHostNameBinding(resourceGroupName: string, name: string, hostName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         hostName,
-        optionsOrCallback
+        options
       },
       deleteHostNameBindingOperationSpec,
       callback);
@@ -2685,14 +2685,14 @@ export class WebApps {
    * @param callback The callback
    */
   getHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnection>): void;
-  getHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnection>, callback?: msRest.ServiceCallback<Models.HybridConnection>): Promise<Models.WebAppsGetHybridConnectionResponse> {
+  getHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HybridConnection>): Promise<Models.WebAppsGetHybridConnectionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         namespaceName,
         relayName,
-        optionsOrCallback
+        options
       },
       getHybridConnectionOperationSpec,
       callback) as Promise<Models.WebAppsGetHybridConnectionResponse>;
@@ -2729,7 +2729,7 @@ export class WebApps {
    * @param callback The callback
    */
   createOrUpdateHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, connectionEnvelope: Models.HybridConnection, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnection>): void;
-  createOrUpdateHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, connectionEnvelope: Models.HybridConnection, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnection>, callback?: msRest.ServiceCallback<Models.HybridConnection>): Promise<Models.WebAppsCreateOrUpdateHybridConnectionResponse> {
+  createOrUpdateHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, connectionEnvelope: Models.HybridConnection, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HybridConnection>): Promise<Models.WebAppsCreateOrUpdateHybridConnectionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -2737,7 +2737,7 @@ export class WebApps {
         namespaceName,
         relayName,
         connectionEnvelope,
-        optionsOrCallback
+        options
       },
       createOrUpdateHybridConnectionOperationSpec,
       callback) as Promise<Models.WebAppsCreateOrUpdateHybridConnectionResponse>;
@@ -2771,14 +2771,14 @@ export class WebApps {
    * @param callback The callback
    */
   deleteHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         namespaceName,
         relayName,
-        optionsOrCallback
+        options
       },
       deleteHybridConnectionOperationSpec,
       callback);
@@ -2815,7 +2815,7 @@ export class WebApps {
    * @param callback The callback
    */
   updateHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, connectionEnvelope: Models.HybridConnection, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnection>): void;
-  updateHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, connectionEnvelope: Models.HybridConnection, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnection>, callback?: msRest.ServiceCallback<Models.HybridConnection>): Promise<Models.WebAppsUpdateHybridConnectionResponse> {
+  updateHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, connectionEnvelope: Models.HybridConnection, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HybridConnection>): Promise<Models.WebAppsUpdateHybridConnectionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -2823,7 +2823,7 @@ export class WebApps {
         namespaceName,
         relayName,
         connectionEnvelope,
-        optionsOrCallback
+        options
       },
       updateHybridConnectionOperationSpec,
       callback) as Promise<Models.WebAppsUpdateHybridConnectionResponse>;
@@ -2857,14 +2857,14 @@ export class WebApps {
    * @param callback The callback
    */
   listHybridConnectionKeys(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnectionKey>): void;
-  listHybridConnectionKeys(resourceGroupName: string, name: string, namespaceName: string, relayName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnectionKey>, callback?: msRest.ServiceCallback<Models.HybridConnectionKey>): Promise<Models.WebAppsListHybridConnectionKeysResponse> {
+  listHybridConnectionKeys(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HybridConnectionKey>): Promise<Models.WebAppsListHybridConnectionKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         namespaceName,
         relayName,
-        optionsOrCallback
+        options
       },
       listHybridConnectionKeysOperationSpec,
       callback) as Promise<Models.WebAppsListHybridConnectionKeysResponse>;
@@ -2892,12 +2892,12 @@ export class WebApps {
    * @param callback The callback
    */
   listHybridConnections(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnection>): void;
-  listHybridConnections(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnection>, callback?: msRest.ServiceCallback<Models.HybridConnection>): Promise<Models.WebAppsListHybridConnectionsResponse> {
+  listHybridConnections(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HybridConnection>): Promise<Models.WebAppsListHybridConnectionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listHybridConnectionsOperationSpec,
       callback) as Promise<Models.WebAppsListHybridConnectionsResponse>;
@@ -2925,12 +2925,12 @@ export class WebApps {
    * @param callback The callback
    */
   listRelayServiceConnections(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RelayServiceConnectionEntity>): void;
-  listRelayServiceConnections(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RelayServiceConnectionEntity>, callback?: msRest.ServiceCallback<Models.RelayServiceConnectionEntity>): Promise<Models.WebAppsListRelayServiceConnectionsResponse> {
+  listRelayServiceConnections(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RelayServiceConnectionEntity>): Promise<Models.WebAppsListRelayServiceConnectionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listRelayServiceConnectionsOperationSpec,
       callback) as Promise<Models.WebAppsListRelayServiceConnectionsResponse>;
@@ -2961,13 +2961,13 @@ export class WebApps {
    * @param callback The callback
    */
   getRelayServiceConnection(resourceGroupName: string, name: string, entityName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RelayServiceConnectionEntity>): void;
-  getRelayServiceConnection(resourceGroupName: string, name: string, entityName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RelayServiceConnectionEntity>, callback?: msRest.ServiceCallback<Models.RelayServiceConnectionEntity>): Promise<Models.WebAppsGetRelayServiceConnectionResponse> {
+  getRelayServiceConnection(resourceGroupName: string, name: string, entityName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RelayServiceConnectionEntity>): Promise<Models.WebAppsGetRelayServiceConnectionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         entityName,
-        optionsOrCallback
+        options
       },
       getRelayServiceConnectionOperationSpec,
       callback) as Promise<Models.WebAppsGetRelayServiceConnectionResponse>;
@@ -3002,14 +3002,14 @@ export class WebApps {
    * @param callback The callback
    */
   createOrUpdateRelayServiceConnection(resourceGroupName: string, name: string, entityName: string, connectionEnvelope: Models.RelayServiceConnectionEntity, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RelayServiceConnectionEntity>): void;
-  createOrUpdateRelayServiceConnection(resourceGroupName: string, name: string, entityName: string, connectionEnvelope: Models.RelayServiceConnectionEntity, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RelayServiceConnectionEntity>, callback?: msRest.ServiceCallback<Models.RelayServiceConnectionEntity>): Promise<Models.WebAppsCreateOrUpdateRelayServiceConnectionResponse> {
+  createOrUpdateRelayServiceConnection(resourceGroupName: string, name: string, entityName: string, connectionEnvelope: Models.RelayServiceConnectionEntity, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RelayServiceConnectionEntity>): Promise<Models.WebAppsCreateOrUpdateRelayServiceConnectionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         entityName,
         connectionEnvelope,
-        optionsOrCallback
+        options
       },
       createOrUpdateRelayServiceConnectionOperationSpec,
       callback) as Promise<Models.WebAppsCreateOrUpdateRelayServiceConnectionResponse>;
@@ -3040,13 +3040,13 @@ export class WebApps {
    * @param callback The callback
    */
   deleteRelayServiceConnection(resourceGroupName: string, name: string, entityName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteRelayServiceConnection(resourceGroupName: string, name: string, entityName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteRelayServiceConnection(resourceGroupName: string, name: string, entityName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         entityName,
-        optionsOrCallback
+        options
       },
       deleteRelayServiceConnectionOperationSpec,
       callback);
@@ -3081,14 +3081,14 @@ export class WebApps {
    * @param callback The callback
    */
   updateRelayServiceConnection(resourceGroupName: string, name: string, entityName: string, connectionEnvelope: Models.RelayServiceConnectionEntity, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RelayServiceConnectionEntity>): void;
-  updateRelayServiceConnection(resourceGroupName: string, name: string, entityName: string, connectionEnvelope: Models.RelayServiceConnectionEntity, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RelayServiceConnectionEntity>, callback?: msRest.ServiceCallback<Models.RelayServiceConnectionEntity>): Promise<Models.WebAppsUpdateRelayServiceConnectionResponse> {
+  updateRelayServiceConnection(resourceGroupName: string, name: string, entityName: string, connectionEnvelope: Models.RelayServiceConnectionEntity, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RelayServiceConnectionEntity>): Promise<Models.WebAppsUpdateRelayServiceConnectionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         entityName,
         connectionEnvelope,
-        optionsOrCallback
+        options
       },
       updateRelayServiceConnectionOperationSpec,
       callback) as Promise<Models.WebAppsUpdateRelayServiceConnectionResponse>;
@@ -3116,12 +3116,12 @@ export class WebApps {
    * @param callback The callback
    */
   listInstanceIdentifiers(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebAppInstanceCollection>): void;
-  listInstanceIdentifiers(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebAppInstanceCollection>, callback?: msRest.ServiceCallback<Models.WebAppInstanceCollection>): Promise<Models.WebAppsListInstanceIdentifiersResponse> {
+  listInstanceIdentifiers(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebAppInstanceCollection>): Promise<Models.WebAppsListInstanceIdentifiersResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listInstanceIdentifiersOperationSpec,
       callback) as Promise<Models.WebAppsListInstanceIdentifiersResponse>;
@@ -3152,13 +3152,13 @@ export class WebApps {
    * @param callback The callback
    */
   getInstanceMsDeployStatus(resourceGroupName: string, name: string, instanceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MSDeployStatus>): void;
-  getInstanceMsDeployStatus(resourceGroupName: string, name: string, instanceId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MSDeployStatus>, callback?: msRest.ServiceCallback<Models.MSDeployStatus>): Promise<Models.WebAppsGetInstanceMsDeployStatusResponse> {
+  getInstanceMsDeployStatus(resourceGroupName: string, name: string, instanceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MSDeployStatus>): Promise<Models.WebAppsGetInstanceMsDeployStatusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         instanceId,
-        optionsOrCallback
+        options
       },
       getInstanceMsDeployStatusOperationSpec,
       callback) as Promise<Models.WebAppsGetInstanceMsDeployStatusResponse>;
@@ -3204,13 +3204,13 @@ export class WebApps {
    * @param callback The callback
    */
   getInstanceMSDeployLog(resourceGroupName: string, name: string, instanceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MSDeployLog>): void;
-  getInstanceMSDeployLog(resourceGroupName: string, name: string, instanceId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MSDeployLog>, callback?: msRest.ServiceCallback<Models.MSDeployLog>): Promise<Models.WebAppsGetInstanceMSDeployLogResponse> {
+  getInstanceMSDeployLog(resourceGroupName: string, name: string, instanceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MSDeployLog>): Promise<Models.WebAppsGetInstanceMSDeployLogResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         instanceId,
-        optionsOrCallback
+        options
       },
       getInstanceMSDeployLogOperationSpec,
       callback) as Promise<Models.WebAppsGetInstanceMSDeployLogResponse>;
@@ -3246,13 +3246,13 @@ export class WebApps {
    * @param callback The callback
    */
   listInstanceProcesses(resourceGroupName: string, name: string, instanceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessInfoCollection>): void;
-  listInstanceProcesses(resourceGroupName: string, name: string, instanceId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessInfoCollection>, callback?: msRest.ServiceCallback<Models.ProcessInfoCollection>): Promise<Models.WebAppsListInstanceProcessesResponse> {
+  listInstanceProcesses(resourceGroupName: string, name: string, instanceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessInfoCollection>): Promise<Models.WebAppsListInstanceProcessesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         instanceId,
-        optionsOrCallback
+        options
       },
       listInstanceProcessesOperationSpec,
       callback) as Promise<Models.WebAppsListInstanceProcessesResponse>;
@@ -3289,14 +3289,14 @@ export class WebApps {
    * @param callback The callback
    */
   getInstanceProcess(resourceGroupName: string, name: string, processId: string, instanceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessInfo>): void;
-  getInstanceProcess(resourceGroupName: string, name: string, processId: string, instanceId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessInfo>, callback?: msRest.ServiceCallback<Models.ProcessInfo>): Promise<Models.WebAppsGetInstanceProcessResponse> {
+  getInstanceProcess(resourceGroupName: string, name: string, processId: string, instanceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessInfo>): Promise<Models.WebAppsGetInstanceProcessResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         processId,
         instanceId,
-        optionsOrCallback
+        options
       },
       getInstanceProcessOperationSpec,
       callback) as Promise<Models.WebAppsGetInstanceProcessResponse>;
@@ -3335,14 +3335,14 @@ export class WebApps {
    * @param callback The callback
    */
   deleteInstanceProcess(resourceGroupName: string, name: string, processId: string, instanceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteInstanceProcess(resourceGroupName: string, name: string, processId: string, instanceId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteInstanceProcess(resourceGroupName: string, name: string, processId: string, instanceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         processId,
         instanceId,
-        optionsOrCallback
+        options
       },
       deleteInstanceProcessOperationSpec,
       callback);
@@ -3380,14 +3380,14 @@ export class WebApps {
    * @param callback The callback
    */
   getInstanceProcessDump(resourceGroupName: string, name: string, processId: string, instanceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getInstanceProcessDump(resourceGroupName: string, name: string, processId: string, instanceId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.WebAppsGetInstanceProcessDumpResponse> {
+  getInstanceProcessDump(resourceGroupName: string, name: string, processId: string, instanceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.WebAppsGetInstanceProcessDumpResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         processId,
         instanceId,
-        optionsOrCallback
+        options
       },
       getInstanceProcessDumpOperationSpec,
       callback) as Promise<Models.WebAppsGetInstanceProcessDumpResponse>;
@@ -3426,14 +3426,14 @@ export class WebApps {
    * @param callback The callback
    */
   listInstanceProcessModules(resourceGroupName: string, name: string, processId: string, instanceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessModuleInfoCollection>): void;
-  listInstanceProcessModules(resourceGroupName: string, name: string, processId: string, instanceId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessModuleInfoCollection>, callback?: msRest.ServiceCallback<Models.ProcessModuleInfoCollection>): Promise<Models.WebAppsListInstanceProcessModulesResponse> {
+  listInstanceProcessModules(resourceGroupName: string, name: string, processId: string, instanceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessModuleInfoCollection>): Promise<Models.WebAppsListInstanceProcessModulesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         processId,
         instanceId,
-        optionsOrCallback
+        options
       },
       listInstanceProcessModulesOperationSpec,
       callback) as Promise<Models.WebAppsListInstanceProcessModulesResponse>;
@@ -3473,7 +3473,7 @@ export class WebApps {
    * @param callback The callback
    */
   getInstanceProcessModule(resourceGroupName: string, name: string, processId: string, baseAddress: string, instanceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessModuleInfo>): void;
-  getInstanceProcessModule(resourceGroupName: string, name: string, processId: string, baseAddress: string, instanceId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessModuleInfo>, callback?: msRest.ServiceCallback<Models.ProcessModuleInfo>): Promise<Models.WebAppsGetInstanceProcessModuleResponse> {
+  getInstanceProcessModule(resourceGroupName: string, name: string, processId: string, baseAddress: string, instanceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessModuleInfo>): Promise<Models.WebAppsGetInstanceProcessModuleResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -3481,7 +3481,7 @@ export class WebApps {
         processId,
         baseAddress,
         instanceId,
-        optionsOrCallback
+        options
       },
       getInstanceProcessModuleOperationSpec,
       callback) as Promise<Models.WebAppsGetInstanceProcessModuleResponse>;
@@ -3519,14 +3519,14 @@ export class WebApps {
    * @param callback The callback
    */
   listInstanceProcessThreads(resourceGroupName: string, name: string, processId: string, instanceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessThreadInfoCollection>): void;
-  listInstanceProcessThreads(resourceGroupName: string, name: string, processId: string, instanceId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessThreadInfoCollection>, callback?: msRest.ServiceCallback<Models.ProcessThreadInfoCollection>): Promise<Models.WebAppsListInstanceProcessThreadsResponse> {
+  listInstanceProcessThreads(resourceGroupName: string, name: string, processId: string, instanceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessThreadInfoCollection>): Promise<Models.WebAppsListInstanceProcessThreadsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         processId,
         instanceId,
-        optionsOrCallback
+        options
       },
       listInstanceProcessThreadsOperationSpec,
       callback) as Promise<Models.WebAppsListInstanceProcessThreadsResponse>;
@@ -3568,7 +3568,7 @@ export class WebApps {
    * @param callback The callback
    */
   getInstanceProcessThread(resourceGroupName: string, name: string, processId: string, threadId: string, instanceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessThreadInfo>): void;
-  getInstanceProcessThread(resourceGroupName: string, name: string, processId: string, threadId: string, instanceId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessThreadInfo>, callback?: msRest.ServiceCallback<Models.ProcessThreadInfo>): Promise<Models.WebAppsGetInstanceProcessThreadResponse> {
+  getInstanceProcessThread(resourceGroupName: string, name: string, processId: string, threadId: string, instanceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessThreadInfo>): Promise<Models.WebAppsGetInstanceProcessThreadResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -3576,7 +3576,7 @@ export class WebApps {
         processId,
         threadId,
         instanceId,
-        optionsOrCallback
+        options
       },
       getInstanceProcessThreadOperationSpec,
       callback) as Promise<Models.WebAppsGetInstanceProcessThreadResponse>;
@@ -3604,12 +3604,12 @@ export class WebApps {
    * @param callback The callback
    */
   isCloneable(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteCloneability>): void;
-  isCloneable(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteCloneability>, callback?: msRest.ServiceCallback<Models.SiteCloneability>): Promise<Models.WebAppsIsCloneableResponse> {
+  isCloneable(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteCloneability>): Promise<Models.WebAppsIsCloneableResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       isCloneableOperationSpec,
       callback) as Promise<Models.WebAppsIsCloneableResponse>;
@@ -3637,12 +3637,12 @@ export class WebApps {
    * @param callback The callback
    */
   listSyncFunctionTriggers(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FunctionSecrets>): void;
-  listSyncFunctionTriggers(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FunctionSecrets>, callback?: msRest.ServiceCallback<Models.FunctionSecrets>): Promise<Models.WebAppsListSyncFunctionTriggersResponse> {
+  listSyncFunctionTriggers(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FunctionSecrets>): Promise<Models.WebAppsListSyncFunctionTriggersResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listSyncFunctionTriggersOperationSpec,
       callback) as Promise<Models.WebAppsListSyncFunctionTriggersResponse>;
@@ -3670,12 +3670,12 @@ export class WebApps {
    * @param callback The callback
    */
   listMetricDefinitions(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): void;
-  listMetricDefinitions(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.WebAppsListMetricDefinitionsResponse> {
+  listMetricDefinitions(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.WebAppsListMetricDefinitionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listMetricDefinitionsOperationSpec,
       callback) as Promise<Models.WebAppsListMetricDefinitionsResponse>;
@@ -3703,12 +3703,12 @@ export class WebApps {
    * @param callback The callback
    */
   listMetrics(resourceGroupName: string, name: string, options: Models.WebAppsListMetricsOptionalParams, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listMetrics(resourceGroupName: string, name: string, optionsOrCallback?: Models.WebAppsListMetricsOptionalParams | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.WebAppsListMetricsResponse> {
+  listMetrics(resourceGroupName: string, name: string, options?: Models.WebAppsListMetricsOptionalParams, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.WebAppsListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listMetricsOperationSpec,
       callback) as Promise<Models.WebAppsListMetricsResponse>;
@@ -3767,12 +3767,12 @@ export class WebApps {
    * @param callback The callback
    */
   getMigrateMySqlStatus(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MigrateMySqlStatus>): void;
-  getMigrateMySqlStatus(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MigrateMySqlStatus>, callback?: msRest.ServiceCallback<Models.MigrateMySqlStatus>): Promise<Models.WebAppsGetMigrateMySqlStatusResponse> {
+  getMigrateMySqlStatus(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MigrateMySqlStatus>): Promise<Models.WebAppsGetMigrateMySqlStatusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       getMigrateMySqlStatusOperationSpec,
       callback) as Promise<Models.WebAppsGetMigrateMySqlStatusResponse>;
@@ -3803,13 +3803,13 @@ export class WebApps {
    * @param callback The callback
    */
   listNetworkFeatures(resourceGroupName: string, name: string, view: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkFeatures>): void;
-  listNetworkFeatures(resourceGroupName: string, name: string, view: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkFeatures>, callback?: msRest.ServiceCallback<Models.NetworkFeatures>): Promise<Models.WebAppsListNetworkFeaturesResponse> {
+  listNetworkFeatures(resourceGroupName: string, name: string, view: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkFeatures>): Promise<Models.WebAppsListNetworkFeaturesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         view,
-        optionsOrCallback
+        options
       },
       listNetworkFeaturesOperationSpec,
       callback) as Promise<Models.WebAppsListNetworkFeaturesResponse>;
@@ -3841,15 +3841,13 @@ export class WebApps {
    * @param callback The callback
    */
   getNetworkTraceOperation(resourceGroupName: string, name: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkTrace[]>): void;
-  getNetworkTraceOperation(resourceGroupName: string, name: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<any>): Promise<Models.WebAppsGetNetworkTraceOperationResponse> {
-  getNetworkTraceOperation(resourceGroupName: string, name: string, operationId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkTrace[]>, callback?: msRest.ServiceCallback<Models.NetworkTrace[]>): Promise<Models.WebAppsGetNetworkTraceOperationResponse> {
   getNetworkTraceOperation(resourceGroupName: string, name: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkTrace[]>): Promise<Models.WebAppsGetNetworkTraceOperationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         operationId,
-        optionsOrCallback
+        options
       },
       getNetworkTraceOperationOperationSpec,
       callback) as Promise<Models.WebAppsGetNetworkTraceOperationResponse>;
@@ -3877,12 +3875,12 @@ export class WebApps {
    * @param callback The callback
    */
   startWebSiteNetworkTrace(resourceGroupName: string, name: string, options: Models.WebAppsStartWebSiteNetworkTraceOptionalParams, callback: msRest.ServiceCallback<string>): void;
-  startWebSiteNetworkTrace(resourceGroupName: string, name: string, optionsOrCallback?: Models.WebAppsStartWebSiteNetworkTraceOptionalParams | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.WebAppsStartWebSiteNetworkTraceResponse> {
+  startWebSiteNetworkTrace(resourceGroupName: string, name: string, options?: Models.WebAppsStartWebSiteNetworkTraceOptionalParams, callback?: msRest.ServiceCallback<string>): Promise<Models.WebAppsStartWebSiteNetworkTraceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       startWebSiteNetworkTraceOperationSpec,
       callback) as Promise<Models.WebAppsStartWebSiteNetworkTraceResponse>;
@@ -3923,12 +3921,12 @@ export class WebApps {
    * @param callback The callback
    */
   stopWebSiteNetworkTrace(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  stopWebSiteNetworkTrace(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  stopWebSiteNetworkTrace(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       stopWebSiteNetworkTraceOperationSpec,
       callback);
@@ -3960,13 +3958,13 @@ export class WebApps {
    * @param callback The callback
    */
   getNetworkTraces(resourceGroupName: string, name: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkTrace[]>): void;
-  getNetworkTraces(resourceGroupName: string, name: string, operationId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkTrace[]>, callback?: msRest.ServiceCallback<Models.NetworkTrace[]>): Promise<Models.WebAppsGetNetworkTracesResponse> {
+  getNetworkTraces(resourceGroupName: string, name: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkTrace[]>): Promise<Models.WebAppsGetNetworkTracesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         operationId,
-        optionsOrCallback
+        options
       },
       getNetworkTracesOperationSpec,
       callback) as Promise<Models.WebAppsGetNetworkTracesResponse>;
@@ -3998,15 +3996,13 @@ export class WebApps {
    * @param callback The callback
    */
   getNetworkTraceOperationV2(resourceGroupName: string, name: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkTrace[]>): void;
-  getNetworkTraceOperationV2(resourceGroupName: string, name: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<any>): Promise<Models.WebAppsGetNetworkTraceOperationV2Response> {
-  getNetworkTraceOperationV2(resourceGroupName: string, name: string, operationId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkTrace[]>, callback?: msRest.ServiceCallback<Models.NetworkTrace[]>): Promise<Models.WebAppsGetNetworkTraceOperationV2Response> {
   getNetworkTraceOperationV2(resourceGroupName: string, name: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkTrace[]>): Promise<Models.WebAppsGetNetworkTraceOperationV2Response> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         operationId,
-        optionsOrCallback
+        options
       },
       getNetworkTraceOperationV2OperationSpec,
       callback) as Promise<Models.WebAppsGetNetworkTraceOperationV2Response>;
@@ -4038,13 +4034,13 @@ export class WebApps {
    * @param callback The callback
    */
   getNetworkTracesV2(resourceGroupName: string, name: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkTrace[]>): void;
-  getNetworkTracesV2(resourceGroupName: string, name: string, operationId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkTrace[]>, callback?: msRest.ServiceCallback<Models.NetworkTrace[]>): Promise<Models.WebAppsGetNetworkTracesV2Response> {
+  getNetworkTracesV2(resourceGroupName: string, name: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkTrace[]>): Promise<Models.WebAppsGetNetworkTracesV2Response> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         operationId,
-        optionsOrCallback
+        options
       },
       getNetworkTracesV2OperationSpec,
       callback) as Promise<Models.WebAppsGetNetworkTracesV2Response>;
@@ -4072,12 +4068,12 @@ export class WebApps {
    * @param callback The callback
    */
   generateNewSitePublishingPassword(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  generateNewSitePublishingPassword(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  generateNewSitePublishingPassword(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       generateNewSitePublishingPasswordOperationSpec,
       callback);
@@ -4105,12 +4101,12 @@ export class WebApps {
    * @param callback The callback
    */
   listPerfMonCounters(resourceGroupName: string, name: string, options: Models.WebAppsListPerfMonCountersOptionalParams, callback: msRest.ServiceCallback<Models.PerfMonCounterCollection>): void;
-  listPerfMonCounters(resourceGroupName: string, name: string, optionsOrCallback?: Models.WebAppsListPerfMonCountersOptionalParams | msRest.ServiceCallback<Models.PerfMonCounterCollection>, callback?: msRest.ServiceCallback<Models.PerfMonCounterCollection>): Promise<Models.WebAppsListPerfMonCountersResponse> {
+  listPerfMonCounters(resourceGroupName: string, name: string, options?: Models.WebAppsListPerfMonCountersOptionalParams, callback?: msRest.ServiceCallback<Models.PerfMonCounterCollection>): Promise<Models.WebAppsListPerfMonCountersResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listPerfMonCountersOperationSpec,
       callback) as Promise<Models.WebAppsListPerfMonCountersResponse>;
@@ -4138,12 +4134,12 @@ export class WebApps {
    * @param callback The callback
    */
   getSitePhpErrorLogFlag(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SitePhpErrorLogFlag>): void;
-  getSitePhpErrorLogFlag(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SitePhpErrorLogFlag>, callback?: msRest.ServiceCallback<Models.SitePhpErrorLogFlag>): Promise<Models.WebAppsGetSitePhpErrorLogFlagResponse> {
+  getSitePhpErrorLogFlag(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SitePhpErrorLogFlag>): Promise<Models.WebAppsGetSitePhpErrorLogFlagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       getSitePhpErrorLogFlagOperationSpec,
       callback) as Promise<Models.WebAppsGetSitePhpErrorLogFlagResponse>;
@@ -4171,12 +4167,12 @@ export class WebApps {
    * @param callback The callback
    */
   listPremierAddOns(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PremierAddOn>): void;
-  listPremierAddOns(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PremierAddOn>, callback?: msRest.ServiceCallback<Models.PremierAddOn>): Promise<Models.WebAppsListPremierAddOnsResponse> {
+  listPremierAddOns(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PremierAddOn>): Promise<Models.WebAppsListPremierAddOnsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listPremierAddOnsOperationSpec,
       callback) as Promise<Models.WebAppsListPremierAddOnsResponse>;
@@ -4207,13 +4203,13 @@ export class WebApps {
    * @param callback The callback
    */
   getPremierAddOn(resourceGroupName: string, name: string, premierAddOnName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PremierAddOn>): void;
-  getPremierAddOn(resourceGroupName: string, name: string, premierAddOnName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PremierAddOn>, callback?: msRest.ServiceCallback<Models.PremierAddOn>): Promise<Models.WebAppsGetPremierAddOnResponse> {
+  getPremierAddOn(resourceGroupName: string, name: string, premierAddOnName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PremierAddOn>): Promise<Models.WebAppsGetPremierAddOnResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         premierAddOnName,
-        optionsOrCallback
+        options
       },
       getPremierAddOnOperationSpec,
       callback) as Promise<Models.WebAppsGetPremierAddOnResponse>;
@@ -4247,14 +4243,14 @@ export class WebApps {
    * @param callback The callback
    */
   addPremierAddOn(resourceGroupName: string, name: string, premierAddOnName: string, premierAddOn: Models.PremierAddOn, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PremierAddOn>): void;
-  addPremierAddOn(resourceGroupName: string, name: string, premierAddOnName: string, premierAddOn: Models.PremierAddOn, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PremierAddOn>, callback?: msRest.ServiceCallback<Models.PremierAddOn>): Promise<Models.WebAppsAddPremierAddOnResponse> {
+  addPremierAddOn(resourceGroupName: string, name: string, premierAddOnName: string, premierAddOn: Models.PremierAddOn, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PremierAddOn>): Promise<Models.WebAppsAddPremierAddOnResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         premierAddOnName,
         premierAddOn,
-        optionsOrCallback
+        options
       },
       addPremierAddOnOperationSpec,
       callback) as Promise<Models.WebAppsAddPremierAddOnResponse>;
@@ -4285,13 +4281,13 @@ export class WebApps {
    * @param callback The callback
    */
   deletePremierAddOn(resourceGroupName: string, name: string, premierAddOnName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deletePremierAddOn(resourceGroupName: string, name: string, premierAddOnName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deletePremierAddOn(resourceGroupName: string, name: string, premierAddOnName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         premierAddOnName,
-        optionsOrCallback
+        options
       },
       deletePremierAddOnOperationSpec,
       callback);
@@ -4325,14 +4321,14 @@ export class WebApps {
    * @param callback The callback
    */
   updatePremierAddOn(resourceGroupName: string, name: string, premierAddOnName: string, premierAddOn: Models.PremierAddOnPatchResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PremierAddOn>): void;
-  updatePremierAddOn(resourceGroupName: string, name: string, premierAddOnName: string, premierAddOn: Models.PremierAddOnPatchResource, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PremierAddOn>, callback?: msRest.ServiceCallback<Models.PremierAddOn>): Promise<Models.WebAppsUpdatePremierAddOnResponse> {
+  updatePremierAddOn(resourceGroupName: string, name: string, premierAddOnName: string, premierAddOn: Models.PremierAddOnPatchResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PremierAddOn>): Promise<Models.WebAppsUpdatePremierAddOnResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         premierAddOnName,
         premierAddOn,
-        optionsOrCallback
+        options
       },
       updatePremierAddOnOperationSpec,
       callback) as Promise<Models.WebAppsUpdatePremierAddOnResponse>;
@@ -4362,12 +4358,12 @@ export class WebApps {
    * @param callback The callback
    */
   getPrivateAccess(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateAccess>): void;
-  getPrivateAccess(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateAccess>, callback?: msRest.ServiceCallback<Models.PrivateAccess>): Promise<Models.WebAppsGetPrivateAccessResponse> {
+  getPrivateAccess(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PrivateAccess>): Promise<Models.WebAppsGetPrivateAccessResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       getPrivateAccessOperationSpec,
       callback) as Promise<Models.WebAppsGetPrivateAccessResponse>;
@@ -4400,13 +4396,13 @@ export class WebApps {
    * @param callback The callback
    */
   putPrivateAccessVnet(resourceGroupName: string, name: string, access: Models.PrivateAccess, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateAccess>): void;
-  putPrivateAccessVnet(resourceGroupName: string, name: string, access: Models.PrivateAccess, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateAccess>, callback?: msRest.ServiceCallback<Models.PrivateAccess>): Promise<Models.WebAppsPutPrivateAccessVnetResponse> {
+  putPrivateAccessVnet(resourceGroupName: string, name: string, access: Models.PrivateAccess, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PrivateAccess>): Promise<Models.WebAppsPutPrivateAccessVnetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         access,
-        optionsOrCallback
+        options
       },
       putPrivateAccessVnetOperationSpec,
       callback) as Promise<Models.WebAppsPutPrivateAccessVnetResponse>;
@@ -4436,12 +4432,12 @@ export class WebApps {
    * @param callback The callback
    */
   listProcesses(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessInfoCollection>): void;
-  listProcesses(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessInfoCollection>, callback?: msRest.ServiceCallback<Models.ProcessInfoCollection>): Promise<Models.WebAppsListProcessesResponse> {
+  listProcesses(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessInfoCollection>): Promise<Models.WebAppsListProcessesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listProcessesOperationSpec,
       callback) as Promise<Models.WebAppsListProcessesResponse>;
@@ -4472,13 +4468,13 @@ export class WebApps {
    * @param callback The callback
    */
   getProcess(resourceGroupName: string, name: string, processId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessInfo>): void;
-  getProcess(resourceGroupName: string, name: string, processId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessInfo>, callback?: msRest.ServiceCallback<Models.ProcessInfo>): Promise<Models.WebAppsGetProcessResponse> {
+  getProcess(resourceGroupName: string, name: string, processId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessInfo>): Promise<Models.WebAppsGetProcessResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         processId,
-        optionsOrCallback
+        options
       },
       getProcessOperationSpec,
       callback) as Promise<Models.WebAppsGetProcessResponse>;
@@ -4511,13 +4507,13 @@ export class WebApps {
    * @param callback The callback
    */
   deleteProcess(resourceGroupName: string, name: string, processId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteProcess(resourceGroupName: string, name: string, processId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteProcess(resourceGroupName: string, name: string, processId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         processId,
-        optionsOrCallback
+        options
       },
       deleteProcessOperationSpec,
       callback);
@@ -4549,13 +4545,13 @@ export class WebApps {
    * @param callback The callback
    */
   getProcessDump(resourceGroupName: string, name: string, processId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getProcessDump(resourceGroupName: string, name: string, processId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.WebAppsGetProcessDumpResponse> {
+  getProcessDump(resourceGroupName: string, name: string, processId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.WebAppsGetProcessDumpResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         processId,
-        optionsOrCallback
+        options
       },
       getProcessDumpOperationSpec,
       callback) as Promise<Models.WebAppsGetProcessDumpResponse>;
@@ -4588,13 +4584,13 @@ export class WebApps {
    * @param callback The callback
    */
   listProcessModules(resourceGroupName: string, name: string, processId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessModuleInfoCollection>): void;
-  listProcessModules(resourceGroupName: string, name: string, processId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessModuleInfoCollection>, callback?: msRest.ServiceCallback<Models.ProcessModuleInfoCollection>): Promise<Models.WebAppsListProcessModulesResponse> {
+  listProcessModules(resourceGroupName: string, name: string, processId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessModuleInfoCollection>): Promise<Models.WebAppsListProcessModulesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         processId,
-        optionsOrCallback
+        options
       },
       listProcessModulesOperationSpec,
       callback) as Promise<Models.WebAppsListProcessModulesResponse>;
@@ -4628,14 +4624,14 @@ export class WebApps {
    * @param callback The callback
    */
   getProcessModule(resourceGroupName: string, name: string, processId: string, baseAddress: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessModuleInfo>): void;
-  getProcessModule(resourceGroupName: string, name: string, processId: string, baseAddress: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessModuleInfo>, callback?: msRest.ServiceCallback<Models.ProcessModuleInfo>): Promise<Models.WebAppsGetProcessModuleResponse> {
+  getProcessModule(resourceGroupName: string, name: string, processId: string, baseAddress: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessModuleInfo>): Promise<Models.WebAppsGetProcessModuleResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         processId,
         baseAddress,
-        optionsOrCallback
+        options
       },
       getProcessModuleOperationSpec,
       callback) as Promise<Models.WebAppsGetProcessModuleResponse>;
@@ -4667,13 +4663,13 @@ export class WebApps {
    * @param callback The callback
    */
   listProcessThreads(resourceGroupName: string, name: string, processId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessThreadInfoCollection>): void;
-  listProcessThreads(resourceGroupName: string, name: string, processId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessThreadInfoCollection>, callback?: msRest.ServiceCallback<Models.ProcessThreadInfoCollection>): Promise<Models.WebAppsListProcessThreadsResponse> {
+  listProcessThreads(resourceGroupName: string, name: string, processId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessThreadInfoCollection>): Promise<Models.WebAppsListProcessThreadsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         processId,
-        optionsOrCallback
+        options
       },
       listProcessThreadsOperationSpec,
       callback) as Promise<Models.WebAppsListProcessThreadsResponse>;
@@ -4709,14 +4705,14 @@ export class WebApps {
    * @param callback The callback
    */
   getProcessThread(resourceGroupName: string, name: string, processId: string, threadId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessThreadInfo>): void;
-  getProcessThread(resourceGroupName: string, name: string, processId: string, threadId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessThreadInfo>, callback?: msRest.ServiceCallback<Models.ProcessThreadInfo>): Promise<Models.WebAppsGetProcessThreadResponse> {
+  getProcessThread(resourceGroupName: string, name: string, processId: string, threadId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessThreadInfo>): Promise<Models.WebAppsGetProcessThreadResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         processId,
         threadId,
-        optionsOrCallback
+        options
       },
       getProcessThreadOperationSpec,
       callback) as Promise<Models.WebAppsGetProcessThreadResponse>;
@@ -4744,12 +4740,12 @@ export class WebApps {
    * @param callback The callback
    */
   listPublicCertificates(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicCertificateCollection>): void;
-  listPublicCertificates(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicCertificateCollection>, callback?: msRest.ServiceCallback<Models.PublicCertificateCollection>): Promise<Models.WebAppsListPublicCertificatesResponse> {
+  listPublicCertificates(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PublicCertificateCollection>): Promise<Models.WebAppsListPublicCertificatesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listPublicCertificatesOperationSpec,
       callback) as Promise<Models.WebAppsListPublicCertificatesResponse>;
@@ -4780,13 +4776,13 @@ export class WebApps {
    * @param callback The callback
    */
   getPublicCertificate(resourceGroupName: string, name: string, publicCertificateName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicCertificate>): void;
-  getPublicCertificate(resourceGroupName: string, name: string, publicCertificateName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicCertificate>, callback?: msRest.ServiceCallback<Models.PublicCertificate>): Promise<Models.WebAppsGetPublicCertificateResponse> {
+  getPublicCertificate(resourceGroupName: string, name: string, publicCertificateName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PublicCertificate>): Promise<Models.WebAppsGetPublicCertificateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         publicCertificateName,
-        optionsOrCallback
+        options
       },
       getPublicCertificateOperationSpec,
       callback) as Promise<Models.WebAppsGetPublicCertificateResponse>;
@@ -4823,14 +4819,14 @@ export class WebApps {
    * @param callback The callback
    */
   createOrUpdatePublicCertificate(resourceGroupName: string, name: string, publicCertificateName: string, publicCertificate: Models.PublicCertificate, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicCertificate>): void;
-  createOrUpdatePublicCertificate(resourceGroupName: string, name: string, publicCertificateName: string, publicCertificate: Models.PublicCertificate, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicCertificate>, callback?: msRest.ServiceCallback<Models.PublicCertificate>): Promise<Models.WebAppsCreateOrUpdatePublicCertificateResponse> {
+  createOrUpdatePublicCertificate(resourceGroupName: string, name: string, publicCertificateName: string, publicCertificate: Models.PublicCertificate, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PublicCertificate>): Promise<Models.WebAppsCreateOrUpdatePublicCertificateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         publicCertificateName,
         publicCertificate,
-        optionsOrCallback
+        options
       },
       createOrUpdatePublicCertificateOperationSpec,
       callback) as Promise<Models.WebAppsCreateOrUpdatePublicCertificateResponse>;
@@ -4861,13 +4857,13 @@ export class WebApps {
    * @param callback The callback
    */
   deletePublicCertificate(resourceGroupName: string, name: string, publicCertificateName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deletePublicCertificate(resourceGroupName: string, name: string, publicCertificateName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deletePublicCertificate(resourceGroupName: string, name: string, publicCertificateName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         publicCertificateName,
-        optionsOrCallback
+        options
       },
       deletePublicCertificateOperationSpec,
       callback);
@@ -4901,13 +4897,13 @@ export class WebApps {
    * @param callback The callback
    */
   listPublishingProfileXmlWithSecrets(resourceGroupName: string, name: string, publishingProfileOptions: Models.CsmPublishingProfileOptions, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  listPublishingProfileXmlWithSecrets(resourceGroupName: string, name: string, publishingProfileOptions: Models.CsmPublishingProfileOptions, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.WebAppsListPublishingProfileXmlWithSecretsResponse> {
+  listPublishingProfileXmlWithSecrets(resourceGroupName: string, name: string, publishingProfileOptions: Models.CsmPublishingProfileOptions, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.WebAppsListPublishingProfileXmlWithSecretsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         publishingProfileOptions,
-        optionsOrCallback
+        options
       },
       listPublishingProfileXmlWithSecretsOperationSpec,
       callback) as Promise<Models.WebAppsListPublishingProfileXmlWithSecretsResponse>;
@@ -4937,12 +4933,12 @@ export class WebApps {
    * @param callback The callback
    */
   resetProductionSlotConfig(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  resetProductionSlotConfig(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  resetProductionSlotConfig(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       resetProductionSlotConfigOperationSpec,
       callback);
@@ -4970,12 +4966,12 @@ export class WebApps {
    * @param callback The callback
    */
   restart(resourceGroupName: string, name: string, options: Models.WebAppsRestartOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  restart(resourceGroupName: string, name: string, optionsOrCallback?: Models.WebAppsRestartOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  restart(resourceGroupName: string, name: string, options?: Models.WebAppsRestartOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       restartOperationSpec,
       callback);
@@ -5046,12 +5042,12 @@ export class WebApps {
    * @param callback The callback
    */
   listSiteExtensions(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteExtensionInfoCollection>): void;
-  listSiteExtensions(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteExtensionInfoCollection>, callback?: msRest.ServiceCallback<Models.SiteExtensionInfoCollection>): Promise<Models.WebAppsListSiteExtensionsResponse> {
+  listSiteExtensions(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteExtensionInfoCollection>): Promise<Models.WebAppsListSiteExtensionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listSiteExtensionsOperationSpec,
       callback) as Promise<Models.WebAppsListSiteExtensionsResponse>;
@@ -5082,13 +5078,13 @@ export class WebApps {
    * @param callback The callback
    */
   getSiteExtension(resourceGroupName: string, name: string, siteExtensionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteExtensionInfo>): void;
-  getSiteExtension(resourceGroupName: string, name: string, siteExtensionId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteExtensionInfo>, callback?: msRest.ServiceCallback<Models.SiteExtensionInfo>): Promise<Models.WebAppsGetSiteExtensionResponse> {
+  getSiteExtension(resourceGroupName: string, name: string, siteExtensionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteExtensionInfo>): Promise<Models.WebAppsGetSiteExtensionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         siteExtensionId,
-        optionsOrCallback
+        options
       },
       getSiteExtensionOperationSpec,
       callback) as Promise<Models.WebAppsGetSiteExtensionResponse>;
@@ -5133,13 +5129,13 @@ export class WebApps {
    * @param callback The callback
    */
   deleteSiteExtension(resourceGroupName: string, name: string, siteExtensionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteSiteExtension(resourceGroupName: string, name: string, siteExtensionId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteSiteExtension(resourceGroupName: string, name: string, siteExtensionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         siteExtensionId,
-        optionsOrCallback
+        options
       },
       deleteSiteExtensionOperationSpec,
       callback);
@@ -5167,12 +5163,12 @@ export class WebApps {
    * @param callback The callback
    */
   listSlots(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebAppCollection>): void;
-  listSlots(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebAppCollection>, callback?: msRest.ServiceCallback<Models.WebAppCollection>): Promise<Models.WebAppsListSlotsResponse> {
+  listSlots(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebAppCollection>): Promise<Models.WebAppsListSlotsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listSlotsOperationSpec,
       callback) as Promise<Models.WebAppsListSlotsResponse>;
@@ -5203,13 +5199,13 @@ export class WebApps {
    * @param callback The callback
    */
   getSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Site>): void;
-  getSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Site>, callback?: msRest.ServiceCallback<Models.Site>): Promise<Models.WebAppsGetSlotResponse> {
+  getSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Site>): Promise<Models.WebAppsGetSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       getSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetSlotResponse>;
@@ -5261,13 +5257,13 @@ export class WebApps {
    * @param callback The callback
    */
   deleteSlot(resourceGroupName: string, name: string, slot: string, options: Models.WebAppsDeleteSlotOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: Models.WebAppsDeleteSlotOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteSlot(resourceGroupName: string, name: string, slot: string, options?: Models.WebAppsDeleteSlotOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       deleteSlotOperationSpec,
       callback);
@@ -5308,14 +5304,14 @@ export class WebApps {
    * @param callback The callback
    */
   updateSlot(resourceGroupName: string, name: string, siteEnvelope: Models.SitePatchResource, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Site>): void;
-  updateSlot(resourceGroupName: string, name: string, siteEnvelope: Models.SitePatchResource, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Site>, callback?: msRest.ServiceCallback<Models.Site>): Promise<Models.WebAppsUpdateSlotResponse> {
+  updateSlot(resourceGroupName: string, name: string, siteEnvelope: Models.SitePatchResource, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Site>): Promise<Models.WebAppsUpdateSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         siteEnvelope,
         slot,
-        optionsOrCallback
+        options
       },
       updateSlotOperationSpec,
       callback) as Promise<Models.WebAppsUpdateSlotResponse>;
@@ -5346,13 +5342,13 @@ export class WebApps {
    * @param callback The callback
    */
   analyzeCustomHostnameSlot(resourceGroupName: string, name: string, slot: string, options: Models.WebAppsAnalyzeCustomHostnameSlotOptionalParams, callback: msRest.ServiceCallback<Models.CustomHostnameAnalysisResult>): void;
-  analyzeCustomHostnameSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: Models.WebAppsAnalyzeCustomHostnameSlotOptionalParams | msRest.ServiceCallback<Models.CustomHostnameAnalysisResult>, callback?: msRest.ServiceCallback<Models.CustomHostnameAnalysisResult>): Promise<Models.WebAppsAnalyzeCustomHostnameSlotResponse> {
+  analyzeCustomHostnameSlot(resourceGroupName: string, name: string, slot: string, options?: Models.WebAppsAnalyzeCustomHostnameSlotOptionalParams, callback?: msRest.ServiceCallback<Models.CustomHostnameAnalysisResult>): Promise<Models.WebAppsAnalyzeCustomHostnameSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       analyzeCustomHostnameSlotOperationSpec,
       callback) as Promise<Models.WebAppsAnalyzeCustomHostnameSlotResponse>;
@@ -5389,14 +5385,14 @@ export class WebApps {
    * @param callback The callback
    */
   applySlotConfigurationSlot(resourceGroupName: string, name: string, slotSwapEntity: Models.CsmSlotEntity, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  applySlotConfigurationSlot(resourceGroupName: string, name: string, slotSwapEntity: Models.CsmSlotEntity, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  applySlotConfigurationSlot(resourceGroupName: string, name: string, slotSwapEntity: Models.CsmSlotEntity, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slotSwapEntity,
         slot,
-        optionsOrCallback
+        options
       },
       applySlotConfigurationSlotOperationSpec,
       callback);
@@ -5436,14 +5432,14 @@ export class WebApps {
    * @param callback The callback
    */
   backupSlot(resourceGroupName: string, name: string, request: Models.BackupRequest, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupItem>): void;
-  backupSlot(resourceGroupName: string, name: string, request: Models.BackupRequest, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupItem>, callback?: msRest.ServiceCallback<Models.BackupItem>): Promise<Models.WebAppsBackupSlotResponse> {
+  backupSlot(resourceGroupName: string, name: string, request: Models.BackupRequest, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupItem>): Promise<Models.WebAppsBackupSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         request,
         slot,
-        optionsOrCallback
+        options
       },
       backupSlotOperationSpec,
       callback) as Promise<Models.WebAppsBackupSlotResponse>;
@@ -5477,13 +5473,13 @@ export class WebApps {
    * @param callback The callback
    */
   listBackupsSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupItemCollection>): void;
-  listBackupsSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupItemCollection>, callback?: msRest.ServiceCallback<Models.BackupItemCollection>): Promise<Models.WebAppsListBackupsSlotResponse> {
+  listBackupsSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupItemCollection>): Promise<Models.WebAppsListBackupsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listBackupsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListBackupsSlotResponse>;
@@ -5520,14 +5516,14 @@ export class WebApps {
    * @param callback The callback
    */
   getBackupStatusSlot(resourceGroupName: string, name: string, backupId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupItem>): void;
-  getBackupStatusSlot(resourceGroupName: string, name: string, backupId: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupItem>, callback?: msRest.ServiceCallback<Models.BackupItem>): Promise<Models.WebAppsGetBackupStatusSlotResponse> {
+  getBackupStatusSlot(resourceGroupName: string, name: string, backupId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupItem>): Promise<Models.WebAppsGetBackupStatusSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         backupId,
         slot,
-        optionsOrCallback
+        options
       },
       getBackupStatusSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetBackupStatusSlotResponse>;
@@ -5564,14 +5560,14 @@ export class WebApps {
    * @param callback The callback
    */
   deleteBackupSlot(resourceGroupName: string, name: string, backupId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteBackupSlot(resourceGroupName: string, name: string, backupId: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteBackupSlot(resourceGroupName: string, name: string, backupId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         backupId,
         slot,
-        optionsOrCallback
+        options
       },
       deleteBackupSlotOperationSpec,
       callback);
@@ -5612,7 +5608,7 @@ export class WebApps {
    * @param callback The callback
    */
   listBackupStatusSecretsSlot(resourceGroupName: string, name: string, backupId: string, request: Models.BackupRequest, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupItem>): void;
-  listBackupStatusSecretsSlot(resourceGroupName: string, name: string, backupId: string, request: Models.BackupRequest, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupItem>, callback?: msRest.ServiceCallback<Models.BackupItem>): Promise<Models.WebAppsListBackupStatusSecretsSlotResponse> {
+  listBackupStatusSecretsSlot(resourceGroupName: string, name: string, backupId: string, request: Models.BackupRequest, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupItem>): Promise<Models.WebAppsListBackupStatusSecretsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -5620,7 +5616,7 @@ export class WebApps {
         backupId,
         request,
         slot,
-        optionsOrCallback
+        options
       },
       listBackupStatusSecretsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListBackupStatusSecretsSlotResponse>;
@@ -5671,13 +5667,13 @@ export class WebApps {
    * @param callback The callback
    */
   listConfigurationsSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteConfigResourceCollection>): void;
-  listConfigurationsSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteConfigResourceCollection>, callback?: msRest.ServiceCallback<Models.SiteConfigResourceCollection>): Promise<Models.WebAppsListConfigurationsSlotResponse> {
+  listConfigurationsSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteConfigResourceCollection>): Promise<Models.WebAppsListConfigurationsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listConfigurationsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListConfigurationsSlotResponse>;
@@ -5714,14 +5710,14 @@ export class WebApps {
    * @param callback The callback
    */
   updateApplicationSettingsSlot(resourceGroupName: string, name: string, appSettings: Models.StringDictionary, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
-  updateApplicationSettingsSlot(resourceGroupName: string, name: string, appSettings: Models.StringDictionary, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.WebAppsUpdateApplicationSettingsSlotResponse> {
+  updateApplicationSettingsSlot(resourceGroupName: string, name: string, appSettings: Models.StringDictionary, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.WebAppsUpdateApplicationSettingsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         appSettings,
         slot,
-        optionsOrCallback
+        options
       },
       updateApplicationSettingsSlotOperationSpec,
       callback) as Promise<Models.WebAppsUpdateApplicationSettingsSlotResponse>;
@@ -5755,13 +5751,13 @@ export class WebApps {
    * @param callback The callback
    */
   listApplicationSettingsSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
-  listApplicationSettingsSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.WebAppsListApplicationSettingsSlotResponse> {
+  listApplicationSettingsSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.WebAppsListApplicationSettingsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listApplicationSettingsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListApplicationSettingsSlotResponse>;
@@ -5795,14 +5791,14 @@ export class WebApps {
    * @param callback The callback
    */
   updateAuthSettingsSlot(resourceGroupName: string, name: string, siteAuthSettings: Models.SiteAuthSettings, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteAuthSettings>): void;
-  updateAuthSettingsSlot(resourceGroupName: string, name: string, siteAuthSettings: Models.SiteAuthSettings, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteAuthSettings>, callback?: msRest.ServiceCallback<Models.SiteAuthSettings>): Promise<Models.WebAppsUpdateAuthSettingsSlotResponse> {
+  updateAuthSettingsSlot(resourceGroupName: string, name: string, siteAuthSettings: Models.SiteAuthSettings, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteAuthSettings>): Promise<Models.WebAppsUpdateAuthSettingsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         siteAuthSettings,
         slot,
-        optionsOrCallback
+        options
       },
       updateAuthSettingsSlotOperationSpec,
       callback) as Promise<Models.WebAppsUpdateAuthSettingsSlotResponse>;
@@ -5836,13 +5832,13 @@ export class WebApps {
    * @param callback The callback
    */
   getAuthSettingsSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteAuthSettings>): void;
-  getAuthSettingsSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteAuthSettings>, callback?: msRest.ServiceCallback<Models.SiteAuthSettings>): Promise<Models.WebAppsGetAuthSettingsSlotResponse> {
+  getAuthSettingsSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteAuthSettings>): Promise<Models.WebAppsGetAuthSettingsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       getAuthSettingsSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetAuthSettingsSlotResponse>;
@@ -5879,14 +5875,14 @@ export class WebApps {
    * @param callback The callback
    */
   updateAzureStorageAccountsSlot(resourceGroupName: string, name: string, azureStorageAccounts: Models.AzureStoragePropertyDictionaryResource, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureStoragePropertyDictionaryResource>): void;
-  updateAzureStorageAccountsSlot(resourceGroupName: string, name: string, azureStorageAccounts: Models.AzureStoragePropertyDictionaryResource, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureStoragePropertyDictionaryResource>, callback?: msRest.ServiceCallback<Models.AzureStoragePropertyDictionaryResource>): Promise<Models.WebAppsUpdateAzureStorageAccountsSlotResponse> {
+  updateAzureStorageAccountsSlot(resourceGroupName: string, name: string, azureStorageAccounts: Models.AzureStoragePropertyDictionaryResource, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AzureStoragePropertyDictionaryResource>): Promise<Models.WebAppsUpdateAzureStorageAccountsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         azureStorageAccounts,
         slot,
-        optionsOrCallback
+        options
       },
       updateAzureStorageAccountsSlotOperationSpec,
       callback) as Promise<Models.WebAppsUpdateAzureStorageAccountsSlotResponse>;
@@ -5920,13 +5916,13 @@ export class WebApps {
    * @param callback The callback
    */
   listAzureStorageAccountsSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureStoragePropertyDictionaryResource>): void;
-  listAzureStorageAccountsSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureStoragePropertyDictionaryResource>, callback?: msRest.ServiceCallback<Models.AzureStoragePropertyDictionaryResource>): Promise<Models.WebAppsListAzureStorageAccountsSlotResponse> {
+  listAzureStorageAccountsSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AzureStoragePropertyDictionaryResource>): Promise<Models.WebAppsListAzureStorageAccountsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listAzureStorageAccountsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListAzureStorageAccountsSlotResponse>;
@@ -5963,14 +5959,14 @@ export class WebApps {
    * @param callback The callback
    */
   updateBackupConfigurationSlot(resourceGroupName: string, name: string, request: Models.BackupRequest, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupRequest>): void;
-  updateBackupConfigurationSlot(resourceGroupName: string, name: string, request: Models.BackupRequest, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupRequest>, callback?: msRest.ServiceCallback<Models.BackupRequest>): Promise<Models.WebAppsUpdateBackupConfigurationSlotResponse> {
+  updateBackupConfigurationSlot(resourceGroupName: string, name: string, request: Models.BackupRequest, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupRequest>): Promise<Models.WebAppsUpdateBackupConfigurationSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         request,
         slot,
-        optionsOrCallback
+        options
       },
       updateBackupConfigurationSlotOperationSpec,
       callback) as Promise<Models.WebAppsUpdateBackupConfigurationSlotResponse>;
@@ -6004,13 +6000,13 @@ export class WebApps {
    * @param callback The callback
    */
   deleteBackupConfigurationSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteBackupConfigurationSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteBackupConfigurationSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       deleteBackupConfigurationSlotOperationSpec,
       callback);
@@ -6044,13 +6040,13 @@ export class WebApps {
    * @param callback The callback
    */
   getBackupConfigurationSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupRequest>): void;
-  getBackupConfigurationSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupRequest>, callback?: msRest.ServiceCallback<Models.BackupRequest>): Promise<Models.WebAppsGetBackupConfigurationSlotResponse> {
+  getBackupConfigurationSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupRequest>): Promise<Models.WebAppsGetBackupConfigurationSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       getBackupConfigurationSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetBackupConfigurationSlotResponse>;
@@ -6087,14 +6083,14 @@ export class WebApps {
    * @param callback The callback
    */
   updateConnectionStringsSlot(resourceGroupName: string, name: string, connectionStrings: Models.ConnectionStringDictionary, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectionStringDictionary>): void;
-  updateConnectionStringsSlot(resourceGroupName: string, name: string, connectionStrings: Models.ConnectionStringDictionary, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionStringDictionary>, callback?: msRest.ServiceCallback<Models.ConnectionStringDictionary>): Promise<Models.WebAppsUpdateConnectionStringsSlotResponse> {
+  updateConnectionStringsSlot(resourceGroupName: string, name: string, connectionStrings: Models.ConnectionStringDictionary, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ConnectionStringDictionary>): Promise<Models.WebAppsUpdateConnectionStringsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         connectionStrings,
         slot,
-        optionsOrCallback
+        options
       },
       updateConnectionStringsSlotOperationSpec,
       callback) as Promise<Models.WebAppsUpdateConnectionStringsSlotResponse>;
@@ -6128,13 +6124,13 @@ export class WebApps {
    * @param callback The callback
    */
   listConnectionStringsSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectionStringDictionary>): void;
-  listConnectionStringsSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionStringDictionary>, callback?: msRest.ServiceCallback<Models.ConnectionStringDictionary>): Promise<Models.WebAppsListConnectionStringsSlotResponse> {
+  listConnectionStringsSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ConnectionStringDictionary>): Promise<Models.WebAppsListConnectionStringsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listConnectionStringsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListConnectionStringsSlotResponse>;
@@ -6168,13 +6164,13 @@ export class WebApps {
    * @param callback The callback
    */
   getDiagnosticLogsConfigurationSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteLogsConfig>): void;
-  getDiagnosticLogsConfigurationSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteLogsConfig>, callback?: msRest.ServiceCallback<Models.SiteLogsConfig>): Promise<Models.WebAppsGetDiagnosticLogsConfigurationSlotResponse> {
+  getDiagnosticLogsConfigurationSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteLogsConfig>): Promise<Models.WebAppsGetDiagnosticLogsConfigurationSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       getDiagnosticLogsConfigurationSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetDiagnosticLogsConfigurationSlotResponse>;
@@ -6214,14 +6210,14 @@ export class WebApps {
    * @param callback The callback
    */
   updateDiagnosticLogsConfigSlot(resourceGroupName: string, name: string, siteLogsConfig: Models.SiteLogsConfig, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteLogsConfig>): void;
-  updateDiagnosticLogsConfigSlot(resourceGroupName: string, name: string, siteLogsConfig: Models.SiteLogsConfig, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteLogsConfig>, callback?: msRest.ServiceCallback<Models.SiteLogsConfig>): Promise<Models.WebAppsUpdateDiagnosticLogsConfigSlotResponse> {
+  updateDiagnosticLogsConfigSlot(resourceGroupName: string, name: string, siteLogsConfig: Models.SiteLogsConfig, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteLogsConfig>): Promise<Models.WebAppsUpdateDiagnosticLogsConfigSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         siteLogsConfig,
         slot,
-        optionsOrCallback
+        options
       },
       updateDiagnosticLogsConfigSlotOperationSpec,
       callback) as Promise<Models.WebAppsUpdateDiagnosticLogsConfigSlotResponse>;
@@ -6258,14 +6254,14 @@ export class WebApps {
    * @param callback The callback
    */
   updateMetadataSlot(resourceGroupName: string, name: string, metadata: Models.StringDictionary, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
-  updateMetadataSlot(resourceGroupName: string, name: string, metadata: Models.StringDictionary, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.WebAppsUpdateMetadataSlotResponse> {
+  updateMetadataSlot(resourceGroupName: string, name: string, metadata: Models.StringDictionary, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.WebAppsUpdateMetadataSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         metadata,
         slot,
-        optionsOrCallback
+        options
       },
       updateMetadataSlotOperationSpec,
       callback) as Promise<Models.WebAppsUpdateMetadataSlotResponse>;
@@ -6299,13 +6295,13 @@ export class WebApps {
    * @param callback The callback
    */
   listMetadataSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
-  listMetadataSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.WebAppsListMetadataSlotResponse> {
+  listMetadataSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.WebAppsListMetadataSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listMetadataSlotOperationSpec,
       callback) as Promise<Models.WebAppsListMetadataSlotResponse>;
@@ -6354,14 +6350,14 @@ export class WebApps {
    * @param callback The callback
    */
   updateSitePushSettingsSlot(resourceGroupName: string, name: string, pushSettings: Models.PushSettings, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PushSettings>): void;
-  updateSitePushSettingsSlot(resourceGroupName: string, name: string, pushSettings: Models.PushSettings, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PushSettings>, callback?: msRest.ServiceCallback<Models.PushSettings>): Promise<Models.WebAppsUpdateSitePushSettingsSlotResponse> {
+  updateSitePushSettingsSlot(resourceGroupName: string, name: string, pushSettings: Models.PushSettings, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PushSettings>): Promise<Models.WebAppsUpdateSitePushSettingsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         pushSettings,
         slot,
-        optionsOrCallback
+        options
       },
       updateSitePushSettingsSlotOperationSpec,
       callback) as Promise<Models.WebAppsUpdateSitePushSettingsSlotResponse>;
@@ -6392,13 +6388,13 @@ export class WebApps {
    * @param callback The callback
    */
   listSitePushSettingsSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PushSettings>): void;
-  listSitePushSettingsSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PushSettings>, callback?: msRest.ServiceCallback<Models.PushSettings>): Promise<Models.WebAppsListSitePushSettingsSlotResponse> {
+  listSitePushSettingsSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PushSettings>): Promise<Models.WebAppsListSitePushSettingsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listSitePushSettingsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListSitePushSettingsSlotResponse>;
@@ -6432,13 +6428,13 @@ export class WebApps {
    * @param callback The callback
    */
   getSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  getSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionSlotResponse> {
+  getSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       getSwiftVirtualNetworkConnectionSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionSlotResponse>;
@@ -6481,14 +6477,14 @@ export class WebApps {
    * @param callback The callback
    */
   createOrUpdateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  createOrUpdateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse> {
+  createOrUpdateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         connectionEnvelope,
         slot,
-        optionsOrCallback
+        options
       },
       createOrUpdateSwiftVirtualNetworkConnectionSlotOperationSpec,
       callback) as Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse>;
@@ -6522,13 +6518,13 @@ export class WebApps {
    * @param callback The callback
    */
   deleteSwiftVirtualNetworkSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteSwiftVirtualNetworkSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteSwiftVirtualNetworkSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       deleteSwiftVirtualNetworkSlotOperationSpec,
       callback);
@@ -6571,14 +6567,14 @@ export class WebApps {
    * @param callback The callback
    */
   updateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  updateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse> {
+  updateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         connectionEnvelope,
         slot,
-        optionsOrCallback
+        options
       },
       updateSwiftVirtualNetworkConnectionSlotOperationSpec,
       callback) as Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse>;
@@ -6614,13 +6610,13 @@ export class WebApps {
    * @param callback The callback
    */
   getConfigurationSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteConfigResource>): void;
-  getConfigurationSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteConfigResource>, callback?: msRest.ServiceCallback<Models.SiteConfigResource>): Promise<Models.WebAppsGetConfigurationSlotResponse> {
+  getConfigurationSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteConfigResource>): Promise<Models.WebAppsGetConfigurationSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       getConfigurationSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetConfigurationSlotResponse>;
@@ -6657,14 +6653,14 @@ export class WebApps {
    * @param callback The callback
    */
   createOrUpdateConfigurationSlot(resourceGroupName: string, name: string, siteConfig: Models.SiteConfigResource, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteConfigResource>): void;
-  createOrUpdateConfigurationSlot(resourceGroupName: string, name: string, siteConfig: Models.SiteConfigResource, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteConfigResource>, callback?: msRest.ServiceCallback<Models.SiteConfigResource>): Promise<Models.WebAppsCreateOrUpdateConfigurationSlotResponse> {
+  createOrUpdateConfigurationSlot(resourceGroupName: string, name: string, siteConfig: Models.SiteConfigResource, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteConfigResource>): Promise<Models.WebAppsCreateOrUpdateConfigurationSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         siteConfig,
         slot,
-        optionsOrCallback
+        options
       },
       createOrUpdateConfigurationSlotOperationSpec,
       callback) as Promise<Models.WebAppsCreateOrUpdateConfigurationSlotResponse>;
@@ -6701,14 +6697,14 @@ export class WebApps {
    * @param callback The callback
    */
   updateConfigurationSlot(resourceGroupName: string, name: string, siteConfig: Models.SiteConfigResource, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteConfigResource>): void;
-  updateConfigurationSlot(resourceGroupName: string, name: string, siteConfig: Models.SiteConfigResource, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteConfigResource>, callback?: msRest.ServiceCallback<Models.SiteConfigResource>): Promise<Models.WebAppsUpdateConfigurationSlotResponse> {
+  updateConfigurationSlot(resourceGroupName: string, name: string, siteConfig: Models.SiteConfigResource, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteConfigResource>): Promise<Models.WebAppsUpdateConfigurationSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         siteConfig,
         slot,
-        optionsOrCallback
+        options
       },
       updateConfigurationSlotOperationSpec,
       callback) as Promise<Models.WebAppsUpdateConfigurationSlotResponse>;
@@ -6744,13 +6740,13 @@ export class WebApps {
    * @param callback The callback
    */
   listConfigurationSnapshotInfoSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteConfigurationSnapshotInfoCollection>): void;
-  listConfigurationSnapshotInfoSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteConfigurationSnapshotInfoCollection>, callback?: msRest.ServiceCallback<Models.SiteConfigurationSnapshotInfoCollection>): Promise<Models.WebAppsListConfigurationSnapshotInfoSlotResponse> {
+  listConfigurationSnapshotInfoSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteConfigurationSnapshotInfoCollection>): Promise<Models.WebAppsListConfigurationSnapshotInfoSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listConfigurationSnapshotInfoSlotOperationSpec,
       callback) as Promise<Models.WebAppsListConfigurationSnapshotInfoSlotResponse>;
@@ -6787,14 +6783,14 @@ export class WebApps {
    * @param callback The callback
    */
   getConfigurationSnapshotSlot(resourceGroupName: string, name: string, snapshotId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteConfigResource>): void;
-  getConfigurationSnapshotSlot(resourceGroupName: string, name: string, snapshotId: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteConfigResource>, callback?: msRest.ServiceCallback<Models.SiteConfigResource>): Promise<Models.WebAppsGetConfigurationSnapshotSlotResponse> {
+  getConfigurationSnapshotSlot(resourceGroupName: string, name: string, snapshotId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteConfigResource>): Promise<Models.WebAppsGetConfigurationSnapshotSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         snapshotId,
         slot,
-        optionsOrCallback
+        options
       },
       getConfigurationSnapshotSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetConfigurationSnapshotSlotResponse>;
@@ -6831,14 +6827,14 @@ export class WebApps {
    * @param callback The callback
    */
   recoverSiteConfigurationSnapshotSlot(resourceGroupName: string, name: string, snapshotId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  recoverSiteConfigurationSnapshotSlot(resourceGroupName: string, name: string, snapshotId: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  recoverSiteConfigurationSnapshotSlot(resourceGroupName: string, name: string, snapshotId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         snapshotId,
         slot,
-        optionsOrCallback
+        options
       },
       recoverSiteConfigurationSnapshotSlotOperationSpec,
       callback);
@@ -6869,13 +6865,13 @@ export class WebApps {
    * @param callback The callback
    */
   getWebSiteContainerLogsSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getWebSiteContainerLogsSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.WebAppsGetWebSiteContainerLogsSlotResponse> {
+  getWebSiteContainerLogsSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.WebAppsGetWebSiteContainerLogsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       getWebSiteContainerLogsSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetWebSiteContainerLogsSlotResponse>;
@@ -6906,13 +6902,13 @@ export class WebApps {
    * @param callback The callback
    */
   getContainerLogsZipSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getContainerLogsZipSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.WebAppsGetContainerLogsZipSlotResponse> {
+  getContainerLogsZipSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.WebAppsGetContainerLogsZipSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       getContainerLogsZipSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetContainerLogsZipSlotResponse>;
@@ -6946,13 +6942,13 @@ export class WebApps {
    * @param callback The callback
    */
   listContinuousWebJobsSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContinuousWebJobCollection>): void;
-  listContinuousWebJobsSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContinuousWebJobCollection>, callback?: msRest.ServiceCallback<Models.ContinuousWebJobCollection>): Promise<Models.WebAppsListContinuousWebJobsSlotResponse> {
+  listContinuousWebJobsSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ContinuousWebJobCollection>): Promise<Models.WebAppsListContinuousWebJobsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listContinuousWebJobsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListContinuousWebJobsSlotResponse>;
@@ -6989,14 +6985,14 @@ export class WebApps {
    * @param callback The callback
    */
   getContinuousWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContinuousWebJob>): void;
-  getContinuousWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContinuousWebJob>, callback?: msRest.ServiceCallback<Models.ContinuousWebJob>): Promise<Models.WebAppsGetContinuousWebJobSlotResponse> {
+  getContinuousWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ContinuousWebJob>): Promise<Models.WebAppsGetContinuousWebJobSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         webJobName,
         slot,
-        optionsOrCallback
+        options
       },
       getContinuousWebJobSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetContinuousWebJobSlotResponse>;
@@ -7033,14 +7029,14 @@ export class WebApps {
    * @param callback The callback
    */
   deleteContinuousWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteContinuousWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteContinuousWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         webJobName,
         slot,
-        optionsOrCallback
+        options
       },
       deleteContinuousWebJobSlotOperationSpec,
       callback);
@@ -7077,14 +7073,14 @@ export class WebApps {
    * @param callback The callback
    */
   startContinuousWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  startContinuousWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  startContinuousWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         webJobName,
         slot,
-        optionsOrCallback
+        options
       },
       startContinuousWebJobSlotOperationSpec,
       callback);
@@ -7121,14 +7117,14 @@ export class WebApps {
    * @param callback The callback
    */
   stopContinuousWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  stopContinuousWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  stopContinuousWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         webJobName,
         slot,
-        optionsOrCallback
+        options
       },
       stopContinuousWebJobSlotOperationSpec,
       callback);
@@ -7162,13 +7158,13 @@ export class WebApps {
    * @param callback The callback
    */
   listDeploymentsSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentCollection>): void;
-  listDeploymentsSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentCollection>, callback?: msRest.ServiceCallback<Models.DeploymentCollection>): Promise<Models.WebAppsListDeploymentsSlotResponse> {
+  listDeploymentsSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DeploymentCollection>): Promise<Models.WebAppsListDeploymentsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listDeploymentsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListDeploymentsSlotResponse>;
@@ -7205,14 +7201,14 @@ export class WebApps {
    * @param callback The callback
    */
   getDeploymentSlot(resourceGroupName: string, name: string, id: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Deployment>): void;
-  getDeploymentSlot(resourceGroupName: string, name: string, id: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Deployment>, callback?: msRest.ServiceCallback<Models.Deployment>): Promise<Models.WebAppsGetDeploymentSlotResponse> {
+  getDeploymentSlot(resourceGroupName: string, name: string, id: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Deployment>): Promise<Models.WebAppsGetDeploymentSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         id,
         slot,
-        optionsOrCallback
+        options
       },
       getDeploymentSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetDeploymentSlotResponse>;
@@ -7252,7 +7248,7 @@ export class WebApps {
    * @param callback The callback
    */
   createDeploymentSlot(resourceGroupName: string, name: string, id: string, slot: string, deployment: Models.Deployment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Deployment>): void;
-  createDeploymentSlot(resourceGroupName: string, name: string, id: string, slot: string, deployment: Models.Deployment, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Deployment>, callback?: msRest.ServiceCallback<Models.Deployment>): Promise<Models.WebAppsCreateDeploymentSlotResponse> {
+  createDeploymentSlot(resourceGroupName: string, name: string, id: string, slot: string, deployment: Models.Deployment, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Deployment>): Promise<Models.WebAppsCreateDeploymentSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -7260,7 +7256,7 @@ export class WebApps {
         id,
         slot,
         deployment,
-        optionsOrCallback
+        options
       },
       createDeploymentSlotOperationSpec,
       callback) as Promise<Models.WebAppsCreateDeploymentSlotResponse>;
@@ -7297,14 +7293,14 @@ export class WebApps {
    * @param callback The callback
    */
   deleteDeploymentSlot(resourceGroupName: string, name: string, id: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteDeploymentSlot(resourceGroupName: string, name: string, id: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteDeploymentSlot(resourceGroupName: string, name: string, id: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         id,
         slot,
-        optionsOrCallback
+        options
       },
       deleteDeploymentSlotOperationSpec,
       callback);
@@ -7344,14 +7340,14 @@ export class WebApps {
    * @param callback The callback
    */
   listDeploymentLogSlot(resourceGroupName: string, name: string, id: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Deployment>): void;
-  listDeploymentLogSlot(resourceGroupName: string, name: string, id: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Deployment>, callback?: msRest.ServiceCallback<Models.Deployment>): Promise<Models.WebAppsListDeploymentLogSlotResponse> {
+  listDeploymentLogSlot(resourceGroupName: string, name: string, id: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Deployment>): Promise<Models.WebAppsListDeploymentLogSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         id,
         slot,
-        optionsOrCallback
+        options
       },
       listDeploymentLogSlotOperationSpec,
       callback) as Promise<Models.WebAppsListDeploymentLogSlotResponse>;
@@ -7393,14 +7389,14 @@ export class WebApps {
    * @param callback The callback
    */
   discoverBackupSlot(resourceGroupName: string, name: string, request: Models.RestoreRequest, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RestoreRequest>): void;
-  discoverBackupSlot(resourceGroupName: string, name: string, request: Models.RestoreRequest, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RestoreRequest>, callback?: msRest.ServiceCallback<Models.RestoreRequest>): Promise<Models.WebAppsDiscoverBackupSlotResponse> {
+  discoverBackupSlot(resourceGroupName: string, name: string, request: Models.RestoreRequest, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RestoreRequest>): Promise<Models.WebAppsDiscoverBackupSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         request,
         slot,
-        optionsOrCallback
+        options
       },
       discoverBackupSlotOperationSpec,
       callback) as Promise<Models.WebAppsDiscoverBackupSlotResponse>;
@@ -7434,13 +7430,13 @@ export class WebApps {
    * @param callback The callback
    */
   listDomainOwnershipIdentifiersSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IdentifierCollection>): void;
-  listDomainOwnershipIdentifiersSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IdentifierCollection>, callback?: msRest.ServiceCallback<Models.IdentifierCollection>): Promise<Models.WebAppsListDomainOwnershipIdentifiersSlotResponse> {
+  listDomainOwnershipIdentifiersSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IdentifierCollection>): Promise<Models.WebAppsListDomainOwnershipIdentifiersSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listDomainOwnershipIdentifiersSlotOperationSpec,
       callback) as Promise<Models.WebAppsListDomainOwnershipIdentifiersSlotResponse>;
@@ -7477,14 +7473,14 @@ export class WebApps {
    * @param callback The callback
    */
   getDomainOwnershipIdentifierSlot(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Identifier>): void;
-  getDomainOwnershipIdentifierSlot(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Identifier>, callback?: msRest.ServiceCallback<Models.Identifier>): Promise<Models.WebAppsGetDomainOwnershipIdentifierSlotResponse> {
+  getDomainOwnershipIdentifierSlot(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Identifier>): Promise<Models.WebAppsGetDomainOwnershipIdentifierSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         domainOwnershipIdentifierName,
         slot,
-        optionsOrCallback
+        options
       },
       getDomainOwnershipIdentifierSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetDomainOwnershipIdentifierSlotResponse>;
@@ -7525,7 +7521,7 @@ export class WebApps {
    * @param callback The callback
    */
   createOrUpdateDomainOwnershipIdentifierSlot(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, domainOwnershipIdentifier: Models.Identifier, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Identifier>): void;
-  createOrUpdateDomainOwnershipIdentifierSlot(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, domainOwnershipIdentifier: Models.Identifier, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Identifier>, callback?: msRest.ServiceCallback<Models.Identifier>): Promise<Models.WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotResponse> {
+  createOrUpdateDomainOwnershipIdentifierSlot(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, domainOwnershipIdentifier: Models.Identifier, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Identifier>): Promise<Models.WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -7533,7 +7529,7 @@ export class WebApps {
         domainOwnershipIdentifierName,
         domainOwnershipIdentifier,
         slot,
-        optionsOrCallback
+        options
       },
       createOrUpdateDomainOwnershipIdentifierSlotOperationSpec,
       callback) as Promise<Models.WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotResponse>;
@@ -7570,14 +7566,14 @@ export class WebApps {
    * @param callback The callback
    */
   deleteDomainOwnershipIdentifierSlot(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteDomainOwnershipIdentifierSlot(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteDomainOwnershipIdentifierSlot(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         domainOwnershipIdentifierName,
         slot,
-        optionsOrCallback
+        options
       },
       deleteDomainOwnershipIdentifierSlotOperationSpec,
       callback);
@@ -7618,7 +7614,7 @@ export class WebApps {
    * @param callback The callback
    */
   updateDomainOwnershipIdentifierSlot(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, domainOwnershipIdentifier: Models.Identifier, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Identifier>): void;
-  updateDomainOwnershipIdentifierSlot(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, domainOwnershipIdentifier: Models.Identifier, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Identifier>, callback?: msRest.ServiceCallback<Models.Identifier>): Promise<Models.WebAppsUpdateDomainOwnershipIdentifierSlotResponse> {
+  updateDomainOwnershipIdentifierSlot(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, domainOwnershipIdentifier: Models.Identifier, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Identifier>): Promise<Models.WebAppsUpdateDomainOwnershipIdentifierSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -7626,7 +7622,7 @@ export class WebApps {
         domainOwnershipIdentifierName,
         domainOwnershipIdentifier,
         slot,
-        optionsOrCallback
+        options
       },
       updateDomainOwnershipIdentifierSlotOperationSpec,
       callback) as Promise<Models.WebAppsUpdateDomainOwnershipIdentifierSlotResponse>;
@@ -7657,13 +7653,13 @@ export class WebApps {
    * @param callback The callback
    */
   getMSDeployStatusSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MSDeployStatus>): void;
-  getMSDeployStatusSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MSDeployStatus>, callback?: msRest.ServiceCallback<Models.MSDeployStatus>): Promise<Models.WebAppsGetMSDeployStatusSlotResponse> {
+  getMSDeployStatusSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MSDeployStatus>): Promise<Models.WebAppsGetMSDeployStatusSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       getMSDeployStatusSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetMSDeployStatusSlotResponse>;
@@ -7709,13 +7705,13 @@ export class WebApps {
    * @param callback The callback
    */
   getMSDeployLogSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MSDeployLog>): void;
-  getMSDeployLogSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MSDeployLog>, callback?: msRest.ServiceCallback<Models.MSDeployLog>): Promise<Models.WebAppsGetMSDeployLogSlotResponse> {
+  getMSDeployLogSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MSDeployLog>): Promise<Models.WebAppsGetMSDeployLogSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       getMSDeployLogSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetMSDeployLogSlotResponse>;
@@ -7749,13 +7745,13 @@ export class WebApps {
    * @param callback The callback
    */
   listInstanceFunctionsSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FunctionEnvelopeCollection>): void;
-  listInstanceFunctionsSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FunctionEnvelopeCollection>, callback?: msRest.ServiceCallback<Models.FunctionEnvelopeCollection>): Promise<Models.WebAppsListInstanceFunctionsSlotResponse> {
+  listInstanceFunctionsSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FunctionEnvelopeCollection>): Promise<Models.WebAppsListInstanceFunctionsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listInstanceFunctionsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListInstanceFunctionsSlotResponse>;
@@ -7786,13 +7782,13 @@ export class WebApps {
    * @param callback The callback
    */
   getFunctionsAdminTokenSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  getFunctionsAdminTokenSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.WebAppsGetFunctionsAdminTokenSlotResponse> {
+  getFunctionsAdminTokenSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.WebAppsGetFunctionsAdminTokenSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       getFunctionsAdminTokenSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetFunctionsAdminTokenSlotResponse>;
@@ -7829,14 +7825,14 @@ export class WebApps {
    * @param callback The callback
    */
   getInstanceFunctionSlot(resourceGroupName: string, name: string, functionName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FunctionEnvelope>): void;
-  getInstanceFunctionSlot(resourceGroupName: string, name: string, functionName: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FunctionEnvelope>, callback?: msRest.ServiceCallback<Models.FunctionEnvelope>): Promise<Models.WebAppsGetInstanceFunctionSlotResponse> {
+  getInstanceFunctionSlot(resourceGroupName: string, name: string, functionName: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FunctionEnvelope>): Promise<Models.WebAppsGetInstanceFunctionSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         functionName,
         slot,
-        optionsOrCallback
+        options
       },
       getInstanceFunctionSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetInstanceFunctionSlotResponse>;
@@ -7890,14 +7886,14 @@ export class WebApps {
    * @param callback The callback
    */
   deleteInstanceFunctionSlot(resourceGroupName: string, name: string, functionName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteInstanceFunctionSlot(resourceGroupName: string, name: string, functionName: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteInstanceFunctionSlot(resourceGroupName: string, name: string, functionName: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         functionName,
         slot,
-        optionsOrCallback
+        options
       },
       deleteInstanceFunctionSlotOperationSpec,
       callback);
@@ -7934,14 +7930,14 @@ export class WebApps {
    * @param callback The callback
    */
   listFunctionSecretsSlot(resourceGroupName: string, name: string, functionName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FunctionSecrets>): void;
-  listFunctionSecretsSlot(resourceGroupName: string, name: string, functionName: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FunctionSecrets>, callback?: msRest.ServiceCallback<Models.FunctionSecrets>): Promise<Models.WebAppsListFunctionSecretsSlotResponse> {
+  listFunctionSecretsSlot(resourceGroupName: string, name: string, functionName: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FunctionSecrets>): Promise<Models.WebAppsListFunctionSecretsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         functionName,
         slot,
-        optionsOrCallback
+        options
       },
       listFunctionSecretsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListFunctionSecretsSlotResponse>;
@@ -7975,13 +7971,13 @@ export class WebApps {
    * @param callback The callback
    */
   listHostNameBindingsSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HostNameBindingCollection>): void;
-  listHostNameBindingsSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HostNameBindingCollection>, callback?: msRest.ServiceCallback<Models.HostNameBindingCollection>): Promise<Models.WebAppsListHostNameBindingsSlotResponse> {
+  listHostNameBindingsSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HostNameBindingCollection>): Promise<Models.WebAppsListHostNameBindingsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listHostNameBindingsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListHostNameBindingsSlotResponse>;
@@ -8018,14 +8014,14 @@ export class WebApps {
    * @param callback The callback
    */
   getHostNameBindingSlot(resourceGroupName: string, name: string, slot: string, hostName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HostNameBinding>): void;
-  getHostNameBindingSlot(resourceGroupName: string, name: string, slot: string, hostName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HostNameBinding>, callback?: msRest.ServiceCallback<Models.HostNameBinding>): Promise<Models.WebAppsGetHostNameBindingSlotResponse> {
+  getHostNameBindingSlot(resourceGroupName: string, name: string, slot: string, hostName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HostNameBinding>): Promise<Models.WebAppsGetHostNameBindingSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
         hostName,
-        optionsOrCallback
+        options
       },
       getHostNameBindingSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetHostNameBindingSlotResponse>;
@@ -8068,7 +8064,7 @@ export class WebApps {
    * @param callback The callback
    */
   createOrUpdateHostNameBindingSlot(resourceGroupName: string, name: string, hostName: string, hostNameBinding: Models.HostNameBinding, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HostNameBinding>): void;
-  createOrUpdateHostNameBindingSlot(resourceGroupName: string, name: string, hostName: string, hostNameBinding: Models.HostNameBinding, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HostNameBinding>, callback?: msRest.ServiceCallback<Models.HostNameBinding>): Promise<Models.WebAppsCreateOrUpdateHostNameBindingSlotResponse> {
+  createOrUpdateHostNameBindingSlot(resourceGroupName: string, name: string, hostName: string, hostNameBinding: Models.HostNameBinding, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HostNameBinding>): Promise<Models.WebAppsCreateOrUpdateHostNameBindingSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -8076,7 +8072,7 @@ export class WebApps {
         hostName,
         hostNameBinding,
         slot,
-        optionsOrCallback
+        options
       },
       createOrUpdateHostNameBindingSlotOperationSpec,
       callback) as Promise<Models.WebAppsCreateOrUpdateHostNameBindingSlotResponse>;
@@ -8113,14 +8109,14 @@ export class WebApps {
    * @param callback The callback
    */
   deleteHostNameBindingSlot(resourceGroupName: string, name: string, slot: string, hostName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteHostNameBindingSlot(resourceGroupName: string, name: string, slot: string, hostName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteHostNameBindingSlot(resourceGroupName: string, name: string, slot: string, hostName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
         hostName,
-        optionsOrCallback
+        options
       },
       deleteHostNameBindingSlotOperationSpec,
       callback);
@@ -8157,7 +8153,7 @@ export class WebApps {
    * @param callback The callback
    */
   getHybridConnectionSlot(resourceGroupName: string, name: string, namespaceName: string, relayName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnection>): void;
-  getHybridConnectionSlot(resourceGroupName: string, name: string, namespaceName: string, relayName: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnection>, callback?: msRest.ServiceCallback<Models.HybridConnection>): Promise<Models.WebAppsGetHybridConnectionSlotResponse> {
+  getHybridConnectionSlot(resourceGroupName: string, name: string, namespaceName: string, relayName: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HybridConnection>): Promise<Models.WebAppsGetHybridConnectionSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -8165,7 +8161,7 @@ export class WebApps {
         namespaceName,
         relayName,
         slot,
-        optionsOrCallback
+        options
       },
       getHybridConnectionSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetHybridConnectionSlotResponse>;
@@ -8205,7 +8201,7 @@ export class WebApps {
    * @param callback The callback
    */
   createOrUpdateHybridConnectionSlot(resourceGroupName: string, name: string, namespaceName: string, relayName: string, connectionEnvelope: Models.HybridConnection, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnection>): void;
-  createOrUpdateHybridConnectionSlot(resourceGroupName: string, name: string, namespaceName: string, relayName: string, connectionEnvelope: Models.HybridConnection, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnection>, callback?: msRest.ServiceCallback<Models.HybridConnection>): Promise<Models.WebAppsCreateOrUpdateHybridConnectionSlotResponse> {
+  createOrUpdateHybridConnectionSlot(resourceGroupName: string, name: string, namespaceName: string, relayName: string, connectionEnvelope: Models.HybridConnection, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HybridConnection>): Promise<Models.WebAppsCreateOrUpdateHybridConnectionSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -8214,7 +8210,7 @@ export class WebApps {
         relayName,
         connectionEnvelope,
         slot,
-        optionsOrCallback
+        options
       },
       createOrUpdateHybridConnectionSlotOperationSpec,
       callback) as Promise<Models.WebAppsCreateOrUpdateHybridConnectionSlotResponse>;
@@ -8251,7 +8247,7 @@ export class WebApps {
    * @param callback The callback
    */
   deleteHybridConnectionSlot(resourceGroupName: string, name: string, namespaceName: string, relayName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteHybridConnectionSlot(resourceGroupName: string, name: string, namespaceName: string, relayName: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteHybridConnectionSlot(resourceGroupName: string, name: string, namespaceName: string, relayName: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -8259,7 +8255,7 @@ export class WebApps {
         namespaceName,
         relayName,
         slot,
-        optionsOrCallback
+        options
       },
       deleteHybridConnectionSlotOperationSpec,
       callback);
@@ -8299,7 +8295,7 @@ export class WebApps {
    * @param callback The callback
    */
   updateHybridConnectionSlot(resourceGroupName: string, name: string, namespaceName: string, relayName: string, connectionEnvelope: Models.HybridConnection, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnection>): void;
-  updateHybridConnectionSlot(resourceGroupName: string, name: string, namespaceName: string, relayName: string, connectionEnvelope: Models.HybridConnection, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnection>, callback?: msRest.ServiceCallback<Models.HybridConnection>): Promise<Models.WebAppsUpdateHybridConnectionSlotResponse> {
+  updateHybridConnectionSlot(resourceGroupName: string, name: string, namespaceName: string, relayName: string, connectionEnvelope: Models.HybridConnection, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HybridConnection>): Promise<Models.WebAppsUpdateHybridConnectionSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -8308,7 +8304,7 @@ export class WebApps {
         relayName,
         connectionEnvelope,
         slot,
-        optionsOrCallback
+        options
       },
       updateHybridConnectionSlotOperationSpec,
       callback) as Promise<Models.WebAppsUpdateHybridConnectionSlotResponse>;
@@ -8345,7 +8341,7 @@ export class WebApps {
    * @param callback The callback
    */
   listHybridConnectionKeysSlot(resourceGroupName: string, name: string, namespaceName: string, relayName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnectionKey>): void;
-  listHybridConnectionKeysSlot(resourceGroupName: string, name: string, namespaceName: string, relayName: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnectionKey>, callback?: msRest.ServiceCallback<Models.HybridConnectionKey>): Promise<Models.WebAppsListHybridConnectionKeysSlotResponse> {
+  listHybridConnectionKeysSlot(resourceGroupName: string, name: string, namespaceName: string, relayName: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HybridConnectionKey>): Promise<Models.WebAppsListHybridConnectionKeysSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -8353,7 +8349,7 @@ export class WebApps {
         namespaceName,
         relayName,
         slot,
-        optionsOrCallback
+        options
       },
       listHybridConnectionKeysSlotOperationSpec,
       callback) as Promise<Models.WebAppsListHybridConnectionKeysSlotResponse>;
@@ -8384,13 +8380,13 @@ export class WebApps {
    * @param callback The callback
    */
   listHybridConnectionsSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnection>): void;
-  listHybridConnectionsSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnection>, callback?: msRest.ServiceCallback<Models.HybridConnection>): Promise<Models.WebAppsListHybridConnectionsSlotResponse> {
+  listHybridConnectionsSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HybridConnection>): Promise<Models.WebAppsListHybridConnectionsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listHybridConnectionsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListHybridConnectionsSlotResponse>;
@@ -8424,13 +8420,13 @@ export class WebApps {
    * @param callback The callback
    */
   listRelayServiceConnectionsSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RelayServiceConnectionEntity>): void;
-  listRelayServiceConnectionsSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RelayServiceConnectionEntity>, callback?: msRest.ServiceCallback<Models.RelayServiceConnectionEntity>): Promise<Models.WebAppsListRelayServiceConnectionsSlotResponse> {
+  listRelayServiceConnectionsSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RelayServiceConnectionEntity>): Promise<Models.WebAppsListRelayServiceConnectionsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listRelayServiceConnectionsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListRelayServiceConnectionsSlotResponse>;
@@ -8467,14 +8463,14 @@ export class WebApps {
    * @param callback The callback
    */
   getRelayServiceConnectionSlot(resourceGroupName: string, name: string, entityName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RelayServiceConnectionEntity>): void;
-  getRelayServiceConnectionSlot(resourceGroupName: string, name: string, entityName: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RelayServiceConnectionEntity>, callback?: msRest.ServiceCallback<Models.RelayServiceConnectionEntity>): Promise<Models.WebAppsGetRelayServiceConnectionSlotResponse> {
+  getRelayServiceConnectionSlot(resourceGroupName: string, name: string, entityName: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RelayServiceConnectionEntity>): Promise<Models.WebAppsGetRelayServiceConnectionSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         entityName,
         slot,
-        optionsOrCallback
+        options
       },
       getRelayServiceConnectionSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetRelayServiceConnectionSlotResponse>;
@@ -8515,7 +8511,7 @@ export class WebApps {
    * @param callback The callback
    */
   createOrUpdateRelayServiceConnectionSlot(resourceGroupName: string, name: string, entityName: string, connectionEnvelope: Models.RelayServiceConnectionEntity, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RelayServiceConnectionEntity>): void;
-  createOrUpdateRelayServiceConnectionSlot(resourceGroupName: string, name: string, entityName: string, connectionEnvelope: Models.RelayServiceConnectionEntity, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RelayServiceConnectionEntity>, callback?: msRest.ServiceCallback<Models.RelayServiceConnectionEntity>): Promise<Models.WebAppsCreateOrUpdateRelayServiceConnectionSlotResponse> {
+  createOrUpdateRelayServiceConnectionSlot(resourceGroupName: string, name: string, entityName: string, connectionEnvelope: Models.RelayServiceConnectionEntity, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RelayServiceConnectionEntity>): Promise<Models.WebAppsCreateOrUpdateRelayServiceConnectionSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -8523,7 +8519,7 @@ export class WebApps {
         entityName,
         connectionEnvelope,
         slot,
-        optionsOrCallback
+        options
       },
       createOrUpdateRelayServiceConnectionSlotOperationSpec,
       callback) as Promise<Models.WebAppsCreateOrUpdateRelayServiceConnectionSlotResponse>;
@@ -8560,14 +8556,14 @@ export class WebApps {
    * @param callback The callback
    */
   deleteRelayServiceConnectionSlot(resourceGroupName: string, name: string, entityName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteRelayServiceConnectionSlot(resourceGroupName: string, name: string, entityName: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteRelayServiceConnectionSlot(resourceGroupName: string, name: string, entityName: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         entityName,
         slot,
-        optionsOrCallback
+        options
       },
       deleteRelayServiceConnectionSlotOperationSpec,
       callback);
@@ -8608,7 +8604,7 @@ export class WebApps {
    * @param callback The callback
    */
   updateRelayServiceConnectionSlot(resourceGroupName: string, name: string, entityName: string, connectionEnvelope: Models.RelayServiceConnectionEntity, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RelayServiceConnectionEntity>): void;
-  updateRelayServiceConnectionSlot(resourceGroupName: string, name: string, entityName: string, connectionEnvelope: Models.RelayServiceConnectionEntity, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RelayServiceConnectionEntity>, callback?: msRest.ServiceCallback<Models.RelayServiceConnectionEntity>): Promise<Models.WebAppsUpdateRelayServiceConnectionSlotResponse> {
+  updateRelayServiceConnectionSlot(resourceGroupName: string, name: string, entityName: string, connectionEnvelope: Models.RelayServiceConnectionEntity, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RelayServiceConnectionEntity>): Promise<Models.WebAppsUpdateRelayServiceConnectionSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -8616,7 +8612,7 @@ export class WebApps {
         entityName,
         connectionEnvelope,
         slot,
-        optionsOrCallback
+        options
       },
       updateRelayServiceConnectionSlotOperationSpec,
       callback) as Promise<Models.WebAppsUpdateRelayServiceConnectionSlotResponse>;
@@ -8650,13 +8646,13 @@ export class WebApps {
    * @param callback The callback
    */
   listInstanceIdentifiersSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebAppInstanceCollection>): void;
-  listInstanceIdentifiersSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebAppInstanceCollection>, callback?: msRest.ServiceCallback<Models.WebAppInstanceCollection>): Promise<Models.WebAppsListInstanceIdentifiersSlotResponse> {
+  listInstanceIdentifiersSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebAppInstanceCollection>): Promise<Models.WebAppsListInstanceIdentifiersSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listInstanceIdentifiersSlotOperationSpec,
       callback) as Promise<Models.WebAppsListInstanceIdentifiersSlotResponse>;
@@ -8690,14 +8686,14 @@ export class WebApps {
    * @param callback The callback
    */
   getInstanceMsDeployStatusSlot(resourceGroupName: string, name: string, slot: string, instanceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MSDeployStatus>): void;
-  getInstanceMsDeployStatusSlot(resourceGroupName: string, name: string, slot: string, instanceId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MSDeployStatus>, callback?: msRest.ServiceCallback<Models.MSDeployStatus>): Promise<Models.WebAppsGetInstanceMsDeployStatusSlotResponse> {
+  getInstanceMsDeployStatusSlot(resourceGroupName: string, name: string, slot: string, instanceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MSDeployStatus>): Promise<Models.WebAppsGetInstanceMsDeployStatusSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
         instanceId,
-        optionsOrCallback
+        options
       },
       getInstanceMsDeployStatusSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetInstanceMsDeployStatusSlotResponse>;
@@ -8747,14 +8743,14 @@ export class WebApps {
    * @param callback The callback
    */
   getInstanceMSDeployLogSlot(resourceGroupName: string, name: string, slot: string, instanceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MSDeployLog>): void;
-  getInstanceMSDeployLogSlot(resourceGroupName: string, name: string, slot: string, instanceId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MSDeployLog>, callback?: msRest.ServiceCallback<Models.MSDeployLog>): Promise<Models.WebAppsGetInstanceMSDeployLogSlotResponse> {
+  getInstanceMSDeployLogSlot(resourceGroupName: string, name: string, slot: string, instanceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MSDeployLog>): Promise<Models.WebAppsGetInstanceMSDeployLogSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
         instanceId,
-        optionsOrCallback
+        options
       },
       getInstanceMSDeployLogSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetInstanceMSDeployLogSlotResponse>;
@@ -8796,14 +8792,14 @@ export class WebApps {
    * @param callback The callback
    */
   listInstanceProcessesSlot(resourceGroupName: string, name: string, slot: string, instanceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessInfoCollection>): void;
-  listInstanceProcessesSlot(resourceGroupName: string, name: string, slot: string, instanceId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessInfoCollection>, callback?: msRest.ServiceCallback<Models.ProcessInfoCollection>): Promise<Models.WebAppsListInstanceProcessesSlotResponse> {
+  listInstanceProcessesSlot(resourceGroupName: string, name: string, slot: string, instanceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessInfoCollection>): Promise<Models.WebAppsListInstanceProcessesSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
         instanceId,
-        optionsOrCallback
+        options
       },
       listInstanceProcessesSlotOperationSpec,
       callback) as Promise<Models.WebAppsListInstanceProcessesSlotResponse>;
@@ -8846,7 +8842,7 @@ export class WebApps {
    * @param callback The callback
    */
   getInstanceProcessSlot(resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessInfo>): void;
-  getInstanceProcessSlot(resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessInfo>, callback?: msRest.ServiceCallback<Models.ProcessInfo>): Promise<Models.WebAppsGetInstanceProcessSlotResponse> {
+  getInstanceProcessSlot(resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessInfo>): Promise<Models.WebAppsGetInstanceProcessSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -8854,7 +8850,7 @@ export class WebApps {
         processId,
         slot,
         instanceId,
-        optionsOrCallback
+        options
       },
       getInstanceProcessSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetInstanceProcessSlotResponse>;
@@ -8899,7 +8895,7 @@ export class WebApps {
    * @param callback The callback
    */
   deleteInstanceProcessSlot(resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteInstanceProcessSlot(resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteInstanceProcessSlot(resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -8907,7 +8903,7 @@ export class WebApps {
         processId,
         slot,
         instanceId,
-        optionsOrCallback
+        options
       },
       deleteInstanceProcessSlotOperationSpec,
       callback);
@@ -8951,7 +8947,7 @@ export class WebApps {
    * @param callback The callback
    */
   getInstanceProcessDumpSlot(resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getInstanceProcessDumpSlot(resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.WebAppsGetInstanceProcessDumpSlotResponse> {
+  getInstanceProcessDumpSlot(resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.WebAppsGetInstanceProcessDumpSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -8959,7 +8955,7 @@ export class WebApps {
         processId,
         slot,
         instanceId,
-        optionsOrCallback
+        options
       },
       getInstanceProcessDumpSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetInstanceProcessDumpSlotResponse>;
@@ -9004,7 +9000,7 @@ export class WebApps {
    * @param callback The callback
    */
   listInstanceProcessModulesSlot(resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessModuleInfoCollection>): void;
-  listInstanceProcessModulesSlot(resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessModuleInfoCollection>, callback?: msRest.ServiceCallback<Models.ProcessModuleInfoCollection>): Promise<Models.WebAppsListInstanceProcessModulesSlotResponse> {
+  listInstanceProcessModulesSlot(resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessModuleInfoCollection>): Promise<Models.WebAppsListInstanceProcessModulesSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -9012,7 +9008,7 @@ export class WebApps {
         processId,
         slot,
         instanceId,
-        optionsOrCallback
+        options
       },
       listInstanceProcessModulesSlotOperationSpec,
       callback) as Promise<Models.WebAppsListInstanceProcessModulesSlotResponse>;
@@ -9058,7 +9054,7 @@ export class WebApps {
    * @param callback The callback
    */
   getInstanceProcessModuleSlot(resourceGroupName: string, name: string, processId: string, baseAddress: string, slot: string, instanceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessModuleInfo>): void;
-  getInstanceProcessModuleSlot(resourceGroupName: string, name: string, processId: string, baseAddress: string, slot: string, instanceId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessModuleInfo>, callback?: msRest.ServiceCallback<Models.ProcessModuleInfo>): Promise<Models.WebAppsGetInstanceProcessModuleSlotResponse> {
+  getInstanceProcessModuleSlot(resourceGroupName: string, name: string, processId: string, baseAddress: string, slot: string, instanceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessModuleInfo>): Promise<Models.WebAppsGetInstanceProcessModuleSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -9067,7 +9063,7 @@ export class WebApps {
         baseAddress,
         slot,
         instanceId,
-        optionsOrCallback
+        options
       },
       getInstanceProcessModuleSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetInstanceProcessModuleSlotResponse>;
@@ -9111,7 +9107,7 @@ export class WebApps {
    * @param callback The callback
    */
   listInstanceProcessThreadsSlot(resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessThreadInfoCollection>): void;
-  listInstanceProcessThreadsSlot(resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessThreadInfoCollection>, callback?: msRest.ServiceCallback<Models.ProcessThreadInfoCollection>): Promise<Models.WebAppsListInstanceProcessThreadsSlotResponse> {
+  listInstanceProcessThreadsSlot(resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessThreadInfoCollection>): Promise<Models.WebAppsListInstanceProcessThreadsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -9119,7 +9115,7 @@ export class WebApps {
         processId,
         slot,
         instanceId,
-        optionsOrCallback
+        options
       },
       listInstanceProcessThreadsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListInstanceProcessThreadsSlotResponse>;
@@ -9167,7 +9163,7 @@ export class WebApps {
    * @param callback The callback
    */
   getInstanceProcessThreadSlot(resourceGroupName: string, name: string, processId: string, threadId: string, slot: string, instanceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessThreadInfo>): void;
-  getInstanceProcessThreadSlot(resourceGroupName: string, name: string, processId: string, threadId: string, slot: string, instanceId: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessThreadInfo>, callback?: msRest.ServiceCallback<Models.ProcessThreadInfo>): Promise<Models.WebAppsGetInstanceProcessThreadSlotResponse> {
+  getInstanceProcessThreadSlot(resourceGroupName: string, name: string, processId: string, threadId: string, slot: string, instanceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessThreadInfo>): Promise<Models.WebAppsGetInstanceProcessThreadSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -9176,7 +9172,7 @@ export class WebApps {
         threadId,
         slot,
         instanceId,
-        optionsOrCallback
+        options
       },
       getInstanceProcessThreadSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetInstanceProcessThreadSlotResponse>;
@@ -9210,13 +9206,13 @@ export class WebApps {
    * @param callback The callback
    */
   isCloneableSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteCloneability>): void;
-  isCloneableSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteCloneability>, callback?: msRest.ServiceCallback<Models.SiteCloneability>): Promise<Models.WebAppsIsCloneableSlotResponse> {
+  isCloneableSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteCloneability>): Promise<Models.WebAppsIsCloneableSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       isCloneableSlotOperationSpec,
       callback) as Promise<Models.WebAppsIsCloneableSlotResponse>;
@@ -9250,13 +9246,13 @@ export class WebApps {
    * @param callback The callback
    */
   listSyncFunctionTriggersSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FunctionSecrets>): void;
-  listSyncFunctionTriggersSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FunctionSecrets>, callback?: msRest.ServiceCallback<Models.FunctionSecrets>): Promise<Models.WebAppsListSyncFunctionTriggersSlotResponse> {
+  listSyncFunctionTriggersSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FunctionSecrets>): Promise<Models.WebAppsListSyncFunctionTriggersSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listSyncFunctionTriggersSlotOperationSpec,
       callback) as Promise<Models.WebAppsListSyncFunctionTriggersSlotResponse>;
@@ -9290,13 +9286,13 @@ export class WebApps {
    * @param callback The callback
    */
   listMetricDefinitionsSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): void;
-  listMetricDefinitionsSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.WebAppsListMetricDefinitionsSlotResponse> {
+  listMetricDefinitionsSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.WebAppsListMetricDefinitionsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listMetricDefinitionsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListMetricDefinitionsSlotResponse>;
@@ -9330,13 +9326,13 @@ export class WebApps {
    * @param callback The callback
    */
   listMetricsSlot(resourceGroupName: string, name: string, slot: string, options: Models.WebAppsListMetricsSlotOptionalParams, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listMetricsSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: Models.WebAppsListMetricsSlotOptionalParams | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.WebAppsListMetricsSlotResponse> {
+  listMetricsSlot(resourceGroupName: string, name: string, slot: string, options?: Models.WebAppsListMetricsSlotOptionalParams, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.WebAppsListMetricsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listMetricsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListMetricsSlotResponse>;
@@ -9369,13 +9365,13 @@ export class WebApps {
    * @param callback The callback
    */
   getMigrateMySqlStatusSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MigrateMySqlStatus>): void;
-  getMigrateMySqlStatusSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MigrateMySqlStatus>, callback?: msRest.ServiceCallback<Models.MigrateMySqlStatus>): Promise<Models.WebAppsGetMigrateMySqlStatusSlotResponse> {
+  getMigrateMySqlStatusSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MigrateMySqlStatus>): Promise<Models.WebAppsGetMigrateMySqlStatusSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       getMigrateMySqlStatusSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetMigrateMySqlStatusSlotResponse>;
@@ -9412,14 +9408,14 @@ export class WebApps {
    * @param callback The callback
    */
   listNetworkFeaturesSlot(resourceGroupName: string, name: string, view: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkFeatures>): void;
-  listNetworkFeaturesSlot(resourceGroupName: string, name: string, view: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkFeatures>, callback?: msRest.ServiceCallback<Models.NetworkFeatures>): Promise<Models.WebAppsListNetworkFeaturesSlotResponse> {
+  listNetworkFeaturesSlot(resourceGroupName: string, name: string, view: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkFeatures>): Promise<Models.WebAppsListNetworkFeaturesSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         view,
         slot,
-        optionsOrCallback
+        options
       },
       listNetworkFeaturesSlotOperationSpec,
       callback) as Promise<Models.WebAppsListNetworkFeaturesSlotResponse>;
@@ -9457,8 +9453,6 @@ export class WebApps {
    * @param callback The callback
    */
   getNetworkTraceOperationSlot(resourceGroupName: string, name: string, operationId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkTrace[]>): void;
-  getNetworkTraceOperationSlot(resourceGroupName: string, name: string, operationId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<any>): Promise<Models.WebAppsGetNetworkTraceOperationSlotResponse> {
-  getNetworkTraceOperationSlot(resourceGroupName: string, name: string, operationId: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkTrace[]>, callback?: msRest.ServiceCallback<Models.NetworkTrace[]>): Promise<Models.WebAppsGetNetworkTraceOperationSlotResponse> {
   getNetworkTraceOperationSlot(resourceGroupName: string, name: string, operationId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkTrace[]>): Promise<Models.WebAppsGetNetworkTraceOperationSlotResponse> {
     return this.client.sendOperationRequest(
       {
@@ -9466,7 +9460,7 @@ export class WebApps {
         name,
         operationId,
         slot,
-        optionsOrCallback
+        options
       },
       getNetworkTraceOperationSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetNetworkTraceOperationSlotResponse>;
@@ -9497,13 +9491,13 @@ export class WebApps {
    * @param callback The callback
    */
   startWebSiteNetworkTraceSlot(resourceGroupName: string, name: string, slot: string, options: Models.WebAppsStartWebSiteNetworkTraceSlotOptionalParams, callback: msRest.ServiceCallback<string>): void;
-  startWebSiteNetworkTraceSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: Models.WebAppsStartWebSiteNetworkTraceSlotOptionalParams | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.WebAppsStartWebSiteNetworkTraceSlotResponse> {
+  startWebSiteNetworkTraceSlot(resourceGroupName: string, name: string, slot: string, options?: Models.WebAppsStartWebSiteNetworkTraceSlotOptionalParams, callback?: msRest.ServiceCallback<string>): Promise<Models.WebAppsStartWebSiteNetworkTraceSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       startWebSiteNetworkTraceSlotOperationSpec,
       callback) as Promise<Models.WebAppsStartWebSiteNetworkTraceSlotResponse>;
@@ -9548,13 +9542,13 @@ export class WebApps {
    * @param callback The callback
    */
   stopWebSiteNetworkTraceSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  stopWebSiteNetworkTraceSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  stopWebSiteNetworkTraceSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       stopWebSiteNetworkTraceSlotOperationSpec,
       callback);
@@ -9592,14 +9586,14 @@ export class WebApps {
    * @param callback The callback
    */
   getNetworkTracesSlot(resourceGroupName: string, name: string, operationId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkTrace[]>): void;
-  getNetworkTracesSlot(resourceGroupName: string, name: string, operationId: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkTrace[]>, callback?: msRest.ServiceCallback<Models.NetworkTrace[]>): Promise<Models.WebAppsGetNetworkTracesSlotResponse> {
+  getNetworkTracesSlot(resourceGroupName: string, name: string, operationId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkTrace[]>): Promise<Models.WebAppsGetNetworkTracesSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         operationId,
         slot,
-        optionsOrCallback
+        options
       },
       getNetworkTracesSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetNetworkTracesSlotResponse>;
@@ -9637,8 +9631,6 @@ export class WebApps {
    * @param callback The callback
    */
   getNetworkTraceOperationSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkTrace[]>): void;
-  getNetworkTraceOperationSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<any>): Promise<Models.WebAppsGetNetworkTraceOperationSlotV2Response> {
-  getNetworkTraceOperationSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkTrace[]>, callback?: msRest.ServiceCallback<Models.NetworkTrace[]>): Promise<Models.WebAppsGetNetworkTraceOperationSlotV2Response> {
   getNetworkTraceOperationSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkTrace[]>): Promise<Models.WebAppsGetNetworkTraceOperationSlotV2Response> {
     return this.client.sendOperationRequest(
       {
@@ -9646,7 +9638,7 @@ export class WebApps {
         name,
         operationId,
         slot,
-        optionsOrCallback
+        options
       },
       getNetworkTraceOperationSlotV2OperationSpec,
       callback) as Promise<Models.WebAppsGetNetworkTraceOperationSlotV2Response>;
@@ -9684,14 +9676,14 @@ export class WebApps {
    * @param callback The callback
    */
   getNetworkTracesSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkTrace[]>): void;
-  getNetworkTracesSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkTrace[]>, callback?: msRest.ServiceCallback<Models.NetworkTrace[]>): Promise<Models.WebAppsGetNetworkTracesSlotV2Response> {
+  getNetworkTracesSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkTrace[]>): Promise<Models.WebAppsGetNetworkTracesSlotV2Response> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         operationId,
         slot,
-        optionsOrCallback
+        options
       },
       getNetworkTracesSlotV2OperationSpec,
       callback) as Promise<Models.WebAppsGetNetworkTracesSlotV2Response>;
@@ -9725,13 +9717,13 @@ export class WebApps {
    * @param callback The callback
    */
   generateNewSitePublishingPasswordSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  generateNewSitePublishingPasswordSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  generateNewSitePublishingPasswordSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       generateNewSitePublishingPasswordSlotOperationSpec,
       callback);
@@ -9762,13 +9754,13 @@ export class WebApps {
    * @param callback The callback
    */
   listPerfMonCountersSlot(resourceGroupName: string, name: string, slot: string, options: Models.WebAppsListPerfMonCountersSlotOptionalParams, callback: msRest.ServiceCallback<Models.PerfMonCounterCollection>): void;
-  listPerfMonCountersSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: Models.WebAppsListPerfMonCountersSlotOptionalParams | msRest.ServiceCallback<Models.PerfMonCounterCollection>, callback?: msRest.ServiceCallback<Models.PerfMonCounterCollection>): Promise<Models.WebAppsListPerfMonCountersSlotResponse> {
+  listPerfMonCountersSlot(resourceGroupName: string, name: string, slot: string, options?: Models.WebAppsListPerfMonCountersSlotOptionalParams, callback?: msRest.ServiceCallback<Models.PerfMonCounterCollection>): Promise<Models.WebAppsListPerfMonCountersSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listPerfMonCountersSlotOperationSpec,
       callback) as Promise<Models.WebAppsListPerfMonCountersSlotResponse>;
@@ -9799,13 +9791,13 @@ export class WebApps {
    * @param callback The callback
    */
   getSitePhpErrorLogFlagSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SitePhpErrorLogFlag>): void;
-  getSitePhpErrorLogFlagSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SitePhpErrorLogFlag>, callback?: msRest.ServiceCallback<Models.SitePhpErrorLogFlag>): Promise<Models.WebAppsGetSitePhpErrorLogFlagSlotResponse> {
+  getSitePhpErrorLogFlagSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SitePhpErrorLogFlag>): Promise<Models.WebAppsGetSitePhpErrorLogFlagSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       getSitePhpErrorLogFlagSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetSitePhpErrorLogFlagSlotResponse>;
@@ -9839,13 +9831,13 @@ export class WebApps {
    * @param callback The callback
    */
   listPremierAddOnsSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PremierAddOn>): void;
-  listPremierAddOnsSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PremierAddOn>, callback?: msRest.ServiceCallback<Models.PremierAddOn>): Promise<Models.WebAppsListPremierAddOnsSlotResponse> {
+  listPremierAddOnsSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PremierAddOn>): Promise<Models.WebAppsListPremierAddOnsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listPremierAddOnsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListPremierAddOnsSlotResponse>;
@@ -9882,14 +9874,14 @@ export class WebApps {
    * @param callback The callback
    */
   getPremierAddOnSlot(resourceGroupName: string, name: string, premierAddOnName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PremierAddOn>): void;
-  getPremierAddOnSlot(resourceGroupName: string, name: string, premierAddOnName: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PremierAddOn>, callback?: msRest.ServiceCallback<Models.PremierAddOn>): Promise<Models.WebAppsGetPremierAddOnSlotResponse> {
+  getPremierAddOnSlot(resourceGroupName: string, name: string, premierAddOnName: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PremierAddOn>): Promise<Models.WebAppsGetPremierAddOnSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         premierAddOnName,
         slot,
-        optionsOrCallback
+        options
       },
       getPremierAddOnSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetPremierAddOnSlotResponse>;
@@ -9929,7 +9921,7 @@ export class WebApps {
    * @param callback The callback
    */
   addPremierAddOnSlot(resourceGroupName: string, name: string, premierAddOnName: string, premierAddOn: Models.PremierAddOn, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PremierAddOn>): void;
-  addPremierAddOnSlot(resourceGroupName: string, name: string, premierAddOnName: string, premierAddOn: Models.PremierAddOn, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PremierAddOn>, callback?: msRest.ServiceCallback<Models.PremierAddOn>): Promise<Models.WebAppsAddPremierAddOnSlotResponse> {
+  addPremierAddOnSlot(resourceGroupName: string, name: string, premierAddOnName: string, premierAddOn: Models.PremierAddOn, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PremierAddOn>): Promise<Models.WebAppsAddPremierAddOnSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -9937,7 +9929,7 @@ export class WebApps {
         premierAddOnName,
         premierAddOn,
         slot,
-        optionsOrCallback
+        options
       },
       addPremierAddOnSlotOperationSpec,
       callback) as Promise<Models.WebAppsAddPremierAddOnSlotResponse>;
@@ -9974,14 +9966,14 @@ export class WebApps {
    * @param callback The callback
    */
   deletePremierAddOnSlot(resourceGroupName: string, name: string, premierAddOnName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deletePremierAddOnSlot(resourceGroupName: string, name: string, premierAddOnName: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deletePremierAddOnSlot(resourceGroupName: string, name: string, premierAddOnName: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         premierAddOnName,
         slot,
-        optionsOrCallback
+        options
       },
       deletePremierAddOnSlotOperationSpec,
       callback);
@@ -10021,7 +10013,7 @@ export class WebApps {
    * @param callback The callback
    */
   updatePremierAddOnSlot(resourceGroupName: string, name: string, premierAddOnName: string, premierAddOn: Models.PremierAddOnPatchResource, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PremierAddOn>): void;
-  updatePremierAddOnSlot(resourceGroupName: string, name: string, premierAddOnName: string, premierAddOn: Models.PremierAddOnPatchResource, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PremierAddOn>, callback?: msRest.ServiceCallback<Models.PremierAddOn>): Promise<Models.WebAppsUpdatePremierAddOnSlotResponse> {
+  updatePremierAddOnSlot(resourceGroupName: string, name: string, premierAddOnName: string, premierAddOn: Models.PremierAddOnPatchResource, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PremierAddOn>): Promise<Models.WebAppsUpdatePremierAddOnSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -10029,7 +10021,7 @@ export class WebApps {
         premierAddOnName,
         premierAddOn,
         slot,
-        optionsOrCallback
+        options
       },
       updatePremierAddOnSlotOperationSpec,
       callback) as Promise<Models.WebAppsUpdatePremierAddOnSlotResponse>;
@@ -10062,13 +10054,13 @@ export class WebApps {
    * @param callback The callback
    */
   getPrivateAccessSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateAccess>): void;
-  getPrivateAccessSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateAccess>, callback?: msRest.ServiceCallback<Models.PrivateAccess>): Promise<Models.WebAppsGetPrivateAccessSlotResponse> {
+  getPrivateAccessSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PrivateAccess>): Promise<Models.WebAppsGetPrivateAccessSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       getPrivateAccessSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetPrivateAccessSlotResponse>;
@@ -10104,14 +10096,14 @@ export class WebApps {
    * @param callback The callback
    */
   putPrivateAccessVnetSlot(resourceGroupName: string, name: string, access: Models.PrivateAccess, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateAccess>): void;
-  putPrivateAccessVnetSlot(resourceGroupName: string, name: string, access: Models.PrivateAccess, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateAccess>, callback?: msRest.ServiceCallback<Models.PrivateAccess>): Promise<Models.WebAppsPutPrivateAccessVnetSlotResponse> {
+  putPrivateAccessVnetSlot(resourceGroupName: string, name: string, access: Models.PrivateAccess, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PrivateAccess>): Promise<Models.WebAppsPutPrivateAccessVnetSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         access,
         slot,
-        optionsOrCallback
+        options
       },
       putPrivateAccessVnetSlotOperationSpec,
       callback) as Promise<Models.WebAppsPutPrivateAccessVnetSlotResponse>;
@@ -10147,13 +10139,13 @@ export class WebApps {
    * @param callback The callback
    */
   listProcessesSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessInfoCollection>): void;
-  listProcessesSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessInfoCollection>, callback?: msRest.ServiceCallback<Models.ProcessInfoCollection>): Promise<Models.WebAppsListProcessesSlotResponse> {
+  listProcessesSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessInfoCollection>): Promise<Models.WebAppsListProcessesSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listProcessesSlotOperationSpec,
       callback) as Promise<Models.WebAppsListProcessesSlotResponse>;
@@ -10190,14 +10182,14 @@ export class WebApps {
    * @param callback The callback
    */
   getProcessSlot(resourceGroupName: string, name: string, processId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessInfo>): void;
-  getProcessSlot(resourceGroupName: string, name: string, processId: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessInfo>, callback?: msRest.ServiceCallback<Models.ProcessInfo>): Promise<Models.WebAppsGetProcessSlotResponse> {
+  getProcessSlot(resourceGroupName: string, name: string, processId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessInfo>): Promise<Models.WebAppsGetProcessSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         processId,
         slot,
-        optionsOrCallback
+        options
       },
       getProcessSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetProcessSlotResponse>;
@@ -10236,14 +10228,14 @@ export class WebApps {
    * @param callback The callback
    */
   deleteProcessSlot(resourceGroupName: string, name: string, processId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteProcessSlot(resourceGroupName: string, name: string, processId: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteProcessSlot(resourceGroupName: string, name: string, processId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         processId,
         slot,
-        optionsOrCallback
+        options
       },
       deleteProcessSlotOperationSpec,
       callback);
@@ -10281,14 +10273,14 @@ export class WebApps {
    * @param callback The callback
    */
   getProcessDumpSlot(resourceGroupName: string, name: string, processId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getProcessDumpSlot(resourceGroupName: string, name: string, processId: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.WebAppsGetProcessDumpSlotResponse> {
+  getProcessDumpSlot(resourceGroupName: string, name: string, processId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.WebAppsGetProcessDumpSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         processId,
         slot,
-        optionsOrCallback
+        options
       },
       getProcessDumpSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetProcessDumpSlotResponse>;
@@ -10327,14 +10319,14 @@ export class WebApps {
    * @param callback The callback
    */
   listProcessModulesSlot(resourceGroupName: string, name: string, processId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessModuleInfoCollection>): void;
-  listProcessModulesSlot(resourceGroupName: string, name: string, processId: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessModuleInfoCollection>, callback?: msRest.ServiceCallback<Models.ProcessModuleInfoCollection>): Promise<Models.WebAppsListProcessModulesSlotResponse> {
+  listProcessModulesSlot(resourceGroupName: string, name: string, processId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessModuleInfoCollection>): Promise<Models.WebAppsListProcessModulesSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         processId,
         slot,
-        optionsOrCallback
+        options
       },
       listProcessModulesSlotOperationSpec,
       callback) as Promise<Models.WebAppsListProcessModulesSlotResponse>;
@@ -10374,7 +10366,7 @@ export class WebApps {
    * @param callback The callback
    */
   getProcessModuleSlot(resourceGroupName: string, name: string, processId: string, baseAddress: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessModuleInfo>): void;
-  getProcessModuleSlot(resourceGroupName: string, name: string, processId: string, baseAddress: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessModuleInfo>, callback?: msRest.ServiceCallback<Models.ProcessModuleInfo>): Promise<Models.WebAppsGetProcessModuleSlotResponse> {
+  getProcessModuleSlot(resourceGroupName: string, name: string, processId: string, baseAddress: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessModuleInfo>): Promise<Models.WebAppsGetProcessModuleSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -10382,7 +10374,7 @@ export class WebApps {
         processId,
         baseAddress,
         slot,
-        optionsOrCallback
+        options
       },
       getProcessModuleSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetProcessModuleSlotResponse>;
@@ -10420,14 +10412,14 @@ export class WebApps {
    * @param callback The callback
    */
   listProcessThreadsSlot(resourceGroupName: string, name: string, processId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessThreadInfoCollection>): void;
-  listProcessThreadsSlot(resourceGroupName: string, name: string, processId: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessThreadInfoCollection>, callback?: msRest.ServiceCallback<Models.ProcessThreadInfoCollection>): Promise<Models.WebAppsListProcessThreadsSlotResponse> {
+  listProcessThreadsSlot(resourceGroupName: string, name: string, processId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessThreadInfoCollection>): Promise<Models.WebAppsListProcessThreadsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         processId,
         slot,
-        optionsOrCallback
+        options
       },
       listProcessThreadsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListProcessThreadsSlotResponse>;
@@ -10469,7 +10461,7 @@ export class WebApps {
    * @param callback The callback
    */
   getProcessThreadSlot(resourceGroupName: string, name: string, processId: string, threadId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessThreadInfo>): void;
-  getProcessThreadSlot(resourceGroupName: string, name: string, processId: string, threadId: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessThreadInfo>, callback?: msRest.ServiceCallback<Models.ProcessThreadInfo>): Promise<Models.WebAppsGetProcessThreadSlotResponse> {
+  getProcessThreadSlot(resourceGroupName: string, name: string, processId: string, threadId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessThreadInfo>): Promise<Models.WebAppsGetProcessThreadSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -10477,7 +10469,7 @@ export class WebApps {
         processId,
         threadId,
         slot,
-        optionsOrCallback
+        options
       },
       getProcessThreadSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetProcessThreadSlotResponse>;
@@ -10511,13 +10503,13 @@ export class WebApps {
    * @param callback The callback
    */
   listPublicCertificatesSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicCertificateCollection>): void;
-  listPublicCertificatesSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicCertificateCollection>, callback?: msRest.ServiceCallback<Models.PublicCertificateCollection>): Promise<Models.WebAppsListPublicCertificatesSlotResponse> {
+  listPublicCertificatesSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PublicCertificateCollection>): Promise<Models.WebAppsListPublicCertificatesSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listPublicCertificatesSlotOperationSpec,
       callback) as Promise<Models.WebAppsListPublicCertificatesSlotResponse>;
@@ -10554,14 +10546,14 @@ export class WebApps {
    * @param callback The callback
    */
   getPublicCertificateSlot(resourceGroupName: string, name: string, slot: string, publicCertificateName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicCertificate>): void;
-  getPublicCertificateSlot(resourceGroupName: string, name: string, slot: string, publicCertificateName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicCertificate>, callback?: msRest.ServiceCallback<Models.PublicCertificate>): Promise<Models.WebAppsGetPublicCertificateSlotResponse> {
+  getPublicCertificateSlot(resourceGroupName: string, name: string, slot: string, publicCertificateName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PublicCertificate>): Promise<Models.WebAppsGetPublicCertificateSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
         publicCertificateName,
-        optionsOrCallback
+        options
       },
       getPublicCertificateSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetPublicCertificateSlotResponse>;
@@ -10604,7 +10596,7 @@ export class WebApps {
    * @param callback The callback
    */
   createOrUpdatePublicCertificateSlot(resourceGroupName: string, name: string, publicCertificateName: string, publicCertificate: Models.PublicCertificate, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicCertificate>): void;
-  createOrUpdatePublicCertificateSlot(resourceGroupName: string, name: string, publicCertificateName: string, publicCertificate: Models.PublicCertificate, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicCertificate>, callback?: msRest.ServiceCallback<Models.PublicCertificate>): Promise<Models.WebAppsCreateOrUpdatePublicCertificateSlotResponse> {
+  createOrUpdatePublicCertificateSlot(resourceGroupName: string, name: string, publicCertificateName: string, publicCertificate: Models.PublicCertificate, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PublicCertificate>): Promise<Models.WebAppsCreateOrUpdatePublicCertificateSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -10612,7 +10604,7 @@ export class WebApps {
         publicCertificateName,
         publicCertificate,
         slot,
-        optionsOrCallback
+        options
       },
       createOrUpdatePublicCertificateSlotOperationSpec,
       callback) as Promise<Models.WebAppsCreateOrUpdatePublicCertificateSlotResponse>;
@@ -10649,14 +10641,14 @@ export class WebApps {
    * @param callback The callback
    */
   deletePublicCertificateSlot(resourceGroupName: string, name: string, slot: string, publicCertificateName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deletePublicCertificateSlot(resourceGroupName: string, name: string, slot: string, publicCertificateName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deletePublicCertificateSlot(resourceGroupName: string, name: string, slot: string, publicCertificateName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
         publicCertificateName,
-        optionsOrCallback
+        options
       },
       deletePublicCertificateSlotOperationSpec,
       callback);
@@ -10696,14 +10688,14 @@ export class WebApps {
    * @param callback The callback
    */
   listPublishingProfileXmlWithSecretsSlot(resourceGroupName: string, name: string, publishingProfileOptions: Models.CsmPublishingProfileOptions, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  listPublishingProfileXmlWithSecretsSlot(resourceGroupName: string, name: string, publishingProfileOptions: Models.CsmPublishingProfileOptions, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.WebAppsListPublishingProfileXmlWithSecretsSlotResponse> {
+  listPublishingProfileXmlWithSecretsSlot(resourceGroupName: string, name: string, publishingProfileOptions: Models.CsmPublishingProfileOptions, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.WebAppsListPublishingProfileXmlWithSecretsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         publishingProfileOptions,
         slot,
-        optionsOrCallback
+        options
       },
       listPublishingProfileXmlWithSecretsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListPublishingProfileXmlWithSecretsSlotResponse>;
@@ -10739,13 +10731,13 @@ export class WebApps {
    * @param callback The callback
    */
   resetSlotConfigurationSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  resetSlotConfigurationSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  resetSlotConfigurationSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       resetSlotConfigurationSlotOperationSpec,
       callback);
@@ -10779,13 +10771,13 @@ export class WebApps {
    * @param callback The callback
    */
   restartSlot(resourceGroupName: string, name: string, slot: string, options: Models.WebAppsRestartSlotOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  restartSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: Models.WebAppsRestartSlotOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  restartSlot(resourceGroupName: string, name: string, slot: string, options?: Models.WebAppsRestartSlotOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       restartSlotOperationSpec,
       callback);
@@ -10866,13 +10858,13 @@ export class WebApps {
    * @param callback The callback
    */
   listSiteExtensionsSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteExtensionInfoCollection>): void;
-  listSiteExtensionsSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteExtensionInfoCollection>, callback?: msRest.ServiceCallback<Models.SiteExtensionInfoCollection>): Promise<Models.WebAppsListSiteExtensionsSlotResponse> {
+  listSiteExtensionsSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteExtensionInfoCollection>): Promise<Models.WebAppsListSiteExtensionsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listSiteExtensionsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListSiteExtensionsSlotResponse>;
@@ -10909,14 +10901,14 @@ export class WebApps {
    * @param callback The callback
    */
   getSiteExtensionSlot(resourceGroupName: string, name: string, siteExtensionId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteExtensionInfo>): void;
-  getSiteExtensionSlot(resourceGroupName: string, name: string, siteExtensionId: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteExtensionInfo>, callback?: msRest.ServiceCallback<Models.SiteExtensionInfo>): Promise<Models.WebAppsGetSiteExtensionSlotResponse> {
+  getSiteExtensionSlot(resourceGroupName: string, name: string, siteExtensionId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteExtensionInfo>): Promise<Models.WebAppsGetSiteExtensionSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         siteExtensionId,
         slot,
-        optionsOrCallback
+        options
       },
       getSiteExtensionSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetSiteExtensionSlotResponse>;
@@ -10969,14 +10961,14 @@ export class WebApps {
    * @param callback The callback
    */
   deleteSiteExtensionSlot(resourceGroupName: string, name: string, siteExtensionId: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteSiteExtensionSlot(resourceGroupName: string, name: string, siteExtensionId: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteSiteExtensionSlot(resourceGroupName: string, name: string, siteExtensionId: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         siteExtensionId,
         slot,
-        optionsOrCallback
+        options
       },
       deleteSiteExtensionSlotOperationSpec,
       callback);
@@ -11013,14 +11005,14 @@ export class WebApps {
    * @param callback The callback
    */
   listSlotDifferencesSlot(resourceGroupName: string, name: string, slotSwapEntity: Models.CsmSlotEntity, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SlotDifferenceCollection>): void;
-  listSlotDifferencesSlot(resourceGroupName: string, name: string, slotSwapEntity: Models.CsmSlotEntity, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SlotDifferenceCollection>, callback?: msRest.ServiceCallback<Models.SlotDifferenceCollection>): Promise<Models.WebAppsListSlotDifferencesSlotResponse> {
+  listSlotDifferencesSlot(resourceGroupName: string, name: string, slotSwapEntity: Models.CsmSlotEntity, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SlotDifferenceCollection>): Promise<Models.WebAppsListSlotDifferencesSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slotSwapEntity,
         slot,
-        optionsOrCallback
+        options
       },
       listSlotDifferencesSlotOperationSpec,
       callback) as Promise<Models.WebAppsListSlotDifferencesSlotResponse>;
@@ -11067,13 +11059,13 @@ export class WebApps {
    * @param callback The callback
    */
   listSnapshotsSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SnapshotCollection>): void;
-  listSnapshotsSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SnapshotCollection>, callback?: msRest.ServiceCallback<Models.SnapshotCollection>): Promise<Models.WebAppsListSnapshotsSlotResponse> {
+  listSnapshotsSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SnapshotCollection>): Promise<Models.WebAppsListSnapshotsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listSnapshotsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListSnapshotsSlotResponse>;
@@ -11107,13 +11099,13 @@ export class WebApps {
    * @param callback The callback
    */
   getSourceControlSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteSourceControl>): void;
-  getSourceControlSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteSourceControl>, callback?: msRest.ServiceCallback<Models.SiteSourceControl>): Promise<Models.WebAppsGetSourceControlSlotResponse> {
+  getSourceControlSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteSourceControl>): Promise<Models.WebAppsGetSourceControlSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       getSourceControlSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetSourceControlSlotResponse>;
@@ -11163,13 +11155,13 @@ export class WebApps {
    * @param callback The callback
    */
   deleteSourceControlSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteSourceControlSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteSourceControlSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       deleteSourceControlSlotOperationSpec,
       callback);
@@ -11206,14 +11198,14 @@ export class WebApps {
    * @param callback The callback
    */
   updateSourceControlSlot(resourceGroupName: string, name: string, siteSourceControl: Models.SiteSourceControl, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteSourceControl>): void;
-  updateSourceControlSlot(resourceGroupName: string, name: string, siteSourceControl: Models.SiteSourceControl, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteSourceControl>, callback?: msRest.ServiceCallback<Models.SiteSourceControl>): Promise<Models.WebAppsUpdateSourceControlSlotResponse> {
+  updateSourceControlSlot(resourceGroupName: string, name: string, siteSourceControl: Models.SiteSourceControl, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteSourceControl>): Promise<Models.WebAppsUpdateSourceControlSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         siteSourceControl,
         slot,
-        optionsOrCallback
+        options
       },
       updateSourceControlSlotOperationSpec,
       callback) as Promise<Models.WebAppsUpdateSourceControlSlotResponse>;
@@ -11247,13 +11239,13 @@ export class WebApps {
    * @param callback The callback
    */
   startSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  startSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  startSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       startSlotOperationSpec,
       callback);
@@ -11301,13 +11293,13 @@ export class WebApps {
    * @param callback The callback
    */
   stopSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  stopSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  stopSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       stopSlotOperationSpec,
       callback);
@@ -11338,13 +11330,13 @@ export class WebApps {
    * @param callback The callback
    */
   stopNetworkTraceSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  stopNetworkTraceSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  stopNetworkTraceSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       stopNetworkTraceSlotOperationSpec,
       callback);
@@ -11375,13 +11367,13 @@ export class WebApps {
    * @param callback The callback
    */
   syncRepositorySlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  syncRepositorySlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  syncRepositorySlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       syncRepositorySlotOperationSpec,
       callback);
@@ -11415,13 +11407,13 @@ export class WebApps {
    * @param callback The callback
    */
   syncFunctionTriggersSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  syncFunctionTriggersSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  syncFunctionTriggersSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       syncFunctionTriggersSlotOperationSpec,
       callback);
@@ -11455,13 +11447,13 @@ export class WebApps {
    * @param callback The callback
    */
   listTriggeredWebJobsSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TriggeredWebJobCollection>): void;
-  listTriggeredWebJobsSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggeredWebJobCollection>, callback?: msRest.ServiceCallback<Models.TriggeredWebJobCollection>): Promise<Models.WebAppsListTriggeredWebJobsSlotResponse> {
+  listTriggeredWebJobsSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TriggeredWebJobCollection>): Promise<Models.WebAppsListTriggeredWebJobsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listTriggeredWebJobsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListTriggeredWebJobsSlotResponse>;
@@ -11498,14 +11490,14 @@ export class WebApps {
    * @param callback The callback
    */
   getTriggeredWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TriggeredWebJob>): void;
-  getTriggeredWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggeredWebJob>, callback?: msRest.ServiceCallback<Models.TriggeredWebJob>): Promise<Models.WebAppsGetTriggeredWebJobSlotResponse> {
+  getTriggeredWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TriggeredWebJob>): Promise<Models.WebAppsGetTriggeredWebJobSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         webJobName,
         slot,
-        optionsOrCallback
+        options
       },
       getTriggeredWebJobSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetTriggeredWebJobSlotResponse>;
@@ -11542,14 +11534,14 @@ export class WebApps {
    * @param callback The callback
    */
   deleteTriggeredWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteTriggeredWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteTriggeredWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         webJobName,
         slot,
-        optionsOrCallback
+        options
       },
       deleteTriggeredWebJobSlotOperationSpec,
       callback);
@@ -11586,14 +11578,14 @@ export class WebApps {
    * @param callback The callback
    */
   listTriggeredWebJobHistorySlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TriggeredJobHistoryCollection>): void;
-  listTriggeredWebJobHistorySlot(resourceGroupName: string, name: string, webJobName: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggeredJobHistoryCollection>, callback?: msRest.ServiceCallback<Models.TriggeredJobHistoryCollection>): Promise<Models.WebAppsListTriggeredWebJobHistorySlotResponse> {
+  listTriggeredWebJobHistorySlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TriggeredJobHistoryCollection>): Promise<Models.WebAppsListTriggeredWebJobHistorySlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         webJobName,
         slot,
-        optionsOrCallback
+        options
       },
       listTriggeredWebJobHistorySlotOperationSpec,
       callback) as Promise<Models.WebAppsListTriggeredWebJobHistorySlotResponse>;
@@ -11633,7 +11625,7 @@ export class WebApps {
    * @param callback The callback
    */
   getTriggeredWebJobHistorySlot(resourceGroupName: string, name: string, webJobName: string, id: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TriggeredJobHistory>): void;
-  getTriggeredWebJobHistorySlot(resourceGroupName: string, name: string, webJobName: string, id: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggeredJobHistory>, callback?: msRest.ServiceCallback<Models.TriggeredJobHistory>): Promise<Models.WebAppsGetTriggeredWebJobHistorySlotResponse> {
+  getTriggeredWebJobHistorySlot(resourceGroupName: string, name: string, webJobName: string, id: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TriggeredJobHistory>): Promise<Models.WebAppsGetTriggeredWebJobHistorySlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -11641,7 +11633,7 @@ export class WebApps {
         webJobName,
         id,
         slot,
-        optionsOrCallback
+        options
       },
       getTriggeredWebJobHistorySlotOperationSpec,
       callback) as Promise<Models.WebAppsGetTriggeredWebJobHistorySlotResponse>;
@@ -11678,14 +11670,14 @@ export class WebApps {
    * @param callback The callback
    */
   runTriggeredWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  runTriggeredWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  runTriggeredWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         webJobName,
         slot,
-        optionsOrCallback
+        options
       },
       runTriggeredWebJobSlotOperationSpec,
       callback);
@@ -11719,13 +11711,13 @@ export class WebApps {
    * @param callback The callback
    */
   listUsagesSlot(resourceGroupName: string, name: string, slot: string, options: Models.WebAppsListUsagesSlotOptionalParams, callback: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): void;
-  listUsagesSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: Models.WebAppsListUsagesSlotOptionalParams | msRest.ServiceCallback<Models.CsmUsageQuotaCollection>, callback?: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): Promise<Models.WebAppsListUsagesSlotResponse> {
+  listUsagesSlot(resourceGroupName: string, name: string, slot: string, options?: Models.WebAppsListUsagesSlotOptionalParams, callback?: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): Promise<Models.WebAppsListUsagesSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listUsagesSlotOperationSpec,
       callback) as Promise<Models.WebAppsListUsagesSlotResponse>;
@@ -11759,13 +11751,13 @@ export class WebApps {
    * @param callback The callback
    */
   listVnetConnectionsSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetInfo[]>): void;
-  listVnetConnectionsSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetInfo[]>, callback?: msRest.ServiceCallback<Models.VnetInfo[]>): Promise<Models.WebAppsListVnetConnectionsSlotResponse> {
+  listVnetConnectionsSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VnetInfo[]>): Promise<Models.WebAppsListVnetConnectionsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listVnetConnectionsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListVnetConnectionsSlotResponse>;
@@ -11802,14 +11794,14 @@ export class WebApps {
    * @param callback The callback
    */
   getVnetConnectionSlot(resourceGroupName: string, name: string, vnetName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetInfo>): void;
-  getVnetConnectionSlot(resourceGroupName: string, name: string, vnetName: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetInfo>, callback?: msRest.ServiceCallback<Models.VnetInfo>): Promise<Models.WebAppsGetVnetConnectionSlotResponse> {
+  getVnetConnectionSlot(resourceGroupName: string, name: string, vnetName: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VnetInfo>): Promise<Models.WebAppsGetVnetConnectionSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         vnetName,
         slot,
-        optionsOrCallback
+        options
       },
       getVnetConnectionSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetVnetConnectionSlotResponse>;
@@ -11851,7 +11843,7 @@ export class WebApps {
    * @param callback The callback
    */
   createOrUpdateVnetConnectionSlot(resourceGroupName: string, name: string, vnetName: string, connectionEnvelope: Models.VnetInfo, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetInfo>): void;
-  createOrUpdateVnetConnectionSlot(resourceGroupName: string, name: string, vnetName: string, connectionEnvelope: Models.VnetInfo, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetInfo>, callback?: msRest.ServiceCallback<Models.VnetInfo>): Promise<Models.WebAppsCreateOrUpdateVnetConnectionSlotResponse> {
+  createOrUpdateVnetConnectionSlot(resourceGroupName: string, name: string, vnetName: string, connectionEnvelope: Models.VnetInfo, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VnetInfo>): Promise<Models.WebAppsCreateOrUpdateVnetConnectionSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -11859,7 +11851,7 @@ export class WebApps {
         vnetName,
         connectionEnvelope,
         slot,
-        optionsOrCallback
+        options
       },
       createOrUpdateVnetConnectionSlotOperationSpec,
       callback) as Promise<Models.WebAppsCreateOrUpdateVnetConnectionSlotResponse>;
@@ -11896,14 +11888,14 @@ export class WebApps {
    * @param callback The callback
    */
   deleteVnetConnectionSlot(resourceGroupName: string, name: string, vnetName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteVnetConnectionSlot(resourceGroupName: string, name: string, vnetName: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteVnetConnectionSlot(resourceGroupName: string, name: string, vnetName: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         vnetName,
         slot,
-        optionsOrCallback
+        options
       },
       deleteVnetConnectionSlotOperationSpec,
       callback);
@@ -11945,7 +11937,7 @@ export class WebApps {
    * @param callback The callback
    */
   updateVnetConnectionSlot(resourceGroupName: string, name: string, vnetName: string, connectionEnvelope: Models.VnetInfo, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetInfo>): void;
-  updateVnetConnectionSlot(resourceGroupName: string, name: string, vnetName: string, connectionEnvelope: Models.VnetInfo, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetInfo>, callback?: msRest.ServiceCallback<Models.VnetInfo>): Promise<Models.WebAppsUpdateVnetConnectionSlotResponse> {
+  updateVnetConnectionSlot(resourceGroupName: string, name: string, vnetName: string, connectionEnvelope: Models.VnetInfo, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VnetInfo>): Promise<Models.WebAppsUpdateVnetConnectionSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -11953,7 +11945,7 @@ export class WebApps {
         vnetName,
         connectionEnvelope,
         slot,
-        optionsOrCallback
+        options
       },
       updateVnetConnectionSlotOperationSpec,
       callback) as Promise<Models.WebAppsUpdateVnetConnectionSlotResponse>;
@@ -11993,7 +11985,7 @@ export class WebApps {
    * @param callback The callback
    */
   getVnetConnectionGatewaySlot(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetGateway>): void;
-  getVnetConnectionGatewaySlot(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetGateway>, callback?: msRest.ServiceCallback<Models.VnetGateway>): Promise<Models.WebAppsGetVnetConnectionGatewaySlotResponse> {
+  getVnetConnectionGatewaySlot(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VnetGateway>): Promise<Models.WebAppsGetVnetConnectionGatewaySlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -12001,7 +11993,7 @@ export class WebApps {
         vnetName,
         gatewayName,
         slot,
-        optionsOrCallback
+        options
       },
       getVnetConnectionGatewaySlotOperationSpec,
       callback) as Promise<Models.WebAppsGetVnetConnectionGatewaySlotResponse>;
@@ -12044,7 +12036,7 @@ export class WebApps {
    * @param callback The callback
    */
   createOrUpdateVnetConnectionGatewaySlot(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: Models.VnetGateway, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetGateway>): void;
-  createOrUpdateVnetConnectionGatewaySlot(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: Models.VnetGateway, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetGateway>, callback?: msRest.ServiceCallback<Models.VnetGateway>): Promise<Models.WebAppsCreateOrUpdateVnetConnectionGatewaySlotResponse> {
+  createOrUpdateVnetConnectionGatewaySlot(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: Models.VnetGateway, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VnetGateway>): Promise<Models.WebAppsCreateOrUpdateVnetConnectionGatewaySlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -12053,7 +12045,7 @@ export class WebApps {
         gatewayName,
         connectionEnvelope,
         slot,
-        optionsOrCallback
+        options
       },
       createOrUpdateVnetConnectionGatewaySlotOperationSpec,
       callback) as Promise<Models.WebAppsCreateOrUpdateVnetConnectionGatewaySlotResponse>;
@@ -12096,7 +12088,7 @@ export class WebApps {
    * @param callback The callback
    */
   updateVnetConnectionGatewaySlot(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: Models.VnetGateway, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetGateway>): void;
-  updateVnetConnectionGatewaySlot(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: Models.VnetGateway, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetGateway>, callback?: msRest.ServiceCallback<Models.VnetGateway>): Promise<Models.WebAppsUpdateVnetConnectionGatewaySlotResponse> {
+  updateVnetConnectionGatewaySlot(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: Models.VnetGateway, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VnetGateway>): Promise<Models.WebAppsUpdateVnetConnectionGatewaySlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -12105,7 +12097,7 @@ export class WebApps {
         gatewayName,
         connectionEnvelope,
         slot,
-        optionsOrCallback
+        options
       },
       updateVnetConnectionGatewaySlotOperationSpec,
       callback) as Promise<Models.WebAppsUpdateVnetConnectionGatewaySlotResponse>;
@@ -12139,13 +12131,13 @@ export class WebApps {
    * @param callback The callback
    */
   listWebJobsSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebJobCollection>): void;
-  listWebJobsSlot(resourceGroupName: string, name: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebJobCollection>, callback?: msRest.ServiceCallback<Models.WebJobCollection>): Promise<Models.WebAppsListWebJobsSlotResponse> {
+  listWebJobsSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebJobCollection>): Promise<Models.WebAppsListWebJobsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slot,
-        optionsOrCallback
+        options
       },
       listWebJobsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListWebJobsSlotResponse>;
@@ -12182,14 +12174,14 @@ export class WebApps {
    * @param callback The callback
    */
   getWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebJob>): void;
-  getWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebJob>, callback?: msRest.ServiceCallback<Models.WebJob>): Promise<Models.WebAppsGetWebJobSlotResponse> {
+  getWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebJob>): Promise<Models.WebAppsGetWebJobSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         webJobName,
         slot,
-        optionsOrCallback
+        options
       },
       getWebJobSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetWebJobSlotResponse>;
@@ -12220,13 +12212,13 @@ export class WebApps {
    * @param callback The callback
    */
   listSlotDifferencesFromProduction(resourceGroupName: string, name: string, slotSwapEntity: Models.CsmSlotEntity, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SlotDifferenceCollection>): void;
-  listSlotDifferencesFromProduction(resourceGroupName: string, name: string, slotSwapEntity: Models.CsmSlotEntity, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SlotDifferenceCollection>, callback?: msRest.ServiceCallback<Models.SlotDifferenceCollection>): Promise<Models.WebAppsListSlotDifferencesFromProductionResponse> {
+  listSlotDifferencesFromProduction(resourceGroupName: string, name: string, slotSwapEntity: Models.CsmSlotEntity, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SlotDifferenceCollection>): Promise<Models.WebAppsListSlotDifferencesFromProductionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         slotSwapEntity,
-        optionsOrCallback
+        options
       },
       listSlotDifferencesFromProductionOperationSpec,
       callback) as Promise<Models.WebAppsListSlotDifferencesFromProductionResponse>;
@@ -12268,12 +12260,12 @@ export class WebApps {
    * @param callback The callback
    */
   listSnapshots(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SnapshotCollection>): void;
-  listSnapshots(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SnapshotCollection>, callback?: msRest.ServiceCallback<Models.SnapshotCollection>): Promise<Models.WebAppsListSnapshotsResponse> {
+  listSnapshots(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SnapshotCollection>): Promise<Models.WebAppsListSnapshotsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listSnapshotsOperationSpec,
       callback) as Promise<Models.WebAppsListSnapshotsResponse>;
@@ -12301,12 +12293,12 @@ export class WebApps {
    * @param callback The callback
    */
   getSourceControl(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteSourceControl>): void;
-  getSourceControl(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteSourceControl>, callback?: msRest.ServiceCallback<Models.SiteSourceControl>): Promise<Models.WebAppsGetSourceControlResponse> {
+  getSourceControl(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteSourceControl>): Promise<Models.WebAppsGetSourceControlResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       getSourceControlOperationSpec,
       callback) as Promise<Models.WebAppsGetSourceControlResponse>;
@@ -12348,12 +12340,12 @@ export class WebApps {
    * @param callback The callback
    */
   deleteSourceControl(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteSourceControl(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteSourceControl(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       deleteSourceControlOperationSpec,
       callback);
@@ -12384,13 +12376,13 @@ export class WebApps {
    * @param callback The callback
    */
   updateSourceControl(resourceGroupName: string, name: string, siteSourceControl: Models.SiteSourceControl, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteSourceControl>): void;
-  updateSourceControl(resourceGroupName: string, name: string, siteSourceControl: Models.SiteSourceControl, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteSourceControl>, callback?: msRest.ServiceCallback<Models.SiteSourceControl>): Promise<Models.WebAppsUpdateSourceControlResponse> {
+  updateSourceControl(resourceGroupName: string, name: string, siteSourceControl: Models.SiteSourceControl, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteSourceControl>): Promise<Models.WebAppsUpdateSourceControlResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         siteSourceControl,
-        optionsOrCallback
+        options
       },
       updateSourceControlOperationSpec,
       callback) as Promise<Models.WebAppsUpdateSourceControlResponse>;
@@ -12418,12 +12410,12 @@ export class WebApps {
    * @param callback The callback
    */
   start(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  start(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  start(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       startOperationSpec,
       callback);
@@ -12464,12 +12456,12 @@ export class WebApps {
    * @param callback The callback
    */
   stop(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  stop(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  stop(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       stopOperationSpec,
       callback);
@@ -12497,12 +12489,12 @@ export class WebApps {
    * @param callback The callback
    */
   stopNetworkTrace(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  stopNetworkTrace(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  stopNetworkTrace(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       stopNetworkTraceOperationSpec,
       callback);
@@ -12530,12 +12522,12 @@ export class WebApps {
    * @param callback The callback
    */
   syncRepository(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  syncRepository(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  syncRepository(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       syncRepositoryOperationSpec,
       callback);
@@ -12563,12 +12555,12 @@ export class WebApps {
    * @param callback The callback
    */
   syncFunctionTriggers(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  syncFunctionTriggers(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  syncFunctionTriggers(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       syncFunctionTriggersOperationSpec,
       callback);
@@ -12596,12 +12588,12 @@ export class WebApps {
    * @param callback The callback
    */
   listTriggeredWebJobs(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TriggeredWebJobCollection>): void;
-  listTriggeredWebJobs(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggeredWebJobCollection>, callback?: msRest.ServiceCallback<Models.TriggeredWebJobCollection>): Promise<Models.WebAppsListTriggeredWebJobsResponse> {
+  listTriggeredWebJobs(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TriggeredWebJobCollection>): Promise<Models.WebAppsListTriggeredWebJobsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listTriggeredWebJobsOperationSpec,
       callback) as Promise<Models.WebAppsListTriggeredWebJobsResponse>;
@@ -12632,13 +12624,13 @@ export class WebApps {
    * @param callback The callback
    */
   getTriggeredWebJob(resourceGroupName: string, name: string, webJobName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TriggeredWebJob>): void;
-  getTriggeredWebJob(resourceGroupName: string, name: string, webJobName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggeredWebJob>, callback?: msRest.ServiceCallback<Models.TriggeredWebJob>): Promise<Models.WebAppsGetTriggeredWebJobResponse> {
+  getTriggeredWebJob(resourceGroupName: string, name: string, webJobName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TriggeredWebJob>): Promise<Models.WebAppsGetTriggeredWebJobResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         webJobName,
-        optionsOrCallback
+        options
       },
       getTriggeredWebJobOperationSpec,
       callback) as Promise<Models.WebAppsGetTriggeredWebJobResponse>;
@@ -12669,13 +12661,13 @@ export class WebApps {
    * @param callback The callback
    */
   deleteTriggeredWebJob(resourceGroupName: string, name: string, webJobName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteTriggeredWebJob(resourceGroupName: string, name: string, webJobName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteTriggeredWebJob(resourceGroupName: string, name: string, webJobName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         webJobName,
-        optionsOrCallback
+        options
       },
       deleteTriggeredWebJobOperationSpec,
       callback);
@@ -12706,13 +12698,13 @@ export class WebApps {
    * @param callback The callback
    */
   listTriggeredWebJobHistory(resourceGroupName: string, name: string, webJobName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TriggeredJobHistoryCollection>): void;
-  listTriggeredWebJobHistory(resourceGroupName: string, name: string, webJobName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggeredJobHistoryCollection>, callback?: msRest.ServiceCallback<Models.TriggeredJobHistoryCollection>): Promise<Models.WebAppsListTriggeredWebJobHistoryResponse> {
+  listTriggeredWebJobHistory(resourceGroupName: string, name: string, webJobName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TriggeredJobHistoryCollection>): Promise<Models.WebAppsListTriggeredWebJobHistoryResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         webJobName,
-        optionsOrCallback
+        options
       },
       listTriggeredWebJobHistoryOperationSpec,
       callback) as Promise<Models.WebAppsListTriggeredWebJobHistoryResponse>;
@@ -12746,14 +12738,14 @@ export class WebApps {
    * @param callback The callback
    */
   getTriggeredWebJobHistory(resourceGroupName: string, name: string, webJobName: string, id: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TriggeredJobHistory>): void;
-  getTriggeredWebJobHistory(resourceGroupName: string, name: string, webJobName: string, id: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggeredJobHistory>, callback?: msRest.ServiceCallback<Models.TriggeredJobHistory>): Promise<Models.WebAppsGetTriggeredWebJobHistoryResponse> {
+  getTriggeredWebJobHistory(resourceGroupName: string, name: string, webJobName: string, id: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TriggeredJobHistory>): Promise<Models.WebAppsGetTriggeredWebJobHistoryResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         webJobName,
         id,
-        optionsOrCallback
+        options
       },
       getTriggeredWebJobHistoryOperationSpec,
       callback) as Promise<Models.WebAppsGetTriggeredWebJobHistoryResponse>;
@@ -12784,13 +12776,13 @@ export class WebApps {
    * @param callback The callback
    */
   runTriggeredWebJob(resourceGroupName: string, name: string, webJobName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  runTriggeredWebJob(resourceGroupName: string, name: string, webJobName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  runTriggeredWebJob(resourceGroupName: string, name: string, webJobName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         webJobName,
-        optionsOrCallback
+        options
       },
       runTriggeredWebJobOperationSpec,
       callback);
@@ -12818,12 +12810,12 @@ export class WebApps {
    * @param callback The callback
    */
   listUsages(resourceGroupName: string, name: string, options: Models.WebAppsListUsagesOptionalParams, callback: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): void;
-  listUsages(resourceGroupName: string, name: string, optionsOrCallback?: Models.WebAppsListUsagesOptionalParams | msRest.ServiceCallback<Models.CsmUsageQuotaCollection>, callback?: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): Promise<Models.WebAppsListUsagesResponse> {
+  listUsages(resourceGroupName: string, name: string, options?: Models.WebAppsListUsagesOptionalParams, callback?: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): Promise<Models.WebAppsListUsagesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listUsagesOperationSpec,
       callback) as Promise<Models.WebAppsListUsagesResponse>;
@@ -12851,12 +12843,12 @@ export class WebApps {
    * @param callback The callback
    */
   listVnetConnections(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetInfo[]>): void;
-  listVnetConnections(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetInfo[]>, callback?: msRest.ServiceCallback<Models.VnetInfo[]>): Promise<Models.WebAppsListVnetConnectionsResponse> {
+  listVnetConnections(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VnetInfo[]>): Promise<Models.WebAppsListVnetConnectionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listVnetConnectionsOperationSpec,
       callback) as Promise<Models.WebAppsListVnetConnectionsResponse>;
@@ -12887,13 +12879,13 @@ export class WebApps {
    * @param callback The callback
    */
   getVnetConnection(resourceGroupName: string, name: string, vnetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetInfo>): void;
-  getVnetConnection(resourceGroupName: string, name: string, vnetName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetInfo>, callback?: msRest.ServiceCallback<Models.VnetInfo>): Promise<Models.WebAppsGetVnetConnectionResponse> {
+  getVnetConnection(resourceGroupName: string, name: string, vnetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VnetInfo>): Promise<Models.WebAppsGetVnetConnectionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         vnetName,
-        optionsOrCallback
+        options
       },
       getVnetConnectionOperationSpec,
       callback) as Promise<Models.WebAppsGetVnetConnectionResponse>;
@@ -12929,14 +12921,14 @@ export class WebApps {
    * @param callback The callback
    */
   createOrUpdateVnetConnection(resourceGroupName: string, name: string, vnetName: string, connectionEnvelope: Models.VnetInfo, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetInfo>): void;
-  createOrUpdateVnetConnection(resourceGroupName: string, name: string, vnetName: string, connectionEnvelope: Models.VnetInfo, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetInfo>, callback?: msRest.ServiceCallback<Models.VnetInfo>): Promise<Models.WebAppsCreateOrUpdateVnetConnectionResponse> {
+  createOrUpdateVnetConnection(resourceGroupName: string, name: string, vnetName: string, connectionEnvelope: Models.VnetInfo, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VnetInfo>): Promise<Models.WebAppsCreateOrUpdateVnetConnectionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         vnetName,
         connectionEnvelope,
-        optionsOrCallback
+        options
       },
       createOrUpdateVnetConnectionOperationSpec,
       callback) as Promise<Models.WebAppsCreateOrUpdateVnetConnectionResponse>;
@@ -12967,13 +12959,13 @@ export class WebApps {
    * @param callback The callback
    */
   deleteVnetConnection(resourceGroupName: string, name: string, vnetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteVnetConnection(resourceGroupName: string, name: string, vnetName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteVnetConnection(resourceGroupName: string, name: string, vnetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         vnetName,
-        optionsOrCallback
+        options
       },
       deleteVnetConnectionOperationSpec,
       callback);
@@ -13009,14 +13001,14 @@ export class WebApps {
    * @param callback The callback
    */
   updateVnetConnection(resourceGroupName: string, name: string, vnetName: string, connectionEnvelope: Models.VnetInfo, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetInfo>): void;
-  updateVnetConnection(resourceGroupName: string, name: string, vnetName: string, connectionEnvelope: Models.VnetInfo, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetInfo>, callback?: msRest.ServiceCallback<Models.VnetInfo>): Promise<Models.WebAppsUpdateVnetConnectionResponse> {
+  updateVnetConnection(resourceGroupName: string, name: string, vnetName: string, connectionEnvelope: Models.VnetInfo, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VnetInfo>): Promise<Models.WebAppsUpdateVnetConnectionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         vnetName,
         connectionEnvelope,
-        optionsOrCallback
+        options
       },
       updateVnetConnectionOperationSpec,
       callback) as Promise<Models.WebAppsUpdateVnetConnectionResponse>;
@@ -13050,14 +13042,14 @@ export class WebApps {
    * @param callback The callback
    */
   getVnetConnectionGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetGateway>): void;
-  getVnetConnectionGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetGateway>, callback?: msRest.ServiceCallback<Models.VnetGateway>): Promise<Models.WebAppsGetVnetConnectionGatewayResponse> {
+  getVnetConnectionGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VnetGateway>): Promise<Models.WebAppsGetVnetConnectionGatewayResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         vnetName,
         gatewayName,
-        optionsOrCallback
+        options
       },
       getVnetConnectionGatewayOperationSpec,
       callback) as Promise<Models.WebAppsGetVnetConnectionGatewayResponse>;
@@ -13094,7 +13086,7 @@ export class WebApps {
    * @param callback The callback
    */
   createOrUpdateVnetConnectionGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: Models.VnetGateway, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetGateway>): void;
-  createOrUpdateVnetConnectionGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: Models.VnetGateway, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetGateway>, callback?: msRest.ServiceCallback<Models.VnetGateway>): Promise<Models.WebAppsCreateOrUpdateVnetConnectionGatewayResponse> {
+  createOrUpdateVnetConnectionGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: Models.VnetGateway, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VnetGateway>): Promise<Models.WebAppsCreateOrUpdateVnetConnectionGatewayResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -13102,7 +13094,7 @@ export class WebApps {
         vnetName,
         gatewayName,
         connectionEnvelope,
-        optionsOrCallback
+        options
       },
       createOrUpdateVnetConnectionGatewayOperationSpec,
       callback) as Promise<Models.WebAppsCreateOrUpdateVnetConnectionGatewayResponse>;
@@ -13139,7 +13131,7 @@ export class WebApps {
    * @param callback The callback
    */
   updateVnetConnectionGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: Models.VnetGateway, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetGateway>): void;
-  updateVnetConnectionGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: Models.VnetGateway, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetGateway>, callback?: msRest.ServiceCallback<Models.VnetGateway>): Promise<Models.WebAppsUpdateVnetConnectionGatewayResponse> {
+  updateVnetConnectionGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: Models.VnetGateway, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VnetGateway>): Promise<Models.WebAppsUpdateVnetConnectionGatewayResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -13147,7 +13139,7 @@ export class WebApps {
         vnetName,
         gatewayName,
         connectionEnvelope,
-        optionsOrCallback
+        options
       },
       updateVnetConnectionGatewayOperationSpec,
       callback) as Promise<Models.WebAppsUpdateVnetConnectionGatewayResponse>;
@@ -13175,12 +13167,12 @@ export class WebApps {
    * @param callback The callback
    */
   listWebJobs(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebJobCollection>): void;
-  listWebJobs(resourceGroupName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebJobCollection>, callback?: msRest.ServiceCallback<Models.WebJobCollection>): Promise<Models.WebAppsListWebJobsResponse> {
+  listWebJobs(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebJobCollection>): Promise<Models.WebAppsListWebJobsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        optionsOrCallback
+        options
       },
       listWebJobsOperationSpec,
       callback) as Promise<Models.WebAppsListWebJobsResponse>;
@@ -13211,13 +13203,13 @@ export class WebApps {
    * @param callback The callback
    */
   getWebJob(resourceGroupName: string, name: string, webJobName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebJob>): void;
-  getWebJob(resourceGroupName: string, name: string, webJobName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebJob>, callback?: msRest.ServiceCallback<Models.WebJob>): Promise<Models.WebAppsGetWebJobResponse> {
+  getWebJob(resourceGroupName: string, name: string, webJobName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebJob>): Promise<Models.WebAppsGetWebJobResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         webJobName,
-        optionsOrCallback
+        options
       },
       getWebJobOperationSpec,
       callback) as Promise<Models.WebAppsGetWebJobResponse>;
@@ -13916,11 +13908,11 @@ export class WebApps {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebAppCollection>): void;
-  listNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebAppCollection>, callback?: msRest.ServiceCallback<Models.WebAppCollection>): Promise<Models.WebAppsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebAppCollection>): Promise<Models.WebAppsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listNextOperationSpec,
       callback) as Promise<Models.WebAppsListNextResponse>;
@@ -13945,11 +13937,11 @@ export class WebApps {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebAppCollection>): void;
-  listByResourceGroupNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebAppCollection>, callback?: msRest.ServiceCallback<Models.WebAppCollection>): Promise<Models.WebAppsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebAppCollection>): Promise<Models.WebAppsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listByResourceGroupNextOperationSpec,
       callback) as Promise<Models.WebAppsListByResourceGroupNextResponse>;
@@ -13974,11 +13966,11 @@ export class WebApps {
    * @param callback The callback
    */
   listBackupsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupItemCollection>): void;
-  listBackupsNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupItemCollection>, callback?: msRest.ServiceCallback<Models.BackupItemCollection>): Promise<Models.WebAppsListBackupsNextResponse> {
+  listBackupsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupItemCollection>): Promise<Models.WebAppsListBackupsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listBackupsNextOperationSpec,
       callback) as Promise<Models.WebAppsListBackupsNextResponse>;
@@ -14003,11 +13995,11 @@ export class WebApps {
    * @param callback The callback
    */
   listConfigurationsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteConfigResourceCollection>): void;
-  listConfigurationsNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteConfigResourceCollection>, callback?: msRest.ServiceCallback<Models.SiteConfigResourceCollection>): Promise<Models.WebAppsListConfigurationsNextResponse> {
+  listConfigurationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteConfigResourceCollection>): Promise<Models.WebAppsListConfigurationsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listConfigurationsNextOperationSpec,
       callback) as Promise<Models.WebAppsListConfigurationsNextResponse>;
@@ -14034,11 +14026,11 @@ export class WebApps {
    * @param callback The callback
    */
   listConfigurationSnapshotInfoNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteConfigurationSnapshotInfoCollection>): void;
-  listConfigurationSnapshotInfoNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteConfigurationSnapshotInfoCollection>, callback?: msRest.ServiceCallback<Models.SiteConfigurationSnapshotInfoCollection>): Promise<Models.WebAppsListConfigurationSnapshotInfoNextResponse> {
+  listConfigurationSnapshotInfoNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteConfigurationSnapshotInfoCollection>): Promise<Models.WebAppsListConfigurationSnapshotInfoNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listConfigurationSnapshotInfoNextOperationSpec,
       callback) as Promise<Models.WebAppsListConfigurationSnapshotInfoNextResponse>;
@@ -14063,11 +14055,11 @@ export class WebApps {
    * @param callback The callback
    */
   listContinuousWebJobsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContinuousWebJobCollection>): void;
-  listContinuousWebJobsNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContinuousWebJobCollection>, callback?: msRest.ServiceCallback<Models.ContinuousWebJobCollection>): Promise<Models.WebAppsListContinuousWebJobsNextResponse> {
+  listContinuousWebJobsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ContinuousWebJobCollection>): Promise<Models.WebAppsListContinuousWebJobsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listContinuousWebJobsNextOperationSpec,
       callback) as Promise<Models.WebAppsListContinuousWebJobsNextResponse>;
@@ -14092,11 +14084,11 @@ export class WebApps {
    * @param callback The callback
    */
   listDeploymentsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentCollection>): void;
-  listDeploymentsNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentCollection>, callback?: msRest.ServiceCallback<Models.DeploymentCollection>): Promise<Models.WebAppsListDeploymentsNextResponse> {
+  listDeploymentsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DeploymentCollection>): Promise<Models.WebAppsListDeploymentsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listDeploymentsNextOperationSpec,
       callback) as Promise<Models.WebAppsListDeploymentsNextResponse>;
@@ -14121,11 +14113,11 @@ export class WebApps {
    * @param callback The callback
    */
   listDomainOwnershipIdentifiersNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IdentifierCollection>): void;
-  listDomainOwnershipIdentifiersNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IdentifierCollection>, callback?: msRest.ServiceCallback<Models.IdentifierCollection>): Promise<Models.WebAppsListDomainOwnershipIdentifiersNextResponse> {
+  listDomainOwnershipIdentifiersNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IdentifierCollection>): Promise<Models.WebAppsListDomainOwnershipIdentifiersNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listDomainOwnershipIdentifiersNextOperationSpec,
       callback) as Promise<Models.WebAppsListDomainOwnershipIdentifiersNextResponse>;
@@ -14150,11 +14142,11 @@ export class WebApps {
    * @param callback The callback
    */
   listFunctionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FunctionEnvelopeCollection>): void;
-  listFunctionsNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FunctionEnvelopeCollection>, callback?: msRest.ServiceCallback<Models.FunctionEnvelopeCollection>): Promise<Models.WebAppsListFunctionsNextResponse> {
+  listFunctionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FunctionEnvelopeCollection>): Promise<Models.WebAppsListFunctionsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listFunctionsNextOperationSpec,
       callback) as Promise<Models.WebAppsListFunctionsNextResponse>;
@@ -14179,11 +14171,11 @@ export class WebApps {
    * @param callback The callback
    */
   listHostNameBindingsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HostNameBindingCollection>): void;
-  listHostNameBindingsNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HostNameBindingCollection>, callback?: msRest.ServiceCallback<Models.HostNameBindingCollection>): Promise<Models.WebAppsListHostNameBindingsNextResponse> {
+  listHostNameBindingsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HostNameBindingCollection>): Promise<Models.WebAppsListHostNameBindingsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listHostNameBindingsNextOperationSpec,
       callback) as Promise<Models.WebAppsListHostNameBindingsNextResponse>;
@@ -14208,11 +14200,11 @@ export class WebApps {
    * @param callback The callback
    */
   listInstanceIdentifiersNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebAppInstanceCollection>): void;
-  listInstanceIdentifiersNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebAppInstanceCollection>, callback?: msRest.ServiceCallback<Models.WebAppInstanceCollection>): Promise<Models.WebAppsListInstanceIdentifiersNextResponse> {
+  listInstanceIdentifiersNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebAppInstanceCollection>): Promise<Models.WebAppsListInstanceIdentifiersNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listInstanceIdentifiersNextOperationSpec,
       callback) as Promise<Models.WebAppsListInstanceIdentifiersNextResponse>;
@@ -14239,11 +14231,11 @@ export class WebApps {
    * @param callback The callback
    */
   listInstanceProcessesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessInfoCollection>): void;
-  listInstanceProcessesNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessInfoCollection>, callback?: msRest.ServiceCallback<Models.ProcessInfoCollection>): Promise<Models.WebAppsListInstanceProcessesNextResponse> {
+  listInstanceProcessesNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessInfoCollection>): Promise<Models.WebAppsListInstanceProcessesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listInstanceProcessesNextOperationSpec,
       callback) as Promise<Models.WebAppsListInstanceProcessesNextResponse>;
@@ -14270,11 +14262,11 @@ export class WebApps {
    * @param callback The callback
    */
   listInstanceProcessModulesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessModuleInfoCollection>): void;
-  listInstanceProcessModulesNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessModuleInfoCollection>, callback?: msRest.ServiceCallback<Models.ProcessModuleInfoCollection>): Promise<Models.WebAppsListInstanceProcessModulesNextResponse> {
+  listInstanceProcessModulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessModuleInfoCollection>): Promise<Models.WebAppsListInstanceProcessModulesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listInstanceProcessModulesNextOperationSpec,
       callback) as Promise<Models.WebAppsListInstanceProcessModulesNextResponse>;
@@ -14300,11 +14292,11 @@ export class WebApps {
    * @param callback The callback
    */
   listInstanceProcessThreadsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessThreadInfoCollection>): void;
-  listInstanceProcessThreadsNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessThreadInfoCollection>, callback?: msRest.ServiceCallback<Models.ProcessThreadInfoCollection>): Promise<Models.WebAppsListInstanceProcessThreadsNextResponse> {
+  listInstanceProcessThreadsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessThreadInfoCollection>): Promise<Models.WebAppsListInstanceProcessThreadsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listInstanceProcessThreadsNextOperationSpec,
       callback) as Promise<Models.WebAppsListInstanceProcessThreadsNextResponse>;
@@ -14329,11 +14321,11 @@ export class WebApps {
    * @param callback The callback
    */
   listMetricDefinitionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): void;
-  listMetricDefinitionsNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.WebAppsListMetricDefinitionsNextResponse> {
+  listMetricDefinitionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.WebAppsListMetricDefinitionsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listMetricDefinitionsNextOperationSpec,
       callback) as Promise<Models.WebAppsListMetricDefinitionsNextResponse>;
@@ -14358,11 +14350,11 @@ export class WebApps {
    * @param callback The callback
    */
   listMetricsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listMetricsNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.WebAppsListMetricsNextResponse> {
+  listMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.WebAppsListMetricsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listMetricsNextOperationSpec,
       callback) as Promise<Models.WebAppsListMetricsNextResponse>;
@@ -14387,11 +14379,11 @@ export class WebApps {
    * @param callback The callback
    */
   listPerfMonCountersNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PerfMonCounterCollection>): void;
-  listPerfMonCountersNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PerfMonCounterCollection>, callback?: msRest.ServiceCallback<Models.PerfMonCounterCollection>): Promise<Models.WebAppsListPerfMonCountersNextResponse> {
+  listPerfMonCountersNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PerfMonCounterCollection>): Promise<Models.WebAppsListPerfMonCountersNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listPerfMonCountersNextOperationSpec,
       callback) as Promise<Models.WebAppsListPerfMonCountersNextResponse>;
@@ -14418,11 +14410,11 @@ export class WebApps {
    * @param callback The callback
    */
   listProcessesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessInfoCollection>): void;
-  listProcessesNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessInfoCollection>, callback?: msRest.ServiceCallback<Models.ProcessInfoCollection>): Promise<Models.WebAppsListProcessesNextResponse> {
+  listProcessesNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessInfoCollection>): Promise<Models.WebAppsListProcessesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listProcessesNextOperationSpec,
       callback) as Promise<Models.WebAppsListProcessesNextResponse>;
@@ -14449,11 +14441,11 @@ export class WebApps {
    * @param callback The callback
    */
   listProcessModulesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessModuleInfoCollection>): void;
-  listProcessModulesNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessModuleInfoCollection>, callback?: msRest.ServiceCallback<Models.ProcessModuleInfoCollection>): Promise<Models.WebAppsListProcessModulesNextResponse> {
+  listProcessModulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessModuleInfoCollection>): Promise<Models.WebAppsListProcessModulesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listProcessModulesNextOperationSpec,
       callback) as Promise<Models.WebAppsListProcessModulesNextResponse>;
@@ -14479,11 +14471,11 @@ export class WebApps {
    * @param callback The callback
    */
   listProcessThreadsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessThreadInfoCollection>): void;
-  listProcessThreadsNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessThreadInfoCollection>, callback?: msRest.ServiceCallback<Models.ProcessThreadInfoCollection>): Promise<Models.WebAppsListProcessThreadsNextResponse> {
+  listProcessThreadsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessThreadInfoCollection>): Promise<Models.WebAppsListProcessThreadsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listProcessThreadsNextOperationSpec,
       callback) as Promise<Models.WebAppsListProcessThreadsNextResponse>;
@@ -14508,11 +14500,11 @@ export class WebApps {
    * @param callback The callback
    */
   listPublicCertificatesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicCertificateCollection>): void;
-  listPublicCertificatesNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicCertificateCollection>, callback?: msRest.ServiceCallback<Models.PublicCertificateCollection>): Promise<Models.WebAppsListPublicCertificatesNextResponse> {
+  listPublicCertificatesNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PublicCertificateCollection>): Promise<Models.WebAppsListPublicCertificatesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listPublicCertificatesNextOperationSpec,
       callback) as Promise<Models.WebAppsListPublicCertificatesNextResponse>;
@@ -14537,11 +14529,11 @@ export class WebApps {
    * @param callback The callback
    */
   listSiteExtensionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteExtensionInfoCollection>): void;
-  listSiteExtensionsNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteExtensionInfoCollection>, callback?: msRest.ServiceCallback<Models.SiteExtensionInfoCollection>): Promise<Models.WebAppsListSiteExtensionsNextResponse> {
+  listSiteExtensionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteExtensionInfoCollection>): Promise<Models.WebAppsListSiteExtensionsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listSiteExtensionsNextOperationSpec,
       callback) as Promise<Models.WebAppsListSiteExtensionsNextResponse>;
@@ -14566,11 +14558,11 @@ export class WebApps {
    * @param callback The callback
    */
   listSlotsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebAppCollection>): void;
-  listSlotsNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebAppCollection>, callback?: msRest.ServiceCallback<Models.WebAppCollection>): Promise<Models.WebAppsListSlotsNextResponse> {
+  listSlotsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebAppCollection>): Promise<Models.WebAppsListSlotsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listSlotsNextOperationSpec,
       callback) as Promise<Models.WebAppsListSlotsNextResponse>;
@@ -14595,11 +14587,11 @@ export class WebApps {
    * @param callback The callback
    */
   listBackupsSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupItemCollection>): void;
-  listBackupsSlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupItemCollection>, callback?: msRest.ServiceCallback<Models.BackupItemCollection>): Promise<Models.WebAppsListBackupsSlotNextResponse> {
+  listBackupsSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupItemCollection>): Promise<Models.WebAppsListBackupsSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listBackupsSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListBackupsSlotNextResponse>;
@@ -14624,11 +14616,11 @@ export class WebApps {
    * @param callback The callback
    */
   listConfigurationsSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteConfigResourceCollection>): void;
-  listConfigurationsSlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteConfigResourceCollection>, callback?: msRest.ServiceCallback<Models.SiteConfigResourceCollection>): Promise<Models.WebAppsListConfigurationsSlotNextResponse> {
+  listConfigurationsSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteConfigResourceCollection>): Promise<Models.WebAppsListConfigurationsSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listConfigurationsSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListConfigurationsSlotNextResponse>;
@@ -14655,11 +14647,11 @@ export class WebApps {
    * @param callback The callback
    */
   listConfigurationSnapshotInfoSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteConfigurationSnapshotInfoCollection>): void;
-  listConfigurationSnapshotInfoSlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteConfigurationSnapshotInfoCollection>, callback?: msRest.ServiceCallback<Models.SiteConfigurationSnapshotInfoCollection>): Promise<Models.WebAppsListConfigurationSnapshotInfoSlotNextResponse> {
+  listConfigurationSnapshotInfoSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteConfigurationSnapshotInfoCollection>): Promise<Models.WebAppsListConfigurationSnapshotInfoSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listConfigurationSnapshotInfoSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListConfigurationSnapshotInfoSlotNextResponse>;
@@ -14684,11 +14676,11 @@ export class WebApps {
    * @param callback The callback
    */
   listContinuousWebJobsSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContinuousWebJobCollection>): void;
-  listContinuousWebJobsSlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContinuousWebJobCollection>, callback?: msRest.ServiceCallback<Models.ContinuousWebJobCollection>): Promise<Models.WebAppsListContinuousWebJobsSlotNextResponse> {
+  listContinuousWebJobsSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ContinuousWebJobCollection>): Promise<Models.WebAppsListContinuousWebJobsSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listContinuousWebJobsSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListContinuousWebJobsSlotNextResponse>;
@@ -14713,11 +14705,11 @@ export class WebApps {
    * @param callback The callback
    */
   listDeploymentsSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentCollection>): void;
-  listDeploymentsSlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentCollection>, callback?: msRest.ServiceCallback<Models.DeploymentCollection>): Promise<Models.WebAppsListDeploymentsSlotNextResponse> {
+  listDeploymentsSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DeploymentCollection>): Promise<Models.WebAppsListDeploymentsSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listDeploymentsSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListDeploymentsSlotNextResponse>;
@@ -14742,11 +14734,11 @@ export class WebApps {
    * @param callback The callback
    */
   listDomainOwnershipIdentifiersSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IdentifierCollection>): void;
-  listDomainOwnershipIdentifiersSlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IdentifierCollection>, callback?: msRest.ServiceCallback<Models.IdentifierCollection>): Promise<Models.WebAppsListDomainOwnershipIdentifiersSlotNextResponse> {
+  listDomainOwnershipIdentifiersSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IdentifierCollection>): Promise<Models.WebAppsListDomainOwnershipIdentifiersSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listDomainOwnershipIdentifiersSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListDomainOwnershipIdentifiersSlotNextResponse>;
@@ -14771,11 +14763,11 @@ export class WebApps {
    * @param callback The callback
    */
   listInstanceFunctionsSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FunctionEnvelopeCollection>): void;
-  listInstanceFunctionsSlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FunctionEnvelopeCollection>, callback?: msRest.ServiceCallback<Models.FunctionEnvelopeCollection>): Promise<Models.WebAppsListInstanceFunctionsSlotNextResponse> {
+  listInstanceFunctionsSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FunctionEnvelopeCollection>): Promise<Models.WebAppsListInstanceFunctionsSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listInstanceFunctionsSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListInstanceFunctionsSlotNextResponse>;
@@ -14800,11 +14792,11 @@ export class WebApps {
    * @param callback The callback
    */
   listHostNameBindingsSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HostNameBindingCollection>): void;
-  listHostNameBindingsSlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HostNameBindingCollection>, callback?: msRest.ServiceCallback<Models.HostNameBindingCollection>): Promise<Models.WebAppsListHostNameBindingsSlotNextResponse> {
+  listHostNameBindingsSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HostNameBindingCollection>): Promise<Models.WebAppsListHostNameBindingsSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listHostNameBindingsSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListHostNameBindingsSlotNextResponse>;
@@ -14829,11 +14821,11 @@ export class WebApps {
    * @param callback The callback
    */
   listInstanceIdentifiersSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebAppInstanceCollection>): void;
-  listInstanceIdentifiersSlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebAppInstanceCollection>, callback?: msRest.ServiceCallback<Models.WebAppInstanceCollection>): Promise<Models.WebAppsListInstanceIdentifiersSlotNextResponse> {
+  listInstanceIdentifiersSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebAppInstanceCollection>): Promise<Models.WebAppsListInstanceIdentifiersSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listInstanceIdentifiersSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListInstanceIdentifiersSlotNextResponse>;
@@ -14860,11 +14852,11 @@ export class WebApps {
    * @param callback The callback
    */
   listInstanceProcessesSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessInfoCollection>): void;
-  listInstanceProcessesSlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessInfoCollection>, callback?: msRest.ServiceCallback<Models.ProcessInfoCollection>): Promise<Models.WebAppsListInstanceProcessesSlotNextResponse> {
+  listInstanceProcessesSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessInfoCollection>): Promise<Models.WebAppsListInstanceProcessesSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listInstanceProcessesSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListInstanceProcessesSlotNextResponse>;
@@ -14891,11 +14883,11 @@ export class WebApps {
    * @param callback The callback
    */
   listInstanceProcessModulesSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessModuleInfoCollection>): void;
-  listInstanceProcessModulesSlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessModuleInfoCollection>, callback?: msRest.ServiceCallback<Models.ProcessModuleInfoCollection>): Promise<Models.WebAppsListInstanceProcessModulesSlotNextResponse> {
+  listInstanceProcessModulesSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessModuleInfoCollection>): Promise<Models.WebAppsListInstanceProcessModulesSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listInstanceProcessModulesSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListInstanceProcessModulesSlotNextResponse>;
@@ -14921,11 +14913,11 @@ export class WebApps {
    * @param callback The callback
    */
   listInstanceProcessThreadsSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessThreadInfoCollection>): void;
-  listInstanceProcessThreadsSlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessThreadInfoCollection>, callback?: msRest.ServiceCallback<Models.ProcessThreadInfoCollection>): Promise<Models.WebAppsListInstanceProcessThreadsSlotNextResponse> {
+  listInstanceProcessThreadsSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessThreadInfoCollection>): Promise<Models.WebAppsListInstanceProcessThreadsSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listInstanceProcessThreadsSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListInstanceProcessThreadsSlotNextResponse>;
@@ -14950,11 +14942,11 @@ export class WebApps {
    * @param callback The callback
    */
   listMetricDefinitionsSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): void;
-  listMetricDefinitionsSlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.WebAppsListMetricDefinitionsSlotNextResponse> {
+  listMetricDefinitionsSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.WebAppsListMetricDefinitionsSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listMetricDefinitionsSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListMetricDefinitionsSlotNextResponse>;
@@ -14979,11 +14971,11 @@ export class WebApps {
    * @param callback The callback
    */
   listMetricsSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listMetricsSlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.WebAppsListMetricsSlotNextResponse> {
+  listMetricsSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.WebAppsListMetricsSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listMetricsSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListMetricsSlotNextResponse>;
@@ -15008,11 +15000,11 @@ export class WebApps {
    * @param callback The callback
    */
   listPerfMonCountersSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PerfMonCounterCollection>): void;
-  listPerfMonCountersSlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PerfMonCounterCollection>, callback?: msRest.ServiceCallback<Models.PerfMonCounterCollection>): Promise<Models.WebAppsListPerfMonCountersSlotNextResponse> {
+  listPerfMonCountersSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PerfMonCounterCollection>): Promise<Models.WebAppsListPerfMonCountersSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listPerfMonCountersSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListPerfMonCountersSlotNextResponse>;
@@ -15039,11 +15031,11 @@ export class WebApps {
    * @param callback The callback
    */
   listProcessesSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessInfoCollection>): void;
-  listProcessesSlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessInfoCollection>, callback?: msRest.ServiceCallback<Models.ProcessInfoCollection>): Promise<Models.WebAppsListProcessesSlotNextResponse> {
+  listProcessesSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessInfoCollection>): Promise<Models.WebAppsListProcessesSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listProcessesSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListProcessesSlotNextResponse>;
@@ -15070,11 +15062,11 @@ export class WebApps {
    * @param callback The callback
    */
   listProcessModulesSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessModuleInfoCollection>): void;
-  listProcessModulesSlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessModuleInfoCollection>, callback?: msRest.ServiceCallback<Models.ProcessModuleInfoCollection>): Promise<Models.WebAppsListProcessModulesSlotNextResponse> {
+  listProcessModulesSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessModuleInfoCollection>): Promise<Models.WebAppsListProcessModulesSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listProcessModulesSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListProcessModulesSlotNextResponse>;
@@ -15100,11 +15092,11 @@ export class WebApps {
    * @param callback The callback
    */
   listProcessThreadsSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessThreadInfoCollection>): void;
-  listProcessThreadsSlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessThreadInfoCollection>, callback?: msRest.ServiceCallback<Models.ProcessThreadInfoCollection>): Promise<Models.WebAppsListProcessThreadsSlotNextResponse> {
+  listProcessThreadsSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessThreadInfoCollection>): Promise<Models.WebAppsListProcessThreadsSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listProcessThreadsSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListProcessThreadsSlotNextResponse>;
@@ -15129,11 +15121,11 @@ export class WebApps {
    * @param callback The callback
    */
   listPublicCertificatesSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicCertificateCollection>): void;
-  listPublicCertificatesSlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicCertificateCollection>, callback?: msRest.ServiceCallback<Models.PublicCertificateCollection>): Promise<Models.WebAppsListPublicCertificatesSlotNextResponse> {
+  listPublicCertificatesSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PublicCertificateCollection>): Promise<Models.WebAppsListPublicCertificatesSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listPublicCertificatesSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListPublicCertificatesSlotNextResponse>;
@@ -15158,11 +15150,11 @@ export class WebApps {
    * @param callback The callback
    */
   listSiteExtensionsSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteExtensionInfoCollection>): void;
-  listSiteExtensionsSlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteExtensionInfoCollection>, callback?: msRest.ServiceCallback<Models.SiteExtensionInfoCollection>): Promise<Models.WebAppsListSiteExtensionsSlotNextResponse> {
+  listSiteExtensionsSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SiteExtensionInfoCollection>): Promise<Models.WebAppsListSiteExtensionsSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listSiteExtensionsSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListSiteExtensionsSlotNextResponse>;
@@ -15187,11 +15179,11 @@ export class WebApps {
    * @param callback The callback
    */
   listSlotDifferencesSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SlotDifferenceCollection>): void;
-  listSlotDifferencesSlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SlotDifferenceCollection>, callback?: msRest.ServiceCallback<Models.SlotDifferenceCollection>): Promise<Models.WebAppsListSlotDifferencesSlotNextResponse> {
+  listSlotDifferencesSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SlotDifferenceCollection>): Promise<Models.WebAppsListSlotDifferencesSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listSlotDifferencesSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListSlotDifferencesSlotNextResponse>;
@@ -15216,11 +15208,11 @@ export class WebApps {
    * @param callback The callback
    */
   listSnapshotsSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SnapshotCollection>): void;
-  listSnapshotsSlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SnapshotCollection>, callback?: msRest.ServiceCallback<Models.SnapshotCollection>): Promise<Models.WebAppsListSnapshotsSlotNextResponse> {
+  listSnapshotsSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SnapshotCollection>): Promise<Models.WebAppsListSnapshotsSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listSnapshotsSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListSnapshotsSlotNextResponse>;
@@ -15245,11 +15237,11 @@ export class WebApps {
    * @param callback The callback
    */
   listTriggeredWebJobsSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TriggeredWebJobCollection>): void;
-  listTriggeredWebJobsSlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggeredWebJobCollection>, callback?: msRest.ServiceCallback<Models.TriggeredWebJobCollection>): Promise<Models.WebAppsListTriggeredWebJobsSlotNextResponse> {
+  listTriggeredWebJobsSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TriggeredWebJobCollection>): Promise<Models.WebAppsListTriggeredWebJobsSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listTriggeredWebJobsSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListTriggeredWebJobsSlotNextResponse>;
@@ -15274,11 +15266,11 @@ export class WebApps {
    * @param callback The callback
    */
   listTriggeredWebJobHistorySlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TriggeredJobHistoryCollection>): void;
-  listTriggeredWebJobHistorySlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggeredJobHistoryCollection>, callback?: msRest.ServiceCallback<Models.TriggeredJobHistoryCollection>): Promise<Models.WebAppsListTriggeredWebJobHistorySlotNextResponse> {
+  listTriggeredWebJobHistorySlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TriggeredJobHistoryCollection>): Promise<Models.WebAppsListTriggeredWebJobHistorySlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listTriggeredWebJobHistorySlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListTriggeredWebJobHistorySlotNextResponse>;
@@ -15303,11 +15295,11 @@ export class WebApps {
    * @param callback The callback
    */
   listUsagesSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): void;
-  listUsagesSlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CsmUsageQuotaCollection>, callback?: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): Promise<Models.WebAppsListUsagesSlotNextResponse> {
+  listUsagesSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): Promise<Models.WebAppsListUsagesSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listUsagesSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListUsagesSlotNextResponse>;
@@ -15332,11 +15324,11 @@ export class WebApps {
    * @param callback The callback
    */
   listWebJobsSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebJobCollection>): void;
-  listWebJobsSlotNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebJobCollection>, callback?: msRest.ServiceCallback<Models.WebJobCollection>): Promise<Models.WebAppsListWebJobsSlotNextResponse> {
+  listWebJobsSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebJobCollection>): Promise<Models.WebAppsListWebJobsSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listWebJobsSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListWebJobsSlotNextResponse>;
@@ -15361,11 +15353,11 @@ export class WebApps {
    * @param callback The callback
    */
   listSlotDifferencesFromProductionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SlotDifferenceCollection>): void;
-  listSlotDifferencesFromProductionNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SlotDifferenceCollection>, callback?: msRest.ServiceCallback<Models.SlotDifferenceCollection>): Promise<Models.WebAppsListSlotDifferencesFromProductionNextResponse> {
+  listSlotDifferencesFromProductionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SlotDifferenceCollection>): Promise<Models.WebAppsListSlotDifferencesFromProductionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listSlotDifferencesFromProductionNextOperationSpec,
       callback) as Promise<Models.WebAppsListSlotDifferencesFromProductionNextResponse>;
@@ -15390,11 +15382,11 @@ export class WebApps {
    * @param callback The callback
    */
   listSnapshotsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SnapshotCollection>): void;
-  listSnapshotsNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SnapshotCollection>, callback?: msRest.ServiceCallback<Models.SnapshotCollection>): Promise<Models.WebAppsListSnapshotsNextResponse> {
+  listSnapshotsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SnapshotCollection>): Promise<Models.WebAppsListSnapshotsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listSnapshotsNextOperationSpec,
       callback) as Promise<Models.WebAppsListSnapshotsNextResponse>;
@@ -15419,11 +15411,11 @@ export class WebApps {
    * @param callback The callback
    */
   listTriggeredWebJobsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TriggeredWebJobCollection>): void;
-  listTriggeredWebJobsNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggeredWebJobCollection>, callback?: msRest.ServiceCallback<Models.TriggeredWebJobCollection>): Promise<Models.WebAppsListTriggeredWebJobsNextResponse> {
+  listTriggeredWebJobsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TriggeredWebJobCollection>): Promise<Models.WebAppsListTriggeredWebJobsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listTriggeredWebJobsNextOperationSpec,
       callback) as Promise<Models.WebAppsListTriggeredWebJobsNextResponse>;
@@ -15448,11 +15440,11 @@ export class WebApps {
    * @param callback The callback
    */
   listTriggeredWebJobHistoryNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TriggeredJobHistoryCollection>): void;
-  listTriggeredWebJobHistoryNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggeredJobHistoryCollection>, callback?: msRest.ServiceCallback<Models.TriggeredJobHistoryCollection>): Promise<Models.WebAppsListTriggeredWebJobHistoryNextResponse> {
+  listTriggeredWebJobHistoryNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TriggeredJobHistoryCollection>): Promise<Models.WebAppsListTriggeredWebJobHistoryNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listTriggeredWebJobHistoryNextOperationSpec,
       callback) as Promise<Models.WebAppsListTriggeredWebJobHistoryNextResponse>;
@@ -15477,11 +15469,11 @@ export class WebApps {
    * @param callback The callback
    */
   listUsagesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): void;
-  listUsagesNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CsmUsageQuotaCollection>, callback?: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): Promise<Models.WebAppsListUsagesNextResponse> {
+  listUsagesNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): Promise<Models.WebAppsListUsagesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listUsagesNextOperationSpec,
       callback) as Promise<Models.WebAppsListUsagesNextResponse>;
@@ -15506,11 +15498,11 @@ export class WebApps {
    * @param callback The callback
    */
   listWebJobsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebJobCollection>): void;
-  listWebJobsNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebJobCollection>, callback?: msRest.ServiceCallback<Models.WebJobCollection>): Promise<Models.WebAppsListWebJobsNextResponse> {
+  listWebJobsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebJobCollection>): Promise<Models.WebAppsListWebJobsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listWebJobsNextOperationSpec,
       callback) as Promise<Models.WebAppsListWebJobsNextResponse>;

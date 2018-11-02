@@ -44,10 +44,10 @@ export class CertificateRegistrationProvider {
    * @param callback The callback
    */
   listOperations(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CsmOperationCollection>): void;
-  listOperations(optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CsmOperationCollection>, callback?: msRest.ServiceCallback<Models.CsmOperationCollection>): Promise<Models.CertificateRegistrationProviderListOperationsResponse> {
+  listOperations(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CsmOperationCollection>): Promise<Models.CertificateRegistrationProviderListOperationsResponse> {
     return this.client.sendOperationRequest(
       {
-        optionsOrCallback
+        options
       },
       listOperationsOperationSpec,
       callback) as Promise<Models.CertificateRegistrationProviderListOperationsResponse>;
@@ -74,11 +74,11 @@ export class CertificateRegistrationProvider {
    * @param callback The callback
    */
   listOperationsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CsmOperationCollection>): void;
-  listOperationsNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CsmOperationCollection>, callback?: msRest.ServiceCallback<Models.CsmOperationCollection>): Promise<Models.CertificateRegistrationProviderListOperationsNextResponse> {
+  listOperationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CsmOperationCollection>): Promise<Models.CertificateRegistrationProviderListOperationsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listOperationsNextOperationSpec,
       callback) as Promise<Models.CertificateRegistrationProviderListOperationsNextResponse>;

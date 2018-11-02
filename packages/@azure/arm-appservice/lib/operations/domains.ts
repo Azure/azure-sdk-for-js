@@ -43,10 +43,10 @@ export class Domains {
    * @param callback The callback
    */
   checkAvailability(options: Models.DomainsCheckAvailabilityOptionalParams, callback: msRest.ServiceCallback<Models.DomainAvailablilityCheckResult>): void;
-  checkAvailability(optionsOrCallback?: Models.DomainsCheckAvailabilityOptionalParams | msRest.ServiceCallback<Models.DomainAvailablilityCheckResult>, callback?: msRest.ServiceCallback<Models.DomainAvailablilityCheckResult>): Promise<Models.DomainsCheckAvailabilityResponse> {
+  checkAvailability(options?: Models.DomainsCheckAvailabilityOptionalParams, callback?: msRest.ServiceCallback<Models.DomainAvailablilityCheckResult>): Promise<Models.DomainsCheckAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
-        optionsOrCallback
+        options
       },
       checkAvailabilityOperationSpec,
       callback) as Promise<Models.DomainsCheckAvailabilityResponse>;
@@ -68,10 +68,10 @@ export class Domains {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainCollection>): void;
-  list(optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainCollection>, callback?: msRest.ServiceCallback<Models.DomainCollection>): Promise<Models.DomainsListResponse> {
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DomainCollection>): Promise<Models.DomainsListResponse> {
     return this.client.sendOperationRequest(
       {
-        optionsOrCallback
+        options
       },
       listOperationSpec,
       callback) as Promise<Models.DomainsListResponse>;
@@ -93,10 +93,10 @@ export class Domains {
    * @param callback The callback
    */
   getControlCenterSsoRequest(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainControlCenterSsoRequest>): void;
-  getControlCenterSsoRequest(optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainControlCenterSsoRequest>, callback?: msRest.ServiceCallback<Models.DomainControlCenterSsoRequest>): Promise<Models.DomainsGetControlCenterSsoRequestResponse> {
+  getControlCenterSsoRequest(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DomainControlCenterSsoRequest>): Promise<Models.DomainsGetControlCenterSsoRequestResponse> {
     return this.client.sendOperationRequest(
       {
-        optionsOrCallback
+        options
       },
       getControlCenterSsoRequestOperationSpec,
       callback) as Promise<Models.DomainsGetControlCenterSsoRequestResponse>;
@@ -121,11 +121,11 @@ export class Domains {
    * @param callback The callback
    */
   listRecommendations(parameters: Models.DomainRecommendationSearchParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NameIdentifierCollection>): void;
-  listRecommendations(parameters: Models.DomainRecommendationSearchParameters, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NameIdentifierCollection>, callback?: msRest.ServiceCallback<Models.NameIdentifierCollection>): Promise<Models.DomainsListRecommendationsResponse> {
+  listRecommendations(parameters: Models.DomainRecommendationSearchParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NameIdentifierCollection>): Promise<Models.DomainsListRecommendationsResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
-        optionsOrCallback
+        options
       },
       listRecommendationsOperationSpec,
       callback) as Promise<Models.DomainsListRecommendationsResponse>;
@@ -150,11 +150,11 @@ export class Domains {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainCollection>): void;
-  listByResourceGroup(resourceGroupName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainCollection>, callback?: msRest.ServiceCallback<Models.DomainCollection>): Promise<Models.DomainsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DomainCollection>): Promise<Models.DomainsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        optionsOrCallback
+        options
       },
       listByResourceGroupOperationSpec,
       callback) as Promise<Models.DomainsListByResourceGroupResponse>;
@@ -182,12 +182,12 @@ export class Domains {
    * @param callback The callback
    */
   get(resourceGroupName: string, domainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Domain>): void;
-  get(resourceGroupName: string, domainName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Domain>, callback?: msRest.ServiceCallback<Models.Domain>): Promise<Models.DomainsGetResponse> {
+  get(resourceGroupName: string, domainName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Domain>): Promise<Models.DomainsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         domainName,
-        optionsOrCallback
+        options
       },
       getOperationSpec,
       callback) as Promise<Models.DomainsGetResponse>;
@@ -229,12 +229,12 @@ export class Domains {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, domainName: string, options: Models.DomainsDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, domainName: string, optionsOrCallback?: Models.DomainsDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, domainName: string, options?: Models.DomainsDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         domainName,
-        optionsOrCallback
+        options
       },
       deleteMethodOperationSpec,
       callback);
@@ -265,13 +265,13 @@ export class Domains {
    * @param callback The callback
    */
   update(resourceGroupName: string, domainName: string, domain: Models.DomainPatchResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Domain>): void;
-  update(resourceGroupName: string, domainName: string, domain: Models.DomainPatchResource, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Domain>, callback?: msRest.ServiceCallback<Models.Domain>): Promise<Models.DomainsUpdateResponse> {
+  update(resourceGroupName: string, domainName: string, domain: Models.DomainPatchResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Domain>): Promise<Models.DomainsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         domainName,
         domain,
-        optionsOrCallback
+        options
       },
       updateOperationSpec,
       callback) as Promise<Models.DomainsUpdateResponse>;
@@ -299,12 +299,12 @@ export class Domains {
    * @param callback The callback
    */
   listOwnershipIdentifiers(resourceGroupName: string, domainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainOwnershipIdentifierCollection>): void;
-  listOwnershipIdentifiers(resourceGroupName: string, domainName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainOwnershipIdentifierCollection>, callback?: msRest.ServiceCallback<Models.DomainOwnershipIdentifierCollection>): Promise<Models.DomainsListOwnershipIdentifiersResponse> {
+  listOwnershipIdentifiers(resourceGroupName: string, domainName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DomainOwnershipIdentifierCollection>): Promise<Models.DomainsListOwnershipIdentifiersResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         domainName,
-        optionsOrCallback
+        options
       },
       listOwnershipIdentifiersOperationSpec,
       callback) as Promise<Models.DomainsListOwnershipIdentifiersResponse>;
@@ -335,13 +335,13 @@ export class Domains {
    * @param callback The callback
    */
   getOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>): void;
-  getOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainOwnershipIdentifier>, callback?: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>): Promise<Models.DomainsGetOwnershipIdentifierResponse> {
+  getOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>): Promise<Models.DomainsGetOwnershipIdentifierResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         domainName,
         name,
-        optionsOrCallback
+        options
       },
       getOwnershipIdentifierOperationSpec,
       callback) as Promise<Models.DomainsGetOwnershipIdentifierResponse>;
@@ -377,14 +377,14 @@ export class Domains {
    * @param callback The callback
    */
   createOrUpdateOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, domainOwnershipIdentifier: Models.DomainOwnershipIdentifier, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>): void;
-  createOrUpdateOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, domainOwnershipIdentifier: Models.DomainOwnershipIdentifier, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainOwnershipIdentifier>, callback?: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>): Promise<Models.DomainsCreateOrUpdateOwnershipIdentifierResponse> {
+  createOrUpdateOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, domainOwnershipIdentifier: Models.DomainOwnershipIdentifier, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>): Promise<Models.DomainsCreateOrUpdateOwnershipIdentifierResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         domainName,
         name,
         domainOwnershipIdentifier,
-        optionsOrCallback
+        options
       },
       createOrUpdateOwnershipIdentifierOperationSpec,
       callback) as Promise<Models.DomainsCreateOrUpdateOwnershipIdentifierResponse>;
@@ -415,13 +415,13 @@ export class Domains {
    * @param callback The callback
    */
   deleteOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         domainName,
         name,
-        optionsOrCallback
+        options
       },
       deleteOwnershipIdentifierOperationSpec,
       callback);
@@ -457,14 +457,14 @@ export class Domains {
    * @param callback The callback
    */
   updateOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, domainOwnershipIdentifier: Models.DomainOwnershipIdentifier, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>): void;
-  updateOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, domainOwnershipIdentifier: Models.DomainOwnershipIdentifier, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainOwnershipIdentifier>, callback?: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>): Promise<Models.DomainsUpdateOwnershipIdentifierResponse> {
+  updateOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, domainOwnershipIdentifier: Models.DomainOwnershipIdentifier, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>): Promise<Models.DomainsUpdateOwnershipIdentifierResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         domainName,
         name,
         domainOwnershipIdentifier,
-        optionsOrCallback
+        options
       },
       updateOwnershipIdentifierOperationSpec,
       callback) as Promise<Models.DomainsUpdateOwnershipIdentifierResponse>;
@@ -492,12 +492,12 @@ export class Domains {
    * @param callback The callback
    */
   renew(resourceGroupName: string, domainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  renew(resourceGroupName: string, domainName: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  renew(resourceGroupName: string, domainName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         domainName,
-        optionsOrCallback
+        options
       },
       renewOperationSpec,
       callback);
@@ -543,11 +543,11 @@ export class Domains {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainCollection>): void;
-  listNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainCollection>, callback?: msRest.ServiceCallback<Models.DomainCollection>): Promise<Models.DomainsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DomainCollection>): Promise<Models.DomainsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listNextOperationSpec,
       callback) as Promise<Models.DomainsListNextResponse>;
@@ -572,11 +572,11 @@ export class Domains {
    * @param callback The callback
    */
   listRecommendationsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NameIdentifierCollection>): void;
-  listRecommendationsNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NameIdentifierCollection>, callback?: msRest.ServiceCallback<Models.NameIdentifierCollection>): Promise<Models.DomainsListRecommendationsNextResponse> {
+  listRecommendationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NameIdentifierCollection>): Promise<Models.DomainsListRecommendationsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listRecommendationsNextOperationSpec,
       callback) as Promise<Models.DomainsListRecommendationsNextResponse>;
@@ -601,11 +601,11 @@ export class Domains {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainCollection>): void;
-  listByResourceGroupNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainCollection>, callback?: msRest.ServiceCallback<Models.DomainCollection>): Promise<Models.DomainsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DomainCollection>): Promise<Models.DomainsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listByResourceGroupNextOperationSpec,
       callback) as Promise<Models.DomainsListByResourceGroupNextResponse>;
@@ -630,11 +630,11 @@ export class Domains {
    * @param callback The callback
    */
   listOwnershipIdentifiersNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainOwnershipIdentifierCollection>): void;
-  listOwnershipIdentifiersNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainOwnershipIdentifierCollection>, callback?: msRest.ServiceCallback<Models.DomainOwnershipIdentifierCollection>): Promise<Models.DomainsListOwnershipIdentifiersNextResponse> {
+  listOwnershipIdentifiersNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DomainOwnershipIdentifierCollection>): Promise<Models.DomainsListOwnershipIdentifiersNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listOwnershipIdentifiersNextOperationSpec,
       callback) as Promise<Models.DomainsListOwnershipIdentifiersNextResponse>;

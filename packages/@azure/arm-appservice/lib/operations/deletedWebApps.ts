@@ -42,10 +42,10 @@ export class DeletedWebApps {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeletedWebAppCollection>): void;
-  list(optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedWebAppCollection>, callback?: msRest.ServiceCallback<Models.DeletedWebAppCollection>): Promise<Models.DeletedWebAppsListResponse> {
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DeletedWebAppCollection>): Promise<Models.DeletedWebAppsListResponse> {
     return this.client.sendOperationRequest(
       {
-        optionsOrCallback
+        options
       },
       listOperationSpec,
       callback) as Promise<Models.DeletedWebAppsListResponse>;
@@ -70,11 +70,11 @@ export class DeletedWebApps {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeletedWebAppCollection>): void;
-  listNext(nextPageLink: string, optionsOrCallback?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedWebAppCollection>, callback?: msRest.ServiceCallback<Models.DeletedWebAppCollection>): Promise<Models.DeletedWebAppsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DeletedWebAppCollection>): Promise<Models.DeletedWebAppsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        optionsOrCallback
+        options
       },
       listNextOperationSpec,
       callback) as Promise<Models.DeletedWebAppsListNextResponse>;
