@@ -221,7 +221,7 @@ export class MessageReceiver extends LinkEntity {
       : 300;
     this.autoRenewLock = this.maxAutoRenewDurationInSeconds > 0 && this.receiveMode === ReceiveMode.peekLock;
     // setting all the handlers
-    this._onSettled = async (context: EventContext) => {
+    this._onSettled = (context: EventContext) => {
       const connectionId = this._context.namespace.connectionId;
       const delivery = context.delivery;
       if (delivery) {
@@ -493,11 +493,11 @@ export class MessageReceiver extends LinkEntity {
       }
       if (shouldReopen) {
         const rcvrOptions: CreateReceiverOptions = {
-          onMessage: this._onAmqpMessage,
+          onMessage: (context) => (this._onAmqpMessage(context) as any).catch(() => { /* */ }),
+          onClose: (context) => (this._onAmqpClose(context) as any).catch(() => { /* */ }),
+          onSessionClose: (context) => (this._onSessionClose(context) as any).catch(() => { /* */ }),
           onError: this._onAmqpError,
-          onClose: this._onAmqpClose,
           onSessionError: this._onSessionError,
-          onSessionClose: this._onSessionClose,
           onSettled: this._onSettled,
           newName: true // provide a new name to the link while re-connecting it. This ensures that
           // the service does not send an error stating that the link is still open.
@@ -613,11 +613,11 @@ export class MessageReceiver extends LinkEntity {
         await this._negotiateClaim();
         if (!options) {
           options = this._createReceiverOptions({
-            onMessage: this._onAmqpMessage,
+            onMessage: (context) => (this._onAmqpMessage(context) as any).catch(() => { /* */ }),
+            onClose: (context) => (this._onAmqpClose(context) as any).catch(() => { /* */ }),
+            onSessionClose: (context) => (this._onSessionClose(context) as any).catch(() => { /* */ }),
             onError: this._onAmqpError,
-            onClose: this._onAmqpClose,
             onSessionError: this._onSessionError,
-            onSessionClose: this._onSessionClose,
             onSettled: this._onSettled
           });
         }
@@ -671,11 +671,17 @@ export class MessageReceiver extends LinkEntity {
         address: this.address
       },
       credit_window: this.maxConcurrentCalls,
-      onMessage: options.onMessage || this._onAmqpMessage,
+      onMessage: options.onMessage
+        ? (context) => (options.onMessage(context) as any).catch(() => { /* */ })
+        : (context) => (this._onAmqpMessage(context) as any).catch(() => { /* */ }),
+      onClose: options.onClose
+        ? (context) => (options.onClose(context) as any).catch(() => { /* */ })
+        : (context) => (this._onAmqpClose(context) as any).catch(() => { /* */ }),
+      onSessionClose: options.onSessionClose
+        ? (context) => (options.onSessionClose(context) as any).catch(() => { /* */ })
+        : (context) => (this._onSessionClose(context) as any).catch(() => { /* */ }),
       onError: options.onError || this._onAmqpError,
-      onClose: options.onClose || this._onAmqpClose,
       onSessionError: options.onSessionError || this._onSessionError,
-      onSessionClose: options.onSessionClose || this._onSessionClose,
       onSettled: options.onSettled || this._onSettled
     };
     return rcvrOptions;
