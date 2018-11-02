@@ -6,12 +6,11 @@ import * as log from "./log";
 import { Delivery } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { MessageSender } from "./messageSender";
-import { ReceiveOptions, OnError, OnMessage } from ".";
 import { StreamingReceiver, ReceiveHandler, MessageHandlerOptions } from "./streamingReceiver";
 import { BatchingReceiver } from "./batchingReceiver";
 import { ServiceBusMessage, SendableMessageInfo, ReceivedMessageInfo } from "./serviceBusMessage";
 import { Client } from "./client";
-import { ReceiveMode } from "./messageReceiver";
+import { ReceiveMode, ReceiveOptions, OnError, OnMessage } from "./messageReceiver";
 import { ScheduleMessage } from "./managementClient";
 
 /**
@@ -81,7 +80,7 @@ export class QueueClient extends Client {
    */
   async send(data: SendableMessageInfo): Promise<Delivery> {
     const sender = MessageSender.create(this._context);
-    return await sender.send(data);
+    return sender.send(data);
   }
 
   /**
@@ -93,7 +92,7 @@ export class QueueClient extends Client {
    */
   async sendBatch(datas: SendableMessageInfo[]): Promise<Delivery> {
     const sender = MessageSender.create(this._context);
-    return await sender.sendBatch(datas);
+    return sender.sendBatch(datas);
   }
 
   /**
@@ -185,7 +184,7 @@ export class QueueClient extends Client {
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
-    return await this._context.managementClient!.peek(messageCount);
+    return this._context.managementClient!.peek(messageCount);
   }
 
   /**
@@ -195,7 +194,7 @@ export class QueueClient extends Client {
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peekBySequenceNumber(fromSequenceNumber: Long, messageCount?: number): Promise<ReceivedMessageInfo[]> {
-    return await this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, messageCount);
+    return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, messageCount);
   }
 
   /**
@@ -212,7 +211,7 @@ export class QueueClient extends Client {
    * @returns Promise<Date> - New lock token expiry date and time in UTC format.
    */
   async renewLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date> {
-    return await this._context.managementClient!.renewLock(lockTokenOrMessage);
+    return this._context.managementClient!.renewLock(lockTokenOrMessage);
   }
 
   /**
@@ -227,7 +226,7 @@ export class QueueClient extends Client {
     if (this.receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
-    return await this._context.managementClient!.receiveDeferredMessage(sequenceNumber,
+    return this._context.managementClient!.receiveDeferredMessage(sequenceNumber,
       this.receiveMode);
   }
 
@@ -243,7 +242,7 @@ export class QueueClient extends Client {
     if (this.receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
-    return await this._context.managementClient!.receiveDeferredMessages(sequenceNumbers,
+    return this._context.managementClient!.receiveDeferredMessages(sequenceNumbers,
       this.receiveMode);
   }
 
@@ -283,7 +282,7 @@ export class QueueClient extends Client {
    * `Long.fromString("result");`. This will ensure that precision is preserved.
    */
   async scheduleMessages(messages: ScheduleMessage[]): Promise<Long[]> {
-    return await this._context.managementClient!.scheduleMessages(messages);
+    return this._context.managementClient!.scheduleMessages(messages);
   }
 
   /**
@@ -292,7 +291,7 @@ export class QueueClient extends Client {
    * @returns Promise<void>
    */
   async cancelScheduledMessage(sequenceNumber: Long): Promise<void> {
-    return await this._context.managementClient!.cancelScheduledMessages([sequenceNumber]);
+    return this._context.managementClient!.cancelScheduledMessages([sequenceNumber]);
   }
 
   /**
@@ -301,6 +300,6 @@ export class QueueClient extends Client {
    * @returns Promise<void>
    */
   async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
-    return await this._context.managementClient!.cancelScheduledMessages(sequenceNumbers);
+    return this._context.managementClient!.cancelScheduledMessages(sequenceNumbers);
   }
 }

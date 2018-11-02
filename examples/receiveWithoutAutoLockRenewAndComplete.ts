@@ -3,7 +3,6 @@ import {
   MessageHandlerOptions
 } from "../lib";
 import * as dotenv from "dotenv";
-import { } from '../lib/streamingReceiver';
 dotenv.config();
 
 const connectionString = "SERVICEBUS_CONNECTION_STRING";
@@ -17,11 +16,11 @@ let ns: Namespace;
 async function main(): Promise<void> {
   ns = Namespace.createFromConnectionString(str);
   const client = ns.createQueueClient(path, { receiveMode: ReceiveMode.peekLock });
-  // Please note: Lock duration property on the Queue was set to 45 seconds.
+  // Please note: Lock duration property on the Queue was set to 15 seconds.
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     console.log(">>> Message: ", brokeredMessage);
     console.log("### Actual message:", brokeredMessage.body ? brokeredMessage.body.toString() : null);
-    const time = 50000;
+    const time = 18000;
     console.log(">>>> Sleeping for %d seconds. Meanwhile autorenew of message lock should NOT happen.", time / 1000);
     await delay(time);
     try {
@@ -35,7 +34,7 @@ async function main(): Promise<void> {
   };
   const handlerOptions: MessageHandlerOptions = {
     autoComplete: false,
-    maxAutoRenewDurationInSeconds: 0
+    maxAutoRenewDurationInSeconds: 0 // by setting it 0, autolock renewal is disabled.
   };
   const rcvHandler = client.receive(onMessage, onError, handlerOptions);
   await delay(30000000);

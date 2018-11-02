@@ -141,7 +141,7 @@ export class ManagementClient extends LinkEntity {
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
-    return await this.peekBySequenceNumber(this._lastPeekedSequenceNumber.add(1), messageCount);
+    return this.peekBySequenceNumber(this._lastPeekedSequenceNumber.add(1), messageCount);
   }
 
   /**
