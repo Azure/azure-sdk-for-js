@@ -2,10 +2,8 @@ import { OnMessage, OnError, MessagingError, delay, ServiceBusMessage, ReceiveMo
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const connectionString = "SERVICEBUS_CONNECTION_STRING";
-const entityPath = "QUEUE_NAME";
-const str = process.env[connectionString] || "";
-const path = process.env[entityPath] || "";
+const str = process.env.SERVICEBUS_CONNECTION_STRING || "";
+const path = process.env.QUEUE_NAME || "";
 console.log("str: ", str);
 console.log("path: ", path);
 
@@ -16,7 +14,7 @@ async function main(): Promise<void> {
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     console.log(">>> Message: ", brokeredMessage);
     console.log("### Actual message:", brokeredMessage.body ? brokeredMessage.body.toString() : null);
-    brokeredMessage.complete();
+    await brokeredMessage.complete();
   }
   const onError: OnError = (err: MessagingError | Error) => {
     console.log(">>>>> Error occurred: ", err);

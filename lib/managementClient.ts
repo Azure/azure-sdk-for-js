@@ -6,7 +6,7 @@ import {
   message as RheaMessageUtil, generate_uuid, Dictionary, string_to_uuid
 } from "rhea-promise";
 import {
-  defaultLock, translate, Constants, RequestResponseLink, ConditionErrorNameMapper, AmqpMessage
+  defaultLock, translate, Constants, RequestResponseLink, ConditionErrorNameMapper, AmqpMessage, SendRequestOptions
 } from "@azure/amqp-common";
 import { ClientEntityContext } from "./clientEntityContext";
 import { ReceivedMessageInfo, ServiceBusMessage, SendableMessageInfo } from "./serviceBusMessage";
@@ -141,7 +141,7 @@ export class ManagementClient extends LinkEntity {
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
-    return await this.peekBySequenceNumber(this._lastPeekedSequenceNumber.add(1), messageCount);
+    return this.peekBySequenceNumber(this._lastPeekedSequenceNumber.add(1), messageCount);
   }
 
   /**
@@ -213,16 +213,20 @@ export class ManagementClient extends LinkEntity {
    *
    * @param {string | ServiceBusMessage} lockTokenOrMessage Lock token of the message or
    * the message itself.
+   * @param {SendRequestOptions} [options] Options that can be set while sending the request.
    * @returns {Promise<Date>} Promise<Date> New lock token expiry date and time in UTC format.
    */
-  async renewLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date> {
+  async renewLock(lockTokenOrMessage: string | ServiceBusMessage, options?: SendRequestOptions): Promise<Date> {
     if (!lockTokenOrMessage) {
       throw new Error("'lockTokenOrMessage' is a required parameter.");
     }
     if (typeof lockTokenOrMessage !== "object" && typeof lockTokenOrMessage !== "string") {
       throw new Error("'lockTokenOrMessage must be of type 'string' or of type 'object'.");
     }
-
+    if (!options) options = {};
+    if (options.delayInSeconds == undefined) options.delayInSeconds = 1;
+    if (options.timeoutInSeconds == undefined) options.timeoutInSeconds = 5;
+    if (options.times == undefined) options.times = 5;
     const lockToken: string = (lockTokenOrMessage as ServiceBusMessage).lockToken
       ? (lockTokenOrMessage as ServiceBusMessage).lockToken as string
       : lockTokenOrMessage as string;
@@ -241,7 +245,7 @@ export class ManagementClient extends LinkEntity {
       log.mgmt("[%s] Acquiring lock to get the management req res link.",
         this._context.namespace.connectionId);
       await defaultLock.acquire(this.managementLock, () => { return this._init(); });
-      const result = await this._mgmtReqResLink!.sendRequest(request);
+      const result = await this._mgmtReqResLink!.sendRequest(request, options);
       const lockedUntilUtc = new Date(result.body.expirations[0]);
       if (typeof lockTokenOrMessage === "object") {
         (lockTokenOrMessage as ServiceBusMessage).lockedUntilUtc = lockedUntilUtc;

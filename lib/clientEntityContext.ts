@@ -9,7 +9,8 @@ import { ConnectionContext } from "./connectionContext";
 import { Dictionary, AmqpError } from "rhea-promise";
 import { Client } from "./client";
 import { BatchingReceiver } from "./batchingReceiver";
-import { ConcurrentExpiringMap } from './util/concurrentExpiringMap';
+import { ConcurrentExpiringMap } from "./util/concurrentExpiringMap";
+import { MessageReceiver } from "./messageReceiver";
 
 /**
  * @interface ClientEntityContext
@@ -59,6 +60,7 @@ export interface ClientEntityContextBase {
  */
 export interface ClientEntityContext extends ClientEntityContextBase {
   detached(error?: AmqpError | Error): Promise<void>;
+  getReceiver(name: string): MessageReceiver | undefined;
 }
 
 /**
@@ -88,6 +90,16 @@ export namespace ClientEntityContext {
       namespace: context,
       entityPath: entityPath,
       requestResponseLockedMessages: new ConcurrentExpiringMap<string>()
+    };
+
+    (entityContext as ClientEntityContext).getReceiver = (name: string) => {
+      let result: MessageReceiver | undefined = undefined;
+      if (entityContext.streamingReceiver && entityContext.streamingReceiver.name === name) {
+        result = entityContext.streamingReceiver;
+      } else if (entityContext.batchingReceiver && entityContext.batchingReceiver.name === name) {
+        result = entityContext.batchingReceiver;
+      }
+      return result;
     };
 
     (entityContext as ClientEntityContext).detached = async (error?: AmqpError | Error) => {

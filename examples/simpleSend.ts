@@ -2,10 +2,8 @@ import { Namespace } from "../lib";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const connectionString = "SERVICEBUS_CONNECTION_STRING";
-const entityPath = "QUEUE_NAME";
-const str = process.env[connectionString] || "";
-const path = process.env[entityPath] || "";
+const str = process.env.SERVICEBUS_CONNECTION_STRING || "";
+const path = process.env.QUEUE_NAME || "";
 console.log("str: ", str);
 console.log("path: ", path);
 
@@ -13,7 +11,7 @@ let ns: Namespace;
 async function main(): Promise<void> {
   ns = Namespace.createFromConnectionString(str);
   const client = ns.createQueueClient(path);
-  await client.send({ body: "Hello sb world!!" });
+  await client.send({ body: "Hello sb world!!" + new Date().toString() });
   console.log("***********Created sender and sent the message...");
 }
 

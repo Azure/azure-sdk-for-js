@@ -9,11 +9,10 @@
   "dependencies": {
     "@azure/amqp-common": "^0.1.6",
     "debug": "^3.1.0",
-    "int64-buffer": "^0.99.1007",
     "is-buffer": "^2.0.3",
     "long": "^4.0.0",
     "ms-rest-azure": "^2.5.9",
-    "rhea-promise": "^0.1.8",
+    "rhea-promise": "^0.1.10",
     "tslib": "^1.9.3"
   },
   "devDependencies": {

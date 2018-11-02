@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import * as log from "../log";
 import { generate_uuid, string_to_uuid } from "rhea-promise";
 /**
  * Provides a uniue name by appending a string guid to the given string in the following format:
@@ -69,4 +70,24 @@ export function reorderLockTokens(lockTokens: string[]): Buffer[] {
   }
 
   return result;
+}
+
+/**
+ * Provides the time in milliseconds after which the lock renewal should occur.
+ * @param lockedUntilUtc - The time until which the message is locked.
+ */
+export function calculateRenewAfterDuration(lockedUntilUtc: Date): number {
+  const now = Date.now();
+  const lockedUntil = lockedUntilUtc.getTime();
+  const remainingTime = lockedUntil - now;
+  log.utils("Locked until utc  : %d", lockedUntil);
+  log.utils("Current time is   : %d", now);
+  log.utils("Remaining time is :         %d", remainingTime);
+  if (remainingTime < 1000) {
+    return 0;
+  }
+  const buffer = Math.min(remainingTime / 2, 10000); // 10 seconds
+  const renewAfter = remainingTime - buffer;
+  log.utils("Renew after       : %d", renewAfter);
+  return renewAfter;
 }
