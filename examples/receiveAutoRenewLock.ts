@@ -11,21 +11,22 @@ let ns: Namespace;
 async function main(): Promise<void> {
   ns = Namespace.createFromConnectionString(str);
   const client = ns.createQueueClient(path, { receiveMode: ReceiveMode.peekLock });
+  // Please note: Lock duration property on the Queue was set to 45 seconds.
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     console.log(">>> Message: ", brokeredMessage);
     console.log("### Actual message:", brokeredMessage.body ? brokeredMessage.body.toString() : null);
-    const result = await client.renewLock(brokeredMessage);
-    console.log("Renew Lock result is: %O", result);
-    console.log("Locked Until: %s", brokeredMessage.lockedUntilUtc);
-    console.log(">>>>>> Explicitly completing the message...");
-    await delay(2000);
-    brokeredMessage.complete();
+    const time = 30000;
+    console.log(">>>> Sleeping for %d seconds. Meanwhile autorenew of message lock should happen.", time / 1000);
+    await delay(time);
+    console.log(">>>> Sleeping for %d seconds again. Meanwhile autorenew of message lock should happen.", time / 1000);
+    await delay(time);
+    console.log(">>>> Now finally exiting from the message handler code...");
   }
   const onError: OnError = (err: MessagingError | Error) => {
     console.log(">>>>> Error occurred: ", err);
   };
-  const rcvHandler = client.receive(onMessage, onError, { autoComplete: false, });
-  await delay(500000);
+  const rcvHandler = client.receive(onMessage, onError, { maxAutoRenewDurationInSeconds: 350 });
+  await delay(30000000);
   await rcvHandler.stop();
 }
 

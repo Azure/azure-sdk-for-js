@@ -1,4 +1,7 @@
-import { OnMessage, OnError, MessagingError, delay, ServiceBusMessage, ReceiveMode, Namespace } from "../lib";
+import {
+  OnMessage, OnError, MessagingError, delay, ServiceBusMessage, ReceiveMode, Namespace,
+  MessageHandlerOptions
+} from "../lib";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -11,21 +14,28 @@ let ns: Namespace;
 async function main(): Promise<void> {
   ns = Namespace.createFromConnectionString(str);
   const client = ns.createQueueClient(path, { receiveMode: ReceiveMode.peekLock });
+  // Please note: Lock duration property on the Queue was set to 15 seconds.
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     console.log(">>> Message: ", brokeredMessage);
     console.log("### Actual message:", brokeredMessage.body ? brokeredMessage.body.toString() : null);
-    const result = await client.renewLock(brokeredMessage);
-    console.log("Renew Lock result is: %O", result);
-    console.log("Locked Until: %s", brokeredMessage.lockedUntilUtc);
-    console.log(">>>>>> Explicitly completing the message...");
-    await delay(2000);
-    brokeredMessage.complete();
+    const time = 18000;
+    console.log(">>>> Sleeping for %d seconds. Meanwhile autorenew of message lock should NOT happen.", time / 1000);
+    await delay(time);
+    try {
+      await brokeredMessage.complete();
+    } catch (err) {
+      console.log("This should error, since the lock would have expired: %o.", err);
+    }
   }
   const onError: OnError = (err: MessagingError | Error) => {
     console.log(">>>>> Error occurred: ", err);
   };
-  const rcvHandler = client.receive(onMessage, onError, { autoComplete: false, });
-  await delay(500000);
+  const handlerOptions: MessageHandlerOptions = {
+    autoComplete: false,
+    maxAutoRenewDurationInSeconds: 0 // by setting it 0, autolock renewal is disabled.
+  };
+  const rcvHandler = client.receive(onMessage, onError, handlerOptions);
+  await delay(30000000);
   await rcvHandler.stop();
 }
 

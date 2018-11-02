@@ -12,8 +12,8 @@ export {
   ServiceBusMessage, ReceivedMessageInfo, SendableMessageInfo, ServiceBusDeliveryAnnotations,
   ServiceBusMessageAnnotations, DeadLetterOptions
 } from "./serviceBusMessage";
-export { ReceiveHandler } from "./streamingReceiver";
-export { ReceiveOptions, OnError, OnMessage, ReceiveMode } from "./messageReceiver";
+export { ReceiveHandler, MessageHandlerOptions } from "./streamingReceiver";
+export { OnError, OnMessage, ReceiveMode } from "./messageReceiver";
 export { QueueClientOptions, QueueClient } from "./queueClient";
 export { Namespace, NamespaceOptions } from "./namespace";
 export { TopicClient } from "./topicClient";
