@@ -5,7 +5,9 @@ import * as log from "./log";
 import { Func, Constants, translate, MessagingError } from "@azure/amqp-common";
 import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents } from "rhea-promise";
 import { ServiceBusMessage } from "./serviceBusMessage";
-import { MessageReceiver, ReceiveOptions, ReceiverType, PromiseLike } from "./messageReceiver";
+import {
+  MessageReceiver, ReceiveOptions, ReceiverType, PromiseLike, OnAmqpEventAsPromise
+} from "./messageReceiver";
 import { ClientEntityContext } from "./clientEntityContext";
 
 /**
@@ -57,11 +59,11 @@ export class BatchingReceiver extends MessageReceiver {
     let timeOver = false;
     this.isReceivingMessages = true;
     return new Promise<ServiceBusMessage[]>((resolve, reject) => {
-      let onReceiveMessage: OnAmqpEvent;
+      let onReceiveMessage: OnAmqpEventAsPromise;
+      let onSessionClose: OnAmqpEventAsPromise;
+      let onReceiveClose: OnAmqpEventAsPromise;
       let onReceiveError: OnAmqpEvent;
-      let onReceiveClose: OnAmqpEvent;
       let onSessionError: OnAmqpEvent;
-      let onSessionClose: OnAmqpEvent;
       let onSettled: OnAmqpEvent;
       let waitTimer: any;
       let actionAfterWaitTimeout: Func<void, void>;
@@ -96,7 +98,7 @@ export class BatchingReceiver extends MessageReceiver {
       };
 
       // Action to be performed on the "message" event.
-      onReceiveMessage = (context: EventContext) => {
+      onReceiveMessage = async (context: EventContext) => {
         const data: ServiceBusMessage = new ServiceBusMessage(this._context,
           context.message!, context.delivery!);
         if (brokeredMessages.length <= maxMessageCount) {
@@ -214,12 +216,12 @@ export class BatchingReceiver extends MessageReceiver {
         // successfully, we add credit which is the maxMessageCount specified by the user.
         this.maxConcurrentCalls = 0;
         const rcvrOptions = this._createReceiverOptions({
-          onMessage: onReceiveMessage,
+          onMessage: (context: EventContext) => onReceiveMessage(context).catch(() => { /* */ }),
           onError: onReceiveError,
           onSessionError: onSessionError,
           onSettled: onSettled,
-          onClose: (context) => (onReceiveClose(context) as any).catch(() => { /* */ }),
-          onSessionClose: (context) => (onSessionClose(context) as any).catch(() => { /* */ })
+          onClose: (context: EventContext) => onReceiveClose(context).catch(() => { /* */ }),
+          onSessionClose: (context: EventContext) => onSessionClose(context).catch(() => { /* */ })
         });
         this._init(rcvrOptions).then(() => addCreditAndSetTimer()).catch(reject);
       } else {

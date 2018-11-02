@@ -20,13 +20,20 @@ import { messageDispositionTimeout } from "./util/constants";
  * @ignore
  */
 interface CreateReceiverOptions {
-  onSettled: OnAmqpEvent;
-  onMessage: OnAmqpEvent;
+  onMessage: OnAmqpEventAsPromise;
+  onClose: OnAmqpEventAsPromise;
+  onSessionClose: OnAmqpEventAsPromise;
   onError: OnAmqpEvent;
-  onClose: OnAmqpEvent;
+  onSettled: OnAmqpEvent;
   onSessionError: OnAmqpEvent;
-  onSessionClose: OnAmqpEvent;
   newName?: boolean;
+}
+
+/**
+ * @ignore
+ */
+export interface OnAmqpEventAsPromise extends OnAmqpEvent {
+  (context: EventContext): Promise<void>;
 }
 
 /**
@@ -163,23 +170,23 @@ export class MessageReceiver extends LinkEntity {
    */
   protected _onMessage!: OnMessage;
   /**
-   * @property {OnMessage} _onMessage The error handler provided by the user that will be wrapped
+   * @property {OnMessage} _onError The error handler provided by the user that will be wrapped
    * inside _onAmqpError.
    * @protected
    */
   protected _onError?: OnError;
   /**
-   * @property {OnMessage} _onMessage The message handler that will be set as the handler on the
+   * @property {OnAmqpEventAsPromise} _onAmqpMessage The message handler that will be set as the handler on the
    * underlying rhea receiver for the "message" event.
    * @protected
    */
-  protected _onAmqpMessage: OnAmqpEvent;
+  protected _onAmqpMessage: OnAmqpEventAsPromise;
   /**
-   * @property {OnAmqpEvent} _onAmqpClose The message handler that will be set as the handler on the
+   * @property {OnAmqpEventAsPromise} _onAmqpClose The message handler that will be set as the handler on the
    * underlying rhea receiver for the "receiver_close" event.
    * @protected
    */
-  protected _onAmqpClose: OnAmqpEvent;
+  protected _onAmqpClose: OnAmqpEventAsPromise;
   /**
    * @property {OnAmqpEvent} _onSessionError The message handler that will be set as the handler on
    * the underlying rhea receiver's session for the "session_error" event.
@@ -187,13 +194,13 @@ export class MessageReceiver extends LinkEntity {
    */
   protected _onSessionError: OnAmqpEvent;
   /**
-   * @property {OnAmqpEvent} _onSessionClose The message handler that will be set as the handler on
+   * @property {OnAmqpEventAsPromise} _onSessionClose The message handler that will be set as the handler on
    * the underlying rhea receiver's session for the "session_close" event.
    * @protected
    */
-  protected _onSessionClose: OnAmqpEvent;
+  protected _onSessionClose: OnAmqpEventAsPromise;
   /**
-   * @property {OnAmqpEvent} _onMessage The message handler that will be set as the handler on the
+   * @property {OnAmqpEvent} _onAmqpError The message handler that will be set as the handler on the
    * underlying rhea receiver for the "receiver_error" event.
    * @protected
    */
@@ -493,9 +500,9 @@ export class MessageReceiver extends LinkEntity {
       }
       if (shouldReopen) {
         const rcvrOptions: CreateReceiverOptions = {
-          onMessage: (context) => (this._onAmqpMessage(context) as any).catch(() => { /* */ }),
-          onClose: (context) => (this._onAmqpClose(context) as any).catch(() => { /* */ }),
-          onSessionClose: (context) => (this._onSessionClose(context) as any).catch(() => { /* */ }),
+          onMessage: (context: EventContext) => this._onAmqpMessage(context).catch(() => { /* */ }),
+          onClose: (context: EventContext) => this._onAmqpClose(context).catch(() => { /* */ }),
+          onSessionClose: (context: EventContext) => this._onSessionClose(context).catch(() => { /* */ }),
           onError: this._onAmqpError,
           onSessionError: this._onSessionError,
           onSettled: this._onSettled,
@@ -613,9 +620,9 @@ export class MessageReceiver extends LinkEntity {
         await this._negotiateClaim();
         if (!options) {
           options = this._createReceiverOptions({
-            onMessage: (context) => (this._onAmqpMessage(context) as any).catch(() => { /* */ }),
-            onClose: (context) => (this._onAmqpClose(context) as any).catch(() => { /* */ }),
-            onSessionClose: (context) => (this._onSessionClose(context) as any).catch(() => { /* */ }),
+            onMessage: (context: EventContext) => this._onAmqpMessage(context).catch(() => { /* */ }),
+            onClose: (context: EventContext) => this._onAmqpClose(context).catch(() => { /* */ }),
+            onSessionClose: (context: EventContext) => this._onSessionClose(context).catch(() => { /* */ }),
             onError: this._onAmqpError,
             onSessionError: this._onSessionError,
             onSettled: this._onSettled
@@ -671,15 +678,9 @@ export class MessageReceiver extends LinkEntity {
         address: this.address
       },
       credit_window: this.maxConcurrentCalls,
-      onMessage: options.onMessage
-        ? (context) => (options.onMessage(context) as any).catch(() => { /* */ })
-        : (context) => (this._onAmqpMessage(context) as any).catch(() => { /* */ }),
-      onClose: options.onClose
-        ? (context) => (options.onClose(context) as any).catch(() => { /* */ })
-        : (context) => (this._onAmqpClose(context) as any).catch(() => { /* */ }),
-      onSessionClose: options.onSessionClose
-        ? (context) => (options.onSessionClose(context) as any).catch(() => { /* */ })
-        : (context) => (this._onSessionClose(context) as any).catch(() => { /* */ }),
+      onMessage: (context) => (options.onMessage || this._onAmqpMessage)(context).catch(() => { /* */ }),
+      onClose: (context) => (options.onClose || this._onAmqpClose)(context).catch(() => { /* */ }),
+      onSessionClose: (context) => (options.onSessionClose || this._onSessionClose)(context).catch(() => { /* */ }),
       onError: options.onError || this._onAmqpError,
       onSessionError: options.onSessionError || this._onSessionError,
       onSettled: options.onSettled || this._onSettled
