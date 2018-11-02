@@ -2,10 +2,8 @@ import { Namespace, delay } from "../lib";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const connectionString = "SERVICEBUS_CONNECTION_STRING";
-const entityPath = "QUEUE_NAME";
-const str = process.env[connectionString] || "";
-const path = process.env[entityPath] || "";
+const str = process.env.SERVICEBUS_CONNECTION_STRING || "";
+const path = process.env.QUEUE_NAME || "";
 console.log("str: ", str);
 console.log("path: ", path);
 
