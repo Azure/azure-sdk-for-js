@@ -41,7 +41,7 @@ export class Policies {
    * @param policySetName The name of the policy set.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, policySetName: string, callback: msRest.ServiceCallback<Models.PolicyList>): void;
+  list(resourceGroupName: string, labName: string, policySetName: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationPolicy>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -49,8 +49,8 @@ export class Policies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, policySetName: string, options: Models.PoliciesListOptionalParams, callback: msRest.ServiceCallback<Models.PolicyList>): void;
-  list(resourceGroupName: string, labName: string, policySetName: string, options?: Models.PoliciesListOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyList>): Promise<Models.PoliciesListResponse> {
+  list(resourceGroupName: string, labName: string, policySetName: string, options: Models.PoliciesListOptionalParams, callback: msRest.ServiceCallback<Models.ResponseWithContinuationPolicy>): void;
+  list(resourceGroupName: string, labName: string, policySetName: string, options?: Models.PoliciesListOptionalParams, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationPolicy>): Promise<Models.PoliciesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -241,14 +241,14 @@ export class Policies {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyList>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationPolicy>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyList>): Promise<Models.PoliciesListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResponseWithContinuationPolicy>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationPolicy>): Promise<Models.PoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -282,7 +282,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyList
+      bodyMapper: Mappers.ResponseWithContinuationPolicy
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -428,7 +428,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyList
+      bodyMapper: Mappers.ResponseWithContinuationPolicy
     },
     default: {
       bodyMapper: Mappers.CloudError
