@@ -13,7 +13,7 @@
     "is-buffer": "^2.0.3",
     "long": "^4.0.0",
     "ms-rest-azure": "^2.5.9",
-    "rhea-promise": "^0.1.8",
+    "rhea-promise": "amarzavery/rhea-promise#event",
     "tslib": "^1.9.3"
   },
   "devDependencies": {

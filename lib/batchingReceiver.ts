@@ -5,7 +5,7 @@ import * as log from "./log";
 import { Func, Constants, translate, MessagingError } from "@azure/amqp-common";
 import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents } from "rhea-promise";
 import { ServiceBusMessage } from "./serviceBusMessage";
-import { MessageReceiver, ReceiveOptions, ReceiverType } from "./messageReceiver";
+import { MessageReceiver, ReceiveOptions, ReceiverType, PromiseLike } from "./messageReceiver";
 import { ClientEntityContext } from "./clientEntityContext";
 
 /**
@@ -62,6 +62,7 @@ export class BatchingReceiver extends MessageReceiver {
       let onReceiveClose: OnAmqpEvent;
       let onSessionError: OnAmqpEvent;
       let onSessionClose: OnAmqpEvent;
+      let onSettled: OnAmqpEvent;
       let waitTimer: any;
       let actionAfterWaitTimeout: Func<void, void>;
       const resetCreditWindow = () => {
@@ -164,6 +165,31 @@ export class BatchingReceiver extends MessageReceiver {
         reject(error);
       };
 
+      onSettled = async (context: EventContext) => {
+        const connectionId = this._context.namespace.connectionId;
+        const delivery = context.delivery;
+        if (delivery) {
+          const id = delivery.id;
+          const state = delivery.remote_state;
+          const settled = delivery.remote_settled;
+          log.receiver("[%s] Delivery with id %d, remote_settled: %s, remote_state: %o has been " +
+            "received.", connectionId, id, settled, state && state.error ? state.error : state);
+          if (settled && this._deliveryDispositionMap.has(id)) {
+            const promise = this._deliveryDispositionMap.get(id) as PromiseLike;
+            log.receiver("[%s] Found the delivery with id %d in the map.", connectionId, id);
+            const deleteResult = this._deliveryDispositionMap.delete(id);
+            log.receiver("[%s] Successfully deleted the delivery with id %d from the map.",
+              connectionId, id, deleteResult);
+            if (state && state.error && (state.error.condition || state.error.description)) {
+              const error = translate(state.error);
+              return promise.reject(error);
+            }
+
+            return promise.resolve();
+          }
+        }
+      };
+
       const addCreditAndSetTimer = (reuse?: boolean) => {
         log.batching("[%s] Receiver '%s', adding credit for receiving %d messages.",
           this._context.namespace.connectionId, this.name, maxMessageCount);
@@ -190,7 +216,8 @@ export class BatchingReceiver extends MessageReceiver {
           onError: onReceiveError,
           onClose: onReceiveClose,
           onSessionError: onSessionError,
-          onSessionClose: onSessionClose
+          onSessionClose: onSessionClose,
+          onSettled: onSettled
         });
         this._init(rcvrOptions).then(() => addCreditAndSetTimer()).catch(reject);
       } else {

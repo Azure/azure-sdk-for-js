@@ -13,7 +13,7 @@ let ns: Namespace;
 async function main(): Promise<void> {
   ns = Namespace.createFromConnectionString(str);
   const client = ns.createQueueClient(path);
-  await client.send({ body: "Hello sb world!!" });
+  await client.send({ body: "Hello sb world!!" + new Date().toString() });
   console.log("***********Created sender and sent the message...");
 }
 

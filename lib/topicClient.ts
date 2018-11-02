@@ -59,7 +59,7 @@ export class TopicClient extends Client {
    */
   async send(data: SendableMessageInfo): Promise<Delivery> {
     const sender = MessageSender.create(this._context);
-    return await sender.send(data);
+    return sender.send(data);
   }
 
   /**
@@ -73,7 +73,7 @@ export class TopicClient extends Client {
    */
   async sendBatch(datas: SendableMessageInfo[]): Promise<Delivery> {
     const sender = MessageSender.create(this._context);
-    return await sender.sendBatch(datas);
+    return sender.sendBatch(datas);
   }
 
   /**
@@ -112,7 +112,7 @@ export class TopicClient extends Client {
    * `Long.fromString("result");`. This will ensure that precision is preserved.
    */
   async scheduleMessages(messages: ScheduleMessage[]): Promise<Long[]> {
-    return await this._context.managementClient!.scheduleMessages(messages);
+    return this._context.managementClient!.scheduleMessages(messages);
   }
 
   /**
@@ -121,7 +121,7 @@ export class TopicClient extends Client {
    * @returns Promise<void>
    */
   async cancelScheduledMessage(sequenceNumber: Long): Promise<void> {
-    return await this._context.managementClient!.cancelScheduledMessages([sequenceNumber]);
+    return this._context.managementClient!.cancelScheduledMessages([sequenceNumber]);
   }
 
   /**
@@ -130,6 +130,6 @@ export class TopicClient extends Client {
    * @returns Promise<void>
    */
   async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
-    return await this._context.managementClient!.cancelScheduledMessages(sequenceNumbers);
+    return this._context.managementClient!.cancelScheduledMessages(sequenceNumbers);
   }
 }

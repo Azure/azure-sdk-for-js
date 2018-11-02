@@ -20,8 +20,8 @@ async function main(): Promise<void> {
     console.log("### Actual message:", brokeredMessage.body ? brokeredMessage.body.toString() : null);
     const sequenceNumber = brokeredMessage.sequenceNumber!;
     console.log(">>>>>> SequenceNumber: %d", sequenceNumber.toNumber());
-    brokeredMessage.defer();
-    console.log(">>>>> Deferred message.");
+    const result = await brokeredMessage.defer();
+    console.log(">>>>> Deferred message result: ", result);
     await delay(2000);
     const msg = await client.receiveDeferredMessage(sequenceNumber);
     console.log(">>>>> Received deferred Message: %o", msg);

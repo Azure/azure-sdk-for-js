@@ -13,7 +13,7 @@ export {
   ServiceBusMessageAnnotations, DeadLetterOptions
 } from "./serviceBusMessage";
 export { ReceiveHandler, MessageHandlerOptions } from "./streamingReceiver";
-export { ReceiveOptions, OnError, OnMessage, ReceiveMode } from "./messageReceiver";
+export { OnError, OnMessage, ReceiveMode } from "./messageReceiver";
 export { QueueClientOptions, QueueClient } from "./queueClient";
 export { Namespace, NamespaceOptions } from "./namespace";
 export { TopicClient } from "./topicClient";

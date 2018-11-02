@@ -8,7 +8,8 @@ import {
 import { Constants, Dictionary, AmqpMessage } from "@azure/amqp-common";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
-import { DispositionStatus } from './managementClient';
+import { DispositionStatus } from "./managementClient";
+import { DispositionType } from "./messageReceiver";
 
 /**
  * Describes the delivery annotations for ServiceBus.
@@ -804,10 +805,15 @@ export class ServiceBusMessage implements ReceivedMessage {
    */
   async complete(): Promise<void> {
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
-      return await this._context.managementClient!.updateDispositionStatus([this.lockToken!],
+      return this._context.managementClient!.updateDispositionStatus([this.lockToken!],
         DispositionStatus.completed);
     }
-    return this._delivery.accept();
+    const receiver = this._context.getReceiver(this._delivery.link.name);
+    if (receiver) {
+      return receiver.disposeMessage(this._delivery, DispositionType.complete);
+    } else {
+      throw new Error(`Cannot find the receiver with name '${this._delivery.link.name}'.`);
+    }
   }
   /**
    * Abandons a message using it's lock token. This will make the message available again for
@@ -819,13 +825,16 @@ export class ServiceBusMessage implements ReceivedMessage {
   async abandon(propertiesToModify?: Dictionary<any>): Promise<void> {
     // TODO: Figure out a mechanism to convert specified properties to message_annotations.
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
-      return await this._context.managementClient!.updateDispositionStatus([this.lockToken!],
+      return this._context.managementClient!.updateDispositionStatus([this.lockToken!],
         DispositionStatus.abandoned, { propertiesToModify: propertiesToModify });
     }
-    return this._delivery.modified({
-      message_annotations: propertiesToModify,
-      undeliverable_here: false
-    });
+    const receiver = this._context.getReceiver(this._delivery.link.name);
+    if (receiver) {
+      return receiver.disposeMessage(this._delivery, DispositionType.abandon,
+        { propertiesToModify: propertiesToModify });
+    } else {
+      throw new Error(`Cannot find the receiver with name '${this._delivery.link.name}'.`);
+    }
   }
 
   /**
@@ -833,25 +842,28 @@ export class ServiceBusMessage implements ReceivedMessage {
    * this message again in the future, you will need to save the `sequenceNumber` and receive it
    * using `receiveDeferredMessage(sequenceNumber)`. Deferring messages does not impact message's
    * expiration, meaning that deferred messages can still expire.
-   * @param {Dictionary<any>} propertiesToModify The properties of the message to modify while
+   * @param [propertiesToModify] The properties of the message to modify while
    * deferring the message
-   * @returns Promise<Long> sequenceNumber of the message that was deferred.
+   * @returns Promise<void>
    */
   async defer(propertiesToModify?: Dictionary<any>): Promise<void> {
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
-      return await this._context.managementClient!.updateDispositionStatus([this.lockToken!],
+      return this._context.managementClient!.updateDispositionStatus([this.lockToken!],
         DispositionStatus.defered, { propertiesToModify: propertiesToModify });
     }
-    return this._delivery.modified({
-      message_annotations: propertiesToModify,
-      undeliverable_here: true
-    });
+    const receiver = this._context.getReceiver(this._delivery.link.name);
+    if (receiver) {
+      return receiver.disposeMessage(this._delivery, DispositionType.defer,
+        { propertiesToModify: propertiesToModify });
+    } else {
+      throw new Error(`Cannot find the receiver with name '${this._delivery.link.name}'.`);
+    }
   }
 
   /**
    * Moves the message to the deadletter sub-queue.
-   * @param {DeadLetterOptions} [options] The DeadLetter options that can be provided while rejecting
-   * the message.
+   * @param [options] The DeadLetter options that can be provided while
+   * rejecting the message.
    * @returns Promise<void>
    */
   async deadLetter(options?: DeadLetterOptions): Promise<void> {
@@ -863,12 +875,18 @@ export class ServiceBusMessage implements ReceivedMessage {
       };
     }
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
-      return await this._context.managementClient!.updateDispositionStatus([this.lockToken!],
+      return this._context.managementClient!.updateDispositionStatus([this.lockToken!],
         DispositionStatus.suspended, {
           deadLetterReason: error.condition,
           deadLetterDescription: error.description
         });
     }
-    return this._delivery.reject(error);
+    const receiver = this._context.getReceiver(this._delivery.link.name);
+    if (receiver) {
+      return receiver.disposeMessage(this._delivery, DispositionType.deadletter,
+        { error: error });
+    } else {
+      throw new Error(`Cannot find the receiver with name '${this._delivery.link.name}'.`);
+    }
   }
 }

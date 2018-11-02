@@ -1,29 +1,57 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as log from "./log";
-import { LinkEntity } from "./linkEntity";
-import { ClientEntityContext } from "./clientEntityContext";
 import {
   translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig,
   ConditionErrorNameMapper
 } from "@azure/amqp-common";
-import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions, AmqpError } from "rhea-promise";
+import {
+  Receiver, OnAmqpEvent, EventContext, ReceiverOptions, AmqpError, Delivery, Dictionary
+} from "rhea-promise";
+import * as log from "./log";
+import { LinkEntity } from "./linkEntity";
+import { ClientEntityContext } from "./clientEntityContext";
 import { ServiceBusMessage } from "./serviceBusMessage";
 import { getUniqueName, calculateRenewAfterDuration } from "./util/utils";
 import { MessageHandlerOptions } from "./streamingReceiver";
 
 /**
- * @interface CreateReceiverOptions
  * @ignore
  */
 interface CreateReceiverOptions {
+  onSettled: OnAmqpEvent;
   onMessage: OnAmqpEvent;
   onError: OnAmqpEvent;
   onClose: OnAmqpEvent;
   onSessionError: OnAmqpEvent;
   onSessionClose: OnAmqpEvent;
   newName?: boolean;
+}
+
+/**
+ * @ignore
+ */
+export interface PromiseLike {
+  resolve: (value?: any) => void;
+  reject: (reason?: any) => void;
+}
+
+/**
+ * @ignore
+ */
+export interface DispositionOptions {
+  propertiesToModify?: Dictionary<any>;
+  error?: AmqpError;
+}
+
+/**
+ * @ignore
+ */
+export enum DispositionType {
+  complete = "complete",
+  deadletter = "deadletter",
+  abandon = "abandon",
+  defer = "defer"
 }
 
 /**
@@ -43,11 +71,17 @@ export enum ReceiveMode {
   receiveAndDelete = 2
 }
 
+/**
+ * @ignore
+ */
 export enum ReceiverType {
   batching = "batching",
   streaming = "streaming"
 }
 
+/**
+ * @ignore
+ */
 export interface ReceiveOptions extends MessageHandlerOptions {
   /**
    * @property {number} [receiveMode] The mode in which messages should be received.
@@ -115,6 +149,12 @@ export class MessageReceiver extends LinkEntity {
    */
   protected _receiver?: Receiver;
   /**
+   * @property {Map<number, Promise<any>>} _deliveryDispositionMap Maintains a map of deliveries that
+   * are being actively disposed. It acts as a store for correlating the responses received for
+   * active dispositions.
+   */
+  protected _deliveryDispositionMap: Map<number, PromiseLike> = new Map<number, PromiseLike>();
+  /**
    * @property {OnMessage} _onMessage The message handler provided by the user that will be wrapped
    * inside _onAmqpMessage.
    * @protected
@@ -151,11 +191,17 @@ export class MessageReceiver extends LinkEntity {
    */
   protected _onSessionClose: OnAmqpEvent;
   /**
-   * @property {OnMessage} _onMessage The message handler that will be set as the handler on the
+   * @property {OnAmqpEvent} _onMessage The message handler that will be set as the handler on the
    * underlying rhea receiver for the "receiver_error" event.
    * @protected
    */
   protected _onAmqpError: OnAmqpEvent;
+  /**
+   * @property {OnAmqpEvent} _onSettled The message handler that will be set as the handler on the
+   * underlying rhea receiver for the "settled" event.
+   * @protected
+   */
+  protected _onSettled: OnAmqpEvent;
 
   constructor(context: ClientEntityContext, receiverType: ReceiverType, options?: ReceiveOptions) {
     super(context.entityPath, context, {
@@ -172,17 +218,52 @@ export class MessageReceiver extends LinkEntity {
       ? options.maxAutoRenewDurationInSeconds
       : 300;
     this.autoRenewLock = this.maxAutoRenewDurationInSeconds > 0 && this.receiveMode === ReceiveMode.peekLock;
+    // setting all the handlers
+    this._onSettled = async (context: EventContext) => {
+      const connectionId = this._context.namespace.connectionId;
+      const delivery = context.delivery;
+      if (delivery) {
+        const id = delivery.id;
+        const state = delivery.remote_state;
+        const settled = delivery.remote_settled;
+        log.receiver("[%s] Delivery with id %d, remote_settled: %s, remote_state: %o has been " +
+          "received.", connectionId, id, settled, state && state.error ? state.error : state);
+        if (settled && this._deliveryDispositionMap.has(id)) {
+          const promise = this._deliveryDispositionMap.get(id) as PromiseLike;
+          log.receiver("[%s] Found the delivery with id %d in the map.", connectionId, id);
+          const deleteResult = this._deliveryDispositionMap.delete(id);
+          log.receiver("[%s] Successfully deleted the delivery with id %d from the map.",
+            connectionId, id, deleteResult);
+          if (state && state.error && (state.error.condition || state.error.description)) {
+            const error = translate(state.error);
+            return promise.reject(error);
+          }
+
+          return promise.resolve();
+        }
+      }
+    };
+
     this._onAmqpMessage = async (context: EventContext) => {
       const connectionId = this._context.namespace.connectionId;
       const bMessage: ServiceBusMessage = new ServiceBusMessage(this._context, context.message!,
         context.delivery!);
-      let timer: NodeJS.Timer | undefined = undefined;
-      let continueExecution: boolean = true;
+      let timer: any = undefined;
+      let continueExecution: boolean = false;
+      const clearTimerAndStopExecution = () => {
+        if (this.autoRenewLock) {
+          log.receiver("[%s] Stopping lock renewal for message with id '%s'.", connectionId,
+            bMessage.messageId);
+          continueExecution = false;
+          clearTimeout(timer);
+        }
+      };
       if (this.autoRenewLock) {
         // - We need to renew locks before they expire by looking at bMessage.lockedUntilUtc.
         // - This autorenewal needs to happen **NO MORE** than maxAutoRenewDurationInSeconds
         // - We should be able to clear the renewal timer when the user's message handler
         // is done (whether it succeeds or fails).
+        continueExecution = true;
         log.receiver("[%s] message with id '%s' is locked until %s.",
           connectionId, bMessage.messageId, bMessage.lockedUntilUtc!.toString());
         const totalAutoLockRenewDuration = Date.now() + (this.maxAutoRenewDurationInSeconds * 1000);
@@ -190,6 +271,10 @@ export class MessageReceiver extends LinkEntity {
           connectionId, bMessage.messageId, new Date(totalAutoLockRenewDuration).toString());
         const autoRenewLockTask = (): void => {
           if (Date.now() < totalAutoLockRenewDuration && continueExecution) {
+            // TODO: We can run into problems with clock skew between the client and the server.
+            // It would be better to calculate the duration based on the "lockDuration" property
+            // of the queue. However, we do not have the management plane of the client ready for
+            // now. Hence we rely on the lockedUntilUtc property on the message set by ServiceBus.
             const amount = calculateRenewAfterDuration(bMessage.lockedUntilUtc!);
             log.receiver("[%s] Sleeping for %d milliseconds while renewing the lock for message " +
               "with id '%s' is: ", connectionId, amount, bMessage.messageId);
@@ -200,14 +285,17 @@ export class MessageReceiver extends LinkEntity {
                 await this._context.managementClient!.renewLock(bMessage);
                 log.receiver("[%s] Successfully renewed the lock for message with id '%s'.",
                   connectionId, bMessage.messageId);
+                log.receiver("[%s] Calling the autorenewlock task again for message with id '%s'.",
+                  connectionId, bMessage.messageId);
+                autoRenewLockTask();
               } catch (err) {
                 log.error("[%s] An error occured while auto renewing the message lock '%s' for " +
                   "message with id '%s': %O.", connectionId, bMessage.lockToken,
                   bMessage.messageId, err);
+                // Let the user know that there was an error renewing the message lock.
+                this._onError!(err);
               }
-              log.receiver("[%s] Calling the autorenewlock task again for message with id '%s'.",
-                connectionId, bMessage.messageId);
-              autoRenewLockTask();
+
             }, amount);
           }
         };
@@ -216,17 +304,11 @@ export class MessageReceiver extends LinkEntity {
       }
       try {
         await this._onMessage(bMessage);
-        continueExecution = false;
-        clearTimeout(timer);
-        log.receiver("[%s] Stopping lock renewal for message with id '%s'.", connectionId,
-          bMessage.messageId);
+        clearTimerAndStopExecution();
       } catch (err) {
         // Do not want renewLock to happen unnecessarily, while abandoning the message. Hence,
         // doing this here. Otherwise, this should be done in finally.
-        continueExecution = false;
-        clearTimeout(timer);
-        log.receiver("[%s] Stopping lock renewal for message with id '%s'.", connectionId,
-          bMessage.messageId);
+        clearTimerAndStopExecution();
         const error = translate(err);
         // Nothing much to do if user's message handler throws. Let us try abandoning the message.
         if (error.name !== ConditionErrorNameMapper["com.microsoft:message-lock-lost"] &&
@@ -412,6 +494,7 @@ export class MessageReceiver extends LinkEntity {
           onClose: this._onAmqpClose,
           onSessionError: this._onSessionError,
           onSessionClose: this._onSessionClose,
+          onSettled: this._onSettled,
           newName: true // provide a new name to the link while re-connecting it. This ensures that
           // the service does not send an error stating that the link is still open.
         };
@@ -443,6 +526,30 @@ export class MessageReceiver extends LinkEntity {
       this._deleteFromCache();
       await this._closeLink(receiverLink);
     }
+  }
+
+  async disposeMessage(delivery: Delivery, operation: DispositionType, options?: DispositionOptions): Promise<any> {
+    return new Promise((resolve, reject) => {
+      if (!options) options = {};
+      if (operation.match(/^(complete|abandon|defer|deadletter)$/) == undefined) {
+        return reject(new Error(`operation: '${operation}' is not a valid operation.`));
+      } else if (operation === DispositionType.complete) {
+        delivery.accept();
+      } else if (operation === DispositionType.abandon) {
+        delivery.modified({
+          message_annotations: options.propertiesToModify,
+          undeliverable_here: false
+        });
+      } else if (operation === DispositionType.defer) {
+        delivery.modified({
+          message_annotations: options.propertiesToModify,
+          undeliverable_here: true
+        });
+      } else if (operation === DispositionType.deadletter) {
+        delivery.reject(options.error || {});
+      }
+      this._deliveryDispositionMap.set(delivery.id, { resolve: resolve, reject: reject });
+    });
   }
 
   /**
@@ -489,6 +596,7 @@ export class MessageReceiver extends LinkEntity {
             onClose: this._onAmqpClose,
             onSessionError: this._onSessionError,
             onSessionClose: this._onSessionClose,
+            onSettled: this._onSettled
           });
         }
         log.error("[%s] Trying to create receiver '%s' with options %O",
@@ -545,7 +653,8 @@ export class MessageReceiver extends LinkEntity {
       onError: options.onError || this._onAmqpError,
       onClose: options.onClose || this._onAmqpClose,
       onSessionError: options.onSessionError || this._onSessionError,
-      onSessionClose: options.onSessionClose || this._onSessionClose
+      onSessionClose: options.onSessionClose || this._onSessionClose,
+      onSettled: options.onSettled || this._onSettled
     };
     return rcvrOptions;
   }

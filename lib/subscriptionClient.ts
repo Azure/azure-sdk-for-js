@@ -3,7 +3,7 @@
 
 import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
-import { ReceiveOptions, OnError, OnMessage } from ".";
+import { ReceiveOptions, OnError, OnMessage } from "./messageReceiver";
 import { StreamingReceiver, ReceiveHandler, MessageHandlerOptions } from "./streamingReceiver";
 import { BatchingReceiver } from "./batchingReceiver";
 import { ServiceBusMessage, ReceivedMessageInfo } from "./serviceBusMessage";
@@ -167,7 +167,7 @@ export class SubscriptionClient extends Client {
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
-    return await this._context.managementClient!.peek(messageCount);
+    return this._context.managementClient!.peek(messageCount);
   }
 
   /**
@@ -177,7 +177,7 @@ export class SubscriptionClient extends Client {
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peekBySequenceNumber(fromSequenceNumber: Long, messageCount?: number): Promise<ReceivedMessageInfo[]> {
-    return await this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, messageCount);
+    return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, messageCount);
   }
 
   /**
@@ -194,7 +194,7 @@ export class SubscriptionClient extends Client {
    * @returns Promise<Date> - New lock token expiry date and time in UTC format.
    */
   async renewLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date> {
-    return await this._context.managementClient!.renewLock(lockTokenOrMessage);
+    return this._context.managementClient!.renewLock(lockTokenOrMessage);
   }
 
   /**
@@ -209,7 +209,7 @@ export class SubscriptionClient extends Client {
     if (this.receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
-    return await this._context.managementClient!.receiveDeferredMessage(sequenceNumber,
+    return this._context.managementClient!.receiveDeferredMessage(sequenceNumber,
       this.receiveMode);
   }
 
@@ -225,7 +225,7 @@ export class SubscriptionClient extends Client {
     if (this.receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
-    return await this._context.managementClient!.receiveDeferredMessages(sequenceNumbers,
+    return this._context.managementClient!.receiveDeferredMessages(sequenceNumbers,
       this.receiveMode);
   }
 }
