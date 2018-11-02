@@ -89,6 +89,7 @@ describe("NodeJS Incremental Feed Tests using 'a_im' and 'IfNoneMatch' options",
 
       assert.notDeepEqual(result, document, "actual should not match with expected value.");
       delete result._lsn;
+      delete result._metadata;
       assert.deepEqual(result, document, "actual value doesn't match with expected value.");
 
       options.accessCondition.condition = headers.etag;

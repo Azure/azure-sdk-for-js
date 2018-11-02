@@ -133,7 +133,7 @@ export class CosmosClient {
    *
    * The url may contain a region suffix (e.g. "-eastus") if we're using location specific endpoints.
    */
-  public getReadEndpoitn(): Promise<string> {
+  public getReadEndpoint(): Promise<string> {
     return this.clientContext.getReadEndpoint();
   }
 
