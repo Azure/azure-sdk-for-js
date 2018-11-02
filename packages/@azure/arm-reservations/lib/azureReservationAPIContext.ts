@@ -16,14 +16,8 @@ const packageName = "@azure/arm-reservations";
 const packageVersion = "1.0.0-preview";
 
 export class AzureReservationAPIContext extends msRestAzure.AzureServiceClient {
-
   credentials: msRest.ServiceClientCredentials;
-
-  apiVersion: string;
-
-  acceptLanguage: string;
-
-  longRunningOperationRetryTimeout: number;
+  apiVersion?: string;
 
   /**
    * Initializes a new instance of the AzureReservationAPI class.
