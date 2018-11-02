@@ -804,6 +804,8 @@ export class ServiceBusMessage implements ReceivedMessage {
    * @returns Promise<void>.
    */
   async complete(): Promise<void> {
+    log.message("[%s] Completing the message with id '%s'.", this._context.namespace.connectionId,
+      this.messageId);
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
       return this._context.managementClient!.updateDispositionStatus([this.lockToken!],
         DispositionStatus.completed);
@@ -824,6 +826,8 @@ export class ServiceBusMessage implements ReceivedMessage {
    */
   async abandon(propertiesToModify?: Dictionary<any>): Promise<void> {
     // TODO: Figure out a mechanism to convert specified properties to message_annotations.
+    log.message("[%s] Abandoning the message with id '%s'.", this._context.namespace.connectionId,
+      this.messageId);
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
       return this._context.managementClient!.updateDispositionStatus([this.lockToken!],
         DispositionStatus.abandoned, { propertiesToModify: propertiesToModify });
@@ -847,6 +851,8 @@ export class ServiceBusMessage implements ReceivedMessage {
    * @returns Promise<void>
    */
   async defer(propertiesToModify?: Dictionary<any>): Promise<void> {
+    log.message("[%s] Deferring the message with id '%s'.", this._context.namespace.connectionId,
+      this.messageId);
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
       return this._context.managementClient!.updateDispositionStatus([this.lockToken!],
         DispositionStatus.defered, { propertiesToModify: propertiesToModify });
@@ -874,6 +880,8 @@ export class ServiceBusMessage implements ReceivedMessage {
         description: options.deadLetterErrorDescription
       };
     }
+    log.message("[%s] Deadlettering the message with id '%s'.", this._context.namespace.connectionId,
+      this.messageId);
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
       return this._context.managementClient!.updateDispositionStatus([this.lockToken!],
         DispositionStatus.suspended, {

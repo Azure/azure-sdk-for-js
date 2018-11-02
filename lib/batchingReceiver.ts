@@ -176,7 +176,9 @@ export class BatchingReceiver extends MessageReceiver {
             "received.", connectionId, id, settled, state && state.error ? state.error : state);
           if (settled && this._deliveryDispositionMap.has(id)) {
             const promise = this._deliveryDispositionMap.get(id) as PromiseLike;
-            log.receiver("[%s] Found the delivery with id %d in the map.", connectionId, id);
+            clearTimeout(promise.timer);
+            log.receiver("[%s] Found the delivery with id %d in the map and cleared the timer.",
+              connectionId, id);
             const deleteResult = this._deliveryDispositionMap.delete(id);
             log.receiver("[%s] Successfully deleted the delivery with id %d from the map.",
               connectionId, id, deleteResult);

@@ -14,6 +14,7 @@ import { ClientEntityContext } from "./clientEntityContext";
 import { ServiceBusMessage } from "./serviceBusMessage";
 import { getUniqueName, calculateRenewAfterDuration } from "./util/utils";
 import { MessageHandlerOptions } from "./streamingReceiver";
+import { messageDispositionTimeout } from "./util/constants";
 
 /**
  * @ignore
@@ -34,6 +35,7 @@ interface CreateReceiverOptions {
 export interface PromiseLike {
   resolve: (value?: any) => void;
   reject: (reason?: any) => void;
+  timer: NodeJS.Timer;
 }
 
 /**
@@ -230,7 +232,9 @@ export class MessageReceiver extends LinkEntity {
           "received.", connectionId, id, settled, state && state.error ? state.error : state);
         if (settled && this._deliveryDispositionMap.has(id)) {
           const promise = this._deliveryDispositionMap.get(id) as PromiseLike;
-          log.receiver("[%s] Found the delivery with id %d in the map.", connectionId, id);
+          clearTimeout(promise.timer);
+          log.receiver("[%s] Found the delivery with id %d in the map and cleared the timer.",
+            connectionId, id);
           const deleteResult = this._deliveryDispositionMap.delete(id);
           log.receiver("[%s] Successfully deleted the delivery with id %d from the map.",
             connectionId, id, deleteResult);
@@ -528,12 +532,31 @@ export class MessageReceiver extends LinkEntity {
     }
   }
 
+  /**
+   * Disposes the message with the specified disposition.
+   * @param delivery Delivery associated with the message.
+   * @param operation The disposition type.
+   * @param [options] optional parameters that can be provided while disposing the message.
+   */
   async disposeMessage(delivery: Delivery, operation: DispositionType, options?: DispositionOptions): Promise<any> {
     return new Promise((resolve, reject) => {
       if (!options) options = {};
       if (operation.match(/^(complete|abandon|defer|deadletter)$/) == undefined) {
         return reject(new Error(`operation: '${operation}' is not a valid operation.`));
-      } else if (operation === DispositionType.complete) {
+      }
+      const timer = setTimeout(() => {
+        this._deliveryDispositionMap.delete(delivery.id);
+        log.receiver("[%s] Disposition for delivery id: %d, did not complete in %d milliseconds. " +
+          "Hence resolving the promise.", this._context.namespace.connectionId, delivery.id,
+          messageDispositionTimeout);
+        return resolve();
+      }, messageDispositionTimeout);
+      this._deliveryDispositionMap.set(delivery.id, {
+        resolve: resolve,
+        reject: reject,
+        timer: timer
+      });
+      if (operation === DispositionType.complete) {
         delivery.accept();
       } else if (operation === DispositionType.abandon) {
         delivery.modified({
@@ -548,7 +571,6 @@ export class MessageReceiver extends LinkEntity {
       } else if (operation === DispositionType.deadletter) {
         delivery.reject(options.error || {});
       }
-      this._deliveryDispositionMap.set(delivery.id, { resolve: resolve, reject: reject });
     });
   }
 
