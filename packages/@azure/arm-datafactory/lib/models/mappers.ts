@@ -10786,7 +10786,9 @@ export const DeleteActivity: msRest.CompositeMapper = {
         }
       },
       dataset: {
+        required: true,
         serializedName: "typeProperties.dataset",
+        defaultValue: {},
         type: {
           name: "Composite",
           className: "DatasetReference"

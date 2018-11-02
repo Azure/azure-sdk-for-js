@@ -12396,9 +12396,9 @@ export interface DeleteActivity {
    */
   recursive: boolean;
   /**
-   * @member {DatasetReference} [dataset] Delete activity dataset reference.
+   * @member {DatasetReference} dataset Delete activity dataset reference.
    */
-  dataset?: DatasetReference;
+  dataset: DatasetReference;
 }
 
 /**
