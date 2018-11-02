@@ -38,6 +38,11 @@ export class DomainservicesManagementClientContext extends msRestAzure.AzureServ
     if (!options) {
       options = {};
     }
+    if(!options.userAgent) {
+      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
+      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
+    }
+
     super(credentials, options);
 
     this.apiVersion = '2017-06-01';
@@ -48,7 +53,6 @@ export class DomainservicesManagementClientContext extends msRestAzure.AzureServ
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
 
-    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
