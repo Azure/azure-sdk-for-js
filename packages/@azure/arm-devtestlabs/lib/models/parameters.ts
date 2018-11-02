@@ -25,7 +25,7 @@ export const apiVersion: msRest.OperationQueryParameter = {
   mapper: {
     required: true,
     serializedName: "api-version",
-    defaultValue: '2016-05-15',
+    defaultValue: '2018-09-15',
     type: {
       name: "String"
     }
@@ -133,6 +133,16 @@ export const resourceGroupName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "resourceGroupName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const serviceFabricName: msRest.OperationURLParameter = {
+  parameterPath: "serviceFabricName",
+  mapper: {
+    required: true,
+    serializedName: "serviceFabricName",
     type: {
       name: "String"
     }
