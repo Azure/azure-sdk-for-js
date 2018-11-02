@@ -529,7 +529,7 @@ export interface ParameterSpecification {
 /**
  * Contains the possible cases for LinkedService.
  */
-export type LinkedServiceUnion = LinkedService | ResponsysLinkedService | AzureDatabricksLinkedService | AzureDataLakeAnalyticsLinkedService | HDInsightOnDemandLinkedService | SalesforceMarketingCloudLinkedService | NetezzaLinkedService | VerticaLinkedService | ZohoLinkedService | XeroLinkedService | SquareLinkedService | SparkLinkedService | ShopifyLinkedService | ServiceNowLinkedService | QuickBooksLinkedService | PrestoLinkedService | PhoenixLinkedService | PaypalLinkedService | MarketoLinkedService | MariaDBLinkedService | MagentoLinkedService | JiraLinkedService | ImpalaLinkedService | HubspotLinkedService | HiveLinkedService | HBaseLinkedService | GreenplumLinkedService | GoogleBigQueryLinkedService | GoogleAdWordsLinkedService | EloquaLinkedService | DrillLinkedService | CouchbaseLinkedService | ConcurLinkedService | AzurePostgreSqlLinkedService | AmazonMWSLinkedService | SapHanaLinkedService | SapBWLinkedService | SftpServerLinkedService | FtpServerLinkedService | RestServiceLinkedService | HttpLinkedService | AzureSearchLinkedService | CustomDataSourceLinkedService | AmazonRedshiftLinkedService | AmazonS3LinkedService | SapEccLinkedService | SapCloudForCustomerLinkedService | SalesforceLinkedService | AzureDataLakeStoreLinkedService | MongoDbLinkedService | CassandraLinkedService | WebLinkedService | ODataLinkedService | HdfsLinkedService | OdbcLinkedService | AzureMLLinkedService | TeradataLinkedService | Db2LinkedService | SybaseLinkedService | PostgreSqlLinkedService | MySqlLinkedService | AzureMySqlLinkedService | OracleServiceCloudLinkedService | OracleLinkedService | FileServerLinkedService | HDInsightLinkedService | DynamicsAXLinkedService | DynamicsLinkedService | CosmosDbLinkedService | AzureKeyVaultLinkedService | AzureBatchLinkedService | AzureSqlDatabaseLinkedService | SqlServerLinkedService | AzureSqlDWLinkedService | AzureTableStorageLinkedService | AzureBlobStorageLinkedService | AzureStorageLinkedService;
+export type LinkedServiceUnion = LinkedService | ResponsysLinkedService | AzureDatabricksLinkedService | AzureDataLakeAnalyticsLinkedService | HDInsightOnDemandLinkedService | SalesforceMarketingCloudLinkedService | NetezzaLinkedService | VerticaLinkedService | ZohoLinkedService | XeroLinkedService | SquareLinkedService | SparkLinkedService | ShopifyLinkedService | ServiceNowLinkedService | QuickBooksLinkedService | PrestoLinkedService | PhoenixLinkedService | PaypalLinkedService | MarketoLinkedService | MariaDBLinkedService | MagentoLinkedService | JiraLinkedService | ImpalaLinkedService | HubspotLinkedService | HiveLinkedService | HBaseLinkedService | GreenplumLinkedService | GoogleBigQueryLinkedService | EloquaLinkedService | DrillLinkedService | CouchbaseLinkedService | ConcurLinkedService | AzurePostgreSqlLinkedService | AmazonMWSLinkedService | SapHanaLinkedService | SapBWLinkedService | SftpServerLinkedService | FtpServerLinkedService | HttpLinkedService | AzureSearchLinkedService | CustomDataSourceLinkedService | AmazonRedshiftLinkedService | AmazonS3LinkedService | SapEccLinkedService | SapCloudForCustomerLinkedService | SalesforceLinkedService | AzureDataLakeStoreLinkedService | MongoDbLinkedService | CassandraLinkedService | WebLinkedService | ODataLinkedService | HdfsLinkedService | OdbcLinkedService | AzureMLLinkedService | TeradataLinkedService | Db2LinkedService | SybaseLinkedService | PostgreSqlLinkedService | MySqlLinkedService | AzureMySqlLinkedService | OracleLinkedService | FileServerLinkedService | HDInsightLinkedService | DynamicsLinkedService | CosmosDbLinkedService | AzureKeyVaultLinkedService | AzureBatchLinkedService | AzureSqlDatabaseLinkedService | SqlServerLinkedService | AzureSqlDWLinkedService | AzureTableStorageLinkedService | AzureBlobStorageLinkedService | AzureStorageLinkedService;
 
 /**
  * @interface
@@ -601,7 +601,7 @@ export interface DatasetFolder {
 /**
  * Contains the possible cases for Dataset.
  */
-export type DatasetUnion = Dataset | ResponsysObjectDataset | SalesforceMarketingCloudObjectDataset | VerticaTableDataset | NetezzaTableDataset | ZohoObjectDataset | XeroObjectDataset | SquareObjectDataset | SparkObjectDataset | ShopifyObjectDataset | ServiceNowObjectDataset | QuickBooksObjectDataset | PrestoObjectDataset | PhoenixObjectDataset | PaypalObjectDataset | MarketoObjectDataset | MariaDBTableDataset | MagentoObjectDataset | JiraObjectDataset | ImpalaObjectDataset | HubspotObjectDataset | HiveObjectDataset | HBaseObjectDataset | GreenplumTableDataset | GoogleBigQueryObjectDataset | GoogleAdWordsObjectDataset | EloquaObjectDataset | DrillTableDataset | CouchbaseTableDataset | ConcurObjectDataset | AzurePostgreSqlTableDataset | AmazonMWSObjectDataset | RestServiceDataset | HttpDataset | AzureSearchIndexDataset | WebTableDataset | SqlServerTableDataset | SapEccResourceDataset | SapCloudForCustomerResourceDataset | SalesforceObjectDataset | RelationalTableDataset | AzureMySqlTableDataset | OracleServiceCloudObjectDataset | OracleTableDataset | ODataResourceDataset | MongoDbCollectionDataset | FileShareDataset | AzureDataLakeStoreDataset | DynamicsAXResourceDataset | DynamicsEntityDataset | DocumentDbCollectionDataset | CustomDataset | CassandraTableDataset | AzureSqlDWTableDataset | AzureSqlTableDataset | AzureTableDataset | AzureBlobDataset | AmazonS3Dataset;
+export type DatasetUnion = Dataset | ResponsysObjectDataset | SalesforceMarketingCloudObjectDataset | VerticaTableDataset | NetezzaTableDataset | ZohoObjectDataset | XeroObjectDataset | SquareObjectDataset | SparkObjectDataset | ShopifyObjectDataset | ServiceNowObjectDataset | QuickBooksObjectDataset | PrestoObjectDataset | PhoenixObjectDataset | PaypalObjectDataset | MarketoObjectDataset | MariaDBTableDataset | MagentoObjectDataset | JiraObjectDataset | ImpalaObjectDataset | HubspotObjectDataset | HiveObjectDataset | HBaseObjectDataset | GreenplumTableDataset | GoogleBigQueryObjectDataset | EloquaObjectDataset | DrillTableDataset | CouchbaseTableDataset | ConcurObjectDataset | AzurePostgreSqlTableDataset | AmazonMWSObjectDataset | HttpDataset | AzureSearchIndexDataset | WebTableDataset | SqlServerTableDataset | SapEccResourceDataset | SapCloudForCustomerResourceDataset | SalesforceObjectDataset | RelationalTableDataset | AzureMySqlTableDataset | OracleTableDataset | ODataResourceDataset | MongoDbCollectionDataset | FileShareDataset | AzureDataLakeStoreDataset | DynamicsEntityDataset | DocumentDbCollectionDataset | CustomDataset | CassandraTableDataset | AzureSqlDWTableDataset | AzureSqlTableDataset | AzureTableDataset | AzureBlobDataset | AmazonS3Dataset;
 
 /**
  * @interface
@@ -4451,100 +4451,6 @@ export interface GoogleBigQueryLinkedService {
 
 /**
  * @interface
- * An interface representing GoogleAdWordsLinkedService.
- * Google Awords service linked service.
- *
- */
-export interface GoogleAdWordsLinkedService {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "GoogleAdWords";
-  /**
-   * @member {IntegrationRuntimeReference} [connectVia] The integration runtime
-   * reference.
-   */
-  connectVia?: IntegrationRuntimeReference;
-  /**
-   * @member {string} [description] Linked service description.
-   */
-  description?: string;
-  /**
-   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
-   * Parameters for linked service.
-   */
-  parameters?: { [propertyName: string]: ParameterSpecification };
-  /**
-   * @member {any[]} [annotations] List of tags that can be used for describing
-   * the Dataset.
-   */
-  annotations?: any[];
-  /**
-   * @member {any} clientCustomerID The Client customer ID of the AdWords
-   * account that you want to fetch report data for.
-   */
-  clientCustomerID: any;
-  /**
-   * @member {SecretBaseUnion} developerToken The developer token associated
-   * with the manager account that you use to grant access to the AdWords API.
-   */
-  developerToken: SecretBaseUnion;
-  /**
-   * @member {GoogleAdWordsAuthenticationType} authenticationType The OAuth 2.0
-   * authentication mechanism used for authentication. ServiceAuthentication
-   * can only be used on self-hosted IR. Possible values include:
-   * 'ServiceAuthentication', 'UserAuthentication'
-   */
-  authenticationType: GoogleAdWordsAuthenticationType;
-  /**
-   * @member {SecretBaseUnion} [refreshToken] The refresh token obtained from
-   * Google for authorizing access to AdWords for UserAuthentication.
-   */
-  refreshToken?: SecretBaseUnion;
-  /**
-   * @member {SecretBaseUnion} [clientId] The client id of the google
-   * application used to acquire the refresh token.
-   */
-  clientId?: SecretBaseUnion;
-  /**
-   * @member {SecretBaseUnion} [clientSecret] The client secret of the google
-   * application used to acquire the refresh token.
-   */
-  clientSecret?: SecretBaseUnion;
-  /**
-   * @member {any} [email] The service account email ID that is used for
-   * ServiceAuthentication and can only be used on self-hosted IR.
-   */
-  email?: any;
-  /**
-   * @member {any} [keyFilePath] The full path to the .p12 key file that is
-   * used to authenticate the service account email address and can only be
-   * used on self-hosted IR.
-   */
-  keyFilePath?: any;
-  /**
-   * @member {any} [trustedCertPath] The full path of the .pem file containing
-   * trusted CA certificates for verifying the server when connecting over SSL.
-   * This property can only be set when using SSL on self-hosted IR. The
-   * default value is the cacerts.pem file installed with the IR.
-   */
-  trustedCertPath?: any;
-  /**
-   * @member {any} [useSystemTrustStore] Specifies whether to use a CA
-   * certificate from the system trust store or from a specified PEM file. The
-   * default value is false.
-   */
-  useSystemTrustStore?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing EloquaLinkedService.
  * Eloqua server linked service.
  *
@@ -5189,91 +5095,6 @@ export interface FtpServerLinkedService {
    * value is true. Type: boolean (or Expression with resultType boolean).
    */
   enableServerCertificateValidation?: any;
-}
-
-/**
- * @interface
- * An interface representing RestServiceLinkedService.
- * Rest Service linked service.
- *
- */
-export interface RestServiceLinkedService {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "RestService";
-  /**
-   * @member {IntegrationRuntimeReference} [connectVia] The integration runtime
-   * reference.
-   */
-  connectVia?: IntegrationRuntimeReference;
-  /**
-   * @member {string} [description] Linked service description.
-   */
-  description?: string;
-  /**
-   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
-   * Parameters for linked service.
-   */
-  parameters?: { [propertyName: string]: ParameterSpecification };
-  /**
-   * @member {any[]} [annotations] List of tags that can be used for describing
-   * the Dataset.
-   */
-  annotations?: any[];
-  /**
-   * @member {any} url The base URL of the REST service.
-   */
-  url: any;
-  /**
-   * @member {any} [enableServerCertificateValidation] Whether to validate
-   * server side SSL certificate when connecting to the endpoint.The default
-   * value is true. Type: boolean (or Expression with resultType boolean).
-   */
-  enableServerCertificateValidation?: any;
-  /**
-   * @member {RestServiceAuthenticationType} authenticationType Type of
-   * authentication used to connect to the REST service. Possible values
-   * include: 'Anonymous', 'Basic', 'AadServicePrincial',
-   * 'ManagedServiceIdentity'
-   */
-  authenticationType: RestServiceAuthenticationType;
-  /**
-   * @member {any} [userName] The user name used in Basic authentication type.
-   */
-  userName?: any;
-  /**
-   * @member {SecretBaseUnion} [password] The password used in Basic
-   * authentication type.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {any} [servicePrincipalId] The application’s client ID used in
-   * AadServicePrincipal authentication type.
-   */
-  servicePrincipalId?: any;
-  /**
-   * @member {SecretBaseUnion} [servicePrincipalKey] The application’s key used
-   * in AadServicePrincipal authentication type.
-   */
-  servicePrincipalKey?: SecretBaseUnion;
-  /**
-   * @member {any} [tenant] The tenant information (domain name or tenant ID)
-   * used in AadServicePrincipal authentication type under which your
-   * application resides.
-   */
-  tenant?: any;
-  /**
-   * @member {any} [aadResourceId] The resource you are requesting
-   * authorization to use.
-   */
-  aadResourceId?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
 }
 
 /**
@@ -6126,12 +5947,11 @@ export interface ODataLinkedService {
    */
   url: any;
   /**
-   * @member {ODataAuthenticationType} authenticationType Type of
+   * @member {ODataAuthenticationType} [authenticationType] Type of
    * authentication used to connect to the OData service. Possible values
-   * include: 'Anonymous', 'Basic', 'Windows', 'AadServicePrincipal',
-   * 'ManagedServiceIdentity'
+   * include: 'Basic', 'Anonymous'
    */
-  authenticationType: ODataAuthenticationType;
+  authenticationType?: ODataAuthenticationType;
   /**
    * @member {any} [userName] User name of the OData service. Type: string (or
    * Expression with resultType string).
@@ -6141,50 +5961,6 @@ export interface ODataLinkedService {
    * @member {SecretBaseUnion} [password] Password of the OData service.
    */
   password?: SecretBaseUnion;
-  /**
-   * @member {any} [tenant] Specify the tenant information (domain name or
-   * tenant ID) under which your application resides. Type: string (or
-   * Expression with resultType string).
-   */
-  tenant?: any;
-  /**
-   * @member {any} [servicePrincipalId] Specify the application id of your
-   * application registered in Azure Active Directory. Type: string (or
-   * Expression with resultType string).
-   */
-  servicePrincipalId?: any;
-  /**
-   * @member {any} [aadResourceId] Specify the resource you are requesting
-   * authorization to use Directory. Type: string (or Expression with
-   * resultType string).
-   */
-  aadResourceId?: any;
-  /**
-   * @member {ODataAadServicePrincipalCredentialType}
-   * [aadServicePrincipalCredentialType] Specify the credential type (key or
-   * cert) is used for service principal. Possible values include:
-   * 'ServicePrincipalKey', 'ServicePrincipalCert'
-   */
-  aadServicePrincipalCredentialType?: ODataAadServicePrincipalCredentialType;
-  /**
-   * @member {SecretBaseUnion} [servicePrincipalKey] Specify the secret of your
-   * application registered in Azure Active Directory. Type: string (or
-   * Expression with resultType string).
-   */
-  servicePrincipalKey?: SecretBaseUnion;
-  /**
-   * @member {SecretBaseUnion} [servicePrincipalEmbeddedCert] Specify the
-   * base64 encoded certificate of your application registered in Azure Active
-   * Directory. Type: string (or Expression with resultType string).
-   */
-  servicePrincipalEmbeddedCert?: SecretBaseUnion;
-  /**
-   * @member {SecretBaseUnion} [servicePrincipalEmbeddedCertPassword] Specify
-   * the password of your certificate if your certificate has a password and
-   * you are using AadServicePrincipal authentication. Type: string (or
-   * Expression with resultType string).
-   */
-  servicePrincipalEmbeddedCertPassword?: SecretBaseUnion;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -6703,77 +6479,6 @@ export interface AzureMySqlLinkedService {
 
 /**
  * @interface
- * An interface representing OracleServiceCloudLinkedService.
- * Oracle Service Cloud linked service.
- *
- */
-export interface OracleServiceCloudLinkedService {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "OracleServiceCloud";
-  /**
-   * @member {IntegrationRuntimeReference} [connectVia] The integration runtime
-   * reference.
-   */
-  connectVia?: IntegrationRuntimeReference;
-  /**
-   * @member {string} [description] Linked service description.
-   */
-  description?: string;
-  /**
-   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
-   * Parameters for linked service.
-   */
-  parameters?: { [propertyName: string]: ParameterSpecification };
-  /**
-   * @member {any[]} [annotations] List of tags that can be used for describing
-   * the Dataset.
-   */
-  annotations?: any[];
-  /**
-   * @member {any} host The URL of the Oracle Service Cloud instance.
-   */
-  host: any;
-  /**
-   * @member {any} username The user name that you use to access Oracle Service
-   * Cloud server.
-   */
-  username: any;
-  /**
-   * @member {SecretBaseUnion} password The password corresponding to the user
-   * name that you provided in the username key.
-   */
-  password: SecretBaseUnion;
-  /**
-   * @member {any} [useEncryptedEndpoints] Specifies whether the data source
-   * endpoints are encrypted using HTTPS. The default value is true. Type:
-   * boolean (or Expression with resultType boolean).
-   */
-  useEncryptedEndpoints?: any;
-  /**
-   * @member {any} [useHostVerification] Specifies whether to require the host
-   * name in the server's certificate to match the host name of the server when
-   * connecting over SSL. The default value is true. Type: boolean (or
-   * Expression with resultType boolean).
-   */
-  useHostVerification?: any;
-  /**
-   * @member {any} [usePeerVerification] Specifies whether to verify the
-   * identity of the server when connecting over SSL. The default value is
-   * true. Type: boolean (or Expression with resultType boolean).
-   */
-  usePeerVerification?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing OracleLinkedService.
  * Oracle database.
  *
@@ -6925,74 +6630,6 @@ export interface HDInsightLinkedService {
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
    * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing DynamicsAXLinkedService.
- * Dynamics AX linked service.
- *
- */
-export interface DynamicsAXLinkedService {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "DynamicsAX";
-  /**
-   * @member {IntegrationRuntimeReference} [connectVia] The integration runtime
-   * reference.
-   */
-  connectVia?: IntegrationRuntimeReference;
-  /**
-   * @member {string} [description] Linked service description.
-   */
-  description?: string;
-  /**
-   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
-   * Parameters for linked service.
-   */
-  parameters?: { [propertyName: string]: ParameterSpecification };
-  /**
-   * @member {any[]} [annotations] List of tags that can be used for describing
-   * the Dataset.
-   */
-  annotations?: any[];
-  /**
-   * @member {any} url The URL of Dynamics AX OData API. Type: string (or
-   * Expression with resultType string).
-   */
-  url: any;
-  /**
-   * @member {any} [tenant] Specify the tenant information (domain name or
-   * tenant ID) under which your application resides. Type: string (or
-   * Expression with resultType string).
-   */
-  tenant?: any;
-  /**
-   * @member {any} [servicePrincipalId] Specify the application id of your
-   * application registered in Azure Active Directory. Type: string (or
-   * Expression with resultType string).
-   */
-  servicePrincipalId?: any;
-  /**
-   * @member {any} [aadResourceId] Specify the resource you are requesting
-   * authorization to use Directory. Type: string (or Expression with
-   * resultType string).
-   */
-  aadResourceId?: any;
-  /**
-   * @member {SecretBaseUnion} [servicePrincipalKey] Specify the secret of your
-   * application registered in Azure Active Directory. Type: string (or
-   * Expression with resultType string).
-   */
-  servicePrincipalKey?: SecretBaseUnion;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Either encryptedCredential or username/password must
-   * be provided. Type: string (or Expression with resultType string).
    */
   encryptedCredential?: any;
 }
@@ -8601,49 +8238,6 @@ export interface GoogleBigQueryObjectDataset {
 
 /**
  * @interface
- * An interface representing GoogleAdWordsObjectDataset.
- * Google AdWords service dataset.
- *
- */
-export interface GoogleAdWordsObjectDataset {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "GoogleAdWordsObject";
-  /**
-   * @member {string} [description] Dataset description.
-   */
-  description?: string;
-  /**
-   * @member {any} [structure] Columns that define the structure of the
-   * dataset. Type: array (or Expression with resultType array), itemType:
-   * DatasetDataElement.
-   */
-  structure?: any;
-  /**
-   * @member {LinkedServiceReference} linkedServiceName Linked service
-   * reference.
-   */
-  linkedServiceName: LinkedServiceReference;
-  /**
-   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
-   * Parameters for dataset.
-   */
-  parameters?: { [propertyName: string]: ParameterSpecification };
-  /**
-   * @member {any[]} [annotations] List of tags that can be used for describing
-   * the Dataset.
-   */
-  annotations?: any[];
-  /**
-   * @member {DatasetFolder} [folder] The folder that this Dataset is in. If
-   * not specified, Dataset will appear at the root level.
-   */
-  folder?: DatasetFolder;
-}
-
-/**
- * @interface
  * An interface representing EloquaObjectDataset.
  * Eloqua server dataset.
  *
@@ -8898,77 +8492,6 @@ export interface AmazonMWSObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
-}
-
-/**
- * @interface
- * An interface representing RestServiceDataset.
- * A Rest service dataset.
- *
- */
-export interface RestServiceDataset {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "RestResource";
-  /**
-   * @member {string} [description] Dataset description.
-   */
-  description?: string;
-  /**
-   * @member {any} [structure] Columns that define the structure of the
-   * dataset. Type: array (or Expression with resultType array), itemType:
-   * DatasetDataElement.
-   */
-  structure?: any;
-  /**
-   * @member {LinkedServiceReference} linkedServiceName Linked service
-   * reference.
-   */
-  linkedServiceName: LinkedServiceReference;
-  /**
-   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
-   * Parameters for dataset.
-   */
-  parameters?: { [propertyName: string]: ParameterSpecification };
-  /**
-   * @member {any[]} [annotations] List of tags that can be used for describing
-   * the Dataset.
-   */
-  annotations?: any[];
-  /**
-   * @member {DatasetFolder} [folder] The folder that this Dataset is in. If
-   * not specified, Dataset will appear at the root level.
-   */
-  folder?: DatasetFolder;
-  /**
-   * @member {any} [relativeUrl] The relative URL to the resource that the
-   * RESTful API provides. Type: string (or Expression with resultType string).
-   */
-  relativeUrl?: any;
-  /**
-   * @member {any} [requestMethod] The HTTP method used to call the RESTful
-   * API. The default is GET. Type: string (or Expression with resultType
-   * string).
-   */
-  requestMethod?: any;
-  /**
-   * @member {any} [requestBody] The HTTP request body to the RESTful API if
-   * requestMethod is POST. Type: string (or Expression with resultType
-   * string).
-   */
-  requestBody?: any;
-  /**
-   * @member {any} [additionalHeaders] The additional HTTP headers in the
-   * request to the RESTful API. Type: string (or Expression with resultType
-   * string).
-   */
-  additionalHeaders?: any;
-  /**
-   * @member {any} [paginationRules] The pagination rules to compose next page
-   * requests.
-   */
-  paginationRules?: any;
 }
 
 /**
@@ -9766,49 +9289,6 @@ export interface AzureMySqlTableDataset {
 
 /**
  * @interface
- * An interface representing OracleServiceCloudObjectDataset.
- * Oracle Service Cloud dataset.
- *
- */
-export interface OracleServiceCloudObjectDataset {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "OracleServiceCloudObject";
-  /**
-   * @member {string} [description] Dataset description.
-   */
-  description?: string;
-  /**
-   * @member {any} [structure] Columns that define the structure of the
-   * dataset. Type: array (or Expression with resultType array), itemType:
-   * DatasetDataElement.
-   */
-  structure?: any;
-  /**
-   * @member {LinkedServiceReference} linkedServiceName Linked service
-   * reference.
-   */
-  linkedServiceName: LinkedServiceReference;
-  /**
-   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
-   * Parameters for dataset.
-   */
-  parameters?: { [propertyName: string]: ParameterSpecification };
-  /**
-   * @member {any[]} [annotations] List of tags that can be used for describing
-   * the Dataset.
-   */
-  annotations?: any[];
-  /**
-   * @member {DatasetFolder} [folder] The folder that this Dataset is in. If
-   * not specified, Dataset will appear at the root level.
-   */
-  folder?: DatasetFolder;
-}
-
-/**
- * @interface
  * An interface representing OracleTableDataset.
  * The on-premises Oracle database dataset.
  *
@@ -10003,12 +9483,6 @@ export interface FileShareDataset {
    */
   fileName?: any;
   /**
-   * @member {any} [wildcardPath] The whole path include file name of the
-   * on-premises file system with wildcard supported. Type: string (or
-   * Expression with resultType string).
-   */
-  wildcardPath?: any;
-  /**
    * @member {DatasetStorageFormatUnion} [format] The format of the files.
    */
   format?: DatasetStorageFormatUnion;
@@ -10067,10 +9541,10 @@ export interface AzureDataLakeStoreDataset {
    */
   folder?: DatasetFolder;
   /**
-   * @member {any} [folderPath] Path to the folder in the Azure Data Lake
-   * Store. Type: string (or Expression with resultType string).
+   * @member {any} folderPath Path to the folder in the Azure Data Lake Store.
+   * Type: string (or Expression with resultType string).
    */
-  folderPath?: any;
+  folderPath: any;
   /**
    * @member {any} [fileName] The name of the file in the Azure Data Lake
    * Store. Type: string (or Expression with resultType string).
@@ -10082,64 +9556,10 @@ export interface AzureDataLakeStoreDataset {
    */
   format?: DatasetStorageFormatUnion;
   /**
-   * @member {any} [wildcardPath] The whole path include file name in the Azure
-   * Data Lake Store with wildcard supported. Type: string (or Expression with
-   * resultType string).
-   */
-  wildcardPath?: any;
-  /**
    * @member {DatasetCompressionUnion} [compression] The data compression
    * method used for the item(s) in the Azure Data Lake Store.
    */
   compression?: DatasetCompressionUnion;
-}
-
-/**
- * @interface
- * An interface representing DynamicsAXResourceDataset.
- * The path of the Dynamics AX OData entity.
- *
- */
-export interface DynamicsAXResourceDataset {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "DynamicsAXResource";
-  /**
-   * @member {string} [description] Dataset description.
-   */
-  description?: string;
-  /**
-   * @member {any} [structure] Columns that define the structure of the
-   * dataset. Type: array (or Expression with resultType array), itemType:
-   * DatasetDataElement.
-   */
-  structure?: any;
-  /**
-   * @member {LinkedServiceReference} linkedServiceName Linked service
-   * reference.
-   */
-  linkedServiceName: LinkedServiceReference;
-  /**
-   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
-   * Parameters for dataset.
-   */
-  parameters?: { [propertyName: string]: ParameterSpecification };
-  /**
-   * @member {any[]} [annotations] List of tags that can be used for describing
-   * the Dataset.
-   */
-  annotations?: any[];
-  /**
-   * @member {DatasetFolder} [folder] The folder that this Dataset is in. If
-   * not specified, Dataset will appear at the root level.
-   */
-  folder?: DatasetFolder;
-  /**
-   * @member {string} path The path of the Dynamics AX OData entity. Type:
-   * string (or Expression with resultType string).
-   */
-  path: string;
 }
 
 /**
@@ -10539,12 +9959,6 @@ export interface AzureBlobDataset {
    */
   fileName?: any;
   /**
-   * @member {any} [wildcardPath] The whole path include file name of the Azure
-   * Blob storage with wildcard supported. Type: string (or Expression with
-   * resultType string).
-   */
-  wildcardPath?: any;
-  /**
    * @member {DatasetStorageFormatUnion} [format] The format of the Azure Blob
    * storage.
    */
@@ -10613,11 +10027,6 @@ export interface AmazonS3Dataset {
    */
   prefix?: any;
   /**
-   * @member {any} [wildcardPath] The path of the S3 object with wildcard
-   * supported. Type: string (or Expression with resultType string).
-   */
-  wildcardPath?: any;
-  /**
    * @member {any} [version] The version for the S3 object. Type: string (or
    * Expression with resultType string).
    */
@@ -10676,7 +10085,7 @@ export interface ActivityPolicy {
 /**
  * Contains the possible cases for ExecutionActivity.
  */
-export type ExecutionActivityUnion = ExecutionActivity | DatabricksSparkPythonActivity | DatabricksSparkJarActivity | DatabricksNotebookActivity | DataLakeAnalyticsUSQLActivity | AzureMLUpdateResourceActivity | AzureMLBatchExecutionActivity | GetMetadataActivity | WebActivity | LookupActivity | SqlServerStoredProcedureActivity | CustomActivity | ExecuteSSISPackageActivity | HDInsightSparkActivity | HDInsightStreamingActivity | HDInsightMapReduceActivity | HDInsightPigActivity | HDInsightHiveActivity | CopyActivity;
+export type ExecutionActivityUnion = ExecutionActivity | DatabricksSparkPythonActivity | DatabricksSparkJarActivity | DatabricksNotebookActivity | DataLakeAnalyticsUSQLActivity | AzureMLUpdateResourceActivity | AzureMLBatchExecutionActivity | GetMetadataActivity | WebActivity | LookupActivity | DeleteActivity | SqlServerStoredProcedureActivity | CustomActivity | ExecuteSSISPackageActivity | HDInsightSparkActivity | HDInsightStreamingActivity | HDInsightMapReduceActivity | HDInsightPigActivity | HDInsightHiveActivity | CopyActivity;
 
 /**
  * @interface
@@ -11278,7 +10687,7 @@ export interface RedshiftUnloadSettings {
 /**
  * Contains the possible cases for CopySource.
  */
-export type CopySourceUnion = CopySource | AmazonRedshiftSource | ResponsysSource | SalesforceMarketingCloudSource | VerticaSource | NetezzaSource | ZohoSource | XeroSource | SquareSource | SparkSource | ShopifySource | ServiceNowSource | QuickBooksSource | PrestoSource | PhoenixSource | PaypalSource | MarketoSource | MariaDBSource | MagentoSource | JiraSource | ImpalaSource | HubspotSource | HiveSource | HBaseSource | GreenplumSource | GoogleBigQuerySource | GoogleAdWordsSource | EloquaSource | DrillSource | CouchbaseSource | ConcurSource | AzurePostgreSqlSource | AmazonMWSSource | RestServiceSource | HttpSource | AzureDataLakeStoreSource | MongoDbSource | CassandraSource | WebSource | OracleServiceCloudSource | OracleSource | AzureMySqlSource | HdfsSource | FileSystemSource | SqlDWSource | SqlSource | SapEccSource | SapCloudForCustomerSource | SalesforceSource | RelationalSource | DynamicsAXSource | DynamicsSource | DocumentDbCollectionSource | BlobSource | AzureTableSource;
+export type CopySourceUnion = CopySource | AmazonRedshiftSource | ResponsysSource | SalesforceMarketingCloudSource | VerticaSource | NetezzaSource | ZohoSource | XeroSource | SquareSource | SparkSource | ShopifySource | ServiceNowSource | QuickBooksSource | PrestoSource | PhoenixSource | PaypalSource | MarketoSource | MariaDBSource | MagentoSource | JiraSource | ImpalaSource | HubspotSource | HiveSource | HBaseSource | GreenplumSource | GoogleBigQuerySource | EloquaSource | DrillSource | CouchbaseSource | ConcurSource | AzurePostgreSqlSource | AmazonMWSSource | HttpSource | AzureDataLakeStoreSource | MongoDbSource | CassandraSource | WebSource | OracleSource | AzureMySqlSource | HdfsSource | FileSystemSource | SqlDWSource | SqlSource | SapEccSource | SapCloudForCustomerSource | SalesforceSource | RelationalSource | DynamicsSource | DocumentDbCollectionSource | BlobSource | AzureTableSource;
 
 /**
  * @interface
@@ -12044,35 +11453,6 @@ export interface GoogleBigQuerySource {
 
 /**
  * @interface
- * An interface representing GoogleAdWordsSource.
- * A copy activity Google AdWords service source.
- *
- */
-export interface GoogleAdWordsSource {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "GoogleAdWordsSource";
-  /**
-   * @member {any} [sourceRetryCount] Source retry count. Type: integer (or
-   * Expression with resultType integer).
-   */
-  sourceRetryCount?: any;
-  /**
-   * @member {any} [sourceRetryWait] Source retry wait. Type: string (or
-   * Expression with resultType string), pattern:
-   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  sourceRetryWait?: any;
-  /**
-   * @member {any} [query] A query to retrieve data from source. Type: string
-   * (or Expression with resultType string).
-   */
-  query?: any;
-}
-
-/**
- * @interface
  * An interface representing EloquaSource.
  * A copy activity Eloqua server source.
  *
@@ -12247,45 +11627,6 @@ export interface AmazonMWSSource {
 
 /**
  * @interface
- * An interface representing RestServiceSource.
- * A copy activity Rest service source.
- *
- */
-export interface RestServiceSource {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "RestServiceSource";
-  /**
-   * @member {any} [sourceRetryCount] Source retry count. Type: integer (or
-   * Expression with resultType integer).
-   */
-  sourceRetryCount?: any;
-  /**
-   * @member {any} [sourceRetryWait] Source retry wait. Type: string (or
-   * Expression with resultType string), pattern:
-   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  sourceRetryWait?: any;
-  /**
-   * @member {any} [httpRequestTimeout] The timeout (TimeSpan) to get an HTTP
-   * response.  It is the timeout to get a response, not the timeout to read
-   * response data.  Default value: 00:01:40. Type: string (or Expression with
-   * resultType string), pattern:
-   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  httpRequestTimeout?: any;
-  /**
-   * @member {any} [requestInterval] The time to await before sending next page
-   * request.  Default value: 00:00:01. Type: string (or Expression with
-   * resultType string), pattern:
-   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  requestInterval?: any;
-}
-
-/**
- * @interface
  * An interface representing HttpSource.
  * A copy activity source for an HTTP file.
  *
@@ -12438,35 +11779,6 @@ export interface WebSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
-}
-
-/**
- * @interface
- * An interface representing OracleServiceCloudSource.
- * A copy activity Oracle Service Cloud source.
- *
- */
-export interface OracleServiceCloudSource {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "OracleServiceCloudSource";
-  /**
-   * @member {any} [sourceRetryCount] Source retry count. Type: integer (or
-   * Expression with resultType integer).
-   */
-  sourceRetryCount?: any;
-  /**
-   * @member {any} [sourceRetryWait] Source retry wait. Type: string (or
-   * Expression with resultType string), pattern:
-   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  sourceRetryWait?: any;
-  /**
-   * @member {any} [query] A query to retrieve data from source. Type: string
-   * (or Expression with resultType string).
-   */
-  query?: any;
 }
 
 /**
@@ -12674,10 +11986,10 @@ export interface SqlDWSource {
  */
 export interface StoredProcedureParameter {
   /**
-   * @member {any} [value] Stored procedure parameter value. Type: string (or
+   * @member {any} value Stored procedure parameter value. Type: string (or
    * Expression with resultType string).
    */
-  value?: any;
+  value: any;
   /**
    * @member {StoredProcedureParameterType} [type] Stored procedure parameter
    * type. Possible values include: 'String', 'Int', 'Decimal', 'Guid',
@@ -12845,35 +12157,6 @@ export interface RelationalSource {
   /**
    * @member {any} [query] Database query. Type: string (or Expression with
    * resultType string).
-   */
-  query?: any;
-}
-
-/**
- * @interface
- * An interface representing DynamicsAXSource.
- * A copy activity Dynamics AX source.
- *
- */
-export interface DynamicsAXSource {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "DynamicsAXSource";
-  /**
-   * @member {any} [sourceRetryCount] Source retry count. Type: integer (or
-   * Expression with resultType integer).
-   */
-  sourceRetryCount?: any;
-  /**
-   * @member {any} [sourceRetryWait] Source retry wait. Type: string (or
-   * Expression with resultType string), pattern:
-   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  sourceRetryWait?: any;
-  /**
-   * @member {any} [query] A query to retrieve data from source. Type: string
-   * (or Expression with resultType string).
    */
   query?: any;
 }
@@ -13068,6 +12351,54 @@ export interface LookupActivity {
    * boolean).
    */
   firstRowOnly?: any;
+}
+
+/**
+ * @interface
+ * An interface representing DeleteActivity.
+ * Delete activity.
+ *
+ */
+export interface DeleteActivity {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "Delete";
+  /**
+   * @member {string} name Activity name.
+   */
+  name: string;
+  /**
+   * @member {string} [description] Activity description.
+   */
+  description?: string;
+  /**
+   * @member {ActivityDependency[]} [dependsOn] Activity depends on condition.
+   */
+  dependsOn?: ActivityDependency[];
+  /**
+   * @member {UserProperty[]} [userProperties] Activity user properties.
+   */
+  userProperties?: UserProperty[];
+  /**
+   * @member {LinkedServiceReference} [linkedServiceName] Linked service
+   * reference.
+   */
+  linkedServiceName?: LinkedServiceReference;
+  /**
+   * @member {ActivityPolicy} [policy] Activity policy.
+   */
+  policy?: ActivityPolicy;
+  /**
+   * @member {boolean} recursive If true, files under the folder path will be
+   * deleted recursively. Default is true. Type: boolean (or Expression with
+   * resultType boolean).
+   */
+  recursive: boolean;
+  /**
+   * @member {DatasetReference} [dataset] Delete activity dataset reference.
+   */
+  dataset?: DatasetReference;
 }
 
 /**
@@ -16853,22 +16184,6 @@ export enum GoogleBigQueryAuthenticationType {
 }
 
 /**
- * Defines values for GoogleAdWordsAuthenticationType.
- * Possible values include: 'ServiceAuthentication', 'UserAuthentication'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: GoogleAdWordsAuthenticationType =
- * <GoogleAdWordsAuthenticationType>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum GoogleAdWordsAuthenticationType {
-  ServiceAuthentication = 'ServiceAuthentication',
-  UserAuthentication = 'UserAuthentication',
-}
-
-/**
  * Defines values for SapHanaAuthenticationType.
  * Possible values include: 'Basic', 'Windows'
  * There could be more values for this enum apart from the ones defined here.If
@@ -16917,25 +16232,6 @@ export enum FtpAuthenticationType {
 }
 
 /**
- * Defines values for RestServiceAuthenticationType.
- * Possible values include: 'Anonymous', 'Basic', 'AadServicePrincial',
- * 'ManagedServiceIdentity'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RestServiceAuthenticationType =
- * <RestServiceAuthenticationType>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum RestServiceAuthenticationType {
-  Anonymous = 'Anonymous',
-  Basic = 'Basic',
-  AadServicePrincial = 'AadServicePrincial',
-  ManagedServiceIdentity = 'ManagedServiceIdentity',
-}
-
-/**
  * Defines values for HttpAuthenticationType.
  * Possible values include: 'Basic', 'Anonymous', 'Digest', 'Windows',
  * 'ClientCertificate'
@@ -16973,8 +16269,7 @@ export enum MongoDbAuthenticationType {
 
 /**
  * Defines values for ODataAuthenticationType.
- * Possible values include: 'Anonymous', 'Basic', 'Windows',
- * 'AadServicePrincipal', 'ManagedServiceIdentity'
+ * Possible values include: 'Basic', 'Anonymous'
  * There could be more values for this enum apart from the ones defined here.If
  * you want to set a value that is not from the known values then you can do
  * the following:
@@ -16984,27 +16279,8 @@ export enum MongoDbAuthenticationType {
  * @enum {string}
  */
 export enum ODataAuthenticationType {
-  Anonymous = 'Anonymous',
   Basic = 'Basic',
-  Windows = 'Windows',
-  AadServicePrincipal = 'AadServicePrincipal',
-  ManagedServiceIdentity = 'ManagedServiceIdentity',
-}
-
-/**
- * Defines values for ODataAadServicePrincipalCredentialType.
- * Possible values include: 'ServicePrincipalKey', 'ServicePrincipalCert'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ODataAadServicePrincipalCredentialType =
- * <ODataAadServicePrincipalCredentialType>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum ODataAadServicePrincipalCredentialType {
-  ServicePrincipalKey = 'ServicePrincipalKey',
-  ServicePrincipalCert = 'ServicePrincipalCert',
+  Anonymous = 'Anonymous',
 }
 
 /**
