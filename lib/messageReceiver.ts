@@ -533,12 +533,12 @@ export class MessageReceiver extends LinkEntity {
   }
 
   /**
-   * Disposes the message with the specified disposition.
+   * Settles the message with the specified disposition.
    * @param delivery Delivery associated with the message.
    * @param operation The disposition type.
    * @param [options] optional parameters that can be provided while disposing the message.
    */
-  async disposeMessage(delivery: Delivery, operation: DispositionType, options?: DispositionOptions): Promise<any> {
+  async settleMessage(delivery: Delivery, operation: DispositionType, options?: DispositionOptions): Promise<any> {
     return new Promise((resolve, reject) => {
       if (!options) options = {};
       if (operation.match(/^(complete|abandon|defer|deadletter)$/) == undefined) {

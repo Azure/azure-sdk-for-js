@@ -812,7 +812,7 @@ export class ServiceBusMessage implements ReceivedMessage {
     }
     const receiver = this._context.getReceiver(this._delivery.link.name);
     if (receiver) {
-      return receiver.disposeMessage(this._delivery, DispositionType.complete);
+      return receiver.settleMessage(this._delivery, DispositionType.complete);
     } else {
       throw new Error(`Cannot find the receiver with name '${this._delivery.link.name}'.`);
     }
@@ -834,7 +834,7 @@ export class ServiceBusMessage implements ReceivedMessage {
     }
     const receiver = this._context.getReceiver(this._delivery.link.name);
     if (receiver) {
-      return receiver.disposeMessage(this._delivery, DispositionType.abandon,
+      return receiver.settleMessage(this._delivery, DispositionType.abandon,
         { propertiesToModify: propertiesToModify });
     } else {
       throw new Error(`Cannot find the receiver with name '${this._delivery.link.name}'.`);
@@ -859,7 +859,7 @@ export class ServiceBusMessage implements ReceivedMessage {
     }
     const receiver = this._context.getReceiver(this._delivery.link.name);
     if (receiver) {
-      return receiver.disposeMessage(this._delivery, DispositionType.defer,
+      return receiver.settleMessage(this._delivery, DispositionType.defer,
         { propertiesToModify: propertiesToModify });
     } else {
       throw new Error(`Cannot find the receiver with name '${this._delivery.link.name}'.`);
@@ -891,7 +891,7 @@ export class ServiceBusMessage implements ReceivedMessage {
     }
     const receiver = this._context.getReceiver(this._delivery.link.name);
     if (receiver) {
-      return receiver.disposeMessage(this._delivery, DispositionType.deadletter,
+      return receiver.settleMessage(this._delivery, DispositionType.deadletter,
         { error: error });
     } else {
       throw new Error(`Cannot find the receiver with name '${this._delivery.link.name}'.`);
