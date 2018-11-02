@@ -16,14 +16,8 @@ const packageName = "@azure/arm-network";
 const packageVersion = "1.0.0";
 
 export class NetworkManagementClientContext extends msRestAzure.AzureServiceClient {
-
   credentials: msRest.ServiceClientCredentials;
-
   subscriptionId: string;
-
-  acceptLanguage: string;
-
-  longRunningOperationRetryTimeout: number;
 
   /**
    * Initializes a new instance of the NetworkManagementClient class.

@@ -16,14 +16,8 @@ const packageName = "@azure/arm-datamigration";
 const packageVersion = "1.0.0-preview";
 
 export class DataMigrationServiceClientContext extends msRestAzure.AzureServiceClient {
-
   credentials: msRest.ServiceClientCredentials;
-
   subscriptionId: string;
-
-  acceptLanguage: string;
-
-  longRunningOperationRetryTimeout: number;
 
   /**
    * Initializes a new instance of the DataMigrationServiceClient class.
@@ -42,6 +36,11 @@ export class DataMigrationServiceClientContext extends msRestAzure.AzureServiceC
     if (!options) {
       options = {};
     }
+    if(!options.userAgent) {
+      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
+      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
+    }
+
     super(credentials, options);
 
     this.acceptLanguage = 'en-US';
@@ -51,7 +50,6 @@ export class DataMigrationServiceClientContext extends msRestAzure.AzureServiceC
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
 
-    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
