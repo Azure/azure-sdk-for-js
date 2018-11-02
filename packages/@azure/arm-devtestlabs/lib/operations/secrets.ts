@@ -9,6 +9,7 @@
  */
 
 import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/secretsMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +42,7 @@ export class Secrets {
    * @param userName The name of the user profile.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, userName: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationSecret>): void;
+  list(resourceGroupName: string, labName: string, userName: string, callback: msRest.ServiceCallback<Models.SecretList>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -49,8 +50,8 @@ export class Secrets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, userName: string, options: Models.SecretsListOptionalParams, callback: msRest.ServiceCallback<Models.ResponseWithContinuationSecret>): void;
-  list(resourceGroupName: string, labName: string, userName: string, options?: Models.SecretsListOptionalParams, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationSecret>): Promise<Models.SecretsListResponse> {
+  list(resourceGroupName: string, labName: string, userName: string, options: Models.SecretsListOptionalParams, callback: msRest.ServiceCallback<Models.SecretList>): void;
+  list(resourceGroupName: string, labName: string, userName: string, options?: Models.SecretsListOptionalParams, callback?: msRest.ServiceCallback<Models.SecretList>): Promise<Models.SecretsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -103,7 +104,7 @@ export class Secrets {
   }
 
   /**
-   * Create or replace an existing secret.
+   * Create or replace an existing secret. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
@@ -112,38 +113,9 @@ export class Secrets {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecretsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, secret: Models.Secret, options?: msRest.RequestOptionsBase): Promise<Models.SecretsCreateOrUpdateResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param labName The name of the lab.
-   * @param userName The name of the user profile.
-   * @param name The name of the secret.
-   * @param secret A secret.
-   * @param callback The callback
-   */
-  createOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, secret: Models.Secret, callback: msRest.ServiceCallback<Models.Secret>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param labName The name of the lab.
-   * @param userName The name of the user profile.
-   * @param name The name of the secret.
-   * @param secret A secret.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  createOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, secret: Models.Secret, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Secret>): void;
-  createOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, secret: Models.Secret, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Secret>): Promise<Models.SecretsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        labName,
-        userName,
-        name,
-        secret,
-        options
-      },
-      createOrUpdateOperationSpec,
-      callback) as Promise<Models.SecretsCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, secret: Models.Secret, options?: msRest.RequestOptionsBase): Promise<Models.SecretsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,labName,userName,name,secret,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SecretsCreateOrUpdateResponse>;
   }
 
   /**
@@ -187,6 +159,74 @@ export class Secrets {
   }
 
   /**
+   * Modify properties of secrets.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param userName The name of the user profile.
+   * @param name The name of the secret.
+   * @param secret A secret.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SecretsUpdateResponse>
+   */
+  update(resourceGroupName: string, labName: string, userName: string, name: string, secret: Models.SecretFragment, options?: msRest.RequestOptionsBase): Promise<Models.SecretsUpdateResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param userName The name of the user profile.
+   * @param name The name of the secret.
+   * @param secret A secret.
+   * @param callback The callback
+   */
+  update(resourceGroupName: string, labName: string, userName: string, name: string, secret: Models.SecretFragment, callback: msRest.ServiceCallback<Models.Secret>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param userName The name of the user profile.
+   * @param name The name of the secret.
+   * @param secret A secret.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  update(resourceGroupName: string, labName: string, userName: string, name: string, secret: Models.SecretFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Secret>): void;
+  update(resourceGroupName: string, labName: string, userName: string, name: string, secret: Models.SecretFragment, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Secret>): Promise<Models.SecretsUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        labName,
+        userName,
+        name,
+        secret,
+        options
+      },
+      updateOperationSpec,
+      callback) as Promise<Models.SecretsUpdateResponse>;
+  }
+
+  /**
+   * Create or replace an existing secret. This operation can take a while to complete.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param userName The name of the user profile.
+   * @param name The name of the secret.
+   * @param secret A secret.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, secret: Models.Secret, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        labName,
+        userName,
+        name,
+        secret,
+        options
+      },
+      beginCreateOrUpdateOperationSpec,
+      options);
+  }
+
+  /**
    * List secrets in a given user profile.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -197,14 +237,14 @@ export class Secrets {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationSecret>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SecretList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResponseWithContinuationSecret>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationSecret>): Promise<Models.SecretsListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecretList>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SecretList>): Promise<Models.SecretsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -238,7 +278,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ResponseWithContinuationSecret
+      bodyMapper: Mappers.SecretList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -275,7 +315,67 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
+const deleteMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/secrets/{name}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.labName,
+    Parameters.userName,
+    Parameters.name
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const updateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/secrets/{name}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.labName,
+    Parameters.userName,
+    Parameters.name
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "secret",
+    mapper: {
+      ...Mappers.SecretFragment,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.Secret
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/secrets/{name}",
   urlParameters: [
@@ -312,32 +412,6 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/secrets/{name}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.labName,
-    Parameters.userName,
-    Parameters.name
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
 const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
@@ -350,7 +424,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ResponseWithContinuationSecret
+      bodyMapper: Mappers.SecretList
     },
     default: {
       bodyMapper: Mappers.CloudError

@@ -166,7 +166,8 @@ export interface ReservationMergeProperties {
 export interface ReservationProperties {
   /**
    * @member {ReservedResourceType} [reservedResourceType] Possible values
-   * include: 'VirtualMachines', 'SqlDatabases', 'SuseLinux', 'CosmosDb'
+   * include: 'VirtualMachines', 'SqlDatabases', 'SuseLinux', 'CosmosDb',
+   * 'RedHat'
    */
   reservedResourceType?: ReservedResourceType;
   /**
@@ -738,7 +739,7 @@ export enum ReservationTerm {
 /**
  * Defines values for ReservedResourceType.
  * Possible values include: 'VirtualMachines', 'SqlDatabases', 'SuseLinux',
- * 'CosmosDb'
+ * 'CosmosDb', 'RedHat'
  * There could be more values for this enum apart from the ones defined here.If
  * you want to set a value that is not from the known values then you can do
  * the following:
@@ -752,6 +753,7 @@ export enum ReservedResourceType {
   SqlDatabases = 'SqlDatabases',
   SuseLinux = 'SuseLinux',
   CosmosDb = 'CosmosDb',
+  RedHat = 'RedHat',
 }
 
 /**
