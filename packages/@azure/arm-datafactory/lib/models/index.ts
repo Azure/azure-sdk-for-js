@@ -7146,10 +7146,11 @@ export interface AzureTableStorageLinkedService {
    */
   accountKey?: AzureKeyVaultSecretReference;
   /**
-   * @member {SecretBaseUnion} [sasUri] SAS URI of the Azure Storage resource.
-   * It is mutually exclusive with connectionString property.
+   * @member {any} [sasUri] SAS URI of the Azure Storage resource. It is
+   * mutually exclusive with connectionString property. Type: string,
+   * SecureString or AzureKeyVaultSecretReference.
    */
-  sasUri?: SecretBaseUnion;
+  sasUri?: any;
   /**
    * @member {AzureKeyVaultSecretReference} [sasToken] The Azure key vault
    * secret reference of sasToken in sas uri.
@@ -7205,11 +7206,11 @@ export interface AzureBlobStorageLinkedService {
    */
   accountKey?: AzureKeyVaultSecretReference;
   /**
-   * @member {SecretBaseUnion} [sasUri] SAS URI of the Azure Blob Storage
-   * resource. It is mutually exclusive with connectionString, serviceEndpoint
-   * property.
+   * @member {any} [sasUri] SAS URI of the Azure Blob Storage resource. It is
+   * mutually exclusive with connectionString, serviceEndpoint property. Type:
+   * string, SecureString or AzureKeyVaultSecretReference.
    */
-  sasUri?: SecretBaseUnion;
+  sasUri?: any;
   /**
    * @member {AzureKeyVaultSecretReference} [sasToken] The Azure key vault
    * secret reference of sasToken in sas uri.
@@ -7287,10 +7288,11 @@ export interface AzureStorageLinkedService {
    */
   accountKey?: AzureKeyVaultSecretReference;
   /**
-   * @member {SecretBaseUnion} [sasUri] SAS URI of the Azure Storage resource.
-   * It is mutually exclusive with connectionString property.
+   * @member {any} [sasUri] SAS URI of the Azure Storage resource. It is
+   * mutually exclusive with connectionString property. Type: string,
+   * SecureString or AzureKeyVaultSecretReference.
    */
-  sasUri?: SecretBaseUnion;
+  sasUri?: any;
   /**
    * @member {AzureKeyVaultSecretReference} [sasToken] The Azure key vault
    * secret reference of sasToken in sas uri.

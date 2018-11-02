@@ -7542,13 +7542,7 @@ export const AzureTableStorageLinkedService: msRest.CompositeMapper = {
       sasUri: {
         serializedName: "typeProperties.sasUri",
         type: {
-          name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "type",
-            clientName: "type"
-          },
-          uberParent: "SecretBase",
-          className: "SecretBase"
+          name: "Object"
         }
       },
       sasToken: {
@@ -7598,13 +7592,7 @@ export const AzureBlobStorageLinkedService: msRest.CompositeMapper = {
       sasUri: {
         serializedName: "typeProperties.sasUri",
         type: {
-          name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "type",
-            clientName: "type"
-          },
-          uberParent: "SecretBase",
-          className: "SecretBase"
+          name: "Object"
         }
       },
       sasToken: {
@@ -7684,13 +7672,7 @@ export const AzureStorageLinkedService: msRest.CompositeMapper = {
       sasUri: {
         serializedName: "typeProperties.sasUri",
         type: {
-          name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "type",
-            clientName: "type"
-          },
-          uberParent: "SecretBase",
-          className: "SecretBase"
+          name: "Object"
         }
       },
       sasToken: {
