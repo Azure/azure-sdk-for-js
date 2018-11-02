@@ -566,15 +566,17 @@ export class MessageReceiver extends LinkEntity {
       if (operation === DispositionType.complete) {
         delivery.accept();
       } else if (operation === DispositionType.abandon) {
-        delivery.modified({
-          message_annotations: options.propertiesToModify,
+        const params: any = {
           undeliverable_here: false
-        });
+        };
+        if (options.propertiesToModify) params.message_annotations = options.propertiesToModify;
+        delivery.modified(params);
       } else if (operation === DispositionType.defer) {
-        delivery.modified({
-          message_annotations: options.propertiesToModify,
+        const params: any = {
           undeliverable_here: true
-        });
+        };
+        if (options.propertiesToModify) params.message_annotations = options.propertiesToModify;
+        delivery.modified(params);
       } else if (operation === DispositionType.deadletter) {
         delivery.reject(options.error || {});
       }
