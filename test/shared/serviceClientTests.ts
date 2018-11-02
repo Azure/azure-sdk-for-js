@@ -464,11 +464,11 @@ describe("ServiceClient", function () {
     it("should return the options operation argument value when the parameter path is found in the optional operation arguments", () => {
       const serviceClient = new ServiceClient();
       const operationArguments: OperationArguments = {
-        "options": {
+        "optionsOrCallback": {
           "myParameter": 1
         }
       };
-      const parameterPath: ParameterPath = ["options", "myParameter"];
+      const parameterPath: ParameterPath = ["optionsOrCallback", "myParameter"];
       const parameterMapper: Mapper = {
         serializedName: "my-parameter",
         type: {
@@ -532,7 +532,7 @@ describe("ServiceClient", function () {
       (serviceClient as any)["myParameter"] = 1;
       const operationArguments: OperationArguments = {
         "myParameter": 2,
-        "options": {
+        "optionsOrCallback": {
           "myParameter": 3
         }
       };
