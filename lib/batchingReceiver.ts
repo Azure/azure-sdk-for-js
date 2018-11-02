@@ -165,7 +165,7 @@ export class BatchingReceiver extends MessageReceiver {
         reject(error);
       };
 
-      onSettled = async (context: EventContext) => {
+      onSettled = (context: EventContext) => {
         const connectionId = this._context.namespace.connectionId;
         const delivery = context.delivery;
         if (delivery) {
@@ -216,10 +216,10 @@ export class BatchingReceiver extends MessageReceiver {
         const rcvrOptions = this._createReceiverOptions({
           onMessage: onReceiveMessage,
           onError: onReceiveError,
-          onClose: onReceiveClose,
           onSessionError: onSessionError,
-          onSessionClose: onSessionClose,
-          onSettled: onSettled
+          onSettled: onSettled,
+          onClose: (context) => (onReceiveClose(context) as any).catch(() => { /* */ }),
+          onSessionClose: (context) => (onSessionClose(context) as any).catch(() => { /* */ })
         });
         this._init(rcvrOptions).then(() => addCreditAndSetTimer()).catch(reject);
       } else {
