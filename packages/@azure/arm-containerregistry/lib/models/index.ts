@@ -1399,6 +1399,11 @@ export interface TaskStepProperties {
    * context for the task step.
    */
   contextPath?: string;
+  /**
+   * @member {string} [contextAccessToken] The token (git PAT or SAS token of
+   * storage account blob) associated with the context for a step.
+   */
+  contextAccessToken?: string;
 }
 
 /**
@@ -1630,6 +1635,11 @@ export interface TaskStepUpdateParameters {
    * context for the task step.
    */
   contextPath?: string;
+  /**
+   * @member {string} [contextAccessToken] The token (git PAT or SAS token of
+   * storage account blob) associated with the context for a step.
+   */
+  contextAccessToken?: string;
 }
 
 /**
@@ -2077,6 +2087,11 @@ export interface DockerBuildStep {
    */
   contextPath?: string;
   /**
+   * @member {string} [contextAccessToken] The token (git PAT or SAS token of
+   * storage account blob) associated with the context for a step.
+   */
+  contextAccessToken?: string;
+  /**
    * @member {string[]} [imageNames] The fully qualified image names including
    * the repository and tag.
    */
@@ -2128,6 +2143,11 @@ export interface FileTaskStep {
    */
   contextPath?: string;
   /**
+   * @member {string} [contextAccessToken] The token (git PAT or SAS token of
+   * storage account blob) associated with the context for a step.
+   */
+  contextAccessToken?: string;
+  /**
    * @member {string} taskFilePath The task template/definition file path
    * relative to the source context.
    */
@@ -2168,6 +2188,11 @@ export interface EncodedTaskStep {
    */
   contextPath?: string;
   /**
+   * @member {string} [contextAccessToken] The token (git PAT or SAS token of
+   * storage account blob) associated with the context for a step.
+   */
+  contextAccessToken?: string;
+  /**
    * @member {string} encodedTaskContent Base64 encoded value of the
    * template/definition file content.
    */
@@ -2200,6 +2225,11 @@ export interface DockerBuildStepUpdateParameters {
    * context for the task step.
    */
   contextPath?: string;
+  /**
+   * @member {string} [contextAccessToken] The token (git PAT or SAS token of
+   * storage account blob) associated with the context for a step.
+   */
+  contextAccessToken?: string;
   /**
    * @member {string[]} [imageNames] The fully qualified image names including
    * the repository and tag.
@@ -2244,6 +2274,11 @@ export interface FileTaskStepUpdateParameters {
    */
   contextPath?: string;
   /**
+   * @member {string} [contextAccessToken] The token (git PAT or SAS token of
+   * storage account blob) associated with the context for a step.
+   */
+  contextAccessToken?: string;
+  /**
    * @member {string} [taskFilePath] The task template/definition file path
    * relative to the source context.
    */
@@ -2276,6 +2311,11 @@ export interface EncodedTaskStepUpdateParameters {
    * context for the task step.
    */
   contextPath?: string;
+  /**
+   * @member {string} [contextAccessToken] The token (git PAT or SAS token of
+   * storage account blob) associated with the context for a step.
+   */
+  contextAccessToken?: string;
   /**
    * @member {string} [encodedTaskContent] Base64 encoded value of the
    * template/definition file content.
