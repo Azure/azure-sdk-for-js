@@ -16,16 +16,9 @@ const packageName = "@azure/arm-containerinstance";
 const packageVersion = "1.0.0";
 
 export class ContainerInstanceManagementClientContext extends msRestAzure.AzureServiceClient {
-
   credentials: msRest.ServiceClientCredentials;
-
   subscriptionId: string;
-
-  apiVersion: string;
-
-  acceptLanguage: string;
-
-  longRunningOperationRetryTimeout: number;
+  apiVersion?: string;
 
   /**
    * Initializes a new instance of the ContainerInstanceManagementClient class.
