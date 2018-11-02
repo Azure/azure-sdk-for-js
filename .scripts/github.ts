@@ -4,10 +4,11 @@
  * license information.
  */
 
-import Octokit, { PullRequestsCreateParams, PullRequestsCreateReviewRequestParams, PullRequestsCreateReviewRequestResponse, PullRequestsGetAllParams, PullRequestsGetAllResponse, PullRequestsGetAllResponseItem, PullRequestsGetParams, PullRequestsUpdateParams, Response } from '@octokit/rest';
-import { Reference, Repository } from 'nodegit';
-import { Branch, commitChanges, createNewUniqueBranch, getToken, pushBranch, ValidateEachFunction, ValidateFunction } from './git';
+import * as Octokit from '@octokit/rest'
+import { PullRequestsCreateParams, Response, PullRequestsCreateReviewRequestParams, PullRequestsCreateReviewRequestResponse, PullRequestsGetParams, PullRequestsGetAllParams, PullRequestsGetAllResponse, PullRequestsGetAllResponseItem, PullRequestsUpdateParams } from '@octokit/rest';
+import { getToken, createNewUniqueBranch, commitChanges, pushBranch,ValidateFunction, ValidateEachFunction, Branch } from './git';
 import { Logger } from './logger';
+import { Repository, Reference } from 'nodegit';
 
 const _repositoryOwner = "Azure";
 const _logger = Logger.get();
@@ -59,7 +60,7 @@ export async function listPullRequests(repositoryName: string, state?: "open" | 
     });
 }
 
-export async function findPullRequest(repositoryName: string, branchName: string, state?: "open" | "closed" | "all"): Promise<PullRequestsGetAllResponseItem | undefined> {
+export async function findPullRequest(repositoryName: string, branchName: string, state?: "open" | "closed" | "all"): Promise<PullRequestsGetAllResponseItem> {
     const allPullRequests = await listPullRequests(repositoryName, state);
     return allPullRequests.data.find(el => el.head.ref === branchName);
 }
@@ -112,14 +113,14 @@ export async function commitAndCreatePullRequest(
     return reviewResponse.data.html_url;
 }
 
-export async function getDataFromPullRequest(pullRequestUrl: string): Promise<{ packageName: string | undefined, branchName: string, prId: number }> {
-    const octokit: Octokit = getAuthenticatedClient();
-    const params: Octokit.PullRequestsGetParams = parsePullRequestUrl(pullRequestUrl);
-    const pullRequest: Octokit.Response<Octokit.PullRequestsGetResponse> = await octokit.pullRequests.get(params);
-    const branchName: string = pullRequest.data.head.ref;
-    const files: Octokit.Response<Octokit.PullRequestsGetFilesResponseItem[]> = await octokit.pullRequests.getFiles(params);
-    const path: string = getRootFolder(files.data.map(i => i.filename));
-    const packageName: string | undefined = getPackageNameFromPath(path);
+export async function getDataFromPullRequest(pullRequestUrl: string): Promise<{ packageName: string, branchName: string, prId: number }> {
+    const octokit = getAuthenticatedClient();
+    const params = parsePullRequestUrl(pullRequestUrl);
+    const pullRequest = await octokit.pullRequests.get(params);
+    const branchName = pullRequest.data.head.ref;
+    const files = await octokit.pullRequests.getFiles(params);
+    const path = getRootFolder(files.data.map(i => i.filename));
+    const packageName = getPackageNameFromPath(path);
 
     _logger.logTrace(`Found "${packageName}" package name and ${branchName} branch name`)
     return { packageName: packageName, branchName: branchName, prId: params.number };

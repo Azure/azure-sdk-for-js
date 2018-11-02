@@ -36,13 +36,13 @@ export class GlobalSchedules {
   /**
    * @param callback The callback
    */
-  listBySubscription(callback: msRest.ServiceCallback<Models.ScheduleList>): void;
+  listBySubscription(callback: msRest.ServiceCallback<Models.ResponseWithContinuationSchedule>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: Models.GlobalSchedulesListBySubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
-  listBySubscription(options?: Models.GlobalSchedulesListBySubscriptionOptionalParams, callback?: msRest.ServiceCallback<Models.ScheduleList>): Promise<Models.GlobalSchedulesListBySubscriptionResponse> {
+  listBySubscription(options: Models.GlobalSchedulesListBySubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.ResponseWithContinuationSchedule>): void;
+  listBySubscription(options?: Models.GlobalSchedulesListBySubscriptionOptionalParams, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationSchedule>): Promise<Models.GlobalSchedulesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -62,14 +62,14 @@ export class GlobalSchedules {
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
+  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationSchedule>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: Models.GlobalSchedulesListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.GlobalSchedulesListByResourceGroupOptionalParams, callback?: msRest.ServiceCallback<Models.ScheduleList>): Promise<Models.GlobalSchedulesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options: Models.GlobalSchedulesListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.ResponseWithContinuationSchedule>): void;
+  listByResourceGroup(resourceGroupName: string, options?: Models.GlobalSchedulesListByResourceGroupOptionalParams, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationSchedule>): Promise<Models.GlobalSchedulesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -289,14 +289,14 @@ export class GlobalSchedules {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
+  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationSchedule>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ScheduleList>): Promise<Models.GlobalSchedulesListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResponseWithContinuationSchedule>): void;
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationSchedule>): Promise<Models.GlobalSchedulesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -317,14 +317,14 @@ export class GlobalSchedules {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
+  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationSchedule>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ScheduleList>): Promise<Models.GlobalSchedulesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResponseWithContinuationSchedule>): void;
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationSchedule>): Promise<Models.GlobalSchedulesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -355,7 +355,7 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ScheduleList
+      bodyMapper: Mappers.ResponseWithContinuationSchedule
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -383,7 +383,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ScheduleList
+      bodyMapper: Mappers.ResponseWithContinuationSchedule
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -576,7 +576,7 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ScheduleList
+      bodyMapper: Mappers.ResponseWithContinuationSchedule
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -597,7 +597,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ScheduleList
+      bodyMapper: Mappers.ResponseWithContinuationSchedule
     },
     default: {
       bodyMapper: Mappers.CloudError

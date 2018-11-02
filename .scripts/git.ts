@@ -4,7 +4,7 @@
  * license information.
  */
 
-import { Cred, Index, Merge, Oid, Reference, Repository, Reset, Signature, StatusFile } from "nodegit";
+import { Repository, Signature, Merge, Oid, Reference, Cred, StatusFile, Reset, Index } from "nodegit";
 import { Logger } from "./logger";
 
 export type ValidateFunction = (statuses: StatusFile[]) => boolean;
@@ -66,10 +66,11 @@ export class Branch {
 }
 
 const _logger = Logger.get();
-const _lockMap: { [key: string]: boolean } = {}
+const _lockMap = {}
 
-function isLocked(repositoryPath: string): boolean {
-    return !!_lockMap[repositoryPath];
+function isLocked(repositoryPath: string) {
+    const isLocked = _lockMap[repositoryPath];
+    return isLocked || false;
 }
 
 function lock(repositoryPath: string) {
@@ -77,13 +78,13 @@ function lock(repositoryPath: string) {
 }
 
 function unlock(repositoryPath: string) {
-    _lockMap[repositoryPath] = false;
+    _lockMap[repositoryPath] = true;
 }
 
 async function waitUntilUnlocked(repositoryPath: string): Promise<void> {
     _logger.logTrace("Waiting for the repository to be unlocked");
 
-    return new Promise<void>((resolve) => {
+    return new Promise<void>((resolve, reject) => {
         const wait = () => {
             setTimeout(() => {
                 _logger.logTrace(`Repository is ${isLocked(repositoryPath) ? "locked" : "unlocked"}`);
@@ -154,7 +155,7 @@ export async function mergeMasterIntoBranch(repository: Repository, toBranch: Br
     return mergeBranch(repository, toBranch, Branch.RemoteMaster);
 }
 
-export async function pullBranch(repository: Repository, localBranch: Branch): Promise<void> {
+export async function pullBranch(repository: Repository, localBranch: Branch): Promise<Oid> {
     _logger.logTrace(`Pulling "${localBranch.fullName()}" branch in ${repository.path()} repository`);
 
     await repository.fetchAll();
@@ -169,9 +170,10 @@ export async function pullBranch(repository: Repository, localBranch: Branch): P
     }
 
     _logger.logTrace(`Merged "${remoteBranch.fullName()}" to "${localBranch.fullName()}" successfully without any conflicts`);
+    return undefined;
 }
 
-export async function pullMaster(repository: Repository): Promise<void> {
+export async function pullMaster(repository: Repository): Promise<Oid> {
     return pullBranch(repository, Branch.LocalMaster);
 }
 
@@ -211,13 +213,13 @@ export async function checkoutRemoteBranch(repository: Repository, remoteBranch:
     return branchRef;
 }
 
-export async function rebaseBranch(repository: Repository, localBranch: Branch): Promise<Oid> {
+export async function rebaseBranch(repository: Repository, localBranch: Branch) {
     return repository.rebaseBranches(
         localBranch.name,
         Branch.RemoteMaster.shorthand(),
-        "",
+        undefined,
         repository.defaultSignature(),
-        (_: any) => {});
+        _ => {});
 }
 
 function getCurrentDateSuffix(): string {
@@ -257,7 +259,7 @@ export async function commitChanges(repository: Repository, commitMessage: strin
     const index = await repository.refreshIndex();
     if (typeof validateEach === "string") {
         const folderName = validateEach;
-        validateEach = (path) => {
+        validateEach = (path, pattern) => {
              return path.startsWith(folderName) ? 0 : 1;
         }
     }
@@ -281,7 +283,7 @@ export async function pushBranch(repository: Repository, localBranch: Branch, fo
     return new Promise<number>((resolve, reject) => {
         remote.push([refSpec], {
             callbacks: {
-                credentials: () => {
+                credentials: function (url, userName) {
                     return Cred.userpassPlaintextNew(getToken(), "x-oauth-basic");
                 }
             }
@@ -294,13 +296,13 @@ export async function pushBranch(repository: Repository, localBranch: Branch, fo
     });
 }
 
-export async function commitAndPush(repository: Repository, localBranch: Branch, commitMessage: string, validate?: ValidateFunction, validateEach?: string | ValidateEachFunction, forcePush?: boolean): Promise<void> {
+export async function commitAndPush(repository: Repository, localBranch: Branch, commitMessage: string, validate?: ValidateFunction, validateEach?: string | ValidateEachFunction, forcePush?: boolean) {
     await commitChanges(repository, commitMessage, validate, validateEach);
     await pushBranch(repository, localBranch, forcePush);
 }
 
 export function getToken(): string {
-    const token: string = process.env.SDK_GEN_GITHUB_TOKEN || "";
+    const token = process.env.SDK_GEN_GITHUB_TOKEN;
     _validatePersonalAccessToken(token);
 
     return token;

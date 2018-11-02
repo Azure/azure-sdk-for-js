@@ -48,10 +48,6 @@ export {
   TagProperty,
   ImmutabilityPolicy,
   ListContainerItem,
-  BlobServiceProperties,
-  CorsRules,
-  CorsRule,
-  DeleteRetentionPolicy,
   StorageAccountManagementPolicies
 } from "../models/mappers";
 

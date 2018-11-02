@@ -436,14 +436,6 @@ export interface Application {
    * grant flow for OAuth2
    */
   oauth2AllowImplicitFlow?: boolean;
-  /**
-   * @member {RequiredResourceAccess[]} [requiredResourceAccess] Specifies
-   * resources that this application requires access to and the set of OAuth
-   * permission scopes and application roles that it needs under each of those
-   * resources. This pre-configuration of required resource access drives the
-   * consent experience.
-   */
-  requiredResourceAccess?: RequiredResourceAccess[];
 }
 
 /**

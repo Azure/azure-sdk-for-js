@@ -16,8 +16,14 @@ const packageName = "@azure/arm-storage";
 const packageVersion = "1.0.0-preview";
 
 export class StorageManagementClientContext extends msRestAzure.AzureServiceClient {
+
   credentials: msRest.ServiceClientCredentials;
+
   subscriptionId: string;
+
+  acceptLanguage: string;
+
+  longRunningOperationRetryTimeout: number;
 
   /**
    * Initializes a new instance of the StorageManagementClient class.

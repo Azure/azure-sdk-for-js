@@ -4,11 +4,11 @@
  * license information.
  */
 
-import minimist from "minimist";
+import * as minimist from "minimist";
 import * as path from "path";
-import * as yargs from "yargs";
-import { Options } from "yargs";
 import { arrayContains, findAzureRestApiSpecsRepositoryPathSync } from "./common";
+import { Options } from "yargs";
+import * as yargs from "yargs";
 
 export type YargsMapping = { [key: string]: Options };
 
@@ -74,7 +74,7 @@ export module Argv {
         loggingLevel: yargs.options(Argv.Options.Common).argv["logging-level"],
     }
 
-    export function combine(...configs: YargsMapping[]): YargsMapping {
+    const combine = (...configs: YargsMapping[]): YargsMapping => {
         let result = Options.Common;
         for (const config of configs) {
             result = { ...result, ...config };
@@ -82,9 +82,9 @@ export module Argv {
         return result;
     }
 
-    export function construct(...configs: YargsMapping[]): yargs.Argv {
-        const mergedOption: YargsMapping = combine(...configs);
-        const args: yargs.Argv = yargs.options(mergedOption)
+    export const construct = (...configs: YargsMapping[]) => {
+        const mergedOption = combine(...configs);
+        const args = yargs.options(mergedOption)
             .strict()
             .help("?")
             .showHelpOnFail(true, "Invalid usage. Run with -? to see help.")
@@ -97,7 +97,7 @@ export module Argv {
         return args;
     }
 
-    export function print(): String {
+    export const print = () => {
         return process.argv.slice(2).join(", ");
     }
 }
@@ -117,7 +117,7 @@ export interface CommandLineOptions extends minimist.ParsedArgs {
     getSdkType(): SdkType;
 }
 
-export const commandLineConfiguration: minimist.Opts = {
+export const commandLineConfiguration = {
     string: ["azure-sdk-for-js-repo-root", "azure-rest-api-specs-root", "logging-level", "package", "type"],
     boolean: ["debugger", "use", "skip-sdk", "skip-spec", "verbose", "whatif"],
     alias: {
@@ -143,8 +143,8 @@ export function getCommandLineOptions(): CommandLineOptions {
 }
 
 function createCommandLineParameters(): CommandLineOptions {
-    const args: CommandLineOptions = minimist(process.argv.slice(2), commandLineConfiguration) as CommandLineOptions;
-    args.getSdkType = () => parseSdkType(args.type);
+    const args = minimist(process.argv.slice(2), commandLineConfiguration) as CommandLineOptions;
+    args.getSdkType = getSdkType;
     return args;
 }
 
@@ -163,4 +163,8 @@ export function parseSdkType(str: string): SdkType {
     } else {
         return SdkType.Unknown;
     }
+}
+
+function getSdkType(): SdkType {
+    return parseSdkType(this.type);
 }

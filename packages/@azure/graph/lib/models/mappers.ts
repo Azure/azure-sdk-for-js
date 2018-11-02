@@ -625,23 +625,6 @@ export const Application: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
-      },
-      requiredResourceAccess: {
-        serializedName: "requiredResourceAccess",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "RequiredResourceAccess",
-              additionalProperties: {
-                type: {
-                  name: "Object"
-                }
-              }
-            }
-          }
-        }
       }
     },
     additionalProperties: DirectoryObject.type.additionalProperties

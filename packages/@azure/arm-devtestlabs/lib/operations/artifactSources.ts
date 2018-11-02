@@ -39,15 +39,15 @@ export class ArtifactSources {
    * @param labName The name of the lab.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, callback: msRest.ServiceCallback<Models.ArtifactSourceList>): void;
+  list(resourceGroupName: string, labName: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationArtifactSource>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, options: Models.ArtifactSourcesListOptionalParams, callback: msRest.ServiceCallback<Models.ArtifactSourceList>): void;
-  list(resourceGroupName: string, labName: string, options?: Models.ArtifactSourcesListOptionalParams, callback?: msRest.ServiceCallback<Models.ArtifactSourceList>): Promise<Models.ArtifactSourcesListResponse> {
+  list(resourceGroupName: string, labName: string, options: Models.ArtifactSourcesListOptionalParams, callback: msRest.ServiceCallback<Models.ResponseWithContinuationArtifactSource>): void;
+  list(resourceGroupName: string, labName: string, options?: Models.ArtifactSourcesListOptionalParams, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationArtifactSource>): Promise<Models.ArtifactSourcesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -221,14 +221,14 @@ export class ArtifactSources {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ArtifactSourceList>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationArtifactSource>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ArtifactSourceList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ArtifactSourceList>): Promise<Models.ArtifactSourcesListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResponseWithContinuationArtifactSource>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationArtifactSource>): Promise<Models.ArtifactSourcesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -261,7 +261,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactSourceList
+      bodyMapper: Mappers.ResponseWithContinuationArtifactSource
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -403,7 +403,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactSourceList
+      bodyMapper: Mappers.ResponseWithContinuationArtifactSource
     },
     default: {
       bodyMapper: Mappers.CloudError
