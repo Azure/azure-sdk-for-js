@@ -15,5 +15,5 @@ export interface OperationArguments {
   /**
    * The optional arugments that are provided to an operation.
    */
-  optionsOrCallback?: RequestOptionsBase;
+  options?: RequestOptionsBase;
 }

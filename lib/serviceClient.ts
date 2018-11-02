@@ -162,9 +162,9 @@ export class ServiceClient {
    * @param {ServiceCallback} callback The callback to call when the response is received.
    */
   sendOperationRequest(operationArguments: OperationArguments, operationSpec: OperationSpec, callback?: ServiceCallback<any>): Promise<RestResponse> {
-    if (typeof operationArguments.optionsOrCallback === "function") {
-      callback = operationArguments.optionsOrCallback;
-      operationArguments.optionsOrCallback = undefined;
+    if (typeof operationArguments.options === "function") {
+      callback = operationArguments.options;
+      operationArguments.options = undefined;
     }
 
     const httpRequest = new WebResource();
@@ -250,7 +250,7 @@ export class ServiceClient {
         }
       }
 
-      const options: RequestOptionsBase | undefined = operationArguments.optionsOrCallback;
+      const options: RequestOptionsBase | undefined = operationArguments.options;
       if (options) {
         if (options.customHeaders) {
           for (const customHeaderName in options.customHeaders) {
