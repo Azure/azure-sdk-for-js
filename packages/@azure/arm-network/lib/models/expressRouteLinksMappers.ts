@@ -9,11 +9,11 @@
  */
 
 export {
-  CloudError,
-  ExpressRouteCircuitAuthorization,
+  ExpressRouteLink,
   SubResource,
   BaseResource,
-  AuthorizationListResult,
+  CloudError,
+  ExpressRouteLinkListResult,
   NetworkInterfaceTapConfiguration,
   VirtualNetworkTap,
   Resource,
@@ -91,6 +91,7 @@ export {
   AzureFirewallFqdnTag,
   DdosProtectionPlan,
   EndpointServiceResult,
+  ExpressRouteCircuitAuthorization,
   RouteFilterRule,
   ExpressRouteCircuitConnection,
   ExpressRouteCircuitPeering,
@@ -115,7 +116,6 @@ export {
   VirtualHubId,
   ExpressRoutePortsLocation,
   ExpressRoutePortsLocationBandwidths,
-  ExpressRouteLink,
   ExpressRoutePort,
   LoadBalancingRule,
   Probe,
