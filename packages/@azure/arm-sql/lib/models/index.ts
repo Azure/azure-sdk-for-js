@@ -3143,7 +3143,7 @@ export interface ExtendedDatabaseBlobAuditingPolicy extends ProxyResource {
   predicateExpression?: string;
   /**
    * @member {BlobAuditingPolicyState} state Specifies the state of the policy.
-   * If state is Enabled, storageEndpoint and storageAccountAccessKey are
+   * If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are
    * required. Possible values include: 'Enabled', 'Disabled'
    */
   state: BlobAuditingPolicyState;
@@ -3155,13 +3155,13 @@ export interface ExtendedDatabaseBlobAuditingPolicy extends ProxyResource {
   storageEndpoint?: string;
   /**
    * @member {string} [storageAccountAccessKey] Specifies the identifier key of
-   * the auditing storage account. If state is Enabled, storageAccountAccessKey
-   * is required.
+   * the auditing storage account. If state is Enabled and storageEndpoint is
+   * specified, storageAccountAccessKey is required.
    */
   storageAccountAccessKey?: string;
   /**
    * @member {number} [retentionDays] Specifies the number of days to keep in
-   * the audit logs.
+   * the audit logs in the storage account.
    */
   retentionDays?: number;
   /**
@@ -3249,6 +3249,27 @@ export interface ExtendedDatabaseBlobAuditingPolicy extends ProxyResource {
    * storageAccountAccessKey value is the storage's secondary key.
    */
   isStorageSecondaryKeyInUse?: boolean;
+  /**
+   * @member {boolean} [isAzureMonitorTargetEnabled] Specifies whether audit
+   * events are sent to Azure Monitor.
+   * In order to send the events to Azure Monitor, specify 'State' as 'Enabled'
+   * and 'IsAzureMonitorTargetEnabled' as true.
+   *
+   * When using REST API to configure auditing, Diagnostic Settings with
+   * 'SQLSecurityAuditEvents' diagnostic logs category on the database should
+   * be also created.
+   * Note that for server level audit you should use the 'master' database as
+   * <databaseName>.
+   * Diagnostic Settings URI format:
+   * PUT
+   * https://management.azure.com/subscriptions/<subscriptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.Sql/servers/<serverName>/databases/<databaseName>/providers/microsoft.insights/diagnosticSettings/<settingsName>?api-version=2017-05-01-preview
+   *
+   * For more information, see [Diagnostic Settings REST
+   * API](https://go.microsoft.com/fwlink/?linkid=2033207)
+   * or [Diagnostic Settings
+   * PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)
+   */
+  isAzureMonitorTargetEnabled?: boolean;
 }
 
 /**
@@ -3266,7 +3287,7 @@ export interface ExtendedServerBlobAuditingPolicy extends ProxyResource {
   predicateExpression?: string;
   /**
    * @member {BlobAuditingPolicyState} state Specifies the state of the policy.
-   * If state is Enabled, storageEndpoint and storageAccountAccessKey are
+   * If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are
    * required. Possible values include: 'Enabled', 'Disabled'
    */
   state: BlobAuditingPolicyState;
@@ -3278,13 +3299,13 @@ export interface ExtendedServerBlobAuditingPolicy extends ProxyResource {
   storageEndpoint?: string;
   /**
    * @member {string} [storageAccountAccessKey] Specifies the identifier key of
-   * the auditing storage account. If state is Enabled, storageAccountAccessKey
-   * is required.
+   * the auditing storage account. If state is Enabled and storageEndpoint is
+   * specified, storageAccountAccessKey is required.
    */
   storageAccountAccessKey?: string;
   /**
    * @member {number} [retentionDays] Specifies the number of days to keep in
-   * the audit logs.
+   * the audit logs in the storage account.
    */
   retentionDays?: number;
   /**
@@ -3372,6 +3393,27 @@ export interface ExtendedServerBlobAuditingPolicy extends ProxyResource {
    * storageAccountAccessKey value is the storage's secondary key.
    */
   isStorageSecondaryKeyInUse?: boolean;
+  /**
+   * @member {boolean} [isAzureMonitorTargetEnabled] Specifies whether audit
+   * events are sent to Azure Monitor.
+   * In order to send the events to Azure Monitor, specify 'State' as 'Enabled'
+   * and 'IsAzureMonitorTargetEnabled' as true.
+   *
+   * When using REST API to configure auditing, Diagnostic Settings with
+   * 'SQLSecurityAuditEvents' diagnostic logs category on the database should
+   * be also created.
+   * Note that for server level audit you should use the 'master' database as
+   * <databaseName>.
+   * Diagnostic Settings URI format:
+   * PUT
+   * https://management.azure.com/subscriptions/<subscriptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.Sql/servers/<serverName>/databases/<databaseName>/providers/microsoft.insights/diagnosticSettings/<settingsName>?api-version=2017-05-01-preview
+   *
+   * For more information, see [Diagnostic Settings REST
+   * API](https://go.microsoft.com/fwlink/?linkid=2033207)
+   * or [Diagnostic Settings
+   * PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)
+   */
+  isAzureMonitorTargetEnabled?: boolean;
 }
 
 /**
@@ -3384,7 +3426,7 @@ export interface ExtendedServerBlobAuditingPolicy extends ProxyResource {
 export interface ServerBlobAuditingPolicy extends ProxyResource {
   /**
    * @member {BlobAuditingPolicyState} state Specifies the state of the policy.
-   * If state is Enabled, storageEndpoint and storageAccountAccessKey are
+   * If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are
    * required. Possible values include: 'Enabled', 'Disabled'
    */
   state: BlobAuditingPolicyState;
@@ -3396,13 +3438,13 @@ export interface ServerBlobAuditingPolicy extends ProxyResource {
   storageEndpoint?: string;
   /**
    * @member {string} [storageAccountAccessKey] Specifies the identifier key of
-   * the auditing storage account. If state is Enabled, storageAccountAccessKey
-   * is required.
+   * the auditing storage account. If state is Enabled and storageEndpoint is
+   * specified, storageAccountAccessKey is required.
    */
   storageAccountAccessKey?: string;
   /**
    * @member {number} [retentionDays] Specifies the number of days to keep in
-   * the audit logs.
+   * the audit logs in the storage account.
    */
   retentionDays?: number;
   /**
@@ -3490,6 +3532,27 @@ export interface ServerBlobAuditingPolicy extends ProxyResource {
    * storageAccountAccessKey value is the storage's secondary key.
    */
   isStorageSecondaryKeyInUse?: boolean;
+  /**
+   * @member {boolean} [isAzureMonitorTargetEnabled] Specifies whether audit
+   * events are sent to Azure Monitor.
+   * In order to send the events to Azure Monitor, specify 'State' as 'Enabled'
+   * and 'IsAzureMonitorTargetEnabled' as true.
+   *
+   * When using REST API to configure auditing, Diagnostic Settings with
+   * 'SQLSecurityAuditEvents' diagnostic logs category on the database should
+   * be also created.
+   * Note that for server level audit you should use the 'master' database as
+   * <databaseName>.
+   * Diagnostic Settings URI format:
+   * PUT
+   * https://management.azure.com/subscriptions/<subscriptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.Sql/servers/<serverName>/databases/<databaseName>/providers/microsoft.insights/diagnosticSettings/<settingsName>?api-version=2017-05-01-preview
+   *
+   * For more information, see [Diagnostic Settings REST
+   * API](https://go.microsoft.com/fwlink/?linkid=2033207)
+   * or [Diagnostic Settings
+   * PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)
+   */
+  isAzureMonitorTargetEnabled?: boolean;
 }
 
 /**
@@ -3508,7 +3571,7 @@ export interface DatabaseBlobAuditingPolicy extends ProxyResource {
   readonly kind?: string;
   /**
    * @member {BlobAuditingPolicyState} state Specifies the state of the policy.
-   * If state is Enabled, storageEndpoint and storageAccountAccessKey are
+   * If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are
    * required. Possible values include: 'Enabled', 'Disabled'
    */
   state: BlobAuditingPolicyState;
@@ -3520,13 +3583,13 @@ export interface DatabaseBlobAuditingPolicy extends ProxyResource {
   storageEndpoint?: string;
   /**
    * @member {string} [storageAccountAccessKey] Specifies the identifier key of
-   * the auditing storage account. If state is Enabled, storageAccountAccessKey
-   * is required.
+   * the auditing storage account. If state is Enabled and storageEndpoint is
+   * specified, storageAccountAccessKey is required.
    */
   storageAccountAccessKey?: string;
   /**
    * @member {number} [retentionDays] Specifies the number of days to keep in
-   * the audit logs.
+   * the audit logs in the storage account.
    */
   retentionDays?: number;
   /**
@@ -3614,6 +3677,27 @@ export interface DatabaseBlobAuditingPolicy extends ProxyResource {
    * storageAccountAccessKey value is the storage's secondary key.
    */
   isStorageSecondaryKeyInUse?: boolean;
+  /**
+   * @member {boolean} [isAzureMonitorTargetEnabled] Specifies whether audit
+   * events are sent to Azure Monitor.
+   * In order to send the events to Azure Monitor, specify 'State' as 'Enabled'
+   * and 'IsAzureMonitorTargetEnabled' as true.
+   *
+   * When using REST API to configure auditing, Diagnostic Settings with
+   * 'SQLSecurityAuditEvents' diagnostic logs category on the database should
+   * be also created.
+   * Note that for server level audit you should use the 'master' database as
+   * <databaseName>.
+   * Diagnostic Settings URI format:
+   * PUT
+   * https://management.azure.com/subscriptions/<subscriptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.Sql/servers/<serverName>/databases/<databaseName>/providers/microsoft.insights/diagnosticSettings/<settingsName>?api-version=2017-05-01-preview
+   *
+   * For more information, see [Diagnostic Settings REST
+   * API](https://go.microsoft.com/fwlink/?linkid=2033207)
+   * or [Diagnostic Settings
+   * PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)
+   */
+  isAzureMonitorTargetEnabled?: boolean;
 }
 
 /**
@@ -3678,11 +3762,12 @@ export interface VulnerabilityAssessmentRecurringScansProperties {
  */
 export interface DatabaseVulnerabilityAssessment extends ProxyResource {
   /**
-   * @member {string} storageContainerPath A blob storage container path to
+   * @member {string} [storageContainerPath] A blob storage container path to
    * hold the scan results (e.g.
-   * https://myStorage.blob.core.windows.net/VaScans/).
+   * https://myStorage.blob.core.windows.net/VaScans/).  It is required if
+   * server level vulnerability assessment policy doesn't set
    */
-  storageContainerPath: string;
+  storageContainerPath?: string;
   /**
    * @member {string} [storageContainerSasKey] A shared access signature (SAS
    * Key) that has write access to the blob container specified in
@@ -3692,8 +3777,9 @@ export interface DatabaseVulnerabilityAssessment extends ProxyResource {
   storageContainerSasKey?: string;
   /**
    * @member {string} [storageAccountAccessKey] Specifies the identifier key of
-   * the vulnerability assessment storage account. If 'StorageContainerSasKey'
-   * isn't specified, storageAccountAccessKey is required.
+   * the storage account for vulnerability assessment scan results. If
+   * 'StorageContainerSasKey' isn't specified, storageAccountAccessKey is
+   * required.
    */
   storageAccountAccessKey?: string;
   /**
@@ -7214,6 +7300,22 @@ export interface SubscriptionUsageListResult extends Array<SubscriptionUsage> {
  * @extends Array<VirtualNetworkRule>
  */
 export interface VirtualNetworkRuleListResult extends Array<VirtualNetworkRule> {
+  /**
+   * @member {string} [nextLink] Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the DatabaseVulnerabilityAssessmentListResult.
+ * A list of the database's vulnerability assessments.
+ *
+ * @extends Array<DatabaseVulnerabilityAssessment>
+ */
+export interface DatabaseVulnerabilityAssessmentListResult extends Array<DatabaseVulnerabilityAssessment> {
   /**
    * @member {string} [nextLink] Link to retrieve next page of results.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -12075,6 +12177,44 @@ export type DatabaseVulnerabilityAssessmentsCreateOrUpdateResponse = DatabaseVul
 };
 
 /**
+ * Contains response data for the listByDatabase operation.
+ */
+export type DatabaseVulnerabilityAssessmentsListByDatabaseResponse = DatabaseVulnerabilityAssessmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseVulnerabilityAssessmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabaseNext operation.
+ */
+export type DatabaseVulnerabilityAssessmentsListByDatabaseNextResponse = DatabaseVulnerabilityAssessmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseVulnerabilityAssessmentListResult;
+    };
+};
+
+/**
  * Contains response data for the listByServer operation.
  */
 export type JobAgentsListByServerResponse = JobAgentListResult & {
@@ -13876,6 +14016,44 @@ export type ManagedDatabaseVulnerabilityAssessmentsCreateOrUpdateResponse = Data
        * The response body as parsed JSON or XML
        */
       parsedBody: DatabaseVulnerabilityAssessment;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabase operation.
+ */
+export type ManagedDatabaseVulnerabilityAssessmentsListByDatabaseResponse = DatabaseVulnerabilityAssessmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseVulnerabilityAssessmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabaseNext operation.
+ */
+export type ManagedDatabaseVulnerabilityAssessmentsListByDatabaseNextResponse = DatabaseVulnerabilityAssessmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseVulnerabilityAssessmentListResult;
     };
 };
 

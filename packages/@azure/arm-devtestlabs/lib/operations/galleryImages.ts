@@ -39,15 +39,15 @@ export class GalleryImages {
    * @param labName The name of the lab.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationGalleryImage>): void;
+  list(resourceGroupName: string, labName: string, callback: msRest.ServiceCallback<Models.GalleryImageList>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, options: Models.GalleryImagesListOptionalParams, callback: msRest.ServiceCallback<Models.ResponseWithContinuationGalleryImage>): void;
-  list(resourceGroupName: string, labName: string, options?: Models.GalleryImagesListOptionalParams, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationGalleryImage>): Promise<Models.GalleryImagesListResponse> {
+  list(resourceGroupName: string, labName: string, options: Models.GalleryImagesListOptionalParams, callback: msRest.ServiceCallback<Models.GalleryImageList>): void;
+  list(resourceGroupName: string, labName: string, options?: Models.GalleryImagesListOptionalParams, callback?: msRest.ServiceCallback<Models.GalleryImageList>): Promise<Models.GalleryImagesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -69,14 +69,14 @@ export class GalleryImages {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationGalleryImage>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.GalleryImageList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResponseWithContinuationGalleryImage>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationGalleryImage>): Promise<Models.GalleryImagesListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GalleryImageList>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.GalleryImageList>): Promise<Models.GalleryImagesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -109,7 +109,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ResponseWithContinuationGalleryImage
+      bodyMapper: Mappers.GalleryImageList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -130,7 +130,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ResponseWithContinuationGalleryImage
+      bodyMapper: Mappers.GalleryImageList
     },
     default: {
       bodyMapper: Mappers.CloudError

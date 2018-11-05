@@ -42,7 +42,7 @@ export class Environments {
    * @param userName The name of the user profile.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, userName: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationDtlEnvironment>): void;
+  list(resourceGroupName: string, labName: string, userName: string, callback: msRest.ServiceCallback<Models.DtlEnvironmentList>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -50,8 +50,8 @@ export class Environments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, userName: string, options: Models.EnvironmentsListOptionalParams, callback: msRest.ServiceCallback<Models.ResponseWithContinuationDtlEnvironment>): void;
-  list(resourceGroupName: string, labName: string, userName: string, options?: Models.EnvironmentsListOptionalParams, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationDtlEnvironment>): Promise<Models.EnvironmentsListResponse> {
+  list(resourceGroupName: string, labName: string, userName: string, options: Models.EnvironmentsListOptionalParams, callback: msRest.ServiceCallback<Models.DtlEnvironmentList>): void;
+  list(resourceGroupName: string, labName: string, userName: string, options?: Models.EnvironmentsListOptionalParams, callback?: msRest.ServiceCallback<Models.DtlEnvironmentList>): Promise<Models.EnvironmentsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -133,6 +133,50 @@ export class Environments {
   }
 
   /**
+   * Modify properties of environments.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param userName The name of the user profile.
+   * @param name The name of the environment.
+   * @param dtlEnvironment An environment, which is essentially an ARM template deployment.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.EnvironmentsUpdateResponse>
+   */
+  update(resourceGroupName: string, labName: string, userName: string, name: string, dtlEnvironment: Models.DtlEnvironmentFragment, options?: msRest.RequestOptionsBase): Promise<Models.EnvironmentsUpdateResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param userName The name of the user profile.
+   * @param name The name of the environment.
+   * @param dtlEnvironment An environment, which is essentially an ARM template deployment.
+   * @param callback The callback
+   */
+  update(resourceGroupName: string, labName: string, userName: string, name: string, dtlEnvironment: Models.DtlEnvironmentFragment, callback: msRest.ServiceCallback<Models.DtlEnvironment>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param userName The name of the user profile.
+   * @param name The name of the environment.
+   * @param dtlEnvironment An environment, which is essentially an ARM template deployment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  update(resourceGroupName: string, labName: string, userName: string, name: string, dtlEnvironment: Models.DtlEnvironmentFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DtlEnvironment>): void;
+  update(resourceGroupName: string, labName: string, userName: string, name: string, dtlEnvironment: Models.DtlEnvironmentFragment, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DtlEnvironment>): Promise<Models.EnvironmentsUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        labName,
+        userName,
+        name,
+        dtlEnvironment,
+        options
+      },
+      updateOperationSpec,
+      callback) as Promise<Models.EnvironmentsUpdateResponse>;
+  }
+
+  /**
    * Create or replace an existing environment. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -189,14 +233,14 @@ export class Environments {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationDtlEnvironment>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DtlEnvironmentList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResponseWithContinuationDtlEnvironment>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationDtlEnvironment>): Promise<Models.EnvironmentsListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DtlEnvironmentList>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DtlEnvironmentList>): Promise<Models.EnvironmentsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -230,7 +274,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ResponseWithContinuationDtlEnvironment
+      bodyMapper: Mappers.DtlEnvironmentList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -256,6 +300,40 @@ const getOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.DtlEnvironment
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const updateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/environments/{name}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.labName,
+    Parameters.userName,
+    Parameters.name
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "dtlEnvironment",
+    mapper: {
+      ...Mappers.DtlEnvironmentFragment,
+      required: true
+    }
+  },
   responses: {
     200: {
       bodyMapper: Mappers.DtlEnvironment
@@ -321,6 +399,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
+    200: {},
     202: {},
     204: {},
     default: {
@@ -342,7 +421,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ResponseWithContinuationDtlEnvironment
+      bodyMapper: Mappers.DtlEnvironmentList
     },
     default: {
       bodyMapper: Mappers.CloudError

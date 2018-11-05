@@ -39,13 +39,13 @@ export class Logger {
     constructor(loggingLevel: string) {
         const lowerCaseLevel = loggingLevel.toLowerCase();
         const capitalizedLevel = lowerCaseLevel.charAt(0).toUpperCase() + lowerCaseLevel.slice(1);
-        this._loggingLevel = LoggingLevel[capitalizedLevel];
+        this._loggingLevel = LoggingLevel[capitalizedLevel as any] as any;
         this._cache = [];
     }
 
     log(text?: string): void {
-        console.log(text || "");
-        this._capture(text);
+        console.log(text);
+        this._capture(text || "");
     }
 
     clearCapturedText(): void {
@@ -56,45 +56,45 @@ export class Logger {
         return this._cache.join("\n");
     }
 
-    private _capture(text?: string): void {
+    private _capture(text: string): void {
         this._cache.push(text);
     }
 
-    logInfo(text?: string) {
+    logInfo(text: string): void {
         this.log(text.info);
     }
 
-    logRed(text?: string): void {
+    logRed(text: string): void {
         this.log(text.red);
     }
 
-    logGreen(text?: string): void {
+    logGreen(text: string): void {
         this.log(text.green);
     }
 
-    logError(text?: string): void {
+    logError(text: string): void {
         this.log(text.bgRed);
     }
 
-    logWarn(text?: string): void {
+    logWarn(text: string): void {
         if (this._loggingLevel <= LoggingLevel.Warn) {
             this.log(text.bgYellow.black);
         }
     }
 
-    logDebug(text?: string): void {
+    logDebug(text: string): void {
         if (this._loggingLevel <= LoggingLevel.Debug) {
             this.log(text);
         }
     }
 
-    logWithDebugDetails(text?: string, details?: string): void {
+    logWithDebugDetails(text: string, details?: string): void {
         const greyDetails = `(${details})`.grey;
         const textToLog = (this._loggingLevel <= LoggingLevel.Debug) ? `${text} ${greyDetails}` : (text);
         this.log(textToLog);
     }
 
-    logTrace(text?: string) {
+    logTrace(text: string): void {
         if (this._loggingLevel <= LoggingLevel.Trace) {
             this.log(text.gray);
         }
@@ -104,7 +104,7 @@ export class Logger {
         console.log(`[${path}]> ${message}`);
     }
 
-    static get() {
+    static get(): Logger {
         return new Logger(Argv.Global.loggingLevel);
     }
 }
