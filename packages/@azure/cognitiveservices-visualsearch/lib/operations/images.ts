@@ -45,7 +45,7 @@ export class Images {
    * @param callback The callback
    */
   visualSearch(options: Models.ImagesVisualSearchOptionalParams, callback: msRest.ServiceCallback<Models.ImageKnowledge>): void;
-  visualSearch(options?: Models.ImagesVisualSearchOptionalParams, callback?: msRest.ServiceCallback<Models.ImageKnowledge>): Promise<Models.ImagesVisualSearchResponse> {
+  visualSearch(options?: Models.ImagesVisualSearchOptionalParams | msRest.ServiceCallback<Models.ImageKnowledge>, callback?: msRest.ServiceCallback<Models.ImageKnowledge>): Promise<Models.ImagesVisualSearchResponse> {
     return this.client.sendOperationRequest(
       {
         options

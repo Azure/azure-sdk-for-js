@@ -30,6 +30,10 @@ export class VisualSearchAPIClientContext extends msRest.ServiceClient {
     if (!options) {
       options = {};
     }
+    if(!options.userAgent) {
+      const defaultUserAgent = msRest.getDefaultUserAgentValue();
+      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
+    }
 
     super(credentials, options);
 
@@ -37,6 +41,5 @@ export class VisualSearchAPIClientContext extends msRest.ServiceClient {
     this.requestContentType = "multipart/form-data";
     this.credentials = credentials;
 
-    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
   }
 }
