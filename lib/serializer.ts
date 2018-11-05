@@ -533,7 +533,7 @@ function serializeCompositeType(serializer: Serializer, mapper: CompositeMapper,
 }
 
 function deserializeCompositeType(serializer: Serializer, mapper: CompositeMapper, responseBody: any, objectName: string): any {
-  if (mapper.type.polymorphicDiscriminator) {
+  if (getPolymorphicDiscriminatorRecursively(serializer, mapper)) {
     mapper = getPolymorphicMapper(serializer, mapper, responseBody, "serializedName");
   }
 
@@ -663,7 +663,7 @@ function deserializeSequenceType(serializer: Serializer, mapper: SequenceMapper,
 }
 
 function getPolymorphicMapper(serializer: Serializer, mapper: CompositeMapper, object: any, polymorphicPropertyName: "clientName" | "serializedName"): CompositeMapper {
-  const polymorphicDiscriminator = mapper.type.polymorphicDiscriminator;
+  const polymorphicDiscriminator = getPolymorphicDiscriminatorRecursively(serializer, mapper);
   if (polymorphicDiscriminator) {
     const discriminatorName = polymorphicDiscriminator[polymorphicPropertyName];
     if (discriminatorName != undefined) {
@@ -680,6 +680,10 @@ function getPolymorphicMapper(serializer: Serializer, mapper: CompositeMapper, o
     }
   }
   return mapper;
+}
+
+function getPolymorphicDiscriminatorRecursively(serializer: Serializer, mapper: CompositeMapper): PolymorphicDiscriminator | undefined {
+  return  mapper.type.polymorphicDiscriminator || (mapper.type.uberParent && serializer.modelMappers[mapper.type.uberParent].type.polymorphicDiscriminator);
 }
 
 export interface MapperConstraints {

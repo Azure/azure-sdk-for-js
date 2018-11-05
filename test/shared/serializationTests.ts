@@ -278,25 +278,25 @@ describe("msrest", function () {
       done();
     });
 
-    it('should correctly serialize an array of array of object types', function (done) {
+    it("should correctly serialize an array of array of object types", function (done) {
       const mapper: msRest.SequenceMapper = {
-        serializedName: 'arrayObj',
+        serializedName: "arrayObj",
         required: true,
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
             type: {
-              name: 'Sequence',
+              name: "Sequence",
               element: {
                 type: {
-                  name: 'Object'
+                  name: "Object"
                 }
               }
             }
           }
         }
       };
-      var array = [[1], ['2'], [1, '2', {}, true, []]];
+      var array = [[1], ["2"], [1, "2", {}, true, []]];
       var serializedArray = Serializer.serialize(mapper, array, mapper.serializedName);
       assert.deepEqual(array, serializedArray);
       done();
@@ -304,28 +304,28 @@ describe("msrest", function () {
 
     it('should fail while serializing an array of array of "object" types when a null value is provided', function (done) {
       const mapper: msRest.Mapper = {
-        serializedName: 'arrayObj',
+        serializedName: "arrayObj",
         required: true,
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
             type: {
-              name: 'Sequence',
+              name: "Sequence",
               element: {
                 required: true,
                 type: {
-                  name: 'Object'
+                  name: "Object"
                 }
               }
             }
           }
         }
       };
-      var array = [[1], ['2'], [null], [1, '2', {}, true, []]];
+      var array = [[1], ["2"], [null], [1, "2", {}, true, []]];
       try {
         Serializer.serialize(mapper, array, mapper.serializedName);
       } catch (err) {
-        assert.equal(err.message, 'arrayObj cannot be null or undefined.');
+        assert.equal(err.message, "arrayObj cannot be null or undefined.");
       }
       done();
     });
@@ -554,17 +554,17 @@ describe("msrest", function () {
     it("should allow null when required: true and nullable: true", function () {
       const mapper: msRest.Mapper = {
         required: false,
-        serializedName: 'testmodel',
+        serializedName: "testmodel",
         type: {
-          name: 'Composite',
-          className: 'testmodel',
+          name: "Composite",
+          className: "testmodel",
           modelProperties: {
             length: {
               required: true,
               nullable: true,
-              serializedName: 'length',
+              serializedName: "length",
               type: {
-                name: 'Number'
+                name: "Number"
               }
             }
           }
@@ -578,17 +578,17 @@ describe("msrest", function () {
     it("should not allow undefined when required: true and nullable: true", function () {
       const mapper: msRest.Mapper = {
         required: false,
-        serializedName: 'testmodel',
+        serializedName: "testmodel",
         type: {
-          name: 'Composite',
-          className: 'testmodel',
+          name: "Composite",
+          className: "testmodel",
           modelProperties: {
             length: {
               required: true,
               nullable: true,
-              serializedName: 'length',
+              serializedName: "length",
               type: {
-                name: 'Number'
+                name: "Number"
               }
             }
           }
@@ -601,17 +601,17 @@ describe("msrest", function () {
     it("should not allow null when required: true and nullable: false", function () {
       const mapper: msRest.Mapper = {
         required: false,
-        serializedName: 'testmodel',
+        serializedName: "testmodel",
         type: {
-          name: 'Composite',
-          className: 'testmodel',
+          name: "Composite",
+          className: "testmodel",
           modelProperties: {
             length: {
               required: true,
               nullable: false,
-              serializedName: 'length',
+              serializedName: "length",
               type: {
-                name: 'Number'
+                name: "Number"
               }
             }
           }
@@ -624,17 +624,17 @@ describe("msrest", function () {
     it("should not allow undefined when required: true and nullable: false", function () {
       const mapper: msRest.Mapper = {
         required: false,
-        serializedName: 'testmodel',
+        serializedName: "testmodel",
         type: {
-          name: 'Composite',
-          className: 'testmodel',
+          name: "Composite",
+          className: "testmodel",
           modelProperties: {
             length: {
               required: true,
               nullable: false,
-              serializedName: 'length',
+              serializedName: "length",
               type: {
-                name: 'Number'
+                name: "Number"
               }
             }
           }
@@ -644,8 +644,8 @@ describe("msrest", function () {
       (function () { Serializer.serialize(mapper, { length: undefined }, "testobj"); }).should.throw("testobj.length cannot be null or undefined.");
     });
 
-    it("should not allow null when required: true and nullable is undefined", function() {
-      const mapper: msRest.Mapper ={
+    it("should not allow null when required: true and nullable is undefined", function () {
+      const mapper: msRest.Mapper = {
         serializedName: "foo",
         required: true,
         type: {
@@ -655,8 +655,8 @@ describe("msrest", function () {
       (function () { Serializer.serialize(mapper, null, "testobj"); }).should.throw("testobj cannot be null or undefined.");
     });
 
-    it("should not allow undefined when required: true and nullable is undefined", function() {
-      const mapper: msRest.Mapper ={
+    it("should not allow undefined when required: true and nullable is undefined", function () {
+      const mapper: msRest.Mapper = {
         serializedName: "foo",
         required: true,
         type: {
@@ -666,8 +666,8 @@ describe("msrest", function () {
       (function () { Serializer.serialize(mapper, undefined, "testobj"); }).should.throw("testobj cannot be null or undefined.");
     });
 
-    it("should allow null when required: false and nullable: true", function() {
-      const mapper: msRest.Mapper ={
+    it("should allow null when required: false and nullable: true", function () {
+      const mapper: msRest.Mapper = {
         serializedName: "foo",
         required: false,
         nullable: true,
@@ -679,8 +679,8 @@ describe("msrest", function () {
       Serializer.serialize(mapper, null, "testobj");
     });
 
-    it("should not allow null when required: false and nullable: false", function() {
-      const mapper: msRest.Mapper ={
+    it("should not allow null when required: false and nullable: false", function () {
+      const mapper: msRest.Mapper = {
         serializedName: "foo",
         required: false,
         nullable: false,
@@ -691,8 +691,8 @@ describe("msrest", function () {
       (function () { Serializer.serialize(mapper, null, "testobj"); }).should.throw("testobj cannot be null.");
     });
 
-    it("should allow null when required: false and nullable is undefined", function() {
-      const mapper: msRest.Mapper ={
+    it("should allow null when required: false and nullable is undefined", function () {
+      const mapper: msRest.Mapper = {
         serializedName: "foo",
         required: false,
         type: {
@@ -703,8 +703,8 @@ describe("msrest", function () {
       Serializer.serialize(mapper, null, "testobj");
     });
 
-    it("should allow undefined when required: false and nullable: true", function() {
-      const mapper: msRest.Mapper ={
+    it("should allow undefined when required: false and nullable: true", function () {
+      const mapper: msRest.Mapper = {
         serializedName: "foo",
         required: false,
         nullable: true,
@@ -716,8 +716,8 @@ describe("msrest", function () {
       Serializer.serialize(mapper, undefined, "testobj");
     });
 
-    it("should allow undefined when required: false and nullable: false", function() {
-      const mapper: msRest.Mapper ={
+    it("should allow undefined when required: false and nullable: false", function () {
+      const mapper: msRest.Mapper = {
         serializedName: "fooType",
         type: {
           name: "Composite",
@@ -738,8 +738,8 @@ describe("msrest", function () {
       Serializer.serialize(mapper, { length: undefined }, "testobj");
     });
 
-    it("should allow undefined when required: false and nullable is undefined", function() {
-      const mapper: msRest.Mapper ={
+    it("should allow undefined when required: false and nullable is undefined", function () {
+      const mapper: msRest.Mapper = {
         serializedName: "foo",
         required: false,
         type: {
@@ -973,20 +973,20 @@ describe("msrest", function () {
       done();
     });
 
-    it('should correctly deserialize an array of array of object types', function (done) {
-      const mapper: msRest.Mapper ={
-        serializedName: 'arrayObj',
+    it("should correctly deserialize an array of array of object types", function (done) {
+      const mapper: msRest.Mapper = {
+        serializedName: "arrayObj",
         required: true,
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
             serializedName: "ObjectElementType",
             type: {
-              name: 'Sequence',
+              name: "Sequence",
               element: {
                 serializedName: "ObjectElementType",
                 type: {
-                  name: 'Object'
+                  name: "Object"
                 }
               }
             }
@@ -999,48 +999,48 @@ describe("msrest", function () {
       done();
     });
 
-    it('should correctly deserialize without failing when encountering unrecognized discriminator', function (done) {
-      const client = new TestClient('http://localhost:9090');
+    it("should correctly deserialize without failing when encountering unrecognized discriminator", function (done) {
+      const client = new TestClient("http://localhost:9090");
       const mapper = Mappers.Fish;
       const responseBody = {
-        'fish.type': 'sawshark',
-        'age': 22,
-        'birthday': new Date('2012-01-05T01:00:00Z').toISOString(),
-        'species': 'king',
-        'length': 1.0,
-        'picture': "/////g==",
-        'siblings': [
+        "fish.type": "sawshark",
+        "age": 22,
+        "birthday": new Date("2012-01-05T01:00:00Z").toISOString(),
+        "species": "king",
+        "length": 1.0,
+        "picture": "/////g==",
+        "siblings": [
           {
-            'fish.type': 'mutatedshark',
-            'age': 105,
-            'birthday': new Date('1900-01-05T01:00:00Z').toISOString(),
-            'length': 10.0,
-            'picture': "/////g==",
-            'species': 'dangerous',
-            'siblings': [
+            "fish.type": "mutatedshark",
+            "age": 105,
+            "birthday": new Date("1900-01-05T01:00:00Z").toISOString(),
+            "length": 10.0,
+            "picture": "/////g==",
+            "species": "dangerous",
+            "siblings": [
               {
-                'fish.type': 'mutatedshark',
-                'age': 6,
-                'length': 20.0,
-                'species': 'predator'
+                "fish.type": "mutatedshark",
+                "age": 6,
+                "length": 20.0,
+                "species": "predator"
               }
             ]
           }
         ]
       };
-      const deserializedSawshark = client.serializer.deserialize(mapper, responseBody, 'responseBody');
+      const deserializedSawshark = client.serializer.deserialize(mapper, responseBody, "responseBody");
       deserializedSawshark.siblings.length.should.equal(1);
-      deserializedSawshark.siblings[0].fishtype.should.equal('mutatedshark');
-      deserializedSawshark.siblings[0].species.should.equal('dangerous');
-      deserializedSawshark.siblings[0].should.not.have.property('birthday');
-      deserializedSawshark.siblings[0].should.not.have.property('age');
-      deserializedSawshark.siblings[0].siblings[0].fishtype.should.equal('mutatedshark');
-      deserializedSawshark.siblings[0].siblings[0].species.should.equal('predator');
-      deserializedSawshark.siblings[0].siblings[0].should.not.have.property('age');
+      deserializedSawshark.siblings[0].fishtype.should.equal("mutatedshark");
+      deserializedSawshark.siblings[0].species.should.equal("dangerous");
+      deserializedSawshark.siblings[0].should.not.have.property("birthday");
+      deserializedSawshark.siblings[0].should.not.have.property("age");
+      deserializedSawshark.siblings[0].siblings[0].fishtype.should.equal("mutatedshark");
+      deserializedSawshark.siblings[0].siblings[0].species.should.equal("predator");
+      deserializedSawshark.siblings[0].siblings[0].should.not.have.property("age");
       done();
     });
 
-    it("should deserialize headerCollectionPrefix", function() {
+    it("should deserialize headerCollectionPrefix", function () {
       const mapper: msRest.CompositeMapper = {
         serializedName: "something",
         type: {
@@ -1085,6 +1085,216 @@ describe("msrest", function () {
       };
       const actual = Serializer.deserialize(mapper, rawHeaders, "headers");
       assert.deepStrictEqual(actual, expected);
+    });
+
+    describe("composite type", () => {
+      it("should be deserialized properly when polymorphicDiscriminator specified", function () {
+        const fish: msRest.CompositeMapper = {
+          serializedName: "Fish",
+          type: {
+            name: "Composite",
+            polymorphicDiscriminator: {
+              serializedName: "fishtype",
+              clientName: "fishtype"
+            },
+            uberParent: "Fish",
+            className: "Fish",
+            modelProperties: {
+              fishtype: {
+                required: true,
+                serializedName: "fishtype",
+                type: {
+                  name: "String"
+                }
+              }
+            }
+          }
+        };
+
+        const shark: msRest.CompositeMapper = {
+          serializedName: "shark",
+          type: {
+            name: "Composite",
+            polymorphicDiscriminator: fish.type.polymorphicDiscriminator,
+            uberParent: "Fish",
+            className: "Shark",
+            modelProperties: {
+              ...fish.type.modelProperties,
+              age: {
+                serializedName: "age",
+                type: {
+                  name: "Number"
+                }
+              }
+            }
+          }
+        };
+
+        const mappers = {
+          Fish: fish,
+          Shark: shark,
+          discriminators: {
+            "Fish": fish,
+            "Fish.shark": shark
+          }
+        };
+        const serializer = new msRest.Serializer(mappers);
+        const result = serializer.deserialize(fish, {
+          fishtype: "shark",
+          age: 10
+        }, "");
+
+        assert.strictEqual("shark", result.fishtype);
+        assert.strictEqual(10, result.age);
+      });
+
+      it("should be deserialized properly when polymorphicDiscriminator specified in nested property", function () {
+        const fish: msRest.CompositeMapper = {
+          serializedName: "Fish",
+          type: {
+            name: "Composite",
+            polymorphicDiscriminator: {
+              serializedName: "fishtype",
+              clientName: "fishtype"
+            },
+            uberParent: "Fish",
+            className: "Fish",
+            modelProperties: {
+              sibling: {
+                required: false,
+                serializedName: "sibling",
+                type: {
+                  name: "Composite",
+                  polymorphicDiscriminator: {
+                    serializedName: "fishtype",
+                    clientName: "fishtype"
+                  },
+                  uberParent: "Fish",
+                  className: "Fish"
+                }
+              },
+              fishtype: {
+                required: true,
+                serializedName: "fishtype",
+                type: {
+                  name: "String"
+                }
+              }
+            }
+          }
+        };
+
+        const shark: msRest.CompositeMapper = {
+          serializedName: "shark",
+          type: {
+            name: "Composite",
+            polymorphicDiscriminator: fish.type.polymorphicDiscriminator,
+            uberParent: "Fish",
+            className: "Shark",
+            modelProperties: {
+              ...fish.type.modelProperties,
+              age: {
+                serializedName: "age",
+                type: {
+                  name: "Number"
+                }
+              }
+            }
+          }
+        };
+
+        const mappers = {
+          Fish: fish,
+          Shark: shark,
+          discriminators: {
+            "Fish": fish,
+            "Fish.shark": shark
+          }
+        };
+        const serializer = new msRest.Serializer(mappers);
+        const result = serializer.deserialize(fish, {
+          fishtype: "shark",
+          age: 10,
+          sibling: { fishtype: "shark", age: 15 }
+        }, "");
+
+        assert.strictEqual("shark", result.fishtype);
+        assert.strictEqual(10, result.age);
+        assert.strictEqual("shark", result.sibling.fishtype);
+        assert.strictEqual(15, result.sibling.age);
+      });
+
+      it("should be deserialized properly when polymorphicDiscriminator specified in the parent", function () {
+        const fish: msRest.CompositeMapper = {
+          serializedName: "Fish",
+          type: {
+            name: "Composite",
+            polymorphicDiscriminator: {
+              serializedName: "fishtype",
+              clientName: "fishtype"
+            },
+            uberParent: "Fish",
+            className: "Fish",
+            modelProperties: {
+              sibling: {
+                required: false,
+                serializedName: "sibling",
+                type: {
+                  name: "Composite",
+                  uberParent: "Fish",
+                  className: "Fish"
+                }
+              },
+              fishtype: {
+                required: true,
+                serializedName: "fishtype",
+                type: {
+                  name: "String"
+                }
+              }
+            }
+          }
+        };
+
+        const shark: msRest.CompositeMapper = {
+          serializedName: "shark",
+          type: {
+            name: "Composite",
+            polymorphicDiscriminator: fish.type.polymorphicDiscriminator,
+            uberParent: "Fish",
+            className: "Shark",
+            modelProperties: {
+              ...fish.type.modelProperties,
+              age: {
+                serializedName: "age",
+                type: {
+                  name: "Number"
+                }
+              }
+            }
+          }
+        };
+
+        const mappers = {
+          Fish: fish,
+          Shark: shark,
+          discriminators: {
+            "Fish": fish,
+            "Fish.shark": shark
+          }
+        };
+        const serializer = new msRest.Serializer(mappers);
+        const result = serializer.deserialize(fish, {
+          fishtype: "shark",
+          age: 10,
+          sibling: { fishtype: "shark", age: 15 }
+        }, "");
+
+        assert.strictEqual("shark", result.fishtype);
+        assert.strictEqual(10, result.age);
+        assert.strictEqual("shark", result.sibling.fishtype);
+        assert.strictEqual(15, result.sibling.age);
+      });
     });
   });
 });
