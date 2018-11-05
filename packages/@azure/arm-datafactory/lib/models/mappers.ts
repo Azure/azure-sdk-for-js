@@ -10779,10 +10779,9 @@ export const DeleteActivity: msRest.CompositeMapper = {
     modelProperties: {
       ...ExecutionActivity.type.modelProperties,
       recursive: {
-        required: true,
         serializedName: "typeProperties.recursive",
         type: {
-          name: "Boolean"
+          name: "Object"
         }
       },
       dataset: {

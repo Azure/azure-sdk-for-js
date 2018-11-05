@@ -12390,11 +12390,11 @@ export interface DeleteActivity {
    */
   policy?: ActivityPolicy;
   /**
-   * @member {boolean} recursive If true, files under the folder path will be
+   * @member {any} [recursive] If true, files under the folder path will be
    * deleted recursively. Default is true. Type: boolean (or Expression with
    * resultType boolean).
    */
-  recursive: boolean;
+  recursive?: any;
   /**
    * @member {DatasetReference} dataset Delete activity dataset reference.
    */
