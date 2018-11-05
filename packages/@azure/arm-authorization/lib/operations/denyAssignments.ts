@@ -349,7 +349,7 @@ const listForResourceOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName
   ],
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion3,
     Parameters.filter
   ],
   headerParameters: [
@@ -374,7 +374,7 @@ const listForResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion3,
     Parameters.filter
   ],
   headerParameters: [
@@ -398,7 +398,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion3,
     Parameters.filter
   ],
   headerParameters: [
@@ -423,7 +423,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.denyAssignmentId0
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -446,7 +446,7 @@ const getByIdOperationSpec: msRest.OperationSpec = {
     Parameters.denyAssignmentId1
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -469,7 +469,7 @@ const listForScopeOperationSpec: msRest.OperationSpec = {
     Parameters.scope
   ],
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion3,
     Parameters.filter
   ],
   headerParameters: [
