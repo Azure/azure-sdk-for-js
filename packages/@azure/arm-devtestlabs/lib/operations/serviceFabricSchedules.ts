@@ -11,16 +11,16 @@
 import * as msRest from "ms-rest-js";
 import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
-import * as Mappers from "../models/virtualMachineSchedulesMappers";
+import * as Mappers from "../models/serviceFabricSchedulesMappers";
 import * as Parameters from "../models/parameters";
 import { DevTestLabsClientContext } from "../devTestLabsClientContext";
 
-/** Class representing a VirtualMachineSchedules. */
-export class VirtualMachineSchedules {
+/** Class representing a ServiceFabricSchedules. */
+export class ServiceFabricSchedules {
   private readonly client: DevTestLabsClientContext;
 
   /**
-   * Create a VirtualMachineSchedules.
+   * Create a ServiceFabricSchedules.
    * @param {DevTestLabsClientContext} client Reference to the service client.
    */
   constructor(client: DevTestLabsClientContext) {
@@ -28,158 +28,174 @@ export class VirtualMachineSchedules {
   }
 
   /**
-   * List schedules in a given virtual machine.
+   * List schedules in a given service fabric.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param virtualMachineName The name of the virtual machine.
+   * @param userName The name of the user profile.
+   * @param serviceFabricName The name of the service Fabric.
    * @param [options] The optional parameters
-   * @returns Promise<Models.VirtualMachineSchedulesListResponse>
+   * @returns Promise<Models.ServiceFabricSchedulesListResponse>
    */
-  list(resourceGroupName: string, labName: string, virtualMachineName: string, options?: Models.VirtualMachineSchedulesListOptionalParams): Promise<Models.VirtualMachineSchedulesListResponse>;
+  list(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, options?: Models.ServiceFabricSchedulesListOptionalParams): Promise<Models.ServiceFabricSchedulesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param virtualMachineName The name of the virtual machine.
+   * @param userName The name of the user profile.
+   * @param serviceFabricName The name of the service Fabric.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, virtualMachineName: string, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
+  list(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param virtualMachineName The name of the virtual machine.
+   * @param userName The name of the user profile.
+   * @param serviceFabricName The name of the service Fabric.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, virtualMachineName: string, options: Models.VirtualMachineSchedulesListOptionalParams, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
-  list(resourceGroupName: string, labName: string, virtualMachineName: string, options?: Models.VirtualMachineSchedulesListOptionalParams, callback?: msRest.ServiceCallback<Models.ScheduleList>): Promise<Models.VirtualMachineSchedulesListResponse> {
+  list(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, options: Models.ServiceFabricSchedulesListOptionalParams, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
+  list(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, options?: Models.ServiceFabricSchedulesListOptionalParams, callback?: msRest.ServiceCallback<Models.ScheduleList>): Promise<Models.ServiceFabricSchedulesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         labName,
-        virtualMachineName,
+        userName,
+        serviceFabricName,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.VirtualMachineSchedulesListResponse>;
+      callback) as Promise<Models.ServiceFabricSchedulesListResponse>;
   }
 
   /**
    * Get schedule.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param virtualMachineName The name of the virtual machine.
+   * @param userName The name of the user profile.
+   * @param serviceFabricName The name of the service Fabric.
    * @param name The name of the schedule.
    * @param [options] The optional parameters
-   * @returns Promise<Models.VirtualMachineSchedulesGetResponse>
+   * @returns Promise<Models.ServiceFabricSchedulesGetResponse>
    */
-  get(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, options?: Models.VirtualMachineSchedulesGetOptionalParams): Promise<Models.VirtualMachineSchedulesGetResponse>;
+  get(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, options?: Models.ServiceFabricSchedulesGetOptionalParams): Promise<Models.ServiceFabricSchedulesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param virtualMachineName The name of the virtual machine.
+   * @param userName The name of the user profile.
+   * @param serviceFabricName The name of the service Fabric.
    * @param name The name of the schedule.
    * @param callback The callback
    */
-  get(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, callback: msRest.ServiceCallback<Models.Schedule>): void;
+  get(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, callback: msRest.ServiceCallback<Models.Schedule>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param virtualMachineName The name of the virtual machine.
+   * @param userName The name of the user profile.
+   * @param serviceFabricName The name of the service Fabric.
    * @param name The name of the schedule.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, options: Models.VirtualMachineSchedulesGetOptionalParams, callback: msRest.ServiceCallback<Models.Schedule>): void;
-  get(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, options?: Models.VirtualMachineSchedulesGetOptionalParams, callback?: msRest.ServiceCallback<Models.Schedule>): Promise<Models.VirtualMachineSchedulesGetResponse> {
+  get(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, options: Models.ServiceFabricSchedulesGetOptionalParams, callback: msRest.ServiceCallback<Models.Schedule>): void;
+  get(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, options?: Models.ServiceFabricSchedulesGetOptionalParams, callback?: msRest.ServiceCallback<Models.Schedule>): Promise<Models.ServiceFabricSchedulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         labName,
-        virtualMachineName,
+        userName,
+        serviceFabricName,
         name,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.VirtualMachineSchedulesGetResponse>;
+      callback) as Promise<Models.ServiceFabricSchedulesGetResponse>;
   }
 
   /**
    * Create or replace an existing schedule.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param virtualMachineName The name of the virtual machine.
+   * @param userName The name of the user profile.
+   * @param serviceFabricName The name of the service Fabric.
    * @param name The name of the schedule.
    * @param schedule A schedule.
    * @param [options] The optional parameters
-   * @returns Promise<Models.VirtualMachineSchedulesCreateOrUpdateResponse>
+   * @returns Promise<Models.ServiceFabricSchedulesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, schedule: Models.Schedule, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineSchedulesCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, schedule: Models.Schedule, options?: msRest.RequestOptionsBase): Promise<Models.ServiceFabricSchedulesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param virtualMachineName The name of the virtual machine.
+   * @param userName The name of the user profile.
+   * @param serviceFabricName The name of the service Fabric.
    * @param name The name of the schedule.
    * @param schedule A schedule.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, schedule: Models.Schedule, callback: msRest.ServiceCallback<Models.Schedule>): void;
+  createOrUpdate(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, schedule: Models.Schedule, callback: msRest.ServiceCallback<Models.Schedule>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param virtualMachineName The name of the virtual machine.
+   * @param userName The name of the user profile.
+   * @param serviceFabricName The name of the service Fabric.
    * @param name The name of the schedule.
    * @param schedule A schedule.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, schedule: Models.Schedule, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Schedule>): void;
-  createOrUpdate(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, schedule: Models.Schedule, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Schedule>): Promise<Models.VirtualMachineSchedulesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, schedule: Models.Schedule, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Schedule>): void;
+  createOrUpdate(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, schedule: Models.Schedule, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Schedule>): Promise<Models.ServiceFabricSchedulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         labName,
-        virtualMachineName,
+        userName,
+        serviceFabricName,
         name,
         schedule,
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.VirtualMachineSchedulesCreateOrUpdateResponse>;
+      callback) as Promise<Models.ServiceFabricSchedulesCreateOrUpdateResponse>;
   }
 
   /**
    * Delete schedule.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param virtualMachineName The name of the virtual machine.
+   * @param userName The name of the user profile.
+   * @param serviceFabricName The name of the service Fabric.
    * @param name The name of the schedule.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param virtualMachineName The name of the virtual machine.
+   * @param userName The name of the user profile.
+   * @param serviceFabricName The name of the service Fabric.
    * @param name The name of the schedule.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param virtualMachineName The name of the virtual machine.
+   * @param userName The name of the user profile.
+   * @param serviceFabricName The name of the service Fabric.
    * @param name The name of the schedule.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         labName,
-        virtualMachineName,
+        userName,
+        serviceFabricName,
         name,
         options
       },
@@ -191,57 +207,62 @@ export class VirtualMachineSchedules {
    * Modify properties of schedules.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param virtualMachineName The name of the virtual machine.
+   * @param userName The name of the user profile.
+   * @param serviceFabricName The name of the service Fabric.
    * @param name The name of the schedule.
    * @param schedule A schedule.
    * @param [options] The optional parameters
-   * @returns Promise<Models.VirtualMachineSchedulesUpdateResponse>
+   * @returns Promise<Models.ServiceFabricSchedulesUpdateResponse>
    */
-  update(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, schedule: Models.ScheduleFragment, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineSchedulesUpdateResponse>;
+  update(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, schedule: Models.ScheduleFragment, options?: msRest.RequestOptionsBase): Promise<Models.ServiceFabricSchedulesUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param virtualMachineName The name of the virtual machine.
+   * @param userName The name of the user profile.
+   * @param serviceFabricName The name of the service Fabric.
    * @param name The name of the schedule.
    * @param schedule A schedule.
    * @param callback The callback
    */
-  update(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, schedule: Models.ScheduleFragment, callback: msRest.ServiceCallback<Models.Schedule>): void;
+  update(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, schedule: Models.ScheduleFragment, callback: msRest.ServiceCallback<Models.Schedule>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param virtualMachineName The name of the virtual machine.
+   * @param userName The name of the user profile.
+   * @param serviceFabricName The name of the service Fabric.
    * @param name The name of the schedule.
    * @param schedule A schedule.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, schedule: Models.ScheduleFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Schedule>): void;
-  update(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, schedule: Models.ScheduleFragment, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Schedule>): Promise<Models.VirtualMachineSchedulesUpdateResponse> {
+  update(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, schedule: Models.ScheduleFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Schedule>): void;
+  update(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, schedule: Models.ScheduleFragment, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Schedule>): Promise<Models.ServiceFabricSchedulesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         labName,
-        virtualMachineName,
+        userName,
+        serviceFabricName,
         name,
         schedule,
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.VirtualMachineSchedulesUpdateResponse>;
+      callback) as Promise<Models.ServiceFabricSchedulesUpdateResponse>;
   }
 
   /**
    * Execute a schedule. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param virtualMachineName The name of the virtual machine.
+   * @param userName The name of the user profile.
+   * @param serviceFabricName The name of the service Fabric.
    * @param name The name of the schedule.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  execute(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginExecute(resourceGroupName,labName,virtualMachineName,name,options)
+  execute(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginExecute(resourceGroupName,labName,userName,serviceFabricName,name,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
@@ -249,17 +270,19 @@ export class VirtualMachineSchedules {
    * Execute a schedule. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param virtualMachineName The name of the virtual machine.
+   * @param userName The name of the user profile.
+   * @param serviceFabricName The name of the service Fabric.
    * @param name The name of the schedule.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginExecute(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginExecute(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         labName,
-        virtualMachineName,
+        userName,
+        serviceFabricName,
         name,
         options
       },
@@ -268,12 +291,12 @@ export class VirtualMachineSchedules {
   }
 
   /**
-   * List schedules in a given virtual machine.
+   * List schedules in a given service fabric.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.VirtualMachineSchedulesListNextResponse>
+   * @returns Promise<Models.ServiceFabricSchedulesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineSchedulesListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceFabricSchedulesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -285,14 +308,14 @@ export class VirtualMachineSchedules {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ScheduleList>): Promise<Models.VirtualMachineSchedulesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ScheduleList>): Promise<Models.ServiceFabricSchedulesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.VirtualMachineSchedulesListNextResponse>;
+      callback) as Promise<Models.ServiceFabricSchedulesListNextResponse>;
   }
 }
 
@@ -300,12 +323,13 @@ export class VirtualMachineSchedules {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{virtualMachineName}/schedules",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{serviceFabricName}/schedules",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
-    Parameters.virtualMachineName
+    Parameters.userName,
+    Parameters.serviceFabricName
   ],
   queryParameters: [
     Parameters.expand,
@@ -330,12 +354,13 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{virtualMachineName}/schedules/{name}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{serviceFabricName}/schedules/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
-    Parameters.virtualMachineName,
+    Parameters.userName,
+    Parameters.serviceFabricName,
     Parameters.name
   ],
   queryParameters: [
@@ -358,12 +383,13 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{virtualMachineName}/schedules/{name}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{serviceFabricName}/schedules/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
-    Parameters.virtualMachineName,
+    Parameters.userName,
+    Parameters.serviceFabricName,
     Parameters.name
   ],
   queryParameters: [
@@ -395,12 +421,13 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{virtualMachineName}/schedules/{name}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{serviceFabricName}/schedules/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
-    Parameters.virtualMachineName,
+    Parameters.userName,
+    Parameters.serviceFabricName,
     Parameters.name
   ],
   queryParameters: [
@@ -421,12 +448,13 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{virtualMachineName}/schedules/{name}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{serviceFabricName}/schedules/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
-    Parameters.virtualMachineName,
+    Parameters.userName,
+    Parameters.serviceFabricName,
     Parameters.name
   ],
   queryParameters: [
@@ -455,12 +483,13 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const beginExecuteOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{virtualMachineName}/schedules/{name}/execute",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{serviceFabricName}/schedules/{name}/execute",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
-    Parameters.virtualMachineName,
+    Parameters.userName,
+    Parameters.serviceFabricName,
     Parameters.name
   ],
   queryParameters: [
