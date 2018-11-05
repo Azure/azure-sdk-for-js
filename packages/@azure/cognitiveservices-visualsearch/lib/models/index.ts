@@ -1563,7 +1563,7 @@ export interface MediaObject {
    */
   readonly contentSize?: string;
   /**
-   * @member {string} [encodingFormat] Encoding format (e.g., png, gif, jpeg,
+   * @member {string} [encodingFormat] Encoding format (e.g., mp3, mp4, jpeg,
    * etc).
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -1706,7 +1706,7 @@ export interface ImageObject {
    */
   readonly contentSize?: string;
   /**
-   * @member {string} [encodingFormat] Encoding format (e.g., png, gif, jpeg,
+   * @member {string} [encodingFormat] Encoding format (e.g., mp3, mp4, jpeg,
    * etc).
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**

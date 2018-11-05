@@ -93,13 +93,14 @@ export class DomainServices {
    * @summary Create or Update Domain Service (PUT Resource)
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
-   * @param domainServiceName The name of the domain service.
-   * @param domainService Properties supplied to the Create or Update a Domain Service operation.
+   * @param domainServiceName The name of the domain service in the specified subscription and
+   * resource group.
+   * @param properties Properties supplied to the Create or Update a Domain Service operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainServicesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, domainServiceName: string, domainService: Models.DomainService, options?: msRest.RequestOptionsBase): Promise<Models.DomainServicesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,domainServiceName,domainService,options)
+  createOrUpdate(resourceGroupName: string, domainServiceName: string, properties: Models.DomainServiceProperties, options?: msRest.RequestOptionsBase): Promise<Models.DomainServicesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,domainServiceName,properties,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DomainServicesCreateOrUpdateResponse>;
   }
 
@@ -108,7 +109,8 @@ export class DomainServices {
    * @summary Get Domain Service (GET Resources)
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
-   * @param domainServiceName The name of the domain service.
+   * @param domainServiceName The name of the domain service in the specified subscription and
+   * resource group.
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainServicesGetResponse>
    */
@@ -116,14 +118,16 @@ export class DomainServices {
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
-   * @param domainServiceName The name of the domain service.
+   * @param domainServiceName The name of the domain service in the specified subscription and
+   * resource group.
    * @param callback The callback
    */
   get(resourceGroupName: string, domainServiceName: string, callback: msRest.ServiceCallback<Models.DomainService>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
-   * @param domainServiceName The name of the domain service.
+   * @param domainServiceName The name of the domain service in the specified subscription and
+   * resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -144,7 +148,8 @@ export class DomainServices {
    * @summary Delete Domain Service (DELETE Resource)
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
-   * @param domainServiceName The name of the domain service.
+   * @param domainServiceName The name of the domain service in the specified subscription and
+   * resource group.
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainServicesDeleteMethodResponse>
    */
@@ -159,13 +164,14 @@ export class DomainServices {
    * @summary Update Domain Service (PATCH Resource)
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
-   * @param domainServiceName The name of the domain service.
-   * @param domainService Properties supplied to the Update a Domain Service operation.
+   * @param domainServiceName The name of the domain service in the specified subscription and
+   * resource group.
+   * @param properties Properties supplied to the Update a Domain Service operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainServicesUpdateResponse>
    */
-  update(resourceGroupName: string, domainServiceName: string, domainService: Models.DomainService, options?: msRest.RequestOptionsBase): Promise<Models.DomainServicesUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,domainServiceName,domainService,options)
+  update(resourceGroupName: string, domainServiceName: string, properties: Models.DomainServicePatchProperties, options?: msRest.RequestOptionsBase): Promise<Models.DomainServicesUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,domainServiceName,properties,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DomainServicesUpdateResponse>;
   }
 
@@ -176,17 +182,18 @@ export class DomainServices {
    * @summary Create or Update Domain Service (PUT Resource)
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
-   * @param domainServiceName The name of the domain service.
-   * @param domainService Properties supplied to the Create or Update a Domain Service operation.
+   * @param domainServiceName The name of the domain service in the specified subscription and
+   * resource group.
+   * @param properties Properties supplied to the Create or Update a Domain Service operation.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, domainServiceName: string, domainService: Models.DomainService, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, domainServiceName: string, properties: Models.DomainServiceProperties, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         domainServiceName,
-        domainService,
+        properties,
         options
       },
       beginCreateOrUpdateOperationSpec,
@@ -198,7 +205,8 @@ export class DomainServices {
    * @summary Delete Domain Service (DELETE Resource)
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
-   * @param domainServiceName The name of the domain service.
+   * @param domainServiceName The name of the domain service in the specified subscription and
+   * resource group.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -219,17 +227,18 @@ export class DomainServices {
    * @summary Update Domain Service (PATCH Resource)
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
-   * @param domainServiceName The name of the domain service.
-   * @param domainService Properties supplied to the Update a Domain Service operation.
+   * @param domainServiceName The name of the domain service in the specified subscription and
+   * resource group.
+   * @param properties Properties supplied to the Update a Domain Service operation.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, domainServiceName: string, domainService: Models.DomainService, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(resourceGroupName: string, domainServiceName: string, properties: Models.DomainServicePatchProperties, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         domainServiceName,
-        domainService,
+        properties,
         options
       },
       beginUpdateOperationSpec,
@@ -386,9 +395,9 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: "domainService",
+    parameterPath: "properties",
     mapper: {
-      ...Mappers.DomainService,
+      ...Mappers.DomainServiceProperties,
       required: true
     }
   },
@@ -450,9 +459,9 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: "domainService",
+    parameterPath: "properties",
     mapper: {
-      ...Mappers.DomainService,
+      ...Mappers.DomainServicePatchProperties,
       required: true
     }
   },

@@ -42,6 +42,7 @@ export const Resource: msRest.CompositeMapper = {
         }
       },
       location: {
+        required: true,
         serializedName: "location",
         type: {
           name: "String"
@@ -281,6 +282,128 @@ export const DomainSecuritySettings: msRest.CompositeMapper = {
   }
 };
 
+export const DomainServiceProperties: msRest.CompositeMapper = {
+  serializedName: "DomainServiceProperties",
+  type: {
+    name: "Composite",
+    className: "DomainServiceProperties",
+    modelProperties: {
+      tenantId: {
+        readOnly: true,
+        serializedName: "tenantId",
+        type: {
+          name: "String"
+        }
+      },
+      domainName: {
+        serializedName: "domainName",
+        type: {
+          name: "String"
+        }
+      },
+      vnetSiteId: {
+        readOnly: true,
+        serializedName: "vnetSiteId",
+        type: {
+          name: "String"
+        }
+      },
+      subnetId: {
+        serializedName: "subnetId",
+        type: {
+          name: "String"
+        }
+      },
+      ldapsSettings: {
+        serializedName: "ldapsSettings",
+        type: {
+          name: "Composite",
+          className: "LdapsSettings"
+        }
+      },
+      healthLastEvaluated: {
+        readOnly: true,
+        serializedName: "healthLastEvaluated",
+        type: {
+          name: "DateTime"
+        }
+      },
+      healthMonitors: {
+        readOnly: true,
+        serializedName: "healthMonitors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "HealthMonitor"
+            }
+          }
+        }
+      },
+      healthAlerts: {
+        readOnly: true,
+        serializedName: "healthAlerts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "HealthAlert"
+            }
+          }
+        }
+      },
+      notificationSettings: {
+        serializedName: "notificationSettings",
+        type: {
+          name: "Composite",
+          className: "NotificationSettings"
+        }
+      },
+      domainSecuritySettings: {
+        serializedName: "domainSecuritySettings",
+        type: {
+          name: "Composite",
+          className: "DomainSecuritySettings"
+        }
+      },
+      filteredSync: {
+        serializedName: "filteredSync",
+        type: {
+          name: "String"
+        }
+      },
+      domainControllerIpAddress: {
+        readOnly: true,
+        serializedName: "domainControllerIpAddress",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      serviceStatus: {
+        readOnly: true,
+        serializedName: "serviceStatus",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DomainService: msRest.CompositeMapper = {
   serializedName: "DomainService",
   type: {
@@ -396,6 +519,43 @@ export const DomainService: msRest.CompositeMapper = {
       provisioningState: {
         readOnly: true,
         serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DomainServicePatchProperties: msRest.CompositeMapper = {
+  serializedName: "DomainServicePatchProperties",
+  type: {
+    name: "Composite",
+    className: "DomainServicePatchProperties",
+    modelProperties: {
+      ldapsSettings: {
+        serializedName: "ldapsSettings",
+        type: {
+          name: "Composite",
+          className: "LdapsSettings"
+        }
+      },
+      notificationSettings: {
+        serializedName: "notificationSettings",
+        type: {
+          name: "Composite",
+          className: "NotificationSettings"
+        }
+      },
+      domainSecuritySettings: {
+        serializedName: "domainSecuritySettings",
+        type: {
+          name: "Composite",
+          className: "DomainSecuritySettings"
+        }
+      },
+      filteredSync: {
+        serializedName: "filteredSync",
         type: {
           name: "String"
         }

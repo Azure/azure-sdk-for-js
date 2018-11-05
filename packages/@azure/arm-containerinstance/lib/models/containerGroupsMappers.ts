@@ -23,7 +23,6 @@ export {
   Event,
   ResourceRequirements,
   ResourceRequests,
-  GpuResource,
   ResourceLimits,
   VolumeMount,
   ContainerProbe,
@@ -39,7 +38,6 @@ export {
   ContainerGroupDiagnostics,
   LogAnalytics,
   ContainerGroupNetworkProfile,
-  DnsConfiguration,
   CloudError
 } from "../models/mappers";
 

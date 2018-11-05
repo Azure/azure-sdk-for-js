@@ -16231,7 +16231,11 @@ export type WebAppsListNetworkFeaturesResponse = NetworkFeatures & {
 /**
  * Contains response data for the getNetworkTraceOperation operation.
  */
-export type WebAppsGetNetworkTraceOperationResponse = Array<NetworkTrace> & {
+export type WebAppsGetNetworkTraceOperationResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -16243,7 +16247,7 @@ export type WebAppsGetNetworkTraceOperationResponse = Array<NetworkTrace> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: NetworkTrace[];
+      parsedBody: any;
     };
 };
 
@@ -16273,7 +16277,11 @@ export type WebAppsStartWebSiteNetworkTraceResponse = {
 /**
  * Contains response data for the startWebSiteNetworkTraceOperation operation.
  */
-export type WebAppsStartWebSiteNetworkTraceOperationResponse = Array<NetworkTrace> & {
+export type WebAppsStartWebSiteNetworkTraceOperationResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -16285,7 +16293,7 @@ export type WebAppsStartWebSiteNetworkTraceOperationResponse = Array<NetworkTrac
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: NetworkTrace[];
+      parsedBody: any;
     };
 };
 
@@ -16311,7 +16319,11 @@ export type WebAppsGetNetworkTracesResponse = Array<NetworkTrace> & {
 /**
  * Contains response data for the getNetworkTraceOperationV2 operation.
  */
-export type WebAppsGetNetworkTraceOperationV2Response = Array<NetworkTrace> & {
+export type WebAppsGetNetworkTraceOperationV2Response = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -16323,7 +16335,7 @@ export type WebAppsGetNetworkTraceOperationV2Response = Array<NetworkTrace> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: NetworkTrace[];
+      parsedBody: any;
     };
 };
 
@@ -18411,7 +18423,11 @@ export type WebAppsListNetworkFeaturesSlotResponse = NetworkFeatures & {
 /**
  * Contains response data for the getNetworkTraceOperationSlot operation.
  */
-export type WebAppsGetNetworkTraceOperationSlotResponse = Array<NetworkTrace> & {
+export type WebAppsGetNetworkTraceOperationSlotResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -18423,7 +18439,7 @@ export type WebAppsGetNetworkTraceOperationSlotResponse = Array<NetworkTrace> & 
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: NetworkTrace[];
+      parsedBody: any;
     };
 };
 
@@ -18453,7 +18469,11 @@ export type WebAppsStartWebSiteNetworkTraceSlotResponse = {
 /**
  * Contains response data for the startWebSiteNetworkTraceOperationSlot operation.
  */
-export type WebAppsStartWebSiteNetworkTraceOperationSlotResponse = Array<NetworkTrace> & {
+export type WebAppsStartWebSiteNetworkTraceOperationSlotResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -18465,7 +18485,7 @@ export type WebAppsStartWebSiteNetworkTraceOperationSlotResponse = Array<Network
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: NetworkTrace[];
+      parsedBody: any;
     };
 };
 
@@ -18491,7 +18511,11 @@ export type WebAppsGetNetworkTracesSlotResponse = Array<NetworkTrace> & {
 /**
  * Contains response data for the getNetworkTraceOperationSlotV2 operation.
  */
-export type WebAppsGetNetworkTraceOperationSlotV2Response = Array<NetworkTrace> & {
+export type WebAppsGetNetworkTraceOperationSlotV2Response = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -18503,7 +18527,7 @@ export type WebAppsGetNetworkTraceOperationSlotV2Response = Array<NetworkTrace> 
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: NetworkTrace[];
+      parsedBody: any;
     };
 };
 
@@ -19052,7 +19076,11 @@ export type WebAppsUpdateSourceControlSlotResponse = SiteSourceControl & {
 /**
  * Contains response data for the startNetworkTraceSlot operation.
  */
-export type WebAppsStartNetworkTraceSlotResponse = Array<NetworkTrace> & {
+export type WebAppsStartNetworkTraceSlotResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -19064,7 +19092,7 @@ export type WebAppsStartNetworkTraceSlotResponse = Array<NetworkTrace> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: NetworkTrace[];
+      parsedBody: any;
     };
 };
 
@@ -19432,7 +19460,11 @@ export type WebAppsUpdateSourceControlResponse = SiteSourceControl & {
 /**
  * Contains response data for the startNetworkTrace operation.
  */
-export type WebAppsStartNetworkTraceResponse = Array<NetworkTrace> & {
+export type WebAppsStartNetworkTraceResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -19444,7 +19476,7 @@ export type WebAppsStartNetworkTraceResponse = Array<NetworkTrace> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: NetworkTrace[];
+      parsedBody: any;
     };
 };
 
@@ -19850,7 +19882,11 @@ export type WebAppsBeginMigrateMySqlResponse = Operation & {
 /**
  * Contains response data for the beginStartWebSiteNetworkTraceOperation operation.
  */
-export type WebAppsBeginStartWebSiteNetworkTraceOperationResponse = Array<NetworkTrace> & {
+export type WebAppsBeginStartWebSiteNetworkTraceOperationResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -19862,7 +19898,7 @@ export type WebAppsBeginStartWebSiteNetworkTraceOperationResponse = Array<Networ
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: NetworkTrace[];
+      parsedBody: any;
     };
 };
 
@@ -19983,7 +20019,11 @@ export type WebAppsBeginCreateInstanceMSDeployOperationSlotResponse = MSDeploySt
 /**
  * Contains response data for the beginStartWebSiteNetworkTraceOperationSlot operation.
  */
-export type WebAppsBeginStartWebSiteNetworkTraceOperationSlotResponse = Array<NetworkTrace> & {
+export type WebAppsBeginStartWebSiteNetworkTraceOperationSlotResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -19995,7 +20035,7 @@ export type WebAppsBeginStartWebSiteNetworkTraceOperationSlotResponse = Array<Ne
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: NetworkTrace[];
+      parsedBody: any;
     };
 };
 
@@ -20040,7 +20080,11 @@ export type WebAppsBeginCreateOrUpdateSourceControlSlotResponse = SiteSourceCont
 /**
  * Contains response data for the beginStartNetworkTraceSlot operation.
  */
-export type WebAppsBeginStartNetworkTraceSlotResponse = Array<NetworkTrace> & {
+export type WebAppsBeginStartNetworkTraceSlotResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -20052,7 +20096,7 @@ export type WebAppsBeginStartNetworkTraceSlotResponse = Array<NetworkTrace> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: NetworkTrace[];
+      parsedBody: any;
     };
 };
 
@@ -20078,7 +20122,11 @@ export type WebAppsBeginCreateOrUpdateSourceControlResponse = SiteSourceControl 
 /**
  * Contains response data for the beginStartNetworkTrace operation.
  */
-export type WebAppsBeginStartNetworkTraceResponse = Array<NetworkTrace> & {
+export type WebAppsBeginStartNetworkTraceResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -20090,7 +20138,7 @@ export type WebAppsBeginStartNetworkTraceResponse = Array<NetworkTrace> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: NetworkTrace[];
+      parsedBody: any;
     };
 };
 

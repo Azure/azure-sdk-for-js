@@ -198,30 +198,6 @@ export const ContainerPropertiesInstanceView: msRest.CompositeMapper = {
   }
 };
 
-export const GpuResource: msRest.CompositeMapper = {
-  serializedName: "GpuResource",
-  type: {
-    name: "Composite",
-    className: "GpuResource",
-    modelProperties: {
-      count: {
-        required: true,
-        serializedName: "count",
-        type: {
-          name: "Number"
-        }
-      },
-      sku: {
-        required: true,
-        serializedName: "sku",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ResourceRequests: msRest.CompositeMapper = {
   serializedName: "ResourceRequests",
   type: {
@@ -240,13 +216,6 @@ export const ResourceRequests: msRest.CompositeMapper = {
         serializedName: "cpu",
         type: {
           name: "Number"
-        }
-      },
-      gpu: {
-        serializedName: "gpu",
-        type: {
-          name: "Composite",
-          className: "GpuResource"
         }
       }
     }
@@ -269,13 +238,6 @@ export const ResourceLimits: msRest.CompositeMapper = {
         serializedName: "cpu",
         type: {
           name: "Number"
-        }
-      },
-      gpu: {
-        serializedName: "gpu",
-        type: {
-          name: "Composite",
-          className: "GpuResource"
         }
       }
     }
@@ -934,40 +896,6 @@ export const ContainerGroupNetworkProfile: msRest.CompositeMapper = {
   }
 };
 
-export const DnsConfiguration: msRest.CompositeMapper = {
-  serializedName: "DnsConfiguration",
-  type: {
-    name: "Composite",
-    className: "DnsConfiguration",
-    modelProperties: {
-      nameServers: {
-        required: true,
-        serializedName: "nameServers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      searchDomains: {
-        serializedName: "searchDomains",
-        type: {
-          name: "String"
-        }
-      },
-      options: {
-        serializedName: "options",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
@@ -1114,13 +1042,6 @@ export const ContainerGroup: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ContainerGroupNetworkProfile"
-        }
-      },
-      dnsConfig: {
-        serializedName: "properties.dnsConfig",
-        type: {
-          name: "Composite",
-          className: "DnsConfiguration"
         }
       }
     }
