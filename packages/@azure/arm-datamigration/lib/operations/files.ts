@@ -52,7 +52,7 @@ export class Files {
    * @param callback The callback
    */
   list(groupName: string, serviceName: string, projectName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileList>): void;
-  list(groupName: string, serviceName: string, projectName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileList>, callback?: msRest.ServiceCallback<Models.FileList>): Promise<Models.FilesListResponse> {
+  list(groupName: string, serviceName: string, projectName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FileList>): Promise<Models.FilesListResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -93,7 +93,7 @@ export class Files {
    * @param callback The callback
    */
   get(groupName: string, serviceName: string, projectName: string, fileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProjectFile>): void;
-  get(groupName: string, serviceName: string, projectName: string, fileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectFile>, callback?: msRest.ServiceCallback<Models.ProjectFile>): Promise<Models.FilesGetResponse> {
+  get(groupName: string, serviceName: string, projectName: string, fileName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProjectFile>): Promise<Models.FilesGetResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -137,7 +137,7 @@ export class Files {
    * @param callback The callback
    */
   createOrUpdate(parameters: Models.ProjectFile, groupName: string, serviceName: string, projectName: string, fileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProjectFile>): void;
-  createOrUpdate(parameters: Models.ProjectFile, groupName: string, serviceName: string, projectName: string, fileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectFile>, callback?: msRest.ServiceCallback<Models.ProjectFile>): Promise<Models.FilesCreateOrUpdateResponse> {
+  createOrUpdate(parameters: Models.ProjectFile, groupName: string, serviceName: string, projectName: string, fileName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProjectFile>): Promise<Models.FilesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
@@ -179,7 +179,7 @@ export class Files {
    * @param callback The callback
    */
   deleteMethod(groupName: string, serviceName: string, projectName: string, fileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(groupName: string, serviceName: string, projectName: string, fileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(groupName: string, serviceName: string, projectName: string, fileName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -223,7 +223,7 @@ export class Files {
    * @param callback The callback
    */
   update(parameters: Models.ProjectFile, groupName: string, serviceName: string, projectName: string, fileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProjectFile>): void;
-  update(parameters: Models.ProjectFile, groupName: string, serviceName: string, projectName: string, fileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectFile>, callback?: msRest.ServiceCallback<Models.ProjectFile>): Promise<Models.FilesUpdateResponse> {
+  update(parameters: Models.ProjectFile, groupName: string, serviceName: string, projectName: string, fileName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProjectFile>): Promise<Models.FilesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
@@ -266,7 +266,7 @@ export class Files {
    * @param callback The callback
    */
   read(groupName: string, serviceName: string, projectName: string, fileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileStorageInfo>): void;
-  read(groupName: string, serviceName: string, projectName: string, fileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileStorageInfo>, callback?: msRest.ServiceCallback<Models.FileStorageInfo>): Promise<Models.FilesReadResponse> {
+  read(groupName: string, serviceName: string, projectName: string, fileName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FileStorageInfo>): Promise<Models.FilesReadResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -307,7 +307,7 @@ export class Files {
    * @param callback The callback
    */
   readWrite(groupName: string, serviceName: string, projectName: string, fileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileStorageInfo>): void;
-  readWrite(groupName: string, serviceName: string, projectName: string, fileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileStorageInfo>, callback?: msRest.ServiceCallback<Models.FileStorageInfo>): Promise<Models.FilesReadWriteResponse> {
+  readWrite(groupName: string, serviceName: string, projectName: string, fileName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FileStorageInfo>): Promise<Models.FilesReadWriteResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -340,7 +340,7 @@ export class Files {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileList>, callback?: msRest.ServiceCallback<Models.FileList>): Promise<Models.FilesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FileList>): Promise<Models.FilesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

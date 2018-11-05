@@ -49,7 +49,7 @@ export class Projects {
    * @param callback The callback
    */
   list(groupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProjectList>): void;
-  list(groupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectList>, callback?: msRest.ServiceCallback<Models.ProjectList>): Promise<Models.ProjectsListResponse> {
+  list(groupName: string, serviceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProjectList>): Promise<Models.ProjectsListResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -89,7 +89,7 @@ export class Projects {
    * @param callback The callback
    */
   createOrUpdate(parameters: Models.Project, groupName: string, serviceName: string, projectName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Project>): void;
-  createOrUpdate(parameters: Models.Project, groupName: string, serviceName: string, projectName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Project>, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.ProjectsCreateOrUpdateResponse> {
+  createOrUpdate(parameters: Models.Project, groupName: string, serviceName: string, projectName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.ProjectsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
@@ -128,7 +128,7 @@ export class Projects {
    * @param callback The callback
    */
   get(groupName: string, serviceName: string, projectName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Project>): void;
-  get(groupName: string, serviceName: string, projectName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Project>, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.ProjectsGetResponse> {
+  get(groupName: string, serviceName: string, projectName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.ProjectsGetResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -166,7 +166,7 @@ export class Projects {
    * @param callback The callback
    */
   deleteMethod(groupName: string, serviceName: string, projectName: string, options: Models.ProjectsDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(groupName: string, serviceName: string, projectName: string, options?: Models.ProjectsDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(groupName: string, serviceName: string, projectName: string, options?: Models.ProjectsDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -207,7 +207,7 @@ export class Projects {
    * @param callback The callback
    */
   update(parameters: Models.Project, groupName: string, serviceName: string, projectName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Project>): void;
-  update(parameters: Models.Project, groupName: string, serviceName: string, projectName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Project>, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.ProjectsUpdateResponse> {
+  update(parameters: Models.Project, groupName: string, serviceName: string, projectName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.ProjectsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
@@ -240,7 +240,7 @@ export class Projects {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProjectList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectList>, callback?: msRest.ServiceCallback<Models.ProjectList>): Promise<Models.ProjectsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProjectList>): Promise<Models.ProjectsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
