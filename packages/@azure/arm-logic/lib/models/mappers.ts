@@ -5662,34 +5662,6 @@ export const RequestHistory: msRest.CompositeMapper = {
   }
 };
 
-export const RequestHistoryListResult: msRest.CompositeMapper = {
-  serializedName: "RequestHistoryListResult",
-  type: {
-    name: "Composite",
-    className: "RequestHistoryListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "RequestHistory"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const WorkflowListResult: msRest.CompositeMapper = {
   serializedName: "WorkflowListResult",
   type: {
@@ -5896,6 +5868,34 @@ export const WorkflowRunActionRepetitionDefinitionCollection: msRest.CompositeMa
               className: "WorkflowRunActionRepetitionDefinition"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const RequestHistoryListResult: msRest.CompositeMapper = {
+  serializedName: "RequestHistoryListResult",
+  type: {
+    name: "Composite",
+    className: "RequestHistoryListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RequestHistory"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
         }
       }
     }

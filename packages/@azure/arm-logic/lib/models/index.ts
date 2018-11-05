@@ -4160,23 +4160,6 @@ export interface RequestHistory extends Resource {
 
 /**
  * @interface
- * An interface representing RequestHistoryListResult.
- * The list of workflow request histories.
- *
- */
-export interface RequestHistoryListResult {
-  /**
-   * @member {RequestHistory[]} [value] A list of workflow request histories.
-   */
-  value?: RequestHistory[];
-  /**
-   * @member {string} [nextLink] The URL to get the next set of results.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
  * An interface representing WorkflowsListBySubscriptionOptionalParams.
  * Optional Parameters.
  *
@@ -4571,6 +4554,20 @@ export interface ExpressionTraces extends Array<ExpressionRoot> {
  * @extends Array<WorkflowRunActionRepetitionDefinition>
  */
 export interface WorkflowRunActionRepetitionDefinitionCollection extends Array<WorkflowRunActionRepetitionDefinition> {
+}
+
+/**
+ * @interface
+ * An interface representing the RequestHistoryListResult.
+ * The list of workflow request histories.
+ *
+ * @extends Array<RequestHistory>
+ */
+export interface RequestHistoryListResult extends Array<RequestHistory> {
+  /**
+   * @member {string} [nextLink] The URL to get the next set of results.
+   */
+  nextLink?: string;
 }
 
 /**
@@ -6016,6 +6013,25 @@ export type WorkflowRunActionRepetitionsRequestHistoriesGetResponse = RequestHis
 };
 
 /**
+ * Contains response data for the listNext operation.
+ */
+export type WorkflowRunActionRepetitionsRequestHistoriesListNextResponse = RequestHistoryListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RequestHistoryListResult;
+    };
+};
+
+/**
  * Contains response data for the list operation.
  */
 export type WorkflowRunActionRequestHistoriesListResponse = RequestHistoryListResult & {
@@ -6050,6 +6066,25 @@ export type WorkflowRunActionRequestHistoriesGetResponse = RequestHistory & {
        * The response body as parsed JSON or XML
        */
       parsedBody: RequestHistory;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type WorkflowRunActionRequestHistoriesListNextResponse = RequestHistoryListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RequestHistoryListResult;
     };
 };
 
