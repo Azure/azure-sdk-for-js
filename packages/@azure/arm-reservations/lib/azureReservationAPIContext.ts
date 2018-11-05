@@ -16,14 +16,8 @@ const packageName = "@azure/arm-reservations";
 const packageVersion = "1.0.0-preview";
 
 export class AzureReservationAPIContext extends msRestAzure.AzureServiceClient {
-
   credentials: msRest.ServiceClientCredentials;
-
-  apiVersion: string;
-
-  acceptLanguage: string;
-
-  longRunningOperationRetryTimeout: number;
+  apiVersion?: string;
 
   /**
    * Initializes a new instance of the AzureReservationAPI class.
@@ -38,6 +32,11 @@ export class AzureReservationAPIContext extends msRestAzure.AzureServiceClient {
     if (!options) {
       options = {};
     }
+    if(!options.userAgent) {
+      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
+      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
+    }
+
     super(credentials, options);
 
     this.apiVersion = '2018-06-01';
@@ -47,7 +46,6 @@ export class AzureReservationAPIContext extends msRestAzure.AzureServiceClient {
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
 
-    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
