@@ -12,7 +12,7 @@ export interface ConflictResolutionPolicy {
   /**
    * Gets or sets the path which is present in each document in the Azure Cosmos DB service for last writer wins conflict-resolution.
    * This path must be present in each document and must be an integer value.
-   * In case of a conflict occuring on a document, the document with the higher integer value in the specified path will be picked.
+   * In case of a conflict occurring on a document, the document with the higher integer value in the specified path will be picked.
    * If the path is unspecified, by default the timestamp path will be used.
    *
    * This value should only be set when using {@link ConflictResolutionMode.LastWriterWins}.
