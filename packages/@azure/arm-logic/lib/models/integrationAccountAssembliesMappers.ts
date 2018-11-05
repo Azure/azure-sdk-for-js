@@ -103,6 +103,7 @@ export {
   BatchReleaseCriteria,
   BatchConfiguration,
   RequestHistory,
+  RequestHistoryProperties,
   Request,
   Response
 } from "../models/mappers";

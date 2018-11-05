@@ -101,6 +101,7 @@ export {
   AssemblyProperties,
   ArtifactContentPropertiesDefinition,
   RequestHistory,
+  RequestHistoryProperties,
   Request,
   Response
 } from "../models/mappers";

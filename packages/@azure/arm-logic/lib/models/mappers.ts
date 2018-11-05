@@ -5625,13 +5625,12 @@ export const Response: msRest.CompositeMapper = {
   }
 };
 
-export const RequestHistory: msRest.CompositeMapper = {
-  serializedName: "RequestHistory",
+export const RequestHistoryProperties: msRest.CompositeMapper = {
+  serializedName: "RequestHistoryProperties",
   type: {
     name: "Composite",
-    className: "RequestHistory",
+    className: "RequestHistoryProperties",
     modelProperties: {
-      ...Resource.type.modelProperties,
       startTime: {
         serializedName: "startTime",
         type: {
@@ -5656,6 +5655,24 @@ export const RequestHistory: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Response"
+        }
+      }
+    }
+  }
+};
+
+export const RequestHistory: msRest.CompositeMapper = {
+  serializedName: "RequestHistory",
+  type: {
+    name: "Composite",
+    className: "RequestHistory",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "RequestHistoryProperties"
         }
       }
     }

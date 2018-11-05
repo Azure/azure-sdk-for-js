@@ -13,6 +13,7 @@ export {
   RequestHistory,
   Resource,
   BaseResource,
+  RequestHistoryProperties,
   Request,
   Response,
   ContentLink,

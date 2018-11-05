@@ -4134,12 +4134,11 @@ export interface Response {
 
 /**
  * @interface
- * An interface representing RequestHistory.
+ * An interface representing RequestHistoryProperties.
  * The request history.
  *
- * @extends Resource
  */
-export interface RequestHistory extends Resource {
+export interface RequestHistoryProperties {
   /**
    * @member {Date} [startTime] The time the request started.
    */
@@ -4156,6 +4155,21 @@ export interface RequestHistory extends Resource {
    * @member {Response} [response] The response.
    */
   response?: Response;
+}
+
+/**
+ * @interface
+ * An interface representing RequestHistory.
+ * The request history.
+ *
+ * @extends Resource
+ */
+export interface RequestHistory extends Resource {
+  /**
+   * @member {RequestHistoryProperties} [properties] The request history
+   * properties.
+   */
+  properties?: RequestHistoryProperties;
 }
 
 /**
