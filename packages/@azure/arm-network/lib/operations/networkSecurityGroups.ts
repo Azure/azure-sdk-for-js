@@ -60,7 +60,7 @@ export class NetworkSecurityGroups {
    * @param callback The callback
    */
   get(resourceGroupName: string, networkSecurityGroupName: string, options: Models.NetworkSecurityGroupsGetOptionalParams, callback: msRest.ServiceCallback<Models.NetworkSecurityGroup>): void;
-  get(resourceGroupName: string, networkSecurityGroupName: string, options?: Models.NetworkSecurityGroupsGetOptionalParams, callback?: msRest.ServiceCallback<Models.NetworkSecurityGroup>): Promise<Models.NetworkSecurityGroupsGetResponse> {
+  get(resourceGroupName: string, networkSecurityGroupName: string, options?: Models.NetworkSecurityGroupsGetOptionalParams | msRest.ServiceCallback<Models.NetworkSecurityGroup>, callback?: msRest.ServiceCallback<Models.NetworkSecurityGroup>): Promise<Models.NetworkSecurityGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class NetworkSecurityGroups {
    * @param callback The callback
    */
   listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>): Promise<Models.NetworkSecurityGroupsListAllResponse> {
+  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>, callback?: msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>): Promise<Models.NetworkSecurityGroupsListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -139,7 +139,7 @@ export class NetworkSecurityGroups {
    * @param callback The callback
    */
   list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>): Promise<Models.NetworkSecurityGroupsListResponse> {
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>, callback?: msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>): Promise<Models.NetworkSecurityGroupsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -225,7 +225,7 @@ export class NetworkSecurityGroups {
    * @param callback The callback
    */
   listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>): Promise<Models.NetworkSecurityGroupsListAllNextResponse> {
+  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>, callback?: msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>): Promise<Models.NetworkSecurityGroupsListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -253,7 +253,7 @@ export class NetworkSecurityGroups {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>): Promise<Models.NetworkSecurityGroupsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>, callback?: msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>): Promise<Models.NetworkSecurityGroupsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

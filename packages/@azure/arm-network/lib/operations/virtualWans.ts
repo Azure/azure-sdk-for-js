@@ -48,7 +48,7 @@ export class VirtualWans {
    * @param callback The callback
    */
   get(resourceGroupName: string, virtualWANName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualWAN>): void;
-  get(resourceGroupName: string, virtualWANName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualWAN>): Promise<Models.VirtualWansGetResponse> {
+  get(resourceGroupName: string, virtualWANName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualWAN>, callback?: msRest.ServiceCallback<Models.VirtualWAN>): Promise<Models.VirtualWansGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -115,7 +115,7 @@ export class VirtualWans {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListVirtualWANsResult>): Promise<Models.VirtualWansListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualWANsResult>, callback?: msRest.ServiceCallback<Models.ListVirtualWANsResult>): Promise<Models.VirtualWansListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -140,7 +140,7 @@ export class VirtualWans {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListVirtualWANsResult>): Promise<Models.VirtualWansListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualWANsResult>, callback?: msRest.ServiceCallback<Models.ListVirtualWANsResult>): Promise<Models.VirtualWansListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -225,7 +225,7 @@ export class VirtualWans {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListVirtualWANsResult>): Promise<Models.VirtualWansListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualWANsResult>, callback?: msRest.ServiceCallback<Models.ListVirtualWANsResult>): Promise<Models.VirtualWansListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -253,7 +253,7 @@ export class VirtualWans {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListVirtualWANsResult>): Promise<Models.VirtualWansListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualWANsResult>, callback?: msRest.ServiceCallback<Models.ListVirtualWANsResult>): Promise<Models.VirtualWansListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

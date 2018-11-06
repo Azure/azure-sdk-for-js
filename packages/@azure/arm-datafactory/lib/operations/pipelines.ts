@@ -47,7 +47,7 @@ export class Pipelines {
    * @param callback The callback
    */
   listByFactory(resourceGroupName: string, factoryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PipelineListResponse>): void;
-  listByFactory(resourceGroupName: string, factoryName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PipelineListResponse>): Promise<Models.PipelinesListByFactoryResponse> {
+  listByFactory(resourceGroupName: string, factoryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PipelineListResponse>, callback?: msRest.ServiceCallback<Models.PipelineListResponse>): Promise<Models.PipelinesListByFactoryResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -85,7 +85,7 @@ export class Pipelines {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, factoryName: string, pipelineName: string, pipelineParameter: Models.PipelineResource, options: Models.PipelinesCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.PipelineResource>): void;
-  createOrUpdate(resourceGroupName: string, factoryName: string, pipelineName: string, pipelineParameter: Models.PipelineResource, options?: Models.PipelinesCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.PipelineResource>): Promise<Models.PipelinesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, factoryName: string, pipelineName: string, pipelineParameter: Models.PipelineResource, options?: Models.PipelinesCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.PipelineResource>, callback?: msRest.ServiceCallback<Models.PipelineResource>): Promise<Models.PipelinesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -122,7 +122,7 @@ export class Pipelines {
    * @param callback The callback
    */
   get(resourceGroupName: string, factoryName: string, pipelineName: string, options: Models.PipelinesGetOptionalParams, callback: msRest.ServiceCallback<Models.PipelineResource>): void;
-  get(resourceGroupName: string, factoryName: string, pipelineName: string, options?: Models.PipelinesGetOptionalParams, callback?: msRest.ServiceCallback<Models.PipelineResource>): Promise<Models.PipelinesGetResponse> {
+  get(resourceGroupName: string, factoryName: string, pipelineName: string, options?: Models.PipelinesGetOptionalParams | msRest.ServiceCallback<Models.PipelineResource>, callback?: msRest.ServiceCallback<Models.PipelineResource>): Promise<Models.PipelinesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +158,7 @@ export class Pipelines {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, factoryName: string, pipelineName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, factoryName: string, pipelineName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, factoryName: string, pipelineName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -194,7 +194,7 @@ export class Pipelines {
    * @param callback The callback
    */
   createRun(resourceGroupName: string, factoryName: string, pipelineName: string, options: Models.PipelinesCreateRunOptionalParams, callback: msRest.ServiceCallback<Models.CreateRunResponse>): void;
-  createRun(resourceGroupName: string, factoryName: string, pipelineName: string, options?: Models.PipelinesCreateRunOptionalParams, callback?: msRest.ServiceCallback<Models.CreateRunResponse>): Promise<Models.PipelinesCreateRunResponse> {
+  createRun(resourceGroupName: string, factoryName: string, pipelineName: string, options?: Models.PipelinesCreateRunOptionalParams | msRest.ServiceCallback<Models.CreateRunResponse>, callback?: msRest.ServiceCallback<Models.CreateRunResponse>): Promise<Models.PipelinesCreateRunResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -224,7 +224,7 @@ export class Pipelines {
    * @param callback The callback
    */
   listByFactoryNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PipelineListResponse>): void;
-  listByFactoryNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PipelineListResponse>): Promise<Models.PipelinesListByFactoryNextResponse> {
+  listByFactoryNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PipelineListResponse>, callback?: msRest.ServiceCallback<Models.PipelineListResponse>): Promise<Models.PipelinesListByFactoryNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
