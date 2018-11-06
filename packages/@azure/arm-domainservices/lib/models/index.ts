@@ -41,9 +41,9 @@ export interface Resource extends BaseResource {
    */
   readonly type?: string;
   /**
-   * @member {string} [location] Resource location
+   * @member {string} location Resource location
    */
-  location?: string;
+  location: string;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Resource tags
    */
@@ -241,6 +241,95 @@ export interface DomainSecuritySettings {
 
 /**
  * @interface
+ * An interface representing DomainServiceProperties.
+ * Properties of the Domain Service.
+ *
+ */
+export interface DomainServiceProperties {
+  /**
+   * @member {string} [tenantId] Azure Active Directory tenant id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * @member {string} [domainName] The name of the Azure domain that the user
+   * would like to deploy Domain Services to.
+   */
+  domainName?: string;
+  /**
+   * @member {string} [vnetSiteId] Virtual network site id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly vnetSiteId?: string;
+  /**
+   * @member {string} [subnetId] The name of the virtual network that Domain
+   * Services will be deployed on. The id of the subnet that Domain Services
+   * will be deployed on. /virtualNetwork/vnetName/subnets/subnetName.
+   */
+  subnetId?: string;
+  /**
+   * @member {LdapsSettings} [ldapsSettings] Secure LDAP Settings
+   */
+  ldapsSettings?: LdapsSettings;
+  /**
+   * @member {Date} [healthLastEvaluated] Last domain evaluation run DateTime
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly healthLastEvaluated?: Date;
+  /**
+   * @member {HealthMonitor[]} [healthMonitors] List of Domain Health Monitors
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly healthMonitors?: HealthMonitor[];
+  /**
+   * @member {HealthAlert[]} [healthAlerts] List of Domain Health Alerts
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly healthAlerts?: HealthAlert[];
+  /**
+   * @member {NotificationSettings} [notificationSettings] Notification
+   * Settings
+   */
+  notificationSettings?: NotificationSettings;
+  /**
+   * @member {DomainSecuritySettings} [domainSecuritySettings] DomainSecurity
+   * Settings
+   */
+  domainSecuritySettings?: DomainSecuritySettings;
+  /**
+   * @member {FilteredSync} [filteredSync] Enabled or Disabled flag to turn on
+   * Group-based filtered sync. Possible values include: 'Enabled', 'Disabled'
+   */
+  filteredSync?: FilteredSync;
+  /**
+   * @member {string[]} [domainControllerIpAddress] List of Domain Controller
+   * IP Address
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly domainControllerIpAddress?: string[];
+  /**
+   * @member {string} [serviceStatus] Status of Domain Service instance
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly serviceStatus?: string;
+  /**
+   * @member {string} [provisioningState] the current deployment or
+   * provisioning state, which only appears in the response.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+}
+
+/**
+ * @interface
  * An interface representing DomainService.
  * Domain service.
  *
@@ -327,6 +416,34 @@ export interface DomainService extends Resource {
    * the server.**
    */
   readonly provisioningState?: string;
+}
+
+/**
+ * @interface
+ * An interface representing DomainServicePatchProperties.
+ * Update Properties of the Domain Service.
+ *
+ */
+export interface DomainServicePatchProperties {
+  /**
+   * @member {LdapsSettings} [ldapsSettings] Secure LDAP Settings
+   */
+  ldapsSettings?: LdapsSettings;
+  /**
+   * @member {NotificationSettings} [notificationSettings] Notification
+   * Settings
+   */
+  notificationSettings?: NotificationSettings;
+  /**
+   * @member {DomainSecuritySettings} [domainSecuritySettings] DomainSecurity
+   * Settings
+   */
+  domainSecuritySettings?: DomainSecuritySettings;
+  /**
+   * @member {FilteredSync} [filteredSync] Enabled or Disabled flag to turn on
+   * Group-based filtered sync. Possible values include: 'Enabled', 'Disabled'
+   */
+  filteredSync?: FilteredSync;
 }
 
 /**

@@ -7539,100 +7539,6 @@ export const MigrateSchemaSqlTaskOutputError: msRest.CompositeMapper = {
   }
 };
 
-export const MongoDbCommandInput: msRest.CompositeMapper = {
-  serializedName: "MongoDbCommandInput",
-  type: {
-    name: "Composite",
-    className: "MongoDbCommandInput",
-    modelProperties: {
-      objectName: {
-        serializedName: "objectName",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MongoDbCancelCommand: msRest.CompositeMapper = {
-  serializedName: "cancel",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: CommandProperties.type.polymorphicDiscriminator,
-    uberParent: "CommandProperties",
-    className: "MongoDbCancelCommand",
-    modelProperties: {
-      ...CommandProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "MongoDbCommandInput"
-        }
-      }
-    }
-  }
-};
-
-export const MongoDbFinishCommandInput: msRest.CompositeMapper = {
-  serializedName: "MongoDbFinishCommandInput",
-  type: {
-    name: "Composite",
-    className: "MongoDbFinishCommandInput",
-    modelProperties: {
-      ...MongoDbCommandInput.type.modelProperties,
-      immediate: {
-        required: true,
-        serializedName: "immediate",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const MongoDbFinishCommand: msRest.CompositeMapper = {
-  serializedName: "finish",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: CommandProperties.type.polymorphicDiscriminator,
-    uberParent: "CommandProperties",
-    className: "MongoDbFinishCommand",
-    modelProperties: {
-      ...CommandProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "MongoDbFinishCommandInput"
-        }
-      }
-    }
-  }
-};
-
-export const MongoDbRestartCommand: msRest.CompositeMapper = {
-  serializedName: "restart",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: CommandProperties.type.polymorphicDiscriminator,
-    uberParent: "CommandProperties",
-    className: "MongoDbRestartCommand",
-    modelProperties: {
-      ...CommandProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "MongoDbCommandInput"
-        }
-      }
-    }
-  }
-};
-
 export const Database: msRest.CompositeMapper = {
   serializedName: "Database",
   type: {
@@ -8505,8 +8411,5 @@ export const discriminators = {
   'MigrateSchemaSqlServerSqlDbTaskOutput.MigrationLevelOutput' : MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel,
   'MigrateSchemaSqlServerSqlDbTaskOutput.DatabaseLevelOutput' : MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel,
   'MigrateSchemaSqlServerSqlDbTaskOutput.SchemaErrorOutput' : MigrateSchemaSqlServerSqlDbTaskOutputError,
-  'MigrateSchemaSqlServerSqlDbTaskOutput.ErrorOutput' : MigrateSchemaSqlTaskOutputError,
-  'CommandProperties.cancel' : MongoDbCancelCommand,
-  'CommandProperties.finish' : MongoDbFinishCommand,
-  'CommandProperties.restart' : MongoDbRestartCommand
+  'MigrateSchemaSqlServerSqlDbTaskOutput.ErrorOutput' : MigrateSchemaSqlTaskOutputError
 };

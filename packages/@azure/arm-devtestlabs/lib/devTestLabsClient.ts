@@ -37,8 +37,6 @@ class DevTestLabsClient extends DevTestLabsClientContext {
   disks: operations.Disks;
   environments: operations.Environments;
   secrets: operations.Secrets;
-  serviceFabrics: operations.ServiceFabrics;
-  serviceFabricSchedules: operations.ServiceFabricSchedules;
   virtualMachines: operations.VirtualMachines;
   virtualMachineSchedules: operations.VirtualMachineSchedules;
   virtualNetworks: operations.VirtualNetworks;
@@ -71,8 +69,6 @@ class DevTestLabsClient extends DevTestLabsClientContext {
     this.disks = new operations.Disks(this);
     this.environments = new operations.Environments(this);
     this.secrets = new operations.Secrets(this);
-    this.serviceFabrics = new operations.ServiceFabrics(this);
-    this.serviceFabricSchedules = new operations.ServiceFabricSchedules(this);
     this.virtualMachines = new operations.VirtualMachines(this);
     this.virtualMachineSchedules = new operations.VirtualMachineSchedules(this);
     this.virtualNetworks = new operations.VirtualNetworks(this);

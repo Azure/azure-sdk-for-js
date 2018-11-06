@@ -6,9 +6,6 @@
 pool:
   vmImage: 'Ubuntu 16.04'
 
-trigger:
-- master
-
 steps:
 - task: NodeTool@0
   inputs:
@@ -16,20 +13,13 @@ steps:
   displayName: 'Install Node.js'
 
 - script: cd .. && git clone https://github.com/Azure/azure-rest-api-specs
-  displayName: cd.. && git clone https://github.com/Azure/azure-rest-api-specs
-
-- task: Npm@1
-  displayName: 'npm install'
-  inputs:
-    verbose: false
-
-- task: Npm@1
-  displayName: 'npm run build'
-  inputs:
-    command: custom
-    verbose: false
-    customCommand: run build
+  displayName: git clone https://github.com/Azure/azure-rest-api-specs
+- script: npm install
+  displayName: npm install
+- script: npm run build
+  displayName: npm run build
 
 - task: PublishBuildArtifacts@1
   inputs:
-    pathtoPublish: $(Build.SourcesDirectory)/drop
+    pathtoPublish: $(Build.SourcesDirectory)/pack
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')

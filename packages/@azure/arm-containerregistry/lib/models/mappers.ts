@@ -1819,12 +1819,6 @@ export const TaskStepProperties: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      contextAccessToken: {
-        serializedName: "contextAccessToken",
-        type: {
-          name: "String"
-        }
-      },
       type: {
         required: true,
         serializedName: "type",
@@ -2135,12 +2129,6 @@ export const TaskStepUpdateParameters: msRest.CompositeMapper = {
     modelProperties: {
       contextPath: {
         serializedName: "contextPath",
-        type: {
-          name: "String"
-        }
-      },
-      contextAccessToken: {
-        serializedName: "contextAccessToken",
         type: {
           name: "String"
         }

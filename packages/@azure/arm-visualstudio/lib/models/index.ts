@@ -80,20 +80,6 @@ export interface AccountResourceListResult {
 
 /**
  * @interface
- * An interface representing AccountTagRequest.
- * The body of a Patch request to add tags to a Visual Studio account resource.
- *
- */
-export interface AccountTagRequest {
-  /**
-   * @member {{ [propertyName: string]: string }} [tags] The custom tags of the
-   * resource.
-   */
-  tags?: { [propertyName: string]: string };
-}
-
-/**
- * @interface
  * An interface representing AccountResourceRequest.
  * The body of a PUT request to modify a Visual Studio account resource.
  *
@@ -476,25 +462,6 @@ export type AccountsCreateOrUpdateResponse = AccountResource & {
  * Contains response data for the get operation.
  */
 export type AccountsGetResponse = AccountResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccountResource;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type AccountsUpdateResponse = AccountResource & {
   /**
    * The underlying HTTP response.
    */

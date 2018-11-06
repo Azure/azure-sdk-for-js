@@ -142,11 +142,6 @@ export interface VirtualNetworkRule {
    * /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.
    */
   id?: string;
-  /**
-   * @member {boolean} [ignoreMissingVNetServiceEndpoint] Create firewall rule
-   * before the virtual network has vnet service endpoint enabled.
-   */
-  ignoreMissingVNetServiceEndpoint?: boolean;
 }
 
 /**

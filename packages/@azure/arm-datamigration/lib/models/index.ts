@@ -206,7 +206,7 @@ export interface MigrateSyncCompleteCommandInput {
 /**
  * Contains the possible cases for CommandProperties.
  */
-export type CommandPropertiesUnion = CommandProperties | MigrateSyncCompleteCommandProperties | MongoDbCancelCommand | MongoDbFinishCommand | MongoDbRestartCommand;
+export type CommandPropertiesUnion = CommandProperties | MigrateSyncCompleteCommandProperties;
 
 /**
  * @interface
@@ -6519,132 +6519,6 @@ export interface MigrateSchemaSqlTaskOutputError {
    * the server.**
    */
   readonly error?: ReportableException;
-}
-
-/**
- * @interface
- * An interface representing MongoDbCommandInput.
- * Describes the input to the 'cancel' and 'restart' MongoDB migration commands
- *
- */
-export interface MongoDbCommandInput {
-  /**
-   * @member {string} [objectName] The qualified name of a database or
-   * collection to act upon, or null to act upon the entire migration
-   */
-  objectName?: string;
-}
-
-/**
- * @interface
- * An interface representing MongoDbCancelCommand.
- * Properties for the command that cancels a migration in whole or in part
- *
- */
-export interface MongoDbCancelCommand {
-  /**
-   * @member {string} commandType Polymorphic Discriminator
-   */
-  commandType: "cancel";
-  /**
-   * @member {ODataError[]} [errors] Array of errors. This is ignored if
-   * submitted.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly errors?: ODataError[];
-  /**
-   * @member {CommandState} [state] The state of the command. This is ignored
-   * if submitted. Possible values include: 'Unknown', 'Accepted', 'Running',
-   * 'Succeeded', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly state?: CommandState;
-  /**
-   * @member {MongoDbCommandInput} [input] Command input
-   */
-  input?: MongoDbCommandInput;
-}
-
-/**
- * @interface
- * An interface representing MongoDbFinishCommandInput.
- * Describes the input to the 'finish' MongoDB migration command
- *
- * @extends MongoDbCommandInput
- */
-export interface MongoDbFinishCommandInput extends MongoDbCommandInput {
-  /**
-   * @member {boolean} immediate If true, replication for the affected objects
-   * will be stopped immediately. If false, the migrator will finish replaying
-   * queued events before finishing the replication.
-   */
-  immediate: boolean;
-}
-
-/**
- * @interface
- * An interface representing MongoDbFinishCommand.
- * Properties for the command that finishes a migration in whole or in part
- *
- */
-export interface MongoDbFinishCommand {
-  /**
-   * @member {string} commandType Polymorphic Discriminator
-   */
-  commandType: "finish";
-  /**
-   * @member {ODataError[]} [errors] Array of errors. This is ignored if
-   * submitted.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly errors?: ODataError[];
-  /**
-   * @member {CommandState} [state] The state of the command. This is ignored
-   * if submitted. Possible values include: 'Unknown', 'Accepted', 'Running',
-   * 'Succeeded', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly state?: CommandState;
-  /**
-   * @member {MongoDbFinishCommandInput} [input] Command input
-   */
-  input?: MongoDbFinishCommandInput;
-}
-
-/**
- * @interface
- * An interface representing MongoDbRestartCommand.
- * Properties for the command that restarts a migration in whole or in part
- *
- */
-export interface MongoDbRestartCommand {
-  /**
-   * @member {string} commandType Polymorphic Discriminator
-   */
-  commandType: "restart";
-  /**
-   * @member {ODataError[]} [errors] Array of errors. This is ignored if
-   * submitted.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly errors?: ODataError[];
-  /**
-   * @member {CommandState} [state] The state of the command. This is ignored
-   * if submitted. Possible values include: 'Unknown', 'Accepted', 'Running',
-   * 'Succeeded', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly state?: CommandState;
-  /**
-   * @member {MongoDbCommandInput} [input] Command input
-   */
-  input?: MongoDbCommandInput;
 }
 
 /**

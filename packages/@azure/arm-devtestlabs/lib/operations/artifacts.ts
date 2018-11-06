@@ -41,7 +41,7 @@ export class Artifacts {
    * @param artifactSourceName The name of the artifact source.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, artifactSourceName: string, callback: msRest.ServiceCallback<Models.ArtifactList>): void;
+  list(resourceGroupName: string, labName: string, artifactSourceName: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationArtifact>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -49,8 +49,8 @@ export class Artifacts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, artifactSourceName: string, options: Models.ArtifactsListOptionalParams, callback: msRest.ServiceCallback<Models.ArtifactList>): void;
-  list(resourceGroupName: string, labName: string, artifactSourceName: string, options?: Models.ArtifactsListOptionalParams, callback?: msRest.ServiceCallback<Models.ArtifactList>): Promise<Models.ArtifactsListResponse> {
+  list(resourceGroupName: string, labName: string, artifactSourceName: string, options: Models.ArtifactsListOptionalParams, callback: msRest.ServiceCallback<Models.ResponseWithContinuationArtifact>): void;
+  list(resourceGroupName: string, labName: string, artifactSourceName: string, options?: Models.ArtifactsListOptionalParams, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationArtifact>): Promise<Models.ArtifactsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -161,14 +161,14 @@ export class Artifacts {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ArtifactList>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationArtifact>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ArtifactList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ArtifactList>): Promise<Models.ArtifactsListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResponseWithContinuationArtifact>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationArtifact>): Promise<Models.ArtifactsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -202,7 +202,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactList
+      bodyMapper: Mappers.ResponseWithContinuationArtifact
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -285,7 +285,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactList
+      bodyMapper: Mappers.ResponseWithContinuationArtifact
     },
     default: {
       bodyMapper: Mappers.CloudError
