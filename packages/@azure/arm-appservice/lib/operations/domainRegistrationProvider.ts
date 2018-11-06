@@ -44,7 +44,7 @@ export class DomainRegistrationProvider {
    * @param callback The callback
    */
   listOperations(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CsmOperationCollection>): void;
-  listOperations(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CsmOperationCollection>): Promise<Models.DomainRegistrationProviderListOperationsResponse> {
+  listOperations(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CsmOperationCollection>, callback?: msRest.ServiceCallback<Models.CsmOperationCollection>): Promise<Models.DomainRegistrationProviderListOperationsResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -74,7 +74,7 @@ export class DomainRegistrationProvider {
    * @param callback The callback
    */
   listOperationsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CsmOperationCollection>): void;
-  listOperationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CsmOperationCollection>): Promise<Models.DomainRegistrationProviderListOperationsNextResponse> {
+  listOperationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CsmOperationCollection>, callback?: msRest.ServiceCallback<Models.CsmOperationCollection>): Promise<Models.DomainRegistrationProviderListOperationsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
