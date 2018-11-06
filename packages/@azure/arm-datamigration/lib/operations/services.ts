@@ -71,7 +71,7 @@ export class Services {
    * @param callback The callback
    */
   get(groupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataMigrationService>): void;
-  get(groupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMigrationService>, callback?: msRest.ServiceCallback<Models.DataMigrationService>): Promise<Models.ServicesGetResponse> {
+  get(groupName: string, serviceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DataMigrationService>): Promise<Models.ServicesGetResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -137,7 +137,7 @@ export class Services {
    * @param callback The callback
    */
   checkStatus(groupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataMigrationServiceStatusResponse>): void;
-  checkStatus(groupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMigrationServiceStatusResponse>, callback?: msRest.ServiceCallback<Models.DataMigrationServiceStatusResponse>): Promise<Models.ServicesCheckStatusResponse> {
+  checkStatus(groupName: string, serviceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DataMigrationServiceStatusResponse>): Promise<Models.ServicesCheckStatusResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -200,7 +200,7 @@ export class Services {
    * @param callback The callback
    */
   listSkus(groupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceSkuList>): void;
-  listSkus(groupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceSkuList>, callback?: msRest.ServiceCallback<Models.ServiceSkuList>): Promise<Models.ServicesListSkusResponse> {
+  listSkus(groupName: string, serviceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceSkuList>): Promise<Models.ServicesListSkusResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -236,7 +236,7 @@ export class Services {
    * @param callback The callback
    */
   checkChildrenNameAvailability(groupName: string, serviceName: string, parameters: Models.NameAvailabilityRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NameAvailabilityResponse>): void;
-  checkChildrenNameAvailability(groupName: string, serviceName: string, parameters: Models.NameAvailabilityRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NameAvailabilityResponse>, callback?: msRest.ServiceCallback<Models.NameAvailabilityResponse>): Promise<Models.ServicesCheckChildrenNameAvailabilityResponse> {
+  checkChildrenNameAvailability(groupName: string, serviceName: string, parameters: Models.NameAvailabilityRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NameAvailabilityResponse>): Promise<Models.ServicesCheckChildrenNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -268,7 +268,7 @@ export class Services {
    * @param callback The callback
    */
   listByResourceGroup(groupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataMigrationServiceList>): void;
-  listByResourceGroup(groupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMigrationServiceList>, callback?: msRest.ServiceCallback<Models.DataMigrationServiceList>): Promise<Models.ServicesListByResourceGroupResponse> {
+  listByResourceGroup(groupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DataMigrationServiceList>): Promise<Models.ServicesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -295,7 +295,7 @@ export class Services {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataMigrationServiceList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMigrationServiceList>, callback?: msRest.ServiceCallback<Models.DataMigrationServiceList>): Promise<Models.ServicesListResponse> {
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DataMigrationServiceList>): Promise<Models.ServicesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -326,7 +326,7 @@ export class Services {
    * @param callback The callback
    */
   checkNameAvailability(location: string, parameters: Models.NameAvailabilityRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NameAvailabilityResponse>): void;
-  checkNameAvailability(location: string, parameters: Models.NameAvailabilityRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NameAvailabilityResponse>, callback?: msRest.ServiceCallback<Models.NameAvailabilityResponse>): Promise<Models.ServicesCheckNameAvailabilityResponse> {
+  checkNameAvailability(location: string, parameters: Models.NameAvailabilityRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NameAvailabilityResponse>): Promise<Models.ServicesCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -470,7 +470,7 @@ export class Services {
    * @param callback The callback
    */
   listSkusNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceSkuList>): void;
-  listSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceSkuList>, callback?: msRest.ServiceCallback<Models.ServiceSkuList>): Promise<Models.ServicesListSkusNextResponse> {
+  listSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceSkuList>): Promise<Models.ServicesListSkusNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -500,7 +500,7 @@ export class Services {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataMigrationServiceList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMigrationServiceList>, callback?: msRest.ServiceCallback<Models.DataMigrationServiceList>): Promise<Models.ServicesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DataMigrationServiceList>): Promise<Models.ServicesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -530,7 +530,7 @@ export class Services {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataMigrationServiceList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMigrationServiceList>, callback?: msRest.ServiceCallback<Models.DataMigrationServiceList>): Promise<Models.ServicesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DataMigrationServiceList>): Promise<Models.ServicesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
