@@ -783,28 +783,12 @@ export interface DenyAssignmentListResult extends Array<DenyAssignment> {
 /**
  * Defines values for PrincipalType.
  * Possible values include: 'User', 'Group', 'ServicePrincipal', 'Unknown',
- * 'DirectoryRoleTemplate', 'ForeignGroup', 'Application', 'MSI',
- * 'DirectoryObjectOrGroup', 'Everyone'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PrincipalType =
- * <PrincipalType>"someUnknownValueThatWillStillBeValid";
+ * 'DirectoryRoleTemplate', 'ForeignGroup', 'Application', 'MSI', 'DirectoryObjectOrGroup',
+ * 'Everyone'
  * @readonly
  * @enum {string}
  */
-export enum PrincipalType {
-  User = 'User',
-  Group = 'Group',
-  ServicePrincipal = 'ServicePrincipal',
-  Unknown = 'Unknown',
-  DirectoryRoleTemplate = 'DirectoryRoleTemplate',
-  ForeignGroup = 'ForeignGroup',
-  Application = 'Application',
-  MSI = 'MSI',
-  DirectoryObjectOrGroup = 'DirectoryObjectOrGroup',
-  Everyone = 'Everyone',
-}
+export type PrincipalType = 'User' | 'Group' | 'ServicePrincipal' | 'Unknown' | 'DirectoryRoleTemplate' | 'ForeignGroup' | 'Application' | 'MSI' | 'DirectoryObjectOrGroup' | 'Everyone';
 
 /**
  * Contains response data for the list operation.

@@ -44,7 +44,7 @@ export class ProviderOperationsMetadataOperations {
    * @param callback The callback
    */
   get(resourceProviderNamespace: string, options: Models.ProviderOperationsMetadataGetOptionalParams, callback: msRest.ServiceCallback<Models.ProviderOperationsMetadata>): void;
-  get(resourceProviderNamespace: string, options?: Models.ProviderOperationsMetadataGetOptionalParams, callback?: msRest.ServiceCallback<Models.ProviderOperationsMetadata>): Promise<Models.ProviderOperationsMetadataGetResponse> {
+  get(resourceProviderNamespace: string, options?: Models.ProviderOperationsMetadataGetOptionalParams | msRest.ServiceCallback<Models.ProviderOperationsMetadata>, callback?: msRest.ServiceCallback<Models.ProviderOperationsMetadata>): Promise<Models.ProviderOperationsMetadataGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceProviderNamespace,
@@ -69,7 +69,7 @@ export class ProviderOperationsMetadataOperations {
    * @param callback The callback
    */
   list(options: Models.ProviderOperationsMetadataListOptionalParams, callback: msRest.ServiceCallback<Models.ProviderOperationsMetadataListResult>): void;
-  list(options?: Models.ProviderOperationsMetadataListOptionalParams, callback?: msRest.ServiceCallback<Models.ProviderOperationsMetadataListResult>): Promise<Models.ProviderOperationsMetadataListResponse> {
+  list(options?: Models.ProviderOperationsMetadataListOptionalParams | msRest.ServiceCallback<Models.ProviderOperationsMetadataListResult>, callback?: msRest.ServiceCallback<Models.ProviderOperationsMetadataListResult>): Promise<Models.ProviderOperationsMetadataListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -96,7 +96,7 @@ export class ProviderOperationsMetadataOperations {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProviderOperationsMetadataListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProviderOperationsMetadataListResult>): Promise<Models.ProviderOperationsMetadataListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProviderOperationsMetadataListResult>, callback?: msRest.ServiceCallback<Models.ProviderOperationsMetadataListResult>): Promise<Models.ProviderOperationsMetadataListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
