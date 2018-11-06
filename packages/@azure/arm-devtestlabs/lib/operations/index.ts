@@ -28,6 +28,8 @@ export * from "./users";
 export * from "./disks";
 export * from "./environments";
 export * from "./secrets";
+export * from "./serviceFabrics";
+export * from "./serviceFabricSchedules";
 export * from "./virtualMachines";
 export * from "./virtualMachineSchedules";
 export * from "./virtualNetworks";
