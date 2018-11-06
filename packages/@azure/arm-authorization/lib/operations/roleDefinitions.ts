@@ -47,7 +47,7 @@ export class RoleDefinitions {
    * @param callback The callback
    */
   deleteMethod(scope: string, roleDefinitionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleDefinition>): void;
-  deleteMethod(scope: string, roleDefinitionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoleDefinition>): Promise<Models.RoleDefinitionsDeleteMethodResponse> {
+  deleteMethod(scope: string, roleDefinitionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RoleDefinition>, callback?: msRest.ServiceCallback<Models.RoleDefinition>): Promise<Models.RoleDefinitionsDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -79,7 +79,7 @@ export class RoleDefinitions {
    * @param callback The callback
    */
   get(scope: string, roleDefinitionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleDefinition>): void;
-  get(scope: string, roleDefinitionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoleDefinition>): Promise<Models.RoleDefinitionsGetResponse> {
+  get(scope: string, roleDefinitionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RoleDefinition>, callback?: msRest.ServiceCallback<Models.RoleDefinition>): Promise<Models.RoleDefinitionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -114,7 +114,7 @@ export class RoleDefinitions {
    * @param callback The callback
    */
   createOrUpdate(scope: string, roleDefinitionId: string, roleDefinition: Models.RoleDefinition, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleDefinition>): void;
-  createOrUpdate(scope: string, roleDefinitionId: string, roleDefinition: Models.RoleDefinition, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoleDefinition>): Promise<Models.RoleDefinitionsCreateOrUpdateResponse> {
+  createOrUpdate(scope: string, roleDefinitionId: string, roleDefinition: Models.RoleDefinition, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RoleDefinition>, callback?: msRest.ServiceCallback<Models.RoleDefinition>): Promise<Models.RoleDefinitionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -144,7 +144,7 @@ export class RoleDefinitions {
    * @param callback The callback
    */
   list(scope: string, options: Models.RoleDefinitionsListOptionalParams, callback: msRest.ServiceCallback<Models.RoleDefinitionListResult>): void;
-  list(scope: string, options?: Models.RoleDefinitionsListOptionalParams, callback?: msRest.ServiceCallback<Models.RoleDefinitionListResult>): Promise<Models.RoleDefinitionsListResponse> {
+  list(scope: string, options?: Models.RoleDefinitionsListOptionalParams | msRest.ServiceCallback<Models.RoleDefinitionListResult>, callback?: msRest.ServiceCallback<Models.RoleDefinitionListResult>): Promise<Models.RoleDefinitionsListResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -184,7 +184,7 @@ export class RoleDefinitions {
    * @param callback The callback
    */
   getById(roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleDefinition>): void;
-  getById(roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoleDefinition>): Promise<Models.RoleDefinitionsGetByIdResponse> {
+  getById(roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RoleDefinition>, callback?: msRest.ServiceCallback<Models.RoleDefinition>): Promise<Models.RoleDefinitionsGetByIdResponse> {
     return this.client.sendOperationRequest(
       {
         roleId,
@@ -212,7 +212,7 @@ export class RoleDefinitions {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleDefinitionListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoleDefinitionListResult>): Promise<Models.RoleDefinitionsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RoleDefinitionListResult>, callback?: msRest.ServiceCallback<Models.RoleDefinitionListResult>): Promise<Models.RoleDefinitionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

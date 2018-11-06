@@ -68,7 +68,7 @@ export class ExpressRouteCircuitConnections {
    * @param callback The callback
    */
   get(resourceGroupName: string, circuitName: string, peeringName: string, connectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitConnection>): void;
-  get(resourceGroupName: string, circuitName: string, peeringName: string, connectionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitConnection>): Promise<Models.ExpressRouteCircuitConnectionsGetResponse> {
+  get(resourceGroupName: string, circuitName: string, peeringName: string, connectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuitConnection>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitConnection>): Promise<Models.ExpressRouteCircuitConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

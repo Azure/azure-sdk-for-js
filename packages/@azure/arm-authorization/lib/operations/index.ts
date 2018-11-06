@@ -10,7 +10,7 @@
 
 export * from "./classicAdministrators";
 export * from "./providerOperationsMetadataOperations";
-export * from "./permissions";
 export * from "./roleAssignments";
+export * from "./permissions";
 export * from "./roleDefinitions";
 export * from "./denyAssignments";

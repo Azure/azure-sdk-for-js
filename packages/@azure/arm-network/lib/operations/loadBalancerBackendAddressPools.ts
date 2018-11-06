@@ -47,7 +47,7 @@ export class LoadBalancerBackendAddressPools {
    * @param callback The callback
    */
   list(resourceGroupName: string, loadBalancerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoadBalancerBackendAddressPoolListResult>): void;
-  list(resourceGroupName: string, loadBalancerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LoadBalancerBackendAddressPoolListResult>): Promise<Models.LoadBalancerBackendAddressPoolsListResponse> {
+  list(resourceGroupName: string, loadBalancerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoadBalancerBackendAddressPoolListResult>, callback?: msRest.ServiceCallback<Models.LoadBalancerBackendAddressPoolListResult>): Promise<Models.LoadBalancerBackendAddressPoolsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class LoadBalancerBackendAddressPools {
    * @param callback The callback
    */
   get(resourceGroupName: string, loadBalancerName: string, backendAddressPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackendAddressPool>): void;
-  get(resourceGroupName: string, loadBalancerName: string, backendAddressPoolName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackendAddressPool>): Promise<Models.LoadBalancerBackendAddressPoolsGetResponse> {
+  get(resourceGroupName: string, loadBalancerName: string, backendAddressPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackendAddressPool>, callback?: msRest.ServiceCallback<Models.BackendAddressPool>): Promise<Models.LoadBalancerBackendAddressPoolsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class LoadBalancerBackendAddressPools {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoadBalancerBackendAddressPoolListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LoadBalancerBackendAddressPoolListResult>): Promise<Models.LoadBalancerBackendAddressPoolsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoadBalancerBackendAddressPoolListResult>, callback?: msRest.ServiceCallback<Models.LoadBalancerBackendAddressPoolListResult>): Promise<Models.LoadBalancerBackendAddressPoolsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
