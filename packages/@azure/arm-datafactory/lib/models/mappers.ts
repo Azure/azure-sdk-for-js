@@ -10931,6 +10931,35 @@ export const LookupActivity: msRest.CompositeMapper = {
   }
 };
 
+export const DeleteActivity: msRest.CompositeMapper = {
+  serializedName: "Delete",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Activity.type.polymorphicDiscriminator,
+    uberParent: "Activity",
+    className: "DeleteActivity",
+    modelProperties: {
+      ...ExecutionActivity.type.modelProperties,
+      recursive: {
+        serializedName: "typeProperties.recursive",
+        type: {
+          name: "Object"
+        }
+      },
+      dataset: {
+        required: true,
+        serializedName: "typeProperties.dataset",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "DatasetReference"
+        }
+      }
+    },
+    additionalProperties: Activity.type.additionalProperties
+  }
+};
+
 export const SqlServerStoredProcedureActivity: msRest.CompositeMapper = {
   serializedName: "SqlServerStoredProcedure",
   type: {
@@ -14283,6 +14312,7 @@ export const discriminators = {
   'CopySource.AzureTableSource' : AzureTableSource,
   'CopySource' : CopySource,
   'Activity.Lookup' : LookupActivity,
+  'Activity.Delete' : DeleteActivity,
   'Activity.SqlServerStoredProcedure' : SqlServerStoredProcedureActivity,
   'Activity.Custom' : CustomActivity,
   'Activity.ExecuteSSISPackage' : ExecuteSSISPackageActivity,

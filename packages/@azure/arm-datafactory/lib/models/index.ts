@@ -10187,7 +10187,7 @@ export interface ActivityPolicy {
 /**
  * Contains the possible cases for ExecutionActivity.
  */
-export type ExecutionActivityUnion = ExecutionActivity | DatabricksSparkPythonActivity | DatabricksSparkJarActivity | DatabricksNotebookActivity | DataLakeAnalyticsUSQLActivity | AzureMLUpdateResourceActivity | AzureMLBatchExecutionActivity | GetMetadataActivity | WebActivity | LookupActivity | SqlServerStoredProcedureActivity | CustomActivity | ExecuteSSISPackageActivity | HDInsightSparkActivity | HDInsightStreamingActivity | HDInsightMapReduceActivity | HDInsightPigActivity | HDInsightHiveActivity | CopyActivity;
+export type ExecutionActivityUnion = ExecutionActivity | DatabricksSparkPythonActivity | DatabricksSparkJarActivity | DatabricksNotebookActivity | DataLakeAnalyticsUSQLActivity | AzureMLUpdateResourceActivity | AzureMLBatchExecutionActivity | GetMetadataActivity | WebActivity | LookupActivity | DeleteActivity | SqlServerStoredProcedureActivity | CustomActivity | ExecuteSSISPackageActivity | HDInsightSparkActivity | HDInsightStreamingActivity | HDInsightMapReduceActivity | HDInsightPigActivity | HDInsightHiveActivity | CopyActivity;
 
 /**
  * @interface
@@ -12453,6 +12453,54 @@ export interface LookupActivity {
    * boolean).
    */
   firstRowOnly?: any;
+}
+
+/**
+ * @interface
+ * An interface representing DeleteActivity.
+ * Delete activity.
+ *
+ */
+export interface DeleteActivity {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "Delete";
+  /**
+   * @member {string} name Activity name.
+   */
+  name: string;
+  /**
+   * @member {string} [description] Activity description.
+   */
+  description?: string;
+  /**
+   * @member {ActivityDependency[]} [dependsOn] Activity depends on condition.
+   */
+  dependsOn?: ActivityDependency[];
+  /**
+   * @member {UserProperty[]} [userProperties] Activity user properties.
+   */
+  userProperties?: UserProperty[];
+  /**
+   * @member {LinkedServiceReference} [linkedServiceName] Linked service
+   * reference.
+   */
+  linkedServiceName?: LinkedServiceReference;
+  /**
+   * @member {ActivityPolicy} [policy] Activity policy.
+   */
+  policy?: ActivityPolicy;
+  /**
+   * @member {any} [recursive] If true, files under the folder path will be
+   * deleted recursively. Default is true. Type: boolean (or Expression with
+   * resultType boolean).
+   */
+  recursive?: any;
+  /**
+   * @member {DatasetReference} dataset Delete activity dataset reference.
+   */
+  dataset: DatasetReference;
 }
 
 /**

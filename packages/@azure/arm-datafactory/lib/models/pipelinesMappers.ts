@@ -224,6 +224,7 @@ export {
   WebActivityAuthentication,
   LookupActivity,
   CopySource,
+  DeleteActivity,
   SqlServerStoredProcedureActivity,
   StoredProcedureParameter,
   CustomActivity,
