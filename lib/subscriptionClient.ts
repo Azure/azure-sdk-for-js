@@ -3,12 +3,12 @@
 
 import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
-import { ReceiveOptions, OnError, OnMessage } from "./messageReceiver";
-import { StreamingReceiver, ReceiveHandler, MessageHandlerOptions } from "./streamingReceiver";
-import { BatchingReceiver } from "./batchingReceiver";
+import { ReceiveOptions, OnError, OnMessage } from "./core/messageReceiver";
+import { StreamingReceiver, ReceiveHandler, MessageHandlerOptions } from "./core/streamingReceiver";
+import { BatchingReceiver } from "./core/batchingReceiver";
 import { ServiceBusMessage, ReceivedMessageInfo } from "./serviceBusMessage";
 import { Client } from "./client";
-import { ReceiveMode } from "./messageReceiver";
+import { ReceiveMode } from "./core/messageReceiver";
 
 /**
  * Describes the options that can be provided while creating the SubscriptionClient.

@@ -8,12 +8,12 @@ import {
 import {
   defaultLock, translate, Constants, RequestResponseLink, ConditionErrorNameMapper, AmqpMessage, SendRequestOptions
 } from "@azure/amqp-common";
-import { ClientEntityContext } from "./clientEntityContext";
-import { ReceivedMessageInfo, ServiceBusMessage, SendableMessageInfo } from "./serviceBusMessage";
+import { ClientEntityContext } from "../clientEntityContext";
+import { ReceivedMessageInfo, ServiceBusMessage, SendableMessageInfo } from "../serviceBusMessage";
 import { LinkEntity } from "./linkEntity";
-import * as log from "./log";
+import * as log from "../log";
 import { ReceiveMode } from "./messageReceiver";
-import { reorderLockTokens } from "./util/utils";
+import { reorderLockTokens } from "../util/utils";
 
 export enum DispositionStatus {
   completed = "completed",

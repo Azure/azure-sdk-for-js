@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as log from "./log";
+import * as log from "../log";
 import {
   messageProperties, Sender, EventContext, OnAmqpEvent, SenderOptions, Delivery, SenderEvents,
   message, AmqpError, generate_uuid
@@ -10,10 +10,10 @@ import {
   defaultLock, Func, retry, translate, AmqpMessage, ErrorNameConditionMapper,
   RetryConfig, RetryOperationType, Constants, randomNumberFromInterval
 } from "@azure/amqp-common";
-import { SendableMessageInfo } from "./serviceBusMessage";
-import { ClientEntityContext } from "./clientEntityContext";
+import { SendableMessageInfo } from "../serviceBusMessage";
+import { ClientEntityContext } from "../clientEntityContext";
 import { LinkEntity } from "./linkEntity";
-import { getUniqueName } from "./util/utils";
+import { getUniqueName } from "../util/utils";
 
 /**
  * @ignore

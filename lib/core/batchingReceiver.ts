@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as log from "./log";
+import * as log from "../log";
 import { Func, Constants, translate, MessagingError } from "@azure/amqp-common";
 import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents } from "rhea-promise";
-import { ServiceBusMessage } from "./serviceBusMessage";
+import { ServiceBusMessage } from "../serviceBusMessage";
 import {
   MessageReceiver, ReceiveOptions, ReceiverType, PromiseLike, OnAmqpEventAsPromise
 } from "./messageReceiver";
-import { ClientEntityContext } from "./clientEntityContext";
+import { ClientEntityContext } from "../clientEntityContext";
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for

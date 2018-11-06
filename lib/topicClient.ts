@@ -5,10 +5,10 @@ import * as Long from "long";
 import * as log from "./log";
 import { Delivery } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
-import { MessageSender } from "./messageSender";
+import { MessageSender } from "./core/messageSender";
 import { SendableMessageInfo } from "./serviceBusMessage";
 import { Client } from "./client";
-import { ScheduleMessage } from "./managementClient";
+import { ScheduleMessage } from "./core/managementClient";
 
 
 
