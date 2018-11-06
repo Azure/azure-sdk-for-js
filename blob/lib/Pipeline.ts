@@ -5,7 +5,9 @@ import {
   HttpOperationResponse,
   HttpPipelineLogger as IHTTPPipelineLogger,
   HttpPipelineLogLevel,
+  RequestPolicy,
   RequestPolicyFactory,
+  RequestPolicyOptions,
   ServiceClientOptions,
   WebResource
 } from "ms-rest-js";
@@ -19,7 +21,10 @@ export {
   HttpPipelineLogLevel,
   HttpOperationResponse,
   WebResource,
-  BaseRequestPolicy
+  BaseRequestPolicy,
+  RequestPolicyFactory,
+  RequestPolicy,
+  RequestPolicyOptions
 };
 
 /**
