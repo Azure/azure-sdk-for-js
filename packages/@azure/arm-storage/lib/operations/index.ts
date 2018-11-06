@@ -12,5 +12,6 @@ export * from "./operations";
 export * from "./skus";
 export * from "./storageAccounts";
 export * from "./usages";
+export * from "./blobServices";
 export * from "./blobContainers";
 export * from "./managementPolicies";

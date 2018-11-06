@@ -4,26 +4,22 @@
  * license information.
  */
 
-import { getCommandLineOptions, Argv } from "./.scripts/commandLine";
-import { endsWith, npmInstall, npmRunBuild } from "./.scripts/common";
-import { findMissingSdks, findWrongPackages } from "./.scripts/packages";
-import { generateTsReadme, generateMissingSdk, generateAllMissingSdks, regenerate, generateSdk } from "./.scripts/gulp";
-import {
-  findReadmeTypeScriptMdFilePaths,
-  getAbsolutePackageFolderPathFromReadmeFileContents,
-  getPackageFolderPathFromPackageArgument,
-} from "./.scripts/readme";
-import { Logger } from "./.scripts/logger";
-import * as fs from "fs";
-import * as gulp from "gulp";
-import * as path from "path";
 import { execSync } from "child_process";
+import * as fs from "fs";
+import gulp from "gulp";
+import * as path from "path";
+import { Argv, CommandLineOptions, getCommandLineOptions } from "./.scripts/commandLine";
+import { endsWith, npmInstall, npmRunBuild } from "./.scripts/common";
 import { getDataFromPullRequest } from "./.scripts/github";
+import { generateAllMissingSdks, generateMissingSdk, generateSdk, generateTsReadme, regenerate } from "./.scripts/gulp";
+import { Logger } from "./.scripts/logger";
+import { findMissingSdks, findWrongPackages } from "./.scripts/packages";
+import { findReadmeTypeScriptMdFilePaths, getAbsolutePackageFolderPathFromReadmeFileContents, getPackageFolderPathFromPackageArgument } from "./.scripts/readme";
 
-const args = getCommandLineOptions();
-const _logger = Logger.get();
-const azureSDKForJSRepoRoot: string = process.argv["azure-sdk-for-js-repo-root"] || __dirname;
-const azureRestAPISpecsRoot: string = process.argv["azure-rest-api-specs-root"] || path.resolve(azureSDKForJSRepoRoot, '..', 'azure-rest-api-specs');
+const args: CommandLineOptions = getCommandLineOptions();
+const _logger: Logger = Logger.get();
+const azureSDKForJSRepoRoot: string = args["azure-sdk-for-js-repo-root"] || __dirname;
+const azureRestAPISpecsRoot: string = args["azure-rest-api-specs-root"] || path.resolve(azureSDKForJSRepoRoot, '..', 'azure-rest-api-specs');
 
 gulp.task('default', () => {
   _logger.log('gulp build --package <package-name>');
@@ -104,7 +100,9 @@ gulp.task('codegen', async () => {
   await generateSdk(argv.azureRestAPISpecsRoot, argv.azureSDKForJSRepoRoot, argv.package, argv.use, argv.debugger);
 });
 
-gulp.task('pack', () => {
+type CreatePackageType = "pack" | "publish"
+
+const createPackages = (type: CreatePackageType = "pack") => {
   const typeScriptReadmeFilePaths: string[] = findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot);
 
   let errorPackages = 0;
@@ -112,72 +110,77 @@ gulp.task('pack', () => {
   let publishedPackages = 0;
   let publishedPackagesSkipped = 0;
 
-  const packPath = path.join(azureSDKForJSRepoRoot, "pack");
-  if (!fs.existsSync(packPath)) {
-    fs.mkdirSync(packPath);
+  const dropPath = path.join(azureSDKForJSRepoRoot, "drop");
+  if (!fs.existsSync(dropPath)) {
+    fs.mkdirSync(dropPath);
   }
   for (const typeScriptReadmeFilePath of typeScriptReadmeFilePaths) {
     _logger.logTrace(`INFO: Processing ${typeScriptReadmeFilePath}`);
 
     const typeScriptReadmeFileContents: string = fs.readFileSync(typeScriptReadmeFilePath, 'utf8');
-    const packageFolderPath: string = getAbsolutePackageFolderPathFromReadmeFileContents(
+    const packageFolderPath: string | undefined = getAbsolutePackageFolderPathFromReadmeFileContents(
       azureSDKForJSRepoRoot,
       typeScriptReadmeFileContents
     );
-    if (!fs.existsSync(packageFolderPath)) {
-      _logger.log(`ERROR: Package folder ${packageFolderPath} has not been generated.`);
+    if (!packageFolderPath) {
+      _logger.log(`ERROR: No output-path property specified in ${typeScriptReadmeFileContents}.`);
       errorPackages++;
-    }
-    else {
-      const packageJsonFilePath: string = `${packageFolderPath}/package.json`;
-      if (!fs.existsSync(packageJsonFilePath)) {
-        _logger.log(`ERROR: Package folder ${packageFolderPath} is missing its package.json file.`);
+    } else {
+      if (!fs.existsSync(packageFolderPath)) {
+        _logger.log(`ERROR: Package folder ${packageFolderPath} has not been generated.`);
         errorPackages++;
       }
       else {
-        const packageJson: { [propertyName: string]: any } = require(packageJsonFilePath);
-        const packageName: string = packageJson.name;
+        const packageJsonFilePath: string = `${packageFolderPath}/package.json`;
+        if (!fs.existsSync(packageJsonFilePath)) {
+          _logger.log(`ERROR: Package folder ${packageFolderPath} is missing its package.json file.`);
+          errorPackages++;
+        }
+        else {
+          const packageJson: { [propertyName: string]: any } = require(packageJsonFilePath);
+          const packageName: string = packageJson.name;
 
-        if (!args.package || args.package === packageName || endsWith(packageName, `-${args.package}`)) {
-          const localPackageVersion: string = packageJson.version;
-          if (!localPackageVersion) {
-            _logger.log(`ERROR: "${packageJsonFilePath}" doesn't have a version specified.`);
-            errorPackages++;
-          }
-          else {
-            let npmPackageVersion: string;
-            try {
-              const npmViewResult: { [propertyName: string]: any } = JSON.parse(
-                execSync(`npm view ${packageName} --json`, { stdio: ['pipe', 'pipe', 'ignore'] }).toString()
-              );
-              npmPackageVersion = npmViewResult['dist-tags']['latest'];
-            }
-            catch (error) {
-              // This happens if the package doesn't exist in NPM.
-            }
-
-            if (localPackageVersion === npmPackageVersion) {
-              upToDatePackages++;
+          if (!args.package || args.package === packageName || endsWith(packageName, `-${args.package}`)) {
+            const localPackageVersion: string = packageJson.version;
+            if (!localPackageVersion) {
+              _logger.log(`ERROR: "${packageJsonFilePath}" doesn't have a version specified.`);
+              errorPackages++;
             }
             else {
-              _logger.log(`Packing package "${packageName}" with version "${localPackageVersion}"...${args.whatif ? " (SKIPPED)" : ""}`);
-              if (!args.whatif) {
-                try {
-                  npmInstall(packageFolderPath);
-                  // TODO: `npm install` should be removed after we regenerate all packages.
-                  execSync("npm install", { cwd: packageFolderPath });
-                  execSync(`npm pack`, { cwd: packageFolderPath });
-                  const packFileName = `${packageName.replace("/", "-").replace("@", "")}-${localPackageVersion}.tgz`
-                  const packFilePath = path.join(packageFolderPath, packFileName);
-                  fs.renameSync(packFilePath, path.join(packPath, packFileName));
-                  console.log(`Filename: ${packFileName}`);
-                  publishedPackages++;
+              let npmPackageVersion: string | undefined;
+              try {
+                const npmViewResult: { [propertyName: string]: any } = JSON.parse(
+                  execSync(`npm view ${packageName} --json`, { stdio: ['pipe', 'pipe', 'ignore'] }).toString()
+                );
+                npmPackageVersion = npmViewResult['dist-tags']['latest'];
+              }
+              catch (error) {
+                // This happens if the package doesn't exist in NPM.
+              }
+
+              if (localPackageVersion === npmPackageVersion) {
+                upToDatePackages++;
+              }
+              else {
+                _logger.log(`Packing package "${packageName}" with version "${localPackageVersion}"...${args.whatif ? " (SKIPPED)" : ""}`);
+                if (!args.whatif) {
+                  try {
+                    npmInstall(packageFolderPath);
+                    // TODO: `npm install` should be removed after we regenerate all packages.
+                    execSync("npm install", { cwd: packageFolderPath });
+                    execSync(`npm ${type}`, { cwd: packageFolderPath });
+                    const packFileName = `${packageName.replace("/", "-").replace("@", "")}-${localPackageVersion}.tgz`
+                    const packFilePath = path.join(packageFolderPath, packFileName);
+                    fs.renameSync(packFilePath, path.join(dropPath, packFileName));
+                    console.log(`Filename: ${packFileName}`);
+                    publishedPackages++;
+                  }
+                  catch (error) {
+                    errorPackages++;
+                  }
+                } else {
+                  publishedPackagesSkipped++;
                 }
-                catch (error) {
-                  errorPackages++;
-                }
-              } else {
-                publishedPackagesSkipped++;
               }
             }
           }
@@ -191,7 +194,11 @@ gulp.task('pack', () => {
   _logger.log(`Up to date packages:        ${upToDatePackages}`);
   _logger.log(`Packed packages:         ${publishedPackages}`);
   _logger.log(`Skipped packages: ${publishedPackagesSkipped}`);
-});
+}
+
+gulp.task('pack', () => createPackages());
+
+gulp.task('publish', () => createPackages("publish"));
 
 gulp.task("find-missing-sdks", async () => {
   try {
@@ -256,47 +263,58 @@ gulp.task("generate-all-missing-sdks", async () => {
 });
 
 gulp.task("regenerate", async () => {
-  return new Promise((resolve, reject) => {
-    const argv = Argv.construct(Argv.Options.Repository)
-      .options({
-        "branch": {
-          alias: "b",
-          string: true,
-          description: "Name of the AutoPR branch",
-          implies: "package"
-        },
-        "package": {
-          alias: "p",
-          string: true,
-          description: "Name of the regenerated package"
-        },
-        "pull-request": {
-          alias: "pr",
-          string: true,
-          description: "URL to GitHub pull request",
-          conflicts: ["branch", "package"]
-        },
-        "skip-version-bump": {
-          boolean: true,
-          description: "Determines if version bumping should be skipped"
-        },
-        "request-review": {
-          boolean: true,
-          description: "Determines if review should be automatically requested on matching pull request"
-        }
-      }).usage("Example: gulp regenerate --branch 'restapi_auto_daschult/sql'").argv;
+  const argv = Argv.construct(Argv.Options.Repository)
+    .options({
+      "branch": {
+        alias: "b",
+        string: true,
+        description: "Name of the AutoPR branch",
+        implies: "package"
+      },
+      "package": {
+        alias: "p",
+        string: true,
+        description: "Name of the regenerated package"
+      },
+      "pull-request": {
+        alias: "pr",
+        string: true,
+        description: "URL to GitHub pull request",
+        conflicts: ["branch"]
+      },
+      "skip-version-bump": {
+        boolean: true,
+        description: "Determines if version bumping should be skipped"
+      },
+      "request-review": {
+        boolean: true,
+        description: "Determines if review should be automatically requested on matching pull request"
+      }
+    }).usage("Example: gulp regenerate --branch 'restapi_auto_daschult/sql'").argv;
 
-    getDataFromPullRequest(argv["pull-request"]).then(data => {
-      const branchName = argv.branch || data.branchName;
-      const packageName = argv.package || data.packageName;
+  try {
+    const pullRequestUrl: string | undefined = argv["pull-request"];
 
-      regenerate(branchName, packageName, argv["azure-sdk-for-js-root"], argv["azure-rest-api-specs-root"], data.prId, argv["skip-version-bump"], argv["request-review"])
-        .then(_ => resolve(),
-          error => reject(error));
-    }).catch(error => {
-      reject(error)
-    });
-  });
+    let pullRequestData: { packageName: string | undefined; branchName: string; prId: number; } | undefined;
+    if (pullRequestUrl) {
+      pullRequestData = await getDataFromPullRequest(pullRequestUrl);
+    }
+
+    if (!pullRequestData) {
+      throw new Error(`Could not get pull request data for pull request "${pullRequestUrl}".`);
+    }
+
+    const branchName = argv.branch || pullRequestData.branchName;
+    const packageName = argv.package || pullRequestData.packageName;
+
+    if (!branchName) {
+      throw new Error("Unable to find the name of the package. Please specify the --package parameter");
+    }
+
+    regenerate(branchName, packageName, argv["azure-sdk-for-js-root"], argv["azure-rest-api-specs-root"], pullRequestData.prId, argv["skip-version-bump"], argv["request-review"])
+  } catch (error) {
+    _logger.logError(error);
+  }
 });
 
 gulp.task("find-wrong-packages", async () => {

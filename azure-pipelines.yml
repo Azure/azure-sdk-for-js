@@ -4,7 +4,10 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 pool:
-  vmImage: 'Visual Studio 2017 on Windows Server 2016'
+  vmImage: 'Ubuntu 16.04'
+
+trigger:
+- master
 
 steps:
 - task: NodeTool@0
@@ -13,5 +16,20 @@ steps:
   displayName: 'Install Node.js'
 
 - script: cd .. && git clone https://github.com/Azure/azure-rest-api-specs
-- script: npm install
-- script: npm run build
+  displayName: cd.. && git clone https://github.com/Azure/azure-rest-api-specs
+
+- task: Npm@1
+  displayName: 'npm install'
+  inputs:
+    verbose: false
+
+- task: Npm@1
+  displayName: 'npm run build'
+  inputs:
+    command: custom
+    verbose: false
+    customCommand: run build
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: $(Build.SourcesDirectory)/drop

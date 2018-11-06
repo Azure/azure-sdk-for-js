@@ -162,6 +162,12 @@ export const VirtualNetworkRule: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      ignoreMissingVNetServiceEndpoint: {
+        serializedName: "ignoreMissingVNetServiceEndpoint",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }

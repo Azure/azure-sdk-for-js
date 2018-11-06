@@ -2,7 +2,7 @@
   "name": "@azure/cognitiveservices-websearch",
   "author": "Microsoft Corporation",
   "description": "WebSearchAPIClient Library with typescript type definitions for node.js and browser.",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "dependencies": {
     "ms-rest-js": "^1.0.455",
     "tslib": "^1.9.3"
@@ -32,10 +32,23 @@
   "bugs": {
     "url": "https://github.com/azure/azure-sdk-for-js/issues"
   },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.js.map",
+    "dist/**/*.d.ts",
+    "dist/**/*.d.ts.map",
+    "esm/**/*.js",
+    "esm/**/*.js.map",
+    "esm/**/*.d.ts",
+    "esm/**/*.d.ts.map",
+    "lib/**/*.ts",
+    "rollup.config.js",
+    "tsconfig.json"
+  ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/cognitiveservices-websearch.js.map'\" -o ./dist/cognitiveservices-websearch.min.js ./dist/cognitiveservices-websearch.js",
-    "prepare": "npm run build"
+    "prepack": "npm install && npm run build"
   },
   "sideEffects": false
 }

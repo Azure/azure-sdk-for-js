@@ -28,10 +28,13 @@
     "url": "http://github.com/Azure/azure-sdk-for-js/issues"
   },
   "scripts": {
-    "build": "gulp pack"
+    "build": "gulp pack",
+    "publish-all": "gulp publish"
   },
   "devDependencies": {
     "@octokit/rest": "^15.13.0",
+    "@types/glob": "^7.1.1",
+    "@types/gulp": "^4.0.5",
     "@types/js-yaml": "^3.11.2",
     "@types/minimist": "^1.2.0",
     "@types/node": "^10.11.4",
