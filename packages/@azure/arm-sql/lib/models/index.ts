@@ -13796,25 +13796,6 @@ export type CapabilitiesListByLocationResponse = LocationCapabilities & {
 };
 
 /**
- * Contains response data for the get operation.
- */
-export type DatabaseVulnerabilityAssessmentScansGetResponse = VulnerabilityAssessmentScanRecord & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VulnerabilityAssessmentScanRecord;
-    };
-};
-
-/**
  * Contains response data for the listByDatabase operation.
  */
 export type DatabaseVulnerabilityAssessmentScansListByDatabaseResponse = VulnerabilityAssessmentScanRecordListResult & {
@@ -13830,6 +13811,25 @@ export type DatabaseVulnerabilityAssessmentScansListByDatabaseResponse = Vulnera
        * The response body as parsed JSON or XML
        */
       parsedBody: VulnerabilityAssessmentScanRecordListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type DatabaseVulnerabilityAssessmentScansGetResponse = VulnerabilityAssessmentScanRecord & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VulnerabilityAssessmentScanRecord;
     };
 };
 
