@@ -1,4 +1,4 @@
-import { Namespace } from "../lib";
+import { Namespace, generateUuid } from "../lib";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -11,7 +11,7 @@ let ns: Namespace;
 async function main(): Promise<void> {
   ns = Namespace.createFromConnectionString(str);
   const client = ns.createQueueClient(path);
-  await client.send({ body: "Hello sb world!!" + new Date().toString() });
+  await client.send({ body: "Hello sb world!!" + new Date().toString(), messageId: generateUuid() });
   console.log("***********Created sender and sent the message...");
 }
 

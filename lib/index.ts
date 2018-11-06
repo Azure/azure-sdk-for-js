@@ -6,16 +6,16 @@ export {
   parseConnectionString, ServiceBusConnectionStringModel, delay, Timeout, MessagingError
 } from "@azure/amqp-common";
 export {
-  AmqpError, Delivery, Dictionary, MessageProperties, MessageHeader
+  AmqpError, Delivery, Dictionary, MessageProperties, MessageHeader, generate_uuid as generateUuid
 } from "rhea-promise";
 export {
   ServiceBusMessage, ReceivedMessageInfo, SendableMessageInfo, ServiceBusDeliveryAnnotations,
   ServiceBusMessageAnnotations, DeadLetterOptions
 } from "./serviceBusMessage";
-export { ReceiveHandler, MessageHandlerOptions } from "./streamingReceiver";
-export { OnError, OnMessage, ReceiveMode } from "./messageReceiver";
+export { ReceiveHandler, MessageHandlerOptions } from "./core/streamingReceiver";
+export { OnError, OnMessage, ReceiveMode } from "./core/messageReceiver";
 export { QueueClientOptions, QueueClient } from "./queueClient";
 export { Namespace, NamespaceOptions } from "./namespace";
 export { TopicClient } from "./topicClient";
 export { SubscriptionClient, SubscriptionClientOptions } from "./subscriptionClient";
-export { ScheduleMessage } from "./managementClient";
+export { ScheduleMessage } from "./core/managementClient";

@@ -8,8 +8,8 @@ import {
 import { Constants, Dictionary, AmqpMessage } from "@azure/amqp-common";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
-import { DispositionStatus } from "./managementClient";
-import { DispositionType } from "./messageReceiver";
+import { DispositionStatus } from "./core/managementClient";
+import { DispositionType } from "./core/messageReceiver";
 
 /**
  * Describes the delivery annotations for ServiceBus.

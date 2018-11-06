@@ -5,13 +5,13 @@ import * as Long from "long";
 import * as log from "./log";
 import { Delivery } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
-import { MessageSender } from "./messageSender";
-import { StreamingReceiver, ReceiveHandler, MessageHandlerOptions } from "./streamingReceiver";
-import { BatchingReceiver } from "./batchingReceiver";
+import { MessageSender } from "./core/messageSender";
+import { StreamingReceiver, ReceiveHandler, MessageHandlerOptions } from "./core/streamingReceiver";
+import { BatchingReceiver } from "./core/batchingReceiver";
 import { ServiceBusMessage, SendableMessageInfo, ReceivedMessageInfo } from "./serviceBusMessage";
 import { Client } from "./client";
-import { ReceiveMode, ReceiveOptions, OnError, OnMessage } from "./messageReceiver";
-import { ScheduleMessage } from "./managementClient";
+import { ReceiveMode, ReceiveOptions, OnError, OnMessage } from "./core/messageReceiver";
+import { ScheduleMessage } from "./core/managementClient";
 
 /**
  * Describes the options that can be provided while creating the QueueClient.

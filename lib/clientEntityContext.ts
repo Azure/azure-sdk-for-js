@@ -2,15 +2,15 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as log from "./log";
-import { StreamingReceiver } from "./streamingReceiver";
-import { MessageSender } from "./messageSender";
-import { ManagementClient, ManagementClientOptions } from "./managementClient";
+import { StreamingReceiver } from "./core/streamingReceiver";
+import { MessageSender } from "./core/messageSender";
+import { ManagementClient, ManagementClientOptions } from "./core/managementClient";
 import { ConnectionContext } from "./connectionContext";
 import { Dictionary, AmqpError } from "rhea-promise";
 import { Client } from "./client";
-import { BatchingReceiver } from "./batchingReceiver";
+import { BatchingReceiver } from "./core/batchingReceiver";
 import { ConcurrentExpiringMap } from "./util/concurrentExpiringMap";
-import { MessageReceiver } from "./messageReceiver";
+import { MessageReceiver } from "./core/messageReceiver";
 
 /**
  * @interface ClientEntityContext

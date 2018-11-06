@@ -8,13 +8,13 @@ import {
 import {
   Receiver, OnAmqpEvent, EventContext, ReceiverOptions, AmqpError, Delivery, Dictionary
 } from "rhea-promise";
-import * as log from "./log";
+import * as log from "../log";
 import { LinkEntity } from "./linkEntity";
-import { ClientEntityContext } from "./clientEntityContext";
-import { ServiceBusMessage } from "./serviceBusMessage";
-import { getUniqueName, calculateRenewAfterDuration } from "./util/utils";
+import { ClientEntityContext } from "../clientEntityContext";
+import { ServiceBusMessage } from "../serviceBusMessage";
+import { getUniqueName, calculateRenewAfterDuration } from "../util/utils";
 import { MessageHandlerOptions } from "./streamingReceiver";
-import { messageDispositionTimeout } from "./util/constants";
+import { messageDispositionTimeout } from "../util/constants";
 
 /**
  * @ignore
