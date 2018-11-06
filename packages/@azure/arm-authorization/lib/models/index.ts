@@ -133,96 +133,6 @@ export interface ProviderOperationsMetadata {
 
 /**
  * @interface
- * An interface representing Permission.
- * Role definition permissions.
- *
- */
-export interface Permission {
-  /**
-   * @member {string[]} [actions] Allowed actions.
-   */
-  actions?: string[];
-  /**
-   * @member {string[]} [notActions] Denied actions.
-   */
-  notActions?: string[];
-  /**
-   * @member {string[]} [dataActions] Allowed Data actions.
-   */
-  dataActions?: string[];
-  /**
-   * @member {string[]} [notDataActions] Denied Data actions.
-   */
-  notDataActions?: string[];
-}
-
-/**
- * @interface
- * An interface representing RoleDefinitionFilter.
- * Role Definitions filter
- *
- */
-export interface RoleDefinitionFilter {
-  /**
-   * @member {string} [roleName] Returns role definition with the specific
-   * name.
-   */
-  roleName?: string;
-  /**
-   * @member {string} [type] Returns role definition with the specific type.
-   */
-  type?: string;
-}
-
-/**
- * @interface
- * An interface representing RoleDefinition.
- * Role definition.
- *
- */
-export interface RoleDefinition {
-  /**
-   * @member {string} [id] The role definition ID.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [name] The role definition name.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {string} [type] The role definition type.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
-  /**
-   * @member {string} [roleName] The role name.
-   */
-  roleName?: string;
-  /**
-   * @member {string} [description] The role definition description.
-   */
-  description?: string;
-  /**
-   * @member {string} [roleType] The role type.
-   */
-  roleType?: string;
-  /**
-   * @member {Permission[]} [permissions] Role definition permissions.
-   */
-  permissions?: Permission[];
-  /**
-   * @member {string[]} [assignableScopes] Role definition assignable scopes.
-   */
-  assignableScopes?: string[];
-}
-
-/**
- * @interface
  * An interface representing RoleAssignmentFilter.
  * Role Assignments filter
  *
@@ -301,10 +211,107 @@ export interface RoleAssignmentCreateParameters {
    */
   principalId: string;
   /**
+   * @member {PrincipalType} [principalType] The principal type of the assigned
+   * principal ID. Possible values include: 'User', 'Group',
+   * 'ServicePrincipal', 'Unknown', 'DirectoryRoleTemplate', 'ForeignGroup',
+   * 'Application', 'MSI', 'DirectoryObjectOrGroup', 'Everyone'
+   */
+  principalType?: PrincipalType;
+  /**
    * @member {boolean} [canDelegate] The delgation flag used for creating a
    * role assignment
    */
   canDelegate?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing RoleDefinitionFilter.
+ * Role Definitions filter
+ *
+ */
+export interface RoleDefinitionFilter {
+  /**
+   * @member {string} [roleName] Returns role definition with the specific
+   * name.
+   */
+  roleName?: string;
+  /**
+   * @member {string} [type] Returns role definition with the specific type.
+   */
+  type?: string;
+}
+
+/**
+ * @interface
+ * An interface representing Permission.
+ * Role definition permissions.
+ *
+ */
+export interface Permission {
+  /**
+   * @member {string[]} [actions] Allowed actions.
+   */
+  actions?: string[];
+  /**
+   * @member {string[]} [notActions] Denied actions.
+   */
+  notActions?: string[];
+  /**
+   * @member {string[]} [dataActions] Allowed Data actions.
+   */
+  dataActions?: string[];
+  /**
+   * @member {string[]} [notDataActions] Denied Data actions.
+   */
+  notDataActions?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing RoleDefinition.
+ * Role definition.
+ *
+ */
+export interface RoleDefinition {
+  /**
+   * @member {string} [id] The role definition ID.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [name] The role definition name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [type] The role definition type.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [roleName] The role name.
+   */
+  roleName?: string;
+  /**
+   * @member {string} [description] The role definition description.
+   */
+  description?: string;
+  /**
+   * @member {string} [roleType] The role type.
+   */
+  roleType?: string;
+  /**
+   * @member {Permission[]} [permissions] Role definition permissions.
+   */
+  permissions?: Permission[];
+  /**
+   * @member {string[]} [assignableScopes] Role definition assignable scopes.
+   */
+  assignableScopes?: string[];
 }
 
 /**
@@ -715,12 +722,12 @@ export interface ProviderOperationsMetadataListResult extends Array<ProviderOper
 
 /**
  * @interface
- * An interface representing the PermissionGetResult.
- * Permissions information.
+ * An interface representing the RoleAssignmentListResult.
+ * Role assignment list operation result.
  *
- * @extends Array<Permission>
+ * @extends Array<RoleAssignment>
  */
-export interface PermissionGetResult extends Array<Permission> {
+export interface RoleAssignmentListResult extends Array<RoleAssignment> {
   /**
    * @member {string} [nextLink] The URL to use for getting the next set of
    * results.
@@ -730,12 +737,12 @@ export interface PermissionGetResult extends Array<Permission> {
 
 /**
  * @interface
- * An interface representing the RoleAssignmentListResult.
- * Role assignment list operation result.
+ * An interface representing the PermissionGetResult.
+ * Permissions information.
  *
- * @extends Array<RoleAssignment>
+ * @extends Array<Permission>
  */
-export interface RoleAssignmentListResult extends Array<RoleAssignment> {
+export interface PermissionGetResult extends Array<Permission> {
   /**
    * @member {string} [nextLink] The URL to use for getting the next set of
    * results.
@@ -772,6 +779,16 @@ export interface DenyAssignmentListResult extends Array<DenyAssignment> {
    */
   nextLink?: string;
 }
+
+/**
+ * Defines values for PrincipalType.
+ * Possible values include: 'User', 'Group', 'ServicePrincipal', 'Unknown',
+ * 'DirectoryRoleTemplate', 'ForeignGroup', 'Application', 'MSI', 'DirectoryObjectOrGroup',
+ * 'Everyone'
+ * @readonly
+ * @enum {string}
+ */
+export type PrincipalType = 'User' | 'Group' | 'ServicePrincipal' | 'Unknown' | 'DirectoryRoleTemplate' | 'ForeignGroup' | 'Application' | 'MSI' | 'DirectoryObjectOrGroup' | 'Everyone';
 
 /**
  * Contains response data for the list operation.
@@ -865,82 +882,6 @@ export type ProviderOperationsMetadataListNextResponse = ProviderOperationsMetad
        * The response body as parsed JSON or XML
        */
       parsedBody: ProviderOperationsMetadataListResult;
-    };
-};
-
-/**
- * Contains response data for the listForResourceGroup operation.
- */
-export type PermissionsListForResourceGroupResponse = PermissionGetResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PermissionGetResult;
-    };
-};
-
-/**
- * Contains response data for the listForResource operation.
- */
-export type PermissionsListForResourceResponse = PermissionGetResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PermissionGetResult;
-    };
-};
-
-/**
- * Contains response data for the listForResourceGroupNext operation.
- */
-export type PermissionsListForResourceGroupNextResponse = PermissionGetResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PermissionGetResult;
-    };
-};
-
-/**
- * Contains response data for the listForResourceNext operation.
- */
-export type PermissionsListForResourceNextResponse = PermissionGetResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PermissionGetResult;
     };
 };
 
@@ -1207,6 +1148,82 @@ export type RoleAssignmentsListForScopeNextResponse = RoleAssignmentListResult &
        * The response body as parsed JSON or XML
        */
       parsedBody: RoleAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the listForResourceGroup operation.
+ */
+export type PermissionsListForResourceGroupResponse = PermissionGetResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PermissionGetResult;
+    };
+};
+
+/**
+ * Contains response data for the listForResource operation.
+ */
+export type PermissionsListForResourceResponse = PermissionGetResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PermissionGetResult;
+    };
+};
+
+/**
+ * Contains response data for the listForResourceGroupNext operation.
+ */
+export type PermissionsListForResourceGroupNextResponse = PermissionGetResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PermissionGetResult;
+    };
+};
+
+/**
+ * Contains response data for the listForResourceNext operation.
+ */
+export type PermissionsListForResourceNextResponse = PermissionGetResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PermissionGetResult;
     };
 };
 
