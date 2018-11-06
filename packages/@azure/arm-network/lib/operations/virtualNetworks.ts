@@ -60,7 +60,7 @@ export class VirtualNetworks {
    * @param callback The callback
    */
   get(resourceGroupName: string, virtualNetworkName: string, options: Models.VirtualNetworksGetOptionalParams, callback: msRest.ServiceCallback<Models.VirtualNetwork>): void;
-  get(resourceGroupName: string, virtualNetworkName: string, options?: Models.VirtualNetworksGetOptionalParams, callback?: msRest.ServiceCallback<Models.VirtualNetwork>): Promise<Models.VirtualNetworksGetResponse> {
+  get(resourceGroupName: string, virtualNetworkName: string, options?: Models.VirtualNetworksGetOptionalParams | msRest.ServiceCallback<Models.VirtualNetwork>, callback?: msRest.ServiceCallback<Models.VirtualNetwork>): Promise<Models.VirtualNetworksGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class VirtualNetworks {
    * @param callback The callback
    */
   listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetworkListResult>): Promise<Models.VirtualNetworksListAllResponse> {
+  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkListResult>): Promise<Models.VirtualNetworksListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -139,7 +139,7 @@ export class VirtualNetworks {
    * @param callback The callback
    */
   list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetworkListResult>): Promise<Models.VirtualNetworksListResponse> {
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkListResult>): Promise<Models.VirtualNetworksListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -173,7 +173,7 @@ export class VirtualNetworks {
    * @param callback The callback
    */
   checkIPAddressAvailability(resourceGroupName: string, virtualNetworkName: string, ipAddress: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IPAddressAvailabilityResult>): void;
-  checkIPAddressAvailability(resourceGroupName: string, virtualNetworkName: string, ipAddress: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IPAddressAvailabilityResult>): Promise<Models.VirtualNetworksCheckIPAddressAvailabilityResponse> {
+  checkIPAddressAvailability(resourceGroupName: string, virtualNetworkName: string, ipAddress: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IPAddressAvailabilityResult>, callback?: msRest.ServiceCallback<Models.IPAddressAvailabilityResult>): Promise<Models.VirtualNetworksCheckIPAddressAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -206,7 +206,7 @@ export class VirtualNetworks {
    * @param callback The callback
    */
   listUsage(resourceGroupName: string, virtualNetworkName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkListUsageResult>): void;
-  listUsage(resourceGroupName: string, virtualNetworkName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetworkListUsageResult>): Promise<Models.VirtualNetworksListUsageResponse> {
+  listUsage(resourceGroupName: string, virtualNetworkName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkListUsageResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkListUsageResult>): Promise<Models.VirtualNetworksListUsageResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -293,7 +293,7 @@ export class VirtualNetworks {
    * @param callback The callback
    */
   listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetworkListResult>): Promise<Models.VirtualNetworksListAllNextResponse> {
+  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkListResult>): Promise<Models.VirtualNetworksListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -321,7 +321,7 @@ export class VirtualNetworks {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetworkListResult>): Promise<Models.VirtualNetworksListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkListResult>): Promise<Models.VirtualNetworksListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -349,7 +349,7 @@ export class VirtualNetworks {
    * @param callback The callback
    */
   listUsageNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkListUsageResult>): void;
-  listUsageNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetworkListUsageResult>): Promise<Models.VirtualNetworksListUsageNextResponse> {
+  listUsageNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkListUsageResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkListUsageResult>): Promise<Models.VirtualNetworksListUsageNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

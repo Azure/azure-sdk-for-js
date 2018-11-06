@@ -11102,1629 +11102,745 @@ export interface ListP2SVpnGatewaysResult extends Array<P2SVpnGateway> {
 /**
  * Defines values for IPAllocationMethod.
  * Possible values include: 'Static', 'Dynamic'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IPAllocationMethod =
- * <IPAllocationMethod>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IPAllocationMethod {
-  Static = 'Static',
-  Dynamic = 'Dynamic',
-}
+export type IPAllocationMethod = 'Static' | 'Dynamic';
 
 /**
  * Defines values for SecurityRuleProtocol.
  * Possible values include: 'Tcp', 'Udp', '*'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SecurityRuleProtocol =
- * <SecurityRuleProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SecurityRuleProtocol {
-  Tcp = 'Tcp',
-  Udp = 'Udp',
-  Asterisk = '*',
-}
+export type SecurityRuleProtocol = 'Tcp' | 'Udp' | '*';
 
 /**
  * Defines values for SecurityRuleAccess.
  * Possible values include: 'Allow', 'Deny'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SecurityRuleAccess =
- * <SecurityRuleAccess>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SecurityRuleAccess {
-  Allow = 'Allow',
-  Deny = 'Deny',
-}
+export type SecurityRuleAccess = 'Allow' | 'Deny';
 
 /**
  * Defines values for SecurityRuleDirection.
  * Possible values include: 'Inbound', 'Outbound'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SecurityRuleDirection =
- * <SecurityRuleDirection>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SecurityRuleDirection {
-  Inbound = 'Inbound',
-  Outbound = 'Outbound',
-}
+export type SecurityRuleDirection = 'Inbound' | 'Outbound';
 
 /**
  * Defines values for RouteNextHopType.
- * Possible values include: 'VirtualNetworkGateway', 'VnetLocal', 'Internet',
- * 'VirtualAppliance', 'None'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RouteNextHopType =
- * <RouteNextHopType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'VirtualNetworkGateway', 'VnetLocal', 'Internet', 'VirtualAppliance',
+ * 'None'
  * @readonly
  * @enum {string}
  */
-export enum RouteNextHopType {
-  VirtualNetworkGateway = 'VirtualNetworkGateway',
-  VnetLocal = 'VnetLocal',
-  Internet = 'Internet',
-  VirtualAppliance = 'VirtualAppliance',
-  None = 'None',
-}
+export type RouteNextHopType = 'VirtualNetworkGateway' | 'VnetLocal' | 'Internet' | 'VirtualAppliance' | 'None';
 
 /**
  * Defines values for PublicIPAddressSkuName.
  * Possible values include: 'Basic', 'Standard'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PublicIPAddressSkuName =
- * <PublicIPAddressSkuName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PublicIPAddressSkuName {
-  Basic = 'Basic',
-  Standard = 'Standard',
-}
+export type PublicIPAddressSkuName = 'Basic' | 'Standard';
 
 /**
  * Defines values for IPVersion.
  * Possible values include: 'IPv4', 'IPv6'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IPVersion = <IPVersion>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IPVersion {
-  IPv4 = 'IPv4',
-  IPv6 = 'IPv6',
-}
+export type IPVersion = 'IPv4' | 'IPv6';
 
 /**
  * Defines values for TransportProtocol.
  * Possible values include: 'Udp', 'Tcp', 'All'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TransportProtocol =
- * <TransportProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum TransportProtocol {
-  Udp = 'Udp',
-  Tcp = 'Tcp',
-  All = 'All',
-}
+export type TransportProtocol = 'Udp' | 'Tcp' | 'All';
 
 /**
  * Defines values for ApplicationGatewayProtocol.
  * Possible values include: 'Http', 'Https'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewayProtocol =
- * <ApplicationGatewayProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewayProtocol {
-  Http = 'Http',
-  Https = 'Https',
-}
+export type ApplicationGatewayProtocol = 'Http' | 'Https';
 
 /**
  * Defines values for ApplicationGatewayCookieBasedAffinity.
  * Possible values include: 'Enabled', 'Disabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewayCookieBasedAffinity =
- * <ApplicationGatewayCookieBasedAffinity>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewayCookieBasedAffinity {
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type ApplicationGatewayCookieBasedAffinity = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for ApplicationGatewayBackendHealthServerHealth.
  * Possible values include: 'Unknown', 'Up', 'Down', 'Partial', 'Draining'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewayBackendHealthServerHealth =
- * <ApplicationGatewayBackendHealthServerHealth>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewayBackendHealthServerHealth {
-  Unknown = 'Unknown',
-  Up = 'Up',
-  Down = 'Down',
-  Partial = 'Partial',
-  Draining = 'Draining',
-}
+export type ApplicationGatewayBackendHealthServerHealth = 'Unknown' | 'Up' | 'Down' | 'Partial' | 'Draining';
 
 /**
  * Defines values for ApplicationGatewaySkuName.
- * Possible values include: 'Standard_Small', 'Standard_Medium',
- * 'Standard_Large', 'WAF_Medium', 'WAF_Large', 'Standard_v2', 'WAF_v2'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewaySkuName =
- * <ApplicationGatewaySkuName>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Standard_Small', 'Standard_Medium', 'Standard_Large', 'WAF_Medium',
+ * 'WAF_Large', 'Standard_v2', 'WAF_v2'
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewaySkuName {
-  StandardSmall = 'Standard_Small',
-  StandardMedium = 'Standard_Medium',
-  StandardLarge = 'Standard_Large',
-  WAFMedium = 'WAF_Medium',
-  WAFLarge = 'WAF_Large',
-  StandardV2 = 'Standard_v2',
-  WAFV2 = 'WAF_v2',
-}
+export type ApplicationGatewaySkuName = 'Standard_Small' | 'Standard_Medium' | 'Standard_Large' | 'WAF_Medium' | 'WAF_Large' | 'Standard_v2' | 'WAF_v2';
 
 /**
  * Defines values for ApplicationGatewayTier.
  * Possible values include: 'Standard', 'WAF', 'Standard_v2', 'WAF_v2'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewayTier =
- * <ApplicationGatewayTier>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewayTier {
-  Standard = 'Standard',
-  WAF = 'WAF',
-  StandardV2 = 'Standard_v2',
-  WAFV2 = 'WAF_v2',
-}
+export type ApplicationGatewayTier = 'Standard' | 'WAF' | 'Standard_v2' | 'WAF_v2';
 
 /**
  * Defines values for ApplicationGatewaySslProtocol.
  * Possible values include: 'TLSv1_0', 'TLSv1_1', 'TLSv1_2'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewaySslProtocol =
- * <ApplicationGatewaySslProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewaySslProtocol {
-  TLSv10 = 'TLSv1_0',
-  TLSv11 = 'TLSv1_1',
-  TLSv12 = 'TLSv1_2',
-}
+export type ApplicationGatewaySslProtocol = 'TLSv1_0' | 'TLSv1_1' | 'TLSv1_2';
 
 /**
  * Defines values for ApplicationGatewaySslPolicyType.
  * Possible values include: 'Predefined', 'Custom'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewaySslPolicyType =
- * <ApplicationGatewaySslPolicyType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewaySslPolicyType {
-  Predefined = 'Predefined',
-  Custom = 'Custom',
-}
+export type ApplicationGatewaySslPolicyType = 'Predefined' | 'Custom';
 
 /**
  * Defines values for ApplicationGatewaySslPolicyName.
  * Possible values include: 'AppGwSslPolicy20150501', 'AppGwSslPolicy20170401',
  * 'AppGwSslPolicy20170401S'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewaySslPolicyName =
- * <ApplicationGatewaySslPolicyName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewaySslPolicyName {
-  AppGwSslPolicy20150501 = 'AppGwSslPolicy20150501',
-  AppGwSslPolicy20170401 = 'AppGwSslPolicy20170401',
-  AppGwSslPolicy20170401S = 'AppGwSslPolicy20170401S',
-}
+export type ApplicationGatewaySslPolicyName = 'AppGwSslPolicy20150501' | 'AppGwSslPolicy20170401' | 'AppGwSslPolicy20170401S';
 
 /**
  * Defines values for ApplicationGatewaySslCipherSuite.
  * Possible values include: 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384',
- * 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256',
- * 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA', 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA',
- * 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384',
+ * 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256', 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA',
+ * 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA', 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384',
  * 'TLS_DHE_RSA_WITH_AES_128_GCM_SHA256', 'TLS_DHE_RSA_WITH_AES_256_CBC_SHA',
  * 'TLS_DHE_RSA_WITH_AES_128_CBC_SHA', 'TLS_RSA_WITH_AES_256_GCM_SHA384',
  * 'TLS_RSA_WITH_AES_128_GCM_SHA256', 'TLS_RSA_WITH_AES_256_CBC_SHA256',
  * 'TLS_RSA_WITH_AES_128_CBC_SHA256', 'TLS_RSA_WITH_AES_256_CBC_SHA',
  * 'TLS_RSA_WITH_AES_128_CBC_SHA', 'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384',
- * 'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256',
- * 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384',
- * 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256',
- * 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA',
- * 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA',
- * 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA256',
+ * 'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256', 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384',
+ * 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256', 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA',
+ * 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA', 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA256',
  * 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA256', 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA',
  * 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA', 'TLS_RSA_WITH_3DES_EDE_CBC_SHA'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewaySslCipherSuite =
- * <ApplicationGatewaySslCipherSuite>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewaySslCipherSuite {
-  TLSECDHERSAWITHAES256CBCSHA384 = 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384',
-  TLSECDHERSAWITHAES128CBCSHA256 = 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256',
-  TLSECDHERSAWITHAES256CBCSHA = 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA',
-  TLSECDHERSAWITHAES128CBCSHA = 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA',
-  TLSDHERSAWITHAES256GCMSHA384 = 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384',
-  TLSDHERSAWITHAES128GCMSHA256 = 'TLS_DHE_RSA_WITH_AES_128_GCM_SHA256',
-  TLSDHERSAWITHAES256CBCSHA = 'TLS_DHE_RSA_WITH_AES_256_CBC_SHA',
-  TLSDHERSAWITHAES128CBCSHA = 'TLS_DHE_RSA_WITH_AES_128_CBC_SHA',
-  TLSRSAWITHAES256GCMSHA384 = 'TLS_RSA_WITH_AES_256_GCM_SHA384',
-  TLSRSAWITHAES128GCMSHA256 = 'TLS_RSA_WITH_AES_128_GCM_SHA256',
-  TLSRSAWITHAES256CBCSHA256 = 'TLS_RSA_WITH_AES_256_CBC_SHA256',
-  TLSRSAWITHAES128CBCSHA256 = 'TLS_RSA_WITH_AES_128_CBC_SHA256',
-  TLSRSAWITHAES256CBCSHA = 'TLS_RSA_WITH_AES_256_CBC_SHA',
-  TLSRSAWITHAES128CBCSHA = 'TLS_RSA_WITH_AES_128_CBC_SHA',
-  TLSECDHEECDSAWITHAES256GCMSHA384 = 'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384',
-  TLSECDHEECDSAWITHAES128GCMSHA256 = 'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256',
-  TLSECDHEECDSAWITHAES256CBCSHA384 = 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384',
-  TLSECDHEECDSAWITHAES128CBCSHA256 = 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256',
-  TLSECDHEECDSAWITHAES256CBCSHA = 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA',
-  TLSECDHEECDSAWITHAES128CBCSHA = 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA',
-  TLSDHEDSSWITHAES256CBCSHA256 = 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA256',
-  TLSDHEDSSWITHAES128CBCSHA256 = 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA256',
-  TLSDHEDSSWITHAES256CBCSHA = 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA',
-  TLSDHEDSSWITHAES128CBCSHA = 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA',
-  TLSRSAWITH3DESEDECBCSHA = 'TLS_RSA_WITH_3DES_EDE_CBC_SHA',
-}
+export type ApplicationGatewaySslCipherSuite = 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384' | 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256' | 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA' | 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA' | 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384' | 'TLS_DHE_RSA_WITH_AES_128_GCM_SHA256' | 'TLS_DHE_RSA_WITH_AES_256_CBC_SHA' | 'TLS_DHE_RSA_WITH_AES_128_CBC_SHA' | 'TLS_RSA_WITH_AES_256_GCM_SHA384' | 'TLS_RSA_WITH_AES_128_GCM_SHA256' | 'TLS_RSA_WITH_AES_256_CBC_SHA256' | 'TLS_RSA_WITH_AES_128_CBC_SHA256' | 'TLS_RSA_WITH_AES_256_CBC_SHA' | 'TLS_RSA_WITH_AES_128_CBC_SHA' | 'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384' | 'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256' | 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384' | 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256' | 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA' | 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA' | 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA256' | 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA256' | 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA' | 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA' | 'TLS_RSA_WITH_3DES_EDE_CBC_SHA';
 
 /**
  * Defines values for ApplicationGatewayCustomErrorStatusCode.
  * Possible values include: 'HttpStatus403', 'HttpStatus502'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewayCustomErrorStatusCode =
- * <ApplicationGatewayCustomErrorStatusCode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewayCustomErrorStatusCode {
-  HttpStatus403 = 'HttpStatus403',
-  HttpStatus502 = 'HttpStatus502',
-}
+export type ApplicationGatewayCustomErrorStatusCode = 'HttpStatus403' | 'HttpStatus502';
 
 /**
  * Defines values for ApplicationGatewayRequestRoutingRuleType.
  * Possible values include: 'Basic', 'PathBasedRouting'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewayRequestRoutingRuleType =
- * <ApplicationGatewayRequestRoutingRuleType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewayRequestRoutingRuleType {
-  Basic = 'Basic',
-  PathBasedRouting = 'PathBasedRouting',
-}
+export type ApplicationGatewayRequestRoutingRuleType = 'Basic' | 'PathBasedRouting';
 
 /**
  * Defines values for ApplicationGatewayRedirectType.
  * Possible values include: 'Permanent', 'Found', 'SeeOther', 'Temporary'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewayRedirectType =
- * <ApplicationGatewayRedirectType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewayRedirectType {
-  Permanent = 'Permanent',
-  Found = 'Found',
-  SeeOther = 'SeeOther',
-  Temporary = 'Temporary',
-}
+export type ApplicationGatewayRedirectType = 'Permanent' | 'Found' | 'SeeOther' | 'Temporary';
 
 /**
  * Defines values for ApplicationGatewayOperationalState.
  * Possible values include: 'Stopped', 'Starting', 'Running', 'Stopping'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewayOperationalState =
- * <ApplicationGatewayOperationalState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewayOperationalState {
-  Stopped = 'Stopped',
-  Starting = 'Starting',
-  Running = 'Running',
-  Stopping = 'Stopping',
-}
+export type ApplicationGatewayOperationalState = 'Stopped' | 'Starting' | 'Running' | 'Stopping';
 
 /**
  * Defines values for ApplicationGatewayFirewallMode.
  * Possible values include: 'Detection', 'Prevention'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewayFirewallMode =
- * <ApplicationGatewayFirewallMode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewayFirewallMode {
-  Detection = 'Detection',
-  Prevention = 'Prevention',
-}
+export type ApplicationGatewayFirewallMode = 'Detection' | 'Prevention';
 
 /**
  * Defines values for ProvisioningState.
  * Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ProvisioningState =
- * <ProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ProvisioningState {
-  Succeeded = 'Succeeded',
-  Updating = 'Updating',
-  Deleting = 'Deleting',
-  Failed = 'Failed',
-}
+export type ProvisioningState = 'Succeeded' | 'Updating' | 'Deleting' | 'Failed';
 
 /**
  * Defines values for AzureFirewallRCActionType.
  * Possible values include: 'Allow', 'Deny'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AzureFirewallRCActionType =
- * <AzureFirewallRCActionType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AzureFirewallRCActionType {
-  Allow = 'Allow',
-  Deny = 'Deny',
-}
+export type AzureFirewallRCActionType = 'Allow' | 'Deny';
 
 /**
  * Defines values for AzureFirewallApplicationRuleProtocolType.
  * Possible values include: 'Http', 'Https'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AzureFirewallApplicationRuleProtocolType =
- * <AzureFirewallApplicationRuleProtocolType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AzureFirewallApplicationRuleProtocolType {
-  Http = 'Http',
-  Https = 'Https',
-}
+export type AzureFirewallApplicationRuleProtocolType = 'Http' | 'Https';
 
 /**
  * Defines values for AzureFirewallNatRCActionType.
  * Possible values include: 'Snat', 'Dnat'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AzureFirewallNatRCActionType =
- * <AzureFirewallNatRCActionType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AzureFirewallNatRCActionType {
-  Snat = 'Snat',
-  Dnat = 'Dnat',
-}
+export type AzureFirewallNatRCActionType = 'Snat' | 'Dnat';
 
 /**
  * Defines values for AzureFirewallNetworkRuleProtocol.
  * Possible values include: 'TCP', 'UDP', 'Any', 'ICMP'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AzureFirewallNetworkRuleProtocol =
- * <AzureFirewallNetworkRuleProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AzureFirewallNetworkRuleProtocol {
-  TCP = 'TCP',
-  UDP = 'UDP',
-  Any = 'Any',
-  ICMP = 'ICMP',
-}
+export type AzureFirewallNetworkRuleProtocol = 'TCP' | 'UDP' | 'Any' | 'ICMP';
 
 /**
  * Defines values for AuthorizationUseStatus.
  * Possible values include: 'Available', 'InUse'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AuthorizationUseStatus =
- * <AuthorizationUseStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AuthorizationUseStatus {
-  Available = 'Available',
-  InUse = 'InUse',
-}
+export type AuthorizationUseStatus = 'Available' | 'InUse';
 
 /**
  * Defines values for ExpressRouteCircuitPeeringAdvertisedPublicPrefixState.
- * Possible values include: 'NotConfigured', 'Configuring', 'Configured',
- * 'ValidationNeeded'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ExpressRouteCircuitPeeringAdvertisedPublicPrefixState =
- * <ExpressRouteCircuitPeeringAdvertisedPublicPrefixState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotConfigured', 'Configuring', 'Configured', 'ValidationNeeded'
  * @readonly
  * @enum {string}
  */
-export enum ExpressRouteCircuitPeeringAdvertisedPublicPrefixState {
-  NotConfigured = 'NotConfigured',
-  Configuring = 'Configuring',
-  Configured = 'Configured',
-  ValidationNeeded = 'ValidationNeeded',
-}
+export type ExpressRouteCircuitPeeringAdvertisedPublicPrefixState = 'NotConfigured' | 'Configuring' | 'Configured' | 'ValidationNeeded';
 
 /**
  * Defines values for Access.
  * Possible values include: 'Allow', 'Deny'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Access = <Access>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Access {
-  Allow = 'Allow',
-  Deny = 'Deny',
-}
+export type Access = 'Allow' | 'Deny';
 
 /**
  * Defines values for ExpressRoutePeeringType.
- * Possible values include: 'AzurePublicPeering', 'AzurePrivatePeering',
- * 'MicrosoftPeering'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ExpressRoutePeeringType =
- * <ExpressRoutePeeringType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'AzurePublicPeering', 'AzurePrivatePeering', 'MicrosoftPeering'
  * @readonly
  * @enum {string}
  */
-export enum ExpressRoutePeeringType {
-  AzurePublicPeering = 'AzurePublicPeering',
-  AzurePrivatePeering = 'AzurePrivatePeering',
-  MicrosoftPeering = 'MicrosoftPeering',
-}
+export type ExpressRoutePeeringType = 'AzurePublicPeering' | 'AzurePrivatePeering' | 'MicrosoftPeering';
 
 /**
  * Defines values for ExpressRoutePeeringState.
  * Possible values include: 'Disabled', 'Enabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ExpressRoutePeeringState =
- * <ExpressRoutePeeringState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ExpressRoutePeeringState {
-  Disabled = 'Disabled',
-  Enabled = 'Enabled',
-}
+export type ExpressRoutePeeringState = 'Disabled' | 'Enabled';
 
 /**
  * Defines values for CircuitConnectionStatus.
  * Possible values include: 'Connected', 'Connecting', 'Disconnected'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: CircuitConnectionStatus =
- * <CircuitConnectionStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum CircuitConnectionStatus {
-  Connected = 'Connected',
-  Connecting = 'Connecting',
-  Disconnected = 'Disconnected',
-}
+export type CircuitConnectionStatus = 'Connected' | 'Connecting' | 'Disconnected';
 
 /**
  * Defines values for ExpressRouteCircuitPeeringState.
  * Possible values include: 'Disabled', 'Enabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ExpressRouteCircuitPeeringState =
- * <ExpressRouteCircuitPeeringState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ExpressRouteCircuitPeeringState {
-  Disabled = 'Disabled',
-  Enabled = 'Enabled',
-}
+export type ExpressRouteCircuitPeeringState = 'Disabled' | 'Enabled';
 
 /**
  * Defines values for ExpressRouteCircuitSkuTier.
  * Possible values include: 'Standard', 'Premium', 'Basic'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ExpressRouteCircuitSkuTier =
- * <ExpressRouteCircuitSkuTier>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ExpressRouteCircuitSkuTier {
-  Standard = 'Standard',
-  Premium = 'Premium',
-  Basic = 'Basic',
-}
+export type ExpressRouteCircuitSkuTier = 'Standard' | 'Premium' | 'Basic';
 
 /**
  * Defines values for ExpressRouteCircuitSkuFamily.
  * Possible values include: 'UnlimitedData', 'MeteredData'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ExpressRouteCircuitSkuFamily =
- * <ExpressRouteCircuitSkuFamily>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ExpressRouteCircuitSkuFamily {
-  UnlimitedData = 'UnlimitedData',
-  MeteredData = 'MeteredData',
-}
+export type ExpressRouteCircuitSkuFamily = 'UnlimitedData' | 'MeteredData';
 
 /**
  * Defines values for ServiceProviderProvisioningState.
- * Possible values include: 'NotProvisioned', 'Provisioning', 'Provisioned',
- * 'Deprovisioning'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ServiceProviderProvisioningState =
- * <ServiceProviderProvisioningState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotProvisioned', 'Provisioning', 'Provisioned', 'Deprovisioning'
  * @readonly
  * @enum {string}
  */
-export enum ServiceProviderProvisioningState {
-  NotProvisioned = 'NotProvisioned',
-  Provisioning = 'Provisioning',
-  Provisioned = 'Provisioned',
-  Deprovisioning = 'Deprovisioning',
-}
+export type ServiceProviderProvisioningState = 'NotProvisioned' | 'Provisioning' | 'Provisioned' | 'Deprovisioning';
 
 /**
  * Defines values for ExpressRouteLinkConnectorType.
  * Possible values include: 'LC', 'SC'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ExpressRouteLinkConnectorType =
- * <ExpressRouteLinkConnectorType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ExpressRouteLinkConnectorType {
-  LC = 'LC',
-  SC = 'SC',
-}
+export type ExpressRouteLinkConnectorType = 'LC' | 'SC';
 
 /**
  * Defines values for ExpressRouteLinkAdminState.
  * Possible values include: 'Enabled', 'Disabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ExpressRouteLinkAdminState =
- * <ExpressRouteLinkAdminState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ExpressRouteLinkAdminState {
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type ExpressRouteLinkAdminState = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for ExpressRoutePortsEncapsulation.
  * Possible values include: 'Dot1Q', 'QinQ'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ExpressRoutePortsEncapsulation =
- * <ExpressRoutePortsEncapsulation>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ExpressRoutePortsEncapsulation {
-  Dot1Q = 'Dot1Q',
-  QinQ = 'QinQ',
-}
+export type ExpressRoutePortsEncapsulation = 'Dot1Q' | 'QinQ';
 
 /**
  * Defines values for LoadBalancerSkuName.
  * Possible values include: 'Basic', 'Standard'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: LoadBalancerSkuName =
- * <LoadBalancerSkuName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum LoadBalancerSkuName {
-  Basic = 'Basic',
-  Standard = 'Standard',
-}
+export type LoadBalancerSkuName = 'Basic' | 'Standard';
 
 /**
  * Defines values for LoadDistribution.
  * Possible values include: 'Default', 'SourceIP', 'SourceIPProtocol'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: LoadDistribution =
- * <LoadDistribution>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum LoadDistribution {
-  Default = 'Default',
-  SourceIP = 'SourceIP',
-  SourceIPProtocol = 'SourceIPProtocol',
-}
+export type LoadDistribution = 'Default' | 'SourceIP' | 'SourceIPProtocol';
 
 /**
  * Defines values for ProbeProtocol.
  * Possible values include: 'Http', 'Tcp', 'Https'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ProbeProtocol =
- * <ProbeProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ProbeProtocol {
-  Http = 'Http',
-  Tcp = 'Tcp',
-  Https = 'Https',
-}
+export type ProbeProtocol = 'Http' | 'Tcp' | 'Https';
 
 /**
  * Defines values for NetworkOperationStatus.
  * Possible values include: 'InProgress', 'Succeeded', 'Failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: NetworkOperationStatus =
- * <NetworkOperationStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum NetworkOperationStatus {
-  InProgress = 'InProgress',
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-}
+export type NetworkOperationStatus = 'InProgress' | 'Succeeded' | 'Failed';
 
 /**
  * Defines values for EffectiveSecurityRuleProtocol.
  * Possible values include: 'Tcp', 'Udp', 'All'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: EffectiveSecurityRuleProtocol =
- * <EffectiveSecurityRuleProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum EffectiveSecurityRuleProtocol {
-  Tcp = 'Tcp',
-  Udp = 'Udp',
-  All = 'All',
-}
+export type EffectiveSecurityRuleProtocol = 'Tcp' | 'Udp' | 'All';
 
 /**
  * Defines values for EffectiveRouteSource.
- * Possible values include: 'Unknown', 'User', 'VirtualNetworkGateway',
- * 'Default'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: EffectiveRouteSource =
- * <EffectiveRouteSource>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'User', 'VirtualNetworkGateway', 'Default'
  * @readonly
  * @enum {string}
  */
-export enum EffectiveRouteSource {
-  Unknown = 'Unknown',
-  User = 'User',
-  VirtualNetworkGateway = 'VirtualNetworkGateway',
-  Default = 'Default',
-}
+export type EffectiveRouteSource = 'Unknown' | 'User' | 'VirtualNetworkGateway' | 'Default';
 
 /**
  * Defines values for EffectiveRouteState.
  * Possible values include: 'Active', 'Invalid'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: EffectiveRouteState =
- * <EffectiveRouteState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum EffectiveRouteState {
-  Active = 'Active',
-  Invalid = 'Invalid',
-}
+export type EffectiveRouteState = 'Active' | 'Invalid';
 
 /**
  * Defines values for AssociationType.
  * Possible values include: 'Associated', 'Contains'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AssociationType =
- * <AssociationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AssociationType {
-  Associated = 'Associated',
-  Contains = 'Contains',
-}
+export type AssociationType = 'Associated' | 'Contains';
 
 /**
  * Defines values for Direction.
  * Possible values include: 'Inbound', 'Outbound'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Direction = <Direction>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Direction {
-  Inbound = 'Inbound',
-  Outbound = 'Outbound',
-}
+export type Direction = 'Inbound' | 'Outbound';
 
 /**
  * Defines values for IpFlowProtocol.
  * Possible values include: 'TCP', 'UDP'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IpFlowProtocol =
- * <IpFlowProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IpFlowProtocol {
-  TCP = 'TCP',
-  UDP = 'UDP',
-}
+export type IpFlowProtocol = 'TCP' | 'UDP';
 
 /**
  * Defines values for NextHopType.
- * Possible values include: 'Internet', 'VirtualAppliance',
- * 'VirtualNetworkGateway', 'VnetLocal', 'HyperNetGateway', 'None'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: NextHopType =
- * <NextHopType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Internet', 'VirtualAppliance', 'VirtualNetworkGateway', 'VnetLocal',
+ * 'HyperNetGateway', 'None'
  * @readonly
  * @enum {string}
  */
-export enum NextHopType {
-  Internet = 'Internet',
-  VirtualAppliance = 'VirtualAppliance',
-  VirtualNetworkGateway = 'VirtualNetworkGateway',
-  VnetLocal = 'VnetLocal',
-  HyperNetGateway = 'HyperNetGateway',
-  None = 'None',
-}
+export type NextHopType = 'Internet' | 'VirtualAppliance' | 'VirtualNetworkGateway' | 'VnetLocal' | 'HyperNetGateway' | 'None';
 
 /**
  * Defines values for PcProtocol.
  * Possible values include: 'TCP', 'UDP', 'Any'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PcProtocol = <PcProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PcProtocol {
-  TCP = 'TCP',
-  UDP = 'UDP',
-  Any = 'Any',
-}
+export type PcProtocol = 'TCP' | 'UDP' | 'Any';
 
 /**
  * Defines values for PcStatus.
- * Possible values include: 'NotStarted', 'Running', 'Stopped', 'Error',
- * 'Unknown'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PcStatus = <PcStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotStarted', 'Running', 'Stopped', 'Error', 'Unknown'
  * @readonly
  * @enum {string}
  */
-export enum PcStatus {
-  NotStarted = 'NotStarted',
-  Running = 'Running',
-  Stopped = 'Stopped',
-  Error = 'Error',
-  Unknown = 'Unknown',
-}
+export type PcStatus = 'NotStarted' | 'Running' | 'Stopped' | 'Error' | 'Unknown';
 
 /**
  * Defines values for PcError.
- * Possible values include: 'InternalError', 'AgentStopped', 'CaptureFailed',
- * 'LocalFileFailed', 'StorageFailed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PcError = <PcError>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'InternalError', 'AgentStopped', 'CaptureFailed', 'LocalFileFailed',
+ * 'StorageFailed'
  * @readonly
  * @enum {string}
  */
-export enum PcError {
-  InternalError = 'InternalError',
-  AgentStopped = 'AgentStopped',
-  CaptureFailed = 'CaptureFailed',
-  LocalFileFailed = 'LocalFileFailed',
-  StorageFailed = 'StorageFailed',
-}
+export type PcError = 'InternalError' | 'AgentStopped' | 'CaptureFailed' | 'LocalFileFailed' | 'StorageFailed';
 
 /**
  * Defines values for Protocol.
  * Possible values include: 'Tcp', 'Http', 'Https', 'Icmp'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Protocol = <Protocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Protocol {
-  Tcp = 'Tcp',
-  Http = 'Http',
-  Https = 'Https',
-  Icmp = 'Icmp',
-}
+export type Protocol = 'Tcp' | 'Http' | 'Https' | 'Icmp';
 
 /**
  * Defines values for HTTPMethod.
  * Possible values include: 'Get'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HTTPMethod = <HTTPMethod>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum HTTPMethod {
-  Get = 'Get',
-}
+export type HTTPMethod = 'Get';
 
 /**
  * Defines values for Origin.
  * Possible values include: 'Local', 'Inbound', 'Outbound'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Origin = <Origin>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Origin {
-  Local = 'Local',
-  Inbound = 'Inbound',
-  Outbound = 'Outbound',
-}
+export type Origin = 'Local' | 'Inbound' | 'Outbound';
 
 /**
  * Defines values for Severity.
  * Possible values include: 'Error', 'Warning'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Severity = <Severity>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Severity {
-  Error = 'Error',
-  Warning = 'Warning',
-}
+export type Severity = 'Error' | 'Warning';
 
 /**
  * Defines values for IssueType.
- * Possible values include: 'Unknown', 'AgentStopped', 'GuestFirewall',
- * 'DnsResolution', 'SocketBind', 'NetworkSecurityRule', 'UserDefinedRoute',
- * 'PortThrottled', 'Platform'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IssueType = <IssueType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'AgentStopped', 'GuestFirewall', 'DnsResolution',
+ * 'SocketBind', 'NetworkSecurityRule', 'UserDefinedRoute', 'PortThrottled', 'Platform'
  * @readonly
  * @enum {string}
  */
-export enum IssueType {
-  Unknown = 'Unknown',
-  AgentStopped = 'AgentStopped',
-  GuestFirewall = 'GuestFirewall',
-  DnsResolution = 'DnsResolution',
-  SocketBind = 'SocketBind',
-  NetworkSecurityRule = 'NetworkSecurityRule',
-  UserDefinedRoute = 'UserDefinedRoute',
-  PortThrottled = 'PortThrottled',
-  Platform = 'Platform',
-}
+export type IssueType = 'Unknown' | 'AgentStopped' | 'GuestFirewall' | 'DnsResolution' | 'SocketBind' | 'NetworkSecurityRule' | 'UserDefinedRoute' | 'PortThrottled' | 'Platform';
 
 /**
  * Defines values for ConnectionStatus.
  * Possible values include: 'Unknown', 'Connected', 'Disconnected', 'Degraded'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ConnectionStatus =
- * <ConnectionStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ConnectionStatus {
-  Unknown = 'Unknown',
-  Connected = 'Connected',
-  Disconnected = 'Disconnected',
-  Degraded = 'Degraded',
-}
+export type ConnectionStatus = 'Unknown' | 'Connected' | 'Disconnected' | 'Degraded';
 
 /**
  * Defines values for ConnectionMonitorSourceStatus.
  * Possible values include: 'Uknown', 'Active', 'Inactive'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ConnectionMonitorSourceStatus =
- * <ConnectionMonitorSourceStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ConnectionMonitorSourceStatus {
-  Uknown = 'Uknown',
-  Active = 'Active',
-  Inactive = 'Inactive',
-}
+export type ConnectionMonitorSourceStatus = 'Uknown' | 'Active' | 'Inactive';
 
 /**
  * Defines values for ConnectionState.
  * Possible values include: 'Reachable', 'Unreachable', 'Unknown'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ConnectionState =
- * <ConnectionState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ConnectionState {
-  Reachable = 'Reachable',
-  Unreachable = 'Unreachable',
-  Unknown = 'Unknown',
-}
+export type ConnectionState = 'Reachable' | 'Unreachable' | 'Unknown';
 
 /**
  * Defines values for EvaluationState.
  * Possible values include: 'NotStarted', 'InProgress', 'Completed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: EvaluationState =
- * <EvaluationState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum EvaluationState {
-  NotStarted = 'NotStarted',
-  InProgress = 'InProgress',
-  Completed = 'Completed',
-}
+export type EvaluationState = 'NotStarted' | 'InProgress' | 'Completed';
 
 /**
  * Defines values for VerbosityLevel.
  * Possible values include: 'Normal', 'Minimum', 'Full'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VerbosityLevel =
- * <VerbosityLevel>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VerbosityLevel {
-  Normal = 'Normal',
-  Minimum = 'Minimum',
-  Full = 'Full',
-}
+export type VerbosityLevel = 'Normal' | 'Minimum' | 'Full';
 
 /**
  * Defines values for PublicIPPrefixSkuName.
  * Possible values include: 'Standard'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PublicIPPrefixSkuName =
- * <PublicIPPrefixSkuName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PublicIPPrefixSkuName {
-  Standard = 'Standard',
-}
+export type PublicIPPrefixSkuName = 'Standard';
 
 /**
  * Defines values for VirtualNetworkPeeringState.
  * Possible values include: 'Initiated', 'Connected', 'Disconnected'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VirtualNetworkPeeringState =
- * <VirtualNetworkPeeringState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VirtualNetworkPeeringState {
-  Initiated = 'Initiated',
-  Connected = 'Connected',
-  Disconnected = 'Disconnected',
-}
+export type VirtualNetworkPeeringState = 'Initiated' | 'Connected' | 'Disconnected';
 
 /**
  * Defines values for VirtualNetworkGatewayType.
  * Possible values include: 'Vpn', 'ExpressRoute'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VirtualNetworkGatewayType =
- * <VirtualNetworkGatewayType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VirtualNetworkGatewayType {
-  Vpn = 'Vpn',
-  ExpressRoute = 'ExpressRoute',
-}
+export type VirtualNetworkGatewayType = 'Vpn' | 'ExpressRoute';
 
 /**
  * Defines values for VpnType.
  * Possible values include: 'PolicyBased', 'RouteBased'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VpnType = <VpnType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VpnType {
-  PolicyBased = 'PolicyBased',
-  RouteBased = 'RouteBased',
-}
+export type VpnType = 'PolicyBased' | 'RouteBased';
 
 /**
  * Defines values for VirtualNetworkGatewaySkuName.
- * Possible values include: 'Basic', 'HighPerformance', 'Standard',
- * 'UltraPerformance', 'VpnGw1', 'VpnGw2', 'VpnGw3', 'VpnGw1AZ', 'VpnGw2AZ',
- * 'VpnGw3AZ', 'ErGw1AZ', 'ErGw2AZ', 'ErGw3AZ'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VirtualNetworkGatewaySkuName =
- * <VirtualNetworkGatewaySkuName>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Basic', 'HighPerformance', 'Standard', 'UltraPerformance', 'VpnGw1',
+ * 'VpnGw2', 'VpnGw3', 'VpnGw1AZ', 'VpnGw2AZ', 'VpnGw3AZ', 'ErGw1AZ', 'ErGw2AZ', 'ErGw3AZ'
  * @readonly
  * @enum {string}
  */
-export enum VirtualNetworkGatewaySkuName {
-  Basic = 'Basic',
-  HighPerformance = 'HighPerformance',
-  Standard = 'Standard',
-  UltraPerformance = 'UltraPerformance',
-  VpnGw1 = 'VpnGw1',
-  VpnGw2 = 'VpnGw2',
-  VpnGw3 = 'VpnGw3',
-  VpnGw1AZ = 'VpnGw1AZ',
-  VpnGw2AZ = 'VpnGw2AZ',
-  VpnGw3AZ = 'VpnGw3AZ',
-  ErGw1AZ = 'ErGw1AZ',
-  ErGw2AZ = 'ErGw2AZ',
-  ErGw3AZ = 'ErGw3AZ',
-}
+export type VirtualNetworkGatewaySkuName = 'Basic' | 'HighPerformance' | 'Standard' | 'UltraPerformance' | 'VpnGw1' | 'VpnGw2' | 'VpnGw3' | 'VpnGw1AZ' | 'VpnGw2AZ' | 'VpnGw3AZ' | 'ErGw1AZ' | 'ErGw2AZ' | 'ErGw3AZ';
 
 /**
  * Defines values for VirtualNetworkGatewaySkuTier.
- * Possible values include: 'Basic', 'HighPerformance', 'Standard',
- * 'UltraPerformance', 'VpnGw1', 'VpnGw2', 'VpnGw3', 'VpnGw1AZ', 'VpnGw2AZ',
- * 'VpnGw3AZ', 'ErGw1AZ', 'ErGw2AZ', 'ErGw3AZ'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VirtualNetworkGatewaySkuTier =
- * <VirtualNetworkGatewaySkuTier>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Basic', 'HighPerformance', 'Standard', 'UltraPerformance', 'VpnGw1',
+ * 'VpnGw2', 'VpnGw3', 'VpnGw1AZ', 'VpnGw2AZ', 'VpnGw3AZ', 'ErGw1AZ', 'ErGw2AZ', 'ErGw3AZ'
  * @readonly
  * @enum {string}
  */
-export enum VirtualNetworkGatewaySkuTier {
-  Basic = 'Basic',
-  HighPerformance = 'HighPerformance',
-  Standard = 'Standard',
-  UltraPerformance = 'UltraPerformance',
-  VpnGw1 = 'VpnGw1',
-  VpnGw2 = 'VpnGw2',
-  VpnGw3 = 'VpnGw3',
-  VpnGw1AZ = 'VpnGw1AZ',
-  VpnGw2AZ = 'VpnGw2AZ',
-  VpnGw3AZ = 'VpnGw3AZ',
-  ErGw1AZ = 'ErGw1AZ',
-  ErGw2AZ = 'ErGw2AZ',
-  ErGw3AZ = 'ErGw3AZ',
-}
+export type VirtualNetworkGatewaySkuTier = 'Basic' | 'HighPerformance' | 'Standard' | 'UltraPerformance' | 'VpnGw1' | 'VpnGw2' | 'VpnGw3' | 'VpnGw1AZ' | 'VpnGw2AZ' | 'VpnGw3AZ' | 'ErGw1AZ' | 'ErGw2AZ' | 'ErGw3AZ';
 
 /**
  * Defines values for VpnClientProtocol.
  * Possible values include: 'IkeV2', 'SSTP', 'OpenVPN'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VpnClientProtocol =
- * <VpnClientProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VpnClientProtocol {
-  IkeV2 = 'IkeV2',
-  SSTP = 'SSTP',
-  OpenVPN = 'OpenVPN',
-}
+export type VpnClientProtocol = 'IkeV2' | 'SSTP' | 'OpenVPN';
 
 /**
  * Defines values for IpsecEncryption.
- * Possible values include: 'None', 'DES', 'DES3', 'AES128', 'AES192',
- * 'AES256', 'GCMAES128', 'GCMAES192', 'GCMAES256'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IpsecEncryption =
- * <IpsecEncryption>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'None', 'DES', 'DES3', 'AES128', 'AES192', 'AES256', 'GCMAES128',
+ * 'GCMAES192', 'GCMAES256'
  * @readonly
  * @enum {string}
  */
-export enum IpsecEncryption {
-  None = 'None',
-  DES = 'DES',
-  DES3 = 'DES3',
-  AES128 = 'AES128',
-  AES192 = 'AES192',
-  AES256 = 'AES256',
-  GCMAES128 = 'GCMAES128',
-  GCMAES192 = 'GCMAES192',
-  GCMAES256 = 'GCMAES256',
-}
+export type IpsecEncryption = 'None' | 'DES' | 'DES3' | 'AES128' | 'AES192' | 'AES256' | 'GCMAES128' | 'GCMAES192' | 'GCMAES256';
 
 /**
  * Defines values for IpsecIntegrity.
- * Possible values include: 'MD5', 'SHA1', 'SHA256', 'GCMAES128', 'GCMAES192',
- * 'GCMAES256'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IpsecIntegrity =
- * <IpsecIntegrity>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'MD5', 'SHA1', 'SHA256', 'GCMAES128', 'GCMAES192', 'GCMAES256'
  * @readonly
  * @enum {string}
  */
-export enum IpsecIntegrity {
-  MD5 = 'MD5',
-  SHA1 = 'SHA1',
-  SHA256 = 'SHA256',
-  GCMAES128 = 'GCMAES128',
-  GCMAES192 = 'GCMAES192',
-  GCMAES256 = 'GCMAES256',
-}
+export type IpsecIntegrity = 'MD5' | 'SHA1' | 'SHA256' | 'GCMAES128' | 'GCMAES192' | 'GCMAES256';
 
 /**
  * Defines values for IkeEncryption.
- * Possible values include: 'DES', 'DES3', 'AES128', 'AES192', 'AES256',
- * 'GCMAES256', 'GCMAES128'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IkeEncryption =
- * <IkeEncryption>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'DES', 'DES3', 'AES128', 'AES192', 'AES256', 'GCMAES256', 'GCMAES128'
  * @readonly
  * @enum {string}
  */
-export enum IkeEncryption {
-  DES = 'DES',
-  DES3 = 'DES3',
-  AES128 = 'AES128',
-  AES192 = 'AES192',
-  AES256 = 'AES256',
-  GCMAES256 = 'GCMAES256',
-  GCMAES128 = 'GCMAES128',
-}
+export type IkeEncryption = 'DES' | 'DES3' | 'AES128' | 'AES192' | 'AES256' | 'GCMAES256' | 'GCMAES128';
 
 /**
  * Defines values for IkeIntegrity.
- * Possible values include: 'MD5', 'SHA1', 'SHA256', 'SHA384', 'GCMAES256',
- * 'GCMAES128'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IkeIntegrity =
- * <IkeIntegrity>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'MD5', 'SHA1', 'SHA256', 'SHA384', 'GCMAES256', 'GCMAES128'
  * @readonly
  * @enum {string}
  */
-export enum IkeIntegrity {
-  MD5 = 'MD5',
-  SHA1 = 'SHA1',
-  SHA256 = 'SHA256',
-  SHA384 = 'SHA384',
-  GCMAES256 = 'GCMAES256',
-  GCMAES128 = 'GCMAES128',
-}
+export type IkeIntegrity = 'MD5' | 'SHA1' | 'SHA256' | 'SHA384' | 'GCMAES256' | 'GCMAES128';
 
 /**
  * Defines values for DhGroup.
- * Possible values include: 'None', 'DHGroup1', 'DHGroup2', 'DHGroup14',
- * 'DHGroup2048', 'ECP256', 'ECP384', 'DHGroup24'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DhGroup = <DhGroup>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'None', 'DHGroup1', 'DHGroup2', 'DHGroup14', 'DHGroup2048', 'ECP256',
+ * 'ECP384', 'DHGroup24'
  * @readonly
  * @enum {string}
  */
-export enum DhGroup {
-  None = 'None',
-  DHGroup1 = 'DHGroup1',
-  DHGroup2 = 'DHGroup2',
-  DHGroup14 = 'DHGroup14',
-  DHGroup2048 = 'DHGroup2048',
-  ECP256 = 'ECP256',
-  ECP384 = 'ECP384',
-  DHGroup24 = 'DHGroup24',
-}
+export type DhGroup = 'None' | 'DHGroup1' | 'DHGroup2' | 'DHGroup14' | 'DHGroup2048' | 'ECP256' | 'ECP384' | 'DHGroup24';
 
 /**
  * Defines values for PfsGroup.
- * Possible values include: 'None', 'PFS1', 'PFS2', 'PFS2048', 'ECP256',
- * 'ECP384', 'PFS24', 'PFS14', 'PFSMM'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PfsGroup = <PfsGroup>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'None', 'PFS1', 'PFS2', 'PFS2048', 'ECP256', 'ECP384', 'PFS24',
+ * 'PFS14', 'PFSMM'
  * @readonly
  * @enum {string}
  */
-export enum PfsGroup {
-  None = 'None',
-  PFS1 = 'PFS1',
-  PFS2 = 'PFS2',
-  PFS2048 = 'PFS2048',
-  ECP256 = 'ECP256',
-  ECP384 = 'ECP384',
-  PFS24 = 'PFS24',
-  PFS14 = 'PFS14',
-  PFSMM = 'PFSMM',
-}
+export type PfsGroup = 'None' | 'PFS1' | 'PFS2' | 'PFS2048' | 'ECP256' | 'ECP384' | 'PFS24' | 'PFS14' | 'PFSMM';
 
 /**
  * Defines values for BgpPeerState.
- * Possible values include: 'Unknown', 'Stopped', 'Idle', 'Connecting',
- * 'Connected'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: BgpPeerState =
- * <BgpPeerState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'Stopped', 'Idle', 'Connecting', 'Connected'
  * @readonly
  * @enum {string}
  */
-export enum BgpPeerState {
-  Unknown = 'Unknown',
-  Stopped = 'Stopped',
-  Idle = 'Idle',
-  Connecting = 'Connecting',
-  Connected = 'Connected',
-}
+export type BgpPeerState = 'Unknown' | 'Stopped' | 'Idle' | 'Connecting' | 'Connected';
 
 /**
  * Defines values for ProcessorArchitecture.
  * Possible values include: 'Amd64', 'X86'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ProcessorArchitecture =
- * <ProcessorArchitecture>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ProcessorArchitecture {
-  Amd64 = 'Amd64',
-  X86 = 'X86',
-}
+export type ProcessorArchitecture = 'Amd64' | 'X86';
 
 /**
  * Defines values for AuthenticationMethod.
  * Possible values include: 'EAPTLS', 'EAPMSCHAPv2'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AuthenticationMethod =
- * <AuthenticationMethod>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AuthenticationMethod {
-  EAPTLS = 'EAPTLS',
-  EAPMSCHAPv2 = 'EAPMSCHAPv2',
-}
+export type AuthenticationMethod = 'EAPTLS' | 'EAPMSCHAPv2';
 
 /**
  * Defines values for VirtualNetworkGatewayConnectionStatus.
- * Possible values include: 'Unknown', 'Connecting', 'Connected',
- * 'NotConnected'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VirtualNetworkGatewayConnectionStatus =
- * <VirtualNetworkGatewayConnectionStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'Connecting', 'Connected', 'NotConnected'
  * @readonly
  * @enum {string}
  */
-export enum VirtualNetworkGatewayConnectionStatus {
-  Unknown = 'Unknown',
-  Connecting = 'Connecting',
-  Connected = 'Connected',
-  NotConnected = 'NotConnected',
-}
+export type VirtualNetworkGatewayConnectionStatus = 'Unknown' | 'Connecting' | 'Connected' | 'NotConnected';
 
 /**
  * Defines values for VirtualNetworkGatewayConnectionType.
  * Possible values include: 'IPsec', 'Vnet2Vnet', 'ExpressRoute', 'VPNClient'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VirtualNetworkGatewayConnectionType =
- * <VirtualNetworkGatewayConnectionType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VirtualNetworkGatewayConnectionType {
-  IPsec = 'IPsec',
-  Vnet2Vnet = 'Vnet2Vnet',
-  ExpressRoute = 'ExpressRoute',
-  VPNClient = 'VPNClient',
-}
+export type VirtualNetworkGatewayConnectionType = 'IPsec' | 'Vnet2Vnet' | 'ExpressRoute' | 'VPNClient';
 
 /**
  * Defines values for VirtualNetworkGatewayConnectionProtocol.
  * Possible values include: 'IKEv2', 'IKEv1'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VirtualNetworkGatewayConnectionProtocol =
- * <VirtualNetworkGatewayConnectionProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VirtualNetworkGatewayConnectionProtocol {
-  IKEv2 = 'IKEv2',
-  IKEv1 = 'IKEv1',
-}
+export type VirtualNetworkGatewayConnectionProtocol = 'IKEv2' | 'IKEv1';
 
 /**
  * Defines values for OfficeTrafficCategory.
  * Possible values include: 'Optimize', 'OptimizeAndAllow', 'All', 'None'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: OfficeTrafficCategory =
- * <OfficeTrafficCategory>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum OfficeTrafficCategory {
-  Optimize = 'Optimize',
-  OptimizeAndAllow = 'OptimizeAndAllow',
-  All = 'All',
-  None = 'None',
-}
+export type OfficeTrafficCategory = 'Optimize' | 'OptimizeAndAllow' | 'All' | 'None';
 
 /**
  * Defines values for VpnGatewayTunnelingProtocol.
  * Possible values include: 'IkeV2', 'OpenVPN'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VpnGatewayTunnelingProtocol =
- * <VpnGatewayTunnelingProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VpnGatewayTunnelingProtocol {
-  IkeV2 = 'IkeV2',
-  OpenVPN = 'OpenVPN',
-}
+export type VpnGatewayTunnelingProtocol = 'IkeV2' | 'OpenVPN';
 
 /**
  * Defines values for VpnConnectionStatus.
- * Possible values include: 'Unknown', 'Connecting', 'Connected',
- * 'NotConnected'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VpnConnectionStatus =
- * <VpnConnectionStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'Connecting', 'Connected', 'NotConnected'
  * @readonly
  * @enum {string}
  */
-export enum VpnConnectionStatus {
-  Unknown = 'Unknown',
-  Connecting = 'Connecting',
-  Connected = 'Connected',
-  NotConnected = 'NotConnected',
-}
+export type VpnConnectionStatus = 'Unknown' | 'Connecting' | 'Connected' | 'NotConnected';
 
 /**
  * Defines values for VirtualWanSecurityProviderType.
  * Possible values include: 'External', 'Native'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VirtualWanSecurityProviderType =
- * <VirtualWanSecurityProviderType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VirtualWanSecurityProviderType {
-  External = 'External',
-  Native = 'Native',
-}
+export type VirtualWanSecurityProviderType = 'External' | 'Native';
 
 /**
  * Defines values for TunnelConnectionStatus.
- * Possible values include: 'Unknown', 'Connecting', 'Connected',
- * 'NotConnected'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TunnelConnectionStatus =
- * <TunnelConnectionStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'Connecting', 'Connected', 'NotConnected'
  * @readonly
  * @enum {string}
  */
-export enum TunnelConnectionStatus {
-  Unknown = 'Unknown',
-  Connecting = 'Connecting',
-  Connected = 'Connected',
-  NotConnected = 'NotConnected',
-}
+export type TunnelConnectionStatus = 'Unknown' | 'Connecting' | 'Connected' | 'NotConnected';
 
 /**
  * Defines values for HubVirtualNetworkConnectionStatus.
- * Possible values include: 'Unknown', 'Connecting', 'Connected',
- * 'NotConnected'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HubVirtualNetworkConnectionStatus =
- * <HubVirtualNetworkConnectionStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'Connecting', 'Connected', 'NotConnected'
  * @readonly
  * @enum {string}
  */
-export enum HubVirtualNetworkConnectionStatus {
-  Unknown = 'Unknown',
-  Connecting = 'Connecting',
-  Connected = 'Connected',
-  NotConnected = 'NotConnected',
-}
+export type HubVirtualNetworkConnectionStatus = 'Unknown' | 'Connecting' | 'Connected' | 'NotConnected';
 
 /**
  * Defines values for Protocol1.
  * Possible values include: 'Tcp', 'Udp', 'All'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Protocol1 = <Protocol1>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Protocol1 {
-  Tcp = 'Tcp',
-  Udp = 'Udp',
-  All = 'All',
-}
+export type Protocol1 = 'Tcp' | 'Udp' | 'All';
 
 /**
  * Contains response data for the get operation.

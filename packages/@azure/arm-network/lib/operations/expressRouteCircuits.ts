@@ -60,7 +60,7 @@ export class ExpressRouteCircuits {
    * @param callback The callback
    */
   get(resourceGroupName: string, circuitName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuit>): void;
-  get(resourceGroupName: string, circuitName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuit>): Promise<Models.ExpressRouteCircuitsGetResponse> {
+  get(resourceGroupName: string, circuitName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuit>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuit>): Promise<Models.ExpressRouteCircuitsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -163,7 +163,7 @@ export class ExpressRouteCircuits {
    * @param callback The callback
    */
   getStats(resourceGroupName: string, circuitName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitStats>): void;
-  getStats(resourceGroupName: string, circuitName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitStats>): Promise<Models.ExpressRouteCircuitsGetStatsResponse> {
+  getStats(resourceGroupName: string, circuitName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuitStats>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitStats>): Promise<Models.ExpressRouteCircuitsGetStatsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -198,7 +198,7 @@ export class ExpressRouteCircuits {
    * @param callback The callback
    */
   getPeeringStats(resourceGroupName: string, circuitName: string, peeringName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitStats>): void;
-  getPeeringStats(resourceGroupName: string, circuitName: string, peeringName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitStats>): Promise<Models.ExpressRouteCircuitsGetPeeringStatsResponse> {
+  getPeeringStats(resourceGroupName: string, circuitName: string, peeringName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuitStats>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitStats>): Promise<Models.ExpressRouteCircuitsGetPeeringStatsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -228,7 +228,7 @@ export class ExpressRouteCircuits {
    * @param callback The callback
    */
   list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>): Promise<Models.ExpressRouteCircuitsListResponse> {
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>): Promise<Models.ExpressRouteCircuitsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -253,7 +253,7 @@ export class ExpressRouteCircuits {
    * @param callback The callback
    */
   listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>): Promise<Models.ExpressRouteCircuitsListAllResponse> {
+  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>): Promise<Models.ExpressRouteCircuitsListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -407,7 +407,7 @@ export class ExpressRouteCircuits {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>): Promise<Models.ExpressRouteCircuitsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>): Promise<Models.ExpressRouteCircuitsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -435,7 +435,7 @@ export class ExpressRouteCircuits {
    * @param callback The callback
    */
   listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>): Promise<Models.ExpressRouteCircuitsListAllNextResponse> {
+  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>): Promise<Models.ExpressRouteCircuitsListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

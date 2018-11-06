@@ -50,7 +50,7 @@ export class ExpressRouteLinks {
    * @param callback The callback
    */
   get(resourceGroupName: string, expressRoutePortName: string, linkName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteLink>): void;
-  get(resourceGroupName: string, expressRoutePortName: string, linkName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteLink>): Promise<Models.ExpressRouteLinksGetResponse> {
+  get(resourceGroupName: string, expressRoutePortName: string, linkName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteLink>, callback?: msRest.ServiceCallback<Models.ExpressRouteLink>): Promise<Models.ExpressRouteLinksGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +83,7 @@ export class ExpressRouteLinks {
    * @param callback The callback
    */
   list(resourceGroupName: string, expressRoutePortName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteLinkListResult>): void;
-  list(resourceGroupName: string, expressRoutePortName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteLinkListResult>): Promise<Models.ExpressRouteLinksListResponse> {
+  list(resourceGroupName: string, expressRoutePortName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteLinkListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteLinkListResult>): Promise<Models.ExpressRouteLinksListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class ExpressRouteLinks {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteLinkListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteLinkListResult>): Promise<Models.ExpressRouteLinksListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteLinkListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteLinkListResult>): Promise<Models.ExpressRouteLinksListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
