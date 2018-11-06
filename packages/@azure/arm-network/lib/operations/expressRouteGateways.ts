@@ -42,7 +42,7 @@ export class ExpressRouteGateways {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteGatewayList>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteGatewayList>): Promise<Models.ExpressRouteGatewaysListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteGatewayList>, callback?: msRest.ServiceCallback<Models.ExpressRouteGatewayList>): Promise<Models.ExpressRouteGatewaysListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -69,7 +69,7 @@ export class ExpressRouteGateways {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteGatewayList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteGatewayList>): Promise<Models.ExpressRouteGatewaysListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteGatewayList>, callback?: msRest.ServiceCallback<Models.ExpressRouteGatewayList>): Promise<Models.ExpressRouteGatewaysListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -114,7 +114,7 @@ export class ExpressRouteGateways {
    * @param callback The callback
    */
   get(resourceGroupName: string, expressRouteGatewayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteGateway>): void;
-  get(resourceGroupName: string, expressRouteGatewayName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteGateway>): Promise<Models.ExpressRouteGatewaysGetResponse> {
+  get(resourceGroupName: string, expressRouteGatewayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteGateway>, callback?: msRest.ServiceCallback<Models.ExpressRouteGateway>): Promise<Models.ExpressRouteGatewaysGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

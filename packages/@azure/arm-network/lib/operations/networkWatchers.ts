@@ -51,7 +51,7 @@ export class NetworkWatchers {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, networkWatcherName: string, parameters: Models.NetworkWatcher, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkWatcher>): void;
-  createOrUpdate(resourceGroupName: string, networkWatcherName: string, parameters: Models.NetworkWatcher, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkWatcher>): Promise<Models.NetworkWatchersCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, networkWatcherName: string, parameters: Models.NetworkWatcher, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkWatcher>, callback?: msRest.ServiceCallback<Models.NetworkWatcher>): Promise<Models.NetworkWatchersCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -84,7 +84,7 @@ export class NetworkWatchers {
    * @param callback The callback
    */
   get(resourceGroupName: string, networkWatcherName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkWatcher>): void;
-  get(resourceGroupName: string, networkWatcherName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkWatcher>): Promise<Models.NetworkWatchersGetResponse> {
+  get(resourceGroupName: string, networkWatcherName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkWatcher>, callback?: msRest.ServiceCallback<Models.NetworkWatcher>): Promise<Models.NetworkWatchersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,7 +131,7 @@ export class NetworkWatchers {
    * @param callback The callback
    */
   updateTags(resourceGroupName: string, networkWatcherName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkWatcher>): void;
-  updateTags(resourceGroupName: string, networkWatcherName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkWatcher>): Promise<Models.NetworkWatchersUpdateTagsResponse> {
+  updateTags(resourceGroupName: string, networkWatcherName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkWatcher>, callback?: msRest.ServiceCallback<Models.NetworkWatcher>): Promise<Models.NetworkWatchersUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -161,7 +161,7 @@ export class NetworkWatchers {
    * @param callback The callback
    */
   list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkWatcherListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkWatcherListResult>): Promise<Models.NetworkWatchersListResponse> {
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkWatcherListResult>, callback?: msRest.ServiceCallback<Models.NetworkWatcherListResult>): Promise<Models.NetworkWatchersListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -186,7 +186,7 @@ export class NetworkWatchers {
    * @param callback The callback
    */
   listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkWatcherListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkWatcherListResult>): Promise<Models.NetworkWatchersListAllResponse> {
+  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkWatcherListResult>, callback?: msRest.ServiceCallback<Models.NetworkWatcherListResult>): Promise<Models.NetworkWatchersListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -219,7 +219,7 @@ export class NetworkWatchers {
    * @param callback The callback
    */
   getTopology(resourceGroupName: string, networkWatcherName: string, parameters: Models.TopologyParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Topology>): void;
-  getTopology(resourceGroupName: string, networkWatcherName: string, parameters: Models.TopologyParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Topology>): Promise<Models.NetworkWatchersGetTopologyResponse> {
+  getTopology(resourceGroupName: string, networkWatcherName: string, parameters: Models.TopologyParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Topology>, callback?: msRest.ServiceCallback<Models.Topology>): Promise<Models.NetworkWatchersGetTopologyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

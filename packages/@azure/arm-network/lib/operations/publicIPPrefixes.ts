@@ -60,7 +60,7 @@ export class PublicIPPrefixes {
    * @param callback The callback
    */
   get(resourceGroupName: string, publicIpPrefixName: string, options: Models.PublicIPPrefixesGetOptionalParams, callback: msRest.ServiceCallback<Models.PublicIPPrefix>): void;
-  get(resourceGroupName: string, publicIpPrefixName: string, options?: Models.PublicIPPrefixesGetOptionalParams, callback?: msRest.ServiceCallback<Models.PublicIPPrefix>): Promise<Models.PublicIPPrefixesGetResponse> {
+  get(resourceGroupName: string, publicIpPrefixName: string, options?: Models.PublicIPPrefixesGetOptionalParams | msRest.ServiceCallback<Models.PublicIPPrefix>, callback?: msRest.ServiceCallback<Models.PublicIPPrefix>): Promise<Models.PublicIPPrefixesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class PublicIPPrefixes {
    * @param callback The callback
    */
   listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPPrefixListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PublicIPPrefixListResult>): Promise<Models.PublicIPPrefixesListAllResponse> {
+  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPPrefixListResult>, callback?: msRest.ServiceCallback<Models.PublicIPPrefixListResult>): Promise<Models.PublicIPPrefixesListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -139,7 +139,7 @@ export class PublicIPPrefixes {
    * @param callback The callback
    */
   list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPPrefixListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PublicIPPrefixListResult>): Promise<Models.PublicIPPrefixesListResponse> {
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPPrefixListResult>, callback?: msRest.ServiceCallback<Models.PublicIPPrefixListResult>): Promise<Models.PublicIPPrefixesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -225,7 +225,7 @@ export class PublicIPPrefixes {
    * @param callback The callback
    */
   listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPPrefixListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PublicIPPrefixListResult>): Promise<Models.PublicIPPrefixesListAllNextResponse> {
+  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPPrefixListResult>, callback?: msRest.ServiceCallback<Models.PublicIPPrefixListResult>): Promise<Models.PublicIPPrefixesListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -253,7 +253,7 @@ export class PublicIPPrefixes {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPPrefixListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PublicIPPrefixListResult>): Promise<Models.PublicIPPrefixesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPPrefixListResult>, callback?: msRest.ServiceCallback<Models.PublicIPPrefixListResult>): Promise<Models.PublicIPPrefixesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

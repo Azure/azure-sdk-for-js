@@ -64,7 +64,7 @@ export class RouteFilterRules {
    * @param callback The callback
    */
   get(resourceGroupName: string, routeFilterName: string, ruleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RouteFilterRule>): void;
-  get(resourceGroupName: string, routeFilterName: string, ruleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RouteFilterRule>): Promise<Models.RouteFilterRulesGetResponse> {
+  get(resourceGroupName: string, routeFilterName: string, ruleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RouteFilterRule>, callback?: msRest.ServiceCallback<Models.RouteFilterRule>): Promise<Models.RouteFilterRulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -126,7 +126,7 @@ export class RouteFilterRules {
    * @param callback The callback
    */
   listByRouteFilter(resourceGroupName: string, routeFilterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RouteFilterRuleListResult>): void;
-  listByRouteFilter(resourceGroupName: string, routeFilterName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RouteFilterRuleListResult>): Promise<Models.RouteFilterRulesListByRouteFilterResponse> {
+  listByRouteFilter(resourceGroupName: string, routeFilterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RouteFilterRuleListResult>, callback?: msRest.ServiceCallback<Models.RouteFilterRuleListResult>): Promise<Models.RouteFilterRulesListByRouteFilterResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -220,7 +220,7 @@ export class RouteFilterRules {
    * @param callback The callback
    */
   listByRouteFilterNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RouteFilterRuleListResult>): void;
-  listByRouteFilterNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RouteFilterRuleListResult>): Promise<Models.RouteFilterRulesListByRouteFilterNextResponse> {
+  listByRouteFilterNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RouteFilterRuleListResult>, callback?: msRest.ServiceCallback<Models.RouteFilterRuleListResult>): Promise<Models.RouteFilterRulesListByRouteFilterNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

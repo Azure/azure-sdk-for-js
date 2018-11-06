@@ -64,7 +64,7 @@ export class VirtualNetworkPeerings {
    * @param callback The callback
    */
   get(resourceGroupName: string, virtualNetworkName: string, virtualNetworkPeeringName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkPeering>): void;
-  get(resourceGroupName: string, virtualNetworkName: string, virtualNetworkPeeringName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetworkPeering>): Promise<Models.VirtualNetworkPeeringsGetResponse> {
+  get(resourceGroupName: string, virtualNetworkName: string, virtualNetworkPeeringName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkPeering>, callback?: msRest.ServiceCallback<Models.VirtualNetworkPeering>): Promise<Models.VirtualNetworkPeeringsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class VirtualNetworkPeerings {
    * @param callback The callback
    */
   list(resourceGroupName: string, virtualNetworkName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkPeeringListResult>): void;
-  list(resourceGroupName: string, virtualNetworkName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetworkPeeringListResult>): Promise<Models.VirtualNetworkPeeringsListResponse> {
+  list(resourceGroupName: string, virtualNetworkName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkPeeringListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkPeeringListResult>): Promise<Models.VirtualNetworkPeeringsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -184,7 +184,7 @@ export class VirtualNetworkPeerings {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkPeeringListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetworkPeeringListResult>): Promise<Models.VirtualNetworkPeeringsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkPeeringListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkPeeringListResult>): Promise<Models.VirtualNetworkPeeringsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
