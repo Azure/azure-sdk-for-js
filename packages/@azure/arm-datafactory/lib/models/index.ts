@@ -529,7 +529,7 @@ export interface ParameterSpecification {
 /**
  * Contains the possible cases for LinkedService.
  */
-export type LinkedServiceUnion = LinkedService | ResponsysLinkedService | AzureDatabricksLinkedService | AzureDataLakeAnalyticsLinkedService | HDInsightOnDemandLinkedService | SalesforceMarketingCloudLinkedService | NetezzaLinkedService | VerticaLinkedService | ZohoLinkedService | XeroLinkedService | SquareLinkedService | SparkLinkedService | ShopifyLinkedService | ServiceNowLinkedService | QuickBooksLinkedService | PrestoLinkedService | PhoenixLinkedService | PaypalLinkedService | MarketoLinkedService | MariaDBLinkedService | MagentoLinkedService | JiraLinkedService | ImpalaLinkedService | HubspotLinkedService | HiveLinkedService | HBaseLinkedService | GreenplumLinkedService | GoogleBigQueryLinkedService | GoogleAdWordsLinkedService | EloquaLinkedService | DrillLinkedService | CouchbaseLinkedService | ConcurLinkedService | AzurePostgreSqlLinkedService | AmazonMWSLinkedService | SapHanaLinkedService | SapBWLinkedService | SftpServerLinkedService | FtpServerLinkedService | RestServiceLinkedService | HttpLinkedService | AzureSearchLinkedService | CustomDataSourceLinkedService | AmazonRedshiftLinkedService | AmazonS3LinkedService | SapEccLinkedService | SapCloudForCustomerLinkedService | SalesforceLinkedService | AzureDataLakeStoreLinkedService | MongoDbLinkedService | CassandraLinkedService | WebLinkedService | ODataLinkedService | HdfsLinkedService | OdbcLinkedService | AzureMLLinkedService | TeradataLinkedService | Db2LinkedService | SybaseLinkedService | PostgreSqlLinkedService | MySqlLinkedService | AzureMySqlLinkedService | OracleServiceCloudLinkedService | OracleLinkedService | FileServerLinkedService | HDInsightLinkedService | DynamicsAXLinkedService | DynamicsLinkedService | CosmosDbLinkedService | AzureKeyVaultLinkedService | AzureBatchLinkedService | AzureSqlDatabaseLinkedService | SqlServerLinkedService | AzureSqlDWLinkedService | AzureTableStorageLinkedService | AzureBlobStorageLinkedService | AzureStorageLinkedService;
+export type LinkedServiceUnion = LinkedService | ResponsysLinkedService | AzureDatabricksLinkedService | AzureDataLakeAnalyticsLinkedService | HDInsightOnDemandLinkedService | SalesforceMarketingCloudLinkedService | NetezzaLinkedService | VerticaLinkedService | ZohoLinkedService | XeroLinkedService | SquareLinkedService | SparkLinkedService | ShopifyLinkedService | ServiceNowLinkedService | QuickBooksLinkedService | PrestoLinkedService | PhoenixLinkedService | PaypalLinkedService | MarketoLinkedService | MariaDBLinkedService | MagentoLinkedService | JiraLinkedService | ImpalaLinkedService | HubspotLinkedService | HiveLinkedService | HBaseLinkedService | GreenplumLinkedService | GoogleBigQueryLinkedService | EloquaLinkedService | DrillLinkedService | CouchbaseLinkedService | ConcurLinkedService | AzurePostgreSqlLinkedService | AmazonMWSLinkedService | SapHanaLinkedService | SapBWLinkedService | SftpServerLinkedService | FtpServerLinkedService | HttpLinkedService | AzureSearchLinkedService | CustomDataSourceLinkedService | AmazonRedshiftLinkedService | AmazonS3LinkedService | SapEccLinkedService | SapCloudForCustomerLinkedService | SalesforceLinkedService | AzureDataLakeStoreLinkedService | MongoDbLinkedService | CassandraLinkedService | WebLinkedService | ODataLinkedService | HdfsLinkedService | OdbcLinkedService | AzureMLLinkedService | TeradataLinkedService | Db2LinkedService | SybaseLinkedService | PostgreSqlLinkedService | MySqlLinkedService | AzureMySqlLinkedService | OracleLinkedService | FileServerLinkedService | HDInsightLinkedService | DynamicsLinkedService | CosmosDbLinkedService | AzureKeyVaultLinkedService | AzureBatchLinkedService | AzureSqlDatabaseLinkedService | SqlServerLinkedService | AzureSqlDWLinkedService | AzureTableStorageLinkedService | AzureBlobStorageLinkedService | AzureStorageLinkedService;
 
 /**
  * @interface
@@ -601,7 +601,7 @@ export interface DatasetFolder {
 /**
  * Contains the possible cases for Dataset.
  */
-export type DatasetUnion = Dataset | ResponsysObjectDataset | SalesforceMarketingCloudObjectDataset | VerticaTableDataset | NetezzaTableDataset | ZohoObjectDataset | XeroObjectDataset | SquareObjectDataset | SparkObjectDataset | ShopifyObjectDataset | ServiceNowObjectDataset | QuickBooksObjectDataset | PrestoObjectDataset | PhoenixObjectDataset | PaypalObjectDataset | MarketoObjectDataset | MariaDBTableDataset | MagentoObjectDataset | JiraObjectDataset | ImpalaObjectDataset | HubspotObjectDataset | HiveObjectDataset | HBaseObjectDataset | GreenplumTableDataset | GoogleBigQueryObjectDataset | GoogleAdWordsObjectDataset | EloquaObjectDataset | DrillTableDataset | CouchbaseTableDataset | ConcurObjectDataset | AzurePostgreSqlTableDataset | AmazonMWSObjectDataset | RestServiceDataset | HttpDataset | AzureSearchIndexDataset | WebTableDataset | SqlServerTableDataset | SapEccResourceDataset | SapCloudForCustomerResourceDataset | SalesforceObjectDataset | RelationalTableDataset | AzureMySqlTableDataset | OracleServiceCloudObjectDataset | OracleTableDataset | ODataResourceDataset | MongoDbCollectionDataset | FileShareDataset | AzureDataLakeStoreDataset | DynamicsAXResourceDataset | DynamicsEntityDataset | DocumentDbCollectionDataset | CustomDataset | CassandraTableDataset | AzureSqlDWTableDataset | AzureSqlTableDataset | AzureTableDataset | AzureBlobDataset | AmazonS3Dataset;
+export type DatasetUnion = Dataset | ResponsysObjectDataset | SalesforceMarketingCloudObjectDataset | VerticaTableDataset | NetezzaTableDataset | ZohoObjectDataset | XeroObjectDataset | SquareObjectDataset | SparkObjectDataset | ShopifyObjectDataset | ServiceNowObjectDataset | QuickBooksObjectDataset | PrestoObjectDataset | PhoenixObjectDataset | PaypalObjectDataset | MarketoObjectDataset | MariaDBTableDataset | MagentoObjectDataset | JiraObjectDataset | ImpalaObjectDataset | HubspotObjectDataset | HiveObjectDataset | HBaseObjectDataset | GreenplumTableDataset | GoogleBigQueryObjectDataset | EloquaObjectDataset | DrillTableDataset | CouchbaseTableDataset | ConcurObjectDataset | AzurePostgreSqlTableDataset | AmazonMWSObjectDataset | HttpDataset | AzureSearchIndexDataset | WebTableDataset | SqlServerTableDataset | SapEccResourceDataset | SapCloudForCustomerResourceDataset | SalesforceObjectDataset | RelationalTableDataset | AzureMySqlTableDataset | OracleTableDataset | ODataResourceDataset | MongoDbCollectionDataset | FileShareDataset | AzureDataLakeStoreDataset | DynamicsEntityDataset | DocumentDbCollectionDataset | CustomDataset | CassandraTableDataset | AzureSqlDWTableDataset | AzureSqlTableDataset | AzureTableDataset | AzureBlobDataset | AmazonS3Dataset;
 
 /**
  * @interface
@@ -2802,6 +2802,11 @@ export interface NetezzaLinkedService {
    */
   connectionString?: any;
   /**
+   * @member {AzureKeyVaultSecretReference} [pwd] The Azure key vault secret
+   * reference of password in connection string.
+   */
+  pwd?: AzureKeyVaultSecretReference;
+  /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
    * credential manager. Type: string (or Expression with resultType string).
@@ -2844,6 +2849,11 @@ export interface VerticaLinkedService {
    * SecureString or AzureKeyVaultSecretReference.
    */
   connectionString?: any;
+  /**
+   * @member {AzureKeyVaultSecretReference} [pwd] The Azure key vault secret
+   * reference of password in connection string.
+   */
+  pwd?: AzureKeyVaultSecretReference;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -3777,6 +3787,11 @@ export interface MariaDBLinkedService {
    */
   connectionString?: any;
   /**
+   * @member {AzureKeyVaultSecretReference} [pwd] The Azure key vault secret
+   * reference of password in connection string.
+   */
+  pwd?: AzureKeyVaultSecretReference;
+  /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
    * credential manager. Type: string (or Expression with resultType string).
@@ -4342,6 +4357,11 @@ export interface GreenplumLinkedService {
    */
   connectionString?: any;
   /**
+   * @member {AzureKeyVaultSecretReference} [pwd] The Azure key vault secret
+   * reference of password in connection string.
+   */
+  pwd?: AzureKeyVaultSecretReference;
+  /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
    * credential manager. Type: string (or Expression with resultType string).
@@ -4405,100 +4425,6 @@ export interface GoogleBigQueryLinkedService {
   /**
    * @member {SecretBaseUnion} [refreshToken] The refresh token obtained from
    * Google for authorizing access to BigQuery for UserAuthentication.
-   */
-  refreshToken?: SecretBaseUnion;
-  /**
-   * @member {SecretBaseUnion} [clientId] The client id of the google
-   * application used to acquire the refresh token.
-   */
-  clientId?: SecretBaseUnion;
-  /**
-   * @member {SecretBaseUnion} [clientSecret] The client secret of the google
-   * application used to acquire the refresh token.
-   */
-  clientSecret?: SecretBaseUnion;
-  /**
-   * @member {any} [email] The service account email ID that is used for
-   * ServiceAuthentication and can only be used on self-hosted IR.
-   */
-  email?: any;
-  /**
-   * @member {any} [keyFilePath] The full path to the .p12 key file that is
-   * used to authenticate the service account email address and can only be
-   * used on self-hosted IR.
-   */
-  keyFilePath?: any;
-  /**
-   * @member {any} [trustedCertPath] The full path of the .pem file containing
-   * trusted CA certificates for verifying the server when connecting over SSL.
-   * This property can only be set when using SSL on self-hosted IR. The
-   * default value is the cacerts.pem file installed with the IR.
-   */
-  trustedCertPath?: any;
-  /**
-   * @member {any} [useSystemTrustStore] Specifies whether to use a CA
-   * certificate from the system trust store or from a specified PEM file. The
-   * default value is false.
-   */
-  useSystemTrustStore?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing GoogleAdWordsLinkedService.
- * Google Awords service linked service.
- *
- */
-export interface GoogleAdWordsLinkedService {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "GoogleAdWords";
-  /**
-   * @member {IntegrationRuntimeReference} [connectVia] The integration runtime
-   * reference.
-   */
-  connectVia?: IntegrationRuntimeReference;
-  /**
-   * @member {string} [description] Linked service description.
-   */
-  description?: string;
-  /**
-   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
-   * Parameters for linked service.
-   */
-  parameters?: { [propertyName: string]: ParameterSpecification };
-  /**
-   * @member {any[]} [annotations] List of tags that can be used for describing
-   * the Dataset.
-   */
-  annotations?: any[];
-  /**
-   * @member {any} clientCustomerID The Client customer ID of the AdWords
-   * account that you want to fetch report data for.
-   */
-  clientCustomerID: any;
-  /**
-   * @member {SecretBaseUnion} developerToken The developer token associated
-   * with the manager account that you use to grant access to the AdWords API.
-   */
-  developerToken: SecretBaseUnion;
-  /**
-   * @member {GoogleAdWordsAuthenticationType} authenticationType The OAuth 2.0
-   * authentication mechanism used for authentication. ServiceAuthentication
-   * can only be used on self-hosted IR. Possible values include:
-   * 'ServiceAuthentication', 'UserAuthentication'
-   */
-  authenticationType: GoogleAdWordsAuthenticationType;
-  /**
-   * @member {SecretBaseUnion} [refreshToken] The refresh token obtained from
-   * Google for authorizing access to AdWords for UserAuthentication.
    */
   refreshToken?: SecretBaseUnion;
   /**
@@ -4649,6 +4575,11 @@ export interface DrillLinkedService {
    */
   connectionString?: any;
   /**
+   * @member {AzureKeyVaultSecretReference} [pwd] The Azure key vault secret
+   * reference of password in connection string.
+   */
+  pwd?: AzureKeyVaultSecretReference;
+  /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
    * credential manager. Type: string (or Expression with resultType string).
@@ -4691,6 +4622,11 @@ export interface CouchbaseLinkedService {
    * SecureString or AzureKeyVaultSecretReference.
    */
   connectionString?: any;
+  /**
+   * @member {AzureKeyVaultSecretReference} [credString] The Azure key vault
+   * secret reference of credString in connection string.
+   */
+  credString?: AzureKeyVaultSecretReference;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -4804,6 +4740,11 @@ export interface AzurePostgreSqlLinkedService {
    * SecureString or AzureKeyVaultSecretReference.
    */
   connectionString?: any;
+  /**
+   * @member {AzureKeyVaultSecretReference} [password] The Azure key vault
+   * secret reference of password in connection string.
+   */
+  password?: AzureKeyVaultSecretReference;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -5189,91 +5130,6 @@ export interface FtpServerLinkedService {
    * value is true. Type: boolean (or Expression with resultType boolean).
    */
   enableServerCertificateValidation?: any;
-}
-
-/**
- * @interface
- * An interface representing RestServiceLinkedService.
- * Rest Service linked service.
- *
- */
-export interface RestServiceLinkedService {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "RestService";
-  /**
-   * @member {IntegrationRuntimeReference} [connectVia] The integration runtime
-   * reference.
-   */
-  connectVia?: IntegrationRuntimeReference;
-  /**
-   * @member {string} [description] Linked service description.
-   */
-  description?: string;
-  /**
-   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
-   * Parameters for linked service.
-   */
-  parameters?: { [propertyName: string]: ParameterSpecification };
-  /**
-   * @member {any[]} [annotations] List of tags that can be used for describing
-   * the Dataset.
-   */
-  annotations?: any[];
-  /**
-   * @member {any} url The base URL of the REST service.
-   */
-  url: any;
-  /**
-   * @member {any} [enableServerCertificateValidation] Whether to validate
-   * server side SSL certificate when connecting to the endpoint.The default
-   * value is true. Type: boolean (or Expression with resultType boolean).
-   */
-  enableServerCertificateValidation?: any;
-  /**
-   * @member {RestServiceAuthenticationType} authenticationType Type of
-   * authentication used to connect to the REST service. Possible values
-   * include: 'Anonymous', 'Basic', 'AadServicePrincial',
-   * 'ManagedServiceIdentity'
-   */
-  authenticationType: RestServiceAuthenticationType;
-  /**
-   * @member {any} [userName] The user name used in Basic authentication type.
-   */
-  userName?: any;
-  /**
-   * @member {SecretBaseUnion} [password] The password used in Basic
-   * authentication type.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {any} [servicePrincipalId] The application’s client ID used in
-   * AadServicePrincipal authentication type.
-   */
-  servicePrincipalId?: any;
-  /**
-   * @member {SecretBaseUnion} [servicePrincipalKey] The application’s key used
-   * in AadServicePrincipal authentication type.
-   */
-  servicePrincipalKey?: SecretBaseUnion;
-  /**
-   * @member {any} [tenant] The tenant information (domain name or tenant ID)
-   * used in AadServicePrincipal authentication type under which your
-   * application resides.
-   */
-  tenant?: any;
-  /**
-   * @member {any} [aadResourceId] The resource you are requesting
-   * authorization to use.
-   */
-  aadResourceId?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
 }
 
 /**
@@ -6126,12 +5982,11 @@ export interface ODataLinkedService {
    */
   url: any;
   /**
-   * @member {ODataAuthenticationType} authenticationType Type of
+   * @member {ODataAuthenticationType} [authenticationType] Type of
    * authentication used to connect to the OData service. Possible values
-   * include: 'Anonymous', 'Basic', 'Windows', 'AadServicePrincipal',
-   * 'ManagedServiceIdentity'
+   * include: 'Basic', 'Anonymous'
    */
-  authenticationType: ODataAuthenticationType;
+  authenticationType?: ODataAuthenticationType;
   /**
    * @member {any} [userName] User name of the OData service. Type: string (or
    * Expression with resultType string).
@@ -6141,50 +5996,6 @@ export interface ODataLinkedService {
    * @member {SecretBaseUnion} [password] Password of the OData service.
    */
   password?: SecretBaseUnion;
-  /**
-   * @member {any} [tenant] Specify the tenant information (domain name or
-   * tenant ID) under which your application resides. Type: string (or
-   * Expression with resultType string).
-   */
-  tenant?: any;
-  /**
-   * @member {any} [servicePrincipalId] Specify the application id of your
-   * application registered in Azure Active Directory. Type: string (or
-   * Expression with resultType string).
-   */
-  servicePrincipalId?: any;
-  /**
-   * @member {any} [aadResourceId] Specify the resource you are requesting
-   * authorization to use Directory. Type: string (or Expression with
-   * resultType string).
-   */
-  aadResourceId?: any;
-  /**
-   * @member {ODataAadServicePrincipalCredentialType}
-   * [aadServicePrincipalCredentialType] Specify the credential type (key or
-   * cert) is used for service principal. Possible values include:
-   * 'ServicePrincipalKey', 'ServicePrincipalCert'
-   */
-  aadServicePrincipalCredentialType?: ODataAadServicePrincipalCredentialType;
-  /**
-   * @member {SecretBaseUnion} [servicePrincipalKey] Specify the secret of your
-   * application registered in Azure Active Directory. Type: string (or
-   * Expression with resultType string).
-   */
-  servicePrincipalKey?: SecretBaseUnion;
-  /**
-   * @member {SecretBaseUnion} [servicePrincipalEmbeddedCert] Specify the
-   * base64 encoded certificate of your application registered in Azure Active
-   * Directory. Type: string (or Expression with resultType string).
-   */
-  servicePrincipalEmbeddedCert?: SecretBaseUnion;
-  /**
-   * @member {SecretBaseUnion} [servicePrincipalEmbeddedCertPassword] Specify
-   * the password of your certificate if your certificate has a password and
-   * you are using AadServicePrincipal authentication. Type: string (or
-   * Expression with resultType string).
-   */
-  servicePrincipalEmbeddedCertPassword?: SecretBaseUnion;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -6609,6 +6420,11 @@ export interface PostgreSqlLinkedService {
    */
   connectionString: SecretBaseUnion;
   /**
+   * @member {AzureKeyVaultSecretReference} [password] The Azure key vault
+   * secret reference of password in connection string.
+   */
+  password?: AzureKeyVaultSecretReference;
+  /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
    * credential manager. Type: string (or Expression with resultType string).
@@ -6650,6 +6466,11 @@ export interface MySqlLinkedService {
    * @member {SecretBaseUnion} connectionString The connection string.
    */
   connectionString: SecretBaseUnion;
+  /**
+   * @member {AzureKeyVaultSecretReference} [password] The Azure key vault
+   * secret reference of password in connection string.
+   */
+  password?: AzureKeyVaultSecretReference;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -6694,76 +6515,10 @@ export interface AzureMySqlLinkedService {
    */
   connectionString: any;
   /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
+   * @member {AzureKeyVaultSecretReference} [password] The Azure key vault
+   * secret reference of password in connection string.
    */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing OracleServiceCloudLinkedService.
- * Oracle Service Cloud linked service.
- *
- */
-export interface OracleServiceCloudLinkedService {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "OracleServiceCloud";
-  /**
-   * @member {IntegrationRuntimeReference} [connectVia] The integration runtime
-   * reference.
-   */
-  connectVia?: IntegrationRuntimeReference;
-  /**
-   * @member {string} [description] Linked service description.
-   */
-  description?: string;
-  /**
-   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
-   * Parameters for linked service.
-   */
-  parameters?: { [propertyName: string]: ParameterSpecification };
-  /**
-   * @member {any[]} [annotations] List of tags that can be used for describing
-   * the Dataset.
-   */
-  annotations?: any[];
-  /**
-   * @member {any} host The URL of the Oracle Service Cloud instance.
-   */
-  host: any;
-  /**
-   * @member {any} username The user name that you use to access Oracle Service
-   * Cloud server.
-   */
-  username: any;
-  /**
-   * @member {SecretBaseUnion} password The password corresponding to the user
-   * name that you provided in the username key.
-   */
-  password: SecretBaseUnion;
-  /**
-   * @member {any} [useEncryptedEndpoints] Specifies whether the data source
-   * endpoints are encrypted using HTTPS. The default value is true. Type:
-   * boolean (or Expression with resultType boolean).
-   */
-  useEncryptedEndpoints?: any;
-  /**
-   * @member {any} [useHostVerification] Specifies whether to require the host
-   * name in the server's certificate to match the host name of the server when
-   * connecting over SSL. The default value is true. Type: boolean (or
-   * Expression with resultType boolean).
-   */
-  useHostVerification?: any;
-  /**
-   * @member {any} [usePeerVerification] Specifies whether to verify the
-   * identity of the server when connecting over SSL. The default value is
-   * true. Type: boolean (or Expression with resultType boolean).
-   */
-  usePeerVerification?: any;
+  password?: AzureKeyVaultSecretReference;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -6807,6 +6562,11 @@ export interface OracleLinkedService {
    * SecureString or AzureKeyVaultSecretReference.
    */
   connectionString: any;
+  /**
+   * @member {AzureKeyVaultSecretReference} [password] The Azure key vault
+   * secret reference of password in connection string.
+   */
+  password?: AzureKeyVaultSecretReference;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -6931,74 +6691,6 @@ export interface HDInsightLinkedService {
 
 /**
  * @interface
- * An interface representing DynamicsAXLinkedService.
- * Dynamics AX linked service.
- *
- */
-export interface DynamicsAXLinkedService {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "DynamicsAX";
-  /**
-   * @member {IntegrationRuntimeReference} [connectVia] The integration runtime
-   * reference.
-   */
-  connectVia?: IntegrationRuntimeReference;
-  /**
-   * @member {string} [description] Linked service description.
-   */
-  description?: string;
-  /**
-   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
-   * Parameters for linked service.
-   */
-  parameters?: { [propertyName: string]: ParameterSpecification };
-  /**
-   * @member {any[]} [annotations] List of tags that can be used for describing
-   * the Dataset.
-   */
-  annotations?: any[];
-  /**
-   * @member {any} url The URL of Dynamics AX OData API. Type: string (or
-   * Expression with resultType string).
-   */
-  url: any;
-  /**
-   * @member {any} [tenant] Specify the tenant information (domain name or
-   * tenant ID) under which your application resides. Type: string (or
-   * Expression with resultType string).
-   */
-  tenant?: any;
-  /**
-   * @member {any} [servicePrincipalId] Specify the application id of your
-   * application registered in Azure Active Directory. Type: string (or
-   * Expression with resultType string).
-   */
-  servicePrincipalId?: any;
-  /**
-   * @member {any} [aadResourceId] Specify the resource you are requesting
-   * authorization to use Directory. Type: string (or Expression with
-   * resultType string).
-   */
-  aadResourceId?: any;
-  /**
-   * @member {SecretBaseUnion} [servicePrincipalKey] Specify the secret of your
-   * application registered in Azure Active Directory. Type: string (or
-   * Expression with resultType string).
-   */
-  servicePrincipalKey?: SecretBaseUnion;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Either encryptedCredential or username/password must
-   * be provided. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing DynamicsLinkedService.
  * Dynamics linked service.
  *
@@ -7117,6 +6809,11 @@ export interface CosmosDbLinkedService {
    * SecureString or AzureKeyVaultSecretReference.
    */
   connectionString: any;
+  /**
+   * @member {AzureKeyVaultSecretReference} [accountKey] The Azure key vault
+   * secret reference of accountKey in connection string.
+   */
+  accountKey?: AzureKeyVaultSecretReference;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -7261,6 +6958,11 @@ export interface AzureSqlDatabaseLinkedService {
    */
   connectionString: any;
   /**
+   * @member {AzureKeyVaultSecretReference} [password] The Azure key vault
+   * secret reference of password in connection string.
+   */
+  password?: AzureKeyVaultSecretReference;
+  /**
    * @member {any} [servicePrincipalId] The ID of the service principal used to
    * authenticate against Azure SQL Database. Type: string (or Expression with
    * resultType string).
@@ -7374,6 +7076,11 @@ export interface AzureSqlDWLinkedService {
    */
   connectionString: any;
   /**
+   * @member {AzureKeyVaultSecretReference} [password] The Azure key vault
+   * secret reference of password in connection string.
+   */
+  password?: AzureKeyVaultSecretReference;
+  /**
    * @member {any} [servicePrincipalId] The ID of the service principal used to
    * authenticate against Azure SQL Data Warehouse. Type: string (or Expression
    * with resultType string).
@@ -7434,10 +7141,21 @@ export interface AzureTableStorageLinkedService {
    */
   connectionString?: any;
   /**
-   * @member {SecretBaseUnion} [sasUri] SAS URI of the Azure Storage resource.
-   * It is mutually exclusive with connectionString property.
+   * @member {AzureKeyVaultSecretReference} [accountKey] The Azure key vault
+   * secret reference of accountKey in connection string.
    */
-  sasUri?: SecretBaseUnion;
+  accountKey?: AzureKeyVaultSecretReference;
+  /**
+   * @member {any} [sasUri] SAS URI of the Azure Storage resource. It is
+   * mutually exclusive with connectionString property. Type: string,
+   * SecureString or AzureKeyVaultSecretReference.
+   */
+  sasUri?: any;
+  /**
+   * @member {AzureKeyVaultSecretReference} [sasToken] The Azure key vault
+   * secret reference of sasToken in sas uri.
+   */
+  sasToken?: AzureKeyVaultSecretReference;
   /**
    * @member {string} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -7483,11 +7201,21 @@ export interface AzureBlobStorageLinkedService {
    */
   connectionString?: any;
   /**
-   * @member {SecretBaseUnion} [sasUri] SAS URI of the Azure Blob Storage
-   * resource. It is mutually exclusive with connectionString, serviceEndpoint
-   * property.
+   * @member {AzureKeyVaultSecretReference} [accountKey] The Azure key vault
+   * secret reference of accountKey in connection string.
    */
-  sasUri?: SecretBaseUnion;
+  accountKey?: AzureKeyVaultSecretReference;
+  /**
+   * @member {any} [sasUri] SAS URI of the Azure Blob Storage resource. It is
+   * mutually exclusive with connectionString, serviceEndpoint property. Type:
+   * string, SecureString or AzureKeyVaultSecretReference.
+   */
+  sasUri?: any;
+  /**
+   * @member {AzureKeyVaultSecretReference} [sasToken] The Azure key vault
+   * secret reference of sasToken in sas uri.
+   */
+  sasToken?: AzureKeyVaultSecretReference;
   /**
    * @member {string} [serviceEndpoint] Blob service endpoint of the Azure Blob
    * Storage resource. It is mutually exclusive with connectionString, sasUri
@@ -7555,10 +7283,21 @@ export interface AzureStorageLinkedService {
    */
   connectionString?: any;
   /**
-   * @member {SecretBaseUnion} [sasUri] SAS URI of the Azure Storage resource.
-   * It is mutually exclusive with connectionString property.
+   * @member {AzureKeyVaultSecretReference} [accountKey] The Azure key vault
+   * secret reference of accountKey in connection string.
    */
-  sasUri?: SecretBaseUnion;
+  accountKey?: AzureKeyVaultSecretReference;
+  /**
+   * @member {any} [sasUri] SAS URI of the Azure Storage resource. It is
+   * mutually exclusive with connectionString property. Type: string,
+   * SecureString or AzureKeyVaultSecretReference.
+   */
+  sasUri?: any;
+  /**
+   * @member {AzureKeyVaultSecretReference} [sasToken] The Azure key vault
+   * secret reference of sasToken in sas uri.
+   */
+  sasToken?: AzureKeyVaultSecretReference;
   /**
    * @member {string} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -8601,49 +8340,6 @@ export interface GoogleBigQueryObjectDataset {
 
 /**
  * @interface
- * An interface representing GoogleAdWordsObjectDataset.
- * Google AdWords service dataset.
- *
- */
-export interface GoogleAdWordsObjectDataset {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "GoogleAdWordsObject";
-  /**
-   * @member {string} [description] Dataset description.
-   */
-  description?: string;
-  /**
-   * @member {any} [structure] Columns that define the structure of the
-   * dataset. Type: array (or Expression with resultType array), itemType:
-   * DatasetDataElement.
-   */
-  structure?: any;
-  /**
-   * @member {LinkedServiceReference} linkedServiceName Linked service
-   * reference.
-   */
-  linkedServiceName: LinkedServiceReference;
-  /**
-   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
-   * Parameters for dataset.
-   */
-  parameters?: { [propertyName: string]: ParameterSpecification };
-  /**
-   * @member {any[]} [annotations] List of tags that can be used for describing
-   * the Dataset.
-   */
-  annotations?: any[];
-  /**
-   * @member {DatasetFolder} [folder] The folder that this Dataset is in. If
-   * not specified, Dataset will appear at the root level.
-   */
-  folder?: DatasetFolder;
-}
-
-/**
- * @interface
  * An interface representing EloquaObjectDataset.
  * Eloqua server dataset.
  *
@@ -8898,77 +8594,6 @@ export interface AmazonMWSObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
-}
-
-/**
- * @interface
- * An interface representing RestServiceDataset.
- * A Rest service dataset.
- *
- */
-export interface RestServiceDataset {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "RestResource";
-  /**
-   * @member {string} [description] Dataset description.
-   */
-  description?: string;
-  /**
-   * @member {any} [structure] Columns that define the structure of the
-   * dataset. Type: array (or Expression with resultType array), itemType:
-   * DatasetDataElement.
-   */
-  structure?: any;
-  /**
-   * @member {LinkedServiceReference} linkedServiceName Linked service
-   * reference.
-   */
-  linkedServiceName: LinkedServiceReference;
-  /**
-   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
-   * Parameters for dataset.
-   */
-  parameters?: { [propertyName: string]: ParameterSpecification };
-  /**
-   * @member {any[]} [annotations] List of tags that can be used for describing
-   * the Dataset.
-   */
-  annotations?: any[];
-  /**
-   * @member {DatasetFolder} [folder] The folder that this Dataset is in. If
-   * not specified, Dataset will appear at the root level.
-   */
-  folder?: DatasetFolder;
-  /**
-   * @member {any} [relativeUrl] The relative URL to the resource that the
-   * RESTful API provides. Type: string (or Expression with resultType string).
-   */
-  relativeUrl?: any;
-  /**
-   * @member {any} [requestMethod] The HTTP method used to call the RESTful
-   * API. The default is GET. Type: string (or Expression with resultType
-   * string).
-   */
-  requestMethod?: any;
-  /**
-   * @member {any} [requestBody] The HTTP request body to the RESTful API if
-   * requestMethod is POST. Type: string (or Expression with resultType
-   * string).
-   */
-  requestBody?: any;
-  /**
-   * @member {any} [additionalHeaders] The additional HTTP headers in the
-   * request to the RESTful API. Type: string (or Expression with resultType
-   * string).
-   */
-  additionalHeaders?: any;
-  /**
-   * @member {any} [paginationRules] The pagination rules to compose next page
-   * requests.
-   */
-  paginationRules?: any;
 }
 
 /**
@@ -9766,49 +9391,6 @@ export interface AzureMySqlTableDataset {
 
 /**
  * @interface
- * An interface representing OracleServiceCloudObjectDataset.
- * Oracle Service Cloud dataset.
- *
- */
-export interface OracleServiceCloudObjectDataset {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "OracleServiceCloudObject";
-  /**
-   * @member {string} [description] Dataset description.
-   */
-  description?: string;
-  /**
-   * @member {any} [structure] Columns that define the structure of the
-   * dataset. Type: array (or Expression with resultType array), itemType:
-   * DatasetDataElement.
-   */
-  structure?: any;
-  /**
-   * @member {LinkedServiceReference} linkedServiceName Linked service
-   * reference.
-   */
-  linkedServiceName: LinkedServiceReference;
-  /**
-   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
-   * Parameters for dataset.
-   */
-  parameters?: { [propertyName: string]: ParameterSpecification };
-  /**
-   * @member {any[]} [annotations] List of tags that can be used for describing
-   * the Dataset.
-   */
-  annotations?: any[];
-  /**
-   * @member {DatasetFolder} [folder] The folder that this Dataset is in. If
-   * not specified, Dataset will appear at the root level.
-   */
-  folder?: DatasetFolder;
-}
-
-/**
- * @interface
  * An interface representing OracleTableDataset.
  * The on-premises Oracle database dataset.
  *
@@ -10003,12 +9585,6 @@ export interface FileShareDataset {
    */
   fileName?: any;
   /**
-   * @member {any} [wildcardPath] The whole path include file name of the
-   * on-premises file system with wildcard supported. Type: string (or
-   * Expression with resultType string).
-   */
-  wildcardPath?: any;
-  /**
    * @member {DatasetStorageFormatUnion} [format] The format of the files.
    */
   format?: DatasetStorageFormatUnion;
@@ -10067,10 +9643,10 @@ export interface AzureDataLakeStoreDataset {
    */
   folder?: DatasetFolder;
   /**
-   * @member {any} [folderPath] Path to the folder in the Azure Data Lake
-   * Store. Type: string (or Expression with resultType string).
+   * @member {any} folderPath Path to the folder in the Azure Data Lake Store.
+   * Type: string (or Expression with resultType string).
    */
-  folderPath?: any;
+  folderPath: any;
   /**
    * @member {any} [fileName] The name of the file in the Azure Data Lake
    * Store. Type: string (or Expression with resultType string).
@@ -10082,64 +9658,10 @@ export interface AzureDataLakeStoreDataset {
    */
   format?: DatasetStorageFormatUnion;
   /**
-   * @member {any} [wildcardPath] The whole path include file name in the Azure
-   * Data Lake Store with wildcard supported. Type: string (or Expression with
-   * resultType string).
-   */
-  wildcardPath?: any;
-  /**
    * @member {DatasetCompressionUnion} [compression] The data compression
    * method used for the item(s) in the Azure Data Lake Store.
    */
   compression?: DatasetCompressionUnion;
-}
-
-/**
- * @interface
- * An interface representing DynamicsAXResourceDataset.
- * The path of the Dynamics AX OData entity.
- *
- */
-export interface DynamicsAXResourceDataset {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "DynamicsAXResource";
-  /**
-   * @member {string} [description] Dataset description.
-   */
-  description?: string;
-  /**
-   * @member {any} [structure] Columns that define the structure of the
-   * dataset. Type: array (or Expression with resultType array), itemType:
-   * DatasetDataElement.
-   */
-  structure?: any;
-  /**
-   * @member {LinkedServiceReference} linkedServiceName Linked service
-   * reference.
-   */
-  linkedServiceName: LinkedServiceReference;
-  /**
-   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
-   * Parameters for dataset.
-   */
-  parameters?: { [propertyName: string]: ParameterSpecification };
-  /**
-   * @member {any[]} [annotations] List of tags that can be used for describing
-   * the Dataset.
-   */
-  annotations?: any[];
-  /**
-   * @member {DatasetFolder} [folder] The folder that this Dataset is in. If
-   * not specified, Dataset will appear at the root level.
-   */
-  folder?: DatasetFolder;
-  /**
-   * @member {string} path The path of the Dynamics AX OData entity. Type:
-   * string (or Expression with resultType string).
-   */
-  path: string;
 }
 
 /**
@@ -10539,12 +10061,6 @@ export interface AzureBlobDataset {
    */
   fileName?: any;
   /**
-   * @member {any} [wildcardPath] The whole path include file name of the Azure
-   * Blob storage with wildcard supported. Type: string (or Expression with
-   * resultType string).
-   */
-  wildcardPath?: any;
-  /**
    * @member {DatasetStorageFormatUnion} [format] The format of the Azure Blob
    * storage.
    */
@@ -10613,11 +10129,6 @@ export interface AmazonS3Dataset {
    */
   prefix?: any;
   /**
-   * @member {any} [wildcardPath] The path of the S3 object with wildcard
-   * supported. Type: string (or Expression with resultType string).
-   */
-  wildcardPath?: any;
-  /**
    * @member {any} [version] The version for the S3 object. Type: string (or
    * Expression with resultType string).
    */
@@ -10676,7 +10187,7 @@ export interface ActivityPolicy {
 /**
  * Contains the possible cases for ExecutionActivity.
  */
-export type ExecutionActivityUnion = ExecutionActivity | DatabricksSparkPythonActivity | DatabricksSparkJarActivity | DatabricksNotebookActivity | DataLakeAnalyticsUSQLActivity | AzureMLUpdateResourceActivity | AzureMLBatchExecutionActivity | GetMetadataActivity | WebActivity | LookupActivity | SqlServerStoredProcedureActivity | CustomActivity | ExecuteSSISPackageActivity | HDInsightSparkActivity | HDInsightStreamingActivity | HDInsightMapReduceActivity | HDInsightPigActivity | HDInsightHiveActivity | CopyActivity;
+export type ExecutionActivityUnion = ExecutionActivity | DatabricksSparkPythonActivity | DatabricksSparkJarActivity | DatabricksNotebookActivity | DataLakeAnalyticsUSQLActivity | AzureMLUpdateResourceActivity | AzureMLBatchExecutionActivity | GetMetadataActivity | WebActivity | LookupActivity | DeleteActivity | SqlServerStoredProcedureActivity | CustomActivity | ExecuteSSISPackageActivity | HDInsightSparkActivity | HDInsightStreamingActivity | HDInsightMapReduceActivity | HDInsightPigActivity | HDInsightHiveActivity | CopyActivity;
 
 /**
  * @interface
@@ -11278,7 +10789,7 @@ export interface RedshiftUnloadSettings {
 /**
  * Contains the possible cases for CopySource.
  */
-export type CopySourceUnion = CopySource | AmazonRedshiftSource | ResponsysSource | SalesforceMarketingCloudSource | VerticaSource | NetezzaSource | ZohoSource | XeroSource | SquareSource | SparkSource | ShopifySource | ServiceNowSource | QuickBooksSource | PrestoSource | PhoenixSource | PaypalSource | MarketoSource | MariaDBSource | MagentoSource | JiraSource | ImpalaSource | HubspotSource | HiveSource | HBaseSource | GreenplumSource | GoogleBigQuerySource | GoogleAdWordsSource | EloquaSource | DrillSource | CouchbaseSource | ConcurSource | AzurePostgreSqlSource | AmazonMWSSource | RestServiceSource | HttpSource | AzureDataLakeStoreSource | MongoDbSource | CassandraSource | WebSource | OracleServiceCloudSource | OracleSource | AzureMySqlSource | HdfsSource | FileSystemSource | SqlDWSource | SqlSource | SapEccSource | SapCloudForCustomerSource | SalesforceSource | RelationalSource | DynamicsAXSource | DynamicsSource | DocumentDbCollectionSource | BlobSource | AzureTableSource;
+export type CopySourceUnion = CopySource | AmazonRedshiftSource | ResponsysSource | SalesforceMarketingCloudSource | VerticaSource | NetezzaSource | ZohoSource | XeroSource | SquareSource | SparkSource | ShopifySource | ServiceNowSource | QuickBooksSource | PrestoSource | PhoenixSource | PaypalSource | MarketoSource | MariaDBSource | MagentoSource | JiraSource | ImpalaSource | HubspotSource | HiveSource | HBaseSource | GreenplumSource | GoogleBigQuerySource | EloquaSource | DrillSource | CouchbaseSource | ConcurSource | AzurePostgreSqlSource | AmazonMWSSource | HttpSource | AzureDataLakeStoreSource | MongoDbSource | CassandraSource | WebSource | OracleSource | AzureMySqlSource | HdfsSource | FileSystemSource | SqlDWSource | SqlSource | SapEccSource | SapCloudForCustomerSource | SalesforceSource | RelationalSource | DynamicsSource | DocumentDbCollectionSource | BlobSource | AzureTableSource;
 
 /**
  * @interface
@@ -12044,35 +11555,6 @@ export interface GoogleBigQuerySource {
 
 /**
  * @interface
- * An interface representing GoogleAdWordsSource.
- * A copy activity Google AdWords service source.
- *
- */
-export interface GoogleAdWordsSource {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "GoogleAdWordsSource";
-  /**
-   * @member {any} [sourceRetryCount] Source retry count. Type: integer (or
-   * Expression with resultType integer).
-   */
-  sourceRetryCount?: any;
-  /**
-   * @member {any} [sourceRetryWait] Source retry wait. Type: string (or
-   * Expression with resultType string), pattern:
-   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  sourceRetryWait?: any;
-  /**
-   * @member {any} [query] A query to retrieve data from source. Type: string
-   * (or Expression with resultType string).
-   */
-  query?: any;
-}
-
-/**
- * @interface
  * An interface representing EloquaSource.
  * A copy activity Eloqua server source.
  *
@@ -12247,45 +11729,6 @@ export interface AmazonMWSSource {
 
 /**
  * @interface
- * An interface representing RestServiceSource.
- * A copy activity Rest service source.
- *
- */
-export interface RestServiceSource {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "RestServiceSource";
-  /**
-   * @member {any} [sourceRetryCount] Source retry count. Type: integer (or
-   * Expression with resultType integer).
-   */
-  sourceRetryCount?: any;
-  /**
-   * @member {any} [sourceRetryWait] Source retry wait. Type: string (or
-   * Expression with resultType string), pattern:
-   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  sourceRetryWait?: any;
-  /**
-   * @member {any} [httpRequestTimeout] The timeout (TimeSpan) to get an HTTP
-   * response.  It is the timeout to get a response, not the timeout to read
-   * response data.  Default value: 00:01:40. Type: string (or Expression with
-   * resultType string), pattern:
-   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  httpRequestTimeout?: any;
-  /**
-   * @member {any} [requestInterval] The time to await before sending next page
-   * request.  Default value: 00:00:01. Type: string (or Expression with
-   * resultType string), pattern:
-   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  requestInterval?: any;
-}
-
-/**
- * @interface
  * An interface representing HttpSource.
  * A copy activity source for an HTTP file.
  *
@@ -12438,35 +11881,6 @@ export interface WebSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
-}
-
-/**
- * @interface
- * An interface representing OracleServiceCloudSource.
- * A copy activity Oracle Service Cloud source.
- *
- */
-export interface OracleServiceCloudSource {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "OracleServiceCloudSource";
-  /**
-   * @member {any} [sourceRetryCount] Source retry count. Type: integer (or
-   * Expression with resultType integer).
-   */
-  sourceRetryCount?: any;
-  /**
-   * @member {any} [sourceRetryWait] Source retry wait. Type: string (or
-   * Expression with resultType string), pattern:
-   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  sourceRetryWait?: any;
-  /**
-   * @member {any} [query] A query to retrieve data from source. Type: string
-   * (or Expression with resultType string).
-   */
-  query?: any;
 }
 
 /**
@@ -12674,10 +12088,10 @@ export interface SqlDWSource {
  */
 export interface StoredProcedureParameter {
   /**
-   * @member {any} [value] Stored procedure parameter value. Type: string (or
+   * @member {any} value Stored procedure parameter value. Type: string (or
    * Expression with resultType string).
    */
-  value?: any;
+  value: any;
   /**
    * @member {StoredProcedureParameterType} [type] Stored procedure parameter
    * type. Possible values include: 'String', 'Int', 'Decimal', 'Guid',
@@ -12845,35 +12259,6 @@ export interface RelationalSource {
   /**
    * @member {any} [query] Database query. Type: string (or Expression with
    * resultType string).
-   */
-  query?: any;
-}
-
-/**
- * @interface
- * An interface representing DynamicsAXSource.
- * A copy activity Dynamics AX source.
- *
- */
-export interface DynamicsAXSource {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "DynamicsAXSource";
-  /**
-   * @member {any} [sourceRetryCount] Source retry count. Type: integer (or
-   * Expression with resultType integer).
-   */
-  sourceRetryCount?: any;
-  /**
-   * @member {any} [sourceRetryWait] Source retry wait. Type: string (or
-   * Expression with resultType string), pattern:
-   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  sourceRetryWait?: any;
-  /**
-   * @member {any} [query] A query to retrieve data from source. Type: string
-   * (or Expression with resultType string).
    */
   query?: any;
 }
@@ -13068,6 +12453,54 @@ export interface LookupActivity {
    * boolean).
    */
   firstRowOnly?: any;
+}
+
+/**
+ * @interface
+ * An interface representing DeleteActivity.
+ * Delete activity.
+ *
+ */
+export interface DeleteActivity {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "Delete";
+  /**
+   * @member {string} name Activity name.
+   */
+  name: string;
+  /**
+   * @member {string} [description] Activity description.
+   */
+  description?: string;
+  /**
+   * @member {ActivityDependency[]} [dependsOn] Activity depends on condition.
+   */
+  dependsOn?: ActivityDependency[];
+  /**
+   * @member {UserProperty[]} [userProperties] Activity user properties.
+   */
+  userProperties?: UserProperty[];
+  /**
+   * @member {LinkedServiceReference} [linkedServiceName] Linked service
+   * reference.
+   */
+  linkedServiceName?: LinkedServiceReference;
+  /**
+   * @member {ActivityPolicy} [policy] Activity policy.
+   */
+  policy?: ActivityPolicy;
+  /**
+   * @member {any} [recursive] If true, files under the folder path will be
+   * deleted recursively. Default is true. Type: boolean (or Expression with
+   * resultType boolean).
+   */
+  recursive?: any;
+  /**
+   * @member {DatasetReference} dataset Delete activity dataset reference.
+   */
+  dataset: DatasetReference;
 }
 
 /**
@@ -16342,1100 +15775,484 @@ export interface RerunTriggerListResponse extends Array<RerunTriggerResource> {
 
 /**
  * Defines values for IntegrationRuntimeState.
- * Possible values include: 'Initial', 'Stopped', 'Started', 'Starting',
- * 'Stopping', 'NeedRegistration', 'Online', 'Limited', 'Offline',
- * 'AccessDenied'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IntegrationRuntimeState =
- * <IntegrationRuntimeState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Initial', 'Stopped', 'Started', 'Starting', 'Stopping',
+ * 'NeedRegistration', 'Online', 'Limited', 'Offline', 'AccessDenied'
  * @readonly
  * @enum {string}
  */
-export enum IntegrationRuntimeState {
-  Initial = 'Initial',
-  Stopped = 'Stopped',
-  Started = 'Started',
-  Starting = 'Starting',
-  Stopping = 'Stopping',
-  NeedRegistration = 'NeedRegistration',
-  Online = 'Online',
-  Limited = 'Limited',
-  Offline = 'Offline',
-  AccessDenied = 'AccessDenied',
-}
+export type IntegrationRuntimeState = 'Initial' | 'Stopped' | 'Started' | 'Starting' | 'Stopping' | 'NeedRegistration' | 'Online' | 'Limited' | 'Offline' | 'AccessDenied';
 
 /**
  * Defines values for IntegrationRuntimeAutoUpdate.
  * Possible values include: 'On', 'Off'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IntegrationRuntimeAutoUpdate =
- * <IntegrationRuntimeAutoUpdate>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IntegrationRuntimeAutoUpdate {
-  On = 'On',
-  Off = 'Off',
-}
+export type IntegrationRuntimeAutoUpdate = 'On' | 'Off';
 
 /**
  * Defines values for ParameterType.
- * Possible values include: 'Object', 'String', 'Int', 'Float', 'Bool',
- * 'Array', 'SecureString'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ParameterType =
- * <ParameterType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Object', 'String', 'Int', 'Float', 'Bool', 'Array', 'SecureString'
  * @readonly
  * @enum {string}
  */
-export enum ParameterType {
-  Object = 'Object',
-  String = 'String',
-  Int = 'Int',
-  Float = 'Float',
-  Bool = 'Bool',
-  Array = 'Array',
-  SecureString = 'SecureString',
-}
+export type ParameterType = 'Object' | 'String' | 'Int' | 'Float' | 'Bool' | 'Array' | 'SecureString';
 
 /**
  * Defines values for DependencyCondition.
  * Possible values include: 'Succeeded', 'Failed', 'Skipped', 'Completed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DependencyCondition =
- * <DependencyCondition>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum DependencyCondition {
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-  Skipped = 'Skipped',
-  Completed = 'Completed',
-}
+export type DependencyCondition = 'Succeeded' | 'Failed' | 'Skipped' | 'Completed';
 
 /**
  * Defines values for VariableType.
  * Possible values include: 'String', 'Bool', 'Array'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VariableType =
- * <VariableType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VariableType {
-  String = 'String',
-  Bool = 'Bool',
-  Array = 'Array',
-}
+export type VariableType = 'String' | 'Bool' | 'Array';
 
 /**
  * Defines values for TriggerRuntimeState.
  * Possible values include: 'Started', 'Stopped', 'Disabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TriggerRuntimeState =
- * <TriggerRuntimeState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum TriggerRuntimeState {
-  Started = 'Started',
-  Stopped = 'Stopped',
-  Disabled = 'Disabled',
-}
+export type TriggerRuntimeState = 'Started' | 'Stopped' | 'Disabled';
 
 /**
  * Defines values for RunQueryFilterOperand.
- * Possible values include: 'PipelineName', 'Status', 'RunStart', 'RunEnd',
- * 'ActivityName', 'ActivityRunStart', 'ActivityRunEnd', 'ActivityType',
- * 'TriggerName', 'TriggerRunTimestamp'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RunQueryFilterOperand =
- * <RunQueryFilterOperand>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'PipelineName', 'Status', 'RunStart', 'RunEnd', 'ActivityName',
+ * 'ActivityRunStart', 'ActivityRunEnd', 'ActivityType', 'TriggerName', 'TriggerRunTimestamp'
  * @readonly
  * @enum {string}
  */
-export enum RunQueryFilterOperand {
-  PipelineName = 'PipelineName',
-  Status = 'Status',
-  RunStart = 'RunStart',
-  RunEnd = 'RunEnd',
-  ActivityName = 'ActivityName',
-  ActivityRunStart = 'ActivityRunStart',
-  ActivityRunEnd = 'ActivityRunEnd',
-  ActivityType = 'ActivityType',
-  TriggerName = 'TriggerName',
-  TriggerRunTimestamp = 'TriggerRunTimestamp',
-}
+export type RunQueryFilterOperand = 'PipelineName' | 'Status' | 'RunStart' | 'RunEnd' | 'ActivityName' | 'ActivityRunStart' | 'ActivityRunEnd' | 'ActivityType' | 'TriggerName' | 'TriggerRunTimestamp';
 
 /**
  * Defines values for RunQueryFilterOperator.
  * Possible values include: 'Equals', 'NotEquals', 'In', 'NotIn'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RunQueryFilterOperator =
- * <RunQueryFilterOperator>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum RunQueryFilterOperator {
-  Equals = 'Equals',
-  NotEquals = 'NotEquals',
-  In = 'In',
-  NotIn = 'NotIn',
-}
+export type RunQueryFilterOperator = 'Equals' | 'NotEquals' | 'In' | 'NotIn';
 
 /**
  * Defines values for RunQueryOrderByField.
- * Possible values include: 'RunStart', 'RunEnd', 'PipelineName', 'Status',
- * 'ActivityName', 'ActivityRunStart', 'ActivityRunEnd', 'TriggerName',
- * 'TriggerRunTimestamp'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RunQueryOrderByField =
- * <RunQueryOrderByField>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'RunStart', 'RunEnd', 'PipelineName', 'Status', 'ActivityName',
+ * 'ActivityRunStart', 'ActivityRunEnd', 'TriggerName', 'TriggerRunTimestamp'
  * @readonly
  * @enum {string}
  */
-export enum RunQueryOrderByField {
-  RunStart = 'RunStart',
-  RunEnd = 'RunEnd',
-  PipelineName = 'PipelineName',
-  Status = 'Status',
-  ActivityName = 'ActivityName',
-  ActivityRunStart = 'ActivityRunStart',
-  ActivityRunEnd = 'ActivityRunEnd',
-  TriggerName = 'TriggerName',
-  TriggerRunTimestamp = 'TriggerRunTimestamp',
-}
+export type RunQueryOrderByField = 'RunStart' | 'RunEnd' | 'PipelineName' | 'Status' | 'ActivityName' | 'ActivityRunStart' | 'ActivityRunEnd' | 'TriggerName' | 'TriggerRunTimestamp';
 
 /**
  * Defines values for RunQueryOrder.
  * Possible values include: 'ASC', 'DESC'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RunQueryOrder =
- * <RunQueryOrder>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum RunQueryOrder {
-  ASC = 'ASC',
-  DESC = 'DESC',
-}
+export type RunQueryOrder = 'ASC' | 'DESC';
 
 /**
  * Defines values for TriggerRunStatus.
  * Possible values include: 'Succeeded', 'Failed', 'Inprogress'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TriggerRunStatus =
- * <TriggerRunStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum TriggerRunStatus {
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-  Inprogress = 'Inprogress',
-}
+export type TriggerRunStatus = 'Succeeded' | 'Failed' | 'Inprogress';
 
 /**
  * Defines values for TumblingWindowFrequency.
  * Possible values include: 'Minute', 'Hour'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TumblingWindowFrequency =
- * <TumblingWindowFrequency>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum TumblingWindowFrequency {
-  Minute = 'Minute',
-  Hour = 'Hour',
-}
+export type TumblingWindowFrequency = 'Minute' | 'Hour';
 
 /**
  * Defines values for BlobEventTypes.
- * Possible values include: 'Microsoft.Storage.BlobCreated',
- * 'Microsoft.Storage.BlobDeleted'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: BlobEventTypes =
- * <BlobEventTypes>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Microsoft.Storage.BlobCreated', 'Microsoft.Storage.BlobDeleted'
  * @readonly
  * @enum {string}
  */
-export enum BlobEventTypes {
-  MicrosoftStorageBlobCreated = 'Microsoft.Storage.BlobCreated',
-  MicrosoftStorageBlobDeleted = 'Microsoft.Storage.BlobDeleted',
-}
+export type BlobEventTypes = 'Microsoft.Storage.BlobCreated' | 'Microsoft.Storage.BlobDeleted';
 
 /**
  * Defines values for DayOfWeek.
- * Possible values include: 'Sunday', 'Monday', 'Tuesday', 'Wednesday',
- * 'Thursday', 'Friday', 'Saturday'
+ * Possible values include: 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
+ * 'Saturday'
  * @readonly
  * @enum {string}
  */
-export enum DayOfWeek {
-  Sunday = 'Sunday',
-  Monday = 'Monday',
-  Tuesday = 'Tuesday',
-  Wednesday = 'Wednesday',
-  Thursday = 'Thursday',
-  Friday = 'Friday',
-  Saturday = 'Saturday',
-}
+export type DayOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
 
 /**
  * Defines values for DaysOfWeek.
- * Possible values include: 'Sunday', 'Monday', 'Tuesday', 'Wednesday',
- * 'Thursday', 'Friday', 'Saturday'
+ * Possible values include: 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
+ * 'Saturday'
  * @readonly
  * @enum {string}
  */
-export enum DaysOfWeek {
-  Sunday = 'Sunday',
-  Monday = 'Monday',
-  Tuesday = 'Tuesday',
-  Wednesday = 'Wednesday',
-  Thursday = 'Thursday',
-  Friday = 'Friday',
-  Saturday = 'Saturday',
-}
+export type DaysOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
 
 /**
  * Defines values for RecurrenceFrequency.
- * Possible values include: 'NotSpecified', 'Minute', 'Hour', 'Day', 'Week',
- * 'Month', 'Year'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RecurrenceFrequency =
- * <RecurrenceFrequency>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotSpecified', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Year'
  * @readonly
  * @enum {string}
  */
-export enum RecurrenceFrequency {
-  NotSpecified = 'NotSpecified',
-  Minute = 'Minute',
-  Hour = 'Hour',
-  Day = 'Day',
-  Week = 'Week',
-  Month = 'Month',
-  Year = 'Year',
-}
+export type RecurrenceFrequency = 'NotSpecified' | 'Minute' | 'Hour' | 'Day' | 'Week' | 'Month' | 'Year';
 
 /**
  * Defines values for SparkServerType.
  * Possible values include: 'SharkServer', 'SharkServer2', 'SparkThriftServer'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SparkServerType =
- * <SparkServerType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SparkServerType {
-  SharkServer = 'SharkServer',
-  SharkServer2 = 'SharkServer2',
-  SparkThriftServer = 'SparkThriftServer',
-}
+export type SparkServerType = 'SharkServer' | 'SharkServer2' | 'SparkThriftServer';
 
 /**
  * Defines values for SparkThriftTransportProtocol.
  * Possible values include: 'Binary', 'SASL', 'HTTP '
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SparkThriftTransportProtocol =
- * <SparkThriftTransportProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SparkThriftTransportProtocol {
-  Binary = 'Binary',
-  SASL = 'SASL',
-  HTTP = 'HTTP ',
-}
+export type SparkThriftTransportProtocol = 'Binary' | 'SASL' | 'HTTP ';
 
 /**
  * Defines values for SparkAuthenticationType.
  * Possible values include: 'Anonymous', 'Username', 'UsernameAndPassword',
  * 'WindowsAzureHDInsightService'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SparkAuthenticationType =
- * <SparkAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SparkAuthenticationType {
-  Anonymous = 'Anonymous',
-  Username = 'Username',
-  UsernameAndPassword = 'UsernameAndPassword',
-  WindowsAzureHDInsightService = 'WindowsAzureHDInsightService',
-}
+export type SparkAuthenticationType = 'Anonymous' | 'Username' | 'UsernameAndPassword' | 'WindowsAzureHDInsightService';
 
 /**
  * Defines values for ServiceNowAuthenticationType.
  * Possible values include: 'Basic', 'OAuth2'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ServiceNowAuthenticationType =
- * <ServiceNowAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ServiceNowAuthenticationType {
-  Basic = 'Basic',
-  OAuth2 = 'OAuth2',
-}
+export type ServiceNowAuthenticationType = 'Basic' | 'OAuth2';
 
 /**
  * Defines values for PrestoAuthenticationType.
  * Possible values include: 'Anonymous', 'LDAP'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PrestoAuthenticationType =
- * <PrestoAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PrestoAuthenticationType {
-  Anonymous = 'Anonymous',
-  LDAP = 'LDAP',
-}
+export type PrestoAuthenticationType = 'Anonymous' | 'LDAP';
 
 /**
  * Defines values for PhoenixAuthenticationType.
- * Possible values include: 'Anonymous', 'UsernameAndPassword',
- * 'WindowsAzureHDInsightService'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PhoenixAuthenticationType =
- * <PhoenixAuthenticationType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Anonymous', 'UsernameAndPassword', 'WindowsAzureHDInsightService'
  * @readonly
  * @enum {string}
  */
-export enum PhoenixAuthenticationType {
-  Anonymous = 'Anonymous',
-  UsernameAndPassword = 'UsernameAndPassword',
-  WindowsAzureHDInsightService = 'WindowsAzureHDInsightService',
-}
+export type PhoenixAuthenticationType = 'Anonymous' | 'UsernameAndPassword' | 'WindowsAzureHDInsightService';
 
 /**
  * Defines values for ImpalaAuthenticationType.
  * Possible values include: 'Anonymous', 'SASLUsername', 'UsernameAndPassword'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ImpalaAuthenticationType =
- * <ImpalaAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ImpalaAuthenticationType {
-  Anonymous = 'Anonymous',
-  SASLUsername = 'SASLUsername',
-  UsernameAndPassword = 'UsernameAndPassword',
-}
+export type ImpalaAuthenticationType = 'Anonymous' | 'SASLUsername' | 'UsernameAndPassword';
 
 /**
  * Defines values for HiveServerType.
  * Possible values include: 'HiveServer1', 'HiveServer2', 'HiveThriftServer'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HiveServerType =
- * <HiveServerType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum HiveServerType {
-  HiveServer1 = 'HiveServer1',
-  HiveServer2 = 'HiveServer2',
-  HiveThriftServer = 'HiveThriftServer',
-}
+export type HiveServerType = 'HiveServer1' | 'HiveServer2' | 'HiveThriftServer';
 
 /**
  * Defines values for HiveThriftTransportProtocol.
  * Possible values include: 'Binary', 'SASL', 'HTTP '
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HiveThriftTransportProtocol =
- * <HiveThriftTransportProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum HiveThriftTransportProtocol {
-  Binary = 'Binary',
-  SASL = 'SASL',
-  HTTP = 'HTTP ',
-}
+export type HiveThriftTransportProtocol = 'Binary' | 'SASL' | 'HTTP ';
 
 /**
  * Defines values for HiveAuthenticationType.
  * Possible values include: 'Anonymous', 'Username', 'UsernameAndPassword',
  * 'WindowsAzureHDInsightService'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HiveAuthenticationType =
- * <HiveAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum HiveAuthenticationType {
-  Anonymous = 'Anonymous',
-  Username = 'Username',
-  UsernameAndPassword = 'UsernameAndPassword',
-  WindowsAzureHDInsightService = 'WindowsAzureHDInsightService',
-}
+export type HiveAuthenticationType = 'Anonymous' | 'Username' | 'UsernameAndPassword' | 'WindowsAzureHDInsightService';
 
 /**
  * Defines values for HBaseAuthenticationType.
  * Possible values include: 'Anonymous', 'Basic'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HBaseAuthenticationType =
- * <HBaseAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum HBaseAuthenticationType {
-  Anonymous = 'Anonymous',
-  Basic = 'Basic',
-}
+export type HBaseAuthenticationType = 'Anonymous' | 'Basic';
 
 /**
  * Defines values for GoogleBigQueryAuthenticationType.
  * Possible values include: 'ServiceAuthentication', 'UserAuthentication'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: GoogleBigQueryAuthenticationType =
- * <GoogleBigQueryAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum GoogleBigQueryAuthenticationType {
-  ServiceAuthentication = 'ServiceAuthentication',
-  UserAuthentication = 'UserAuthentication',
-}
-
-/**
- * Defines values for GoogleAdWordsAuthenticationType.
- * Possible values include: 'ServiceAuthentication', 'UserAuthentication'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: GoogleAdWordsAuthenticationType =
- * <GoogleAdWordsAuthenticationType>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum GoogleAdWordsAuthenticationType {
-  ServiceAuthentication = 'ServiceAuthentication',
-  UserAuthentication = 'UserAuthentication',
-}
+export type GoogleBigQueryAuthenticationType = 'ServiceAuthentication' | 'UserAuthentication';
 
 /**
  * Defines values for SapHanaAuthenticationType.
  * Possible values include: 'Basic', 'Windows'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SapHanaAuthenticationType =
- * <SapHanaAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SapHanaAuthenticationType {
-  Basic = 'Basic',
-  Windows = 'Windows',
-}
+export type SapHanaAuthenticationType = 'Basic' | 'Windows';
 
 /**
  * Defines values for SftpAuthenticationType.
  * Possible values include: 'Basic', 'SshPublicKey'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SftpAuthenticationType =
- * <SftpAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SftpAuthenticationType {
-  Basic = 'Basic',
-  SshPublicKey = 'SshPublicKey',
-}
+export type SftpAuthenticationType = 'Basic' | 'SshPublicKey';
 
 /**
  * Defines values for FtpAuthenticationType.
  * Possible values include: 'Basic', 'Anonymous'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: FtpAuthenticationType =
- * <FtpAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum FtpAuthenticationType {
-  Basic = 'Basic',
-  Anonymous = 'Anonymous',
-}
-
-/**
- * Defines values for RestServiceAuthenticationType.
- * Possible values include: 'Anonymous', 'Basic', 'AadServicePrincial',
- * 'ManagedServiceIdentity'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RestServiceAuthenticationType =
- * <RestServiceAuthenticationType>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum RestServiceAuthenticationType {
-  Anonymous = 'Anonymous',
-  Basic = 'Basic',
-  AadServicePrincial = 'AadServicePrincial',
-  ManagedServiceIdentity = 'ManagedServiceIdentity',
-}
+export type FtpAuthenticationType = 'Basic' | 'Anonymous';
 
 /**
  * Defines values for HttpAuthenticationType.
- * Possible values include: 'Basic', 'Anonymous', 'Digest', 'Windows',
- * 'ClientCertificate'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HttpAuthenticationType =
- * <HttpAuthenticationType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Basic', 'Anonymous', 'Digest', 'Windows', 'ClientCertificate'
  * @readonly
  * @enum {string}
  */
-export enum HttpAuthenticationType {
-  Basic = 'Basic',
-  Anonymous = 'Anonymous',
-  Digest = 'Digest',
-  Windows = 'Windows',
-  ClientCertificate = 'ClientCertificate',
-}
+export type HttpAuthenticationType = 'Basic' | 'Anonymous' | 'Digest' | 'Windows' | 'ClientCertificate';
 
 /**
  * Defines values for MongoDbAuthenticationType.
  * Possible values include: 'Basic', 'Anonymous'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: MongoDbAuthenticationType =
- * <MongoDbAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum MongoDbAuthenticationType {
-  Basic = 'Basic',
-  Anonymous = 'Anonymous',
-}
+export type MongoDbAuthenticationType = 'Basic' | 'Anonymous';
 
 /**
  * Defines values for ODataAuthenticationType.
- * Possible values include: 'Anonymous', 'Basic', 'Windows',
- * 'AadServicePrincipal', 'ManagedServiceIdentity'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ODataAuthenticationType =
- * <ODataAuthenticationType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Basic', 'Anonymous'
  * @readonly
  * @enum {string}
  */
-export enum ODataAuthenticationType {
-  Anonymous = 'Anonymous',
-  Basic = 'Basic',
-  Windows = 'Windows',
-  AadServicePrincipal = 'AadServicePrincipal',
-  ManagedServiceIdentity = 'ManagedServiceIdentity',
-}
-
-/**
- * Defines values for ODataAadServicePrincipalCredentialType.
- * Possible values include: 'ServicePrincipalKey', 'ServicePrincipalCert'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ODataAadServicePrincipalCredentialType =
- * <ODataAadServicePrincipalCredentialType>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum ODataAadServicePrincipalCredentialType {
-  ServicePrincipalKey = 'ServicePrincipalKey',
-  ServicePrincipalCert = 'ServicePrincipalCert',
-}
+export type ODataAuthenticationType = 'Basic' | 'Anonymous';
 
 /**
  * Defines values for TeradataAuthenticationType.
  * Possible values include: 'Basic', 'Windows'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TeradataAuthenticationType =
- * <TeradataAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum TeradataAuthenticationType {
-  Basic = 'Basic',
-  Windows = 'Windows',
-}
+export type TeradataAuthenticationType = 'Basic' | 'Windows';
 
 /**
  * Defines values for Db2AuthenticationType.
  * Possible values include: 'Basic'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Db2AuthenticationType =
- * <Db2AuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Db2AuthenticationType {
-  Basic = 'Basic',
-}
+export type Db2AuthenticationType = 'Basic';
 
 /**
  * Defines values for SybaseAuthenticationType.
  * Possible values include: 'Basic', 'Windows'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SybaseAuthenticationType =
- * <SybaseAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SybaseAuthenticationType {
-  Basic = 'Basic',
-  Windows = 'Windows',
-}
+export type SybaseAuthenticationType = 'Basic' | 'Windows';
 
 /**
  * Defines values for DatasetCompressionLevel.
  * Possible values include: 'Optimal', 'Fastest'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DatasetCompressionLevel =
- * <DatasetCompressionLevel>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum DatasetCompressionLevel {
-  Optimal = 'Optimal',
-  Fastest = 'Fastest',
-}
+export type DatasetCompressionLevel = 'Optimal' | 'Fastest';
 
 /**
  * Defines values for JsonFormatFilePattern.
  * Possible values include: 'setOfObjects', 'arrayOfObjects'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: JsonFormatFilePattern =
- * <JsonFormatFilePattern>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum JsonFormatFilePattern {
-  SetOfObjects = 'setOfObjects',
-  ArrayOfObjects = 'arrayOfObjects',
-}
+export type JsonFormatFilePattern = 'setOfObjects' | 'arrayOfObjects';
 
 /**
  * Defines values for WebActivityMethod.
  * Possible values include: 'GET', 'POST', 'PUT', 'DELETE'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: WebActivityMethod =
- * <WebActivityMethod>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum WebActivityMethod {
-  GET = 'GET',
-  POST = 'POST',
-  PUT = 'PUT',
-  DELETE = 'DELETE',
-}
+export type WebActivityMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 /**
  * Defines values for CassandraSourceReadConsistencyLevels.
- * Possible values include: 'ALL', 'EACH_QUORUM', 'QUORUM', 'LOCAL_QUORUM',
- * 'ONE', 'TWO', 'THREE', 'LOCAL_ONE', 'SERIAL', 'LOCAL_SERIAL'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: CassandraSourceReadConsistencyLevels =
- * <CassandraSourceReadConsistencyLevels>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'ALL', 'EACH_QUORUM', 'QUORUM', 'LOCAL_QUORUM', 'ONE', 'TWO', 'THREE',
+ * 'LOCAL_ONE', 'SERIAL', 'LOCAL_SERIAL'
  * @readonly
  * @enum {string}
  */
-export enum CassandraSourceReadConsistencyLevels {
-  ALL = 'ALL',
-  EACHQUORUM = 'EACH_QUORUM',
-  QUORUM = 'QUORUM',
-  LOCALQUORUM = 'LOCAL_QUORUM',
-  ONE = 'ONE',
-  TWO = 'TWO',
-  THREE = 'THREE',
-  LOCALONE = 'LOCAL_ONE',
-  SERIAL = 'SERIAL',
-  LOCALSERIAL = 'LOCAL_SERIAL',
-}
+export type CassandraSourceReadConsistencyLevels = 'ALL' | 'EACH_QUORUM' | 'QUORUM' | 'LOCAL_QUORUM' | 'ONE' | 'TWO' | 'THREE' | 'LOCAL_ONE' | 'SERIAL' | 'LOCAL_SERIAL';
 
 /**
  * Defines values for StoredProcedureParameterType.
- * Possible values include: 'String', 'Int', 'Decimal', 'Guid', 'Boolean',
- * 'Date'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: StoredProcedureParameterType =
- * <StoredProcedureParameterType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'String', 'Int', 'Decimal', 'Guid', 'Boolean', 'Date'
  * @readonly
  * @enum {string}
  */
-export enum StoredProcedureParameterType {
-  String = 'String',
-  Int = 'Int',
-  Decimal = 'Decimal',
-  Guid = 'Guid',
-  Boolean = 'Boolean',
-  Date = 'Date',
-}
+export type StoredProcedureParameterType = 'String' | 'Int' | 'Decimal' | 'Guid' | 'Boolean' | 'Date';
 
 /**
  * Defines values for SalesforceSourceReadBehavior.
  * Possible values include: 'Query', 'QueryAll'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SalesforceSourceReadBehavior =
- * <SalesforceSourceReadBehavior>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SalesforceSourceReadBehavior {
-  Query = 'Query',
-  QueryAll = 'QueryAll',
-}
+export type SalesforceSourceReadBehavior = 'Query' | 'QueryAll';
 
 /**
  * Defines values for SSISExecutionRuntime.
  * Possible values include: 'x64', 'x86'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SSISExecutionRuntime =
- * <SSISExecutionRuntime>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SSISExecutionRuntime {
-  X64 = 'x64',
-  X86 = 'x86',
-}
+export type SSISExecutionRuntime = 'x64' | 'x86';
 
 /**
  * Defines values for HDInsightActivityDebugInfoOption.
  * Possible values include: 'None', 'Always', 'Failure'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HDInsightActivityDebugInfoOption =
- * <HDInsightActivityDebugInfoOption>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum HDInsightActivityDebugInfoOption {
-  None = 'None',
-  Always = 'Always',
-  Failure = 'Failure',
-}
+export type HDInsightActivityDebugInfoOption = 'None' | 'Always' | 'Failure';
 
 /**
  * Defines values for SalesforceSinkWriteBehavior.
  * Possible values include: 'Insert', 'Upsert'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SalesforceSinkWriteBehavior =
- * <SalesforceSinkWriteBehavior>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SalesforceSinkWriteBehavior {
-  Insert = 'Insert',
-  Upsert = 'Upsert',
-}
+export type SalesforceSinkWriteBehavior = 'Insert' | 'Upsert';
 
 /**
  * Defines values for AzureSearchIndexWriteBehaviorType.
  * Possible values include: 'Merge', 'Upload'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AzureSearchIndexWriteBehaviorType =
- * <AzureSearchIndexWriteBehaviorType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AzureSearchIndexWriteBehaviorType {
-  Merge = 'Merge',
-  Upload = 'Upload',
-}
+export type AzureSearchIndexWriteBehaviorType = 'Merge' | 'Upload';
 
 /**
  * Defines values for CopyBehaviorType.
- * Possible values include: 'PreserveHierarchy', 'FlattenHierarchy',
- * 'MergeFiles'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: CopyBehaviorType =
- * <CopyBehaviorType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'PreserveHierarchy', 'FlattenHierarchy', 'MergeFiles'
  * @readonly
  * @enum {string}
  */
-export enum CopyBehaviorType {
-  PreserveHierarchy = 'PreserveHierarchy',
-  FlattenHierarchy = 'FlattenHierarchy',
-  MergeFiles = 'MergeFiles',
-}
+export type CopyBehaviorType = 'PreserveHierarchy' | 'FlattenHierarchy' | 'MergeFiles';
 
 /**
  * Defines values for PolybaseSettingsRejectType.
  * Possible values include: 'value', 'percentage'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PolybaseSettingsRejectType =
- * <PolybaseSettingsRejectType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PolybaseSettingsRejectType {
-  Value = 'value',
-  Percentage = 'percentage',
-}
+export type PolybaseSettingsRejectType = 'value' | 'percentage';
 
 /**
  * Defines values for SapCloudForCustomerSinkWriteBehavior.
  * Possible values include: 'Insert', 'Update'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SapCloudForCustomerSinkWriteBehavior =
- * <SapCloudForCustomerSinkWriteBehavior>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SapCloudForCustomerSinkWriteBehavior {
-  Insert = 'Insert',
-  Update = 'Update',
-}
+export type SapCloudForCustomerSinkWriteBehavior = 'Insert' | 'Update';
 
 /**
  * Defines values for IntegrationRuntimeType.
  * Possible values include: 'Managed', 'SelfHosted'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IntegrationRuntimeType =
- * <IntegrationRuntimeType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IntegrationRuntimeType {
-  Managed = 'Managed',
-  SelfHosted = 'SelfHosted',
-}
+export type IntegrationRuntimeType = 'Managed' | 'SelfHosted';
 
 /**
  * Defines values for SelfHostedIntegrationRuntimeNodeStatus.
- * Possible values include: 'NeedRegistration', 'Online', 'Limited', 'Offline',
- * 'Upgrading', 'Initializing', 'InitializeFailed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SelfHostedIntegrationRuntimeNodeStatus =
- * <SelfHostedIntegrationRuntimeNodeStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NeedRegistration', 'Online', 'Limited', 'Offline', 'Upgrading',
+ * 'Initializing', 'InitializeFailed'
  * @readonly
  * @enum {string}
  */
-export enum SelfHostedIntegrationRuntimeNodeStatus {
-  NeedRegistration = 'NeedRegistration',
-  Online = 'Online',
-  Limited = 'Limited',
-  Offline = 'Offline',
-  Upgrading = 'Upgrading',
-  Initializing = 'Initializing',
-  InitializeFailed = 'InitializeFailed',
-}
+export type SelfHostedIntegrationRuntimeNodeStatus = 'NeedRegistration' | 'Online' | 'Limited' | 'Offline' | 'Upgrading' | 'Initializing' | 'InitializeFailed';
 
 /**
  * Defines values for IntegrationRuntimeUpdateResult.
  * Possible values include: 'None', 'Succeed', 'Fail'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IntegrationRuntimeUpdateResult =
- * <IntegrationRuntimeUpdateResult>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IntegrationRuntimeUpdateResult {
-  None = 'None',
-  Succeed = 'Succeed',
-  Fail = 'Fail',
-}
+export type IntegrationRuntimeUpdateResult = 'None' | 'Succeed' | 'Fail';
 
 /**
  * Defines values for IntegrationRuntimeInternalChannelEncryptionMode.
  * Possible values include: 'NotSet', 'SslEncrypted', 'NotEncrypted'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IntegrationRuntimeInternalChannelEncryptionMode =
- * <IntegrationRuntimeInternalChannelEncryptionMode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IntegrationRuntimeInternalChannelEncryptionMode {
-  NotSet = 'NotSet',
-  SslEncrypted = 'SslEncrypted',
-  NotEncrypted = 'NotEncrypted',
-}
+export type IntegrationRuntimeInternalChannelEncryptionMode = 'NotSet' | 'SslEncrypted' | 'NotEncrypted';
 
 /**
  * Defines values for ManagedIntegrationRuntimeNodeStatus.
  * Possible values include: 'Starting', 'Available', 'Recycling', 'Unavailable'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ManagedIntegrationRuntimeNodeStatus =
- * <ManagedIntegrationRuntimeNodeStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ManagedIntegrationRuntimeNodeStatus {
-  Starting = 'Starting',
-  Available = 'Available',
-  Recycling = 'Recycling',
-  Unavailable = 'Unavailable',
-}
+export type ManagedIntegrationRuntimeNodeStatus = 'Starting' | 'Available' | 'Recycling' | 'Unavailable';
 
 /**
  * Defines values for IntegrationRuntimeSsisCatalogPricingTier.
  * Possible values include: 'Basic', 'Standard', 'Premium', 'PremiumRS'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IntegrationRuntimeSsisCatalogPricingTier =
- * <IntegrationRuntimeSsisCatalogPricingTier>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IntegrationRuntimeSsisCatalogPricingTier {
-  Basic = 'Basic',
-  Standard = 'Standard',
-  Premium = 'Premium',
-  PremiumRS = 'PremiumRS',
-}
+export type IntegrationRuntimeSsisCatalogPricingTier = 'Basic' | 'Standard' | 'Premium' | 'PremiumRS';
 
 /**
  * Defines values for IntegrationRuntimeLicenseType.
  * Possible values include: 'BasePrice', 'LicenseIncluded'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IntegrationRuntimeLicenseType =
- * <IntegrationRuntimeLicenseType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IntegrationRuntimeLicenseType {
-  BasePrice = 'BasePrice',
-  LicenseIncluded = 'LicenseIncluded',
-}
+export type IntegrationRuntimeLicenseType = 'BasePrice' | 'LicenseIncluded';
 
 /**
  * Defines values for IntegrationRuntimeEdition.
  * Possible values include: 'Standard', 'Enterprise'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IntegrationRuntimeEdition =
- * <IntegrationRuntimeEdition>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IntegrationRuntimeEdition {
-  Standard = 'Standard',
-  Enterprise = 'Enterprise',
-}
+export type IntegrationRuntimeEdition = 'Standard' | 'Enterprise';
 
 /**
  * Defines values for IntegrationRuntimeAuthKeyName.
  * Possible values include: 'authKey1', 'authKey2'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IntegrationRuntimeAuthKeyName =
- * <IntegrationRuntimeAuthKeyName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IntegrationRuntimeAuthKeyName {
-  AuthKey1 = 'authKey1',
-  AuthKey2 = 'authKey2',
-}
+export type IntegrationRuntimeAuthKeyName = 'authKey1' | 'authKey2';
 
 /**
  * Contains response data for the list operation.

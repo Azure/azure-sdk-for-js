@@ -64,7 +64,7 @@ export class NetworkInterfaceTapConfigurations {
    * @param callback The callback
    */
   get(resourceGroupName: string, networkInterfaceName: string, tapConfigurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceTapConfiguration>): void;
-  get(resourceGroupName: string, networkInterfaceName: string, tapConfigurationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkInterfaceTapConfiguration>): Promise<Models.NetworkInterfaceTapConfigurationsGetResponse> {
+  get(resourceGroupName: string, networkInterfaceName: string, tapConfigurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceTapConfiguration>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceTapConfiguration>): Promise<Models.NetworkInterfaceTapConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class NetworkInterfaceTapConfigurations {
    * @param callback The callback
    */
   list(resourceGroupName: string, networkInterfaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceTapConfigurationListResult>): void;
-  list(resourceGroupName: string, networkInterfaceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkInterfaceTapConfigurationListResult>): Promise<Models.NetworkInterfaceTapConfigurationsListResponse> {
+  list(resourceGroupName: string, networkInterfaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceTapConfigurationListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceTapConfigurationListResult>): Promise<Models.NetworkInterfaceTapConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -184,7 +184,7 @@ export class NetworkInterfaceTapConfigurations {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceTapConfigurationListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkInterfaceTapConfigurationListResult>): Promise<Models.NetworkInterfaceTapConfigurationsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceTapConfigurationListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceTapConfigurationListResult>): Promise<Models.NetworkInterfaceTapConfigurationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -47,7 +47,7 @@ export class Datasets {
    * @param callback The callback
    */
   listByFactory(resourceGroupName: string, factoryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatasetListResponse>): void;
-  listByFactory(resourceGroupName: string, factoryName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DatasetListResponse>): Promise<Models.DatasetsListByFactoryResponse> {
+  listByFactory(resourceGroupName: string, factoryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatasetListResponse>, callback?: msRest.ServiceCallback<Models.DatasetListResponse>): Promise<Models.DatasetsListByFactoryResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -85,7 +85,7 @@ export class Datasets {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, factoryName: string, datasetName: string, dataset: Models.DatasetResource, options: Models.DatasetsCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.DatasetResource>): void;
-  createOrUpdate(resourceGroupName: string, factoryName: string, datasetName: string, dataset: Models.DatasetResource, options?: Models.DatasetsCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.DatasetResource>): Promise<Models.DatasetsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, factoryName: string, datasetName: string, dataset: Models.DatasetResource, options?: Models.DatasetsCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.DatasetResource>, callback?: msRest.ServiceCallback<Models.DatasetResource>): Promise<Models.DatasetsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -122,7 +122,7 @@ export class Datasets {
    * @param callback The callback
    */
   get(resourceGroupName: string, factoryName: string, datasetName: string, options: Models.DatasetsGetOptionalParams, callback: msRest.ServiceCallback<Models.DatasetResource>): void;
-  get(resourceGroupName: string, factoryName: string, datasetName: string, options?: Models.DatasetsGetOptionalParams, callback?: msRest.ServiceCallback<Models.DatasetResource>): Promise<Models.DatasetsGetResponse> {
+  get(resourceGroupName: string, factoryName: string, datasetName: string, options?: Models.DatasetsGetOptionalParams | msRest.ServiceCallback<Models.DatasetResource>, callback?: msRest.ServiceCallback<Models.DatasetResource>): Promise<Models.DatasetsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +158,7 @@ export class Datasets {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, factoryName: string, datasetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, factoryName: string, datasetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, factoryName: string, datasetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -188,7 +188,7 @@ export class Datasets {
    * @param callback The callback
    */
   listByFactoryNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatasetListResponse>): void;
-  listByFactoryNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DatasetListResponse>): Promise<Models.DatasetsListByFactoryNextResponse> {
+  listByFactoryNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatasetListResponse>, callback?: msRest.ServiceCallback<Models.DatasetListResponse>): Promise<Models.DatasetsListByFactoryNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
