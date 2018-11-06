@@ -15775,1045 +15775,484 @@ export interface RerunTriggerListResponse extends Array<RerunTriggerResource> {
 
 /**
  * Defines values for IntegrationRuntimeState.
- * Possible values include: 'Initial', 'Stopped', 'Started', 'Starting',
- * 'Stopping', 'NeedRegistration', 'Online', 'Limited', 'Offline',
- * 'AccessDenied'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IntegrationRuntimeState =
- * <IntegrationRuntimeState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Initial', 'Stopped', 'Started', 'Starting', 'Stopping',
+ * 'NeedRegistration', 'Online', 'Limited', 'Offline', 'AccessDenied'
  * @readonly
  * @enum {string}
  */
-export enum IntegrationRuntimeState {
-  Initial = 'Initial',
-  Stopped = 'Stopped',
-  Started = 'Started',
-  Starting = 'Starting',
-  Stopping = 'Stopping',
-  NeedRegistration = 'NeedRegistration',
-  Online = 'Online',
-  Limited = 'Limited',
-  Offline = 'Offline',
-  AccessDenied = 'AccessDenied',
-}
+export type IntegrationRuntimeState = 'Initial' | 'Stopped' | 'Started' | 'Starting' | 'Stopping' | 'NeedRegistration' | 'Online' | 'Limited' | 'Offline' | 'AccessDenied';
 
 /**
  * Defines values for IntegrationRuntimeAutoUpdate.
  * Possible values include: 'On', 'Off'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IntegrationRuntimeAutoUpdate =
- * <IntegrationRuntimeAutoUpdate>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IntegrationRuntimeAutoUpdate {
-  On = 'On',
-  Off = 'Off',
-}
+export type IntegrationRuntimeAutoUpdate = 'On' | 'Off';
 
 /**
  * Defines values for ParameterType.
- * Possible values include: 'Object', 'String', 'Int', 'Float', 'Bool',
- * 'Array', 'SecureString'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ParameterType =
- * <ParameterType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Object', 'String', 'Int', 'Float', 'Bool', 'Array', 'SecureString'
  * @readonly
  * @enum {string}
  */
-export enum ParameterType {
-  Object = 'Object',
-  String = 'String',
-  Int = 'Int',
-  Float = 'Float',
-  Bool = 'Bool',
-  Array = 'Array',
-  SecureString = 'SecureString',
-}
+export type ParameterType = 'Object' | 'String' | 'Int' | 'Float' | 'Bool' | 'Array' | 'SecureString';
 
 /**
  * Defines values for DependencyCondition.
  * Possible values include: 'Succeeded', 'Failed', 'Skipped', 'Completed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DependencyCondition =
- * <DependencyCondition>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum DependencyCondition {
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-  Skipped = 'Skipped',
-  Completed = 'Completed',
-}
+export type DependencyCondition = 'Succeeded' | 'Failed' | 'Skipped' | 'Completed';
 
 /**
  * Defines values for VariableType.
  * Possible values include: 'String', 'Bool', 'Array'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VariableType =
- * <VariableType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VariableType {
-  String = 'String',
-  Bool = 'Bool',
-  Array = 'Array',
-}
+export type VariableType = 'String' | 'Bool' | 'Array';
 
 /**
  * Defines values for TriggerRuntimeState.
  * Possible values include: 'Started', 'Stopped', 'Disabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TriggerRuntimeState =
- * <TriggerRuntimeState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum TriggerRuntimeState {
-  Started = 'Started',
-  Stopped = 'Stopped',
-  Disabled = 'Disabled',
-}
+export type TriggerRuntimeState = 'Started' | 'Stopped' | 'Disabled';
 
 /**
  * Defines values for RunQueryFilterOperand.
- * Possible values include: 'PipelineName', 'Status', 'RunStart', 'RunEnd',
- * 'ActivityName', 'ActivityRunStart', 'ActivityRunEnd', 'ActivityType',
- * 'TriggerName', 'TriggerRunTimestamp'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RunQueryFilterOperand =
- * <RunQueryFilterOperand>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'PipelineName', 'Status', 'RunStart', 'RunEnd', 'ActivityName',
+ * 'ActivityRunStart', 'ActivityRunEnd', 'ActivityType', 'TriggerName', 'TriggerRunTimestamp'
  * @readonly
  * @enum {string}
  */
-export enum RunQueryFilterOperand {
-  PipelineName = 'PipelineName',
-  Status = 'Status',
-  RunStart = 'RunStart',
-  RunEnd = 'RunEnd',
-  ActivityName = 'ActivityName',
-  ActivityRunStart = 'ActivityRunStart',
-  ActivityRunEnd = 'ActivityRunEnd',
-  ActivityType = 'ActivityType',
-  TriggerName = 'TriggerName',
-  TriggerRunTimestamp = 'TriggerRunTimestamp',
-}
+export type RunQueryFilterOperand = 'PipelineName' | 'Status' | 'RunStart' | 'RunEnd' | 'ActivityName' | 'ActivityRunStart' | 'ActivityRunEnd' | 'ActivityType' | 'TriggerName' | 'TriggerRunTimestamp';
 
 /**
  * Defines values for RunQueryFilterOperator.
  * Possible values include: 'Equals', 'NotEquals', 'In', 'NotIn'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RunQueryFilterOperator =
- * <RunQueryFilterOperator>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum RunQueryFilterOperator {
-  Equals = 'Equals',
-  NotEquals = 'NotEquals',
-  In = 'In',
-  NotIn = 'NotIn',
-}
+export type RunQueryFilterOperator = 'Equals' | 'NotEquals' | 'In' | 'NotIn';
 
 /**
  * Defines values for RunQueryOrderByField.
- * Possible values include: 'RunStart', 'RunEnd', 'PipelineName', 'Status',
- * 'ActivityName', 'ActivityRunStart', 'ActivityRunEnd', 'TriggerName',
- * 'TriggerRunTimestamp'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RunQueryOrderByField =
- * <RunQueryOrderByField>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'RunStart', 'RunEnd', 'PipelineName', 'Status', 'ActivityName',
+ * 'ActivityRunStart', 'ActivityRunEnd', 'TriggerName', 'TriggerRunTimestamp'
  * @readonly
  * @enum {string}
  */
-export enum RunQueryOrderByField {
-  RunStart = 'RunStart',
-  RunEnd = 'RunEnd',
-  PipelineName = 'PipelineName',
-  Status = 'Status',
-  ActivityName = 'ActivityName',
-  ActivityRunStart = 'ActivityRunStart',
-  ActivityRunEnd = 'ActivityRunEnd',
-  TriggerName = 'TriggerName',
-  TriggerRunTimestamp = 'TriggerRunTimestamp',
-}
+export type RunQueryOrderByField = 'RunStart' | 'RunEnd' | 'PipelineName' | 'Status' | 'ActivityName' | 'ActivityRunStart' | 'ActivityRunEnd' | 'TriggerName' | 'TriggerRunTimestamp';
 
 /**
  * Defines values for RunQueryOrder.
  * Possible values include: 'ASC', 'DESC'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RunQueryOrder =
- * <RunQueryOrder>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum RunQueryOrder {
-  ASC = 'ASC',
-  DESC = 'DESC',
-}
+export type RunQueryOrder = 'ASC' | 'DESC';
 
 /**
  * Defines values for TriggerRunStatus.
  * Possible values include: 'Succeeded', 'Failed', 'Inprogress'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TriggerRunStatus =
- * <TriggerRunStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum TriggerRunStatus {
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-  Inprogress = 'Inprogress',
-}
+export type TriggerRunStatus = 'Succeeded' | 'Failed' | 'Inprogress';
 
 /**
  * Defines values for TumblingWindowFrequency.
  * Possible values include: 'Minute', 'Hour'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TumblingWindowFrequency =
- * <TumblingWindowFrequency>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum TumblingWindowFrequency {
-  Minute = 'Minute',
-  Hour = 'Hour',
-}
+export type TumblingWindowFrequency = 'Minute' | 'Hour';
 
 /**
  * Defines values for BlobEventTypes.
- * Possible values include: 'Microsoft.Storage.BlobCreated',
- * 'Microsoft.Storage.BlobDeleted'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: BlobEventTypes =
- * <BlobEventTypes>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Microsoft.Storage.BlobCreated', 'Microsoft.Storage.BlobDeleted'
  * @readonly
  * @enum {string}
  */
-export enum BlobEventTypes {
-  MicrosoftStorageBlobCreated = 'Microsoft.Storage.BlobCreated',
-  MicrosoftStorageBlobDeleted = 'Microsoft.Storage.BlobDeleted',
-}
+export type BlobEventTypes = 'Microsoft.Storage.BlobCreated' | 'Microsoft.Storage.BlobDeleted';
 
 /**
  * Defines values for DayOfWeek.
- * Possible values include: 'Sunday', 'Monday', 'Tuesday', 'Wednesday',
- * 'Thursday', 'Friday', 'Saturday'
+ * Possible values include: 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
+ * 'Saturday'
  * @readonly
  * @enum {string}
  */
-export enum DayOfWeek {
-  Sunday = 'Sunday',
-  Monday = 'Monday',
-  Tuesday = 'Tuesday',
-  Wednesday = 'Wednesday',
-  Thursday = 'Thursday',
-  Friday = 'Friday',
-  Saturday = 'Saturday',
-}
+export type DayOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
 
 /**
  * Defines values for DaysOfWeek.
- * Possible values include: 'Sunday', 'Monday', 'Tuesday', 'Wednesday',
- * 'Thursday', 'Friday', 'Saturday'
+ * Possible values include: 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
+ * 'Saturday'
  * @readonly
  * @enum {string}
  */
-export enum DaysOfWeek {
-  Sunday = 'Sunday',
-  Monday = 'Monday',
-  Tuesday = 'Tuesday',
-  Wednesday = 'Wednesday',
-  Thursday = 'Thursday',
-  Friday = 'Friday',
-  Saturday = 'Saturday',
-}
+export type DaysOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
 
 /**
  * Defines values for RecurrenceFrequency.
- * Possible values include: 'NotSpecified', 'Minute', 'Hour', 'Day', 'Week',
- * 'Month', 'Year'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RecurrenceFrequency =
- * <RecurrenceFrequency>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotSpecified', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Year'
  * @readonly
  * @enum {string}
  */
-export enum RecurrenceFrequency {
-  NotSpecified = 'NotSpecified',
-  Minute = 'Minute',
-  Hour = 'Hour',
-  Day = 'Day',
-  Week = 'Week',
-  Month = 'Month',
-  Year = 'Year',
-}
+export type RecurrenceFrequency = 'NotSpecified' | 'Minute' | 'Hour' | 'Day' | 'Week' | 'Month' | 'Year';
 
 /**
  * Defines values for SparkServerType.
  * Possible values include: 'SharkServer', 'SharkServer2', 'SparkThriftServer'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SparkServerType =
- * <SparkServerType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SparkServerType {
-  SharkServer = 'SharkServer',
-  SharkServer2 = 'SharkServer2',
-  SparkThriftServer = 'SparkThriftServer',
-}
+export type SparkServerType = 'SharkServer' | 'SharkServer2' | 'SparkThriftServer';
 
 /**
  * Defines values for SparkThriftTransportProtocol.
  * Possible values include: 'Binary', 'SASL', 'HTTP '
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SparkThriftTransportProtocol =
- * <SparkThriftTransportProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SparkThriftTransportProtocol {
-  Binary = 'Binary',
-  SASL = 'SASL',
-  HTTP = 'HTTP ',
-}
+export type SparkThriftTransportProtocol = 'Binary' | 'SASL' | 'HTTP ';
 
 /**
  * Defines values for SparkAuthenticationType.
  * Possible values include: 'Anonymous', 'Username', 'UsernameAndPassword',
  * 'WindowsAzureHDInsightService'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SparkAuthenticationType =
- * <SparkAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SparkAuthenticationType {
-  Anonymous = 'Anonymous',
-  Username = 'Username',
-  UsernameAndPassword = 'UsernameAndPassword',
-  WindowsAzureHDInsightService = 'WindowsAzureHDInsightService',
-}
+export type SparkAuthenticationType = 'Anonymous' | 'Username' | 'UsernameAndPassword' | 'WindowsAzureHDInsightService';
 
 /**
  * Defines values for ServiceNowAuthenticationType.
  * Possible values include: 'Basic', 'OAuth2'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ServiceNowAuthenticationType =
- * <ServiceNowAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ServiceNowAuthenticationType {
-  Basic = 'Basic',
-  OAuth2 = 'OAuth2',
-}
+export type ServiceNowAuthenticationType = 'Basic' | 'OAuth2';
 
 /**
  * Defines values for PrestoAuthenticationType.
  * Possible values include: 'Anonymous', 'LDAP'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PrestoAuthenticationType =
- * <PrestoAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PrestoAuthenticationType {
-  Anonymous = 'Anonymous',
-  LDAP = 'LDAP',
-}
+export type PrestoAuthenticationType = 'Anonymous' | 'LDAP';
 
 /**
  * Defines values for PhoenixAuthenticationType.
- * Possible values include: 'Anonymous', 'UsernameAndPassword',
- * 'WindowsAzureHDInsightService'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PhoenixAuthenticationType =
- * <PhoenixAuthenticationType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Anonymous', 'UsernameAndPassword', 'WindowsAzureHDInsightService'
  * @readonly
  * @enum {string}
  */
-export enum PhoenixAuthenticationType {
-  Anonymous = 'Anonymous',
-  UsernameAndPassword = 'UsernameAndPassword',
-  WindowsAzureHDInsightService = 'WindowsAzureHDInsightService',
-}
+export type PhoenixAuthenticationType = 'Anonymous' | 'UsernameAndPassword' | 'WindowsAzureHDInsightService';
 
 /**
  * Defines values for ImpalaAuthenticationType.
  * Possible values include: 'Anonymous', 'SASLUsername', 'UsernameAndPassword'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ImpalaAuthenticationType =
- * <ImpalaAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ImpalaAuthenticationType {
-  Anonymous = 'Anonymous',
-  SASLUsername = 'SASLUsername',
-  UsernameAndPassword = 'UsernameAndPassword',
-}
+export type ImpalaAuthenticationType = 'Anonymous' | 'SASLUsername' | 'UsernameAndPassword';
 
 /**
  * Defines values for HiveServerType.
  * Possible values include: 'HiveServer1', 'HiveServer2', 'HiveThriftServer'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HiveServerType =
- * <HiveServerType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum HiveServerType {
-  HiveServer1 = 'HiveServer1',
-  HiveServer2 = 'HiveServer2',
-  HiveThriftServer = 'HiveThriftServer',
-}
+export type HiveServerType = 'HiveServer1' | 'HiveServer2' | 'HiveThriftServer';
 
 /**
  * Defines values for HiveThriftTransportProtocol.
  * Possible values include: 'Binary', 'SASL', 'HTTP '
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HiveThriftTransportProtocol =
- * <HiveThriftTransportProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum HiveThriftTransportProtocol {
-  Binary = 'Binary',
-  SASL = 'SASL',
-  HTTP = 'HTTP ',
-}
+export type HiveThriftTransportProtocol = 'Binary' | 'SASL' | 'HTTP ';
 
 /**
  * Defines values for HiveAuthenticationType.
  * Possible values include: 'Anonymous', 'Username', 'UsernameAndPassword',
  * 'WindowsAzureHDInsightService'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HiveAuthenticationType =
- * <HiveAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum HiveAuthenticationType {
-  Anonymous = 'Anonymous',
-  Username = 'Username',
-  UsernameAndPassword = 'UsernameAndPassword',
-  WindowsAzureHDInsightService = 'WindowsAzureHDInsightService',
-}
+export type HiveAuthenticationType = 'Anonymous' | 'Username' | 'UsernameAndPassword' | 'WindowsAzureHDInsightService';
 
 /**
  * Defines values for HBaseAuthenticationType.
  * Possible values include: 'Anonymous', 'Basic'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HBaseAuthenticationType =
- * <HBaseAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum HBaseAuthenticationType {
-  Anonymous = 'Anonymous',
-  Basic = 'Basic',
-}
+export type HBaseAuthenticationType = 'Anonymous' | 'Basic';
 
 /**
  * Defines values for GoogleBigQueryAuthenticationType.
  * Possible values include: 'ServiceAuthentication', 'UserAuthentication'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: GoogleBigQueryAuthenticationType =
- * <GoogleBigQueryAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum GoogleBigQueryAuthenticationType {
-  ServiceAuthentication = 'ServiceAuthentication',
-  UserAuthentication = 'UserAuthentication',
-}
+export type GoogleBigQueryAuthenticationType = 'ServiceAuthentication' | 'UserAuthentication';
 
 /**
  * Defines values for SapHanaAuthenticationType.
  * Possible values include: 'Basic', 'Windows'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SapHanaAuthenticationType =
- * <SapHanaAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SapHanaAuthenticationType {
-  Basic = 'Basic',
-  Windows = 'Windows',
-}
+export type SapHanaAuthenticationType = 'Basic' | 'Windows';
 
 /**
  * Defines values for SftpAuthenticationType.
  * Possible values include: 'Basic', 'SshPublicKey'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SftpAuthenticationType =
- * <SftpAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SftpAuthenticationType {
-  Basic = 'Basic',
-  SshPublicKey = 'SshPublicKey',
-}
+export type SftpAuthenticationType = 'Basic' | 'SshPublicKey';
 
 /**
  * Defines values for FtpAuthenticationType.
  * Possible values include: 'Basic', 'Anonymous'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: FtpAuthenticationType =
- * <FtpAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum FtpAuthenticationType {
-  Basic = 'Basic',
-  Anonymous = 'Anonymous',
-}
+export type FtpAuthenticationType = 'Basic' | 'Anonymous';
 
 /**
  * Defines values for HttpAuthenticationType.
- * Possible values include: 'Basic', 'Anonymous', 'Digest', 'Windows',
- * 'ClientCertificate'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HttpAuthenticationType =
- * <HttpAuthenticationType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Basic', 'Anonymous', 'Digest', 'Windows', 'ClientCertificate'
  * @readonly
  * @enum {string}
  */
-export enum HttpAuthenticationType {
-  Basic = 'Basic',
-  Anonymous = 'Anonymous',
-  Digest = 'Digest',
-  Windows = 'Windows',
-  ClientCertificate = 'ClientCertificate',
-}
+export type HttpAuthenticationType = 'Basic' | 'Anonymous' | 'Digest' | 'Windows' | 'ClientCertificate';
 
 /**
  * Defines values for MongoDbAuthenticationType.
  * Possible values include: 'Basic', 'Anonymous'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: MongoDbAuthenticationType =
- * <MongoDbAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum MongoDbAuthenticationType {
-  Basic = 'Basic',
-  Anonymous = 'Anonymous',
-}
+export type MongoDbAuthenticationType = 'Basic' | 'Anonymous';
 
 /**
  * Defines values for ODataAuthenticationType.
  * Possible values include: 'Basic', 'Anonymous'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ODataAuthenticationType =
- * <ODataAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ODataAuthenticationType {
-  Basic = 'Basic',
-  Anonymous = 'Anonymous',
-}
+export type ODataAuthenticationType = 'Basic' | 'Anonymous';
 
 /**
  * Defines values for TeradataAuthenticationType.
  * Possible values include: 'Basic', 'Windows'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TeradataAuthenticationType =
- * <TeradataAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum TeradataAuthenticationType {
-  Basic = 'Basic',
-  Windows = 'Windows',
-}
+export type TeradataAuthenticationType = 'Basic' | 'Windows';
 
 /**
  * Defines values for Db2AuthenticationType.
  * Possible values include: 'Basic'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Db2AuthenticationType =
- * <Db2AuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Db2AuthenticationType {
-  Basic = 'Basic',
-}
+export type Db2AuthenticationType = 'Basic';
 
 /**
  * Defines values for SybaseAuthenticationType.
  * Possible values include: 'Basic', 'Windows'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SybaseAuthenticationType =
- * <SybaseAuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SybaseAuthenticationType {
-  Basic = 'Basic',
-  Windows = 'Windows',
-}
+export type SybaseAuthenticationType = 'Basic' | 'Windows';
 
 /**
  * Defines values for DatasetCompressionLevel.
  * Possible values include: 'Optimal', 'Fastest'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DatasetCompressionLevel =
- * <DatasetCompressionLevel>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum DatasetCompressionLevel {
-  Optimal = 'Optimal',
-  Fastest = 'Fastest',
-}
+export type DatasetCompressionLevel = 'Optimal' | 'Fastest';
 
 /**
  * Defines values for JsonFormatFilePattern.
  * Possible values include: 'setOfObjects', 'arrayOfObjects'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: JsonFormatFilePattern =
- * <JsonFormatFilePattern>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum JsonFormatFilePattern {
-  SetOfObjects = 'setOfObjects',
-  ArrayOfObjects = 'arrayOfObjects',
-}
+export type JsonFormatFilePattern = 'setOfObjects' | 'arrayOfObjects';
 
 /**
  * Defines values for WebActivityMethod.
  * Possible values include: 'GET', 'POST', 'PUT', 'DELETE'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: WebActivityMethod =
- * <WebActivityMethod>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum WebActivityMethod {
-  GET = 'GET',
-  POST = 'POST',
-  PUT = 'PUT',
-  DELETE = 'DELETE',
-}
+export type WebActivityMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 /**
  * Defines values for CassandraSourceReadConsistencyLevels.
- * Possible values include: 'ALL', 'EACH_QUORUM', 'QUORUM', 'LOCAL_QUORUM',
- * 'ONE', 'TWO', 'THREE', 'LOCAL_ONE', 'SERIAL', 'LOCAL_SERIAL'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: CassandraSourceReadConsistencyLevels =
- * <CassandraSourceReadConsistencyLevels>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'ALL', 'EACH_QUORUM', 'QUORUM', 'LOCAL_QUORUM', 'ONE', 'TWO', 'THREE',
+ * 'LOCAL_ONE', 'SERIAL', 'LOCAL_SERIAL'
  * @readonly
  * @enum {string}
  */
-export enum CassandraSourceReadConsistencyLevels {
-  ALL = 'ALL',
-  EACHQUORUM = 'EACH_QUORUM',
-  QUORUM = 'QUORUM',
-  LOCALQUORUM = 'LOCAL_QUORUM',
-  ONE = 'ONE',
-  TWO = 'TWO',
-  THREE = 'THREE',
-  LOCALONE = 'LOCAL_ONE',
-  SERIAL = 'SERIAL',
-  LOCALSERIAL = 'LOCAL_SERIAL',
-}
+export type CassandraSourceReadConsistencyLevels = 'ALL' | 'EACH_QUORUM' | 'QUORUM' | 'LOCAL_QUORUM' | 'ONE' | 'TWO' | 'THREE' | 'LOCAL_ONE' | 'SERIAL' | 'LOCAL_SERIAL';
 
 /**
  * Defines values for StoredProcedureParameterType.
- * Possible values include: 'String', 'Int', 'Decimal', 'Guid', 'Boolean',
- * 'Date'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: StoredProcedureParameterType =
- * <StoredProcedureParameterType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'String', 'Int', 'Decimal', 'Guid', 'Boolean', 'Date'
  * @readonly
  * @enum {string}
  */
-export enum StoredProcedureParameterType {
-  String = 'String',
-  Int = 'Int',
-  Decimal = 'Decimal',
-  Guid = 'Guid',
-  Boolean = 'Boolean',
-  Date = 'Date',
-}
+export type StoredProcedureParameterType = 'String' | 'Int' | 'Decimal' | 'Guid' | 'Boolean' | 'Date';
 
 /**
  * Defines values for SalesforceSourceReadBehavior.
  * Possible values include: 'Query', 'QueryAll'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SalesforceSourceReadBehavior =
- * <SalesforceSourceReadBehavior>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SalesforceSourceReadBehavior {
-  Query = 'Query',
-  QueryAll = 'QueryAll',
-}
+export type SalesforceSourceReadBehavior = 'Query' | 'QueryAll';
 
 /**
  * Defines values for SSISExecutionRuntime.
  * Possible values include: 'x64', 'x86'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SSISExecutionRuntime =
- * <SSISExecutionRuntime>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SSISExecutionRuntime {
-  X64 = 'x64',
-  X86 = 'x86',
-}
+export type SSISExecutionRuntime = 'x64' | 'x86';
 
 /**
  * Defines values for HDInsightActivityDebugInfoOption.
  * Possible values include: 'None', 'Always', 'Failure'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HDInsightActivityDebugInfoOption =
- * <HDInsightActivityDebugInfoOption>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum HDInsightActivityDebugInfoOption {
-  None = 'None',
-  Always = 'Always',
-  Failure = 'Failure',
-}
+export type HDInsightActivityDebugInfoOption = 'None' | 'Always' | 'Failure';
 
 /**
  * Defines values for SalesforceSinkWriteBehavior.
  * Possible values include: 'Insert', 'Upsert'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SalesforceSinkWriteBehavior =
- * <SalesforceSinkWriteBehavior>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SalesforceSinkWriteBehavior {
-  Insert = 'Insert',
-  Upsert = 'Upsert',
-}
+export type SalesforceSinkWriteBehavior = 'Insert' | 'Upsert';
 
 /**
  * Defines values for AzureSearchIndexWriteBehaviorType.
  * Possible values include: 'Merge', 'Upload'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AzureSearchIndexWriteBehaviorType =
- * <AzureSearchIndexWriteBehaviorType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AzureSearchIndexWriteBehaviorType {
-  Merge = 'Merge',
-  Upload = 'Upload',
-}
+export type AzureSearchIndexWriteBehaviorType = 'Merge' | 'Upload';
 
 /**
  * Defines values for CopyBehaviorType.
- * Possible values include: 'PreserveHierarchy', 'FlattenHierarchy',
- * 'MergeFiles'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: CopyBehaviorType =
- * <CopyBehaviorType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'PreserveHierarchy', 'FlattenHierarchy', 'MergeFiles'
  * @readonly
  * @enum {string}
  */
-export enum CopyBehaviorType {
-  PreserveHierarchy = 'PreserveHierarchy',
-  FlattenHierarchy = 'FlattenHierarchy',
-  MergeFiles = 'MergeFiles',
-}
+export type CopyBehaviorType = 'PreserveHierarchy' | 'FlattenHierarchy' | 'MergeFiles';
 
 /**
  * Defines values for PolybaseSettingsRejectType.
  * Possible values include: 'value', 'percentage'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PolybaseSettingsRejectType =
- * <PolybaseSettingsRejectType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PolybaseSettingsRejectType {
-  Value = 'value',
-  Percentage = 'percentage',
-}
+export type PolybaseSettingsRejectType = 'value' | 'percentage';
 
 /**
  * Defines values for SapCloudForCustomerSinkWriteBehavior.
  * Possible values include: 'Insert', 'Update'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SapCloudForCustomerSinkWriteBehavior =
- * <SapCloudForCustomerSinkWriteBehavior>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SapCloudForCustomerSinkWriteBehavior {
-  Insert = 'Insert',
-  Update = 'Update',
-}
+export type SapCloudForCustomerSinkWriteBehavior = 'Insert' | 'Update';
 
 /**
  * Defines values for IntegrationRuntimeType.
  * Possible values include: 'Managed', 'SelfHosted'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IntegrationRuntimeType =
- * <IntegrationRuntimeType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IntegrationRuntimeType {
-  Managed = 'Managed',
-  SelfHosted = 'SelfHosted',
-}
+export type IntegrationRuntimeType = 'Managed' | 'SelfHosted';
 
 /**
  * Defines values for SelfHostedIntegrationRuntimeNodeStatus.
- * Possible values include: 'NeedRegistration', 'Online', 'Limited', 'Offline',
- * 'Upgrading', 'Initializing', 'InitializeFailed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SelfHostedIntegrationRuntimeNodeStatus =
- * <SelfHostedIntegrationRuntimeNodeStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NeedRegistration', 'Online', 'Limited', 'Offline', 'Upgrading',
+ * 'Initializing', 'InitializeFailed'
  * @readonly
  * @enum {string}
  */
-export enum SelfHostedIntegrationRuntimeNodeStatus {
-  NeedRegistration = 'NeedRegistration',
-  Online = 'Online',
-  Limited = 'Limited',
-  Offline = 'Offline',
-  Upgrading = 'Upgrading',
-  Initializing = 'Initializing',
-  InitializeFailed = 'InitializeFailed',
-}
+export type SelfHostedIntegrationRuntimeNodeStatus = 'NeedRegistration' | 'Online' | 'Limited' | 'Offline' | 'Upgrading' | 'Initializing' | 'InitializeFailed';
 
 /**
  * Defines values for IntegrationRuntimeUpdateResult.
  * Possible values include: 'None', 'Succeed', 'Fail'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IntegrationRuntimeUpdateResult =
- * <IntegrationRuntimeUpdateResult>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IntegrationRuntimeUpdateResult {
-  None = 'None',
-  Succeed = 'Succeed',
-  Fail = 'Fail',
-}
+export type IntegrationRuntimeUpdateResult = 'None' | 'Succeed' | 'Fail';
 
 /**
  * Defines values for IntegrationRuntimeInternalChannelEncryptionMode.
  * Possible values include: 'NotSet', 'SslEncrypted', 'NotEncrypted'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IntegrationRuntimeInternalChannelEncryptionMode =
- * <IntegrationRuntimeInternalChannelEncryptionMode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IntegrationRuntimeInternalChannelEncryptionMode {
-  NotSet = 'NotSet',
-  SslEncrypted = 'SslEncrypted',
-  NotEncrypted = 'NotEncrypted',
-}
+export type IntegrationRuntimeInternalChannelEncryptionMode = 'NotSet' | 'SslEncrypted' | 'NotEncrypted';
 
 /**
  * Defines values for ManagedIntegrationRuntimeNodeStatus.
  * Possible values include: 'Starting', 'Available', 'Recycling', 'Unavailable'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ManagedIntegrationRuntimeNodeStatus =
- * <ManagedIntegrationRuntimeNodeStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ManagedIntegrationRuntimeNodeStatus {
-  Starting = 'Starting',
-  Available = 'Available',
-  Recycling = 'Recycling',
-  Unavailable = 'Unavailable',
-}
+export type ManagedIntegrationRuntimeNodeStatus = 'Starting' | 'Available' | 'Recycling' | 'Unavailable';
 
 /**
  * Defines values for IntegrationRuntimeSsisCatalogPricingTier.
  * Possible values include: 'Basic', 'Standard', 'Premium', 'PremiumRS'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IntegrationRuntimeSsisCatalogPricingTier =
- * <IntegrationRuntimeSsisCatalogPricingTier>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IntegrationRuntimeSsisCatalogPricingTier {
-  Basic = 'Basic',
-  Standard = 'Standard',
-  Premium = 'Premium',
-  PremiumRS = 'PremiumRS',
-}
+export type IntegrationRuntimeSsisCatalogPricingTier = 'Basic' | 'Standard' | 'Premium' | 'PremiumRS';
 
 /**
  * Defines values for IntegrationRuntimeLicenseType.
  * Possible values include: 'BasePrice', 'LicenseIncluded'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IntegrationRuntimeLicenseType =
- * <IntegrationRuntimeLicenseType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IntegrationRuntimeLicenseType {
-  BasePrice = 'BasePrice',
-  LicenseIncluded = 'LicenseIncluded',
-}
+export type IntegrationRuntimeLicenseType = 'BasePrice' | 'LicenseIncluded';
 
 /**
  * Defines values for IntegrationRuntimeEdition.
  * Possible values include: 'Standard', 'Enterprise'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IntegrationRuntimeEdition =
- * <IntegrationRuntimeEdition>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IntegrationRuntimeEdition {
-  Standard = 'Standard',
-  Enterprise = 'Enterprise',
-}
+export type IntegrationRuntimeEdition = 'Standard' | 'Enterprise';
 
 /**
  * Defines values for IntegrationRuntimeAuthKeyName.
  * Possible values include: 'authKey1', 'authKey2'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IntegrationRuntimeAuthKeyName =
- * <IntegrationRuntimeAuthKeyName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IntegrationRuntimeAuthKeyName {
-  AuthKey1 = 'authKey1',
-  AuthKey2 = 'authKey2',
-}
+export type IntegrationRuntimeAuthKeyName = 'authKey1' | 'authKey2';
 
 /**
  * Contains response data for the list operation.
