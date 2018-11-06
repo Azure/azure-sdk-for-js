@@ -53,7 +53,7 @@ export class Tasks {
    * @param callback The callback
    */
   list(groupName: string, serviceName: string, projectName: string, options: Models.TasksListOptionalParams, callback: msRest.ServiceCallback<Models.TaskList>): void;
-  list(groupName: string, serviceName: string, projectName: string, options?: Models.TasksListOptionalParams, callback?: msRest.ServiceCallback<Models.TaskList>): Promise<Models.TasksListResponse> {
+  list(groupName: string, serviceName: string, projectName: string, options?: Models.TasksListOptionalParams | msRest.ServiceCallback<Models.TaskList>, callback?: msRest.ServiceCallback<Models.TaskList>): Promise<Models.TasksListResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -98,7 +98,7 @@ export class Tasks {
    * @param callback The callback
    */
   createOrUpdate(parameters: Models.ProjectTask, groupName: string, serviceName: string, projectName: string, taskName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProjectTask>): void;
-  createOrUpdate(parameters: Models.ProjectTask, groupName: string, serviceName: string, projectName: string, taskName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProjectTask>): Promise<Models.TasksCreateOrUpdateResponse> {
+  createOrUpdate(parameters: Models.ProjectTask, groupName: string, serviceName: string, projectName: string, taskName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectTask>, callback?: msRest.ServiceCallback<Models.ProjectTask>): Promise<Models.TasksCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
@@ -141,7 +141,7 @@ export class Tasks {
    * @param callback The callback
    */
   get(groupName: string, serviceName: string, projectName: string, taskName: string, options: Models.TasksGetOptionalParams, callback: msRest.ServiceCallback<Models.ProjectTask>): void;
-  get(groupName: string, serviceName: string, projectName: string, taskName: string, options?: Models.TasksGetOptionalParams, callback?: msRest.ServiceCallback<Models.ProjectTask>): Promise<Models.TasksGetResponse> {
+  get(groupName: string, serviceName: string, projectName: string, taskName: string, options?: Models.TasksGetOptionalParams | msRest.ServiceCallback<Models.ProjectTask>, callback?: msRest.ServiceCallback<Models.ProjectTask>): Promise<Models.TasksGetResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -183,7 +183,7 @@ export class Tasks {
    * @param callback The callback
    */
   deleteMethod(groupName: string, serviceName: string, projectName: string, taskName: string, options: Models.TasksDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(groupName: string, serviceName: string, projectName: string, taskName: string, options?: Models.TasksDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(groupName: string, serviceName: string, projectName: string, taskName: string, options?: Models.TasksDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -229,7 +229,7 @@ export class Tasks {
    * @param callback The callback
    */
   update(parameters: Models.ProjectTask, groupName: string, serviceName: string, projectName: string, taskName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProjectTask>): void;
-  update(parameters: Models.ProjectTask, groupName: string, serviceName: string, projectName: string, taskName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProjectTask>): Promise<Models.TasksUpdateResponse> {
+  update(parameters: Models.ProjectTask, groupName: string, serviceName: string, projectName: string, taskName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectTask>, callback?: msRest.ServiceCallback<Models.ProjectTask>): Promise<Models.TasksUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
@@ -272,7 +272,7 @@ export class Tasks {
    * @param callback The callback
    */
   cancel(groupName: string, serviceName: string, projectName: string, taskName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProjectTask>): void;
-  cancel(groupName: string, serviceName: string, projectName: string, taskName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProjectTask>): Promise<Models.TasksCancelResponse> {
+  cancel(groupName: string, serviceName: string, projectName: string, taskName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectTask>, callback?: msRest.ServiceCallback<Models.ProjectTask>): Promise<Models.TasksCancelResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -317,7 +317,7 @@ export class Tasks {
    * @param callback The callback
    */
   command(groupName: string, serviceName: string, projectName: string, taskName: string, parameters: Models.CommandPropertiesUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CommandPropertiesUnion>): void;
-  command(groupName: string, serviceName: string, projectName: string, taskName: string, parameters: Models.CommandPropertiesUnion, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CommandPropertiesUnion>): Promise<Models.TasksCommandResponse> {
+  command(groupName: string, serviceName: string, projectName: string, taskName: string, parameters: Models.CommandPropertiesUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CommandPropertiesUnion>, callback?: msRest.ServiceCallback<Models.CommandPropertiesUnion>): Promise<Models.TasksCommandResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -352,7 +352,7 @@ export class Tasks {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TaskList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TaskList>): Promise<Models.TasksListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TaskList>, callback?: msRest.ServiceCallback<Models.TaskList>): Promise<Models.TasksListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

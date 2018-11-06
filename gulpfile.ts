@@ -110,9 +110,9 @@ const createPackages = (type: CreatePackageType = "pack") => {
   let publishedPackages = 0;
   let publishedPackagesSkipped = 0;
 
-  const dropPath = path.join(azureSDKForJSRepoRoot, "drop");
-  if (!fs.existsSync(dropPath)) {
-    fs.mkdirSync(dropPath);
+  const packPath = path.join(azureSDKForJSRepoRoot, "pack");
+  if (!fs.existsSync(packPath)) {
+    fs.mkdirSync(packPath);
   }
   for (const typeScriptReadmeFilePath of typeScriptReadmeFilePaths) {
     _logger.logTrace(`INFO: Processing ${typeScriptReadmeFilePath}`);
@@ -171,7 +171,7 @@ const createPackages = (type: CreatePackageType = "pack") => {
                     execSync(`npm ${type}`, { cwd: packageFolderPath });
                     const packFileName = `${packageName.replace("/", "-").replace("@", "")}-${localPackageVersion}.tgz`
                     const packFilePath = path.join(packageFolderPath, packFileName);
-                    fs.renameSync(packFilePath, path.join(dropPath, packFileName));
+                    fs.renameSync(packFilePath, path.join(packPath, packFileName));
                     console.log(`Filename: ${packFileName}`);
                     publishedPackages++;
                   }

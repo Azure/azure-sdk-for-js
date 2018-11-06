@@ -2,7 +2,7 @@
   "name": "@azure/arm-batchai",
   "author": "Microsoft Corporation",
   "description": "BatchAIManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "dependencies": {
     "ms-rest-azure-js": "^1.0.176",
     "ms-rest-js": "^1.0.455",
