@@ -5129,113 +5129,6 @@ export const GoogleBigQueryLinkedService: msRest.CompositeMapper = {
   }
 };
 
-export const GoogleAdWordsLinkedService: msRest.CompositeMapper = {
-  serializedName: "GoogleAdWords",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
-    uberParent: "LinkedService",
-    className: "GoogleAdWordsLinkedService",
-    modelProperties: {
-      ...LinkedService.type.modelProperties,
-      clientCustomerID: {
-        required: true,
-        serializedName: "typeProperties.clientCustomerID",
-        type: {
-          name: "Object"
-        }
-      },
-      developerToken: {
-        required: true,
-        serializedName: "typeProperties.developerToken",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "type",
-            clientName: "type"
-          },
-          uberParent: "SecretBase",
-          className: "SecretBase"
-        }
-      },
-      authenticationType: {
-        required: true,
-        serializedName: "typeProperties.authenticationType",
-        type: {
-          name: "String"
-        }
-      },
-      refreshToken: {
-        serializedName: "typeProperties.refreshToken",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "type",
-            clientName: "type"
-          },
-          uberParent: "SecretBase",
-          className: "SecretBase"
-        }
-      },
-      clientId: {
-        serializedName: "typeProperties.clientId",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "type",
-            clientName: "type"
-          },
-          uberParent: "SecretBase",
-          className: "SecretBase"
-        }
-      },
-      clientSecret: {
-        serializedName: "typeProperties.clientSecret",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "type",
-            clientName: "type"
-          },
-          uberParent: "SecretBase",
-          className: "SecretBase"
-        }
-      },
-      email: {
-        serializedName: "typeProperties.email",
-        type: {
-          name: "Object"
-        }
-      },
-      keyFilePath: {
-        serializedName: "typeProperties.keyFilePath",
-        type: {
-          name: "Object"
-        }
-      },
-      trustedCertPath: {
-        serializedName: "typeProperties.trustedCertPath",
-        type: {
-          name: "Object"
-        }
-      },
-      useSystemTrustStore: {
-        serializedName: "typeProperties.useSystemTrustStore",
-        type: {
-          name: "Object"
-        }
-      },
-      encryptedCredential: {
-        serializedName: "typeProperties.encryptedCredential",
-        type: {
-          name: "Object"
-        }
-      }
-    },
-    additionalProperties: LinkedService.type.additionalProperties
-  }
-};
-
 export const EloquaLinkedService: msRest.CompositeMapper = {
   serializedName: "Eloqua",
   type: {
@@ -5801,94 +5694,6 @@ export const FtpServerLinkedService: msRest.CompositeMapper = {
       },
       enableServerCertificateValidation: {
         serializedName: "typeProperties.enableServerCertificateValidation",
-        type: {
-          name: "Object"
-        }
-      }
-    },
-    additionalProperties: LinkedService.type.additionalProperties
-  }
-};
-
-export const RestServiceLinkedService: msRest.CompositeMapper = {
-  serializedName: "RestService",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
-    uberParent: "LinkedService",
-    className: "RestServiceLinkedService",
-    modelProperties: {
-      ...LinkedService.type.modelProperties,
-      url: {
-        required: true,
-        serializedName: "typeProperties.url",
-        type: {
-          name: "Object"
-        }
-      },
-      enableServerCertificateValidation: {
-        serializedName: "typeProperties.enableServerCertificateValidation",
-        type: {
-          name: "Object"
-        }
-      },
-      authenticationType: {
-        required: true,
-        serializedName: "typeProperties.authenticationType",
-        type: {
-          name: "String"
-        }
-      },
-      userName: {
-        serializedName: "typeProperties.userName",
-        type: {
-          name: "Object"
-        }
-      },
-      password: {
-        serializedName: "typeProperties.password",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "type",
-            clientName: "type"
-          },
-          uberParent: "SecretBase",
-          className: "SecretBase"
-        }
-      },
-      servicePrincipalId: {
-        serializedName: "typeProperties.servicePrincipalId",
-        type: {
-          name: "Object"
-        }
-      },
-      servicePrincipalKey: {
-        serializedName: "typeProperties.servicePrincipalKey",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "type",
-            clientName: "type"
-          },
-          uberParent: "SecretBase",
-          className: "SecretBase"
-        }
-      },
-      tenant: {
-        serializedName: "typeProperties.tenant",
-        type: {
-          name: "Object"
-        }
-      },
-      aadResourceId: {
-        serializedName: "typeProperties.aadResourceId",
-        type: {
-          name: "Object"
-        }
-      },
-      encryptedCredential: {
-        serializedName: "typeProperties.encryptedCredential",
         type: {
           name: "Object"
         }
@@ -6635,7 +6440,6 @@ export const ODataLinkedService: msRest.CompositeMapper = {
         }
       },
       authenticationType: {
-        required: true,
         serializedName: "typeProperties.authenticationType",
         type: {
           name: "String"
@@ -6649,66 +6453,6 @@ export const ODataLinkedService: msRest.CompositeMapper = {
       },
       password: {
         serializedName: "typeProperties.password",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "type",
-            clientName: "type"
-          },
-          uberParent: "SecretBase",
-          className: "SecretBase"
-        }
-      },
-      tenant: {
-        serializedName: "typeProperties.tenant",
-        type: {
-          name: "Object"
-        }
-      },
-      servicePrincipalId: {
-        serializedName: "typeProperties.servicePrincipalId",
-        type: {
-          name: "Object"
-        }
-      },
-      aadResourceId: {
-        serializedName: "typeProperties.aadResourceId",
-        type: {
-          name: "Object"
-        }
-      },
-      aadServicePrincipalCredentialType: {
-        serializedName: "typeProperties.aadServicePrincipalCredentialType",
-        type: {
-          name: "String"
-        }
-      },
-      servicePrincipalKey: {
-        serializedName: "typeProperties.servicePrincipalKey",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "type",
-            clientName: "type"
-          },
-          uberParent: "SecretBase",
-          className: "SecretBase"
-        }
-      },
-      servicePrincipalEmbeddedCert: {
-        serializedName: "typeProperties.servicePrincipalEmbeddedCert",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "type",
-            clientName: "type"
-          },
-          uberParent: "SecretBase",
-          className: "SecretBase"
-        }
-      },
-      servicePrincipalEmbeddedCertPassword: {
-        serializedName: "typeProperties.servicePrincipalEmbeddedCertPassword",
         type: {
           name: "Composite",
           polymorphicDiscriminator: {
@@ -7180,71 +6924,6 @@ export const AzureMySqlLinkedService: msRest.CompositeMapper = {
   }
 };
 
-export const OracleServiceCloudLinkedService: msRest.CompositeMapper = {
-  serializedName: "OracleServiceCloud",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
-    uberParent: "LinkedService",
-    className: "OracleServiceCloudLinkedService",
-    modelProperties: {
-      ...LinkedService.type.modelProperties,
-      host: {
-        required: true,
-        serializedName: "typeProperties.host",
-        type: {
-          name: "Object"
-        }
-      },
-      username: {
-        required: true,
-        serializedName: "typeProperties.username",
-        type: {
-          name: "Object"
-        }
-      },
-      password: {
-        required: true,
-        serializedName: "typeProperties.password",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "type",
-            clientName: "type"
-          },
-          uberParent: "SecretBase",
-          className: "SecretBase"
-        }
-      },
-      useEncryptedEndpoints: {
-        serializedName: "typeProperties.useEncryptedEndpoints",
-        type: {
-          name: "Object"
-        }
-      },
-      useHostVerification: {
-        serializedName: "typeProperties.useHostVerification",
-        type: {
-          name: "Object"
-        }
-      },
-      usePeerVerification: {
-        serializedName: "typeProperties.usePeerVerification",
-        type: {
-          name: "Object"
-        }
-      },
-      encryptedCredential: {
-        serializedName: "typeProperties.encryptedCredential",
-        type: {
-          name: "Object"
-        }
-      }
-    },
-    additionalProperties: LinkedService.type.additionalProperties
-  }
-};
-
 export const OracleLinkedService: msRest.CompositeMapper = {
   serializedName: "Oracle",
   type: {
@@ -7363,63 +7042,6 @@ export const HDInsightLinkedService: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "LinkedServiceReference"
-        }
-      },
-      encryptedCredential: {
-        serializedName: "typeProperties.encryptedCredential",
-        type: {
-          name: "Object"
-        }
-      }
-    },
-    additionalProperties: LinkedService.type.additionalProperties
-  }
-};
-
-export const DynamicsAXLinkedService: msRest.CompositeMapper = {
-  serializedName: "DynamicsAX",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
-    uberParent: "LinkedService",
-    className: "DynamicsAXLinkedService",
-    modelProperties: {
-      ...LinkedService.type.modelProperties,
-      url: {
-        required: true,
-        serializedName: "typeProperties.url",
-        type: {
-          name: "Object"
-        }
-      },
-      tenant: {
-        serializedName: "typeProperties.tenant",
-        type: {
-          name: "Object"
-        }
-      },
-      servicePrincipalId: {
-        serializedName: "typeProperties.servicePrincipalId",
-        type: {
-          name: "Object"
-        }
-      },
-      aadResourceId: {
-        serializedName: "typeProperties.aadResourceId",
-        type: {
-          name: "Object"
-        }
-      },
-      servicePrincipalKey: {
-        serializedName: "typeProperties.servicePrincipalKey",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "type",
-            clientName: "type"
-          },
-          uberParent: "SecretBase",
-          className: "SecretBase"
         }
       },
       encryptedCredential: {
@@ -8247,20 +7869,6 @@ export const GoogleBigQueryObjectDataset: msRest.CompositeMapper = {
   }
 };
 
-export const GoogleAdWordsObjectDataset: msRest.CompositeMapper = {
-  serializedName: "GoogleAdWordsObject",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: Dataset.type.polymorphicDiscriminator,
-    uberParent: "Dataset",
-    className: "GoogleAdWordsObjectDataset",
-    modelProperties: {
-      ...Dataset.type.modelProperties
-    },
-    additionalProperties: Dataset.type.additionalProperties
-  }
-};
-
 export const EloquaObjectDataset: msRest.CompositeMapper = {
   serializedName: "EloquaObject",
   type: {
@@ -8340,50 +7948,6 @@ export const AmazonMWSObjectDataset: msRest.CompositeMapper = {
     className: "AmazonMWSObjectDataset",
     modelProperties: {
       ...Dataset.type.modelProperties
-    },
-    additionalProperties: Dataset.type.additionalProperties
-  }
-};
-
-export const RestServiceDataset: msRest.CompositeMapper = {
-  serializedName: "RestResource",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: Dataset.type.polymorphicDiscriminator,
-    uberParent: "Dataset",
-    className: "RestServiceDataset",
-    modelProperties: {
-      ...Dataset.type.modelProperties,
-      relativeUrl: {
-        serializedName: "typeProperties.relativeUrl",
-        type: {
-          name: "Object"
-        }
-      },
-      requestMethod: {
-        serializedName: "typeProperties.requestMethod",
-        type: {
-          name: "Object"
-        }
-      },
-      requestBody: {
-        serializedName: "typeProperties.requestBody",
-        type: {
-          name: "Object"
-        }
-      },
-      additionalHeaders: {
-        serializedName: "typeProperties.additionalHeaders",
-        type: {
-          name: "Object"
-        }
-      },
-      paginationRules: {
-        serializedName: "typeProperties.paginationRules",
-        type: {
-          name: "Object"
-        }
-      }
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -8926,20 +8490,6 @@ export const AzureMySqlTableDataset: msRest.CompositeMapper = {
   }
 };
 
-export const OracleServiceCloudObjectDataset: msRest.CompositeMapper = {
-  serializedName: "OracleServiceCloudObject",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: Dataset.type.polymorphicDiscriminator,
-    uberParent: "Dataset",
-    className: "OracleServiceCloudObjectDataset",
-    modelProperties: {
-      ...Dataset.type.modelProperties
-    },
-    additionalProperties: Dataset.type.additionalProperties
-  }
-};
-
 export const OracleTableDataset: msRest.CompositeMapper = {
   serializedName: "OracleTable",
   type: {
@@ -9023,12 +8573,6 @@ export const FileShareDataset: msRest.CompositeMapper = {
           name: "Object"
         }
       },
-      wildcardPath: {
-        serializedName: "typeProperties.wildcardPath",
-        type: {
-          name: "Object"
-        }
-      },
       format: {
         serializedName: "typeProperties.format",
         type: {
@@ -9084,6 +8628,7 @@ export const AzureDataLakeStoreDataset: msRest.CompositeMapper = {
     modelProperties: {
       ...Dataset.type.modelProperties,
       folderPath: {
+        required: true,
         serializedName: "typeProperties.folderPath",
         type: {
           name: "Object"
@@ -9112,12 +8657,6 @@ export const AzureDataLakeStoreDataset: msRest.CompositeMapper = {
           }
         }
       },
-      wildcardPath: {
-        serializedName: "typeProperties.wildcardPath",
-        type: {
-          name: "Object"
-        }
-      },
       compression: {
         serializedName: "typeProperties.compression",
         type: {
@@ -9133,27 +8672,6 @@ export const AzureDataLakeStoreDataset: msRest.CompositeMapper = {
               name: "Object"
             }
           }
-        }
-      }
-    },
-    additionalProperties: Dataset.type.additionalProperties
-  }
-};
-
-export const DynamicsAXResourceDataset: msRest.CompositeMapper = {
-  serializedName: "DynamicsAXResource",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: Dataset.type.polymorphicDiscriminator,
-    uberParent: "Dataset",
-    className: "DynamicsAXResourceDataset",
-    modelProperties: {
-      ...Dataset.type.modelProperties,
-      path: {
-        required: true,
-        serializedName: "typeProperties.path",
-        type: {
-          name: "String"
         }
       }
     },
@@ -9339,12 +8857,6 @@ export const AzureBlobDataset: msRest.CompositeMapper = {
           name: "Object"
         }
       },
-      wildcardPath: {
-        serializedName: "typeProperties.wildcardPath",
-        type: {
-          name: "Object"
-        }
-      },
       format: {
         serializedName: "typeProperties.format",
         type: {
@@ -9408,12 +8920,6 @@ export const AmazonS3Dataset: msRest.CompositeMapper = {
       },
       prefix: {
         serializedName: "typeProperties.prefix",
-        type: {
-          name: "Object"
-        }
-      },
-      wildcardPath: {
-        serializedName: "typeProperties.wildcardPath",
         type: {
           name: "Object"
         }
@@ -10590,26 +10096,6 @@ export const GoogleBigQuerySource: msRest.CompositeMapper = {
   }
 };
 
-export const GoogleAdWordsSource: msRest.CompositeMapper = {
-  serializedName: "GoogleAdWordsSource",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: CopySource.type.polymorphicDiscriminator,
-    uberParent: "CopySource",
-    className: "GoogleAdWordsSource",
-    modelProperties: {
-      ...CopySource.type.modelProperties,
-      query: {
-        serializedName: "query",
-        type: {
-          name: "Object"
-        }
-      }
-    },
-    additionalProperties: CopySource.type.additionalProperties
-  }
-};
-
 export const EloquaSource: msRest.CompositeMapper = {
   serializedName: "EloquaSource",
   type: {
@@ -10730,32 +10216,6 @@ export const AmazonMWSSource: msRest.CompositeMapper = {
   }
 };
 
-export const RestServiceSource: msRest.CompositeMapper = {
-  serializedName: "RestServiceSource",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: CopySource.type.polymorphicDiscriminator,
-    uberParent: "CopySource",
-    className: "RestServiceSource",
-    modelProperties: {
-      ...CopySource.type.modelProperties,
-      httpRequestTimeout: {
-        serializedName: "httpRequestTimeout",
-        type: {
-          name: "Object"
-        }
-      },
-      requestInterval: {
-        serializedName: "requestInterval",
-        type: {
-          name: "Object"
-        }
-      }
-    },
-    additionalProperties: CopySource.type.additionalProperties
-  }
-};
-
 export const HttpSource: msRest.CompositeMapper = {
   serializedName: "HttpSource",
   type: {
@@ -10851,26 +10311,6 @@ export const WebSource: msRest.CompositeMapper = {
     className: "WebSource",
     modelProperties: {
       ...CopySource.type.modelProperties
-    },
-    additionalProperties: CopySource.type.additionalProperties
-  }
-};
-
-export const OracleServiceCloudSource: msRest.CompositeMapper = {
-  serializedName: "OracleServiceCloudSource",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: CopySource.type.polymorphicDiscriminator,
-    uberParent: "CopySource",
-    className: "OracleServiceCloudSource",
-    modelProperties: {
-      ...CopySource.type.modelProperties,
-      query: {
-        serializedName: "query",
-        type: {
-          name: "Object"
-        }
-      }
     },
     additionalProperties: CopySource.type.additionalProperties
   }
@@ -11038,6 +10478,7 @@ export const StoredProcedureParameter: msRest.CompositeMapper = {
     className: "StoredProcedureParameter",
     modelProperties: {
       value: {
+        required: true,
         serializedName: "value",
         type: {
           name: "Object"
@@ -11164,26 +10605,6 @@ export const RelationalSource: msRest.CompositeMapper = {
     polymorphicDiscriminator: CopySource.type.polymorphicDiscriminator,
     uberParent: "CopySource",
     className: "RelationalSource",
-    modelProperties: {
-      ...CopySource.type.modelProperties,
-      query: {
-        serializedName: "query",
-        type: {
-          name: "Object"
-        }
-      }
-    },
-    additionalProperties: CopySource.type.additionalProperties
-  }
-};
-
-export const DynamicsAXSource: msRest.CompositeMapper = {
-  serializedName: "DynamicsAXSource",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: CopySource.type.polymorphicDiscriminator,
-    uberParent: "CopySource",
-    className: "DynamicsAXSource",
     modelProperties: {
       ...CopySource.type.modelProperties,
       query: {
@@ -11341,6 +10762,35 @@ export const LookupActivity: msRest.CompositeMapper = {
         serializedName: "typeProperties.firstRowOnly",
         type: {
           name: "Object"
+        }
+      }
+    },
+    additionalProperties: Activity.type.additionalProperties
+  }
+};
+
+export const DeleteActivity: msRest.CompositeMapper = {
+  serializedName: "Delete",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Activity.type.polymorphicDiscriminator,
+    uberParent: "Activity",
+    className: "DeleteActivity",
+    modelProperties: {
+      ...ExecutionActivity.type.modelProperties,
+      recursive: {
+        serializedName: "typeProperties.recursive",
+        type: {
+          name: "Object"
+        }
+      },
+      dataset: {
+        required: true,
+        serializedName: "typeProperties.dataset",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "DatasetReference"
         }
       }
     },
@@ -14527,7 +13977,6 @@ export const discriminators = {
   'LinkedService.HBase' : HBaseLinkedService,
   'LinkedService.Greenplum' : GreenplumLinkedService,
   'LinkedService.GoogleBigQuery' : GoogleBigQueryLinkedService,
-  'LinkedService.GoogleAdWords' : GoogleAdWordsLinkedService,
   'LinkedService.Eloqua' : EloquaLinkedService,
   'LinkedService.Drill' : DrillLinkedService,
   'LinkedService.Couchbase' : CouchbaseLinkedService,
@@ -14538,7 +13987,6 @@ export const discriminators = {
   'LinkedService.SapBW' : SapBWLinkedService,
   'LinkedService.Sftp' : SftpServerLinkedService,
   'LinkedService.FtpServer' : FtpServerLinkedService,
-  'LinkedService.RestService' : RestServiceLinkedService,
   'LinkedService.HttpServer' : HttpLinkedService,
   'LinkedService.AzureSearch' : AzureSearchLinkedService,
   'LinkedService.CustomDataSource' : CustomDataSourceLinkedService,
@@ -14565,11 +14013,9 @@ export const discriminators = {
   'LinkedService.PostgreSql' : PostgreSqlLinkedService,
   'LinkedService.MySql' : MySqlLinkedService,
   'LinkedService.AzureMySql' : AzureMySqlLinkedService,
-  'LinkedService.OracleServiceCloud' : OracleServiceCloudLinkedService,
   'LinkedService.Oracle' : OracleLinkedService,
   'LinkedService.FileServer' : FileServerLinkedService,
   'LinkedService.HDInsight' : HDInsightLinkedService,
-  'LinkedService.DynamicsAX' : DynamicsAXLinkedService,
   'LinkedService.Dynamics' : DynamicsLinkedService,
   'LinkedService.CosmosDb' : CosmosDbLinkedService,
   'LinkedService.AzureKeyVault' : AzureKeyVaultLinkedService,
@@ -14604,14 +14050,12 @@ export const discriminators = {
   'Dataset.HBaseObject' : HBaseObjectDataset,
   'Dataset.GreenplumTable' : GreenplumTableDataset,
   'Dataset.GoogleBigQueryObject' : GoogleBigQueryObjectDataset,
-  'Dataset.GoogleAdWordsObject' : GoogleAdWordsObjectDataset,
   'Dataset.EloquaObject' : EloquaObjectDataset,
   'Dataset.DrillTable' : DrillTableDataset,
   'Dataset.CouchbaseTable' : CouchbaseTableDataset,
   'Dataset.ConcurObject' : ConcurObjectDataset,
   'Dataset.AzurePostgreSqlTable' : AzurePostgreSqlTableDataset,
   'Dataset.AmazonMWSObject' : AmazonMWSObjectDataset,
-  'Dataset.RestResource' : RestServiceDataset,
   'DatasetCompression.ZipDeflate' : DatasetZipDeflateCompression,
   'DatasetCompression.Deflate' : DatasetDeflateCompression,
   'DatasetCompression.GZip' : DatasetGZipCompression,
@@ -14632,13 +14076,11 @@ export const discriminators = {
   'Dataset.SalesforceObject' : SalesforceObjectDataset,
   'Dataset.RelationalTable' : RelationalTableDataset,
   'Dataset.AzureMySqlTable' : AzureMySqlTableDataset,
-  'Dataset.OracleServiceCloudObject' : OracleServiceCloudObjectDataset,
   'Dataset.OracleTable' : OracleTableDataset,
   'Dataset.ODataResource' : ODataResourceDataset,
   'Dataset.MongoDbCollection' : MongoDbCollectionDataset,
   'Dataset.FileShare' : FileShareDataset,
   'Dataset.AzureDataLakeStoreFile' : AzureDataLakeStoreDataset,
-  'Dataset.DynamicsAXResource' : DynamicsAXResourceDataset,
   'Dataset.DynamicsEntity' : DynamicsEntityDataset,
   'Dataset.DocumentDbCollection' : DocumentDbCollectionDataset,
   'Dataset.CustomDataset' : CustomDataset,
@@ -14681,20 +14123,17 @@ export const discriminators = {
   'CopySource.HBaseSource' : HBaseSource,
   'CopySource.GreenplumSource' : GreenplumSource,
   'CopySource.GoogleBigQuerySource' : GoogleBigQuerySource,
-  'CopySource.GoogleAdWordsSource' : GoogleAdWordsSource,
   'CopySource.EloquaSource' : EloquaSource,
   'CopySource.DrillSource' : DrillSource,
   'CopySource.CouchbaseSource' : CouchbaseSource,
   'CopySource.ConcurSource' : ConcurSource,
   'CopySource.AzurePostgreSqlSource' : AzurePostgreSqlSource,
   'CopySource.AmazonMWSSource' : AmazonMWSSource,
-  'CopySource.RestServiceSource' : RestServiceSource,
   'CopySource.HttpSource' : HttpSource,
   'CopySource.AzureDataLakeStoreSource' : AzureDataLakeStoreSource,
   'CopySource.MongoDbSource' : MongoDbSource,
   'CopySource.CassandraSource' : CassandraSource,
   'CopySource.WebSource' : WebSource,
-  'CopySource.OracleServiceCloudSource' : OracleServiceCloudSource,
   'CopySource.OracleSource' : OracleSource,
   'CopySource.AzureMySqlSource' : AzureMySqlSource,
   'CopySource.HdfsSource' : HdfsSource,
@@ -14705,13 +14144,13 @@ export const discriminators = {
   'CopySource.SapCloudForCustomerSource' : SapCloudForCustomerSource,
   'CopySource.SalesforceSource' : SalesforceSource,
   'CopySource.RelationalSource' : RelationalSource,
-  'CopySource.DynamicsAXSource' : DynamicsAXSource,
   'CopySource.DynamicsSource' : DynamicsSource,
   'CopySource.DocumentDbCollectionSource' : DocumentDbCollectionSource,
   'CopySource.BlobSource' : BlobSource,
   'CopySource.AzureTableSource' : AzureTableSource,
   'CopySource' : CopySource,
   'Activity.Lookup' : LookupActivity,
+  'Activity.Delete' : DeleteActivity,
   'Activity.SqlServerStoredProcedure' : SqlServerStoredProcedureActivity,
   'Activity.Custom' : CustomActivity,
   'Activity.ExecuteSSISPackage' : ExecuteSSISPackageActivity,
