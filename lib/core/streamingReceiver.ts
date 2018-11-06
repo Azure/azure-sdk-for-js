@@ -7,9 +7,9 @@ import { ReceiverEvents } from "rhea-promise";
 import {
   MessageReceiver, ReceiveOptions, OnMessage, OnError, ReceiverType, ReceiveMode
 } from "./messageReceiver";
-import { ClientEntityContext } from "./clientEntityContext";
+import { ClientEntityContext } from "../clientEntityContext";
 
-import * as log from "./log";
+import * as log from "../log";
 
 /**
  * Describes the receive handler object that is returned from the receive() method with handlers is

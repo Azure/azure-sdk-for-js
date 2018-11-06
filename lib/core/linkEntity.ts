@@ -2,10 +2,10 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { defaultLock } from "@azure/amqp-common";
-import { ClientEntityContext } from "./clientEntityContext";
-import * as log from "./log";
+import { ClientEntityContext } from "../clientEntityContext";
+import * as log from "../log";
 import { Sender, Receiver } from "rhea-promise";
-import { getUniqueName } from "./util/utils";
+import { getUniqueName } from "../util/utils";
 
 export interface LinkEntityOptions {
   /**
