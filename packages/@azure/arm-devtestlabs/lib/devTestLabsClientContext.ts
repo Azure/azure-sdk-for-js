@@ -16,16 +16,9 @@ const packageName = "@azure/arm-devtestlabs";
 const packageVersion = "1.0.0";
 
 export class DevTestLabsClientContext extends msRestAzure.AzureServiceClient {
-
   credentials: msRest.ServiceClientCredentials;
-
-  apiVersion: string;
-
+  apiVersion?: string;
   subscriptionId: string;
-
-  acceptLanguage: string;
-
-  longRunningOperationRetryTimeout: number;
 
   /**
    * Initializes a new instance of the DevTestLabsClient class.
@@ -46,7 +39,7 @@ export class DevTestLabsClientContext extends msRestAzure.AzureServiceClient {
     }
     super(credentials, options);
 
-    this.apiVersion = '2016-05-15';
+    this.apiVersion = '2018-09-15';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

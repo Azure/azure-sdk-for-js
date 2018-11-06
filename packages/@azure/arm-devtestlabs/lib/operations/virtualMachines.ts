@@ -40,15 +40,15 @@ export class VirtualMachines {
    * @param labName The name of the lab.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationLabVirtualMachine>): void;
+  list(resourceGroupName: string, labName: string, callback: msRest.ServiceCallback<Models.LabVirtualMachineList>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, options: Models.VirtualMachinesListOptionalParams, callback: msRest.ServiceCallback<Models.ResponseWithContinuationLabVirtualMachine>): void;
-  list(resourceGroupName: string, labName: string, options?: Models.VirtualMachinesListOptionalParams, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationLabVirtualMachine>): Promise<Models.VirtualMachinesListResponse> {
+  list(resourceGroupName: string, labName: string, options: Models.VirtualMachinesListOptionalParams, callback: msRest.ServiceCallback<Models.LabVirtualMachineList>): void;
+  list(resourceGroupName: string, labName: string, options?: Models.VirtualMachinesListOptionalParams, callback?: msRest.ServiceCallback<Models.LabVirtualMachineList>): Promise<Models.VirtualMachinesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -220,7 +220,43 @@ export class VirtualMachines {
   }
 
   /**
-   * Lists all applicable schedules
+   * Gets a string that represents the contents of the RDP file for the virtual machine
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param name The name of the virtual machine.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.VirtualMachinesGetRdpFileContentsResponse>
+   */
+  getRdpFileContents(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachinesGetRdpFileContentsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param name The name of the virtual machine.
+   * @param callback The callback
+   */
+  getRdpFileContents(resourceGroupName: string, labName: string, name: string, callback: msRest.ServiceCallback<Models.RdpConnection>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param name The name of the virtual machine.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getRdpFileContents(resourceGroupName: string, labName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RdpConnection>): void;
+  getRdpFileContents(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RdpConnection>): Promise<Models.VirtualMachinesGetRdpFileContentsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        labName,
+        name,
+        options
+      },
+      getRdpFileContentsOperationSpec,
+      callback) as Promise<Models.VirtualMachinesGetRdpFileContentsResponse>;
+  }
+
+  /**
+   * Lists the applicable start/stop schedules, if any.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
@@ -256,6 +292,46 @@ export class VirtualMachines {
   }
 
   /**
+   * Redeploy a virtual machine This operation can take a while to complete.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param name The name of the virtual machine.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  redeploy(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginRedeploy(resourceGroupName,labName,name,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Resize Virtual Machine. This operation can take a while to complete.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param name The name of the virtual machine.
+   * @param resizeLabVirtualMachineProperties Request body for resizing a virtual machine.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  resize(resourceGroupName: string, labName: string, name: string, resizeLabVirtualMachineProperties: Models.ResizeLabVirtualMachineProperties, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginResize(resourceGroupName,labName,name,resizeLabVirtualMachineProperties,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Restart a virtual machine. This operation can take a while to complete.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param name The name of the virtual machine.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  restart(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginRestart(resourceGroupName,labName,name,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Start a virtual machine. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -278,6 +354,33 @@ export class VirtualMachines {
    */
   stop(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
     return this.beginStop(resourceGroupName,labName,name,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Transfers all data disks attached to the virtual machine to be owned by the current user. This
+   * operation can take a while to complete.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param name The name of the virtual machine.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  transferDisks(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginTransferDisks(resourceGroupName,labName,name,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Release ownership of an existing virtual machine This operation can take a while to complete.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param name The name of the virtual machine.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  unClaim(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginUnClaim(resourceGroupName,labName,name,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
@@ -412,6 +515,68 @@ export class VirtualMachines {
   }
 
   /**
+   * Redeploy a virtual machine This operation can take a while to complete.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param name The name of the virtual machine.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginRedeploy(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        labName,
+        name,
+        options
+      },
+      beginRedeployOperationSpec,
+      options);
+  }
+
+  /**
+   * Resize Virtual Machine. This operation can take a while to complete.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param name The name of the virtual machine.
+   * @param resizeLabVirtualMachineProperties Request body for resizing a virtual machine.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginResize(resourceGroupName: string, labName: string, name: string, resizeLabVirtualMachineProperties: Models.ResizeLabVirtualMachineProperties, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        labName,
+        name,
+        resizeLabVirtualMachineProperties,
+        options
+      },
+      beginResizeOperationSpec,
+      options);
+  }
+
+  /**
+   * Restart a virtual machine. This operation can take a while to complete.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param name The name of the virtual machine.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginRestart(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        labName,
+        name,
+        options
+      },
+      beginRestartOperationSpec,
+      options);
+  }
+
+  /**
    * Start a virtual machine. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -452,6 +617,47 @@ export class VirtualMachines {
   }
 
   /**
+   * Transfers all data disks attached to the virtual machine to be owned by the current user. This
+   * operation can take a while to complete.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param name The name of the virtual machine.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginTransferDisks(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        labName,
+        name,
+        options
+      },
+      beginTransferDisksOperationSpec,
+      options);
+  }
+
+  /**
+   * Release ownership of an existing virtual machine This operation can take a while to complete.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param name The name of the virtual machine.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUnClaim(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        labName,
+        name,
+        options
+      },
+      beginUnClaimOperationSpec,
+      options);
+  }
+
+  /**
    * List virtual machines in a given lab.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -462,14 +668,14 @@ export class VirtualMachines {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationLabVirtualMachine>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.LabVirtualMachineList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResponseWithContinuationLabVirtualMachine>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationLabVirtualMachine>): Promise<Models.VirtualMachinesListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LabVirtualMachineList>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LabVirtualMachineList>): Promise<Models.VirtualMachinesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -502,7 +708,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ResponseWithContinuationLabVirtualMachine
+      bodyMapper: Mappers.LabVirtualMachineList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -563,6 +769,32 @@ const updateOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.LabVirtualMachine
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getRdpFileContentsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}/getRdpFileContents",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.labName,
+    Parameters.name
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.RdpConnection
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -649,6 +881,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
+    200: {},
     202: {},
     204: {},
     default: {
@@ -779,6 +1012,88 @@ const beginDetachDataDiskOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginRedeployOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}/redeploy",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.labName,
+    Parameters.name
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginResizeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}/resize",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.labName,
+    Parameters.name
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "resizeLabVirtualMachineProperties",
+    mapper: {
+      ...Mappers.ResizeLabVirtualMachineProperties,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginRestartOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}/restart",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.labName,
+    Parameters.name
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginStartOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}/start",
@@ -829,6 +1144,56 @@ const beginStopOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginTransferDisksOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}/transferDisks",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.labName,
+    Parameters.name
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginUnClaimOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}/unClaim",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.labName,
+    Parameters.name
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
@@ -841,7 +1206,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ResponseWithContinuationLabVirtualMachine
+      bodyMapper: Mappers.LabVirtualMachineList
     },
     default: {
       bodyMapper: Mappers.CloudError
