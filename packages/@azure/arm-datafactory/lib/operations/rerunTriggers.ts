@@ -60,7 +60,7 @@ export class RerunTriggers {
    * @param callback The callback
    */
   create(resourceGroupName: string, factoryName: string, triggerName: string, rerunTriggerName: string, rerunTumblingWindowTriggerActionParameters: Models.RerunTumblingWindowTriggerActionParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TriggerResource>): void;
-  create(resourceGroupName: string, factoryName: string, triggerName: string, rerunTriggerName: string, rerunTumblingWindowTriggerActionParameters: Models.RerunTumblingWindowTriggerActionParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TriggerResource>): Promise<Models.RerunTriggersCreateResponse> {
+  create(resourceGroupName: string, factoryName: string, triggerName: string, rerunTriggerName: string, rerunTumblingWindowTriggerActionParameters: Models.RerunTumblingWindowTriggerActionParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggerResource>, callback?: msRest.ServiceCallback<Models.TriggerResource>): Promise<Models.RerunTriggersCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -140,7 +140,7 @@ export class RerunTriggers {
    * @param callback The callback
    */
   listByTrigger(resourceGroupName: string, factoryName: string, triggerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RerunTriggerListResponse>): void;
-  listByTrigger(resourceGroupName: string, factoryName: string, triggerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RerunTriggerListResponse>): Promise<Models.RerunTriggersListByTriggerResponse> {
+  listByTrigger(resourceGroupName: string, factoryName: string, triggerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RerunTriggerListResponse>, callback?: msRest.ServiceCallback<Models.RerunTriggerListResponse>): Promise<Models.RerunTriggersListByTriggerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -236,7 +236,7 @@ export class RerunTriggers {
    * @param callback The callback
    */
   listByTriggerNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RerunTriggerListResponse>): void;
-  listByTriggerNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RerunTriggerListResponse>): Promise<Models.RerunTriggersListByTriggerNextResponse> {
+  listByTriggerNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RerunTriggerListResponse>, callback?: msRest.ServiceCallback<Models.RerunTriggerListResponse>): Promise<Models.RerunTriggersListByTriggerNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

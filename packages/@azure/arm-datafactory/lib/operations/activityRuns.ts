@@ -53,7 +53,7 @@ export class ActivityRuns {
    * @param callback The callback
    */
   queryByPipelineRun(resourceGroupName: string, factoryName: string, runId: string, filterParameters: Models.RunFilterParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ActivityRunsQueryResponse>): void;
-  queryByPipelineRun(resourceGroupName: string, factoryName: string, runId: string, filterParameters: Models.RunFilterParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ActivityRunsQueryResponse>): Promise<Models.ActivityRunsQueryByPipelineRunResponse> {
+  queryByPipelineRun(resourceGroupName: string, factoryName: string, runId: string, filterParameters: Models.RunFilterParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActivityRunsQueryResponse>, callback?: msRest.ServiceCallback<Models.ActivityRunsQueryResponse>): Promise<Models.ActivityRunsQueryByPipelineRunResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
