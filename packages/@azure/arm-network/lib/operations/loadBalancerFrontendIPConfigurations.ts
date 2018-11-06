@@ -47,7 +47,7 @@ export class LoadBalancerFrontendIPConfigurations {
    * @param callback The callback
    */
   list(resourceGroupName: string, loadBalancerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoadBalancerFrontendIPConfigurationListResult>): void;
-  list(resourceGroupName: string, loadBalancerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LoadBalancerFrontendIPConfigurationListResult>): Promise<Models.LoadBalancerFrontendIPConfigurationsListResponse> {
+  list(resourceGroupName: string, loadBalancerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoadBalancerFrontendIPConfigurationListResult>, callback?: msRest.ServiceCallback<Models.LoadBalancerFrontendIPConfigurationListResult>): Promise<Models.LoadBalancerFrontendIPConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class LoadBalancerFrontendIPConfigurations {
    * @param callback The callback
    */
   get(resourceGroupName: string, loadBalancerName: string, frontendIPConfigurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FrontendIPConfiguration>): void;
-  get(resourceGroupName: string, loadBalancerName: string, frontendIPConfigurationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FrontendIPConfiguration>): Promise<Models.LoadBalancerFrontendIPConfigurationsGetResponse> {
+  get(resourceGroupName: string, loadBalancerName: string, frontendIPConfigurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FrontendIPConfiguration>, callback?: msRest.ServiceCallback<Models.FrontendIPConfiguration>): Promise<Models.LoadBalancerFrontendIPConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class LoadBalancerFrontendIPConfigurations {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoadBalancerFrontendIPConfigurationListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LoadBalancerFrontendIPConfigurationListResult>): Promise<Models.LoadBalancerFrontendIPConfigurationsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoadBalancerFrontendIPConfigurationListResult>, callback?: msRest.ServiceCallback<Models.LoadBalancerFrontendIPConfigurationListResult>): Promise<Models.LoadBalancerFrontendIPConfigurationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

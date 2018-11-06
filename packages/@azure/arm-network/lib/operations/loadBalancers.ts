@@ -60,7 +60,7 @@ export class LoadBalancers {
    * @param callback The callback
    */
   get(resourceGroupName: string, loadBalancerName: string, options: Models.LoadBalancersGetOptionalParams, callback: msRest.ServiceCallback<Models.LoadBalancer>): void;
-  get(resourceGroupName: string, loadBalancerName: string, options?: Models.LoadBalancersGetOptionalParams, callback?: msRest.ServiceCallback<Models.LoadBalancer>): Promise<Models.LoadBalancersGetResponse> {
+  get(resourceGroupName: string, loadBalancerName: string, options?: Models.LoadBalancersGetOptionalParams | msRest.ServiceCallback<Models.LoadBalancer>, callback?: msRest.ServiceCallback<Models.LoadBalancer>): Promise<Models.LoadBalancersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class LoadBalancers {
    * @param callback The callback
    */
   listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoadBalancerListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LoadBalancerListResult>): Promise<Models.LoadBalancersListAllResponse> {
+  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoadBalancerListResult>, callback?: msRest.ServiceCallback<Models.LoadBalancerListResult>): Promise<Models.LoadBalancersListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -139,7 +139,7 @@ export class LoadBalancers {
    * @param callback The callback
    */
   list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoadBalancerListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LoadBalancerListResult>): Promise<Models.LoadBalancersListResponse> {
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoadBalancerListResult>, callback?: msRest.ServiceCallback<Models.LoadBalancerListResult>): Promise<Models.LoadBalancersListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -225,7 +225,7 @@ export class LoadBalancers {
    * @param callback The callback
    */
   listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoadBalancerListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LoadBalancerListResult>): Promise<Models.LoadBalancersListAllNextResponse> {
+  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoadBalancerListResult>, callback?: msRest.ServiceCallback<Models.LoadBalancerListResult>): Promise<Models.LoadBalancersListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -253,7 +253,7 @@ export class LoadBalancers {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoadBalancerListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LoadBalancerListResult>): Promise<Models.LoadBalancersListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoadBalancerListResult>, callback?: msRest.ServiceCallback<Models.LoadBalancerListResult>): Promise<Models.LoadBalancersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
