@@ -47,7 +47,7 @@ export class NetworkProfiles {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, networkProfileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, networkProfileName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, networkProfileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -79,7 +79,7 @@ export class NetworkProfiles {
    * @param callback The callback
    */
   get(resourceGroupName: string, networkProfileName: string, options: Models.NetworkProfilesGetOptionalParams, callback: msRest.ServiceCallback<Models.NetworkProfile>): void;
-  get(resourceGroupName: string, networkProfileName: string, options?: Models.NetworkProfilesGetOptionalParams, callback?: msRest.ServiceCallback<Models.NetworkProfile>): Promise<Models.NetworkProfilesGetResponse> {
+  get(resourceGroupName: string, networkProfileName: string, options?: Models.NetworkProfilesGetOptionalParams | msRest.ServiceCallback<Models.NetworkProfile>, callback?: msRest.ServiceCallback<Models.NetworkProfile>): Promise<Models.NetworkProfilesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -114,7 +114,7 @@ export class NetworkProfiles {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, networkProfileName: string, parameters: Models.NetworkProfile, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkProfile>): void;
-  createOrUpdate(resourceGroupName: string, networkProfileName: string, parameters: Models.NetworkProfile, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkProfile>): Promise<Models.NetworkProfilesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, networkProfileName: string, parameters: Models.NetworkProfile, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkProfile>, callback?: msRest.ServiceCallback<Models.NetworkProfile>): Promise<Models.NetworkProfilesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -150,7 +150,7 @@ export class NetworkProfiles {
    * @param callback The callback
    */
   updateTags(resourceGroupName: string, networkProfileName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkProfile>): void;
-  updateTags(resourceGroupName: string, networkProfileName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkProfile>): Promise<Models.NetworkProfilesUpdateTagsResponse> {
+  updateTags(resourceGroupName: string, networkProfileName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkProfile>, callback?: msRest.ServiceCallback<Models.NetworkProfile>): Promise<Models.NetworkProfilesUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -177,7 +177,7 @@ export class NetworkProfiles {
    * @param callback The callback
    */
   listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkProfileListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkProfileListResult>): Promise<Models.NetworkProfilesListAllResponse> {
+  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkProfileListResult>, callback?: msRest.ServiceCallback<Models.NetworkProfileListResult>): Promise<Models.NetworkProfilesListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -204,7 +204,7 @@ export class NetworkProfiles {
    * @param callback The callback
    */
   list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkProfileListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkProfileListResult>): Promise<Models.NetworkProfilesListResponse> {
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkProfileListResult>, callback?: msRest.ServiceCallback<Models.NetworkProfileListResult>): Promise<Models.NetworkProfilesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -232,7 +232,7 @@ export class NetworkProfiles {
    * @param callback The callback
    */
   listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkProfileListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkProfileListResult>): Promise<Models.NetworkProfilesListAllNextResponse> {
+  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkProfileListResult>, callback?: msRest.ServiceCallback<Models.NetworkProfileListResult>): Promise<Models.NetworkProfilesListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -260,7 +260,7 @@ export class NetworkProfiles {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkProfileListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkProfileListResult>): Promise<Models.NetworkProfilesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkProfileListResult>, callback?: msRest.ServiceCallback<Models.NetworkProfileListResult>): Promise<Models.NetworkProfilesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

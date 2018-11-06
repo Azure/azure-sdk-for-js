@@ -19,8 +19,8 @@ class AuthorizationManagementClient extends AuthorizationManagementClientContext
   // Operation groups
   classicAdministrators: operations.ClassicAdministrators;
   providerOperationsMetadata: operations.ProviderOperationsMetadataOperations;
-  permissions: operations.Permissions;
   roleAssignments: operations.RoleAssignments;
+  permissions: operations.Permissions;
   roleDefinitions: operations.RoleDefinitions;
   denyAssignments: operations.DenyAssignments;
 
@@ -34,8 +34,8 @@ class AuthorizationManagementClient extends AuthorizationManagementClientContext
     super(credentials, subscriptionId, options);
     this.classicAdministrators = new operations.ClassicAdministrators(this);
     this.providerOperationsMetadata = new operations.ProviderOperationsMetadataOperations(this);
-    this.permissions = new operations.Permissions(this);
     this.roleAssignments = new operations.RoleAssignments(this);
+    this.permissions = new operations.Permissions(this);
     this.roleDefinitions = new operations.RoleDefinitions(this);
     this.denyAssignments = new operations.DenyAssignments(this);
   }

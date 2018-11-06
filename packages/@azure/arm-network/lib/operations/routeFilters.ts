@@ -60,7 +60,7 @@ export class RouteFilters {
    * @param callback The callback
    */
   get(resourceGroupName: string, routeFilterName: string, options: Models.RouteFiltersGetOptionalParams, callback: msRest.ServiceCallback<Models.RouteFilter>): void;
-  get(resourceGroupName: string, routeFilterName: string, options?: Models.RouteFiltersGetOptionalParams, callback?: msRest.ServiceCallback<Models.RouteFilter>): Promise<Models.RouteFiltersGetResponse> {
+  get(resourceGroupName: string, routeFilterName: string, options?: Models.RouteFiltersGetOptionalParams | msRest.ServiceCallback<Models.RouteFilter>, callback?: msRest.ServiceCallback<Models.RouteFilter>): Promise<Models.RouteFiltersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -115,7 +115,7 @@ export class RouteFilters {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RouteFilterListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RouteFilterListResult>): Promise<Models.RouteFiltersListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RouteFilterListResult>, callback?: msRest.ServiceCallback<Models.RouteFilterListResult>): Promise<Models.RouteFiltersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -140,7 +140,7 @@ export class RouteFilters {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RouteFilterListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RouteFilterListResult>): Promise<Models.RouteFiltersListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RouteFilterListResult>, callback?: msRest.ServiceCallback<Models.RouteFilterListResult>): Promise<Models.RouteFiltersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -225,7 +225,7 @@ export class RouteFilters {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RouteFilterListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RouteFilterListResult>): Promise<Models.RouteFiltersListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RouteFilterListResult>, callback?: msRest.ServiceCallback<Models.RouteFilterListResult>): Promise<Models.RouteFiltersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -253,7 +253,7 @@ export class RouteFilters {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RouteFilterListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RouteFilterListResult>): Promise<Models.RouteFiltersListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RouteFilterListResult>, callback?: msRest.ServiceCallback<Models.RouteFilterListResult>): Promise<Models.RouteFiltersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

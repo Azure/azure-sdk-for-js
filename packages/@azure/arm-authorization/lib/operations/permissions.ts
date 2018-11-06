@@ -44,7 +44,7 @@ export class Permissions {
    * @param callback The callback
    */
   listForResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PermissionGetResult>): void;
-  listForResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PermissionGetResult>): Promise<Models.PermissionsListForResourceGroupResponse> {
+  listForResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PermissionGetResult>, callback?: msRest.ServiceCallback<Models.PermissionGetResult>): Promise<Models.PermissionsListForResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -84,7 +84,7 @@ export class Permissions {
    * @param callback The callback
    */
   listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PermissionGetResult>): void;
-  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PermissionGetResult>): Promise<Models.PermissionsListForResourceResponse> {
+  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PermissionGetResult>, callback?: msRest.ServiceCallback<Models.PermissionGetResult>): Promise<Models.PermissionsListForResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -116,7 +116,7 @@ export class Permissions {
    * @param callback The callback
    */
   listForResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PermissionGetResult>): void;
-  listForResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PermissionGetResult>): Promise<Models.PermissionsListForResourceGroupNextResponse> {
+  listForResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PermissionGetResult>, callback?: msRest.ServiceCallback<Models.PermissionGetResult>): Promise<Models.PermissionsListForResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -144,7 +144,7 @@ export class Permissions {
    * @param callback The callback
    */
   listForResourceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PermissionGetResult>): void;
-  listForResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PermissionGetResult>): Promise<Models.PermissionsListForResourceNextResponse> {
+  listForResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PermissionGetResult>, callback?: msRest.ServiceCallback<Models.PermissionGetResult>): Promise<Models.PermissionsListForResourceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

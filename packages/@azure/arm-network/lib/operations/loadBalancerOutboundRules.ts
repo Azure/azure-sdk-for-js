@@ -47,7 +47,7 @@ export class LoadBalancerOutboundRules {
    * @param callback The callback
    */
   list(resourceGroupName: string, loadBalancerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoadBalancerOutboundRuleListResult>): void;
-  list(resourceGroupName: string, loadBalancerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LoadBalancerOutboundRuleListResult>): Promise<Models.LoadBalancerOutboundRulesListResponse> {
+  list(resourceGroupName: string, loadBalancerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoadBalancerOutboundRuleListResult>, callback?: msRest.ServiceCallback<Models.LoadBalancerOutboundRuleListResult>): Promise<Models.LoadBalancerOutboundRulesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class LoadBalancerOutboundRules {
    * @param callback The callback
    */
   get(resourceGroupName: string, loadBalancerName: string, outboundRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OutboundRule>): void;
-  get(resourceGroupName: string, loadBalancerName: string, outboundRuleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OutboundRule>): Promise<Models.LoadBalancerOutboundRulesGetResponse> {
+  get(resourceGroupName: string, loadBalancerName: string, outboundRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OutboundRule>, callback?: msRest.ServiceCallback<Models.OutboundRule>): Promise<Models.LoadBalancerOutboundRulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class LoadBalancerOutboundRules {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoadBalancerOutboundRuleListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LoadBalancerOutboundRuleListResult>): Promise<Models.LoadBalancerOutboundRulesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoadBalancerOutboundRuleListResult>, callback?: msRest.ServiceCallback<Models.LoadBalancerOutboundRuleListResult>): Promise<Models.LoadBalancerOutboundRulesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

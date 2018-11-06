@@ -41,7 +41,7 @@ export class BgpServiceCommunities {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BgpServiceCommunityListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BgpServiceCommunityListResult>): Promise<Models.BgpServiceCommunitiesListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BgpServiceCommunityListResult>, callback?: msRest.ServiceCallback<Models.BgpServiceCommunityListResult>): Promise<Models.BgpServiceCommunitiesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -68,7 +68,7 @@ export class BgpServiceCommunities {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BgpServiceCommunityListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BgpServiceCommunityListResult>): Promise<Models.BgpServiceCommunitiesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BgpServiceCommunityListResult>, callback?: msRest.ServiceCallback<Models.BgpServiceCommunityListResult>): Promise<Models.BgpServiceCommunitiesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

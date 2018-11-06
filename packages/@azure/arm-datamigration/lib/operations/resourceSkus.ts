@@ -42,7 +42,7 @@ export class ResourceSkus {
    * @param callback The callback
    */
   listSkus(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceSkusResult>): void;
-  listSkus(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceSkusResult>): Promise<Models.ResourceSkusListSkusResponse> {
+  listSkus(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceSkusResult>, callback?: msRest.ServiceCallback<Models.ResourceSkusResult>): Promise<Models.ResourceSkusListSkusResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -70,7 +70,7 @@ export class ResourceSkus {
    * @param callback The callback
    */
   listSkusNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceSkusResult>): void;
-  listSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceSkusResult>): Promise<Models.ResourceSkusListSkusNextResponse> {
+  listSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceSkusResult>, callback?: msRest.ServiceCallback<Models.ResourceSkusResult>): Promise<Models.ResourceSkusListSkusNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
