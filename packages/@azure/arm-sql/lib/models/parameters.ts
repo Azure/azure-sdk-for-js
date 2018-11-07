@@ -80,6 +80,18 @@ export const apiVersion3: msRest.OperationQueryParameter = {
     }
   }
 };
+export const apiVersion4: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2018-06-01-preview',
+    type: {
+      name: "String"
+    }
+  }
+};
 export const backupName: msRest.OperationURLParameter = {
   parameterPath: "backupName",
   mapper: {

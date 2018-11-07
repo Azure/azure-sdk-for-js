@@ -105,6 +105,8 @@ export {
   TdeCertificate,
   ManagedInstanceKey,
   ManagedInstanceEncryptionProtector,
+  ManagedInstanceVulnerabilityAssessment,
+  ServerVulnerabilityAssessment,
   RecoverableDatabase,
   RestorableDroppedDatabase
 } from "../models/mappers";

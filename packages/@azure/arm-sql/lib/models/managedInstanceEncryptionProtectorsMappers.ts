@@ -104,6 +104,8 @@ export {
   ManagedInstancePairInfo,
   BackupShortTermRetentionPolicy,
   TdeCertificate,
-  ManagedInstanceKey
+  ManagedInstanceKey,
+  ManagedInstanceVulnerabilityAssessment,
+  ServerVulnerabilityAssessment
 } from "../models/mappers";
 

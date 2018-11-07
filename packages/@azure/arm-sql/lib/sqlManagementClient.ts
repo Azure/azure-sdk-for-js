@@ -86,6 +86,8 @@ class SqlManagementClient extends SqlManagementClientContext {
   managedInstanceTdeCertificates: operations.ManagedInstanceTdeCertificates;
   managedInstanceKeys: operations.ManagedInstanceKeys;
   managedInstanceEncryptionProtectors: operations.ManagedInstanceEncryptionProtectors;
+  managedInstanceVulnerabilityAssessments: operations.ManagedInstanceVulnerabilityAssessments;
+  serverVulnerabilityAssessments: operations.ServerVulnerabilityAssessments;
 
   /**
    * Initializes a new instance of the SqlManagementClient class.
@@ -164,6 +166,8 @@ class SqlManagementClient extends SqlManagementClientContext {
     this.managedInstanceTdeCertificates = new operations.ManagedInstanceTdeCertificates(this);
     this.managedInstanceKeys = new operations.ManagedInstanceKeys(this);
     this.managedInstanceEncryptionProtectors = new operations.ManagedInstanceEncryptionProtectors(this);
+    this.managedInstanceVulnerabilityAssessments = new operations.ManagedInstanceVulnerabilityAssessments(this);
+    this.serverVulnerabilityAssessments = new operations.ServerVulnerabilityAssessments(this);
   }
 }
 

@@ -6494,6 +6494,76 @@ export interface ManagedInstanceEncryptionProtector extends ProxyResource {
 
 /**
  * @interface
+ * An interface representing ManagedInstanceVulnerabilityAssessment.
+ * A managed instance vulnerability assessment.
+ *
+ * @extends ProxyResource
+ */
+export interface ManagedInstanceVulnerabilityAssessment extends ProxyResource {
+  /**
+   * @member {string} storageContainerPath A blob storage container path to
+   * hold the scan results (e.g.
+   * https://myStorage.blob.core.windows.net/VaScans/).
+   */
+  storageContainerPath: string;
+  /**
+   * @member {string} [storageContainerSasKey] A shared access signature (SAS
+   * Key) that has write access to the blob container specified in
+   * 'storageContainerPath' parameter. If 'storageAccountAccessKey' isn't
+   * specified, StorageContainerSasKey is required.
+   */
+  storageContainerSasKey?: string;
+  /**
+   * @member {string} [storageAccountAccessKey] Specifies the identifier key of
+   * the storage account for vulnerability assessment scan results. If
+   * 'StorageContainerSasKey' isn't specified, storageAccountAccessKey is
+   * required.
+   */
+  storageAccountAccessKey?: string;
+  /**
+   * @member {VulnerabilityAssessmentRecurringScansProperties} [recurringScans]
+   * The recurring scans settings
+   */
+  recurringScans?: VulnerabilityAssessmentRecurringScansProperties;
+}
+
+/**
+ * @interface
+ * An interface representing ServerVulnerabilityAssessment.
+ * A server vulnerability assessment.
+ *
+ * @extends ProxyResource
+ */
+export interface ServerVulnerabilityAssessment extends ProxyResource {
+  /**
+   * @member {string} storageContainerPath A blob storage container path to
+   * hold the scan results (e.g.
+   * https://myStorage.blob.core.windows.net/VaScans/).
+   */
+  storageContainerPath: string;
+  /**
+   * @member {string} [storageContainerSasKey] A shared access signature (SAS
+   * Key) that has write access to the blob container specified in
+   * 'storageContainerPath' parameter. If 'storageAccountAccessKey' isn't
+   * specified, StorageContainerSasKey is required.
+   */
+  storageContainerSasKey?: string;
+  /**
+   * @member {string} [storageAccountAccessKey] Specifies the identifier key of
+   * the storage account for vulnerability assessment scan results. If
+   * 'StorageContainerSasKey' isn't specified, storageAccountAccessKey is
+   * required.
+   */
+  storageAccountAccessKey?: string;
+  /**
+   * @member {VulnerabilityAssessmentRecurringScansProperties} [recurringScans]
+   * The recurring scans settings
+   */
+  recurringScans?: VulnerabilityAssessmentRecurringScansProperties;
+}
+
+/**
+ * @interface
  * An interface representing ElasticPoolsListByServerOptionalParams.
  * Optional Parameters.
  *
@@ -7608,6 +7678,38 @@ export interface ManagedInstanceKeyListResult extends Array<ManagedInstanceKey> 
  * @extends Array<ManagedInstanceEncryptionProtector>
  */
 export interface ManagedInstanceEncryptionProtectorListResult extends Array<ManagedInstanceEncryptionProtector> {
+  /**
+   * @member {string} [nextLink] Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the ManagedInstanceVulnerabilityAssessmentListResult.
+ * A list of the ManagedInstance's vulnerability assessments.
+ *
+ * @extends Array<ManagedInstanceVulnerabilityAssessment>
+ */
+export interface ManagedInstanceVulnerabilityAssessmentListResult extends Array<ManagedInstanceVulnerabilityAssessment> {
+  /**
+   * @member {string} [nextLink] Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the ServerVulnerabilityAssessmentListResult.
+ * A list of the server's vulnerability assessments.
+ *
+ * @extends Array<ServerVulnerabilityAssessment>
+ */
+export interface ServerVulnerabilityAssessmentListResult extends Array<ServerVulnerabilityAssessment> {
   /**
    * @member {string} [nextLink] Link to retrieve next page of results.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -14552,5 +14654,157 @@ export type ManagedInstanceEncryptionProtectorsListByInstanceNextResponse = Mana
        * The response body as parsed JSON or XML
        */
       parsedBody: ManagedInstanceEncryptionProtectorListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ManagedInstanceVulnerabilityAssessmentsGetResponse = ManagedInstanceVulnerabilityAssessment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceVulnerabilityAssessment;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedInstanceVulnerabilityAssessmentsCreateOrUpdateResponse = ManagedInstanceVulnerabilityAssessment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceVulnerabilityAssessment;
+    };
+};
+
+/**
+ * Contains response data for the listByInstance operation.
+ */
+export type ManagedInstanceVulnerabilityAssessmentsListByInstanceResponse = ManagedInstanceVulnerabilityAssessmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceVulnerabilityAssessmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByInstanceNext operation.
+ */
+export type ManagedInstanceVulnerabilityAssessmentsListByInstanceNextResponse = ManagedInstanceVulnerabilityAssessmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceVulnerabilityAssessmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ServerVulnerabilityAssessmentsGetResponse = ServerVulnerabilityAssessment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerVulnerabilityAssessment;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ServerVulnerabilityAssessmentsCreateOrUpdateResponse = ServerVulnerabilityAssessment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerVulnerabilityAssessment;
+    };
+};
+
+/**
+ * Contains response data for the listByServer operation.
+ */
+export type ServerVulnerabilityAssessmentsListByServerResponse = ServerVulnerabilityAssessmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerVulnerabilityAssessmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByServerNext operation.
+ */
+export type ServerVulnerabilityAssessmentsListByServerNextResponse = ServerVulnerabilityAssessmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerVulnerabilityAssessmentListResult;
     };
 };

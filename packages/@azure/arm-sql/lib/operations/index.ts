@@ -77,3 +77,5 @@ export * from "./tdeCertificates";
 export * from "./managedInstanceTdeCertificates";
 export * from "./managedInstanceKeys";
 export * from "./managedInstanceEncryptionProtectors";
+export * from "./managedInstanceVulnerabilityAssessments";
+export * from "./serverVulnerabilityAssessments";

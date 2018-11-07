@@ -7423,6 +7423,80 @@ export const ManagedInstanceEncryptionProtector: msRest.CompositeMapper = {
   }
 };
 
+export const ManagedInstanceVulnerabilityAssessment: msRest.CompositeMapper = {
+  serializedName: "ManagedInstanceVulnerabilityAssessment",
+  type: {
+    name: "Composite",
+    className: "ManagedInstanceVulnerabilityAssessment",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      storageContainerPath: {
+        required: true,
+        serializedName: "properties.storageContainerPath",
+        type: {
+          name: "String"
+        }
+      },
+      storageContainerSasKey: {
+        serializedName: "properties.storageContainerSasKey",
+        type: {
+          name: "String"
+        }
+      },
+      storageAccountAccessKey: {
+        serializedName: "properties.storageAccountAccessKey",
+        type: {
+          name: "String"
+        }
+      },
+      recurringScans: {
+        serializedName: "properties.recurringScans",
+        type: {
+          name: "Composite",
+          className: "VulnerabilityAssessmentRecurringScansProperties"
+        }
+      }
+    }
+  }
+};
+
+export const ServerVulnerabilityAssessment: msRest.CompositeMapper = {
+  serializedName: "ServerVulnerabilityAssessment",
+  type: {
+    name: "Composite",
+    className: "ServerVulnerabilityAssessment",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      storageContainerPath: {
+        required: true,
+        serializedName: "properties.storageContainerPath",
+        type: {
+          name: "String"
+        }
+      },
+      storageContainerSasKey: {
+        serializedName: "properties.storageContainerSasKey",
+        type: {
+          name: "String"
+        }
+      },
+      storageAccountAccessKey: {
+        serializedName: "properties.storageAccountAccessKey",
+        type: {
+          name: "String"
+        }
+      },
+      recurringScans: {
+        serializedName: "properties.recurringScans",
+        type: {
+          name: "Composite",
+          className: "VulnerabilityAssessmentRecurringScansProperties"
+        }
+      }
+    }
+  }
+};
+
 export const RecoverableDatabaseListResult: msRest.CompositeMapper = {
   serializedName: "RecoverableDatabaseListResult",
   type: {
@@ -8912,6 +8986,66 @@ export const ManagedInstanceEncryptionProtectorListResult: msRest.CompositeMappe
             type: {
               name: "Composite",
               className: "ManagedInstanceEncryptionProtector"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedInstanceVulnerabilityAssessmentListResult: msRest.CompositeMapper = {
+  serializedName: "ManagedInstanceVulnerabilityAssessmentListResult",
+  type: {
+    name: "Composite",
+    className: "ManagedInstanceVulnerabilityAssessmentListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedInstanceVulnerabilityAssessment"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServerVulnerabilityAssessmentListResult: msRest.CompositeMapper = {
+  serializedName: "ServerVulnerabilityAssessmentListResult",
+  type: {
+    name: "Composite",
+    className: "ServerVulnerabilityAssessmentListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ServerVulnerabilityAssessment"
             }
           }
         }
