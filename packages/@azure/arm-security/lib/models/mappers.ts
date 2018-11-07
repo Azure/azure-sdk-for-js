@@ -76,7 +76,6 @@ export const SecurityContact: msRest.CompositeMapper = {
         }
       },
       phone: {
-        required: true,
         serializedName: "properties.phone",
         type: {
           name: "String"
