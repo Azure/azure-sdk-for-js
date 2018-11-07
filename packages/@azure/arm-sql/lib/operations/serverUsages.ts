@@ -50,7 +50,7 @@ export class ServerUsages {
    * @param callback The callback
    */
   listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerUsageListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServerUsageListResult>): Promise<Models.ServerUsagesListByServerResponse> {
+  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerUsageListResult>, callback?: msRest.ServiceCallback<Models.ServerUsageListResult>): Promise<Models.ServerUsagesListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
