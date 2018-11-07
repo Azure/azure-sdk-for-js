@@ -2253,10 +2253,6 @@ export interface SkuDescription {
  */
 export interface AppServicePlan extends Resource {
   /**
-   * @member {string} [appServicePlanName] Name for the App Service plan.
-   */
-  appServicePlanName?: string;
-  /**
    * @member {string} [workerTierName] Target worker tier assigned to the App
    * Service plan.
    */
@@ -11336,134 +11332,66 @@ export interface ResourceHealthMetadataCollection extends Array<ResourceHealthMe
 
 /**
  * Defines values for KeyVaultSecretStatus.
- * Possible values include: 'Initialized', 'WaitingOnCertificateOrder',
- * 'Succeeded', 'CertificateOrderFailed', 'OperationNotPermittedOnKeyVault',
+ * Possible values include: 'Initialized', 'WaitingOnCertificateOrder', 'Succeeded',
+ * 'CertificateOrderFailed', 'OperationNotPermittedOnKeyVault',
  * 'AzureServiceUnauthorizedToAccessKeyVault', 'KeyVaultDoesNotExist',
- * 'KeyVaultSecretDoesNotExist', 'UnknownError', 'ExternalPrivateKey',
- * 'Unknown'
+ * 'KeyVaultSecretDoesNotExist', 'UnknownError', 'ExternalPrivateKey', 'Unknown'
  * @readonly
  * @enum {string}
  */
-export enum KeyVaultSecretStatus {
-  Initialized = 'Initialized',
-  WaitingOnCertificateOrder = 'WaitingOnCertificateOrder',
-  Succeeded = 'Succeeded',
-  CertificateOrderFailed = 'CertificateOrderFailed',
-  OperationNotPermittedOnKeyVault = 'OperationNotPermittedOnKeyVault',
-  AzureServiceUnauthorizedToAccessKeyVault = 'AzureServiceUnauthorizedToAccessKeyVault',
-  KeyVaultDoesNotExist = 'KeyVaultDoesNotExist',
-  KeyVaultSecretDoesNotExist = 'KeyVaultSecretDoesNotExist',
-  UnknownError = 'UnknownError',
-  ExternalPrivateKey = 'ExternalPrivateKey',
-  Unknown = 'Unknown',
-}
+export type KeyVaultSecretStatus = 'Initialized' | 'WaitingOnCertificateOrder' | 'Succeeded' | 'CertificateOrderFailed' | 'OperationNotPermittedOnKeyVault' | 'AzureServiceUnauthorizedToAccessKeyVault' | 'KeyVaultDoesNotExist' | 'KeyVaultSecretDoesNotExist' | 'UnknownError' | 'ExternalPrivateKey' | 'Unknown';
 
 /**
  * Defines values for CertificateProductType.
- * Possible values include: 'StandardDomainValidatedSsl',
- * 'StandardDomainValidatedWildCardSsl'
+ * Possible values include: 'StandardDomainValidatedSsl', 'StandardDomainValidatedWildCardSsl'
  * @readonly
  * @enum {string}
  */
-export enum CertificateProductType {
-  StandardDomainValidatedSsl = 'StandardDomainValidatedSsl',
-  StandardDomainValidatedWildCardSsl = 'StandardDomainValidatedWildCardSsl',
-}
+export type CertificateProductType = 'StandardDomainValidatedSsl' | 'StandardDomainValidatedWildCardSsl';
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Succeeded', 'Failed', 'Canceled', 'InProgress',
- * 'Deleting'
+ * Possible values include: 'Succeeded', 'Failed', 'Canceled', 'InProgress', 'Deleting'
  * @readonly
  * @enum {string}
  */
-export enum ProvisioningState {
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-  Canceled = 'Canceled',
-  InProgress = 'InProgress',
-  Deleting = 'Deleting',
-}
+export type ProvisioningState = 'Succeeded' | 'Failed' | 'Canceled' | 'InProgress' | 'Deleting';
 
 /**
  * Defines values for CertificateOrderStatus.
- * Possible values include: 'Pendingissuance', 'Issued', 'Revoked', 'Canceled',
- * 'Denied', 'Pendingrevocation', 'PendingRekey', 'Unused', 'Expired',
- * 'NotSubmitted'
+ * Possible values include: 'Pendingissuance', 'Issued', 'Revoked', 'Canceled', 'Denied',
+ * 'Pendingrevocation', 'PendingRekey', 'Unused', 'Expired', 'NotSubmitted'
  * @readonly
  * @enum {string}
  */
-export enum CertificateOrderStatus {
-  Pendingissuance = 'Pendingissuance',
-  Issued = 'Issued',
-  Revoked = 'Revoked',
-  Canceled = 'Canceled',
-  Denied = 'Denied',
-  Pendingrevocation = 'Pendingrevocation',
-  PendingRekey = 'PendingRekey',
-  Unused = 'Unused',
-  Expired = 'Expired',
-  NotSubmitted = 'NotSubmitted',
-}
+export type CertificateOrderStatus = 'Pendingissuance' | 'Issued' | 'Revoked' | 'Canceled' | 'Denied' | 'Pendingrevocation' | 'PendingRekey' | 'Unused' | 'Expired' | 'NotSubmitted';
 
 /**
  * Defines values for CertificateOrderActionType.
  * Possible values include: 'CertificateIssued', 'CertificateOrderCanceled',
- * 'CertificateOrderCreated', 'CertificateRevoked', 'DomainValidationComplete',
- * 'FraudDetected', 'OrgNameChange', 'OrgValidationComplete', 'SanDrop',
- * 'FraudCleared', 'CertificateExpired', 'CertificateExpirationWarning',
- * 'FraudDocumentationRequired', 'Unknown'
+ * 'CertificateOrderCreated', 'CertificateRevoked', 'DomainValidationComplete', 'FraudDetected',
+ * 'OrgNameChange', 'OrgValidationComplete', 'SanDrop', 'FraudCleared', 'CertificateExpired',
+ * 'CertificateExpirationWarning', 'FraudDocumentationRequired', 'Unknown'
  * @readonly
  * @enum {string}
  */
-export enum CertificateOrderActionType {
-  CertificateIssued = 'CertificateIssued',
-  CertificateOrderCanceled = 'CertificateOrderCanceled',
-  CertificateOrderCreated = 'CertificateOrderCreated',
-  CertificateRevoked = 'CertificateRevoked',
-  DomainValidationComplete = 'DomainValidationComplete',
-  FraudDetected = 'FraudDetected',
-  OrgNameChange = 'OrgNameChange',
-  OrgValidationComplete = 'OrgValidationComplete',
-  SanDrop = 'SanDrop',
-  FraudCleared = 'FraudCleared',
-  CertificateExpired = 'CertificateExpired',
-  CertificateExpirationWarning = 'CertificateExpirationWarning',
-  FraudDocumentationRequired = 'FraudDocumentationRequired',
-  Unknown = 'Unknown',
-}
+export type CertificateOrderActionType = 'CertificateIssued' | 'CertificateOrderCanceled' | 'CertificateOrderCreated' | 'CertificateRevoked' | 'DomainValidationComplete' | 'FraudDetected' | 'OrgNameChange' | 'OrgValidationComplete' | 'SanDrop' | 'FraudCleared' | 'CertificateExpired' | 'CertificateExpirationWarning' | 'FraudDocumentationRequired' | 'Unknown';
 
 /**
  * Defines values for RouteType.
  * Possible values include: 'DEFAULT', 'INHERITED', 'STATIC'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RouteType = <RouteType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum RouteType {
-  DEFAULT = 'DEFAULT',
-  INHERITED = 'INHERITED',
-  STATIC = 'STATIC',
-}
+export type RouteType = 'DEFAULT' | 'INHERITED' | 'STATIC';
 
 /**
  * Defines values for ManagedServiceIdentityType.
  * Possible values include: 'SystemAssigned', 'UserAssigned'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ManagedServiceIdentityType =
- * <ManagedServiceIdentityType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ManagedServiceIdentityType {
-  SystemAssigned = 'SystemAssigned',
-  UserAssigned = 'UserAssigned',
-}
+export type ManagedServiceIdentityType = 'SystemAssigned' | 'UserAssigned';
 
 /**
  * Defines values for IpFilterTag.
@@ -11471,10 +11399,7 @@ export enum ManagedServiceIdentityType {
  * @readonly
  * @enum {string}
  */
-export enum IpFilterTag {
-  Default = 'Default',
-  XffProxy = 'XffProxy',
-}
+export type IpFilterTag = 'Default' | 'XffProxy';
 
 /**
  * Defines values for AutoHealActionType.
@@ -11482,33 +11407,16 @@ export enum IpFilterTag {
  * @readonly
  * @enum {string}
  */
-export enum AutoHealActionType {
-  Recycle = 'Recycle',
-  LogEvent = 'LogEvent',
-  CustomAction = 'CustomAction',
-}
+export type AutoHealActionType = 'Recycle' | 'LogEvent' | 'CustomAction';
 
 /**
  * Defines values for ConnectionStringType.
- * Possible values include: 'MySql', 'SQLServer', 'SQLAzure', 'Custom',
- * 'NotificationHub', 'ServiceBus', 'EventHub', 'ApiHub', 'DocDb',
- * 'RedisCache', 'PostgreSQL'
+ * Possible values include: 'MySql', 'SQLServer', 'SQLAzure', 'Custom', 'NotificationHub',
+ * 'ServiceBus', 'EventHub', 'ApiHub', 'DocDb', 'RedisCache', 'PostgreSQL'
  * @readonly
  * @enum {string}
  */
-export enum ConnectionStringType {
-  MySql = 'MySql',
-  SQLServer = 'SQLServer',
-  SQLAzure = 'SQLAzure',
-  Custom = 'Custom',
-  NotificationHub = 'NotificationHub',
-  ServiceBus = 'ServiceBus',
-  EventHub = 'EventHub',
-  ApiHub = 'ApiHub',
-  DocDb = 'DocDb',
-  RedisCache = 'RedisCache',
-  PostgreSQL = 'PostgreSQL',
-}
+export type ConnectionStringType = 'MySql' | 'SQLServer' | 'SQLAzure' | 'Custom' | 'NotificationHub' | 'ServiceBus' | 'EventHub' | 'ApiHub' | 'DocDb' | 'RedisCache' | 'PostgreSQL';
 
 /**
  * Defines values for AzureStorageType.
@@ -11516,10 +11424,7 @@ export enum ConnectionStringType {
  * @readonly
  * @enum {string}
  */
-export enum AzureStorageType {
-  AzureFiles = 'AzureFiles',
-  AzureBlob = 'AzureBlob',
-}
+export type AzureStorageType = 'AzureFiles' | 'AzureBlob';
 
 /**
  * Defines values for AzureStorageState.
@@ -11527,39 +11432,16 @@ export enum AzureStorageType {
  * @readonly
  * @enum {string}
  */
-export enum AzureStorageState {
-  Ok = 'Ok',
-  InvalidCredentials = 'InvalidCredentials',
-  InvalidShare = 'InvalidShare',
-}
+export type AzureStorageState = 'Ok' | 'InvalidCredentials' | 'InvalidShare';
 
 /**
  * Defines values for ScmType.
- * Possible values include: 'None', 'Dropbox', 'Tfs', 'LocalGit', 'GitHub',
- * 'CodePlexGit', 'CodePlexHg', 'BitbucketGit', 'BitbucketHg', 'ExternalGit',
- * 'ExternalHg', 'OneDrive', 'VSO'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ScmType = <ScmType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'None', 'Dropbox', 'Tfs', 'LocalGit', 'GitHub', 'CodePlexGit',
+ * 'CodePlexHg', 'BitbucketGit', 'BitbucketHg', 'ExternalGit', 'ExternalHg', 'OneDrive', 'VSO'
  * @readonly
  * @enum {string}
  */
-export enum ScmType {
-  None = 'None',
-  Dropbox = 'Dropbox',
-  Tfs = 'Tfs',
-  LocalGit = 'LocalGit',
-  GitHub = 'GitHub',
-  CodePlexGit = 'CodePlexGit',
-  CodePlexHg = 'CodePlexHg',
-  BitbucketGit = 'BitbucketGit',
-  BitbucketHg = 'BitbucketHg',
-  ExternalGit = 'ExternalGit',
-  ExternalHg = 'ExternalHg',
-  OneDrive = 'OneDrive',
-  VSO = 'VSO',
-}
+export type ScmType = 'None' | 'Dropbox' | 'Tfs' | 'LocalGit' | 'GitHub' | 'CodePlexGit' | 'CodePlexHg' | 'BitbucketGit' | 'BitbucketHg' | 'ExternalGit' | 'ExternalHg' | 'OneDrive' | 'VSO';
 
 /**
  * Defines values for ManagedPipelineMode.
@@ -11567,58 +11449,32 @@ export enum ScmType {
  * @readonly
  * @enum {string}
  */
-export enum ManagedPipelineMode {
-  Integrated = 'Integrated',
-  Classic = 'Classic',
-}
+export type ManagedPipelineMode = 'Integrated' | 'Classic';
 
 /**
  * Defines values for SiteLoadBalancing.
- * Possible values include: 'WeightedRoundRobin', 'LeastRequests',
- * 'LeastResponseTime', 'WeightedTotalTraffic', 'RequestHash'
+ * Possible values include: 'WeightedRoundRobin', 'LeastRequests', 'LeastResponseTime',
+ * 'WeightedTotalTraffic', 'RequestHash'
  * @readonly
  * @enum {string}
  */
-export enum SiteLoadBalancing {
-  WeightedRoundRobin = 'WeightedRoundRobin',
-  LeastRequests = 'LeastRequests',
-  LeastResponseTime = 'LeastResponseTime',
-  WeightedTotalTraffic = 'WeightedTotalTraffic',
-  RequestHash = 'RequestHash',
-}
+export type SiteLoadBalancing = 'WeightedRoundRobin' | 'LeastRequests' | 'LeastResponseTime' | 'WeightedTotalTraffic' | 'RequestHash';
 
 /**
  * Defines values for SupportedTlsVersions.
  * Possible values include: '1.0', '1.1', '1.2'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SupportedTlsVersions =
- * <SupportedTlsVersions>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SupportedTlsVersions {
-  OneFullStopZero = '1.0',
-  OneFullStopOne = '1.1',
-  OneFullStopTwo = '1.2',
-}
+export type SupportedTlsVersions = '1.0' | '1.1' | '1.2';
 
 /**
  * Defines values for FtpsState.
  * Possible values include: 'AllAllowed', 'FtpsOnly', 'Disabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: FtpsState = <FtpsState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum FtpsState {
-  AllAllowed = 'AllAllowed',
-  FtpsOnly = 'FtpsOnly',
-  Disabled = 'Disabled',
-}
+export type FtpsState = 'AllAllowed' | 'FtpsOnly' | 'Disabled';
 
 /**
  * Defines values for SslState.
@@ -11626,11 +11482,7 @@ export enum FtpsState {
  * @readonly
  * @enum {string}
  */
-export enum SslState {
-  Disabled = 'Disabled',
-  SniEnabled = 'SniEnabled',
-  IpBasedEnabled = 'IpBasedEnabled',
-}
+export type SslState = 'Disabled' | 'SniEnabled' | 'IpBasedEnabled';
 
 /**
  * Defines values for HostType.
@@ -11638,10 +11490,7 @@ export enum SslState {
  * @readonly
  * @enum {string}
  */
-export enum HostType {
-  Standard = 'Standard',
-  Repository = 'Repository',
-}
+export type HostType = 'Standard' | 'Repository';
 
 /**
  * Defines values for UsageState.
@@ -11649,10 +11498,7 @@ export enum HostType {
  * @readonly
  * @enum {string}
  */
-export enum UsageState {
-  Normal = 'Normal',
-  Exceeded = 'Exceeded',
-}
+export type UsageState = 'Normal' | 'Exceeded';
 
 /**
  * Defines values for SiteAvailabilityState.
@@ -11660,11 +11506,7 @@ export enum UsageState {
  * @readonly
  * @enum {string}
  */
-export enum SiteAvailabilityState {
-  Normal = 'Normal',
-  Limited = 'Limited',
-  DisasterRecoveryMode = 'DisasterRecoveryMode',
-}
+export type SiteAvailabilityState = 'Normal' | 'Limited' | 'DisasterRecoveryMode';
 
 /**
  * Defines values for StatusOptions.
@@ -11672,44 +11514,17 @@ export enum SiteAvailabilityState {
  * @readonly
  * @enum {string}
  */
-export enum StatusOptions {
-  Ready = 'Ready',
-  Pending = 'Pending',
-  Creating = 'Creating',
-}
+export type StatusOptions = 'Ready' | 'Pending' | 'Creating';
 
 /**
  * Defines values for DomainStatus.
- * Possible values include: 'Active', 'Awaiting', 'Cancelled', 'Confiscated',
- * 'Disabled', 'Excluded', 'Expired', 'Failed', 'Held', 'Locked', 'Parked',
- * 'Pending', 'Reserved', 'Reverted', 'Suspended', 'Transferred', 'Unknown',
- * 'Unlocked', 'Unparked', 'Updated', 'JsonConverterFailed'
+ * Possible values include: 'Active', 'Awaiting', 'Cancelled', 'Confiscated', 'Disabled',
+ * 'Excluded', 'Expired', 'Failed', 'Held', 'Locked', 'Parked', 'Pending', 'Reserved', 'Reverted',
+ * 'Suspended', 'Transferred', 'Unknown', 'Unlocked', 'Unparked', 'Updated', 'JsonConverterFailed'
  * @readonly
  * @enum {string}
  */
-export enum DomainStatus {
-  Active = 'Active',
-  Awaiting = 'Awaiting',
-  Cancelled = 'Cancelled',
-  Confiscated = 'Confiscated',
-  Disabled = 'Disabled',
-  Excluded = 'Excluded',
-  Expired = 'Expired',
-  Failed = 'Failed',
-  Held = 'Held',
-  Locked = 'Locked',
-  Parked = 'Parked',
-  Pending = 'Pending',
-  Reserved = 'Reserved',
-  Reverted = 'Reverted',
-  Suspended = 'Suspended',
-  Transferred = 'Transferred',
-  Unknown = 'Unknown',
-  Unlocked = 'Unlocked',
-  Unparked = 'Unparked',
-  Updated = 'Updated',
-  JsonConverterFailed = 'JsonConverterFailed',
-}
+export type DomainStatus = 'Active' | 'Awaiting' | 'Cancelled' | 'Confiscated' | 'Disabled' | 'Excluded' | 'Expired' | 'Failed' | 'Held' | 'Locked' | 'Parked' | 'Pending' | 'Reserved' | 'Reverted' | 'Suspended' | 'Transferred' | 'Unknown' | 'Unlocked' | 'Unparked' | 'Updated' | 'JsonConverterFailed';
 
 /**
  * Defines values for AzureResourceType.
@@ -11717,10 +11532,7 @@ export enum DomainStatus {
  * @readonly
  * @enum {string}
  */
-export enum AzureResourceType {
-  Website = 'Website',
-  TrafficManager = 'TrafficManager',
-}
+export type AzureResourceType = 'Website' | 'TrafficManager';
 
 /**
  * Defines values for CustomHostNameDnsRecordType.
@@ -11728,10 +11540,7 @@ export enum AzureResourceType {
  * @readonly
  * @enum {string}
  */
-export enum CustomHostNameDnsRecordType {
-  CName = 'CName',
-  A = 'A',
-}
+export type CustomHostNameDnsRecordType = 'CName' | 'A';
 
 /**
  * Defines values for HostNameType.
@@ -11739,10 +11548,7 @@ export enum CustomHostNameDnsRecordType {
  * @readonly
  * @enum {string}
  */
-export enum HostNameType {
-  Verified = 'Verified',
-  Managed = 'Managed',
-}
+export type HostNameType = 'Verified' | 'Managed';
 
 /**
  * Defines values for DnsType.
@@ -11750,10 +11556,7 @@ export enum HostNameType {
  * @readonly
  * @enum {string}
  */
-export enum DnsType {
-  AzureDns = 'AzureDns',
-  DefaultDomainRegistrarDns = 'DefaultDomainRegistrarDns',
-}
+export type DnsType = 'AzureDns' | 'DefaultDomainRegistrarDns';
 
 /**
  * Defines values for DomainType.
@@ -11761,10 +11564,7 @@ export enum DnsType {
  * @readonly
  * @enum {string}
  */
-export enum DomainType {
-  Regular = 'Regular',
-  SoftDeleted = 'SoftDeleted',
-}
+export type DomainType = 'Regular' | 'SoftDeleted';
 
 /**
  * Defines values for HostingEnvironmentStatus.
@@ -11772,12 +11572,7 @@ export enum DomainType {
  * @readonly
  * @enum {string}
  */
-export enum HostingEnvironmentStatus {
-  Preparing = 'Preparing',
-  Ready = 'Ready',
-  Scaling = 'Scaling',
-  Deleting = 'Deleting',
-}
+export type HostingEnvironmentStatus = 'Preparing' | 'Ready' | 'Scaling' | 'Deleting';
 
 /**
  * Defines values for InternalLoadBalancingMode.
@@ -11785,11 +11580,7 @@ export enum HostingEnvironmentStatus {
  * @readonly
  * @enum {string}
  */
-export enum InternalLoadBalancingMode {
-  None = 'None',
-  Web = 'Web',
-  Publishing = 'Publishing',
-}
+export type InternalLoadBalancingMode = 'None' | 'Web' | 'Publishing';
 
 /**
  * Defines values for ComputeModeOptions.
@@ -11797,28 +11588,15 @@ export enum InternalLoadBalancingMode {
  * @readonly
  * @enum {string}
  */
-export enum ComputeModeOptions {
-  Shared = 'Shared',
-  Dedicated = 'Dedicated',
-  Dynamic = 'Dynamic',
-}
+export type ComputeModeOptions = 'Shared' | 'Dedicated' | 'Dynamic';
 
 /**
  * Defines values for WorkerSizeOptions.
- * Possible values include: 'Small', 'Medium', 'Large', 'D1', 'D2', 'D3',
- * 'Default'
+ * Possible values include: 'Small', 'Medium', 'Large', 'D1', 'D2', 'D3', 'Default'
  * @readonly
  * @enum {string}
  */
-export enum WorkerSizeOptions {
-  Small = 'Small',
-  Medium = 'Medium',
-  Large = 'Large',
-  D1 = 'D1',
-  D2 = 'D2',
-  D3 = 'D3',
-  Default = 'Default',
-}
+export type WorkerSizeOptions = 'Small' | 'Medium' | 'Large' | 'D1' | 'D2' | 'D3' | 'Default';
 
 /**
  * Defines values for AccessControlEntryAction.
@@ -11826,102 +11604,56 @@ export enum WorkerSizeOptions {
  * @readonly
  * @enum {string}
  */
-export enum AccessControlEntryAction {
-  Permit = 'Permit',
-  Deny = 'Deny',
-}
+export type AccessControlEntryAction = 'Permit' | 'Deny';
 
 /**
  * Defines values for OperationStatus.
- * Possible values include: 'InProgress', 'Failed', 'Succeeded', 'TimedOut',
- * 'Created'
+ * Possible values include: 'InProgress', 'Failed', 'Succeeded', 'TimedOut', 'Created'
  * @readonly
  * @enum {string}
  */
-export enum OperationStatus {
-  InProgress = 'InProgress',
-  Failed = 'Failed',
-  Succeeded = 'Succeeded',
-  TimedOut = 'TimedOut',
-  Created = 'Created',
-}
+export type OperationStatus = 'InProgress' | 'Failed' | 'Succeeded' | 'TimedOut' | 'Created';
 
 /**
  * Defines values for IssueType.
- * Possible values include: 'ServiceIncident', 'AppDeployment', 'AppCrash',
- * 'RuntimeIssueDetected', 'AseDeployment', 'UserIssue', 'PlatformIssue',
- * 'Other'
+ * Possible values include: 'ServiceIncident', 'AppDeployment', 'AppCrash', 'RuntimeIssueDetected',
+ * 'AseDeployment', 'UserIssue', 'PlatformIssue', 'Other'
  * @readonly
  * @enum {string}
  */
-export enum IssueType {
-  ServiceIncident = 'ServiceIncident',
-  AppDeployment = 'AppDeployment',
-  AppCrash = 'AppCrash',
-  RuntimeIssueDetected = 'RuntimeIssueDetected',
-  AseDeployment = 'AseDeployment',
-  UserIssue = 'UserIssue',
-  PlatformIssue = 'PlatformIssue',
-  Other = 'Other',
-}
+export type IssueType = 'ServiceIncident' | 'AppDeployment' | 'AppCrash' | 'RuntimeIssueDetected' | 'AseDeployment' | 'UserIssue' | 'PlatformIssue' | 'Other';
 
 /**
  * Defines values for SolutionType.
- * Possible values include: 'QuickSolution', 'DeepInvestigation',
- * 'BestPractices'
+ * Possible values include: 'QuickSolution', 'DeepInvestigation', 'BestPractices'
  * @readonly
  * @enum {string}
  */
-export enum SolutionType {
-  QuickSolution = 'QuickSolution',
-  DeepInvestigation = 'DeepInvestigation',
-  BestPractices = 'BestPractices',
-}
+export type SolutionType = 'QuickSolution' | 'DeepInvestigation' | 'BestPractices';
 
 /**
  * Defines values for RenderingType.
- * Possible values include: 'NoGraph', 'Table', 'TimeSeries',
- * 'TimeSeriesPerInstance'
+ * Possible values include: 'NoGraph', 'Table', 'TimeSeries', 'TimeSeriesPerInstance'
  * @readonly
  * @enum {string}
  */
-export enum RenderingType {
-  NoGraph = 'NoGraph',
-  Table = 'Table',
-  TimeSeries = 'TimeSeries',
-  TimeSeriesPerInstance = 'TimeSeriesPerInstance',
-}
+export type RenderingType = 'NoGraph' | 'Table' | 'TimeSeries' | 'TimeSeriesPerInstance';
 
 /**
  * Defines values for ResourceScopeType.
  * Possible values include: 'ServerFarm', 'Subscription', 'WebSite'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ResourceScopeType =
- * <ResourceScopeType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ResourceScopeType {
-  ServerFarm = 'ServerFarm',
-  Subscription = 'Subscription',
-  WebSite = 'WebSite',
-}
+export type ResourceScopeType = 'ServerFarm' | 'Subscription' | 'WebSite';
 
 /**
  * Defines values for NotificationLevel.
- * Possible values include: 'Critical', 'Warning', 'Information',
- * 'NonUrgentSuggestion'
+ * Possible values include: 'Critical', 'Warning', 'Information', 'NonUrgentSuggestion'
  * @readonly
  * @enum {string}
  */
-export enum NotificationLevel {
-  Critical = 'Critical',
-  Warning = 'Warning',
-  Information = 'Information',
-  NonUrgentSuggestion = 'NonUrgentSuggestion',
-}
+export type NotificationLevel = 'Critical' | 'Warning' | 'Information' | 'NonUrgentSuggestion';
 
 /**
  * Defines values for Channels.
@@ -11929,85 +11661,41 @@ export enum NotificationLevel {
  * @readonly
  * @enum {string}
  */
-export enum Channels {
-  Notification = 'Notification',
-  Api = 'Api',
-  Email = 'Email',
-  Webhook = 'Webhook',
-  All = 'All',
-}
+export type Channels = 'Notification' | 'Api' | 'Email' | 'Webhook' | 'All';
 
 /**
  * Defines values for AppServicePlanRestrictions.
- * Possible values include: 'None', 'Free', 'Shared', 'Basic', 'Standard',
- * 'Premium'
+ * Possible values include: 'None', 'Free', 'Shared', 'Basic', 'Standard', 'Premium'
  * @readonly
  * @enum {string}
  */
-export enum AppServicePlanRestrictions {
-  None = 'None',
-  Free = 'Free',
-  Shared = 'Shared',
-  Basic = 'Basic',
-  Standard = 'Standard',
-  Premium = 'Premium',
-}
+export type AppServicePlanRestrictions = 'None' | 'Free' | 'Shared' | 'Basic' | 'Standard' | 'Premium';
 
 /**
  * Defines values for InAvailabilityReasonType.
  * Possible values include: 'Invalid', 'AlreadyExists'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: InAvailabilityReasonType =
- * <InAvailabilityReasonType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum InAvailabilityReasonType {
-  Invalid = 'Invalid',
-  AlreadyExists = 'AlreadyExists',
-}
+export type InAvailabilityReasonType = 'Invalid' | 'AlreadyExists';
 
 /**
  * Defines values for CheckNameResourceTypes.
- * Possible values include: 'Site', 'Slot', 'HostingEnvironment',
- * 'PublishingUser', 'Microsoft.Web/sites', 'Microsoft.Web/sites/slots',
- * 'Microsoft.Web/hostingEnvironments', 'Microsoft.Web/publishingUsers'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: CheckNameResourceTypes =
- * <CheckNameResourceTypes>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Site', 'Slot', 'HostingEnvironment', 'PublishingUser',
+ * 'Microsoft.Web/sites', 'Microsoft.Web/sites/slots', 'Microsoft.Web/hostingEnvironments',
+ * 'Microsoft.Web/publishingUsers'
  * @readonly
  * @enum {string}
  */
-export enum CheckNameResourceTypes {
-  Site = 'Site',
-  Slot = 'Slot',
-  HostingEnvironment = 'HostingEnvironment',
-  PublishingUser = 'PublishingUser',
-  MicrosoftWebsites = 'Microsoft.Web/sites',
-  MicrosoftWebsitesslots = 'Microsoft.Web/sites/slots',
-  MicrosoftWebhostingEnvironments = 'Microsoft.Web/hostingEnvironments',
-  MicrosoftWebpublishingUsers = 'Microsoft.Web/publishingUsers',
-}
+export type CheckNameResourceTypes = 'Site' | 'Slot' | 'HostingEnvironment' | 'PublishingUser' | 'Microsoft.Web/sites' | 'Microsoft.Web/sites/slots' | 'Microsoft.Web/hostingEnvironments' | 'Microsoft.Web/publishingUsers';
 
 /**
  * Defines values for ValidateResourceTypes.
  * Possible values include: 'ServerFarm', 'Site'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ValidateResourceTypes =
- * <ValidateResourceTypes>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ValidateResourceTypes {
-  ServerFarm = 'ServerFarm',
-  Site = 'Site',
-}
+export type ValidateResourceTypes = 'ServerFarm' | 'Site';
 
 /**
  * Defines values for LogLevel.
@@ -12015,52 +11703,24 @@ export enum ValidateResourceTypes {
  * @readonly
  * @enum {string}
  */
-export enum LogLevel {
-  Off = 'Off',
-  Verbose = 'Verbose',
-  Information = 'Information',
-  Warning = 'Warning',
-  Error = 'Error',
-}
+export type LogLevel = 'Off' | 'Verbose' | 'Information' | 'Warning' | 'Error';
 
 /**
  * Defines values for BackupItemStatus.
- * Possible values include: 'InProgress', 'Failed', 'Succeeded', 'TimedOut',
- * 'Created', 'Skipped', 'PartiallySucceeded', 'DeleteInProgress',
- * 'DeleteFailed', 'Deleted'
+ * Possible values include: 'InProgress', 'Failed', 'Succeeded', 'TimedOut', 'Created', 'Skipped',
+ * 'PartiallySucceeded', 'DeleteInProgress', 'DeleteFailed', 'Deleted'
  * @readonly
  * @enum {string}
  */
-export enum BackupItemStatus {
-  InProgress = 'InProgress',
-  Failed = 'Failed',
-  Succeeded = 'Succeeded',
-  TimedOut = 'TimedOut',
-  Created = 'Created',
-  Skipped = 'Skipped',
-  PartiallySucceeded = 'PartiallySucceeded',
-  DeleteInProgress = 'DeleteInProgress',
-  DeleteFailed = 'DeleteFailed',
-  Deleted = 'Deleted',
-}
+export type BackupItemStatus = 'InProgress' | 'Failed' | 'Succeeded' | 'TimedOut' | 'Created' | 'Skipped' | 'PartiallySucceeded' | 'DeleteInProgress' | 'DeleteFailed' | 'Deleted';
 
 /**
  * Defines values for DatabaseType.
  * Possible values include: 'SqlAzure', 'MySql', 'LocalMySql', 'PostgreSql'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DatabaseType =
- * <DatabaseType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum DatabaseType {
-  SqlAzure = 'SqlAzure',
-  MySql = 'MySql',
-  LocalMySql = 'LocalMySql',
-  PostgreSql = 'PostgreSql',
-}
+export type DatabaseType = 'SqlAzure' | 'MySql' | 'LocalMySql' | 'PostgreSql';
 
 /**
  * Defines values for FrequencyUnit.
@@ -12068,25 +11728,15 @@ export enum DatabaseType {
  * @readonly
  * @enum {string}
  */
-export enum FrequencyUnit {
-  Day = 'Day',
-  Hour = 'Hour',
-}
+export type FrequencyUnit = 'Day' | 'Hour';
 
 /**
  * Defines values for ContinuousWebJobStatus.
- * Possible values include: 'Initializing', 'Starting', 'Running',
- * 'PendingRestart', 'Stopped'
+ * Possible values include: 'Initializing', 'Starting', 'Running', 'PendingRestart', 'Stopped'
  * @readonly
  * @enum {string}
  */
-export enum ContinuousWebJobStatus {
-  Initializing = 'Initializing',
-  Starting = 'Starting',
-  Running = 'Running',
-  PendingRestart = 'PendingRestart',
-  Stopped = 'Stopped',
-}
+export type ContinuousWebJobStatus = 'Initializing' | 'Starting' | 'Running' | 'PendingRestart' | 'Stopped';
 
 /**
  * Defines values for WebJobType.
@@ -12094,27 +11744,15 @@ export enum ContinuousWebJobStatus {
  * @readonly
  * @enum {string}
  */
-export enum WebJobType {
-  Continuous = 'Continuous',
-  Triggered = 'Triggered',
-}
+export type WebJobType = 'Continuous' | 'Triggered';
 
 /**
  * Defines values for PublishingProfileFormat.
  * Possible values include: 'FileZilla3', 'WebDeploy', 'Ftp'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PublishingProfileFormat =
- * <PublishingProfileFormat>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PublishingProfileFormat {
-  FileZilla3 = 'FileZilla3',
-  WebDeploy = 'WebDeploy',
-  Ftp = 'Ftp',
-}
+export type PublishingProfileFormat = 'FileZilla3' | 'WebDeploy' | 'Ftp';
 
 /**
  * Defines values for DnsVerificationTestResult.
@@ -12122,11 +11760,7 @@ export enum PublishingProfileFormat {
  * @readonly
  * @enum {string}
  */
-export enum DnsVerificationTestResult {
-  Passed = 'Passed',
-  Failed = 'Failed',
-  Skipped = 'Skipped',
-}
+export type DnsVerificationTestResult = 'Passed' | 'Failed' | 'Skipped';
 
 /**
  * Defines values for MSDeployLogEntryType.
@@ -12134,26 +11768,15 @@ export enum DnsVerificationTestResult {
  * @readonly
  * @enum {string}
  */
-export enum MSDeployLogEntryType {
-  Message = 'Message',
-  Warning = 'Warning',
-  Error = 'Error',
-}
+export type MSDeployLogEntryType = 'Message' | 'Warning' | 'Error';
 
 /**
  * Defines values for MSDeployProvisioningState.
- * Possible values include: 'accepted', 'running', 'succeeded', 'failed',
- * 'canceled'
+ * Possible values include: 'accepted', 'running', 'succeeded', 'failed', 'canceled'
  * @readonly
  * @enum {string}
  */
-export enum MSDeployProvisioningState {
-  Accepted = 'accepted',
-  Running = 'running',
-  Succeeded = 'succeeded',
-  Failed = 'failed',
-  Canceled = 'canceled',
-}
+export type MSDeployProvisioningState = 'accepted' | 'running' | 'succeeded' | 'failed' | 'canceled';
 
 /**
  * Defines values for MySqlMigrationType.
@@ -12161,10 +11784,7 @@ export enum MSDeployProvisioningState {
  * @readonly
  * @enum {string}
  */
-export enum MySqlMigrationType {
-  LocalToRemote = 'LocalToRemote',
-  RemoteToLocal = 'RemoteToLocal',
-}
+export type MySqlMigrationType = 'LocalToRemote' | 'RemoteToLocal';
 
 /**
  * Defines values for PublicCertificateLocation.
@@ -12172,26 +11792,15 @@ export enum MySqlMigrationType {
  * @readonly
  * @enum {string}
  */
-export enum PublicCertificateLocation {
-  CurrentUserMy = 'CurrentUserMy',
-  LocalMachineMy = 'LocalMachineMy',
-  Unknown = 'Unknown',
-}
+export type PublicCertificateLocation = 'CurrentUserMy' | 'LocalMachineMy' | 'Unknown';
 
 /**
  * Defines values for BackupRestoreOperationType.
- * Possible values include: 'Default', 'Clone', 'Relocation', 'Snapshot',
- * 'CloudFS'
+ * Possible values include: 'Default', 'Clone', 'Relocation', 'Snapshot', 'CloudFS'
  * @readonly
  * @enum {string}
  */
-export enum BackupRestoreOperationType {
-  Default = 'Default',
-  Clone = 'Clone',
-  Relocation = 'Relocation',
-  Snapshot = 'Snapshot',
-  CloudFS = 'CloudFS',
-}
+export type BackupRestoreOperationType = 'Default' | 'Clone' | 'Relocation' | 'Snapshot' | 'CloudFS';
 
 /**
  * Defines values for UnauthenticatedClientAction.
@@ -12199,25 +11808,16 @@ export enum BackupRestoreOperationType {
  * @readonly
  * @enum {string}
  */
-export enum UnauthenticatedClientAction {
-  RedirectToLoginPage = 'RedirectToLoginPage',
-  AllowAnonymous = 'AllowAnonymous',
-}
+export type UnauthenticatedClientAction = 'RedirectToLoginPage' | 'AllowAnonymous';
 
 /**
  * Defines values for BuiltInAuthenticationProvider.
- * Possible values include: 'AzureActiveDirectory', 'Facebook', 'Google',
- * 'MicrosoftAccount', 'Twitter'
+ * Possible values include: 'AzureActiveDirectory', 'Facebook', 'Google', 'MicrosoftAccount',
+ * 'Twitter'
  * @readonly
  * @enum {string}
  */
-export enum BuiltInAuthenticationProvider {
-  AzureActiveDirectory = 'AzureActiveDirectory',
-  Facebook = 'Facebook',
-  Google = 'Google',
-  MicrosoftAccount = 'MicrosoftAccount',
-  Twitter = 'Twitter',
-}
+export type BuiltInAuthenticationProvider = 'AzureActiveDirectory' | 'Facebook' | 'Google' | 'MicrosoftAccount' | 'Twitter';
 
 /**
  * Defines values for CloneAbilityResult.
@@ -12225,11 +11825,7 @@ export enum BuiltInAuthenticationProvider {
  * @readonly
  * @enum {string}
  */
-export enum CloneAbilityResult {
-  Cloneable = 'Cloneable',
-  PartiallyCloneable = 'PartiallyCloneable',
-  NotCloneable = 'NotCloneable',
-}
+export type CloneAbilityResult = 'Cloneable' | 'PartiallyCloneable' | 'NotCloneable';
 
 /**
  * Defines values for SiteExtensionType.
@@ -12237,10 +11833,7 @@ export enum CloneAbilityResult {
  * @readonly
  * @enum {string}
  */
-export enum SiteExtensionType {
-  Gallery = 'Gallery',
-  WebRoot = 'WebRoot',
-}
+export type SiteExtensionType = 'Gallery' | 'WebRoot';
 
 /**
  * Defines values for TriggeredWebJobStatus.
@@ -12248,73 +11841,32 @@ export enum SiteExtensionType {
  * @readonly
  * @enum {string}
  */
-export enum TriggeredWebJobStatus {
-  Success = 'Success',
-  Failed = 'Failed',
-  Error = 'Error',
-}
+export type TriggeredWebJobStatus = 'Success' | 'Failed' | 'Error';
 
 /**
  * Defines values for SkuName.
- * Possible values include: 'Free', 'Shared', 'Basic', 'Standard', 'Premium',
- * 'Dynamic', 'Isolated', 'PremiumV2', 'ElasticPremium', 'ElasticIsolated'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SkuName = <SkuName>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Free', 'Shared', 'Basic', 'Standard', 'Premium', 'Dynamic',
+ * 'Isolated', 'PremiumV2', 'ElasticPremium', 'ElasticIsolated'
  * @readonly
  * @enum {string}
  */
-export enum SkuName {
-  Free = 'Free',
-  Shared = 'Shared',
-  Basic = 'Basic',
-  Standard = 'Standard',
-  Premium = 'Premium',
-  Dynamic = 'Dynamic',
-  Isolated = 'Isolated',
-  PremiumV2 = 'PremiumV2',
-  ElasticPremium = 'ElasticPremium',
-  ElasticIsolated = 'ElasticIsolated',
-}
+export type SkuName = 'Free' | 'Shared' | 'Basic' | 'Standard' | 'Premium' | 'Dynamic' | 'Isolated' | 'PremiumV2' | 'ElasticPremium' | 'ElasticIsolated';
 
 /**
  * Defines values for OsTypeSelected.
- * Possible values include: 'Windows', 'Linux', 'WindowsFunctions',
- * 'LinuxFunctions'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: OsTypeSelected =
- * <OsTypeSelected>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions'
  * @readonly
  * @enum {string}
  */
-export enum OsTypeSelected {
-  Windows = 'Windows',
-  Linux = 'Linux',
-  WindowsFunctions = 'WindowsFunctions',
-  LinuxFunctions = 'LinuxFunctions',
-}
+export type OsTypeSelected = 'Windows' | 'Linux' | 'WindowsFunctions' | 'LinuxFunctions';
 
 /**
  * Defines values for OsTypeSelected1.
- * Possible values include: 'Windows', 'Linux', 'WindowsFunctions',
- * 'LinuxFunctions'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: OsTypeSelected1 =
- * <OsTypeSelected1>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions'
  * @readonly
  * @enum {string}
  */
-export enum OsTypeSelected1 {
-  Windows = 'Windows',
-  Linux = 'Linux',
-  WindowsFunctions = 'WindowsFunctions',
-  LinuxFunctions = 'LinuxFunctions',
-}
+export type OsTypeSelected1 = 'Windows' | 'Linux' | 'WindowsFunctions' | 'LinuxFunctions';
 
 /**
  * Contains response data for the list operation.
