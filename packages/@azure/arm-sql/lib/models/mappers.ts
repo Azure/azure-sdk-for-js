@@ -3838,6 +3838,12 @@ export const ExtendedDatabaseBlobAuditingPolicy: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      isAzureMonitorTargetEnabled: {
+        serializedName: "properties.isAzureMonitorTargetEnabled",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -3907,6 +3913,12 @@ export const ExtendedServerBlobAuditingPolicy: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      isAzureMonitorTargetEnabled: {
+        serializedName: "properties.isAzureMonitorTargetEnabled",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -3967,6 +3979,12 @@ export const ServerBlobAuditingPolicy: msRest.CompositeMapper = {
       },
       isStorageSecondaryKeyInUse: {
         serializedName: "properties.isStorageSecondaryKeyInUse",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isAzureMonitorTargetEnabled: {
+        serializedName: "properties.isAzureMonitorTargetEnabled",
         type: {
           name: "Boolean"
         }
@@ -4037,6 +4055,12 @@ export const DatabaseBlobAuditingPolicy: msRest.CompositeMapper = {
       },
       isStorageSecondaryKeyInUse: {
         serializedName: "properties.isStorageSecondaryKeyInUse",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isAzureMonitorTargetEnabled: {
+        serializedName: "properties.isAzureMonitorTargetEnabled",
         type: {
           name: "Boolean"
         }
@@ -4133,7 +4157,6 @@ export const DatabaseVulnerabilityAssessment: msRest.CompositeMapper = {
     modelProperties: {
       ...ProxyResource.type.modelProperties,
       storageContainerPath: {
-        required: true,
         serializedName: "properties.storageContainerPath",
         type: {
           name: "String"
@@ -8343,6 +8366,36 @@ export const VirtualNetworkRuleListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "VirtualNetworkRule"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DatabaseVulnerabilityAssessmentListResult: msRest.CompositeMapper = {
+  serializedName: "DatabaseVulnerabilityAssessmentListResult",
+  type: {
+    name: "Composite",
+    className: "DatabaseVulnerabilityAssessmentListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DatabaseVulnerabilityAssessment"
             }
           }
         }
