@@ -1,7 +1,15 @@
-import { Agent } from "http";
 import { AuthOptions } from "./auth";
 import { ConnectionPolicy, ConsistencyLevel, QueryCompatibilityMode } from "./documents";
 import { IHeaders } from "./queryExecutionContext/IHeaders";
+
+// We expose our own Agent interface to avoid taking a dependency on and leaking node types. This interface should mirror the node Agent interface
+interface Agent {
+  maxFreeSockets: number;
+  maxSockets: number;
+  sockets: any;
+  requests: any;
+  destroy(): void;
+}
 
 export interface CosmosClientOptions {
   /** The service endpoint to use to create the client. */
