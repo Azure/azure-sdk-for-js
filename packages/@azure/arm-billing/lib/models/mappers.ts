@@ -271,6 +271,40 @@ export const Operation: msRest.CompositeMapper = {
   }
 };
 
+export const InvoicePricesheetHeaders: msRest.CompositeMapper = {
+  serializedName: "invoice-pricesheet-headers",
+  type: {
+    name: "Composite",
+    className: "InvoicePricesheetHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      },
+      oDataEntityId: {
+        serializedName: "odata-entityid",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const EnrollmentAccountListResult: msRest.CompositeMapper = {
   serializedName: "EnrollmentAccountListResult",
   type: {

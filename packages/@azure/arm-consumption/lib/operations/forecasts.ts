@@ -41,7 +41,7 @@ export class Forecasts {
    * @param callback The callback
    */
   list(options: Models.ForecastsListOptionalParams, callback: msRest.ServiceCallback<Models.ForecastsListResult>): void;
-  list(options?: Models.ForecastsListOptionalParams, callback?: msRest.ServiceCallback<Models.ForecastsListResult>): Promise<Models.ForecastsListResponse> {
+  list(options?: Models.ForecastsListOptionalParams | msRest.ServiceCallback<Models.ForecastsListResult>, callback?: msRest.ServiceCallback<Models.ForecastsListResult>): Promise<Models.ForecastsListResponse> {
     return this.client.sendOperationRequest(
       {
         options

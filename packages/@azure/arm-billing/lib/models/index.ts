@@ -315,6 +315,35 @@ export interface BillingManagementClientOptions extends AzureServiceClientOption
   baseUri?: string;
 }
 
+/**
+ * @interface
+ * An interface representing InvoicePricesheetHeaders.
+ * Defines headers for Pricesheet operation.
+ *
+ */
+export interface InvoicePricesheetHeaders {
+  /**
+   * @member {string} [location] GET this URL to retrieve the status of the
+   * asynchronous operation.
+   */
+  location: string;
+  /**
+   * @member {string} [retryAfter] The amount of delay to use while the status
+   * of the operation is checked. The value is expressed in seconds.
+   */
+  retryAfter: string;
+  /**
+   * @member {string} [azureAsyncOperation] To get the progress of the
+   * operation, call GET operation on the URL in Azure-AsyncOperation header
+   * field.
+   */
+  azureAsyncOperation: string;
+  /**
+   * @member {string} [oDataEntityId] The operation entity Id GUID.
+   */
+  oDataEntityId: string;
+}
+
 
 /**
  * @interface
@@ -571,6 +600,21 @@ export type InvoicesListNextResponse = InvoicesListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: InvoicesListResult;
+    };
+};
+
+/**
+ * Contains response data for the pricesheet operation.
+ */
+export type InvoicePricesheetResponse = InvoicePricesheetHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: InvoicePricesheetHeaders;
     };
 };
 
