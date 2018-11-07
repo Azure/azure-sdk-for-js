@@ -121,7 +121,7 @@ export class LocationCache {
       if (currentInfo.orderedWriteLocations.length > 0) {
         locationIndex = Math.min(locationIndex % 2, currentInfo.orderedWriteLocations.length - 1);
         const writeLocation = currentInfo.orderedWriteLocations[locationIndex];
-        return currentInfo.availableWriteEndpointByLocation.get(writeLocation);
+        return currentInfo.availableWriteEndpointByLocation.get(LocationCache.normalizeLocationName(writeLocation));
       } else {
         return this.defaultEndpoint;
       }
@@ -138,7 +138,9 @@ export class LocationCache {
     let canRefreshInBackground = true;
     const currentInfo = this.locationInfo;
 
-    const mostPreferredLocation: string = currentInfo.preferredLocations ? currentInfo.preferredLocations[0] : null;
+    const mostPreferredLocation: string = LocationCache.normalizeLocationName(
+      currentInfo.preferredLocations ? currentInfo.preferredLocations[0] : null
+    );
 
     if (this.options.connectionPolicy.EnableEndpointDiscovery) {
       // Refresh if client opts-in to use multiple write locations, but it's not enabled on the server.
@@ -301,7 +303,7 @@ export class LocationCache {
         const unavailableEndpoints: string[] = [];
         if (this.options.connectionPolicy.PreferredLocations) {
           for (const location of this.options.connectionPolicy.PreferredLocations) {
-            const endpoint = endpointsByLocation.get(location);
+            const endpoint = endpointsByLocation.get(LocationCache.normalizeLocationName(location));
             if (endpoint) {
               if (this.isEndpointUnavailable(endpoint, expectedAvailableOperation)) {
                 unavailableEndpoints.push(endpoint);
@@ -317,8 +319,9 @@ export class LocationCache {
         }
       } else {
         for (const location of orderedLocations) {
-          if (endpointsByLocation.has(location)) {
-            endpoints.push(endpointsByLocation.get(location));
+          const normalizedLocationName = LocationCache.normalizeLocationName(location);
+          if (endpointsByLocation.has(normalizedLocationName)) {
+            endpoints.push(endpointsByLocation.get(normalizedLocationName));
           }
         }
       }
@@ -341,14 +344,18 @@ export class LocationCache {
       if (!location) {
         continue;
       }
-      const fixedUpLocation = location.name.toLowerCase().replace(/ /g, "");
-      endpointsByLocation.set(fixedUpLocation, location.databaseAccountEndpoint);
-      orderedLocations.push(fixedUpLocation);
+      const normalizedLocationName = LocationCache.normalizeLocationName(location.name);
+      endpointsByLocation.set(normalizedLocationName, location.databaseAccountEndpoint);
+      orderedLocations.push(normalizedLocationName);
     }
     return { endpointsByLocation, orderedLocations };
   }
 
   private canUpdateCache(timestamp: Date): boolean {
     return new Date(Date.now() - Constants.DefaultUnavailableLocationExpirationTimeMS) > timestamp;
+  }
+
+  private static normalizeLocationName(location: string): string {
+    return location ? location.toLowerCase().replace(/ /g, "") : null;
   }
 }

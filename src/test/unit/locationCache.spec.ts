@@ -6,7 +6,7 @@ import * as assert from "assert";
 import { Constants, ResourceType } from "../../common";
 
 const scenarios: Scenario[] = [];
-const regions = ["westus", "eastus", "eastus2", "southcentralus", "seasia"];
+const regions = ["westus", "East US", "eastus2", "south Centralus", "sEasIa"];
 
 interface Scenario {
   defaultEndpoint?: string;

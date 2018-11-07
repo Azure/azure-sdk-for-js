@@ -7,29 +7,29 @@ Database Service](https://azure.microsoft.com/en-us/services/cosmos-db/). This p
 
 ```js
 // JavaScript
-const cosmos = require('@azure/cosmos');
+const cosmos = require("@azure/cosmos");
 const CosmosClient = cosmos.CosmosClient;
 
-const endpoint = "[hostendpoint]";                 // Add your endpoint
-const masterKey = "[database account masterkey]";  // Add the masterkey of the endpoint
+const endpoint = "[hostendpoint]"; // Add your endpoint
+const masterKey = "[database account masterkey]"; // Add the masterkey of the endpoint
 const client = new CosmosClient({ endpoint, auth: { masterKey } });
 
-const databaseDefinition = { id: 'sample database' };
-const collectionDefinition = { id: 'sample collection' };
-const documentDefinition = { id: 'hello world doc', content: 'Hello World!' };
+const databaseDefinition = { id: "sample database" };
+const collectionDefinition = { id: "sample collection" };
+const documentDefinition = { id: "hello world doc", content: "Hello World!" };
 
 async function helloCosmos() {
   const { database: db } = await client.databases.create(databaseDefinition);
-  console.log('created db');
+  console.log("created db");
 
   const { container } = await db.containers.create(collectionDefinition);
-  console.log('created collection');
+  console.log("created collection");
 
   const { body } = await container.items.create(documentDefinition);
-  console.log('Created item with content: ', body.content);
+  console.log("Created item with content: ", body.content);
 
   await db.delete();
-  console.log('Deleted database');
+  console.log("Deleted database");
 }
 
 helloCosmos().catch(err => {
@@ -48,70 +48,14 @@ helloCosmos().catch(err => {
 - [Partitioning](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-partition-data)
 - [API Documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/cosmos/?view=azure-node-latest)
 
-## Installation
-
-### Prerequisites
-
-Install Node.js 6 or above and npm
-[https://docs.npmjs.com/getting-started/installing-node](https://docs.npmjs.com/getting-started/installing-node)
-
-The SDK is not supported in Node v4 or below. Those Node.js versions are out of support and not recommended for production. Our support will only cover maintained versions of Node.js.
-
-To use the SDK, first [create an account](https://docs.microsoft.com/en-us/azure/cosmos-db/create-sql-api-nodejs) and follow [tutorial](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-nodejs-application).
-
-#### Note:
-
-When connecting to the [emulator](https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator) from the SDK, SSL verification is disabled.
-
-Follow these instructions to run the tests locally.
-
-### Install
-
-```bash
-npm install @azure/cosmos
-```
-
-## Tests
-
-### Prerequisites
-
-1.  Clone Azure/azure-cosmos-js repository
-
-    ```bash
-    git clone https://github.com/azure/azure-cosmos-js.git
-    ```
-
-2.  Install Node.js 6 or above and npm
-    [https://docs.npmjs.com/getting-started/installing-node](https://docs.npmjs.com/getting-started/installing-node)
-
-3.  [Cosmos DB emulator](https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator)
-
-    - Note: requires a windows machine or ability to run Windows container
-
-4.  Install dependencies
-
-    ```bash
-    npm i     # alias for npm install
-    ```
-
-5.  Build the source
-
-    ```bash
-    npm run build   # compiles the typescript source, runs linting, creates webpack, creates docs
-    ```
-
-### Running the tests
-
-```bash
-npm run test    # runs all tests
-```
-
 ## Need Help?
 
 Tweet us with #CosmosDB and we'll respond on Twitter. Be sure to check out the Microsoft Azure [Developer Forums on MSDN](https://social.msdn.microsoft.com/forums/azure/en-US/home?forum=AzureDocument) or the [Developer Forums on Stack Overflow](https://stackoverflow.com/questions/tagged/azure-cosmosdb) if you have trouble with the provided code.
 
 ## Contribute Code or Provide Feedback
 
-If you would like to become an active contributor to this project please follow the instructions provided in [Azure Projects Contribution Guidelines](http://azure.github.io/guidelines.html).
+For our rules and guidelines on contributing, please see [Microsoft's contributor guide].(https://docs.microsoft.com/en-us/contribute/).
+
+For information on how build and test this repo, please see [./dev.md](./dev.md).
 
 If you encounter any bugs with the library please file an issue in the [Issues](https://github.com/Azure/azure-cosmos-js/issues) section of the project.
