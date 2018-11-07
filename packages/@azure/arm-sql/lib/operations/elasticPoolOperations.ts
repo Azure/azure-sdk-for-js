@@ -56,7 +56,7 @@ export class ElasticPoolOperations {
    * @param callback The callback
    */
   cancel(resourceGroupName: string, serverName: string, elasticPoolName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  cancel(resourceGroupName: string, serverName: string, elasticPoolName: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  cancel(resourceGroupName: string, serverName: string, elasticPoolName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +96,7 @@ export class ElasticPoolOperations {
    * @param callback The callback
    */
   listByElasticPool(resourceGroupName: string, serverName: string, elasticPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ElasticPoolOperationListResult>): void;
-  listByElasticPool(resourceGroupName: string, serverName: string, elasticPoolName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ElasticPoolOperationListResult>): Promise<Models.ElasticPoolOperationsListByElasticPoolResponse> {
+  listByElasticPool(resourceGroupName: string, serverName: string, elasticPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ElasticPoolOperationListResult>, callback?: msRest.ServiceCallback<Models.ElasticPoolOperationListResult>): Promise<Models.ElasticPoolOperationsListByElasticPoolResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -126,7 +126,7 @@ export class ElasticPoolOperations {
    * @param callback The callback
    */
   listByElasticPoolNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ElasticPoolOperationListResult>): void;
-  listByElasticPoolNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ElasticPoolOperationListResult>): Promise<Models.ElasticPoolOperationsListByElasticPoolNextResponse> {
+  listByElasticPoolNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ElasticPoolOperationListResult>, callback?: msRest.ServiceCallback<Models.ElasticPoolOperationListResult>): Promise<Models.ElasticPoolOperationsListByElasticPoolNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

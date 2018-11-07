@@ -57,7 +57,7 @@ export class ReplicationLinks {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -100,7 +100,7 @@ export class ReplicationLinks {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReplicationLink>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ReplicationLink>): Promise<Models.ReplicationLinksGetResponse> {
+  get(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationLink>, callback?: msRest.ServiceCallback<Models.ReplicationLink>): Promise<Models.ReplicationLinksGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -172,7 +172,7 @@ export class ReplicationLinks {
    * @param callback The callback
    */
   listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReplicationLinkListResult>): void;
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ReplicationLinkListResult>): Promise<Models.ReplicationLinksListByDatabaseResponse> {
+  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationLinkListResult>, callback?: msRest.ServiceCallback<Models.ReplicationLinkListResult>): Promise<Models.ReplicationLinksListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

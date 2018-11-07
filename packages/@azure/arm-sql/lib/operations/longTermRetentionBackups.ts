@@ -54,7 +54,7 @@ export class LongTermRetentionBackups {
    * @param callback The callback
    */
   get(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LongTermRetentionBackup>): void;
-  get(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackup>): Promise<Models.LongTermRetentionBackupsGetResponse> {
+  get(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LongTermRetentionBackup>, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackup>): Promise<Models.LongTermRetentionBackupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
@@ -105,7 +105,7 @@ export class LongTermRetentionBackups {
    * @param callback The callback
    */
   listByDatabase(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, options: Models.LongTermRetentionBackupsListByDatabaseOptionalParams, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
-  listByDatabase(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, options?: Models.LongTermRetentionBackupsListByDatabaseOptionalParams, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): Promise<Models.LongTermRetentionBackupsListByDatabaseResponse> {
+  listByDatabase(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, options?: Models.LongTermRetentionBackupsListByDatabaseOptionalParams | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): Promise<Models.LongTermRetentionBackupsListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
@@ -135,7 +135,7 @@ export class LongTermRetentionBackups {
    * @param callback The callback
    */
   listByLocation(locationName: string, options: Models.LongTermRetentionBackupsListByLocationOptionalParams, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
-  listByLocation(locationName: string, options?: Models.LongTermRetentionBackupsListByLocationOptionalParams, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): Promise<Models.LongTermRetentionBackupsListByLocationResponse> {
+  listByLocation(locationName: string, options?: Models.LongTermRetentionBackupsListByLocationOptionalParams | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): Promise<Models.LongTermRetentionBackupsListByLocationResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
@@ -166,7 +166,7 @@ export class LongTermRetentionBackups {
    * @param callback The callback
    */
   listByServer(locationName: string, longTermRetentionServerName: string, options: Models.LongTermRetentionBackupsListByServerOptionalParams, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
-  listByServer(locationName: string, longTermRetentionServerName: string, options?: Models.LongTermRetentionBackupsListByServerOptionalParams, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): Promise<Models.LongTermRetentionBackupsListByServerResponse> {
+  listByServer(locationName: string, longTermRetentionServerName: string, options?: Models.LongTermRetentionBackupsListByServerOptionalParams | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): Promise<Models.LongTermRetentionBackupsListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
@@ -217,7 +217,7 @@ export class LongTermRetentionBackups {
    * @param callback The callback
    */
   listByDatabaseNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
-  listByDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): Promise<Models.LongTermRetentionBackupsListByDatabaseNextResponse> {
+  listByDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): Promise<Models.LongTermRetentionBackupsListByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -245,7 +245,7 @@ export class LongTermRetentionBackups {
    * @param callback The callback
    */
   listByLocationNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
-  listByLocationNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): Promise<Models.LongTermRetentionBackupsListByLocationNextResponse> {
+  listByLocationNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): Promise<Models.LongTermRetentionBackupsListByLocationNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -273,7 +273,7 @@ export class LongTermRetentionBackups {
    * @param callback The callback
    */
   listByServerNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
-  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): Promise<Models.LongTermRetentionBackupsListByServerNextResponse> {
+  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): Promise<Models.LongTermRetentionBackupsListByServerNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
