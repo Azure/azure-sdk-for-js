@@ -41,7 +41,7 @@ export class EnrollmentAccounts {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EnrollmentAccountListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnrollmentAccountListResult>, callback?: msRest.ServiceCallback<Models.EnrollmentAccountListResult>): Promise<Models.EnrollmentAccountsListResponse> {
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EnrollmentAccountListResult>): Promise<Models.EnrollmentAccountsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -68,7 +68,7 @@ export class EnrollmentAccounts {
    * @param callback The callback
    */
   get(name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EnrollmentAccount>): void;
-  get(name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnrollmentAccount>, callback?: msRest.ServiceCallback<Models.EnrollmentAccount>): Promise<Models.EnrollmentAccountsGetResponse> {
+  get(name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EnrollmentAccount>): Promise<Models.EnrollmentAccountsGetResponse> {
     return this.client.sendOperationRequest(
       {
         name,
@@ -96,7 +96,7 @@ export class EnrollmentAccounts {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EnrollmentAccountListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnrollmentAccountListResult>, callback?: msRest.ServiceCallback<Models.EnrollmentAccountListResult>): Promise<Models.EnrollmentAccountsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EnrollmentAccountListResult>): Promise<Models.EnrollmentAccountsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -16,9 +16,16 @@ const packageName = "@azure/arm-billing";
 const packageVersion = "0.1.0";
 
 export class BillingManagementClientContext extends msRestAzure.AzureServiceClient {
+
   credentials: msRest.ServiceClientCredentials;
-  apiVersion?: string;
+
+  apiVersion: string;
+
   subscriptionId: string;
+
+  acceptLanguage: string;
+
+  longRunningOperationRetryTimeout: number;
 
   /**
    * Initializes a new instance of the BillingManagementClient class.
@@ -37,11 +44,6 @@ export class BillingManagementClientContext extends msRestAzure.AzureServiceClie
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
-      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
-
     super(credentials, options);
 
     this.apiVersion = '2018-03-01-preview';
@@ -52,6 +54,7 @@ export class BillingManagementClientContext extends msRestAzure.AzureServiceClie
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
 
+    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }

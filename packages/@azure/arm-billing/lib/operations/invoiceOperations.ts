@@ -47,7 +47,7 @@ export class InvoiceOperations {
    * @param callback The callback
    */
   pricesheet(billingAccountId: string, invoiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  pricesheet(billingAccountId: string, invoiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.InvoicePricesheetResponse> {
+  pricesheet(billingAccountId: string, invoiceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.InvoicePricesheetResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountId,
