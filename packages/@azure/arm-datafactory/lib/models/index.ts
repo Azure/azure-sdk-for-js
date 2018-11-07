@@ -1022,6 +1022,63 @@ export interface GitHubAccessTokenResponse {
 
 /**
  * @interface
+ * An interface representing UserAccessPolicy.
+ * Get Data Plane read only token request definition.
+ *
+ */
+export interface UserAccessPolicy {
+  /**
+   * @member {string} [permissions] The string with permissions for Data Plane
+   * access. Currently only 'r' is supported which grants read only access.
+   */
+  permissions?: string;
+  /**
+   * @member {string} [accessResourcePath] The resource path to get access
+   * relative to factory. Currently only empty string is supported which
+   * corresponds to the factory resource.
+   */
+  accessResourcePath?: string;
+  /**
+   * @member {string} [profileName] The name of the profile. Currently only the
+   * default is supported. The default value is DefaultProfile.
+   */
+  profileName?: string;
+  /**
+   * @member {string} [startTime] Start time for the token. If not specified
+   * the current time will be used.
+   */
+  startTime?: string;
+  /**
+   * @member {string} [expireTime] Expiration time for the token. Maximum
+   * duration for the token is eight hours and by default the token will expire
+   * in eight hours.
+   */
+  expireTime?: string;
+}
+
+/**
+ * @interface
+ * An interface representing AccessPolicyResponse.
+ * Get Data Plane read only token response definition.
+ *
+ */
+export interface AccessPolicyResponse {
+  /**
+   * @member {UserAccessPolicy} [policy] The user access policy.
+   */
+  policy?: UserAccessPolicy;
+  /**
+   * @member {string} [accessToken] Data Plane read only access token.
+   */
+  accessToken?: string;
+  /**
+   * @member {string} [dataPlaneUrl] Data Plane service base URL.
+   */
+  dataPlaneUrl?: string;
+}
+
+/**
+ * @interface
  * An interface representing PipelineReference.
  * Pipeline reference type.
  *
@@ -16422,6 +16479,25 @@ export type FactoriesGetGitHubAccessTokenResponse = GitHubAccessTokenResponse & 
        * The response body as parsed JSON or XML
        */
       parsedBody: GitHubAccessTokenResponse;
+    };
+};
+
+/**
+ * Contains response data for the getDataPlaneAccess operation.
+ */
+export type FactoriesGetDataPlaneAccessResponse = AccessPolicyResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccessPolicyResponse;
     };
 };
 

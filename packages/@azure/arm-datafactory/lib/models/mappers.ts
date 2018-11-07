@@ -1394,6 +1394,75 @@ export const GitHubAccessTokenResponse: msRest.CompositeMapper = {
   }
 };
 
+export const UserAccessPolicy: msRest.CompositeMapper = {
+  serializedName: "UserAccessPolicy",
+  type: {
+    name: "Composite",
+    className: "UserAccessPolicy",
+    modelProperties: {
+      permissions: {
+        serializedName: "permissions",
+        type: {
+          name: "String"
+        }
+      },
+      accessResourcePath: {
+        serializedName: "accessResourcePath",
+        type: {
+          name: "String"
+        }
+      },
+      profileName: {
+        serializedName: "profileName",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "String"
+        }
+      },
+      expireTime: {
+        serializedName: "expireTime",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AccessPolicyResponse: msRest.CompositeMapper = {
+  serializedName: "AccessPolicyResponse",
+  type: {
+    name: "Composite",
+    className: "AccessPolicyResponse",
+    modelProperties: {
+      policy: {
+        serializedName: "policy",
+        type: {
+          name: "Composite",
+          className: "UserAccessPolicy"
+        }
+      },
+      accessToken: {
+        serializedName: "accessToken",
+        type: {
+          name: "String"
+        }
+      },
+      dataPlaneUrl: {
+        serializedName: "dataPlaneUrl",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const PipelineReference: msRest.CompositeMapper = {
   serializedName: "PipelineReference",
   type: {
