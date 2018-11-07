@@ -64,7 +64,7 @@ export class ExpressRouteCircuitPeerings {
    * @param callback The callback
    */
   get(resourceGroupName: string, circuitName: string, peeringName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitPeering>): void;
-  get(resourceGroupName: string, circuitName: string, peeringName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitPeering>): Promise<Models.ExpressRouteCircuitPeeringsGetResponse> {
+  get(resourceGroupName: string, circuitName: string, peeringName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuitPeering>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitPeering>): Promise<Models.ExpressRouteCircuitPeeringsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class ExpressRouteCircuitPeerings {
    * @param callback The callback
    */
   list(resourceGroupName: string, circuitName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitPeeringListResult>): void;
-  list(resourceGroupName: string, circuitName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitPeeringListResult>): Promise<Models.ExpressRouteCircuitPeeringsListResponse> {
+  list(resourceGroupName: string, circuitName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuitPeeringListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitPeeringListResult>): Promise<Models.ExpressRouteCircuitPeeringsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -184,7 +184,7 @@ export class ExpressRouteCircuitPeerings {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitPeeringListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitPeeringListResult>): Promise<Models.ExpressRouteCircuitPeeringsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuitPeeringListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitPeeringListResult>): Promise<Models.ExpressRouteCircuitPeeringsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

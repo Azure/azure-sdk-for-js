@@ -51,7 +51,7 @@ export class P2sVpnServerConfigurations {
    * @param callback The callback
    */
   get(resourceGroupName: string, virtualWanName: string, p2SVpnServerConfigurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.P2SVpnServerConfiguration>): void;
-  get(resourceGroupName: string, virtualWanName: string, p2SVpnServerConfigurationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.P2SVpnServerConfiguration>): Promise<Models.P2sVpnServerConfigurationsGetResponse> {
+  get(resourceGroupName: string, virtualWanName: string, p2SVpnServerConfigurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.P2SVpnServerConfiguration>, callback?: msRest.ServiceCallback<Models.P2SVpnServerConfiguration>): Promise<Models.P2sVpnServerConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -113,7 +113,7 @@ export class P2sVpnServerConfigurations {
    * @param callback The callback
    */
   listByVirtualWan(resourceGroupName: string, virtualWanName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListP2SVpnServerConfigurationsResult>): void;
-  listByVirtualWan(resourceGroupName: string, virtualWanName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListP2SVpnServerConfigurationsResult>): Promise<Models.P2sVpnServerConfigurationsListByVirtualWanResponse> {
+  listByVirtualWan(resourceGroupName: string, virtualWanName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListP2SVpnServerConfigurationsResult>, callback?: msRest.ServiceCallback<Models.ListP2SVpnServerConfigurationsResult>): Promise<Models.P2sVpnServerConfigurationsListByVirtualWanResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -186,7 +186,7 @@ export class P2sVpnServerConfigurations {
    * @param callback The callback
    */
   listByVirtualWanNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListP2SVpnServerConfigurationsResult>): void;
-  listByVirtualWanNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListP2SVpnServerConfigurationsResult>): Promise<Models.P2sVpnServerConfigurationsListByVirtualWanNextResponse> {
+  listByVirtualWanNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListP2SVpnServerConfigurationsResult>, callback?: msRest.ServiceCallback<Models.ListP2SVpnServerConfigurationsResult>): Promise<Models.P2sVpnServerConfigurationsListByVirtualWanNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

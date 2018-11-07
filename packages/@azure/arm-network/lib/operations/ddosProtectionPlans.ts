@@ -60,7 +60,7 @@ export class DdosProtectionPlans {
    * @param callback The callback
    */
   get(resourceGroupName: string, ddosProtectionPlanName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DdosProtectionPlan>): void;
-  get(resourceGroupName: string, ddosProtectionPlanName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DdosProtectionPlan>): Promise<Models.DdosProtectionPlansGetResponse> {
+  get(resourceGroupName: string, ddosProtectionPlanName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DdosProtectionPlan>, callback?: msRest.ServiceCallback<Models.DdosProtectionPlan>): Promise<Models.DdosProtectionPlansGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +99,7 @@ export class DdosProtectionPlans {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>): Promise<Models.DdosProtectionPlansListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DdosProtectionPlanListResult>, callback?: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>): Promise<Models.DdosProtectionPlansListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -126,7 +126,7 @@ export class DdosProtectionPlans {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>): Promise<Models.DdosProtectionPlansListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DdosProtectionPlanListResult>, callback?: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>): Promise<Models.DdosProtectionPlansListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -192,7 +192,7 @@ export class DdosProtectionPlans {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>): Promise<Models.DdosProtectionPlansListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DdosProtectionPlanListResult>, callback?: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>): Promise<Models.DdosProtectionPlansListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -220,7 +220,7 @@ export class DdosProtectionPlans {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>): Promise<Models.DdosProtectionPlansListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DdosProtectionPlanListResult>, callback?: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>): Promise<Models.DdosProtectionPlansListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

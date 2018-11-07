@@ -206,7 +206,7 @@ export interface MigrateSyncCompleteCommandInput {
 /**
  * Contains the possible cases for CommandProperties.
  */
-export type CommandPropertiesUnion = CommandProperties | MigrateSyncCompleteCommandProperties;
+export type CommandPropertiesUnion = CommandProperties | MigrateSyncCompleteCommandProperties | MongoDbCancelCommand | MongoDbFinishCommand | MongoDbRestartCommand;
 
 /**
  * @interface
@@ -6523,6 +6523,132 @@ export interface MigrateSchemaSqlTaskOutputError {
 
 /**
  * @interface
+ * An interface representing MongoDbCommandInput.
+ * Describes the input to the 'cancel' and 'restart' MongoDB migration commands
+ *
+ */
+export interface MongoDbCommandInput {
+  /**
+   * @member {string} [objectName] The qualified name of a database or
+   * collection to act upon, or null to act upon the entire migration
+   */
+  objectName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing MongoDbCancelCommand.
+ * Properties for the command that cancels a migration in whole or in part
+ *
+ */
+export interface MongoDbCancelCommand {
+  /**
+   * @member {string} commandType Polymorphic Discriminator
+   */
+  commandType: "cancel";
+  /**
+   * @member {ODataError[]} [errors] Array of errors. This is ignored if
+   * submitted.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errors?: ODataError[];
+  /**
+   * @member {CommandState} [state] The state of the command. This is ignored
+   * if submitted. Possible values include: 'Unknown', 'Accepted', 'Running',
+   * 'Succeeded', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: CommandState;
+  /**
+   * @member {MongoDbCommandInput} [input] Command input
+   */
+  input?: MongoDbCommandInput;
+}
+
+/**
+ * @interface
+ * An interface representing MongoDbFinishCommandInput.
+ * Describes the input to the 'finish' MongoDB migration command
+ *
+ * @extends MongoDbCommandInput
+ */
+export interface MongoDbFinishCommandInput extends MongoDbCommandInput {
+  /**
+   * @member {boolean} immediate If true, replication for the affected objects
+   * will be stopped immediately. If false, the migrator will finish replaying
+   * queued events before finishing the replication.
+   */
+  immediate: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing MongoDbFinishCommand.
+ * Properties for the command that finishes a migration in whole or in part
+ *
+ */
+export interface MongoDbFinishCommand {
+  /**
+   * @member {string} commandType Polymorphic Discriminator
+   */
+  commandType: "finish";
+  /**
+   * @member {ODataError[]} [errors] Array of errors. This is ignored if
+   * submitted.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errors?: ODataError[];
+  /**
+   * @member {CommandState} [state] The state of the command. This is ignored
+   * if submitted. Possible values include: 'Unknown', 'Accepted', 'Running',
+   * 'Succeeded', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: CommandState;
+  /**
+   * @member {MongoDbFinishCommandInput} [input] Command input
+   */
+  input?: MongoDbFinishCommandInput;
+}
+
+/**
+ * @interface
+ * An interface representing MongoDbRestartCommand.
+ * Properties for the command that restarts a migration in whole or in part
+ *
+ */
+export interface MongoDbRestartCommand {
+  /**
+   * @member {string} commandType Polymorphic Discriminator
+   */
+  commandType: "restart";
+  /**
+   * @member {ODataError[]} [errors] Array of errors. This is ignored if
+   * submitted.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errors?: ODataError[];
+  /**
+   * @member {CommandState} [state] The state of the command. This is ignored
+   * if submitted. Possible values include: 'Unknown', 'Accepted', 'Running',
+   * 'Succeeded', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: CommandState;
+  /**
+   * @member {MongoDbCommandInput} [input] Command input
+   */
+  input?: MongoDbCommandInput;
+}
+
+/**
+ * @interface
  * An interface representing Database.
  * Information about a single database
  *
@@ -7194,811 +7320,350 @@ export interface FileList extends Array<ProjectFile> {
 
 /**
  * Defines values for CommandState.
- * Possible values include: 'Unknown', 'Accepted', 'Running', 'Succeeded',
- * 'Failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: CommandState =
- * <CommandState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'Accepted', 'Running', 'Succeeded', 'Failed'
  * @readonly
  * @enum {string}
  */
-export enum CommandState {
-  Unknown = 'Unknown',
-  Accepted = 'Accepted',
-  Running = 'Running',
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-}
+export type CommandState = 'Unknown' | 'Accepted' | 'Running' | 'Succeeded' | 'Failed';
 
 /**
  * Defines values for SqlSourcePlatform.
  * Possible values include: 'SqlOnPrem'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SqlSourcePlatform =
- * <SqlSourcePlatform>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SqlSourcePlatform {
-  SqlOnPrem = 'SqlOnPrem',
-}
+export type SqlSourcePlatform = 'SqlOnPrem';
 
 /**
  * Defines values for AuthenticationType.
- * Possible values include: 'None', 'WindowsAuthentication',
- * 'SqlAuthentication', 'ActiveDirectoryIntegrated', 'ActiveDirectoryPassword'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AuthenticationType =
- * <AuthenticationType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'None', 'WindowsAuthentication', 'SqlAuthentication',
+ * 'ActiveDirectoryIntegrated', 'ActiveDirectoryPassword'
  * @readonly
  * @enum {string}
  */
-export enum AuthenticationType {
-  None = 'None',
-  WindowsAuthentication = 'WindowsAuthentication',
-  SqlAuthentication = 'SqlAuthentication',
-  ActiveDirectoryIntegrated = 'ActiveDirectoryIntegrated',
-  ActiveDirectoryPassword = 'ActiveDirectoryPassword',
-}
+export type AuthenticationType = 'None' | 'WindowsAuthentication' | 'SqlAuthentication' | 'ActiveDirectoryIntegrated' | 'ActiveDirectoryPassword';
 
 /**
  * Defines values for MongoDbErrorType.
  * Possible values include: 'Error', 'ValidationError', 'Warning'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: MongoDbErrorType =
- * <MongoDbErrorType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum MongoDbErrorType {
-  Error = 'Error',
-  ValidationError = 'ValidationError',
-  Warning = 'Warning',
-}
+export type MongoDbErrorType = 'Error' | 'ValidationError' | 'Warning';
 
 /**
  * Defines values for MongoDbMigrationState.
- * Possible values include: 'NotStarted', 'ValidatingInput', 'Initializing',
- * 'Restarting', 'Copying', 'InitialReplay', 'Replaying', 'Finalizing',
- * 'Complete', 'Canceled', 'Failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: MongoDbMigrationState =
- * <MongoDbMigrationState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotStarted', 'ValidatingInput', 'Initializing', 'Restarting',
+ * 'Copying', 'InitialReplay', 'Replaying', 'Finalizing', 'Complete', 'Canceled', 'Failed'
  * @readonly
  * @enum {string}
  */
-export enum MongoDbMigrationState {
-  NotStarted = 'NotStarted',
-  ValidatingInput = 'ValidatingInput',
-  Initializing = 'Initializing',
-  Restarting = 'Restarting',
-  Copying = 'Copying',
-  InitialReplay = 'InitialReplay',
-  Replaying = 'Replaying',
-  Finalizing = 'Finalizing',
-  Complete = 'Complete',
-  Canceled = 'Canceled',
-  Failed = 'Failed',
-}
+export type MongoDbMigrationState = 'NotStarted' | 'ValidatingInput' | 'Initializing' | 'Restarting' | 'Copying' | 'InitialReplay' | 'Replaying' | 'Finalizing' | 'Complete' | 'Canceled' | 'Failed';
 
 /**
  * Defines values for MongoDbShardKeyOrder.
  * Possible values include: 'Forward', 'Reverse', 'Hashed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: MongoDbShardKeyOrder =
- * <MongoDbShardKeyOrder>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum MongoDbShardKeyOrder {
-  Forward = 'Forward',
-  Reverse = 'Reverse',
-  Hashed = 'Hashed',
-}
+export type MongoDbShardKeyOrder = 'Forward' | 'Reverse' | 'Hashed';
 
 /**
  * Defines values for MongoDbReplication.
  * Possible values include: 'Disabled', 'OneTime', 'Continuous'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: MongoDbReplication =
- * <MongoDbReplication>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum MongoDbReplication {
-  Disabled = 'Disabled',
-  OneTime = 'OneTime',
-  Continuous = 'Continuous',
-}
+export type MongoDbReplication = 'Disabled' | 'OneTime' | 'Continuous';
 
 /**
  * Defines values for BackupType.
- * Possible values include: 'Database', 'TransactionLog', 'File',
- * 'DifferentialDatabase', 'DifferentialFile', 'Partial', 'DifferentialPartial'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: BackupType = <BackupType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Database', 'TransactionLog', 'File', 'DifferentialDatabase',
+ * 'DifferentialFile', 'Partial', 'DifferentialPartial'
  * @readonly
  * @enum {string}
  */
-export enum BackupType {
-  Database = 'Database',
-  TransactionLog = 'TransactionLog',
-  File = 'File',
-  DifferentialDatabase = 'DifferentialDatabase',
-  DifferentialFile = 'DifferentialFile',
-  Partial = 'Partial',
-  DifferentialPartial = 'DifferentialPartial',
-}
+export type BackupType = 'Database' | 'TransactionLog' | 'File' | 'DifferentialDatabase' | 'DifferentialFile' | 'Partial' | 'DifferentialPartial';
 
 /**
  * Defines values for BackupMode.
  * Possible values include: 'CreateBackup', 'ExistingBackup'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: BackupMode = <BackupMode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum BackupMode {
-  CreateBackup = 'CreateBackup',
-  ExistingBackup = 'ExistingBackup',
-}
+export type BackupMode = 'CreateBackup' | 'ExistingBackup';
 
 /**
  * Defines values for SyncTableMigrationState.
- * Possible values include: 'BEFORE_LOAD', 'FULL_LOAD', 'COMPLETED',
- * 'CANCELED', 'ERROR', 'FAILED'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SyncTableMigrationState =
- * <SyncTableMigrationState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'BEFORE_LOAD', 'FULL_LOAD', 'COMPLETED', 'CANCELED', 'ERROR', 'FAILED'
  * @readonly
  * @enum {string}
  */
-export enum SyncTableMigrationState {
-  BEFORELOAD = 'BEFORE_LOAD',
-  FULLLOAD = 'FULL_LOAD',
-  COMPLETED = 'COMPLETED',
-  CANCELED = 'CANCELED',
-  ERROR = 'ERROR',
-  FAILED = 'FAILED',
-}
+export type SyncTableMigrationState = 'BEFORE_LOAD' | 'FULL_LOAD' | 'COMPLETED' | 'CANCELED' | 'ERROR' | 'FAILED';
 
 /**
  * Defines values for SyncDatabaseMigrationReportingState.
- * Possible values include: 'UNDEFINED', 'CONFIGURING', 'INITIALIAZING',
- * 'STARTING', 'RUNNING', 'READY_TO_COMPLETE', 'COMPLETING', 'COMPLETE',
- * 'CANCELLING', 'CANCELLED', 'FAILED'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SyncDatabaseMigrationReportingState =
- * <SyncDatabaseMigrationReportingState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'UNDEFINED', 'CONFIGURING', 'INITIALIAZING', 'STARTING', 'RUNNING',
+ * 'READY_TO_COMPLETE', 'COMPLETING', 'COMPLETE', 'CANCELLING', 'CANCELLED', 'FAILED'
  * @readonly
  * @enum {string}
  */
-export enum SyncDatabaseMigrationReportingState {
-  UNDEFINED = 'UNDEFINED',
-  CONFIGURING = 'CONFIGURING',
-  INITIALIAZING = 'INITIALIAZING',
-  STARTING = 'STARTING',
-  RUNNING = 'RUNNING',
-  READYTOCOMPLETE = 'READY_TO_COMPLETE',
-  COMPLETING = 'COMPLETING',
-  COMPLETE = 'COMPLETE',
-  CANCELLING = 'CANCELLING',
-  CANCELLED = 'CANCELLED',
-  FAILED = 'FAILED',
-}
+export type SyncDatabaseMigrationReportingState = 'UNDEFINED' | 'CONFIGURING' | 'INITIALIAZING' | 'STARTING' | 'RUNNING' | 'READY_TO_COMPLETE' | 'COMPLETING' | 'COMPLETE' | 'CANCELLING' | 'CANCELLED' | 'FAILED';
 
 /**
  * Defines values for ValidationStatus.
- * Possible values include: 'Default', 'NotStarted', 'Initialized',
- * 'InProgress', 'Completed', 'CompletedWithIssues', 'Stopped', 'Failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ValidationStatus =
- * <ValidationStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Default', 'NotStarted', 'Initialized', 'InProgress', 'Completed',
+ * 'CompletedWithIssues', 'Stopped', 'Failed'
  * @readonly
  * @enum {string}
  */
-export enum ValidationStatus {
-  Default = 'Default',
-  NotStarted = 'NotStarted',
-  Initialized = 'Initialized',
-  InProgress = 'InProgress',
-  Completed = 'Completed',
-  CompletedWithIssues = 'CompletedWithIssues',
-  Stopped = 'Stopped',
-  Failed = 'Failed',
-}
+export type ValidationStatus = 'Default' | 'NotStarted' | 'Initialized' | 'InProgress' | 'Completed' | 'CompletedWithIssues' | 'Stopped' | 'Failed';
 
 /**
  * Defines values for Severity.
  * Possible values include: 'Message', 'Warning', 'Error'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Severity = <Severity>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Severity {
-  Message = 'Message',
-  Warning = 'Warning',
-  Error = 'Error',
-}
+export type Severity = 'Message' | 'Warning' | 'Error';
 
 /**
  * Defines values for UpdateActionType.
- * Possible values include: 'DeletedOnTarget', 'ChangedOnTarget',
- * 'AddedOnTarget'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: UpdateActionType =
- * <UpdateActionType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'DeletedOnTarget', 'ChangedOnTarget', 'AddedOnTarget'
  * @readonly
  * @enum {string}
  */
-export enum UpdateActionType {
-  DeletedOnTarget = 'DeletedOnTarget',
-  ChangedOnTarget = 'ChangedOnTarget',
-  AddedOnTarget = 'AddedOnTarget',
-}
+export type UpdateActionType = 'DeletedOnTarget' | 'ChangedOnTarget' | 'AddedOnTarget';
 
 /**
  * Defines values for ObjectType.
- * Possible values include: 'StoredProcedures', 'Table', 'User', 'View',
- * 'Function'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ObjectType = <ObjectType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'StoredProcedures', 'Table', 'User', 'View', 'Function'
  * @readonly
  * @enum {string}
  */
-export enum ObjectType {
-  StoredProcedures = 'StoredProcedures',
-  Table = 'Table',
-  User = 'User',
-  View = 'View',
-  Function = 'Function',
-}
+export type ObjectType = 'StoredProcedures' | 'Table' | 'User' | 'View' | 'Function';
 
 /**
  * Defines values for MigrationState.
- * Possible values include: 'None', 'InProgress', 'Failed', 'Warning',
- * 'Completed', 'Skipped', 'Stopped'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: MigrationState =
- * <MigrationState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'None', 'InProgress', 'Failed', 'Warning', 'Completed', 'Skipped',
+ * 'Stopped'
  * @readonly
  * @enum {string}
  */
-export enum MigrationState {
-  None = 'None',
-  InProgress = 'InProgress',
-  Failed = 'Failed',
-  Warning = 'Warning',
-  Completed = 'Completed',
-  Skipped = 'Skipped',
-  Stopped = 'Stopped',
-}
+export type MigrationState = 'None' | 'InProgress' | 'Failed' | 'Warning' | 'Completed' | 'Skipped' | 'Stopped';
 
 /**
  * Defines values for DatabaseMigrationStage.
- * Possible values include: 'None', 'Initialize', 'Backup', 'FileCopy',
- * 'Restore', 'Completed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DatabaseMigrationStage =
- * <DatabaseMigrationStage>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'None', 'Initialize', 'Backup', 'FileCopy', 'Restore', 'Completed'
  * @readonly
  * @enum {string}
  */
-export enum DatabaseMigrationStage {
-  None = 'None',
-  Initialize = 'Initialize',
-  Backup = 'Backup',
-  FileCopy = 'FileCopy',
-  Restore = 'Restore',
-  Completed = 'Completed',
-}
+export type DatabaseMigrationStage = 'None' | 'Initialize' | 'Backup' | 'FileCopy' | 'Restore' | 'Completed';
 
 /**
  * Defines values for MigrationStatus.
- * Possible values include: 'Default', 'Connecting', 'SourceAndTargetSelected',
- * 'SelectLogins', 'Configured', 'Running', 'Error', 'Stopped', 'Completed',
- * 'CompletedWithWarnings'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: MigrationStatus =
- * <MigrationStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Default', 'Connecting', 'SourceAndTargetSelected', 'SelectLogins',
+ * 'Configured', 'Running', 'Error', 'Stopped', 'Completed', 'CompletedWithWarnings'
  * @readonly
  * @enum {string}
  */
-export enum MigrationStatus {
-  Default = 'Default',
-  Connecting = 'Connecting',
-  SourceAndTargetSelected = 'SourceAndTargetSelected',
-  SelectLogins = 'SelectLogins',
-  Configured = 'Configured',
-  Running = 'Running',
-  Error = 'Error',
-  Stopped = 'Stopped',
-  Completed = 'Completed',
-  CompletedWithWarnings = 'CompletedWithWarnings',
-}
+export type MigrationStatus = 'Default' | 'Connecting' | 'SourceAndTargetSelected' | 'SelectLogins' | 'Configured' | 'Running' | 'Error' | 'Stopped' | 'Completed' | 'CompletedWithWarnings';
 
 /**
  * Defines values for LoginMigrationStage.
- * Possible values include: 'None', 'Initialize', 'LoginMigration',
- * 'EstablishUserMapping', 'AssignRoleMembership', 'AssignRoleOwnership',
- * 'EstablishServerPermissions', 'EstablishObjectPermissions', 'Completed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: LoginMigrationStage =
- * <LoginMigrationStage>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'None', 'Initialize', 'LoginMigration', 'EstablishUserMapping',
+ * 'AssignRoleMembership', 'AssignRoleOwnership', 'EstablishServerPermissions',
+ * 'EstablishObjectPermissions', 'Completed'
  * @readonly
  * @enum {string}
  */
-export enum LoginMigrationStage {
-  None = 'None',
-  Initialize = 'Initialize',
-  LoginMigration = 'LoginMigration',
-  EstablishUserMapping = 'EstablishUserMapping',
-  AssignRoleMembership = 'AssignRoleMembership',
-  AssignRoleOwnership = 'AssignRoleOwnership',
-  EstablishServerPermissions = 'EstablishServerPermissions',
-  EstablishObjectPermissions = 'EstablishObjectPermissions',
-  Completed = 'Completed',
-}
+export type LoginMigrationStage = 'None' | 'Initialize' | 'LoginMigration' | 'EstablishUserMapping' | 'AssignRoleMembership' | 'AssignRoleOwnership' | 'EstablishServerPermissions' | 'EstablishObjectPermissions' | 'Completed';
 
 /**
  * Defines values for LoginType.
- * Possible values include: 'WindowsUser', 'WindowsGroup', 'SqlLogin',
- * 'Certificate', 'AsymmetricKey', 'ExternalUser', 'ExternalGroup'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: LoginType = <LoginType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'WindowsUser', 'WindowsGroup', 'SqlLogin', 'Certificate',
+ * 'AsymmetricKey', 'ExternalUser', 'ExternalGroup'
  * @readonly
  * @enum {string}
  */
-export enum LoginType {
-  WindowsUser = 'WindowsUser',
-  WindowsGroup = 'WindowsGroup',
-  SqlLogin = 'SqlLogin',
-  Certificate = 'Certificate',
-  AsymmetricKey = 'AsymmetricKey',
-  ExternalUser = 'ExternalUser',
-  ExternalGroup = 'ExternalGroup',
-}
+export type LoginType = 'WindowsUser' | 'WindowsGroup' | 'SqlLogin' | 'Certificate' | 'AsymmetricKey' | 'ExternalUser' | 'ExternalGroup';
 
 /**
  * Defines values for DatabaseState.
- * Possible values include: 'Online', 'Restoring', 'Recovering',
- * 'RecoveryPending', 'Suspect', 'Emergency', 'Offline', 'Copying',
- * 'OfflineSecondary'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DatabaseState =
- * <DatabaseState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Online', 'Restoring', 'Recovering', 'RecoveryPending', 'Suspect',
+ * 'Emergency', 'Offline', 'Copying', 'OfflineSecondary'
  * @readonly
  * @enum {string}
  */
-export enum DatabaseState {
-  Online = 'Online',
-  Restoring = 'Restoring',
-  Recovering = 'Recovering',
-  RecoveryPending = 'RecoveryPending',
-  Suspect = 'Suspect',
-  Emergency = 'Emergency',
-  Offline = 'Offline',
-  Copying = 'Copying',
-  OfflineSecondary = 'OfflineSecondary',
-}
+export type DatabaseState = 'Online' | 'Restoring' | 'Recovering' | 'RecoveryPending' | 'Suspect' | 'Emergency' | 'Offline' | 'Copying' | 'OfflineSecondary';
 
 /**
  * Defines values for DatabaseCompatLevel.
- * Possible values include: 'CompatLevel80', 'CompatLevel90', 'CompatLevel100',
- * 'CompatLevel110', 'CompatLevel120', 'CompatLevel130', 'CompatLevel140'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DatabaseCompatLevel =
- * <DatabaseCompatLevel>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'CompatLevel80', 'CompatLevel90', 'CompatLevel100', 'CompatLevel110',
+ * 'CompatLevel120', 'CompatLevel130', 'CompatLevel140'
  * @readonly
  * @enum {string}
  */
-export enum DatabaseCompatLevel {
-  CompatLevel80 = 'CompatLevel80',
-  CompatLevel90 = 'CompatLevel90',
-  CompatLevel100 = 'CompatLevel100',
-  CompatLevel110 = 'CompatLevel110',
-  CompatLevel120 = 'CompatLevel120',
-  CompatLevel130 = 'CompatLevel130',
-  CompatLevel140 = 'CompatLevel140',
-}
+export type DatabaseCompatLevel = 'CompatLevel80' | 'CompatLevel90' | 'CompatLevel100' | 'CompatLevel110' | 'CompatLevel120' | 'CompatLevel130' | 'CompatLevel140';
 
 /**
  * Defines values for DatabaseFileType.
- * Possible values include: 'Rows', 'Log', 'Filestream', 'NotSupported',
- * 'Fulltext'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DatabaseFileType =
- * <DatabaseFileType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Rows', 'Log', 'Filestream', 'NotSupported', 'Fulltext'
  * @readonly
  * @enum {string}
  */
-export enum DatabaseFileType {
-  Rows = 'Rows',
-  Log = 'Log',
-  Filestream = 'Filestream',
-  NotSupported = 'NotSupported',
-  Fulltext = 'Fulltext',
-}
+export type DatabaseFileType = 'Rows' | 'Log' | 'Filestream' | 'NotSupported' | 'Fulltext';
 
 /**
  * Defines values for ServerLevelPermissionsGroup.
  * Possible values include: 'Default', 'MigrationFromSqlServerToAzureDB',
  * 'MigrationFromSqlServerToAzureMI', 'MigrationFromMySQLToAzureDBForMySQL'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ServerLevelPermissionsGroup =
- * <ServerLevelPermissionsGroup>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ServerLevelPermissionsGroup {
-  Default = 'Default',
-  MigrationFromSqlServerToAzureDB = 'MigrationFromSqlServerToAzureDB',
-  MigrationFromSqlServerToAzureMI = 'MigrationFromSqlServerToAzureMI',
-  MigrationFromMySQLToAzureDBForMySQL = 'MigrationFromMySQLToAzureDBForMySQL',
-}
+export type ServerLevelPermissionsGroup = 'Default' | 'MigrationFromSqlServerToAzureDB' | 'MigrationFromSqlServerToAzureMI' | 'MigrationFromMySQLToAzureDBForMySQL';
 
 /**
  * Defines values for MongoDbClusterType.
  * Possible values include: 'BlobContainer', 'CosmosDb', 'MongoDb'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: MongoDbClusterType =
- * <MongoDbClusterType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum MongoDbClusterType {
-  BlobContainer = 'BlobContainer',
-  CosmosDb = 'CosmosDb',
-  MongoDb = 'MongoDb',
-}
+export type MongoDbClusterType = 'BlobContainer' | 'CosmosDb' | 'MongoDb';
 
 /**
  * Defines values for TaskState.
- * Possible values include: 'Unknown', 'Queued', 'Running', 'Canceled',
- * 'Succeeded', 'Failed', 'FailedInputValidation', 'Faulted'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TaskState = <TaskState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'Queued', 'Running', 'Canceled', 'Succeeded', 'Failed',
+ * 'FailedInputValidation', 'Faulted'
  * @readonly
  * @enum {string}
  */
-export enum TaskState {
-  Unknown = 'Unknown',
-  Queued = 'Queued',
-  Running = 'Running',
-  Canceled = 'Canceled',
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-  FailedInputValidation = 'FailedInputValidation',
-  Faulted = 'Faulted',
-}
+export type TaskState = 'Unknown' | 'Queued' | 'Running' | 'Canceled' | 'Succeeded' | 'Failed' | 'FailedInputValidation' | 'Faulted';
 
 /**
  * Defines values for ServiceProvisioningState.
- * Possible values include: 'Accepted', 'Deleting', 'Deploying', 'Stopped',
- * 'Stopping', 'Starting', 'FailedToStart', 'FailedToStop', 'Succeeded',
- * 'Failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ServiceProvisioningState =
- * <ServiceProvisioningState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Accepted', 'Deleting', 'Deploying', 'Stopped', 'Stopping', 'Starting',
+ * 'FailedToStart', 'FailedToStop', 'Succeeded', 'Failed'
  * @readonly
  * @enum {string}
  */
-export enum ServiceProvisioningState {
-  Accepted = 'Accepted',
-  Deleting = 'Deleting',
-  Deploying = 'Deploying',
-  Stopped = 'Stopped',
-  Stopping = 'Stopping',
-  Starting = 'Starting',
-  FailedToStart = 'FailedToStart',
-  FailedToStop = 'FailedToStop',
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-}
+export type ServiceProvisioningState = 'Accepted' | 'Deleting' | 'Deploying' | 'Stopped' | 'Stopping' | 'Starting' | 'FailedToStart' | 'FailedToStop' | 'Succeeded' | 'Failed';
 
 /**
  * Defines values for ProjectTargetPlatform.
- * Possible values include: 'SQLDB', 'SQLMI', 'AzureDbForMySql',
- * 'AzureDbForPostgreSql', 'MongoDb', 'Unknown'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ProjectTargetPlatform =
- * <ProjectTargetPlatform>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'SQLDB', 'SQLMI', 'AzureDbForMySql', 'AzureDbForPostgreSql', 'MongoDb',
+ * 'Unknown'
  * @readonly
  * @enum {string}
  */
-export enum ProjectTargetPlatform {
-  SQLDB = 'SQLDB',
-  SQLMI = 'SQLMI',
-  AzureDbForMySql = 'AzureDbForMySql',
-  AzureDbForPostgreSql = 'AzureDbForPostgreSql',
-  MongoDb = 'MongoDb',
-  Unknown = 'Unknown',
-}
+export type ProjectTargetPlatform = 'SQLDB' | 'SQLMI' | 'AzureDbForMySql' | 'AzureDbForPostgreSql' | 'MongoDb' | 'Unknown';
 
 /**
  * Defines values for ProjectSourcePlatform.
  * Possible values include: 'SQL', 'MySQL', 'PostgreSql', 'MongoDb', 'Unknown'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ProjectSourcePlatform =
- * <ProjectSourcePlatform>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ProjectSourcePlatform {
-  SQL = 'SQL',
-  MySQL = 'MySQL',
-  PostgreSql = 'PostgreSql',
-  MongoDb = 'MongoDb',
-  Unknown = 'Unknown',
-}
+export type ProjectSourcePlatform = 'SQL' | 'MySQL' | 'PostgreSql' | 'MongoDb' | 'Unknown';
 
 /**
  * Defines values for ProjectProvisioningState.
  * Possible values include: 'Deleting', 'Succeeded'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ProjectProvisioningState =
- * <ProjectProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ProjectProvisioningState {
-  Deleting = 'Deleting',
-  Succeeded = 'Succeeded',
-}
+export type ProjectProvisioningState = 'Deleting' | 'Succeeded';
 
 /**
  * Defines values for NameCheckFailureReason.
  * Possible values include: 'AlreadyExists', 'Invalid'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: NameCheckFailureReason =
- * <NameCheckFailureReason>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum NameCheckFailureReason {
-  AlreadyExists = 'AlreadyExists',
-  Invalid = 'Invalid',
-}
+export type NameCheckFailureReason = 'AlreadyExists' | 'Invalid';
 
 /**
  * Defines values for ServiceScalability.
  * Possible values include: 'none', 'manual', 'automatic'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ServiceScalability =
- * <ServiceScalability>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ServiceScalability {
-  None = 'none',
-  Manual = 'manual',
-  Automatic = 'automatic',
-}
+export type ServiceScalability = 'none' | 'manual' | 'automatic';
 
 /**
  * Defines values for ResourceSkuRestrictionsType.
  * Possible values include: 'location'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ResourceSkuRestrictionsType =
- * <ResourceSkuRestrictionsType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ResourceSkuRestrictionsType {
-  Location = 'location',
-}
+export type ResourceSkuRestrictionsType = 'location';
 
 /**
  * Defines values for ResourceSkuRestrictionsReasonCode.
  * Possible values include: 'QuotaId', 'NotAvailableForSubscription'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ResourceSkuRestrictionsReasonCode =
- * <ResourceSkuRestrictionsReasonCode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ResourceSkuRestrictionsReasonCode {
-  QuotaId = 'QuotaId',
-  NotAvailableForSubscription = 'NotAvailableForSubscription',
-}
+export type ResourceSkuRestrictionsReasonCode = 'QuotaId' | 'NotAvailableForSubscription';
 
 /**
  * Defines values for ResourceSkuCapacityScaleType.
  * Possible values include: 'Automatic', 'Manual', 'None'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ResourceSkuCapacityScaleType =
- * <ResourceSkuCapacityScaleType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ResourceSkuCapacityScaleType {
-  Automatic = 'Automatic',
-  Manual = 'Manual',
-  None = 'None',
-}
+export type ResourceSkuCapacityScaleType = 'Automatic' | 'Manual' | 'None';
 
 /**
  * Defines values for MySqlTargetPlatformType.
  * Possible values include: 'AzureDbForMySQL'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: MySqlTargetPlatformType =
- * <MySqlTargetPlatformType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum MySqlTargetPlatformType {
-  AzureDbForMySQL = 'AzureDbForMySQL',
-}
+export type MySqlTargetPlatformType = 'AzureDbForMySQL';
 
 /**
  * Defines values for SchemaMigrationOption.
  * Possible values include: 'None', 'ExtractFromSource', 'UseStorageFile'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SchemaMigrationOption =
- * <SchemaMigrationOption>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SchemaMigrationOption {
-  None = 'None',
-  ExtractFromSource = 'ExtractFromSource',
-  UseStorageFile = 'UseStorageFile',
-}
+export type SchemaMigrationOption = 'None' | 'ExtractFromSource' | 'UseStorageFile';
 
 /**
  * Defines values for SchemaMigrationStage.
- * Possible values include: 'NotStarted', 'ValidatingInputs',
- * 'CollectingObjects', 'DownloadingScript', 'GeneratingScript',
- * 'UploadingScript', 'DeployingSchema', 'Completed', 'CompletedWithWarnings',
- * 'Failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SchemaMigrationStage =
- * <SchemaMigrationStage>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotStarted', 'ValidatingInputs', 'CollectingObjects',
+ * 'DownloadingScript', 'GeneratingScript', 'UploadingScript', 'DeployingSchema', 'Completed',
+ * 'CompletedWithWarnings', 'Failed'
  * @readonly
  * @enum {string}
  */
-export enum SchemaMigrationStage {
-  NotStarted = 'NotStarted',
-  ValidatingInputs = 'ValidatingInputs',
-  CollectingObjects = 'CollectingObjects',
-  DownloadingScript = 'DownloadingScript',
-  GeneratingScript = 'GeneratingScript',
-  UploadingScript = 'UploadingScript',
-  DeployingSchema = 'DeployingSchema',
-  Completed = 'Completed',
-  CompletedWithWarnings = 'CompletedWithWarnings',
-  Failed = 'Failed',
-}
+export type SchemaMigrationStage = 'NotStarted' | 'ValidatingInputs' | 'CollectingObjects' | 'DownloadingScript' | 'GeneratingScript' | 'UploadingScript' | 'DeployingSchema' | 'Completed' | 'CompletedWithWarnings' | 'Failed';
 
 /**
  * Defines values for DataMigrationResultCode.
  * Possible values include: 'Initial', 'Completed', 'ObjectNotExistsInSource',
  * 'ObjectNotExistsInTarget', 'TargetObjectIsInaccessible', 'FatalError'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DataMigrationResultCode =
- * <DataMigrationResultCode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum DataMigrationResultCode {
-  Initial = 'Initial',
-  Completed = 'Completed',
-  ObjectNotExistsInSource = 'ObjectNotExistsInSource',
-  ObjectNotExistsInTarget = 'ObjectNotExistsInTarget',
-  TargetObjectIsInaccessible = 'TargetObjectIsInaccessible',
-  FatalError = 'FatalError',
-}
+export type DataMigrationResultCode = 'Initial' | 'Completed' | 'ObjectNotExistsInSource' | 'ObjectNotExistsInTarget' | 'TargetObjectIsInaccessible' | 'FatalError';
 
 /**
  * Defines values for ErrorType.
  * Possible values include: 'Default', 'Warning', 'Error'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ErrorType = <ErrorType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ErrorType {
-  Default = 'Default',
-  Warning = 'Warning',
-  Error = 'Error',
-}
+export type ErrorType = 'Default' | 'Warning' | 'Error';
 
 /**
  * Defines values for ResultType.
  * Possible values include: 'Migration', 'Database', 'Collection'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ResultType = <ResultType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ResultType {
-  Migration = 'Migration',
-  Database = 'Database',
-  Collection = 'Collection',
-}
+export type ResultType = 'Migration' | 'Database' | 'Collection';
 
 /**
  * Contains response data for the listSkus operation.

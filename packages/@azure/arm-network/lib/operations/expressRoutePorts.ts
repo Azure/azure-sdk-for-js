@@ -60,7 +60,7 @@ export class ExpressRoutePorts {
    * @param callback The callback
    */
   get(resourceGroupName: string, expressRoutePortName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRoutePort>): void;
-  get(resourceGroupName: string, expressRoutePortName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRoutePort>): Promise<Models.ExpressRoutePortsGetResponse> {
+  get(resourceGroupName: string, expressRoutePortName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePort>, callback?: msRest.ServiceCallback<Models.ExpressRoutePort>): Promise<Models.ExpressRoutePortsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -115,7 +115,7 @@ export class ExpressRoutePorts {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRoutePortListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRoutePortListResult>): Promise<Models.ExpressRoutePortsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePortListResult>, callback?: msRest.ServiceCallback<Models.ExpressRoutePortListResult>): Promise<Models.ExpressRoutePortsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -140,7 +140,7 @@ export class ExpressRoutePorts {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRoutePortListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRoutePortListResult>): Promise<Models.ExpressRoutePortsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePortListResult>, callback?: msRest.ServiceCallback<Models.ExpressRoutePortListResult>): Promise<Models.ExpressRoutePortsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -225,7 +225,7 @@ export class ExpressRoutePorts {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRoutePortListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRoutePortListResult>): Promise<Models.ExpressRoutePortsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePortListResult>, callback?: msRest.ServiceCallback<Models.ExpressRoutePortListResult>): Promise<Models.ExpressRoutePortsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -253,7 +253,7 @@ export class ExpressRoutePorts {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRoutePortListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRoutePortListResult>): Promise<Models.ExpressRoutePortsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePortListResult>, callback?: msRest.ServiceCallback<Models.ExpressRoutePortListResult>): Promise<Models.ExpressRoutePortsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

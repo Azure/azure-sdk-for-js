@@ -42,7 +42,7 @@ export class ExpressRouteCrossConnections {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): Promise<Models.ExpressRouteCrossConnectionsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): Promise<Models.ExpressRouteCrossConnectionsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -69,7 +69,7 @@ export class ExpressRouteCrossConnections {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): Promise<Models.ExpressRouteCrossConnectionsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): Promise<Models.ExpressRouteCrossConnectionsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -103,7 +103,7 @@ export class ExpressRouteCrossConnections {
    * @param callback The callback
    */
   get(resourceGroupName: string, crossConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnection>): void;
-  get(resourceGroupName: string, crossConnectionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnection>): Promise<Models.ExpressRouteCrossConnectionsGetResponse> {
+  get(resourceGroupName: string, crossConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCrossConnection>, callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnection>): Promise<Models.ExpressRouteCrossConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -314,7 +314,7 @@ export class ExpressRouteCrossConnections {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): Promise<Models.ExpressRouteCrossConnectionsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): Promise<Models.ExpressRouteCrossConnectionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -342,7 +342,7 @@ export class ExpressRouteCrossConnections {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): Promise<Models.ExpressRouteCrossConnectionsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): Promise<Models.ExpressRouteCrossConnectionsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
