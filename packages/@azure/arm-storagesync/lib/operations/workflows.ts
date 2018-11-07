@@ -47,7 +47,7 @@ export class Workflows {
    * @param callback The callback
    */
   listByStorageSyncService(resourceGroupName: string, storageSyncServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkflowArray>): void;
-  listByStorageSyncService(resourceGroupName: string, storageSyncServiceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkflowArray>): Promise<Models.WorkflowsListByStorageSyncServiceResponse> {
+  listByStorageSyncService(resourceGroupName: string, storageSyncServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowArray>, callback?: msRest.ServiceCallback<Models.WorkflowArray>): Promise<Models.WorkflowsListByStorageSyncServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class Workflows {
    * @param callback The callback
    */
   get(resourceGroupName: string, storageSyncServiceName: string, workflowId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Workflow>): void;
-  get(resourceGroupName: string, storageSyncServiceName: string, workflowId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Workflow>): Promise<Models.WorkflowsGetResponse> {
+  get(resourceGroupName: string, storageSyncServiceName: string, workflowId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workflow>, callback?: msRest.ServiceCallback<Models.Workflow>): Promise<Models.WorkflowsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -118,7 +118,7 @@ export class Workflows {
    * @param callback The callback
    */
   abort(resourceGroupName: string, storageSyncServiceName: string, workflowId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  abort(resourceGroupName: string, storageSyncServiceName: string, workflowId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.WorkflowsAbortResponse> {
+  abort(resourceGroupName: string, storageSyncServiceName: string, workflowId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.WorkflowsAbortResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
