@@ -19,29 +19,19 @@ export class BillingManagementClientContext extends msRestAzure.AzureServiceClie
   credentials: msRest.ServiceClientCredentials;
   apiVersion?: string;
   subscriptionId: string;
-  billingAccountId: string;
-  invoiceName: string;
 
   /**
    * Initializes a new instance of the BillingManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param subscriptionId Azure Subscription ID.
-   * @param billingAccountId Azure Billing Account ID.
-   * @param invoiceName Invoice Name.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, billingAccountId: string, invoiceName: string, options?: Models.BillingManagementClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.BillingManagementClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
     if (subscriptionId == undefined) {
       throw new Error('\'subscriptionId\' cannot be null.');
-    }
-    if (billingAccountId == undefined) {
-      throw new Error('\'billingAccountId\' cannot be null.');
-    }
-    if (invoiceName == undefined) {
-      throw new Error('\'invoiceName\' cannot be null.');
     }
 
     if (!options) {
@@ -61,8 +51,6 @@ export class BillingManagementClientContext extends msRestAzure.AzureServiceClie
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
-    this.billingAccountId = billingAccountId;
-    this.invoiceName = invoiceName;
 
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;

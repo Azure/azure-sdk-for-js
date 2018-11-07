@@ -27,12 +27,10 @@ class BillingManagementClient extends BillingManagementClientContext {
    * Initializes a new instance of the BillingManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param subscriptionId Azure Subscription ID.
-   * @param billingAccountId Azure Billing Account ID.
-   * @param invoiceName Invoice Name.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, billingAccountId: string, invoiceName: string, options?: Models.BillingManagementClientOptions) {
-    super(credentials, subscriptionId, billingAccountId, invoiceName, options);
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.BillingManagementClientOptions) {
+    super(credentials, subscriptionId, options);
     this.enrollmentAccounts = new operations.EnrollmentAccounts(this);
     this.billingPeriods = new operations.BillingPeriods(this);
     this.invoices = new operations.Invoices(this);

@@ -28,22 +28,30 @@ export class InvoiceOperations {
 
   /**
    * Get pricesheet data for invoice id (invoiceName).
+   * @param billingAccountId Azure Billing Account ID.
+   * @param invoiceName The name of an invoice resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.InvoicePricesheetResponse>
    */
-  pricesheet(options?: msRest.RequestOptionsBase): Promise<Models.InvoicePricesheetResponse>;
+  pricesheet(billingAccountId: string, invoiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.InvoicePricesheetResponse>;
   /**
+   * @param billingAccountId Azure Billing Account ID.
+   * @param invoiceName The name of an invoice resource.
    * @param callback The callback
    */
-  pricesheet(callback: msRest.ServiceCallback<void>): void;
+  pricesheet(billingAccountId: string, invoiceName: string, callback: msRest.ServiceCallback<void>): void;
   /**
+   * @param billingAccountId Azure Billing Account ID.
+   * @param invoiceName The name of an invoice resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  pricesheet(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  pricesheet(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.InvoicePricesheetResponse> {
+  pricesheet(billingAccountId: string, invoiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  pricesheet(billingAccountId: string, invoiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.InvoicePricesheetResponse> {
     return this.client.sendOperationRequest(
       {
+        billingAccountId,
+        invoiceName,
         options
       },
       pricesheetOperationSpec,
