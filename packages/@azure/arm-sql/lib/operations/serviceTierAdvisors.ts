@@ -56,7 +56,7 @@ export class ServiceTierAdvisors {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, databaseName: string, serviceTierAdvisorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceTierAdvisor>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, serviceTierAdvisorName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceTierAdvisor>): Promise<Models.ServiceTierAdvisorsGetResponse> {
+  get(resourceGroupName: string, serverName: string, databaseName: string, serviceTierAdvisorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceTierAdvisor>, callback?: msRest.ServiceCallback<Models.ServiceTierAdvisor>): Promise<Models.ServiceTierAdvisorsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +96,7 @@ export class ServiceTierAdvisors {
    * @param callback The callback
    */
   listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceTierAdvisorListResult>): void;
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceTierAdvisorListResult>): Promise<Models.ServiceTierAdvisorsListByDatabaseResponse> {
+  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceTierAdvisorListResult>, callback?: msRest.ServiceCallback<Models.ServiceTierAdvisorListResult>): Promise<Models.ServiceTierAdvisorsListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

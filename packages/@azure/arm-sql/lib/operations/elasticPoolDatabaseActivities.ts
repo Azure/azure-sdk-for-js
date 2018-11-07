@@ -53,7 +53,7 @@ export class ElasticPoolDatabaseActivities {
    * @param callback The callback
    */
   listByElasticPool(resourceGroupName: string, serverName: string, elasticPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ElasticPoolDatabaseActivityListResult>): void;
-  listByElasticPool(resourceGroupName: string, serverName: string, elasticPoolName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ElasticPoolDatabaseActivityListResult>): Promise<Models.ElasticPoolDatabaseActivitiesListByElasticPoolResponse> {
+  listByElasticPool(resourceGroupName: string, serverName: string, elasticPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ElasticPoolDatabaseActivityListResult>, callback?: msRest.ServiceCallback<Models.ElasticPoolDatabaseActivityListResult>): Promise<Models.ElasticPoolDatabaseActivitiesListByElasticPoolResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
