@@ -8,6 +8,7 @@
 - Fixed a bug in SAS generation that start and expiry time format is not correct.
 * [Breaking] Updated names of exported interfaces `IHTTPPipelineLogger` & `IHTTPClient` to `IHttpPipelineLogger` & `IHttpClient`.
 * Removed `File` from `uploadBrowserDataToBlockBlob` parameter type list, because `File` extends `Blob` which is already in the list.
+* Fixed typos in `IRange` comments.
 
 2018.09 10.1.0-preview
 
