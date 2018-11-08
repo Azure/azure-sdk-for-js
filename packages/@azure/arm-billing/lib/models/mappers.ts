@@ -271,11 +271,11 @@ export const Operation: msRest.CompositeMapper = {
   }
 };
 
-export const InvoicePricesheetsPostHeaders: msRest.CompositeMapper = {
-  serializedName: "invoicepricesheets-post-headers",
+export const InvoicePricesheetsDownloadHeaders: msRest.CompositeMapper = {
+  serializedName: "invoicepricesheets-download-headers",
   type: {
     name: "Composite",
-    className: "InvoicePricesheetsPostHeaders",
+    className: "InvoicePricesheetsDownloadHeaders",
     modelProperties: {
       location: {
         serializedName: "location",

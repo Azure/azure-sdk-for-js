@@ -32,11 +32,11 @@ export class InvoicePricesheets {
    * @param billingAccountId Azure Billing Account ID.
    * @param invoiceName The name of an invoice resource.
    * @param [options] The optional parameters
-   * @returns Promise<Models.InvoicePricesheetsPostResponse>
+   * @returns Promise<Models.InvoicePricesheetsDownloadResponse>
    */
-  post(billingAccountId: string, invoiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.InvoicePricesheetsPostResponse> {
-    return this.beginPost(billingAccountId,invoiceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.InvoicePricesheetsPostResponse>;
+  download(billingAccountId: string, invoiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.InvoicePricesheetsDownloadResponse> {
+    return this.beginDownload(billingAccountId,invoiceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.InvoicePricesheetsDownloadResponse>;
   }
 
   /**
@@ -46,21 +46,21 @@ export class InvoicePricesheets {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginPost(billingAccountId: string, invoiceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDownload(billingAccountId: string, invoiceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         billingAccountId,
         invoiceName,
         options
       },
-      beginPostOperationSpec,
+      beginDownloadOperationSpec,
       options);
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const beginPostOperationSpec: msRest.OperationSpec = {
+const beginDownloadOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoices/{invoiceName}/pricesheets/default/download",
   urlParameters: [
@@ -76,10 +76,10 @@ const beginPostOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.DownloadUrl,
-      headersMapper: Mappers.InvoicePricesheetsPostHeaders
+      headersMapper: Mappers.InvoicePricesheetsDownloadHeaders
     },
     202: {
-      headersMapper: Mappers.InvoicePricesheetsPostHeaders
+      headersMapper: Mappers.InvoicePricesheetsDownloadHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

@@ -316,11 +316,11 @@ export interface BillingManagementClientOptions extends AzureServiceClientOption
 
 /**
  * @interface
- * An interface representing InvoicePricesheetsPostHeaders.
- * Defines headers for Post operation.
+ * An interface representing InvoicePricesheetsDownloadHeaders.
+ * Defines headers for Download operation.
  *
  */
-export interface InvoicePricesheetsPostHeaders {
+export interface InvoicePricesheetsDownloadHeaders {
   /**
    * @member {string} [location] GET this URL to retrieve the status of the
    * asynchronous operation.
@@ -603,9 +603,9 @@ export type InvoicesListNextResponse = InvoicesListResult & {
 };
 
 /**
- * Contains response data for the post operation.
+ * Contains response data for the download operation.
  */
-export type InvoicePricesheetsPostResponse = DownloadUrl & InvoicePricesheetsPostHeaders & {
+export type InvoicePricesheetsDownloadResponse = DownloadUrl & InvoicePricesheetsDownloadHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -613,7 +613,7 @@ export type InvoicePricesheetsPostResponse = DownloadUrl & InvoicePricesheetsPos
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: InvoicePricesheetsPostHeaders;
+      parsedHeaders: InvoicePricesheetsDownloadHeaders;
       /**
        * The response body as text (string format)
        */
