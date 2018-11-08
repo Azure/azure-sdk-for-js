@@ -25,7 +25,7 @@
     "@types/mocha": "^5.2.5",
     "assert": "^1.4.1",
     "es6-promise": "^4.2.4",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-zip": "^4.2.0",
     "karma": "^3.0.0",
     "karma-chrome-launcher": "^2.2.0",

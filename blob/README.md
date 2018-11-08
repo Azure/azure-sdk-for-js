@@ -1,7 +1,7 @@
 # Azure Storage SDK V10 for JavaScript - Blob
 
-* [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-blob.svg)](https://badge.fury.io/js/%40azure%2Fstorage-blob)
-* [API Reference documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/storage-blob/index?view=azure-node-preview)
+- [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-blob.svg)](https://badge.fury.io/js/%40azure%2Fstorage-blob)
+- [API Reference documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/storage-blob/index?view=azure-node-preview)
 
 ## Introduction
 
@@ -11,16 +11,16 @@ Please note that this version of the SDK is a compete overhaul of the current [A
 
 ### Features
 
-* Blob Storage
-  * Get/Set Blob Service Properties
-  * Create/List/Delete Containers
-  * Create/Read/List/Update/Delete Block Blobs
-  * Create/Read/List/Update/Delete Page Blobs
-  * Create/Read/List/Update/Delete Append Blobs
-* Features new
-  * Asynchronous I/O for all operations using the async methods
-  * HttpPipeline which enables a high degree of per-request configurability
-  * 1-to-1 correlation with the Storage REST API for clarity and simplicity
+- Blob Storage
+  - Get/Set Blob Service Properties
+  - Create/List/Delete Containers
+  - Create/Read/List/Update/Delete Block Blobs
+  - Create/Read/List/Update/Delete Page Blobs
+  - Create/Read/List/Update/Delete Append Blobs
+- Features new
+  - Asynchronous I/O for all operations using the async methods
+  - HttpPipeline which enables a high degree of per-request configurability
+  - 1-to-1 correlation with the Storage REST API for clarity and simplicity
 
 ### Compatibility
 
@@ -32,32 +32,32 @@ You need polyfills to make this library work with IE11. The easiest way is to us
 Or you can load separate polyfills for missed ES feature(s).
 This library depends on following ES6 features which need external polyfills loaded.
 
-* `Promise`
-* `String.prototype.startsWith`
-* `String.prototype.endsWith`
-* `String.prototype.repeat`
-* `String.prototype.includes`
+- `Promise`
+- `String.prototype.startsWith`
+- `String.prototype.endsWith`
+- `String.prototype.repeat`
+- `String.prototype.includes`
 
 #### Differences between Node.js and browsers
 
-There are differences between Node.js and browsers runtime. When getting start with this SDK, pay attention to APIs or classes marked with *"ONLY AVAILABLE IN NODE.JS RUNTIME"* or *"ONLY AVAILABLE IN BROWSERS"*.
+There are differences between Node.js and browsers runtime. When getting start with this SDK, pay attention to APIs or classes marked with _"ONLY AVAILABLE IN NODE.JS RUNTIME"_ or _"ONLY AVAILABLE IN BROWSERS"_.
 
 ##### Following features, interfaces, classes or functions are only available in Node.js
 
-* Shared Key Authorization based on account name and account key
-  * `SharedKeyCredential`
-* Shared Access Signature(SAS) generation
-  * `generateAccountSASQueryParameters()`
-  * `generateBlobSASQueryParameters()`
-* Parallel uploading and downloading
-  * `uploadFileToBlockBlob()`
-  * `uploadStreamToBlockBlob()`
-  * `downloadBlobToBuffer()`
+- Shared Key Authorization based on account name and account key
+  - `SharedKeyCredential`
+- Shared Access Signature(SAS) generation
+  - `generateAccountSASQueryParameters()`
+  - `generateBlobSASQueryParameters()`
+- Parallel uploading and downloading
+  - `uploadFileToBlockBlob()`
+  - `uploadStreamToBlockBlob()`
+  - `downloadBlobToBuffer()`
 
 ##### Following features, interfaces, classes or functions are only available in browsers
 
-* Parallel uploading and downloading
-  * `uploadBrowserDataToBlockBlob()`
+- Parallel uploading and downloading
+  - `uploadBrowserDataToBlockBlob()`
 
 ## Getting Started
 
@@ -91,13 +91,13 @@ To use the SDK with JS bundle in the browsers, simply add a script tag to your H
 
 The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) standard, if no module system found, following global variable(s) will be exported:
 
-* `azblob`
+- `azblob`
 
 #### Download
 
 Download latest released JS bundles from links in the [GitHub release page](https://github.com/Azure/azure-storage-js/releases). Or from following links directly:
 
-* Blob [https://aka.ms/downloadazurestoragejsblob](https://aka.ms/downloadazurestoragejsblob)
+- Blob [https://aka.ms/downloadazurestoragejsblob](https://aka.ms/downloadazurestoragejsblob)
 
 ### CORS
 
@@ -105,19 +105,19 @@ You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft
 
 For example, you can create following CORS settings for debugging. But please customize the settings carefully according to your requirements in production environment.
 
-* Allowed origins: *
-* Allowed verbs: DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT
-* Allowed headers: *
-* Exposed headers: *
-* Maximum age (seconds): 86400
+- Allowed origins: \*
+- Allowed verbs: DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT
+- Allowed headers: \*
+- Exposed headers: \*
+- Maximum age (seconds): 86400
 
 ## SDK Architecture
 
 The Azure Storage SDK for JavaScript provides low-level and high-level APIs.
 
-* ServiceURL, ContainerURL and BlobURL objects provide the low-level API functionality and map one-to-one to the [Azure Storage Blob REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api).
+- ServiceURL, ContainerURL and BlobURL objects provide the low-level API functionality and map one-to-one to the [Azure Storage Blob REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api).
 
-* The high-level APIs provide convenience abstractions such as uploading a large stream to a block blob (using multiple PutBlock requests).
+- The high-level APIs provide convenience abstractions such as uploading a large stream to a block blob (using multiple PutBlock requests).
 
 ## Code Samples
 
@@ -144,12 +144,12 @@ async function main() {
 
   // Use TokenCredential with OAuth token
   const tokenCredential = new TokenCredential("token");
-  tokenCredential.token = "renewedToken";
+  tokenCredential.token = "renewedToken"; // Renew the token by updating token filed of token credential
 
   // Use AnonymousCredential when url already includes a SAS signature
   const anonymousCredential = new AnonymousCredential();
 
-  // Use sharedKeyCredential, tokenCredential or tokenCredential to create a pipeline
+  // Use sharedKeyCredential, tokenCredential or AnonymousCredential to create a pipeline
   const pipeline = StorageURL.newPipeline(sharedKeyCredential);
 
   // List containers
@@ -237,8 +237,8 @@ main()
 
 ## More Code Samples
 
-* [Blob Storage Examples](https://github.com/azure/azure-storage-js/tree/master/blob/samples)
-* [Blob Storage Examples - Test Cases](https://github.com/azure/azure-storage-js/tree/master/blob/test/)
+- [Blob Storage Examples](https://github.com/azure/azure-storage-js/tree/master/blob/samples)
+- [Blob Storage Examples - Test Cases](https://github.com/azure/azure-storage-js/tree/master/blob/test/)
 
 ## License
 

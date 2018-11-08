@@ -24,12 +24,12 @@ async function main() {
 
   // Use TokenCredential with OAuth token
   const tokenCredential = new TokenCredential("token");
-  tokenCredential.token = "renewedToken";
+  tokenCredential.token = "renewedToken"; // Renew the token by updating token filed of token credential
 
   // Use AnonymousCredential when url already includes a SAS signature
-  const tokenCredential = new AnonymousCredential();
+  const anonymousCredential = new AnonymousCredential();
 
-  // Use sharedKeyCredential, tokenCredential or tokenCredential to create a pipeline
+  // Use sharedKeyCredential, tokenCredential or AnonymousCredential to create a pipeline
   const pipeline = StorageURL.newPipeline(sharedKeyCredential);
 
   // List containers
