@@ -9,11 +9,11 @@
  */
 
 export {
-  CloudError,
-  ExpressRouteCircuitAuthorization,
+  LoadBalancerOutboundRuleListResult,
+  OutboundRule,
   SubResource,
   BaseResource,
-  AuthorizationListResult,
+  CloudError,
   NetworkInterfaceTapConfiguration,
   VirtualNetworkTap,
   Resource,
@@ -91,6 +91,7 @@ export {
   AzureFirewallFqdnTag,
   DdosProtectionPlan,
   EndpointServiceResult,
+  ExpressRouteCircuitAuthorization,
   RouteFilterRule,
   ExpressRouteCircuitConnection,
   ExpressRouteCircuitPeering,
@@ -120,7 +121,6 @@ export {
   LoadBalancingRule,
   Probe,
   InboundNatPool,
-  OutboundRule,
   LoadBalancer,
   LoadBalancerSku,
   ContainerNetworkInterfaceConfiguration,

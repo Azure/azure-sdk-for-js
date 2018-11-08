@@ -1994,6 +1994,26 @@ export interface ApplicationGatewayFrontendPort extends SubResource {
 
 /**
  * @interface
+ * An interface representing ApplicationGatewayCustomError.
+ * Customer error of an application gateway.
+ *
+ */
+export interface ApplicationGatewayCustomError {
+  /**
+   * @member {ApplicationGatewayCustomErrorStatusCode} [statusCode] Status code
+   * of the application gateway customer error. Possible values include:
+   * 'HttpStatus403', 'HttpStatus502'
+   */
+  statusCode?: ApplicationGatewayCustomErrorStatusCode;
+  /**
+   * @member {string} [customErrorPageUrl] Error page URL of the application
+   * gateway customer error.
+   */
+  customErrorPageUrl?: string;
+}
+
+/**
+ * @interface
  * An interface representing ApplicationGatewayHttpListener.
  * Http listener of an application gateway.
  *
@@ -2037,6 +2057,11 @@ export interface ApplicationGatewayHttpListener extends SubResource {
    */
   provisioningState?: string;
   /**
+   * @member {ApplicationGatewayCustomError[]} [customErrorConfigurations]
+   * Custom error configurations of the HTTP listener.
+   */
+  customErrorConfigurations?: ApplicationGatewayCustomError[];
+  /**
    * @member {string} [name] Name of the HTTP listener that is unique within an
    * Application Gateway.
    */
@@ -2079,6 +2104,11 @@ export interface ApplicationGatewayPathRule extends SubResource {
    * resource of URL path map path rule.
    */
   redirectConfiguration?: SubResource;
+  /**
+   * @member {SubResource} [rewriteRuleSet] Rewrite rule set resource of URL
+   * path map path rule.
+   */
+  rewriteRuleSet?: SubResource;
   /**
    * @member {string} [provisioningState] Path rule of URL path map resource.
    * Possible values are: 'Updating', 'Deleting', and 'Failed'.
@@ -2232,6 +2262,11 @@ export interface ApplicationGatewayRequestRoutingRule extends SubResource {
    */
   urlPathMap?: SubResource;
   /**
+   * @member {SubResource} [rewriteRuleSet] Rewrite Rule Set resource in Basic
+   * rule of the application gateway.
+   */
+  rewriteRuleSet?: SubResource;
+  /**
    * @member {SubResource} [redirectConfiguration] Redirect configuration
    * resource of the application gateway.
    */
@@ -2256,6 +2291,92 @@ export interface ApplicationGatewayRequestRoutingRule extends SubResource {
    * @member {string} [type] Type of the resource.
    */
   type?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationGatewayHeaderConfiguration.
+ * Header configuration of the Actions set in Application Gateway.
+ *
+ */
+export interface ApplicationGatewayHeaderConfiguration {
+  /**
+   * @member {string} [headerName] Header name of the header configuration
+   */
+  headerName?: string;
+  /**
+   * @member {string} [headerValue] Header value of the header configuration
+   */
+  headerValue?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationGatewayRewriteRuleActionSet.
+ * Set of actions in the Rewrite Rule in Application Gateway.
+ *
+ */
+export interface ApplicationGatewayRewriteRuleActionSet {
+  /**
+   * @member {ApplicationGatewayHeaderConfiguration}
+   * [requestHeaderConfigurations] Request Header Actions in the Action Set
+   */
+  requestHeaderConfigurations?: ApplicationGatewayHeaderConfiguration;
+  /**
+   * @member {ApplicationGatewayHeaderConfiguration}
+   * [responseHeaderConfigurations] Response Header Actions in the Action Set
+   */
+  responseHeaderConfigurations?: ApplicationGatewayHeaderConfiguration;
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationGatewayRewriteRule.
+ * Rewrite rule of an application gateway.
+ *
+ */
+export interface ApplicationGatewayRewriteRule {
+  /**
+   * @member {string} [name] Name of the rewrite rule that is unique within an
+   * Application Gateway.
+   */
+  name?: string;
+  /**
+   * @member {ApplicationGatewayRewriteRuleActionSet} [actionSet] Set of
+   * actions to be done as part of the rewrite Rule.
+   */
+  actionSet?: ApplicationGatewayRewriteRuleActionSet;
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationGatewayRewriteRuleSet.
+ * Rewrite rule set of an application gateway.
+ *
+ * @extends SubResource
+ */
+export interface ApplicationGatewayRewriteRuleSet extends SubResource {
+  /**
+   * @member {ApplicationGatewayRewriteRule[]} [rewriteRules] Rewrite rules in
+   * the rewrite rule set.
+   */
+  rewriteRules?: ApplicationGatewayRewriteRule[];
+  /**
+   * @member {string} [provisioningState] Provisioning state of the rewrite
+   * rule set resource. Possible values are: 'Updating', 'Deleting', and
+   * 'Failed'.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [name] Name of the rewrite rule set that is unique within
+   * an Application Gateway.
+   */
+  name?: string;
+  /**
+   * @member {string} [etag] A unique read-only string that changes whenever
+   * the resource is updated.
+   */
+  etag?: string;
 }
 
 /**
@@ -2341,6 +2462,11 @@ export interface ApplicationGatewayUrlPathMap extends SubResource {
    */
   defaultBackendHttpSettings?: SubResource;
   /**
+   * @member {SubResource} [defaultRewriteRuleSet] Default Rewrite rule set
+   * resource of URL path map.
+   */
+  defaultRewriteRuleSet?: SubResource;
+  /**
    * @member {SubResource} [defaultRedirectConfiguration] Default redirect
    * configuration resource of URL path map.
    */
@@ -2393,6 +2519,31 @@ export interface ApplicationGatewayFirewallDisabledRuleGroup {
 
 /**
  * @interface
+ * An interface representing ApplicationGatewayFirewallExclusion.
+ * Allow to exclude some variable satisfy the condition for the WAF check
+ *
+ */
+export interface ApplicationGatewayFirewallExclusion {
+  /**
+   * @member {string} matchVariable The variable to be excluded.
+   */
+  matchVariable: string;
+  /**
+   * @member {string} selectorMatchOperator When matchVariable is a collection,
+   * operate on the selector to specify which elements in the collection this
+   * exclusion applies to.
+   */
+  selectorMatchOperator: string;
+  /**
+   * @member {string} selector When matchVariable is a collection, operator
+   * used to specify which elements in the collection this exclusion applies
+   * to.
+   */
+  selector: string;
+}
+
+/**
+ * @interface
  * An interface representing ApplicationGatewayWebApplicationFirewallConfiguration.
  * Application gateway web application firewall configuration.
  *
@@ -2431,6 +2582,21 @@ export interface ApplicationGatewayWebApplicationFirewallConfiguration {
    * @member {number} [maxRequestBodySize] Maxium request body size for WAF.
    */
   maxRequestBodySize?: number;
+  /**
+   * @member {number} [maxRequestBodySizeInKb] Maxium request body size in Kb
+   * for WAF.
+   */
+  maxRequestBodySizeInKb?: number;
+  /**
+   * @member {number} [fileUploadLimitInMb] Maxium file upload size in Mb for
+   * WAF.
+   */
+  fileUploadLimitInMb?: number;
+  /**
+   * @member {ApplicationGatewayFirewallExclusion[]} [exclusions] The exclusion
+   * list.
+   */
+  exclusions?: ApplicationGatewayFirewallExclusion[];
 }
 
 /**
@@ -2538,6 +2704,11 @@ export interface ApplicationGateway extends Resource {
    */
   requestRoutingRules?: ApplicationGatewayRequestRoutingRule[];
   /**
+   * @member {ApplicationGatewayRewriteRuleSet[]} [rewriteRuleSets] Rewrite
+   * rules for the application gateway resource.
+   */
+  rewriteRuleSets?: ApplicationGatewayRewriteRuleSet[];
+  /**
    * @member {ApplicationGatewayRedirectConfiguration[]}
    * [redirectConfigurations] Redirect configurations of the application
    * gateway resource.
@@ -2575,6 +2746,11 @@ export interface ApplicationGateway extends Resource {
    * 'Failed'.
    */
   provisioningState?: string;
+  /**
+   * @member {ApplicationGatewayCustomError[]} [customErrorConfigurations]
+   * Custom error configurations of the application gateway resource.
+   */
+  customErrorConfigurations?: ApplicationGatewayCustomError[];
   /**
    * @member {string} [etag] A unique read-only string that changes whenever
    * the resource is updated.
@@ -3700,8 +3876,8 @@ export interface ExpressRouteCircuitSku {
   name?: string;
   /**
    * @member {ExpressRouteCircuitSkuTier} [tier] The tier of the SKU. Possible
-   * values are 'Standard' and 'Premium'. Possible values include: 'Standard',
-   * 'Premium'
+   * values are 'Standard', 'Premium' or 'Basic'. Possible values include:
+   * 'Standard', 'Premium', 'Basic'
    */
   tier?: ExpressRouteCircuitSkuTier;
   /**
@@ -3784,6 +3960,24 @@ export interface ExpressRouteCircuit extends Resource {
    * [serviceProviderProperties] The ServiceProviderProperties.
    */
   serviceProviderProperties?: ExpressRouteCircuitServiceProviderProperties;
+  /**
+   * @member {SubResource} [expressRoutePort] The reference to the
+   * ExpressRoutePort resource when the circuit is provisioned on an
+   * ExpressRoutePort resource.
+   */
+  expressRoutePort?: SubResource;
+  /**
+   * @member {number} [bandwidthInGbps] The bandwidth of the circuit when the
+   * circuit is provisioned on an ExpressRoutePort resource.
+   */
+  bandwidthInGbps?: number;
+  /**
+   * @member {number} [stag] The identifier of the circuit traffic. Outer tag
+   * for QinQ encapsulation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly stag?: number;
   /**
    * @member {string} [provisioningState] Gets the provisioning state of the
    * public IP resource. Possible values are: 'Updating', 'Deleting', and
@@ -4391,6 +4585,221 @@ export interface ExpressRouteConnectionList {
    * connections
    */
   value?: ExpressRouteConnection[];
+}
+
+/**
+ * @interface
+ * An interface representing ExpressRoutePortsLocationBandwidths.
+ * @summary ExpressRoutePorts Location Bandwidths
+ *
+ * Real-time inventory of available ExpressRoute port bandwidths.
+ *
+ */
+export interface ExpressRoutePortsLocationBandwidths {
+  /**
+   * @member {string} [offerName] Bandwidth descriptive name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly offerName?: string;
+  /**
+   * @member {number} [valueInGbps] Bandwidth value in Gbps
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly valueInGbps?: number;
+}
+
+/**
+ * @interface
+ * An interface representing ExpressRoutePortsLocation.
+ * @summary ExpressRoutePorts Peering Location
+ *
+ * Definition of the ExpressRoutePorts peering location resource.
+ *
+ * @extends Resource
+ */
+export interface ExpressRoutePortsLocation extends Resource {
+  /**
+   * @member {string} [address] Address of peering location.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly address?: string;
+  /**
+   * @member {string} [contact] Contact details of peering locations.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly contact?: string;
+  /**
+   * @member {ExpressRoutePortsLocationBandwidths[]} [availableBandwidths] The
+   * inventory of available ExpressRoutePort bandwidths.
+   */
+  availableBandwidths?: ExpressRoutePortsLocationBandwidths[];
+  /**
+   * @member {string} [provisioningState] The provisioning state of the
+   * ExpressRoutePortLocation resource. Possible values are: 'Succeeded',
+   * 'Updating', 'Deleting', and 'Failed'.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ExpressRouteLink.
+ * @summary ExpressRouteLink
+ *
+ * ExpressRouteLink child resource definition.
+ *
+ * @extends SubResource
+ */
+export interface ExpressRouteLink extends SubResource {
+  /**
+   * @member {string} [routerName] Name of Azure router associated with
+   * physical port.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly routerName?: string;
+  /**
+   * @member {string} [interfaceName] Name of Azure router interface.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly interfaceName?: string;
+  /**
+   * @member {string} [patchPanelId] Mapping between physical port to patch
+   * panel port.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly patchPanelId?: string;
+  /**
+   * @member {string} [rackId] Mapping of physical patch panel to rack.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly rackId?: string;
+  /**
+   * @member {ExpressRouteLinkConnectorType} [connectorType] Physical fiber
+   * port type. Possible values include: 'LC', 'SC'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly connectorType?: ExpressRouteLinkConnectorType;
+  /**
+   * @member {ExpressRouteLinkAdminState} [adminState] Administrative state of
+   * the physical port. Possible values include: 'Enabled', 'Disabled'
+   */
+  adminState?: ExpressRouteLinkAdminState;
+  /**
+   * @member {string} [provisioningState] The provisioning state of the
+   * ExpressRouteLink resource. Possible values are: 'Succeeded', 'Updating',
+   * 'Deleting', and 'Failed'.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {string} [name] Name of child port resource that is unique among
+   * child port resources of the parent.
+   */
+  name?: string;
+  /**
+   * @member {string} [etag] A unique read-only string that changes whenever
+   * the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ExpressRoutePort.
+ * @summary ExpressRoute Port
+ *
+ * ExpressRoutePort resource definition.
+ *
+ * @extends Resource
+ */
+export interface ExpressRoutePort extends Resource {
+  /**
+   * @member {string} [peeringLocation] The name of the peering location that
+   * the ExpressRoutePort is mapped to physically.
+   */
+  peeringLocation?: string;
+  /**
+   * @member {number} [bandwidthInGbps] Bandwidth of procured ports in Gbps
+   */
+  bandwidthInGbps?: number;
+  /**
+   * @member {number} [provisionedBandwidthInGbps] Aggregate Gbps of associated
+   * circuit bandwidths.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisionedBandwidthInGbps?: number;
+  /**
+   * @member {string} [mtu] Maximum transmission unit of the physical port
+   * pair(s)
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly mtu?: string;
+  /**
+   * @member {ExpressRoutePortsEncapsulation} [encapsulation] Encapsulation
+   * method on physical ports. Possible values include: 'Dot1Q', 'QinQ'
+   */
+  encapsulation?: ExpressRoutePortsEncapsulation;
+  /**
+   * @member {string} [etherType] Ethertype of the physical port.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly etherType?: string;
+  /**
+   * @member {string} [allocationDate] Date of the physical port allocation to
+   * be used in Letter of Authorization.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly allocationDate?: string;
+  /**
+   * @member {ExpressRouteLink[]} [links] ExpressRouteLink Sub-Resources. The
+   * set of physical links of the ExpressRoutePort resource
+   */
+  links?: ExpressRouteLink[];
+  /**
+   * @member {SubResource[]} [circuits] Reference the ExpressRoute circuit(s)
+   * that are provisioned on this ExpressRoutePort resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly circuits?: SubResource[];
+  /**
+   * @member {string} [provisioningState] The provisioning state of the
+   * ExpressRoutePort resource. Possible values are: 'Succeeded', 'Updating',
+   * 'Deleting', and 'Failed'.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {string} [resourceGuid] The resource GUID property of the
+   * ExpressRoutePort resource.
+   */
+  resourceGuid?: string;
+  /**
+   * @member {string} [etag] A unique read-only string that changes whenever
+   * the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly etag?: string;
 }
 
 /**
@@ -6817,11 +7226,11 @@ export interface ConnectionMonitorQueryResult {
 
 /**
  * @interface
- * An interface representing TrafficQuery.
+ * An interface representing NetworkConfigurationDiagnosticProfile.
  * Parameters to compare with network configuration.
  *
  */
-export interface TrafficQuery {
+export interface NetworkConfigurationDiagnosticProfile {
   /**
    * @member {Direction} direction The direction of the traffic. Accepted
    * values are 'Inbound' and 'Outbound'. Possible values include: 'Inbound',
@@ -6865,9 +7274,16 @@ export interface NetworkConfigurationDiagnosticParameters {
    */
   targetResourceId: string;
   /**
-   * @member {TrafficQuery[]} queries List of traffic queries.
+   * @member {VerbosityLevel} [verbosityLevel] Verbosity level. Accepted values
+   * are 'Normal', 'Minimum', 'Full'. Possible values include: 'Normal',
+   * 'Minimum', 'Full'
    */
-  queries: TrafficQuery[];
+  verbosityLevel?: VerbosityLevel;
+  /**
+   * @member {NetworkConfigurationDiagnosticProfile[]} profiles List of network
+   * configuration diagnostic profiles.
+   */
+  profiles: NetworkConfigurationDiagnosticProfile[];
 }
 
 /**
@@ -6938,6 +7354,11 @@ export interface EvaluatedNetworkSecurityGroup {
    */
   networkSecurityGroupId?: string;
   /**
+   * @member {string} [appliedTo] Resource ID of nic or subnet to which network
+   * security group is applied.
+   */
+  appliedTo?: string;
+  /**
    * @member {MatchedRule} [matchedRule]
    */
   matchedRule?: MatchedRule;
@@ -6981,9 +7402,9 @@ export interface NetworkSecurityGroupResult {
  */
 export interface NetworkConfigurationDiagnosticResult {
   /**
-   * @member {TrafficQuery} [trafficQuery]
+   * @member {NetworkConfigurationDiagnosticProfile} [profile]
    */
-  trafficQuery?: TrafficQuery;
+  profile?: NetworkConfigurationDiagnosticProfile;
   /**
    * @member {NetworkSecurityGroupResult} [networkSecurityGroupResult]
    */
@@ -9751,20 +10172,6 @@ export interface VirtualNetworksGetOptionalParams extends msRest.RequestOptionsB
 
 /**
  * @interface
- * An interface representing VirtualNetworksCheckIPAddressAvailabilityOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface VirtualNetworksCheckIPAddressAvailabilityOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [ipAddress] The private IP address to be verified.
-   */
-  ipAddress?: string;
-}
-
-/**
- * @interface
  * An interface representing SubnetsGetOptionalParams.
  * Optional Parameters.
  *
@@ -10061,6 +10468,54 @@ export interface ExpressRouteCrossConnectionPeeringList extends Array<ExpressRou
 
 /**
  * @interface
+ * An interface representing the ExpressRoutePortsLocationListResult.
+ * @summary ExpressRoutePorts Location List Result
+ *
+ * Response for ListExpressRoutePortsLocations API service call.
+ *
+ * @extends Array<ExpressRoutePortsLocation>
+ */
+export interface ExpressRoutePortsLocationListResult extends Array<ExpressRoutePortsLocation> {
+  /**
+   * @member {string} [nextLink] The URL to get the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the ExpressRoutePortListResult.
+ * @summary ExpressRoute Port List Result
+ *
+ * Response for ListExpressRoutePorts API service call.
+ *
+ * @extends Array<ExpressRoutePort>
+ */
+export interface ExpressRoutePortListResult extends Array<ExpressRoutePort> {
+  /**
+   * @member {string} [nextLink] The URL to get the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the ExpressRouteLinkListResult.
+ * @summary ExpressRouteLink List Result
+ *
+ * Response for ListExpressRouteLinks API service call.
+ *
+ * @extends Array<ExpressRouteLink>
+ */
+export interface ExpressRouteLinkListResult extends Array<ExpressRouteLink> {
+  /**
+   * @member {string} [nextLink] The URL to get the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the InterfaceEndpointListResult.
  * Response for the ListInterfaceEndpoints API service call.
  *
@@ -10147,6 +10602,22 @@ export interface InboundNatRuleListResult extends Array<InboundNatRule> {
  * @extends Array<LoadBalancingRule>
  */
 export interface LoadBalancerLoadBalancingRuleListResult extends Array<LoadBalancingRule> {
+  /**
+   * @member {string} [nextLink] The URL to get the next set of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the LoadBalancerOutboundRuleListResult.
+ * Response for ListOutboundRule API service call.
+ *
+ * @extends Array<OutboundRule>
+ */
+export interface LoadBalancerOutboundRuleListResult extends Array<OutboundRule> {
   /**
    * @member {string} [nextLink] The URL to get the next set of results.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -11065,6 +11536,22 @@ export enum ApplicationGatewaySslCipherSuite {
 }
 
 /**
+ * Defines values for ApplicationGatewayCustomErrorStatusCode.
+ * Possible values include: 'HttpStatus403', 'HttpStatus502'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ApplicationGatewayCustomErrorStatusCode =
+ * <ApplicationGatewayCustomErrorStatusCode>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum ApplicationGatewayCustomErrorStatusCode {
+  HttpStatus403 = 'HttpStatus403',
+  HttpStatus502 = 'HttpStatus502',
+}
+
+/**
  * Defines values for ApplicationGatewayRequestRoutingRuleType.
  * Possible values include: 'Basic', 'PathBasedRouting'
  * There could be more values for this enum apart from the ones defined here.If
@@ -11200,7 +11687,7 @@ export enum AzureFirewallNatRCActionType {
 
 /**
  * Defines values for AzureFirewallNetworkRuleProtocol.
- * Possible values include: 'TCP', 'UDP', 'Any'
+ * Possible values include: 'TCP', 'UDP', 'Any', 'ICMP'
  * There could be more values for this enum apart from the ones defined here.If
  * you want to set a value that is not from the known values then you can do
  * the following:
@@ -11213,6 +11700,7 @@ export enum AzureFirewallNetworkRuleProtocol {
   TCP = 'TCP',
   UDP = 'UDP',
   Any = 'Any',
+  ICMP = 'ICMP',
 }
 
 /**
@@ -11334,7 +11822,7 @@ export enum ExpressRouteCircuitPeeringState {
 
 /**
  * Defines values for ExpressRouteCircuitSkuTier.
- * Possible values include: 'Standard', 'Premium'
+ * Possible values include: 'Standard', 'Premium', 'Basic'
  * There could be more values for this enum apart from the ones defined here.If
  * you want to set a value that is not from the known values then you can do
  * the following:
@@ -11346,6 +11834,7 @@ export enum ExpressRouteCircuitPeeringState {
 export enum ExpressRouteCircuitSkuTier {
   Standard = 'Standard',
   Premium = 'Premium',
+  Basic = 'Basic',
 }
 
 /**
@@ -11381,6 +11870,54 @@ export enum ServiceProviderProvisioningState {
   Provisioning = 'Provisioning',
   Provisioned = 'Provisioned',
   Deprovisioning = 'Deprovisioning',
+}
+
+/**
+ * Defines values for ExpressRouteLinkConnectorType.
+ * Possible values include: 'LC', 'SC'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ExpressRouteLinkConnectorType =
+ * <ExpressRouteLinkConnectorType>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum ExpressRouteLinkConnectorType {
+  LC = 'LC',
+  SC = 'SC',
+}
+
+/**
+ * Defines values for ExpressRouteLinkAdminState.
+ * Possible values include: 'Enabled', 'Disabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ExpressRouteLinkAdminState =
+ * <ExpressRouteLinkAdminState>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum ExpressRouteLinkAdminState {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
+
+/**
+ * Defines values for ExpressRoutePortsEncapsulation.
+ * Possible values include: 'Dot1Q', 'QinQ'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ExpressRoutePortsEncapsulation =
+ * <ExpressRoutePortsEncapsulation>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum ExpressRoutePortsEncapsulation {
+  Dot1Q = 'Dot1Q',
+  QinQ = 'QinQ',
 }
 
 /**
@@ -11777,6 +12314,23 @@ export enum EvaluationState {
   NotStarted = 'NotStarted',
   InProgress = 'InProgress',
   Completed = 'Completed',
+}
+
+/**
+ * Defines values for VerbosityLevel.
+ * Possible values include: 'Normal', 'Minimum', 'Full'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: VerbosityLevel =
+ * <VerbosityLevel>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum VerbosityLevel {
+  Normal = 'Normal',
+  Minimum = 'Minimum',
+  Full = 'Full',
 }
 
 /**
@@ -14331,6 +14885,291 @@ export type ExpressRouteConnectionsBeginCreateOrUpdateResponse = ExpressRouteCon
 };
 
 /**
+ * Contains response data for the list operation.
+ */
+export type ExpressRoutePortsLocationsListResponse = ExpressRoutePortsLocationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRoutePortsLocationListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ExpressRoutePortsLocationsGetResponse = ExpressRoutePortsLocation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRoutePortsLocation;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ExpressRoutePortsLocationsListNextResponse = ExpressRoutePortsLocationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRoutePortsLocationListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ExpressRoutePortsGetResponse = ExpressRoutePort & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRoutePort;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ExpressRoutePortsCreateOrUpdateResponse = ExpressRoutePort & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRoutePort;
+    };
+};
+
+/**
+ * Contains response data for the updateTags operation.
+ */
+export type ExpressRoutePortsUpdateTagsResponse = ExpressRoutePort & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRoutePort;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type ExpressRoutePortsListByResourceGroupResponse = ExpressRoutePortListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRoutePortListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ExpressRoutePortsListResponse = ExpressRoutePortListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRoutePortListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type ExpressRoutePortsBeginCreateOrUpdateResponse = ExpressRoutePort & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRoutePort;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateTags operation.
+ */
+export type ExpressRoutePortsBeginUpdateTagsResponse = ExpressRoutePort & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRoutePort;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type ExpressRoutePortsListByResourceGroupNextResponse = ExpressRoutePortListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRoutePortListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ExpressRoutePortsListNextResponse = ExpressRoutePortListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRoutePortListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ExpressRouteLinksGetResponse = ExpressRouteLink & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteLink;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ExpressRouteLinksListResponse = ExpressRouteLinkListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteLinkListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ExpressRouteLinksListNextResponse = ExpressRouteLinkListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteLinkListResult;
+    };
+};
+
+/**
  * Contains response data for the get operation.
  */
 export type InterfaceEndpointsGetResponse = InterfaceEndpoint & {
@@ -14897,6 +15736,63 @@ export type LoadBalancerLoadBalancingRulesListNextResponse = LoadBalancerLoadBal
        * The response body as parsed JSON or XML
        */
       parsedBody: LoadBalancerLoadBalancingRuleListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type LoadBalancerOutboundRulesListResponse = LoadBalancerOutboundRuleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LoadBalancerOutboundRuleListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type LoadBalancerOutboundRulesGetResponse = OutboundRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OutboundRule;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type LoadBalancerOutboundRulesListNextResponse = LoadBalancerOutboundRuleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LoadBalancerOutboundRuleListResult;
     };
 };
 
