@@ -60,7 +60,7 @@ export class SyncMembers {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, syncMemberName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncMember>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, syncMemberName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SyncMember>): Promise<Models.SyncMembersGetResponse> {
+  get(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, syncMemberName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncMember>, callback?: msRest.ServiceCallback<Models.SyncMember>): Promise<Models.SyncMembersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -154,7 +154,7 @@ export class SyncMembers {
    * @param callback The callback
    */
   listBySyncGroup(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncMemberListResult>): void;
-  listBySyncGroup(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SyncMemberListResult>): Promise<Models.SyncMembersListBySyncGroupResponse> {
+  listBySyncGroup(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncMemberListResult>, callback?: msRest.ServiceCallback<Models.SyncMemberListResult>): Promise<Models.SyncMembersListBySyncGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -200,7 +200,7 @@ export class SyncMembers {
    * @param callback The callback
    */
   listMemberSchemas(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, syncMemberName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>): void;
-  listMemberSchemas(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, syncMemberName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>): Promise<Models.SyncMembersListMemberSchemasResponse> {
+  listMemberSchemas(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, syncMemberName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>, callback?: msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>): Promise<Models.SyncMembersListMemberSchemasResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -352,7 +352,7 @@ export class SyncMembers {
    * @param callback The callback
    */
   listBySyncGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncMemberListResult>): void;
-  listBySyncGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SyncMemberListResult>): Promise<Models.SyncMembersListBySyncGroupNextResponse> {
+  listBySyncGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncMemberListResult>, callback?: msRest.ServiceCallback<Models.SyncMemberListResult>): Promise<Models.SyncMembersListBySyncGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -380,7 +380,7 @@ export class SyncMembers {
    * @param callback The callback
    */
   listMemberSchemasNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>): void;
-  listMemberSchemasNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>): Promise<Models.SyncMembersListMemberSchemasNextResponse> {
+  listMemberSchemasNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>, callback?: msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>): Promise<Models.SyncMembersListMemberSchemasNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

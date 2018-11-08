@@ -56,7 +56,7 @@ export class DatabaseOperations {
    * @param callback The callback
    */
   cancel(resourceGroupName: string, serverName: string, databaseName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  cancel(resourceGroupName: string, serverName: string, databaseName: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  cancel(resourceGroupName: string, serverName: string, databaseName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +96,7 @@ export class DatabaseOperations {
    * @param callback The callback
    */
   listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseOperationListResult>): void;
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DatabaseOperationListResult>): Promise<Models.DatabaseOperationsListByDatabaseResponse> {
+  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseOperationListResult>, callback?: msRest.ServiceCallback<Models.DatabaseOperationListResult>): Promise<Models.DatabaseOperationsListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -126,7 +126,7 @@ export class DatabaseOperations {
    * @param callback The callback
    */
   listByDatabaseNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseOperationListResult>): void;
-  listByDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DatabaseOperationListResult>): Promise<Models.DatabaseOperationsListByDatabaseNextResponse> {
+  listByDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseOperationListResult>, callback?: msRest.ServiceCallback<Models.DatabaseOperationListResult>): Promise<Models.DatabaseOperationsListByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

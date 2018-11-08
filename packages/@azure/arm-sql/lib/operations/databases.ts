@@ -102,7 +102,7 @@ export class Databases {
    * @param callback The callback
    */
   listMetrics(resourceGroupName: string, serverName: string, databaseName: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricListResult>): void;
-  listMetrics(resourceGroupName: string, serverName: string, databaseName: string, filter: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricListResult>): Promise<Models.DatabasesListMetricsResponse> {
+  listMetrics(resourceGroupName: string, serverName: string, databaseName: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricListResult>, callback?: msRest.ServiceCallback<Models.MetricListResult>): Promise<Models.DatabasesListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -142,7 +142,7 @@ export class Databases {
    * @param callback The callback
    */
   listMetricDefinitions(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricDefinitionListResult>): void;
-  listMetricDefinitions(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricDefinitionListResult>): Promise<Models.DatabasesListMetricDefinitionsResponse> {
+  listMetricDefinitions(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionListResult>, callback?: msRest.ServiceCallback<Models.MetricDefinitionListResult>): Promise<Models.DatabasesListMetricDefinitionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -192,7 +192,7 @@ export class Databases {
    * @param callback The callback
    */
   listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DatabaseListResult>): Promise<Models.DatabasesListByServerResponse> {
+  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseListResult>, callback?: msRest.ServiceCallback<Models.DatabaseListResult>): Promise<Models.DatabasesListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -230,7 +230,7 @@ export class Databases {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Database>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Database>): Promise<Models.DatabasesGetResponse> {
+  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Database>, callback?: msRest.ServiceCallback<Models.Database>): Promise<Models.DatabasesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -313,7 +313,7 @@ export class Databases {
    * @param callback The callback
    */
   listByElasticPool(resourceGroupName: string, serverName: string, elasticPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseListResult>): void;
-  listByElasticPool(resourceGroupName: string, serverName: string, elasticPoolName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DatabaseListResult>): Promise<Models.DatabasesListByElasticPoolResponse> {
+  listByElasticPool(resourceGroupName: string, serverName: string, elasticPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseListResult>, callback?: msRest.ServiceCallback<Models.DatabaseListResult>): Promise<Models.DatabasesListByElasticPoolResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -383,7 +383,7 @@ export class Databases {
    * @param callback The callback
    */
   rename(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.ResourceMoveDefinition, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  rename(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.ResourceMoveDefinition, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  rename(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.ResourceMoveDefinition, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -612,7 +612,7 @@ export class Databases {
    * @param callback The callback
    */
   listByServerNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseListResult>): void;
-  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DatabaseListResult>): Promise<Models.DatabasesListByServerNextResponse> {
+  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseListResult>, callback?: msRest.ServiceCallback<Models.DatabaseListResult>): Promise<Models.DatabasesListByServerNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -640,7 +640,7 @@ export class Databases {
    * @param callback The callback
    */
   listByElasticPoolNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseListResult>): void;
-  listByElasticPoolNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DatabaseListResult>): Promise<Models.DatabasesListByElasticPoolNextResponse> {
+  listByElasticPoolNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseListResult>, callback?: msRest.ServiceCallback<Models.DatabaseListResult>): Promise<Models.DatabasesListByElasticPoolNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
