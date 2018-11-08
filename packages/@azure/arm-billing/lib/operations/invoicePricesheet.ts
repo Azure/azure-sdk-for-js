@@ -9,6 +9,7 @@
  */
 
 import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/invoicePricesheetMappers";
 import * as Parameters from "../models/parameters";
@@ -33,35 +34,33 @@ export class InvoicePricesheet {
    * @param [options] The optional parameters
    * @returns Promise<Models.InvoicePricesheetGetResponse>
    */
-  get(billingAccountId: string, invoiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.InvoicePricesheetGetResponse>;
+  get(billingAccountId: string, invoiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.InvoicePricesheetGetResponse> {
+    return this.beginGet(billingAccountId,invoiceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.InvoicePricesheetGetResponse>;
+  }
+
   /**
+   * Get pricesheet data for invoice id (invoiceName).
    * @param billingAccountId Azure Billing Account ID.
    * @param invoiceName The name of an invoice resource.
-   * @param callback The callback
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
    */
-  get(billingAccountId: string, invoiceName: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param billingAccountId Azure Billing Account ID.
-   * @param invoiceName The name of an invoice resource.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  get(billingAccountId: string, invoiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  get(billingAccountId: string, invoiceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.InvoicePricesheetGetResponse> {
-    return this.client.sendOperationRequest(
+  beginGet(billingAccountId: string, invoiceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
       {
         billingAccountId,
         invoiceName,
         options
       },
-      getOperationSpec,
-      callback) as Promise<Models.InvoicePricesheetGetResponse>;
+      beginGetOperationSpec,
+      options);
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const beginGetOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoices/{invoiceName}/pricesheet/download",
   urlParameters: [
