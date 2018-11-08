@@ -59,7 +59,6 @@
     "build:es6": "tsc -p tsconfig.json",
     "build:autorest": "autorest ./swagger/README.md --typescript --use=@microsoft.azure/autorest.typescript@2.0.476",
     "build:browserzip": "gulp zip",
-    "prepare": "npm run build",
     "clean": "rimraf dist dist-esm dist-test typings temp browser/*.js* browser/*.zip statistics.html"
   },
   "repository": {
