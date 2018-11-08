@@ -47,7 +47,7 @@ export class WorkflowVersions {
    * @param callback The callback
    */
   list(resourceGroupName: string, workflowName: string, options: Models.WorkflowVersionsListOptionalParams, callback: msRest.ServiceCallback<Models.WorkflowVersionListResult>): void;
-  list(resourceGroupName: string, workflowName: string, options?: Models.WorkflowVersionsListOptionalParams, callback?: msRest.ServiceCallback<Models.WorkflowVersionListResult>): Promise<Models.WorkflowVersionsListResponse> {
+  list(resourceGroupName: string, workflowName: string, options?: Models.WorkflowVersionsListOptionalParams | msRest.ServiceCallback<Models.WorkflowVersionListResult>, callback?: msRest.ServiceCallback<Models.WorkflowVersionListResult>): Promise<Models.WorkflowVersionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class WorkflowVersions {
    * @param callback The callback
    */
   get(resourceGroupName: string, workflowName: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkflowVersion>): void;
-  get(resourceGroupName: string, workflowName: string, versionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkflowVersion>): Promise<Models.WorkflowVersionsGetResponse> {
+  get(resourceGroupName: string, workflowName: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowVersion>, callback?: msRest.ServiceCallback<Models.WorkflowVersion>): Promise<Models.WorkflowVersionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class WorkflowVersions {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkflowVersionListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkflowVersionListResult>): Promise<Models.WorkflowVersionsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowVersionListResult>, callback?: msRest.ServiceCallback<Models.WorkflowVersionListResult>): Promise<Models.WorkflowVersionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -59,7 +59,7 @@ export class Endpoints {
    * @param callback The callback
    */
   update(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, parameters: Models.Endpoint, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Endpoint>): void;
-  update(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, parameters: Models.Endpoint, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Endpoint>): Promise<Models.EndpointsUpdateResponse> {
+  update(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, parameters: Models.Endpoint, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Endpoint>, callback?: msRest.ServiceCallback<Models.Endpoint>): Promise<Models.EndpointsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -100,7 +100,7 @@ export class Endpoints {
    * @param callback The callback
    */
   get(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Endpoint>): void;
-  get(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Endpoint>): Promise<Models.EndpointsGetResponse> {
+  get(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Endpoint>, callback?: msRest.ServiceCallback<Models.Endpoint>): Promise<Models.EndpointsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -149,7 +149,7 @@ export class Endpoints {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, parameters: Models.Endpoint, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Endpoint>): void;
-  createOrUpdate(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, parameters: Models.Endpoint, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Endpoint>): Promise<Models.EndpointsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, parameters: Models.Endpoint, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Endpoint>, callback?: msRest.ServiceCallback<Models.Endpoint>): Promise<Models.EndpointsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -193,7 +193,7 @@ export class Endpoints {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeleteOperationResult>): void;
-  deleteMethod(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DeleteOperationResult>): Promise<Models.EndpointsDeleteMethodResponse> {
+  deleteMethod(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeleteOperationResult>, callback?: msRest.ServiceCallback<Models.DeleteOperationResult>): Promise<Models.EndpointsDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

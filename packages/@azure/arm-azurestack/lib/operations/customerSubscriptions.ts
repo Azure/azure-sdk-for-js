@@ -47,7 +47,7 @@ export class CustomerSubscriptions {
    * @param callback The callback
    */
   list(resourceGroup: string, registrationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CustomerSubscriptionList>): void;
-  list(resourceGroup: string, registrationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CustomerSubscriptionList>): Promise<Models.CustomerSubscriptionsListResponse> {
+  list(resourceGroup: string, registrationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomerSubscriptionList>, callback?: msRest.ServiceCallback<Models.CustomerSubscriptionList>): Promise<Models.CustomerSubscriptionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroup,
@@ -82,7 +82,7 @@ export class CustomerSubscriptions {
    * @param callback The callback
    */
   get(resourceGroup: string, registrationName: string, customerSubscriptionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CustomerSubscription>): void;
-  get(resourceGroup: string, registrationName: string, customerSubscriptionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CustomerSubscription>): Promise<Models.CustomerSubscriptionsGetResponse> {
+  get(resourceGroup: string, registrationName: string, customerSubscriptionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomerSubscription>, callback?: msRest.ServiceCallback<Models.CustomerSubscription>): Promise<Models.CustomerSubscriptionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroup,
@@ -118,7 +118,7 @@ export class CustomerSubscriptions {
    * @param callback The callback
    */
   deleteMethod(resourceGroup: string, registrationName: string, customerSubscriptionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroup: string, registrationName: string, customerSubscriptionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroup: string, registrationName: string, customerSubscriptionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroup,
@@ -157,7 +157,7 @@ export class CustomerSubscriptions {
    * @param callback The callback
    */
   create(resourceGroup: string, registrationName: string, customerSubscriptionName: string, customerCreationParameters: Models.CustomerSubscription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CustomerSubscription>): void;
-  create(resourceGroup: string, registrationName: string, customerSubscriptionName: string, customerCreationParameters: Models.CustomerSubscription, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CustomerSubscription>): Promise<Models.CustomerSubscriptionsCreateResponse> {
+  create(resourceGroup: string, registrationName: string, customerSubscriptionName: string, customerCreationParameters: Models.CustomerSubscription, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomerSubscription>, callback?: msRest.ServiceCallback<Models.CustomerSubscription>): Promise<Models.CustomerSubscriptionsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroup,
@@ -188,7 +188,7 @@ export class CustomerSubscriptions {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CustomerSubscriptionList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CustomerSubscriptionList>): Promise<Models.CustomerSubscriptionsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomerSubscriptionList>, callback?: msRest.ServiceCallback<Models.CustomerSubscriptionList>): Promise<Models.CustomerSubscriptionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -1698,11 +1698,6 @@ export const DirectoryObjectListResult: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "objectType",
-                clientName: "objectType"
-              },
-              uberParent: "DirectoryObject",
               className: "DirectoryObject",
               additionalProperties: {
                 type: {
@@ -1736,8 +1731,6 @@ export const ApplicationListResult: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: DirectoryObject.type.polymorphicDiscriminator,
-              uberParent: "DirectoryObject",
               className: "Application",
               additionalProperties: DirectoryObject.type.additionalProperties
             }
@@ -1821,8 +1814,6 @@ export const GroupListResult: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: DirectoryObject.type.polymorphicDiscriminator,
-              uberParent: "DirectoryObject",
               className: "ADGroup",
               additionalProperties: DirectoryObject.type.additionalProperties
             }
@@ -1873,8 +1864,6 @@ export const ServicePrincipalListResult: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: DirectoryObject.type.polymorphicDiscriminator,
-              uberParent: "DirectoryObject",
               className: "ServicePrincipal",
               additionalProperties: DirectoryObject.type.additionalProperties
             }
@@ -1904,8 +1893,6 @@ export const UserListResult: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: DirectoryObject.type.polymorphicDiscriminator,
-              uberParent: "DirectoryObject",
               className: "User",
               additionalProperties: DirectoryObject.type.additionalProperties
             }

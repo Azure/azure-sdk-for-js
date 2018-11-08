@@ -50,7 +50,7 @@ export class Python2Package {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, automationAccountName: string, packageName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, automationAccountName: string, packageName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, automationAccountName: string, packageName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -86,7 +86,7 @@ export class Python2Package {
    * @param callback The callback
    */
   get(resourceGroupName: string, automationAccountName: string, packageName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Module>): void;
-  get(resourceGroupName: string, automationAccountName: string, packageName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Module>): Promise<Models.Python2PackageGetResponse> {
+  get(resourceGroupName: string, automationAccountName: string, packageName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Module>, callback?: msRest.ServiceCallback<Models.Module>): Promise<Models.Python2PackageGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -125,7 +125,7 @@ export class Python2Package {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, automationAccountName: string, packageName: string, parameters: Models.PythonPackageCreateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Module>): void;
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, packageName: string, parameters: Models.PythonPackageCreateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Module>): Promise<Models.Python2PackageCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, automationAccountName: string, packageName: string, parameters: Models.PythonPackageCreateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Module>, callback?: msRest.ServiceCallback<Models.Module>): Promise<Models.Python2PackageCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -165,7 +165,7 @@ export class Python2Package {
    * @param callback The callback
    */
   update(resourceGroupName: string, automationAccountName: string, packageName: string, parameters: Models.PythonPackageUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Module>): void;
-  update(resourceGroupName: string, automationAccountName: string, packageName: string, parameters: Models.PythonPackageUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Module>): Promise<Models.Python2PackageUpdateResponse> {
+  update(resourceGroupName: string, automationAccountName: string, packageName: string, parameters: Models.PythonPackageUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Module>, callback?: msRest.ServiceCallback<Models.Module>): Promise<Models.Python2PackageUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -199,7 +199,7 @@ export class Python2Package {
    * @param callback The callback
    */
   listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ModuleListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ModuleListResult>): Promise<Models.Python2PackageListByAutomationAccountResponse> {
+  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ModuleListResult>, callback?: msRest.ServiceCallback<Models.ModuleListResult>): Promise<Models.Python2PackageListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -228,7 +228,7 @@ export class Python2Package {
    * @param callback The callback
    */
   listByAutomationAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ModuleListResult>): void;
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ModuleListResult>): Promise<Models.Python2PackageListByAutomationAccountNextResponse> {
+  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ModuleListResult>, callback?: msRest.ServiceCallback<Models.ModuleListResult>): Promise<Models.Python2PackageListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

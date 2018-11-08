@@ -61,7 +61,7 @@ export class ProtectedItems {
    * @param callback The callback
    */
   get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, options: Models.ProtectedItemsGetOptionalParams, callback: msRest.ServiceCallback<Models.ProtectedItemResource>): void;
-  get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, options?: Models.ProtectedItemsGetOptionalParams, callback?: msRest.ServiceCallback<Models.ProtectedItemResource>): Promise<Models.ProtectedItemsGetResponse> {
+  get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, options?: Models.ProtectedItemsGetOptionalParams | msRest.ServiceCallback<Models.ProtectedItemResource>, callback?: msRest.ServiceCallback<Models.ProtectedItemResource>): Promise<Models.ProtectedItemsGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -114,7 +114,7 @@ export class ProtectedItems {
    * @param callback The callback
    */
   createOrUpdate(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, parameters: Models.ProtectedItemResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectedItemResource>): void;
-  createOrUpdate(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, parameters: Models.ProtectedItemResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProtectedItemResource>): Promise<Models.ProtectedItemsCreateOrUpdateResponse> {
+  createOrUpdate(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, parameters: Models.ProtectedItemResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectedItemResource>, callback?: msRest.ServiceCallback<Models.ProtectedItemResource>): Promise<Models.ProtectedItemsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -164,7 +164,7 @@ export class ProtectedItems {
    * @param callback The callback
    */
   deleteMethod(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,

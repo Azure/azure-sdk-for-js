@@ -587,33 +587,18 @@ export interface SearchServiceListResult extends Array<SearchService> {
 /**
  * Defines values for UnavailableNameReason.
  * Possible values include: 'Invalid', 'AlreadyExists'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: UnavailableNameReason =
- * <UnavailableNameReason>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum UnavailableNameReason {
-  Invalid = 'Invalid',
-  AlreadyExists = 'AlreadyExists',
-}
+export type UnavailableNameReason = 'Invalid' | 'AlreadyExists';
 
 /**
  * Defines values for SkuName.
- * Possible values include: 'free', 'basic', 'standard', 'standard2',
- * 'standard3'
+ * Possible values include: 'free', 'basic', 'standard', 'standard2', 'standard3'
  * @readonly
  * @enum {string}
  */
-export enum SkuName {
-  Free = 'free',
-  Basic = 'basic',
-  Standard = 'standard',
-  Standard2 = 'standard2',
-  Standard3 = 'standard3',
-}
+export type SkuName = 'free' | 'basic' | 'standard' | 'standard2' | 'standard3';
 
 /**
  * Defines values for HostingMode.
@@ -621,26 +606,15 @@ export enum SkuName {
  * @readonly
  * @enum {string}
  */
-export enum HostingMode {
-  Default = 'default',
-  HighDensity = 'highDensity',
-}
+export type HostingMode = 'default' | 'highDensity';
 
 /**
  * Defines values for SearchServiceStatus.
- * Possible values include: 'running', 'provisioning', 'deleting', 'degraded',
- * 'disabled', 'error'
+ * Possible values include: 'running', 'provisioning', 'deleting', 'degraded', 'disabled', 'error'
  * @readonly
  * @enum {string}
  */
-export enum SearchServiceStatus {
-  Running = 'running',
-  Provisioning = 'provisioning',
-  Deleting = 'deleting',
-  Degraded = 'degraded',
-  Disabled = 'disabled',
-  Error = 'error',
-}
+export type SearchServiceStatus = 'running' | 'provisioning' | 'deleting' | 'degraded' | 'disabled' | 'error';
 
 /**
  * Defines values for ProvisioningState.
@@ -648,11 +622,7 @@ export enum SearchServiceStatus {
  * @readonly
  * @enum {string}
  */
-export enum ProvisioningState {
-  Succeeded = 'succeeded',
-  Provisioning = 'provisioning',
-  Failed = 'failed',
-}
+export type ProvisioningState = 'succeeded' | 'provisioning' | 'failed';
 
 /**
  * Defines values for AdminKeyKind.
@@ -660,10 +630,7 @@ export enum ProvisioningState {
  * @readonly
  * @enum {string}
  */
-export enum AdminKeyKind {
-  Primary = 'primary',
-  Secondary = 'secondary',
-}
+export type AdminKeyKind = 'primary' | 'secondary';
 
 /**
  * Contains response data for the list operation.

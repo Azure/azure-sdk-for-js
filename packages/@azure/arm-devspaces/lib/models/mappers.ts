@@ -250,11 +250,6 @@ export const ControllerConnectionDetails: msRest.CompositeMapper = {
         serializedName: "orchestratorSpecificConnectionDetails",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "OrchestratorSpecificConnectionDetails",
           className: "OrchestratorSpecificConnectionDetails"
         }
       }

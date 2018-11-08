@@ -54,7 +54,7 @@ export class BackupSchedules {
    * @param callback The callback
    */
   listByBackupPolicy(deviceName: string, backupPolicyName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupScheduleList>): void;
-  listByBackupPolicy(deviceName: string, backupPolicyName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupScheduleList>): Promise<Models.BackupSchedulesListByBackupPolicyResponse> {
+  listByBackupPolicy(deviceName: string, backupPolicyName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupScheduleList>, callback?: msRest.ServiceCallback<Models.BackupScheduleList>): Promise<Models.BackupSchedulesListByBackupPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -97,7 +97,7 @@ export class BackupSchedules {
    * @param callback The callback
    */
   get(deviceName: string, backupPolicyName: string, backupScheduleName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupSchedule>): void;
-  get(deviceName: string, backupPolicyName: string, backupScheduleName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupSchedule>): Promise<Models.BackupSchedulesGetResponse> {
+  get(deviceName: string, backupPolicyName: string, backupScheduleName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupSchedule>, callback?: msRest.ServiceCallback<Models.BackupSchedule>): Promise<Models.BackupSchedulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,

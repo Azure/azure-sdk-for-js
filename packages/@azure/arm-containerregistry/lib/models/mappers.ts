@@ -2075,11 +2075,6 @@ export const Task: msRest.CompositeMapper = {
         serializedName: "properties.step",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "type",
-            clientName: "type"
-          },
-          uberParent: "TaskStepProperties",
           className: "TaskStepProperties"
         }
       },
@@ -2366,11 +2361,6 @@ export const TaskUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.step",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "type",
-            clientName: "type"
-          },
-          uberParent: "TaskStepUpdateParameters",
           className: "TaskStepUpdateParameters"
         }
       },

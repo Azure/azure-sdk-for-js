@@ -44,7 +44,7 @@ export class AutoscaleSettings {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AutoscaleSettingResourceCollection>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AutoscaleSettingResourceCollection>): Promise<Models.AutoscaleSettingsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutoscaleSettingResourceCollection>, callback?: msRest.ServiceCallback<Models.AutoscaleSettingResourceCollection>): Promise<Models.AutoscaleSettingsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -78,7 +78,7 @@ export class AutoscaleSettings {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, autoscaleSettingName: string, parameters: Models.AutoscaleSettingResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AutoscaleSettingResource>): void;
-  createOrUpdate(resourceGroupName: string, autoscaleSettingName: string, parameters: Models.AutoscaleSettingResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AutoscaleSettingResource>): Promise<Models.AutoscaleSettingsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, autoscaleSettingName: string, parameters: Models.AutoscaleSettingResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutoscaleSettingResource>, callback?: msRest.ServiceCallback<Models.AutoscaleSettingResource>): Promise<Models.AutoscaleSettingsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -111,7 +111,7 @@ export class AutoscaleSettings {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, autoscaleSettingName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, autoscaleSettingName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, autoscaleSettingName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -143,7 +143,7 @@ export class AutoscaleSettings {
    * @param callback The callback
    */
   get(resourceGroupName: string, autoscaleSettingName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AutoscaleSettingResource>): void;
-  get(resourceGroupName: string, autoscaleSettingName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AutoscaleSettingResource>): Promise<Models.AutoscaleSettingsGetResponse> {
+  get(resourceGroupName: string, autoscaleSettingName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutoscaleSettingResource>, callback?: msRest.ServiceCallback<Models.AutoscaleSettingResource>): Promise<Models.AutoscaleSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -179,7 +179,7 @@ export class AutoscaleSettings {
    * @param callback The callback
    */
   update(resourceGroupName: string, autoscaleSettingName: string, autoscaleSettingResource: Models.AutoscaleSettingResourcePatch, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AutoscaleSettingResource>): void;
-  update(resourceGroupName: string, autoscaleSettingName: string, autoscaleSettingResource: Models.AutoscaleSettingResourcePatch, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AutoscaleSettingResource>): Promise<Models.AutoscaleSettingsUpdateResponse> {
+  update(resourceGroupName: string, autoscaleSettingName: string, autoscaleSettingResource: Models.AutoscaleSettingResourcePatch, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutoscaleSettingResource>, callback?: msRest.ServiceCallback<Models.AutoscaleSettingResource>): Promise<Models.AutoscaleSettingsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -206,7 +206,7 @@ export class AutoscaleSettings {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AutoscaleSettingResourceCollection>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AutoscaleSettingResourceCollection>): Promise<Models.AutoscaleSettingsListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutoscaleSettingResourceCollection>, callback?: msRest.ServiceCallback<Models.AutoscaleSettingResourceCollection>): Promise<Models.AutoscaleSettingsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -233,7 +233,7 @@ export class AutoscaleSettings {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AutoscaleSettingResourceCollection>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AutoscaleSettingResourceCollection>): Promise<Models.AutoscaleSettingsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutoscaleSettingResourceCollection>, callback?: msRest.ServiceCallback<Models.AutoscaleSettingResourceCollection>): Promise<Models.AutoscaleSettingsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -261,7 +261,7 @@ export class AutoscaleSettings {
    * @param callback The callback
    */
   listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AutoscaleSettingResourceCollection>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AutoscaleSettingResourceCollection>): Promise<Models.AutoscaleSettingsListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutoscaleSettingResourceCollection>, callback?: msRest.ServiceCallback<Models.AutoscaleSettingResourceCollection>): Promise<Models.AutoscaleSettingsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

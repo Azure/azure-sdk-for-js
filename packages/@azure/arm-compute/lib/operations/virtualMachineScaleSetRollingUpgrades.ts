@@ -88,7 +88,7 @@ export class VirtualMachineScaleSetRollingUpgrades {
    * @param callback The callback
    */
   getLatest(resourceGroupName: string, vmScaleSetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RollingUpgradeStatusInfo>): void;
-  getLatest(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RollingUpgradeStatusInfo>): Promise<Models.VirtualMachineScaleSetRollingUpgradesGetLatestResponse> {
+  getLatest(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RollingUpgradeStatusInfo>, callback?: msRest.ServiceCallback<Models.RollingUpgradeStatusInfo>): Promise<Models.VirtualMachineScaleSetRollingUpgradesGetLatestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

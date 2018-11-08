@@ -543,73 +543,28 @@ export interface OperationListResult extends Array<Operation> {
 /**
  * Defines values for SkuTier.
  * Possible values include: 'Development', 'Basic', 'Standard'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SkuTier = <SkuTier>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SkuTier {
-  Development = 'Development',
-  Basic = 'Basic',
-  Standard = 'Standard',
-}
+export type SkuTier = 'Development' | 'Basic' | 'Standard';
 
 /**
  * Defines values for State.
- * Possible values include: 'Deleting', 'Succeeded', 'Failed', 'Paused',
- * 'Suspended', 'Provisioning', 'Updating', 'Suspending', 'Pausing',
- * 'Resuming', 'Preparing', 'Scaling'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: State = <State>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Deleting', 'Succeeded', 'Failed', 'Paused', 'Suspended',
+ * 'Provisioning', 'Updating', 'Suspending', 'Pausing', 'Resuming', 'Preparing', 'Scaling'
  * @readonly
  * @enum {string}
  */
-export enum State {
-  Deleting = 'Deleting',
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-  Paused = 'Paused',
-  Suspended = 'Suspended',
-  Provisioning = 'Provisioning',
-  Updating = 'Updating',
-  Suspending = 'Suspending',
-  Pausing = 'Pausing',
-  Resuming = 'Resuming',
-  Preparing = 'Preparing',
-  Scaling = 'Scaling',
-}
+export type State = 'Deleting' | 'Succeeded' | 'Failed' | 'Paused' | 'Suspended' | 'Provisioning' | 'Updating' | 'Suspending' | 'Pausing' | 'Resuming' | 'Preparing' | 'Scaling';
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Deleting', 'Succeeded', 'Failed', 'Paused',
- * 'Suspended', 'Provisioning', 'Updating', 'Suspending', 'Pausing',
- * 'Resuming', 'Preparing', 'Scaling'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ProvisioningState =
- * <ProvisioningState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Deleting', 'Succeeded', 'Failed', 'Paused', 'Suspended',
+ * 'Provisioning', 'Updating', 'Suspending', 'Pausing', 'Resuming', 'Preparing', 'Scaling'
  * @readonly
  * @enum {string}
  */
-export enum ProvisioningState {
-  Deleting = 'Deleting',
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-  Paused = 'Paused',
-  Suspended = 'Suspended',
-  Provisioning = 'Provisioning',
-  Updating = 'Updating',
-  Suspending = 'Suspending',
-  Pausing = 'Pausing',
-  Resuming = 'Resuming',
-  Preparing = 'Preparing',
-  Scaling = 'Scaling',
-}
+export type ProvisioningState = 'Deleting' | 'Succeeded' | 'Failed' | 'Paused' | 'Suspended' | 'Provisioning' | 'Updating' | 'Suspending' | 'Pausing' | 'Resuming' | 'Preparing' | 'Scaling';
 
 /**
  * Defines values for ConnectionMode.
@@ -617,10 +572,7 @@ export enum ProvisioningState {
  * @readonly
  * @enum {string}
  */
-export enum ConnectionMode {
-  All = 'All',
-  ReadOnly = 'ReadOnly',
-}
+export type ConnectionMode = 'All' | 'ReadOnly';
 
 /**
  * Defines values for Status.
@@ -628,9 +580,7 @@ export enum ConnectionMode {
  * @readonly
  * @enum {string}
  */
-export enum Status {
-  Live = 'Live',
-}
+export type Status = 'Live';
 
 /**
  * Contains response data for the getDetails operation.

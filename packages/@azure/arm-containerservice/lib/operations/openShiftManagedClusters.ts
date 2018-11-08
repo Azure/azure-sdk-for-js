@@ -49,7 +49,7 @@ export class OpenShiftManagedClusters {
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OpenShiftManagedCluster>): void;
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OpenShiftManagedCluster>): Promise<Models.OpenShiftManagedClustersGetResponse> {
+  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OpenShiftManagedCluster>, callback?: msRest.ServiceCallback<Models.OpenShiftManagedCluster>): Promise<Models.OpenShiftManagedClustersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

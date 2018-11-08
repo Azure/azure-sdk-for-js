@@ -356,39 +356,20 @@ export interface ResourceProviderOperationList extends Array<ResourceProviderOpe
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Succeeded', 'Failed', 'Canceled', 'Updating',
- * 'Creating', 'Deleting', 'Deleted'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ProvisioningState =
- * <ProvisioningState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Succeeded', 'Failed', 'Canceled', 'Updating', 'Creating', 'Deleting',
+ * 'Deleted'
  * @readonly
  * @enum {string}
  */
-export enum ProvisioningState {
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-  Canceled = 'Canceled',
-  Updating = 'Updating',
-  Creating = 'Creating',
-  Deleting = 'Deleting',
-  Deleted = 'Deleted',
-}
+export type ProvisioningState = 'Succeeded' | 'Failed' | 'Canceled' | 'Updating' | 'Creating' | 'Deleting' | 'Deleted';
 
 /**
  * Defines values for SkuTier.
  * Possible values include: 'Standard'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SkuTier = <SkuTier>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SkuTier {
-  Standard = 'Standard',
-}
+export type SkuTier = 'Standard';
 
 /**
  * Contains response data for the getContainerHostMapping operation.

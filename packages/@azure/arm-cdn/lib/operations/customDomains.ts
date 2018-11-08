@@ -51,7 +51,7 @@ export class CustomDomains {
    * @param callback The callback
    */
   listByEndpoint(resourceGroupName: string, profileName: string, endpointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CustomDomainListResult>): void;
-  listByEndpoint(resourceGroupName: string, profileName: string, endpointName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CustomDomainListResult>): Promise<Models.CustomDomainsListByEndpointResponse> {
+  listByEndpoint(resourceGroupName: string, profileName: string, endpointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomDomainListResult>, callback?: msRest.ServiceCallback<Models.CustomDomainListResult>): Promise<Models.CustomDomainsListByEndpointResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -90,7 +90,7 @@ export class CustomDomains {
    * @param callback The callback
    */
   get(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CustomDomain>): void;
-  get(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CustomDomain>): Promise<Models.CustomDomainsGetResponse> {
+  get(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomDomain>, callback?: msRest.ServiceCallback<Models.CustomDomain>): Promise<Models.CustomDomainsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -159,7 +159,7 @@ export class CustomDomains {
    * @param callback The callback
    */
   disableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CustomDomain>): void;
-  disableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CustomDomain>): Promise<Models.CustomDomainsDisableCustomHttpsResponse> {
+  disableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomDomain>, callback?: msRest.ServiceCallback<Models.CustomDomain>): Promise<Models.CustomDomainsDisableCustomHttpsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -199,7 +199,7 @@ export class CustomDomains {
    * @param callback The callback
    */
   enableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CustomDomain>): void;
-  enableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CustomDomain>): Promise<Models.CustomDomainsEnableCustomHttpsResponse> {
+  enableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomDomain>, callback?: msRest.ServiceCallback<Models.CustomDomain>): Promise<Models.CustomDomainsEnableCustomHttpsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -276,7 +276,7 @@ export class CustomDomains {
    * @param callback The callback
    */
   listByEndpointNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CustomDomainListResult>): void;
-  listByEndpointNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CustomDomainListResult>): Promise<Models.CustomDomainsListByEndpointNextResponse> {
+  listByEndpointNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomDomainListResult>, callback?: msRest.ServiceCallback<Models.CustomDomainListResult>): Promise<Models.CustomDomainsListByEndpointNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

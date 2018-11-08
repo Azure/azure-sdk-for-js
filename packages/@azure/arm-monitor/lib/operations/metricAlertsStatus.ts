@@ -47,7 +47,7 @@ export class MetricAlertsStatus {
    * @param callback The callback
    */
   list(resourceGroupName: string, ruleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricAlertStatusCollection>): void;
-  list(resourceGroupName: string, ruleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricAlertStatusCollection>): Promise<Models.MetricAlertsStatusListResponse> {
+  list(resourceGroupName: string, ruleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricAlertStatusCollection>, callback?: msRest.ServiceCallback<Models.MetricAlertStatusCollection>): Promise<Models.MetricAlertsStatusListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class MetricAlertsStatus {
    * @param callback The callback
    */
   listByName(resourceGroupName: string, ruleName: string, statusName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricAlertStatusCollection>): void;
-  listByName(resourceGroupName: string, ruleName: string, statusName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricAlertStatusCollection>): Promise<Models.MetricAlertsStatusListByNameResponse> {
+  listByName(resourceGroupName: string, ruleName: string, statusName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricAlertStatusCollection>, callback?: msRest.ServiceCallback<Models.MetricAlertStatusCollection>): Promise<Models.MetricAlertsStatusListByNameResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

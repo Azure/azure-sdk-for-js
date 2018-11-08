@@ -1857,62 +1857,34 @@ export interface WorkbooksListResult extends Array<Workbook> {
 /**
  * Defines values for ApplicationType.
  * Possible values include: 'web', 'other'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationType =
- * <ApplicationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationType {
-  Web = 'web',
-  Other = 'other',
-}
+export type ApplicationType = 'web' | 'other';
 
 /**
  * Defines values for FlowType.
  * Possible values include: 'Bluefield'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: FlowType = <FlowType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum FlowType {
-  Bluefield = 'Bluefield',
-}
+export type FlowType = 'Bluefield';
 
 /**
  * Defines values for RequestSource.
  * Possible values include: 'rest'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RequestSource =
- * <RequestSource>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum RequestSource {
-  Rest = 'rest',
-}
+export type RequestSource = 'rest';
 
 /**
  * Defines values for PurgeState.
  * Possible values include: 'pending', 'completed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PurgeState = <PurgeState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PurgeState {
-  Pending = 'pending',
-  Completed = 'completed',
-}
+export type PurgeState = 'pending' | 'completed';
 
 /**
  * Defines values for FavoriteType.
@@ -1920,10 +1892,7 @@ export enum PurgeState {
  * @readonly
  * @enum {string}
  */
-export enum FavoriteType {
-  Shared = 'shared',
-  User = 'user',
-}
+export type FavoriteType = 'shared' | 'user';
 
 /**
  * Defines values for WebTestKind.
@@ -1931,134 +1900,64 @@ export enum FavoriteType {
  * @readonly
  * @enum {string}
  */
-export enum WebTestKind {
-  Ping = 'ping',
-  Multistep = 'multistep',
-}
+export type WebTestKind = 'ping' | 'multistep';
 
 /**
  * Defines values for ItemScope.
  * Possible values include: 'shared', 'user'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ItemScope = <ItemScope>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ItemScope {
-  Shared = 'shared',
-  User = 'user',
-}
+export type ItemScope = 'shared' | 'user';
 
 /**
  * Defines values for ItemType.
  * Possible values include: 'query', 'function', 'folder', 'recent'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ItemType = <ItemType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ItemType {
-  Query = 'query',
-  Function = 'function',
-  Folder = 'folder',
-  Recent = 'recent',
-}
+export type ItemType = 'query' | 'function' | 'folder' | 'recent';
 
 /**
  * Defines values for SharedTypeKind.
  * Possible values include: 'user', 'shared'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SharedTypeKind =
- * <SharedTypeKind>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SharedTypeKind {
-  User = 'user',
-  Shared = 'shared',
-}
+export type SharedTypeKind = 'user' | 'shared';
 
 /**
  * Defines values for FavoriteSourceType.
- * Possible values include: 'retention', 'notebook', 'sessions', 'events',
- * 'userflows', 'funnel', 'impact', 'segmentation'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: FavoriteSourceType =
- * <FavoriteSourceType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'retention', 'notebook', 'sessions', 'events', 'userflows', 'funnel',
+ * 'impact', 'segmentation'
  * @readonly
  * @enum {string}
  */
-export enum FavoriteSourceType {
-  Retention = 'retention',
-  Notebook = 'notebook',
-  Sessions = 'sessions',
-  Events = 'events',
-  Userflows = 'userflows',
-  Funnel = 'funnel',
-  Impact = 'impact',
-  Segmentation = 'segmentation',
-}
+export type FavoriteSourceType = 'retention' | 'notebook' | 'sessions' | 'events' | 'userflows' | 'funnel' | 'impact' | 'segmentation';
 
 /**
  * Defines values for ItemScopePath.
  * Possible values include: 'analyticsItems', 'myanalyticsItems'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ItemScopePath =
- * <ItemScopePath>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ItemScopePath {
-  AnalyticsItems = 'analyticsItems',
-  MyanalyticsItems = 'myanalyticsItems',
-}
+export type ItemScopePath = 'analyticsItems' | 'myanalyticsItems';
 
 /**
  * Defines values for ItemTypeParameter.
  * Possible values include: 'none', 'query', 'function', 'folder', 'recent'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ItemTypeParameter =
- * <ItemTypeParameter>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ItemTypeParameter {
-  None = 'none',
-  Query = 'query',
-  Function = 'function',
-  Folder = 'folder',
-  Recent = 'recent',
-}
+export type ItemTypeParameter = 'none' | 'query' | 'function' | 'folder' | 'recent';
 
 /**
  * Defines values for CategoryType.
  * Possible values include: 'workbook', 'TSG', 'performance', 'retention'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: CategoryType =
- * <CategoryType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum CategoryType {
-  Workbook = 'workbook',
-  TSG = 'TSG',
-  Performance = 'performance',
-  Retention = 'retention',
-}
+export type CategoryType = 'workbook' | 'TSG' | 'performance' | 'retention';
 
 /**
  * Contains response data for the list operation.

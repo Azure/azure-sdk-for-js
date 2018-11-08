@@ -44,7 +44,7 @@ export class Usages {
    * @param callback The callback
    */
   list(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SignalRUsageList>): void;
-  list(location: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SignalRUsageList>): Promise<Models.UsagesListResponse> {
+  list(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRUsageList>, callback?: msRest.ServiceCallback<Models.SignalRUsageList>): Promise<Models.UsagesListResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -72,7 +72,7 @@ export class Usages {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SignalRUsageList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SignalRUsageList>): Promise<Models.UsagesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRUsageList>, callback?: msRest.ServiceCallback<Models.SignalRUsageList>): Promise<Models.UsagesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -53,7 +53,7 @@ export class WorkflowRunActionScopeRepetitions {
    * @param callback The callback
    */
   list(resourceGroupName: string, workflowName: string, runName: string, actionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkflowRunActionRepetitionDefinitionCollection>): void;
-  list(resourceGroupName: string, workflowName: string, runName: string, actionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkflowRunActionRepetitionDefinitionCollection>): Promise<Models.WorkflowRunActionScopeRepetitionsListResponse> {
+  list(resourceGroupName: string, workflowName: string, runName: string, actionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowRunActionRepetitionDefinitionCollection>, callback?: msRest.ServiceCallback<Models.WorkflowRunActionRepetitionDefinitionCollection>): Promise<Models.WorkflowRunActionScopeRepetitionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +96,7 @@ export class WorkflowRunActionScopeRepetitions {
    * @param callback The callback
    */
   get(resourceGroupName: string, workflowName: string, runName: string, actionName: string, repetitionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkflowRunActionRepetitionDefinition>): void;
-  get(resourceGroupName: string, workflowName: string, runName: string, actionName: string, repetitionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkflowRunActionRepetitionDefinition>): Promise<Models.WorkflowRunActionScopeRepetitionsGetResponse> {
+  get(resourceGroupName: string, workflowName: string, runName: string, actionName: string, repetitionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowRunActionRepetitionDefinition>, callback?: msRest.ServiceCallback<Models.WorkflowRunActionRepetitionDefinition>): Promise<Models.WorkflowRunActionScopeRepetitionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

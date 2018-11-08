@@ -69,7 +69,7 @@ export class BatchAccountOperations {
    * @param callback The callback
    */
   update(resourceGroupName: string, accountName: string, parameters: Models.BatchAccountUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchAccount>): void;
-  update(resourceGroupName: string, accountName: string, parameters: Models.BatchAccountUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BatchAccount>): Promise<Models.BatchAccountUpdateResponse> {
+  update(resourceGroupName: string, accountName: string, parameters: Models.BatchAccountUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchAccount>, callback?: msRest.ServiceCallback<Models.BatchAccount>): Promise<Models.BatchAccountUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -114,7 +114,7 @@ export class BatchAccountOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchAccount>): void;
-  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BatchAccount>): Promise<Models.BatchAccountGetResponse> {
+  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchAccount>, callback?: msRest.ServiceCallback<Models.BatchAccount>): Promise<Models.BatchAccountGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -140,7 +140,7 @@ export class BatchAccountOperations {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchAccountListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BatchAccountListResult>): Promise<Models.BatchAccountListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchAccountListResult>, callback?: msRest.ServiceCallback<Models.BatchAccountListResult>): Promise<Models.BatchAccountListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -167,7 +167,7 @@ export class BatchAccountOperations {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchAccountListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BatchAccountListResult>): Promise<Models.BatchAccountListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchAccountListResult>, callback?: msRest.ServiceCallback<Models.BatchAccountListResult>): Promise<Models.BatchAccountListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -199,7 +199,7 @@ export class BatchAccountOperations {
    * @param callback The callback
    */
   synchronizeAutoStorageKeys(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  synchronizeAutoStorageKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  synchronizeAutoStorageKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -237,7 +237,7 @@ export class BatchAccountOperations {
    * @param callback The callback
    */
   regenerateKey(resourceGroupName: string, accountName: string, keyName: Models.AccountKeyType, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchAccountKeys>): void;
-  regenerateKey(resourceGroupName: string, accountName: string, keyName: Models.AccountKeyType, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BatchAccountKeys>): Promise<Models.BatchAccountRegenerateKeyResponse> {
+  regenerateKey(resourceGroupName: string, accountName: string, keyName: Models.AccountKeyType, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchAccountKeys>, callback?: msRest.ServiceCallback<Models.BatchAccountKeys>): Promise<Models.BatchAccountRegenerateKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -274,7 +274,7 @@ export class BatchAccountOperations {
    * @param callback The callback
    */
   getKeys(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchAccountKeys>): void;
-  getKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BatchAccountKeys>): Promise<Models.BatchAccountGetKeysResponse> {
+  getKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchAccountKeys>, callback?: msRest.ServiceCallback<Models.BatchAccountKeys>): Promise<Models.BatchAccountGetKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -346,7 +346,7 @@ export class BatchAccountOperations {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchAccountListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BatchAccountListResult>): Promise<Models.BatchAccountListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchAccountListResult>, callback?: msRest.ServiceCallback<Models.BatchAccountListResult>): Promise<Models.BatchAccountListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -374,7 +374,7 @@ export class BatchAccountOperations {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchAccountListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BatchAccountListResult>): Promise<Models.BatchAccountListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchAccountListResult>, callback?: msRest.ServiceCallback<Models.BatchAccountListResult>): Promise<Models.BatchAccountListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

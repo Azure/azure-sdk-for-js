@@ -53,7 +53,7 @@ export class PolicyStates {
    * @param callback The callback
    */
   listQueryResultsForManagementGroup(policyStatesResource: Models.PolicyStatesResource, managementGroupName: string, options: Models.PolicyStatesListQueryResultsForManagementGroupOptionalParams, callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): void;
-  listQueryResultsForManagementGroup(policyStatesResource: Models.PolicyStatesResource, managementGroupName: string, options?: Models.PolicyStatesListQueryResultsForManagementGroupOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): Promise<Models.PolicyStatesListQueryResultsForManagementGroupResponse> {
+  listQueryResultsForManagementGroup(policyStatesResource: Models.PolicyStatesResource, managementGroupName: string, options?: Models.PolicyStatesListQueryResultsForManagementGroupOptionalParams | msRest.ServiceCallback<Models.PolicyStatesQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): Promise<Models.PolicyStatesListQueryResultsForManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         policyStatesResource,
@@ -82,7 +82,7 @@ export class PolicyStates {
    * @param callback The callback
    */
   summarizeForManagementGroup(managementGroupName: string, options: Models.PolicyStatesSummarizeForManagementGroupOptionalParams, callback: msRest.ServiceCallback<Models.SummarizeResults>): void;
-  summarizeForManagementGroup(managementGroupName: string, options?: Models.PolicyStatesSummarizeForManagementGroupOptionalParams, callback?: msRest.ServiceCallback<Models.SummarizeResults>): Promise<Models.PolicyStatesSummarizeForManagementGroupResponse> {
+  summarizeForManagementGroup(managementGroupName: string, options?: Models.PolicyStatesSummarizeForManagementGroupOptionalParams | msRest.ServiceCallback<Models.SummarizeResults>, callback?: msRest.ServiceCallback<Models.SummarizeResults>): Promise<Models.PolicyStatesSummarizeForManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         managementGroupName,
@@ -119,7 +119,7 @@ export class PolicyStates {
    * @param callback The callback
    */
   listQueryResultsForSubscription(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, options: Models.PolicyStatesListQueryResultsForSubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): void;
-  listQueryResultsForSubscription(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, options?: Models.PolicyStatesListQueryResultsForSubscriptionOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): Promise<Models.PolicyStatesListQueryResultsForSubscriptionResponse> {
+  listQueryResultsForSubscription(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, options?: Models.PolicyStatesListQueryResultsForSubscriptionOptionalParams | msRest.ServiceCallback<Models.PolicyStatesQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): Promise<Models.PolicyStatesListQueryResultsForSubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         policyStatesResource,
@@ -148,7 +148,7 @@ export class PolicyStates {
    * @param callback The callback
    */
   summarizeForSubscription(subscriptionId: string, options: Models.PolicyStatesSummarizeForSubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.SummarizeResults>): void;
-  summarizeForSubscription(subscriptionId: string, options?: Models.PolicyStatesSummarizeForSubscriptionOptionalParams, callback?: msRest.ServiceCallback<Models.SummarizeResults>): Promise<Models.PolicyStatesSummarizeForSubscriptionResponse> {
+  summarizeForSubscription(subscriptionId: string, options?: Models.PolicyStatesSummarizeForSubscriptionOptionalParams | msRest.ServiceCallback<Models.SummarizeResults>, callback?: msRest.ServiceCallback<Models.SummarizeResults>): Promise<Models.PolicyStatesSummarizeForSubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -188,7 +188,7 @@ export class PolicyStates {
    * @param callback The callback
    */
   listQueryResultsForResourceGroup(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, resourceGroupName: string, options: Models.PolicyStatesListQueryResultsForResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): void;
-  listQueryResultsForResourceGroup(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, resourceGroupName: string, options?: Models.PolicyStatesListQueryResultsForResourceGroupOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): Promise<Models.PolicyStatesListQueryResultsForResourceGroupResponse> {
+  listQueryResultsForResourceGroup(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, resourceGroupName: string, options?: Models.PolicyStatesListQueryResultsForResourceGroupOptionalParams | msRest.ServiceCallback<Models.PolicyStatesQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): Promise<Models.PolicyStatesListQueryResultsForResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         policyStatesResource,
@@ -221,7 +221,7 @@ export class PolicyStates {
    * @param callback The callback
    */
   summarizeForResourceGroup(subscriptionId: string, resourceGroupName: string, options: Models.PolicyStatesSummarizeForResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.SummarizeResults>): void;
-  summarizeForResourceGroup(subscriptionId: string, resourceGroupName: string, options?: Models.PolicyStatesSummarizeForResourceGroupOptionalParams, callback?: msRest.ServiceCallback<Models.SummarizeResults>): Promise<Models.PolicyStatesSummarizeForResourceGroupResponse> {
+  summarizeForResourceGroup(subscriptionId: string, resourceGroupName: string, options?: Models.PolicyStatesSummarizeForResourceGroupOptionalParams | msRest.ServiceCallback<Models.SummarizeResults>, callback?: msRest.ServiceCallback<Models.SummarizeResults>): Promise<Models.PolicyStatesSummarizeForResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -259,7 +259,7 @@ export class PolicyStates {
    * @param callback The callback
    */
   listQueryResultsForResource(policyStatesResource: Models.PolicyStatesResource, resourceId: string, options: Models.PolicyStatesListQueryResultsForResourceOptionalParams, callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): void;
-  listQueryResultsForResource(policyStatesResource: Models.PolicyStatesResource, resourceId: string, options?: Models.PolicyStatesListQueryResultsForResourceOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): Promise<Models.PolicyStatesListQueryResultsForResourceResponse> {
+  listQueryResultsForResource(policyStatesResource: Models.PolicyStatesResource, resourceId: string, options?: Models.PolicyStatesListQueryResultsForResourceOptionalParams | msRest.ServiceCallback<Models.PolicyStatesQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): Promise<Models.PolicyStatesListQueryResultsForResourceResponse> {
     return this.client.sendOperationRequest(
       {
         policyStatesResource,
@@ -288,7 +288,7 @@ export class PolicyStates {
    * @param callback The callback
    */
   summarizeForResource(resourceId: string, options: Models.PolicyStatesSummarizeForResourceOptionalParams, callback: msRest.ServiceCallback<Models.SummarizeResults>): void;
-  summarizeForResource(resourceId: string, options?: Models.PolicyStatesSummarizeForResourceOptionalParams, callback?: msRest.ServiceCallback<Models.SummarizeResults>): Promise<Models.PolicyStatesSummarizeForResourceResponse> {
+  summarizeForResource(resourceId: string, options?: Models.PolicyStatesSummarizeForResourceOptionalParams | msRest.ServiceCallback<Models.SummarizeResults>, callback?: msRest.ServiceCallback<Models.SummarizeResults>): Promise<Models.PolicyStatesSummarizeForResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
@@ -328,7 +328,7 @@ export class PolicyStates {
    * @param callback The callback
    */
   listQueryResultsForPolicySetDefinition(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, policySetDefinitionName: string, options: Models.PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams, callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): void;
-  listQueryResultsForPolicySetDefinition(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, policySetDefinitionName: string, options?: Models.PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): Promise<Models.PolicyStatesListQueryResultsForPolicySetDefinitionResponse> {
+  listQueryResultsForPolicySetDefinition(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, policySetDefinitionName: string, options?: Models.PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams | msRest.ServiceCallback<Models.PolicyStatesQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): Promise<Models.PolicyStatesListQueryResultsForPolicySetDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         policyStatesResource,
@@ -361,7 +361,7 @@ export class PolicyStates {
    * @param callback The callback
    */
   summarizeForPolicySetDefinition(subscriptionId: string, policySetDefinitionName: string, options: Models.PolicyStatesSummarizeForPolicySetDefinitionOptionalParams, callback: msRest.ServiceCallback<Models.SummarizeResults>): void;
-  summarizeForPolicySetDefinition(subscriptionId: string, policySetDefinitionName: string, options?: Models.PolicyStatesSummarizeForPolicySetDefinitionOptionalParams, callback?: msRest.ServiceCallback<Models.SummarizeResults>): Promise<Models.PolicyStatesSummarizeForPolicySetDefinitionResponse> {
+  summarizeForPolicySetDefinition(subscriptionId: string, policySetDefinitionName: string, options?: Models.PolicyStatesSummarizeForPolicySetDefinitionOptionalParams | msRest.ServiceCallback<Models.SummarizeResults>, callback?: msRest.ServiceCallback<Models.SummarizeResults>): Promise<Models.PolicyStatesSummarizeForPolicySetDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -402,7 +402,7 @@ export class PolicyStates {
    * @param callback The callback
    */
   listQueryResultsForPolicyDefinition(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, policyDefinitionName: string, options: Models.PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams, callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): void;
-  listQueryResultsForPolicyDefinition(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, policyDefinitionName: string, options?: Models.PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): Promise<Models.PolicyStatesListQueryResultsForPolicyDefinitionResponse> {
+  listQueryResultsForPolicyDefinition(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, policyDefinitionName: string, options?: Models.PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams | msRest.ServiceCallback<Models.PolicyStatesQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): Promise<Models.PolicyStatesListQueryResultsForPolicyDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         policyStatesResource,
@@ -435,7 +435,7 @@ export class PolicyStates {
    * @param callback The callback
    */
   summarizeForPolicyDefinition(subscriptionId: string, policyDefinitionName: string, options: Models.PolicyStatesSummarizeForPolicyDefinitionOptionalParams, callback: msRest.ServiceCallback<Models.SummarizeResults>): void;
-  summarizeForPolicyDefinition(subscriptionId: string, policyDefinitionName: string, options?: Models.PolicyStatesSummarizeForPolicyDefinitionOptionalParams, callback?: msRest.ServiceCallback<Models.SummarizeResults>): Promise<Models.PolicyStatesSummarizeForPolicyDefinitionResponse> {
+  summarizeForPolicyDefinition(subscriptionId: string, policyDefinitionName: string, options?: Models.PolicyStatesSummarizeForPolicyDefinitionOptionalParams | msRest.ServiceCallback<Models.SummarizeResults>, callback?: msRest.ServiceCallback<Models.SummarizeResults>): Promise<Models.PolicyStatesSummarizeForPolicyDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -477,7 +477,7 @@ export class PolicyStates {
    * @param callback The callback
    */
   listQueryResultsForSubscriptionLevelPolicyAssignment(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, policyAssignmentName: string, options: Models.PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams, callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): void;
-  listQueryResultsForSubscriptionLevelPolicyAssignment(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, policyAssignmentName: string, options?: Models.PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): Promise<Models.PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse> {
+  listQueryResultsForSubscriptionLevelPolicyAssignment(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, policyAssignmentName: string, options?: Models.PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams | msRest.ServiceCallback<Models.PolicyStatesQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): Promise<Models.PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse> {
     return this.client.sendOperationRequest(
       {
         policyStatesResource,
@@ -510,7 +510,7 @@ export class PolicyStates {
    * @param callback The callback
    */
   summarizeForSubscriptionLevelPolicyAssignment(subscriptionId: string, policyAssignmentName: string, options: Models.PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOptionalParams, callback: msRest.ServiceCallback<Models.SummarizeResults>): void;
-  summarizeForSubscriptionLevelPolicyAssignment(subscriptionId: string, policyAssignmentName: string, options?: Models.PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOptionalParams, callback?: msRest.ServiceCallback<Models.SummarizeResults>): Promise<Models.PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentResponse> {
+  summarizeForSubscriptionLevelPolicyAssignment(subscriptionId: string, policyAssignmentName: string, options?: Models.PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOptionalParams | msRest.ServiceCallback<Models.SummarizeResults>, callback?: msRest.ServiceCallback<Models.SummarizeResults>): Promise<Models.PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -555,7 +555,7 @@ export class PolicyStates {
    * @param callback The callback
    */
   listQueryResultsForResourceGroupLevelPolicyAssignment(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options: Models.PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams, callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): void;
-  listQueryResultsForResourceGroupLevelPolicyAssignment(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options?: Models.PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): Promise<Models.PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse> {
+  listQueryResultsForResourceGroupLevelPolicyAssignment(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options?: Models.PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams | msRest.ServiceCallback<Models.PolicyStatesQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): Promise<Models.PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse> {
     return this.client.sendOperationRequest(
       {
         policyStatesResource,
@@ -592,7 +592,7 @@ export class PolicyStates {
    * @param callback The callback
    */
   summarizeForResourceGroupLevelPolicyAssignment(subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options: Models.PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptionalParams, callback: msRest.ServiceCallback<Models.SummarizeResults>): void;
-  summarizeForResourceGroupLevelPolicyAssignment(subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options?: Models.PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptionalParams, callback?: msRest.ServiceCallback<Models.SummarizeResults>): Promise<Models.PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse> {
+  summarizeForResourceGroupLevelPolicyAssignment(subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options?: Models.PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptionalParams | msRest.ServiceCallback<Models.SummarizeResults>, callback?: msRest.ServiceCallback<Models.SummarizeResults>): Promise<Models.PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -625,7 +625,7 @@ export class PolicyStates {
    * @param callback The callback
    */
   getMetadata(scope: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  getMetadata(scope: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.PolicyStatesGetMetadataResponse> {
+  getMetadata(scope: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.PolicyStatesGetMetadataResponse> {
     return this.client.sendOperationRequest(
       {
         scope,

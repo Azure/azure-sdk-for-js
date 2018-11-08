@@ -13,19 +13,12 @@ import * as msRest from "ms-rest-js";
 import * as msRestAzure from "ms-rest-azure-js";
 
 const packageName = "@azure/arm-servicefabricmesh";
-const packageVersion = "1.0.0-preview";
+const packageVersion = "0.1.0";
 
 export class ServiceFabricMeshManagementClientContext extends msRestAzure.AzureServiceClient {
-
   credentials: msRest.ServiceClientCredentials;
-
-  apiVersion: string;
-
+  apiVersion?: string;
   subscriptionId: string;
-
-  acceptLanguage: string;
-
-  longRunningOperationRetryTimeout: number;
 
   /**
    * Initializes a new instance of the ServiceFabricMeshManagementClient class.
@@ -44,9 +37,14 @@ export class ServiceFabricMeshManagementClientContext extends msRestAzure.AzureS
     if (!options) {
       options = {};
     }
+    if(!options.userAgent) {
+      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
+      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
+    }
+
     super(credentials, options);
 
-    this.apiVersion = '2018-07-01-preview';
+    this.apiVersion = '2018-09-01-preview';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
@@ -54,7 +52,6 @@ export class ServiceFabricMeshManagementClientContext extends msRestAzure.AzureS
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
 
-    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }

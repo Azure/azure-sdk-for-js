@@ -44,7 +44,7 @@ class AutoSuggestClient extends AutoSuggestClientContext {
    * @param callback The callback
    */
   autoSuggest(query: string, options: Models.AutoSuggestClientAutoSuggestOptionalParams, callback: msRest.ServiceCallback<Models.Suggestions>): void;
-  autoSuggest(query: string, options?: Models.AutoSuggestClientAutoSuggestOptionalParams, callback?: msRest.ServiceCallback<Models.Suggestions>): Promise<Models.AutoSuggestResponse> {
+  autoSuggest(query: string, options?: Models.AutoSuggestClientAutoSuggestOptionalParams | msRest.ServiceCallback<Models.Suggestions>, callback?: msRest.ServiceCallback<Models.Suggestions>): Promise<Models.AutoSuggestResponse> {
     return this.sendOperationRequest(
       {
         query,

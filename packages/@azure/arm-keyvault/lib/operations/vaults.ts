@@ -64,7 +64,7 @@ export class Vaults {
    * @param callback The callback
    */
   update(resourceGroupName: string, vaultName: string, parameters: Models.VaultPatchParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Vault>): void;
-  update(resourceGroupName: string, vaultName: string, parameters: Models.VaultPatchParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Vault>): Promise<Models.VaultsUpdateResponse> {
+  update(resourceGroupName: string, vaultName: string, parameters: Models.VaultPatchParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Vault>, callback?: msRest.ServiceCallback<Models.Vault>): Promise<Models.VaultsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -97,7 +97,7 @@ export class Vaults {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, vaultName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, vaultName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, vaultName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -129,7 +129,7 @@ export class Vaults {
    * @param callback The callback
    */
   get(resourceGroupName: string, vaultName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Vault>): void;
-  get(resourceGroupName: string, vaultName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Vault>): Promise<Models.VaultsGetResponse> {
+  get(resourceGroupName: string, vaultName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Vault>, callback?: msRest.ServiceCallback<Models.Vault>): Promise<Models.VaultsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,7 +167,7 @@ export class Vaults {
    * @param callback The callback
    */
   updateAccessPolicy(resourceGroupName: string, vaultName: string, operationKind: Models.AccessPolicyUpdateKind, parameters: Models.VaultAccessPolicyParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VaultAccessPolicyParameters>): void;
-  updateAccessPolicy(resourceGroupName: string, vaultName: string, operationKind: Models.AccessPolicyUpdateKind, parameters: Models.VaultAccessPolicyParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VaultAccessPolicyParameters>): Promise<Models.VaultsUpdateAccessPolicyResponse> {
+  updateAccessPolicy(resourceGroupName: string, vaultName: string, operationKind: Models.AccessPolicyUpdateKind, parameters: Models.VaultAccessPolicyParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultAccessPolicyParameters>, callback?: msRest.ServiceCallback<Models.VaultAccessPolicyParameters>): Promise<Models.VaultsUpdateAccessPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -199,7 +199,7 @@ export class Vaults {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: Models.VaultsListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.VaultListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.VaultsListByResourceGroupOptionalParams, callback?: msRest.ServiceCallback<Models.VaultListResult>): Promise<Models.VaultsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: Models.VaultsListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.VaultListResult>, callback?: msRest.ServiceCallback<Models.VaultListResult>): Promise<Models.VaultsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -224,7 +224,7 @@ export class Vaults {
    * @param callback The callback
    */
   listBySubscription(options: Models.VaultsListBySubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.VaultListResult>): void;
-  listBySubscription(options?: Models.VaultsListBySubscriptionOptionalParams, callback?: msRest.ServiceCallback<Models.VaultListResult>): Promise<Models.VaultsListBySubscriptionResponse> {
+  listBySubscription(options?: Models.VaultsListBySubscriptionOptionalParams | msRest.ServiceCallback<Models.VaultListResult>, callback?: msRest.ServiceCallback<Models.VaultListResult>): Promise<Models.VaultsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -248,7 +248,7 @@ export class Vaults {
    * @param callback The callback
    */
   listDeleted(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeletedVaultListResult>): void;
-  listDeleted(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DeletedVaultListResult>): Promise<Models.VaultsListDeletedResponse> {
+  listDeleted(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedVaultListResult>, callback?: msRest.ServiceCallback<Models.DeletedVaultListResult>): Promise<Models.VaultsListDeletedResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -278,7 +278,7 @@ export class Vaults {
    * @param callback The callback
    */
   getDeleted(vaultName: string, location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeletedVault>): void;
-  getDeleted(vaultName: string, location: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DeletedVault>): Promise<Models.VaultsGetDeletedResponse> {
+  getDeleted(vaultName: string, location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedVault>, callback?: msRest.ServiceCallback<Models.DeletedVault>): Promise<Models.VaultsGetDeletedResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -316,7 +316,7 @@ export class Vaults {
    * @param callback The callback
    */
   list(options: Models.VaultsListOptionalParams, callback: msRest.ServiceCallback<Models.ResourceListResult>): void;
-  list(options?: Models.VaultsListOptionalParams, callback?: msRest.ServiceCallback<Models.ResourceListResult>): Promise<Models.VaultsListResponse> {
+  list(options?: Models.VaultsListOptionalParams | msRest.ServiceCallback<Models.ResourceListResult>, callback?: msRest.ServiceCallback<Models.ResourceListResult>): Promise<Models.VaultsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -343,7 +343,7 @@ export class Vaults {
    * @param callback The callback
    */
   checkNameAvailability(vaultName: Models.VaultCheckNameAvailabilityParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
-  checkNameAvailability(vaultName: Models.VaultCheckNameAvailabilityParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.VaultsCheckNameAvailabilityResponse> {
+  checkNameAvailability(vaultName: Models.VaultCheckNameAvailabilityParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.VaultsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -410,7 +410,7 @@ export class Vaults {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VaultListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VaultListResult>): Promise<Models.VaultsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultListResult>, callback?: msRest.ServiceCallback<Models.VaultListResult>): Promise<Models.VaultsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -438,7 +438,7 @@ export class Vaults {
    * @param callback The callback
    */
   listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VaultListResult>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VaultListResult>): Promise<Models.VaultsListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultListResult>, callback?: msRest.ServiceCallback<Models.VaultListResult>): Promise<Models.VaultsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -466,7 +466,7 @@ export class Vaults {
    * @param callback The callback
    */
   listDeletedNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeletedVaultListResult>): void;
-  listDeletedNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DeletedVaultListResult>): Promise<Models.VaultsListDeletedNextResponse> {
+  listDeletedNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedVaultListResult>, callback?: msRest.ServiceCallback<Models.DeletedVaultListResult>): Promise<Models.VaultsListDeletedNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -494,7 +494,7 @@ export class Vaults {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceListResult>): Promise<Models.VaultsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceListResult>, callback?: msRest.ServiceCallback<Models.ResourceListResult>): Promise<Models.VaultsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

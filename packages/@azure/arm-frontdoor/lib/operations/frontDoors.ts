@@ -42,7 +42,7 @@ export class FrontDoors {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FrontDoorListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FrontDoorListResult>): Promise<Models.FrontDoorsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FrontDoorListResult>, callback?: msRest.ServiceCallback<Models.FrontDoorListResult>): Promise<Models.FrontDoorsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -69,7 +69,7 @@ export class FrontDoors {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FrontDoorListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FrontDoorListResult>): Promise<Models.FrontDoorsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FrontDoorListResult>, callback?: msRest.ServiceCallback<Models.FrontDoorListResult>): Promise<Models.FrontDoorsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -101,7 +101,7 @@ export class FrontDoors {
    * @param callback The callback
    */
   get(resourceGroupName: string, frontDoorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FrontDoor>): void;
-  get(resourceGroupName: string, frontDoorName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FrontDoor>): Promise<Models.FrontDoorsGetResponse> {
+  get(resourceGroupName: string, frontDoorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FrontDoor>, callback?: msRest.ServiceCallback<Models.FrontDoor>): Promise<Models.FrontDoorsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -162,7 +162,7 @@ export class FrontDoors {
    * @param callback The callback
    */
   validateCustomDomain(resourceGroupName: string, frontDoorName: string, customDomainProperties: Models.ValidateCustomDomainInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ValidateCustomDomainOutput>): void;
-  validateCustomDomain(resourceGroupName: string, frontDoorName: string, customDomainProperties: Models.ValidateCustomDomainInput, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ValidateCustomDomainOutput>): Promise<Models.FrontDoorsValidateCustomDomainResponse> {
+  validateCustomDomain(resourceGroupName: string, frontDoorName: string, customDomainProperties: Models.ValidateCustomDomainInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ValidateCustomDomainOutput>, callback?: msRest.ServiceCallback<Models.ValidateCustomDomainOutput>): Promise<Models.FrontDoorsValidateCustomDomainResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -231,7 +231,7 @@ export class FrontDoors {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FrontDoorListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FrontDoorListResult>): Promise<Models.FrontDoorsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FrontDoorListResult>, callback?: msRest.ServiceCallback<Models.FrontDoorListResult>): Promise<Models.FrontDoorsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -259,7 +259,7 @@ export class FrontDoors {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FrontDoorListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FrontDoorListResult>): Promise<Models.FrontDoorsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FrontDoorListResult>, callback?: msRest.ServiceCallback<Models.FrontDoorListResult>): Promise<Models.FrontDoorsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -48,7 +48,7 @@ export class CloudAppliances {
    * @param callback The callback
    */
   listSupportedConfigurations(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CloudApplianceConfigurationList>): void;
-  listSupportedConfigurations(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CloudApplianceConfigurationList>): Promise<Models.CloudAppliancesListSupportedConfigurationsResponse> {
+  listSupportedConfigurations(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudApplianceConfigurationList>, callback?: msRest.ServiceCallback<Models.CloudApplianceConfigurationList>): Promise<Models.CloudAppliancesListSupportedConfigurationsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

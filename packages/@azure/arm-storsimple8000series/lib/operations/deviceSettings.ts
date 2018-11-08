@@ -51,7 +51,7 @@ export class DeviceSettings {
    * @param callback The callback
    */
   getAlertSettings(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertSettings>): void;
-  getAlertSettings(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AlertSettings>): Promise<Models.DeviceSettingsGetAlertSettingsResponse> {
+  getAlertSettings(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertSettings>, callback?: msRest.ServiceCallback<Models.AlertSettings>): Promise<Models.DeviceSettingsGetAlertSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -101,7 +101,7 @@ export class DeviceSettings {
    * @param callback The callback
    */
   getNetworkSettings(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkSettings>): void;
-  getNetworkSettings(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkSettings>): Promise<Models.DeviceSettingsGetNetworkSettingsResponse> {
+  getNetworkSettings(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkSettings>, callback?: msRest.ServiceCallback<Models.NetworkSettings>): Promise<Models.DeviceSettingsGetNetworkSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -151,7 +151,7 @@ export class DeviceSettings {
    * @param callback The callback
    */
   getSecuritySettings(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecuritySettings>): void;
-  getSecuritySettings(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SecuritySettings>): Promise<Models.DeviceSettingsGetSecuritySettingsResponse> {
+  getSecuritySettings(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecuritySettings>, callback?: msRest.ServiceCallback<Models.SecuritySettings>): Promise<Models.DeviceSettingsGetSecuritySettingsResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -214,7 +214,7 @@ export class DeviceSettings {
    * @param callback The callback
    */
   getTimeSettings(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TimeSettings>): void;
-  getTimeSettings(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TimeSettings>): Promise<Models.DeviceSettingsGetTimeSettingsResponse> {
+  getTimeSettings(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TimeSettings>, callback?: msRest.ServiceCallback<Models.TimeSettings>): Promise<Models.DeviceSettingsGetTimeSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,

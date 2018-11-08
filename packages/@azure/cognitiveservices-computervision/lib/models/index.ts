@@ -991,35 +991,18 @@ export interface RecognizeTextInStreamHeaders {
  * @readonly
  * @enum {string}
  */
-export enum Gender {
-  Male = 'Male',
-  Female = 'Female',
-}
+export type Gender = 'Male' | 'Female';
 
 /**
  * Defines values for ComputerVisionErrorCodes.
- * Possible values include: 'InvalidImageUrl', 'InvalidImageFormat',
- * 'InvalidImageSize', 'NotSupportedVisualFeature', 'NotSupportedImage',
- * 'InvalidDetails', 'NotSupportedLanguage', 'BadArgument', 'FailedToProcess',
- * 'Timeout', 'InternalServerError', 'Unspecified', 'StorageException'
+ * Possible values include: 'InvalidImageUrl', 'InvalidImageFormat', 'InvalidImageSize',
+ * 'NotSupportedVisualFeature', 'NotSupportedImage', 'InvalidDetails', 'NotSupportedLanguage',
+ * 'BadArgument', 'FailedToProcess', 'Timeout', 'InternalServerError', 'Unspecified',
+ * 'StorageException'
  * @readonly
  * @enum {string}
  */
-export enum ComputerVisionErrorCodes {
-  InvalidImageUrl = 'InvalidImageUrl',
-  InvalidImageFormat = 'InvalidImageFormat',
-  InvalidImageSize = 'InvalidImageSize',
-  NotSupportedVisualFeature = 'NotSupportedVisualFeature',
-  NotSupportedImage = 'NotSupportedImage',
-  InvalidDetails = 'InvalidDetails',
-  NotSupportedLanguage = 'NotSupportedLanguage',
-  BadArgument = 'BadArgument',
-  FailedToProcess = 'FailedToProcess',
-  Timeout = 'Timeout',
-  InternalServerError = 'InternalServerError',
-  Unspecified = 'Unspecified',
-  StorageException = 'StorageException',
-}
+export type ComputerVisionErrorCodes = 'InvalidImageUrl' | 'InvalidImageFormat' | 'InvalidImageSize' | 'NotSupportedVisualFeature' | 'NotSupportedImage' | 'InvalidDetails' | 'NotSupportedLanguage' | 'BadArgument' | 'FailedToProcess' | 'Timeout' | 'InternalServerError' | 'Unspecified' | 'StorageException';
 
 /**
  * Defines values for TextOperationStatusCodes.
@@ -1027,67 +1010,26 @@ export enum ComputerVisionErrorCodes {
  * @readonly
  * @enum {string}
  */
-export enum TextOperationStatusCodes {
-  NotStarted = 'Not Started',
-  Running = 'Running',
-  Failed = 'Failed',
-  Succeeded = 'Succeeded',
-}
+export type TextOperationStatusCodes = 'Not Started' | 'Running' | 'Failed' | 'Succeeded';
 
 /**
  * Defines values for VisualFeatureTypes.
- * Possible values include: 'ImageType', 'Faces', 'Adult', 'Categories',
- * 'Color', 'Tags', 'Description'
+ * Possible values include: 'ImageType', 'Faces', 'Adult', 'Categories', 'Color', 'Tags',
+ * 'Description'
  * @readonly
  * @enum {string}
  */
-export enum VisualFeatureTypes {
-  ImageType = 'ImageType',
-  Faces = 'Faces',
-  Adult = 'Adult',
-  Categories = 'Categories',
-  Color = 'Color',
-  Tags = 'Tags',
-  Description = 'Description',
-}
+export type VisualFeatureTypes = 'ImageType' | 'Faces' | 'Adult' | 'Categories' | 'Color' | 'Tags' | 'Description';
 
 /**
  * Defines values for OcrLanguages.
- * Possible values include: 'unk', 'zh-Hans', 'zh-Hant', 'cs', 'da', 'nl',
- * 'en', 'fi', 'fr', 'de', 'el', 'hu', 'it', 'ja', 'ko', 'nb', 'pl', 'pt',
- * 'ru', 'es', 'sv', 'tr', 'ar', 'ro', 'sr-Cyrl', 'sr-Latn', 'sk'
+ * Possible values include: 'unk', 'zh-Hans', 'zh-Hant', 'cs', 'da', 'nl', 'en', 'fi', 'fr', 'de',
+ * 'el', 'hu', 'it', 'ja', 'ko', 'nb', 'pl', 'pt', 'ru', 'es', 'sv', 'tr', 'ar', 'ro', 'sr-Cyrl',
+ * 'sr-Latn', 'sk'
  * @readonly
  * @enum {string}
  */
-export enum OcrLanguages {
-  Unk = 'unk',
-  ZhHans = 'zh-Hans',
-  ZhHant = 'zh-Hant',
-  Cs = 'cs',
-  Da = 'da',
-  Nl = 'nl',
-  En = 'en',
-  Fi = 'fi',
-  Fr = 'fr',
-  De = 'de',
-  El = 'el',
-  Hu = 'hu',
-  It = 'it',
-  Ja = 'ja',
-  Ko = 'ko',
-  Nb = 'nb',
-  Pl = 'pl',
-  Pt = 'pt',
-  Ru = 'ru',
-  Es = 'es',
-  Sv = 'sv',
-  Tr = 'tr',
-  Ar = 'ar',
-  Ro = 'ro',
-  SrCyrl = 'sr-Cyrl',
-  SrLatn = 'sr-Latn',
-  Sk = 'sk',
-}
+export type OcrLanguages = 'unk' | 'zh-Hans' | 'zh-Hant' | 'cs' | 'da' | 'nl' | 'en' | 'fi' | 'fr' | 'de' | 'el' | 'hu' | 'it' | 'ja' | 'ko' | 'nb' | 'pl' | 'pt' | 'ru' | 'es' | 'sv' | 'tr' | 'ar' | 'ro' | 'sr-Cyrl' | 'sr-Latn' | 'sk';
 
 /**
  * Defines values for TextRecognitionMode.
@@ -1095,10 +1037,7 @@ export enum OcrLanguages {
  * @readonly
  * @enum {string}
  */
-export enum TextRecognitionMode {
-  Handwritten = 'Handwritten',
-  Printed = 'Printed',
-}
+export type TextRecognitionMode = 'Handwritten' | 'Printed';
 
 /**
  * Defines values for Details.
@@ -1106,154 +1045,71 @@ export enum TextRecognitionMode {
  * @readonly
  * @enum {string}
  */
-export enum Details {
-  Celebrities = 'Celebrities',
-  Landmarks = 'Landmarks',
-}
+export type Details = 'Celebrities' | 'Landmarks';
 
 /**
  * Defines values for Language.
  * Possible values include: 'en', 'es', 'ja', 'pt', 'zh'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Language = <Language>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Language {
-  En = 'en',
-  Es = 'es',
-  Ja = 'ja',
-  Pt = 'pt',
-  Zh = 'zh',
-}
+export type Language = 'en' | 'es' | 'ja' | 'pt' | 'zh';
 
 /**
  * Defines values for Language1.
  * Possible values include: 'en', 'es', 'ja', 'pt', 'zh'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Language1 = <Language1>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Language1 {
-  En = 'en',
-  Es = 'es',
-  Ja = 'ja',
-  Pt = 'pt',
-  Zh = 'zh',
-}
+export type Language1 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
 
 /**
  * Defines values for Language2.
  * Possible values include: 'en', 'es', 'ja', 'pt', 'zh'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Language2 = <Language2>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Language2 {
-  En = 'en',
-  Es = 'es',
-  Ja = 'ja',
-  Pt = 'pt',
-  Zh = 'zh',
-}
+export type Language2 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
 
 /**
  * Defines values for Language3.
  * Possible values include: 'en', 'es', 'ja', 'pt', 'zh'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Language3 = <Language3>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Language3 {
-  En = 'en',
-  Es = 'es',
-  Ja = 'ja',
-  Pt = 'pt',
-  Zh = 'zh',
-}
+export type Language3 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
 
 /**
  * Defines values for Language4.
  * Possible values include: 'en', 'es', 'ja', 'pt', 'zh'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Language4 = <Language4>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Language4 {
-  En = 'en',
-  Es = 'es',
-  Ja = 'ja',
-  Pt = 'pt',
-  Zh = 'zh',
-}
+export type Language4 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
 
 /**
  * Defines values for Language5.
  * Possible values include: 'en', 'es', 'ja', 'pt', 'zh'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Language5 = <Language5>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Language5 {
-  En = 'en',
-  Es = 'es',
-  Ja = 'ja',
-  Pt = 'pt',
-  Zh = 'zh',
-}
+export type Language5 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
 
 /**
  * Defines values for Language6.
  * Possible values include: 'en', 'es', 'ja', 'pt', 'zh'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Language6 = <Language6>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Language6 {
-  En = 'en',
-  Es = 'es',
-  Ja = 'ja',
-  Pt = 'pt',
-  Zh = 'zh',
-}
+export type Language6 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
 
 /**
  * Defines values for Language7.
  * Possible values include: 'en', 'es', 'ja', 'pt', 'zh'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Language7 = <Language7>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Language7 {
-  En = 'en',
-  Es = 'es',
-  Ja = 'ja',
-  Pt = 'pt',
-  Zh = 'zh',
-}
+export type Language7 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
 
 /**
  * Contains response data for the listModels operation.

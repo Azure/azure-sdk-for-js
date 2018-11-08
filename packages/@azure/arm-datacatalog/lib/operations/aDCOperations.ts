@@ -41,7 +41,7 @@ export class ADCOperations {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationEntityListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationEntityListResult>): Promise<Models.ADCOperationsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationEntityListResult>, callback?: msRest.ServiceCallback<Models.OperationEntityListResult>): Promise<Models.ADCOperationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options

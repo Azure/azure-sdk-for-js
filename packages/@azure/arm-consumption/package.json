@@ -4,8 +4,8 @@
   "description": "ConsumptionManagementClient Library with typescript type definitions for node.js and browser.",
   "version": "0.1.0",
   "dependencies": {
-    "ms-rest-azure-js": "^1.0.176",
-    "ms-rest-js": "^1.0.455",
+    "ms-rest-azure-js": "^1.0.181",
+    "ms-rest-js": "^1.0.462",
     "tslib": "^1.9.3"
   },
   "keywords": [

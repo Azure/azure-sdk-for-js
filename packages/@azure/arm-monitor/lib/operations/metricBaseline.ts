@@ -56,7 +56,7 @@ export class MetricBaseline {
    * @param callback The callback
    */
   get(resourceUri: string, metricName: string, options: Models.MetricBaselineGetOptionalParams, callback: msRest.ServiceCallback<Models.BaselineResponse>): void;
-  get(resourceUri: string, metricName: string, options?: Models.MetricBaselineGetOptionalParams, callback?: msRest.ServiceCallback<Models.BaselineResponse>): Promise<Models.MetricBaselineGetResponse> {
+  get(resourceUri: string, metricName: string, options?: Models.MetricBaselineGetOptionalParams | msRest.ServiceCallback<Models.BaselineResponse>, callback?: msRest.ServiceCallback<Models.BaselineResponse>): Promise<Models.MetricBaselineGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,
@@ -100,7 +100,7 @@ export class MetricBaseline {
    * @param callback The callback
    */
   calculateBaseline(resourceUri: string, timeSeriesInformation: Models.TimeSeriesInformation, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CalculateBaselineResponse>): void;
-  calculateBaseline(resourceUri: string, timeSeriesInformation: Models.TimeSeriesInformation, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CalculateBaselineResponse>): Promise<Models.MetricBaselineCalculateBaselineResponse> {
+  calculateBaseline(resourceUri: string, timeSeriesInformation: Models.TimeSeriesInformation, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CalculateBaselineResponse>, callback?: msRest.ServiceCallback<Models.CalculateBaselineResponse>): Promise<Models.MetricBaselineCalculateBaselineResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,

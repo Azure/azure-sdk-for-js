@@ -1816,340 +1816,154 @@ export interface TopologyList extends Array<TopologyResource> {
 /**
  * Defines values for AlertNotifications.
  * Possible values include: 'On', 'Off'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AlertNotifications =
- * <AlertNotifications>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AlertNotifications {
-  /**
-   * Get notifications on new alerts
-   */
-  On = 'On',
-  /**
-   * Don't get notifications on new alerts
-   */
-  Off = 'Off',
-}
+export type AlertNotifications = 'On' | 'Off';
 
 /**
  * Defines values for AlertsToAdmins.
  * Possible values include: 'On', 'Off'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AlertsToAdmins =
- * <AlertsToAdmins>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AlertsToAdmins {
-  /**
-   * Send notification on new alerts to the subscription's admins
-   */
-  On = 'On',
-  /**
-   * Don't send notification on new alerts to the subscription's admins
-   */
-  Off = 'Off',
-}
+export type AlertsToAdmins = 'On' | 'Off';
 
 /**
  * Defines values for PricingTier.
  * Possible values include: 'Free', 'Standard'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PricingTier =
- * <PricingTier>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PricingTier {
-  /**
-   * Get free Azure security center experience with basic security features
-   */
-  Free = 'Free',
-  /**
-   * Get the standard Azure security center experience with advanced security
-   * features
-   */
-  Standard = 'Standard',
-}
+export type PricingTier = 'Free' | 'Standard';
 
 /**
  * Defines values for AutoProvision.
  * Possible values include: 'On', 'Off'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AutoProvision =
- * <AutoProvision>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AutoProvision {
-  /**
-   * Install missing security agent on VMs automatically
-   */
-  On = 'On',
-  /**
-   * Do not install security agent on the VMs automatically
-   */
-  Off = 'Off',
-}
+export type AutoProvision = 'On' | 'Off';
 
 /**
  * Defines values for SettingKind.
  * Possible values include: 'DataExportSetting'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SettingKind =
- * <SettingKind>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SettingKind {
-  DataExportSetting = 'DataExportSetting',
-}
+export type SettingKind = 'DataExportSetting';
 
 /**
  * Defines values for SecurityFamily.
  * Possible values include: 'Waf', 'Ngfw', 'SaasWaf', 'Va'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SecurityFamily =
- * <SecurityFamily>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SecurityFamily {
-  Waf = 'Waf',
-  Ngfw = 'Ngfw',
-  SaasWaf = 'SaasWaf',
-  Va = 'Va',
-}
+export type SecurityFamily = 'Waf' | 'Ngfw' | 'SaasWaf' | 'Va';
 
 /**
  * Defines values for Protocol.
  * Possible values include: 'TCP', 'UDP', 'All'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Protocol = <Protocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Protocol {
-  TCP = 'TCP',
-  UDP = 'UDP',
-  All = '*',
-}
+export type Protocol = 'TCP' | 'UDP' | '*';
 
 /**
  * Defines values for Status.
  * Possible values include: 'Revoked', 'Initiated'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Status = <Status>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Status {
-  Revoked = 'Revoked',
-  Initiated = 'Initiated',
-}
+export type Status = 'Revoked' | 'Initiated';
 
 /**
  * Defines values for StatusReason.
  * Possible values include: 'Expired', 'UserRequested', 'NewerRequestInitiated'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: StatusReason =
- * <StatusReason>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum StatusReason {
-  Expired = 'Expired',
-  UserRequested = 'UserRequested',
-  NewerRequestInitiated = 'NewerRequestInitiated',
-}
+export type StatusReason = 'Expired' | 'UserRequested' | 'NewerRequestInitiated';
 
 /**
  * Defines values for AadConnectivityState.
  * Possible values include: 'Discovered', 'NotLicensed', 'Connected'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AadConnectivityState =
- * <AadConnectivityState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AadConnectivityState {
-  Discovered = 'Discovered',
-  NotLicensed = 'NotLicensed',
-  Connected = 'Connected',
-}
+export type AadConnectivityState = 'Discovered' | 'NotLicensed' | 'Connected';
 
 /**
  * Defines values for ExternalSecuritySolutionKind.
  * Possible values include: 'CEF', 'ATA', 'AAD'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ExternalSecuritySolutionKind =
- * <ExternalSecuritySolutionKind>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ExternalSecuritySolutionKind {
-  CEF = 'CEF',
-  ATA = 'ATA',
-  AAD = 'AAD',
-}
+export type ExternalSecuritySolutionKind = 'CEF' | 'ATA' | 'AAD';
 
 /**
  * Defines values for SettingName.
  * Possible values include: 'MCAS', 'WDATP'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SettingName =
- * <SettingName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SettingName {
-  MCAS = 'MCAS',
-  WDATP = 'WDATP',
-}
+export type SettingName = 'MCAS' | 'WDATP';
 
 /**
  * Defines values for SettingName1.
  * Possible values include: 'MCAS', 'WDATP'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SettingName1 =
- * <SettingName1>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SettingName1 {
-  MCAS = 'MCAS',
-  WDATP = 'WDATP',
-}
+export type SettingName1 = 'MCAS' | 'WDATP';
 
 /**
  * Defines values for InformationProtectionPolicyName.
  * Possible values include: 'effective', 'custom'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: InformationProtectionPolicyName =
- * <InformationProtectionPolicyName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum InformationProtectionPolicyName {
-  Effective = 'effective',
-  Custom = 'custom',
-}
+export type InformationProtectionPolicyName = 'effective' | 'custom';
 
 /**
  * Defines values for InformationProtectionPolicyName1.
  * Possible values include: 'effective', 'custom'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: InformationProtectionPolicyName1 =
- * <InformationProtectionPolicyName1>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum InformationProtectionPolicyName1 {
-  Effective = 'effective',
-  Custom = 'custom',
-}
+export type InformationProtectionPolicyName1 = 'effective' | 'custom';
 
 /**
  * Defines values for TaskUpdateActionType.
  * Possible values include: 'Activate', 'Dismiss', 'Start', 'Resolve', 'Close'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TaskUpdateActionType =
- * <TaskUpdateActionType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum TaskUpdateActionType {
-  Activate = 'Activate',
-  Dismiss = 'Dismiss',
-  Start = 'Start',
-  Resolve = 'Resolve',
-  Close = 'Close',
-}
+export type TaskUpdateActionType = 'Activate' | 'Dismiss' | 'Start' | 'Resolve' | 'Close';
 
 /**
  * Defines values for TaskUpdateActionType1.
  * Possible values include: 'Activate', 'Dismiss', 'Start', 'Resolve', 'Close'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TaskUpdateActionType1 =
- * <TaskUpdateActionType1>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum TaskUpdateActionType1 {
-  Activate = 'Activate',
-  Dismiss = 'Dismiss',
-  Start = 'Start',
-  Resolve = 'Resolve',
-  Close = 'Close',
-}
+export type TaskUpdateActionType1 = 'Activate' | 'Dismiss' | 'Start' | 'Resolve' | 'Close';
 
 /**
  * Defines values for AlertUpdateActionType.
  * Possible values include: 'Dismiss', 'Reactivate'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AlertUpdateActionType =
- * <AlertUpdateActionType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AlertUpdateActionType {
-  Dismiss = 'Dismiss',
-  Reactivate = 'Reactivate',
-}
+export type AlertUpdateActionType = 'Dismiss' | 'Reactivate';
 
 /**
  * Defines values for AlertUpdateActionType1.
  * Possible values include: 'Dismiss', 'Reactivate'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AlertUpdateActionType1 =
- * <AlertUpdateActionType1>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AlertUpdateActionType1 {
-  Dismiss = 'Dismiss',
-  Reactivate = 'Reactivate',
-}
+export type AlertUpdateActionType1 = 'Dismiss' | 'Reactivate';
 
 /**
  * Contains response data for the list operation.

@@ -57,7 +57,7 @@ export class BackupOperationStatuses {
    * @param callback The callback
    */
   get(vaultName: string, resourceGroupName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  get(vaultName: string, resourceGroupName: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.BackupOperationStatusesGetResponse> {
+  get(vaultName: string, resourceGroupName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.BackupOperationStatusesGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,

@@ -256,11 +256,6 @@ export const ArtifactSource: msRest.CompositeMapper = {
         serializedName: "properties.authentication",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "type",
-            clientName: "type"
-          },
-          uberParent: "Authentication",
           className: "Authentication"
         }
       }
@@ -314,11 +309,6 @@ export const ArtifactSourcePropertiesModel: msRest.CompositeMapper = {
         serializedName: "authentication",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "type",
-            clientName: "type"
-          },
-          uberParent: "Authentication",
           className: "Authentication"
         }
       }
@@ -1103,11 +1093,6 @@ export const StepResource: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "stepType",
-            clientName: "stepType"
-          },
-          uberParent: "StepProperties",
           className: "StepProperties"
         }
       }

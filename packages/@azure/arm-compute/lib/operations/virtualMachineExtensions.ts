@@ -94,7 +94,7 @@ export class VirtualMachineExtensions {
    * @param callback The callback
    */
   get(resourceGroupName: string, vmName: string, vmExtensionName: string, options: Models.VirtualMachineExtensionsGetOptionalParams, callback: msRest.ServiceCallback<Models.VirtualMachineExtension>): void;
-  get(resourceGroupName: string, vmName: string, vmExtensionName: string, options?: Models.VirtualMachineExtensionsGetOptionalParams, callback?: msRest.ServiceCallback<Models.VirtualMachineExtension>): Promise<Models.VirtualMachineExtensionsGetResponse> {
+  get(resourceGroupName: string, vmName: string, vmExtensionName: string, options?: Models.VirtualMachineExtensionsGetOptionalParams | msRest.ServiceCallback<Models.VirtualMachineExtension>, callback?: msRest.ServiceCallback<Models.VirtualMachineExtension>): Promise<Models.VirtualMachineExtensionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -127,7 +127,7 @@ export class VirtualMachineExtensions {
    * @param callback The callback
    */
   list(resourceGroupName: string, vmName: string, options: Models.VirtualMachineExtensionsListOptionalParams, callback: msRest.ServiceCallback<Models.VirtualMachineExtensionsListResult>): void;
-  list(resourceGroupName: string, vmName: string, options?: Models.VirtualMachineExtensionsListOptionalParams, callback?: msRest.ServiceCallback<Models.VirtualMachineExtensionsListResult>): Promise<Models.VirtualMachineExtensionsListResponse> {
+  list(resourceGroupName: string, vmName: string, options?: Models.VirtualMachineExtensionsListOptionalParams | msRest.ServiceCallback<Models.VirtualMachineExtensionsListResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineExtensionsListResult>): Promise<Models.VirtualMachineExtensionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

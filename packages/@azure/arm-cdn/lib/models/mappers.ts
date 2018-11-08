@@ -461,11 +461,6 @@ export const DeliveryRule: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "name",
-                clientName: "name"
-              },
-              uberParent: "DeliveryRuleAction",
               className: "DeliveryRuleAction"
             }
           }
@@ -478,11 +473,6 @@ export const DeliveryRule: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "name",
-                clientName: "name"
-              },
-              uberParent: "DeliveryRuleCondition",
               className: "DeliveryRuleCondition"
             }
           }

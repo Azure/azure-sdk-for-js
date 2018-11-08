@@ -1097,19 +1097,10 @@ export interface PartitionUsagesResult extends Array<PartitionUsage> {
 /**
  * Defines values for DatabaseAccountKind.
  * Possible values include: 'GlobalDocumentDB', 'MongoDB', 'Parse'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DatabaseAccountKind =
- * <DatabaseAccountKind>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum DatabaseAccountKind {
-  GlobalDocumentDB = 'GlobalDocumentDB',
-  MongoDB = 'MongoDB',
-  Parse = 'Parse',
-}
+export type DatabaseAccountKind = 'GlobalDocumentDB' | 'MongoDB' | 'Parse';
 
 /**
  * Defines values for DatabaseAccountOfferType.
@@ -1117,84 +1108,40 @@ export enum DatabaseAccountKind {
  * @readonly
  * @enum {string}
  */
-export enum DatabaseAccountOfferType {
-  Standard = 'Standard',
-}
+export type DatabaseAccountOfferType = 'Standard';
 
 /**
  * Defines values for DefaultConsistencyLevel.
- * Possible values include: 'Eventual', 'Session', 'BoundedStaleness',
- * 'Strong', 'ConsistentPrefix'
+ * Possible values include: 'Eventual', 'Session', 'BoundedStaleness', 'Strong', 'ConsistentPrefix'
  * @readonly
  * @enum {string}
  */
-export enum DefaultConsistencyLevel {
-  Eventual = 'Eventual',
-  Session = 'Session',
-  BoundedStaleness = 'BoundedStaleness',
-  Strong = 'Strong',
-  ConsistentPrefix = 'ConsistentPrefix',
-}
+export type DefaultConsistencyLevel = 'Eventual' | 'Session' | 'BoundedStaleness' | 'Strong' | 'ConsistentPrefix';
 
 /**
  * Defines values for KeyKind.
- * Possible values include: 'primary', 'secondary', 'primaryReadonly',
- * 'secondaryReadonly'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: KeyKind = <KeyKind>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'primary', 'secondary', 'primaryReadonly', 'secondaryReadonly'
  * @readonly
  * @enum {string}
  */
-export enum KeyKind {
-  Primary = 'primary',
-  Secondary = 'secondary',
-  PrimaryReadonly = 'primaryReadonly',
-  SecondaryReadonly = 'secondaryReadonly',
-}
+export type KeyKind = 'primary' | 'secondary' | 'primaryReadonly' | 'secondaryReadonly';
 
 /**
  * Defines values for UnitType.
- * Possible values include: 'Count', 'Bytes', 'Seconds', 'Percent',
- * 'CountPerSecond', 'BytesPerSecond', 'Milliseconds'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: UnitType = <UnitType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Count', 'Bytes', 'Seconds', 'Percent', 'CountPerSecond',
+ * 'BytesPerSecond', 'Milliseconds'
  * @readonly
  * @enum {string}
  */
-export enum UnitType {
-  Count = 'Count',
-  Bytes = 'Bytes',
-  Seconds = 'Seconds',
-  Percent = 'Percent',
-  CountPerSecond = 'CountPerSecond',
-  BytesPerSecond = 'BytesPerSecond',
-  Milliseconds = 'Milliseconds',
-}
+export type UnitType = 'Count' | 'Bytes' | 'Seconds' | 'Percent' | 'CountPerSecond' | 'BytesPerSecond' | 'Milliseconds';
 
 /**
  * Defines values for PrimaryAggregationType.
- * Possible values include: 'None', 'Average', 'Total', 'Minimimum', 'Maximum',
- * 'Last'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PrimaryAggregationType =
- * <PrimaryAggregationType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'None', 'Average', 'Total', 'Minimimum', 'Maximum', 'Last'
  * @readonly
  * @enum {string}
  */
-export enum PrimaryAggregationType {
-  None = 'None',
-  Average = 'Average',
-  Total = 'Total',
-  Minimimum = 'Minimimum',
-  Maximum = 'Maximum',
-  Last = 'Last',
-}
+export type PrimaryAggregationType = 'None' | 'Average' | 'Total' | 'Minimimum' | 'Maximum' | 'Last';
 
 /**
  * Contains response data for the get operation.

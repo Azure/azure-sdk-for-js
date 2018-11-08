@@ -45,7 +45,7 @@ export class Invoices {
    * @param callback The callback
    */
   list(options: Models.InvoicesListOptionalParams, callback: msRest.ServiceCallback<Models.InvoicesListResult>): void;
-  list(options?: Models.InvoicesListOptionalParams, callback?: msRest.ServiceCallback<Models.InvoicesListResult>): Promise<Models.InvoicesListResponse> {
+  list(options?: Models.InvoicesListOptionalParams | msRest.ServiceCallback<Models.InvoicesListResult>, callback?: msRest.ServiceCallback<Models.InvoicesListResult>): Promise<Models.InvoicesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -75,7 +75,7 @@ export class Invoices {
    * @param callback The callback
    */
   get(invoiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Invoice>): void;
-  get(invoiceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Invoice>): Promise<Models.InvoicesGetResponse> {
+  get(invoiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Invoice>, callback?: msRest.ServiceCallback<Models.Invoice>): Promise<Models.InvoicesGetResponse> {
     return this.client.sendOperationRequest(
       {
         invoiceName,
@@ -103,7 +103,7 @@ export class Invoices {
    * @param callback The callback
    */
   getLatest(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Invoice>): void;
-  getLatest(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Invoice>): Promise<Models.InvoicesGetLatestResponse> {
+  getLatest(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Invoice>, callback?: msRest.ServiceCallback<Models.Invoice>): Promise<Models.InvoicesGetLatestResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -134,7 +134,7 @@ export class Invoices {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InvoicesListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.InvoicesListResult>): Promise<Models.InvoicesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InvoicesListResult>, callback?: msRest.ServiceCallback<Models.InvoicesListResult>): Promise<Models.InvoicesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

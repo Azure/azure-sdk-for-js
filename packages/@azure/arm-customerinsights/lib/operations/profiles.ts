@@ -65,7 +65,7 @@ export class Profiles {
    * @param callback The callback
    */
   get(resourceGroupName: string, hubName: string, profileName: string, options: Models.ProfilesGetOptionalParams, callback: msRest.ServiceCallback<Models.ProfileResourceFormat>): void;
-  get(resourceGroupName: string, hubName: string, profileName: string, options?: Models.ProfilesGetOptionalParams, callback?: msRest.ServiceCallback<Models.ProfileResourceFormat>): Promise<Models.ProfilesGetResponse> {
+  get(resourceGroupName: string, hubName: string, profileName: string, options?: Models.ProfilesGetOptionalParams | msRest.ServiceCallback<Models.ProfileResourceFormat>, callback?: msRest.ServiceCallback<Models.ProfileResourceFormat>): Promise<Models.ProfilesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -111,7 +111,7 @@ export class Profiles {
    * @param callback The callback
    */
   listByHub(resourceGroupName: string, hubName: string, options: Models.ProfilesListByHubOptionalParams, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
-  listByHub(resourceGroupName: string, hubName: string, options?: Models.ProfilesListByHubOptionalParams, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListByHubResponse> {
+  listByHub(resourceGroupName: string, hubName: string, options?: Models.ProfilesListByHubOptionalParams | msRest.ServiceCallback<Models.ProfileListResult>, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListByHubResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -148,7 +148,7 @@ export class Profiles {
    * @param callback The callback
    */
   getEnrichingKpis(resourceGroupName: string, hubName: string, profileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KpiDefinition[]>): void;
-  getEnrichingKpis(resourceGroupName: string, hubName: string, profileName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.KpiDefinition[]>): Promise<Models.ProfilesGetEnrichingKpisResponse> {
+  getEnrichingKpis(resourceGroupName: string, hubName: string, profileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KpiDefinition[]>, callback?: msRest.ServiceCallback<Models.KpiDefinition[]>): Promise<Models.ProfilesGetEnrichingKpisResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -220,7 +220,7 @@ export class Profiles {
    * @param callback The callback
    */
   listByHubNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListByHubNextResponse> {
+  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProfileListResult>, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListByHubNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

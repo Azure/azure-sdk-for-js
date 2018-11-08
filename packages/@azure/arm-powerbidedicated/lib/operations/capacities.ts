@@ -54,7 +54,7 @@ export class Capacities {
    * @param callback The callback
    */
   getDetails(resourceGroupName: string, dedicatedCapacityName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DedicatedCapacity>): void;
-  getDetails(resourceGroupName: string, dedicatedCapacityName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DedicatedCapacity>): Promise<Models.CapacitiesGetDetailsResponse> {
+  getDetails(resourceGroupName: string, dedicatedCapacityName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DedicatedCapacity>, callback?: msRest.ServiceCallback<Models.DedicatedCapacity>): Promise<Models.CapacitiesGetDetailsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -159,7 +159,7 @@ export class Capacities {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DedicatedCapacities>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DedicatedCapacities>): Promise<Models.CapacitiesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DedicatedCapacities>, callback?: msRest.ServiceCallback<Models.DedicatedCapacities>): Promise<Models.CapacitiesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -184,7 +184,7 @@ export class Capacities {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DedicatedCapacities>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DedicatedCapacities>): Promise<Models.CapacitiesListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DedicatedCapacities>, callback?: msRest.ServiceCallback<Models.DedicatedCapacities>): Promise<Models.CapacitiesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -208,7 +208,7 @@ export class Capacities {
    * @param callback The callback
    */
   listSkus(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SkuEnumerationForNewResourceResult>): void;
-  listSkus(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SkuEnumerationForNewResourceResult>): Promise<Models.CapacitiesListSkusResponse> {
+  listSkus(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SkuEnumerationForNewResourceResult>, callback?: msRest.ServiceCallback<Models.SkuEnumerationForNewResourceResult>): Promise<Models.CapacitiesListSkusResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -244,7 +244,7 @@ export class Capacities {
    * @param callback The callback
    */
   listSkusForCapacity(resourceGroupName: string, dedicatedCapacityName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SkuEnumerationForExistingResourceResult>): void;
-  listSkusForCapacity(resourceGroupName: string, dedicatedCapacityName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SkuEnumerationForExistingResourceResult>): Promise<Models.CapacitiesListSkusForCapacityResponse> {
+  listSkusForCapacity(resourceGroupName: string, dedicatedCapacityName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SkuEnumerationForExistingResourceResult>, callback?: msRest.ServiceCallback<Models.SkuEnumerationForExistingResourceResult>): Promise<Models.CapacitiesListSkusForCapacityResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -276,7 +276,7 @@ export class Capacities {
    * @param callback The callback
    */
   checkNameAvailability(location: string, capacityParameters: Models.CheckCapacityNameAvailabilityParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckCapacityNameAvailabilityResult>): void;
-  checkNameAvailability(location: string, capacityParameters: Models.CheckCapacityNameAvailabilityParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CheckCapacityNameAvailabilityResult>): Promise<Models.CapacitiesCheckNameAvailabilityResponse> {
+  checkNameAvailability(location: string, capacityParameters: Models.CheckCapacityNameAvailabilityParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckCapacityNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckCapacityNameAvailabilityResult>): Promise<Models.CapacitiesCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         location,

@@ -48,7 +48,7 @@ export class Users {
    * @param callback The callback
    */
   list(resourceGroupName: string, labName: string, options: Models.UsersListOptionalParams, callback: msRest.ServiceCallback<Models.UserList>): void;
-  list(resourceGroupName: string, labName: string, options?: Models.UsersListOptionalParams, callback?: msRest.ServiceCallback<Models.UserList>): Promise<Models.UsersListResponse> {
+  list(resourceGroupName: string, labName: string, options?: Models.UsersListOptionalParams | msRest.ServiceCallback<Models.UserList>, callback?: msRest.ServiceCallback<Models.UserList>): Promise<Models.UsersListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +83,7 @@ export class Users {
    * @param callback The callback
    */
   get(resourceGroupName: string, labName: string, name: string, options: Models.UsersGetOptionalParams, callback: msRest.ServiceCallback<Models.User>): void;
-  get(resourceGroupName: string, labName: string, name: string, options?: Models.UsersGetOptionalParams, callback?: msRest.ServiceCallback<Models.User>): Promise<Models.UsersGetResponse> {
+  get(resourceGroupName: string, labName: string, name: string, options?: Models.UsersGetOptionalParams | msRest.ServiceCallback<Models.User>, callback?: msRest.ServiceCallback<Models.User>): Promise<Models.UsersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -149,7 +149,7 @@ export class Users {
    * @param callback The callback
    */
   update(resourceGroupName: string, labName: string, name: string, user: Models.UserFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.User>): void;
-  update(resourceGroupName: string, labName: string, name: string, user: Models.UserFragment, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.User>): Promise<Models.UsersUpdateResponse> {
+  update(resourceGroupName: string, labName: string, name: string, user: Models.UserFragment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.User>, callback?: msRest.ServiceCallback<Models.User>): Promise<Models.UsersUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -222,7 +222,7 @@ export class Users {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UserList>): Promise<Models.UsersListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserList>, callback?: msRest.ServiceCallback<Models.UserList>): Promise<Models.UsersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

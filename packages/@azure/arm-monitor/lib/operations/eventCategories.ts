@@ -43,7 +43,7 @@ export class EventCategories {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventCategoryCollection>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventCategoryCollection>): Promise<Models.EventCategoriesListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventCategoryCollection>, callback?: msRest.ServiceCallback<Models.EventCategoryCollection>): Promise<Models.EventCategoriesListResponse> {
     return this.client.sendOperationRequest(
       {
         options

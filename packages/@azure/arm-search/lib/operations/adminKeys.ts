@@ -53,7 +53,7 @@ export class AdminKeys {
    * @param callback The callback
    */
   get(resourceGroupName: string, searchServiceName: string, options: Models.AdminKeysGetOptionalParams, callback: msRest.ServiceCallback<Models.AdminKeyResult>): void;
-  get(resourceGroupName: string, searchServiceName: string, options?: Models.AdminKeysGetOptionalParams, callback?: msRest.ServiceCallback<Models.AdminKeyResult>): Promise<Models.AdminKeysGetResponse> {
+  get(resourceGroupName: string, searchServiceName: string, options?: Models.AdminKeysGetOptionalParams | msRest.ServiceCallback<Models.AdminKeyResult>, callback?: msRest.ServiceCallback<Models.AdminKeyResult>): Promise<Models.AdminKeysGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -98,7 +98,7 @@ export class AdminKeys {
    * @param callback The callback
    */
   regenerate(resourceGroupName: string, searchServiceName: string, keyKind: Models.AdminKeyKind, options: Models.AdminKeysRegenerateOptionalParams, callback: msRest.ServiceCallback<Models.AdminKeyResult>): void;
-  regenerate(resourceGroupName: string, searchServiceName: string, keyKind: Models.AdminKeyKind, options?: Models.AdminKeysRegenerateOptionalParams, callback?: msRest.ServiceCallback<Models.AdminKeyResult>): Promise<Models.AdminKeysRegenerateResponse> {
+  regenerate(resourceGroupName: string, searchServiceName: string, keyKind: Models.AdminKeyKind, options?: Models.AdminKeysRegenerateOptionalParams | msRest.ServiceCallback<Models.AdminKeyResult>, callback?: msRest.ServiceCallback<Models.AdminKeyResult>): Promise<Models.AdminKeysRegenerateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

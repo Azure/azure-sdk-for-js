@@ -53,7 +53,7 @@ export class WorkflowRunOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, workflowName: string, runName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkflowRun>): void;
-  get(resourceGroupName: string, workflowName: string, runName: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkflowRun>): Promise<Models.WorkflowRunOperationsGetResponse> {
+  get(resourceGroupName: string, workflowName: string, runName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowRun>, callback?: msRest.ServiceCallback<Models.WorkflowRun>): Promise<Models.WorkflowRunOperationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

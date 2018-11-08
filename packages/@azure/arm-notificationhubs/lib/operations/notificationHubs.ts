@@ -50,7 +50,7 @@ export class NotificationHubs {
    * @param callback The callback
    */
   checkNotificationHubAvailability(resourceGroupName: string, namespaceName: string, parameters: Models.CheckAvailabilityParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckAvailabilityResult>): void;
-  checkNotificationHubAvailability(resourceGroupName: string, namespaceName: string, parameters: Models.CheckAvailabilityParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CheckAvailabilityResult>): Promise<Models.NotificationHubsCheckNotificationHubAvailabilityResponse> {
+  checkNotificationHubAvailability(resourceGroupName: string, namespaceName: string, parameters: Models.CheckAvailabilityParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckAvailabilityResult>): Promise<Models.NotificationHubsCheckNotificationHubAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -89,7 +89,7 @@ export class NotificationHubs {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, namespaceName: string, notificationHubName: string, parameters: Models.NotificationHubCreateOrUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NotificationHubResource>): void;
-  createOrUpdate(resourceGroupName: string, namespaceName: string, notificationHubName: string, parameters: Models.NotificationHubCreateOrUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NotificationHubResource>): Promise<Models.NotificationHubsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, namespaceName: string, notificationHubName: string, parameters: Models.NotificationHubCreateOrUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotificationHubResource>, callback?: msRest.ServiceCallback<Models.NotificationHubResource>): Promise<Models.NotificationHubsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -126,7 +126,7 @@ export class NotificationHubs {
    * @param callback The callback
    */
   patch(resourceGroupName: string, namespaceName: string, notificationHubName: string, options: Models.NotificationHubsPatchOptionalParams, callback: msRest.ServiceCallback<Models.NotificationHubResource>): void;
-  patch(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: Models.NotificationHubsPatchOptionalParams, callback?: msRest.ServiceCallback<Models.NotificationHubResource>): Promise<Models.NotificationHubsPatchResponse> {
+  patch(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: Models.NotificationHubsPatchOptionalParams | msRest.ServiceCallback<Models.NotificationHubResource>, callback?: msRest.ServiceCallback<Models.NotificationHubResource>): Promise<Models.NotificationHubsPatchResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -162,7 +162,7 @@ export class NotificationHubs {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, namespaceName: string, notificationHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -198,7 +198,7 @@ export class NotificationHubs {
    * @param callback The callback
    */
   get(resourceGroupName: string, namespaceName: string, notificationHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NotificationHubResource>): void;
-  get(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NotificationHubResource>): Promise<Models.NotificationHubsGetResponse> {
+  get(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotificationHubResource>, callback?: msRest.ServiceCallback<Models.NotificationHubResource>): Promise<Models.NotificationHubsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -234,7 +234,7 @@ export class NotificationHubs {
    * @param callback The callback
    */
   debugSend(resourceGroupName: string, namespaceName: string, notificationHubName: string, options: Models.NotificationHubsDebugSendOptionalParams, callback: msRest.ServiceCallback<Models.DebugSendResponse>): void;
-  debugSend(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: Models.NotificationHubsDebugSendOptionalParams, callback?: msRest.ServiceCallback<Models.DebugSendResponse>): Promise<Models.NotificationHubsDebugSendResponse> {
+  debugSend(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: Models.NotificationHubsDebugSendOptionalParams | msRest.ServiceCallback<Models.DebugSendResponse>, callback?: msRest.ServiceCallback<Models.DebugSendResponse>): Promise<Models.NotificationHubsDebugSendResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -276,7 +276,7 @@ export class NotificationHubs {
    * @param callback The callback
    */
   createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, parameters: Models.SharedAccessAuthorizationRuleCreateOrUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleResource>): void;
-  createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, parameters: Models.SharedAccessAuthorizationRuleCreateOrUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleResource>): Promise<Models.NotificationHubsCreateOrUpdateAuthorizationRuleResponse> {
+  createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, parameters: Models.SharedAccessAuthorizationRuleCreateOrUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleResource>, callback?: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleResource>): Promise<Models.NotificationHubsCreateOrUpdateAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -317,7 +317,7 @@ export class NotificationHubs {
    * @param callback The callback
    */
   deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -357,7 +357,7 @@ export class NotificationHubs {
    * @param callback The callback
    */
   getAuthorizationRule(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleResource>): void;
-  getAuthorizationRule(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleResource>): Promise<Models.NotificationHubsGetAuthorizationRuleResponse> {
+  getAuthorizationRule(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleResource>, callback?: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleResource>): Promise<Models.NotificationHubsGetAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -391,7 +391,7 @@ export class NotificationHubs {
    * @param callback The callback
    */
   list(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NotificationHubListResult>): void;
-  list(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NotificationHubListResult>): Promise<Models.NotificationHubsListResponse> {
+  list(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotificationHubListResult>, callback?: msRest.ServiceCallback<Models.NotificationHubListResult>): Promise<Models.NotificationHubsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -426,7 +426,7 @@ export class NotificationHubs {
    * @param callback The callback
    */
   listAuthorizationRules(resourceGroupName: string, namespaceName: string, notificationHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleListResult>): void;
-  listAuthorizationRules(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleListResult>): Promise<Models.NotificationHubsListAuthorizationRulesResponse> {
+  listAuthorizationRules(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleListResult>): Promise<Models.NotificationHubsListAuthorizationRulesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -468,7 +468,7 @@ export class NotificationHubs {
    * @param callback The callback
    */
   listKeys(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceListKeys>): void;
-  listKeys(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceListKeys>): Promise<Models.NotificationHubsListKeysResponse> {
+  listKeys(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceListKeys>, callback?: msRest.ServiceCallback<Models.ResourceListKeys>): Promise<Models.NotificationHubsListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -514,7 +514,7 @@ export class NotificationHubs {
    * @param callback The callback
    */
   regenerateKeys(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, parameters: Models.PolicykeyResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceListKeys>): void;
-  regenerateKeys(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, parameters: Models.PolicykeyResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceListKeys>): Promise<Models.NotificationHubsRegenerateKeysResponse> {
+  regenerateKeys(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, parameters: Models.PolicykeyResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceListKeys>, callback?: msRest.ServiceCallback<Models.ResourceListKeys>): Promise<Models.NotificationHubsRegenerateKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -552,7 +552,7 @@ export class NotificationHubs {
    * @param callback The callback
    */
   getPnsCredentials(resourceGroupName: string, namespaceName: string, notificationHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PnsCredentialsResource>): void;
-  getPnsCredentials(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PnsCredentialsResource>): Promise<Models.NotificationHubsGetPnsCredentialsResponse> {
+  getPnsCredentials(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PnsCredentialsResource>, callback?: msRest.ServiceCallback<Models.PnsCredentialsResource>): Promise<Models.NotificationHubsGetPnsCredentialsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -582,7 +582,7 @@ export class NotificationHubs {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NotificationHubListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NotificationHubListResult>): Promise<Models.NotificationHubsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotificationHubListResult>, callback?: msRest.ServiceCallback<Models.NotificationHubListResult>): Promise<Models.NotificationHubsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -610,7 +610,7 @@ export class NotificationHubs {
    * @param callback The callback
    */
   listAuthorizationRulesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleListResult>): void;
-  listAuthorizationRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleListResult>): Promise<Models.NotificationHubsListAuthorizationRulesNextResponse> {
+  listAuthorizationRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleListResult>): Promise<Models.NotificationHubsListAuthorizationRulesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

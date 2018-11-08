@@ -53,7 +53,7 @@ export class JobDetails {
    * @param callback The callback
    */
   get(vaultName: string, resourceGroupName: string, jobName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobResource>): void;
-  get(vaultName: string, resourceGroupName: string, jobName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JobResource>): Promise<Models.JobDetailsGetResponse> {
+  get(vaultName: string, resourceGroupName: string, jobName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobResource>, callback?: msRest.ServiceCallback<Models.JobResource>): Promise<Models.JobDetailsGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,

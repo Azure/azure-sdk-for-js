@@ -845,176 +845,68 @@ export interface PaginatedOperationalizationClustersList extends Array<Operation
 
 /**
  * Defines values for OperationStatus.
- * Possible values include: 'Unknown', 'Updating', 'Creating', 'Deleting',
- * 'Succeeded', 'Failed', 'Canceled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: OperationStatus =
- * <OperationStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'Updating', 'Creating', 'Deleting', 'Succeeded', 'Failed',
+ * 'Canceled'
  * @readonly
  * @enum {string}
  */
-export enum OperationStatus {
-  Unknown = 'Unknown',
-  Updating = 'Updating',
-  Creating = 'Creating',
-  Deleting = 'Deleting',
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-  Canceled = 'Canceled',
-}
+export type OperationStatus = 'Unknown' | 'Updating' | 'Creating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled';
 
 /**
  * Defines values for ClusterType.
  * Possible values include: 'ACS', 'Local'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ClusterType =
- * <ClusterType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ClusterType {
-  ACS = 'ACS',
-  Local = 'Local',
-}
+export type ClusterType = 'ACS' | 'Local';
 
 /**
  * Defines values for OrchestratorType.
  * Possible values include: 'Kubernetes', 'None'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: OrchestratorType =
- * <OrchestratorType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum OrchestratorType {
-  Kubernetes = 'Kubernetes',
-  None = 'None',
-}
+export type OrchestratorType = 'Kubernetes' | 'None';
 
 /**
  * Defines values for SystemServiceType.
  * Possible values include: 'None', 'ScoringFrontEnd', 'BatchFrontEnd'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SystemServiceType =
- * <SystemServiceType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SystemServiceType {
-  None = 'None',
-  ScoringFrontEnd = 'ScoringFrontEnd',
-  BatchFrontEnd = 'BatchFrontEnd',
-}
+export type SystemServiceType = 'None' | 'ScoringFrontEnd' | 'BatchFrontEnd';
 
 /**
  * Defines values for AgentVMSizeTypes.
- * Possible values include: 'Standard_A0', 'Standard_A1', 'Standard_A2',
- * 'Standard_A3', 'Standard_A4', 'Standard_A5', 'Standard_A6', 'Standard_A7',
- * 'Standard_A8', 'Standard_A9', 'Standard_A10', 'Standard_A11', 'Standard_D1',
- * 'Standard_D2', 'Standard_D3', 'Standard_D4', 'Standard_D11', 'Standard_D12',
- * 'Standard_D13', 'Standard_D14', 'Standard_D1_v2', 'Standard_D2_v2',
- * 'Standard_D3_v2', 'Standard_D4_v2', 'Standard_D5_v2', 'Standard_D11_v2',
- * 'Standard_D12_v2', 'Standard_D13_v2', 'Standard_D14_v2', 'Standard_G1',
- * 'Standard_G2', 'Standard_G3', 'Standard_G4', 'Standard_G5', 'Standard_DS1',
- * 'Standard_DS2', 'Standard_DS3', 'Standard_DS4', 'Standard_DS11',
- * 'Standard_DS12', 'Standard_DS13', 'Standard_DS14', 'Standard_GS1',
- * 'Standard_GS2', 'Standard_GS3', 'Standard_GS4', 'Standard_GS5'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AgentVMSizeTypes =
- * <AgentVMSizeTypes>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Standard_A0', 'Standard_A1', 'Standard_A2', 'Standard_A3',
+ * 'Standard_A4', 'Standard_A5', 'Standard_A6', 'Standard_A7', 'Standard_A8', 'Standard_A9',
+ * 'Standard_A10', 'Standard_A11', 'Standard_D1', 'Standard_D2', 'Standard_D3', 'Standard_D4',
+ * 'Standard_D11', 'Standard_D12', 'Standard_D13', 'Standard_D14', 'Standard_D1_v2',
+ * 'Standard_D2_v2', 'Standard_D3_v2', 'Standard_D4_v2', 'Standard_D5_v2', 'Standard_D11_v2',
+ * 'Standard_D12_v2', 'Standard_D13_v2', 'Standard_D14_v2', 'Standard_G1', 'Standard_G2',
+ * 'Standard_G3', 'Standard_G4', 'Standard_G5', 'Standard_DS1', 'Standard_DS2', 'Standard_DS3',
+ * 'Standard_DS4', 'Standard_DS11', 'Standard_DS12', 'Standard_DS13', 'Standard_DS14',
+ * 'Standard_GS1', 'Standard_GS2', 'Standard_GS3', 'Standard_GS4', 'Standard_GS5'
  * @readonly
  * @enum {string}
  */
-export enum AgentVMSizeTypes {
-  StandardA0 = 'Standard_A0',
-  StandardA1 = 'Standard_A1',
-  StandardA2 = 'Standard_A2',
-  StandardA3 = 'Standard_A3',
-  StandardA4 = 'Standard_A4',
-  StandardA5 = 'Standard_A5',
-  StandardA6 = 'Standard_A6',
-  StandardA7 = 'Standard_A7',
-  StandardA8 = 'Standard_A8',
-  StandardA9 = 'Standard_A9',
-  StandardA10 = 'Standard_A10',
-  StandardA11 = 'Standard_A11',
-  StandardD1 = 'Standard_D1',
-  StandardD2 = 'Standard_D2',
-  StandardD3 = 'Standard_D3',
-  StandardD4 = 'Standard_D4',
-  StandardD11 = 'Standard_D11',
-  StandardD12 = 'Standard_D12',
-  StandardD13 = 'Standard_D13',
-  StandardD14 = 'Standard_D14',
-  StandardD1V2 = 'Standard_D1_v2',
-  StandardD2V2 = 'Standard_D2_v2',
-  StandardD3V2 = 'Standard_D3_v2',
-  StandardD4V2 = 'Standard_D4_v2',
-  StandardD5V2 = 'Standard_D5_v2',
-  StandardD11V2 = 'Standard_D11_v2',
-  StandardD12V2 = 'Standard_D12_v2',
-  StandardD13V2 = 'Standard_D13_v2',
-  StandardD14V2 = 'Standard_D14_v2',
-  StandardG1 = 'Standard_G1',
-  StandardG2 = 'Standard_G2',
-  StandardG3 = 'Standard_G3',
-  StandardG4 = 'Standard_G4',
-  StandardG5 = 'Standard_G5',
-  StandardDS1 = 'Standard_DS1',
-  StandardDS2 = 'Standard_DS2',
-  StandardDS3 = 'Standard_DS3',
-  StandardDS4 = 'Standard_DS4',
-  StandardDS11 = 'Standard_DS11',
-  StandardDS12 = 'Standard_DS12',
-  StandardDS13 = 'Standard_DS13',
-  StandardDS14 = 'Standard_DS14',
-  StandardGS1 = 'Standard_GS1',
-  StandardGS2 = 'Standard_GS2',
-  StandardGS3 = 'Standard_GS3',
-  StandardGS4 = 'Standard_GS4',
-  StandardGS5 = 'Standard_GS5',
-}
+export type AgentVMSizeTypes = 'Standard_A0' | 'Standard_A1' | 'Standard_A2' | 'Standard_A3' | 'Standard_A4' | 'Standard_A5' | 'Standard_A6' | 'Standard_A7' | 'Standard_A8' | 'Standard_A9' | 'Standard_A10' | 'Standard_A11' | 'Standard_D1' | 'Standard_D2' | 'Standard_D3' | 'Standard_D4' | 'Standard_D11' | 'Standard_D12' | 'Standard_D13' | 'Standard_D14' | 'Standard_D1_v2' | 'Standard_D2_v2' | 'Standard_D3_v2' | 'Standard_D4_v2' | 'Standard_D5_v2' | 'Standard_D11_v2' | 'Standard_D12_v2' | 'Standard_D13_v2' | 'Standard_D14_v2' | 'Standard_G1' | 'Standard_G2' | 'Standard_G3' | 'Standard_G4' | 'Standard_G5' | 'Standard_DS1' | 'Standard_DS2' | 'Standard_DS3' | 'Standard_DS4' | 'Standard_DS11' | 'Standard_DS12' | 'Standard_DS13' | 'Standard_DS14' | 'Standard_GS1' | 'Standard_GS2' | 'Standard_GS3' | 'Standard_GS4' | 'Standard_GS5';
 
 /**
  * Defines values for Status.
  * Possible values include: 'Enabled', 'Disabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Status = <Status>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Status {
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type Status = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for UpdatesAvailable.
  * Possible values include: 'Yes', 'No'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: UpdatesAvailable =
- * <UpdatesAvailable>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum UpdatesAvailable {
-  Yes = 'Yes',
-  No = 'No',
-}
+export type UpdatesAvailable = 'Yes' | 'No';
 
 /**
  * Contains response data for the createOrUpdate operation.

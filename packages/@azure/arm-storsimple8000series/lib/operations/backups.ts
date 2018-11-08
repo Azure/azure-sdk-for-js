@@ -51,7 +51,7 @@ export class Backups {
    * @param callback The callback
    */
   listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options: Models.BackupsListByDeviceOptionalParams, callback: msRest.ServiceCallback<Models.BackupList>): void;
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.BackupsListByDeviceOptionalParams, callback?: msRest.ServiceCallback<Models.BackupList>): Promise<Models.BackupsListByDeviceResponse> {
+  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.BackupsListByDeviceOptionalParams | msRest.ServiceCallback<Models.BackupList>, callback?: msRest.ServiceCallback<Models.BackupList>): Promise<Models.BackupsListByDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -195,7 +195,7 @@ export class Backups {
    * @param callback The callback
    */
   listByDeviceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupList>): void;
-  listByDeviceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupList>): Promise<Models.BackupsListByDeviceNextResponse> {
+  listByDeviceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupList>, callback?: msRest.ServiceCallback<Models.BackupList>): Promise<Models.BackupsListByDeviceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -1725,658 +1725,220 @@ export interface OperationResultList extends Array<Operation> {
 /**
  * Defines values for DiscoveryStatus.
  * Possible values include: 'Unknown', 'NotStarted', 'InProgress', 'Completed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DiscoveryStatus =
- * <DiscoveryStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum DiscoveryStatus {
-  Unknown = 'Unknown',
-  NotStarted = 'NotStarted',
-  InProgress = 'InProgress',
-  Completed = 'Completed',
-}
+export type DiscoveryStatus = 'Unknown' | 'NotStarted' | 'InProgress' | 'Completed';
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Accepted', 'Creating', 'Deleting', 'Failed',
- * 'Moving', 'Succeeded'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ProvisioningState =
- * <ProvisioningState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Accepted', 'Creating', 'Deleting', 'Failed', 'Moving', 'Succeeded'
  * @readonly
  * @enum {string}
  */
-export enum ProvisioningState {
-  Accepted = 'Accepted',
-  Creating = 'Creating',
-  Deleting = 'Deleting',
-  Failed = 'Failed',
-  Moving = 'Moving',
-  Succeeded = 'Succeeded',
-}
+export type ProvisioningState = 'Accepted' | 'Creating' | 'Deleting' | 'Failed' | 'Moving' | 'Succeeded';
 
 /**
  * Defines values for AzureLocation.
- * Possible values include: 'Unknown', 'EastAsia', 'SoutheastAsia',
- * 'AustraliaEast', 'AustraliaSoutheast', 'BrazilSouth', 'CanadaCentral',
- * 'CanadaEast', 'WestEurope', 'NorthEurope', 'CentralIndia', 'SouthIndia',
- * 'WestIndia', 'JapanEast', 'JapanWest', 'KoreaCentral', 'KoreaSouth',
- * 'UkWest', 'UkSouth', 'NorthCentralUs', 'EastUs', 'WestUs2',
- * 'SouthCentralUs', 'CentralUs', 'EastUs2', 'WestUs', 'WestCentralUs',
- * 'GermanyCentral', 'GermanyNortheast', 'ChinaNorth', 'ChinaEast'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AzureLocation =
- * <AzureLocation>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'EastAsia', 'SoutheastAsia', 'AustraliaEast',
+ * 'AustraliaSoutheast', 'BrazilSouth', 'CanadaCentral', 'CanadaEast', 'WestEurope', 'NorthEurope',
+ * 'CentralIndia', 'SouthIndia', 'WestIndia', 'JapanEast', 'JapanWest', 'KoreaCentral',
+ * 'KoreaSouth', 'UkWest', 'UkSouth', 'NorthCentralUs', 'EastUs', 'WestUs2', 'SouthCentralUs',
+ * 'CentralUs', 'EastUs2', 'WestUs', 'WestCentralUs', 'GermanyCentral', 'GermanyNortheast',
+ * 'ChinaNorth', 'ChinaEast'
  * @readonly
  * @enum {string}
  */
-export enum AzureLocation {
-  Unknown = 'Unknown',
-  EastAsia = 'EastAsia',
-  SoutheastAsia = 'SoutheastAsia',
-  AustraliaEast = 'AustraliaEast',
-  AustraliaSoutheast = 'AustraliaSoutheast',
-  BrazilSouth = 'BrazilSouth',
-  CanadaCentral = 'CanadaCentral',
-  CanadaEast = 'CanadaEast',
-  WestEurope = 'WestEurope',
-  NorthEurope = 'NorthEurope',
-  CentralIndia = 'CentralIndia',
-  SouthIndia = 'SouthIndia',
-  WestIndia = 'WestIndia',
-  JapanEast = 'JapanEast',
-  JapanWest = 'JapanWest',
-  KoreaCentral = 'KoreaCentral',
-  KoreaSouth = 'KoreaSouth',
-  UkWest = 'UkWest',
-  UkSouth = 'UkSouth',
-  NorthCentralUs = 'NorthCentralUs',
-  EastUs = 'EastUs',
-  WestUs2 = 'WestUs2',
-  SouthCentralUs = 'SouthCentralUs',
-  CentralUs = 'CentralUs',
-  EastUs2 = 'EastUs2',
-  WestUs = 'WestUs',
-  WestCentralUs = 'WestCentralUs',
-  GermanyCentral = 'GermanyCentral',
-  GermanyNortheast = 'GermanyNortheast',
-  ChinaNorth = 'ChinaNorth',
-  ChinaEast = 'ChinaEast',
-}
+export type AzureLocation = 'Unknown' | 'EastAsia' | 'SoutheastAsia' | 'AustraliaEast' | 'AustraliaSoutheast' | 'BrazilSouth' | 'CanadaCentral' | 'CanadaEast' | 'WestEurope' | 'NorthEurope' | 'CentralIndia' | 'SouthIndia' | 'WestIndia' | 'JapanEast' | 'JapanWest' | 'KoreaCentral' | 'KoreaSouth' | 'UkWest' | 'UkSouth' | 'NorthCentralUs' | 'EastUs' | 'WestUs2' | 'SouthCentralUs' | 'CentralUs' | 'EastUs2' | 'WestUs' | 'WestCentralUs' | 'GermanyCentral' | 'GermanyNortheast' | 'ChinaNorth' | 'ChinaEast';
 
 /**
  * Defines values for AzureOfferCode.
- * Possible values include: 'Unknown', 'MSAZR0003P', 'MSAZR0044P',
- * 'MSAZR0059P', 'MSAZR0060P', 'MSAZR0062P', 'MSAZR0063P', 'MSAZR0064P',
- * 'MSAZR0029P', 'MSAZR0022P', 'MSAZR0023P', 'MSAZR0148P', 'MSAZR0025P',
- * 'MSAZR0036P', 'MSAZR0120P', 'MSAZR0121P', 'MSAZR0122P', 'MSAZR0123P',
- * 'MSAZR0124P', 'MSAZR0125P', 'MSAZR0126P', 'MSAZR0127P', 'MSAZR0128P',
- * 'MSAZR0129P', 'MSAZR0130P', 'MSAZR0111P', 'MSAZR0144P', 'MSAZR0149P',
- * 'MSMCAZR0044P', 'MSMCAZR0059P', 'MSMCAZR0060P', 'MSMCAZR0063P',
- * 'MSMCAZR0120P', 'MSMCAZR0121P', 'MSMCAZR0125P', 'MSMCAZR0128P',
- * 'MSAZRDE0003P', 'MSAZRDE0044P'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AzureOfferCode =
- * <AzureOfferCode>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'MSAZR0003P', 'MSAZR0044P', 'MSAZR0059P', 'MSAZR0060P',
+ * 'MSAZR0062P', 'MSAZR0063P', 'MSAZR0064P', 'MSAZR0029P', 'MSAZR0022P', 'MSAZR0023P',
+ * 'MSAZR0148P', 'MSAZR0025P', 'MSAZR0036P', 'MSAZR0120P', 'MSAZR0121P', 'MSAZR0122P',
+ * 'MSAZR0123P', 'MSAZR0124P', 'MSAZR0125P', 'MSAZR0126P', 'MSAZR0127P', 'MSAZR0128P',
+ * 'MSAZR0129P', 'MSAZR0130P', 'MSAZR0111P', 'MSAZR0144P', 'MSAZR0149P', 'MSMCAZR0044P',
+ * 'MSMCAZR0059P', 'MSMCAZR0060P', 'MSMCAZR0063P', 'MSMCAZR0120P', 'MSMCAZR0121P', 'MSMCAZR0125P',
+ * 'MSMCAZR0128P', 'MSAZRDE0003P', 'MSAZRDE0044P'
  * @readonly
  * @enum {string}
  */
-export enum AzureOfferCode {
-  Unknown = 'Unknown',
-  MSAZR0003P = 'MSAZR0003P',
-  MSAZR0044P = 'MSAZR0044P',
-  MSAZR0059P = 'MSAZR0059P',
-  MSAZR0060P = 'MSAZR0060P',
-  MSAZR0062P = 'MSAZR0062P',
-  MSAZR0063P = 'MSAZR0063P',
-  MSAZR0064P = 'MSAZR0064P',
-  MSAZR0029P = 'MSAZR0029P',
-  MSAZR0022P = 'MSAZR0022P',
-  MSAZR0023P = 'MSAZR0023P',
-  MSAZR0148P = 'MSAZR0148P',
-  MSAZR0025P = 'MSAZR0025P',
-  MSAZR0036P = 'MSAZR0036P',
-  MSAZR0120P = 'MSAZR0120P',
-  MSAZR0121P = 'MSAZR0121P',
-  MSAZR0122P = 'MSAZR0122P',
-  MSAZR0123P = 'MSAZR0123P',
-  MSAZR0124P = 'MSAZR0124P',
-  MSAZR0125P = 'MSAZR0125P',
-  MSAZR0126P = 'MSAZR0126P',
-  MSAZR0127P = 'MSAZR0127P',
-  MSAZR0128P = 'MSAZR0128P',
-  MSAZR0129P = 'MSAZR0129P',
-  MSAZR0130P = 'MSAZR0130P',
-  MSAZR0111P = 'MSAZR0111P',
-  MSAZR0144P = 'MSAZR0144P',
-  MSAZR0149P = 'MSAZR0149P',
-  MSMCAZR0044P = 'MSMCAZR0044P',
-  MSMCAZR0059P = 'MSMCAZR0059P',
-  MSMCAZR0060P = 'MSMCAZR0060P',
-  MSMCAZR0063P = 'MSMCAZR0063P',
-  MSMCAZR0120P = 'MSMCAZR0120P',
-  MSMCAZR0121P = 'MSMCAZR0121P',
-  MSMCAZR0125P = 'MSMCAZR0125P',
-  MSMCAZR0128P = 'MSMCAZR0128P',
-  MSAZRDE0003P = 'MSAZRDE0003P',
-  MSAZRDE0044P = 'MSAZRDE0044P',
-}
+export type AzureOfferCode = 'Unknown' | 'MSAZR0003P' | 'MSAZR0044P' | 'MSAZR0059P' | 'MSAZR0060P' | 'MSAZR0062P' | 'MSAZR0063P' | 'MSAZR0064P' | 'MSAZR0029P' | 'MSAZR0022P' | 'MSAZR0023P' | 'MSAZR0148P' | 'MSAZR0025P' | 'MSAZR0036P' | 'MSAZR0120P' | 'MSAZR0121P' | 'MSAZR0122P' | 'MSAZR0123P' | 'MSAZR0124P' | 'MSAZR0125P' | 'MSAZR0126P' | 'MSAZR0127P' | 'MSAZR0128P' | 'MSAZR0129P' | 'MSAZR0130P' | 'MSAZR0111P' | 'MSAZR0144P' | 'MSAZR0149P' | 'MSMCAZR0044P' | 'MSMCAZR0059P' | 'MSMCAZR0060P' | 'MSMCAZR0063P' | 'MSMCAZR0120P' | 'MSMCAZR0121P' | 'MSMCAZR0125P' | 'MSMCAZR0128P' | 'MSAZRDE0003P' | 'MSAZRDE0044P';
 
 /**
  * Defines values for AzurePricingTier.
  * Possible values include: 'Standard', 'Basic'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AzurePricingTier =
- * <AzurePricingTier>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AzurePricingTier {
-  Standard = 'Standard',
-  Basic = 'Basic',
-}
+export type AzurePricingTier = 'Standard' | 'Basic';
 
 /**
  * Defines values for AzureStorageRedundancy.
- * Possible values include: 'Unknown', 'LocallyRedundant', 'ZoneRedundant',
- * 'GeoRedundant', 'ReadAccessGeoRedundant'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AzureStorageRedundancy =
- * <AzureStorageRedundancy>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'LocallyRedundant', 'ZoneRedundant', 'GeoRedundant',
+ * 'ReadAccessGeoRedundant'
  * @readonly
  * @enum {string}
  */
-export enum AzureStorageRedundancy {
-  Unknown = 'Unknown',
-  LocallyRedundant = 'LocallyRedundant',
-  ZoneRedundant = 'ZoneRedundant',
-  GeoRedundant = 'GeoRedundant',
-  ReadAccessGeoRedundant = 'ReadAccessGeoRedundant',
-}
+export type AzureStorageRedundancy = 'Unknown' | 'LocallyRedundant' | 'ZoneRedundant' | 'GeoRedundant' | 'ReadAccessGeoRedundant';
 
 /**
  * Defines values for Percentile.
- * Possible values include: 'Percentile50', 'Percentile90', 'Percentile95',
- * 'Percentile99'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Percentile = <Percentile>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Percentile50', 'Percentile90', 'Percentile95', 'Percentile99'
  * @readonly
  * @enum {string}
  */
-export enum Percentile {
-  Percentile50 = 'Percentile50',
-  Percentile90 = 'Percentile90',
-  Percentile95 = 'Percentile95',
-  Percentile99 = 'Percentile99',
-}
+export type Percentile = 'Percentile50' | 'Percentile90' | 'Percentile95' | 'Percentile99';
 
 /**
  * Defines values for TimeRange.
  * Possible values include: 'Day', 'Week', 'Month'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TimeRange = <TimeRange>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum TimeRange {
-  Day = 'Day',
-  Week = 'Week',
-  Month = 'Month',
-}
+export type TimeRange = 'Day' | 'Week' | 'Month';
 
 /**
  * Defines values for AssessmentStage.
  * Possible values include: 'InProgress', 'UnderReview', 'Approved'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AssessmentStage =
- * <AssessmentStage>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AssessmentStage {
-  InProgress = 'InProgress',
-  UnderReview = 'UnderReview',
-  Approved = 'Approved',
-}
+export type AssessmentStage = 'InProgress' | 'UnderReview' | 'Approved';
 
 /**
  * Defines values for Currency.
- * Possible values include: 'Unknown', 'USD', 'DKK', 'CAD', 'IDR', 'JPY',
- * 'KRW', 'NZD', 'NOK', 'RUB', 'SAR', 'ZAR', 'SEK', 'TRY', 'GBP', 'MXN', 'MYR',
- * 'INR', 'HKD', 'BRL', 'TWD', 'EUR', 'CHF', 'ARS', 'AUD', 'CNY'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Currency = <Currency>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'USD', 'DKK', 'CAD', 'IDR', 'JPY', 'KRW', 'NZD', 'NOK',
+ * 'RUB', 'SAR', 'ZAR', 'SEK', 'TRY', 'GBP', 'MXN', 'MYR', 'INR', 'HKD', 'BRL', 'TWD', 'EUR',
+ * 'CHF', 'ARS', 'AUD', 'CNY'
  * @readonly
  * @enum {string}
  */
-export enum Currency {
-  Unknown = 'Unknown',
-  USD = 'USD',
-  DKK = 'DKK',
-  CAD = 'CAD',
-  IDR = 'IDR',
-  JPY = 'JPY',
-  KRW = 'KRW',
-  NZD = 'NZD',
-  NOK = 'NOK',
-  RUB = 'RUB',
-  SAR = 'SAR',
-  ZAR = 'ZAR',
-  SEK = 'SEK',
-  TRY = 'TRY',
-  GBP = 'GBP',
-  MXN = 'MXN',
-  MYR = 'MYR',
-  INR = 'INR',
-  HKD = 'HKD',
-  BRL = 'BRL',
-  TWD = 'TWD',
-  EUR = 'EUR',
-  CHF = 'CHF',
-  ARS = 'ARS',
-  AUD = 'AUD',
-  CNY = 'CNY',
-}
+export type Currency = 'Unknown' | 'USD' | 'DKK' | 'CAD' | 'IDR' | 'JPY' | 'KRW' | 'NZD' | 'NOK' | 'RUB' | 'SAR' | 'ZAR' | 'SEK' | 'TRY' | 'GBP' | 'MXN' | 'MYR' | 'INR' | 'HKD' | 'BRL' | 'TWD' | 'EUR' | 'CHF' | 'ARS' | 'AUD' | 'CNY';
 
 /**
  * Defines values for AzureHybridUseBenefit.
  * Possible values include: 'Unknown', 'Yes', 'No'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AzureHybridUseBenefit =
- * <AzureHybridUseBenefit>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AzureHybridUseBenefit {
-  Unknown = 'Unknown',
-  Yes = 'Yes',
-  No = 'No',
-}
+export type AzureHybridUseBenefit = 'Unknown' | 'Yes' | 'No';
 
 /**
  * Defines values for AssessmentSizingCriterion.
  * Possible values include: 'PerformanceBased', 'AsOnPremises'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AssessmentSizingCriterion =
- * <AssessmentSizingCriterion>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AssessmentSizingCriterion {
-  PerformanceBased = 'PerformanceBased',
-  AsOnPremises = 'AsOnPremises',
-}
+export type AssessmentSizingCriterion = 'PerformanceBased' | 'AsOnPremises';
 
 /**
  * Defines values for AssessmentStatus.
- * Possible values include: 'Created', 'Updated', 'Running', 'Completed',
- * 'Invalid'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AssessmentStatus =
- * <AssessmentStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Created', 'Updated', 'Running', 'Completed', 'Invalid'
  * @readonly
  * @enum {string}
  */
-export enum AssessmentStatus {
-  Created = 'Created',
-  Updated = 'Updated',
-  Running = 'Running',
-  Completed = 'Completed',
-  Invalid = 'Invalid',
-}
+export type AssessmentStatus = 'Created' | 'Updated' | 'Running' | 'Completed' | 'Invalid';
 
 /**
  * Defines values for MachineBootType.
  * Possible values include: 'Unknown', 'EFI', 'BIOS'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: MachineBootType =
- * <MachineBootType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum MachineBootType {
-  Unknown = 'Unknown',
-  EFI = 'EFI',
-  BIOS = 'BIOS',
-}
+export type MachineBootType = 'Unknown' | 'EFI' | 'BIOS';
 
 /**
  * Defines values for AzureDiskType.
  * Possible values include: 'Unknown', 'Standard', 'Premium'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AzureDiskType =
- * <AzureDiskType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AzureDiskType {
-  Unknown = 'Unknown',
-  Standard = 'Standard',
-  Premium = 'Premium',
-}
+export type AzureDiskType = 'Unknown' | 'Standard' | 'Premium';
 
 /**
  * Defines values for AzureDiskSize.
- * Possible values include: 'Unknown', 'Standard_S4', 'Standard_S6',
- * 'Standard_S10', 'Standard_S20', 'Standard_S30', 'Standard_S40',
- * 'Standard_S50', 'Premium_P4', 'Premium_P6', 'Premium_P10', 'Premium_P20',
- * 'Premium_P30', 'Premium_P40', 'Premium_P50'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AzureDiskSize =
- * <AzureDiskSize>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'Standard_S4', 'Standard_S6', 'Standard_S10',
+ * 'Standard_S20', 'Standard_S30', 'Standard_S40', 'Standard_S50', 'Premium_P4', 'Premium_P6',
+ * 'Premium_P10', 'Premium_P20', 'Premium_P30', 'Premium_P40', 'Premium_P50'
  * @readonly
  * @enum {string}
  */
-export enum AzureDiskSize {
-  Unknown = 'Unknown',
-  StandardS4 = 'Standard_S4',
-  StandardS6 = 'Standard_S6',
-  StandardS10 = 'Standard_S10',
-  StandardS20 = 'Standard_S20',
-  StandardS30 = 'Standard_S30',
-  StandardS40 = 'Standard_S40',
-  StandardS50 = 'Standard_S50',
-  PremiumP4 = 'Premium_P4',
-  PremiumP6 = 'Premium_P6',
-  PremiumP10 = 'Premium_P10',
-  PremiumP20 = 'Premium_P20',
-  PremiumP30 = 'Premium_P30',
-  PremiumP40 = 'Premium_P40',
-  PremiumP50 = 'Premium_P50',
-}
+export type AzureDiskSize = 'Unknown' | 'Standard_S4' | 'Standard_S6' | 'Standard_S10' | 'Standard_S20' | 'Standard_S30' | 'Standard_S40' | 'Standard_S50' | 'Premium_P4' | 'Premium_P6' | 'Premium_P10' | 'Premium_P20' | 'Premium_P30' | 'Premium_P40' | 'Premium_P50';
 
 /**
  * Defines values for CloudSuitability.
- * Possible values include: 'Unknown', 'NotSuitable', 'Suitable',
- * 'ConditionallySuitable', 'ReadinessUnknown'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: CloudSuitability =
- * <CloudSuitability>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'NotSuitable', 'Suitable', 'ConditionallySuitable',
+ * 'ReadinessUnknown'
  * @readonly
  * @enum {string}
  */
-export enum CloudSuitability {
-  Unknown = 'Unknown',
-  NotSuitable = 'NotSuitable',
-  Suitable = 'Suitable',
-  ConditionallySuitable = 'ConditionallySuitable',
-  ReadinessUnknown = 'ReadinessUnknown',
-}
+export type CloudSuitability = 'Unknown' | 'NotSuitable' | 'Suitable' | 'ConditionallySuitable' | 'ReadinessUnknown';
 
 /**
  * Defines values for AzureDiskSuitabilityExplanation.
- * Possible values include: 'Unknown', 'NotApplicable',
- * 'DiskSizeGreaterThanSupported', 'NoSuitableDiskSizeForIops',
- * 'NoSuitableDiskSizeForThroughput', 'NoDiskSizeFoundInSelectedLocation',
- * 'NoDiskSizeFoundForSelectedRedundancy',
+ * Possible values include: 'Unknown', 'NotApplicable', 'DiskSizeGreaterThanSupported',
+ * 'NoSuitableDiskSizeForIops', 'NoSuitableDiskSizeForThroughput',
+ * 'NoDiskSizeFoundInSelectedLocation', 'NoDiskSizeFoundForSelectedRedundancy',
  * 'InternalErrorOccurredForDiskEvaluation'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AzureDiskSuitabilityExplanation =
- * <AzureDiskSuitabilityExplanation>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AzureDiskSuitabilityExplanation {
-  Unknown = 'Unknown',
-  NotApplicable = 'NotApplicable',
-  DiskSizeGreaterThanSupported = 'DiskSizeGreaterThanSupported',
-  NoSuitableDiskSizeForIops = 'NoSuitableDiskSizeForIops',
-  NoSuitableDiskSizeForThroughput = 'NoSuitableDiskSizeForThroughput',
-  NoDiskSizeFoundInSelectedLocation = 'NoDiskSizeFoundInSelectedLocation',
-  NoDiskSizeFoundForSelectedRedundancy = 'NoDiskSizeFoundForSelectedRedundancy',
-  InternalErrorOccurredForDiskEvaluation = 'InternalErrorOccurredForDiskEvaluation',
-}
+export type AzureDiskSuitabilityExplanation = 'Unknown' | 'NotApplicable' | 'DiskSizeGreaterThanSupported' | 'NoSuitableDiskSizeForIops' | 'NoSuitableDiskSizeForThroughput' | 'NoDiskSizeFoundInSelectedLocation' | 'NoDiskSizeFoundForSelectedRedundancy' | 'InternalErrorOccurredForDiskEvaluation';
 
 /**
  * Defines values for AzureNetworkAdapterSuitabilityExplanation.
  * Possible values include: 'Unknown', 'NotApplicable', 'InternalErrorOccured'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AzureNetworkAdapterSuitabilityExplanation =
- * <AzureNetworkAdapterSuitabilityExplanation>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AzureNetworkAdapterSuitabilityExplanation {
-  Unknown = 'Unknown',
-  NotApplicable = 'NotApplicable',
-  InternalErrorOccured = 'InternalErrorOccured',
-}
+export type AzureNetworkAdapterSuitabilityExplanation = 'Unknown' | 'NotApplicable' | 'InternalErrorOccured';
 
 /**
  * Defines values for AzureVmSize.
- * Possible values include: 'Unknown', 'Basic_A0', 'Basic_A1', 'Basic_A2',
- * 'Basic_A3', 'Basic_A4', 'Standard_A0', 'Standard_A1', 'Standard_A2',
- * 'Standard_A3', 'Standard_A4', 'Standard_A5', 'Standard_A6', 'Standard_A7',
- * 'Standard_A8', 'Standard_A9', 'Standard_A10', 'Standard_A11',
- * 'Standard_A1_v2', 'Standard_A2_v2', 'Standard_A4_v2', 'Standard_A8_v2',
- * 'Standard_A2m_v2', 'Standard_A4m_v2', 'Standard_A8m_v2', 'Standard_D1',
- * 'Standard_D2', 'Standard_D3', 'Standard_D4', 'Standard_D11', 'Standard_D12',
- * 'Standard_D13', 'Standard_D14', 'Standard_D1_v2', 'Standard_D2_v2',
- * 'Standard_D3_v2', 'Standard_D4_v2', 'Standard_D5_v2', 'Standard_D11_v2',
- * 'Standard_D12_v2', 'Standard_D13_v2', 'Standard_D14_v2', 'Standard_D15_v2',
- * 'Standard_DS1', 'Standard_DS2', 'Standard_DS3', 'Standard_DS4',
- * 'Standard_DS11', 'Standard_DS12', 'Standard_DS13', 'Standard_DS14',
- * 'Standard_DS1_v2', 'Standard_DS2_v2', 'Standard_DS3_v2', 'Standard_DS4_v2',
- * 'Standard_DS5_v2', 'Standard_DS11_v2', 'Standard_DS12_v2',
- * 'Standard_DS13_v2', 'Standard_DS14_v2', 'Standard_DS15_v2', 'Standard_F1',
- * 'Standard_F2', 'Standard_F4', 'Standard_F8', 'Standard_F16', 'Standard_F1s',
- * 'Standard_F2s', 'Standard_F4s', 'Standard_F8s', 'Standard_F16s',
- * 'Standard_G1', 'Standard_G2', 'Standard_G3', 'Standard_G4', 'Standard_G5',
- * 'Standard_GS1', 'Standard_GS2', 'Standard_GS3', 'Standard_GS4',
- * 'Standard_GS5', 'Standard_H8', 'Standard_H16', 'Standard_H8m',
- * 'Standard_H16m', 'Standard_H16r', 'Standard_H16mr', 'Standard_L4s',
- * 'Standard_L8s', 'Standard_L16s', 'Standard_L32s'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AzureVmSize =
- * <AzureVmSize>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'Basic_A0', 'Basic_A1', 'Basic_A2', 'Basic_A3', 'Basic_A4',
+ * 'Standard_A0', 'Standard_A1', 'Standard_A2', 'Standard_A3', 'Standard_A4', 'Standard_A5',
+ * 'Standard_A6', 'Standard_A7', 'Standard_A8', 'Standard_A9', 'Standard_A10', 'Standard_A11',
+ * 'Standard_A1_v2', 'Standard_A2_v2', 'Standard_A4_v2', 'Standard_A8_v2', 'Standard_A2m_v2',
+ * 'Standard_A4m_v2', 'Standard_A8m_v2', 'Standard_D1', 'Standard_D2', 'Standard_D3',
+ * 'Standard_D4', 'Standard_D11', 'Standard_D12', 'Standard_D13', 'Standard_D14', 'Standard_D1_v2',
+ * 'Standard_D2_v2', 'Standard_D3_v2', 'Standard_D4_v2', 'Standard_D5_v2', 'Standard_D11_v2',
+ * 'Standard_D12_v2', 'Standard_D13_v2', 'Standard_D14_v2', 'Standard_D15_v2', 'Standard_DS1',
+ * 'Standard_DS2', 'Standard_DS3', 'Standard_DS4', 'Standard_DS11', 'Standard_DS12',
+ * 'Standard_DS13', 'Standard_DS14', 'Standard_DS1_v2', 'Standard_DS2_v2', 'Standard_DS3_v2',
+ * 'Standard_DS4_v2', 'Standard_DS5_v2', 'Standard_DS11_v2', 'Standard_DS12_v2',
+ * 'Standard_DS13_v2', 'Standard_DS14_v2', 'Standard_DS15_v2', 'Standard_F1', 'Standard_F2',
+ * 'Standard_F4', 'Standard_F8', 'Standard_F16', 'Standard_F1s', 'Standard_F2s', 'Standard_F4s',
+ * 'Standard_F8s', 'Standard_F16s', 'Standard_G1', 'Standard_G2', 'Standard_G3', 'Standard_G4',
+ * 'Standard_G5', 'Standard_GS1', 'Standard_GS2', 'Standard_GS3', 'Standard_GS4', 'Standard_GS5',
+ * 'Standard_H8', 'Standard_H16', 'Standard_H8m', 'Standard_H16m', 'Standard_H16r',
+ * 'Standard_H16mr', 'Standard_L4s', 'Standard_L8s', 'Standard_L16s', 'Standard_L32s'
  * @readonly
  * @enum {string}
  */
-export enum AzureVmSize {
-  Unknown = 'Unknown',
-  BasicA0 = 'Basic_A0',
-  BasicA1 = 'Basic_A1',
-  BasicA2 = 'Basic_A2',
-  BasicA3 = 'Basic_A3',
-  BasicA4 = 'Basic_A4',
-  StandardA0 = 'Standard_A0',
-  StandardA1 = 'Standard_A1',
-  StandardA2 = 'Standard_A2',
-  StandardA3 = 'Standard_A3',
-  StandardA4 = 'Standard_A4',
-  StandardA5 = 'Standard_A5',
-  StandardA6 = 'Standard_A6',
-  StandardA7 = 'Standard_A7',
-  StandardA8 = 'Standard_A8',
-  StandardA9 = 'Standard_A9',
-  StandardA10 = 'Standard_A10',
-  StandardA11 = 'Standard_A11',
-  StandardA1V2 = 'Standard_A1_v2',
-  StandardA2V2 = 'Standard_A2_v2',
-  StandardA4V2 = 'Standard_A4_v2',
-  StandardA8V2 = 'Standard_A8_v2',
-  StandardA2mV2 = 'Standard_A2m_v2',
-  StandardA4mV2 = 'Standard_A4m_v2',
-  StandardA8mV2 = 'Standard_A8m_v2',
-  StandardD1 = 'Standard_D1',
-  StandardD2 = 'Standard_D2',
-  StandardD3 = 'Standard_D3',
-  StandardD4 = 'Standard_D4',
-  StandardD11 = 'Standard_D11',
-  StandardD12 = 'Standard_D12',
-  StandardD13 = 'Standard_D13',
-  StandardD14 = 'Standard_D14',
-  StandardD1V2 = 'Standard_D1_v2',
-  StandardD2V2 = 'Standard_D2_v2',
-  StandardD3V2 = 'Standard_D3_v2',
-  StandardD4V2 = 'Standard_D4_v2',
-  StandardD5V2 = 'Standard_D5_v2',
-  StandardD11V2 = 'Standard_D11_v2',
-  StandardD12V2 = 'Standard_D12_v2',
-  StandardD13V2 = 'Standard_D13_v2',
-  StandardD14V2 = 'Standard_D14_v2',
-  StandardD15V2 = 'Standard_D15_v2',
-  StandardDS1 = 'Standard_DS1',
-  StandardDS2 = 'Standard_DS2',
-  StandardDS3 = 'Standard_DS3',
-  StandardDS4 = 'Standard_DS4',
-  StandardDS11 = 'Standard_DS11',
-  StandardDS12 = 'Standard_DS12',
-  StandardDS13 = 'Standard_DS13',
-  StandardDS14 = 'Standard_DS14',
-  StandardDS1V2 = 'Standard_DS1_v2',
-  StandardDS2V2 = 'Standard_DS2_v2',
-  StandardDS3V2 = 'Standard_DS3_v2',
-  StandardDS4V2 = 'Standard_DS4_v2',
-  StandardDS5V2 = 'Standard_DS5_v2',
-  StandardDS11V2 = 'Standard_DS11_v2',
-  StandardDS12V2 = 'Standard_DS12_v2',
-  StandardDS13V2 = 'Standard_DS13_v2',
-  StandardDS14V2 = 'Standard_DS14_v2',
-  StandardDS15V2 = 'Standard_DS15_v2',
-  StandardF1 = 'Standard_F1',
-  StandardF2 = 'Standard_F2',
-  StandardF4 = 'Standard_F4',
-  StandardF8 = 'Standard_F8',
-  StandardF16 = 'Standard_F16',
-  StandardF1s = 'Standard_F1s',
-  StandardF2s = 'Standard_F2s',
-  StandardF4s = 'Standard_F4s',
-  StandardF8s = 'Standard_F8s',
-  StandardF16s = 'Standard_F16s',
-  StandardG1 = 'Standard_G1',
-  StandardG2 = 'Standard_G2',
-  StandardG3 = 'Standard_G3',
-  StandardG4 = 'Standard_G4',
-  StandardG5 = 'Standard_G5',
-  StandardGS1 = 'Standard_GS1',
-  StandardGS2 = 'Standard_GS2',
-  StandardGS3 = 'Standard_GS3',
-  StandardGS4 = 'Standard_GS4',
-  StandardGS5 = 'Standard_GS5',
-  StandardH8 = 'Standard_H8',
-  StandardH16 = 'Standard_H16',
-  StandardH8m = 'Standard_H8m',
-  StandardH16m = 'Standard_H16m',
-  StandardH16r = 'Standard_H16r',
-  StandardH16mr = 'Standard_H16mr',
-  StandardL4s = 'Standard_L4s',
-  StandardL8s = 'Standard_L8s',
-  StandardL16s = 'Standard_L16s',
-  StandardL32s = 'Standard_L32s',
-}
+export type AzureVmSize = 'Unknown' | 'Basic_A0' | 'Basic_A1' | 'Basic_A2' | 'Basic_A3' | 'Basic_A4' | 'Standard_A0' | 'Standard_A1' | 'Standard_A2' | 'Standard_A3' | 'Standard_A4' | 'Standard_A5' | 'Standard_A6' | 'Standard_A7' | 'Standard_A8' | 'Standard_A9' | 'Standard_A10' | 'Standard_A11' | 'Standard_A1_v2' | 'Standard_A2_v2' | 'Standard_A4_v2' | 'Standard_A8_v2' | 'Standard_A2m_v2' | 'Standard_A4m_v2' | 'Standard_A8m_v2' | 'Standard_D1' | 'Standard_D2' | 'Standard_D3' | 'Standard_D4' | 'Standard_D11' | 'Standard_D12' | 'Standard_D13' | 'Standard_D14' | 'Standard_D1_v2' | 'Standard_D2_v2' | 'Standard_D3_v2' | 'Standard_D4_v2' | 'Standard_D5_v2' | 'Standard_D11_v2' | 'Standard_D12_v2' | 'Standard_D13_v2' | 'Standard_D14_v2' | 'Standard_D15_v2' | 'Standard_DS1' | 'Standard_DS2' | 'Standard_DS3' | 'Standard_DS4' | 'Standard_DS11' | 'Standard_DS12' | 'Standard_DS13' | 'Standard_DS14' | 'Standard_DS1_v2' | 'Standard_DS2_v2' | 'Standard_DS3_v2' | 'Standard_DS4_v2' | 'Standard_DS5_v2' | 'Standard_DS11_v2' | 'Standard_DS12_v2' | 'Standard_DS13_v2' | 'Standard_DS14_v2' | 'Standard_DS15_v2' | 'Standard_F1' | 'Standard_F2' | 'Standard_F4' | 'Standard_F8' | 'Standard_F16' | 'Standard_F1s' | 'Standard_F2s' | 'Standard_F4s' | 'Standard_F8s' | 'Standard_F16s' | 'Standard_G1' | 'Standard_G2' | 'Standard_G3' | 'Standard_G4' | 'Standard_G5' | 'Standard_GS1' | 'Standard_GS2' | 'Standard_GS3' | 'Standard_GS4' | 'Standard_GS5' | 'Standard_H8' | 'Standard_H16' | 'Standard_H8m' | 'Standard_H16m' | 'Standard_H16r' | 'Standard_H16mr' | 'Standard_L4s' | 'Standard_L8s' | 'Standard_L16s' | 'Standard_L32s';
 
 /**
  * Defines values for AzureVmSuitabilityExplanation.
  * Possible values include: 'Unknown', 'NotApplicable',
- * 'GuestOperatingSystemArchitectureNotSupported',
- * 'GuestOperatingSystemNotSupported', 'BootTypeNotSupported',
- * 'MoreDisksThanSupported', 'NoSuitableVmSizeFound',
+ * 'GuestOperatingSystemArchitectureNotSupported', 'GuestOperatingSystemNotSupported',
+ * 'BootTypeNotSupported', 'MoreDisksThanSupported', 'NoSuitableVmSizeFound',
  * 'OneOrMoreDisksNotSuitable', 'OneOrMoreAdaptersNotSuitable',
- * 'InternalErrorOccuredDuringComputeEvaluation',
- * 'InternalErrorOccuredDuringStorageEvaluation',
- * 'InternalErrorOccuredDuringNetworkEvaluation',
- * 'NoVmSizeSupportsStoragePerformance', 'NoVmSizeSupportsNetworkPerformance',
- * 'NoVmSizeForSelectedPricingTier', 'NoVmSizeForSelectedAzureLocation',
- * 'CheckRedHatLinuxVersion', 'CheckOpenSuseLinuxVersion',
- * 'CheckWindowsServer2008R2Version', 'CheckCentOsVersion',
- * 'CheckDebianLinuxVersion', 'CheckSuseLinuxVersion',
- * 'CheckOracleLinuxVersion', 'CheckUbuntuLinuxVersion',
+ * 'InternalErrorOccuredDuringComputeEvaluation', 'InternalErrorOccuredDuringStorageEvaluation',
+ * 'InternalErrorOccuredDuringNetworkEvaluation', 'NoVmSizeSupportsStoragePerformance',
+ * 'NoVmSizeSupportsNetworkPerformance', 'NoVmSizeForSelectedPricingTier',
+ * 'NoVmSizeForSelectedAzureLocation', 'CheckRedHatLinuxVersion', 'CheckOpenSuseLinuxVersion',
+ * 'CheckWindowsServer2008R2Version', 'CheckCentOsVersion', 'CheckDebianLinuxVersion',
+ * 'CheckSuseLinuxVersion', 'CheckOracleLinuxVersion', 'CheckUbuntuLinuxVersion',
  * 'CheckCoreOsLinuxVersion', 'WindowsServerVersionConditionallySupported',
- * 'NoGuestOperatingSystemConditionallySupported',
- * 'WindowsClientVersionsConditionallySupported', 'BootTypeUnknown',
- * 'GuestOperatingSystemUnknown', 'WindowsServerVersionsSupportedWithCaveat',
- * 'WindowsOSNoLongerUnderMSSupport',
- * 'EndorsedWithConditionsLinuxDistributions', 'UnendorsedLinuxDistributions',
- * 'NoVmSizeForStandardPricingTier', 'NoVmSizeForBasicPricingTier'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AzureVmSuitabilityExplanation =
- * <AzureVmSuitabilityExplanation>"someUnknownValueThatWillStillBeValid";
+ * 'NoGuestOperatingSystemConditionallySupported', 'WindowsClientVersionsConditionallySupported',
+ * 'BootTypeUnknown', 'GuestOperatingSystemUnknown', 'WindowsServerVersionsSupportedWithCaveat',
+ * 'WindowsOSNoLongerUnderMSSupport', 'EndorsedWithConditionsLinuxDistributions',
+ * 'UnendorsedLinuxDistributions', 'NoVmSizeForStandardPricingTier', 'NoVmSizeForBasicPricingTier'
  * @readonly
  * @enum {string}
  */
-export enum AzureVmSuitabilityExplanation {
-  Unknown = 'Unknown',
-  NotApplicable = 'NotApplicable',
-  GuestOperatingSystemArchitectureNotSupported = 'GuestOperatingSystemArchitectureNotSupported',
-  GuestOperatingSystemNotSupported = 'GuestOperatingSystemNotSupported',
-  BootTypeNotSupported = 'BootTypeNotSupported',
-  MoreDisksThanSupported = 'MoreDisksThanSupported',
-  NoSuitableVmSizeFound = 'NoSuitableVmSizeFound',
-  OneOrMoreDisksNotSuitable = 'OneOrMoreDisksNotSuitable',
-  OneOrMoreAdaptersNotSuitable = 'OneOrMoreAdaptersNotSuitable',
-  InternalErrorOccuredDuringComputeEvaluation = 'InternalErrorOccuredDuringComputeEvaluation',
-  InternalErrorOccuredDuringStorageEvaluation = 'InternalErrorOccuredDuringStorageEvaluation',
-  InternalErrorOccuredDuringNetworkEvaluation = 'InternalErrorOccuredDuringNetworkEvaluation',
-  NoVmSizeSupportsStoragePerformance = 'NoVmSizeSupportsStoragePerformance',
-  NoVmSizeSupportsNetworkPerformance = 'NoVmSizeSupportsNetworkPerformance',
-  NoVmSizeForSelectedPricingTier = 'NoVmSizeForSelectedPricingTier',
-  NoVmSizeForSelectedAzureLocation = 'NoVmSizeForSelectedAzureLocation',
-  CheckRedHatLinuxVersion = 'CheckRedHatLinuxVersion',
-  CheckOpenSuseLinuxVersion = 'CheckOpenSuseLinuxVersion',
-  CheckWindowsServer2008R2Version = 'CheckWindowsServer2008R2Version',
-  CheckCentOsVersion = 'CheckCentOsVersion',
-  CheckDebianLinuxVersion = 'CheckDebianLinuxVersion',
-  CheckSuseLinuxVersion = 'CheckSuseLinuxVersion',
-  CheckOracleLinuxVersion = 'CheckOracleLinuxVersion',
-  CheckUbuntuLinuxVersion = 'CheckUbuntuLinuxVersion',
-  CheckCoreOsLinuxVersion = 'CheckCoreOsLinuxVersion',
-  WindowsServerVersionConditionallySupported = 'WindowsServerVersionConditionallySupported',
-  NoGuestOperatingSystemConditionallySupported = 'NoGuestOperatingSystemConditionallySupported',
-  WindowsClientVersionsConditionallySupported = 'WindowsClientVersionsConditionallySupported',
-  BootTypeUnknown = 'BootTypeUnknown',
-  GuestOperatingSystemUnknown = 'GuestOperatingSystemUnknown',
-  WindowsServerVersionsSupportedWithCaveat = 'WindowsServerVersionsSupportedWithCaveat',
-  WindowsOSNoLongerUnderMSSupport = 'WindowsOSNoLongerUnderMSSupport',
-  EndorsedWithConditionsLinuxDistributions = 'EndorsedWithConditionsLinuxDistributions',
-  UnendorsedLinuxDistributions = 'UnendorsedLinuxDistributions',
-  NoVmSizeForStandardPricingTier = 'NoVmSizeForStandardPricingTier',
-  NoVmSizeForBasicPricingTier = 'NoVmSizeForBasicPricingTier',
-}
+export type AzureVmSuitabilityExplanation = 'Unknown' | 'NotApplicable' | 'GuestOperatingSystemArchitectureNotSupported' | 'GuestOperatingSystemNotSupported' | 'BootTypeNotSupported' | 'MoreDisksThanSupported' | 'NoSuitableVmSizeFound' | 'OneOrMoreDisksNotSuitable' | 'OneOrMoreAdaptersNotSuitable' | 'InternalErrorOccuredDuringComputeEvaluation' | 'InternalErrorOccuredDuringStorageEvaluation' | 'InternalErrorOccuredDuringNetworkEvaluation' | 'NoVmSizeSupportsStoragePerformance' | 'NoVmSizeSupportsNetworkPerformance' | 'NoVmSizeForSelectedPricingTier' | 'NoVmSizeForSelectedAzureLocation' | 'CheckRedHatLinuxVersion' | 'CheckOpenSuseLinuxVersion' | 'CheckWindowsServer2008R2Version' | 'CheckCentOsVersion' | 'CheckDebianLinuxVersion' | 'CheckSuseLinuxVersion' | 'CheckOracleLinuxVersion' | 'CheckUbuntuLinuxVersion' | 'CheckCoreOsLinuxVersion' | 'WindowsServerVersionConditionallySupported' | 'NoGuestOperatingSystemConditionallySupported' | 'WindowsClientVersionsConditionallySupported' | 'BootTypeUnknown' | 'GuestOperatingSystemUnknown' | 'WindowsServerVersionsSupportedWithCaveat' | 'WindowsOSNoLongerUnderMSSupport' | 'EndorsedWithConditionsLinuxDistributions' | 'UnendorsedLinuxDistributions' | 'NoVmSizeForStandardPricingTier' | 'NoVmSizeForBasicPricingTier';
 
 /**
  * Defines values for NameAvailabilityReason.
@@ -2384,11 +1946,7 @@ export enum AzureVmSuitabilityExplanation {
  * @readonly
  * @enum {string}
  */
-export enum NameAvailabilityReason {
-  Available = 'Available',
-  Invalid = 'Invalid',
-  AlreadyExists = 'AlreadyExists',
-}
+export type NameAvailabilityReason = 'Available' | 'Invalid' | 'AlreadyExists';
 
 /**
  * Contains response data for the checkNameAvailability operation.

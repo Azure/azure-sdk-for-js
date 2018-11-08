@@ -47,7 +47,7 @@ export class NodeCountInformation {
    * @param callback The callback
    */
   get(resourceGroupName: string, automationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NodeCounts>): void;
-  get(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NodeCounts>): Promise<Models.NodeCountInformationGetResponse> {
+  get(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NodeCounts>, callback?: msRest.ServiceCallback<Models.NodeCounts>): Promise<Models.NodeCountInformationGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

@@ -27,37 +27,37 @@ export class Volume {
   }
 
   /**
-   * Creates a volume resource with the specified name and description. If a volume with the same
-   * name already exists, then its description is updated to the one indicated in this request.
-   *
+   * Creates a volume resource with the specified name, description and properties. If a volume
+   * resource with the same name exists, then it is updated with the specified description and
+   * properties.
    * @summary Creates or updates a volume resource.
    * @param resourceGroupName Azure resource group name
-   * @param volumeName The identity of the volume.
-   * @param volumeResourceDescription Description for creating a volume resource.
+   * @param volumeResourceName The identity of the volume.
+   * @param volumeResourceDescription Description for creating a Volume resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.VolumeCreateResponse>
    */
-  create(resourceGroupName: string, volumeName: string, volumeResourceDescription: Models.VolumeResourceDescription, options?: msRest.RequestOptionsBase): Promise<Models.VolumeCreateResponse>;
+  create(resourceGroupName: string, volumeResourceName: string, volumeResourceDescription: Models.VolumeResourceDescription, options?: msRest.RequestOptionsBase): Promise<Models.VolumeCreateResponse>;
   /**
    * @param resourceGroupName Azure resource group name
-   * @param volumeName The identity of the volume.
-   * @param volumeResourceDescription Description for creating a volume resource.
+   * @param volumeResourceName The identity of the volume.
+   * @param volumeResourceDescription Description for creating a Volume resource.
    * @param callback The callback
    */
-  create(resourceGroupName: string, volumeName: string, volumeResourceDescription: Models.VolumeResourceDescription, callback: msRest.ServiceCallback<Models.VolumeResourceDescription>): void;
+  create(resourceGroupName: string, volumeResourceName: string, volumeResourceDescription: Models.VolumeResourceDescription, callback: msRest.ServiceCallback<Models.VolumeResourceDescription>): void;
   /**
    * @param resourceGroupName Azure resource group name
-   * @param volumeName The identity of the volume.
-   * @param volumeResourceDescription Description for creating a volume resource.
+   * @param volumeResourceName The identity of the volume.
+   * @param volumeResourceDescription Description for creating a Volume resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, volumeName: string, volumeResourceDescription: Models.VolumeResourceDescription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VolumeResourceDescription>): void;
-  create(resourceGroupName: string, volumeName: string, volumeResourceDescription: Models.VolumeResourceDescription, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VolumeResourceDescription>): Promise<Models.VolumeCreateResponse> {
+  create(resourceGroupName: string, volumeResourceName: string, volumeResourceDescription: Models.VolumeResourceDescription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VolumeResourceDescription>): void;
+  create(resourceGroupName: string, volumeResourceName: string, volumeResourceDescription: Models.VolumeResourceDescription, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeResourceDescription>, callback?: msRest.ServiceCallback<Models.VolumeResourceDescription>): Promise<Models.VolumeCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        volumeName,
+        volumeResourceName,
         volumeResourceDescription,
         options
       },
@@ -66,34 +66,33 @@ export class Volume {
   }
 
   /**
-   * Gets the information about the volume resource with a given name. This information includes the
-   * volume description and other runtime information.
-   *
-   * @summary Gets the volume resource.
+   * Gets the information about the volume resource with the given name. The information include the
+   * description and other properties of the volume.
+   * @summary Gets the volume resource with the given name.
    * @param resourceGroupName Azure resource group name
-   * @param volumeName The identity of the volume.
+   * @param volumeResourceName The identity of the volume.
    * @param [options] The optional parameters
    * @returns Promise<Models.VolumeGetResponse>
    */
-  get(resourceGroupName: string, volumeName: string, options?: msRest.RequestOptionsBase): Promise<Models.VolumeGetResponse>;
+  get(resourceGroupName: string, volumeResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.VolumeGetResponse>;
   /**
    * @param resourceGroupName Azure resource group name
-   * @param volumeName The identity of the volume.
+   * @param volumeResourceName The identity of the volume.
    * @param callback The callback
    */
-  get(resourceGroupName: string, volumeName: string, callback: msRest.ServiceCallback<Models.VolumeResourceDescription>): void;
+  get(resourceGroupName: string, volumeResourceName: string, callback: msRest.ServiceCallback<Models.VolumeResourceDescription>): void;
   /**
    * @param resourceGroupName Azure resource group name
-   * @param volumeName The identity of the volume.
+   * @param volumeResourceName The identity of the volume.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, volumeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VolumeResourceDescription>): void;
-  get(resourceGroupName: string, volumeName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VolumeResourceDescription>): Promise<Models.VolumeGetResponse> {
+  get(resourceGroupName: string, volumeResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VolumeResourceDescription>): void;
+  get(resourceGroupName: string, volumeResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeResourceDescription>, callback?: msRest.ServiceCallback<Models.VolumeResourceDescription>): Promise<Models.VolumeGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        volumeName,
+        volumeResourceName,
         options
       },
       getOperationSpec,
@@ -101,32 +100,32 @@ export class Volume {
   }
 
   /**
-   * Deletes the volume identified by the name.
+   * Deletes the volume resource identified by the name.
    * @summary Deletes the volume resource.
    * @param resourceGroupName Azure resource group name
-   * @param volumeName The identity of the volume.
+   * @param volumeResourceName The identity of the volume.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, volumeName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, volumeResourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Azure resource group name
-   * @param volumeName The identity of the volume.
+   * @param volumeResourceName The identity of the volume.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, volumeName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, volumeResourceName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName Azure resource group name
-   * @param volumeName The identity of the volume.
+   * @param volumeResourceName The identity of the volume.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, volumeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, volumeName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, volumeResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, volumeResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        volumeName,
+        volumeResourceName,
         options
       },
       deleteMethodOperationSpec,
@@ -135,8 +134,7 @@ export class Volume {
 
   /**
    * Gets the information about all volume resources in a given resource group. The information
-   * includes the volume description and other runtime information.
-   *
+   * include the description and other properties of the Volume.
    * @summary Gets all the volume resources in a given resource group.
    * @param resourceGroupName Azure resource group name
    * @param [options] The optional parameters
@@ -154,7 +152,7 @@ export class Volume {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>): Promise<Models.VolumeListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>): Promise<Models.VolumeListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -165,9 +163,8 @@ export class Volume {
   }
 
   /**
-   * Gets the information about all volume resources in a given subscription. The information
-   * includes the volume description and other runtime information.
-   *
+   * Gets the information about all volume resources in a given resource group. The information
+   * include the description and other properties of the volume.
    * @summary Gets all the volume resources in a given subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.VolumeListBySubscriptionResponse>
@@ -182,7 +179,7 @@ export class Volume {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>): Promise<Models.VolumeListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>): Promise<Models.VolumeListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -193,8 +190,7 @@ export class Volume {
 
   /**
    * Gets the information about all volume resources in a given resource group. The information
-   * includes the volume description and other runtime information.
-   *
+   * include the description and other properties of the Volume.
    * @summary Gets all the volume resources in a given resource group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -212,7 +208,7 @@ export class Volume {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>): Promise<Models.VolumeListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>): Promise<Models.VolumeListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -223,9 +219,8 @@ export class Volume {
   }
 
   /**
-   * Gets the information about all volume resources in a given subscription. The information
-   * includes the volume description and other runtime information.
-   *
+   * Gets the information about all volume resources in a given resource group. The information
+   * include the description and other properties of the volume.
    * @summary Gets all the volume resources in a given subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -243,7 +238,7 @@ export class Volume {
    * @param callback The callback
    */
   listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>): Promise<Models.VolumeListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>): Promise<Models.VolumeListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -258,11 +253,11 @@ export class Volume {
 const serializer = new msRest.Serializer(Mappers);
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/volumes/{volumeName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/volumes/{volumeResourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.volumeName
+    Parameters.volumeResourceName
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -284,6 +279,7 @@ const createOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.VolumeResourceDescription
     },
+    202: {},
     default: {
       bodyMapper: Mappers.ErrorModel
     }
@@ -293,11 +289,11 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/volumes/{volumeName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/volumes/{volumeResourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.volumeName
+    Parameters.volumeResourceName
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -318,11 +314,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/volumes/{volumeName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/volumes/{volumeResourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.volumeName
+    Parameters.volumeResourceName
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -332,6 +328,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {},
+    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.ErrorModel

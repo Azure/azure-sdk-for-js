@@ -48,7 +48,7 @@ export class Prediction {
    * @param callback The callback
    */
   resolve(appId: string, query: string, options: Models.PredictionResolveOptionalParams, callback: msRest.ServiceCallback<Models.LuisResult>): void;
-  resolve(appId: string, query: string, options?: Models.PredictionResolveOptionalParams, callback?: msRest.ServiceCallback<Models.LuisResult>): Promise<Models.PredictionResolveResponse> {
+  resolve(appId: string, query: string, options?: Models.PredictionResolveOptionalParams | msRest.ServiceCallback<Models.LuisResult>, callback?: msRest.ServiceCallback<Models.LuisResult>): Promise<Models.PredictionResolveResponse> {
     return this.client.sendOperationRequest(
       {
         appId,

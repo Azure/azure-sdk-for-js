@@ -41,7 +41,7 @@ export class GeographicHierarchies {
    * @param callback The callback
    */
   getDefault(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TrafficManagerGeographicHierarchy>): void;
-  getDefault(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TrafficManagerGeographicHierarchy>): Promise<Models.GeographicHierarchiesGetDefaultResponse> {
+  getDefault(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TrafficManagerGeographicHierarchy>, callback?: msRest.ServiceCallback<Models.TrafficManagerGeographicHierarchy>): Promise<Models.GeographicHierarchiesGetDefaultResponse> {
     return this.client.sendOperationRequest(
       {
         options

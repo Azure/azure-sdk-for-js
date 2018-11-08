@@ -50,7 +50,7 @@ export class BackupProtectedItems {
    * @param callback The callback
    */
   list(vaultName: string, resourceGroupName: string, options: Models.BackupProtectedItemsListOptionalParams, callback: msRest.ServiceCallback<Models.ProtectedItemResourceList>): void;
-  list(vaultName: string, resourceGroupName: string, options?: Models.BackupProtectedItemsListOptionalParams, callback?: msRest.ServiceCallback<Models.ProtectedItemResourceList>): Promise<Models.BackupProtectedItemsListResponse> {
+  list(vaultName: string, resourceGroupName: string, options?: Models.BackupProtectedItemsListOptionalParams | msRest.ServiceCallback<Models.ProtectedItemResourceList>, callback?: msRest.ServiceCallback<Models.ProtectedItemResourceList>): Promise<Models.BackupProtectedItemsListResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -79,7 +79,7 @@ export class BackupProtectedItems {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectedItemResourceList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProtectedItemResourceList>): Promise<Models.BackupProtectedItemsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectedItemResourceList>, callback?: msRest.ServiceCallback<Models.ProtectedItemResourceList>): Promise<Models.BackupProtectedItemsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

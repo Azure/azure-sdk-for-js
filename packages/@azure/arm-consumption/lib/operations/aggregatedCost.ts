@@ -45,7 +45,7 @@ export class AggregatedCost {
    * @param callback The callback
    */
   getByManagementGroup(managementGroupId: string, options: Models.AggregatedCostGetByManagementGroupOptionalParams, callback: msRest.ServiceCallback<Models.ManagementGroupAggregatedCostResult>): void;
-  getByManagementGroup(managementGroupId: string, options?: Models.AggregatedCostGetByManagementGroupOptionalParams, callback?: msRest.ServiceCallback<Models.ManagementGroupAggregatedCostResult>): Promise<Models.AggregatedCostGetByManagementGroupResponse> {
+  getByManagementGroup(managementGroupId: string, options?: Models.AggregatedCostGetByManagementGroupOptionalParams | msRest.ServiceCallback<Models.ManagementGroupAggregatedCostResult>, callback?: msRest.ServiceCallback<Models.ManagementGroupAggregatedCostResult>): Promise<Models.AggregatedCostGetByManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         managementGroupId,
@@ -77,7 +77,7 @@ export class AggregatedCost {
    * @param callback The callback
    */
   getForBillingPeriodByManagementGroup(managementGroupId: string, billingPeriodName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementGroupAggregatedCostResult>): void;
-  getForBillingPeriodByManagementGroup(managementGroupId: string, billingPeriodName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagementGroupAggregatedCostResult>): Promise<Models.AggregatedCostGetForBillingPeriodByManagementGroupResponse> {
+  getForBillingPeriodByManagementGroup(managementGroupId: string, billingPeriodName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementGroupAggregatedCostResult>, callback?: msRest.ServiceCallback<Models.ManagementGroupAggregatedCostResult>): Promise<Models.AggregatedCostGetForBillingPeriodByManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         managementGroupId,

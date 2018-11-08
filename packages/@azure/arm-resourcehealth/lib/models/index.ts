@@ -465,11 +465,7 @@ export interface AvailabilityStatusListResult extends Array<AvailabilityStatus> 
  * @readonly
  * @enum {string}
  */
-export enum AvailabilityStateValues {
-  Available = 'Available',
-  Unavailable = 'Unavailable',
-  Unknown = 'Unknown',
-}
+export type AvailabilityStateValues = 'Available' | 'Unavailable' | 'Unknown';
 
 /**
  * Defines values for ReasonChronicityTypes.
@@ -477,10 +473,7 @@ export enum AvailabilityStateValues {
  * @readonly
  * @enum {string}
  */
-export enum ReasonChronicityTypes {
-  Transient = 'Transient',
-  Persistent = 'Persistent',
-}
+export type ReasonChronicityTypes = 'Transient' | 'Persistent';
 
 /**
  * Contains response data for the listBySubscriptionId operation.

@@ -50,7 +50,7 @@ export class Subscriptions {
    * @param callback The callback
    */
   listQuotas(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionQuotasListResult>): void;
-  listQuotas(location: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SubscriptionQuotasListResult>): Promise<Models.SubscriptionsListQuotasResponse> {
+  listQuotas(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionQuotasListResult>, callback?: msRest.ServiceCallback<Models.SubscriptionQuotasListResult>): Promise<Models.SubscriptionsListQuotasResponse> {
     return this.client.sendOperationRequest(
       {
         location,

@@ -93,7 +93,7 @@ export class Servers {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Server>): void;
-  get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Server>): Promise<Models.ServersGetResponse> {
+  get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Server>, callback?: msRest.ServiceCallback<Models.Server>): Promise<Models.ServersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -125,7 +125,7 @@ export class Servers {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServerListResult>): Promise<Models.ServersListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerListResult>, callback?: msRest.ServiceCallback<Models.ServerListResult>): Promise<Models.ServersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -150,7 +150,7 @@ export class Servers {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServerListResult>): Promise<Models.ServersListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerListResult>, callback?: msRest.ServiceCallback<Models.ServerListResult>): Promise<Models.ServersListResponse> {
     return this.client.sendOperationRequest(
       {
         options

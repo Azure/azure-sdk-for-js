@@ -65,7 +65,7 @@ export class Predictions {
    * @param callback The callback
    */
   get(resourceGroupName: string, hubName: string, predictionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PredictionResourceFormat>): void;
-  get(resourceGroupName: string, hubName: string, predictionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PredictionResourceFormat>): Promise<Models.PredictionsGetResponse> {
+  get(resourceGroupName: string, hubName: string, predictionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PredictionResourceFormat>, callback?: msRest.ServiceCallback<Models.PredictionResourceFormat>): Promise<Models.PredictionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -114,7 +114,7 @@ export class Predictions {
    * @param callback The callback
    */
   getTrainingResults(resourceGroupName: string, hubName: string, predictionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PredictionTrainingResults>): void;
-  getTrainingResults(resourceGroupName: string, hubName: string, predictionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PredictionTrainingResults>): Promise<Models.PredictionsGetTrainingResultsResponse> {
+  getTrainingResults(resourceGroupName: string, hubName: string, predictionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PredictionTrainingResults>, callback?: msRest.ServiceCallback<Models.PredictionTrainingResults>): Promise<Models.PredictionsGetTrainingResultsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -150,7 +150,7 @@ export class Predictions {
    * @param callback The callback
    */
   getModelStatus(resourceGroupName: string, hubName: string, predictionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PredictionModelStatus>): void;
-  getModelStatus(resourceGroupName: string, hubName: string, predictionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PredictionModelStatus>): Promise<Models.PredictionsGetModelStatusResponse> {
+  getModelStatus(resourceGroupName: string, hubName: string, predictionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PredictionModelStatus>, callback?: msRest.ServiceCallback<Models.PredictionModelStatus>): Promise<Models.PredictionsGetModelStatusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -189,7 +189,7 @@ export class Predictions {
    * @param callback The callback
    */
   modelStatus(resourceGroupName: string, hubName: string, predictionName: string, parameters: Models.PredictionModelStatus, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  modelStatus(resourceGroupName: string, hubName: string, predictionName: string, parameters: Models.PredictionModelStatus, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  modelStatus(resourceGroupName: string, hubName: string, predictionName: string, parameters: Models.PredictionModelStatus, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -223,7 +223,7 @@ export class Predictions {
    * @param callback The callback
    */
   listByHub(resourceGroupName: string, hubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PredictionListResult>): void;
-  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PredictionListResult>): Promise<Models.PredictionsListByHubResponse> {
+  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PredictionListResult>, callback?: msRest.ServiceCallback<Models.PredictionListResult>): Promise<Models.PredictionsListByHubResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -294,7 +294,7 @@ export class Predictions {
    * @param callback The callback
    */
   listByHubNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PredictionListResult>): void;
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PredictionListResult>): Promise<Models.PredictionsListByHubNextResponse> {
+  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PredictionListResult>, callback?: msRest.ServiceCallback<Models.PredictionListResult>): Promise<Models.PredictionsListByHubNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

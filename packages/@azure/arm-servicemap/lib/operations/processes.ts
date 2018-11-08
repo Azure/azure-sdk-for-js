@@ -53,7 +53,7 @@ export class Processes {
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, machineName: string, processName: string, options: Models.ProcessesGetOptionalParams, callback: msRest.ServiceCallback<Models.Process>): void;
-  get(resourceGroupName: string, workspaceName: string, machineName: string, processName: string, options?: Models.ProcessesGetOptionalParams, callback?: msRest.ServiceCallback<Models.Process>): Promise<Models.ProcessesGetResponse> {
+  get(resourceGroupName: string, workspaceName: string, machineName: string, processName: string, options?: Models.ProcessesGetOptionalParams | msRest.ServiceCallback<Models.Process>, callback?: msRest.ServiceCallback<Models.Process>): Promise<Models.ProcessesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -93,7 +93,7 @@ export class Processes {
    * @param callback The callback
    */
   getLiveness(resourceGroupName: string, workspaceName: string, machineName: string, processName: string, options: Models.ProcessesGetLivenessOptionalParams, callback: msRest.ServiceCallback<Models.Liveness>): void;
-  getLiveness(resourceGroupName: string, workspaceName: string, machineName: string, processName: string, options?: Models.ProcessesGetLivenessOptionalParams, callback?: msRest.ServiceCallback<Models.Liveness>): Promise<Models.ProcessesGetLivenessResponse> {
+  getLiveness(resourceGroupName: string, workspaceName: string, machineName: string, processName: string, options?: Models.ProcessesGetLivenessOptionalParams | msRest.ServiceCallback<Models.Liveness>, callback?: msRest.ServiceCallback<Models.Liveness>): Promise<Models.ProcessesGetLivenessResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -133,7 +133,7 @@ export class Processes {
    * @param callback The callback
    */
   listAcceptingPorts(resourceGroupName: string, workspaceName: string, machineName: string, processName: string, options: Models.ProcessesListAcceptingPortsOptionalParams, callback: msRest.ServiceCallback<Models.PortCollection>): void;
-  listAcceptingPorts(resourceGroupName: string, workspaceName: string, machineName: string, processName: string, options?: Models.ProcessesListAcceptingPortsOptionalParams, callback?: msRest.ServiceCallback<Models.PortCollection>): Promise<Models.ProcessesListAcceptingPortsResponse> {
+  listAcceptingPorts(resourceGroupName: string, workspaceName: string, machineName: string, processName: string, options?: Models.ProcessesListAcceptingPortsOptionalParams | msRest.ServiceCallback<Models.PortCollection>, callback?: msRest.ServiceCallback<Models.PortCollection>): Promise<Models.ProcessesListAcceptingPortsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -173,7 +173,7 @@ export class Processes {
    * @param callback The callback
    */
   listConnections(resourceGroupName: string, workspaceName: string, machineName: string, processName: string, options: Models.ProcessesListConnectionsOptionalParams, callback: msRest.ServiceCallback<Models.ConnectionCollection>): void;
-  listConnections(resourceGroupName: string, workspaceName: string, machineName: string, processName: string, options?: Models.ProcessesListConnectionsOptionalParams, callback?: msRest.ServiceCallback<Models.ConnectionCollection>): Promise<Models.ProcessesListConnectionsResponse> {
+  listConnections(resourceGroupName: string, workspaceName: string, machineName: string, processName: string, options?: Models.ProcessesListConnectionsOptionalParams | msRest.ServiceCallback<Models.ConnectionCollection>, callback?: msRest.ServiceCallback<Models.ConnectionCollection>): Promise<Models.ProcessesListConnectionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -204,7 +204,7 @@ export class Processes {
    * @param callback The callback
    */
   listAcceptingPortsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PortCollection>): void;
-  listAcceptingPortsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PortCollection>): Promise<Models.ProcessesListAcceptingPortsNextResponse> {
+  listAcceptingPortsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PortCollection>, callback?: msRest.ServiceCallback<Models.PortCollection>): Promise<Models.ProcessesListAcceptingPortsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -232,7 +232,7 @@ export class Processes {
    * @param callback The callback
    */
   listConnectionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectionCollection>): void;
-  listConnectionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ConnectionCollection>): Promise<Models.ProcessesListConnectionsNextResponse> {
+  listConnectionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionCollection>, callback?: msRest.ServiceCallback<Models.ConnectionCollection>): Promise<Models.ProcessesListConnectionsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

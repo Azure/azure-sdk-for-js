@@ -48,7 +48,7 @@ export class Extensions {
    * @param callback The callback
    */
   listByAccount(resourceGroupName: string, accountResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExtensionResourceListResult>): void;
-  listByAccount(resourceGroupName: string, accountResourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExtensionResourceListResult>): Promise<Models.ExtensionsListByAccountResponse> {
+  listByAccount(resourceGroupName: string, accountResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExtensionResourceListResult>, callback?: msRest.ServiceCallback<Models.ExtensionResourceListResult>): Promise<Models.ExtensionsListByAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -87,7 +87,7 @@ export class Extensions {
    * @param callback The callback
    */
   create(resourceGroupName: string, body: Models.ExtensionResourceRequest, accountResourceName: string, extensionResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExtensionResource>): void;
-  create(resourceGroupName: string, body: Models.ExtensionResourceRequest, accountResourceName: string, extensionResourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExtensionResource>): Promise<Models.ExtensionsCreateResponse> {
+  create(resourceGroupName: string, body: Models.ExtensionResourceRequest, accountResourceName: string, extensionResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExtensionResource>, callback?: msRest.ServiceCallback<Models.ExtensionResource>): Promise<Models.ExtensionsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -125,7 +125,7 @@ export class Extensions {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, accountResourceName: string, extensionResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountResourceName: string, extensionResourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, accountResourceName: string, extensionResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -162,7 +162,7 @@ export class Extensions {
    * @param callback The callback
    */
   get(resourceGroupName: string, accountResourceName: string, extensionResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExtensionResource>): void;
-  get(resourceGroupName: string, accountResourceName: string, extensionResourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExtensionResource>): Promise<Models.ExtensionsGetResponse> {
+  get(resourceGroupName: string, accountResourceName: string, extensionResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExtensionResource>, callback?: msRest.ServiceCallback<Models.ExtensionResource>): Promise<Models.ExtensionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -202,7 +202,7 @@ export class Extensions {
    * @param callback The callback
    */
   update(resourceGroupName: string, body: Models.ExtensionResourceRequest, accountResourceName: string, extensionResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExtensionResource>): void;
-  update(resourceGroupName: string, body: Models.ExtensionResourceRequest, accountResourceName: string, extensionResourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExtensionResource>): Promise<Models.ExtensionsUpdateResponse> {
+  update(resourceGroupName: string, body: Models.ExtensionResourceRequest, accountResourceName: string, extensionResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExtensionResource>, callback?: msRest.ServiceCallback<Models.ExtensionResource>): Promise<Models.ExtensionsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

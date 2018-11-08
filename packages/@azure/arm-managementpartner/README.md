@@ -64,7 +64,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
-          console.log('An error occurred:');
+          console.log("An error occurred:");
           console.error(err);
         });
       });

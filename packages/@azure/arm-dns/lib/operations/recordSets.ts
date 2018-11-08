@@ -59,7 +59,7 @@ export class RecordSets {
    * @param callback The callback
    */
   update(resourceGroupName: string, zoneName: string, relativeRecordSetName: string, recordType: Models.RecordType, parameters: Models.RecordSet, options: Models.RecordSetsUpdateOptionalParams, callback: msRest.ServiceCallback<Models.RecordSet>): void;
-  update(resourceGroupName: string, zoneName: string, relativeRecordSetName: string, recordType: Models.RecordType, parameters: Models.RecordSet, options?: Models.RecordSetsUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.RecordSet>): Promise<Models.RecordSetsUpdateResponse> {
+  update(resourceGroupName: string, zoneName: string, relativeRecordSetName: string, recordType: Models.RecordType, parameters: Models.RecordSet, options?: Models.RecordSetsUpdateOptionalParams | msRest.ServiceCallback<Models.RecordSet>, callback?: msRest.ServiceCallback<Models.RecordSet>): Promise<Models.RecordSetsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -109,7 +109,7 @@ export class RecordSets {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, zoneName: string, relativeRecordSetName: string, recordType: Models.RecordType, parameters: Models.RecordSet, options: Models.RecordSetsCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.RecordSet>): void;
-  createOrUpdate(resourceGroupName: string, zoneName: string, relativeRecordSetName: string, recordType: Models.RecordType, parameters: Models.RecordSet, options?: Models.RecordSetsCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.RecordSet>): Promise<Models.RecordSetsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, zoneName: string, relativeRecordSetName: string, recordType: Models.RecordType, parameters: Models.RecordSet, options?: Models.RecordSetsCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.RecordSet>, callback?: msRest.ServiceCallback<Models.RecordSet>): Promise<Models.RecordSetsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -156,7 +156,7 @@ export class RecordSets {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, zoneName: string, relativeRecordSetName: string, recordType: Models.RecordType, options: Models.RecordSetsDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, zoneName: string, relativeRecordSetName: string, recordType: Models.RecordType, options?: Models.RecordSetsDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, zoneName: string, relativeRecordSetName: string, recordType: Models.RecordType, options?: Models.RecordSetsDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -199,7 +199,7 @@ export class RecordSets {
    * @param callback The callback
    */
   get(resourceGroupName: string, zoneName: string, relativeRecordSetName: string, recordType: Models.RecordType, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecordSet>): void;
-  get(resourceGroupName: string, zoneName: string, relativeRecordSetName: string, recordType: Models.RecordType, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RecordSet>): Promise<Models.RecordSetsGetResponse> {
+  get(resourceGroupName: string, zoneName: string, relativeRecordSetName: string, recordType: Models.RecordType, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecordSet>, callback?: msRest.ServiceCallback<Models.RecordSet>): Promise<Models.RecordSetsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -239,7 +239,7 @@ export class RecordSets {
    * @param callback The callback
    */
   listByType(resourceGroupName: string, zoneName: string, recordType: Models.RecordType, options: Models.RecordSetsListByTypeOptionalParams, callback: msRest.ServiceCallback<Models.RecordSetListResult>): void;
-  listByType(resourceGroupName: string, zoneName: string, recordType: Models.RecordType, options?: Models.RecordSetsListByTypeOptionalParams, callback?: msRest.ServiceCallback<Models.RecordSetListResult>): Promise<Models.RecordSetsListByTypeResponse> {
+  listByType(resourceGroupName: string, zoneName: string, recordType: Models.RecordType, options?: Models.RecordSetsListByTypeOptionalParams | msRest.ServiceCallback<Models.RecordSetListResult>, callback?: msRest.ServiceCallback<Models.RecordSetListResult>): Promise<Models.RecordSetsListByTypeResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -272,7 +272,7 @@ export class RecordSets {
    * @param callback The callback
    */
   listByDnsZone(resourceGroupName: string, zoneName: string, options: Models.RecordSetsListByDnsZoneOptionalParams, callback: msRest.ServiceCallback<Models.RecordSetListResult>): void;
-  listByDnsZone(resourceGroupName: string, zoneName: string, options?: Models.RecordSetsListByDnsZoneOptionalParams, callback?: msRest.ServiceCallback<Models.RecordSetListResult>): Promise<Models.RecordSetsListByDnsZoneResponse> {
+  listByDnsZone(resourceGroupName: string, zoneName: string, options?: Models.RecordSetsListByDnsZoneOptionalParams | msRest.ServiceCallback<Models.RecordSetListResult>, callback?: msRest.ServiceCallback<Models.RecordSetListResult>): Promise<Models.RecordSetsListByDnsZoneResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -304,7 +304,7 @@ export class RecordSets {
    * @param callback The callback
    */
   listAllByDnsZone(resourceGroupName: string, zoneName: string, options: Models.RecordSetsListAllByDnsZoneOptionalParams, callback: msRest.ServiceCallback<Models.RecordSetListResult>): void;
-  listAllByDnsZone(resourceGroupName: string, zoneName: string, options?: Models.RecordSetsListAllByDnsZoneOptionalParams, callback?: msRest.ServiceCallback<Models.RecordSetListResult>): Promise<Models.RecordSetsListAllByDnsZoneResponse> {
+  listAllByDnsZone(resourceGroupName: string, zoneName: string, options?: Models.RecordSetsListAllByDnsZoneOptionalParams | msRest.ServiceCallback<Models.RecordSetListResult>, callback?: msRest.ServiceCallback<Models.RecordSetListResult>): Promise<Models.RecordSetsListAllByDnsZoneResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -333,7 +333,7 @@ export class RecordSets {
    * @param callback The callback
    */
   listByTypeNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecordSetListResult>): void;
-  listByTypeNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RecordSetListResult>): Promise<Models.RecordSetsListByTypeNextResponse> {
+  listByTypeNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecordSetListResult>, callback?: msRest.ServiceCallback<Models.RecordSetListResult>): Promise<Models.RecordSetsListByTypeNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -361,7 +361,7 @@ export class RecordSets {
    * @param callback The callback
    */
   listByDnsZoneNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecordSetListResult>): void;
-  listByDnsZoneNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RecordSetListResult>): Promise<Models.RecordSetsListByDnsZoneNextResponse> {
+  listByDnsZoneNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecordSetListResult>, callback?: msRest.ServiceCallback<Models.RecordSetListResult>): Promise<Models.RecordSetsListByDnsZoneNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -389,7 +389,7 @@ export class RecordSets {
    * @param callback The callback
    */
   listAllByDnsZoneNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecordSetListResult>): void;
-  listAllByDnsZoneNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RecordSetListResult>): Promise<Models.RecordSetsListAllByDnsZoneNextResponse> {
+  listAllByDnsZoneNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecordSetListResult>, callback?: msRest.ServiceCallback<Models.RecordSetListResult>): Promise<Models.RecordSetsListAllByDnsZoneNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

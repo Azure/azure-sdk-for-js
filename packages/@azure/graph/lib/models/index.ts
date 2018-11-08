@@ -1453,17 +1453,10 @@ export interface DomainListResult extends Array<Domain> {
 /**
  * Defines values for UserType.
  * Possible values include: 'Member', 'Guest'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: UserType = <UserType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum UserType {
-  Member = 'Member',
-  Guest = 'Guest',
-}
+export type UserType = 'Member' | 'Guest';
 
 /**
  * Contains response data for the get operation.

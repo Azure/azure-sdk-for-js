@@ -115,8 +115,6 @@ export const ProcessReference: msRest.CompositeMapper = {
         serializedName: "properties.machine",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
-          uberParent: "ResourceReference",
           className: "MachineReference"
         }
       }
@@ -138,8 +136,6 @@ export const PortReference: msRest.CompositeMapper = {
         serializedName: "properties.machine",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
-          uberParent: "ResourceReference",
           className: "MachineReference"
         }
       },
@@ -701,11 +697,6 @@ export const Machine: msRest.CompositeMapper = {
         serializedName: "properties.hosting",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "kind",
-            clientName: "kind"
-          },
-          uberParent: "HostingConfiguration",
           className: "HostingConfiguration"
         }
       }
@@ -912,11 +903,6 @@ export const Process: msRest.CompositeMapper = {
         serializedName: "properties.machine",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "kind",
-            clientName: "kind"
-          },
-          uberParent: "ResourceReference",
           className: "ResourceReference"
         }
       },
@@ -968,11 +954,6 @@ export const Process: msRest.CompositeMapper = {
         serializedName: "properties.clientOf",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "kind",
-            clientName: "kind"
-          },
-          uberParent: "ResourceReference",
           className: "ResourceReference"
         }
       },
@@ -980,11 +961,6 @@ export const Process: msRest.CompositeMapper = {
         serializedName: "properties.acceptorOf",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "kind",
-            clientName: "kind"
-          },
-          uberParent: "ResourceReference",
           className: "ResourceReference"
         }
       },
@@ -992,11 +968,6 @@ export const Process: msRest.CompositeMapper = {
         serializedName: "properties.hosting",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "kind",
-            clientName: "kind"
-          },
-          uberParent: "ProcessHostingConfiguration",
           className: "ProcessHostingConfiguration"
         }
       }
@@ -1025,11 +996,6 @@ export const Port: msRest.CompositeMapper = {
         serializedName: "properties.machine",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "kind",
-            clientName: "kind"
-          },
-          uberParent: "ResourceReference",
           className: "ResourceReference"
         }
       },
@@ -1067,11 +1033,6 @@ export const ClientGroup: msRest.CompositeMapper = {
         serializedName: "properties.clientsOf",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "kind",
-            clientName: "kind"
-          },
-          uberParent: "ResourceReference",
           className: "ResourceReference"
         }
       }
@@ -1096,8 +1057,6 @@ export const ClientGroupMember: msRest.CompositeMapper = {
         serializedName: "properties.port",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
-          uberParent: "ResourceReference",
           className: "PortReference"
         }
       },
@@ -1108,8 +1067,6 @@ export const ClientGroupMember: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
-              uberParent: "ResourceReference",
               className: "ProcessReference"
             }
           }
@@ -1156,8 +1113,6 @@ export const MachineGroup: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
-              uberParent: "ResourceReference",
               className: "MachineReferenceWithHints"
             }
           }
@@ -1284,11 +1239,6 @@ export const Connection: msRest.CompositeMapper = {
         serializedName: "properties.source",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "kind",
-            clientName: "kind"
-          },
-          uberParent: "ResourceReference",
           className: "ResourceReference"
         }
       },
@@ -1297,11 +1247,6 @@ export const Connection: msRest.CompositeMapper = {
         serializedName: "properties.destination",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "kind",
-            clientName: "kind"
-          },
-          uberParent: "ResourceReference",
           className: "ResourceReference"
         }
       },
@@ -1321,8 +1266,6 @@ export const Connection: msRest.CompositeMapper = {
         serializedName: "properties.serverPort",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
-          uberParent: "ResourceReference",
           className: "PortReference"
         }
       },
@@ -1353,8 +1296,6 @@ export const Acceptor: msRest.CompositeMapper = {
         serializedName: "properties.source",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
-          uberParent: "ResourceReference",
           className: "PortReference"
         }
       },
@@ -1363,8 +1304,6 @@ export const Acceptor: msRest.CompositeMapper = {
         serializedName: "properties.destination",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
-          uberParent: "ResourceReference",
           className: "ProcessReference"
         }
       },
@@ -1419,11 +1358,6 @@ export const RelationshipProperties: msRest.CompositeMapper = {
         serializedName: "source",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "kind",
-            clientName: "kind"
-          },
-          uberParent: "ResourceReference",
           className: "ResourceReference"
         }
       },
@@ -1432,11 +1366,6 @@ export const RelationshipProperties: msRest.CompositeMapper = {
         serializedName: "destination",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "kind",
-            clientName: "kind"
-          },
-          uberParent: "ResourceReference",
           className: "ResourceReference"
         }
       },

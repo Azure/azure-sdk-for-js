@@ -68,6 +68,7 @@ class SqlManagementClient extends SqlManagementClientContext {
   jobVersions: operations.JobVersions;
   longTermRetentionBackups: operations.LongTermRetentionBackups;
   backupLongTermRetentionPolicies: operations.BackupLongTermRetentionPolicies;
+  managedBackupShortTermRetentionPolicies: operations.ManagedBackupShortTermRetentionPolicies;
   managedDatabases: operations.ManagedDatabases;
   serverAutomaticTuning: operations.ServerAutomaticTuningOperations;
   serverDnsAliases: operations.ServerDnsAliases;
@@ -146,6 +147,7 @@ class SqlManagementClient extends SqlManagementClientContext {
     this.jobVersions = new operations.JobVersions(this);
     this.longTermRetentionBackups = new operations.LongTermRetentionBackups(this);
     this.backupLongTermRetentionPolicies = new operations.BackupLongTermRetentionPolicies(this);
+    this.managedBackupShortTermRetentionPolicies = new operations.ManagedBackupShortTermRetentionPolicies(this);
     this.managedDatabases = new operations.ManagedDatabases(this);
     this.serverAutomaticTuning = new operations.ServerAutomaticTuningOperations(this);
     this.serverDnsAliases = new operations.ServerDnsAliases(this);

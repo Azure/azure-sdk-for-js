@@ -48,7 +48,7 @@ export class AccountFilters {
    * @param callback The callback
    */
   list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountFilterCollection>): void;
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccountFilterCollection>): Promise<Models.AccountFiltersListResponse> {
+  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountFilterCollection>, callback?: msRest.ServiceCallback<Models.AccountFilterCollection>): Promise<Models.AccountFiltersListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -84,7 +84,7 @@ export class AccountFilters {
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, filterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountFilter>): void;
-  get(resourceGroupName: string, accountName: string, filterName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccountFilter>): Promise<Models.AccountFiltersGetResponse> {
+  get(resourceGroupName: string, accountName: string, filterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountFilter>, callback?: msRest.ServiceCallback<Models.AccountFilter>): Promise<Models.AccountFiltersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -124,7 +124,7 @@ export class AccountFilters {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, accountName: string, filterName: string, parameters: Models.AccountFilter, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountFilter>): void;
-  createOrUpdate(resourceGroupName: string, accountName: string, filterName: string, parameters: Models.AccountFilter, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccountFilter>): Promise<Models.AccountFiltersCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, accountName: string, filterName: string, parameters: Models.AccountFilter, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountFilter>, callback?: msRest.ServiceCallback<Models.AccountFilter>): Promise<Models.AccountFiltersCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -162,7 +162,7 @@ export class AccountFilters {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, accountName: string, filterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, filterName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, accountName: string, filterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -202,7 +202,7 @@ export class AccountFilters {
    * @param callback The callback
    */
   update(resourceGroupName: string, accountName: string, filterName: string, parameters: Models.AccountFilter, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountFilter>): void;
-  update(resourceGroupName: string, accountName: string, filterName: string, parameters: Models.AccountFilter, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccountFilter>): Promise<Models.AccountFiltersUpdateResponse> {
+  update(resourceGroupName: string, accountName: string, filterName: string, parameters: Models.AccountFilter, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountFilter>, callback?: msRest.ServiceCallback<Models.AccountFilter>): Promise<Models.AccountFiltersUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -234,7 +234,7 @@ export class AccountFilters {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountFilterCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccountFilterCollection>): Promise<Models.AccountFiltersListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountFilterCollection>, callback?: msRest.ServiceCallback<Models.AccountFilterCollection>): Promise<Models.AccountFiltersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

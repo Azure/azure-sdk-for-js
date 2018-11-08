@@ -51,7 +51,7 @@ export class DomainTopics {
    * @param callback The callback
    */
   get(resourceGroupName: string, domainName: string, topicName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainTopic>): void;
-  get(resourceGroupName: string, domainName: string, topicName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DomainTopic>): Promise<Models.DomainTopicsGetResponse> {
+  get(resourceGroupName: string, domainName: string, topicName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainTopic>, callback?: msRest.ServiceCallback<Models.DomainTopic>): Promise<Models.DomainTopicsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -85,7 +85,7 @@ export class DomainTopics {
    * @param callback The callback
    */
   listByDomain(resourceGroupName: string, domainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainTopicsListResult>): void;
-  listByDomain(resourceGroupName: string, domainName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DomainTopicsListResult>): Promise<Models.DomainTopicsListByDomainResponse> {
+  listByDomain(resourceGroupName: string, domainName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainTopicsListResult>, callback?: msRest.ServiceCallback<Models.DomainTopicsListResult>): Promise<Models.DomainTopicsListByDomainResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

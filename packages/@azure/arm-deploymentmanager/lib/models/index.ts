@@ -1053,10 +1053,7 @@ export interface RolloutsCreateOrUpdateHeaders {
  * @readonly
  * @enum {string}
  */
-export enum DeploymentMode {
-  Incremental = 'Incremental',
-  Complete = 'Complete',
-}
+export type DeploymentMode = 'Incremental' | 'Complete';
 
 /**
  * Contains response data for the createOrUpdate operation.

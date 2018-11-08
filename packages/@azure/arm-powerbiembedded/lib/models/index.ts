@@ -328,26 +328,15 @@ export interface WorkspaceList extends Array<Workspace> {
  * @readonly
  * @enum {string}
  */
-export enum AccessKeyName {
-  Key1 = 'key1',
-  Key2 = 'key2',
-}
+export type AccessKeyName = 'key1' | 'key2';
 
 /**
  * Defines values for CheckNameReason.
  * Possible values include: 'Unavailable', 'Invalid'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: CheckNameReason =
- * <CheckNameReason>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum CheckNameReason {
-  Unavailable = 'Unavailable',
-  Invalid = 'Invalid',
-}
+export type CheckNameReason = 'Unavailable' | 'Invalid';
 
 /**
  * Contains response data for the getByName operation.

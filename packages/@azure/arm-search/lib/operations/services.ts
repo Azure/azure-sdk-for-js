@@ -74,7 +74,7 @@ export class Services {
    * @param callback The callback
    */
   update(resourceGroupName: string, searchServiceName: string, service: Models.SearchService, options: Models.ServicesUpdateOptionalParams, callback: msRest.ServiceCallback<Models.SearchService>): void;
-  update(resourceGroupName: string, searchServiceName: string, service: Models.SearchService, options?: Models.ServicesUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.SearchService>): Promise<Models.ServicesUpdateResponse> {
+  update(resourceGroupName: string, searchServiceName: string, service: Models.SearchService, options?: Models.ServicesUpdateOptionalParams | msRest.ServiceCallback<Models.SearchService>, callback?: msRest.ServiceCallback<Models.SearchService>): Promise<Models.ServicesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -113,7 +113,7 @@ export class Services {
    * @param callback The callback
    */
   get(resourceGroupName: string, searchServiceName: string, options: Models.ServicesGetOptionalParams, callback: msRest.ServiceCallback<Models.SearchService>): void;
-  get(resourceGroupName: string, searchServiceName: string, options?: Models.ServicesGetOptionalParams, callback?: msRest.ServiceCallback<Models.SearchService>): Promise<Models.ServicesGetResponse> {
+  get(resourceGroupName: string, searchServiceName: string, options?: Models.ServicesGetOptionalParams | msRest.ServiceCallback<Models.SearchService>, callback?: msRest.ServiceCallback<Models.SearchService>): Promise<Models.ServicesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -151,7 +151,7 @@ export class Services {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, searchServiceName: string, options: Models.ServicesDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, searchServiceName: string, options?: Models.ServicesDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, searchServiceName: string, options?: Models.ServicesDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -183,7 +183,7 @@ export class Services {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: Models.ServicesListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.SearchServiceListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.ServicesListByResourceGroupOptionalParams, callback?: msRest.ServiceCallback<Models.SearchServiceListResult>): Promise<Models.ServicesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: Models.ServicesListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.SearchServiceListResult>, callback?: msRest.ServiceCallback<Models.SearchServiceListResult>): Promise<Models.ServicesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -219,7 +219,7 @@ export class Services {
    * @param callback The callback
    */
   checkNameAvailability(name: string, options: Models.ServicesCheckNameAvailabilityOptionalParams, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): void;
-  checkNameAvailability(name: string, options?: Models.ServicesCheckNameAvailabilityOptionalParams, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): Promise<Models.ServicesCheckNameAvailabilityResponse> {
+  checkNameAvailability(name: string, options?: Models.ServicesCheckNameAvailabilityOptionalParams | msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): Promise<Models.ServicesCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         name,

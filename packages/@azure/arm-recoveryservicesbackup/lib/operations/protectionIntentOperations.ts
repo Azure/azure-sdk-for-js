@@ -50,7 +50,7 @@ export class ProtectionIntentOperations {
    * @param callback The callback
    */
   validate(azureRegion: string, parameters: Models.PreValidateEnableBackupRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PreValidateEnableBackupResponse>): void;
-  validate(azureRegion: string, parameters: Models.PreValidateEnableBackupRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PreValidateEnableBackupResponse>): Promise<Models.ProtectionIntentValidateResponse> {
+  validate(azureRegion: string, parameters: Models.PreValidateEnableBackupRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PreValidateEnableBackupResponse>, callback?: msRest.ServiceCallback<Models.PreValidateEnableBackupResponse>): Promise<Models.ProtectionIntentValidateResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -93,7 +93,7 @@ export class ProtectionIntentOperations {
    * @param callback The callback
    */
   get(vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectionIntentResource>): void;
-  get(vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProtectionIntentResource>): Promise<Models.ProtectionIntentGetResponse> {
+  get(vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionIntentResource>, callback?: msRest.ServiceCallback<Models.ProtectionIntentResource>): Promise<Models.ProtectionIntentGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -139,7 +139,7 @@ export class ProtectionIntentOperations {
    * @param callback The callback
    */
   createOrUpdate(vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, parameters: Models.ProtectionIntentResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectionIntentResource>): void;
-  createOrUpdate(vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, parameters: Models.ProtectionIntentResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProtectionIntentResource>): Promise<Models.ProtectionIntentCreateOrUpdateResponse> {
+  createOrUpdate(vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, parameters: Models.ProtectionIntentResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionIntentResource>, callback?: msRest.ServiceCallback<Models.ProtectionIntentResource>): Promise<Models.ProtectionIntentCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -183,7 +183,7 @@ export class ProtectionIntentOperations {
    * @param callback The callback
    */
   deleteMethod(vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,

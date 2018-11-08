@@ -346,17 +346,10 @@ export interface OperationListResult extends Array<Operation> {
 /**
  * Defines values for AppSku.
  * Possible values include: 'F1', 'S1'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AppSku = <AppSku>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AppSku {
-  F1 = 'F1',
-  S1 = 'S1',
-}
+export type AppSku = 'F1' | 'S1';
 
 /**
  * Contains response data for the get operation.

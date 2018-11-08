@@ -50,7 +50,7 @@ export class Images {
    * @param callback The callback
    */
   getUploadUrlForEntityType(resourceGroupName: string, hubName: string, parameters: Models.GetImageUploadUrlInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImageDefinition>): void;
-  getUploadUrlForEntityType(resourceGroupName: string, hubName: string, parameters: Models.GetImageUploadUrlInput, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ImageDefinition>): Promise<Models.ImagesGetUploadUrlForEntityTypeResponse> {
+  getUploadUrlForEntityType(resourceGroupName: string, hubName: string, parameters: Models.GetImageUploadUrlInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageDefinition>, callback?: msRest.ServiceCallback<Models.ImageDefinition>): Promise<Models.ImagesGetUploadUrlForEntityTypeResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -86,7 +86,7 @@ export class Images {
    * @param callback The callback
    */
   getUploadUrlForData(resourceGroupName: string, hubName: string, parameters: Models.GetImageUploadUrlInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImageDefinition>): void;
-  getUploadUrlForData(resourceGroupName: string, hubName: string, parameters: Models.GetImageUploadUrlInput, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ImageDefinition>): Promise<Models.ImagesGetUploadUrlForDataResponse> {
+  getUploadUrlForData(resourceGroupName: string, hubName: string, parameters: Models.GetImageUploadUrlInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageDefinition>, callback?: msRest.ServiceCallback<Models.ImageDefinition>): Promise<Models.ImagesGetUploadUrlForDataResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

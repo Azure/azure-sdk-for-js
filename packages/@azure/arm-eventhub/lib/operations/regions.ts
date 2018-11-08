@@ -44,7 +44,7 @@ export class Regions {
    * @param callback The callback
    */
   listBySku(sku: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MessagingRegionsListResult>): void;
-  listBySku(sku: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MessagingRegionsListResult>): Promise<Models.RegionsListBySkuResponse> {
+  listBySku(sku: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MessagingRegionsListResult>, callback?: msRest.ServiceCallback<Models.MessagingRegionsListResult>): Promise<Models.RegionsListBySkuResponse> {
     return this.client.sendOperationRequest(
       {
         sku,
@@ -72,7 +72,7 @@ export class Regions {
    * @param callback The callback
    */
   listBySkuNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MessagingRegionsListResult>): void;
-  listBySkuNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MessagingRegionsListResult>): Promise<Models.RegionsListBySkuNextResponse> {
+  listBySkuNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MessagingRegionsListResult>, callback?: msRest.ServiceCallback<Models.MessagingRegionsListResult>): Promise<Models.RegionsListBySkuNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

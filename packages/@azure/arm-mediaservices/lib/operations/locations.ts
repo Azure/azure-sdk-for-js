@@ -48,7 +48,7 @@ export class Locations {
    * @param callback The callback
    */
   checkNameAvailability(locationName: string, parameters: Models.CheckNameAvailabilityInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityNameAvailabilityCheckOutput>): void;
-  checkNameAvailability(locationName: string, parameters: Models.CheckNameAvailabilityInput, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityNameAvailabilityCheckOutput>): Promise<Models.LocationsCheckNameAvailabilityResponse> {
+  checkNameAvailability(locationName: string, parameters: Models.CheckNameAvailabilityInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityNameAvailabilityCheckOutput>, callback?: msRest.ServiceCallback<Models.EntityNameAvailabilityCheckOutput>): Promise<Models.LocationsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,

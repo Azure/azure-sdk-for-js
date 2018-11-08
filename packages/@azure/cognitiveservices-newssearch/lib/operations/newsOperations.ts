@@ -63,7 +63,7 @@ export class NewsOperations {
    * @param callback The callback
    */
   search(query: string, options: Models.NewsSearchOptionalParams, callback: msRest.ServiceCallback<Models.News>): void;
-  search(query: string, options?: Models.NewsSearchOptionalParams, callback?: msRest.ServiceCallback<Models.News>): Promise<Models.NewsSearchResponse> {
+  search(query: string, options?: Models.NewsSearchOptionalParams | msRest.ServiceCallback<Models.News>, callback?: msRest.ServiceCallback<Models.News>): Promise<Models.NewsSearchResponse> {
     return this.client.sendOperationRequest(
       {
         query,
@@ -92,7 +92,7 @@ export class NewsOperations {
    * @param callback The callback
    */
   category(options: Models.NewsCategoryOptionalParams, callback: msRest.ServiceCallback<Models.News>): void;
-  category(options?: Models.NewsCategoryOptionalParams, callback?: msRest.ServiceCallback<Models.News>): Promise<Models.NewsCategoryResponse> {
+  category(options?: Models.NewsCategoryOptionalParams | msRest.ServiceCallback<Models.News>, callback?: msRest.ServiceCallback<Models.News>): Promise<Models.NewsCategoryResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -121,7 +121,7 @@ export class NewsOperations {
    * @param callback The callback
    */
   trending(options: Models.NewsTrendingOptionalParams, callback: msRest.ServiceCallback<Models.TrendingTopics>): void;
-  trending(options?: Models.NewsTrendingOptionalParams, callback?: msRest.ServiceCallback<Models.TrendingTopics>): Promise<Models.NewsTrendingResponse> {
+  trending(options?: Models.NewsTrendingOptionalParams | msRest.ServiceCallback<Models.TrendingTopics>, callback?: msRest.ServiceCallback<Models.TrendingTopics>): Promise<Models.NewsTrendingResponse> {
     return this.client.sendOperationRequest(
       {
         options

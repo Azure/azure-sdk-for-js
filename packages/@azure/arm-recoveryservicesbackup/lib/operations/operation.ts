@@ -53,7 +53,7 @@ export class Operation {
    * @param callback The callback
    */
   validate(vaultName: string, resourceGroupName: string, parameters: Models.ValidateOperationRequestUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ValidateOperationsResponse>): void;
-  validate(vaultName: string, resourceGroupName: string, parameters: Models.ValidateOperationRequestUnion, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ValidateOperationsResponse>): Promise<Models.OperationValidateResponse> {
+  validate(vaultName: string, resourceGroupName: string, parameters: Models.ValidateOperationRequestUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ValidateOperationsResponse>, callback?: msRest.ServiceCallback<Models.ValidateOperationsResponse>): Promise<Models.OperationValidateResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,

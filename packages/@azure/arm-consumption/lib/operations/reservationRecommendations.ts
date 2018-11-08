@@ -41,7 +41,7 @@ export class ReservationRecommendations {
    * @param callback The callback
    */
   list(options: Models.ReservationRecommendationsListOptionalParams, callback: msRest.ServiceCallback<Models.ReservationRecommendationsListResult>): void;
-  list(options?: Models.ReservationRecommendationsListOptionalParams, callback?: msRest.ServiceCallback<Models.ReservationRecommendationsListResult>): Promise<Models.ReservationRecommendationsListResponse> {
+  list(options?: Models.ReservationRecommendationsListOptionalParams | msRest.ServiceCallback<Models.ReservationRecommendationsListResult>, callback?: msRest.ServiceCallback<Models.ReservationRecommendationsListResult>): Promise<Models.ReservationRecommendationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -68,7 +68,7 @@ export class ReservationRecommendations {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReservationRecommendationsListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ReservationRecommendationsListResult>): Promise<Models.ReservationRecommendationsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationRecommendationsListResult>, callback?: msRest.ServiceCallback<Models.ReservationRecommendationsListResult>): Promise<Models.ReservationRecommendationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

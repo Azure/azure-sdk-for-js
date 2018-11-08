@@ -50,7 +50,7 @@ export class Task {
    * @param callback The callback
    */
   add(jobId: string, task: Models.TaskAddParameter, options: Models.TaskAddOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  add(jobId: string, task: Models.TaskAddParameter, options?: Models.TaskAddOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.TaskAddResponse> {
+  add(jobId: string, task: Models.TaskAddParameter, options?: Models.TaskAddOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.TaskAddResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -81,7 +81,7 @@ export class Task {
    * @param callback The callback
    */
   list(jobId: string, options: Models.TaskListOptionalParams, callback: msRest.ServiceCallback<Models.CloudTaskListResult>): void;
-  list(jobId: string, options?: Models.TaskListOptionalParams, callback?: msRest.ServiceCallback<Models.CloudTaskListResult>): Promise<Models.TaskListResponse> {
+  list(jobId: string, options?: Models.TaskListOptionalParams | msRest.ServiceCallback<Models.CloudTaskListResult>, callback?: msRest.ServiceCallback<Models.CloudTaskListResult>): Promise<Models.TaskListResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -133,7 +133,7 @@ export class Task {
    * @param callback The callback
    */
   addCollection(jobId: string, value: Models.TaskAddParameter[], options: Models.TaskAddCollectionOptionalParams, callback: msRest.ServiceCallback<Models.TaskAddCollectionResult>): void;
-  addCollection(jobId: string, value: Models.TaskAddParameter[], options?: Models.TaskAddCollectionOptionalParams, callback?: msRest.ServiceCallback<Models.TaskAddCollectionResult>): Promise<Models.TaskAddCollectionResponse> {
+  addCollection(jobId: string, value: Models.TaskAddParameter[], options?: Models.TaskAddCollectionOptionalParams | msRest.ServiceCallback<Models.TaskAddCollectionResult>, callback?: msRest.ServiceCallback<Models.TaskAddCollectionResult>): Promise<Models.TaskAddCollectionResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -169,7 +169,7 @@ export class Task {
    * @param callback The callback
    */
   deleteMethod(jobId: string, taskId: string, options: Models.TaskDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(jobId: string, taskId: string, options?: Models.TaskDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.TaskDeleteResponse> {
+  deleteMethod(jobId: string, taskId: string, options?: Models.TaskDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.TaskDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -203,7 +203,7 @@ export class Task {
    * @param callback The callback
    */
   get(jobId: string, taskId: string, options: Models.TaskGetOptionalParams, callback: msRest.ServiceCallback<Models.CloudTask>): void;
-  get(jobId: string, taskId: string, options?: Models.TaskGetOptionalParams, callback?: msRest.ServiceCallback<Models.CloudTask>): Promise<Models.TaskGetResponse> {
+  get(jobId: string, taskId: string, options?: Models.TaskGetOptionalParams | msRest.ServiceCallback<Models.CloudTask>, callback?: msRest.ServiceCallback<Models.CloudTask>): Promise<Models.TaskGetResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -235,7 +235,7 @@ export class Task {
    * @param callback The callback
    */
   update(jobId: string, taskId: string, options: Models.TaskUpdateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  update(jobId: string, taskId: string, options?: Models.TaskUpdateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.TaskUpdateResponse> {
+  update(jobId: string, taskId: string, options?: Models.TaskUpdateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.TaskUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -268,7 +268,7 @@ export class Task {
    * @param callback The callback
    */
   listSubtasks(jobId: string, taskId: string, options: Models.TaskListSubtasksOptionalParams, callback: msRest.ServiceCallback<Models.CloudTaskListSubtasksResult>): void;
-  listSubtasks(jobId: string, taskId: string, options?: Models.TaskListSubtasksOptionalParams, callback?: msRest.ServiceCallback<Models.CloudTaskListSubtasksResult>): Promise<Models.TaskListSubtasksResponse> {
+  listSubtasks(jobId: string, taskId: string, options?: Models.TaskListSubtasksOptionalParams | msRest.ServiceCallback<Models.CloudTaskListSubtasksResult>, callback?: msRest.ServiceCallback<Models.CloudTaskListSubtasksResult>): Promise<Models.TaskListSubtasksResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -303,7 +303,7 @@ export class Task {
    * @param callback The callback
    */
   terminate(jobId: string, taskId: string, options: Models.TaskTerminateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  terminate(jobId: string, taskId: string, options?: Models.TaskTerminateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.TaskTerminateResponse> {
+  terminate(jobId: string, taskId: string, options?: Models.TaskTerminateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.TaskTerminateResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -342,7 +342,7 @@ export class Task {
    * @param callback The callback
    */
   reactivate(jobId: string, taskId: string, options: Models.TaskReactivateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  reactivate(jobId: string, taskId: string, options?: Models.TaskReactivateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.TaskReactivateResponse> {
+  reactivate(jobId: string, taskId: string, options?: Models.TaskReactivateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.TaskReactivateResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -373,7 +373,7 @@ export class Task {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: Models.TaskListNextOptionalParams, callback: msRest.ServiceCallback<Models.CloudTaskListResult>): void;
-  listNext(nextPageLink: string, options?: Models.TaskListNextOptionalParams, callback?: msRest.ServiceCallback<Models.CloudTaskListResult>): Promise<Models.TaskListResponse> {
+  listNext(nextPageLink: string, options?: Models.TaskListNextOptionalParams | msRest.ServiceCallback<Models.CloudTaskListResult>, callback?: msRest.ServiceCallback<Models.CloudTaskListResult>): Promise<Models.TaskListResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

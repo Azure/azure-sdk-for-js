@@ -419,10 +419,7 @@ export interface UsageAggregationListResult extends Array<UsageAggregation> {
  * @readonly
  * @enum {string}
  */
-export enum AggregationGranularity {
-  Daily = 'Daily',
-  Hourly = 'Hourly',
-}
+export type AggregationGranularity = 'Daily' | 'Hourly';
 
 /**
  * Contains response data for the list operation.

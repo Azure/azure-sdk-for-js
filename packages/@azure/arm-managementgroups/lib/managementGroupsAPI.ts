@@ -54,7 +54,7 @@ class ManagementGroupsAPI extends ManagementGroupsAPIContext {
    * @param callback The callback
    */
   checkNameAvailability(checkNameAvailabilityRequest: Models.CheckNameAvailabilityRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
-  checkNameAvailability(checkNameAvailabilityRequest: Models.CheckNameAvailabilityRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.CheckNameAvailabilityResponse> {
+  checkNameAvailability(checkNameAvailabilityRequest: Models.CheckNameAvailabilityRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.CheckNameAvailabilityResponse> {
     return this.sendOperationRequest(
       {
         checkNameAvailabilityRequest,
@@ -79,7 +79,7 @@ class ManagementGroupsAPI extends ManagementGroupsAPIContext {
    * @param callback The callback
    */
   startTenantBackfill(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TenantBackfillStatusResult>): void;
-  startTenantBackfill(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TenantBackfillStatusResult>): Promise<Models.StartTenantBackfillResponse> {
+  startTenantBackfill(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TenantBackfillStatusResult>, callback?: msRest.ServiceCallback<Models.TenantBackfillStatusResult>): Promise<Models.StartTenantBackfillResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -103,7 +103,7 @@ class ManagementGroupsAPI extends ManagementGroupsAPIContext {
    * @param callback The callback
    */
   tenantBackfillStatus(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TenantBackfillStatusResult>): void;
-  tenantBackfillStatus(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TenantBackfillStatusResult>): Promise<Models.TenantBackfillStatusResponse> {
+  tenantBackfillStatus(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TenantBackfillStatusResult>, callback?: msRest.ServiceCallback<Models.TenantBackfillStatusResult>): Promise<Models.TenantBackfillStatusResponse> {
     return this.sendOperationRequest(
       {
         options

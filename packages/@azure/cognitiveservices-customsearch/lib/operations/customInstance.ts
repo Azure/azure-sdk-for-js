@@ -51,7 +51,7 @@ export class CustomInstance {
    * @param callback The callback
    */
   search(customConfig: string, query: string, options: Models.CustomInstanceSearchOptionalParams, callback: msRest.ServiceCallback<Models.SearchResponse>): void;
-  search(customConfig: string, query: string, options?: Models.CustomInstanceSearchOptionalParams, callback?: msRest.ServiceCallback<Models.SearchResponse>): Promise<Models.CustomInstanceSearchResponse> {
+  search(customConfig: string, query: string, options?: Models.CustomInstanceSearchOptionalParams | msRest.ServiceCallback<Models.SearchResponse>, callback?: msRest.ServiceCallback<Models.SearchResponse>): Promise<Models.CustomInstanceSearchResponse> {
     return this.client.sendOperationRequest(
       {
         customConfig,

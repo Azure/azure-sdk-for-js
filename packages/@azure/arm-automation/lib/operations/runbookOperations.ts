@@ -64,7 +64,7 @@ export class RunbookOperations {
    * @param callback The callback
    */
   getContent(resourceGroupName: string, automationAccountName: string, runbookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getContent(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.RunbookGetContentResponse> {
+  getContent(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.RunbookGetContentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -100,7 +100,7 @@ export class RunbookOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, automationAccountName: string, runbookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Runbook>): void;
-  get(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Runbook>): Promise<Models.RunbookGetResponse> {
+  get(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Runbook>, callback?: msRest.ServiceCallback<Models.Runbook>): Promise<Models.RunbookGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -142,7 +142,7 @@ export class RunbookOperations {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: Models.RunbookCreateOrUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Runbook>): void;
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: Models.RunbookCreateOrUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Runbook>): Promise<Models.RunbookCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: Models.RunbookCreateOrUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Runbook>, callback?: msRest.ServiceCallback<Models.Runbook>): Promise<Models.RunbookCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -182,7 +182,7 @@ export class RunbookOperations {
    * @param callback The callback
    */
   update(resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: Models.RunbookUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Runbook>): void;
-  update(resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: Models.RunbookUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Runbook>): Promise<Models.RunbookUpdateResponse> {
+  update(resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: Models.RunbookUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Runbook>, callback?: msRest.ServiceCallback<Models.Runbook>): Promise<Models.RunbookUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -219,7 +219,7 @@ export class RunbookOperations {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, automationAccountName: string, runbookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -252,7 +252,7 @@ export class RunbookOperations {
    * @param callback The callback
    */
   listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RunbookListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RunbookListResult>): Promise<Models.RunbookListByAutomationAccountResponse> {
+  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RunbookListResult>, callback?: msRest.ServiceCallback<Models.RunbookListResult>): Promise<Models.RunbookListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -301,7 +301,7 @@ export class RunbookOperations {
    * @param callback The callback
    */
   listByAutomationAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RunbookListResult>): void;
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RunbookListResult>): Promise<Models.RunbookListByAutomationAccountNextResponse> {
+  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RunbookListResult>, callback?: msRest.ServiceCallback<Models.RunbookListResult>): Promise<Models.RunbookListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

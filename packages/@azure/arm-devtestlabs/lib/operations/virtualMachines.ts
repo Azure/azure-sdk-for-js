@@ -48,7 +48,7 @@ export class VirtualMachines {
    * @param callback The callback
    */
   list(resourceGroupName: string, labName: string, options: Models.VirtualMachinesListOptionalParams, callback: msRest.ServiceCallback<Models.LabVirtualMachineList>): void;
-  list(resourceGroupName: string, labName: string, options?: Models.VirtualMachinesListOptionalParams, callback?: msRest.ServiceCallback<Models.LabVirtualMachineList>): Promise<Models.VirtualMachinesListResponse> {
+  list(resourceGroupName: string, labName: string, options?: Models.VirtualMachinesListOptionalParams | msRest.ServiceCallback<Models.LabVirtualMachineList>, callback?: msRest.ServiceCallback<Models.LabVirtualMachineList>): Promise<Models.VirtualMachinesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +83,7 @@ export class VirtualMachines {
    * @param callback The callback
    */
   get(resourceGroupName: string, labName: string, name: string, options: Models.VirtualMachinesGetOptionalParams, callback: msRest.ServiceCallback<Models.LabVirtualMachine>): void;
-  get(resourceGroupName: string, labName: string, name: string, options?: Models.VirtualMachinesGetOptionalParams, callback?: msRest.ServiceCallback<Models.LabVirtualMachine>): Promise<Models.VirtualMachinesGetResponse> {
+  get(resourceGroupName: string, labName: string, name: string, options?: Models.VirtualMachinesGetOptionalParams | msRest.ServiceCallback<Models.LabVirtualMachine>, callback?: msRest.ServiceCallback<Models.LabVirtualMachine>): Promise<Models.VirtualMachinesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -149,7 +149,7 @@ export class VirtualMachines {
    * @param callback The callback
    */
   update(resourceGroupName: string, labName: string, name: string, labVirtualMachine: Models.LabVirtualMachineFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LabVirtualMachine>): void;
-  update(resourceGroupName: string, labName: string, name: string, labVirtualMachine: Models.LabVirtualMachineFragment, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LabVirtualMachine>): Promise<Models.VirtualMachinesUpdateResponse> {
+  update(resourceGroupName: string, labName: string, name: string, labVirtualMachine: Models.LabVirtualMachineFragment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LabVirtualMachine>, callback?: msRest.ServiceCallback<Models.LabVirtualMachine>): Promise<Models.VirtualMachinesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -243,7 +243,7 @@ export class VirtualMachines {
    * @param callback The callback
    */
   getRdpFileContents(resourceGroupName: string, labName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RdpConnection>): void;
-  getRdpFileContents(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RdpConnection>): Promise<Models.VirtualMachinesGetRdpFileContentsResponse> {
+  getRdpFileContents(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RdpConnection>, callback?: msRest.ServiceCallback<Models.RdpConnection>): Promise<Models.VirtualMachinesGetRdpFileContentsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -279,7 +279,7 @@ export class VirtualMachines {
    * @param callback The callback
    */
   listApplicableSchedules(resourceGroupName: string, labName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicableSchedule>): void;
-  listApplicableSchedules(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicableSchedule>): Promise<Models.VirtualMachinesListApplicableSchedulesResponse> {
+  listApplicableSchedules(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicableSchedule>, callback?: msRest.ServiceCallback<Models.ApplicableSchedule>): Promise<Models.VirtualMachinesListApplicableSchedulesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -675,7 +675,7 @@ export class VirtualMachines {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LabVirtualMachineList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LabVirtualMachineList>): Promise<Models.VirtualMachinesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LabVirtualMachineList>, callback?: msRest.ServiceCallback<Models.LabVirtualMachineList>): Promise<Models.VirtualMachinesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

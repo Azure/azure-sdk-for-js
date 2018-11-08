@@ -48,7 +48,7 @@ export class Backups {
    * @param callback The callback
    */
   listByManager(resourceGroupName: string, managerName: string, options: Models.BackupsListByManagerOptionalParams, callback: msRest.ServiceCallback<Models.BackupList>): void;
-  listByManager(resourceGroupName: string, managerName: string, options?: Models.BackupsListByManagerOptionalParams, callback?: msRest.ServiceCallback<Models.BackupList>): Promise<Models.BackupsListByManagerResponse> {
+  listByManager(resourceGroupName: string, managerName: string, options?: Models.BackupsListByManagerOptionalParams | msRest.ServiceCallback<Models.BackupList>, callback?: msRest.ServiceCallback<Models.BackupList>): Promise<Models.BackupsListByManagerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +83,7 @@ export class Backups {
    * @param callback The callback
    */
   listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options: Models.BackupsListByDeviceOptionalParams, callback: msRest.ServiceCallback<Models.BackupList>): void;
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.BackupsListByDeviceOptionalParams, callback?: msRest.ServiceCallback<Models.BackupList>): Promise<Models.BackupsListByDeviceResponse> {
+  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.BackupsListByDeviceOptionalParams | msRest.ServiceCallback<Models.BackupList>, callback?: msRest.ServiceCallback<Models.BackupList>): Promise<Models.BackupsListByDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -191,7 +191,7 @@ export class Backups {
    * @param callback The callback
    */
   listByManagerNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupList>): void;
-  listByManagerNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupList>): Promise<Models.BackupsListByManagerNextResponse> {
+  listByManagerNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupList>, callback?: msRest.ServiceCallback<Models.BackupList>): Promise<Models.BackupsListByManagerNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -219,7 +219,7 @@ export class Backups {
    * @param callback The callback
    */
   listByDeviceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupList>): void;
-  listByDeviceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupList>): Promise<Models.BackupsListByDeviceNextResponse> {
+  listByDeviceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupList>, callback?: msRest.ServiceCallback<Models.BackupList>): Promise<Models.BackupsListByDeviceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -44,7 +44,7 @@ export class ListManagementTermLists {
    * @param callback The callback
    */
   getDetails(listId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TermList>): void;
-  getDetails(listId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TermList>): Promise<Models.ListManagementTermListsGetDetailsResponse> {
+  getDetails(listId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TermList>, callback?: msRest.ServiceCallback<Models.TermList>): Promise<Models.ListManagementTermListsGetDetailsResponse> {
     return this.client.sendOperationRequest(
       {
         listId,
@@ -72,7 +72,7 @@ export class ListManagementTermLists {
    * @param callback The callback
    */
   deleteMethod(listId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  deleteMethod(listId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.ListManagementTermListsDeleteMethodResponse> {
+  deleteMethod(listId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ListManagementTermListsDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         listId,
@@ -106,7 +106,7 @@ export class ListManagementTermLists {
    * @param callback The callback
    */
   update(listId: string, contentType: string, body: Models.Body, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TermList>): void;
-  update(listId: string, contentType: string, body: Models.Body, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TermList>): Promise<Models.ListManagementTermListsUpdateResponse> {
+  update(listId: string, contentType: string, body: Models.Body, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TermList>, callback?: msRest.ServiceCallback<Models.TermList>): Promise<Models.ListManagementTermListsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         listId,
@@ -139,7 +139,7 @@ export class ListManagementTermLists {
    * @param callback The callback
    */
   create(contentType: string, body: Models.Body, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TermList>): void;
-  create(contentType: string, body: Models.Body, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TermList>): Promise<Models.ListManagementTermListsCreateResponse> {
+  create(contentType: string, body: Models.Body, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TermList>, callback?: msRest.ServiceCallback<Models.TermList>): Promise<Models.ListManagementTermListsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         contentType,
@@ -165,7 +165,7 @@ export class ListManagementTermLists {
    * @param callback The callback
    */
   getAllTermLists(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TermList[]>): void;
-  getAllTermLists(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TermList[]>): Promise<Models.ListManagementTermListsGetAllTermListsResponse> {
+  getAllTermLists(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TermList[]>, callback?: msRest.ServiceCallback<Models.TermList[]>): Promise<Models.ListManagementTermListsGetAllTermListsResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -195,7 +195,7 @@ export class ListManagementTermLists {
    * @param callback The callback
    */
   refreshIndexMethod(listId: string, language: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RefreshIndex>): void;
-  refreshIndexMethod(listId: string, language: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RefreshIndex>): Promise<Models.ListManagementTermListsRefreshIndexMethodResponse> {
+  refreshIndexMethod(listId: string, language: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RefreshIndex>, callback?: msRest.ServiceCallback<Models.RefreshIndex>): Promise<Models.ListManagementTermListsRefreshIndexMethodResponse> {
     return this.client.sendOperationRequest(
       {
         listId,

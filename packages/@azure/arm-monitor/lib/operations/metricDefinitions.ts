@@ -44,7 +44,7 @@ export class MetricDefinitions {
    * @param callback The callback
    */
   list(resourceUri: string, options: Models.MetricDefinitionsListOptionalParams, callback: msRest.ServiceCallback<Models.MetricDefinitionCollection>): void;
-  list(resourceUri: string, options?: Models.MetricDefinitionsListOptionalParams, callback?: msRest.ServiceCallback<Models.MetricDefinitionCollection>): Promise<Models.MetricDefinitionsListResponse> {
+  list(resourceUri: string, options?: Models.MetricDefinitionsListOptionalParams | msRest.ServiceCallback<Models.MetricDefinitionCollection>, callback?: msRest.ServiceCallback<Models.MetricDefinitionCollection>): Promise<Models.MetricDefinitionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,

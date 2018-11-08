@@ -47,7 +47,7 @@ export class Service {
    * @param callback The callback
    */
   listAvailableSkus(location: string, availableSkuRequest: Models.AvailableSkuRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableSkusResult>): void;
-  listAvailableSkus(location: string, availableSkuRequest: Models.AvailableSkuRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AvailableSkusResult>): Promise<Models.ServiceListAvailableSkusResponse> {
+  listAvailableSkus(location: string, availableSkuRequest: Models.AvailableSkuRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableSkusResult>, callback?: msRest.ServiceCallback<Models.AvailableSkusResult>): Promise<Models.ServiceListAvailableSkusResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -85,7 +85,7 @@ export class Service {
    * @param callback The callback
    */
   validateAddressMethod(location: string, shippingAddress: Models.ShippingAddress, deviceType: Models.SkuName, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AddressValidationOutput>): void;
-  validateAddressMethod(location: string, shippingAddress: Models.ShippingAddress, deviceType: Models.SkuName, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AddressValidationOutput>): Promise<Models.ServiceValidateAddressMethodResponse> {
+  validateAddressMethod(location: string, shippingAddress: Models.ShippingAddress, deviceType: Models.SkuName, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AddressValidationOutput>, callback?: msRest.ServiceCallback<Models.AddressValidationOutput>): Promise<Models.ServiceValidateAddressMethodResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -115,7 +115,7 @@ export class Service {
    * @param callback The callback
    */
   listAvailableSkusNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableSkusResult>): void;
-  listAvailableSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AvailableSkusResult>): Promise<Models.ServiceListAvailableSkusNextResponse> {
+  listAvailableSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableSkusResult>, callback?: msRest.ServiceCallback<Models.AvailableSkusResult>): Promise<Models.ServiceListAvailableSkusNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -50,7 +50,7 @@ export class ReplicationUsages {
    * @param callback The callback
    */
   list(resourceGroupName: string, vaultName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReplicationUsageList>): void;
-  list(resourceGroupName: string, vaultName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ReplicationUsageList>): Promise<Models.ReplicationUsagesListResponse> {
+  list(resourceGroupName: string, vaultName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationUsageList>, callback?: msRest.ServiceCallback<Models.ReplicationUsageList>): Promise<Models.ReplicationUsagesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

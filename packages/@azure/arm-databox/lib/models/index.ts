@@ -1813,33 +1813,11 @@ export interface AvailableSkusResult extends Array<SkuInformation> {
 
 /**
  * Defines values for ShareDestinationFormatType.
- * Possible values include: 'UnknownType', 'HCS', 'BlockBlob', 'PageBlob',
- * 'AzureFile'
+ * Possible values include: 'UnknownType', 'HCS', 'BlockBlob', 'PageBlob', 'AzureFile'
  * @readonly
  * @enum {string}
  */
-export enum ShareDestinationFormatType {
-  /**
-   * Unknown format.
-   */
-  UnknownType = 'UnknownType',
-  /**
-   * Storsimple data format.
-   */
-  HCS = 'HCS',
-  /**
-   * Azure storage block blob format.
-   */
-  BlockBlob = 'BlockBlob',
-  /**
-   * Azure storage page blob format.
-   */
-  PageBlob = 'PageBlob',
-  /**
-   * Azure storage file format.
-   */
-  AzureFile = 'AzureFile',
-}
+export type ShareDestinationFormatType = 'UnknownType' | 'HCS' | 'BlockBlob' | 'PageBlob' | 'AzureFile';
 
 /**
  * Defines values for AccessProtocol.
@@ -1847,16 +1825,7 @@ export enum ShareDestinationFormatType {
  * @readonly
  * @enum {string}
  */
-export enum AccessProtocol {
-  /**
-   * Server Message Block protocol(SMB).
-   */
-  SMB = 'SMB',
-  /**
-   * Network File System protocol(NFS).
-   */
-  NFS = 'NFS',
-}
+export type AccessProtocol = 'SMB' | 'NFS';
 
 /**
  * Defines values for AddressValidationStatus.
@@ -1864,21 +1833,7 @@ export enum AccessProtocol {
  * @readonly
  * @enum {string}
  */
-export enum AddressValidationStatus {
-  /**
-   * Address provided is valid.
-   */
-  Valid = 'Valid',
-  /**
-   * Address provided is invalid or not supported.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Address provided is ambiguous, please choose one of the alternate
-   * addresses returned.
-   */
-  Ambiguous = 'Ambiguous',
-}
+export type AddressValidationStatus = 'Valid' | 'Invalid' | 'Ambiguous';
 
 /**
  * Defines values for AddressType.
@@ -1886,20 +1841,7 @@ export enum AddressValidationStatus {
  * @readonly
  * @enum {string}
  */
-export enum AddressType {
-  /**
-   * Address type not known.
-   */
-  None = 'None',
-  /**
-   * Residential Address.
-   */
-  Residential = 'Residential',
-  /**
-   * Commercial Address.
-   */
-  Commercial = 'Commercial',
-}
+export type AddressType = 'None' | 'Residential' | 'Commercial';
 
 /**
  * Defines values for SkuName.
@@ -1907,20 +1849,7 @@ export enum AddressType {
  * @readonly
  * @enum {string}
  */
-export enum SkuName {
-  /**
-   * Databox.
-   */
-  DataBox = 'DataBox',
-  /**
-   * DataboxDisk.
-   */
-  DataBoxDisk = 'DataBoxDisk',
-  /**
-   * DataboxHeavy.
-   */
-  DataBoxHeavy = 'DataBoxHeavy',
-}
+export type SkuName = 'DataBox' | 'DataBoxDisk' | 'DataBoxHeavy';
 
 /**
  * Defines values for SkuDisabledReason.
@@ -1928,198 +1857,44 @@ export enum SkuName {
  * @readonly
  * @enum {string}
  */
-export enum SkuDisabledReason {
-  /**
-   * SKU is not disabled.
-   */
-  None = 'None',
-  /**
-   * SKU is not available in the requested country.
-   */
-  Country = 'Country',
-  /**
-   * SKU is not available to push data to the requested storage account region.
-   */
-  Region = 'Region',
-  /**
-   * Required features are not enabled for the SKU.
-   */
-  Feature = 'Feature',
-  /**
-   * Subscription does not have required offer types for the SKU.
-   */
-  OfferType = 'OfferType',
-}
+export type SkuDisabledReason = 'None' | 'Country' | 'Region' | 'Feature' | 'OfferType';
 
 /**
  * Defines values for NotificationStageName.
- * Possible values include: 'DevicePrepared', 'Dispatched', 'Delivered',
- * 'PickedUp', 'AtAzureDC', 'DataCopy'
+ * Possible values include: 'DevicePrepared', 'Dispatched', 'Delivered', 'PickedUp', 'AtAzureDC',
+ * 'DataCopy'
  * @readonly
  * @enum {string}
  */
-export enum NotificationStageName {
-  /**
-   * Notification at device prepared stage.
-   */
-  DevicePrepared = 'DevicePrepared',
-  /**
-   * Notification at device dispatched stage.
-   */
-  Dispatched = 'Dispatched',
-  /**
-   * Notification at device delivered stage.
-   */
-  Delivered = 'Delivered',
-  /**
-   * Notification at device picked up from user stage.
-   */
-  PickedUp = 'PickedUp',
-  /**
-   * Notification at device received at azure datacenter stage.
-   */
-  AtAzureDC = 'AtAzureDC',
-  /**
-   * Notification at data copy started stage.
-   */
-  DataCopy = 'DataCopy',
-}
+export type NotificationStageName = 'DevicePrepared' | 'Dispatched' | 'Delivered' | 'PickedUp' | 'AtAzureDC' | 'DataCopy';
 
 /**
  * Defines values for CopyStatus.
- * Possible values include: 'NotStarted', 'InProgress', 'Completed',
- * 'CompletedWithErrors', 'Failed', 'NotReturned'
+ * Possible values include: 'NotStarted', 'InProgress', 'Completed', 'CompletedWithErrors',
+ * 'Failed', 'NotReturned'
  * @readonly
  * @enum {string}
  */
-export enum CopyStatus {
-  /**
-   * Data copy hasnt started yet.
-   */
-  NotStarted = 'NotStarted',
-  /**
-   * Data copy is in progress.
-   */
-  InProgress = 'InProgress',
-  /**
-   * Data copy completed.
-   */
-  Completed = 'Completed',
-  /**
-   * Data copy completed with errors.
-   */
-  CompletedWithErrors = 'CompletedWithErrors',
-  /**
-   * Data copy failed. No data was copied.
-   */
-  Failed = 'Failed',
-  /**
-   * No copy triggered as device was not returned.
-   */
-  NotReturned = 'NotReturned',
-}
+export type CopyStatus = 'NotStarted' | 'InProgress' | 'Completed' | 'CompletedWithErrors' | 'Failed' | 'NotReturned';
 
 /**
  * Defines values for StageName.
- * Possible values include: 'DeviceOrdered', 'DevicePrepared', 'Dispatched',
- * 'Delivered', 'PickedUp', 'AtAzureDC', 'DataCopy', 'Completed',
- * 'CompletedWithErrors', 'Cancelled', 'Failed_IssueReportedAtCustomer',
- * 'Failed_IssueDetectedAtAzureDC', 'Aborted'
+ * Possible values include: 'DeviceOrdered', 'DevicePrepared', 'Dispatched', 'Delivered',
+ * 'PickedUp', 'AtAzureDC', 'DataCopy', 'Completed', 'CompletedWithErrors', 'Cancelled',
+ * 'Failed_IssueReportedAtCustomer', 'Failed_IssueDetectedAtAzureDC', 'Aborted'
  * @readonly
  * @enum {string}
  */
-export enum StageName {
-  /**
-   * An order has been created.
-   */
-  DeviceOrdered = 'DeviceOrdered',
-  /**
-   * A device has been prepared for the order.
-   */
-  DevicePrepared = 'DevicePrepared',
-  /**
-   * Device has been dispatched to the user of the order.
-   */
-  Dispatched = 'Dispatched',
-  /**
-   * Device has been delivered to the user of the order.
-   */
-  Delivered = 'Delivered',
-  /**
-   * Device has been picked up from user and in transit to azure datacenter.
-   */
-  PickedUp = 'PickedUp',
-  /**
-   * Device has been received at azure datacenter from the user.
-   */
-  AtAzureDC = 'AtAzureDC',
-  /**
-   * Data copy from the device at azure datacenter.
-   */
-  DataCopy = 'DataCopy',
-  /**
-   * Order has completed.
-   */
-  Completed = 'Completed',
-  /**
-   * Order has completed with errors.
-   */
-  CompletedWithErrors = 'CompletedWithErrors',
-  /**
-   * Order has been cancelled.
-   */
-  Cancelled = 'Cancelled',
-  /**
-   * Order has failed due to issue reported by user.
-   */
-  FailedIssueReportedAtCustomer = 'Failed_IssueReportedAtCustomer',
-  /**
-   * Order has failed due to issue detected at azure datacenter.
-   */
-  FailedIssueDetectedAtAzureDC = 'Failed_IssueDetectedAtAzureDC',
-  /**
-   * Order has been aborted.
-   */
-  Aborted = 'Aborted',
-}
+export type StageName = 'DeviceOrdered' | 'DevicePrepared' | 'Dispatched' | 'Delivered' | 'PickedUp' | 'AtAzureDC' | 'DataCopy' | 'Completed' | 'CompletedWithErrors' | 'Cancelled' | 'Failed_IssueReportedAtCustomer' | 'Failed_IssueDetectedAtAzureDC' | 'Aborted';
 
 /**
  * Defines values for StageStatus.
- * Possible values include: 'None', 'InProgress', 'Succeeded', 'Failed',
- * 'Cancelled', 'Cancelling', 'SucceededWithErrors'
+ * Possible values include: 'None', 'InProgress', 'Succeeded', 'Failed', 'Cancelled', 'Cancelling',
+ * 'SucceededWithErrors'
  * @readonly
  * @enum {string}
  */
-export enum StageStatus {
-  /**
-   * No status available yet.
-   */
-  None = 'None',
-  /**
-   * Stage is in progress.
-   */
-  InProgress = 'InProgress',
-  /**
-   * Stage has succeeded.
-   */
-  Succeeded = 'Succeeded',
-  /**
-   * Stage has failed.
-   */
-  Failed = 'Failed',
-  /**
-   * Stage has been cancelled.
-   */
-  Cancelled = 'Cancelled',
-  /**
-   * Stage is cancelling.
-   */
-  Cancelling = 'Cancelling',
-  /**
-   * Stage has succeeded with errors.
-   */
-  SucceededWithErrors = 'SucceededWithErrors',
-}
+export type StageStatus = 'None' | 'InProgress' | 'Succeeded' | 'Failed' | 'Cancelled' | 'Cancelling' | 'SucceededWithErrors';
 
 /**
  * Contains response data for the list operation.

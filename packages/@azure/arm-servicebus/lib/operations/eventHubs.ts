@@ -47,7 +47,7 @@ export class EventHubs {
    * @param callback The callback
    */
   listByNamespace(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventHubListResult>): void;
-  listByNamespace(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventHubListResult>): Promise<Models.EventHubsListByNamespaceResponse> {
+  listByNamespace(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventHubListResult>, callback?: msRest.ServiceCallback<Models.EventHubListResult>): Promise<Models.EventHubsListByNamespaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -76,7 +76,7 @@ export class EventHubs {
    * @param callback The callback
    */
   listByNamespaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventHubListResult>): void;
-  listByNamespaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventHubListResult>): Promise<Models.EventHubsListByNamespaceNextResponse> {
+  listByNamespaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventHubListResult>, callback?: msRest.ServiceCallback<Models.EventHubListResult>): Promise<Models.EventHubsListByNamespaceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

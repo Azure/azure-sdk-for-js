@@ -48,7 +48,7 @@ export class Web {
    * @param callback The callback
    */
   search(query: string, options: Models.WebSearchOptionalParams, callback: msRest.ServiceCallback<Models.SearchResponse>): void;
-  search(query: string, options?: Models.WebSearchOptionalParams, callback?: msRest.ServiceCallback<Models.SearchResponse>): Promise<Models.WebSearchResponse> {
+  search(query: string, options?: Models.WebSearchOptionalParams | msRest.ServiceCallback<Models.SearchResponse>, callback?: msRest.ServiceCallback<Models.SearchResponse>): Promise<Models.WebSearchResponse> {
     return this.client.sendOperationRequest(
       {
         query,

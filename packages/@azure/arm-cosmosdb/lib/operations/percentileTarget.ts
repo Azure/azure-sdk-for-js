@@ -63,7 +63,7 @@ export class PercentileTarget {
    * @param callback The callback
    */
   listMetrics(resourceGroupName: string, accountName: string, targetRegion: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PercentileMetricListResult>): void;
-  listMetrics(resourceGroupName: string, accountName: string, targetRegion: string, filter: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PercentileMetricListResult>): Promise<Models.PercentileTargetListMetricsResponse> {
+  listMetrics(resourceGroupName: string, accountName: string, targetRegion: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PercentileMetricListResult>, callback?: msRest.ServiceCallback<Models.PercentileMetricListResult>): Promise<Models.PercentileTargetListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

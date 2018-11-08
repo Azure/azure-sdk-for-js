@@ -48,7 +48,7 @@ export class ContainerHostMappings {
    * @param callback The callback
    */
   getContainerHostMapping(containerHostMapping: Models.ContainerHostMapping, location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  getContainerHostMapping(containerHostMapping: Models.ContainerHostMapping, location: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<any>): Promise<Models.ContainerHostMappingsGetContainerHostMappingResponse> {
+  getContainerHostMapping(containerHostMapping: Models.ContainerHostMapping, location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ContainerHostMappingsGetContainerHostMappingResponse> {
     return this.client.sendOperationRequest(
       {
         containerHostMapping,

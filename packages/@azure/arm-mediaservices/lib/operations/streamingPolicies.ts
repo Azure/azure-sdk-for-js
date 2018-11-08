@@ -48,7 +48,7 @@ export class StreamingPolicies {
    * @param callback The callback
    */
   list(resourceGroupName: string, accountName: string, options: Models.StreamingPoliciesListOptionalParams, callback: msRest.ServiceCallback<Models.StreamingPolicyCollection>): void;
-  list(resourceGroupName: string, accountName: string, options?: Models.StreamingPoliciesListOptionalParams, callback?: msRest.ServiceCallback<Models.StreamingPolicyCollection>): Promise<Models.StreamingPoliciesListResponse> {
+  list(resourceGroupName: string, accountName: string, options?: Models.StreamingPoliciesListOptionalParams | msRest.ServiceCallback<Models.StreamingPolicyCollection>, callback?: msRest.ServiceCallback<Models.StreamingPolicyCollection>): Promise<Models.StreamingPoliciesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -84,7 +84,7 @@ export class StreamingPolicies {
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, streamingPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StreamingPolicy>): void;
-  get(resourceGroupName: string, accountName: string, streamingPolicyName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StreamingPolicy>): Promise<Models.StreamingPoliciesGetResponse> {
+  get(resourceGroupName: string, accountName: string, streamingPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingPolicy>, callback?: msRest.ServiceCallback<Models.StreamingPolicy>): Promise<Models.StreamingPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -124,7 +124,7 @@ export class StreamingPolicies {
    * @param callback The callback
    */
   create(resourceGroupName: string, accountName: string, streamingPolicyName: string, parameters: Models.StreamingPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StreamingPolicy>): void;
-  create(resourceGroupName: string, accountName: string, streamingPolicyName: string, parameters: Models.StreamingPolicy, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StreamingPolicy>): Promise<Models.StreamingPoliciesCreateResponse> {
+  create(resourceGroupName: string, accountName: string, streamingPolicyName: string, parameters: Models.StreamingPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingPolicy>, callback?: msRest.ServiceCallback<Models.StreamingPolicy>): Promise<Models.StreamingPoliciesCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -162,7 +162,7 @@ export class StreamingPolicies {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, accountName: string, streamingPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, streamingPolicyName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, accountName: string, streamingPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -193,7 +193,7 @@ export class StreamingPolicies {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StreamingPolicyCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StreamingPolicyCollection>): Promise<Models.StreamingPoliciesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingPolicyCollection>, callback?: msRest.ServiceCallback<Models.StreamingPolicyCollection>): Promise<Models.StreamingPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

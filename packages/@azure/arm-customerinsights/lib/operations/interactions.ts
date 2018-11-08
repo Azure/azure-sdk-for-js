@@ -65,7 +65,7 @@ export class Interactions {
    * @param callback The callback
    */
   get(resourceGroupName: string, hubName: string, interactionName: string, options: Models.InteractionsGetOptionalParams, callback: msRest.ServiceCallback<Models.InteractionResourceFormat>): void;
-  get(resourceGroupName: string, hubName: string, interactionName: string, options?: Models.InteractionsGetOptionalParams, callback?: msRest.ServiceCallback<Models.InteractionResourceFormat>): Promise<Models.InteractionsGetResponse> {
+  get(resourceGroupName: string, hubName: string, interactionName: string, options?: Models.InteractionsGetOptionalParams | msRest.ServiceCallback<Models.InteractionResourceFormat>, callback?: msRest.ServiceCallback<Models.InteractionResourceFormat>): Promise<Models.InteractionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -98,7 +98,7 @@ export class Interactions {
    * @param callback The callback
    */
   listByHub(resourceGroupName: string, hubName: string, options: Models.InteractionsListByHubOptionalParams, callback: msRest.ServiceCallback<Models.InteractionListResult>): void;
-  listByHub(resourceGroupName: string, hubName: string, options?: Models.InteractionsListByHubOptionalParams, callback?: msRest.ServiceCallback<Models.InteractionListResult>): Promise<Models.InteractionsListByHubResponse> {
+  listByHub(resourceGroupName: string, hubName: string, options?: Models.InteractionsListByHubOptionalParams | msRest.ServiceCallback<Models.InteractionListResult>, callback?: msRest.ServiceCallback<Models.InteractionListResult>): Promise<Models.InteractionsListByHubResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -133,7 +133,7 @@ export class Interactions {
    * @param callback The callback
    */
   suggestRelationshipLinks(resourceGroupName: string, hubName: string, interactionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SuggestRelationshipLinksResponse>): void;
-  suggestRelationshipLinks(resourceGroupName: string, hubName: string, interactionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SuggestRelationshipLinksResponse>): Promise<Models.InteractionsSuggestRelationshipLinksResponse> {
+  suggestRelationshipLinks(resourceGroupName: string, hubName: string, interactionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SuggestRelationshipLinksResponse>, callback?: msRest.ServiceCallback<Models.SuggestRelationshipLinksResponse>): Promise<Models.InteractionsSuggestRelationshipLinksResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -185,7 +185,7 @@ export class Interactions {
    * @param callback The callback
    */
   listByHubNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InteractionListResult>): void;
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.InteractionListResult>): Promise<Models.InteractionsListByHubNextResponse> {
+  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InteractionListResult>, callback?: msRest.ServiceCallback<Models.InteractionListResult>): Promise<Models.InteractionsListByHubNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

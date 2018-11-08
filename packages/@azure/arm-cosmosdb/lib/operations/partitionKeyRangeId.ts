@@ -65,7 +65,7 @@ export class PartitionKeyRangeId {
    * @param callback The callback
    */
   listMetrics(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, partitionKeyRangeId: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PartitionMetricListResult>): void;
-  listMetrics(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, partitionKeyRangeId: string, filter: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PartitionMetricListResult>): Promise<Models.PartitionKeyRangeIdListMetricsResponse> {
+  listMetrics(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, partitionKeyRangeId: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PartitionMetricListResult>, callback?: msRest.ServiceCallback<Models.PartitionMetricListResult>): Promise<Models.PartitionKeyRangeIdListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

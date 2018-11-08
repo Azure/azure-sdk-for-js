@@ -934,82 +934,39 @@ export interface CustomInstanceSearchOptionalParams extends msRest.RequestOption
 
 /**
  * Defines values for ErrorCode.
- * Possible values include: 'None', 'ServerError', 'InvalidRequest',
- * 'RateLimitExceeded', 'InvalidAuthorization', 'InsufficientAuthorization'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ErrorCode = <ErrorCode>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'None', 'ServerError', 'InvalidRequest', 'RateLimitExceeded',
+ * 'InvalidAuthorization', 'InsufficientAuthorization'
  * @readonly
  * @enum {string}
  */
-export enum ErrorCode {
-  None = 'None',
-  ServerError = 'ServerError',
-  InvalidRequest = 'InvalidRequest',
-  RateLimitExceeded = 'RateLimitExceeded',
-  InvalidAuthorization = 'InvalidAuthorization',
-  InsufficientAuthorization = 'InsufficientAuthorization',
-}
+export type ErrorCode = 'None' | 'ServerError' | 'InvalidRequest' | 'RateLimitExceeded' | 'InvalidAuthorization' | 'InsufficientAuthorization';
 
 /**
  * Defines values for ErrorSubCode.
- * Possible values include: 'UnexpectedError', 'ResourceError',
- * 'NotImplemented', 'ParameterMissing', 'ParameterInvalidValue',
- * 'HttpNotAllowed', 'Blocked', 'AuthorizationMissing',
- * 'AuthorizationRedundancy', 'AuthorizationDisabled', 'AuthorizationExpired'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ErrorSubCode =
- * <ErrorSubCode>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'UnexpectedError', 'ResourceError', 'NotImplemented',
+ * 'ParameterMissing', 'ParameterInvalidValue', 'HttpNotAllowed', 'Blocked',
+ * 'AuthorizationMissing', 'AuthorizationRedundancy', 'AuthorizationDisabled',
+ * 'AuthorizationExpired'
  * @readonly
  * @enum {string}
  */
-export enum ErrorSubCode {
-  UnexpectedError = 'UnexpectedError',
-  ResourceError = 'ResourceError',
-  NotImplemented = 'NotImplemented',
-  ParameterMissing = 'ParameterMissing',
-  ParameterInvalidValue = 'ParameterInvalidValue',
-  HttpNotAllowed = 'HttpNotAllowed',
-  Blocked = 'Blocked',
-  AuthorizationMissing = 'AuthorizationMissing',
-  AuthorizationRedundancy = 'AuthorizationRedundancy',
-  AuthorizationDisabled = 'AuthorizationDisabled',
-  AuthorizationExpired = 'AuthorizationExpired',
-}
+export type ErrorSubCode = 'UnexpectedError' | 'ResourceError' | 'NotImplemented' | 'ParameterMissing' | 'ParameterInvalidValue' | 'HttpNotAllowed' | 'Blocked' | 'AuthorizationMissing' | 'AuthorizationRedundancy' | 'AuthorizationDisabled' | 'AuthorizationExpired';
 
 /**
  * Defines values for SafeSearch.
  * Possible values include: 'Off', 'Moderate', 'Strict'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SafeSearch = <SafeSearch>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SafeSearch {
-  Off = 'Off',
-  Moderate = 'Moderate',
-  Strict = 'Strict',
-}
+export type SafeSearch = 'Off' | 'Moderate' | 'Strict';
 
 /**
  * Defines values for TextFormat.
  * Possible values include: 'Raw', 'Html'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TextFormat = <TextFormat>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum TextFormat {
-  Raw = 'Raw',
-  Html = 'Html',
-}
+export type TextFormat = 'Raw' | 'Html';
 
 /**
  * Contains response data for the search operation.

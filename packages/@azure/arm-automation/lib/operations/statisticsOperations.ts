@@ -47,7 +47,7 @@ export class StatisticsOperations {
    * @param callback The callback
    */
   listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: Models.StatisticsListByAutomationAccountOptionalParams, callback: msRest.ServiceCallback<Models.StatisticsListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.StatisticsListByAutomationAccountOptionalParams, callback?: msRest.ServiceCallback<Models.StatisticsListResult>): Promise<Models.StatisticsListByAutomationAccountResponse> {
+  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.StatisticsListByAutomationAccountOptionalParams | msRest.ServiceCallback<Models.StatisticsListResult>, callback?: msRest.ServiceCallback<Models.StatisticsListResult>): Promise<Models.StatisticsListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

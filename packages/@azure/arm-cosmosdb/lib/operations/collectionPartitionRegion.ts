@@ -66,7 +66,7 @@ export class CollectionPartitionRegion {
    * @param callback The callback
    */
   listMetrics(resourceGroupName: string, accountName: string, region: string, databaseRid: string, collectionRid: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PartitionMetricListResult>): void;
-  listMetrics(resourceGroupName: string, accountName: string, region: string, databaseRid: string, collectionRid: string, filter: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PartitionMetricListResult>): Promise<Models.CollectionPartitionRegionListMetricsResponse> {
+  listMetrics(resourceGroupName: string, accountName: string, region: string, databaseRid: string, collectionRid: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PartitionMetricListResult>, callback?: msRest.ServiceCallback<Models.PartitionMetricListResult>): Promise<Models.CollectionPartitionRegionListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

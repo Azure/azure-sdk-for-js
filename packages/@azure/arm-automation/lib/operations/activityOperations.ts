@@ -53,7 +53,7 @@ export class ActivityOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, automationAccountName: string, moduleName: string, activityName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Activity>): void;
-  get(resourceGroupName: string, automationAccountName: string, moduleName: string, activityName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Activity>): Promise<Models.ActivityGetResponse> {
+  get(resourceGroupName: string, automationAccountName: string, moduleName: string, activityName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Activity>, callback?: msRest.ServiceCallback<Models.Activity>): Promise<Models.ActivityGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -90,7 +90,7 @@ export class ActivityOperations {
    * @param callback The callback
    */
   listByModule(resourceGroupName: string, automationAccountName: string, moduleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ActivityListResult>): void;
-  listByModule(resourceGroupName: string, automationAccountName: string, moduleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ActivityListResult>): Promise<Models.ActivityListByModuleResponse> {
+  listByModule(resourceGroupName: string, automationAccountName: string, moduleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActivityListResult>, callback?: msRest.ServiceCallback<Models.ActivityListResult>): Promise<Models.ActivityListByModuleResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -120,7 +120,7 @@ export class ActivityOperations {
    * @param callback The callback
    */
   listByModuleNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ActivityListResult>): void;
-  listByModuleNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ActivityListResult>): Promise<Models.ActivityListByModuleNextResponse> {
+  listByModuleNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActivityListResult>, callback?: msRest.ServiceCallback<Models.ActivityListResult>): Promise<Models.ActivityListByModuleNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

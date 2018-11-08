@@ -1495,10 +1495,7 @@ export interface DeploymentOperationsListResult extends Array<DeploymentOperatio
  * @readonly
  * @enum {string}
  */
-export enum DeploymentMode {
-  Incremental = 'Incremental',
-  Complete = 'Complete',
-}
+export type DeploymentMode = 'Incremental' | 'Complete';
 
 /**
  * Defines values for OnErrorDeploymentType.
@@ -1506,24 +1503,16 @@ export enum DeploymentMode {
  * @readonly
  * @enum {string}
  */
-export enum OnErrorDeploymentType {
-  LastSuccessful = 'LastSuccessful',
-  SpecificDeployment = 'SpecificDeployment',
-}
+export type OnErrorDeploymentType = 'LastSuccessful' | 'SpecificDeployment';
 
 /**
  * Defines values for ResourceIdentityType.
- * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,
- * UserAssigned', 'None'
+ * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
+ * 'None'
  * @readonly
  * @enum {string}
  */
-export enum ResourceIdentityType {
-  SystemAssigned = 'SystemAssigned',
-  UserAssigned = 'UserAssigned',
-  SystemAssignedUserAssigned = 'SystemAssigned, UserAssigned',
-  None = 'None',
-}
+export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
 
 /**
  * Contains response data for the list operation.

@@ -363,17 +363,10 @@ export interface MapsOperations extends Array<MapsOperationsValueItem> {
 /**
  * Defines values for KeyType.
  * Possible values include: 'primary', 'secondary'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: KeyType = <KeyType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum KeyType {
-  Primary = 'primary',
-  Secondary = 'secondary',
-}
+export type KeyType = 'primary' | 'secondary';
 
 /**
  * Contains response data for the createOrUpdate operation.

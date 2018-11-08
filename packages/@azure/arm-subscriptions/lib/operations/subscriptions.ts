@@ -46,7 +46,7 @@ export class Subscriptions {
    * @param callback The callback
    */
   listLocations(subscriptionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LocationListResult>): void;
-  listLocations(subscriptionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LocationListResult>): Promise<Models.SubscriptionsListLocationsResponse> {
+  listLocations(subscriptionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LocationListResult>, callback?: msRest.ServiceCallback<Models.LocationListResult>): Promise<Models.SubscriptionsListLocationsResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -74,7 +74,7 @@ export class Subscriptions {
    * @param callback The callback
    */
   get(subscriptionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Subscription>): void;
-  get(subscriptionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Subscription>): Promise<Models.SubscriptionsGetResponse> {
+  get(subscriptionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Subscription>, callback?: msRest.ServiceCallback<Models.Subscription>): Promise<Models.SubscriptionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -99,7 +99,7 @@ export class Subscriptions {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SubscriptionListResult>): Promise<Models.SubscriptionsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionListResult>, callback?: msRest.ServiceCallback<Models.SubscriptionListResult>): Promise<Models.SubscriptionsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -126,7 +126,7 @@ export class Subscriptions {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SubscriptionListResult>): Promise<Models.SubscriptionsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionListResult>, callback?: msRest.ServiceCallback<Models.SubscriptionListResult>): Promise<Models.SubscriptionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -47,7 +47,7 @@ export class WidgetTypes {
    * @param callback The callback
    */
   listByHub(resourceGroupName: string, hubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WidgetTypeListResult>): void;
-  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WidgetTypeListResult>): Promise<Models.WidgetTypesListByHubResponse> {
+  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WidgetTypeListResult>, callback?: msRest.ServiceCallback<Models.WidgetTypeListResult>): Promise<Models.WidgetTypesListByHubResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class WidgetTypes {
    * @param callback The callback
    */
   get(resourceGroupName: string, hubName: string, widgetTypeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WidgetTypeResourceFormat>): void;
-  get(resourceGroupName: string, hubName: string, widgetTypeName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WidgetTypeResourceFormat>): Promise<Models.WidgetTypesGetResponse> {
+  get(resourceGroupName: string, hubName: string, widgetTypeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WidgetTypeResourceFormat>, callback?: msRest.ServiceCallback<Models.WidgetTypeResourceFormat>): Promise<Models.WidgetTypesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class WidgetTypes {
    * @param callback The callback
    */
   listByHubNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WidgetTypeListResult>): void;
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WidgetTypeListResult>): Promise<Models.WidgetTypesListByHubNextResponse> {
+  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WidgetTypeListResult>, callback?: msRest.ServiceCallback<Models.WidgetTypeListResult>): Promise<Models.WidgetTypesListByHubNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

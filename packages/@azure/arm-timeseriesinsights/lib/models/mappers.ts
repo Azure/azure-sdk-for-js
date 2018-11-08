@@ -827,11 +827,6 @@ export const EventSourceListResponse: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "kind",
-                clientName: "kind"
-              },
-              uberParent: "EventSourceResource",
               className: "EventSourceResource"
             }
           }

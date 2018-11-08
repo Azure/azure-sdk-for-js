@@ -44,7 +44,7 @@ export class DeletedApplications {
    * @param callback The callback
    */
   restore(objectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Application>): void;
-  restore(objectId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Application>): Promise<Models.DeletedApplicationsRestoreResponse> {
+  restore(objectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Application>, callback?: msRest.ServiceCallback<Models.Application>): Promise<Models.DeletedApplicationsRestoreResponse> {
     return this.client.sendOperationRequest(
       {
         objectId,
@@ -69,7 +69,7 @@ export class DeletedApplications {
    * @param callback The callback
    */
   list(options: Models.DeletedApplicationsListOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationListResult>): void;
-  list(options?: Models.DeletedApplicationsListOptionalParams, callback?: msRest.ServiceCallback<Models.ApplicationListResult>): Promise<Models.DeletedApplicationsListResponse> {
+  list(options?: Models.DeletedApplicationsListOptionalParams | msRest.ServiceCallback<Models.ApplicationListResult>, callback?: msRest.ServiceCallback<Models.ApplicationListResult>): Promise<Models.DeletedApplicationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -96,7 +96,7 @@ export class DeletedApplications {
    * @param callback The callback
    */
   hardDelete(applicationObjectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  hardDelete(applicationObjectId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  hardDelete(applicationObjectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         applicationObjectId,
@@ -124,7 +124,7 @@ export class DeletedApplications {
    * @param callback The callback
    */
   listNext(nextLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationListResult>): void;
-  listNext(nextLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationListResult>): Promise<Models.DeletedApplicationsListNextResponse> {
+  listNext(nextLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationListResult>, callback?: msRest.ServiceCallback<Models.ApplicationListResult>): Promise<Models.DeletedApplicationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextLink,

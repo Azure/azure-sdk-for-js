@@ -16,16 +16,9 @@ const packageName = "@azure/arm-databox";
 const packageVersion = "0.0.1";
 
 export class DataBoxManagementClientContext extends msRestAzure.AzureServiceClient {
-
   credentials: msRest.ServiceClientCredentials;
-
-  apiVersion: string;
-
+  apiVersion?: string;
   subscriptionId: string;
-
-  acceptLanguage: string;
-
-  longRunningOperationRetryTimeout: number;
 
   /**
    * Initializes a new instance of the DataBoxManagementClient class.
@@ -44,6 +37,11 @@ export class DataBoxManagementClientContext extends msRestAzure.AzureServiceClie
     if (!options) {
       options = {};
     }
+    if(!options.userAgent) {
+      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
+      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
+    }
+
     super(credentials, options);
 
     this.apiVersion = '2018-01-01';
@@ -54,7 +52,6 @@ export class DataBoxManagementClientContext extends msRestAzure.AzureServiceClie
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
 
-    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }

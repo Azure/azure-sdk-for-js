@@ -291,11 +291,6 @@ export const OpenShiftManagedClusterIdentityProvider: msRest.CompositeMapper = {
         serializedName: "provider",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "kind",
-            clientName: "kind"
-          },
-          uberParent: "OpenShiftManagedClusterBaseIdentityProvider",
           className: "OpenShiftManagedClusterBaseIdentityProvider"
         }
       }

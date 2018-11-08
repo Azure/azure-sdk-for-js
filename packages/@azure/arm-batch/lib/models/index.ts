@@ -2404,26 +2404,15 @@ export interface ListPoolsResult extends Array<Pool> {
  * @readonly
  * @enum {string}
  */
-export enum PoolAllocationMode {
-  BatchService = 'BatchService',
-  UserSubscription = 'UserSubscription',
-}
+export type PoolAllocationMode = 'BatchService' | 'UserSubscription';
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Invalid', 'Creating', 'Deleting', 'Succeeded',
- * 'Failed', 'Cancelled'
+ * Possible values include: 'Invalid', 'Creating', 'Deleting', 'Succeeded', 'Failed', 'Cancelled'
  * @readonly
  * @enum {string}
  */
-export enum ProvisioningState {
-  Invalid = 'Invalid',
-  Creating = 'Creating',
-  Deleting = 'Deleting',
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-  Cancelled = 'Cancelled',
-}
+export type ProvisioningState = 'Invalid' | 'Creating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Cancelled';
 
 /**
  * Defines values for AccountKeyType.
@@ -2431,10 +2420,7 @@ export enum ProvisioningState {
  * @readonly
  * @enum {string}
  */
-export enum AccountKeyType {
-  Primary = 'Primary',
-  Secondary = 'Secondary',
-}
+export type AccountKeyType = 'Primary' | 'Secondary';
 
 /**
  * Defines values for PackageState.
@@ -2442,11 +2428,7 @@ export enum AccountKeyType {
  * @readonly
  * @enum {string}
  */
-export enum PackageState {
-  Pending = 'Pending',
-  Active = 'Active',
-  Unmapped = 'Unmapped',
-}
+export type PackageState = 'Pending' | 'Active' | 'Unmapped';
 
 /**
  * Defines values for CertificateFormat.
@@ -2454,10 +2436,7 @@ export enum PackageState {
  * @readonly
  * @enum {string}
  */
-export enum CertificateFormat {
-  Pfx = 'Pfx',
-  Cer = 'Cer',
-}
+export type CertificateFormat = 'Pfx' | 'Cer';
 
 /**
  * Defines values for CertificateProvisioningState.
@@ -2465,11 +2444,7 @@ export enum CertificateFormat {
  * @readonly
  * @enum {string}
  */
-export enum CertificateProvisioningState {
-  Succeeded = 'Succeeded',
-  Deleting = 'Deleting',
-  Failed = 'Failed',
-}
+export type CertificateProvisioningState = 'Succeeded' | 'Deleting' | 'Failed';
 
 /**
  * Defines values for PoolProvisioningState.
@@ -2477,10 +2452,7 @@ export enum CertificateProvisioningState {
  * @readonly
  * @enum {string}
  */
-export enum PoolProvisioningState {
-  Succeeded = 'Succeeded',
-  Deleting = 'Deleting',
-}
+export type PoolProvisioningState = 'Succeeded' | 'Deleting';
 
 /**
  * Defines values for AllocationState.
@@ -2488,11 +2460,7 @@ export enum PoolProvisioningState {
  * @readonly
  * @enum {string}
  */
-export enum AllocationState {
-  Steady = 'Steady',
-  Resizing = 'Resizing',
-  Stopping = 'Stopping',
-}
+export type AllocationState = 'Steady' | 'Resizing' | 'Stopping';
 
 /**
  * Defines values for CachingType.
@@ -2500,11 +2468,7 @@ export enum AllocationState {
  * @readonly
  * @enum {string}
  */
-export enum CachingType {
-  None = 'None',
-  ReadOnly = 'ReadOnly',
-  ReadWrite = 'ReadWrite',
-}
+export type CachingType = 'None' | 'ReadOnly' | 'ReadWrite';
 
 /**
  * Defines values for StorageAccountType.
@@ -2512,24 +2476,15 @@ export enum CachingType {
  * @readonly
  * @enum {string}
  */
-export enum StorageAccountType {
-  StandardLRS = 'Standard_LRS',
-  PremiumLRS = 'Premium_LRS',
-}
+export type StorageAccountType = 'Standard_LRS' | 'Premium_LRS';
 
 /**
  * Defines values for ComputeNodeDeallocationOption.
- * Possible values include: 'Requeue', 'Terminate', 'TaskCompletion',
- * 'RetainedData'
+ * Possible values include: 'Requeue', 'Terminate', 'TaskCompletion', 'RetainedData'
  * @readonly
  * @enum {string}
  */
-export enum ComputeNodeDeallocationOption {
-  Requeue = 'Requeue',
-  Terminate = 'Terminate',
-  TaskCompletion = 'TaskCompletion',
-  RetainedData = 'RetainedData',
-}
+export type ComputeNodeDeallocationOption = 'Requeue' | 'Terminate' | 'TaskCompletion' | 'RetainedData';
 
 /**
  * Defines values for InterNodeCommunicationState.
@@ -2537,10 +2492,7 @@ export enum ComputeNodeDeallocationOption {
  * @readonly
  * @enum {string}
  */
-export enum InterNodeCommunicationState {
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type InterNodeCommunicationState = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for InboundEndpointProtocol.
@@ -2548,10 +2500,7 @@ export enum InterNodeCommunicationState {
  * @readonly
  * @enum {string}
  */
-export enum InboundEndpointProtocol {
-  TCP = 'TCP',
-  UDP = 'UDP',
-}
+export type InboundEndpointProtocol = 'TCP' | 'UDP';
 
 /**
  * Defines values for NetworkSecurityGroupRuleAccess.
@@ -2559,10 +2508,7 @@ export enum InboundEndpointProtocol {
  * @readonly
  * @enum {string}
  */
-export enum NetworkSecurityGroupRuleAccess {
-  Allow = 'Allow',
-  Deny = 'Deny',
-}
+export type NetworkSecurityGroupRuleAccess = 'Allow' | 'Deny';
 
 /**
  * Defines values for ComputeNodeFillType.
@@ -2570,10 +2516,7 @@ export enum NetworkSecurityGroupRuleAccess {
  * @readonly
  * @enum {string}
  */
-export enum ComputeNodeFillType {
-  Spread = 'Spread',
-  Pack = 'Pack',
-}
+export type ComputeNodeFillType = 'Spread' | 'Pack';
 
 /**
  * Defines values for ElevationLevel.
@@ -2581,10 +2524,7 @@ export enum ComputeNodeFillType {
  * @readonly
  * @enum {string}
  */
-export enum ElevationLevel {
-  NonAdmin = 'NonAdmin',
-  Admin = 'Admin',
-}
+export type ElevationLevel = 'NonAdmin' | 'Admin';
 
 /**
  * Defines values for AutoUserScope.
@@ -2592,10 +2532,7 @@ export enum ElevationLevel {
  * @readonly
  * @enum {string}
  */
-export enum AutoUserScope {
-  Task = 'Task',
-  Pool = 'Pool',
-}
+export type AutoUserScope = 'Task' | 'Pool';
 
 /**
  * Defines values for CertificateStoreLocation.
@@ -2603,10 +2540,7 @@ export enum AutoUserScope {
  * @readonly
  * @enum {string}
  */
-export enum CertificateStoreLocation {
-  CurrentUser = 'CurrentUser',
-  LocalMachine = 'LocalMachine',
-}
+export type CertificateStoreLocation = 'CurrentUser' | 'LocalMachine';
 
 /**
  * Defines values for CertificateVisibility.
@@ -2614,11 +2548,7 @@ export enum CertificateStoreLocation {
  * @readonly
  * @enum {string}
  */
-export enum CertificateVisibility {
-  StartTask = 'StartTask',
-  Task = 'Task',
-  RemoteUser = 'RemoteUser',
-}
+export type CertificateVisibility = 'StartTask' | 'Task' | 'RemoteUser';
 
 /**
  * Defines values for NameAvailabilityReason.
@@ -2626,10 +2556,7 @@ export enum CertificateVisibility {
  * @readonly
  * @enum {string}
  */
-export enum NameAvailabilityReason {
-  Invalid = 'Invalid',
-  AlreadyExists = 'AlreadyExists',
-}
+export type NameAvailabilityReason = 'Invalid' | 'AlreadyExists';
 
 /**
  * Contains response data for the create operation.

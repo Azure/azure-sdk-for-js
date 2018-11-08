@@ -47,7 +47,7 @@ export class Remediations {
    * @param callback The callback
    */
   listDeploymentsAtManagementGroup(managementGroupId: string, remediationName: string, options: Models.RemediationsListDeploymentsAtManagementGroupOptionalParams, callback: msRest.ServiceCallback<Models.RemediationDeploymentsListResult>): void;
-  listDeploymentsAtManagementGroup(managementGroupId: string, remediationName: string, options?: Models.RemediationsListDeploymentsAtManagementGroupOptionalParams, callback?: msRest.ServiceCallback<Models.RemediationDeploymentsListResult>): Promise<Models.RemediationsListDeploymentsAtManagementGroupResponse> {
+  listDeploymentsAtManagementGroup(managementGroupId: string, remediationName: string, options?: Models.RemediationsListDeploymentsAtManagementGroupOptionalParams | msRest.ServiceCallback<Models.RemediationDeploymentsListResult>, callback?: msRest.ServiceCallback<Models.RemediationDeploymentsListResult>): Promise<Models.RemediationsListDeploymentsAtManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         managementGroupId,
@@ -79,7 +79,7 @@ export class Remediations {
    * @param callback The callback
    */
   cancelAtManagementGroup(managementGroupId: string, remediationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Remediation>): void;
-  cancelAtManagementGroup(managementGroupId: string, remediationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsCancelAtManagementGroupResponse> {
+  cancelAtManagementGroup(managementGroupId: string, remediationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Remediation>, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsCancelAtManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         managementGroupId,
@@ -108,7 +108,7 @@ export class Remediations {
    * @param callback The callback
    */
   listForManagementGroup(managementGroupId: string, options: Models.RemediationsListForManagementGroupOptionalParams, callback: msRest.ServiceCallback<Models.RemediationListResult>): void;
-  listForManagementGroup(managementGroupId: string, options?: Models.RemediationsListForManagementGroupOptionalParams, callback?: msRest.ServiceCallback<Models.RemediationListResult>): Promise<Models.RemediationsListForManagementGroupResponse> {
+  listForManagementGroup(managementGroupId: string, options?: Models.RemediationsListForManagementGroupOptionalParams | msRest.ServiceCallback<Models.RemediationListResult>, callback?: msRest.ServiceCallback<Models.RemediationListResult>): Promise<Models.RemediationsListForManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         managementGroupId,
@@ -142,7 +142,7 @@ export class Remediations {
    * @param callback The callback
    */
   createOrUpdateAtManagementGroup(managementGroupId: string, remediationName: string, parameters: Models.Remediation, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Remediation>): void;
-  createOrUpdateAtManagementGroup(managementGroupId: string, remediationName: string, parameters: Models.Remediation, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsCreateOrUpdateAtManagementGroupResponse> {
+  createOrUpdateAtManagementGroup(managementGroupId: string, remediationName: string, parameters: Models.Remediation, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Remediation>, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsCreateOrUpdateAtManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         managementGroupId,
@@ -175,7 +175,7 @@ export class Remediations {
    * @param callback The callback
    */
   getAtManagementGroup(managementGroupId: string, remediationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Remediation>): void;
-  getAtManagementGroup(managementGroupId: string, remediationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsGetAtManagementGroupResponse> {
+  getAtManagementGroup(managementGroupId: string, remediationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Remediation>, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsGetAtManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         managementGroupId,
@@ -207,7 +207,7 @@ export class Remediations {
    * @param callback The callback
    */
   deleteAtManagementGroup(managementGroupId: string, remediationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Remediation>): void;
-  deleteAtManagementGroup(managementGroupId: string, remediationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsDeleteAtManagementGroupResponse> {
+  deleteAtManagementGroup(managementGroupId: string, remediationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Remediation>, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsDeleteAtManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         managementGroupId,
@@ -239,7 +239,7 @@ export class Remediations {
    * @param callback The callback
    */
   listDeploymentsAtSubscription(subscriptionId: string, remediationName: string, options: Models.RemediationsListDeploymentsAtSubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.RemediationDeploymentsListResult>): void;
-  listDeploymentsAtSubscription(subscriptionId: string, remediationName: string, options?: Models.RemediationsListDeploymentsAtSubscriptionOptionalParams, callback?: msRest.ServiceCallback<Models.RemediationDeploymentsListResult>): Promise<Models.RemediationsListDeploymentsAtSubscriptionResponse> {
+  listDeploymentsAtSubscription(subscriptionId: string, remediationName: string, options?: Models.RemediationsListDeploymentsAtSubscriptionOptionalParams | msRest.ServiceCallback<Models.RemediationDeploymentsListResult>, callback?: msRest.ServiceCallback<Models.RemediationDeploymentsListResult>): Promise<Models.RemediationsListDeploymentsAtSubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -271,7 +271,7 @@ export class Remediations {
    * @param callback The callback
    */
   cancelAtSubscription(subscriptionId: string, remediationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Remediation>): void;
-  cancelAtSubscription(subscriptionId: string, remediationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsCancelAtSubscriptionResponse> {
+  cancelAtSubscription(subscriptionId: string, remediationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Remediation>, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsCancelAtSubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -300,7 +300,7 @@ export class Remediations {
    * @param callback The callback
    */
   listForSubscription(subscriptionId: string, options: Models.RemediationsListForSubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.RemediationListResult>): void;
-  listForSubscription(subscriptionId: string, options?: Models.RemediationsListForSubscriptionOptionalParams, callback?: msRest.ServiceCallback<Models.RemediationListResult>): Promise<Models.RemediationsListForSubscriptionResponse> {
+  listForSubscription(subscriptionId: string, options?: Models.RemediationsListForSubscriptionOptionalParams | msRest.ServiceCallback<Models.RemediationListResult>, callback?: msRest.ServiceCallback<Models.RemediationListResult>): Promise<Models.RemediationsListForSubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -334,7 +334,7 @@ export class Remediations {
    * @param callback The callback
    */
   createOrUpdateAtSubscription(subscriptionId: string, remediationName: string, parameters: Models.Remediation, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Remediation>): void;
-  createOrUpdateAtSubscription(subscriptionId: string, remediationName: string, parameters: Models.Remediation, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsCreateOrUpdateAtSubscriptionResponse> {
+  createOrUpdateAtSubscription(subscriptionId: string, remediationName: string, parameters: Models.Remediation, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Remediation>, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsCreateOrUpdateAtSubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -367,7 +367,7 @@ export class Remediations {
    * @param callback The callback
    */
   getAtSubscription(subscriptionId: string, remediationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Remediation>): void;
-  getAtSubscription(subscriptionId: string, remediationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsGetAtSubscriptionResponse> {
+  getAtSubscription(subscriptionId: string, remediationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Remediation>, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsGetAtSubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -399,7 +399,7 @@ export class Remediations {
    * @param callback The callback
    */
   deleteAtSubscription(subscriptionId: string, remediationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Remediation>): void;
-  deleteAtSubscription(subscriptionId: string, remediationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsDeleteAtSubscriptionResponse> {
+  deleteAtSubscription(subscriptionId: string, remediationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Remediation>, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsDeleteAtSubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -434,7 +434,7 @@ export class Remediations {
    * @param callback The callback
    */
   listDeploymentsAtResourceGroup(subscriptionId: string, resourceGroupName: string, remediationName: string, options: Models.RemediationsListDeploymentsAtResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.RemediationDeploymentsListResult>): void;
-  listDeploymentsAtResourceGroup(subscriptionId: string, resourceGroupName: string, remediationName: string, options?: Models.RemediationsListDeploymentsAtResourceGroupOptionalParams, callback?: msRest.ServiceCallback<Models.RemediationDeploymentsListResult>): Promise<Models.RemediationsListDeploymentsAtResourceGroupResponse> {
+  listDeploymentsAtResourceGroup(subscriptionId: string, resourceGroupName: string, remediationName: string, options?: Models.RemediationsListDeploymentsAtResourceGroupOptionalParams | msRest.ServiceCallback<Models.RemediationDeploymentsListResult>, callback?: msRest.ServiceCallback<Models.RemediationDeploymentsListResult>): Promise<Models.RemediationsListDeploymentsAtResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -470,7 +470,7 @@ export class Remediations {
    * @param callback The callback
    */
   cancelAtResourceGroup(subscriptionId: string, resourceGroupName: string, remediationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Remediation>): void;
-  cancelAtResourceGroup(subscriptionId: string, resourceGroupName: string, remediationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsCancelAtResourceGroupResponse> {
+  cancelAtResourceGroup(subscriptionId: string, resourceGroupName: string, remediationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Remediation>, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsCancelAtResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -503,7 +503,7 @@ export class Remediations {
    * @param callback The callback
    */
   listForResourceGroup(subscriptionId: string, resourceGroupName: string, options: Models.RemediationsListForResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.RemediationListResult>): void;
-  listForResourceGroup(subscriptionId: string, resourceGroupName: string, options?: Models.RemediationsListForResourceGroupOptionalParams, callback?: msRest.ServiceCallback<Models.RemediationListResult>): Promise<Models.RemediationsListForResourceGroupResponse> {
+  listForResourceGroup(subscriptionId: string, resourceGroupName: string, options?: Models.RemediationsListForResourceGroupOptionalParams | msRest.ServiceCallback<Models.RemediationListResult>, callback?: msRest.ServiceCallback<Models.RemediationListResult>): Promise<Models.RemediationsListForResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -541,7 +541,7 @@ export class Remediations {
    * @param callback The callback
    */
   createOrUpdateAtResourceGroup(subscriptionId: string, resourceGroupName: string, remediationName: string, parameters: Models.Remediation, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Remediation>): void;
-  createOrUpdateAtResourceGroup(subscriptionId: string, resourceGroupName: string, remediationName: string, parameters: Models.Remediation, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsCreateOrUpdateAtResourceGroupResponse> {
+  createOrUpdateAtResourceGroup(subscriptionId: string, resourceGroupName: string, remediationName: string, parameters: Models.Remediation, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Remediation>, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsCreateOrUpdateAtResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -578,7 +578,7 @@ export class Remediations {
    * @param callback The callback
    */
   getAtResourceGroup(subscriptionId: string, resourceGroupName: string, remediationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Remediation>): void;
-  getAtResourceGroup(subscriptionId: string, resourceGroupName: string, remediationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsGetAtResourceGroupResponse> {
+  getAtResourceGroup(subscriptionId: string, resourceGroupName: string, remediationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Remediation>, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsGetAtResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -614,7 +614,7 @@ export class Remediations {
    * @param callback The callback
    */
   deleteAtResourceGroup(subscriptionId: string, resourceGroupName: string, remediationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Remediation>): void;
-  deleteAtResourceGroup(subscriptionId: string, resourceGroupName: string, remediationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsDeleteAtResourceGroupResponse> {
+  deleteAtResourceGroup(subscriptionId: string, resourceGroupName: string, remediationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Remediation>, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsDeleteAtResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -647,7 +647,7 @@ export class Remediations {
    * @param callback The callback
    */
   listDeploymentsAtResource(resourceId: string, remediationName: string, options: Models.RemediationsListDeploymentsAtResourceOptionalParams, callback: msRest.ServiceCallback<Models.RemediationDeploymentsListResult>): void;
-  listDeploymentsAtResource(resourceId: string, remediationName: string, options?: Models.RemediationsListDeploymentsAtResourceOptionalParams, callback?: msRest.ServiceCallback<Models.RemediationDeploymentsListResult>): Promise<Models.RemediationsListDeploymentsAtResourceResponse> {
+  listDeploymentsAtResource(resourceId: string, remediationName: string, options?: Models.RemediationsListDeploymentsAtResourceOptionalParams | msRest.ServiceCallback<Models.RemediationDeploymentsListResult>, callback?: msRest.ServiceCallback<Models.RemediationDeploymentsListResult>): Promise<Models.RemediationsListDeploymentsAtResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
@@ -679,7 +679,7 @@ export class Remediations {
    * @param callback The callback
    */
   cancelAtResource(resourceId: string, remediationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Remediation>): void;
-  cancelAtResource(resourceId: string, remediationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsCancelAtResourceResponse> {
+  cancelAtResource(resourceId: string, remediationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Remediation>, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsCancelAtResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
@@ -708,7 +708,7 @@ export class Remediations {
    * @param callback The callback
    */
   listForResource(resourceId: string, options: Models.RemediationsListForResourceOptionalParams, callback: msRest.ServiceCallback<Models.RemediationListResult>): void;
-  listForResource(resourceId: string, options?: Models.RemediationsListForResourceOptionalParams, callback?: msRest.ServiceCallback<Models.RemediationListResult>): Promise<Models.RemediationsListForResourceResponse> {
+  listForResource(resourceId: string, options?: Models.RemediationsListForResourceOptionalParams | msRest.ServiceCallback<Models.RemediationListResult>, callback?: msRest.ServiceCallback<Models.RemediationListResult>): Promise<Models.RemediationsListForResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
@@ -742,7 +742,7 @@ export class Remediations {
    * @param callback The callback
    */
   createOrUpdateAtResource(resourceId: string, remediationName: string, parameters: Models.Remediation, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Remediation>): void;
-  createOrUpdateAtResource(resourceId: string, remediationName: string, parameters: Models.Remediation, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsCreateOrUpdateAtResourceResponse> {
+  createOrUpdateAtResource(resourceId: string, remediationName: string, parameters: Models.Remediation, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Remediation>, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsCreateOrUpdateAtResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
@@ -775,7 +775,7 @@ export class Remediations {
    * @param callback The callback
    */
   getAtResource(resourceId: string, remediationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Remediation>): void;
-  getAtResource(resourceId: string, remediationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsGetAtResourceResponse> {
+  getAtResource(resourceId: string, remediationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Remediation>, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsGetAtResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
@@ -807,7 +807,7 @@ export class Remediations {
    * @param callback The callback
    */
   deleteAtResource(resourceId: string, remediationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Remediation>): void;
-  deleteAtResource(resourceId: string, remediationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsDeleteAtResourceResponse> {
+  deleteAtResource(resourceId: string, remediationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Remediation>, callback?: msRest.ServiceCallback<Models.Remediation>): Promise<Models.RemediationsDeleteAtResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
@@ -836,7 +836,7 @@ export class Remediations {
    * @param callback The callback
    */
   listDeploymentsAtManagementGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemediationDeploymentsListResult>): void;
-  listDeploymentsAtManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RemediationDeploymentsListResult>): Promise<Models.RemediationsListDeploymentsAtManagementGroupNextResponse> {
+  listDeploymentsAtManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemediationDeploymentsListResult>, callback?: msRest.ServiceCallback<Models.RemediationDeploymentsListResult>): Promise<Models.RemediationsListDeploymentsAtManagementGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -864,7 +864,7 @@ export class Remediations {
    * @param callback The callback
    */
   listForManagementGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemediationListResult>): void;
-  listForManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RemediationListResult>): Promise<Models.RemediationsListForManagementGroupNextResponse> {
+  listForManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemediationListResult>, callback?: msRest.ServiceCallback<Models.RemediationListResult>): Promise<Models.RemediationsListForManagementGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -892,7 +892,7 @@ export class Remediations {
    * @param callback The callback
    */
   listDeploymentsAtSubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemediationDeploymentsListResult>): void;
-  listDeploymentsAtSubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RemediationDeploymentsListResult>): Promise<Models.RemediationsListDeploymentsAtSubscriptionNextResponse> {
+  listDeploymentsAtSubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemediationDeploymentsListResult>, callback?: msRest.ServiceCallback<Models.RemediationDeploymentsListResult>): Promise<Models.RemediationsListDeploymentsAtSubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -920,7 +920,7 @@ export class Remediations {
    * @param callback The callback
    */
   listForSubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemediationListResult>): void;
-  listForSubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RemediationListResult>): Promise<Models.RemediationsListForSubscriptionNextResponse> {
+  listForSubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemediationListResult>, callback?: msRest.ServiceCallback<Models.RemediationListResult>): Promise<Models.RemediationsListForSubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -948,7 +948,7 @@ export class Remediations {
    * @param callback The callback
    */
   listDeploymentsAtResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemediationDeploymentsListResult>): void;
-  listDeploymentsAtResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RemediationDeploymentsListResult>): Promise<Models.RemediationsListDeploymentsAtResourceGroupNextResponse> {
+  listDeploymentsAtResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemediationDeploymentsListResult>, callback?: msRest.ServiceCallback<Models.RemediationDeploymentsListResult>): Promise<Models.RemediationsListDeploymentsAtResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -976,7 +976,7 @@ export class Remediations {
    * @param callback The callback
    */
   listForResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemediationListResult>): void;
-  listForResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RemediationListResult>): Promise<Models.RemediationsListForResourceGroupNextResponse> {
+  listForResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemediationListResult>, callback?: msRest.ServiceCallback<Models.RemediationListResult>): Promise<Models.RemediationsListForResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1004,7 +1004,7 @@ export class Remediations {
    * @param callback The callback
    */
   listDeploymentsAtResourceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemediationDeploymentsListResult>): void;
-  listDeploymentsAtResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RemediationDeploymentsListResult>): Promise<Models.RemediationsListDeploymentsAtResourceNextResponse> {
+  listDeploymentsAtResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemediationDeploymentsListResult>, callback?: msRest.ServiceCallback<Models.RemediationDeploymentsListResult>): Promise<Models.RemediationsListDeploymentsAtResourceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1032,7 +1032,7 @@ export class Remediations {
    * @param callback The callback
    */
   listForResourceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemediationListResult>): void;
-  listForResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RemediationListResult>): Promise<Models.RemediationsListForResourceNextResponse> {
+  listForResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemediationListResult>, callback?: msRest.ServiceCallback<Models.RemediationListResult>): Promise<Models.RemediationsListForResourceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

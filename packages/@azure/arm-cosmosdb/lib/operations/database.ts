@@ -60,7 +60,7 @@ export class Database {
    * @param callback The callback
    */
   listMetrics(resourceGroupName: string, accountName: string, databaseRid: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricListResult>): void;
-  listMetrics(resourceGroupName: string, accountName: string, databaseRid: string, filter: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricListResult>): Promise<Models.DatabaseListMetricsResponse> {
+  listMetrics(resourceGroupName: string, accountName: string, databaseRid: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricListResult>, callback?: msRest.ServiceCallback<Models.MetricListResult>): Promise<Models.DatabaseListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -97,7 +97,7 @@ export class Database {
    * @param callback The callback
    */
   listUsages(resourceGroupName: string, accountName: string, databaseRid: string, options: Models.DatabaseListUsagesOptionalParams, callback: msRest.ServiceCallback<Models.UsagesResult>): void;
-  listUsages(resourceGroupName: string, accountName: string, databaseRid: string, options?: Models.DatabaseListUsagesOptionalParams, callback?: msRest.ServiceCallback<Models.UsagesResult>): Promise<Models.DatabaseListUsagesResponse> {
+  listUsages(resourceGroupName: string, accountName: string, databaseRid: string, options?: Models.DatabaseListUsagesOptionalParams | msRest.ServiceCallback<Models.UsagesResult>, callback?: msRest.ServiceCallback<Models.UsagesResult>): Promise<Models.DatabaseListUsagesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -133,7 +133,7 @@ export class Database {
    * @param callback The callback
    */
   listMetricDefinitions(resourceGroupName: string, accountName: string, databaseRid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricDefinitionsListResult>): void;
-  listMetricDefinitions(resourceGroupName: string, accountName: string, databaseRid: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricDefinitionsListResult>): Promise<Models.DatabaseListMetricDefinitionsResponse> {
+  listMetricDefinitions(resourceGroupName: string, accountName: string, databaseRid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionsListResult>, callback?: msRest.ServiceCallback<Models.MetricDefinitionsListResult>): Promise<Models.DatabaseListMetricDefinitionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

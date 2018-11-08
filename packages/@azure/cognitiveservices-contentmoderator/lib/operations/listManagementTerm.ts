@@ -50,7 +50,7 @@ export class ListManagementTerm {
    * @param callback The callback
    */
   addTerm(listId: string, term: string, language: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  addTerm(listId: string, term: string, language: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<any>): Promise<Models.ListManagementTermAddTermResponse> {
+  addTerm(listId: string, term: string, language: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ListManagementTermAddTermResponse> {
     return this.client.sendOperationRequest(
       {
         listId,
@@ -86,7 +86,7 @@ export class ListManagementTerm {
    * @param callback The callback
    */
   deleteTerm(listId: string, term: string, language: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  deleteTerm(listId: string, term: string, language: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.ListManagementTermDeleteTermResponse> {
+  deleteTerm(listId: string, term: string, language: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ListManagementTermDeleteTermResponse> {
     return this.client.sendOperationRequest(
       {
         listId,
@@ -119,7 +119,7 @@ export class ListManagementTerm {
    * @param callback The callback
    */
   getAllTerms(listId: string, language: string, options: Models.ListManagementTermGetAllTermsOptionalParams, callback: msRest.ServiceCallback<Models.Terms>): void;
-  getAllTerms(listId: string, language: string, options?: Models.ListManagementTermGetAllTermsOptionalParams, callback?: msRest.ServiceCallback<Models.Terms>): Promise<Models.ListManagementTermGetAllTermsResponse> {
+  getAllTerms(listId: string, language: string, options?: Models.ListManagementTermGetAllTermsOptionalParams | msRest.ServiceCallback<Models.Terms>, callback?: msRest.ServiceCallback<Models.Terms>): Promise<Models.ListManagementTermGetAllTermsResponse> {
     return this.client.sendOperationRequest(
       {
         listId,
@@ -151,7 +151,7 @@ export class ListManagementTerm {
    * @param callback The callback
    */
   deleteAllTerms(listId: string, language: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  deleteAllTerms(listId: string, language: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.ListManagementTermDeleteAllTermsResponse> {
+  deleteAllTerms(listId: string, language: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ListManagementTermDeleteAllTermsResponse> {
     return this.client.sendOperationRequest(
       {
         listId,

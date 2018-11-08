@@ -44,7 +44,7 @@ export class LocationBasedPerformanceTier {
    * @param callback The callback
    */
   list(locationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PerformanceTierListResult>): void;
-  list(locationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PerformanceTierListResult>): Promise<Models.LocationBasedPerformanceTierListResponse> {
+  list(locationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PerformanceTierListResult>, callback?: msRest.ServiceCallback<Models.PerformanceTierListResult>): Promise<Models.LocationBasedPerformanceTierListResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,

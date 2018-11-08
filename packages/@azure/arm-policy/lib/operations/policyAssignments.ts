@@ -62,7 +62,7 @@ export class PolicyAssignments {
    * @param callback The callback
    */
   deleteMethod(scope: string, policyAssignmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
-  deleteMethod(scope: string, policyAssignmentName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsDeleteMethodResponse> {
+  deleteMethod(scope: string, policyAssignmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignment>, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -112,7 +112,7 @@ export class PolicyAssignments {
    * @param callback The callback
    */
   create(scope: string, policyAssignmentName: string, parameters: Models.PolicyAssignment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
-  create(scope: string, policyAssignmentName: string, parameters: Models.PolicyAssignment, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsCreateResponse> {
+  create(scope: string, policyAssignmentName: string, parameters: Models.PolicyAssignment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignment>, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -159,7 +159,7 @@ export class PolicyAssignments {
    * @param callback The callback
    */
   get(scope: string, policyAssignmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
-  get(scope: string, policyAssignmentName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsGetResponse> {
+  get(scope: string, policyAssignmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignment>, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -199,7 +199,7 @@ export class PolicyAssignments {
    * @param callback The callback
    */
   listForResourceGroup(resourceGroupName: string, options: Models.PolicyAssignmentsListForResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
-  listForResourceGroup(resourceGroupName: string, options?: Models.PolicyAssignmentsListForResourceGroupOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForResourceGroupResponse> {
+  listForResourceGroup(resourceGroupName: string, options?: Models.PolicyAssignmentsListForResourceGroupOptionalParams | msRest.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -267,7 +267,7 @@ export class PolicyAssignments {
    * @param callback The callback
    */
   listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options: Models.PolicyAssignmentsListForResourceOptionalParams, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
-  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: Models.PolicyAssignmentsListForResourceOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForResourceResponse> {
+  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: Models.PolicyAssignmentsListForResourceOptionalParams | msRest.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -306,7 +306,7 @@ export class PolicyAssignments {
    * @param callback The callback
    */
   list(options: Models.PolicyAssignmentsListOptionalParams, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
-  list(options?: Models.PolicyAssignmentsListOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListResponse> {
+  list(options?: Models.PolicyAssignmentsListOptionalParams | msRest.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -343,7 +343,7 @@ export class PolicyAssignments {
    * @param callback The callback
    */
   deleteById(policyAssignmentId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
-  deleteById(policyAssignmentId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsDeleteByIdResponse> {
+  deleteById(policyAssignmentId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignment>, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsDeleteByIdResponse> {
     return this.client.sendOperationRequest(
       {
         policyAssignmentId,
@@ -387,7 +387,7 @@ export class PolicyAssignments {
    * @param callback The callback
    */
   createById(policyAssignmentId: string, parameters: Models.PolicyAssignment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
-  createById(policyAssignmentId: string, parameters: Models.PolicyAssignment, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsCreateByIdResponse> {
+  createById(policyAssignmentId: string, parameters: Models.PolicyAssignment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignment>, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsCreateByIdResponse> {
     return this.client.sendOperationRequest(
       {
         policyAssignmentId,
@@ -426,7 +426,7 @@ export class PolicyAssignments {
    * @param callback The callback
    */
   getById(policyAssignmentId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
-  getById(policyAssignmentId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsGetByIdResponse> {
+  getById(policyAssignmentId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignment>, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsGetByIdResponse> {
     return this.client.sendOperationRequest(
       {
         policyAssignmentId,
@@ -465,7 +465,7 @@ export class PolicyAssignments {
    * @param callback The callback
    */
   listForResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
-  listForResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForResourceGroupNextResponse> {
+  listForResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -515,7 +515,7 @@ export class PolicyAssignments {
    * @param callback The callback
    */
   listForResourceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
-  listForResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForResourceNextResponse> {
+  listForResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForResourceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -553,7 +553,7 @@ export class PolicyAssignments {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

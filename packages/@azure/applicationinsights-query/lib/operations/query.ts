@@ -56,7 +56,7 @@ export class Query {
    * @param callback The callback
    */
   execute(appId: string, body: Models.QueryBody, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.QueryResults>): void;
-  execute(appId: string, body: Models.QueryBody, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.QueryResults>): Promise<Models.QueryExecuteResponse> {
+  execute(appId: string, body: Models.QueryBody, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.QueryResults>, callback?: msRest.ServiceCallback<Models.QueryResults>): Promise<Models.QueryExecuteResponse> {
     return this.client.sendOperationRequest(
       {
         appId,

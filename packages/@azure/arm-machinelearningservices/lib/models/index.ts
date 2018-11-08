@@ -1131,25 +1131,12 @@ export interface PaginatedComputeResourcesList extends Array<ComputeResource> {
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Unknown', 'Updating', 'Creating', 'Deleting',
- * 'Succeeded', 'Failed', 'Canceled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ProvisioningState =
- * <ProvisioningState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'Updating', 'Creating', 'Deleting', 'Succeeded', 'Failed',
+ * 'Canceled'
  * @readonly
  * @enum {string}
  */
-export enum ProvisioningState {
-  Unknown = 'Unknown',
-  Updating = 'Updating',
-  Creating = 'Creating',
-  Deleting = 'Deleting',
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-  Canceled = 'Canceled',
-}
+export type ProvisioningState = 'Unknown' | 'Updating' | 'Creating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled';
 
 /**
  * Defines values for ResourceIdentityType.
@@ -1157,44 +1144,23 @@ export enum ProvisioningState {
  * @readonly
  * @enum {string}
  */
-export enum ResourceIdentityType {
-  SystemAssigned = 'SystemAssigned',
-}
+export type ResourceIdentityType = 'SystemAssigned';
 
 /**
  * Defines values for ComputeType.
- * Possible values include: 'AKS', 'BatchAI', 'DataFactory', 'VirtualMachine',
- * 'HDInsight'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ComputeType =
- * <ComputeType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'AKS', 'BatchAI', 'DataFactory', 'VirtualMachine', 'HDInsight'
  * @readonly
  * @enum {string}
  */
-export enum ComputeType {
-  AKS = 'AKS',
-  BatchAI = 'BatchAI',
-  DataFactory = 'DataFactory',
-  VirtualMachine = 'VirtualMachine',
-  HDInsight = 'HDInsight',
-}
+export type ComputeType = 'AKS' | 'BatchAI' | 'DataFactory' | 'VirtualMachine' | 'HDInsight';
 
 /**
  * Defines values for Status.
  * Possible values include: 'Disabled', 'Enabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Status = <Status>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Status {
-  Disabled = 'Disabled',
-  Enabled = 'Enabled',
-}
+export type Status = 'Disabled' | 'Enabled';
 
 /**
  * Contains response data for the list operation.

@@ -44,7 +44,7 @@ export class PolicyTrackedResources {
    * @param callback The callback
    */
   listQueryResultsForManagementGroup(managementGroupName: string, options: Models.PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams, callback: msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>): void;
-  listQueryResultsForManagementGroup(managementGroupName: string, options?: Models.PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>): Promise<Models.PolicyTrackedResourcesListQueryResultsForManagementGroupResponse> {
+  listQueryResultsForManagementGroup(managementGroupName: string, options?: Models.PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams | msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>): Promise<Models.PolicyTrackedResourcesListQueryResultsForManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         managementGroupName,
@@ -72,7 +72,7 @@ export class PolicyTrackedResources {
    * @param callback The callback
    */
   listQueryResultsForSubscription(subscriptionId: string, options: Models.PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>): void;
-  listQueryResultsForSubscription(subscriptionId: string, options?: Models.PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>): Promise<Models.PolicyTrackedResourcesListQueryResultsForSubscriptionResponse> {
+  listQueryResultsForSubscription(subscriptionId: string, options?: Models.PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams | msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>): Promise<Models.PolicyTrackedResourcesListQueryResultsForSubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -103,7 +103,7 @@ export class PolicyTrackedResources {
    * @param callback The callback
    */
   listQueryResultsForResourceGroup(resourceGroupName: string, subscriptionId: string, options: Models.PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>): void;
-  listQueryResultsForResourceGroup(resourceGroupName: string, subscriptionId: string, options?: Models.PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>): Promise<Models.PolicyTrackedResourcesListQueryResultsForResourceGroupResponse> {
+  listQueryResultsForResourceGroup(resourceGroupName: string, subscriptionId: string, options?: Models.PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams | msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>): Promise<Models.PolicyTrackedResourcesListQueryResultsForResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -132,7 +132,7 @@ export class PolicyTrackedResources {
    * @param callback The callback
    */
   listQueryResultsForResource(resourceId: string, options: Models.PolicyTrackedResourcesListQueryResultsForResourceOptionalParams, callback: msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>): void;
-  listQueryResultsForResource(resourceId: string, options?: Models.PolicyTrackedResourcesListQueryResultsForResourceOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>): Promise<Models.PolicyTrackedResourcesListQueryResultsForResourceResponse> {
+  listQueryResultsForResource(resourceId: string, options?: Models.PolicyTrackedResourcesListQueryResultsForResourceOptionalParams | msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>): Promise<Models.PolicyTrackedResourcesListQueryResultsForResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
@@ -160,7 +160,7 @@ export class PolicyTrackedResources {
    * @param callback The callback
    */
   listQueryResultsForManagementGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>): void;
-  listQueryResultsForManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>): Promise<Models.PolicyTrackedResourcesListQueryResultsForManagementGroupNextResponse> {
+  listQueryResultsForManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>): Promise<Models.PolicyTrackedResourcesListQueryResultsForManagementGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -188,7 +188,7 @@ export class PolicyTrackedResources {
    * @param callback The callback
    */
   listQueryResultsForSubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>): void;
-  listQueryResultsForSubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>): Promise<Models.PolicyTrackedResourcesListQueryResultsForSubscriptionNextResponse> {
+  listQueryResultsForSubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>): Promise<Models.PolicyTrackedResourcesListQueryResultsForSubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -216,7 +216,7 @@ export class PolicyTrackedResources {
    * @param callback The callback
    */
   listQueryResultsForResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>): void;
-  listQueryResultsForResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>): Promise<Models.PolicyTrackedResourcesListQueryResultsForResourceGroupNextResponse> {
+  listQueryResultsForResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>): Promise<Models.PolicyTrackedResourcesListQueryResultsForResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -244,7 +244,7 @@ export class PolicyTrackedResources {
    * @param callback The callback
    */
   listQueryResultsForResourceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>): void;
-  listQueryResultsForResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>): Promise<Models.PolicyTrackedResourcesListQueryResultsForResourceNextResponse> {
+  listQueryResultsForResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyTrackedResourcesQueryResults>): Promise<Models.PolicyTrackedResourcesListQueryResultsForResourceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -51,7 +51,7 @@ export class TextModeration {
    * @param callback The callback
    */
   screenText(textContentType: Models.TextContentType, textContent: msRest.HttpRequestBody, options: Models.TextModerationScreenTextOptionalParams, callback: msRest.ServiceCallback<Models.Screen>): void;
-  screenText(textContentType: Models.TextContentType, textContent: msRest.HttpRequestBody, options?: Models.TextModerationScreenTextOptionalParams, callback?: msRest.ServiceCallback<Models.Screen>): Promise<Models.TextModerationScreenTextResponse> {
+  screenText(textContentType: Models.TextContentType, textContent: msRest.HttpRequestBody, options?: Models.TextModerationScreenTextOptionalParams | msRest.ServiceCallback<Models.Screen>, callback?: msRest.ServiceCallback<Models.Screen>): Promise<Models.TextModerationScreenTextResponse> {
     return this.client.sendOperationRequest(
       {
         textContentType,
@@ -88,7 +88,7 @@ export class TextModeration {
    * @param callback The callback
    */
   detectLanguage(textContentType: Models.TextContentType1, textContent: msRest.HttpRequestBody, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DetectedLanguage>): void;
-  detectLanguage(textContentType: Models.TextContentType1, textContent: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DetectedLanguage>): Promise<Models.TextModerationDetectLanguageResponse> {
+  detectLanguage(textContentType: Models.TextContentType1, textContent: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectedLanguage>, callback?: msRest.ServiceCallback<Models.DetectedLanguage>): Promise<Models.TextModerationDetectLanguageResponse> {
     return this.client.sendOperationRequest(
       {
         textContentType,

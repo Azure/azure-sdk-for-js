@@ -11,7 +11,7 @@
 import * as msRest from "ms-rest-js";
 
 const packageName = "@azure/cognitiveservices-customvision-training";
-const packageVersion = "1.0.0";
+const packageVersion = "0.1.0";
 
 export class TrainingAPIClientContext extends msRest.ServiceClient {
   apiKey: string;
@@ -34,6 +34,10 @@ export class TrainingAPIClientContext extends msRest.ServiceClient {
     if (!options) {
       options = {};
     }
+    if(!options.userAgent) {
+      const defaultUserAgent = msRest.getDefaultUserAgentValue();
+      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
+    }
 
     super(undefined, options);
 
@@ -42,6 +46,5 @@ export class TrainingAPIClientContext extends msRest.ServiceClient {
     this.apiKey = apiKey;
     this.endpoint = endpoint;
 
-    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
   }
 }

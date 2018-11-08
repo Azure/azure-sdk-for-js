@@ -13,19 +13,12 @@ import * as msRest from "ms-rest-js";
 import * as msRestAzure from "ms-rest-azure-js";
 
 const packageName = "@azure/arm-maps";
-const packageVersion = "1.0.0";
+const packageVersion = "0.1.0";
 
 export class MapsManagementClientContext extends msRestAzure.AzureServiceClient {
-
   credentials: msRest.ServiceClientCredentials;
-
   subscriptionId: string;
-
-  apiVersion: string;
-
-  acceptLanguage: string;
-
-  longRunningOperationRetryTimeout: number;
+  apiVersion?: string;
 
   /**
    * Initializes a new instance of the MapsManagementClient class.
@@ -45,6 +38,11 @@ export class MapsManagementClientContext extends msRestAzure.AzureServiceClient 
     if (!options) {
       options = {};
     }
+    if(!options.userAgent) {
+      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
+      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
+    }
+
     super(credentials, options);
 
     this.apiVersion = '2018-05-01';
@@ -55,7 +53,6 @@ export class MapsManagementClientContext extends msRestAzure.AzureServiceClient 
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
 
-    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }

@@ -50,7 +50,7 @@ export class Costs {
    * @param callback The callback
    */
   get(resourceGroupName: string, labName: string, name: string, options: Models.CostsGetOptionalParams, callback: msRest.ServiceCallback<Models.LabCost>): void;
-  get(resourceGroupName: string, labName: string, name: string, options?: Models.CostsGetOptionalParams, callback?: msRest.ServiceCallback<Models.LabCost>): Promise<Models.CostsGetResponse> {
+  get(resourceGroupName: string, labName: string, name: string, options?: Models.CostsGetOptionalParams | msRest.ServiceCallback<Models.LabCost>, callback?: msRest.ServiceCallback<Models.LabCost>): Promise<Models.CostsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -89,7 +89,7 @@ export class Costs {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, labName: string, name: string, labCost: Models.LabCost, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LabCost>): void;
-  createOrUpdate(resourceGroupName: string, labName: string, name: string, labCost: Models.LabCost, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LabCost>): Promise<Models.CostsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, labName: string, name: string, labCost: Models.LabCost, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LabCost>, callback?: msRest.ServiceCallback<Models.LabCost>): Promise<Models.CostsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

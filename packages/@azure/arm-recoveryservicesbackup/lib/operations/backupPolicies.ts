@@ -52,7 +52,7 @@ export class BackupPolicies {
    * @param callback The callback
    */
   list(vaultName: string, resourceGroupName: string, options: Models.BackupPoliciesListOptionalParams, callback: msRest.ServiceCallback<Models.ProtectionPolicyResourceList>): void;
-  list(vaultName: string, resourceGroupName: string, options?: Models.BackupPoliciesListOptionalParams, callback?: msRest.ServiceCallback<Models.ProtectionPolicyResourceList>): Promise<Models.BackupPoliciesListResponse> {
+  list(vaultName: string, resourceGroupName: string, options?: Models.BackupPoliciesListOptionalParams | msRest.ServiceCallback<Models.ProtectionPolicyResourceList>, callback?: msRest.ServiceCallback<Models.ProtectionPolicyResourceList>): Promise<Models.BackupPoliciesListResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -83,7 +83,7 @@ export class BackupPolicies {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectionPolicyResourceList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProtectionPolicyResourceList>): Promise<Models.BackupPoliciesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionPolicyResourceList>, callback?: msRest.ServiceCallback<Models.ProtectionPolicyResourceList>): Promise<Models.BackupPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

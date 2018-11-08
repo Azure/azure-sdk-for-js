@@ -65,7 +65,7 @@ export class Kpi {
    * @param callback The callback
    */
   get(resourceGroupName: string, hubName: string, kpiName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KpiResourceFormat>): void;
-  get(resourceGroupName: string, hubName: string, kpiName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.KpiResourceFormat>): Promise<Models.KpiGetResponse> {
+  get(resourceGroupName: string, hubName: string, kpiName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KpiResourceFormat>, callback?: msRest.ServiceCallback<Models.KpiResourceFormat>): Promise<Models.KpiGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -114,7 +114,7 @@ export class Kpi {
    * @param callback The callback
    */
   reprocess(resourceGroupName: string, hubName: string, kpiName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  reprocess(resourceGroupName: string, hubName: string, kpiName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  reprocess(resourceGroupName: string, hubName: string, kpiName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -147,7 +147,7 @@ export class Kpi {
    * @param callback The callback
    */
   listByHub(resourceGroupName: string, hubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KpiListResult>): void;
-  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.KpiListResult>): Promise<Models.KpiListByHubResponse> {
+  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KpiListResult>, callback?: msRest.ServiceCallback<Models.KpiListResult>): Promise<Models.KpiListByHubResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -218,7 +218,7 @@ export class Kpi {
    * @param callback The callback
    */
   listByHubNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KpiListResult>): void;
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.KpiListResult>): Promise<Models.KpiListByHubNextResponse> {
+  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KpiListResult>, callback?: msRest.ServiceCallback<Models.KpiListResult>): Promise<Models.KpiListByHubNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -1912,11 +1912,6 @@ export const ApplyRecoveryPointInputProperties: msRest.CompositeMapper = {
         serializedName: "providerSpecificDetails",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "ApplyRecoveryPointProviderSpecificInput",
           className: "ApplyRecoveryPointProviderSpecificInput"
         }
       }
@@ -2234,11 +2229,6 @@ export const ASRTask: msRest.CompositeMapper = {
         serializedName: "customDetails",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "TaskTypeDetails",
           className: "TaskTypeDetails"
         }
       },
@@ -2246,11 +2236,6 @@ export const ASRTask: msRest.CompositeMapper = {
         serializedName: "groupTaskCustomDetails",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "GroupTaskDetails",
           className: "GroupTaskDetails"
         }
       },
@@ -2796,11 +2781,6 @@ export const CreateNetworkMappingInputProperties: msRest.CompositeMapper = {
         serializedName: "fabricSpecificDetails",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "FabricSpecificCreateNetworkMappingInput",
           className: "FabricSpecificCreateNetworkMappingInput"
         }
       }
@@ -2835,11 +2815,6 @@ export const CreatePolicyInputProperties: msRest.CompositeMapper = {
         serializedName: "providerSpecificInput",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "PolicyProviderSpecificInput",
           className: "PolicyProviderSpecificInput"
         }
       }
@@ -2877,11 +2852,6 @@ export const CreateProtectionContainerInputProperties: msRest.CompositeMapper = 
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "instanceType",
-                clientName: "instanceType"
-              },
-              uberParent: "ReplicationProviderSpecificContainerCreationInput",
               className: "ReplicationProviderSpecificContainerCreationInput"
             }
           }
@@ -2930,11 +2900,6 @@ export const CreateProtectionContainerMappingInputProperties: msRest.CompositeMa
         serializedName: "providerSpecificInput",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "ReplicationProviderSpecificContainerMappingInput",
           className: "ReplicationProviderSpecificContainerMappingInput"
         }
       }
@@ -3045,11 +3010,6 @@ export const RecoveryPlanAction: msRest.CompositeMapper = {
         serializedName: "customDetails",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "RecoveryPlanActionDetails",
           className: "RecoveryPlanActionDetails"
         }
       }
@@ -3277,11 +3237,6 @@ export const DisableProtectionInputProperties: msRest.CompositeMapper = {
         serializedName: "replicationProviderInput",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "DisableProtectionProviderSpecificInput",
           className: "DisableProtectionProviderSpecificInput"
         }
       }
@@ -3463,11 +3418,6 @@ export const EnableProtectionInputProperties: msRest.CompositeMapper = {
         serializedName: "providerSpecificDetails",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "EnableProtectionProviderSpecificInput",
           className: "EnableProtectionProviderSpecificInput"
         }
       }
@@ -3770,11 +3720,6 @@ export const EventProperties: msRest.CompositeMapper = {
         serializedName: "providerSpecificDetails",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "EventProviderSpecificDetails",
           className: "EventProviderSpecificDetails"
         }
       },
@@ -3782,11 +3727,6 @@ export const EventProperties: msRest.CompositeMapper = {
         serializedName: "eventSpecificDetails",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "EventSpecificDetails",
           className: "EventSpecificDetails"
         }
       },
@@ -3943,11 +3883,6 @@ export const FabricProperties: msRest.CompositeMapper = {
         serializedName: "customDetails",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "FabricSpecificDetails",
           className: "FabricSpecificDetails"
         }
       },
@@ -4001,11 +3936,6 @@ export const FabricCreationInputProperties: msRest.CompositeMapper = {
         serializedName: "customDetails",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "FabricSpecificCreationInput",
           className: "FabricSpecificCreationInput"
         }
       }
@@ -7650,11 +7580,6 @@ export const JobProperties: msRest.CompositeMapper = {
         serializedName: "customDetails",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "JobDetails",
           className: "JobDetails"
         }
       }
@@ -8243,11 +8168,6 @@ export const NetworkMappingProperties: msRest.CompositeMapper = {
         serializedName: "fabricSpecificSettings",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "NetworkMappingFabricSpecificSettings",
           className: "NetworkMappingFabricSpecificSettings"
         }
       }
@@ -8324,11 +8244,6 @@ export const PlannedFailoverInputProperties: msRest.CompositeMapper = {
         serializedName: "providerSpecificDetails",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "ProviderSpecificFailoverInput",
           className: "ProviderSpecificFailoverInput"
         }
       }
@@ -8369,11 +8284,6 @@ export const PolicyProperties: msRest.CompositeMapper = {
         serializedName: "providerSpecificDetails",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "PolicyProviderSpecificDetails",
           className: "PolicyProviderSpecificDetails"
         }
       }
@@ -8646,11 +8556,6 @@ export const ProtectableItemProperties: msRest.CompositeMapper = {
         serializedName: "customDetails",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "ConfigurationSettings",
           className: "ConfigurationSettings"
         }
       }
@@ -8842,11 +8747,6 @@ export const ProtectionContainerMappingProperties: msRest.CompositeMapper = {
         serializedName: "providerSpecificDetails",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "ProtectionContainerMappingProviderSpecificDetails",
           className: "ProtectionContainerMappingProviderSpecificDetails"
         }
       },
@@ -9378,11 +9278,6 @@ export const RecoveryPlanPlannedFailoverInputProperties: msRest.CompositeMapper 
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "instanceType",
-                clientName: "instanceType"
-              },
-              uberParent: "RecoveryPlanProviderSpecificFailoverInput",
               className: "RecoveryPlanProviderSpecificFailoverInput"
             }
           }
@@ -9547,11 +9442,6 @@ export const RecoveryPlanTestFailoverInputProperties: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "instanceType",
-                clientName: "instanceType"
-              },
-              uberParent: "RecoveryPlanProviderSpecificFailoverInput",
               className: "RecoveryPlanProviderSpecificFailoverInput"
             }
           }
@@ -9606,11 +9496,6 @@ export const RecoveryPlanUnplannedFailoverInputProperties: msRest.CompositeMappe
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "instanceType",
-                clientName: "instanceType"
-              },
-              uberParent: "RecoveryPlanProviderSpecificFailoverInput",
               className: "RecoveryPlanProviderSpecificFailoverInput"
             }
           }
@@ -9660,11 +9545,6 @@ export const RecoveryPointProperties: msRest.CompositeMapper = {
         serializedName: "providerSpecificDetails",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "ProviderSpecificRecoveryPointDetails",
           className: "ProviderSpecificRecoveryPointDetails"
         }
       }
@@ -10089,11 +9969,6 @@ export const ReplicationProtectedItemProperties: msRest.CompositeMapper = {
         serializedName: "providerSpecificDetails",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "ReplicationProviderSpecificSettings",
           className: "ReplicationProviderSpecificSettings"
         }
       },
@@ -10202,11 +10077,6 @@ export const ReverseReplicationInputProperties: msRest.CompositeMapper = {
         serializedName: "providerSpecificDetails",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "ReverseReplicationProviderSpecificInput",
           className: "ReverseReplicationProviderSpecificInput"
         }
       }
@@ -10420,11 +10290,6 @@ export const SwitchProtectionInputProperties: msRest.CompositeMapper = {
         serializedName: "providerSpecificDetails",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "SwitchProtectionProviderSpecificInput",
           className: "SwitchProtectionProviderSpecificInput"
         }
       }
@@ -10635,11 +10500,6 @@ export const TestFailoverInputProperties: msRest.CompositeMapper = {
         serializedName: "providerSpecificDetails",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "ProviderSpecificFailoverInput",
           className: "ProviderSpecificFailoverInput"
         }
       }
@@ -10741,11 +10601,6 @@ export const UnplannedFailoverInputProperties: msRest.CompositeMapper = {
         serializedName: "providerSpecificDetails",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "ProviderSpecificFailoverInput",
           className: "ProviderSpecificFailoverInput"
         }
       }
@@ -10825,11 +10680,6 @@ export const UpdateNetworkMappingInputProperties: msRest.CompositeMapper = {
         serializedName: "fabricSpecificDetails",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "FabricSpecificUpdateNetworkMappingInput",
           className: "FabricSpecificUpdateNetworkMappingInput"
         }
       }
@@ -10864,11 +10714,6 @@ export const UpdatePolicyInputProperties: msRest.CompositeMapper = {
         serializedName: "replicationProviderSettings",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "PolicyProviderSpecificInput",
           className: "PolicyProviderSpecificInput"
         }
       }
@@ -10903,11 +10748,6 @@ export const UpdateProtectionContainerMappingInputProperties: msRest.CompositeMa
         serializedName: "providerSpecificInput",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "ReplicationProviderSpecificUpdateContainerMappingInput",
           className: "ReplicationProviderSpecificUpdateContainerMappingInput"
         }
       }
@@ -11075,11 +10915,6 @@ export const UpdateReplicationProtectedItemInputProperties: msRest.CompositeMapp
         serializedName: "providerSpecificDetails",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "instanceType",
-            clientName: "instanceType"
-          },
-          uberParent: "UpdateReplicationProtectedItemProviderInput",
           className: "UpdateReplicationProtectedItemProviderInput"
         }
       }

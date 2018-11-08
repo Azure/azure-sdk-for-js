@@ -41,7 +41,7 @@ export class DomainServiceOperations {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationEntityListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationEntityListResult>): Promise<Models.DomainServiceOperationsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationEntityListResult>, callback?: msRest.ServiceCallback<Models.OperationEntityListResult>): Promise<Models.DomainServiceOperationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -68,7 +68,7 @@ export class DomainServiceOperations {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationEntityListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationEntityListResult>): Promise<Models.DomainServiceOperationsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationEntityListResult>, callback?: msRest.ServiceCallback<Models.OperationEntityListResult>): Promise<Models.DomainServiceOperationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

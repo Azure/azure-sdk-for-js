@@ -47,7 +47,7 @@ export class Roles {
    * @param callback The callback
    */
   listByHub(resourceGroupName: string, hubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleListResult>): void;
-  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoleListResult>): Promise<Models.RolesListByHubResponse> {
+  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RoleListResult>, callback?: msRest.ServiceCallback<Models.RoleListResult>): Promise<Models.RolesListByHubResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -76,7 +76,7 @@ export class Roles {
    * @param callback The callback
    */
   listByHubNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleListResult>): void;
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoleListResult>): Promise<Models.RolesListByHubNextResponse> {
+  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RoleListResult>, callback?: msRest.ServiceCallback<Models.RoleListResult>): Promise<Models.RolesListByHubNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

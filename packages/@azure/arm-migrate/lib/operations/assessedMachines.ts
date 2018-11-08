@@ -60,7 +60,7 @@ export class AssessedMachines {
    * @param callback The callback
    */
   listByAssessment(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AssessedMachineResultList>): void;
-  listByAssessment(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AssessedMachineResultList>): Promise<Models.AssessedMachinesListByAssessmentResponse> {
+  listByAssessment(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssessedMachineResultList>, callback?: msRest.ServiceCallback<Models.AssessedMachineResultList>): Promise<Models.AssessedMachinesListByAssessmentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -108,7 +108,7 @@ export class AssessedMachines {
    * @param callback The callback
    */
   get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, assessedMachineName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AssessedMachine>): void;
-  get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, assessedMachineName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AssessedMachine>): Promise<Models.AssessedMachinesGetResponse> {
+  get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, assessedMachineName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssessedMachine>, callback?: msRest.ServiceCallback<Models.AssessedMachine>): Promise<Models.AssessedMachinesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

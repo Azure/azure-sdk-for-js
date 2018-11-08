@@ -50,7 +50,7 @@ export class Jobs {
    * @param callback The callback
    */
   exportMethod(vaultName: string, resourceGroupName: string, options: Models.JobsExportMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  exportMethod(vaultName: string, resourceGroupName: string, options?: Models.JobsExportMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  exportMethod(vaultName: string, resourceGroupName: string, options?: Models.JobsExportMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,

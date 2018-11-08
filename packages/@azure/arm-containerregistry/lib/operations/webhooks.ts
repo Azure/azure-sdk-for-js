@@ -51,7 +51,7 @@ export class Webhooks {
    * @param callback The callback
    */
   get(resourceGroupName: string, registryName: string, webhookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Webhook>): void;
-  get(resourceGroupName: string, registryName: string, webhookName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Webhook>): Promise<Models.WebhooksGetResponse> {
+  get(resourceGroupName: string, registryName: string, webhookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Webhook>, callback?: msRest.ServiceCallback<Models.Webhook>): Promise<Models.WebhooksGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -125,7 +125,7 @@ export class Webhooks {
    * @param callback The callback
    */
   list(resourceGroupName: string, registryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebhookListResult>): void;
-  list(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebhookListResult>): Promise<Models.WebhooksListResponse> {
+  list(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebhookListResult>, callback?: msRest.ServiceCallback<Models.WebhookListResult>): Promise<Models.WebhooksListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -160,7 +160,7 @@ export class Webhooks {
    * @param callback The callback
    */
   ping(resourceGroupName: string, registryName: string, webhookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventInfo>): void;
-  ping(resourceGroupName: string, registryName: string, webhookName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventInfo>): Promise<Models.WebhooksPingResponse> {
+  ping(resourceGroupName: string, registryName: string, webhookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventInfo>, callback?: msRest.ServiceCallback<Models.EventInfo>): Promise<Models.WebhooksPingResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -196,7 +196,7 @@ export class Webhooks {
    * @param callback The callback
    */
   getCallbackConfig(resourceGroupName: string, registryName: string, webhookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CallbackConfig>): void;
-  getCallbackConfig(resourceGroupName: string, registryName: string, webhookName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CallbackConfig>): Promise<Models.WebhooksGetCallbackConfigResponse> {
+  getCallbackConfig(resourceGroupName: string, registryName: string, webhookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CallbackConfig>, callback?: msRest.ServiceCallback<Models.CallbackConfig>): Promise<Models.WebhooksGetCallbackConfigResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -232,7 +232,7 @@ export class Webhooks {
    * @param callback The callback
    */
   listEvents(resourceGroupName: string, registryName: string, webhookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventListResult>): void;
-  listEvents(resourceGroupName: string, registryName: string, webhookName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventListResult>): Promise<Models.WebhooksListEventsResponse> {
+  listEvents(resourceGroupName: string, registryName: string, webhookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventListResult>, callback?: msRest.ServiceCallback<Models.EventListResult>): Promise<Models.WebhooksListEventsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -326,7 +326,7 @@ export class Webhooks {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebhookListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebhookListResult>): Promise<Models.WebhooksListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebhookListResult>, callback?: msRest.ServiceCallback<Models.WebhookListResult>): Promise<Models.WebhooksListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -354,7 +354,7 @@ export class Webhooks {
    * @param callback The callback
    */
   listEventsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventListResult>): void;
-  listEventsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventListResult>): Promise<Models.WebhooksListEventsNextResponse> {
+  listEventsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventListResult>, callback?: msRest.ServiceCallback<Models.EventListResult>): Promise<Models.WebhooksListEventsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

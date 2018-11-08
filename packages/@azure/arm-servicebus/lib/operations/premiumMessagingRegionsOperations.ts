@@ -41,7 +41,7 @@ export class PremiumMessagingRegionsOperations {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PremiumMessagingRegionsListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PremiumMessagingRegionsListResult>): Promise<Models.PremiumMessagingRegionsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PremiumMessagingRegionsListResult>, callback?: msRest.ServiceCallback<Models.PremiumMessagingRegionsListResult>): Promise<Models.PremiumMessagingRegionsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -68,7 +68,7 @@ export class PremiumMessagingRegionsOperations {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PremiumMessagingRegionsListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PremiumMessagingRegionsListResult>): Promise<Models.PremiumMessagingRegionsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PremiumMessagingRegionsListResult>, callback?: msRest.ServiceCallback<Models.PremiumMessagingRegionsListResult>): Promise<Models.PremiumMessagingRegionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -98,7 +98,7 @@ export class FileServers {
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, fileServerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileServer>): void;
-  get(resourceGroupName: string, workspaceName: string, fileServerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FileServer>): Promise<Models.FileServersGetResponse> {
+  get(resourceGroupName: string, workspaceName: string, fileServerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileServer>, callback?: msRest.ServiceCallback<Models.FileServer>): Promise<Models.FileServersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -137,7 +137,7 @@ export class FileServers {
    * @param callback The callback
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, options: Models.FileServersListByWorkspaceOptionalParams, callback: msRest.ServiceCallback<Models.FileServerListResult>): void;
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: Models.FileServersListByWorkspaceOptionalParams, callback?: msRest.ServiceCallback<Models.FileServerListResult>): Promise<Models.FileServersListByWorkspaceResponse> {
+  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: Models.FileServersListByWorkspaceOptionalParams | msRest.ServiceCallback<Models.FileServerListResult>, callback?: msRest.ServiceCallback<Models.FileServerListResult>): Promise<Models.FileServersListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -216,7 +216,7 @@ export class FileServers {
    * @param callback The callback
    */
   listByWorkspaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileServerListResult>): void;
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FileServerListResult>): Promise<Models.FileServersListByWorkspaceNextResponse> {
+  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileServerListResult>, callback?: msRest.ServiceCallback<Models.FileServerListResult>): Promise<Models.FileServersListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

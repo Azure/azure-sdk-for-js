@@ -66,7 +66,7 @@ export class CustomInstance {
    * @param callback The callback
    */
   imageSearch(customConfig: string, query: string, options: Models.CustomInstanceImageSearchOptionalParams, callback: msRest.ServiceCallback<Models.Images>): void;
-  imageSearch(customConfig: string, query: string, options?: Models.CustomInstanceImageSearchOptionalParams, callback?: msRest.ServiceCallback<Models.Images>): Promise<Models.CustomInstanceImageSearchResponse> {
+  imageSearch(customConfig: string, query: string, options?: Models.CustomInstanceImageSearchOptionalParams | msRest.ServiceCallback<Models.Images>, callback?: msRest.ServiceCallback<Models.Images>): Promise<Models.CustomInstanceImageSearchResponse> {
     return this.client.sendOperationRequest(
       {
         customConfig,

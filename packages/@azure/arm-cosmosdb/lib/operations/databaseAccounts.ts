@@ -48,7 +48,7 @@ export class DatabaseAccounts {
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseAccount>): void;
-  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DatabaseAccount>): Promise<Models.DatabaseAccountsGetResponse> {
+  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseAccount>, callback?: msRest.ServiceCallback<Models.DatabaseAccount>): Promise<Models.DatabaseAccountsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -128,7 +128,7 @@ export class DatabaseAccounts {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseAccountsListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DatabaseAccountsListResult>): Promise<Models.DatabaseAccountsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseAccountsListResult>, callback?: msRest.ServiceCallback<Models.DatabaseAccountsListResult>): Promise<Models.DatabaseAccountsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -155,7 +155,7 @@ export class DatabaseAccounts {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseAccountsListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DatabaseAccountsListResult>): Promise<Models.DatabaseAccountsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseAccountsListResult>, callback?: msRest.ServiceCallback<Models.DatabaseAccountsListResult>): Promise<Models.DatabaseAccountsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -186,7 +186,7 @@ export class DatabaseAccounts {
    * @param callback The callback
    */
   listKeys(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseAccountListKeysResult>): void;
-  listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DatabaseAccountListKeysResult>): Promise<Models.DatabaseAccountsListKeysResponse> {
+  listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseAccountListKeysResult>, callback?: msRest.ServiceCallback<Models.DatabaseAccountListKeysResult>): Promise<Models.DatabaseAccountsListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -218,7 +218,7 @@ export class DatabaseAccounts {
    * @param callback The callback
    */
   listConnectionStrings(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseAccountListConnectionStringsResult>): void;
-  listConnectionStrings(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DatabaseAccountListConnectionStringsResult>): Promise<Models.DatabaseAccountsListConnectionStringsResponse> {
+  listConnectionStrings(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseAccountListConnectionStringsResult>, callback?: msRest.ServiceCallback<Models.DatabaseAccountListConnectionStringsResult>): Promise<Models.DatabaseAccountsListConnectionStringsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -276,7 +276,7 @@ export class DatabaseAccounts {
    * @param callback The callback
    */
   getReadOnlyKeys(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>): void;
-  getReadOnlyKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>): Promise<Models.DatabaseAccountsGetReadOnlyKeysResponse> {
+  getReadOnlyKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>, callback?: msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>): Promise<Models.DatabaseAccountsGetReadOnlyKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -308,7 +308,7 @@ export class DatabaseAccounts {
    * @param callback The callback
    */
   listReadOnlyKeys(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>): void;
-  listReadOnlyKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>): Promise<Models.DatabaseAccountsListReadOnlyKeysResponse> {
+  listReadOnlyKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>, callback?: msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>): Promise<Models.DatabaseAccountsListReadOnlyKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -351,7 +351,7 @@ export class DatabaseAccounts {
    * @param callback The callback
    */
   checkNameExists(accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
-  checkNameExists(accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<boolean>): Promise<Models.DatabaseAccountsCheckNameExistsResponse> {
+  checkNameExists(accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.DatabaseAccountsCheckNameExistsResponse> {
     return this.client.sendOperationRequest(
       {
         accountName,
@@ -391,7 +391,7 @@ export class DatabaseAccounts {
    * @param callback The callback
    */
   listMetrics(resourceGroupName: string, accountName: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricListResult>): void;
-  listMetrics(resourceGroupName: string, accountName: string, filter: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricListResult>): Promise<Models.DatabaseAccountsListMetricsResponse> {
+  listMetrics(resourceGroupName: string, accountName: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricListResult>, callback?: msRest.ServiceCallback<Models.MetricListResult>): Promise<Models.DatabaseAccountsListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -424,7 +424,7 @@ export class DatabaseAccounts {
    * @param callback The callback
    */
   listUsages(resourceGroupName: string, accountName: string, options: Models.DatabaseAccountsListUsagesOptionalParams, callback: msRest.ServiceCallback<Models.UsagesResult>): void;
-  listUsages(resourceGroupName: string, accountName: string, options?: Models.DatabaseAccountsListUsagesOptionalParams, callback?: msRest.ServiceCallback<Models.UsagesResult>): Promise<Models.DatabaseAccountsListUsagesResponse> {
+  listUsages(resourceGroupName: string, accountName: string, options?: Models.DatabaseAccountsListUsagesOptionalParams | msRest.ServiceCallback<Models.UsagesResult>, callback?: msRest.ServiceCallback<Models.UsagesResult>): Promise<Models.DatabaseAccountsListUsagesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -456,7 +456,7 @@ export class DatabaseAccounts {
    * @param callback The callback
    */
   listMetricDefinitions(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricDefinitionsListResult>): void;
-  listMetricDefinitions(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricDefinitionsListResult>): Promise<Models.DatabaseAccountsListMetricDefinitionsResponse> {
+  listMetricDefinitions(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionsListResult>, callback?: msRest.ServiceCallback<Models.MetricDefinitionsListResult>): Promise<Models.DatabaseAccountsListMetricDefinitionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

@@ -51,7 +51,7 @@ export class Zones {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, zoneName: string, parameters: Models.Zone, options: Models.ZonesCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.Zone>): void;
-  createOrUpdate(resourceGroupName: string, zoneName: string, parameters: Models.Zone, options?: Models.ZonesCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.Zone>): Promise<Models.ZonesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, zoneName: string, parameters: Models.Zone, options?: Models.ZonesCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.Zone>, callback?: msRest.ServiceCallback<Models.Zone>): Promise<Models.ZonesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -97,7 +97,7 @@ export class Zones {
    * @param callback The callback
    */
   get(resourceGroupName: string, zoneName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Zone>): void;
-  get(resourceGroupName: string, zoneName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Zone>): Promise<Models.ZonesGetResponse> {
+  get(resourceGroupName: string, zoneName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Zone>, callback?: msRest.ServiceCallback<Models.Zone>): Promise<Models.ZonesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -132,7 +132,7 @@ export class Zones {
    * @param callback The callback
    */
   update(resourceGroupName: string, zoneName: string, parameters: Models.ZoneUpdate, options: Models.ZonesUpdateOptionalParams, callback: msRest.ServiceCallback<Models.Zone>): void;
-  update(resourceGroupName: string, zoneName: string, parameters: Models.ZoneUpdate, options?: Models.ZonesUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.Zone>): Promise<Models.ZonesUpdateResponse> {
+  update(resourceGroupName: string, zoneName: string, parameters: Models.ZoneUpdate, options?: Models.ZonesUpdateOptionalParams | msRest.ServiceCallback<Models.Zone>, callback?: msRest.ServiceCallback<Models.Zone>): Promise<Models.ZonesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -162,7 +162,7 @@ export class Zones {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: Models.ZonesListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.ZoneListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.ZonesListByResourceGroupOptionalParams, callback?: msRest.ServiceCallback<Models.ZoneListResult>): Promise<Models.ZonesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: Models.ZonesListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.ZoneListResult>, callback?: msRest.ServiceCallback<Models.ZoneListResult>): Promise<Models.ZonesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -187,7 +187,7 @@ export class Zones {
    * @param callback The callback
    */
   list(options: Models.ZonesListOptionalParams, callback: msRest.ServiceCallback<Models.ZoneListResult>): void;
-  list(options?: Models.ZonesListOptionalParams, callback?: msRest.ServiceCallback<Models.ZoneListResult>): Promise<Models.ZonesListResponse> {
+  list(options?: Models.ZonesListOptionalParams | msRest.ServiceCallback<Models.ZoneListResult>, callback?: msRest.ServiceCallback<Models.ZoneListResult>): Promise<Models.ZonesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -233,7 +233,7 @@ export class Zones {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ZoneListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ZoneListResult>): Promise<Models.ZonesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ZoneListResult>, callback?: msRest.ServiceCallback<Models.ZoneListResult>): Promise<Models.ZonesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -261,7 +261,7 @@ export class Zones {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ZoneListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ZoneListResult>): Promise<Models.ZonesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ZoneListResult>, callback?: msRest.ServiceCallback<Models.ZoneListResult>): Promise<Models.ZonesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

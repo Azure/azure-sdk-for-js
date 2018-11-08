@@ -50,7 +50,7 @@ export class BackupResourceStorageConfigs {
    * @param callback The callback
    */
   get(vaultName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupResourceConfigResource>): void;
-  get(vaultName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupResourceConfigResource>): Promise<Models.BackupResourceStorageConfigsGetResponse> {
+  get(vaultName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupResourceConfigResource>, callback?: msRest.ServiceCallback<Models.BackupResourceConfigResource>): Promise<Models.BackupResourceStorageConfigsGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -88,7 +88,7 @@ export class BackupResourceStorageConfigs {
    * @param callback The callback
    */
   update(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceConfigResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceConfigResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceConfigResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,

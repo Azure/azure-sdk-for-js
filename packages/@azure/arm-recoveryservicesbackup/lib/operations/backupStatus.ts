@@ -47,7 +47,7 @@ export class BackupStatus {
    * @param callback The callback
    */
   get(azureRegion: string, parameters: Models.BackupStatusRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupStatusResponse>): void;
-  get(azureRegion: string, parameters: Models.BackupStatusRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupStatusResponse>): Promise<Models.BackupStatusGetResponse> {
+  get(azureRegion: string, parameters: Models.BackupStatusRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupStatusResponse>, callback?: msRest.ServiceCallback<Models.BackupStatusResponse>): Promise<Models.BackupStatusGetResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,

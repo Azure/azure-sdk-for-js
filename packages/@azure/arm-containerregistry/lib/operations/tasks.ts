@@ -48,7 +48,7 @@ export class Tasks {
    * @param callback The callback
    */
   list(resourceGroupName: string, registryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TaskListResult>): void;
-  list(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TaskListResult>): Promise<Models.TasksListResponse> {
+  list(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TaskListResult>, callback?: msRest.ServiceCallback<Models.TaskListResult>): Promise<Models.TasksListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +83,7 @@ export class Tasks {
    * @param callback The callback
    */
   get(resourceGroupName: string, registryName: string, taskName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Task>): void;
-  get(resourceGroupName: string, registryName: string, taskName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Task>): Promise<Models.TasksGetResponse> {
+  get(resourceGroupName: string, registryName: string, taskName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Task>, callback?: msRest.ServiceCallback<Models.Task>): Promise<Models.TasksGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -160,7 +160,7 @@ export class Tasks {
    * @param callback The callback
    */
   getDetails(resourceGroupName: string, registryName: string, taskName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Task>): void;
-  getDetails(resourceGroupName: string, registryName: string, taskName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Task>): Promise<Models.TasksGetDetailsResponse> {
+  getDetails(resourceGroupName: string, registryName: string, taskName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Task>, callback?: msRest.ServiceCallback<Models.Task>): Promise<Models.TasksGetDetailsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -254,7 +254,7 @@ export class Tasks {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TaskListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TaskListResult>): Promise<Models.TasksListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TaskListResult>, callback?: msRest.ServiceCallback<Models.TaskListResult>): Promise<Models.TasksListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

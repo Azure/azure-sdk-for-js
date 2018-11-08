@@ -47,7 +47,7 @@ export class Alerts {
    * @param callback The callback
    */
   listByManager(resourceGroupName: string, managerName: string, options: Models.AlertsListByManagerOptionalParams, callback: msRest.ServiceCallback<Models.AlertList>): void;
-  listByManager(resourceGroupName: string, managerName: string, options?: Models.AlertsListByManagerOptionalParams, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListByManagerResponse> {
+  listByManager(resourceGroupName: string, managerName: string, options?: Models.AlertsListByManagerOptionalParams | msRest.ServiceCallback<Models.AlertList>, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListByManagerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class Alerts {
    * @param callback The callback
    */
   clear(parameters: Models.ClearAlertRequest, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  clear(parameters: Models.ClearAlertRequest, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  clear(parameters: Models.ClearAlertRequest, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
@@ -121,7 +121,7 @@ export class Alerts {
    * @param callback The callback
    */
   sendTestEmail(deviceName: string, parameters: Models.SendTestAlertEmailRequest, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  sendTestEmail(deviceName: string, parameters: Models.SendTestAlertEmailRequest, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  sendTestEmail(deviceName: string, parameters: Models.SendTestAlertEmailRequest, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -152,7 +152,7 @@ export class Alerts {
    * @param callback The callback
    */
   listByManagerNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertList>): void;
-  listByManagerNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListByManagerNextResponse> {
+  listByManagerNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertList>, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListByManagerNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

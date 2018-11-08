@@ -47,7 +47,7 @@ export class GalleryImages {
    * @param callback The callback
    */
   list(resourceGroupName: string, labName: string, options: Models.GalleryImagesListOptionalParams, callback: msRest.ServiceCallback<Models.GalleryImageList>): void;
-  list(resourceGroupName: string, labName: string, options?: Models.GalleryImagesListOptionalParams, callback?: msRest.ServiceCallback<Models.GalleryImageList>): Promise<Models.GalleryImagesListResponse> {
+  list(resourceGroupName: string, labName: string, options?: Models.GalleryImagesListOptionalParams | msRest.ServiceCallback<Models.GalleryImageList>, callback?: msRest.ServiceCallback<Models.GalleryImageList>): Promise<Models.GalleryImagesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -76,7 +76,7 @@ export class GalleryImages {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GalleryImageList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.GalleryImageList>): Promise<Models.GalleryImagesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryImageList>, callback?: msRest.ServiceCallback<Models.GalleryImageList>): Promise<Models.GalleryImagesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -87,7 +87,7 @@ export class Metrics {
    * @param callback The callback
    */
   get(appId: string, metricId: Models.MetricId, options: Models.MetricsGetOptionalParams, callback: msRest.ServiceCallback<Models.MetricsResult>): void;
-  get(appId: string, metricId: Models.MetricId, options?: Models.MetricsGetOptionalParams, callback?: msRest.ServiceCallback<Models.MetricsResult>): Promise<Models.MetricsGetResponse> {
+  get(appId: string, metricId: Models.MetricId, options?: Models.MetricsGetOptionalParams | msRest.ServiceCallback<Models.MetricsResult>, callback?: msRest.ServiceCallback<Models.MetricsResult>): Promise<Models.MetricsGetResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -123,7 +123,7 @@ export class Metrics {
    * @param callback The callback
    */
   getMultiple(appId: string, body: Models.MetricsPostBodySchema[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricsResultsItem[]>): void;
-  getMultiple(appId: string, body: Models.MetricsPostBodySchema[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricsResultsItem[]>): Promise<Models.MetricsGetMultipleResponse> {
+  getMultiple(appId: string, body: Models.MetricsPostBodySchema[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricsResultsItem[]>, callback?: msRest.ServiceCallback<Models.MetricsResultsItem[]>): Promise<Models.MetricsGetMultipleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -156,7 +156,7 @@ export class Metrics {
    * @param callback The callback
    */
   getMetadata(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  getMetadata(appId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<any>): Promise<Models.MetricsGetMetadataResponse> {
+  getMetadata(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.MetricsGetMetadataResponse> {
     return this.client.sendOperationRequest(
       {
         appId,

@@ -45,7 +45,7 @@ export class Application {
    * @param callback The callback
    */
   list(options: Models.ApplicationListOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationListResult>): void;
-  list(options?: Models.ApplicationListOptionalParams, callback?: msRest.ServiceCallback<Models.ApplicationListResult>): Promise<Models.ApplicationListResponse> {
+  list(options?: Models.ApplicationListOptionalParams | msRest.ServiceCallback<Models.ApplicationListResult>, callback?: msRest.ServiceCallback<Models.ApplicationListResult>): Promise<Models.ApplicationListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -76,7 +76,7 @@ export class Application {
    * @param callback The callback
    */
   get(applicationId: string, options: Models.ApplicationGetOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationSummary>): void;
-  get(applicationId: string, options?: Models.ApplicationGetOptionalParams, callback?: msRest.ServiceCallback<Models.ApplicationSummary>): Promise<Models.ApplicationGetResponse> {
+  get(applicationId: string, options?: Models.ApplicationGetOptionalParams | msRest.ServiceCallback<Models.ApplicationSummary>, callback?: msRest.ServiceCallback<Models.ApplicationSummary>): Promise<Models.ApplicationGetResponse> {
     return this.client.sendOperationRequest(
       {
         applicationId,
@@ -108,7 +108,7 @@ export class Application {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: Models.ApplicationListNextOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationListResult>): void;
-  listNext(nextPageLink: string, options?: Models.ApplicationListNextOptionalParams, callback?: msRest.ServiceCallback<Models.ApplicationListResult>): Promise<Models.ApplicationListResponse> {
+  listNext(nextPageLink: string, options?: Models.ApplicationListNextOptionalParams | msRest.ServiceCallback<Models.ApplicationListResult>, callback?: msRest.ServiceCallback<Models.ApplicationListResult>): Promise<Models.ApplicationListResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

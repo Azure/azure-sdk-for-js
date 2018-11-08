@@ -53,7 +53,7 @@ export class VirtualMachineExtensionImages {
    * @param callback The callback
    */
   get(location: string, publisherName: string, type: string, version: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineExtensionImage>): void;
-  get(location: string, publisherName: string, type: string, version: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualMachineExtensionImage>): Promise<Models.VirtualMachineExtensionImagesGetResponse> {
+  get(location: string, publisherName: string, type: string, version: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineExtensionImage>, callback?: msRest.ServiceCallback<Models.VirtualMachineExtensionImage>): Promise<Models.VirtualMachineExtensionImagesGetResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -87,7 +87,7 @@ export class VirtualMachineExtensionImages {
    * @param callback The callback
    */
   listTypes(location: string, publisherName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineExtensionImage[]>): void;
-  listTypes(location: string, publisherName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualMachineExtensionImage[]>): Promise<Models.VirtualMachineExtensionImagesListTypesResponse> {
+  listTypes(location: string, publisherName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineExtensionImage[]>, callback?: msRest.ServiceCallback<Models.VirtualMachineExtensionImage[]>): Promise<Models.VirtualMachineExtensionImagesListTypesResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -122,7 +122,7 @@ export class VirtualMachineExtensionImages {
    * @param callback The callback
    */
   listVersions(location: string, publisherName: string, type: string, options: Models.VirtualMachineExtensionImagesListVersionsOptionalParams, callback: msRest.ServiceCallback<Models.VirtualMachineExtensionImage[]>): void;
-  listVersions(location: string, publisherName: string, type: string, options?: Models.VirtualMachineExtensionImagesListVersionsOptionalParams, callback?: msRest.ServiceCallback<Models.VirtualMachineExtensionImage[]>): Promise<Models.VirtualMachineExtensionImagesListVersionsResponse> {
+  listVersions(location: string, publisherName: string, type: string, options?: Models.VirtualMachineExtensionImagesListVersionsOptionalParams | msRest.ServiceCallback<Models.VirtualMachineExtensionImage[]>, callback?: msRest.ServiceCallback<Models.VirtualMachineExtensionImage[]>): Promise<Models.VirtualMachineExtensionImagesListVersionsResponse> {
     return this.client.sendOperationRequest(
       {
         location,

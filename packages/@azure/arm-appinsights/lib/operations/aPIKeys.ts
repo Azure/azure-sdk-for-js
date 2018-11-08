@@ -47,7 +47,7 @@ export class APIKeys {
    * @param callback The callback
    */
   list(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKeyListResult>): void;
-  list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKeyListResult>): Promise<Models.APIKeysListResponse> {
+  list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKeyListResult>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKeyListResult>): Promise<Models.APIKeysListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -85,7 +85,7 @@ export class APIKeys {
    * @param callback The callback
    */
   create(resourceGroupName: string, resourceName: string, aPIKeyProperties: Models.APIKeyRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>): void;
-  create(resourceGroupName: string, resourceName: string, aPIKeyProperties: Models.APIKeyRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>): Promise<Models.APIKeysCreateResponse> {
+  create(resourceGroupName: string, resourceName: string, aPIKeyProperties: Models.APIKeyRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>): Promise<Models.APIKeysCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -121,7 +121,7 @@ export class APIKeys {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, resourceName: string, keyId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>): void;
-  deleteMethod(resourceGroupName: string, resourceName: string, keyId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>): Promise<Models.APIKeysDeleteMethodResponse> {
+  deleteMethod(resourceGroupName: string, resourceName: string, keyId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>): Promise<Models.APIKeysDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -157,7 +157,7 @@ export class APIKeys {
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, keyId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>): void;
-  get(resourceGroupName: string, resourceName: string, keyId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>): Promise<Models.APIKeysGetResponse> {
+  get(resourceGroupName: string, resourceName: string, keyId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>): Promise<Models.APIKeysGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

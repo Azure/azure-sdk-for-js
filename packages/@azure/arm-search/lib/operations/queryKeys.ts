@@ -57,7 +57,7 @@ export class QueryKeys {
    * @param callback The callback
    */
   create(resourceGroupName: string, searchServiceName: string, name: string, options: Models.QueryKeysCreateOptionalParams, callback: msRest.ServiceCallback<Models.QueryKey>): void;
-  create(resourceGroupName: string, searchServiceName: string, name: string, options?: Models.QueryKeysCreateOptionalParams, callback?: msRest.ServiceCallback<Models.QueryKey>): Promise<Models.QueryKeysCreateResponse> {
+  create(resourceGroupName: string, searchServiceName: string, name: string, options?: Models.QueryKeysCreateOptionalParams | msRest.ServiceCallback<Models.QueryKey>, callback?: msRest.ServiceCallback<Models.QueryKey>): Promise<Models.QueryKeysCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +96,7 @@ export class QueryKeys {
    * @param callback The callback
    */
   listBySearchService(resourceGroupName: string, searchServiceName: string, options: Models.QueryKeysListBySearchServiceOptionalParams, callback: msRest.ServiceCallback<Models.ListQueryKeysResult>): void;
-  listBySearchService(resourceGroupName: string, searchServiceName: string, options?: Models.QueryKeysListBySearchServiceOptionalParams, callback?: msRest.ServiceCallback<Models.ListQueryKeysResult>): Promise<Models.QueryKeysListBySearchServiceResponse> {
+  listBySearchService(resourceGroupName: string, searchServiceName: string, options?: Models.QueryKeysListBySearchServiceOptionalParams | msRest.ServiceCallback<Models.ListQueryKeysResult>, callback?: msRest.ServiceCallback<Models.ListQueryKeysResult>): Promise<Models.QueryKeysListBySearchServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -138,7 +138,7 @@ export class QueryKeys {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, searchServiceName: string, key: string, options: Models.QueryKeysDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, searchServiceName: string, key: string, options?: Models.QueryKeysDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, searchServiceName: string, key: string, options?: Models.QueryKeysDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

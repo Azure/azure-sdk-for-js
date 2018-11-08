@@ -51,7 +51,7 @@ export class BackupEngines {
    * @param callback The callback
    */
   list(vaultName: string, resourceGroupName: string, options: Models.BackupEnginesListOptionalParams, callback: msRest.ServiceCallback<Models.BackupEngineBaseResourceList>): void;
-  list(vaultName: string, resourceGroupName: string, options?: Models.BackupEnginesListOptionalParams, callback?: msRest.ServiceCallback<Models.BackupEngineBaseResourceList>): Promise<Models.BackupEnginesListResponse> {
+  list(vaultName: string, resourceGroupName: string, options?: Models.BackupEnginesListOptionalParams | msRest.ServiceCallback<Models.BackupEngineBaseResourceList>, callback?: msRest.ServiceCallback<Models.BackupEngineBaseResourceList>): Promise<Models.BackupEnginesListResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -89,7 +89,7 @@ export class BackupEngines {
    * @param callback The callback
    */
   get(vaultName: string, resourceGroupName: string, backupEngineName: string, options: Models.BackupEnginesGetOptionalParams, callback: msRest.ServiceCallback<Models.BackupEngineBaseResource>): void;
-  get(vaultName: string, resourceGroupName: string, backupEngineName: string, options?: Models.BackupEnginesGetOptionalParams, callback?: msRest.ServiceCallback<Models.BackupEngineBaseResource>): Promise<Models.BackupEnginesGetResponse> {
+  get(vaultName: string, resourceGroupName: string, backupEngineName: string, options?: Models.BackupEnginesGetOptionalParams | msRest.ServiceCallback<Models.BackupEngineBaseResource>, callback?: msRest.ServiceCallback<Models.BackupEngineBaseResource>): Promise<Models.BackupEnginesGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -120,7 +120,7 @@ export class BackupEngines {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupEngineBaseResourceList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupEngineBaseResourceList>): Promise<Models.BackupEnginesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupEngineBaseResourceList>, callback?: msRest.ServiceCallback<Models.BackupEngineBaseResourceList>): Promise<Models.BackupEnginesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

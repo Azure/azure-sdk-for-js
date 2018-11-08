@@ -71,7 +71,7 @@ export class GalleryImages {
    * @param callback The callback
    */
   get(resourceGroupName: string, galleryName: string, galleryImageName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GalleryImage>): void;
-  get(resourceGroupName: string, galleryName: string, galleryImageName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.GalleryImage>): Promise<Models.GalleryImagesGetResponse> {
+  get(resourceGroupName: string, galleryName: string, galleryImageName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryImage>, callback?: msRest.ServiceCallback<Models.GalleryImage>): Promise<Models.GalleryImagesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -121,7 +121,7 @@ export class GalleryImages {
    * @param callback The callback
    */
   listByGallery(resourceGroupName: string, galleryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GalleryImageList>): void;
-  listByGallery(resourceGroupName: string, galleryName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.GalleryImageList>): Promise<Models.GalleryImagesListByGalleryResponse> {
+  listByGallery(resourceGroupName: string, galleryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryImageList>, callback?: msRest.ServiceCallback<Models.GalleryImageList>): Promise<Models.GalleryImagesListByGalleryResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -196,7 +196,7 @@ export class GalleryImages {
    * @param callback The callback
    */
   listByGalleryNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GalleryImageList>): void;
-  listByGalleryNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.GalleryImageList>): Promise<Models.GalleryImagesListByGalleryNextResponse> {
+  listByGalleryNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryImageList>, callback?: msRest.ServiceCallback<Models.GalleryImageList>): Promise<Models.GalleryImagesListByGalleryNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

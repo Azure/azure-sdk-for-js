@@ -56,7 +56,7 @@ export class RateCard {
    * @param callback The callback
    */
   get(filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceRateCardInfo>): void;
-  get(filter: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceRateCardInfo>): Promise<Models.RateCardGetResponse> {
+  get(filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceRateCardInfo>, callback?: msRest.ServiceCallback<Models.ResourceRateCardInfo>): Promise<Models.RateCardGetResponse> {
     return this.client.sendOperationRequest(
       {
         filter,

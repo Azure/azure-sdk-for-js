@@ -56,7 +56,7 @@ export class ConnectorMappings {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, hubName: string, connectorName: string, mappingName: string, parameters: Models.ConnectorMappingResourceFormat, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectorMappingResourceFormat>): void;
-  createOrUpdate(resourceGroupName: string, hubName: string, connectorName: string, mappingName: string, parameters: Models.ConnectorMappingResourceFormat, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ConnectorMappingResourceFormat>): Promise<Models.ConnectorMappingsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, hubName: string, connectorName: string, mappingName: string, parameters: Models.ConnectorMappingResourceFormat, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorMappingResourceFormat>, callback?: msRest.ServiceCallback<Models.ConnectorMappingResourceFormat>): Promise<Models.ConnectorMappingsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -97,7 +97,7 @@ export class ConnectorMappings {
    * @param callback The callback
    */
   get(resourceGroupName: string, hubName: string, connectorName: string, mappingName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectorMappingResourceFormat>): void;
-  get(resourceGroupName: string, hubName: string, connectorName: string, mappingName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ConnectorMappingResourceFormat>): Promise<Models.ConnectorMappingsGetResponse> {
+  get(resourceGroupName: string, hubName: string, connectorName: string, mappingName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorMappingResourceFormat>, callback?: msRest.ServiceCallback<Models.ConnectorMappingResourceFormat>): Promise<Models.ConnectorMappingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -137,7 +137,7 @@ export class ConnectorMappings {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, hubName: string, connectorName: string, mappingName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, hubName: string, connectorName: string, mappingName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, hubName: string, connectorName: string, mappingName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -174,7 +174,7 @@ export class ConnectorMappings {
    * @param callback The callback
    */
   listByConnector(resourceGroupName: string, hubName: string, connectorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectorMappingListResult>): void;
-  listByConnector(resourceGroupName: string, hubName: string, connectorName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ConnectorMappingListResult>): Promise<Models.ConnectorMappingsListByConnectorResponse> {
+  listByConnector(resourceGroupName: string, hubName: string, connectorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorMappingListResult>, callback?: msRest.ServiceCallback<Models.ConnectorMappingListResult>): Promise<Models.ConnectorMappingsListByConnectorResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -204,7 +204,7 @@ export class ConnectorMappings {
    * @param callback The callback
    */
   listByConnectorNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectorMappingListResult>): void;
-  listByConnectorNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ConnectorMappingListResult>): Promise<Models.ConnectorMappingsListByConnectorNextResponse> {
+  listByConnectorNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorMappingListResult>, callback?: msRest.ServiceCallback<Models.ConnectorMappingListResult>): Promise<Models.ConnectorMappingsListByConnectorNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -236,11 +236,6 @@ export const VaultCertificateResponse: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "authType",
-            clientName: "authType"
-          },
-          uberParent: "ResourceCertificateDetails",
           className: "ResourceCertificateDetails"
         }
       }

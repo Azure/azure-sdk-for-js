@@ -44,7 +44,7 @@ export class Registrations {
    * @param callback The callback
    */
   list(resourceGroup: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegistrationList>): void;
-  list(resourceGroup: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RegistrationList>): Promise<Models.RegistrationsListResponse> {
+  list(resourceGroup: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegistrationList>, callback?: msRest.ServiceCallback<Models.RegistrationList>): Promise<Models.RegistrationsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroup,
@@ -75,7 +75,7 @@ export class Registrations {
    * @param callback The callback
    */
   get(resourceGroup: string, registrationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Registration>): void;
-  get(resourceGroup: string, registrationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Registration>): Promise<Models.RegistrationsGetResponse> {
+  get(resourceGroup: string, registrationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Registration>, callback?: msRest.ServiceCallback<Models.Registration>): Promise<Models.RegistrationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroup,
@@ -107,7 +107,7 @@ export class Registrations {
    * @param callback The callback
    */
   deleteMethod(resourceGroup: string, registrationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroup: string, registrationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroup: string, registrationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroup,
@@ -142,7 +142,7 @@ export class Registrations {
    * @param callback The callback
    */
   createOrUpdate(resourceGroup: string, registrationName: string, token: Models.RegistrationParameter, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Registration>): void;
-  createOrUpdate(resourceGroup: string, registrationName: string, token: Models.RegistrationParameter, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Registration>): Promise<Models.RegistrationsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroup: string, registrationName: string, token: Models.RegistrationParameter, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Registration>, callback?: msRest.ServiceCallback<Models.Registration>): Promise<Models.RegistrationsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroup,
@@ -178,7 +178,7 @@ export class Registrations {
    * @param callback The callback
    */
   update(resourceGroup: string, registrationName: string, token: Models.RegistrationParameter, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Registration>): void;
-  update(resourceGroup: string, registrationName: string, token: Models.RegistrationParameter, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Registration>): Promise<Models.RegistrationsUpdateResponse> {
+  update(resourceGroup: string, registrationName: string, token: Models.RegistrationParameter, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Registration>, callback?: msRest.ServiceCallback<Models.Registration>): Promise<Models.RegistrationsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroup,
@@ -211,7 +211,7 @@ export class Registrations {
    * @param callback The callback
    */
   getActivationKey(resourceGroup: string, registrationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ActivationKeyResult>): void;
-  getActivationKey(resourceGroup: string, registrationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ActivationKeyResult>): Promise<Models.RegistrationsGetActivationKeyResponse> {
+  getActivationKey(resourceGroup: string, registrationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActivationKeyResult>, callback?: msRest.ServiceCallback<Models.ActivationKeyResult>): Promise<Models.RegistrationsGetActivationKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroup,
@@ -240,7 +240,7 @@ export class Registrations {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegistrationList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RegistrationList>): Promise<Models.RegistrationsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegistrationList>, callback?: msRest.ServiceCallback<Models.RegistrationList>): Promise<Models.RegistrationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

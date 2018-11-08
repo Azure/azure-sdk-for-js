@@ -47,7 +47,7 @@ export class Backend {
    * @param callback The callback
    */
   listByService(resourceGroupName: string, serviceName: string, options: Models.BackendListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.BackendCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.BackendListByServiceOptionalParams, callback?: msRest.ServiceCallback<Models.BackendCollection>): Promise<Models.BackendListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.BackendListByServiceOptionalParams | msRest.ServiceCallback<Models.BackendCollection>, callback?: msRest.ServiceCallback<Models.BackendCollection>): Promise<Models.BackendListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -85,7 +85,7 @@ export class Backend {
    * @param callback The callback
    */
   getEntityTag(resourceGroupName: string, serviceName: string, backendid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, backendid: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.BackendGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, backendid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BackendGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -124,7 +124,7 @@ export class Backend {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, backendid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackendContract>): void;
-  get(resourceGroupName: string, serviceName: string, backendid: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackendContract>): Promise<Models.BackendGetResponse> {
+  get(resourceGroupName: string, serviceName: string, backendid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackendContract>, callback?: msRest.ServiceCallback<Models.BackendContract>): Promise<Models.BackendGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -166,7 +166,7 @@ export class Backend {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, backendid: string, parameters: Models.BackendContract, options: Models.BackendCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.BackendContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, backendid: string, parameters: Models.BackendContract, options?: Models.BackendCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.BackendContract>): Promise<Models.BackendCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, backendid: string, parameters: Models.BackendContract, options?: Models.BackendCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.BackendContract>, callback?: msRest.ServiceCallback<Models.BackendContract>): Promise<Models.BackendCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -215,7 +215,7 @@ export class Backend {
    * @param callback The callback
    */
   update(resourceGroupName: string, serviceName: string, backendid: string, parameters: Models.BackendUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, backendid: string, parameters: Models.BackendUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, backendid: string, parameters: Models.BackendUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -262,7 +262,7 @@ export class Backend {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, backendid: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, backendid: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, backendid: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -303,7 +303,7 @@ export class Backend {
    * @param callback The callback
    */
   reconnect(resourceGroupName: string, serviceName: string, backendid: string, options: Models.BackendReconnectOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  reconnect(resourceGroupName: string, serviceName: string, backendid: string, options?: Models.BackendReconnectOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  reconnect(resourceGroupName: string, serviceName: string, backendid: string, options?: Models.BackendReconnectOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -333,7 +333,7 @@ export class Backend {
    * @param callback The callback
    */
   listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackendCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackendCollection>): Promise<Models.BackendListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackendCollection>, callback?: msRest.ServiceCallback<Models.BackendCollection>): Promise<Models.BackendListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

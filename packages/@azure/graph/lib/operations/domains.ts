@@ -41,7 +41,7 @@ export class Domains {
    * @param callback The callback
    */
   list(options: Models.DomainsListOptionalParams, callback: msRest.ServiceCallback<Models.DomainListResult>): void;
-  list(options?: Models.DomainsListOptionalParams, callback?: msRest.ServiceCallback<Models.DomainListResult>): Promise<Models.DomainsListResponse> {
+  list(options?: Models.DomainsListOptionalParams | msRest.ServiceCallback<Models.DomainListResult>, callback?: msRest.ServiceCallback<Models.DomainListResult>): Promise<Models.DomainsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -68,7 +68,7 @@ export class Domains {
    * @param callback The callback
    */
   get(domainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Domain>): void;
-  get(domainName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Domain>): Promise<Models.DomainsGetResponse> {
+  get(domainName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Domain>, callback?: msRest.ServiceCallback<Models.Domain>): Promise<Models.DomainsGetResponse> {
     return this.client.sendOperationRequest(
       {
         domainName,

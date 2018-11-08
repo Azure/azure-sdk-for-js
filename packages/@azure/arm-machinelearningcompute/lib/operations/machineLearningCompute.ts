@@ -41,7 +41,7 @@ export class MachineLearningCompute {
    * @param callback The callback
    */
   listAvailableOperations(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableOperations>): void;
-  listAvailableOperations(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AvailableOperations>): Promise<Models.MachineLearningComputeListAvailableOperationsResponse> {
+  listAvailableOperations(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableOperations>, callback?: msRest.ServiceCallback<Models.AvailableOperations>): Promise<Models.MachineLearningComputeListAvailableOperationsResponse> {
     return this.client.sendOperationRequest(
       {
         options

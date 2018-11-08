@@ -50,7 +50,7 @@ export class JobScheduleOperations {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, automationAccountName: string, jobScheduleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, automationAccountName: string, jobScheduleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, automationAccountName: string, jobScheduleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -86,7 +86,7 @@ export class JobScheduleOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, automationAccountName: string, jobScheduleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobSchedule>): void;
-  get(resourceGroupName: string, automationAccountName: string, jobScheduleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JobSchedule>): Promise<Models.JobScheduleGetResponse> {
+  get(resourceGroupName: string, automationAccountName: string, jobScheduleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobSchedule>, callback?: msRest.ServiceCallback<Models.JobSchedule>): Promise<Models.JobScheduleGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -125,7 +125,7 @@ export class JobScheduleOperations {
    * @param callback The callback
    */
   create(resourceGroupName: string, automationAccountName: string, jobScheduleId: string, parameters: Models.JobScheduleCreateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobSchedule>): void;
-  create(resourceGroupName: string, automationAccountName: string, jobScheduleId: string, parameters: Models.JobScheduleCreateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JobSchedule>): Promise<Models.JobScheduleCreateResponse> {
+  create(resourceGroupName: string, automationAccountName: string, jobScheduleId: string, parameters: Models.JobScheduleCreateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobSchedule>, callback?: msRest.ServiceCallback<Models.JobSchedule>): Promise<Models.JobScheduleCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -159,7 +159,7 @@ export class JobScheduleOperations {
    * @param callback The callback
    */
   listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: Models.JobScheduleListByAutomationAccountOptionalParams, callback: msRest.ServiceCallback<Models.JobScheduleListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.JobScheduleListByAutomationAccountOptionalParams, callback?: msRest.ServiceCallback<Models.JobScheduleListResult>): Promise<Models.JobScheduleListByAutomationAccountResponse> {
+  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.JobScheduleListByAutomationAccountOptionalParams | msRest.ServiceCallback<Models.JobScheduleListResult>, callback?: msRest.ServiceCallback<Models.JobScheduleListResult>): Promise<Models.JobScheduleListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -188,7 +188,7 @@ export class JobScheduleOperations {
    * @param callback The callback
    */
   listByAutomationAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobScheduleListResult>): void;
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JobScheduleListResult>): Promise<Models.JobScheduleListByAutomationAccountNextResponse> {
+  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobScheduleListResult>, callback?: msRest.ServiceCallback<Models.JobScheduleListResult>): Promise<Models.JobScheduleListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

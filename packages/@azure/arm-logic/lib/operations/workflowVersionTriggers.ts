@@ -53,7 +53,7 @@ export class WorkflowVersionTriggers {
    * @param callback The callback
    */
   listCallbackUrl(resourceGroupName: string, workflowName: string, versionId: string, triggerName: string, options: Models.WorkflowVersionTriggersListCallbackUrlOptionalParams, callback: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): void;
-  listCallbackUrl(resourceGroupName: string, workflowName: string, versionId: string, triggerName: string, options?: Models.WorkflowVersionTriggersListCallbackUrlOptionalParams, callback?: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): Promise<Models.WorkflowVersionTriggersListCallbackUrlResponse> {
+  listCallbackUrl(resourceGroupName: string, workflowName: string, versionId: string, triggerName: string, options?: Models.WorkflowVersionTriggersListCallbackUrlOptionalParams | msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>, callback?: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): Promise<Models.WorkflowVersionTriggersListCallbackUrlResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

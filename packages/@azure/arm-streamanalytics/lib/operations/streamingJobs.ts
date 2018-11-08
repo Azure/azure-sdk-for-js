@@ -79,7 +79,7 @@ export class StreamingJobs {
    * @param callback The callback
    */
   update(streamingJob: Models.StreamingJob, resourceGroupName: string, jobName: string, options: Models.StreamingJobsUpdateOptionalParams, callback: msRest.ServiceCallback<Models.StreamingJob>): void;
-  update(streamingJob: Models.StreamingJob, resourceGroupName: string, jobName: string, options?: Models.StreamingJobsUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.StreamingJob>): Promise<Models.StreamingJobsUpdateResponse> {
+  update(streamingJob: Models.StreamingJob, resourceGroupName: string, jobName: string, options?: Models.StreamingJobsUpdateOptionalParams | msRest.ServiceCallback<Models.StreamingJob>, callback?: msRest.ServiceCallback<Models.StreamingJob>): Promise<Models.StreamingJobsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         streamingJob,
@@ -128,7 +128,7 @@ export class StreamingJobs {
    * @param callback The callback
    */
   get(resourceGroupName: string, jobName: string, options: Models.StreamingJobsGetOptionalParams, callback: msRest.ServiceCallback<Models.StreamingJob>): void;
-  get(resourceGroupName: string, jobName: string, options?: Models.StreamingJobsGetOptionalParams, callback?: msRest.ServiceCallback<Models.StreamingJob>): Promise<Models.StreamingJobsGetResponse> {
+  get(resourceGroupName: string, jobName: string, options?: Models.StreamingJobsGetOptionalParams | msRest.ServiceCallback<Models.StreamingJob>, callback?: msRest.ServiceCallback<Models.StreamingJob>): Promise<Models.StreamingJobsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -160,7 +160,7 @@ export class StreamingJobs {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: Models.StreamingJobsListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.StreamingJobListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.StreamingJobsListByResourceGroupOptionalParams, callback?: msRest.ServiceCallback<Models.StreamingJobListResult>): Promise<Models.StreamingJobsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: Models.StreamingJobsListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.StreamingJobListResult>, callback?: msRest.ServiceCallback<Models.StreamingJobListResult>): Promise<Models.StreamingJobsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -185,7 +185,7 @@ export class StreamingJobs {
    * @param callback The callback
    */
   list(options: Models.StreamingJobsListOptionalParams, callback: msRest.ServiceCallback<Models.StreamingJobListResult>): void;
-  list(options?: Models.StreamingJobsListOptionalParams, callback?: msRest.ServiceCallback<Models.StreamingJobListResult>): Promise<Models.StreamingJobsListResponse> {
+  list(options?: Models.StreamingJobsListOptionalParams | msRest.ServiceCallback<Models.StreamingJobListResult>, callback?: msRest.ServiceCallback<Models.StreamingJobListResult>): Promise<Models.StreamingJobsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -321,7 +321,7 @@ export class StreamingJobs {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StreamingJobListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StreamingJobListResult>): Promise<Models.StreamingJobsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingJobListResult>, callback?: msRest.ServiceCallback<Models.StreamingJobListResult>): Promise<Models.StreamingJobsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -349,7 +349,7 @@ export class StreamingJobs {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StreamingJobListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StreamingJobListResult>): Promise<Models.StreamingJobsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingJobListResult>, callback?: msRest.ServiceCallback<Models.StreamingJobListResult>): Promise<Models.StreamingJobsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

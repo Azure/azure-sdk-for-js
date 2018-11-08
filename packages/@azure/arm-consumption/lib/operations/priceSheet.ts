@@ -42,7 +42,7 @@ export class PriceSheet {
    * @param callback The callback
    */
   get(options: Models.PriceSheetGetOptionalParams, callback: msRest.ServiceCallback<Models.PriceSheetResult>): void;
-  get(options?: Models.PriceSheetGetOptionalParams, callback?: msRest.ServiceCallback<Models.PriceSheetResult>): Promise<Models.PriceSheetGetResponse> {
+  get(options?: Models.PriceSheetGetOptionalParams | msRest.ServiceCallback<Models.PriceSheetResult>, callback?: msRest.ServiceCallback<Models.PriceSheetResult>): Promise<Models.PriceSheetGetResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -70,7 +70,7 @@ export class PriceSheet {
    * @param callback The callback
    */
   getByBillingPeriod(billingPeriodName: string, options: Models.PriceSheetGetByBillingPeriodOptionalParams, callback: msRest.ServiceCallback<Models.PriceSheetResult>): void;
-  getByBillingPeriod(billingPeriodName: string, options?: Models.PriceSheetGetByBillingPeriodOptionalParams, callback?: msRest.ServiceCallback<Models.PriceSheetResult>): Promise<Models.PriceSheetGetByBillingPeriodResponse> {
+  getByBillingPeriod(billingPeriodName: string, options?: Models.PriceSheetGetByBillingPeriodOptionalParams | msRest.ServiceCallback<Models.PriceSheetResult>, callback?: msRest.ServiceCallback<Models.PriceSheetResult>): Promise<Models.PriceSheetGetByBillingPeriodResponse> {
     return this.client.sendOperationRequest(
       {
         billingPeriodName,

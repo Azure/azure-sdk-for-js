@@ -13,19 +13,12 @@ import * as msRest from "ms-rest-js";
 import * as msRestAzure from "ms-rest-azure-js";
 
 const packageName = "@azure/arm-managedapplications";
-const packageVersion = "1.0.0-preview";
+const packageVersion = "0.1.0";
 
 export class ManagedApplicationClientContext extends msRestAzure.AzureServiceClient {
-
   credentials: msRest.ServiceClientCredentials;
-
   subscriptionId: string;
-
-  apiVersion: string;
-
-  acceptLanguage: string;
-
-  longRunningOperationRetryTimeout: number;
+  apiVersion?: string;
 
   /**
    * Initializes a new instance of the ManagedApplicationClient class.
@@ -44,6 +37,11 @@ export class ManagedApplicationClientContext extends msRestAzure.AzureServiceCli
     if (!options) {
       options = {};
     }
+    if(!options.userAgent) {
+      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
+      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
+    }
+
     super(credentials, options);
 
     this.apiVersion = '2016-09-01-preview';
@@ -54,7 +52,6 @@ export class ManagedApplicationClientContext extends msRestAzure.AzureServiceCli
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
 
-    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }

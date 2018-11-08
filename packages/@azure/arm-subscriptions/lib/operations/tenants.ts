@@ -41,7 +41,7 @@ export class Tenants {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TenantListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TenantListResult>): Promise<Models.TenantsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TenantListResult>, callback?: msRest.ServiceCallback<Models.TenantListResult>): Promise<Models.TenantsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -68,7 +68,7 @@ export class Tenants {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TenantListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TenantListResult>): Promise<Models.TenantsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TenantListResult>, callback?: msRest.ServiceCallback<Models.TenantListResult>): Promise<Models.TenantsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

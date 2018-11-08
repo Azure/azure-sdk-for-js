@@ -64,7 +64,7 @@ export class Environments {
    * @param callback The callback
    */
   get(resourceGroupName: string, environmentName: string, options: Models.EnvironmentsGetOptionalParams, callback: msRest.ServiceCallback<Models.EnvironmentResource>): void;
-  get(resourceGroupName: string, environmentName: string, options?: Models.EnvironmentsGetOptionalParams, callback?: msRest.ServiceCallback<Models.EnvironmentResource>): Promise<Models.EnvironmentsGetResponse> {
+  get(resourceGroupName: string, environmentName: string, options?: Models.EnvironmentsGetOptionalParams | msRest.ServiceCallback<Models.EnvironmentResource>, callback?: msRest.ServiceCallback<Models.EnvironmentResource>): Promise<Models.EnvironmentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -116,7 +116,7 @@ export class Environments {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, environmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, environmentName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, environmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -146,7 +146,7 @@ export class Environments {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EnvironmentListResponse>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EnvironmentListResponse>): Promise<Models.EnvironmentsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnvironmentListResponse>, callback?: msRest.ServiceCallback<Models.EnvironmentListResponse>): Promise<Models.EnvironmentsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -171,7 +171,7 @@ export class Environments {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EnvironmentListResponse>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EnvironmentListResponse>): Promise<Models.EnvironmentsListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnvironmentListResponse>, callback?: msRest.ServiceCallback<Models.EnvironmentListResponse>): Promise<Models.EnvironmentsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options

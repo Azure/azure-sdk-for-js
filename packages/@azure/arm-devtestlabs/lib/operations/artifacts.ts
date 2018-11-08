@@ -50,7 +50,7 @@ export class Artifacts {
    * @param callback The callback
    */
   list(resourceGroupName: string, labName: string, artifactSourceName: string, options: Models.ArtifactsListOptionalParams, callback: msRest.ServiceCallback<Models.ArtifactList>): void;
-  list(resourceGroupName: string, labName: string, artifactSourceName: string, options?: Models.ArtifactsListOptionalParams, callback?: msRest.ServiceCallback<Models.ArtifactList>): Promise<Models.ArtifactsListResponse> {
+  list(resourceGroupName: string, labName: string, artifactSourceName: string, options?: Models.ArtifactsListOptionalParams | msRest.ServiceCallback<Models.ArtifactList>, callback?: msRest.ServiceCallback<Models.ArtifactList>): Promise<Models.ArtifactsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -89,7 +89,7 @@ export class Artifacts {
    * @param callback The callback
    */
   get(resourceGroupName: string, labName: string, artifactSourceName: string, name: string, options: Models.ArtifactsGetOptionalParams, callback: msRest.ServiceCallback<Models.Artifact>): void;
-  get(resourceGroupName: string, labName: string, artifactSourceName: string, name: string, options?: Models.ArtifactsGetOptionalParams, callback?: msRest.ServiceCallback<Models.Artifact>): Promise<Models.ArtifactsGetResponse> {
+  get(resourceGroupName: string, labName: string, artifactSourceName: string, name: string, options?: Models.ArtifactsGetOptionalParams | msRest.ServiceCallback<Models.Artifact>, callback?: msRest.ServiceCallback<Models.Artifact>): Promise<Models.ArtifactsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -136,7 +136,7 @@ export class Artifacts {
    * @param callback The callback
    */
   generateArmTemplate(resourceGroupName: string, labName: string, artifactSourceName: string, name: string, generateArmTemplateRequest: Models.GenerateArmTemplateRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ArmTemplateInfo>): void;
-  generateArmTemplate(resourceGroupName: string, labName: string, artifactSourceName: string, name: string, generateArmTemplateRequest: Models.GenerateArmTemplateRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ArmTemplateInfo>): Promise<Models.ArtifactsGenerateArmTemplateResponse> {
+  generateArmTemplate(resourceGroupName: string, labName: string, artifactSourceName: string, name: string, generateArmTemplateRequest: Models.GenerateArmTemplateRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArmTemplateInfo>, callback?: msRest.ServiceCallback<Models.ArmTemplateInfo>): Promise<Models.ArtifactsGenerateArmTemplateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -168,7 +168,7 @@ export class Artifacts {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ArtifactList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ArtifactList>): Promise<Models.ArtifactsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArtifactList>, callback?: msRest.ServiceCallback<Models.ArtifactList>): Promise<Models.ArtifactsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

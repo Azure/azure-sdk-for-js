@@ -1275,19 +1275,11 @@ export interface OperationListResult extends Array<Operation> {
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Accepted', 'Creating', 'Updating', 'Succeeded',
- * 'Failed', 'Deleting'
+ * Possible values include: 'Accepted', 'Creating', 'Updating', 'Succeeded', 'Failed', 'Deleting'
  * @readonly
  * @enum {string}
  */
-export enum ProvisioningState {
-  Accepted = 'Accepted',
-  Creating = 'Creating',
-  Updating = 'Updating',
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-  Deleting = 'Deleting',
-}
+export type ProvisioningState = 'Accepted' | 'Creating' | 'Updating' | 'Succeeded' | 'Failed' | 'Deleting';
 
 /**
  * Defines values for SkuName.
@@ -1295,10 +1287,7 @@ export enum ProvisioningState {
  * @readonly
  * @enum {string}
  */
-export enum SkuName {
-  S1 = 'S1',
-  S2 = 'S2',
-}
+export type SkuName = 'S1' | 'S2';
 
 /**
  * Defines values for StorageLimitExceededBehavior.
@@ -1306,25 +1295,15 @@ export enum SkuName {
  * @readonly
  * @enum {string}
  */
-export enum StorageLimitExceededBehavior {
-  PurgeOldData = 'PurgeOldData',
-  PauseIngress = 'PauseIngress',
-}
+export type StorageLimitExceededBehavior = 'PurgeOldData' | 'PauseIngress';
 
 /**
  * Defines values for PropertyType.
  * Possible values include: 'String'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PropertyType =
- * <PropertyType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PropertyType {
-  String = 'String',
-}
+export type PropertyType = 'String';
 
 /**
  * Defines values for IngressState.
@@ -1332,13 +1311,7 @@ export enum PropertyType {
  * @readonly
  * @enum {string}
  */
-export enum IngressState {
-  Disabled = 'Disabled',
-  Ready = 'Ready',
-  Running = 'Running',
-  Paused = 'Paused',
-  Unknown = 'Unknown',
-}
+export type IngressState = 'Disabled' | 'Ready' | 'Running' | 'Paused' | 'Unknown';
 
 /**
  * Defines values for LocalTimestampFormat.
@@ -1346,11 +1319,7 @@ export enum IngressState {
  * @readonly
  * @enum {string}
  */
-export enum LocalTimestampFormat {
-  Embedded = 'Embedded',
-  Iana = 'Iana',
-  TimeSpan = 'TimeSpan',
-}
+export type LocalTimestampFormat = 'Embedded' | 'Iana' | 'TimeSpan';
 
 /**
  * Defines values for ReferenceDataKeyPropertyType.
@@ -1358,12 +1327,7 @@ export enum LocalTimestampFormat {
  * @readonly
  * @enum {string}
  */
-export enum ReferenceDataKeyPropertyType {
-  String = 'String',
-  Double = 'Double',
-  Bool = 'Bool',
-  DateTime = 'DateTime',
-}
+export type ReferenceDataKeyPropertyType = 'String' | 'Double' | 'Bool' | 'DateTime';
 
 /**
  * Defines values for DataStringComparisonBehavior.
@@ -1371,10 +1335,7 @@ export enum ReferenceDataKeyPropertyType {
  * @readonly
  * @enum {string}
  */
-export enum DataStringComparisonBehavior {
-  Ordinal = 'Ordinal',
-  OrdinalIgnoreCase = 'OrdinalIgnoreCase',
-}
+export type DataStringComparisonBehavior = 'Ordinal' | 'OrdinalIgnoreCase';
 
 /**
  * Defines values for AccessPolicyRole.
@@ -1382,10 +1343,7 @@ export enum DataStringComparisonBehavior {
  * @readonly
  * @enum {string}
  */
-export enum AccessPolicyRole {
-  Reader = 'Reader',
-  Contributor = 'Contributor',
-}
+export type AccessPolicyRole = 'Reader' | 'Contributor';
 
 /**
  * Contains response data for the list operation.

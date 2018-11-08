@@ -51,7 +51,7 @@ export class AssetFilters {
    * @param callback The callback
    */
   list(resourceGroupName: string, accountName: string, assetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AssetFilterCollection>): void;
-  list(resourceGroupName: string, accountName: string, assetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AssetFilterCollection>): Promise<Models.AssetFiltersListResponse> {
+  list(resourceGroupName: string, accountName: string, assetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssetFilterCollection>, callback?: msRest.ServiceCallback<Models.AssetFilterCollection>): Promise<Models.AssetFiltersListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +91,7 @@ export class AssetFilters {
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, assetName: string, filterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AssetFilter>): void;
-  get(resourceGroupName: string, accountName: string, assetName: string, filterName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AssetFilter>): Promise<Models.AssetFiltersGetResponse> {
+  get(resourceGroupName: string, accountName: string, assetName: string, filterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssetFilter>, callback?: msRest.ServiceCallback<Models.AssetFilter>): Promise<Models.AssetFiltersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -135,7 +135,7 @@ export class AssetFilters {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, accountName: string, assetName: string, filterName: string, parameters: Models.AssetFilter, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AssetFilter>): void;
-  createOrUpdate(resourceGroupName: string, accountName: string, assetName: string, filterName: string, parameters: Models.AssetFilter, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AssetFilter>): Promise<Models.AssetFiltersCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, accountName: string, assetName: string, filterName: string, parameters: Models.AssetFilter, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssetFilter>, callback?: msRest.ServiceCallback<Models.AssetFilter>): Promise<Models.AssetFiltersCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -177,7 +177,7 @@ export class AssetFilters {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, accountName: string, assetName: string, filterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, assetName: string, filterName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, accountName: string, assetName: string, filterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -221,7 +221,7 @@ export class AssetFilters {
    * @param callback The callback
    */
   update(resourceGroupName: string, accountName: string, assetName: string, filterName: string, parameters: Models.AssetFilter, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AssetFilter>): void;
-  update(resourceGroupName: string, accountName: string, assetName: string, filterName: string, parameters: Models.AssetFilter, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AssetFilter>): Promise<Models.AssetFiltersUpdateResponse> {
+  update(resourceGroupName: string, accountName: string, assetName: string, filterName: string, parameters: Models.AssetFilter, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssetFilter>, callback?: msRest.ServiceCallback<Models.AssetFilter>): Promise<Models.AssetFiltersUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -254,7 +254,7 @@ export class AssetFilters {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AssetFilterCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AssetFilterCollection>): Promise<Models.AssetFiltersListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssetFilterCollection>, callback?: msRest.ServiceCallback<Models.AssetFilterCollection>): Promise<Models.AssetFiltersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

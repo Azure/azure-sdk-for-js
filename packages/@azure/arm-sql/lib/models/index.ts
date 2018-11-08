@@ -4324,6 +4324,21 @@ export interface BackupLongTermRetentionPolicy extends ProxyResource {
 
 /**
  * @interface
+ * An interface representing ManagedBackupShortTermRetentionPolicy.
+ * A short term retention policy.
+ *
+ * @extends ProxyResource
+ */
+export interface ManagedBackupShortTermRetentionPolicy extends ProxyResource {
+  /**
+   * @member {number} [retentionDays] The backup retention period in days. This
+   * is how many days Point-in-Time Restore will be supported.
+   */
+  retentionDays?: number;
+}
+
+/**
+ * @interface
  * An interface representing CompleteDatabaseRestoreDefinition.
  * Contains the information necessary to perform a complete database restore
  * operation.
@@ -7448,6 +7463,22 @@ export interface JobVersionListResult extends Array<JobVersion> {
  * @extends Array<LongTermRetentionBackup>
  */
 export interface LongTermRetentionBackupListResult extends Array<LongTermRetentionBackup> {
+  /**
+   * @member {string} [nextLink] Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the ManagedBackupShortTermRetentionPolicyListResult.
+ * A list of short term retention policies.
+ *
+ * @extends Array<ManagedBackupShortTermRetentionPolicy>
+ */
+export interface ManagedBackupShortTermRetentionPolicyListResult extends Array<ManagedBackupShortTermRetentionPolicy> {
   /**
    * @member {string} [nextLink] Link to retrieve next page of results.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -12604,6 +12635,139 @@ export type BackupLongTermRetentionPoliciesBeginCreateOrUpdateResponse = BackupL
        * The response body as parsed JSON or XML
        */
       parsedBody: BackupLongTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesGetResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesCreateOrUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabase operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesListByDatabaseResponse = ManagedBackupShortTermRetentionPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicyListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesBeginCreateOrUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesBeginUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabaseNext operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesListByDatabaseNextResponse = ManagedBackupShortTermRetentionPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicyListResult;
     };
 };
 

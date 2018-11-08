@@ -13,7 +13,7 @@ import * as msRest from "ms-rest-js";
 import * as msRestAzure from "ms-rest-azure-js";
 
 const packageName = "@azure/arm-visualstudio";
-const packageVersion = "1.0.0-preview";
+const packageVersion = "0.1.0";
 
 export class VisualStudioResourceProviderClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;

@@ -47,7 +47,7 @@ export class ComponentAvailableFeatures {
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAvailableFeatures>): void;
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAvailableFeatures>): Promise<Models.ComponentAvailableFeaturesGetResponse> {
+  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentAvailableFeatures>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAvailableFeatures>): Promise<Models.ComponentAvailableFeaturesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

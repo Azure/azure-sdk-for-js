@@ -1151,140 +1151,60 @@ export interface TopicTypesListResult extends Array<TopicTypeInfo> {
 
 /**
  * Defines values for DomainProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded',
- * 'Canceled', 'Failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DomainProvisioningState =
- * <DomainProvisioningState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
  * @readonly
  * @enum {string}
  */
-export enum DomainProvisioningState {
-  Creating = 'Creating',
-  Updating = 'Updating',
-  Deleting = 'Deleting',
-  Succeeded = 'Succeeded',
-  Canceled = 'Canceled',
-  Failed = 'Failed',
-}
+export type DomainProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
 
 /**
  * Defines values for InputSchema.
- * Possible values include: 'EventGridSchema', 'CustomEventSchema',
- * 'CloudEventV01Schema'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: InputSchema =
- * <InputSchema>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'EventGridSchema', 'CustomEventSchema', 'CloudEventV01Schema'
  * @readonly
  * @enum {string}
  */
-export enum InputSchema {
-  EventGridSchema = 'EventGridSchema',
-  CustomEventSchema = 'CustomEventSchema',
-  CloudEventV01Schema = 'CloudEventV01Schema',
-}
+export type InputSchema = 'EventGridSchema' | 'CustomEventSchema' | 'CloudEventV01Schema';
 
 /**
  * Defines values for EventSubscriptionProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded',
- * 'Canceled', 'Failed', 'AwaitingManualAction'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: EventSubscriptionProvisioningState =
- * <EventSubscriptionProvisioningState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed',
+ * 'AwaitingManualAction'
  * @readonly
  * @enum {string}
  */
-export enum EventSubscriptionProvisioningState {
-  Creating = 'Creating',
-  Updating = 'Updating',
-  Deleting = 'Deleting',
-  Succeeded = 'Succeeded',
-  Canceled = 'Canceled',
-  Failed = 'Failed',
-  AwaitingManualAction = 'AwaitingManualAction',
-}
+export type EventSubscriptionProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed' | 'AwaitingManualAction';
 
 /**
  * Defines values for EventDeliverySchema.
- * Possible values include: 'EventGridSchema', 'CloudEventV01Schema',
- * 'CustomInputSchema'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: EventDeliverySchema =
- * <EventDeliverySchema>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'EventGridSchema', 'CloudEventV01Schema', 'CustomInputSchema'
  * @readonly
  * @enum {string}
  */
-export enum EventDeliverySchema {
-  EventGridSchema = 'EventGridSchema',
-  CloudEventV01Schema = 'CloudEventV01Schema',
-  CustomInputSchema = 'CustomInputSchema',
-}
+export type EventDeliverySchema = 'EventGridSchema' | 'CloudEventV01Schema' | 'CustomInputSchema';
 
 /**
  * Defines values for TopicProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded',
- * 'Canceled', 'Failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TopicProvisioningState =
- * <TopicProvisioningState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
  * @readonly
  * @enum {string}
  */
-export enum TopicProvisioningState {
-  Creating = 'Creating',
-  Updating = 'Updating',
-  Deleting = 'Deleting',
-  Succeeded = 'Succeeded',
-  Canceled = 'Canceled',
-  Failed = 'Failed',
-}
+export type TopicProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
 
 /**
  * Defines values for ResourceRegionType.
  * Possible values include: 'RegionalResource', 'GlobalResource'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ResourceRegionType =
- * <ResourceRegionType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ResourceRegionType {
-  RegionalResource = 'RegionalResource',
-  GlobalResource = 'GlobalResource',
-}
+export type ResourceRegionType = 'RegionalResource' | 'GlobalResource';
 
 /**
  * Defines values for TopicTypeProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded',
- * 'Canceled', 'Failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TopicTypeProvisioningState =
- * <TopicTypeProvisioningState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
  * @readonly
  * @enum {string}
  */
-export enum TopicTypeProvisioningState {
-  Creating = 'Creating',
-  Updating = 'Updating',
-  Deleting = 'Deleting',
-  Succeeded = 'Succeeded',
-  Canceled = 'Canceled',
-  Failed = 'Failed',
-}
+export type TopicTypeProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
 
 /**
  * Contains response data for the get operation.

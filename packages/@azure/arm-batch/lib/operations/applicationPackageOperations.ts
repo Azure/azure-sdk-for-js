@@ -56,7 +56,7 @@ export class ApplicationPackageOperations {
    * @param callback The callback
    */
   activate(resourceGroupName: string, accountName: string, applicationId: string, version: string, format: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  activate(resourceGroupName: string, accountName: string, applicationId: string, version: string, format: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  activate(resourceGroupName: string, accountName: string, applicationId: string, version: string, format: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -97,7 +97,7 @@ export class ApplicationPackageOperations {
    * @param callback The callback
    */
   create(resourceGroupName: string, accountName: string, applicationId: string, version: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationPackage>): void;
-  create(resourceGroupName: string, accountName: string, applicationId: string, version: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationPackage>): Promise<Models.ApplicationPackageCreateResponse> {
+  create(resourceGroupName: string, accountName: string, applicationId: string, version: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationPackage>, callback?: msRest.ServiceCallback<Models.ApplicationPackage>): Promise<Models.ApplicationPackageCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -137,7 +137,7 @@ export class ApplicationPackageOperations {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, accountName: string, applicationId: string, version: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, applicationId: string, version: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, accountName: string, applicationId: string, version: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -177,7 +177,7 @@ export class ApplicationPackageOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, applicationId: string, version: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationPackage>): void;
-  get(resourceGroupName: string, accountName: string, applicationId: string, version: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationPackage>): Promise<Models.ApplicationPackageGetResponse> {
+  get(resourceGroupName: string, accountName: string, applicationId: string, version: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationPackage>, callback?: msRest.ServiceCallback<Models.ApplicationPackage>): Promise<Models.ApplicationPackageGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

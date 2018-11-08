@@ -47,7 +47,7 @@ export class CheckNameAvailability {
    * @param callback The callback
    */
   execute(nameAvailabilityRequest: Models.NameAvailabilityRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NameAvailability>): void;
-  execute(nameAvailabilityRequest: Models.NameAvailabilityRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NameAvailability>): Promise<Models.CheckNameAvailabilityExecuteResponse> {
+  execute(nameAvailabilityRequest: Models.NameAvailabilityRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NameAvailability>, callback?: msRest.ServiceCallback<Models.NameAvailability>): Promise<Models.CheckNameAvailabilityExecuteResponse> {
     return this.client.sendOperationRequest(
       {
         nameAvailabilityRequest,

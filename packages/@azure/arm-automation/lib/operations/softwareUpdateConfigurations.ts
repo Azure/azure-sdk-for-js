@@ -56,7 +56,7 @@ export class SoftwareUpdateConfigurations {
    * @param callback The callback
    */
   create(resourceGroupName: string, automationAccountName: string, softwareUpdateConfigurationName: string, parameters: Models.SoftwareUpdateConfiguration, options: Models.SoftwareUpdateConfigurationsCreateOptionalParams, callback: msRest.ServiceCallback<Models.SoftwareUpdateConfiguration>): void;
-  create(resourceGroupName: string, automationAccountName: string, softwareUpdateConfigurationName: string, parameters: Models.SoftwareUpdateConfiguration, options?: Models.SoftwareUpdateConfigurationsCreateOptionalParams, callback?: msRest.ServiceCallback<Models.SoftwareUpdateConfiguration>): Promise<Models.SoftwareUpdateConfigurationsCreateResponse> {
+  create(resourceGroupName: string, automationAccountName: string, softwareUpdateConfigurationName: string, parameters: Models.SoftwareUpdateConfiguration, options?: Models.SoftwareUpdateConfigurationsCreateOptionalParams | msRest.ServiceCallback<Models.SoftwareUpdateConfiguration>, callback?: msRest.ServiceCallback<Models.SoftwareUpdateConfiguration>): Promise<Models.SoftwareUpdateConfigurationsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +96,7 @@ export class SoftwareUpdateConfigurations {
    * @param callback The callback
    */
   getByName(resourceGroupName: string, automationAccountName: string, softwareUpdateConfigurationName: string, options: Models.SoftwareUpdateConfigurationsGetByNameOptionalParams, callback: msRest.ServiceCallback<Models.SoftwareUpdateConfiguration>): void;
-  getByName(resourceGroupName: string, automationAccountName: string, softwareUpdateConfigurationName: string, options?: Models.SoftwareUpdateConfigurationsGetByNameOptionalParams, callback?: msRest.ServiceCallback<Models.SoftwareUpdateConfiguration>): Promise<Models.SoftwareUpdateConfigurationsGetByNameResponse> {
+  getByName(resourceGroupName: string, automationAccountName: string, softwareUpdateConfigurationName: string, options?: Models.SoftwareUpdateConfigurationsGetByNameOptionalParams | msRest.ServiceCallback<Models.SoftwareUpdateConfiguration>, callback?: msRest.ServiceCallback<Models.SoftwareUpdateConfiguration>): Promise<Models.SoftwareUpdateConfigurationsGetByNameResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -135,7 +135,7 @@ export class SoftwareUpdateConfigurations {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, automationAccountName: string, softwareUpdateConfigurationName: string, options: Models.SoftwareUpdateConfigurationsDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, automationAccountName: string, softwareUpdateConfigurationName: string, options?: Models.SoftwareUpdateConfigurationsDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, automationAccountName: string, softwareUpdateConfigurationName: string, options?: Models.SoftwareUpdateConfigurationsDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -168,7 +168,7 @@ export class SoftwareUpdateConfigurations {
    * @param callback The callback
    */
   list(resourceGroupName: string, automationAccountName: string, options: Models.SoftwareUpdateConfigurationsListOptionalParams, callback: msRest.ServiceCallback<Models.SoftwareUpdateConfigurationListResult>): void;
-  list(resourceGroupName: string, automationAccountName: string, options?: Models.SoftwareUpdateConfigurationsListOptionalParams, callback?: msRest.ServiceCallback<Models.SoftwareUpdateConfigurationListResult>): Promise<Models.SoftwareUpdateConfigurationsListResponse> {
+  list(resourceGroupName: string, automationAccountName: string, options?: Models.SoftwareUpdateConfigurationsListOptionalParams | msRest.ServiceCallback<Models.SoftwareUpdateConfigurationListResult>, callback?: msRest.ServiceCallback<Models.SoftwareUpdateConfigurationListResult>): Promise<Models.SoftwareUpdateConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

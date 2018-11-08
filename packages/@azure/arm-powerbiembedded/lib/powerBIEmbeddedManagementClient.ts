@@ -49,7 +49,7 @@ class PowerBIEmbeddedManagementClient extends PowerBIEmbeddedManagementClientCon
    * @param callback The callback
    */
   getAvailableOperations(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationList>): void;
-  getAvailableOperations(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationList>): Promise<Models.GetAvailableOperationsResponse> {
+  getAvailableOperations(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationList>, callback?: msRest.ServiceCallback<Models.OperationList>): Promise<Models.GetAvailableOperationsResponse> {
     return this.sendOperationRequest(
       {
         options

@@ -47,7 +47,7 @@ export class Versions {
    * @param callback The callback
    */
   clone(appId: string, versionId: string, options: Models.VersionsCloneOptionalParams, callback: msRest.ServiceCallback<string>): void;
-  clone(appId: string, versionId: string, options?: Models.VersionsCloneOptionalParams, callback?: msRest.ServiceCallback<string>): Promise<Models.VersionsCloneResponse> {
+  clone(appId: string, versionId: string, options?: Models.VersionsCloneOptionalParams | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.VersionsCloneResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -76,7 +76,7 @@ export class Versions {
    * @param callback The callback
    */
   list(appId: string, options: Models.VersionsListOptionalParams, callback: msRest.ServiceCallback<Models.VersionInfo[]>): void;
-  list(appId: string, options?: Models.VersionsListOptionalParams, callback?: msRest.ServiceCallback<Models.VersionInfo[]>): Promise<Models.VersionsListResponse> {
+  list(appId: string, options?: Models.VersionsListOptionalParams | msRest.ServiceCallback<Models.VersionInfo[]>, callback?: msRest.ServiceCallback<Models.VersionInfo[]>): Promise<Models.VersionsListResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -107,7 +107,7 @@ export class Versions {
    * @param callback The callback
    */
   get(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VersionInfo>): void;
-  get(appId: string, versionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VersionInfo>): Promise<Models.VersionsGetResponse> {
+  get(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VersionInfo>, callback?: msRest.ServiceCallback<Models.VersionInfo>): Promise<Models.VersionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -142,7 +142,7 @@ export class Versions {
    * @param callback The callback
    */
   update(appId: string, versionId: string, versionUpdateObject: Models.TaskUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  update(appId: string, versionId: string, versionUpdateObject: Models.TaskUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.VersionsUpdateResponse> {
+  update(appId: string, versionId: string, versionUpdateObject: Models.TaskUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.VersionsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -175,7 +175,7 @@ export class Versions {
    * @param callback The callback
    */
   deleteMethod(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteMethod(appId: string, versionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.VersionsDeleteMethodResponse> {
+  deleteMethod(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.VersionsDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -207,7 +207,7 @@ export class Versions {
    * @param callback The callback
    */
   exportMethod(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LuisApp>): void;
-  exportMethod(appId: string, versionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LuisApp>): Promise<Models.VersionsExportMethodResponse> {
+  exportMethod(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LuisApp>, callback?: msRest.ServiceCallback<Models.LuisApp>): Promise<Models.VersionsExportMethodResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -239,7 +239,7 @@ export class Versions {
    * @param callback The callback
    */
   importMethod(appId: string, luisApp: Models.LuisApp, options: Models.VersionsImportMethodOptionalParams, callback: msRest.ServiceCallback<string>): void;
-  importMethod(appId: string, luisApp: Models.LuisApp, options?: Models.VersionsImportMethodOptionalParams, callback?: msRest.ServiceCallback<string>): Promise<Models.VersionsImportMethodResponse> {
+  importMethod(appId: string, luisApp: Models.LuisApp, options?: Models.VersionsImportMethodOptionalParams | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.VersionsImportMethodResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -274,7 +274,7 @@ export class Versions {
    * @param callback The callback
    */
   deleteUnlabelledUtterance(appId: string, versionId: string, utterance: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteUnlabelledUtterance(appId: string, versionId: string, utterance: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.VersionsDeleteUnlabelledUtteranceResponse> {
+  deleteUnlabelledUtterance(appId: string, versionId: string, utterance: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.VersionsDeleteUnlabelledUtteranceResponse> {
     return this.client.sendOperationRequest(
       {
         appId,

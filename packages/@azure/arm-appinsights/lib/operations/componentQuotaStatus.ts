@@ -47,7 +47,7 @@ export class ComponentQuotaStatus {
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentQuotaStatus>): void;
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentQuotaStatus>): Promise<Models.ComponentQuotaStatusGetResponse> {
+  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentQuotaStatus>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentQuotaStatus>): Promise<Models.ComponentQuotaStatusGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

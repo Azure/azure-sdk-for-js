@@ -48,7 +48,7 @@ export class Devices {
    * @param callback The callback
    */
   listByManager(resourceGroupName: string, managerName: string, options: Models.DevicesListByManagerOptionalParams, callback: msRest.ServiceCallback<Models.DeviceList>): void;
-  listByManager(resourceGroupName: string, managerName: string, options?: Models.DevicesListByManagerOptionalParams, callback?: msRest.ServiceCallback<Models.DeviceList>): Promise<Models.DevicesListByManagerResponse> {
+  listByManager(resourceGroupName: string, managerName: string, options?: Models.DevicesListByManagerOptionalParams | msRest.ServiceCallback<Models.DeviceList>, callback?: msRest.ServiceCallback<Models.DeviceList>): Promise<Models.DevicesListByManagerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +83,7 @@ export class Devices {
    * @param callback The callback
    */
   get(deviceName: string, resourceGroupName: string, managerName: string, options: Models.DevicesGetOptionalParams, callback: msRest.ServiceCallback<Models.Device>): void;
-  get(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.DevicesGetOptionalParams, callback?: msRest.ServiceCallback<Models.Device>): Promise<Models.DevicesGetResponse> {
+  get(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.DevicesGetOptionalParams | msRest.ServiceCallback<Models.Device>, callback?: msRest.ServiceCallback<Models.Device>): Promise<Models.DevicesGetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -146,7 +146,7 @@ export class Devices {
    * @param callback The callback
    */
   getAlertSettings(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertSettings>): void;
-  getAlertSettings(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AlertSettings>): Promise<Models.DevicesGetAlertSettingsResponse> {
+  getAlertSettings(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertSettings>, callback?: msRest.ServiceCallback<Models.AlertSettings>): Promise<Models.DevicesGetAlertSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -236,7 +236,7 @@ export class Devices {
    * @param callback The callback
    */
   listFailoverTarget(deviceName: string, resourceGroupName: string, managerName: string, options: Models.DevicesListFailoverTargetOptionalParams, callback: msRest.ServiceCallback<Models.DeviceList>): void;
-  listFailoverTarget(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.DevicesListFailoverTargetOptionalParams, callback?: msRest.ServiceCallback<Models.DeviceList>): Promise<Models.DevicesListFailoverTargetResponse> {
+  listFailoverTarget(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.DevicesListFailoverTargetOptionalParams | msRest.ServiceCallback<Models.DeviceList>, callback?: msRest.ServiceCallback<Models.DeviceList>): Promise<Models.DevicesListFailoverTargetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -285,7 +285,7 @@ export class Devices {
    * @param callback The callback
    */
   listMetrics(deviceName: string, resourceGroupName: string, managerName: string, options: Models.DevicesListMetricsOptionalParams, callback: msRest.ServiceCallback<Models.MetricList>): void;
-  listMetrics(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.DevicesListMetricsOptionalParams, callback?: msRest.ServiceCallback<Models.MetricList>): Promise<Models.DevicesListMetricsResponse> {
+  listMetrics(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.DevicesListMetricsOptionalParams | msRest.ServiceCallback<Models.MetricList>, callback?: msRest.ServiceCallback<Models.MetricList>): Promise<Models.DevicesListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -321,7 +321,7 @@ export class Devices {
    * @param callback The callback
    */
   listMetricDefinition(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricDefinitionList>): void;
-  listMetricDefinition(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricDefinitionList>): Promise<Models.DevicesListMetricDefinitionResponse> {
+  listMetricDefinition(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionList>, callback?: msRest.ServiceCallback<Models.MetricDefinitionList>): Promise<Models.DevicesListMetricDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -357,7 +357,7 @@ export class Devices {
    * @param callback The callback
    */
   getNetworkSettings(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkSettings>): void;
-  getNetworkSettings(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkSettings>): Promise<Models.DevicesGetNetworkSettingsResponse> {
+  getNetworkSettings(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkSettings>, callback?: msRest.ServiceCallback<Models.NetworkSettings>): Promise<Models.DevicesGetNetworkSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -420,7 +420,7 @@ export class Devices {
    * @param callback The callback
    */
   getTimeSettings(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TimeSettings>): void;
-  getTimeSettings(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TimeSettings>): Promise<Models.DevicesGetTimeSettingsResponse> {
+  getTimeSettings(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TimeSettings>, callback?: msRest.ServiceCallback<Models.TimeSettings>): Promise<Models.DevicesGetTimeSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -456,7 +456,7 @@ export class Devices {
    * @param callback The callback
    */
   getUpdateSummary(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Updates>): void;
-  getUpdateSummary(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Updates>): Promise<Models.DevicesGetUpdateSummaryResponse> {
+  getUpdateSummary(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Updates>, callback?: msRest.ServiceCallback<Models.Updates>): Promise<Models.DevicesGetUpdateSummaryResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,

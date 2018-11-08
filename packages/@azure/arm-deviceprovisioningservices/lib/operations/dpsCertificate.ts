@@ -53,7 +53,7 @@ export class DpsCertificate {
    * @param callback The callback
    */
   get(certificateName: string, resourceGroupName: string, provisioningServiceName: string, options: Models.DpsCertificateGetOptionalParams, callback: msRest.ServiceCallback<Models.CertificateResponse>): void;
-  get(certificateName: string, resourceGroupName: string, provisioningServiceName: string, options?: Models.DpsCertificateGetOptionalParams, callback?: msRest.ServiceCallback<Models.CertificateResponse>): Promise<Models.DpsCertificateGetResponse> {
+  get(certificateName: string, resourceGroupName: string, provisioningServiceName: string, options?: Models.DpsCertificateGetOptionalParams | msRest.ServiceCallback<Models.CertificateResponse>, callback?: msRest.ServiceCallback<Models.CertificateResponse>): Promise<Models.DpsCertificateGetResponse> {
     return this.client.sendOperationRequest(
       {
         certificateName,
@@ -93,7 +93,7 @@ export class DpsCertificate {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, provisioningServiceName: string, certificateName: string, certificateDescription: Models.CertificateBodyDescription, options: Models.DpsCertificateCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.CertificateResponse>): void;
-  createOrUpdate(resourceGroupName: string, provisioningServiceName: string, certificateName: string, certificateDescription: Models.CertificateBodyDescription, options?: Models.DpsCertificateCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.CertificateResponse>): Promise<Models.DpsCertificateCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, provisioningServiceName: string, certificateName: string, certificateDescription: Models.CertificateBodyDescription, options?: Models.DpsCertificateCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.CertificateResponse>, callback?: msRest.ServiceCallback<Models.CertificateResponse>): Promise<Models.DpsCertificateCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -137,7 +137,7 @@ export class DpsCertificate {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, ifMatch: string, provisioningServiceName: string, certificateName: string, options: Models.DpsCertificateDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, ifMatch: string, provisioningServiceName: string, certificateName: string, options?: Models.DpsCertificateDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, ifMatch: string, provisioningServiceName: string, certificateName: string, options?: Models.DpsCertificateDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -171,7 +171,7 @@ export class DpsCertificate {
    * @param callback The callback
    */
   list(resourceGroupName: string, provisioningServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateListDescription>): void;
-  list(resourceGroupName: string, provisioningServiceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CertificateListDescription>): Promise<Models.DpsCertificateListResponse> {
+  list(resourceGroupName: string, provisioningServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateListDescription>, callback?: msRest.ServiceCallback<Models.CertificateListDescription>): Promise<Models.DpsCertificateListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -215,7 +215,7 @@ export class DpsCertificate {
    * @param callback The callback
    */
   generateVerificationCode(certificateName: string, ifMatch: string, resourceGroupName: string, provisioningServiceName: string, options: Models.DpsCertificateGenerateVerificationCodeOptionalParams, callback: msRest.ServiceCallback<Models.VerificationCodeResponse>): void;
-  generateVerificationCode(certificateName: string, ifMatch: string, resourceGroupName: string, provisioningServiceName: string, options?: Models.DpsCertificateGenerateVerificationCodeOptionalParams, callback?: msRest.ServiceCallback<Models.VerificationCodeResponse>): Promise<Models.DpsCertificateGenerateVerificationCodeResponse> {
+  generateVerificationCode(certificateName: string, ifMatch: string, resourceGroupName: string, provisioningServiceName: string, options?: Models.DpsCertificateGenerateVerificationCodeOptionalParams | msRest.ServiceCallback<Models.VerificationCodeResponse>, callback?: msRest.ServiceCallback<Models.VerificationCodeResponse>): Promise<Models.DpsCertificateGenerateVerificationCodeResponse> {
     return this.client.sendOperationRequest(
       {
         certificateName,
@@ -263,7 +263,7 @@ export class DpsCertificate {
    * @param callback The callback
    */
   verifyCertificate(certificateName: string, ifMatch: string, request: Models.VerificationCodeRequest, resourceGroupName: string, provisioningServiceName: string, options: Models.DpsCertificateVerifyCertificateOptionalParams, callback: msRest.ServiceCallback<Models.CertificateResponse>): void;
-  verifyCertificate(certificateName: string, ifMatch: string, request: Models.VerificationCodeRequest, resourceGroupName: string, provisioningServiceName: string, options?: Models.DpsCertificateVerifyCertificateOptionalParams, callback?: msRest.ServiceCallback<Models.CertificateResponse>): Promise<Models.DpsCertificateVerifyCertificateResponse> {
+  verifyCertificate(certificateName: string, ifMatch: string, request: Models.VerificationCodeRequest, resourceGroupName: string, provisioningServiceName: string, options?: Models.DpsCertificateVerifyCertificateOptionalParams | msRest.ServiceCallback<Models.CertificateResponse>, callback?: msRest.ServiceCallback<Models.CertificateResponse>): Promise<Models.DpsCertificateVerifyCertificateResponse> {
     return this.client.sendOperationRequest(
       {
         certificateName,

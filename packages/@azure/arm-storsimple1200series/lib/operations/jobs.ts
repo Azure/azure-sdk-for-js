@@ -50,7 +50,7 @@ export class Jobs {
    * @param callback The callback
    */
   listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options: Models.JobsListByDeviceOptionalParams, callback: msRest.ServiceCallback<Models.JobList>): void;
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.JobsListByDeviceOptionalParams, callback?: msRest.ServiceCallback<Models.JobList>): Promise<Models.JobsListByDeviceResponse> {
+  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.JobsListByDeviceOptionalParams | msRest.ServiceCallback<Models.JobList>, callback?: msRest.ServiceCallback<Models.JobList>): Promise<Models.JobsListByDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -89,7 +89,7 @@ export class Jobs {
    * @param callback The callback
    */
   get(deviceName: string, jobName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Job>): void;
-  get(deviceName: string, jobName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Job>): Promise<Models.JobsGetResponse> {
+  get(deviceName: string, jobName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Job>, callback?: msRest.ServiceCallback<Models.Job>): Promise<Models.JobsGetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -123,7 +123,7 @@ export class Jobs {
    * @param callback The callback
    */
   listByManager(resourceGroupName: string, managerName: string, options: Models.JobsListByManagerOptionalParams, callback: msRest.ServiceCallback<Models.JobList>): void;
-  listByManager(resourceGroupName: string, managerName: string, options?: Models.JobsListByManagerOptionalParams, callback?: msRest.ServiceCallback<Models.JobList>): Promise<Models.JobsListByManagerResponse> {
+  listByManager(resourceGroupName: string, managerName: string, options?: Models.JobsListByManagerOptionalParams | msRest.ServiceCallback<Models.JobList>, callback?: msRest.ServiceCallback<Models.JobList>): Promise<Models.JobsListByManagerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -152,7 +152,7 @@ export class Jobs {
    * @param callback The callback
    */
   listByDeviceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobList>): void;
-  listByDeviceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JobList>): Promise<Models.JobsListByDeviceNextResponse> {
+  listByDeviceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobList>, callback?: msRest.ServiceCallback<Models.JobList>): Promise<Models.JobsListByDeviceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -180,7 +180,7 @@ export class Jobs {
    * @param callback The callback
    */
   listByManagerNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobList>): void;
-  listByManagerNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JobList>): Promise<Models.JobsListByManagerNextResponse> {
+  listByManagerNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobList>, callback?: msRest.ServiceCallback<Models.JobList>): Promise<Models.JobsListByManagerNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

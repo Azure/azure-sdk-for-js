@@ -557,10 +557,7 @@ export interface WcfRelaysListResult extends Array<WcfRelay> {
  * @readonly
  * @enum {string}
  */
-export enum Relaytype {
-  NetTcp = 'NetTcp',
-  Http = 'Http',
-}
+export type Relaytype = 'NetTcp' | 'Http';
 
 /**
  * Defines values for SkuTier.
@@ -568,25 +565,15 @@ export enum Relaytype {
  * @readonly
  * @enum {string}
  */
-export enum SkuTier {
-  Standard = 'Standard',
-}
+export type SkuTier = 'Standard';
 
 /**
  * Defines values for ProvisioningStateEnum.
- * Possible values include: 'Created', 'Succeeded', 'Deleted', 'Failed',
- * 'Updating', 'Unknown'
+ * Possible values include: 'Created', 'Succeeded', 'Deleted', 'Failed', 'Updating', 'Unknown'
  * @readonly
  * @enum {string}
  */
-export enum ProvisioningStateEnum {
-  Created = 'Created',
-  Succeeded = 'Succeeded',
-  Deleted = 'Deleted',
-  Failed = 'Failed',
-  Updating = 'Updating',
-  Unknown = 'Unknown',
-}
+export type ProvisioningStateEnum = 'Created' | 'Succeeded' | 'Deleted' | 'Failed' | 'Updating' | 'Unknown';
 
 /**
  * Defines values for AccessRights.
@@ -594,11 +581,7 @@ export enum ProvisioningStateEnum {
  * @readonly
  * @enum {string}
  */
-export enum AccessRights {
-  Manage = 'Manage',
-  Send = 'Send',
-  Listen = 'Listen',
-}
+export type AccessRights = 'Manage' | 'Send' | 'Listen';
 
 /**
  * Defines values for KeyType.
@@ -606,26 +589,16 @@ export enum AccessRights {
  * @readonly
  * @enum {string}
  */
-export enum KeyType {
-  PrimaryKey = 'PrimaryKey',
-  SecondaryKey = 'SecondaryKey',
-}
+export type KeyType = 'PrimaryKey' | 'SecondaryKey';
 
 /**
  * Defines values for UnavailableReason.
- * Possible values include: 'None', 'InvalidName', 'SubscriptionIsDisabled',
- * 'NameInUse', 'NameInLockdown', 'TooManyNamespaceInCurrentSubscription'
+ * Possible values include: 'None', 'InvalidName', 'SubscriptionIsDisabled', 'NameInUse',
+ * 'NameInLockdown', 'TooManyNamespaceInCurrentSubscription'
  * @readonly
  * @enum {string}
  */
-export enum UnavailableReason {
-  None = 'None',
-  InvalidName = 'InvalidName',
-  SubscriptionIsDisabled = 'SubscriptionIsDisabled',
-  NameInUse = 'NameInUse',
-  NameInLockdown = 'NameInLockdown',
-  TooManyNamespaceInCurrentSubscription = 'TooManyNamespaceInCurrentSubscription',
-}
+export type UnavailableReason = 'None' | 'InvalidName' | 'SubscriptionIsDisabled' | 'NameInUse' | 'NameInLockdown' | 'TooManyNamespaceInCurrentSubscription';
 
 /**
  * Contains response data for the list operation.

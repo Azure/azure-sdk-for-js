@@ -50,7 +50,7 @@ export class Subscriptions {
    * @param callback The callback
    */
   listByTopic(resourceGroupName: string, namespaceName: string, topicName: string, options: Models.SubscriptionsListByTopicOptionalParams, callback: msRest.ServiceCallback<Models.SBSubscriptionListResult>): void;
-  listByTopic(resourceGroupName: string, namespaceName: string, topicName: string, options?: Models.SubscriptionsListByTopicOptionalParams, callback?: msRest.ServiceCallback<Models.SBSubscriptionListResult>): Promise<Models.SubscriptionsListByTopicResponse> {
+  listByTopic(resourceGroupName: string, namespaceName: string, topicName: string, options?: Models.SubscriptionsListByTopicOptionalParams | msRest.ServiceCallback<Models.SBSubscriptionListResult>, callback?: msRest.ServiceCallback<Models.SBSubscriptionListResult>): Promise<Models.SubscriptionsListByTopicResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -92,7 +92,7 @@ export class Subscriptions {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, parameters: Models.SBSubscription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SBSubscription>): void;
-  createOrUpdate(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, parameters: Models.SBSubscription, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SBSubscription>): Promise<Models.SubscriptionsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, parameters: Models.SBSubscription, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SBSubscription>, callback?: msRest.ServiceCallback<Models.SBSubscription>): Promise<Models.SubscriptionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -133,7 +133,7 @@ export class Subscriptions {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -173,7 +173,7 @@ export class Subscriptions {
    * @param callback The callback
    */
   get(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SBSubscription>): void;
-  get(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SBSubscription>): Promise<Models.SubscriptionsGetResponse> {
+  get(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SBSubscription>, callback?: msRest.ServiceCallback<Models.SBSubscription>): Promise<Models.SubscriptionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -204,7 +204,7 @@ export class Subscriptions {
    * @param callback The callback
    */
   listByTopicNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SBSubscriptionListResult>): void;
-  listByTopicNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SBSubscriptionListResult>): Promise<Models.SubscriptionsListByTopicNextResponse> {
+  listByTopicNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SBSubscriptionListResult>, callback?: msRest.ServiceCallback<Models.SBSubscriptionListResult>): Promise<Models.SubscriptionsListByTopicNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

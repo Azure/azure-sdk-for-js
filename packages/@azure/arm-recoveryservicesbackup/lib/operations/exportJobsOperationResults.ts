@@ -56,7 +56,7 @@ export class ExportJobsOperationResults {
    * @param callback The callback
    */
   get(vaultName: string, resourceGroupName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationResultInfoBaseResource>): void;
-  get(vaultName: string, resourceGroupName: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationResultInfoBaseResource>): Promise<Models.ExportJobsOperationResultsGetResponse> {
+  get(vaultName: string, resourceGroupName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationResultInfoBaseResource>, callback?: msRest.ServiceCallback<Models.OperationResultInfoBaseResource>): Promise<Models.ExportJobsOperationResultsGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,

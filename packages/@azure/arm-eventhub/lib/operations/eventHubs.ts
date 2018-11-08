@@ -47,7 +47,7 @@ export class EventHubs {
    * @param callback The callback
    */
   listByNamespace(resourceGroupName: string, namespaceName: string, options: Models.EventHubsListByNamespaceOptionalParams, callback: msRest.ServiceCallback<Models.EventHubListResult>): void;
-  listByNamespace(resourceGroupName: string, namespaceName: string, options?: Models.EventHubsListByNamespaceOptionalParams, callback?: msRest.ServiceCallback<Models.EventHubListResult>): Promise<Models.EventHubsListByNamespaceResponse> {
+  listByNamespace(resourceGroupName: string, namespaceName: string, options?: Models.EventHubsListByNamespaceOptionalParams | msRest.ServiceCallback<Models.EventHubListResult>, callback?: msRest.ServiceCallback<Models.EventHubListResult>): Promise<Models.EventHubsListByNamespaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -85,7 +85,7 @@ export class EventHubs {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, namespaceName: string, eventHubName: string, parameters: Models.Eventhub, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Eventhub>): void;
-  createOrUpdate(resourceGroupName: string, namespaceName: string, eventHubName: string, parameters: Models.Eventhub, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Eventhub>): Promise<Models.EventHubsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, namespaceName: string, eventHubName: string, parameters: Models.Eventhub, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Eventhub>, callback?: msRest.ServiceCallback<Models.Eventhub>): Promise<Models.EventHubsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -122,7 +122,7 @@ export class EventHubs {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, namespaceName: string, eventHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, namespaceName: string, eventHubName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, namespaceName: string, eventHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +158,7 @@ export class EventHubs {
    * @param callback The callback
    */
   get(resourceGroupName: string, namespaceName: string, eventHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Eventhub>): void;
-  get(resourceGroupName: string, namespaceName: string, eventHubName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Eventhub>): Promise<Models.EventHubsGetResponse> {
+  get(resourceGroupName: string, namespaceName: string, eventHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Eventhub>, callback?: msRest.ServiceCallback<Models.Eventhub>): Promise<Models.EventHubsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -194,7 +194,7 @@ export class EventHubs {
    * @param callback The callback
    */
   listAuthorizationRules(resourceGroupName: string, namespaceName: string, eventHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): void;
-  listAuthorizationRules(resourceGroupName: string, namespaceName: string, eventHubName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): Promise<Models.EventHubsListAuthorizationRulesResponse> {
+  listAuthorizationRules(resourceGroupName: string, namespaceName: string, eventHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): Promise<Models.EventHubsListAuthorizationRulesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -236,7 +236,7 @@ export class EventHubs {
    * @param callback The callback
    */
   createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, eventHubName: string, authorizationRuleName: string, parameters: Models.AuthorizationRule, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRule>): void;
-  createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, eventHubName: string, authorizationRuleName: string, parameters: Models.AuthorizationRule, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AuthorizationRule>): Promise<Models.EventHubsCreateOrUpdateAuthorizationRuleResponse> {
+  createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, eventHubName: string, authorizationRuleName: string, parameters: Models.AuthorizationRule, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRule>, callback?: msRest.ServiceCallback<Models.AuthorizationRule>): Promise<Models.EventHubsCreateOrUpdateAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -277,7 +277,7 @@ export class EventHubs {
    * @param callback The callback
    */
   getAuthorizationRule(resourceGroupName: string, namespaceName: string, eventHubName: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRule>): void;
-  getAuthorizationRule(resourceGroupName: string, namespaceName: string, eventHubName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AuthorizationRule>): Promise<Models.EventHubsGetAuthorizationRuleResponse> {
+  getAuthorizationRule(resourceGroupName: string, namespaceName: string, eventHubName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRule>, callback?: msRest.ServiceCallback<Models.AuthorizationRule>): Promise<Models.EventHubsGetAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -317,7 +317,7 @@ export class EventHubs {
    * @param callback The callback
    */
   deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, eventHubName: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, eventHubName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, eventHubName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -357,7 +357,7 @@ export class EventHubs {
    * @param callback The callback
    */
   listKeys(resourceGroupName: string, namespaceName: string, eventHubName: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessKeys>): void;
-  listKeys(resourceGroupName: string, namespaceName: string, eventHubName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccessKeys>): Promise<Models.EventHubsListKeysResponse> {
+  listKeys(resourceGroupName: string, namespaceName: string, eventHubName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessKeys>, callback?: msRest.ServiceCallback<Models.AccessKeys>): Promise<Models.EventHubsListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -403,7 +403,7 @@ export class EventHubs {
    * @param callback The callback
    */
   regenerateKeys(resourceGroupName: string, namespaceName: string, eventHubName: string, authorizationRuleName: string, parameters: Models.RegenerateAccessKeyParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessKeys>): void;
-  regenerateKeys(resourceGroupName: string, namespaceName: string, eventHubName: string, authorizationRuleName: string, parameters: Models.RegenerateAccessKeyParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccessKeys>): Promise<Models.EventHubsRegenerateKeysResponse> {
+  regenerateKeys(resourceGroupName: string, namespaceName: string, eventHubName: string, authorizationRuleName: string, parameters: Models.RegenerateAccessKeyParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessKeys>, callback?: msRest.ServiceCallback<Models.AccessKeys>): Promise<Models.EventHubsRegenerateKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -435,7 +435,7 @@ export class EventHubs {
    * @param callback The callback
    */
   listByNamespaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventHubListResult>): void;
-  listByNamespaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventHubListResult>): Promise<Models.EventHubsListByNamespaceNextResponse> {
+  listByNamespaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventHubListResult>, callback?: msRest.ServiceCallback<Models.EventHubListResult>): Promise<Models.EventHubsListByNamespaceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -463,7 +463,7 @@ export class EventHubs {
    * @param callback The callback
    */
   listAuthorizationRulesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): void;
-  listAuthorizationRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): Promise<Models.EventHubsListAuthorizationRulesNextResponse> {
+  listAuthorizationRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): Promise<Models.EventHubsListAuthorizationRulesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

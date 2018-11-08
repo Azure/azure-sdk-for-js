@@ -47,7 +47,7 @@ export class WebTestLocations {
    * @param callback The callback
    */
   list(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsWebTestLocationsListResult>): void;
-  list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationInsightsWebTestLocationsListResult>): Promise<Models.WebTestLocationsListResponse> {
+  list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsWebTestLocationsListResult>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsWebTestLocationsListResult>): Promise<Models.WebTestLocationsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

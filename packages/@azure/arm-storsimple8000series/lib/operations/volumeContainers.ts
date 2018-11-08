@@ -51,7 +51,7 @@ export class VolumeContainers {
    * @param callback The callback
    */
   listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VolumeContainerList>): void;
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VolumeContainerList>): Promise<Models.VolumeContainersListByDeviceResponse> {
+  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeContainerList>, callback?: msRest.ServiceCallback<Models.VolumeContainerList>): Promise<Models.VolumeContainersListByDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -90,7 +90,7 @@ export class VolumeContainers {
    * @param callback The callback
    */
   get(deviceName: string, volumeContainerName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VolumeContainer>): void;
-  get(deviceName: string, volumeContainerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VolumeContainer>): Promise<Models.VolumeContainersGetResponse> {
+  get(deviceName: string, volumeContainerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeContainer>, callback?: msRest.ServiceCallback<Models.VolumeContainer>): Promise<Models.VolumeContainersGetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -162,7 +162,7 @@ export class VolumeContainers {
    * @param callback The callback
    */
   listMetrics(deviceName: string, volumeContainerName: string, resourceGroupName: string, managerName: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricList>): void;
-  listMetrics(deviceName: string, volumeContainerName: string, resourceGroupName: string, managerName: string, filter: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricList>): Promise<Models.VolumeContainersListMetricsResponse> {
+  listMetrics(deviceName: string, volumeContainerName: string, resourceGroupName: string, managerName: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricList>, callback?: msRest.ServiceCallback<Models.MetricList>): Promise<Models.VolumeContainersListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -203,7 +203,7 @@ export class VolumeContainers {
    * @param callback The callback
    */
   listMetricDefinition(deviceName: string, volumeContainerName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricDefinitionList>): void;
-  listMetricDefinition(deviceName: string, volumeContainerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricDefinitionList>): Promise<Models.VolumeContainersListMetricDefinitionResponse> {
+  listMetricDefinition(deviceName: string, volumeContainerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionList>, callback?: msRest.ServiceCallback<Models.MetricDefinitionList>): Promise<Models.VolumeContainersListMetricDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,

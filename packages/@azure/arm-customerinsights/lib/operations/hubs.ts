@@ -51,7 +51,7 @@ export class Hubs {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, hubName: string, parameters: Models.Hub, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Hub>): void;
-  createOrUpdate(resourceGroupName: string, hubName: string, parameters: Models.Hub, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Hub>): Promise<Models.HubsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, hubName: string, parameters: Models.Hub, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Hub>, callback?: msRest.ServiceCallback<Models.Hub>): Promise<Models.HubsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -87,7 +87,7 @@ export class Hubs {
    * @param callback The callback
    */
   update(resourceGroupName: string, hubName: string, parameters: Models.Hub, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Hub>): void;
-  update(resourceGroupName: string, hubName: string, parameters: Models.Hub, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Hub>): Promise<Models.HubsUpdateResponse> {
+  update(resourceGroupName: string, hubName: string, parameters: Models.Hub, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Hub>, callback?: msRest.ServiceCallback<Models.Hub>): Promise<Models.HubsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -132,7 +132,7 @@ export class Hubs {
    * @param callback The callback
    */
   get(resourceGroupName: string, hubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Hub>): void;
-  get(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Hub>): Promise<Models.HubsGetResponse> {
+  get(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Hub>, callback?: msRest.ServiceCallback<Models.Hub>): Promise<Models.HubsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -161,7 +161,7 @@ export class Hubs {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HubListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HubListResult>): Promise<Models.HubsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HubListResult>, callback?: msRest.ServiceCallback<Models.HubListResult>): Promise<Models.HubsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -186,7 +186,7 @@ export class Hubs {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HubListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HubListResult>): Promise<Models.HubsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HubListResult>, callback?: msRest.ServiceCallback<Models.HubListResult>): Promise<Models.HubsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -231,7 +231,7 @@ export class Hubs {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HubListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HubListResult>): Promise<Models.HubsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HubListResult>, callback?: msRest.ServiceCallback<Models.HubListResult>): Promise<Models.HubsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -259,7 +259,7 @@ export class Hubs {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HubListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HubListResult>): Promise<Models.HubsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HubListResult>, callback?: msRest.ServiceCallback<Models.HubListResult>): Promise<Models.HubsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

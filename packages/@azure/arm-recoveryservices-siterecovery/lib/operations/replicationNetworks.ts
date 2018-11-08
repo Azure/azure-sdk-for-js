@@ -45,7 +45,7 @@ export class ReplicationNetworks {
    * @param callback The callback
    */
   listByReplicationFabrics(fabricName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkCollection>): void;
-  listByReplicationFabrics(fabricName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkCollection>): Promise<Models.ReplicationNetworksListByReplicationFabricsResponse> {
+  listByReplicationFabrics(fabricName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkCollection>, callback?: msRest.ServiceCallback<Models.NetworkCollection>): Promise<Models.ReplicationNetworksListByReplicationFabricsResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -77,7 +77,7 @@ export class ReplicationNetworks {
    * @param callback The callback
    */
   get(fabricName: string, networkName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Network>): void;
-  get(fabricName: string, networkName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Network>): Promise<Models.ReplicationNetworksGetResponse> {
+  get(fabricName: string, networkName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Network>, callback?: msRest.ServiceCallback<Models.Network>): Promise<Models.ReplicationNetworksGetResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -104,7 +104,7 @@ export class ReplicationNetworks {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkCollection>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkCollection>): Promise<Models.ReplicationNetworksListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkCollection>, callback?: msRest.ServiceCallback<Models.NetworkCollection>): Promise<Models.ReplicationNetworksListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -132,7 +132,7 @@ export class ReplicationNetworks {
    * @param callback The callback
    */
   listByReplicationFabricsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkCollection>): void;
-  listByReplicationFabricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkCollection>): Promise<Models.ReplicationNetworksListByReplicationFabricsNextResponse> {
+  listByReplicationFabricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkCollection>, callback?: msRest.ServiceCallback<Models.NetworkCollection>): Promise<Models.ReplicationNetworksListByReplicationFabricsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -161,7 +161,7 @@ export class ReplicationNetworks {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkCollection>): Promise<Models.ReplicationNetworksListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkCollection>, callback?: msRest.ServiceCallback<Models.NetworkCollection>): Promise<Models.ReplicationNetworksListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -311,11 +311,6 @@ export const ResourceRateCardInfo: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "Name",
-                clientName: "name"
-              },
-              uberParent: "OfferTermInfo",
               className: "OfferTermInfo"
             }
           }

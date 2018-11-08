@@ -60,7 +60,7 @@ export class ApiExport {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, apiId: string, format: Models.ExportFormat, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiExportResult>): void;
-  get(resourceGroupName: string, serviceName: string, apiId: string, format: Models.ExportFormat, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApiExportResult>): Promise<Models.ApiExportGetResponse> {
+  get(resourceGroupName: string, serviceName: string, apiId: string, format: Models.ExportFormat, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiExportResult>, callback?: msRest.ServiceCallback<Models.ApiExportResult>): Promise<Models.ApiExportGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

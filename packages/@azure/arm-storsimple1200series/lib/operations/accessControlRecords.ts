@@ -48,7 +48,7 @@ export class AccessControlRecords {
    * @param callback The callback
    */
   listByManager(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessControlRecordList>): void;
-  listByManager(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccessControlRecordList>): Promise<Models.AccessControlRecordsListByManagerResponse> {
+  listByManager(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessControlRecordList>, callback?: msRest.ServiceCallback<Models.AccessControlRecordList>): Promise<Models.AccessControlRecordsListByManagerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +83,7 @@ export class AccessControlRecords {
    * @param callback The callback
    */
   get(accessControlRecordName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessControlRecord>): void;
-  get(accessControlRecordName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccessControlRecord>): Promise<Models.AccessControlRecordsGetResponse> {
+  get(accessControlRecordName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessControlRecord>, callback?: msRest.ServiceCallback<Models.AccessControlRecord>): Promise<Models.AccessControlRecordsGetResponse> {
     return this.client.sendOperationRequest(
       {
         accessControlRecordName,

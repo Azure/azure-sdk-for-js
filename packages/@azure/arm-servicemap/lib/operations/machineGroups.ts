@@ -47,7 +47,7 @@ export class MachineGroups {
    * @param callback The callback
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, options: Models.MachineGroupsListByWorkspaceOptionalParams, callback: msRest.ServiceCallback<Models.MachineGroupCollection>): void;
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: Models.MachineGroupsListByWorkspaceOptionalParams, callback?: msRest.ServiceCallback<Models.MachineGroupCollection>): Promise<Models.MachineGroupsListByWorkspaceResponse> {
+  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: Models.MachineGroupsListByWorkspaceOptionalParams | msRest.ServiceCallback<Models.MachineGroupCollection>, callback?: msRest.ServiceCallback<Models.MachineGroupCollection>): Promise<Models.MachineGroupsListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class MachineGroups {
    * @param callback The callback
    */
   create(resourceGroupName: string, workspaceName: string, machineGroup: Models.MachineGroup, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MachineGroup>): void;
-  create(resourceGroupName: string, workspaceName: string, machineGroup: Models.MachineGroup, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MachineGroup>): Promise<Models.MachineGroupsCreateResponse> {
+  create(resourceGroupName: string, workspaceName: string, machineGroup: Models.MachineGroup, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MachineGroup>, callback?: msRest.ServiceCallback<Models.MachineGroup>): Promise<Models.MachineGroupsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -118,7 +118,7 @@ export class MachineGroups {
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, machineGroupName: string, options: Models.MachineGroupsGetOptionalParams, callback: msRest.ServiceCallback<Models.MachineGroup>): void;
-  get(resourceGroupName: string, workspaceName: string, machineGroupName: string, options?: Models.MachineGroupsGetOptionalParams, callback?: msRest.ServiceCallback<Models.MachineGroup>): Promise<Models.MachineGroupsGetResponse> {
+  get(resourceGroupName: string, workspaceName: string, machineGroupName: string, options?: Models.MachineGroupsGetOptionalParams | msRest.ServiceCallback<Models.MachineGroup>, callback?: msRest.ServiceCallback<Models.MachineGroup>): Promise<Models.MachineGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -157,7 +157,7 @@ export class MachineGroups {
    * @param callback The callback
    */
   update(resourceGroupName: string, workspaceName: string, machineGroupName: string, machineGroup: Models.MachineGroup, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MachineGroup>): void;
-  update(resourceGroupName: string, workspaceName: string, machineGroupName: string, machineGroup: Models.MachineGroup, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MachineGroup>): Promise<Models.MachineGroupsUpdateResponse> {
+  update(resourceGroupName: string, workspaceName: string, machineGroupName: string, machineGroup: Models.MachineGroup, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MachineGroup>, callback?: msRest.ServiceCallback<Models.MachineGroup>): Promise<Models.MachineGroupsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -194,7 +194,7 @@ export class MachineGroups {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, workspaceName: string, machineGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, workspaceName: string, machineGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, workspaceName: string, machineGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -224,7 +224,7 @@ export class MachineGroups {
    * @param callback The callback
    */
   listByWorkspaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MachineGroupCollection>): void;
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MachineGroupCollection>): Promise<Models.MachineGroupsListByWorkspaceNextResponse> {
+  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MachineGroupCollection>, callback?: msRest.ServiceCallback<Models.MachineGroupCollection>): Promise<Models.MachineGroupsListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

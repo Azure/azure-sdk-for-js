@@ -48,7 +48,7 @@ export class EntitiesOperations {
    * @param callback The callback
    */
   search(query: string, options: Models.EntitiesSearchOptionalParams, callback: msRest.ServiceCallback<Models.SearchResponse>): void;
-  search(query: string, options?: Models.EntitiesSearchOptionalParams, callback?: msRest.ServiceCallback<Models.SearchResponse>): Promise<Models.EntitiesSearchResponse> {
+  search(query: string, options?: Models.EntitiesSearchOptionalParams | msRest.ServiceCallback<Models.SearchResponse>, callback?: msRest.ServiceCallback<Models.SearchResponse>): Promise<Models.EntitiesSearchResponse> {
     return this.client.sendOperationRequest(
       {
         query,

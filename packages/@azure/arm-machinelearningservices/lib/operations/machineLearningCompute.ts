@@ -48,7 +48,7 @@ export class MachineLearningCompute {
    * @param callback The callback
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, options: Models.MachineLearningComputeListByWorkspaceOptionalParams, callback: msRest.ServiceCallback<Models.PaginatedComputeResourcesList>): void;
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: Models.MachineLearningComputeListByWorkspaceOptionalParams, callback?: msRest.ServiceCallback<Models.PaginatedComputeResourcesList>): Promise<Models.MachineLearningComputeListByWorkspaceResponse> {
+  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: Models.MachineLearningComputeListByWorkspaceOptionalParams | msRest.ServiceCallback<Models.PaginatedComputeResourcesList>, callback?: msRest.ServiceCallback<Models.PaginatedComputeResourcesList>): Promise<Models.MachineLearningComputeListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -84,7 +84,7 @@ export class MachineLearningCompute {
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, computeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ComputeResource>): void;
-  get(resourceGroupName: string, workspaceName: string, computeName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ComputeResource>): Promise<Models.MachineLearningComputeGetResponse> {
+  get(resourceGroupName: string, workspaceName: string, computeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ComputeResource>, callback?: msRest.ServiceCallback<Models.ComputeResource>): Promise<Models.MachineLearningComputeGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -162,7 +162,7 @@ export class MachineLearningCompute {
    * @param callback The callback
    */
   listKeys(resourceGroupName: string, workspaceName: string, computeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ComputeSecretsUnion>): void;
-  listKeys(resourceGroupName: string, workspaceName: string, computeName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ComputeSecretsUnion>): Promise<Models.MachineLearningComputeListKeysResponse> {
+  listKeys(resourceGroupName: string, workspaceName: string, computeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ComputeSecretsUnion>, callback?: msRest.ServiceCallback<Models.ComputeSecretsUnion>): Promise<Models.MachineLearningComputeListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -256,7 +256,7 @@ export class MachineLearningCompute {
    * @param callback The callback
    */
   listByWorkspaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PaginatedComputeResourcesList>): void;
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PaginatedComputeResourcesList>): Promise<Models.MachineLearningComputeListByWorkspaceNextResponse> {
+  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PaginatedComputeResourcesList>, callback?: msRest.ServiceCallback<Models.PaginatedComputeResourcesList>): Promise<Models.MachineLearningComputeListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

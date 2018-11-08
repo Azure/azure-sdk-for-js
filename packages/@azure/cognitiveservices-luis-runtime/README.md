@@ -20,23 +20,24 @@ npm install @azure/cognitiveservices-luis-runtime
 
 ```ts
 import * as msRest from "ms-rest-js";
+import * as msRestNodeAuth from "ms-rest-nodeauth";
 import { LUISRuntimeClient, LUISRuntimeModels, LUISRuntimeMappers } from "@azure/cognitiveservices-luis-runtime";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
-const token = "<access_token>";
-const creds = new msRest.TokenCredentials(token);
-const client = new LUISRuntimeClient(creds, subscriptionId);
-const appId = "testappId";
-const query = "testquery";
-const timezoneOffset = 1.01;
-const verbose = true;
-const staging = true;
-const spellCheck = true;
-const bingSpellCheckSubscriptionKey = "testbingSpellCheckSubscriptionKey";
-const log = true;
-client.prediction.resolve(appId, query, timezoneOffset, verbose, staging, spellCheck, bingSpellCheckSubscriptionKey, log).then((result) => {
-  console.log("The result is:");
-  console.log(result);
+msRestNodeAuth.interactiveLogin().then((creds) => {
+  const client = new LUISRuntimeClient(creds, subscriptionId);
+  const appId = "testappId";
+  const query = "testquery";
+  const timezoneOffset = 1.01;
+  const verbose = true;
+  const staging = true;
+  const spellCheck = true;
+  const bingSpellCheckSubscriptionKey = "testbingSpellCheckSubscriptionKey";
+  const log = true;
+  client.prediction.resolve(appId, query, timezoneOffset, verbose, staging, spellCheck, bingSpellCheckSubscriptionKey, log).then((result) => {
+    console.log("The result is:");
+    console.log(result);
+  });
 }).catch((err) => {
   console.error(err);
 });
@@ -50,26 +51,36 @@ client.prediction.resolve(appId, query, timezoneOffset, verbose, staging, spellC
 <html lang="en">
   <head>
     <title>@azure/cognitiveservices-luis-runtime sample</title>
-    <script type="text/javascript" src="./node_modules/ms-rest-js/dist/msRest.browser.js"></script>
-    <script type="text/javascript" src="./dist/cognitiveservices-luis-runtime.js"></script>
+    <script src="node_modules/ms-rest-js/dist/msRest.browser.js"></script>
+    <script src="node_modules/ms-rest-browserauth/dist/msAuth.js"></script>
+    <script src="node_modules/@azure/cognitiveservices-luis-runtime/dist/cognitiveservices-luis-runtime.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
-      const token = "<access_token>";
-      const creds = new msRest.TokenCredentials(token);
-      const client = new Azure.CognitiveservicesLuisRuntime.LUISRuntimeClient(creds, subscriptionId);
-      const appId = "testappId";
-      const query = "testquery";
-      const timezoneOffset = 1.01;
-      const verbose = true;
-      const staging = true;
-      const spellCheck = true;
-      const bingSpellCheckSubscriptionKey = "testbingSpellCheckSubscriptionKey";
-      const log = true;
-      client.prediction.resolve(appId, query, timezoneOffset, verbose, staging, spellCheck, bingSpellCheckSubscriptionKey, log).then((result) => {
-        console.log("The result is:");
-        console.log(result);
-      }).catch((err) => {
-        console.error(err);
+      const authManager = new msAuth.AuthManager({
+        clientId: "<client id for your Azure AD app>",
+        tenant: "<optional tenant for your organization>"
+      });
+      authManager.finalizeLogin().then((res) => {
+        if (!res.isLoggedIn) {
+          // may cause redirects
+          authManager.login();
+        }
+        const client = new Azure.CognitiveservicesLuisRuntime.LUISRuntimeClient(res.creds, subscriptionId);
+        const appId = "testappId";
+        const query = "testquery";
+        const timezoneOffset = 1.01;
+        const verbose = true;
+        const staging = true;
+        const spellCheck = true;
+        const bingSpellCheckSubscriptionKey = "testbingSpellCheckSubscriptionKey";
+        const log = true;
+        client.prediction.resolve(appId, query, timezoneOffset, verbose, staging, spellCheck, bingSpellCheckSubscriptionKey, log).then((result) => {
+          console.log("The result is:");
+          console.log(result);
+        }).catch((err) => {
+          console.log("An error occurred:");
+          console.error(err);
+        });
       });
     </script>
   </head>

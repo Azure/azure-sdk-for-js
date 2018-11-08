@@ -53,7 +53,7 @@ export class WatcherOperations {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, automationAccountName: string, watcherName: string, parameters: Models.Watcher, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Watcher>): void;
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, watcherName: string, parameters: Models.Watcher, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Watcher>): Promise<Models.WatcherCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, automationAccountName: string, watcherName: string, parameters: Models.Watcher, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Watcher>, callback?: msRest.ServiceCallback<Models.Watcher>): Promise<Models.WatcherCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -90,7 +90,7 @@ export class WatcherOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, automationAccountName: string, watcherName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Watcher>): void;
-  get(resourceGroupName: string, automationAccountName: string, watcherName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Watcher>): Promise<Models.WatcherGetResponse> {
+  get(resourceGroupName: string, automationAccountName: string, watcherName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Watcher>, callback?: msRest.ServiceCallback<Models.Watcher>): Promise<Models.WatcherGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -129,7 +129,7 @@ export class WatcherOperations {
    * @param callback The callback
    */
   update(resourceGroupName: string, automationAccountName: string, watcherName: string, parameters: Models.WatcherUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Watcher>): void;
-  update(resourceGroupName: string, automationAccountName: string, watcherName: string, parameters: Models.WatcherUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Watcher>): Promise<Models.WatcherUpdateResponse> {
+  update(resourceGroupName: string, automationAccountName: string, watcherName: string, parameters: Models.WatcherUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Watcher>, callback?: msRest.ServiceCallback<Models.Watcher>): Promise<Models.WatcherUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -166,7 +166,7 @@ export class WatcherOperations {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, automationAccountName: string, watcherName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, automationAccountName: string, watcherName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, automationAccountName: string, watcherName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -202,7 +202,7 @@ export class WatcherOperations {
    * @param callback The callback
    */
   start(resourceGroupName: string, automationAccountName: string, watcherName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  start(resourceGroupName: string, automationAccountName: string, watcherName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  start(resourceGroupName: string, automationAccountName: string, watcherName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -238,7 +238,7 @@ export class WatcherOperations {
    * @param callback The callback
    */
   stop(resourceGroupName: string, automationAccountName: string, watcherName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  stop(resourceGroupName: string, automationAccountName: string, watcherName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  stop(resourceGroupName: string, automationAccountName: string, watcherName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -271,7 +271,7 @@ export class WatcherOperations {
    * @param callback The callback
    */
   listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: Models.WatcherListByAutomationAccountOptionalParams, callback: msRest.ServiceCallback<Models.WatcherListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.WatcherListByAutomationAccountOptionalParams, callback?: msRest.ServiceCallback<Models.WatcherListResult>): Promise<Models.WatcherListByAutomationAccountResponse> {
+  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.WatcherListByAutomationAccountOptionalParams | msRest.ServiceCallback<Models.WatcherListResult>, callback?: msRest.ServiceCallback<Models.WatcherListResult>): Promise<Models.WatcherListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -300,7 +300,7 @@ export class WatcherOperations {
    * @param callback The callback
    */
   listByAutomationAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WatcherListResult>): void;
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WatcherListResult>): Promise<Models.WatcherListByAutomationAccountNextResponse> {
+  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WatcherListResult>, callback?: msRest.ServiceCallback<Models.WatcherListResult>): Promise<Models.WatcherListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

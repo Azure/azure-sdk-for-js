@@ -47,7 +47,7 @@ export class IntegrationAccountSessions {
    * @param callback The callback
    */
   list(resourceGroupName: string, integrationAccountName: string, options: Models.IntegrationAccountSessionsListOptionalParams, callback: msRest.ServiceCallback<Models.IntegrationAccountSessionListResult>): void;
-  list(resourceGroupName: string, integrationAccountName: string, options?: Models.IntegrationAccountSessionsListOptionalParams, callback?: msRest.ServiceCallback<Models.IntegrationAccountSessionListResult>): Promise<Models.IntegrationAccountSessionsListResponse> {
+  list(resourceGroupName: string, integrationAccountName: string, options?: Models.IntegrationAccountSessionsListOptionalParams | msRest.ServiceCallback<Models.IntegrationAccountSessionListResult>, callback?: msRest.ServiceCallback<Models.IntegrationAccountSessionListResult>): Promise<Models.IntegrationAccountSessionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class IntegrationAccountSessions {
    * @param callback The callback
    */
   get(resourceGroupName: string, integrationAccountName: string, sessionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationAccountSession>): void;
-  get(resourceGroupName: string, integrationAccountName: string, sessionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IntegrationAccountSession>): Promise<Models.IntegrationAccountSessionsGetResponse> {
+  get(resourceGroupName: string, integrationAccountName: string, sessionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationAccountSession>, callback?: msRest.ServiceCallback<Models.IntegrationAccountSession>): Promise<Models.IntegrationAccountSessionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -121,7 +121,7 @@ export class IntegrationAccountSessions {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, integrationAccountName: string, sessionName: string, session: Models.IntegrationAccountSession, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationAccountSession>): void;
-  createOrUpdate(resourceGroupName: string, integrationAccountName: string, sessionName: string, session: Models.IntegrationAccountSession, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IntegrationAccountSession>): Promise<Models.IntegrationAccountSessionsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, integrationAccountName: string, sessionName: string, session: Models.IntegrationAccountSession, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationAccountSession>, callback?: msRest.ServiceCallback<Models.IntegrationAccountSession>): Promise<Models.IntegrationAccountSessionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +158,7 @@ export class IntegrationAccountSessions {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, integrationAccountName: string, sessionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, integrationAccountName: string, sessionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, integrationAccountName: string, sessionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -188,7 +188,7 @@ export class IntegrationAccountSessions {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationAccountSessionListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IntegrationAccountSessionListResult>): Promise<Models.IntegrationAccountSessionsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationAccountSessionListResult>, callback?: msRest.ServiceCallback<Models.IntegrationAccountSessionListResult>): Promise<Models.IntegrationAccountSessionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

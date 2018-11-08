@@ -1453,11 +1453,6 @@ export const ManagedRuleSets: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "ruleSetType",
-                clientName: "ruleSetType"
-              },
-              uberParent: "ManagedRuleSet",
               className: "ManagedRuleSet"
             }
           }

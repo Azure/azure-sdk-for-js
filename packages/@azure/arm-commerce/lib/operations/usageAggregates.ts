@@ -47,7 +47,7 @@ export class UsageAggregates {
    * @param callback The callback
    */
   list(reportedStartTime: Date | string, reportedEndTime: Date | string, options: Models.UsageAggregatesListOptionalParams, callback: msRest.ServiceCallback<Models.UsageAggregationListResult>): void;
-  list(reportedStartTime: Date | string, reportedEndTime: Date | string, options?: Models.UsageAggregatesListOptionalParams, callback?: msRest.ServiceCallback<Models.UsageAggregationListResult>): Promise<Models.UsageAggregatesListResponse> {
+  list(reportedStartTime: Date | string, reportedEndTime: Date | string, options?: Models.UsageAggregatesListOptionalParams | msRest.ServiceCallback<Models.UsageAggregationListResult>, callback?: msRest.ServiceCallback<Models.UsageAggregationListResult>): Promise<Models.UsageAggregatesListResponse> {
     return this.client.sendOperationRequest(
       {
         reportedStartTime,
@@ -76,7 +76,7 @@ export class UsageAggregates {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsageAggregationListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UsageAggregationListResult>): Promise<Models.UsageAggregatesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageAggregationListResult>, callback?: msRest.ServiceCallback<Models.UsageAggregationListResult>): Promise<Models.UsageAggregatesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

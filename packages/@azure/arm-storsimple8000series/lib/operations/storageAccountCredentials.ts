@@ -48,7 +48,7 @@ export class StorageAccountCredentials {
    * @param callback The callback
    */
   listByManager(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageAccountCredentialList>): void;
-  listByManager(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StorageAccountCredentialList>): Promise<Models.StorageAccountCredentialsListByManagerResponse> {
+  listByManager(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccountCredentialList>, callback?: msRest.ServiceCallback<Models.StorageAccountCredentialList>): Promise<Models.StorageAccountCredentialsListByManagerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +83,7 @@ export class StorageAccountCredentials {
    * @param callback The callback
    */
   get(storageAccountCredentialName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageAccountCredential>): void;
-  get(storageAccountCredentialName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StorageAccountCredential>): Promise<Models.StorageAccountCredentialsGetResponse> {
+  get(storageAccountCredentialName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccountCredential>, callback?: msRest.ServiceCallback<Models.StorageAccountCredential>): Promise<Models.StorageAccountCredentialsGetResponse> {
     return this.client.sendOperationRequest(
       {
         storageAccountCredentialName,

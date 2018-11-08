@@ -13,7 +13,7 @@ import * as msRest from "ms-rest-js";
 import * as msRestAzure from "ms-rest-azure-js";
 
 const packageName = "@azure/arm-containerregistry";
-const packageVersion = "1.0.0";
+const packageVersion = "0.1.0";
 
 export class ContainerRegistryManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;

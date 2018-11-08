@@ -47,7 +47,7 @@ export class Settings {
    * @param callback The callback
    */
   list(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppVersionSettingObject[]>): void;
-  list(appId: string, versionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AppVersionSettingObject[]>): Promise<Models.SettingsListResponse> {
+  list(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppVersionSettingObject[]>, callback?: msRest.ServiceCallback<Models.AppVersionSettingObject[]>): Promise<Models.SettingsListResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -82,7 +82,7 @@ export class Settings {
    * @param callback The callback
    */
   update(appId: string, versionId: string, listOfAppVersionSettingObject: Models.AppVersionSettingObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  update(appId: string, versionId: string, listOfAppVersionSettingObject: Models.AppVersionSettingObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.SettingsUpdateResponse> {
+  update(appId: string, versionId: string, listOfAppVersionSettingObject: Models.AppVersionSettingObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.SettingsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         appId,

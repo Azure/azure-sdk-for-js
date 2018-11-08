@@ -51,7 +51,7 @@ export class IscsiDisks {
    * @param callback The callback
    */
   listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ISCSIDiskList>): void;
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ISCSIDiskList>): Promise<Models.IscsiDisksListByDeviceResponse> {
+  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ISCSIDiskList>, callback?: msRest.ServiceCallback<Models.ISCSIDiskList>): Promise<Models.IscsiDisksListByDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -90,7 +90,7 @@ export class IscsiDisks {
    * @param callback The callback
    */
   listByIscsiServer(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ISCSIDiskList>): void;
-  listByIscsiServer(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ISCSIDiskList>): Promise<Models.IscsiDisksListByIscsiServerResponse> {
+  listByIscsiServer(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ISCSIDiskList>, callback?: msRest.ServiceCallback<Models.ISCSIDiskList>): Promise<Models.IscsiDisksListByIscsiServerResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -133,7 +133,7 @@ export class IscsiDisks {
    * @param callback The callback
    */
   get(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ISCSIDisk>): void;
-  get(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ISCSIDisk>): Promise<Models.IscsiDisksGetResponse> {
+  get(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ISCSIDisk>, callback?: msRest.ServiceCallback<Models.ISCSIDisk>): Promise<Models.IscsiDisksGetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -208,7 +208,7 @@ export class IscsiDisks {
    * @param callback The callback
    */
   listMetrics(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, options: Models.IscsiDisksListMetricsOptionalParams, callback: msRest.ServiceCallback<Models.MetricList>): void;
-  listMetrics(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, options?: Models.IscsiDisksListMetricsOptionalParams, callback?: msRest.ServiceCallback<Models.MetricList>): Promise<Models.IscsiDisksListMetricsResponse> {
+  listMetrics(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, options?: Models.IscsiDisksListMetricsOptionalParams | msRest.ServiceCallback<Models.MetricList>, callback?: msRest.ServiceCallback<Models.MetricList>): Promise<Models.IscsiDisksListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -252,7 +252,7 @@ export class IscsiDisks {
    * @param callback The callback
    */
   listMetricDefinition(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricDefinitionList>): void;
-  listMetricDefinition(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricDefinitionList>): Promise<Models.IscsiDisksListMetricDefinitionResponse> {
+  listMetricDefinition(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionList>, callback?: msRest.ServiceCallback<Models.MetricDefinitionList>): Promise<Models.IscsiDisksListMetricDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,

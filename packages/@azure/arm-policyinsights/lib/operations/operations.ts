@@ -41,7 +41,7 @@ export class Operations {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationsListResults>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationsListResults>): Promise<Models.OperationsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationsListResults>, callback?: msRest.ServiceCallback<Models.OperationsListResults>): Promise<Models.OperationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options

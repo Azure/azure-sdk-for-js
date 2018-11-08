@@ -42,7 +42,7 @@ export class ResourceProviderCommon {
    * @param callback The callback
    */
   getSubscriptionQuota(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserSubscriptionQuotaListResult>): void;
-  getSubscriptionQuota(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UserSubscriptionQuotaListResult>): Promise<Models.ResourceProviderCommonGetSubscriptionQuotaResponse> {
+  getSubscriptionQuota(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserSubscriptionQuotaListResult>, callback?: msRest.ServiceCallback<Models.UserSubscriptionQuotaListResult>): Promise<Models.ResourceProviderCommonGetSubscriptionQuotaResponse> {
     return this.client.sendOperationRequest(
       {
         options

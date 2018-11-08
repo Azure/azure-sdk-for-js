@@ -28,8 +28,6 @@ export {
   ConsumerGroup,
   MessagingRegions,
   MessagingRegionsProperties,
-  MessagingPlan,
-  IpFilterRule,
-  VirtualNetworkRule
+  MessagingPlan
 } from "../models/mappers";
 

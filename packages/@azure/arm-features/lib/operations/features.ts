@@ -41,7 +41,7 @@ export class Features {
    * @param callback The callback
    */
   listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>): Promise<Models.FeaturesListAllResponse> {
+  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureOperationsListResult>, callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>): Promise<Models.FeaturesListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -69,7 +69,7 @@ export class Features {
    * @param callback The callback
    */
   list(resourceProviderNamespace: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
-  list(resourceProviderNamespace: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>): Promise<Models.FeaturesListResponse> {
+  list(resourceProviderNamespace: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureOperationsListResult>, callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>): Promise<Models.FeaturesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceProviderNamespace,
@@ -100,7 +100,7 @@ export class Features {
    * @param callback The callback
    */
   get(resourceProviderNamespace: string, featureName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureResult>): void;
-  get(resourceProviderNamespace: string, featureName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FeatureResult>): Promise<Models.FeaturesGetResponse> {
+  get(resourceProviderNamespace: string, featureName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureResult>, callback?: msRest.ServiceCallback<Models.FeatureResult>): Promise<Models.FeaturesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceProviderNamespace,
@@ -132,7 +132,7 @@ export class Features {
    * @param callback The callback
    */
   register(resourceProviderNamespace: string, featureName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureResult>): void;
-  register(resourceProviderNamespace: string, featureName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FeatureResult>): Promise<Models.FeaturesRegisterResponse> {
+  register(resourceProviderNamespace: string, featureName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureResult>, callback?: msRest.ServiceCallback<Models.FeatureResult>): Promise<Models.FeaturesRegisterResponse> {
     return this.client.sendOperationRequest(
       {
         resourceProviderNamespace,
@@ -161,7 +161,7 @@ export class Features {
    * @param callback The callback
    */
   listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>): Promise<Models.FeaturesListAllNextResponse> {
+  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureOperationsListResult>, callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>): Promise<Models.FeaturesListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -190,7 +190,7 @@ export class Features {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>): Promise<Models.FeaturesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureOperationsListResult>, callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>): Promise<Models.FeaturesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

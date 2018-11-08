@@ -81,7 +81,7 @@ export class Clusters {
    * @param callback The callback
    */
   update(resourceGroupName: string, workspaceName: string, clusterName: string, options: Models.ClustersUpdateOptionalParams, callback: msRest.ServiceCallback<Models.Cluster>): void;
-  update(resourceGroupName: string, workspaceName: string, clusterName: string, options?: Models.ClustersUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.Cluster>): Promise<Models.ClustersUpdateResponse> {
+  update(resourceGroupName: string, workspaceName: string, clusterName: string, options?: Models.ClustersUpdateOptionalParams | msRest.ServiceCallback<Models.Cluster>, callback?: msRest.ServiceCallback<Models.Cluster>): Promise<Models.ClustersUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -146,7 +146,7 @@ export class Clusters {
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Cluster>): void;
-  get(resourceGroupName: string, workspaceName: string, clusterName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Cluster>): Promise<Models.ClustersGetResponse> {
+  get(resourceGroupName: string, workspaceName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Cluster>, callback?: msRest.ServiceCallback<Models.Cluster>): Promise<Models.ClustersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -194,7 +194,7 @@ export class Clusters {
    * @param callback The callback
    */
   listRemoteLoginInformation(resourceGroupName: string, workspaceName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>): void;
-  listRemoteLoginInformation(resourceGroupName: string, workspaceName: string, clusterName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>): Promise<Models.ClustersListRemoteLoginInformationResponse> {
+  listRemoteLoginInformation(resourceGroupName: string, workspaceName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteLoginInformationListResult>, callback?: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>): Promise<Models.ClustersListRemoteLoginInformationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -233,7 +233,7 @@ export class Clusters {
    * @param callback The callback
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, options: Models.ClustersListByWorkspaceOptionalParams, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: Models.ClustersListByWorkspaceOptionalParams, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListByWorkspaceResponse> {
+  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: Models.ClustersListByWorkspaceOptionalParams | msRest.ServiceCallback<Models.ClusterListResult>, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -312,7 +312,7 @@ export class Clusters {
    * @param callback The callback
    */
   listRemoteLoginInformationNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>): void;
-  listRemoteLoginInformationNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>): Promise<Models.ClustersListRemoteLoginInformationNextResponse> {
+  listRemoteLoginInformationNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteLoginInformationListResult>, callback?: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>): Promise<Models.ClustersListRemoteLoginInformationNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -340,7 +340,7 @@ export class Clusters {
    * @param callback The callback
    */
   listByWorkspaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListByWorkspaceNextResponse> {
+  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

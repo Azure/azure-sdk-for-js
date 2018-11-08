@@ -27,70 +27,37 @@ export class Service {
   }
 
   /**
-   * Gets the information about all services of a given service of an application. The information
-   * includes the runtime properties of the service instance.
-   * @summary Gets services of a given application.
+   * Gets the information about the service resource with the given name. The information include the
+   * description and other properties of the service.
+   * @summary Gets the service resource with the given name.
    * @param resourceGroupName Azure resource group name
-   * @param applicationName The identity of the application.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ServiceListByApplicationNameResponse>
-   */
-  listByApplicationName(resourceGroupName: string, applicationName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceListByApplicationNameResponse>;
-  /**
-   * @param resourceGroupName Azure resource group name
-   * @param applicationName The identity of the application.
-   * @param callback The callback
-   */
-  listByApplicationName(resourceGroupName: string, applicationName: string, callback: msRest.ServiceCallback<Models.ServiceList>): void;
-  /**
-   * @param resourceGroupName Azure resource group name
-   * @param applicationName The identity of the application.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listByApplicationName(resourceGroupName: string, applicationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceList>): void;
-  listByApplicationName(resourceGroupName: string, applicationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceList>): Promise<Models.ServiceListByApplicationNameResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        applicationName,
-        options
-      },
-      listByApplicationNameOperationSpec,
-      callback) as Promise<Models.ServiceListByApplicationNameResponse>;
-  }
-
-  /**
-   * The operation returns the properties of the service.
-   * @summary Gets the properties of the service.
-   * @param resourceGroupName Azure resource group name
-   * @param applicationName The identity of the application.
-   * @param serviceName The identity of the service.
+   * @param applicationResourceName The identity of the application.
+   * @param serviceResourceName The identity of the service.
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceGetResponse>
    */
-  get(resourceGroupName: string, applicationName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceGetResponse>;
+  get(resourceGroupName: string, applicationResourceName: string, serviceResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceGetResponse>;
   /**
    * @param resourceGroupName Azure resource group name
-   * @param applicationName The identity of the application.
-   * @param serviceName The identity of the service.
+   * @param applicationResourceName The identity of the application.
+   * @param serviceResourceName The identity of the service.
    * @param callback The callback
    */
-  get(resourceGroupName: string, applicationName: string, serviceName: string, callback: msRest.ServiceCallback<Models.ServiceResourceDescription>): void;
+  get(resourceGroupName: string, applicationResourceName: string, serviceResourceName: string, callback: msRest.ServiceCallback<Models.ServiceResourceDescription>): void;
   /**
    * @param resourceGroupName Azure resource group name
-   * @param applicationName The identity of the application.
-   * @param serviceName The identity of the service.
+   * @param applicationResourceName The identity of the application.
+   * @param serviceResourceName The identity of the service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, applicationName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceResourceDescription>): void;
-  get(resourceGroupName: string, applicationName: string, serviceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceResourceDescription>): Promise<Models.ServiceGetResponse> {
+  get(resourceGroupName: string, applicationResourceName: string, serviceResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceResourceDescription>): void;
+  get(resourceGroupName: string, applicationResourceName: string, serviceResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceResourceDescription>, callback?: msRest.ServiceCallback<Models.ServiceResourceDescription>): Promise<Models.ServiceGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        applicationName,
-        serviceName,
+        applicationResourceName,
+        serviceResourceName,
         options
       },
       getOperationSpec,
@@ -98,71 +65,80 @@ export class Service {
   }
 
   /**
-   * Gets the information about all services of a given service of an application. The information
-   * includes the runtime properties of the service instance.
-   * @summary Gets services of a given application.
+   * Gets the information about all services of an application resource. The information include the
+   * description and other properties of the Service.
+   * @summary Lists all the service resources.
+   * @param resourceGroupName Azure resource group name
+   * @param applicationResourceName The identity of the application.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ServiceListResponse>
+   */
+  list(resourceGroupName: string, applicationResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceListResponse>;
+  /**
+   * @param resourceGroupName Azure resource group name
+   * @param applicationResourceName The identity of the application.
+   * @param callback The callback
+   */
+  list(resourceGroupName: string, applicationResourceName: string, callback: msRest.ServiceCallback<Models.ServiceResourceDescriptionList>): void;
+  /**
+   * @param resourceGroupName Azure resource group name
+   * @param applicationResourceName The identity of the application.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  list(resourceGroupName: string, applicationResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceResourceDescriptionList>): void;
+  list(resourceGroupName: string, applicationResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.ServiceResourceDescriptionList>): Promise<Models.ServiceListResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        applicationResourceName,
+        options
+      },
+      listOperationSpec,
+      callback) as Promise<Models.ServiceListResponse>;
+  }
+
+  /**
+   * Gets the information about all services of an application resource. The information include the
+   * description and other properties of the Service.
+   * @summary Lists all the service resources.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ServiceListByApplicationNameNextResponse>
+   * @returns Promise<Models.ServiceListNextResponse>
    */
-  listByApplicationNameNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceListByApplicationNameNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByApplicationNameNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ServiceList>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ServiceResourceDescriptionList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByApplicationNameNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceList>): void;
-  listByApplicationNameNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceList>): Promise<Models.ServiceListByApplicationNameNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceResourceDescriptionList>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.ServiceResourceDescriptionList>): Promise<Models.ServiceListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
-      listByApplicationNameNextOperationSpec,
-      callback) as Promise<Models.ServiceListByApplicationNameNextResponse>;
+      listNextOperationSpec,
+      callback) as Promise<Models.ServiceListNextResponse>;
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const listByApplicationNameOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationName}/services",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.applicationName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ServiceList
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationName}/services/{serviceName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}/services/{serviceResourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.applicationName,
-    Parameters.serviceName
+    Parameters.applicationResourceName,
+    Parameters.serviceResourceName
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -175,13 +151,38 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ServiceResourceDescription
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorModel
     }
   },
   serializer
 };
 
-const listByApplicationNameNextOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}/services",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.applicationResourceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ServiceResourceDescriptionList
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  serializer
+};
+
+const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -193,10 +194,10 @@ const listByApplicationNameNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceList
+      bodyMapper: Mappers.ServiceResourceDescriptionList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorModel
     }
   },
   serializer

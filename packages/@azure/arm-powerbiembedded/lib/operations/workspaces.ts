@@ -47,7 +47,7 @@ export class Workspaces {
    * @param callback The callback
    */
   list(resourceGroupName: string, workspaceCollectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceList>): void;
-  list(resourceGroupName: string, workspaceCollectionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkspaceList>): Promise<Models.WorkspacesListResponse> {
+  list(resourceGroupName: string, workspaceCollectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceList>, callback?: msRest.ServiceCallback<Models.WorkspaceList>): Promise<Models.WorkspacesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

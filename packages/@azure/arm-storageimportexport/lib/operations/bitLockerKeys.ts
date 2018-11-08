@@ -50,7 +50,7 @@ export class BitLockerKeys {
    * @param callback The callback
    */
   list(jobName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GetBitLockerKeysResponse>): void;
-  list(jobName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.GetBitLockerKeysResponse>): Promise<Models.BitLockerKeysListResponse> {
+  list(jobName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GetBitLockerKeysResponse>, callback?: msRest.ServiceCallback<Models.GetBitLockerKeysResponse>): Promise<Models.BitLockerKeysListResponse> {
     return this.client.sendOperationRequest(
       {
         jobName,

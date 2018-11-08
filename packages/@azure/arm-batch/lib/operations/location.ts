@@ -44,7 +44,7 @@ export class Location {
    * @param callback The callback
    */
   getQuotas(locationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchLocationQuota>): void;
-  getQuotas(locationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BatchLocationQuota>): Promise<Models.LocationGetQuotasResponse> {
+  getQuotas(locationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchLocationQuota>, callback?: msRest.ServiceCallback<Models.BatchLocationQuota>): Promise<Models.LocationGetQuotasResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
@@ -75,7 +75,7 @@ export class Location {
    * @param callback The callback
    */
   checkNameAvailability(locationName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
-  checkNameAvailability(locationName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.LocationCheckNameAvailabilityResponse> {
+  checkNameAvailability(locationName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.LocationCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,

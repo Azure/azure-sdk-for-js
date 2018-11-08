@@ -50,7 +50,7 @@ export class Pattern {
    * @param callback The callback
    */
   addPattern(appId: string, versionId: string, pattern: Models.PatternRuleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternRuleInfo>): void;
-  addPattern(appId: string, versionId: string, pattern: Models.PatternRuleCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternRuleInfo>): Promise<Models.PatternAddPatternResponse> {
+  addPattern(appId: string, versionId: string, pattern: Models.PatternRuleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PatternRuleInfo>, callback?: msRest.ServiceCallback<Models.PatternRuleInfo>): Promise<Models.PatternAddPatternResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -83,7 +83,7 @@ export class Pattern {
    * @param callback The callback
    */
   getPatterns(appId: string, versionId: string, options: Models.PatternGetPatternsOptionalParams, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
-  getPatterns(appId: string, versionId: string, options?: Models.PatternGetPatternsOptionalParams, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): Promise<Models.PatternGetPatternsResponse> {
+  getPatterns(appId: string, versionId: string, options?: Models.PatternGetPatternsOptionalParams | msRest.ServiceCallback<Models.PatternRuleInfo[]>, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): Promise<Models.PatternGetPatternsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -118,7 +118,7 @@ export class Pattern {
    * @param callback The callback
    */
   updatePatterns(appId: string, versionId: string, patterns: Models.PatternRuleUpdateObject[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
-  updatePatterns(appId: string, versionId: string, patterns: Models.PatternRuleUpdateObject[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): Promise<Models.PatternUpdatePatternsResponse> {
+  updatePatterns(appId: string, versionId: string, patterns: Models.PatternRuleUpdateObject[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PatternRuleInfo[]>, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): Promise<Models.PatternUpdatePatternsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -154,7 +154,7 @@ export class Pattern {
    * @param callback The callback
    */
   batchAddPatterns(appId: string, versionId: string, patterns: Models.PatternRuleCreateObject[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
-  batchAddPatterns(appId: string, versionId: string, patterns: Models.PatternRuleCreateObject[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): Promise<Models.PatternBatchAddPatternsResponse> {
+  batchAddPatterns(appId: string, versionId: string, patterns: Models.PatternRuleCreateObject[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PatternRuleInfo[]>, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): Promise<Models.PatternBatchAddPatternsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -190,7 +190,7 @@ export class Pattern {
    * @param callback The callback
    */
   deletePatterns(appId: string, versionId: string, patternIds: string[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePatterns(appId: string, versionId: string, patternIds: string[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.PatternDeletePatternsResponse> {
+  deletePatterns(appId: string, versionId: string, patternIds: string[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.PatternDeletePatternsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -229,7 +229,7 @@ export class Pattern {
    * @param callback The callback
    */
   updatePattern(appId: string, versionId: string, patternId: string, pattern: Models.PatternRuleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternRuleInfo>): void;
-  updatePattern(appId: string, versionId: string, patternId: string, pattern: Models.PatternRuleUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternRuleInfo>): Promise<Models.PatternUpdatePatternResponse> {
+  updatePattern(appId: string, versionId: string, patternId: string, pattern: Models.PatternRuleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PatternRuleInfo>, callback?: msRest.ServiceCallback<Models.PatternRuleInfo>): Promise<Models.PatternUpdatePatternResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -266,7 +266,7 @@ export class Pattern {
    * @param callback The callback
    */
   deletePattern(appId: string, versionId: string, patternId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePattern(appId: string, versionId: string, patternId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.PatternDeletePatternResponse> {
+  deletePattern(appId: string, versionId: string, patternId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.PatternDeletePatternResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -302,7 +302,7 @@ export class Pattern {
    * @param callback The callback
    */
   getIntentPatterns(appId: string, versionId: string, intentId: string, options: Models.PatternGetIntentPatternsOptionalParams, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
-  getIntentPatterns(appId: string, versionId: string, intentId: string, options?: Models.PatternGetIntentPatternsOptionalParams, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): Promise<Models.PatternGetIntentPatternsResponse> {
+  getIntentPatterns(appId: string, versionId: string, intentId: string, options?: Models.PatternGetIntentPatternsOptionalParams | msRest.ServiceCallback<Models.PatternRuleInfo[]>, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): Promise<Models.PatternGetIntentPatternsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,

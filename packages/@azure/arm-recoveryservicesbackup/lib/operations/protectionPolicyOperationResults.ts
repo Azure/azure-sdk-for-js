@@ -56,7 +56,7 @@ export class ProtectionPolicyOperationResults {
    * @param callback The callback
    */
   get(vaultName: string, resourceGroupName: string, policyName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectionPolicyResource>): void;
-  get(vaultName: string, resourceGroupName: string, policyName: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProtectionPolicyResource>): Promise<Models.ProtectionPolicyOperationResultsGetResponse> {
+  get(vaultName: string, resourceGroupName: string, policyName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionPolicyResource>, callback?: msRest.ServiceCallback<Models.ProtectionPolicyResource>): Promise<Models.ProtectionPolicyOperationResultsGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,

@@ -1911,11 +1911,6 @@ export const SettingsList: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "kind",
-                clientName: "kind"
-              },
-              uberParent: "Setting",
               className: "Setting"
             }
           }
@@ -2150,11 +2145,6 @@ export const ExternalSecuritySolutionList: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "kind",
-                clientName: "kind"
-              },
-              uberParent: "ExternalSecuritySolution",
               className: "ExternalSecuritySolution"
             }
           }

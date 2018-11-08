@@ -534,11 +534,6 @@ export const ComputeResource: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "computeType",
-            clientName: "computeType"
-          },
-          uberParent: "Compute",
           className: "Compute"
         }
       }

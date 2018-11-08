@@ -50,7 +50,7 @@ export class Usages {
    * @param callback The callback
    */
   listByVaults(resourceGroupName: string, vaultName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VaultUsageList>): void;
-  listByVaults(resourceGroupName: string, vaultName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VaultUsageList>): Promise<Models.UsagesListByVaultsResponse> {
+  listByVaults(resourceGroupName: string, vaultName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultUsageList>, callback?: msRest.ServiceCallback<Models.VaultUsageList>): Promise<Models.UsagesListByVaultsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

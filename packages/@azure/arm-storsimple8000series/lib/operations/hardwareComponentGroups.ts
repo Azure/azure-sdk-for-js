@@ -51,7 +51,7 @@ export class HardwareComponentGroups {
    * @param callback The callback
    */
   listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HardwareComponentGroupList>): void;
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HardwareComponentGroupList>): Promise<Models.HardwareComponentGroupsListByDeviceResponse> {
+  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HardwareComponentGroupList>, callback?: msRest.ServiceCallback<Models.HardwareComponentGroupList>): Promise<Models.HardwareComponentGroupsListByDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,

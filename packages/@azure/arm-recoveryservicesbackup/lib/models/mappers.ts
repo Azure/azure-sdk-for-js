@@ -294,11 +294,6 @@ export const AzureFileShareProtectionPolicy: msRest.CompositeMapper = {
         serializedName: "schedulePolicy",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "schedulePolicyType",
-            clientName: "schedulePolicyType"
-          },
-          uberParent: "SchedulePolicy",
           className: "SchedulePolicy"
         }
       },
@@ -306,11 +301,6 @@ export const AzureFileShareProtectionPolicy: msRest.CompositeMapper = {
         serializedName: "retentionPolicy",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "retentionPolicyType",
-            clientName: "retentionPolicyType"
-          },
-          uberParent: "RetentionPolicy",
           className: "RetentionPolicy"
         }
       },
@@ -921,11 +911,6 @@ export const AzureIaaSVMProtectionPolicy: msRest.CompositeMapper = {
         serializedName: "schedulePolicy",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "schedulePolicyType",
-            clientName: "schedulePolicyType"
-          },
-          uberParent: "SchedulePolicy",
           className: "SchedulePolicy"
         }
       },
@@ -933,11 +918,6 @@ export const AzureIaaSVMProtectionPolicy: msRest.CompositeMapper = {
         serializedName: "retentionPolicy",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "retentionPolicyType",
-            clientName: "retentionPolicyType"
-          },
-          uberParent: "RetentionPolicy",
           className: "RetentionPolicy"
         }
       },
@@ -1114,11 +1094,6 @@ export const AzureSqlProtectionPolicy: msRest.CompositeMapper = {
         serializedName: "retentionPolicy",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "retentionPolicyType",
-            clientName: "retentionPolicyType"
-          },
-          uberParent: "RetentionPolicy",
           className: "RetentionPolicy"
         }
       }
@@ -1519,11 +1494,6 @@ export const SubProtectionPolicy: msRest.CompositeMapper = {
         serializedName: "schedulePolicy",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "schedulePolicyType",
-            clientName: "schedulePolicyType"
-          },
-          uberParent: "SchedulePolicy",
           className: "SchedulePolicy"
         }
       },
@@ -1531,11 +1501,6 @@ export const SubProtectionPolicy: msRest.CompositeMapper = {
         serializedName: "retentionPolicy",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "retentionPolicyType",
-            clientName: "retentionPolicyType"
-          },
-          uberParent: "RetentionPolicy",
           className: "RetentionPolicy"
         }
       }
@@ -3081,11 +3046,6 @@ export const JobResource: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "jobType",
-            clientName: "jobType"
-          },
-          uberParent: "Job",
           className: "Job"
         }
       }
@@ -3660,11 +3620,6 @@ export const MabProtectionPolicy: msRest.CompositeMapper = {
         serializedName: "schedulePolicy",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "schedulePolicyType",
-            clientName: "schedulePolicyType"
-          },
-          uberParent: "SchedulePolicy",
           className: "SchedulePolicy"
         }
       },
@@ -3672,11 +3627,6 @@ export const MabProtectionPolicy: msRest.CompositeMapper = {
         serializedName: "retentionPolicy",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "retentionPolicyType",
-            clientName: "retentionPolicyType"
-          },
-          uberParent: "RetentionPolicy",
           className: "RetentionPolicy"
         }
       }
@@ -3800,11 +3750,6 @@ export const OperationResultInfoBaseResource: msRest.CompositeMapper = {
         serializedName: "operation",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "objectType",
-            clientName: "objectType"
-          },
-          uberParent: "OperationResultInfoBase",
           className: "OperationResultInfoBase"
         }
       }
@@ -3961,11 +3906,6 @@ export const ProtectedItemResource: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "protectedItemType",
-            clientName: "protectedItemType"
-          },
-          uberParent: "ProtectedItem",
           className: "ProtectedItem"
         }
       }
@@ -4018,11 +3958,6 @@ export const ProtectionIntentResource: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "protectionIntentItemType",
-            clientName: "protectionIntentItemType"
-          },
-          uberParent: "ProtectionIntent",
           className: "ProtectionIntent"
         }
       }
@@ -4069,11 +4004,6 @@ export const ProtectionPolicyResource: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "backupManagementType",
-            clientName: "backupManagementType"
-          },
-          uberParent: "ProtectionPolicy",
           className: "ProtectionPolicy"
         }
       }
@@ -4208,11 +4138,6 @@ export const ValidateRestoreOperationRequest: msRest.CompositeMapper = {
         serializedName: "restoreRequest",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "objectType",
-            clientName: "objectType"
-          },
-          uberParent: "RestoreRequest",
           className: "RestoreRequest"
         }
       }
@@ -5725,11 +5650,6 @@ export const BackupEngineBaseResource: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "backupEngineType",
-            clientName: "backupEngineType"
-          },
-          uberParent: "BackupEngineBase",
           className: "BackupEngineBase"
         }
       }
@@ -5748,11 +5668,6 @@ export const BackupRequestResource: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "objectType",
-            clientName: "objectType"
-          },
-          uberParent: "BackupRequest",
           className: "BackupRequest"
         }
       }
@@ -6662,11 +6577,6 @@ export const ILRRequestResource: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "objectType",
-            clientName: "objectType"
-          },
-          uberParent: "ILRRequest",
           className: "ILRRequest"
         }
       }
@@ -6933,11 +6843,6 @@ export const OperationStatus: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "objectType",
-            clientName: "objectType"
-          },
-          uberParent: "OperationStatusExtendedInfo",
           className: "OperationStatusExtendedInfo"
         }
       }
@@ -7030,11 +6935,6 @@ export const ProtectableContainerResource: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "protectableContainerType",
-            clientName: "protectableContainerType"
-          },
-          uberParent: "ProtectableContainer",
           className: "ProtectableContainer"
         }
       }
@@ -7053,11 +6953,6 @@ export const ProtectionContainerResource: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "containerType",
-            clientName: "containerType"
-          },
-          uberParent: "ProtectionContainer",
           className: "ProtectionContainer"
         }
       }
@@ -7076,11 +6971,6 @@ export const RecoveryPointResource: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "objectType",
-            clientName: "objectType"
-          },
-          uberParent: "RecoveryPoint",
           className: "RecoveryPoint"
         }
       }
@@ -7099,11 +6989,6 @@ export const RestoreRequestResource: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "objectType",
-            clientName: "objectType"
-          },
-          uberParent: "RestoreRequest",
           className: "RestoreRequest"
         }
       }
@@ -7150,11 +7035,6 @@ export const WorkloadItemResource: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "workloadItemType",
-            clientName: "workloadItemType"
-          },
-          uberParent: "WorkloadItem",
           className: "WorkloadItem"
         }
       }
@@ -7173,11 +7053,6 @@ export const WorkloadProtectableItemResource: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "protectableItemType",
-            clientName: "protectableItemType"
-          },
-          uberParent: "WorkloadProtectableItem",
           className: "WorkloadProtectableItem"
         }
       }

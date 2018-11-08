@@ -13,25 +13,15 @@ import * as msRest from "ms-rest-js";
 import * as msRestAzure from "ms-rest-azure-js";
 
 const packageName = "@azure/arm-operations";
-const packageVersion = "1.0.0-preview";
+const packageVersion = "0.1.0";
 
 export class OperationsManagementClientContext extends msRestAzure.AzureServiceClient {
-
   credentials: msRest.ServiceClientCredentials;
-
   subscriptionId: string;
-
-  apiVersion: string;
-
+  apiVersion?: string;
   providerName: string;
-
   resourceType: string;
-
   resourceName: string;
-
-  acceptLanguage: string;
-
-  longRunningOperationRetryTimeout: number;
 
   /**
    * Initializes a new instance of the OperationsManagementClient class.
@@ -63,6 +53,11 @@ export class OperationsManagementClientContext extends msRestAzure.AzureServiceC
     if (!options) {
       options = {};
     }
+    if(!options.userAgent) {
+      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
+      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
+    }
+
     super(credentials, options);
 
     this.apiVersion = '2015-11-01-preview';
@@ -76,7 +71,6 @@ export class OperationsManagementClientContext extends msRestAzure.AzureServiceC
     this.resourceType = resourceType;
     this.resourceName = resourceName;
 
-    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }

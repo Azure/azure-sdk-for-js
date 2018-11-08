@@ -50,7 +50,7 @@ export class MarketplaceAgreements {
    * @param callback The callback
    */
   get(publisherId: string, offerId: string, planId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgreementTerms>): void;
-  get(publisherId: string, offerId: string, planId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AgreementTerms>): Promise<Models.MarketplaceAgreementsGetResponse> {
+  get(publisherId: string, offerId: string, planId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgreementTerms>, callback?: msRest.ServiceCallback<Models.AgreementTerms>): Promise<Models.MarketplaceAgreementsGetResponse> {
     return this.client.sendOperationRequest(
       {
         publisherId,
@@ -89,7 +89,7 @@ export class MarketplaceAgreements {
    * @param callback The callback
    */
   create(publisherId: string, offerId: string, planId: string, parameters: Models.AgreementTerms, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgreementTerms>): void;
-  create(publisherId: string, offerId: string, planId: string, parameters: Models.AgreementTerms, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AgreementTerms>): Promise<Models.MarketplaceAgreementsCreateResponse> {
+  create(publisherId: string, offerId: string, planId: string, parameters: Models.AgreementTerms, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgreementTerms>, callback?: msRest.ServiceCallback<Models.AgreementTerms>): Promise<Models.MarketplaceAgreementsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         publisherId,

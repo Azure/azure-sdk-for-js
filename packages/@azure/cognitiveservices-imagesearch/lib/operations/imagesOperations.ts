@@ -66,7 +66,7 @@ export class ImagesOperations {
    * @param callback The callback
    */
   search(query: string, options: Models.ImagesSearchOptionalParams, callback: msRest.ServiceCallback<Models.Images>): void;
-  search(query: string, options?: Models.ImagesSearchOptionalParams, callback?: msRest.ServiceCallback<Models.Images>): Promise<Models.ImagesSearchResponse> {
+  search(query: string, options?: Models.ImagesSearchOptionalParams | msRest.ServiceCallback<Models.Images>, callback?: msRest.ServiceCallback<Models.Images>): Promise<Models.ImagesSearchResponse> {
     return this.client.sendOperationRequest(
       {
         query,
@@ -117,7 +117,7 @@ export class ImagesOperations {
    * @param callback The callback
    */
   details(query: string, options: Models.ImagesDetailsOptionalParams, callback: msRest.ServiceCallback<Models.ImageInsights>): void;
-  details(query: string, options?: Models.ImagesDetailsOptionalParams, callback?: msRest.ServiceCallback<Models.ImageInsights>): Promise<Models.ImagesDetailsResponse> {
+  details(query: string, options?: Models.ImagesDetailsOptionalParams | msRest.ServiceCallback<Models.ImageInsights>, callback?: msRest.ServiceCallback<Models.ImageInsights>): Promise<Models.ImagesDetailsResponse> {
     return this.client.sendOperationRequest(
       {
         query,
@@ -146,7 +146,7 @@ export class ImagesOperations {
    * @param callback The callback
    */
   trending(options: Models.ImagesTrendingOptionalParams, callback: msRest.ServiceCallback<Models.TrendingImages>): void;
-  trending(options?: Models.ImagesTrendingOptionalParams, callback?: msRest.ServiceCallback<Models.TrendingImages>): Promise<Models.ImagesTrendingResponse> {
+  trending(options?: Models.ImagesTrendingOptionalParams | msRest.ServiceCallback<Models.TrendingImages>, callback?: msRest.ServiceCallback<Models.TrendingImages>): Promise<Models.ImagesTrendingResponse> {
     return this.client.sendOperationRequest(
       {
         options

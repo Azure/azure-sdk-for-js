@@ -56,7 +56,7 @@ export class AnalyticsItems {
    * @param callback The callback
    */
   list(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, options: Models.AnalyticsItemsListOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem[]>): void;
-  list(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, options?: Models.AnalyticsItemsListOptionalParams, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem[]>): Promise<Models.AnalyticsItemsListResponse> {
+  list(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, options?: Models.AnalyticsItemsListOptionalParams | msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem[]>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem[]>): Promise<Models.AnalyticsItemsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -98,7 +98,7 @@ export class AnalyticsItems {
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, options: Models.AnalyticsItemsGetOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>): void;
-  get(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, options?: Models.AnalyticsItemsGetOptionalParams, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>): Promise<Models.AnalyticsItemsGetResponse> {
+  get(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, options?: Models.AnalyticsItemsGetOptionalParams | msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>): Promise<Models.AnalyticsItemsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -146,7 +146,7 @@ export class AnalyticsItems {
    * @param callback The callback
    */
   put(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, itemProperties: Models.ApplicationInsightsComponentAnalyticsItem, options: Models.AnalyticsItemsPutOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>): void;
-  put(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, itemProperties: Models.ApplicationInsightsComponentAnalyticsItem, options?: Models.AnalyticsItemsPutOptionalParams, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>): Promise<Models.AnalyticsItemsPutResponse> {
+  put(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, itemProperties: Models.ApplicationInsightsComponentAnalyticsItem, options?: Models.AnalyticsItemsPutOptionalParams | msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>): Promise<Models.AnalyticsItemsPutResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -189,7 +189,7 @@ export class AnalyticsItems {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, options: Models.AnalyticsItemsDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, options?: Models.AnalyticsItemsDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, options?: Models.AnalyticsItemsDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

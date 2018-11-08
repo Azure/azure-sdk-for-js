@@ -60,7 +60,7 @@ export class VideosOperations {
    * @param callback The callback
    */
   search(query: string, options: Models.VideosSearchOptionalParams, callback: msRest.ServiceCallback<Models.Videos>): void;
-  search(query: string, options?: Models.VideosSearchOptionalParams, callback?: msRest.ServiceCallback<Models.Videos>): Promise<Models.VideosSearchResponse> {
+  search(query: string, options?: Models.VideosSearchOptionalParams | msRest.ServiceCallback<Models.Videos>, callback?: msRest.ServiceCallback<Models.Videos>): Promise<Models.VideosSearchResponse> {
     return this.client.sendOperationRequest(
       {
         query,
@@ -104,7 +104,7 @@ export class VideosOperations {
    * @param callback The callback
    */
   details(query: string, options: Models.VideosDetailsOptionalParams, callback: msRest.ServiceCallback<Models.VideoDetails>): void;
-  details(query: string, options?: Models.VideosDetailsOptionalParams, callback?: msRest.ServiceCallback<Models.VideoDetails>): Promise<Models.VideosDetailsResponse> {
+  details(query: string, options?: Models.VideosDetailsOptionalParams | msRest.ServiceCallback<Models.VideoDetails>, callback?: msRest.ServiceCallback<Models.VideoDetails>): Promise<Models.VideosDetailsResponse> {
     return this.client.sendOperationRequest(
       {
         query,
@@ -133,7 +133,7 @@ export class VideosOperations {
    * @param callback The callback
    */
   trending(options: Models.VideosTrendingOptionalParams, callback: msRest.ServiceCallback<Models.TrendingVideos>): void;
-  trending(options?: Models.VideosTrendingOptionalParams, callback?: msRest.ServiceCallback<Models.TrendingVideos>): Promise<Models.VideosTrendingResponse> {
+  trending(options?: Models.VideosTrendingOptionalParams | msRest.ServiceCallback<Models.TrendingVideos>, callback?: msRest.ServiceCallback<Models.TrendingVideos>): Promise<Models.VideosTrendingResponse> {
     return this.client.sendOperationRequest(
       {
         options

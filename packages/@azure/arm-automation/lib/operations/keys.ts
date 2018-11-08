@@ -47,7 +47,7 @@ export class Keys {
    * @param callback The callback
    */
   listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KeyListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.KeyListResult>): Promise<Models.KeysListByAutomationAccountResponse> {
+  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyListResult>, callback?: msRest.ServiceCallback<Models.KeyListResult>): Promise<Models.KeysListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

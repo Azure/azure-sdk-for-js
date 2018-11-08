@@ -12,7 +12,7 @@ import * as msRest from "ms-rest-js";
 import * as Models from "./models";
 
 const packageName = "@azure/cognitiveservices-entitysearch";
-const packageVersion = "1.0.0";
+const packageVersion = "0.1.0";
 
 export class EntitySearchAPIClientContext extends msRest.ServiceClient {
   credentials: msRest.ServiceClientCredentials;
@@ -30,6 +30,10 @@ export class EntitySearchAPIClientContext extends msRest.ServiceClient {
     if (!options) {
       options = {};
     }
+    if(!options.userAgent) {
+      const defaultUserAgent = msRest.getDefaultUserAgentValue();
+      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
+    }
 
     super(credentials, options);
 
@@ -37,6 +41,5 @@ export class EntitySearchAPIClientContext extends msRest.ServiceClient {
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
 
-    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
   }
 }

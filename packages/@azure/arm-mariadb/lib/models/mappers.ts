@@ -347,11 +347,6 @@ export const ServerForCreate: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "createMode",
-            clientName: "createMode"
-          },
-          uberParent: "ServerPropertiesForCreate",
           className: "ServerPropertiesForCreate"
         }
       },

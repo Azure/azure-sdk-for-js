@@ -50,7 +50,7 @@ export class Maps {
    * @param callback The callback
    */
   generate(resourceGroupName: string, workspaceName: string, request: Models.MapRequestUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MapResponse>): void;
-  generate(resourceGroupName: string, workspaceName: string, request: Models.MapRequestUnion, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MapResponse>): Promise<Models.MapsGenerateResponse> {
+  generate(resourceGroupName: string, workspaceName: string, request: Models.MapRequestUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapResponse>, callback?: msRest.ServiceCallback<Models.MapResponse>): Promise<Models.MapsGenerateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

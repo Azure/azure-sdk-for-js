@@ -460,18 +460,11 @@ export interface ProjectListResult extends Array<Project> {
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Creating', 'Succeeded', 'Updating', 'Deleting',
- * 'Failed'
+ * Possible values include: 'Creating', 'Succeeded', 'Updating', 'Deleting', 'Failed'
  * @readonly
  * @enum {string}
  */
-export enum ProvisioningState {
-  Creating = 'Creating',
-  Succeeded = 'Succeeded',
-  Updating = 'Updating',
-  Deleting = 'Deleting',
-  Failed = 'Failed',
-}
+export type ProvisioningState = 'Creating' | 'Succeeded' | 'Updating' | 'Deleting' | 'Failed';
 
 /**
  * Contains response data for the list operation.

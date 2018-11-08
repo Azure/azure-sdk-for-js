@@ -47,7 +47,7 @@ export class FeatureSupport {
    * @param callback The callback
    */
   validate(azureRegion: string, parameters: Models.FeatureSupportRequestUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureVMResourceFeatureSupportResponse>): void;
-  validate(azureRegion: string, parameters: Models.FeatureSupportRequestUnion, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AzureVMResourceFeatureSupportResponse>): Promise<Models.FeatureSupportValidateResponse> {
+  validate(azureRegion: string, parameters: Models.FeatureSupportRequestUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureVMResourceFeatureSupportResponse>, callback?: msRest.ServiceCallback<Models.AzureVMResourceFeatureSupportResponse>): Promise<Models.FeatureSupportValidateResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,

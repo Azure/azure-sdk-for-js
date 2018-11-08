@@ -47,7 +47,7 @@ export class DiagnosticSettingsCategoryOperations {
    * @param callback The callback
    */
   get(resourceUri: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticSettingsCategoryResource>): void;
-  get(resourceUri: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DiagnosticSettingsCategoryResource>): Promise<Models.DiagnosticSettingsCategoryGetResponse> {
+  get(resourceUri: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticSettingsCategoryResource>, callback?: msRest.ServiceCallback<Models.DiagnosticSettingsCategoryResource>): Promise<Models.DiagnosticSettingsCategoryGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,
@@ -76,7 +76,7 @@ export class DiagnosticSettingsCategoryOperations {
    * @param callback The callback
    */
   list(resourceUri: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticSettingsCategoryResourceCollection>): void;
-  list(resourceUri: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DiagnosticSettingsCategoryResourceCollection>): Promise<Models.DiagnosticSettingsCategoryListResponse> {
+  list(resourceUri: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticSettingsCategoryResourceCollection>, callback?: msRest.ServiceCallback<Models.DiagnosticSettingsCategoryResourceCollection>): Promise<Models.DiagnosticSettingsCategoryListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,

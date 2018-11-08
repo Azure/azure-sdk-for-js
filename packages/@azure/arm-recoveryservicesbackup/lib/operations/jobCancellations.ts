@@ -53,7 +53,7 @@ export class JobCancellations {
    * @param callback The callback
    */
   trigger(vaultName: string, resourceGroupName: string, jobName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  trigger(vaultName: string, resourceGroupName: string, jobName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  trigger(vaultName: string, resourceGroupName: string, jobName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,

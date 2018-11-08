@@ -213,9 +213,7 @@ export interface ResourceLinkResult extends Array<ResourceLink> {
  * @readonly
  * @enum {string}
  */
-export enum Filter {
-  AtScope = 'atScope()',
-}
+export type Filter = 'atScope()';
 
 /**
  * Contains response data for the list operation.

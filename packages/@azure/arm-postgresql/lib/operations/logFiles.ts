@@ -50,7 +50,7 @@ export class LogFiles {
    * @param callback The callback
    */
   listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LogFileListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LogFileListResult>): Promise<Models.LogFilesListByServerResponse> {
+  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogFileListResult>, callback?: msRest.ServiceCallback<Models.LogFileListResult>): Promise<Models.LogFilesListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

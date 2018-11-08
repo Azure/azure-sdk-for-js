@@ -45,7 +45,7 @@ export class AssessmentOptions {
    * @param callback The callback
    */
   get(locationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AssessmentOptionsResultList>): void;
-  get(locationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AssessmentOptionsResultList>): Promise<Models.AssessmentOptionsGetResponse> {
+  get(locationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssessmentOptionsResultList>, callback?: msRest.ServiceCallback<Models.AssessmentOptionsResultList>): Promise<Models.AssessmentOptionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,

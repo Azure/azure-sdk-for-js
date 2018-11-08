@@ -12,17 +12,11 @@ import * as msRest from "ms-rest-js";
 import * as msRestAzure from "ms-rest-azure-js";
 
 const packageName = "@azure/keyvault";
-const packageVersion = "1.0.0";
+const packageVersion = "0.1.0";
 
 export class KeyVaultClientContext extends msRestAzure.AzureServiceClient {
-
   credentials: msRest.ServiceClientCredentials;
-
-  apiVersion: string;
-
-  acceptLanguage: string;
-
-  longRunningOperationRetryTimeout: number;
+  apiVersion?: string;
 
   /**
    * Initializes a new instance of the KeyVaultClient class.
@@ -37,6 +31,11 @@ export class KeyVaultClientContext extends msRestAzure.AzureServiceClient {
     if (!options) {
       options = {};
     }
+    if(!options.userAgent) {
+      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
+      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
+    }
+
     super(credentials, options);
 
     this.apiVersion = '7.0';
@@ -46,7 +45,6 @@ export class KeyVaultClientContext extends msRestAzure.AzureServiceClient {
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
 
-    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }

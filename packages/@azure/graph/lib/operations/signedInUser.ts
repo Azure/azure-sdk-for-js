@@ -41,7 +41,7 @@ export class SignedInUser {
    * @param callback The callback
    */
   get(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.User>): void;
-  get(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.User>): Promise<Models.SignedInUserGetResponse> {
+  get(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.User>, callback?: msRest.ServiceCallback<Models.User>): Promise<Models.SignedInUserGetResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -65,7 +65,7 @@ export class SignedInUser {
    * @param callback The callback
    */
   listOwnedObjects(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>): void;
-  listOwnedObjects(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>): Promise<Models.SignedInUserListOwnedObjectsResponse> {
+  listOwnedObjects(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DirectoryObjectListResult>, callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>): Promise<Models.SignedInUserListOwnedObjectsResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -92,7 +92,7 @@ export class SignedInUser {
    * @param callback The callback
    */
   listOwnedObjectsNext(nextLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>): void;
-  listOwnedObjectsNext(nextLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>): Promise<Models.SignedInUserListOwnedObjectsNextResponse> {
+  listOwnedObjectsNext(nextLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DirectoryObjectListResult>, callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>): Promise<Models.SignedInUserListOwnedObjectsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextLink,

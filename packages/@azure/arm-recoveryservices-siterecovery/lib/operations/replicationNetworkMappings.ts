@@ -49,7 +49,7 @@ export class ReplicationNetworkMappings {
    * @param callback The callback
    */
   listByReplicationNetworks(fabricName: string, networkName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkMappingCollection>): void;
-  listByReplicationNetworks(fabricName: string, networkName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkMappingCollection>): Promise<Models.ReplicationNetworkMappingsListByReplicationNetworksResponse> {
+  listByReplicationNetworks(fabricName: string, networkName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkMappingCollection>, callback?: msRest.ServiceCallback<Models.NetworkMappingCollection>): Promise<Models.ReplicationNetworkMappingsListByReplicationNetworksResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -85,7 +85,7 @@ export class ReplicationNetworkMappings {
    * @param callback The callback
    */
   get(fabricName: string, networkName: string, networkMappingName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkMapping>): void;
-  get(fabricName: string, networkName: string, networkMappingName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkMapping>): Promise<Models.ReplicationNetworkMappingsGetResponse> {
+  get(fabricName: string, networkName: string, networkMappingName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkMapping>, callback?: msRest.ServiceCallback<Models.NetworkMapping>): Promise<Models.ReplicationNetworkMappingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -157,7 +157,7 @@ export class ReplicationNetworkMappings {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkMappingCollection>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkMappingCollection>): Promise<Models.ReplicationNetworkMappingsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkMappingCollection>, callback?: msRest.ServiceCallback<Models.NetworkMappingCollection>): Promise<Models.ReplicationNetworkMappingsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -252,7 +252,7 @@ export class ReplicationNetworkMappings {
    * @param callback The callback
    */
   listByReplicationNetworksNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkMappingCollection>): void;
-  listByReplicationNetworksNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkMappingCollection>): Promise<Models.ReplicationNetworkMappingsListByReplicationNetworksNextResponse> {
+  listByReplicationNetworksNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkMappingCollection>, callback?: msRest.ServiceCallback<Models.NetworkMappingCollection>): Promise<Models.ReplicationNetworkMappingsListByReplicationNetworksNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -281,7 +281,7 @@ export class ReplicationNetworkMappings {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkMappingCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkMappingCollection>): Promise<Models.ReplicationNetworkMappingsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkMappingCollection>, callback?: msRest.ServiceCallback<Models.NetworkMappingCollection>): Promise<Models.ReplicationNetworkMappingsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

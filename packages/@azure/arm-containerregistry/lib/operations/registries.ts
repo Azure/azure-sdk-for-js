@@ -59,7 +59,7 @@ export class Registries {
    * @param callback The callback
    */
   checkNameAvailability(registryNameCheckRequest: Models.RegistryNameCheckRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegistryNameStatus>): void;
-  checkNameAvailability(registryNameCheckRequest: Models.RegistryNameCheckRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RegistryNameStatus>): Promise<Models.RegistriesCheckNameAvailabilityResponse> {
+  checkNameAvailability(registryNameCheckRequest: Models.RegistryNameCheckRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegistryNameStatus>, callback?: msRest.ServiceCallback<Models.RegistryNameStatus>): Promise<Models.RegistriesCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         registryNameCheckRequest,
@@ -90,7 +90,7 @@ export class Registries {
    * @param callback The callback
    */
   get(resourceGroupName: string, registryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Registry>): void;
-  get(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Registry>): Promise<Models.RegistriesGetResponse> {
+  get(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Registry>, callback?: msRest.ServiceCallback<Models.Registry>): Promise<Models.RegistriesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -157,7 +157,7 @@ export class Registries {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegistryListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RegistryListResult>): Promise<Models.RegistriesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegistryListResult>, callback?: msRest.ServiceCallback<Models.RegistryListResult>): Promise<Models.RegistriesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -182,7 +182,7 @@ export class Registries {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegistryListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RegistryListResult>): Promise<Models.RegistriesListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegistryListResult>, callback?: msRest.ServiceCallback<Models.RegistryListResult>): Promise<Models.RegistriesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -212,7 +212,7 @@ export class Registries {
    * @param callback The callback
    */
   listCredentials(resourceGroupName: string, registryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegistryListCredentialsResult>): void;
-  listCredentials(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RegistryListCredentialsResult>): Promise<Models.RegistriesListCredentialsResponse> {
+  listCredentials(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegistryListCredentialsResult>, callback?: msRest.ServiceCallback<Models.RegistryListCredentialsResult>): Promise<Models.RegistriesListCredentialsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -250,7 +250,7 @@ export class Registries {
    * @param callback The callback
    */
   regenerateCredential(resourceGroupName: string, registryName: string, regenerateCredentialParameters: Models.RegenerateCredentialParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegistryListCredentialsResult>): void;
-  regenerateCredential(resourceGroupName: string, registryName: string, regenerateCredentialParameters: Models.RegenerateCredentialParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RegistryListCredentialsResult>): Promise<Models.RegistriesRegenerateCredentialResponse> {
+  regenerateCredential(resourceGroupName: string, registryName: string, regenerateCredentialParameters: Models.RegenerateCredentialParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegistryListCredentialsResult>, callback?: msRest.ServiceCallback<Models.RegistryListCredentialsResult>): Promise<Models.RegistriesRegenerateCredentialResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -283,7 +283,7 @@ export class Registries {
    * @param callback The callback
    */
   listUsages(resourceGroupName: string, registryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegistryUsageListResult>): void;
-  listUsages(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RegistryUsageListResult>): Promise<Models.RegistriesListUsagesResponse> {
+  listUsages(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegistryUsageListResult>, callback?: msRest.ServiceCallback<Models.RegistryUsageListResult>): Promise<Models.RegistriesListUsagesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -315,7 +315,7 @@ export class Registries {
    * @param callback The callback
    */
   listPolicies(resourceGroupName: string, registryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegistryPolicies>): void;
-  listPolicies(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RegistryPolicies>): Promise<Models.RegistriesListPoliciesResponse> {
+  listPolicies(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegistryPolicies>, callback?: msRest.ServiceCallback<Models.RegistryPolicies>): Promise<Models.RegistriesListPoliciesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -374,7 +374,7 @@ export class Registries {
    * @param callback The callback
    */
   getBuildSourceUploadUrl(resourceGroupName: string, registryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SourceUploadDefinition>): void;
-  getBuildSourceUploadUrl(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SourceUploadDefinition>): Promise<Models.RegistriesGetBuildSourceUploadUrlResponse> {
+  getBuildSourceUploadUrl(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceUploadDefinition>, callback?: msRest.ServiceCallback<Models.SourceUploadDefinition>): Promise<Models.RegistriesGetBuildSourceUploadUrlResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -522,7 +522,7 @@ export class Registries {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegistryListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RegistryListResult>): Promise<Models.RegistriesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegistryListResult>, callback?: msRest.ServiceCallback<Models.RegistryListResult>): Promise<Models.RegistriesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -550,7 +550,7 @@ export class Registries {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegistryListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RegistryListResult>): Promise<Models.RegistriesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegistryListResult>, callback?: msRest.ServiceCallback<Models.RegistryListResult>): Promise<Models.RegistriesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

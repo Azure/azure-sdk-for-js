@@ -56,7 +56,7 @@ export class ReferenceDataSets {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, environmentName: string, referenceDataSetName: string, parameters: Models.ReferenceDataSetCreateOrUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReferenceDataSetResource>): void;
-  createOrUpdate(resourceGroupName: string, environmentName: string, referenceDataSetName: string, parameters: Models.ReferenceDataSetCreateOrUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ReferenceDataSetResource>): Promise<Models.ReferenceDataSetsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, environmentName: string, referenceDataSetName: string, parameters: Models.ReferenceDataSetCreateOrUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReferenceDataSetResource>, callback?: msRest.ServiceCallback<Models.ReferenceDataSetResource>): Promise<Models.ReferenceDataSetsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +99,7 @@ export class ReferenceDataSets {
    * @param callback The callback
    */
   get(resourceGroupName: string, environmentName: string, referenceDataSetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReferenceDataSetResource>): void;
-  get(resourceGroupName: string, environmentName: string, referenceDataSetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ReferenceDataSetResource>): Promise<Models.ReferenceDataSetsGetResponse> {
+  get(resourceGroupName: string, environmentName: string, referenceDataSetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReferenceDataSetResource>, callback?: msRest.ServiceCallback<Models.ReferenceDataSetResource>): Promise<Models.ReferenceDataSetsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -148,7 +148,7 @@ export class ReferenceDataSets {
    * @param callback The callback
    */
   update(resourceGroupName: string, environmentName: string, referenceDataSetName: string, referenceDataSetUpdateParameters: Models.ReferenceDataSetUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReferenceDataSetResource>): void;
-  update(resourceGroupName: string, environmentName: string, referenceDataSetName: string, referenceDataSetUpdateParameters: Models.ReferenceDataSetUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ReferenceDataSetResource>): Promise<Models.ReferenceDataSetsUpdateResponse> {
+  update(resourceGroupName: string, environmentName: string, referenceDataSetName: string, referenceDataSetUpdateParameters: Models.ReferenceDataSetUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReferenceDataSetResource>, callback?: msRest.ServiceCallback<Models.ReferenceDataSetResource>): Promise<Models.ReferenceDataSetsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -192,7 +192,7 @@ export class ReferenceDataSets {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, environmentName: string, referenceDataSetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, environmentName: string, referenceDataSetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, environmentName: string, referenceDataSetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -229,7 +229,7 @@ export class ReferenceDataSets {
    * @param callback The callback
    */
   listByEnvironment(resourceGroupName: string, environmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReferenceDataSetListResponse>): void;
-  listByEnvironment(resourceGroupName: string, environmentName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ReferenceDataSetListResponse>): Promise<Models.ReferenceDataSetsListByEnvironmentResponse> {
+  listByEnvironment(resourceGroupName: string, environmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReferenceDataSetListResponse>, callback?: msRest.ServiceCallback<Models.ReferenceDataSetListResponse>): Promise<Models.ReferenceDataSetsListByEnvironmentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

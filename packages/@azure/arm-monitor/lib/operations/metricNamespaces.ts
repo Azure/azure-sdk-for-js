@@ -44,7 +44,7 @@ export class MetricNamespaces {
    * @param callback The callback
    */
   list(resourceUri: string, options: Models.MetricNamespacesListOptionalParams, callback: msRest.ServiceCallback<Models.MetricNamespaceCollection>): void;
-  list(resourceUri: string, options?: Models.MetricNamespacesListOptionalParams, callback?: msRest.ServiceCallback<Models.MetricNamespaceCollection>): Promise<Models.MetricNamespacesListResponse> {
+  list(resourceUri: string, options?: Models.MetricNamespacesListOptionalParams | msRest.ServiceCallback<Models.MetricNamespaceCollection>, callback?: msRest.ServiceCallback<Models.MetricNamespaceCollection>): Promise<Models.MetricNamespacesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,

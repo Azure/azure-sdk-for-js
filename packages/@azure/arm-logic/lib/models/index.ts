@@ -4636,308 +4636,125 @@ export interface OperationListResult extends Array<Operation> {
 
 /**
  * Defines values for WorkflowProvisioningState.
- * Possible values include: 'NotSpecified', 'Accepted', 'Running', 'Ready',
- * 'Creating', 'Created', 'Deleting', 'Deleted', 'Canceled', 'Failed',
- * 'Succeeded', 'Moving', 'Updating', 'Registering', 'Registered',
- * 'Unregistering', 'Unregistered', 'Completed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: WorkflowProvisioningState =
- * <WorkflowProvisioningState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotSpecified', 'Accepted', 'Running', 'Ready', 'Creating', 'Created',
+ * 'Deleting', 'Deleted', 'Canceled', 'Failed', 'Succeeded', 'Moving', 'Updating', 'Registering',
+ * 'Registered', 'Unregistering', 'Unregistered', 'Completed'
  * @readonly
  * @enum {string}
  */
-export enum WorkflowProvisioningState {
-  NotSpecified = 'NotSpecified',
-  Accepted = 'Accepted',
-  Running = 'Running',
-  Ready = 'Ready',
-  Creating = 'Creating',
-  Created = 'Created',
-  Deleting = 'Deleting',
-  Deleted = 'Deleted',
-  Canceled = 'Canceled',
-  Failed = 'Failed',
-  Succeeded = 'Succeeded',
-  Moving = 'Moving',
-  Updating = 'Updating',
-  Registering = 'Registering',
-  Registered = 'Registered',
-  Unregistering = 'Unregistering',
-  Unregistered = 'Unregistered',
-  Completed = 'Completed',
-}
+export type WorkflowProvisioningState = 'NotSpecified' | 'Accepted' | 'Running' | 'Ready' | 'Creating' | 'Created' | 'Deleting' | 'Deleted' | 'Canceled' | 'Failed' | 'Succeeded' | 'Moving' | 'Updating' | 'Registering' | 'Registered' | 'Unregistering' | 'Unregistered' | 'Completed';
 
 /**
  * Defines values for WorkflowState.
- * Possible values include: 'NotSpecified', 'Completed', 'Enabled', 'Disabled',
- * 'Deleted', 'Suspended'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: WorkflowState =
- * <WorkflowState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotSpecified', 'Completed', 'Enabled', 'Disabled', 'Deleted',
+ * 'Suspended'
  * @readonly
  * @enum {string}
  */
-export enum WorkflowState {
-  NotSpecified = 'NotSpecified',
-  Completed = 'Completed',
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-  Deleted = 'Deleted',
-  Suspended = 'Suspended',
-}
+export type WorkflowState = 'NotSpecified' | 'Completed' | 'Enabled' | 'Disabled' | 'Deleted' | 'Suspended';
 
 /**
  * Defines values for SkuName.
- * Possible values include: 'NotSpecified', 'Free', 'Shared', 'Basic',
- * 'Standard', 'Premium'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SkuName = <SkuName>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotSpecified', 'Free', 'Shared', 'Basic', 'Standard', 'Premium'
  * @readonly
  * @enum {string}
  */
-export enum SkuName {
-  NotSpecified = 'NotSpecified',
-  Free = 'Free',
-  Shared = 'Shared',
-  Basic = 'Basic',
-  Standard = 'Standard',
-  Premium = 'Premium',
-}
+export type SkuName = 'NotSpecified' | 'Free' | 'Shared' | 'Basic' | 'Standard' | 'Premium';
 
 /**
  * Defines values for ParameterType.
- * Possible values include: 'NotSpecified', 'String', 'SecureString', 'Int',
- * 'Float', 'Bool', 'Array', 'Object', 'SecureObject'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ParameterType =
- * <ParameterType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotSpecified', 'String', 'SecureString', 'Int', 'Float', 'Bool',
+ * 'Array', 'Object', 'SecureObject'
  * @readonly
  * @enum {string}
  */
-export enum ParameterType {
-  NotSpecified = 'NotSpecified',
-  String = 'String',
-  SecureString = 'SecureString',
-  Int = 'Int',
-  Float = 'Float',
-  Bool = 'Bool',
-  Array = 'Array',
-  Object = 'Object',
-  SecureObject = 'SecureObject',
-}
+export type ParameterType = 'NotSpecified' | 'String' | 'SecureString' | 'Int' | 'Float' | 'Bool' | 'Array' | 'Object' | 'SecureObject';
 
 /**
  * Defines values for WorkflowTriggerProvisioningState.
- * Possible values include: 'NotSpecified', 'Accepted', 'Running', 'Ready',
- * 'Creating', 'Created', 'Deleting', 'Deleted', 'Canceled', 'Failed',
- * 'Succeeded', 'Moving', 'Updating', 'Registering', 'Registered',
- * 'Unregistering', 'Unregistered', 'Completed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: WorkflowTriggerProvisioningState =
- * <WorkflowTriggerProvisioningState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotSpecified', 'Accepted', 'Running', 'Ready', 'Creating', 'Created',
+ * 'Deleting', 'Deleted', 'Canceled', 'Failed', 'Succeeded', 'Moving', 'Updating', 'Registering',
+ * 'Registered', 'Unregistering', 'Unregistered', 'Completed'
  * @readonly
  * @enum {string}
  */
-export enum WorkflowTriggerProvisioningState {
-  NotSpecified = 'NotSpecified',
-  Accepted = 'Accepted',
-  Running = 'Running',
-  Ready = 'Ready',
-  Creating = 'Creating',
-  Created = 'Created',
-  Deleting = 'Deleting',
-  Deleted = 'Deleted',
-  Canceled = 'Canceled',
-  Failed = 'Failed',
-  Succeeded = 'Succeeded',
-  Moving = 'Moving',
-  Updating = 'Updating',
-  Registering = 'Registering',
-  Registered = 'Registered',
-  Unregistering = 'Unregistering',
-  Unregistered = 'Unregistered',
-  Completed = 'Completed',
-}
+export type WorkflowTriggerProvisioningState = 'NotSpecified' | 'Accepted' | 'Running' | 'Ready' | 'Creating' | 'Created' | 'Deleting' | 'Deleted' | 'Canceled' | 'Failed' | 'Succeeded' | 'Moving' | 'Updating' | 'Registering' | 'Registered' | 'Unregistering' | 'Unregistered' | 'Completed';
 
 /**
  * Defines values for WorkflowStatus.
- * Possible values include: 'NotSpecified', 'Paused', 'Running', 'Waiting',
- * 'Succeeded', 'Skipped', 'Suspended', 'Cancelled', 'Failed', 'Faulted',
- * 'TimedOut', 'Aborted', 'Ignored'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: WorkflowStatus =
- * <WorkflowStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotSpecified', 'Paused', 'Running', 'Waiting', 'Succeeded', 'Skipped',
+ * 'Suspended', 'Cancelled', 'Failed', 'Faulted', 'TimedOut', 'Aborted', 'Ignored'
  * @readonly
  * @enum {string}
  */
-export enum WorkflowStatus {
-  NotSpecified = 'NotSpecified',
-  Paused = 'Paused',
-  Running = 'Running',
-  Waiting = 'Waiting',
-  Succeeded = 'Succeeded',
-  Skipped = 'Skipped',
-  Suspended = 'Suspended',
-  Cancelled = 'Cancelled',
-  Failed = 'Failed',
-  Faulted = 'Faulted',
-  TimedOut = 'TimedOut',
-  Aborted = 'Aborted',
-  Ignored = 'Ignored',
-}
+export type WorkflowStatus = 'NotSpecified' | 'Paused' | 'Running' | 'Waiting' | 'Succeeded' | 'Skipped' | 'Suspended' | 'Cancelled' | 'Failed' | 'Faulted' | 'TimedOut' | 'Aborted' | 'Ignored';
 
 /**
  * Defines values for RecurrenceFrequency.
- * Possible values include: 'NotSpecified', 'Second', 'Minute', 'Hour', 'Day',
- * 'Week', 'Month', 'Year'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RecurrenceFrequency =
- * <RecurrenceFrequency>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotSpecified', 'Second', 'Minute', 'Hour', 'Day', 'Week', 'Month',
+ * 'Year'
  * @readonly
  * @enum {string}
  */
-export enum RecurrenceFrequency {
-  NotSpecified = 'NotSpecified',
-  Second = 'Second',
-  Minute = 'Minute',
-  Hour = 'Hour',
-  Day = 'Day',
-  Week = 'Week',
-  Month = 'Month',
-  Year = 'Year',
-}
+export type RecurrenceFrequency = 'NotSpecified' | 'Second' | 'Minute' | 'Hour' | 'Day' | 'Week' | 'Month' | 'Year';
 
 /**
  * Defines values for DaysOfWeek.
- * Possible values include: 'Sunday', 'Monday', 'Tuesday', 'Wednesday',
- * 'Thursday', 'Friday', 'Saturday'
+ * Possible values include: 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
+ * 'Saturday'
  * @readonly
  * @enum {string}
  */
-export enum DaysOfWeek {
-  Sunday = 'Sunday',
-  Monday = 'Monday',
-  Tuesday = 'Tuesday',
-  Wednesday = 'Wednesday',
-  Thursday = 'Thursday',
-  Friday = 'Friday',
-  Saturday = 'Saturday',
-}
+export type DaysOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
 
 /**
  * Defines values for DayOfWeek.
- * Possible values include: 'Sunday', 'Monday', 'Tuesday', 'Wednesday',
- * 'Thursday', 'Friday', 'Saturday'
+ * Possible values include: 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
+ * 'Saturday'
  * @readonly
  * @enum {string}
  */
-export enum DayOfWeek {
-  Sunday = 'Sunday',
-  Monday = 'Monday',
-  Tuesday = 'Tuesday',
-  Wednesday = 'Wednesday',
-  Thursday = 'Thursday',
-  Friday = 'Friday',
-  Saturday = 'Saturday',
-}
+export type DayOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
 
 /**
  * Defines values for KeyType.
  * Possible values include: 'NotSpecified', 'Primary', 'Secondary'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: KeyType = <KeyType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum KeyType {
-  NotSpecified = 'NotSpecified',
-  Primary = 'Primary',
-  Secondary = 'Secondary',
-}
+export type KeyType = 'NotSpecified' | 'Primary' | 'Secondary';
 
 /**
  * Defines values for IntegrationAccountSkuName.
  * Possible values include: 'NotSpecified', 'Free', 'Basic', 'Standard'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IntegrationAccountSkuName =
- * <IntegrationAccountSkuName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IntegrationAccountSkuName {
-  NotSpecified = 'NotSpecified',
-  Free = 'Free',
-  Basic = 'Basic',
-  Standard = 'Standard',
-}
+export type IntegrationAccountSkuName = 'NotSpecified' | 'Free' | 'Basic' | 'Standard';
 
 /**
  * Defines values for SchemaType.
  * Possible values include: 'NotSpecified', 'Xml'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SchemaType = <SchemaType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SchemaType {
-  NotSpecified = 'NotSpecified',
-  Xml = 'Xml',
-}
+export type SchemaType = 'NotSpecified' | 'Xml';
 
 /**
  * Defines values for MapType.
- * Possible values include: 'NotSpecified', 'Xslt', 'Xslt20', 'Xslt30',
- * 'Liquid'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: MapType = <MapType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotSpecified', 'Xslt', 'Xslt20', 'Xslt30', 'Liquid'
  * @readonly
  * @enum {string}
  */
-export enum MapType {
-  NotSpecified = 'NotSpecified',
-  Xslt = 'Xslt',
-  Xslt20 = 'Xslt20',
-  Xslt30 = 'Xslt30',
-  Liquid = 'Liquid',
-}
+export type MapType = 'NotSpecified' | 'Xslt' | 'Xslt20' | 'Xslt30' | 'Liquid';
 
 /**
  * Defines values for PartnerType.
  * Possible values include: 'NotSpecified', 'B2B'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PartnerType =
- * <PartnerType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PartnerType {
-  NotSpecified = 'NotSpecified',
-  B2B = 'B2B',
-}
+export type PartnerType = 'NotSpecified' | 'B2B';
 
 /**
  * Defines values for AgreementType.
@@ -4945,114 +4762,47 @@ export enum PartnerType {
  * @readonly
  * @enum {string}
  */
-export enum AgreementType {
-  NotSpecified = 'NotSpecified',
-  AS2 = 'AS2',
-  X12 = 'X12',
-  Edifact = 'Edifact',
-}
+export type AgreementType = 'NotSpecified' | 'AS2' | 'X12' | 'Edifact';
 
 /**
  * Defines values for HashingAlgorithm.
- * Possible values include: 'NotSpecified', 'None', 'MD5', 'SHA1', 'SHA2256',
- * 'SHA2384', 'SHA2512'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HashingAlgorithm =
- * <HashingAlgorithm>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotSpecified', 'None', 'MD5', 'SHA1', 'SHA2256', 'SHA2384', 'SHA2512'
  * @readonly
  * @enum {string}
  */
-export enum HashingAlgorithm {
-  NotSpecified = 'NotSpecified',
-  None = 'None',
-  MD5 = 'MD5',
-  SHA1 = 'SHA1',
-  SHA2256 = 'SHA2256',
-  SHA2384 = 'SHA2384',
-  SHA2512 = 'SHA2512',
-}
+export type HashingAlgorithm = 'NotSpecified' | 'None' | 'MD5' | 'SHA1' | 'SHA2256' | 'SHA2384' | 'SHA2512';
 
 /**
  * Defines values for EncryptionAlgorithm.
- * Possible values include: 'NotSpecified', 'None', 'DES3', 'RC2', 'AES128',
- * 'AES192', 'AES256'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: EncryptionAlgorithm =
- * <EncryptionAlgorithm>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotSpecified', 'None', 'DES3', 'RC2', 'AES128', 'AES192', 'AES256'
  * @readonly
  * @enum {string}
  */
-export enum EncryptionAlgorithm {
-  NotSpecified = 'NotSpecified',
-  None = 'None',
-  DES3 = 'DES3',
-  RC2 = 'RC2',
-  AES128 = 'AES128',
-  AES192 = 'AES192',
-  AES256 = 'AES256',
-}
+export type EncryptionAlgorithm = 'NotSpecified' | 'None' | 'DES3' | 'RC2' | 'AES128' | 'AES192' | 'AES256';
 
 /**
  * Defines values for SigningAlgorithm.
- * Possible values include: 'NotSpecified', 'Default', 'SHA1', 'SHA2256',
- * 'SHA2384', 'SHA2512'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SigningAlgorithm =
- * <SigningAlgorithm>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotSpecified', 'Default', 'SHA1', 'SHA2256', 'SHA2384', 'SHA2512'
  * @readonly
  * @enum {string}
  */
-export enum SigningAlgorithm {
-  NotSpecified = 'NotSpecified',
-  Default = 'Default',
-  SHA1 = 'SHA1',
-  SHA2256 = 'SHA2256',
-  SHA2384 = 'SHA2384',
-  SHA2512 = 'SHA2512',
-}
+export type SigningAlgorithm = 'NotSpecified' | 'Default' | 'SHA1' | 'SHA2256' | 'SHA2384' | 'SHA2512';
 
 /**
  * Defines values for TrailingSeparatorPolicy.
- * Possible values include: 'NotSpecified', 'NotAllowed', 'Optional',
- * 'Mandatory'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TrailingSeparatorPolicy =
- * <TrailingSeparatorPolicy>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotSpecified', 'NotAllowed', 'Optional', 'Mandatory'
  * @readonly
  * @enum {string}
  */
-export enum TrailingSeparatorPolicy {
-  NotSpecified = 'NotSpecified',
-  NotAllowed = 'NotAllowed',
-  Optional = 'Optional',
-  Mandatory = 'Mandatory',
-}
+export type TrailingSeparatorPolicy = 'NotSpecified' | 'NotAllowed' | 'Optional' | 'Mandatory';
 
 /**
  * Defines values for X12CharacterSet.
  * Possible values include: 'NotSpecified', 'Basic', 'Extended', 'UTF8'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: X12CharacterSet =
- * <X12CharacterSet>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum X12CharacterSet {
-  NotSpecified = 'NotSpecified',
-  Basic = 'Basic',
-  Extended = 'Extended',
-  UTF8 = 'UTF8',
-}
+export type X12CharacterSet = 'NotSpecified' | 'Basic' | 'Extended' | 'UTF8';
 
 /**
  * Defines values for SegmentTerminatorSuffix.
@@ -5060,116 +4810,48 @@ export enum X12CharacterSet {
  * @readonly
  * @enum {string}
  */
-export enum SegmentTerminatorSuffix {
-  NotSpecified = 'NotSpecified',
-  None = 'None',
-  CR = 'CR',
-  LF = 'LF',
-  CRLF = 'CRLF',
-}
+export type SegmentTerminatorSuffix = 'NotSpecified' | 'None' | 'CR' | 'LF' | 'CRLF';
 
 /**
  * Defines values for X12DateFormat.
  * Possible values include: 'NotSpecified', 'CCYYMMDD', 'YYMMDD'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: X12DateFormat =
- * <X12DateFormat>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum X12DateFormat {
-  NotSpecified = 'NotSpecified',
-  CCYYMMDD = 'CCYYMMDD',
-  YYMMDD = 'YYMMDD',
-}
+export type X12DateFormat = 'NotSpecified' | 'CCYYMMDD' | 'YYMMDD';
 
 /**
  * Defines values for X12TimeFormat.
- * Possible values include: 'NotSpecified', 'HHMM', 'HHMMSS', 'HHMMSSdd',
- * 'HHMMSSd'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: X12TimeFormat =
- * <X12TimeFormat>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotSpecified', 'HHMM', 'HHMMSS', 'HHMMSSdd', 'HHMMSSd'
  * @readonly
  * @enum {string}
  */
-export enum X12TimeFormat {
-  NotSpecified = 'NotSpecified',
-  HHMM = 'HHMM',
-  HHMMSS = 'HHMMSS',
-  HHMMSSdd = 'HHMMSSdd',
-  HHMMSSd = 'HHMMSSd',
-}
+export type X12TimeFormat = 'NotSpecified' | 'HHMM' | 'HHMMSS' | 'HHMMSSdd' | 'HHMMSSd';
 
 /**
  * Defines values for UsageIndicator.
  * Possible values include: 'NotSpecified', 'Test', 'Information', 'Production'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: UsageIndicator =
- * <UsageIndicator>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum UsageIndicator {
-  NotSpecified = 'NotSpecified',
-  Test = 'Test',
-  Information = 'Information',
-  Production = 'Production',
-}
+export type UsageIndicator = 'NotSpecified' | 'Test' | 'Information' | 'Production';
 
 /**
  * Defines values for MessageFilterType.
  * Possible values include: 'NotSpecified', 'Include', 'Exclude'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: MessageFilterType =
- * <MessageFilterType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum MessageFilterType {
-  NotSpecified = 'NotSpecified',
-  Include = 'Include',
-  Exclude = 'Exclude',
-}
+export type MessageFilterType = 'NotSpecified' | 'Include' | 'Exclude';
 
 /**
  * Defines values for EdifactCharacterSet.
- * Possible values include: 'NotSpecified', 'UNOB', 'UNOA', 'UNOC', 'UNOD',
- * 'UNOE', 'UNOF', 'UNOG', 'UNOH', 'UNOI', 'UNOJ', 'UNOK', 'UNOX', 'UNOY',
- * 'KECA'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: EdifactCharacterSet =
- * <EdifactCharacterSet>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotSpecified', 'UNOB', 'UNOA', 'UNOC', 'UNOD', 'UNOE', 'UNOF', 'UNOG',
+ * 'UNOH', 'UNOI', 'UNOJ', 'UNOK', 'UNOX', 'UNOY', 'KECA'
  * @readonly
  * @enum {string}
  */
-export enum EdifactCharacterSet {
-  NotSpecified = 'NotSpecified',
-  UNOB = 'UNOB',
-  UNOA = 'UNOA',
-  UNOC = 'UNOC',
-  UNOD = 'UNOD',
-  UNOE = 'UNOE',
-  UNOF = 'UNOF',
-  UNOG = 'UNOG',
-  UNOH = 'UNOH',
-  UNOI = 'UNOI',
-  UNOJ = 'UNOJ',
-  UNOK = 'UNOK',
-  UNOX = 'UNOX',
-  UNOY = 'UNOY',
-  KECA = 'KECA',
-}
+export type EdifactCharacterSet = 'NotSpecified' | 'UNOB' | 'UNOA' | 'UNOC' | 'UNOD' | 'UNOE' | 'UNOF' | 'UNOG' | 'UNOH' | 'UNOI' | 'UNOJ' | 'UNOK' | 'UNOX' | 'UNOY' | 'KECA';
 
 /**
  * Defines values for EdifactDecimalIndicator.
@@ -5177,79 +4859,35 @@ export enum EdifactCharacterSet {
  * @readonly
  * @enum {string}
  */
-export enum EdifactDecimalIndicator {
-  NotSpecified = 'NotSpecified',
-  Comma = 'Comma',
-  Decimal = 'Decimal',
-}
+export type EdifactDecimalIndicator = 'NotSpecified' | 'Comma' | 'Decimal';
 
 /**
  * Defines values for TrackEventsOperationOptions.
  * Possible values include: 'None', 'DisableSourceInfoEnrich'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TrackEventsOperationOptions =
- * <TrackEventsOperationOptions>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum TrackEventsOperationOptions {
-  None = 'None',
-  DisableSourceInfoEnrich = 'DisableSourceInfoEnrich',
-}
+export type TrackEventsOperationOptions = 'None' | 'DisableSourceInfoEnrich';
 
 /**
  * Defines values for EventLevel.
- * Possible values include: 'LogAlways', 'Critical', 'Error', 'Warning',
- * 'Informational', 'Verbose'
+ * Possible values include: 'LogAlways', 'Critical', 'Error', 'Warning', 'Informational', 'Verbose'
  * @readonly
  * @enum {string}
  */
-export enum EventLevel {
-  LogAlways = 'LogAlways',
-  Critical = 'Critical',
-  Error = 'Error',
-  Warning = 'Warning',
-  Informational = 'Informational',
-  Verbose = 'Verbose',
-}
+export type EventLevel = 'LogAlways' | 'Critical' | 'Error' | 'Warning' | 'Informational' | 'Verbose';
 
 /**
  * Defines values for TrackingRecordType.
- * Possible values include: 'NotSpecified', 'Custom', 'AS2Message', 'AS2MDN',
- * 'X12Interchange', 'X12FunctionalGroup', 'X12TransactionSet',
- * 'X12InterchangeAcknowledgment', 'X12FunctionalGroupAcknowledgment',
- * 'X12TransactionSetAcknowledgment', 'EdifactInterchange',
- * 'EdifactFunctionalGroup', 'EdifactTransactionSet',
- * 'EdifactInterchangeAcknowledgment', 'EdifactFunctionalGroupAcknowledgment',
- * 'EdifactTransactionSetAcknowledgment'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TrackingRecordType =
- * <TrackingRecordType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotSpecified', 'Custom', 'AS2Message', 'AS2MDN', 'X12Interchange',
+ * 'X12FunctionalGroup', 'X12TransactionSet', 'X12InterchangeAcknowledgment',
+ * 'X12FunctionalGroupAcknowledgment', 'X12TransactionSetAcknowledgment', 'EdifactInterchange',
+ * 'EdifactFunctionalGroup', 'EdifactTransactionSet', 'EdifactInterchangeAcknowledgment',
+ * 'EdifactFunctionalGroupAcknowledgment', 'EdifactTransactionSetAcknowledgment'
  * @readonly
  * @enum {string}
  */
-export enum TrackingRecordType {
-  NotSpecified = 'NotSpecified',
-  Custom = 'Custom',
-  AS2Message = 'AS2Message',
-  AS2MDN = 'AS2MDN',
-  X12Interchange = 'X12Interchange',
-  X12FunctionalGroup = 'X12FunctionalGroup',
-  X12TransactionSet = 'X12TransactionSet',
-  X12InterchangeAcknowledgment = 'X12InterchangeAcknowledgment',
-  X12FunctionalGroupAcknowledgment = 'X12FunctionalGroupAcknowledgment',
-  X12TransactionSetAcknowledgment = 'X12TransactionSetAcknowledgment',
-  EdifactInterchange = 'EdifactInterchange',
-  EdifactFunctionalGroup = 'EdifactFunctionalGroup',
-  EdifactTransactionSet = 'EdifactTransactionSet',
-  EdifactInterchangeAcknowledgment = 'EdifactInterchangeAcknowledgment',
-  EdifactFunctionalGroupAcknowledgment = 'EdifactFunctionalGroupAcknowledgment',
-  EdifactTransactionSetAcknowledgment = 'EdifactTransactionSetAcknowledgment',
-}
+export type TrackingRecordType = 'NotSpecified' | 'Custom' | 'AS2Message' | 'AS2MDN' | 'X12Interchange' | 'X12FunctionalGroup' | 'X12TransactionSet' | 'X12InterchangeAcknowledgment' | 'X12FunctionalGroupAcknowledgment' | 'X12TransactionSetAcknowledgment' | 'EdifactInterchange' | 'EdifactFunctionalGroup' | 'EdifactTransactionSet' | 'EdifactInterchangeAcknowledgment' | 'EdifactFunctionalGroupAcknowledgment' | 'EdifactTransactionSetAcknowledgment';
 
 /**
  * Contains response data for the listBySubscription operation.

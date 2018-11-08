@@ -42,7 +42,7 @@ export class EdgeNodes {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EdgenodeResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EdgenodeResult>): Promise<Models.EdgeNodesListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EdgenodeResult>, callback?: msRest.ServiceCallback<Models.EdgenodeResult>): Promise<Models.EdgeNodesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -70,7 +70,7 @@ export class EdgeNodes {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EdgenodeResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EdgenodeResult>): Promise<Models.EdgeNodesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EdgenodeResult>, callback?: msRest.ServiceCallback<Models.EdgenodeResult>): Promise<Models.EdgeNodesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

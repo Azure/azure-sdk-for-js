@@ -1768,104 +1768,50 @@ export interface ReviewsAddVideoFrameStreamOptionalParams extends msRest.Request
 /**
  * Defines values for Type.
  * Possible values include: 'Image', 'Text'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Type = <Type>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Type {
-  Image = 'Image',
-  Text = 'Text',
-}
+export type Type = 'Image' | 'Text';
 
 /**
  * Defines values for StatusEnum.
  * Possible values include: 'Complete', 'Unpublished', 'Pending'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: StatusEnum = <StatusEnum>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum StatusEnum {
-  Complete = 'Complete',
-  Unpublished = 'Unpublished',
-  Pending = 'Pending',
-}
+export type StatusEnum = 'Complete' | 'Unpublished' | 'Pending';
 
 /**
  * Defines values for TextContentType.
- * Possible values include: 'text/plain', 'text/html', 'text/xml',
- * 'text/markdown'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TextContentType =
- * <TextContentType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'text/plain', 'text/html', 'text/xml', 'text/markdown'
  * @readonly
  * @enum {string}
  */
-export enum TextContentType {
-  Textplain = 'text/plain',
-  Texthtml = 'text/html',
-  Textxml = 'text/xml',
-  Textmarkdown = 'text/markdown',
-}
+export type TextContentType = 'text/plain' | 'text/html' | 'text/xml' | 'text/markdown';
 
 /**
  * Defines values for TextContentType1.
- * Possible values include: 'text/plain', 'text/html', 'text/xml',
- * 'text/markdown'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TextContentType1 =
- * <TextContentType1>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'text/plain', 'text/html', 'text/xml', 'text/markdown'
  * @readonly
  * @enum {string}
  */
-export enum TextContentType1 {
-  Textplain = 'text/plain',
-  Texthtml = 'text/html',
-  Textxml = 'text/xml',
-  Textmarkdown = 'text/markdown',
-}
+export type TextContentType1 = 'text/plain' | 'text/html' | 'text/xml' | 'text/markdown';
 
 /**
  * Defines values for ContentType.
  * Possible values include: 'Image', 'Text', 'Video'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ContentType =
- * <ContentType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ContentType {
-  Image = 'Image',
-  Text = 'Text',
-  Video = 'Video',
-}
+export type ContentType = 'Image' | 'Text' | 'Video';
 
 /**
  * Defines values for JobContentType.
  * Possible values include: 'application/json', 'image/jpeg'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: JobContentType =
- * <JobContentType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum JobContentType {
-  Applicationjson = 'application/json',
-  Imagejpeg = 'image/jpeg',
-}
+export type JobContentType = 'application/json' | 'image/jpeg';
 
 /**
  * Contains response data for the findFaces operation.

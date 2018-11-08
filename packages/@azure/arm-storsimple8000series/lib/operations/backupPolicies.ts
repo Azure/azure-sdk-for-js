@@ -51,7 +51,7 @@ export class BackupPolicies {
    * @param callback The callback
    */
   listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupPolicyList>): void;
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupPolicyList>): Promise<Models.BackupPoliciesListByDeviceResponse> {
+  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupPolicyList>, callback?: msRest.ServiceCallback<Models.BackupPolicyList>): Promise<Models.BackupPoliciesListByDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -90,7 +90,7 @@ export class BackupPolicies {
    * @param callback The callback
    */
   get(deviceName: string, backupPolicyName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupPolicy>): void;
-  get(deviceName: string, backupPolicyName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupPolicy>): Promise<Models.BackupPoliciesGetResponse> {
+  get(deviceName: string, backupPolicyName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupPolicy>, callback?: msRest.ServiceCallback<Models.BackupPolicy>): Promise<Models.BackupPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
