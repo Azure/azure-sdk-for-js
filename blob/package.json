@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@types/mocha": "^5.2.5",
+    "@types/node": "^10.12.3",
     "assert": "^1.4.1",
     "es6-promise": "^4.2.4",
     "gulp": "^4.0.0",
@@ -45,7 +46,8 @@
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-uglify": "^5.0.2",
     "rollup-plugin-visualizer": "^0.9.0",
-    "typescript": "^3.0.1"
+    "ts-node": "^7.0.1",
+    "typescript": "^3.1.6"
   },
   "scripts": {
     "test": "npm run test:node && npm run test:browser",
