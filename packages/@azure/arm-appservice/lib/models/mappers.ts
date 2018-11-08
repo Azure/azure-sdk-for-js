@@ -918,6 +918,12 @@ export const VnetInfo: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      isSwift: {
+        serializedName: "properties.isSwift",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -1551,6 +1557,12 @@ export const CorsSettings: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      supportCredentials: {
+        serializedName: "supportCredentials",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -2468,6 +2480,24 @@ export const SiteConfig: msRest.CompositeMapper = {
               className: "IpSecurityRestriction"
             }
           }
+        }
+      },
+      scmIpSecurityRestrictions: {
+        serializedName: "scmIpSecurityRestrictions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IpSecurityRestriction"
+            }
+          }
+        }
+      },
+      scmIpSecurityRestrictionsUseMain: {
+        serializedName: "scmIpSecurityRestrictionsUseMain",
+        type: {
+          name: "Boolean"
         }
       },
       http20Enabled: {
@@ -6527,6 +6557,12 @@ export const StackMajorVersion: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      applicationInsights: {
+        serializedName: "applicationInsights",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -8275,6 +8311,12 @@ export const DeletedAppRestoreRequest: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      useDRSecondary: {
+        serializedName: "properties.useDRSecondary",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -9870,6 +9912,12 @@ export const SiteAuthSettings: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      clientSecretCertificateThumbprint: {
+        serializedName: "properties.clientSecretCertificateThumbprint",
+        type: {
+          name: "String"
+        }
+      },
       issuer: {
         serializedName: "properties.issuer",
         type: {
@@ -10417,6 +10465,24 @@ export const SiteConfigResource: msRest.CompositeMapper = {
               className: "IpSecurityRestriction"
             }
           }
+        }
+      },
+      scmIpSecurityRestrictions: {
+        serializedName: "properties.scmIpSecurityRestrictions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IpSecurityRestriction"
+            }
+          }
+        }
+      },
+      scmIpSecurityRestrictionsUseMain: {
+        serializedName: "properties.scmIpSecurityRestrictionsUseMain",
+        type: {
+          name: "Boolean"
         }
       },
       http20Enabled: {
@@ -11175,6 +11241,12 @@ export const SnapshotRestoreRequest: msRest.CompositeMapper = {
       },
       ignoreConflictingHostNames: {
         serializedName: "properties.ignoreConflictingHostNames",
+        type: {
+          name: "Boolean"
+        }
+      },
+      useDRSecondary: {
+        serializedName: "properties.useDRSecondary",
         type: {
           name: "Boolean"
         }
