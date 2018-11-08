@@ -4,7 +4,7 @@
  * license information.
  */
 
-import { Cred, Index, Merge, Oid, Reference, Repository, Reset, Signature, StatusFile } from "nodegit";
+import { Cred, Index, Merge, Oid, Reference, Repository, Reset, Signature, StatusFile, Branch as NodeBranch } from "nodegit";
 import { Logger } from "./logger";
 
 export type ValidateFunction = (statuses: StatusFile[]) => boolean;
@@ -202,10 +202,12 @@ export async function checkoutRemoteBranch(repository: Repository, remoteBranch:
     if (branchExists) {
         branchRef = await checkoutBranch(repository, remoteBranch.name);
     } else {
-        branchRef = await createNewBranch(repository, remoteBranch.name, true);
+        branchRef = await createNewBranch(repository, remoteBranch.name);
         const commit = await repository.getReferenceCommit(remoteBranch.name);
         await Reset.reset(repository, commit as any, Reset.TYPE.HARD, {});
+        await checkoutBranch(repository, remoteBranch.shorthand());
         await pullBranch(repository, remoteBranch.toLocal());
+        await NodeBranch.setUpstream(branchRef, remoteBranch.shorthand());
     }
 
     return branchRef;
