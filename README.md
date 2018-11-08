@@ -23,22 +23,8 @@ Documentation of the supported SDKs can be found here:
 ## Need Help?
 
 * [Read the docs](https://docs.microsoft.com/en-us/javascript/azure/?view=azure-node-latest)
-* [Open an issue in GitHub](http://github.com/azure/azure-sdk-for-node)
+* [Open an issue in GitHub](https://github.com/Azure/azure-sdk-for-js/issues)
 * [Microsoft Azure Forums on MSDN and Stack Overflow](http://go.microsoft.com/fwlink/?LinkId=234489)
-
-## AzureNodeEssentials VSCode extension
-
-The [AzureNodeEssentials](https://marketplace.visualstudio.com/items?itemName=azuresdkteam.azurenodeessentials) extension helps you easily interact with Azure.
-It helps you:
-- create a project scaffolding
-- install correct dependencies
-- ready to use snippets for authentication and deploying templates to azure
-
-Please feel free to provide feedback for the extension by opening github issues over [here](https://github.com/Azure/azure-node-essentials).
-
-## Related Projects
-
-* [Azure CLI](http://github.com/azure/azure-xplat-cli)
 
 ## License
 
