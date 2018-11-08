@@ -18,6 +18,7 @@ const packageVersion = "0.1.0";
 export class SqlManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
   subscriptionId: string;
+  apiVersion?: string;
 
   /**
    * Initializes a new instance of the SqlManagementClient class.
@@ -43,6 +44,7 @@ export class SqlManagementClientContext extends msRestAzure.AzureServiceClient {
 
     super(credentials, options);
 
+    this.apiVersion = '2020-20-20';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

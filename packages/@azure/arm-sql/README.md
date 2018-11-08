@@ -13,7 +13,7 @@ npm install @azure/arm-sql
 
 ## How to use
 
-### nodejs - Authentication, client creation and get recoverableDatabases as an example written in TypeScript.
+### nodejs - Authentication, client creation and listByLocation capabilities as an example written in TypeScript.
 
 ```ts
 import * as msRest from "ms-rest-js";
@@ -24,10 +24,8 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new SqlManagementClient(creds, subscriptionId);
-  const resourceGroupName = "testresourceGroupName";
-  const serverName = "testserverName";
-  const databaseName = "testdatabaseName";
-  client.recoverableDatabases.get(resourceGroupName, serverName, databaseName).then((result) => {
+  const locationName = "testlocationName";
+  client.capabilities.listByLocation(locationName).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -36,7 +34,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-### browser - Authentication, client creation and get recoverableDatabases as an example written in JavaScript.
+### browser - Authentication, client creation and listByLocation capabilities as an example written in JavaScript.
 See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
@@ -61,10 +59,8 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           authManager.login();
         }
         const client = new Azure.ArmSql.SqlManagementClient(res.creds, subscriptionId);
-        const resourceGroupName = "testresourceGroupName";
-        const serverName = "testserverName";
-        const databaseName = "testdatabaseName";
-        client.recoverableDatabases.get(resourceGroupName, serverName, databaseName).then((result) => {
+        const locationName = "testlocationName";
+        client.capabilities.listByLocation(locationName).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {

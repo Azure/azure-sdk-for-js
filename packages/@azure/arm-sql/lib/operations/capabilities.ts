@@ -32,7 +32,7 @@ export class Capabilities {
    * @param [options] The optional parameters
    * @returns Promise<Models.CapabilitiesListByLocationResponse>
    */
-  listByLocation(locationName: string, options?: Models.CapabilitiesListByLocationOptionalParams): Promise<Models.CapabilitiesListByLocationResponse>;
+  listByLocation(locationName: string, options?: msRest.RequestOptionsBase): Promise<Models.CapabilitiesListByLocationResponse>;
   /**
    * @param locationName The location name whose capabilities are retrieved.
    * @param callback The callback
@@ -43,8 +43,8 @@ export class Capabilities {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByLocation(locationName: string, options: Models.CapabilitiesListByLocationOptionalParams, callback: msRest.ServiceCallback<Models.LocationCapabilities>): void;
-  listByLocation(locationName: string, options?: Models.CapabilitiesListByLocationOptionalParams | msRest.ServiceCallback<Models.LocationCapabilities>, callback?: msRest.ServiceCallback<Models.LocationCapabilities>): Promise<Models.CapabilitiesListByLocationResponse> {
+  listByLocation(locationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LocationCapabilities>): void;
+  listByLocation(locationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LocationCapabilities>, callback?: msRest.ServiceCallback<Models.LocationCapabilities>): Promise<Models.CapabilitiesListByLocationResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
@@ -65,8 +65,7 @@ const listByLocationOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.include,
-    Parameters.apiVersion2
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
