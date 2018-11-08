@@ -11,4 +11,5 @@
 export * from "./enrollmentAccounts";
 export * from "./billingPeriods";
 export * from "./invoices";
+export * from "./invoicePricesheet";
 export * from "./operations";

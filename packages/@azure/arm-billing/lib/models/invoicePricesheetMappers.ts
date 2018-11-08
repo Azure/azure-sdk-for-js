@@ -9,14 +9,8 @@
  */
 
 export {
-  InvoicesListResult,
-  Invoice,
-  Resource,
-  BaseResource,
-  DownloadUrl,
+  InvoicePricesheetGetHeaders,
   ErrorResponse,
-  ErrorDetails,
-  EnrollmentAccount,
-  BillingPeriod
+  ErrorDetails
 } from "../models/mappers";
 

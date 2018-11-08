@@ -317,11 +317,11 @@ export interface BillingManagementClientOptions extends AzureServiceClientOption
 
 /**
  * @interface
- * An interface representing InvoicesPricesheetHeaders.
- * Defines headers for Pricesheet operation.
+ * An interface representing InvoicePricesheetGetHeaders.
+ * Defines headers for Get operation.
  *
  */
-export interface InvoicesPricesheetHeaders {
+export interface InvoicePricesheetGetHeaders {
   /**
    * @member {string} [location] GET this URL to retrieve the status of the
    * asynchronous operation.
@@ -547,21 +547,6 @@ export type InvoicesListResponse = InvoicesListResult & {
 };
 
 /**
- * Contains response data for the pricesheet operation.
- */
-export type InvoicesPricesheetResponse = InvoicesPricesheetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: InvoicesPricesheetHeaders;
-    };
-};
-
-/**
  * Contains response data for the get operation.
  */
 export type InvoicesGetResponse = Invoice & {
@@ -615,6 +600,21 @@ export type InvoicesListNextResponse = InvoicesListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: InvoicesListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type InvoicePricesheetGetResponse = InvoicePricesheetGetHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: InvoicePricesheetGetHeaders;
     };
 };
 

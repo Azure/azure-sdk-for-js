@@ -20,6 +20,7 @@ class BillingManagementClient extends BillingManagementClientContext {
   enrollmentAccounts: operations.EnrollmentAccounts;
   billingPeriods: operations.BillingPeriods;
   invoices: operations.Invoices;
+  invoicePricesheet: operations.InvoicePricesheet;
   operations: operations.Operations;
 
   /**
@@ -33,6 +34,7 @@ class BillingManagementClient extends BillingManagementClientContext {
     this.enrollmentAccounts = new operations.EnrollmentAccounts(this);
     this.billingPeriods = new operations.BillingPeriods(this);
     this.invoices = new operations.Invoices(this);
+    this.invoicePricesheet = new operations.InvoicePricesheet(this);
     this.operations = new operations.Operations(this);
   }
 }
