@@ -55,6 +55,38 @@ export class Invoices {
   }
 
   /**
+   * Get pricesheet data for invoice id (invoiceName).
+   * @param billingAccountId Azure Billing Account ID.
+   * @param invoiceName The name of an invoice resource.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.InvoicesPricesheetResponse>
+   */
+  pricesheet(billingAccountId: string, invoiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.InvoicesPricesheetResponse>;
+  /**
+   * @param billingAccountId Azure Billing Account ID.
+   * @param invoiceName The name of an invoice resource.
+   * @param callback The callback
+   */
+  pricesheet(billingAccountId: string, invoiceName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param billingAccountId Azure Billing Account ID.
+   * @param invoiceName The name of an invoice resource.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  pricesheet(billingAccountId: string, invoiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  pricesheet(billingAccountId: string, invoiceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.InvoicesPricesheetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        billingAccountId,
+        invoiceName,
+        options
+      },
+      pricesheetOperationSpec,
+      callback) as Promise<Models.InvoicesPricesheetResponse>;
+  }
+
+  /**
    * Gets a named invoice resource. When getting a single invoice, the downloadUrl property is
    * expanded automatically.  This is only supported for Azure Web-Direct subscriptions. Other
    * subscription types which were not purchased directly through the Azure web portal are not
@@ -166,6 +198,30 @@ const listOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.InvoicesListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const pricesheetOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoices/{invoiceName}/pricesheet/download",
+  urlParameters: [
+    Parameters.billingAccountId,
+    Parameters.invoiceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    202: {
+      headersMapper: Mappers.InvoicesPricesheetHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

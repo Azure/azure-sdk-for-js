@@ -16,6 +16,7 @@ export {
   DownloadUrl,
   ErrorResponse,
   ErrorDetails,
+  InvoicesPricesheetHeaders,
   EnrollmentAccount,
   BillingPeriod
 } from "../models/mappers";
