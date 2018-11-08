@@ -8642,35 +8642,10 @@ export interface ApiVersionSetCollection extends Array<ApiVersionSetContract> {
 /**
  * Defines values for PolicyContentFormat.
  * Possible values include: 'xml', 'xml-link', 'rawxml', 'rawxml-link'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PolicyContentFormat =
- * <PolicyContentFormat>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PolicyContentFormat {
-  /**
-   * The contents are inline and Content type is an XML document.
-   */
-  Xml = 'xml',
-  /**
-   * The policy XML document is hosted on a http endpoint accessible from the
-   * API Management service.
-   */
-  XmlLink = 'xml-link',
-  /**
-   * The contents are inline and Content type is a non XML encoded policy
-   * document.
-   */
-  Rawxml = 'rawxml',
-  /**
-   * The policy document is not Xml encoded and is hosted on a http endpoint
-   * accessible from the API Management service.
-   */
-  RawxmlLink = 'rawxml-link',
-}
+export type PolicyContentFormat = 'xml' | 'xml-link' | 'rawxml' | 'rawxml-link';
 
 /**
  * Defines values for Protocol.
@@ -8678,164 +8653,56 @@ export enum PolicyContentFormat {
  * @readonly
  * @enum {string}
  */
-export enum Protocol {
-  Http = 'http',
-  Https = 'https',
-}
+export type Protocol = 'http' | 'https';
 
 /**
  * Defines values for ContentFormat.
- * Possible values include: 'wadl-xml', 'wadl-link-json', 'swagger-json',
- * 'swagger-link-json', 'wsdl', 'wsdl-link'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ContentFormat =
- * <ContentFormat>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'wadl-xml', 'wadl-link-json', 'swagger-json', 'swagger-link-json',
+ * 'wsdl', 'wsdl-link'
  * @readonly
  * @enum {string}
  */
-export enum ContentFormat {
-  /**
-   * The contents are inline and Content type is a WADL document.
-   */
-  WadlXml = 'wadl-xml',
-  /**
-   * The WADL document is hosted on a publicly accessible internet address.
-   */
-  WadlLinkJson = 'wadl-link-json',
-  /**
-   * The contents are inline and Content Type is a OpenApi 2.0 Document.
-   */
-  SwaggerJson = 'swagger-json',
-  /**
-   * The Open Api 2.0 document is hosted on a publicly accessible internet
-   * address.
-   */
-  SwaggerLinkJson = 'swagger-link-json',
-  /**
-   * The contents are inline and the document is a WSDL/Soap document.
-   */
-  Wsdl = 'wsdl',
-  /**
-   * The WSDL document is hosted on a publicly accessible internet address.
-   */
-  WsdlLink = 'wsdl-link',
-}
+export type ContentFormat = 'wadl-xml' | 'wadl-link-json' | 'swagger-json' | 'swagger-link-json' | 'wsdl' | 'wsdl-link';
 
 /**
  * Defines values for SoapApiType.
  * Possible values include: 'SoapToRest', 'SoapPassThrough'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SoapApiType =
- * <SoapApiType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SoapApiType {
-  /**
-   * Imports a SOAP API having a RESTful front end.
-   */
-  SoapToRest = 'http',
-  /**
-   * Imports the Soap API having a SOAP front end.
-   */
-  SoapPassThrough = 'soap',
-}
+export type SoapApiType = 'http' | 'soap';
 
 /**
  * Defines values for BearerTokenSendingMethods.
  * Possible values include: 'authorizationHeader', 'query'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: BearerTokenSendingMethods =
- * <BearerTokenSendingMethods>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum BearerTokenSendingMethods {
-  /**
-   * Access token will be transmitted in the Authorization header using Bearer
-   * schema
-   */
-  AuthorizationHeader = 'authorizationHeader',
-  /**
-   * Access token will be transmitted as query parameters.
-   */
-  Query = 'query',
-}
+export type BearerTokenSendingMethods = 'authorizationHeader' | 'query';
 
 /**
  * Defines values for ApiType.
  * Possible values include: 'http', 'soap'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApiType = <ApiType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApiType {
-  Http = 'http',
-  Soap = 'soap',
-}
+export type ApiType = 'http' | 'soap';
 
 /**
  * Defines values for State.
  * Possible values include: 'proposed', 'open', 'removed', 'resolved', 'closed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: State = <State>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum State {
-  /**
-   * The issue is proposed.
-   */
-  Proposed = 'proposed',
-  /**
-   * The issue is opened.
-   */
-  Open = 'open',
-  /**
-   * The issue was removed.
-   */
-  Removed = 'removed',
-  /**
-   * The issue is now resolved.
-   */
-  Resolved = 'resolved',
-  /**
-   * The issue was closed.
-   */
-  Closed = 'closed',
-}
+export type State = 'proposed' | 'open' | 'removed' | 'resolved' | 'closed';
 
 /**
  * Defines values for LoggerType.
  * Possible values include: 'azureEventHub', 'applicationInsights'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: LoggerType = <LoggerType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum LoggerType {
-  /**
-   * Azure Event Hub as log destination.
-   */
-  AzureEventHub = 'azureEventHub',
-  /**
-   * Azure Application Insights as log destination.
-   */
-  ApplicationInsights = 'applicationInsights',
-}
+export type LoggerType = 'azureEventHub' | 'applicationInsights';
 
 /**
  * Defines values for ProductState.
@@ -8843,122 +8710,48 @@ export enum LoggerType {
  * @readonly
  * @enum {string}
  */
-export enum ProductState {
-  NotPublished = 'notPublished',
-  Published = 'published',
-}
+export type ProductState = 'notPublished' | 'published';
 
 /**
  * Defines values for GrantType.
- * Possible values include: 'authorizationCode', 'implicit',
- * 'resourceOwnerPassword', 'clientCredentials'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: GrantType = <GrantType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'authorizationCode', 'implicit', 'resourceOwnerPassword',
+ * 'clientCredentials'
  * @readonly
  * @enum {string}
  */
-export enum GrantType {
-  /**
-   * Authorization Code Grant flow as described
-   * https://tools.ietf.org/html/rfc6749#section-4.1.
-   */
-  AuthorizationCode = 'authorizationCode',
-  /**
-   * Implicit Code Grant flow as described
-   * https://tools.ietf.org/html/rfc6749#section-4.2.
-   */
-  Implicit = 'implicit',
-  /**
-   * Resource Owner Password Grant flow as described
-   * https://tools.ietf.org/html/rfc6749#section-4.3.
-   */
-  ResourceOwnerPassword = 'resourceOwnerPassword',
-  /**
-   * Client Credentials Grant flow as described
-   * https://tools.ietf.org/html/rfc6749#section-4.4.
-   */
-  ClientCredentials = 'clientCredentials',
-}
+export type GrantType = 'authorizationCode' | 'implicit' | 'resourceOwnerPassword' | 'clientCredentials';
 
 /**
  * Defines values for AuthorizationMethod.
- * Possible values include: 'HEAD', 'OPTIONS', 'TRACE', 'GET', 'POST', 'PUT',
- * 'PATCH', 'DELETE'
+ * Possible values include: 'HEAD', 'OPTIONS', 'TRACE', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE'
  * @readonly
  * @enum {string}
  */
-export enum AuthorizationMethod {
-  HEAD = 'HEAD',
-  OPTIONS = 'OPTIONS',
-  TRACE = 'TRACE',
-  GET = 'GET',
-  POST = 'POST',
-  PUT = 'PUT',
-  PATCH = 'PATCH',
-  DELETE = 'DELETE',
-}
+export type AuthorizationMethod = 'HEAD' | 'OPTIONS' | 'TRACE' | 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
 /**
  * Defines values for ClientAuthenticationMethod.
  * Possible values include: 'Basic', 'Body'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ClientAuthenticationMethod =
- * <ClientAuthenticationMethod>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ClientAuthenticationMethod {
-  /**
-   * Basic Client Authentication method.
-   */
-  Basic = 'Basic',
-  /**
-   * Body based Authentication method.
-   */
-  Body = 'Body',
-}
+export type ClientAuthenticationMethod = 'Basic' | 'Body';
 
 /**
  * Defines values for BearerTokenSendingMethod.
  * Possible values include: 'authorizationHeader', 'query'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: BearerTokenSendingMethod =
- * <BearerTokenSendingMethod>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum BearerTokenSendingMethod {
-  AuthorizationHeader = 'authorizationHeader',
-  Query = 'query',
-}
+export type BearerTokenSendingMethod = 'authorizationHeader' | 'query';
 
 /**
  * Defines values for BackendProtocol.
  * Possible values include: 'http', 'soap'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: BackendProtocol =
- * <BackendProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum BackendProtocol {
-  /**
-   * The Backend is a RESTful service.
-   */
-  Http = 'http',
-  /**
-   * The Backend is a SOAP service.
-   */
-  Soap = 'soap',
-}
+export type BackendProtocol = 'http' | 'soap';
 
 /**
  * Defines values for HostnameType.
@@ -8966,68 +8759,23 @@ export enum BackendProtocol {
  * @readonly
  * @enum {string}
  */
-export enum HostnameType {
-  Proxy = 'Proxy',
-  Portal = 'Portal',
-  Management = 'Management',
-  Scm = 'Scm',
-}
+export type HostnameType = 'Proxy' | 'Portal' | 'Management' | 'Scm';
 
 /**
  * Defines values for SkuType.
  * Possible values include: 'Developer', 'Standard', 'Premium', 'Basic'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SkuType = <SkuType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SkuType {
-  /**
-   * Developer SKU of Api Management.
-   */
-  Developer = 'Developer',
-  /**
-   * Standard SKU of Api Management.
-   */
-  Standard = 'Standard',
-  /**
-   * Premium SKU of Api Management.
-   */
-  Premium = 'Premium',
-  /**
-   * Basic SKU of Api Management.
-   */
-  Basic = 'Basic',
-}
+export type SkuType = 'Developer' | 'Standard' | 'Premium' | 'Basic';
 
 /**
  * Defines values for VirtualNetworkType.
  * Possible values include: 'None', 'External', 'Internal'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VirtualNetworkType =
- * <VirtualNetworkType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VirtualNetworkType {
-  /**
-   * The service is not part of any Virtual Network.
-   */
-  None = 'None',
-  /**
-   * The service is part of Virtual Network and it is accessible from Internet.
-   */
-  External = 'External',
-  /**
-   * The service is part of Virtual Network and it is only accessible from
-   * within the virtual network.
-   */
-  Internal = 'Internal',
-}
+export type VirtualNetworkType = 'None' | 'External' | 'Internal';
 
 /**
  * Defines values for NameAvailabilityReason.
@@ -9035,11 +8783,7 @@ export enum VirtualNetworkType {
  * @readonly
  * @enum {string}
  */
-export enum NameAvailabilityReason {
-  Valid = 'Valid',
-  Invalid = 'Invalid',
-  AlreadyExists = 'AlreadyExists',
-}
+export type NameAvailabilityReason = 'Valid' | 'Invalid' | 'AlreadyExists';
 
 /**
  * Defines values for GroupType.
@@ -9047,136 +8791,47 @@ export enum NameAvailabilityReason {
  * @readonly
  * @enum {string}
  */
-export enum GroupType {
-  Custom = 'custom',
-  System = 'system',
-  External = 'external',
-}
+export type GroupType = 'custom' | 'system' | 'external';
 
 /**
  * Defines values for Confirmation.
  * Possible values include: 'signup', 'invite'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Confirmation =
- * <Confirmation>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Confirmation {
-  /**
-   * Send an e-mail to the user confirming they have successfully signed up.
-   */
-  Signup = 'signup',
-  /**
-   * Send an e-mail inviting the user to sign-up and complete registration.
-   */
-  Invite = 'invite',
-}
+export type Confirmation = 'signup' | 'invite';
 
 /**
  * Defines values for UserState.
  * Possible values include: 'active', 'blocked', 'pending', 'deleted'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: UserState = <UserState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum UserState {
-  /**
-   * User state is active.
-   */
-  Active = 'active',
-  /**
-   * User is blocked. Blocked users cannot authenticate at developer portal or
-   * call API.
-   */
-  Blocked = 'blocked',
-  /**
-   * User account is pending. Requires identity confirmation before it can be
-   * made active.
-   */
-  Pending = 'pending',
-  /**
-   * User account is closed. All identities and related entities are removed.
-   */
-  Deleted = 'deleted',
-}
+export type UserState = 'active' | 'blocked' | 'pending' | 'deleted';
 
 /**
  * Defines values for IdentityProviderType.
- * Possible values include: 'facebook', 'google', 'microsoft', 'twitter',
- * 'aad', 'aadB2C'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IdentityProviderType =
- * <IdentityProviderType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'facebook', 'google', 'microsoft', 'twitter', 'aad', 'aadB2C'
  * @readonly
  * @enum {string}
  */
-export enum IdentityProviderType {
-  /**
-   * Facebook as Identity provider.
-   */
-  Facebook = 'facebook',
-  /**
-   * Google as Identity provider.
-   */
-  Google = 'google',
-  /**
-   * Microsoft Live as Identity provider.
-   */
-  Microsoft = 'microsoft',
-  /**
-   * Twitter as Identity provider.
-   */
-  Twitter = 'twitter',
-  /**
-   * Azure Active Directory as Identity provider.
-   */
-  Aad = 'aad',
-  /**
-   * Azure Active Directory B2C as Identity provider.
-   */
-  AadB2C = 'aadB2C',
-}
+export type IdentityProviderType = 'facebook' | 'google' | 'microsoft' | 'twitter' | 'aad' | 'aadB2C';
 
 /**
  * Defines values for ConnectivityStatusType.
  * Possible values include: 'initializing', 'success', 'failure'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ConnectivityStatusType =
- * <ConnectivityStatusType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ConnectivityStatusType {
-  Initializing = 'initializing',
-  Success = 'success',
-  Failure = 'failure',
-}
+export type ConnectivityStatusType = 'initializing' | 'success' | 'failure';
 
 /**
  * Defines values for SubscriptionState.
- * Possible values include: 'suspended', 'active', 'expired', 'submitted',
- * 'rejected', 'cancelled'
+ * Possible values include: 'suspended', 'active', 'expired', 'submitted', 'rejected', 'cancelled'
  * @readonly
  * @enum {string}
  */
-export enum SubscriptionState {
-  Suspended = 'suspended',
-  Active = 'active',
-  Expired = 'expired',
-  Submitted = 'submitted',
-  Rejected = 'rejected',
-  Cancelled = 'cancelled',
-}
+export type SubscriptionState = 'suspended' | 'active' | 'expired' | 'submitted' | 'rejected' | 'cancelled';
 
 /**
  * Defines values for AsyncOperationStatus.
@@ -9184,12 +8839,7 @@ export enum SubscriptionState {
  * @readonly
  * @enum {string}
  */
-export enum AsyncOperationStatus {
-  Started = 'Started',
-  InProgress = 'InProgress',
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-}
+export type AsyncOperationStatus = 'Started' | 'InProgress' | 'Succeeded' | 'Failed';
 
 /**
  * Defines values for KeyType.
@@ -9197,124 +8847,40 @@ export enum AsyncOperationStatus {
  * @readonly
  * @enum {string}
  */
-export enum KeyType {
-  Primary = 'primary',
-  Secondary = 'secondary',
-}
+export type KeyType = 'primary' | 'secondary';
 
 /**
  * Defines values for VersioningScheme.
  * Possible values include: 'Segment', 'Query', 'Header'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VersioningScheme =
- * <VersioningScheme>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VersioningScheme {
-  /**
-   * The API Version is passed in a path segment.
-   */
-  Segment = 'Segment',
-  /**
-   * The API Version is passed in a query parameter.
-   */
-  Query = 'Query',
-  /**
-   * The API Version is passed in a HTTP header.
-   */
-  Header = 'Header',
-}
+export type VersioningScheme = 'Segment' | 'Query' | 'Header';
 
 /**
  * Defines values for TemplateName.
- * Possible values include: 'applicationApprovedNotificationMessage',
- * 'accountClosedDeveloper',
- * 'quotaLimitApproachingDeveloperNotificationMessage',
- * 'newDeveloperNotificationMessage', 'emailChangeIdentityDefault',
- * 'inviteUserNotificationMessage', 'newCommentNotificationMessage',
+ * Possible values include: 'applicationApprovedNotificationMessage', 'accountClosedDeveloper',
+ * 'quotaLimitApproachingDeveloperNotificationMessage', 'newDeveloperNotificationMessage',
+ * 'emailChangeIdentityDefault', 'inviteUserNotificationMessage', 'newCommentNotificationMessage',
  * 'confirmSignUpIdentityDefault', 'newIssueNotificationMessage',
  * 'purchaseDeveloperNotificationMessage', 'passwordResetIdentityDefault',
- * 'passwordResetByAdminNotificationMessage',
- * 'rejectDeveloperNotificationMessage', 'requestDeveloperNotificationMessage'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TemplateName =
- * <TemplateName>"someUnknownValueThatWillStillBeValid";
+ * 'passwordResetByAdminNotificationMessage', 'rejectDeveloperNotificationMessage',
+ * 'requestDeveloperNotificationMessage'
  * @readonly
  * @enum {string}
  */
-export enum TemplateName {
-  ApplicationApprovedNotificationMessage = 'applicationApprovedNotificationMessage',
-  AccountClosedDeveloper = 'accountClosedDeveloper',
-  QuotaLimitApproachingDeveloperNotificationMessage = 'quotaLimitApproachingDeveloperNotificationMessage',
-  NewDeveloperNotificationMessage = 'newDeveloperNotificationMessage',
-  EmailChangeIdentityDefault = 'emailChangeIdentityDefault',
-  InviteUserNotificationMessage = 'inviteUserNotificationMessage',
-  NewCommentNotificationMessage = 'newCommentNotificationMessage',
-  ConfirmSignUpIdentityDefault = 'confirmSignUpIdentityDefault',
-  NewIssueNotificationMessage = 'newIssueNotificationMessage',
-  PurchaseDeveloperNotificationMessage = 'purchaseDeveloperNotificationMessage',
-  PasswordResetIdentityDefault = 'passwordResetIdentityDefault',
-  PasswordResetByAdminNotificationMessage = 'passwordResetByAdminNotificationMessage',
-  RejectDeveloperNotificationMessage = 'rejectDeveloperNotificationMessage',
-  RequestDeveloperNotificationMessage = 'requestDeveloperNotificationMessage',
-}
+export type TemplateName = 'applicationApprovedNotificationMessage' | 'accountClosedDeveloper' | 'quotaLimitApproachingDeveloperNotificationMessage' | 'newDeveloperNotificationMessage' | 'emailChangeIdentityDefault' | 'inviteUserNotificationMessage' | 'newCommentNotificationMessage' | 'confirmSignUpIdentityDefault' | 'newIssueNotificationMessage' | 'purchaseDeveloperNotificationMessage' | 'passwordResetIdentityDefault' | 'passwordResetByAdminNotificationMessage' | 'rejectDeveloperNotificationMessage' | 'requestDeveloperNotificationMessage';
 
 /**
  * Defines values for NotificationName.
  * Possible values include: 'RequestPublisherNotificationMessage',
- * 'PurchasePublisherNotificationMessage', 'NewApplicationNotificationMessage',
- * 'BCC', 'NewIssuePublisherNotificationMessage', 'AccountClosedPublisher',
+ * 'PurchasePublisherNotificationMessage', 'NewApplicationNotificationMessage', 'BCC',
+ * 'NewIssuePublisherNotificationMessage', 'AccountClosedPublisher',
  * 'QuotaLimitApproachingPublisherNotificationMessage'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: NotificationName =
- * <NotificationName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum NotificationName {
-  /**
-   * The following email recipients and users will receive email notifications
-   * about subscription requests for API products requiring approval.
-   */
-  RequestPublisherNotificationMessage = 'RequestPublisherNotificationMessage',
-  /**
-   * The following email recipients and users will receive email notifications
-   * about new API product subscriptions.
-   */
-  PurchasePublisherNotificationMessage = 'PurchasePublisherNotificationMessage',
-  /**
-   * The following email recipients and users will receive email notifications
-   * when new applications are submitted to the application gallery.
-   */
-  NewApplicationNotificationMessage = 'NewApplicationNotificationMessage',
-  /**
-   * The following recipients will receive blind carbon copies of all emails
-   * sent to developers.
-   */
-  BCC = 'BCC',
-  /**
-   * The following email recipients and users will receive email notifications
-   * when a new issue or comment is submitted on the developer portal.
-   */
-  NewIssuePublisherNotificationMessage = 'NewIssuePublisherNotificationMessage',
-  /**
-   * The following email recipients and users will receive email notifications
-   * when developer closes his account.
-   */
-  AccountClosedPublisher = 'AccountClosedPublisher',
-  /**
-   * The following email recipients and users will receive email notifications
-   * when subscription usage gets close to usage quota.
-   */
-  QuotaLimitApproachingPublisherNotificationMessage = 'QuotaLimitApproachingPublisherNotificationMessage',
-}
+export type NotificationName = 'RequestPublisherNotificationMessage' | 'PurchasePublisherNotificationMessage' | 'NewApplicationNotificationMessage' | 'BCC' | 'NewIssuePublisherNotificationMessage' | 'AccountClosedPublisher' | 'QuotaLimitApproachingPublisherNotificationMessage';
 
 /**
  * Defines values for PolicyScopeContract.
@@ -9322,73 +8888,31 @@ export enum NotificationName {
  * @readonly
  * @enum {string}
  */
-export enum PolicyScopeContract {
-  Tenant = 'Tenant',
-  Product = 'Product',
-  Api = 'Api',
-  Operation = 'Operation',
-  All = 'All',
-}
+export type PolicyScopeContract = 'Tenant' | 'Product' | 'Api' | 'Operation' | 'All';
 
 /**
  * Defines values for ExportFormat.
  * Possible values include: 'Swagger', 'Wsdl', 'Wadl'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ExportFormat =
- * <ExportFormat>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ExportFormat {
-  /**
-   * Export the Api Definition in OpenApi Specification 2.0 format to the
-   * Storage Blob.
-   */
-  Swagger = 'swagger-link',
-  /**
-   * Export the Api Definition in WSDL Schema to Storage Blob. This is only
-   * supported for APIs of Type `soap`
-   */
-  Wsdl = 'wsdl-link',
-  /**
-   * Export the Api Definition in WADL Schema to Storage Blob.
-   */
-  Wadl = 'wadl-link',
-}
+export type ExportFormat = 'swagger-link' | 'wsdl-link' | 'wadl-link';
 
 /**
  * Defines values for VersioningScheme1.
  * Possible values include: 'Segment', 'Query', 'Header'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VersioningScheme1 =
- * <VersioningScheme1>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VersioningScheme1 {
-  Segment = 'Segment',
-  Query = 'Query',
-  Header = 'Header',
-}
+export type VersioningScheme1 = 'Segment' | 'Query' | 'Header';
 
 /**
  * Defines values for StoreName.
  * Possible values include: 'CertificateAuthority', 'Root'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: StoreName = <StoreName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum StoreName {
-  CertificateAuthority = 'CertificateAuthority',
-  Root = 'Root',
-}
+export type StoreName = 'CertificateAuthority' | 'Root';
 
 /**
  * Contains response data for the listByService operation.

@@ -91,7 +91,7 @@ export class TenantConfiguration {
    * @param callback The callback
    */
   getSyncState(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TenantConfigurationSyncStateContract>): void;
-  getSyncState(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TenantConfigurationSyncStateContract>): Promise<Models.TenantConfigurationGetSyncStateResponse> {
+  getSyncState(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TenantConfigurationSyncStateContract>, callback?: msRest.ServiceCallback<Models.TenantConfigurationSyncStateContract>): Promise<Models.TenantConfigurationGetSyncStateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

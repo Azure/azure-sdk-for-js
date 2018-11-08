@@ -47,7 +47,7 @@ export class Regions {
    * @param callback The callback
    */
   listByService(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegionListResult>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RegionListResult>): Promise<Models.RegionsListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegionListResult>, callback?: msRest.ServiceCallback<Models.RegionListResult>): Promise<Models.RegionsListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -76,7 +76,7 @@ export class Regions {
    * @param callback The callback
    */
   listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegionListResult>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RegionListResult>): Promise<Models.RegionsListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegionListResult>, callback?: msRest.ServiceCallback<Models.RegionListResult>): Promise<Models.RegionsListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

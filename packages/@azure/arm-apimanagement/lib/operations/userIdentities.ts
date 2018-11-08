@@ -50,7 +50,7 @@ export class UserIdentities {
    * @param callback The callback
    */
   list(resourceGroupName: string, serviceName: string, uid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserIdentityCollection>): void;
-  list(resourceGroupName: string, serviceName: string, uid: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UserIdentityCollection>): Promise<Models.UserIdentitiesListResponse> {
+  list(resourceGroupName: string, serviceName: string, uid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserIdentityCollection>, callback?: msRest.ServiceCallback<Models.UserIdentityCollection>): Promise<Models.UserIdentitiesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -80,7 +80,7 @@ export class UserIdentities {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserIdentityCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UserIdentityCollection>): Promise<Models.UserIdentitiesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserIdentityCollection>, callback?: msRest.ServiceCallback<Models.UserIdentityCollection>): Promise<Models.UserIdentitiesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

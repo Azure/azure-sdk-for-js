@@ -47,7 +47,7 @@ export class Tag {
    * @param callback The callback
    */
   listByService(resourceGroupName: string, serviceName: string, options: Models.TagListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.TagCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.TagListByServiceOptionalParams, callback?: msRest.ServiceCallback<Models.TagCollection>): Promise<Models.TagListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.TagListByServiceOptionalParams | msRest.ServiceCallback<Models.TagCollection>, callback?: msRest.ServiceCallback<Models.TagCollection>): Promise<Models.TagListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class Tag {
    * @param callback The callback
    */
   getEntityState(resourceGroupName: string, serviceName: string, tagId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityState(resourceGroupName: string, serviceName: string, tagId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.TagGetEntityStateResponse> {
+  getEntityState(resourceGroupName: string, serviceName: string, tagId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.TagGetEntityStateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -118,7 +118,7 @@ export class Tag {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, tagId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagContract>): void;
-  get(resourceGroupName: string, serviceName: string, tagId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagGetResponse> {
+  get(resourceGroupName: string, serviceName: string, tagId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagContract>, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -157,7 +157,7 @@ export class Tag {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagContract>, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -203,7 +203,7 @@ export class Tag {
    * @param callback The callback
    */
   update(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -247,7 +247,7 @@ export class Tag {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, tagId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, tagId: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, tagId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -287,7 +287,7 @@ export class Tag {
    * @param callback The callback
    */
   listByApi(resourceGroupName: string, serviceName: string, apiId: string, options: Models.TagListByApiOptionalParams, callback: msRest.ServiceCallback<Models.TagCollection>): void;
-  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.TagListByApiOptionalParams, callback?: msRest.ServiceCallback<Models.TagCollection>): Promise<Models.TagListByApiResponse> {
+  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.TagListByApiOptionalParams | msRest.ServiceCallback<Models.TagCollection>, callback?: msRest.ServiceCallback<Models.TagCollection>): Promise<Models.TagListByApiResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -329,7 +329,7 @@ export class Tag {
    * @param callback The callback
    */
   getEntityStateByApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityStateByApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.TagGetEntityStateByApiResponse> {
+  getEntityStateByApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.TagGetEntityStateByApiResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -372,7 +372,7 @@ export class Tag {
    * @param callback The callback
    */
   getByApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagContract>): void;
-  getByApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagGetByApiResponse> {
+  getByApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagContract>, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagGetByApiResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -415,7 +415,7 @@ export class Tag {
    * @param callback The callback
    */
   assignToApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options: Models.TagAssignToApiOptionalParams, callback: msRest.ServiceCallback<Models.TagContract>): void;
-  assignToApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options?: Models.TagAssignToApiOptionalParams, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagAssignToApiResponse> {
+  assignToApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options?: Models.TagAssignToApiOptionalParams | msRest.ServiceCallback<Models.TagContract>, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagAssignToApiResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -464,7 +464,7 @@ export class Tag {
    * @param callback The callback
    */
   detachFromApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  detachFromApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  detachFromApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -511,7 +511,7 @@ export class Tag {
    * @param callback The callback
    */
   listByOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, options: Models.TagListByOperationOptionalParams, callback: msRest.ServiceCallback<Models.TagCollection>): void;
-  listByOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, options?: Models.TagListByOperationOptionalParams, callback?: msRest.ServiceCallback<Models.TagCollection>): Promise<Models.TagListByOperationResponse> {
+  listByOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, options?: Models.TagListByOperationOptionalParams | msRest.ServiceCallback<Models.TagCollection>, callback?: msRest.ServiceCallback<Models.TagCollection>): Promise<Models.TagListByOperationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -560,7 +560,7 @@ export class Tag {
    * @param callback The callback
    */
   getEntityStateByOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityStateByOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.TagGetEntityStateByOperationResponse> {
+  getEntityStateByOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.TagGetEntityStateByOperationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -610,7 +610,7 @@ export class Tag {
    * @param callback The callback
    */
   getByOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagContract>): void;
-  getByOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagGetByOperationResponse> {
+  getByOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagContract>, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagGetByOperationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -660,7 +660,7 @@ export class Tag {
    * @param callback The callback
    */
   assignToOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, options: Models.TagAssignToOperationOptionalParams, callback: msRest.ServiceCallback<Models.TagContract>): void;
-  assignToOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, options?: Models.TagAssignToOperationOptionalParams, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagAssignToOperationResponse> {
+  assignToOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, options?: Models.TagAssignToOperationOptionalParams | msRest.ServiceCallback<Models.TagContract>, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagAssignToOperationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -716,7 +716,7 @@ export class Tag {
    * @param callback The callback
    */
   detachFromOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  detachFromOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  detachFromOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -758,7 +758,7 @@ export class Tag {
    * @param callback The callback
    */
   listByProduct(resourceGroupName: string, serviceName: string, productId: string, options: Models.TagListByProductOptionalParams, callback: msRest.ServiceCallback<Models.TagCollection>): void;
-  listByProduct(resourceGroupName: string, serviceName: string, productId: string, options?: Models.TagListByProductOptionalParams, callback?: msRest.ServiceCallback<Models.TagCollection>): Promise<Models.TagListByProductResponse> {
+  listByProduct(resourceGroupName: string, serviceName: string, productId: string, options?: Models.TagListByProductOptionalParams | msRest.ServiceCallback<Models.TagCollection>, callback?: msRest.ServiceCallback<Models.TagCollection>): Promise<Models.TagListByProductResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -800,7 +800,7 @@ export class Tag {
    * @param callback The callback
    */
   getEntityStateByProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityStateByProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.TagGetEntityStateByProductResponse> {
+  getEntityStateByProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.TagGetEntityStateByProductResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -843,7 +843,7 @@ export class Tag {
    * @param callback The callback
    */
   getByProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagContract>): void;
-  getByProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagGetByProductResponse> {
+  getByProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagContract>, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagGetByProductResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -886,7 +886,7 @@ export class Tag {
    * @param callback The callback
    */
   assignToProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, options: Models.TagAssignToProductOptionalParams, callback: msRest.ServiceCallback<Models.TagContract>): void;
-  assignToProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, options?: Models.TagAssignToProductOptionalParams, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagAssignToProductResponse> {
+  assignToProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, options?: Models.TagAssignToProductOptionalParams | msRest.ServiceCallback<Models.TagContract>, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagAssignToProductResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -935,7 +935,7 @@ export class Tag {
    * @param callback The callback
    */
   detachFromProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  detachFromProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  detachFromProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -967,7 +967,7 @@ export class Tag {
    * @param callback The callback
    */
   listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TagCollection>): Promise<Models.TagListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagCollection>, callback?: msRest.ServiceCallback<Models.TagCollection>): Promise<Models.TagListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -995,7 +995,7 @@ export class Tag {
    * @param callback The callback
    */
   listByApiNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagCollection>): void;
-  listByApiNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TagCollection>): Promise<Models.TagListByApiNextResponse> {
+  listByApiNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagCollection>, callback?: msRest.ServiceCallback<Models.TagCollection>): Promise<Models.TagListByApiNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1023,7 +1023,7 @@ export class Tag {
    * @param callback The callback
    */
   listByOperationNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagCollection>): void;
-  listByOperationNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TagCollection>): Promise<Models.TagListByOperationNextResponse> {
+  listByOperationNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagCollection>, callback?: msRest.ServiceCallback<Models.TagCollection>): Promise<Models.TagListByOperationNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1051,7 +1051,7 @@ export class Tag {
    * @param callback The callback
    */
   listByProductNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagCollection>): void;
-  listByProductNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TagCollection>): Promise<Models.TagListByProductNextResponse> {
+  listByProductNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagCollection>, callback?: msRest.ServiceCallback<Models.TagCollection>): Promise<Models.TagListByProductNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

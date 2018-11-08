@@ -47,7 +47,7 @@ export class ApiVersionSet {
    * @param callback The callback
    */
   listByService(resourceGroupName: string, serviceName: string, options: Models.ApiVersionSetListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.ApiVersionSetCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.ApiVersionSetListByServiceOptionalParams, callback?: msRest.ServiceCallback<Models.ApiVersionSetCollection>): Promise<Models.ApiVersionSetListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.ApiVersionSetListByServiceOptionalParams | msRest.ServiceCallback<Models.ApiVersionSetCollection>, callback?: msRest.ServiceCallback<Models.ApiVersionSetCollection>): Promise<Models.ApiVersionSetListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -85,7 +85,7 @@ export class ApiVersionSet {
    * @param callback The callback
    */
   getEntityTag(resourceGroupName: string, serviceName: string, versionSetId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, versionSetId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiVersionSetGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, versionSetId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiVersionSetGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -124,7 +124,7 @@ export class ApiVersionSet {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, versionSetId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiVersionSetContract>): void;
-  get(resourceGroupName: string, serviceName: string, versionSetId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApiVersionSetContract>): Promise<Models.ApiVersionSetGetResponse> {
+  get(resourceGroupName: string, serviceName: string, versionSetId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiVersionSetContract>, callback?: msRest.ServiceCallback<Models.ApiVersionSetContract>): Promise<Models.ApiVersionSetGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -166,7 +166,7 @@ export class ApiVersionSet {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, versionSetId: string, parameters: Models.ApiVersionSetContract, options: Models.ApiVersionSetCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.ApiVersionSetContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, versionSetId: string, parameters: Models.ApiVersionSetContract, options?: Models.ApiVersionSetCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.ApiVersionSetContract>): Promise<Models.ApiVersionSetCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, versionSetId: string, parameters: Models.ApiVersionSetContract, options?: Models.ApiVersionSetCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.ApiVersionSetContract>, callback?: msRest.ServiceCallback<Models.ApiVersionSetContract>): Promise<Models.ApiVersionSetCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -215,7 +215,7 @@ export class ApiVersionSet {
    * @param callback The callback
    */
   update(resourceGroupName: string, serviceName: string, versionSetId: string, parameters: Models.ApiVersionSetUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, versionSetId: string, parameters: Models.ApiVersionSetUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, versionSetId: string, parameters: Models.ApiVersionSetUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -262,7 +262,7 @@ export class ApiVersionSet {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, versionSetId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, versionSetId: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, versionSetId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -293,7 +293,7 @@ export class ApiVersionSet {
    * @param callback The callback
    */
   listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiVersionSetCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApiVersionSetCollection>): Promise<Models.ApiVersionSetListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiVersionSetCollection>, callback?: msRest.ServiceCallback<Models.ApiVersionSetCollection>): Promise<Models.ApiVersionSetListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
