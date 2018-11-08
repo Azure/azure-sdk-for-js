@@ -16,6 +16,8 @@ export * from "./replicationLogicalNetworks";
 export * from "./replicationNetworks";
 export * from "./replicationNetworkMappings";
 export * from "./replicationProtectionContainers";
+export * from "./replicationMigrationItems";
+export * from "./migrationRecoveryPoints";
 export * from "./replicationProtectableItems";
 export * from "./replicationProtectedItems";
 export * from "./recoveryPoints";

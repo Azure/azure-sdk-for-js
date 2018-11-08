@@ -43,7 +43,7 @@ export class ReplicationFabrics {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FabricCollection>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FabricCollection>): Promise<Models.ReplicationFabricsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FabricCollection>, callback?: msRest.ServiceCallback<Models.FabricCollection>): Promise<Models.ReplicationFabricsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -71,7 +71,7 @@ export class ReplicationFabrics {
    * @param callback The callback
    */
   get(fabricName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Fabric>): void;
-  get(fabricName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Fabric>): Promise<Models.ReplicationFabricsGetResponse> {
+  get(fabricName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Fabric>, callback?: msRest.ServiceCallback<Models.Fabric>): Promise<Models.ReplicationFabricsGetResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -312,7 +312,7 @@ export class ReplicationFabrics {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FabricCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FabricCollection>): Promise<Models.ReplicationFabricsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FabricCollection>, callback?: msRest.ServiceCallback<Models.FabricCollection>): Promise<Models.ReplicationFabricsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

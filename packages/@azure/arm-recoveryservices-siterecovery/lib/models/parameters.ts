@@ -102,6 +102,26 @@ export const mappingName: msRest.OperationURLParameter = {
     }
   }
 };
+export const migrationItemName: msRest.OperationURLParameter = {
+  parameterPath: "migrationItemName",
+  mapper: {
+    required: true,
+    serializedName: "migrationItemName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const migrationRecoveryPointName: msRest.OperationURLParameter = {
+  parameterPath: "migrationRecoveryPointName",
+  mapper: {
+    required: true,
+    serializedName: "migrationRecoveryPointName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const networkMappingName: msRest.OperationURLParameter = {
   parameterPath: "networkMappingName",
   mapper: {

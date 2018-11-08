@@ -43,7 +43,7 @@ export class ReplicationPolicies {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyCollection>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyCollection>): Promise<Models.ReplicationPoliciesListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyCollection>, callback?: msRest.ServiceCallback<Models.PolicyCollection>): Promise<Models.ReplicationPoliciesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -71,7 +71,7 @@ export class ReplicationPolicies {
    * @param callback The callback
    */
   get(policyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Policy>): void;
-  get(policyName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Policy>): Promise<Models.ReplicationPoliciesGetResponse> {
+  get(policyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Policy>, callback?: msRest.ServiceCallback<Models.Policy>): Promise<Models.ReplicationPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         policyName,
@@ -193,7 +193,7 @@ export class ReplicationPolicies {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyCollection>): Promise<Models.ReplicationPoliciesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyCollection>, callback?: msRest.ServiceCallback<Models.PolicyCollection>): Promise<Models.ReplicationPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
