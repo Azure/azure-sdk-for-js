@@ -27,14 +27,14 @@ import { generateBlockID } from "./utils/utils.common";
  * @export
  * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
  *                          goto documents of Aborter for more examples about request cancellation
- * @param {Blob | File | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
+ * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
  * @param {BlockBlobURL} blockBlobURL
  * @param {IUploadToBlockBlobOptions} [options]
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 export async function uploadBrowserDataToBlockBlob(
   aborter: Aborter,
-  browserData: Blob | File | ArrayBuffer | ArrayBufferView,
+  browserData: Blob | ArrayBuffer | ArrayBufferView,
   blockBlobURL: BlockBlobURL,
   options?: IUploadToBlockBlobOptions
 ): Promise<BlobUploadCommonResponse> {
