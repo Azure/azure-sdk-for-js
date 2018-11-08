@@ -6412,6 +6412,25 @@ export interface RetentionPolicyParameters {
 
 /**
  * @interface
+ * An interface representing FlowLogFormatParameters.
+ * Parameters that define the flow log format.
+ *
+ */
+export interface FlowLogFormatParameters {
+  /**
+   * @member {FlowLogFormatType} [type] The file type of flow log. Possible
+   * values include: 'JSON'
+   */
+  type?: FlowLogFormatType;
+  /**
+   * @member {number} [version] The version (revision) of the flow log. Default
+   * value: 0 .
+   */
+  version?: number;
+}
+
+/**
+ * @interface
  * An interface representing FlowLogStatusParameters.
  * Parameters that define a resource to query flow log and traffic analytics
  * (optional) status.
@@ -6448,6 +6467,11 @@ export interface TrafficAnalyticsConfigurationProperties {
    * @member {string} workspaceResourceId Resource Id of the attached workspace
    */
   workspaceResourceId: string;
+  /**
+   * @member {number} [trafficAnalyticsInterval] The interval in minutes which
+   * would decide how frequently TA service should do flow analytics
+   */
+  trafficAnalyticsInterval?: number;
 }
 
 /**
@@ -6490,6 +6514,10 @@ export interface FlowLogInformation {
    * @member {RetentionPolicyParameters} [retentionPolicy]
    */
   retentionPolicy?: RetentionPolicyParameters;
+  /**
+   * @member {FlowLogFormatParameters} [format]
+   */
+  format?: FlowLogFormatParameters;
   /**
    * @member {TrafficAnalyticsProperties} [flowAnalyticsConfiguration]
    */
@@ -12159,6 +12187,21 @@ export enum PcError {
   CaptureFailed = 'CaptureFailed',
   LocalFileFailed = 'LocalFileFailed',
   StorageFailed = 'StorageFailed',
+}
+
+/**
+ * Defines values for FlowLogFormatType.
+ * Possible values include: 'JSON'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: FlowLogFormatType =
+ * <FlowLogFormatType>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum FlowLogFormatType {
+  JSON = 'JSON',
 }
 
 /**
