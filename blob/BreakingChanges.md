@@ -1,5 +1,7 @@
 # Breaking Changes
 
+* Updated names of exported interfaces `IHTTPPipelineLogger` & `IHTTPClient` to `IHttpPipelineLogger` & `IHttpClient`.
+
 2018.09 10.1.0-preview
 
 * `Aborter.None` is renamed to `Aborter.none` for JavaScript naming conventions.
