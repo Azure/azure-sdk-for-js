@@ -147,8 +147,8 @@ export function generateAccountSASQueryParameters(
 
   return new SASQueryParameters(
     version,
-    parsedPermissions,
     signature,
+    parsedPermissions,
     parsedServices,
     parsedResourceTypes,
     accountSASSignatureValues.protocol,
