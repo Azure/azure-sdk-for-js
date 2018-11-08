@@ -16,6 +16,7 @@ import { Logger } from "./logger";
 import { findMissingSdks, findSdkDirectory, saveContentToFile } from "./packages";
 import { copyExistingNodeJsReadme, findReadmeTypeScriptMdFilePaths, getAbsolutePackageFolderPathFromReadmeFileContents, getPackageNamesFromReadmeTypeScriptMdFileContents, getSinglePackageName, updateMainReadmeFile, updateTypeScriptReadmeFile } from "./readme";
 import { Version } from "./version";
+import { Merge } from 'nodegit/merge';
 
 const _logger = Logger.get();
 
@@ -190,7 +191,7 @@ export async function regenerate(branchName: string, packageName: string, azureS
     _logger.log(`Checked out ${branchName} branch`);
 
     const localBranch = remoteBranch.convertTo(BranchLocation.Local);
-    await mergeMasterIntoBranch(azureSdkForJsRepository, localBranch);
+    await mergeMasterIntoBranch(azureSdkForJsRepository, localBranch, { fileFavor: Merge.FILE_FAVOR.THEIRS });
     _logger.log(`Merged master into ${localBranch.shorthand()} successfully`);
 
     if (skipVersionBump) {
