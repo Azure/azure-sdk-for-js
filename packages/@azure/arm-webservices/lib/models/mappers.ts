@@ -28,6 +28,7 @@ export const Resource: msRest.CompositeMapper = {
         }
       },
       name: {
+        readOnly: true,
         serializedName: "name",
         type: {
           name: "String"
@@ -362,11 +363,11 @@ export const ExampleRequest: msRest.CompositeMapper = {
   }
 };
 
-export const AssetLocation: msRest.CompositeMapper = {
-  serializedName: "AssetLocation",
+export const BlobLocation: msRest.CompositeMapper = {
+  serializedName: "BlobLocation",
   type: {
     name: "Composite",
-    className: "AssetLocation",
+    className: "BlobLocation",
     modelProperties: {
       uri: {
         required: true,
@@ -512,7 +513,7 @@ export const AssetItem: msRest.CompositeMapper = {
         serializedName: "locationInfo",
         type: {
           name: "Composite",
-          className: "AssetLocation"
+          className: "BlobLocation"
         }
       },
       inputPorts: {
@@ -560,6 +561,28 @@ export const AssetItem: msRest.CompositeMapper = {
               className: "ModuleAssetParameter"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const WebServiceParameter: msRest.CompositeMapper = {
+  serializedName: "WebServiceParameter",
+  type: {
+    name: "Composite",
+    className: "WebServiceParameter",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Object"
+        }
+      },
+      certificateThumbprint: {
+        serializedName: "certificateThumbprint",
+        type: {
+          name: "String"
         }
       }
     }
@@ -710,9 +733,23 @@ export const WebServiceProperties: msRest.CompositeMapper = {
           name: "Dictionary",
           value: {
             type: {
-              name: "String"
+              name: "Composite",
+              className: "WebServiceParameter"
             }
           }
+        }
+      },
+      payloadsInBlobStorage: {
+        serializedName: "payloadsInBlobStorage",
+        type: {
+          name: "Boolean"
+        }
+      },
+      payloadsLocation: {
+        serializedName: "payloadsLocation",
+        type: {
+          name: "Composite",
+          className: "BlobLocation"
         }
       },
       packageType: {
@@ -780,7 +817,8 @@ export const GraphNode: msRest.CompositeMapper = {
           name: "Dictionary",
           value: {
             type: {
-              name: "String"
+              name: "Composite",
+              className: "WebServiceParameter"
             }
           }
         }
@@ -943,6 +981,195 @@ export const WebServicePropertiesForGraph: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "GraphPackage"
+        }
+      }
+    }
+  }
+};
+
+export const AsyncOperationErrorInfo: msRest.CompositeMapper = {
+  serializedName: "AsyncOperationErrorInfo",
+  type: {
+    name: "Composite",
+    className: "AsyncOperationErrorInfo",
+    modelProperties: {
+      code: {
+        readOnly: true,
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        readOnly: true,
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        readOnly: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        readOnly: true,
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AsyncOperationErrorInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AsyncOperationStatus: msRest.CompositeMapper = {
+  serializedName: "AsyncOperationStatus",
+  type: {
+    name: "Composite",
+    className: "AsyncOperationStatus",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        readOnly: true,
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        readOnly: true,
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      percentComplete: {
+        readOnly: true,
+        serializedName: "percentComplete",
+        type: {
+          name: "Number"
+        }
+      },
+      errorInfo: {
+        readOnly: true,
+        serializedName: "errorInfo",
+        type: {
+          name: "Composite",
+          className: "AsyncOperationErrorInfo"
+        }
+      }
+    }
+  }
+};
+
+export const OperationDisplayInfo: msRest.CompositeMapper = {
+  serializedName: "OperationDisplayInfo",
+  type: {
+    name: "Composite",
+    className: "OperationDisplayInfo",
+    modelProperties: {
+      description: {
+        readOnly: true,
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      operation: {
+        readOnly: true,
+        serializedName: "operation",
+        type: {
+          name: "String"
+        }
+      },
+      provider: {
+        readOnly: true,
+        serializedName: "provider",
+        type: {
+          name: "String"
+        }
+      },
+      resource: {
+        readOnly: true,
+        serializedName: "resource",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OperationEntity: msRest.CompositeMapper = {
+  serializedName: "OperationEntity",
+  type: {
+    name: "Composite",
+    className: "OperationEntity",
+    modelProperties: {
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      display: {
+        serializedName: "display",
+        type: {
+          name: "Composite",
+          className: "OperationDisplayInfo"
+        }
+      }
+    }
+  }
+};
+
+export const OperationEntityListResult: msRest.CompositeMapper = {
+  serializedName: "OperationEntityListResult",
+  type: {
+    name: "Composite",
+    className: "OperationEntityListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OperationEntity"
+            }
+          }
         }
       }
     }

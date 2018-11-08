@@ -6,9 +6,9 @@ const config = {
   input: './esm/machineLearningWorkspacesManagementClient.js',
   external: ["ms-rest-js", "ms-rest-azure-js"],
   output: {
-    file: "./dist/arm-machinelearning.js",
+    file: "./dist/arm-workspaces.js",
     format: "umd",
-    name: "Azure.ArmMachinelearning",
+    name: "Azure.ArmWorkspaces",
     sourcemap: true,
     globals: {
       "ms-rest-js": "msRest",

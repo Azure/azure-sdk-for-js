@@ -7,26 +7,24 @@ This package contains an isomorphic SDK for AzureMLWebServicesManagementClient.
 
 ## How to Install
 ```
-npm install @azure/arm-machinelearning
+npm install @azure/arm-webservices
 ```
 
 
 ## How to use
 
-### nodejs - Authentication, client creation and get webServices as an example written in TypeScript.
+### nodejs - Authentication, client creation and list operations as an example written in TypeScript.
 
 ```ts
 import * as msRest from "ms-rest-js";
 import * as msRestAzure from "ms-rest-azure-js";
 import * as msRestNodeAuth from "ms-rest-nodeauth";
-import { AzureMLWebServicesManagementClient, AzureMLWebServicesManagementModels, AzureMLWebServicesManagementMappers } from "@azure/arm-machinelearning";
+import { AzureMLWebServicesManagementClient, AzureMLWebServicesManagementModels, AzureMLWebServicesManagementMappers } from "@azure/arm-webservices";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new AzureMLWebServicesManagementClient(creds, subscriptionId);
-  const resourceGroupName = "testresourceGroupName";
-  const webServiceName = "testwebServiceName";
-  client.webServices.get(resourceGroupName, webServiceName).then((result) => {
+  client.operations.list().then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -35,7 +33,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-### browser - Authentication, client creation and get webServices as an example written in JavaScript.
+### browser - Authentication, client creation and list operations as an example written in JavaScript.
 See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
@@ -43,11 +41,11 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>@azure/arm-machinelearning sample</title>
+    <title>@azure/arm-webservices sample</title>
     <script src="node_modules/ms-rest-js/dist/msRest.browser.js"></script>
     <script src="node_modules/ms-rest-azure-js/dist/msRestAzure.js"></script>
     <script src="node_modules/ms-rest-browserauth/dist/msAuth.js"></script>
-    <script src="node_modules/@azure/arm-machinelearning/dist/arm-machinelearning.js"></script>
+    <script src="node_modules/@azure/arm-webservices/dist/arm-webservices.js"></script>
     <script>
       const subscriptionId = "<Subscription_Id>";
       const authManager = new msAuth.AuthManager({
@@ -59,10 +57,8 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmMachinelearning.AzureMLWebServicesManagementClient(res.creds, subscriptionId);
-        const resourceGroupName = "testresourceGroupName";
-        const webServiceName = "testwebServiceName";
-        client.webServices.get(resourceGroupName, webServiceName).then((result) => {
+        const client = new Azure.ArmWebservices.AzureMLWebServicesManagementClient(res.creds, subscriptionId);
+        client.operations.list().then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
