@@ -232,7 +232,12 @@ export function generateBlobSASQueryParameters(
     blobSASSignatureValues.expiryTime,
     blobSASSignatureValues.ipRange,
     blobSASSignatureValues.identifier,
-    resource
+    resource,
+    blobSASSignatureValues.cacheControl,
+    blobSASSignatureValues.contentDisposition,
+    blobSASSignatureValues.contentEncoding,
+    blobSASSignatureValues.contentLanguage,
+    blobSASSignatureValues.contentType
   );
 }
 
