@@ -6,6 +6,7 @@
 - Fixed a bug during generateAccountSASQueryParameters() that generated signature is not valid.
 - Fixed a bug during generateBlobSASQueryParameters() that cache-control, content-type, content-disposition, content-encoding and content-language are not supported.
 - Fixed a bug in SAS generation that start and expiry time format is not correct.
+* [Breaking] Updated names of exported interfaces `IHTTPPipelineLogger` & `IHTTPClient` to `IHttpPipelineLogger` & `IHttpClient`.
 
 2018.09 10.1.0-preview
 
