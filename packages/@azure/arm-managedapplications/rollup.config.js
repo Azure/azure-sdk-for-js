@@ -3,7 +3,7 @@ import nodeResolve from "rollup-plugin-node-resolve";
  * @type {import('rollup').RollupFileOptions}
  */
 const config = {
-  input: './esm/managedApplicationClient.js',
+  input: './esm/resourceManagementClient.js',
   external: ["ms-rest-js", "ms-rest-azure-js"],
   output: {
     file: "./dist/arm-managedapplications.js",

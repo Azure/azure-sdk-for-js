@@ -1,5 +1,5 @@
-# Azure ManagedApplicationClient SDK for JavaScript
-This package contains an isomorphic SDK for ManagedApplicationClient.
+# Azure ResourceManagementClient SDK for JavaScript
+This package contains an isomorphic SDK for ResourceManagementClient.
 
 ## Currently supported environments
 - Node.js version 6.x.x or higher
@@ -13,18 +13,18 @@ npm install @azure/arm-managedapplications
 
 ## How to use
 
-### nodejs - Authentication, client creation and listOperations  as an example written in TypeScript.
+### nodejs - Authentication, client creation and list operations as an example written in TypeScript.
 
 ```ts
 import * as msRest from "ms-rest-js";
 import * as msRestAzure from "ms-rest-azure-js";
 import * as msRestNodeAuth from "ms-rest-nodeauth";
-import { ManagedApplicationClient, ManagedApplicationModels, ManagedApplicationMappers } from "@azure/arm-managedapplications";
+import { ResourceManagementClient, ResourceManagementModels, ResourceManagementMappers } from "@azure/arm-managedapplications";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new ManagedApplicationClient(creds, subscriptionId);
-  client.listOperations().then((result) => {
+  const client = new ResourceManagementClient(creds, subscriptionId);
+  client.operations.list().then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -33,7 +33,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-### browser - Authentication, client creation and listOperations  as an example written in JavaScript.
+### browser - Authentication, client creation and list operations as an example written in JavaScript.
 See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
@@ -57,12 +57,12 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmManagedapplications.ManagedApplicationClient(res.creds, subscriptionId);
-        client.listOperations().then((result) => {
+        const client = new Azure.ArmManagedapplications.ResourceManagementClient(res.creds, subscriptionId);
+        client.operations.list().then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
-          console.log('An error occurred:');
+          console.log("An error occurred:");
           console.error(err);
         });
       });

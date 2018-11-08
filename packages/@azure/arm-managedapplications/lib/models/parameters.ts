@@ -30,51 +30,40 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
-export const applianceDefinitionId: msRest.OperationURLParameter = {
-  parameterPath: "applianceDefinitionId",
+export const deploymentName: msRest.OperationURLParameter = {
+  parameterPath: "deploymentName",
   mapper: {
     required: true,
-    serializedName: "applianceDefinitionId",
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-export const applianceDefinitionName: msRest.OperationURLParameter = {
-  parameterPath: "applianceDefinitionName",
-  mapper: {
-    required: true,
-    serializedName: "applianceDefinitionName",
+    serializedName: "deploymentName",
     constraints: {
       MaxLength: 64,
-      MinLength: 3
+      MinLength: 1,
+      Pattern: /^[-\w\._\(\)]+$/
     },
     type: {
       name: "String"
     }
   }
 };
-export const applianceId: msRest.OperationURLParameter = {
-  parameterPath: "applianceId",
+export const expand: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "expand"
+  ],
   mapper: {
-    required: true,
-    serializedName: "applianceId",
+    serializedName: "$expand",
     type: {
       name: "String"
     }
-  },
-  skipEncoding: true
+  }
 };
-export const applianceName: msRest.OperationURLParameter = {
-  parameterPath: "applianceName",
+export const filter: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "filter"
+  ],
   mapper: {
-    required: true,
-    serializedName: "applianceName",
-    constraints: {
-      MaxLength: 64,
-      MinLength: 3
-    },
+    serializedName: "$filter",
     type: {
       name: "String"
     }
@@ -85,6 +74,27 @@ export const nextPageLink: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "nextLink",
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+export const operationId: msRest.OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    required: true,
+    serializedName: "operationId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const parentResourcePath: msRest.OperationURLParameter = {
+  parameterPath: "parentResourcePath",
+  mapper: {
+    required: true,
+    serializedName: "parentResourcePath",
     type: {
       name: "String"
     }
@@ -106,6 +116,63 @@ export const resourceGroupName: msRest.OperationURLParameter = {
     }
   }
 };
+export const resourceId: msRest.OperationURLParameter = {
+  parameterPath: "resourceId",
+  mapper: {
+    required: true,
+    serializedName: "resourceId",
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+export const resourceName: msRest.OperationURLParameter = {
+  parameterPath: "resourceName",
+  mapper: {
+    required: true,
+    serializedName: "resourceName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const resourceProviderNamespace: msRest.OperationURLParameter = {
+  parameterPath: "resourceProviderNamespace",
+  mapper: {
+    required: true,
+    serializedName: "resourceProviderNamespace",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const resourceType: msRest.OperationURLParameter = {
+  parameterPath: "resourceType",
+  mapper: {
+    required: true,
+    serializedName: "resourceType",
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+export const sourceResourceGroupName: msRest.OperationURLParameter = {
+  parameterPath: "sourceResourceGroupName",
+  mapper: {
+    required: true,
+    serializedName: "sourceResourceGroupName",
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+      Pattern: /^[-\w\._\(\)]+$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
 export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
@@ -113,6 +180,38 @@ export const subscriptionId: msRest.OperationURLParameter = {
     serializedName: "subscriptionId",
     type: {
       name: "String"
+    }
+  }
+};
+export const tagName: msRest.OperationURLParameter = {
+  parameterPath: "tagName",
+  mapper: {
+    required: true,
+    serializedName: "tagName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const tagValue: msRest.OperationURLParameter = {
+  parameterPath: "tagValue",
+  mapper: {
+    required: true,
+    serializedName: "tagValue",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const top: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "top"
+  ],
+  mapper: {
+    serializedName: "$top",
+    type: {
+      name: "Number"
     }
   }
 };

@@ -12,21 +12,21 @@ import * as Models from "./models";
 import * as msRest from "ms-rest-js";
 import * as msRestAzure from "ms-rest-azure-js";
 
-const packageName = "@azure/arm-features";
+const packageName = "@azure/arm-managedapplications";
 const packageVersion = "0.1.0";
 
-export class FeatureClientContext extends msRestAzure.AzureServiceClient {
+export class ResourceManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
   subscriptionId: string;
   apiVersion?: string;
 
   /**
-   * Initializes a new instance of the FeatureClient class.
+   * Initializes a new instance of the ResourceManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.FeatureClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ResourceManagementClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
@@ -44,7 +44,7 @@ export class FeatureClientContext extends msRestAzure.AzureServiceClient {
 
     super(credentials, options);
 
-    this.apiVersion = '2015-12-01';
+    this.apiVersion = '2020-20-20';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

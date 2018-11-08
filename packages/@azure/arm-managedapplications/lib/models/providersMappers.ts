@@ -8,10 +8,12 @@
  * regenerated.
  */
 
-export * from "./operations";
-export * from "./deployments";
-export * from "./providers";
-export * from "./resources";
-export * from "./resourceGroups";
-export * from "./tags";
-export * from "./deploymentOperations";
+export {
+  Provider,
+  ProviderResourceType,
+  AliasType,
+  AliasPathType,
+  CloudError,
+  ProviderListResult
+} from "../models/mappers";
+

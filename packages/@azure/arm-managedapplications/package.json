@@ -1,11 +1,11 @@
 {
   "name": "@azure/arm-managedapplications",
   "author": "Microsoft Corporation",
-  "description": "ManagedApplicationClient Library with typescript type definitions for node.js and browser.",
+  "description": "ResourceManagementClient Library with typescript type definitions for node.js and browser.",
   "version": "0.1.0",
   "dependencies": {
-    "ms-rest-azure-js": "^1.0.176",
-    "ms-rest-js": "^1.0.455",
+    "ms-rest-azure-js": "^1.0.181",
+    "ms-rest-js": "^1.0.460",
     "tslib": "^1.9.3"
   },
   "keywords": [
@@ -17,8 +17,8 @@
   ],
   "license": "MIT",
   "main": "./dist/arm-managedapplications.js",
-  "module": "./esm/managedApplicationClient.js",
-  "types": "./esm/managedApplicationClient.d.ts",
+  "module": "./esm/resourceManagementClient.js",
+  "types": "./esm/resourceManagementClient.d.ts",
   "devDependencies": {
     "typescript": "^3.1.1",
     "rollup": "^0.66.2",
@@ -33,10 +33,23 @@
   "bugs": {
     "url": "https://github.com/azure/azure-sdk-for-js/issues"
   },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.js.map",
+    "dist/**/*.d.ts",
+    "dist/**/*.d.ts.map",
+    "esm/**/*.js",
+    "esm/**/*.js.map",
+    "esm/**/*.d.ts",
+    "esm/**/*.d.ts.map",
+    "lib/**/*.ts",
+    "rollup.config.js",
+    "tsconfig.json"
+  ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-managedapplications.js.map'\" -o ./dist/arm-managedapplications.min.js ./dist/arm-managedapplications.js",
-    "prepare": "npm run build"
+    "prepack": "npm install && npm run build"
   },
   "sideEffects": false
 }

@@ -16,37 +16,661 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
+ * An interface representing DeploymentExtendedFilter.
+ * Deployment filter.
+ *
+ */
+export interface DeploymentExtendedFilter {
+  /**
+   * @member {string} [provisioningState] The provisioning state.
+   */
+  provisioningState?: string;
+}
+
+/**
+ * @interface
+ * An interface representing GenericResourceFilter.
+ * Resource filter.
+ *
+ */
+export interface GenericResourceFilter {
+  /**
+   * @member {string} [resourceType] The resource type.
+   */
+  resourceType?: string;
+  /**
+   * @member {string} [tagname] The tag name.
+   */
+  tagname?: string;
+  /**
+   * @member {string} [tagvalue] The tag value.
+   */
+  tagvalue?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ResourceGroupFilter.
+ * Resource group filter.
+ *
+ */
+export interface ResourceGroupFilter {
+  /**
+   * @member {string} [tagName] The tag name.
+   */
+  tagName?: string;
+  /**
+   * @member {string} [tagValue] The tag value.
+   */
+  tagValue?: string;
+}
+
+/**
+ * @interface
+ * An interface representing TemplateLink.
+ * Entity representing the reference to the template.
+ *
+ */
+export interface TemplateLink {
+  /**
+   * @member {string} uri The URI of the template to deploy.
+   */
+  uri: string;
+  /**
+   * @member {string} [contentVersion] If included, must match the
+   * ContentVersion in the template.
+   */
+  contentVersion?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ParametersLink.
+ * Entity representing the reference to the deployment paramaters.
+ *
+ */
+export interface ParametersLink {
+  /**
+   * @member {string} uri The URI of the parameters file.
+   */
+  uri: string;
+  /**
+   * @member {string} [contentVersion] If included, must match the
+   * ContentVersion in the template.
+   */
+  contentVersion?: string;
+}
+
+/**
+ * @interface
+ * An interface representing DebugSetting.
+ */
+export interface DebugSetting {
+  /**
+   * @member {string} [detailLevel] Specifies the type of information to log
+   * for debugging. The permitted values are none, requestContent,
+   * responseContent, or both requestContent and responseContent separated by a
+   * comma. The default is none. When setting this value, carefully consider
+   * the type of information you are passing in during deployment. By logging
+   * information about the request or response, you could potentially expose
+   * sensitive data that is retrieved through the deployment operations.
+   */
+  detailLevel?: string;
+}
+
+/**
+ * @interface
+ * An interface representing OnErrorDeployment.
+ * Deployment on error behavior.
+ *
+ */
+export interface OnErrorDeployment {
+  /**
+   * @member {OnErrorDeploymentType} [type] The deployment on error behavior
+   * type. Possible values are LastSuccessful and SpecificDeployment. Possible
+   * values include: 'LastSuccessful', 'SpecificDeployment'
+   */
+  type?: OnErrorDeploymentType;
+  /**
+   * @member {string} [deploymentName] The deployment to be used on error case.
+   */
+  deploymentName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing DeploymentProperties.
+ * Deployment properties.
+ *
+ */
+export interface DeploymentProperties {
+  /**
+   * @member {any} [template] The template content. You use this element when
+   * you want to pass the template syntax directly in the request rather than
+   * link to an existing template. It can be a JObject or well-formed JSON
+   * string. Use either the templateLink property or the template property, but
+   * not both.
+   */
+  template?: any;
+  /**
+   * @member {TemplateLink} [templateLink] The URI of the template. Use either
+   * the templateLink property or the template property, but not both.
+   */
+  templateLink?: TemplateLink;
+  /**
+   * @member {any} [parameters] Name and value pairs that define the deployment
+   * parameters for the template. You use this element when you want to provide
+   * the parameter values directly in the request rather than link to an
+   * existing parameter file. Use either the parametersLink property or the
+   * parameters property, but not both. It can be a JObject or a well formed
+   * JSON string.
+   */
+  parameters?: any;
+  /**
+   * @member {ParametersLink} [parametersLink] The URI of parameters file. You
+   * use this element to link to an existing parameters file. Use either the
+   * parametersLink property or the parameters property, but not both.
+   */
+  parametersLink?: ParametersLink;
+  /**
+   * @member {DeploymentMode} mode The mode that is used to deploy resources.
+   * This value can be either Incremental or Complete. In Incremental mode,
+   * resources are deployed without deleting existing resources that are not
+   * included in the template. In Complete mode, resources are deployed and
+   * existing resources in the resource group that are not included in the
+   * template are deleted. Be careful when using Complete mode as you may
+   * unintentionally delete resources. Possible values include: 'Incremental',
+   * 'Complete'
+   */
+  mode: DeploymentMode;
+  /**
+   * @member {DebugSetting} [debugSetting] The debug setting of the deployment.
+   */
+  debugSetting?: DebugSetting;
+  /**
+   * @member {OnErrorDeployment} [onErrorDeployment] The deployment on error
+   * behavior.
+   */
+  onErrorDeployment?: OnErrorDeployment;
+}
+
+/**
+ * @interface
+ * An interface representing Deployment.
+ * Deployment operation parameters.
+ *
+ */
+export interface Deployment {
+  /**
+   * @member {string} [location] The location to store the deployment data.
+   */
+  location?: string;
+  /**
+   * @member {DeploymentProperties} properties The deployment properties.
+   */
+  properties: DeploymentProperties;
+}
+
+/**
+ * @interface
+ * An interface representing DeploymentExportResult.
+ * The deployment export result.
+ *
+ */
+export interface DeploymentExportResult {
+  /**
+   * @member {any} [template] The template content.
+   */
+  template?: any;
+}
+
+/**
+ * @interface
+ * An interface representing ResourceManagementErrorWithDetails.
+ * The detailed error message of resource management.
+ *
+ */
+export interface ResourceManagementErrorWithDetails {
+  /**
+   * @member {string} [code] The error code returned when exporting the
+   * template.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly code?: string;
+  /**
+   * @member {string} [message] The error message describing the export error.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly message?: string;
+  /**
+   * @member {string} [target] The target of the error.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly target?: string;
+  /**
+   * @member {ResourceManagementErrorWithDetails[]} [details] Validation error.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly details?: ResourceManagementErrorWithDetails[];
+}
+
+/**
+ * @interface
+ * An interface representing AliasPathType.
+ * The type of the paths for alias.
+ *
+ */
+export interface AliasPathType {
+  /**
+   * @member {string} [path] The path of an alias.
+   */
+  path?: string;
+  /**
+   * @member {string[]} [apiVersions] The API versions.
+   */
+  apiVersions?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing AliasType.
+ * The alias type.
+ *
+ */
+export interface AliasType {
+  /**
+   * @member {string} [name] The alias name.
+   */
+  name?: string;
+  /**
+   * @member {AliasPathType[]} [paths] The paths for an alias.
+   */
+  paths?: AliasPathType[];
+}
+
+/**
+ * @interface
+ * An interface representing ProviderResourceType.
+ * Resource type managed by the resource provider.
+ *
+ */
+export interface ProviderResourceType {
+  /**
+   * @member {string} [resourceType] The resource type.
+   */
+  resourceType?: string;
+  /**
+   * @member {string[]} [locations] The collection of locations where this
+   * resource type can be created.
+   */
+  locations?: string[];
+  /**
+   * @member {AliasType[]} [aliases] The aliases that are supported by this
+   * resource type.
+   */
+  aliases?: AliasType[];
+  /**
+   * @member {string[]} [apiVersions] The API version.
+   */
+  apiVersions?: string[];
+  /**
+   * @member {{ [propertyName: string]: string }} [properties] The properties.
+   */
+  properties?: { [propertyName: string]: string };
+}
+
+/**
+ * @interface
+ * An interface representing Provider.
+ * Resource provider information.
+ *
+ */
+export interface Provider {
+  /**
+   * @member {string} [id] The provider ID.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [namespace] The namespace of the resource provider.
+   */
+  namespace?: string;
+  /**
+   * @member {string} [registrationState] The registration state of the
+   * provider.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly registrationState?: string;
+  /**
+   * @member {ProviderResourceType[]} [resourceTypes] The collection of
+   * provider resource types.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resourceTypes?: ProviderResourceType[];
+}
+
+/**
+ * @interface
+ * An interface representing BasicDependency.
+ * Deployment dependency information.
+ *
+ */
+export interface BasicDependency {
+  /**
+   * @member {string} [id] The ID of the dependency.
+   */
+  id?: string;
+  /**
+   * @member {string} [resourceType] The dependency resource type.
+   */
+  resourceType?: string;
+  /**
+   * @member {string} [resourceName] The dependency resource name.
+   */
+  resourceName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing Dependency.
+ * Deployment dependency information.
+ *
+ */
+export interface Dependency {
+  /**
+   * @member {BasicDependency[]} [dependsOn] The list of dependencies.
+   */
+  dependsOn?: BasicDependency[];
+  /**
+   * @member {string} [id] The ID of the dependency.
+   */
+  id?: string;
+  /**
+   * @member {string} [resourceType] The dependency resource type.
+   */
+  resourceType?: string;
+  /**
+   * @member {string} [resourceName] The dependency resource name.
+   */
+  resourceName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing OnErrorDeploymentExtended.
+ * Deployment on error behavior with additional details.
+ *
+ */
+export interface OnErrorDeploymentExtended {
+  /**
+   * @member {string} [provisioningState] The state of the provisioning for the
+   * on error deployment.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {OnErrorDeploymentType} [type] The deployment on error behavior
+   * type. Possible values are LastSuccessful and SpecificDeployment. Possible
+   * values include: 'LastSuccessful', 'SpecificDeployment'
+   */
+  type?: OnErrorDeploymentType;
+  /**
+   * @member {string} [deploymentName] The deployment to be used on error case.
+   */
+  deploymentName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing DeploymentPropertiesExtended.
+ * Deployment properties with additional details.
+ *
+ */
+export interface DeploymentPropertiesExtended {
+  /**
+   * @member {string} [provisioningState] The state of the provisioning.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {string} [correlationId] The correlation ID of the deployment.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly correlationId?: string;
+  /**
+   * @member {Date} [timestamp] The timestamp of the template deployment.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly timestamp?: Date;
+  /**
+   * @member {any} [outputs] Key/value pairs that represent deploymentoutput.
+   */
+  outputs?: any;
+  /**
+   * @member {Provider[]} [providers] The list of resource providers needed for
+   * the deployment.
+   */
+  providers?: Provider[];
+  /**
+   * @member {Dependency[]} [dependencies] The list of deployment dependencies.
+   */
+  dependencies?: Dependency[];
+  /**
+   * @member {any} [template] The template content. Use only one of Template or
+   * TemplateLink.
+   */
+  template?: any;
+  /**
+   * @member {TemplateLink} [templateLink] The URI referencing the template.
+   * Use only one of Template or TemplateLink.
+   */
+  templateLink?: TemplateLink;
+  /**
+   * @member {any} [parameters] Deployment parameters. Use only one of
+   * Parameters or ParametersLink.
+   */
+  parameters?: any;
+  /**
+   * @member {ParametersLink} [parametersLink] The URI referencing the
+   * parameters. Use only one of Parameters or ParametersLink.
+   */
+  parametersLink?: ParametersLink;
+  /**
+   * @member {DeploymentMode} [mode] The deployment mode. Possible values are
+   * Incremental and Complete. Possible values include: 'Incremental',
+   * 'Complete'
+   */
+  mode?: DeploymentMode;
+  /**
+   * @member {DebugSetting} [debugSetting] The debug setting of the deployment.
+   */
+  debugSetting?: DebugSetting;
+  /**
+   * @member {OnErrorDeploymentExtended} [onErrorDeployment] The deployment on
+   * error behavior.
+   */
+  onErrorDeployment?: OnErrorDeploymentExtended;
+}
+
+/**
+ * @interface
+ * An interface representing DeploymentValidateResult.
+ * Information from validate template deployment response.
+ *
+ */
+export interface DeploymentValidateResult {
+  /**
+   * @member {ResourceManagementErrorWithDetails} [error] Validation error.
+   */
+  error?: ResourceManagementErrorWithDetails;
+  /**
+   * @member {DeploymentPropertiesExtended} [properties] The template
+   * deployment properties.
+   */
+  properties?: DeploymentPropertiesExtended;
+}
+
+/**
+ * @interface
+ * An interface representing DeploymentExtended.
+ * Deployment information.
+ *
+ * @extends BaseResource
+ */
+export interface DeploymentExtended extends BaseResource {
+  /**
+   * @member {string} [id] The ID of the deployment.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [name] The name of the deployment.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [location] the location of the deployment.
+   */
+  location?: string;
+  /**
+   * @member {DeploymentPropertiesExtended} [properties] Deployment properties.
+   */
+  properties?: DeploymentPropertiesExtended;
+}
+
+/**
+ * @interface
  * An interface representing Plan.
- * Plan for the appliance.
+ * Plan for the resource.
  *
  */
 export interface Plan {
   /**
-   * @member {string} name The plan name.
+   * @member {string} [name] The plan ID.
    */
-  name: string;
+  name?: string;
   /**
-   * @member {string} publisher The publisher ID.
+   * @member {string} [publisher] The publisher ID.
    */
-  publisher: string;
+  publisher?: string;
   /**
-   * @member {string} product The product code.
+   * @member {string} [product] The offer ID.
    */
-  product: string;
+  product?: string;
   /**
    * @member {string} [promotionCode] The promotion code.
    */
   promotionCode?: string;
   /**
-   * @member {string} version The plan's version.
+   * @member {string} [version] The plan's version.
    */
-  version: string;
+  version?: string;
+}
+
+/**
+ * @interface
+ * An interface representing Sku.
+ * SKU for the resource.
+ *
+ */
+export interface Sku {
+  /**
+   * @member {string} [name] The SKU name.
+   */
+  name?: string;
+  /**
+   * @member {string} [tier] The SKU tier.
+   */
+  tier?: string;
+  /**
+   * @member {string} [size] The SKU size.
+   */
+  size?: string;
+  /**
+   * @member {string} [family] The SKU family.
+   */
+  family?: string;
+  /**
+   * @member {string} [model] The SKU model.
+   */
+  model?: string;
+  /**
+   * @member {number} [capacity] The SKU capacity.
+   */
+  capacity?: number;
+}
+
+/**
+ * @interface
+ * An interface representing IdentityUserAssignedIdentitiesValue.
+ */
+export interface IdentityUserAssignedIdentitiesValue {
+  /**
+   * @member {string} [principalId] The principal id of user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * @member {string} [clientId] The client id of user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly clientId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing Identity.
+ * Identity for the resource.
+ *
+ */
+export interface Identity {
+  /**
+   * @member {string} [principalId] The principal ID of resource identity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * @member {string} [tenantId] The tenant ID of resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * @member {ResourceIdentityType} [type] The identity type. Possible values
+   * include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
+   * 'None'
+   */
+  type?: ResourceIdentityType;
+  /**
+   * @member {{ [propertyName: string]: IdentityUserAssignedIdentitiesValue }}
+   * [userAssignedIdentities] The list of user identities associated with the
+   * resource. The user identity dictionary key references will be ARM resource
+   * ids in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+   */
+  userAssignedIdentities?: { [propertyName: string]: IdentityUserAssignedIdentitiesValue };
 }
 
 /**
  * @interface
  * An interface representing Resource.
- * Resource information.
+ * Specified resource.
  *
  * @extends BaseResource
  */
@@ -88,6 +712,18 @@ export interface Resource extends BaseResource {
  */
 export interface GenericResource extends Resource {
   /**
+   * @member {Plan} [plan] The plan of the resource.
+   */
+  plan?: Plan;
+  /**
+   * @member {any} [properties] The resource properties.
+   */
+  properties?: any;
+  /**
+   * @member {string} [kind] The kind of the resource.
+   */
+  kind?: string;
+  /**
    * @member {string} [managedBy] ID of the resource that manages this
    * resource.
    */
@@ -104,304 +740,372 @@ export interface GenericResource extends Resource {
 
 /**
  * @interface
- * An interface representing Appliance.
- * Information about appliance.
+ * An interface representing ResourceGroupProperties.
+ * The resource group properties.
  *
- * @extends GenericResource
  */
-export interface Appliance extends GenericResource {
+export interface ResourceGroupProperties {
   /**
-   * @member {string} managedResourceGroupId The managed resource group Id.
-   */
-  managedResourceGroupId: string;
-  /**
-   * @member {string} [applianceDefinitionId] The fully qualified path of
-   * appliance definition Id.
-   */
-  applianceDefinitionId?: string;
-  /**
-   * @member {any} [parameters] Name and value pairs that define the appliance
-   * parameters. It can be a JObject or a well formed JSON string.
-   */
-  parameters?: any;
-  /**
-   * @member {any} [outputs] Name and value pairs that define the appliance
-   * outputs.
+   * @member {string} [provisioningState] The provisioning state.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly outputs?: any;
-  /**
-   * @member {ProvisioningState} [provisioningState] The appliance provisioning
-   * state. Possible values include: 'Accepted', 'Running', 'Ready',
-   * 'Creating', 'Created', 'Deleting', 'Deleted', 'Canceled', 'Failed',
-   * 'Succeeded', 'Updating'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * @member {string} [uiDefinitionUri] The blob URI where the UI definition
-   * file is located.
-   */
-  uiDefinitionUri?: string;
-  /**
-   * @member {Plan} [plan] The plan information.
-   */
-  plan?: Plan;
-  /**
-   * @member {string} [kind] The kind of the appliance. Allowed values are
-   * MarketPlace and ServiceCatalog.
-   */
-  kind?: string;
+  readonly provisioningState?: string;
 }
 
 /**
  * @interface
- * An interface representing PlanPatchable.
- * Plan for the appliance.
+ * An interface representing ResourceGroup.
+ * Resource group information.
+ *
+ * @extends BaseResource
+ */
+export interface ResourceGroup extends BaseResource {
+  /**
+   * @member {string} [id] The ID of the resource group.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [name] The name of the resource group.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {ResourceGroupProperties} [properties]
+   */
+  properties?: ResourceGroupProperties;
+  /**
+   * @member {string} location The location of the resource group. It cannot be
+   * changed after the resource group has been created. It must be one of the
+   * supported Azure locations.
+   */
+  location: string;
+  /**
+   * @member {string} [managedBy] The ID of the resource that manages this
+   * resource group.
+   */
+  managedBy?: string;
+  /**
+   * @member {{ [propertyName: string]: string }} [tags] The tags attached to
+   * the resource group.
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * @interface
+ * An interface representing ResourceGroupPatchable.
+ * Resource group information.
  *
  */
-export interface PlanPatchable {
+export interface ResourceGroupPatchable {
   /**
-   * @member {string} [name] The plan name.
+   * @member {string} [name] The name of the resource group.
    */
   name?: string;
   /**
-   * @member {string} [publisher] The publisher ID.
+   * @member {ResourceGroupProperties} [properties]
+   */
+  properties?: ResourceGroupProperties;
+  /**
+   * @member {string} [managedBy] The ID of the resource that manages this
+   * resource group.
+   */
+  managedBy?: string;
+  /**
+   * @member {{ [propertyName: string]: string }} [tags] The tags attached to
+   * the resource group.
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * @interface
+ * An interface representing ResourcesMoveInfo.
+ * Parameters of move resources.
+ *
+ */
+export interface ResourcesMoveInfo {
+  /**
+   * @member {string[]} [resources] The IDs of the resources.
+   */
+  resources?: string[];
+  /**
+   * @member {string} [targetResourceGroup] The target resource group.
+   */
+  targetResourceGroup?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ExportTemplateRequest.
+ * Export resource group template request parameters.
+ *
+ */
+export interface ExportTemplateRequest {
+  /**
+   * @member {string[]} [resources] The IDs of the resources. The only
+   * supported string currently is '*' (all resources). Future updates will
+   * support exporting specific resources.
+   */
+  resources?: string[];
+  /**
+   * @member {string} [options] The export template options. Supported values
+   * include 'IncludeParameterDefaultValue', 'IncludeComments' or
+   * 'IncludeParameterDefaultValue, IncludeComments
+   */
+  options?: string;
+}
+
+/**
+ * @interface
+ * An interface representing TagCount.
+ * Tag count.
+ *
+ */
+export interface TagCount {
+  /**
+   * @member {string} [type] Type of count.
+   */
+  type?: string;
+  /**
+   * @member {number} [value] Value of count.
+   */
+  value?: number;
+}
+
+/**
+ * @interface
+ * An interface representing TagValue.
+ * Tag information.
+ *
+ * @extends BaseResource
+ */
+export interface TagValue extends BaseResource {
+  /**
+   * @member {string} [id] The tag ID.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [tagValue] The tag value.
+   */
+  tagValue?: string;
+  /**
+   * @member {TagCount} [count] The tag value count.
+   */
+  count?: TagCount;
+}
+
+/**
+ * @interface
+ * An interface representing TagDetails.
+ * Tag details.
+ *
+ */
+export interface TagDetails {
+  /**
+   * @member {string} [id] The tag ID.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [tagName] The tag name.
+   */
+  tagName?: string;
+  /**
+   * @member {TagCount} [count] The total number of resources that use the
+   * resource tag. When a tag is initially created and has no associated
+   * resources, the value is 0.
+   */
+  count?: TagCount;
+  /**
+   * @member {TagValue[]} [values] The list of tag values.
+   */
+  values?: TagValue[];
+}
+
+/**
+ * @interface
+ * An interface representing TargetResource.
+ * Target resource.
+ *
+ */
+export interface TargetResource {
+  /**
+   * @member {string} [id] The ID of the resource.
+   */
+  id?: string;
+  /**
+   * @member {string} [resourceName] The name of the resource.
+   */
+  resourceName?: string;
+  /**
+   * @member {string} [resourceType] The type of the resource.
+   */
+  resourceType?: string;
+}
+
+/**
+ * @interface
+ * An interface representing HttpMessage.
+ * HTTP message.
+ *
+ */
+export interface HttpMessage {
+  /**
+   * @member {any} [content] HTTP message content.
+   */
+  content?: any;
+}
+
+/**
+ * @interface
+ * An interface representing DeploymentOperationProperties.
+ * Deployment operation properties.
+ *
+ */
+export interface DeploymentOperationProperties {
+  /**
+   * @member {string} [provisioningState] The state of the provisioning.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {Date} [timestamp] The date and time of the operation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly timestamp?: Date;
+  /**
+   * @member {string} [serviceRequestId] Deployment operation service request
+   * id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly serviceRequestId?: string;
+  /**
+   * @member {string} [statusCode] Operation status code.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly statusCode?: string;
+  /**
+   * @member {any} [statusMessage] Operation status message.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly statusMessage?: any;
+  /**
+   * @member {TargetResource} [targetResource] The target resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly targetResource?: TargetResource;
+  /**
+   * @member {HttpMessage} [request] The HTTP request message.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly request?: HttpMessage;
+  /**
+   * @member {HttpMessage} [response] The HTTP response message.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly response?: HttpMessage;
+}
+
+/**
+ * @interface
+ * An interface representing DeploymentOperation.
+ * Deployment operation information.
+ *
+ */
+export interface DeploymentOperation {
+  /**
+   * @member {string} [id] Full deployment operation ID.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [operationId] Deployment operation ID.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly operationId?: string;
+  /**
+   * @member {DeploymentOperationProperties} [properties] Deployment
+   * properties.
+   */
+  properties?: DeploymentOperationProperties;
+}
+
+/**
+ * @interface
+ * An interface representing ResourceProviderOperationDisplayProperties.
+ * Resource provider operation's display properties.
+ *
+ */
+export interface ResourceProviderOperationDisplayProperties {
+  /**
+   * @member {string} [publisher] Operation description.
    */
   publisher?: string;
   /**
-   * @member {string} [product] The product code.
+   * @member {string} [provider] Operation provider.
    */
-  product?: string;
+  provider?: string;
   /**
-   * @member {string} [promotionCode] The promotion code.
+   * @member {string} [resource] Operation resource.
    */
-  promotionCode?: string;
+  resource?: string;
   /**
-   * @member {string} [version] The plan's version.
+   * @member {string} [operation] Resource provider operation.
    */
-  version?: string;
-}
-
-/**
- * @interface
- * An interface representing AppliancePatchable.
- * Information about appliance.
- *
- * @extends GenericResource
- */
-export interface AppliancePatchable extends GenericResource {
+  operation?: string;
   /**
-   * @member {string} [managedResourceGroupId] The managed resource group Id.
-   */
-  managedResourceGroupId?: string;
-  /**
-   * @member {string} [applianceDefinitionId] The fully qualified path of
-   * appliance definition Id.
-   */
-  applianceDefinitionId?: string;
-  /**
-   * @member {any} [parameters] Name and value pairs that define the appliance
-   * parameters. It can be a JObject or a well formed JSON string.
-   */
-  parameters?: any;
-  /**
-   * @member {any} [outputs] Name and value pairs that define the appliance
-   * outputs.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly outputs?: any;
-  /**
-   * @member {ProvisioningState} [provisioningState] The appliance provisioning
-   * state. Possible values include: 'Accepted', 'Running', 'Ready',
-   * 'Creating', 'Created', 'Deleting', 'Deleted', 'Canceled', 'Failed',
-   * 'Succeeded', 'Updating'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * @member {string} [uiDefinitionUri] The blob URI where the UI definition
-   * file is located.
-   */
-  uiDefinitionUri?: string;
-  /**
-   * @member {PlanPatchable} [plan] The plan information.
-   */
-  plan?: PlanPatchable;
-  /**
-   * @member {string} [kind] The kind of the appliance. Allowed values are
-   * MarketPlace and ServiceCatalog.
-   */
-  kind?: string;
-}
-
-/**
- * @interface
- * An interface representing ApplianceProviderAuthorization.
- * The appliance provider authorization.
- *
- */
-export interface ApplianceProviderAuthorization {
-  /**
-   * @member {string} principalId The provider's principal identifier. This is
-   * the identity that the provider will use to call ARM to manage the
-   * appliance resources.
-   */
-  principalId: string;
-  /**
-   * @member {string} roleDefinitionId The provider's role definition
-   * identifier. This role will define all the permissions that the provider
-   * must have on the appliance's container resource group. This role
-   * definition cannot have permission to delete the resource group.
-   */
-  roleDefinitionId: string;
-}
-
-/**
- * @interface
- * An interface representing ApplianceArtifact.
- * Appliance artifact.
- *
- */
-export interface ApplianceArtifact {
-  /**
-   * @member {string} [name] The appliance artifact name.
-   */
-  name?: string;
-  /**
-   * @member {string} [uri] The appliance artifact blob uri.
-   */
-  uri?: string;
-  /**
-   * @member {ApplianceArtifactType} [type] The the appliance artifact type.
-   * Possible values include: 'Template', 'Custom'
-   */
-  type?: ApplianceArtifactType;
-}
-
-/**
- * @interface
- * An interface representing ApplianceDefinition.
- * Information about appliance definition.
- *
- * @extends GenericResource
- */
-export interface ApplianceDefinition extends GenericResource {
-  /**
-   * @member {ApplianceLockLevel} lockLevel The appliance lock level. Possible
-   * values include: 'CanNotDelete', 'ReadOnly', 'None'
-   */
-  lockLevel: ApplianceLockLevel;
-  /**
-   * @member {string} [displayName] The appliance definition display name.
-   */
-  displayName?: string;
-  /**
-   * @member {ApplianceProviderAuthorization[]} authorizations The appliance
-   * provider authorizations.
-   */
-  authorizations: ApplianceProviderAuthorization[];
-  /**
-   * @member {ApplianceArtifact[]} [artifacts] The collection of appliance
-   * artifacts. The portal will use the files specified as artifacts to
-   * construct the user experience of creating an appliance from an appliance
-   * definition.
-   */
-  artifacts?: ApplianceArtifact[];
-  /**
-   * @member {string} [description] The appliance definition description.
+   * @member {string} [description] Operation description.
    */
   description?: string;
-  /**
-   * @member {string} packageFileUri The appliance definition package file Uri.
-   */
-  packageFileUri: string;
 }
 
 /**
  * @interface
- * An interface representing Sku.
- * SKU for the resource.
+ * An interface representing SubResource.
+ * Sub-resource.
  *
+ * @extends BaseResource
  */
-export interface Sku {
+export interface SubResource extends BaseResource {
   /**
-   * @member {string} name The SKU name.
+   * @member {string} [id] Resource ID
    */
-  name: string;
-  /**
-   * @member {string} [tier] The SKU tier.
-   */
-  tier?: string;
-  /**
-   * @member {string} [size] The SKU size.
-   */
-  size?: string;
-  /**
-   * @member {string} [family] The SKU family.
-   */
-  family?: string;
-  /**
-   * @member {string} [model] The SKU model.
-   */
-  model?: string;
-  /**
-   * @member {number} [capacity] The SKU capacity.
-   */
-  capacity?: number;
+  id?: string;
 }
 
 /**
  * @interface
- * An interface representing Identity.
- * Identity for the resource.
+ * An interface representing ResourceGroupExportResult.
+ * Resource group export result.
  *
  */
-export interface Identity {
+export interface ResourceGroupExportResult {
   /**
-   * @member {string} [principalId] The principal ID of resource identity.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {any} [template] The template content.
    */
-  readonly principalId?: string;
+  template?: any;
   /**
-   * @member {string} [tenantId] The tenant ID of resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {ResourceManagementErrorWithDetails} [error] The error.
    */
-  readonly tenantId?: string;
-  /**
-   * @member {ResourceIdentityType} [type] The identity type. Possible values
-   * include: 'SystemAssigned'
-   */
-  type?: ResourceIdentityType;
-}
-
-/**
- * @interface
- * An interface representing ErrorResponse.
- * Error reponse indicates ARM appliance is not able to process the incoming
- * request. The reason is provided in the error message.
- *
- */
-export interface ErrorResponse {
-  /**
-   * @member {string} [httpStatus] Http status code.
-   */
-  httpStatus?: string;
-  /**
-   * @member {string} [errorCode] Error code.
-   */
-  errorCode?: string;
-  /**
-   * @member {string} [errorMessage] Error message indicating why the operation
-   * failed.
-   */
-  errorMessage?: string;
+  error?: ResourceManagementErrorWithDetails;
 }
 
 /**
@@ -412,7 +1116,7 @@ export interface ErrorResponse {
  */
 export interface OperationDisplay {
   /**
-   * @member {string} [provider] Service provider: Microsoft.Solutions
+   * @member {string} [provider] Service provider: Microsoft.Resources
    */
   provider?: string;
   /**
@@ -424,12 +1128,16 @@ export interface OperationDisplay {
    * @member {string} [operation] Operation type: Read, write, delete, etc.
    */
   operation?: string;
+  /**
+   * @member {string} [description] Description of the operation.
+   */
+  description?: string;
 }
 
 /**
  * @interface
  * An interface representing Operation.
- * Microsoft.Solutions operation
+ * Microsoft.Resources operation
  *
  */
 export interface Operation {
@@ -446,40 +1154,216 @@ export interface Operation {
 
 /**
  * @interface
- * An interface representing AppliancesUpdateOptionalParams.
+ * An interface representing DeploymentsListAtSubscriptionScopeOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface AppliancesUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface DeploymentsListAtSubscriptionScopeOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {Appliance} [parameters] Parameters supplied to update an existing
-   * appliance.
+   * @member {string} [filter] The filter to apply on the operation. For
+   * example, you can use $filter=provisioningState eq '{state}'.
    */
-  parameters?: Appliance;
+  filter?: string;
+  /**
+   * @member {number} [top] The number of results to get. If null is passed,
+   * returns all deployments.
+   */
+  top?: number;
 }
 
 /**
  * @interface
- * An interface representing AppliancesUpdateByIdOptionalParams.
+ * An interface representing DeploymentsListByResourceGroupOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface AppliancesUpdateByIdOptionalParams extends msRest.RequestOptionsBase {
+export interface DeploymentsListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {Appliance} [parameters] Parameters supplied to update an existing
-   * appliance.
+   * @member {string} [filter] The filter to apply on the operation. For
+   * example, you can use $filter=provisioningState eq '{state}'.
    */
-  parameters?: Appliance;
+  filter?: string;
+  /**
+   * @member {number} [top] The number of results to get. If null is passed,
+   * returns all deployments.
+   */
+  top?: number;
 }
 
 /**
  * @interface
- * An interface representing ManagedApplicationClientOptions.
+ * An interface representing ProvidersListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ProvidersListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {number} [top] The number of results to return. If null is passed
+   * returns all deployments.
+   */
+  top?: number;
+  /**
+   * @member {string} [expand] The properties to include in the results. For
+   * example, use &$expand=metadata in the query string to retrieve resource
+   * provider metadata. To include property aliases in response, use
+   * $expand=resourceTypes/aliases.
+   */
+  expand?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ProvidersGetOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ProvidersGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [expand] The $expand query parameter. For example, to
+   * include property aliases in response, use $expand=resourceTypes/aliases.
+   */
+  expand?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ResourcesListByResourceGroupOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ResourcesListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] The filter to apply on the operation.<br><br>The
+   * properties you can use for eq (equals) or ne (not equals) are: location,
+   * resourceType, name, resourceGroup, identity, identity/principalId, plan,
+   * plan/publisher, plan/product, plan/name, plan/version, and
+   * plan/promotionCode.<br><br>For example, to filter by a resource type, use:
+   * $filter=resourceType eq 'Microsoft.Network/virtualNetworks'<br><br>You can
+   * use substringof(value, property) in the filter. The properties you can use
+   * for substring are: name and resourceGroup.<br><br>For example, to get all
+   * resources with 'demo' anywhere in the name, use:
+   * $filter=substringof('demo', name)<br><br>You can link more than one
+   * substringof together by adding and/or operators.<br><br>You can filter by
+   * tag names and values. For example, to filter for a tag name and value, use
+   * $filter=tagName eq 'tag1' and tagValue eq 'Value1'<br><br>You can use some
+   * properties together when filtering. The combinations you can use are:
+   * substringof and/or resourceType, plan and plan/publisher and plan/name,
+   * identity and identity/principalId.
+   */
+  filter?: string;
+  /**
+   * @member {string} [expand] The $expand query parameter. You can expand
+   * createdTime and changedTime. For example, to expand both properties, use
+   * $expand=changedTime,createdTime
+   */
+  expand?: string;
+  /**
+   * @member {number} [top] The number of results to return. If null is passed,
+   * returns all resources.
+   */
+  top?: number;
+}
+
+/**
+ * @interface
+ * An interface representing ResourcesListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ResourcesListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] The filter to apply on the operation.<br><br>The
+   * properties you can use for eq (equals) or ne (not equals) are: location,
+   * resourceType, name, resourceGroup, identity, identity/principalId, plan,
+   * plan/publisher, plan/product, plan/name, plan/version, and
+   * plan/promotionCode.<br><br>For example, to filter by a resource type, use:
+   * $filter=resourceType eq 'Microsoft.Network/virtualNetworks'<br><br>You can
+   * use substringof(value, property) in the filter. The properties you can use
+   * for substring are: name and resourceGroup.<br><br>For example, to get all
+   * resources with 'demo' anywhere in the name, use:
+   * $filter=substringof('demo', name)<br><br>You can link more than one
+   * substringof together by adding and/or operators.<br><br>You can filter by
+   * tag names and values. For example, to filter for a tag name and value, use
+   * $filter=tagName eq 'tag1' and tagValue eq 'Value1'<br><br>You can use some
+   * properties together when filtering. The combinations you can use are:
+   * substringof and/or resourceType, plan and plan/publisher and plan/name,
+   * identity and identity/principalId.
+   */
+  filter?: string;
+  /**
+   * @member {string} [expand] The $expand query parameter. You can expand
+   * createdTime and changedTime. For example, to expand both properties, use
+   * $expand=changedTime,createdTime
+   */
+  expand?: string;
+  /**
+   * @member {number} [top] The number of results to return. If null is passed,
+   * returns all resource groups.
+   */
+  top?: number;
+}
+
+/**
+ * @interface
+ * An interface representing ResourceGroupsListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ResourceGroupsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] The filter to apply on the operation.<br><br>You
+   * can filter by tag names and values. For example, to filter for a tag name
+   * and value, use $filter=tagName eq 'tag1' and tagValue eq 'Value1'
+   */
+  filter?: string;
+  /**
+   * @member {number} [top] The number of results to return. If null is passed,
+   * returns all resource groups.
+   */
+  top?: number;
+}
+
+/**
+ * @interface
+ * An interface representing DeploymentOperationsListAtSubscriptionScopeOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface DeploymentOperationsListAtSubscriptionScopeOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {number} [top] The number of results to return.
+   */
+  top?: number;
+}
+
+/**
+ * @interface
+ * An interface representing DeploymentOperationsListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface DeploymentOperationsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {number} [top] The number of results to return.
+   */
+  top?: number;
+}
+
+/**
+ * @interface
+ * An interface representing ResourceManagementClientOptions.
  * @extends AzureServiceClientOptions
  */
-export interface ManagedApplicationClientOptions extends AzureServiceClientOptions {
+export interface ResourceManagementClientOptions extends AzureServiceClientOptions {
   /**
    * @member {string} [baseUri]
    */
@@ -490,7 +1374,7 @@ export interface ManagedApplicationClientOptions extends AzureServiceClientOptio
 /**
  * @interface
  * An interface representing the OperationListResult.
- * Result of the request to list Microsoft.Solutions operations. It contains a
+ * Result of the request to list Microsoft.Resources operations. It contains a
  * list of operations and a URL link to get the next set of results.
  *
  * @extends Array<Operation>
@@ -505,98 +1389,135 @@ export interface OperationListResult extends Array<Operation> {
 
 /**
  * @interface
- * An interface representing the ApplianceListResult.
- * List of appliances.
+ * An interface representing the DeploymentListResult.
+ * List of deployments.
  *
- * @extends Array<Appliance>
+ * @extends Array<DeploymentExtended>
  */
-export interface ApplianceListResult extends Array<Appliance> {
+export interface DeploymentListResult extends Array<DeploymentExtended> {
   /**
    * @member {string} [nextLink] The URL to use for getting the next set of
    * results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /**
  * @interface
- * An interface representing the ApplianceDefinitionListResult.
- * List of appliance definitions.
+ * An interface representing the ProviderListResult.
+ * List of resource providers.
  *
- * @extends Array<ApplianceDefinition>
+ * @extends Array<Provider>
  */
-export interface ApplianceDefinitionListResult extends Array<ApplianceDefinition> {
+export interface ProviderListResult extends Array<Provider> {
   /**
    * @member {string} [nextLink] The URL to use for getting the next set of
    * results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /**
- * Defines values for ProvisioningState.
- * Possible values include: 'Accepted', 'Running', 'Ready', 'Creating',
- * 'Created', 'Deleting', 'Deleted', 'Canceled', 'Failed', 'Succeeded',
- * 'Updating'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ProvisioningState =
- * <ProvisioningState>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
+ * @interface
+ * An interface representing the ResourceListResult.
+ * List of resource groups.
+ *
+ * @extends Array<GenericResource>
  */
-export enum ProvisioningState {
-  Accepted = 'Accepted',
-  Running = 'Running',
-  Ready = 'Ready',
-  Creating = 'Creating',
-  Created = 'Created',
-  Deleting = 'Deleting',
-  Deleted = 'Deleted',
-  Canceled = 'Canceled',
-  Failed = 'Failed',
-  Succeeded = 'Succeeded',
-  Updating = 'Updating',
+export interface ResourceListResult extends Array<GenericResource> {
+  /**
+   * @member {string} [nextLink] The URL to use for getting the next set of
+   * results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
 }
 
 /**
- * Defines values for ApplianceLockLevel.
- * Possible values include: 'CanNotDelete', 'ReadOnly', 'None'
- * @readonly
- * @enum {string}
+ * @interface
+ * An interface representing the ResourceGroupListResult.
+ * List of resource groups.
+ *
+ * @extends Array<ResourceGroup>
  */
-export enum ApplianceLockLevel {
-  CanNotDelete = 'CanNotDelete',
-  ReadOnly = 'ReadOnly',
-  None = 'None',
+export interface ResourceGroupListResult extends Array<ResourceGroup> {
+  /**
+   * @member {string} [nextLink] The URL to use for getting the next set of
+   * results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
 }
 
 /**
- * Defines values for ApplianceArtifactType.
- * Possible values include: 'Template', 'Custom'
+ * @interface
+ * An interface representing the TagsListResult.
+ * List of subscription tags.
+ *
+ * @extends Array<TagDetails>
+ */
+export interface TagsListResult extends Array<TagDetails> {
+  /**
+   * @member {string} [nextLink] The URL to use for getting the next set of
+   * results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the DeploymentOperationsListResult.
+ * List of deployment operations.
+ *
+ * @extends Array<DeploymentOperation>
+ */
+export interface DeploymentOperationsListResult extends Array<DeploymentOperation> {
+  /**
+   * @member {string} [nextLink] The URL to use for getting the next set of
+   * results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * Defines values for DeploymentMode.
+ * Possible values include: 'Incremental', 'Complete'
  * @readonly
  * @enum {string}
  */
-export enum ApplianceArtifactType {
-  Template = 'Template',
-  Custom = 'Custom',
-}
+export type DeploymentMode = 'Incremental' | 'Complete';
+
+/**
+ * Defines values for OnErrorDeploymentType.
+ * Possible values include: 'LastSuccessful', 'SpecificDeployment'
+ * @readonly
+ * @enum {string}
+ */
+export type OnErrorDeploymentType = 'LastSuccessful' | 'SpecificDeployment';
 
 /**
  * Defines values for ResourceIdentityType.
- * Possible values include: 'SystemAssigned'
+ * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
+ * 'None'
  * @readonly
  * @enum {string}
  */
-export enum ResourceIdentityType {
-  SystemAssigned = 'SystemAssigned',
-}
+export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
 
 /**
- * Contains response data for the listOperations operation.
+ * Contains response data for the list operation.
  */
-export type ListOperationsResponse = OperationListResult & {
+export type OperationsListResponse = OperationListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -613,9 +1534,9 @@ export type ListOperationsResponse = OperationListResult & {
 };
 
 /**
- * Contains response data for the listOperationsNext operation.
+ * Contains response data for the listNext operation.
  */
-export type ListOperationsNextResponse = OperationListResult & {
+export type OperationsListNextResponse = OperationListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -632,9 +1553,13 @@ export type ListOperationsNextResponse = OperationListResult & {
 };
 
 /**
- * Contains response data for the get operation.
+ * Contains response data for the checkExistenceAtSubscriptionScope operation.
  */
-export type AppliancesGetResponse = Appliance & {
+export type DeploymentsCheckExistenceAtSubscriptionScopeResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: boolean;
   /**
    * The underlying HTTP response.
    */
@@ -646,14 +1571,132 @@ export type AppliancesGetResponse = Appliance & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Appliance;
+      parsedBody: boolean;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdateAtSubscriptionScope operation.
+ */
+export type DeploymentsCreateOrUpdateAtSubscriptionScopeResponse = DeploymentExtended & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentExtended;
+    };
+};
+
+/**
+ * Contains response data for the getAtSubscriptionScope operation.
+ */
+export type DeploymentsGetAtSubscriptionScopeResponse = DeploymentExtended & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentExtended;
+    };
+};
+
+/**
+ * Contains response data for the validateAtSubscriptionScope operation.
+ */
+export type DeploymentsValidateAtSubscriptionScopeResponse = DeploymentValidateResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentValidateResult;
+    };
+};
+
+/**
+ * Contains response data for the exportTemplateAtSubscriptionScope operation.
+ */
+export type DeploymentsExportTemplateAtSubscriptionScopeResponse = DeploymentExportResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentExportResult;
+    };
+};
+
+/**
+ * Contains response data for the listAtSubscriptionScope operation.
+ */
+export type DeploymentsListAtSubscriptionScopeResponse = DeploymentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentListResult;
+    };
+};
+
+/**
+ * Contains response data for the checkExistence operation.
+ */
+export type DeploymentsCheckExistenceResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: boolean;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: boolean;
     };
 };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type AppliancesCreateOrUpdateResponse = Appliance & {
+export type DeploymentsCreateOrUpdateResponse = DeploymentExtended & {
   /**
    * The underlying HTTP response.
    */
@@ -665,14 +1708,341 @@ export type AppliancesCreateOrUpdateResponse = Appliance & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Appliance;
+      parsedBody: DeploymentExtended;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type DeploymentsGetResponse = DeploymentExtended & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentExtended;
+    };
+};
+
+/**
+ * Contains response data for the validate operation.
+ */
+export type DeploymentsValidateResponse = DeploymentValidateResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentValidateResult;
+    };
+};
+
+/**
+ * Contains response data for the exportTemplate operation.
+ */
+export type DeploymentsExportTemplateResponse = DeploymentExportResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentExportResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type DeploymentsListByResourceGroupResponse = DeploymentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdateAtSubscriptionScope operation.
+ */
+export type DeploymentsBeginCreateOrUpdateAtSubscriptionScopeResponse = DeploymentExtended & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentExtended;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type DeploymentsBeginCreateOrUpdateResponse = DeploymentExtended & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentExtended;
+    };
+};
+
+/**
+ * Contains response data for the listAtSubscriptionScopeNext operation.
+ */
+export type DeploymentsListAtSubscriptionScopeNextResponse = DeploymentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type DeploymentsListByResourceGroupNextResponse = DeploymentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentListResult;
+    };
+};
+
+/**
+ * Contains response data for the unregister operation.
+ */
+export type ProvidersUnregisterResponse = Provider & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Provider;
+    };
+};
+
+/**
+ * Contains response data for the register operation.
+ */
+export type ProvidersRegisterResponse = Provider & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Provider;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ProvidersListResponse = ProviderListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProviderListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ProvidersGetResponse = Provider & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Provider;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ProvidersListNextResponse = ProviderListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProviderListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type ResourcesListByResourceGroupResponse = ResourceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ResourcesListResponse = ResourceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the checkExistence operation.
+ */
+export type ResourcesCheckExistenceResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: boolean;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: boolean;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ResourcesCreateOrUpdateResponse = GenericResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GenericResource;
     };
 };
 
 /**
  * Contains response data for the update operation.
  */
-export type AppliancesUpdateResponse = Appliance & {
+export type ResourcesUpdateResponse = GenericResource & {
   /**
    * The underlying HTTP response.
    */
@@ -684,185 +2054,14 @@ export type AppliancesUpdateResponse = Appliance & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Appliance;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type AppliancesListByResourceGroupResponse = ApplianceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplianceListResult;
-    };
-};
-
-/**
- * Contains response data for the listBySubscription operation.
- */
-export type AppliancesListBySubscriptionResponse = ApplianceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplianceListResult;
-    };
-};
-
-/**
- * Contains response data for the getById operation.
- */
-export type AppliancesGetByIdResponse = Appliance & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Appliance;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdateById operation.
- */
-export type AppliancesCreateOrUpdateByIdResponse = Appliance & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Appliance;
-    };
-};
-
-/**
- * Contains response data for the updateById operation.
- */
-export type AppliancesUpdateByIdResponse = Appliance & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Appliance;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type AppliancesBeginCreateOrUpdateResponse = Appliance & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Appliance;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdateById operation.
- */
-export type AppliancesBeginCreateOrUpdateByIdResponse = Appliance & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Appliance;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type AppliancesListByResourceGroupNextResponse = ApplianceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplianceListResult;
-    };
-};
-
-/**
- * Contains response data for the listBySubscriptionNext operation.
- */
-export type AppliancesListBySubscriptionNextResponse = ApplianceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplianceListResult;
+      parsedBody: GenericResource;
     };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type ApplianceDefinitionsGetResponse = ApplianceDefinition & {
+export type ResourcesGetResponse = GenericResource & {
   /**
    * The underlying HTTP response.
    */
@@ -874,14 +2073,18 @@ export type ApplianceDefinitionsGetResponse = ApplianceDefinition & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplianceDefinition;
+      parsedBody: GenericResource;
     };
 };
 
 /**
- * Contains response data for the createOrUpdate operation.
+ * Contains response data for the checkExistenceById operation.
  */
-export type ApplianceDefinitionsCreateOrUpdateResponse = ApplianceDefinition & {
+export type ResourcesCheckExistenceByIdResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: boolean;
   /**
    * The underlying HTTP response.
    */
@@ -893,52 +2096,14 @@ export type ApplianceDefinitionsCreateOrUpdateResponse = ApplianceDefinition & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplianceDefinition;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type ApplianceDefinitionsListByResourceGroupResponse = ApplianceDefinitionListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplianceDefinitionListResult;
-    };
-};
-
-/**
- * Contains response data for the getById operation.
- */
-export type ApplianceDefinitionsGetByIdResponse = ApplianceDefinition & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplianceDefinition;
+      parsedBody: boolean;
     };
 };
 
 /**
  * Contains response data for the createOrUpdateById operation.
  */
-export type ApplianceDefinitionsCreateOrUpdateByIdResponse = ApplianceDefinition & {
+export type ResourcesCreateOrUpdateByIdResponse = GenericResource & {
   /**
    * The underlying HTTP response.
    */
@@ -950,14 +2115,52 @@ export type ApplianceDefinitionsCreateOrUpdateByIdResponse = ApplianceDefinition
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplianceDefinition;
+      parsedBody: GenericResource;
+    };
+};
+
+/**
+ * Contains response data for the updateById operation.
+ */
+export type ResourcesUpdateByIdResponse = GenericResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GenericResource;
+    };
+};
+
+/**
+ * Contains response data for the getById operation.
+ */
+export type ResourcesGetByIdResponse = GenericResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GenericResource;
     };
 };
 
 /**
  * Contains response data for the beginCreateOrUpdate operation.
  */
-export type ApplianceDefinitionsBeginCreateOrUpdateResponse = ApplianceDefinition & {
+export type ResourcesBeginCreateOrUpdateResponse = GenericResource & {
   /**
    * The underlying HTTP response.
    */
@@ -969,14 +2172,33 @@ export type ApplianceDefinitionsBeginCreateOrUpdateResponse = ApplianceDefinitio
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplianceDefinition;
+      parsedBody: GenericResource;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type ResourcesBeginUpdateResponse = GenericResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GenericResource;
     };
 };
 
 /**
  * Contains response data for the beginCreateOrUpdateById operation.
  */
-export type ApplianceDefinitionsBeginCreateOrUpdateByIdResponse = ApplianceDefinition & {
+export type ResourcesBeginCreateOrUpdateByIdResponse = GenericResource & {
   /**
    * The underlying HTTP response.
    */
@@ -988,14 +2210,33 @@ export type ApplianceDefinitionsBeginCreateOrUpdateByIdResponse = ApplianceDefin
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplianceDefinition;
+      parsedBody: GenericResource;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateById operation.
+ */
+export type ResourcesBeginUpdateByIdResponse = GenericResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GenericResource;
     };
 };
 
 /**
  * Contains response data for the listByResourceGroupNext operation.
  */
-export type ApplianceDefinitionsListByResourceGroupNextResponse = ApplianceDefinitionListResult & {
+export type ResourcesListByResourceGroupNextResponse = ResourceListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -1007,6 +2248,352 @@ export type ApplianceDefinitionsListByResourceGroupNextResponse = ApplianceDefin
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplianceDefinitionListResult;
+      parsedBody: ResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ResourcesListNextResponse = ResourceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the checkExistence operation.
+ */
+export type ResourceGroupsCheckExistenceResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: boolean;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: boolean;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ResourceGroupsCreateOrUpdateResponse = ResourceGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceGroup;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ResourceGroupsGetResponse = ResourceGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceGroup;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ResourceGroupsUpdateResponse = ResourceGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceGroup;
+    };
+};
+
+/**
+ * Contains response data for the exportTemplate operation.
+ */
+export type ResourceGroupsExportTemplateResponse = ResourceGroupExportResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceGroupExportResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ResourceGroupsListResponse = ResourceGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ResourceGroupsListNextResponse = ResourceGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdateValue operation.
+ */
+export type TagsCreateOrUpdateValueResponse = TagValue & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagValue;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type TagsCreateOrUpdateResponse = TagDetails & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagDetails;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type TagsListResponse = TagsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type TagsListNextResponse = TagsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagsListResult;
+    };
+};
+
+/**
+ * Contains response data for the getAtSubscriptionScope operation.
+ */
+export type DeploymentOperationsGetAtSubscriptionScopeResponse = DeploymentOperation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentOperation;
+    };
+};
+
+/**
+ * Contains response data for the listAtSubscriptionScope operation.
+ */
+export type DeploymentOperationsListAtSubscriptionScopeResponse = DeploymentOperationsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentOperationsListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type DeploymentOperationsGetResponse = DeploymentOperation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentOperation;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type DeploymentOperationsListResponse = DeploymentOperationsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentOperationsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listAtSubscriptionScopeNext operation.
+ */
+export type DeploymentOperationsListAtSubscriptionScopeNextResponse = DeploymentOperationsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentOperationsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type DeploymentOperationsListNextResponse = DeploymentOperationsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentOperationsListResult;
     };
 };

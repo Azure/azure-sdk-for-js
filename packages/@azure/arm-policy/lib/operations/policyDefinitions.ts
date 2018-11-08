@@ -49,7 +49,7 @@ export class PolicyDefinitions {
    * @param callback The callback
    */
   createOrUpdate(policyDefinitionName: string, parameters: Models.PolicyDefinition, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyDefinition>): void;
-  createOrUpdate(policyDefinitionName: string, parameters: Models.PolicyDefinition, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyDefinition>): Promise<Models.PolicyDefinitionsCreateOrUpdateResponse> {
+  createOrUpdate(policyDefinitionName: string, parameters: Models.PolicyDefinition, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyDefinition>, callback?: msRest.ServiceCallback<Models.PolicyDefinition>): Promise<Models.PolicyDefinitionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         policyDefinitionName,
@@ -79,7 +79,7 @@ export class PolicyDefinitions {
    * @param callback The callback
    */
   deleteMethod(policyDefinitionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(policyDefinitionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(policyDefinitionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         policyDefinitionName,
@@ -108,7 +108,7 @@ export class PolicyDefinitions {
    * @param callback The callback
    */
   get(policyDefinitionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyDefinition>): void;
-  get(policyDefinitionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyDefinition>): Promise<Models.PolicyDefinitionsGetResponse> {
+  get(policyDefinitionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyDefinition>, callback?: msRest.ServiceCallback<Models.PolicyDefinition>): Promise<Models.PolicyDefinitionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         policyDefinitionName,
@@ -137,7 +137,7 @@ export class PolicyDefinitions {
    * @param callback The callback
    */
   getBuiltIn(policyDefinitionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyDefinition>): void;
-  getBuiltIn(policyDefinitionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyDefinition>): Promise<Models.PolicyDefinitionsGetBuiltInResponse> {
+  getBuiltIn(policyDefinitionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyDefinition>, callback?: msRest.ServiceCallback<Models.PolicyDefinition>): Promise<Models.PolicyDefinitionsGetBuiltInResponse> {
     return this.client.sendOperationRequest(
       {
         policyDefinitionName,
@@ -173,7 +173,7 @@ export class PolicyDefinitions {
    * @param callback The callback
    */
   createOrUpdateAtManagementGroup(policyDefinitionName: string, parameters: Models.PolicyDefinition, managementGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyDefinition>): void;
-  createOrUpdateAtManagementGroup(policyDefinitionName: string, parameters: Models.PolicyDefinition, managementGroupId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyDefinition>): Promise<Models.PolicyDefinitionsCreateOrUpdateAtManagementGroupResponse> {
+  createOrUpdateAtManagementGroup(policyDefinitionName: string, parameters: Models.PolicyDefinition, managementGroupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyDefinition>, callback?: msRest.ServiceCallback<Models.PolicyDefinition>): Promise<Models.PolicyDefinitionsCreateOrUpdateAtManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         policyDefinitionName,
@@ -207,7 +207,7 @@ export class PolicyDefinitions {
    * @param callback The callback
    */
   deleteAtManagementGroup(policyDefinitionName: string, managementGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteAtManagementGroup(policyDefinitionName: string, managementGroupId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteAtManagementGroup(policyDefinitionName: string, managementGroupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         policyDefinitionName,
@@ -241,7 +241,7 @@ export class PolicyDefinitions {
    * @param callback The callback
    */
   getAtManagementGroup(policyDefinitionName: string, managementGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyDefinition>): void;
-  getAtManagementGroup(policyDefinitionName: string, managementGroupId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyDefinition>): Promise<Models.PolicyDefinitionsGetAtManagementGroupResponse> {
+  getAtManagementGroup(policyDefinitionName: string, managementGroupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyDefinition>, callback?: msRest.ServiceCallback<Models.PolicyDefinition>): Promise<Models.PolicyDefinitionsGetAtManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         policyDefinitionName,
@@ -268,7 +268,7 @@ export class PolicyDefinitions {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): Promise<Models.PolicyDefinitionsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyDefinitionListResult>, callback?: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): Promise<Models.PolicyDefinitionsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -293,7 +293,7 @@ export class PolicyDefinitions {
    * @param callback The callback
    */
   listBuiltIn(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): void;
-  listBuiltIn(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): Promise<Models.PolicyDefinitionsListBuiltInResponse> {
+  listBuiltIn(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyDefinitionListResult>, callback?: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): Promise<Models.PolicyDefinitionsListBuiltInResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -321,7 +321,7 @@ export class PolicyDefinitions {
    * @param callback The callback
    */
   listByManagementGroup(managementGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): void;
-  listByManagementGroup(managementGroupId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): Promise<Models.PolicyDefinitionsListByManagementGroupResponse> {
+  listByManagementGroup(managementGroupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyDefinitionListResult>, callback?: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): Promise<Models.PolicyDefinitionsListByManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         managementGroupId,
@@ -350,7 +350,7 @@ export class PolicyDefinitions {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): Promise<Models.PolicyDefinitionsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyDefinitionListResult>, callback?: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): Promise<Models.PolicyDefinitionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -379,7 +379,7 @@ export class PolicyDefinitions {
    * @param callback The callback
    */
   listBuiltInNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): void;
-  listBuiltInNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): Promise<Models.PolicyDefinitionsListBuiltInNextResponse> {
+  listBuiltInNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyDefinitionListResult>, callback?: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): Promise<Models.PolicyDefinitionsListBuiltInNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -408,7 +408,7 @@ export class PolicyDefinitions {
    * @param callback The callback
    */
   listByManagementGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): void;
-  listByManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): Promise<Models.PolicyDefinitionsListByManagementGroupNextResponse> {
+  listByManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyDefinitionListResult>, callback?: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): Promise<Models.PolicyDefinitionsListByManagementGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
