@@ -43,7 +43,7 @@ export class WebServices {
   }
 
   /**
-   * Gets the Web Service Definiton as specified by a subscription, resource group, and name. Note
+   * Gets the Web Service Definition as specified by a subscription, resource group, and name. Note
    * that the storage credentials and web service keys are not returned by this call. To get the web
    * service access keys, call List Keys.
    * @param resourceGroupName Name of the resource group in which the web service is located.
@@ -51,7 +51,7 @@ export class WebServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebServicesGetResponse>
    */
-  get(resourceGroupName: string, webServiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WebServicesGetResponse>;
+  get(resourceGroupName: string, webServiceName: string, options?: Models.WebServicesGetOptionalParams): Promise<Models.WebServicesGetResponse>;
   /**
    * @param resourceGroupName Name of the resource group in which the web service is located.
    * @param webServiceName The name of the web service.
@@ -64,8 +64,8 @@ export class WebServices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, webServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebService>): void;
-  get(resourceGroupName: string, webServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebService>, callback?: msRest.ServiceCallback<Models.WebService>): Promise<Models.WebServicesGetResponse> {
+  get(resourceGroupName: string, webServiceName: string, options: Models.WebServicesGetOptionalParams, callback: msRest.ServiceCallback<Models.WebService>): void;
+  get(resourceGroupName: string, webServiceName: string, options?: Models.WebServicesGetOptionalParams | msRest.ServiceCallback<Models.WebService>, callback?: msRest.ServiceCallback<Models.WebService>): Promise<Models.WebServicesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -100,6 +100,23 @@ export class WebServices {
   remove(resourceGroupName: string, webServiceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
     return this.beginRemove(resourceGroupName,webServiceName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Creates an encrypted credentials parameter blob for the specified region. To get the web service
+   * from a region other than the region in which it has been created, you must first call Create
+   * Regional Web Services Properties to create a copy of the encrypted credential parameter blob in
+   * that region. You only need to do this before the first time that you get the web service in the
+   * new region.
+   * @param resourceGroupName Name of the resource group in which the web service is located.
+   * @param webServiceName The name of the web service.
+   * @param region The region for which encrypted credential parameters are created.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebServicesCreateRegionalPropertiesResponse>
+   */
+  createRegionalProperties(resourceGroupName: string, webServiceName: string, region: string, options?: msRest.RequestOptionsBase): Promise<Models.WebServicesCreateRegionalPropertiesResponse> {
+    return this.beginCreateRegionalProperties(resourceGroupName,webServiceName,region,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.WebServicesCreateRegionalPropertiesResponse>;
   }
 
   /**
@@ -165,25 +182,25 @@ export class WebServices {
   /**
    * Gets the web services in the specified subscription.
    * @param [options] The optional parameters
-   * @returns Promise<Models.WebServicesListResponse>
+   * @returns Promise<Models.WebServicesListBySubscriptionIdResponse>
    */
-  list(options?: Models.WebServicesListOptionalParams): Promise<Models.WebServicesListResponse>;
+  listBySubscriptionId(options?: Models.WebServicesListBySubscriptionIdOptionalParams): Promise<Models.WebServicesListBySubscriptionIdResponse>;
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.PaginatedWebServicesList>): void;
+  listBySubscriptionId(callback: msRest.ServiceCallback<Models.PaginatedWebServicesList>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.WebServicesListOptionalParams, callback: msRest.ServiceCallback<Models.PaginatedWebServicesList>): void;
-  list(options?: Models.WebServicesListOptionalParams | msRest.ServiceCallback<Models.PaginatedWebServicesList>, callback?: msRest.ServiceCallback<Models.PaginatedWebServicesList>): Promise<Models.WebServicesListResponse> {
+  listBySubscriptionId(options: Models.WebServicesListBySubscriptionIdOptionalParams, callback: msRest.ServiceCallback<Models.PaginatedWebServicesList>): void;
+  listBySubscriptionId(options?: Models.WebServicesListBySubscriptionIdOptionalParams | msRest.ServiceCallback<Models.PaginatedWebServicesList>, callback?: msRest.ServiceCallback<Models.PaginatedWebServicesList>): Promise<Models.WebServicesListBySubscriptionIdResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      listOperationSpec,
-      callback) as Promise<Models.WebServicesListResponse>;
+      listBySubscriptionIdOperationSpec,
+      callback) as Promise<Models.WebServicesListBySubscriptionIdResponse>;
   }
 
   /**
@@ -248,6 +265,30 @@ export class WebServices {
   }
 
   /**
+   * Creates an encrypted credentials parameter blob for the specified region. To get the web service
+   * from a region other than the region in which it has been created, you must first call Create
+   * Regional Web Services Properties to create a copy of the encrypted credential parameter blob in
+   * that region. You only need to do this before the first time that you get the web service in the
+   * new region.
+   * @param resourceGroupName Name of the resource group in which the web service is located.
+   * @param webServiceName The name of the web service.
+   * @param region The region for which encrypted credential parameters are created.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateRegionalProperties(resourceGroupName: string, webServiceName: string, region: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        webServiceName,
+        region,
+        options
+      },
+      beginCreateRegionalPropertiesOperationSpec,
+      options);
+  }
+
+  /**
    * Gets the web services in the specified resource group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -279,28 +320,28 @@ export class WebServices {
    * Gets the web services in the specified subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.WebServicesListNextResponse>
+   * @returns Promise<Models.WebServicesListBySubscriptionIdNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WebServicesListNextResponse>;
+  listBySubscriptionIdNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WebServicesListBySubscriptionIdNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PaginatedWebServicesList>): void;
+  listBySubscriptionIdNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PaginatedWebServicesList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PaginatedWebServicesList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PaginatedWebServicesList>, callback?: msRest.ServiceCallback<Models.PaginatedWebServicesList>): Promise<Models.WebServicesListNextResponse> {
+  listBySubscriptionIdNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PaginatedWebServicesList>): void;
+  listBySubscriptionIdNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PaginatedWebServicesList>, callback?: msRest.ServiceCallback<Models.PaginatedWebServicesList>): Promise<Models.WebServicesListBySubscriptionIdNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
-      listNextOperationSpec,
-      callback) as Promise<Models.WebServicesListNextResponse>;
+      listBySubscriptionIdNextOperationSpec,
+      callback) as Promise<Models.WebServicesListBySubscriptionIdNextResponse>;
   }
 }
 
@@ -315,6 +356,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.region0,
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -381,7 +423,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listBySubscriptionIdOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.MachineLearning/webServices",
   urlParameters: [
@@ -496,6 +538,33 @@ const beginRemoveOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginCreateRegionalPropertiesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/webServices/{webServiceName}/CreateRegionalBlob",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.webServiceName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.region1,
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
@@ -517,7 +586,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listBySubscriptionIdNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

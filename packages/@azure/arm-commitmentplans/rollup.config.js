@@ -6,9 +6,9 @@ const config = {
   input: './esm/azureMLCommitmentPlansManagementClient.js',
   external: ["ms-rest-js", "ms-rest-azure-js"],
   output: {
-    file: "./dist/arm-machinelearning.js",
+    file: "./dist/arm-commitmentplans.js",
     format: "umd",
-    name: "Azure.ArmMachinelearning",
+    name: "Azure.ArmCommitmentplans",
     sourcemap: true,
     globals: {
       "ms-rest-js": "msRest",

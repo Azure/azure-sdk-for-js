@@ -17,6 +17,8 @@ export { BaseResource, CloudError };
 /**
  * @interface
  * An interface representing Resource.
+ * Azure resource.
+ *
  * @extends BaseResource
  */
 export interface Resource extends BaseResource {
@@ -28,8 +30,10 @@ export interface Resource extends BaseResource {
   readonly id?: string;
   /**
    * @member {string} [name] Specifies the name of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  name?: string;
+  readonly name?: string;
   /**
    * @member {string} location Specifies the location of the resource.
    */
@@ -271,19 +275,20 @@ export interface ExampleRequest {
 
 /**
  * @interface
- * An interface representing AssetLocation.
- * Describes the access location for a web service asset.
+ * An interface representing BlobLocation.
+ * Describes the access location for a blob.
  *
  */
-export interface AssetLocation {
+export interface BlobLocation {
   /**
-   * @member {string} uri The URI where the asset is accessible from, (e.g.
-   * aml://abc for system assets or https://xyz for user asets
+   * @member {string} uri The URI from which the blob is accessible from. For
+   * example, aml://abc for system assets or https://xyz for user assets or
+   * payload.
    */
   uri: string;
   /**
-   * @member {string} [credentials] Access credentials for the asset, if
-   * applicable (e.g. asset specified by storage account connection string +
+   * @member {string} [credentials] Access credentials for the blob, if
+   * applicable (e.g. blob specified by storage account connection string +
    * blob URI)
    */
   credentials?: string;
@@ -380,9 +385,9 @@ export interface AssetItem {
    */
   type: AssetType;
   /**
-   * @member {AssetLocation} locationInfo Access information for the asset.
+   * @member {BlobLocation} locationInfo Access information for the asset.
    */
-  locationInfo: AssetLocation;
+  locationInfo: BlobLocation;
   /**
    * @member {{ [propertyName: string]: InputPort }} [inputPorts] Information
    * about the asset's input ports.
@@ -403,6 +408,24 @@ export interface AssetItem {
    * module, this holds the module's parameters.
    */
   parameters?: ModuleAssetParameter[];
+}
+
+/**
+ * @interface
+ * An interface representing WebServiceParameter.
+ * Web Service Parameter object for node and global parameter
+ *
+ */
+export interface WebServiceParameter {
+  /**
+   * @member {any} [value] The parameter value
+   */
+  value?: any;
+  /**
+   * @member {string} [certificateThumbprint] If the parameter value in 'value'
+   * field is encrypted, the thumbprint of the certificate should be put here.
+   */
+  certificateThumbprint?: string;
 }
 
 /**
@@ -535,12 +558,28 @@ export interface WebServiceProperties {
    */
   assets?: { [propertyName: string]: AssetItem };
   /**
-   * @member {{ [propertyName: string]: string }} [parameters] The set of
-   * global parameters values defined for the web service, given as a global
-   * parameter name to default value map. If no default value is specified, the
-   * parameter is considered to be required.
+   * @member {{ [propertyName: string]: WebServiceParameter }} [parameters] The
+   * set of global parameters values defined for the web service, given as a
+   * global parameter name to default value map. If no default value is
+   * specified, the parameter is considered to be required.
    */
-  parameters?: { [propertyName: string]: string };
+  parameters?: { [propertyName: string]: WebServiceParameter };
+  /**
+   * @member {boolean} [payloadsInBlobStorage] When set to true, indicates that
+   * the payload size is larger than 3 MB. Otherwise false. If the payload size
+   * exceed 3 MB, the payload is stored in a blob and the PayloadsLocation
+   * parameter contains the URI of the blob. Otherwise, this will be set to
+   * false and Assets, Input, Output, Package, Parameters, ExampleRequest are
+   * inline. The Payload sizes is determined by adding the size of the Assets,
+   * Input, Output, Package, Parameters, and the ExampleRequest.
+   */
+  payloadsInBlobStorage?: boolean;
+  /**
+   * @member {BlobLocation} [payloadsLocation] The URI of the payload blob.
+   * This paramater contains a value only if the payloadsInBlobStorage
+   * parameter is set to true. Otherwise is set to null.
+   */
+  payloadsLocation?: BlobLocation;
 }
 
 /**
@@ -582,11 +621,11 @@ export interface GraphNode {
    */
   outputId?: string;
   /**
-   * @member {{ [propertyName: string]: string }} [parameters] If applicable,
-   * parameters of the node. Global graph parameters map into these, with
-   * values set at runtime.
+   * @member {{ [propertyName: string]: WebServiceParameter }} [parameters] If
+   * applicable, parameters of the node. Global graph parameters map into
+   * these, with values set at runtime.
    */
-  parameters?: { [propertyName: string]: string };
+  parameters?: { [propertyName: string]: WebServiceParameter };
 }
 
 /**
@@ -809,17 +848,191 @@ export interface WebServicePropertiesForGraph {
    */
   assets?: { [propertyName: string]: AssetItem };
   /**
-   * @member {{ [propertyName: string]: string }} [parameters] The set of
-   * global parameters values defined for the web service, given as a global
-   * parameter name to default value map. If no default value is specified, the
-   * parameter is considered to be required.
+   * @member {{ [propertyName: string]: WebServiceParameter }} [parameters] The
+   * set of global parameters values defined for the web service, given as a
+   * global parameter name to default value map. If no default value is
+   * specified, the parameter is considered to be required.
    */
-  parameters?: { [propertyName: string]: string };
+  parameters?: { [propertyName: string]: WebServiceParameter };
+  /**
+   * @member {boolean} [payloadsInBlobStorage] When set to true, indicates that
+   * the payload size is larger than 3 MB. Otherwise false. If the payload size
+   * exceed 3 MB, the payload is stored in a blob and the PayloadsLocation
+   * parameter contains the URI of the blob. Otherwise, this will be set to
+   * false and Assets, Input, Output, Package, Parameters, ExampleRequest are
+   * inline. The Payload sizes is determined by adding the size of the Assets,
+   * Input, Output, Package, Parameters, and the ExampleRequest.
+   */
+  payloadsInBlobStorage?: boolean;
+  /**
+   * @member {BlobLocation} [payloadsLocation] The URI of the payload blob.
+   * This paramater contains a value only if the payloadsInBlobStorage
+   * parameter is set to true. Otherwise is set to null.
+   */
+  payloadsLocation?: BlobLocation;
   /**
    * @member {GraphPackage} [packageProperty] The definition of the graph
    * package making up this web service.
    */
   packageProperty?: GraphPackage;
+}
+
+/**
+ * @interface
+ * An interface representing AsyncOperationErrorInfo.
+ * The error detail information for async operation
+ *
+ */
+export interface AsyncOperationErrorInfo {
+  /**
+   * @member {string} [code] The error code.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly code?: string;
+  /**
+   * @member {string} [target] The error target.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly target?: string;
+  /**
+   * @member {string} [message] The error message.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly message?: string;
+  /**
+   * @member {AsyncOperationErrorInfo[]} [details] An array containing error
+   * information.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly details?: AsyncOperationErrorInfo[];
+}
+
+/**
+ * @interface
+ * An interface representing AsyncOperationStatus.
+ * Azure async operation status.
+ *
+ */
+export interface AsyncOperationStatus {
+  /**
+   * @member {string} [id] Async operation id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [name] Async operation name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {ProvisioningState} [provisioningState] Read Only: The
+   * provisioning state of the web service. Valid values are Unknown,
+   * Provisioning, Succeeded, and Failed. Possible values include: 'Unknown',
+   * 'Provisioning', 'Succeeded', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * @member {Date} [startTime] The date time that the async operation started.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly startTime?: Date;
+  /**
+   * @member {Date} [endTime] The date time that the async operation finished.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly endTime?: Date;
+  /**
+   * @member {number} [percentComplete] Async operation progress.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly percentComplete?: number;
+  /**
+   * @member {AsyncOperationErrorInfo} [errorInfo] If the async operation
+   * fails, this structure contains the error details.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errorInfo?: AsyncOperationErrorInfo;
+}
+
+/**
+ * @interface
+ * An interface representing OperationDisplayInfo.
+ * The API operation info.
+ *
+ */
+export interface OperationDisplayInfo {
+  /**
+   * @member {string} [description] The description of the operation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly description?: string;
+  /**
+   * @member {string} [operation] The action that users can perform, based on
+   * their permission level.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly operation?: string;
+  /**
+   * @member {string} [provider] The service provider.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provider?: string;
+  /**
+   * @member {string} [resource] The resource on which the operation is
+   * performed.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resource?: string;
+}
+
+/**
+ * @interface
+ * An interface representing OperationEntity.
+ * An API operation.
+ *
+ */
+export interface OperationEntity {
+  /**
+   * @member {string} [name] Operation name: {provider}/{resource}/{operation}.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {OperationDisplayInfo} [display] The API operation info.
+   */
+  display?: OperationDisplayInfo;
+}
+
+/**
+ * @interface
+ * An interface representing WebServicesGetOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface WebServicesGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [region] The region for which encrypted credential
+   * parameters are valid.
+   */
+  region?: string;
 }
 
 /**
@@ -838,12 +1051,12 @@ export interface WebServicesListByResourceGroupOptionalParams extends msRest.Req
 
 /**
  * @interface
- * An interface representing WebServicesListOptionalParams.
+ * An interface representing WebServicesListBySubscriptionIdOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface WebServicesListOptionalParams extends msRest.RequestOptionsBase {
+export interface WebServicesListBySubscriptionIdOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [skiptoken] Continuation token for pagination.
    */
@@ -862,6 +1075,16 @@ export interface AzureMLWebServicesManagementClientOptions extends AzureServiceC
   baseUri?: string;
 }
 
+
+/**
+ * @interface
+ * An interface representing the OperationEntityListResult.
+ * The list of REST API operations.
+ *
+ * @extends Array<OperationEntity>
+ */
+export interface OperationEntityListResult extends Array<OperationEntity> {
+}
 
 /**
  * @interface
@@ -946,6 +1169,25 @@ export type OutputPortType = 'Dataset';
 export type ParameterType = 'String' | 'Int' | 'Float' | 'Enumerated' | 'Script' | 'Mode' | 'Credential' | 'Boolean' | 'Double' | 'ColumnPicker' | 'ParameterRange' | 'DataGatewayName';
 
 /**
+ * Contains response data for the list operation.
+ */
+export type OperationsListResponse = OperationEntityListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationEntityListResult;
+    };
+};
+
+/**
  * Contains response data for the createOrUpdate operation.
  */
 export type WebServicesCreateOrUpdateResponse = WebService & {
@@ -1003,6 +1245,25 @@ export type WebServicesPatchResponse = WebService & {
 };
 
 /**
+ * Contains response data for the createRegionalProperties operation.
+ */
+export type WebServicesCreateRegionalPropertiesResponse = AsyncOperationStatus & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AsyncOperationStatus;
+    };
+};
+
+/**
  * Contains response data for the listKeys operation.
  */
 export type WebServicesListKeysResponse = WebServiceKeys & {
@@ -1041,9 +1302,9 @@ export type WebServicesListByResourceGroupResponse = PaginatedWebServicesList & 
 };
 
 /**
- * Contains response data for the list operation.
+ * Contains response data for the listBySubscriptionId operation.
  */
-export type WebServicesListResponse = PaginatedWebServicesList & {
+export type WebServicesListBySubscriptionIdResponse = PaginatedWebServicesList & {
   /**
    * The underlying HTTP response.
    */
@@ -1098,6 +1359,25 @@ export type WebServicesBeginPatchResponse = WebService & {
 };
 
 /**
+ * Contains response data for the beginCreateRegionalProperties operation.
+ */
+export type WebServicesBeginCreateRegionalPropertiesResponse = AsyncOperationStatus & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AsyncOperationStatus;
+    };
+};
+
+/**
  * Contains response data for the listByResourceGroupNext operation.
  */
 export type WebServicesListByResourceGroupNextResponse = PaginatedWebServicesList & {
@@ -1117,9 +1397,9 @@ export type WebServicesListByResourceGroupNextResponse = PaginatedWebServicesLis
 };
 
 /**
- * Contains response data for the listNext operation.
+ * Contains response data for the listBySubscriptionIdNext operation.
  */
-export type WebServicesListNextResponse = PaginatedWebServicesList & {
+export type WebServicesListBySubscriptionIdNextResponse = PaginatedWebServicesList & {
   /**
    * The underlying HTTP response.
    */

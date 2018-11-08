@@ -41,6 +41,28 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const region0: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "region"
+  ],
+  mapper: {
+    serializedName: "region",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const region1: msRest.OperationQueryParameter = {
+  parameterPath: "region",
+  mapper: {
+    required: true,
+    serializedName: "region",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {

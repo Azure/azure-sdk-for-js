@@ -12,7 +12,7 @@ import * as Models from "./models";
 import * as msRest from "ms-rest-js";
 import * as msRestAzure from "ms-rest-azure-js";
 
-const packageName = "@azure/arm-machinelearning";
+const packageName = "@azure/arm-webservices";
 const packageVersion = "0.1.0-preview";
 
 export class AzureMLWebServicesManagementClientContext extends msRestAzure.AzureServiceClient {
@@ -44,7 +44,7 @@ export class AzureMLWebServicesManagementClientContext extends msRestAzure.Azure
 
     super(credentials, options);
 
-    this.apiVersion = '2016-05-01-preview';
+    this.apiVersion = '2017-01-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

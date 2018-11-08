@@ -1,5 +1,5 @@
 {
-  "name": "@azure/arm-machinelearning",
+  "name": "@azure/arm-workspaces",
   "author": "Microsoft Corporation",
   "description": "MachineLearningWorkspacesManagementClient Library with typescript type definitions for node.js and browser.",
   "version": "0.1.0",
@@ -16,7 +16,7 @@
     "isomorphic"
   ],
   "license": "MIT",
-  "main": "./dist/arm-machinelearning.js",
+  "main": "./dist/arm-workspaces.js",
   "module": "./esm/machineLearningWorkspacesManagementClient.js",
   "types": "./esm/machineLearningWorkspacesManagementClient.d.ts",
   "devDependencies": {
@@ -48,7 +48,7 @@
   ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-machinelearning.js.map'\" -o ./dist/arm-machinelearning.min.js ./dist/arm-machinelearning.js",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-workspaces.js.map'\" -o ./dist/arm-workspaces.min.js ./dist/arm-workspaces.js",
     "prepack": "npm install && npm run build"
   },
   "sideEffects": false

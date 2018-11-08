@@ -17,6 +17,7 @@ import { AzureMLWebServicesManagementClientContext } from "./azureMLWebServicesM
 
 class AzureMLWebServicesManagementClient extends AzureMLWebServicesManagementClientContext {
   // Operation groups
+  operations: operations.Operations;
   webServices: operations.WebServices;
 
   /**
@@ -27,6 +28,7 @@ class AzureMLWebServicesManagementClient extends AzureMLWebServicesManagementCli
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AzureMLWebServicesManagementClientOptions) {
     super(credentials, subscriptionId, options);
+    this.operations = new operations.Operations(this);
     this.webServices = new operations.WebServices(this);
   }
 }

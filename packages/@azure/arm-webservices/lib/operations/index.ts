@@ -8,4 +8,5 @@
  * regenerated.
  */
 
+export * from "./operations";
 export * from "./webServices";

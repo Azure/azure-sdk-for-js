@@ -7,7 +7,7 @@ This package contains an isomorphic SDK for MachineLearningWorkspacesManagementC
 
 ## How to Install
 ```
-npm install @azure/arm-machinelearning
+npm install @azure/arm-workspaces
 ```
 
 
@@ -19,7 +19,7 @@ npm install @azure/arm-machinelearning
 import * as msRest from "ms-rest-js";
 import * as msRestAzure from "ms-rest-azure-js";
 import * as msRestNodeAuth from "ms-rest-nodeauth";
-import { MachineLearningWorkspacesManagementClient, MachineLearningWorkspacesManagementModels, MachineLearningWorkspacesManagementMappers } from "@azure/arm-machinelearning";
+import { MachineLearningWorkspacesManagementClient, MachineLearningWorkspacesManagementModels, MachineLearningWorkspacesManagementMappers } from "@azure/arm-workspaces";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
@@ -41,11 +41,11 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>@azure/arm-machinelearning sample</title>
+    <title>@azure/arm-workspaces sample</title>
     <script src="node_modules/ms-rest-js/dist/msRest.browser.js"></script>
     <script src="node_modules/ms-rest-azure-js/dist/msRestAzure.js"></script>
     <script src="node_modules/ms-rest-browserauth/dist/msAuth.js"></script>
-    <script src="node_modules/@azure/arm-machinelearning/dist/arm-machinelearning.js"></script>
+    <script src="node_modules/@azure/arm-workspaces/dist/arm-workspaces.js"></script>
     <script>
       const subscriptionId = "<Subscription_Id>";
       const authManager = new msAuth.AuthManager({
@@ -57,7 +57,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmMachinelearning.MachineLearningWorkspacesManagementClient(res.creds, subscriptionId);
+        const client = new Azure.ArmWorkspaces.MachineLearningWorkspacesManagementClient(res.creds, subscriptionId);
         client.operations.list().then((result) => {
           console.log("The result is:");
           console.log(result);
