@@ -52,7 +52,7 @@ export class ContainerOperations {
    * @param callback The callback
    */
   listLogs(resourceGroupName: string, containerGroupName: string, containerName: string, options: Models.ContainerListLogsOptionalParams, callback: msRest.ServiceCallback<Models.Logs>): void;
-  listLogs(resourceGroupName: string, containerGroupName: string, containerName: string, options?: Models.ContainerListLogsOptionalParams, callback?: msRest.ServiceCallback<Models.Logs>): Promise<Models.ContainerListLogsResponse> {
+  listLogs(resourceGroupName: string, containerGroupName: string, containerName: string, options?: Models.ContainerListLogsOptionalParams | msRest.ServiceCallback<Models.Logs>, callback?: msRest.ServiceCallback<Models.Logs>): Promise<Models.ContainerListLogsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -93,7 +93,7 @@ export class ContainerOperations {
    * @param callback The callback
    */
   executeCommand(resourceGroupName: string, containerGroupName: string, containerName: string, containerExecRequest: Models.ContainerExecRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContainerExecResponse>): void;
-  executeCommand(resourceGroupName: string, containerGroupName: string, containerName: string, containerExecRequest: Models.ContainerExecRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ContainerExecResponse>): Promise<Models.ContainerExecuteCommandResponse> {
+  executeCommand(resourceGroupName: string, containerGroupName: string, containerName: string, containerExecRequest: Models.ContainerExecRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContainerExecResponse>, callback?: msRest.ServiceCallback<Models.ContainerExecResponse>): Promise<Models.ContainerExecuteCommandResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
