@@ -3219,11 +3219,11 @@ export interface ExtendedDatabaseBlobAuditingPolicy extends ProxyResource {
    * REFERENCES
    *
    * The general form for defining an action to be audited is:
-   * <action> ON <object> BY <principal>
+   * {action} ON {object} BY {principal}
    *
    * Note that <object> in the above format can refer to an object like a
    * table, view, or stored procedure, or an entire database or schema. For the
-   * latter cases, the forms DATABASE::<db_name> and SCHEMA::<schema_name> are
+   * latter cases, the forms DATABASE::{db_name} and SCHEMA::{schema_name} are
    * used, respectively.
    *
    * For example:
@@ -3255,10 +3255,11 @@ export interface ExtendedDatabaseBlobAuditingPolicy extends ProxyResource {
    * 'SQLSecurityAuditEvents' diagnostic logs category on the database should
    * be also created.
    * Note that for server level audit you should use the 'master' database as
-   * <databaseName>.
+   * {databaseName}.
+   *
    * Diagnostic Settings URI format:
    * PUT
-   * https://management.azure.com/subscriptions/<subscriptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.Sql/servers/<serverName>/databases/<databaseName>/providers/microsoft.insights/diagnosticSettings/<settingsName>?api-version=2017-05-01-preview
+   * https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
    *
    * For more information, see [Diagnostic Settings REST
    * API](https://go.microsoft.com/fwlink/?linkid=2033207)
@@ -3363,11 +3364,11 @@ export interface ExtendedServerBlobAuditingPolicy extends ProxyResource {
    * REFERENCES
    *
    * The general form for defining an action to be audited is:
-   * <action> ON <object> BY <principal>
+   * {action} ON {object} BY {principal}
    *
    * Note that <object> in the above format can refer to an object like a
    * table, view, or stored procedure, or an entire database or schema. For the
-   * latter cases, the forms DATABASE::<db_name> and SCHEMA::<schema_name> are
+   * latter cases, the forms DATABASE::{db_name} and SCHEMA::{schema_name} are
    * used, respectively.
    *
    * For example:
@@ -3399,10 +3400,11 @@ export interface ExtendedServerBlobAuditingPolicy extends ProxyResource {
    * 'SQLSecurityAuditEvents' diagnostic logs category on the database should
    * be also created.
    * Note that for server level audit you should use the 'master' database as
-   * <databaseName>.
+   * {databaseName}.
+   *
    * Diagnostic Settings URI format:
    * PUT
-   * https://management.azure.com/subscriptions/<subscriptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.Sql/servers/<serverName>/databases/<databaseName>/providers/microsoft.insights/diagnosticSettings/<settingsName>?api-version=2017-05-01-preview
+   * https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
    *
    * For more information, see [Diagnostic Settings REST
    * API](https://go.microsoft.com/fwlink/?linkid=2033207)
@@ -3502,11 +3504,11 @@ export interface ServerBlobAuditingPolicy extends ProxyResource {
    * REFERENCES
    *
    * The general form for defining an action to be audited is:
-   * <action> ON <object> BY <principal>
+   * {action} ON {object} BY {principal}
    *
    * Note that <object> in the above format can refer to an object like a
    * table, view, or stored procedure, or an entire database or schema. For the
-   * latter cases, the forms DATABASE::<db_name> and SCHEMA::<schema_name> are
+   * latter cases, the forms DATABASE::{db_name} and SCHEMA::{schema_name} are
    * used, respectively.
    *
    * For example:
@@ -3538,10 +3540,11 @@ export interface ServerBlobAuditingPolicy extends ProxyResource {
    * 'SQLSecurityAuditEvents' diagnostic logs category on the database should
    * be also created.
    * Note that for server level audit you should use the 'master' database as
-   * <databaseName>.
+   * {databaseName}.
+   *
    * Diagnostic Settings URI format:
    * PUT
-   * https://management.azure.com/subscriptions/<subscriptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.Sql/servers/<serverName>/databases/<databaseName>/providers/microsoft.insights/diagnosticSettings/<settingsName>?api-version=2017-05-01-preview
+   * https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
    *
    * For more information, see [Diagnostic Settings REST
    * API](https://go.microsoft.com/fwlink/?linkid=2033207)
@@ -3647,11 +3650,11 @@ export interface DatabaseBlobAuditingPolicy extends ProxyResource {
    * REFERENCES
    *
    * The general form for defining an action to be audited is:
-   * <action> ON <object> BY <principal>
+   * {action} ON {object} BY {principal}
    *
    * Note that <object> in the above format can refer to an object like a
    * table, view, or stored procedure, or an entire database or schema. For the
-   * latter cases, the forms DATABASE::<db_name> and SCHEMA::<schema_name> are
+   * latter cases, the forms DATABASE::{db_name} and SCHEMA::{schema_name} are
    * used, respectively.
    *
    * For example:
@@ -3683,10 +3686,11 @@ export interface DatabaseBlobAuditingPolicy extends ProxyResource {
    * 'SQLSecurityAuditEvents' diagnostic logs category on the database should
    * be also created.
    * Note that for server level audit you should use the 'master' database as
-   * <databaseName>.
+   * {databaseName}.
+   *
    * Diagnostic Settings URI format:
    * PUT
-   * https://management.azure.com/subscriptions/<subscriptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.Sql/servers/<serverName>/databases/<databaseName>/providers/microsoft.insights/diagnosticSettings/<settingsName>?api-version=2017-05-01-preview
+   * https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
    *
    * For more information, see [Diagnostic Settings REST
    * API](https://go.microsoft.com/fwlink/?linkid=2033207)
@@ -4312,6 +4316,21 @@ export interface BackupLongTermRetentionPolicy extends ProxyResource {
    * in an ISO 8601 format.
    */
   weekOfYear?: number;
+}
+
+/**
+ * @interface
+ * An interface representing ManagedBackupShortTermRetentionPolicy.
+ * A short term retention policy.
+ *
+ * @extends ProxyResource
+ */
+export interface ManagedBackupShortTermRetentionPolicy extends ProxyResource {
+  /**
+   * @member {number} [retentionDays] The backup retention period in days. This
+   * is how many days Point-in-Time Restore will be supported.
+   */
+  retentionDays?: number;
 }
 
 /**
@@ -7440,6 +7459,22 @@ export interface JobVersionListResult extends Array<JobVersion> {
  * @extends Array<LongTermRetentionBackup>
  */
 export interface LongTermRetentionBackupListResult extends Array<LongTermRetentionBackup> {
+  /**
+   * @member {string} [nextLink] Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the ManagedBackupShortTermRetentionPolicyListResult.
+ * A list of short term retention policies.
+ *
+ * @extends Array<ManagedBackupShortTermRetentionPolicy>
+ */
+export interface ManagedBackupShortTermRetentionPolicyListResult extends Array<ManagedBackupShortTermRetentionPolicy> {
   /**
    * @member {string} [nextLink] Link to retrieve next page of results.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -13294,6 +13329,139 @@ export type BackupLongTermRetentionPoliciesBeginCreateOrUpdateResponse = BackupL
 };
 
 /**
+ * Contains response data for the get operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesGetResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesCreateOrUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabase operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesListByDatabaseResponse = ManagedBackupShortTermRetentionPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicyListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesBeginCreateOrUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesBeginUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabaseNext operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesListByDatabaseNextResponse = ManagedBackupShortTermRetentionPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicyListResult;
+    };
+};
+
+/**
  * Contains response data for the listByInstance operation.
  */
 export type ManagedDatabasesListByInstanceResponse = ManagedDatabaseListResult & {
@@ -13788,25 +13956,6 @@ export type CapabilitiesListByLocationResponse = LocationCapabilities & {
 };
 
 /**
- * Contains response data for the get operation.
- */
-export type DatabaseVulnerabilityAssessmentScansGetResponse = VulnerabilityAssessmentScanRecord & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VulnerabilityAssessmentScanRecord;
-    };
-};
-
-/**
  * Contains response data for the listByDatabase operation.
  */
 export type DatabaseVulnerabilityAssessmentScansListByDatabaseResponse = VulnerabilityAssessmentScanRecordListResult & {
@@ -13822,6 +13971,25 @@ export type DatabaseVulnerabilityAssessmentScansListByDatabaseResponse = Vulnera
        * The response body as parsed JSON or XML
        */
       parsedBody: VulnerabilityAssessmentScanRecordListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type DatabaseVulnerabilityAssessmentScansGetResponse = VulnerabilityAssessmentScanRecord & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VulnerabilityAssessmentScanRecord;
     };
 };
 

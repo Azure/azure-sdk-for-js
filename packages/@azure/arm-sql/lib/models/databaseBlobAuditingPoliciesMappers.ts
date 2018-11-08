@@ -81,6 +81,7 @@ export {
   JobVersion,
   LongTermRetentionBackup,
   BackupLongTermRetentionPolicy,
+  ManagedBackupShortTermRetentionPolicy,
   ManagedDatabase,
   ServerAutomaticTuning,
   AutomaticTuningServerOptions,

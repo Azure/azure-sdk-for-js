@@ -59,6 +59,7 @@ export * from "./jobTargetGroups";
 export * from "./jobVersions";
 export * from "./longTermRetentionBackups";
 export * from "./backupLongTermRetentionPolicies";
+export * from "./managedBackupShortTermRetentionPolicies";
 export * from "./managedDatabases";
 export * from "./serverAutomaticTuningOperations";
 export * from "./serverDnsAliases";
