@@ -54,7 +54,7 @@ export class SyncAgents {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, syncAgentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncAgent>): void;
-  get(resourceGroupName: string, serverName: string, syncAgentName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SyncAgent>): Promise<Models.SyncAgentsGetResponse> {
+  get(resourceGroupName: string, serverName: string, syncAgentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncAgent>, callback?: msRest.ServiceCallback<Models.SyncAgent>): Promise<Models.SyncAgentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -119,7 +119,7 @@ export class SyncAgents {
    * @param callback The callback
    */
   listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncAgentListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SyncAgentListResult>): Promise<Models.SyncAgentsListByServerResponse> {
+  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncAgentListResult>, callback?: msRest.ServiceCallback<Models.SyncAgentListResult>): Promise<Models.SyncAgentsListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -157,7 +157,7 @@ export class SyncAgents {
    * @param callback The callback
    */
   generateKey(resourceGroupName: string, serverName: string, syncAgentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncAgentKeyProperties>): void;
-  generateKey(resourceGroupName: string, serverName: string, syncAgentName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SyncAgentKeyProperties>): Promise<Models.SyncAgentsGenerateKeyResponse> {
+  generateKey(resourceGroupName: string, serverName: string, syncAgentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncAgentKeyProperties>, callback?: msRest.ServiceCallback<Models.SyncAgentKeyProperties>): Promise<Models.SyncAgentsGenerateKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -196,7 +196,7 @@ export class SyncAgents {
    * @param callback The callback
    */
   listLinkedDatabases(resourceGroupName: string, serverName: string, syncAgentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncAgentLinkedDatabaseListResult>): void;
-  listLinkedDatabases(resourceGroupName: string, serverName: string, syncAgentName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SyncAgentLinkedDatabaseListResult>): Promise<Models.SyncAgentsListLinkedDatabasesResponse> {
+  listLinkedDatabases(resourceGroupName: string, serverName: string, syncAgentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncAgentLinkedDatabaseListResult>, callback?: msRest.ServiceCallback<Models.SyncAgentLinkedDatabaseListResult>): Promise<Models.SyncAgentsListLinkedDatabasesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -270,7 +270,7 @@ export class SyncAgents {
    * @param callback The callback
    */
   listByServerNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncAgentListResult>): void;
-  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SyncAgentListResult>): Promise<Models.SyncAgentsListByServerNextResponse> {
+  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncAgentListResult>, callback?: msRest.ServiceCallback<Models.SyncAgentListResult>): Promise<Models.SyncAgentsListByServerNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -298,7 +298,7 @@ export class SyncAgents {
    * @param callback The callback
    */
   listLinkedDatabasesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncAgentLinkedDatabaseListResult>): void;
-  listLinkedDatabasesNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SyncAgentLinkedDatabaseListResult>): Promise<Models.SyncAgentsListLinkedDatabasesNextResponse> {
+  listLinkedDatabasesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncAgentLinkedDatabaseListResult>, callback?: msRest.ServiceCallback<Models.SyncAgentLinkedDatabaseListResult>): Promise<Models.SyncAgentsListLinkedDatabasesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

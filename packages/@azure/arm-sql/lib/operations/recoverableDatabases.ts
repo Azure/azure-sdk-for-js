@@ -53,7 +53,7 @@ export class RecoverableDatabases {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoverableDatabase>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RecoverableDatabase>): Promise<Models.RecoverableDatabasesGetResponse> {
+  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoverableDatabase>, callback?: msRest.ServiceCallback<Models.RecoverableDatabase>): Promise<Models.RecoverableDatabasesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -89,7 +89,7 @@ export class RecoverableDatabases {
    * @param callback The callback
    */
   listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoverableDatabaseListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RecoverableDatabaseListResult>): Promise<Models.RecoverableDatabasesListByServerResponse> {
+  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoverableDatabaseListResult>, callback?: msRest.ServiceCallback<Models.RecoverableDatabaseListResult>): Promise<Models.RecoverableDatabasesListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

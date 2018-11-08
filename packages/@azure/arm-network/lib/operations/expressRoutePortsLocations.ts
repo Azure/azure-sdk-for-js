@@ -42,7 +42,7 @@ export class ExpressRoutePortsLocations {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>): Promise<Models.ExpressRoutePortsLocationsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>, callback?: msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>): Promise<Models.ExpressRoutePortsLocationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -70,7 +70,7 @@ export class ExpressRoutePortsLocations {
    * @param callback The callback
    */
   get(locationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRoutePortsLocation>): void;
-  get(locationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRoutePortsLocation>): Promise<Models.ExpressRoutePortsLocationsGetResponse> {
+  get(locationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePortsLocation>, callback?: msRest.ServiceCallback<Models.ExpressRoutePortsLocation>): Promise<Models.ExpressRoutePortsLocationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
@@ -99,7 +99,7 @@ export class ExpressRoutePortsLocations {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>): Promise<Models.ExpressRoutePortsLocationsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>, callback?: msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>): Promise<Models.ExpressRoutePortsLocationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

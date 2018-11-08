@@ -56,7 +56,7 @@ export class RestorableDroppedDatabases {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, restorableDroppededDatabaseId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RestorableDroppedDatabase>): void;
-  get(resourceGroupName: string, serverName: string, restorableDroppededDatabaseId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RestorableDroppedDatabase>): Promise<Models.RestorableDroppedDatabasesGetResponse> {
+  get(resourceGroupName: string, serverName: string, restorableDroppededDatabaseId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RestorableDroppedDatabase>, callback?: msRest.ServiceCallback<Models.RestorableDroppedDatabase>): Promise<Models.RestorableDroppedDatabasesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -92,7 +92,7 @@ export class RestorableDroppedDatabases {
    * @param callback The callback
    */
   listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RestorableDroppedDatabaseListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RestorableDroppedDatabaseListResult>): Promise<Models.RestorableDroppedDatabasesListByServerResponse> {
+  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RestorableDroppedDatabaseListResult>, callback?: msRest.ServiceCallback<Models.RestorableDroppedDatabaseListResult>): Promise<Models.RestorableDroppedDatabasesListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

@@ -60,7 +60,7 @@ export class AzureFirewalls {
    * @param callback The callback
    */
   get(resourceGroupName: string, azureFirewallName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureFirewall>): void;
-  get(resourceGroupName: string, azureFirewallName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AzureFirewall>): Promise<Models.AzureFirewallsGetResponse> {
+  get(resourceGroupName: string, azureFirewallName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureFirewall>, callback?: msRest.ServiceCallback<Models.AzureFirewall>): Promise<Models.AzureFirewallsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -102,7 +102,7 @@ export class AzureFirewalls {
    * @param callback The callback
    */
   list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureFirewallListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AzureFirewallListResult>): Promise<Models.AzureFirewallsListResponse> {
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureFirewallListResult>, callback?: msRest.ServiceCallback<Models.AzureFirewallListResult>): Promise<Models.AzureFirewallsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -127,7 +127,7 @@ export class AzureFirewalls {
    * @param callback The callback
    */
   listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureFirewallListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AzureFirewallListResult>): Promise<Models.AzureFirewallsListAllResponse> {
+  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureFirewallListResult>, callback?: msRest.ServiceCallback<Models.AzureFirewallListResult>): Promise<Models.AzureFirewallsListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -192,7 +192,7 @@ export class AzureFirewalls {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureFirewallListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AzureFirewallListResult>): Promise<Models.AzureFirewallsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureFirewallListResult>, callback?: msRest.ServiceCallback<Models.AzureFirewallListResult>): Promise<Models.AzureFirewallsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -220,7 +220,7 @@ export class AzureFirewalls {
    * @param callback The callback
    */
   listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureFirewallListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AzureFirewallListResult>): Promise<Models.AzureFirewallsListAllNextResponse> {
+  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureFirewallListResult>, callback?: msRest.ServiceCallback<Models.AzureFirewallListResult>): Promise<Models.AzureFirewallsListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

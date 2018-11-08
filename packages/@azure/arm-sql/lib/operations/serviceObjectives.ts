@@ -53,7 +53,7 @@ export class ServiceObjectives {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, serviceObjectiveName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceObjective>): void;
-  get(resourceGroupName: string, serverName: string, serviceObjectiveName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceObjective>): Promise<Models.ServiceObjectivesGetResponse> {
+  get(resourceGroupName: string, serverName: string, serviceObjectiveName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceObjective>, callback?: msRest.ServiceCallback<Models.ServiceObjective>): Promise<Models.ServiceObjectivesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -89,7 +89,7 @@ export class ServiceObjectives {
    * @param callback The callback
    */
   listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceObjectiveListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceObjectiveListResult>): Promise<Models.ServiceObjectivesListByServerResponse> {
+  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceObjectiveListResult>, callback?: msRest.ServiceCallback<Models.ServiceObjectiveListResult>): Promise<Models.ServiceObjectivesListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

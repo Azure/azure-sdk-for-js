@@ -188,7 +188,7 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param callback The callback
    */
   checkDnsNameAvailability(location: string, domainNameLabel: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DnsNameAvailabilityResult>): void;
-  checkDnsNameAvailability(location: string, domainNameLabel: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DnsNameAvailabilityResult>): Promise<Models.CheckDnsNameAvailabilityResponse> {
+  checkDnsNameAvailability(location: string, domainNameLabel: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DnsNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.DnsNameAvailabilityResult>): Promise<Models.CheckDnsNameAvailabilityResponse> {
     return this.sendOperationRequest(
       {
         location,
@@ -223,7 +223,7 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param callback The callback
    */
   supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualWanSecurityProviders>): void;
-  supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualWanSecurityProviders>): Promise<Models.SupportedSecurityProvidersResponse> {
+  supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualWanSecurityProviders>, callback?: msRest.ServiceCallback<Models.VirtualWanSecurityProviders>): Promise<Models.SupportedSecurityProvidersResponse> {
     return this.sendOperationRequest(
       {
         resourceGroupName,
