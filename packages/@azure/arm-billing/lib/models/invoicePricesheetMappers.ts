@@ -9,7 +9,8 @@
  */
 
 export {
-  InvoicePricesheetGetHeaders,
+  DownloadUrl,
+  InvoicePricesheetPostHeaders,
   ErrorResponse,
   ErrorDetails
 } from "../models/mappers";

@@ -91,8 +91,7 @@ export interface BillingPeriod extends Resource {
 /**
  * @interface
  * An interface representing DownloadUrl.
- * A secure URL that can be used to download a PDF invoice until the URL
- * expires.
+ * A secure URL that can be used to download a an entity until the URL expires.
  *
  */
 export interface DownloadUrl {
@@ -317,11 +316,11 @@ export interface BillingManagementClientOptions extends AzureServiceClientOption
 
 /**
  * @interface
- * An interface representing InvoicePricesheetGetHeaders.
- * Defines headers for Get operation.
+ * An interface representing InvoicePricesheetPostHeaders.
+ * Defines headers for Post operation.
  *
  */
-export interface InvoicePricesheetGetHeaders {
+export interface InvoicePricesheetPostHeaders {
   /**
    * @member {string} [location] GET this URL to retrieve the status of the
    * asynchronous operation.
@@ -604,9 +603,9 @@ export type InvoicesListNextResponse = InvoicesListResult & {
 };
 
 /**
- * Contains response data for the get operation.
+ * Contains response data for the post operation.
  */
-export type InvoicePricesheetGetResponse = InvoicePricesheetGetHeaders & {
+export type InvoicePricesheetPostResponse = DownloadUrl & InvoicePricesheetPostHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -614,7 +613,15 @@ export type InvoicePricesheetGetResponse = InvoicePricesheetGetHeaders & {
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: InvoicePricesheetGetHeaders;
+      parsedHeaders: InvoicePricesheetPostHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DownloadUrl;
     };
 };
 
