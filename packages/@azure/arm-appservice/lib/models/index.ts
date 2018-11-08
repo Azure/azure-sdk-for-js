@@ -14680,6 +14680,63 @@ export type WebAppsUpdateSlotConfigurationNamesResponse = SlotConfigNamesResourc
 };
 
 /**
+ * Contains response data for the getSwiftVirtualNetworkConnection operation.
+ */
+export type WebAppsGetSwiftVirtualNetworkConnectionResponse = SwiftVirtualNetwork & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SwiftVirtualNetwork;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdateSwiftVirtualNetworkConnection operation.
+ */
+export type WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse = SwiftVirtualNetwork & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SwiftVirtualNetwork;
+    };
+};
+
+/**
+ * Contains response data for the updateSwiftVirtualNetworkConnection operation.
+ */
+export type WebAppsUpdateSwiftVirtualNetworkConnectionResponse = SwiftVirtualNetwork & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SwiftVirtualNetwork;
+    };
+};
+
+/**
  * Contains response data for the getConfiguration operation.
  */
 export type WebAppsGetConfigurationResponse = SiteConfigResource & {
@@ -15763,63 +15820,6 @@ export type WebAppsGetMigrateMySqlStatusResponse = MigrateMySqlStatus & {
 };
 
 /**
- * Contains response data for the getSwiftVirtualNetworkConnection operation.
- */
-export type WebAppsGetSwiftVirtualNetworkConnectionResponse = SwiftVirtualNetwork & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SwiftVirtualNetwork;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdateSwiftVirtualNetworkConnection operation.
- */
-export type WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse = SwiftVirtualNetwork & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SwiftVirtualNetwork;
-    };
-};
-
-/**
- * Contains response data for the updateSwiftVirtualNetworkConnection operation.
- */
-export type WebAppsUpdateSwiftVirtualNetworkConnectionResponse = SwiftVirtualNetwork & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SwiftVirtualNetwork;
-    };
-};
-
-/**
  * Contains response data for the listNetworkFeatures operation.
  */
 export type WebAppsListNetworkFeaturesResponse = NetworkFeatures & {
@@ -16898,6 +16898,63 @@ export type WebAppsListSitePushSettingsSlotResponse = PushSettings & {
 };
 
 /**
+ * Contains response data for the getSwiftVirtualNetworkConnectionSlot operation.
+ */
+export type WebAppsGetSwiftVirtualNetworkConnectionSlotResponse = SwiftVirtualNetwork & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SwiftVirtualNetwork;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdateSwiftVirtualNetworkConnectionSlot operation.
+ */
+export type WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse = SwiftVirtualNetwork & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SwiftVirtualNetwork;
+    };
+};
+
+/**
+ * Contains response data for the updateSwiftVirtualNetworkConnectionSlot operation.
+ */
+export type WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse = SwiftVirtualNetwork & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SwiftVirtualNetwork;
+    };
+};
+
+/**
  * Contains response data for the getConfigurationSlot operation.
  */
 export type WebAppsGetConfigurationSlotResponse = SiteConfigResource & {
@@ -17939,63 +17996,6 @@ export type WebAppsGetMigrateMySqlStatusSlotResponse = MigrateMySqlStatus & {
        * The response body as parsed JSON or XML
        */
       parsedBody: MigrateMySqlStatus;
-    };
-};
-
-/**
- * Contains response data for the getSwiftVirtualNetworkConnectionSlot operation.
- */
-export type WebAppsGetSwiftVirtualNetworkConnectionSlotResponse = SwiftVirtualNetwork & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SwiftVirtualNetwork;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdateSwiftVirtualNetworkConnectionSlot operation.
- */
-export type WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse = SwiftVirtualNetwork & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SwiftVirtualNetwork;
-    };
-};
-
-/**
- * Contains response data for the updateSwiftVirtualNetworkConnectionSlot operation.
- */
-export type WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse = SwiftVirtualNetwork & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SwiftVirtualNetwork;
     };
 };
 

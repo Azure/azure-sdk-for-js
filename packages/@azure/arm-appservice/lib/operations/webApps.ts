@@ -1197,6 +1197,158 @@ export class WebApps {
   }
 
   /**
+   * Gets a Swift Virtual Network connection.
+   * @summary Gets a Swift Virtual Network connection.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionResponse>
+   */
+  getSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param callback The callback
+   */
+  getSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
+  getSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      getSwiftVirtualNetworkConnectionOperationSpec,
+      callback) as Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionResponse>;
+  }
+
+  /**
+   * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true
+   * when doing a GET against this resource, and 2) that the target Subnet has already been
+   * delegated, and is not
+   * in use by another App Service Plan other than the one this App is in.
+   * @summary Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported"
+   * is true when doing a GET against this resource, and 2) that the target Subnet has already been
+   * delegated, and is not
+   * in use by another App Service Plan other than the one this App is in.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse>
+   */
+  createOrUpdateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
+   * @param callback The callback
+   */
+  createOrUpdateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  createOrUpdateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
+  createOrUpdateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        connectionEnvelope,
+        options
+      },
+      createOrUpdateSwiftVirtualNetworkConnectionOperationSpec,
+      callback) as Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse>;
+  }
+
+  /**
+   * Deletes a Swift Virtual Network connection from an app (or deployment slot).
+   * @summary Deletes a Swift Virtual Network connection from an app (or deployment slot).
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteSwiftVirtualNetwork(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param callback The callback
+   */
+  deleteSwiftVirtualNetwork(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deleteSwiftVirtualNetwork(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteSwiftVirtualNetwork(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      deleteSwiftVirtualNetworkOperationSpec,
+      callback);
+  }
+
+  /**
+   * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true
+   * when doing a GET against this resource, and 2) that the target Subnet has already been
+   * delegated, and is not
+   * in use by another App Service Plan other than the one this App is in.
+   * @summary Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported"
+   * is true when doing a GET against this resource, and 2) that the target Subnet has already been
+   * delegated, and is not
+   * in use by another App Service Plan other than the one this App is in.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionResponse>
+   */
+  updateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
+   * @param callback The callback
+   */
+  updateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
+  updateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        connectionEnvelope,
+        options
+      },
+      updateSwiftVirtualNetworkConnectionOperationSpec,
+      callback) as Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionResponse>;
+  }
+
+  /**
    * Gets the configuration of an app, such as platform version and bitness, default documents,
    * virtual applications, Always On, etc.
    * @summary Gets the configuration of an app, such as platform version and bitness, default
@@ -3624,158 +3776,6 @@ export class WebApps {
       },
       getMigrateMySqlStatusOperationSpec,
       callback) as Promise<Models.WebAppsGetMigrateMySqlStatusResponse>;
-  }
-
-  /**
-   * Gets a Swift Virtual Network connection.
-   * @summary Gets a Swift Virtual Network connection.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionResponse>
-   */
-  getSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param callback The callback
-   */
-  getSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  getSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        options
-      },
-      getSwiftVirtualNetworkConnectionOperationSpec,
-      callback) as Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionResponse>;
-  }
-
-  /**
-   * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true
-   * when doing a GET against this resource, and 2) that the target Subnet has already been
-   * delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   * @summary Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported"
-   * is true when doing a GET against this resource, and 2) that the target Subnet has already been
-   * delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse>
-   */
-  createOrUpdateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param callback The callback
-   */
-  createOrUpdateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  createOrUpdateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  createOrUpdateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        connectionEnvelope,
-        options
-      },
-      createOrUpdateSwiftVirtualNetworkConnectionOperationSpec,
-      callback) as Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse>;
-  }
-
-  /**
-   * Deletes a Swift Virtual Network connection from an app (or deployment slot).
-   * @summary Deletes a Swift Virtual Network connection from an app (or deployment slot).
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  deleteSwiftVirtualNetwork(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param callback The callback
-   */
-  deleteSwiftVirtualNetwork(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  deleteSwiftVirtualNetwork(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteSwiftVirtualNetwork(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        options
-      },
-      deleteSwiftVirtualNetworkOperationSpec,
-      callback);
-  }
-
-  /**
-   * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true
-   * when doing a GET against this resource, and 2) that the target Subnet has already been
-   * delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   * @summary Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported"
-   * is true when doing a GET against this resource, and 2) that the target Subnet has already been
-   * delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionResponse>
-   */
-  updateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param callback The callback
-   */
-  updateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  updateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  updateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        connectionEnvelope,
-        options
-      },
-      updateSwiftVirtualNetworkConnectionOperationSpec,
-      callback) as Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionResponse>;
   }
 
   /**
@@ -6398,6 +6398,186 @@ export class WebApps {
       },
       listSitePushSettingsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListSitePushSettingsSlotResponse>;
+  }
+
+  /**
+   * Gets a Swift Virtual Network connection.
+   * @summary Gets a Swift Virtual Network connection.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will get a gateway
+   * for the production slot's Virtual Network.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionSlotResponse>
+   */
+  getSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionSlotResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will get a gateway
+   * for the production slot's Virtual Network.
+   * @param callback The callback
+   */
+  getSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, slot: string, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will get a gateway
+   * for the production slot's Virtual Network.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
+  getSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionSlotResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        slot,
+        options
+      },
+      getSwiftVirtualNetworkConnectionSlotOperationSpec,
+      callback) as Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionSlotResponse>;
+  }
+
+  /**
+   * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true
+   * when doing a GET against this resource, and 2) that the target Subnet has already been
+   * delegated, and is not
+   * in use by another App Service Plan other than the one this App is in.
+   * @summary Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported"
+   * is true when doing a GET against this resource, and 2) that the target Subnet has already been
+   * delegated, and is not
+   * in use by another App Service Plan other than the one this App is in.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
+   * connections for the production slot.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse>
+   */
+  createOrUpdateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
+   * connections for the production slot.
+   * @param callback The callback
+   */
+  createOrUpdateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
+   * connections for the production slot.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  createOrUpdateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
+  createOrUpdateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        connectionEnvelope,
+        slot,
+        options
+      },
+      createOrUpdateSwiftVirtualNetworkConnectionSlotOperationSpec,
+      callback) as Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse>;
+  }
+
+  /**
+   * Deletes a Swift Virtual Network connection from an app (or deployment slot).
+   * @summary Deletes a Swift Virtual Network connection from an app (or deployment slot).
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will delete the
+   * connection for the production slot.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteSwiftVirtualNetworkSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will delete the
+   * connection for the production slot.
+   * @param callback The callback
+   */
+  deleteSwiftVirtualNetworkSlot(resourceGroupName: string, name: string, slot: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will delete the
+   * connection for the production slot.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deleteSwiftVirtualNetworkSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteSwiftVirtualNetworkSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        slot,
+        options
+      },
+      deleteSwiftVirtualNetworkSlotOperationSpec,
+      callback);
+  }
+
+  /**
+   * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true
+   * when doing a GET against this resource, and 2) that the target Subnet has already been
+   * delegated, and is not
+   * in use by another App Service Plan other than the one this App is in.
+   * @summary Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported"
+   * is true when doing a GET against this resource, and 2) that the target Subnet has already been
+   * delegated, and is not
+   * in use by another App Service Plan other than the one this App is in.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
+   * connections for the production slot.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse>
+   */
+  updateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
+   * connections for the production slot.
+   * @param callback The callback
+   */
+  updateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
+   * connections for the production slot.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
+  updateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        connectionEnvelope,
+        slot,
+        options
+      },
+      updateSwiftVirtualNetworkConnectionSlotOperationSpec,
+      callback) as Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse>;
   }
 
   /**
@@ -9195,186 +9375,6 @@ export class WebApps {
       },
       getMigrateMySqlStatusSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetMigrateMySqlStatusSlotResponse>;
-  }
-
-  /**
-   * Gets a Swift Virtual Network connection.
-   * @summary Gets a Swift Virtual Network connection.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will get a gateway
-   * for the production slot's Virtual Network.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionSlotResponse>
-   */
-  getSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionSlotResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will get a gateway
-   * for the production slot's Virtual Network.
-   * @param callback The callback
-   */
-  getSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, slot: string, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will get a gateway
-   * for the production slot's Virtual Network.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  getSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionSlotResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        slot,
-        options
-      },
-      getSwiftVirtualNetworkConnectionSlotOperationSpec,
-      callback) as Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionSlotResponse>;
-  }
-
-  /**
-   * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true
-   * when doing a GET against this resource, and 2) that the target Subnet has already been
-   * delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   * @summary Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported"
-   * is true when doing a GET against this resource, and 2) that the target Subnet has already been
-   * delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
-   * connections for the production slot.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse>
-   */
-  createOrUpdateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
-   * connections for the production slot.
-   * @param callback The callback
-   */
-  createOrUpdateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
-   * connections for the production slot.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  createOrUpdateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  createOrUpdateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        connectionEnvelope,
-        slot,
-        options
-      },
-      createOrUpdateSwiftVirtualNetworkConnectionSlotOperationSpec,
-      callback) as Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse>;
-  }
-
-  /**
-   * Deletes a Swift Virtual Network connection from an app (or deployment slot).
-   * @summary Deletes a Swift Virtual Network connection from an app (or deployment slot).
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will delete the
-   * connection for the production slot.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  deleteSwiftVirtualNetworkSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will delete the
-   * connection for the production slot.
-   * @param callback The callback
-   */
-  deleteSwiftVirtualNetworkSlot(resourceGroupName: string, name: string, slot: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will delete the
-   * connection for the production slot.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  deleteSwiftVirtualNetworkSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteSwiftVirtualNetworkSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        slot,
-        options
-      },
-      deleteSwiftVirtualNetworkSlotOperationSpec,
-      callback);
-  }
-
-  /**
-   * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true
-   * when doing a GET against this resource, and 2) that the target Subnet has already been
-   * delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   * @summary Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported"
-   * is true when doing a GET against this resource, and 2) that the target Subnet has already been
-   * delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
-   * connections for the production slot.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse>
-   */
-  updateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
-   * connections for the production slot.
-   * @param callback The callback
-   */
-  updateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
-   * connections for the production slot.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  updateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  updateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        connectionEnvelope,
-        slot,
-        options
-      },
-      updateSwiftVirtualNetworkConnectionSlotOperationSpec,
-      callback) as Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse>;
   }
 
   /**
@@ -16533,6 +16533,119 @@ const updateSlotConfigurationNamesOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getSwiftVirtualNetworkConnectionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SwiftVirtualNetwork
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const createOrUpdateSwiftVirtualNetworkConnectionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "connectionEnvelope",
+    mapper: {
+      ...Mappers.SwiftVirtualNetwork,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.SwiftVirtualNetwork
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const deleteSwiftVirtualNetworkOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    404: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const updateSwiftVirtualNetworkConnectionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "connectionEnvelope",
+    mapper: {
+      ...Mappers.SwiftVirtualNetwork,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.SwiftVirtualNetwork
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
 const getConfigurationOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/web",
@@ -18229,119 +18342,6 @@ const getMigrateMySqlStatusOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.MigrateMySqlStatus
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const getSwiftVirtualNetworkConnectionOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.SwiftVirtualNetwork
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const createOrUpdateSwiftVirtualNetworkConnectionOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "connectionEnvelope",
-    mapper: {
-      ...Mappers.SwiftVirtualNetwork,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.SwiftVirtualNetwork
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const deleteSwiftVirtualNetworkOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
-    404: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const updateSwiftVirtualNetworkConnectionOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "connectionEnvelope",
-    mapper: {
-      ...Mappers.SwiftVirtualNetwork,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.SwiftVirtualNetwork
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -20217,6 +20217,123 @@ const listSitePushSettingsSlotOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getSwiftVirtualNetworkConnectionSlotOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SwiftVirtualNetwork
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const createOrUpdateSwiftVirtualNetworkConnectionSlotOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "connectionEnvelope",
+    mapper: {
+      ...Mappers.SwiftVirtualNetwork,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.SwiftVirtualNetwork
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const deleteSwiftVirtualNetworkSlotOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    404: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const updateSwiftVirtualNetworkConnectionSlotOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "connectionEnvelope",
+    mapper: {
+      ...Mappers.SwiftVirtualNetwork,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.SwiftVirtualNetwork
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
 const getConfigurationSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/web",
@@ -21975,123 +22092,6 @@ const getMigrateMySqlStatusSlotOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.MigrateMySqlStatus
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const getSwiftVirtualNetworkConnectionSlotOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.slot,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.SwiftVirtualNetwork
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const createOrUpdateSwiftVirtualNetworkConnectionSlotOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.slot,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "connectionEnvelope",
-    mapper: {
-      ...Mappers.SwiftVirtualNetwork,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.SwiftVirtualNetwork
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const deleteSwiftVirtualNetworkSlotOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.slot,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
-    404: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const updateSwiftVirtualNetworkConnectionSlotOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.slot,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "connectionEnvelope",
-    mapper: {
-      ...Mappers.SwiftVirtualNetwork,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.SwiftVirtualNetwork
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
