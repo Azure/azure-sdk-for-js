@@ -8275,6 +8275,12 @@ export const DeletedAppRestoreRequest: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      useDRSecondary: {
+        serializedName: "properties.useDRSecondary",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -11175,6 +11181,12 @@ export const SnapshotRestoreRequest: msRest.CompositeMapper = {
       },
       ignoreConflictingHostNames: {
         serializedName: "properties.ignoreConflictingHostNames",
+        type: {
+          name: "Boolean"
+        }
+      },
+      useDRSecondary: {
+        serializedName: "properties.useDRSecondary",
         type: {
           name: "Boolean"
         }
