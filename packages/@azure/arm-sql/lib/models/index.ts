@@ -2301,10 +2301,8 @@ export interface ManagedInstance extends TrackedResource {
   storageSizeInGB?: number;
   /**
    * @member {string} [collation] Collation of the managed instance.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly collation?: string;
+  collation?: string;
   /**
    * @member {string} [dnsZone] The Dns Zone that the managed instance is in.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -2372,10 +2370,8 @@ export interface ManagedInstanceUpdate {
   storageSizeInGB?: number;
   /**
    * @member {string} [collation] Collation of the managed instance.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly collation?: string;
+  collation?: string;
   /**
    * @member {string} [dnsZone] The Dns Zone that the managed instance is in.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -4320,6 +4316,21 @@ export interface BackupLongTermRetentionPolicy extends ProxyResource {
    * in an ISO 8601 format.
    */
   weekOfYear?: number;
+}
+
+/**
+ * @interface
+ * An interface representing ManagedBackupShortTermRetentionPolicy.
+ * A short term retention policy.
+ *
+ * @extends ProxyResource
+ */
+export interface ManagedBackupShortTermRetentionPolicy extends ProxyResource {
+  /**
+   * @member {number} [retentionDays] The backup retention period in days. This
+   * is how many days Point-in-Time Restore will be supported.
+   */
+  retentionDays?: number;
 }
 
 /**
@@ -7528,6 +7539,22 @@ export interface LongTermRetentionBackupListResult extends Array<LongTermRetenti
 
 /**
  * @interface
+ * An interface representing the ManagedBackupShortTermRetentionPolicyListResult.
+ * A list of short term retention policies.
+ *
+ * @extends Array<ManagedBackupShortTermRetentionPolicy>
+ */
+export interface ManagedBackupShortTermRetentionPolicyListResult extends Array<ManagedBackupShortTermRetentionPolicy> {
+  /**
+   * @member {string} [nextLink] Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the ManagedDatabaseListResult.
  * A list of managed databases.
  *
@@ -7724,10 +7751,7 @@ export interface ServerVulnerabilityAssessmentListResult extends Array<ServerVul
  * @readonly
  * @enum {string}
  */
-export enum CheckNameAvailabilityReason {
-  Invalid = 'Invalid',
-  AlreadyExists = 'AlreadyExists',
-}
+export type CheckNameAvailabilityReason = 'Invalid' | 'AlreadyExists';
 
 /**
  * Defines values for ServerConnectionType.
@@ -7735,11 +7759,7 @@ export enum CheckNameAvailabilityReason {
  * @readonly
  * @enum {string}
  */
-export enum ServerConnectionType {
-  Default = 'Default',
-  Proxy = 'Proxy',
-  Redirect = 'Redirect',
-}
+export type ServerConnectionType = 'Default' | 'Proxy' | 'Redirect';
 
 /**
  * Defines values for SecurityAlertPolicyState.
@@ -7747,11 +7767,7 @@ export enum ServerConnectionType {
  * @readonly
  * @enum {string}
  */
-export enum SecurityAlertPolicyState {
-  New = 'New',
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type SecurityAlertPolicyState = 'New' | 'Enabled' | 'Disabled';
 
 /**
  * Defines values for SecurityAlertPolicyEmailAccountAdmins.
@@ -7759,10 +7775,7 @@ export enum SecurityAlertPolicyState {
  * @readonly
  * @enum {string}
  */
-export enum SecurityAlertPolicyEmailAccountAdmins {
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type SecurityAlertPolicyEmailAccountAdmins = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for SecurityAlertPolicyUseServerDefault.
@@ -7770,10 +7783,7 @@ export enum SecurityAlertPolicyEmailAccountAdmins {
  * @readonly
  * @enum {string}
  */
-export enum SecurityAlertPolicyUseServerDefault {
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type SecurityAlertPolicyUseServerDefault = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for DataMaskingState.
@@ -7781,10 +7791,7 @@ export enum SecurityAlertPolicyUseServerDefault {
  * @readonly
  * @enum {string}
  */
-export enum DataMaskingState {
-  Disabled = 'Disabled',
-  Enabled = 'Enabled',
-}
+export type DataMaskingState = 'Disabled' | 'Enabled';
 
 /**
  * Defines values for DataMaskingRuleState.
@@ -7792,10 +7799,7 @@ export enum DataMaskingState {
  * @readonly
  * @enum {string}
  */
-export enum DataMaskingRuleState {
-  Disabled = 'Disabled',
-  Enabled = 'Enabled',
-}
+export type DataMaskingRuleState = 'Disabled' | 'Enabled';
 
 /**
  * Defines values for DataMaskingFunction.
@@ -7803,14 +7807,7 @@ export enum DataMaskingRuleState {
  * @readonly
  * @enum {string}
  */
-export enum DataMaskingFunction {
-  Default = 'Default',
-  CCN = 'CCN',
-  Email = 'Email',
-  Number = 'Number',
-  SSN = 'SSN',
-  Text = 'Text',
-}
+export type DataMaskingFunction = 'Default' | 'CCN' | 'Email' | 'Number' | 'SSN' | 'Text';
 
 /**
  * Defines values for GeoBackupPolicyState.
@@ -7818,123 +7815,30 @@ export enum DataMaskingFunction {
  * @readonly
  * @enum {string}
  */
-export enum GeoBackupPolicyState {
-  Disabled = 'Disabled',
-  Enabled = 'Enabled',
-}
+export type GeoBackupPolicyState = 'Disabled' | 'Enabled';
 
 /**
  * Defines values for DatabaseEdition.
- * Possible values include: 'Web', 'Business', 'Basic', 'Standard', 'Premium',
- * 'PremiumRS', 'Free', 'Stretch', 'DataWarehouse', 'System', 'System2'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DatabaseEdition =
- * <DatabaseEdition>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Web', 'Business', 'Basic', 'Standard', 'Premium', 'PremiumRS', 'Free',
+ * 'Stretch', 'DataWarehouse', 'System', 'System2'
  * @readonly
  * @enum {string}
  */
-export enum DatabaseEdition {
-  Web = 'Web',
-  Business = 'Business',
-  Basic = 'Basic',
-  Standard = 'Standard',
-  Premium = 'Premium',
-  PremiumRS = 'PremiumRS',
-  Free = 'Free',
-  Stretch = 'Stretch',
-  DataWarehouse = 'DataWarehouse',
-  System = 'System',
-  System2 = 'System2',
-}
+export type DatabaseEdition = 'Web' | 'Business' | 'Basic' | 'Standard' | 'Premium' | 'PremiumRS' | 'Free' | 'Stretch' | 'DataWarehouse' | 'System' | 'System2';
 
 /**
  * Defines values for ServiceObjectiveName.
- * Possible values include: 'System', 'System0', 'System1', 'System2',
- * 'System3', 'System4', 'System2L', 'System3L', 'System4L', 'Free', 'Basic',
- * 'S0', 'S1', 'S2', 'S3', 'S4', 'S6', 'S7', 'S9', 'S12', 'P1', 'P2', 'P3',
- * 'P4', 'P6', 'P11', 'P15', 'PRS1', 'PRS2', 'PRS4', 'PRS6', 'DW100', 'DW200',
- * 'DW300', 'DW400', 'DW500', 'DW600', 'DW1000', 'DW1200', 'DW1000c', 'DW1500',
- * 'DW1500c', 'DW2000', 'DW2000c', 'DW3000', 'DW2500c', 'DW3000c', 'DW6000',
- * 'DW5000c', 'DW6000c', 'DW7500c', 'DW10000c', 'DW15000c', 'DW30000c',
- * 'DS100', 'DS200', 'DS300', 'DS400', 'DS500', 'DS600', 'DS1000', 'DS1200',
- * 'DS1500', 'DS2000', 'ElasticPool'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ServiceObjectiveName =
- * <ServiceObjectiveName>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'System', 'System0', 'System1', 'System2', 'System3', 'System4',
+ * 'System2L', 'System3L', 'System4L', 'Free', 'Basic', 'S0', 'S1', 'S2', 'S3', 'S4', 'S6', 'S7',
+ * 'S9', 'S12', 'P1', 'P2', 'P3', 'P4', 'P6', 'P11', 'P15', 'PRS1', 'PRS2', 'PRS4', 'PRS6',
+ * 'DW100', 'DW200', 'DW300', 'DW400', 'DW500', 'DW600', 'DW1000', 'DW1200', 'DW1000c', 'DW1500',
+ * 'DW1500c', 'DW2000', 'DW2000c', 'DW3000', 'DW2500c', 'DW3000c', 'DW6000', 'DW5000c', 'DW6000c',
+ * 'DW7500c', 'DW10000c', 'DW15000c', 'DW30000c', 'DS100', 'DS200', 'DS300', 'DS400', 'DS500',
+ * 'DS600', 'DS1000', 'DS1200', 'DS1500', 'DS2000', 'ElasticPool'
  * @readonly
  * @enum {string}
  */
-export enum ServiceObjectiveName {
-  System = 'System',
-  System0 = 'System0',
-  System1 = 'System1',
-  System2 = 'System2',
-  System3 = 'System3',
-  System4 = 'System4',
-  System2L = 'System2L',
-  System3L = 'System3L',
-  System4L = 'System4L',
-  Free = 'Free',
-  Basic = 'Basic',
-  S0 = 'S0',
-  S1 = 'S1',
-  S2 = 'S2',
-  S3 = 'S3',
-  S4 = 'S4',
-  S6 = 'S6',
-  S7 = 'S7',
-  S9 = 'S9',
-  S12 = 'S12',
-  P1 = 'P1',
-  P2 = 'P2',
-  P3 = 'P3',
-  P4 = 'P4',
-  P6 = 'P6',
-  P11 = 'P11',
-  P15 = 'P15',
-  PRS1 = 'PRS1',
-  PRS2 = 'PRS2',
-  PRS4 = 'PRS4',
-  PRS6 = 'PRS6',
-  DW100 = 'DW100',
-  DW200 = 'DW200',
-  DW300 = 'DW300',
-  DW400 = 'DW400',
-  DW500 = 'DW500',
-  DW600 = 'DW600',
-  DW1000 = 'DW1000',
-  DW1200 = 'DW1200',
-  DW1000c = 'DW1000c',
-  DW1500 = 'DW1500',
-  DW1500c = 'DW1500c',
-  DW2000 = 'DW2000',
-  DW2000c = 'DW2000c',
-  DW3000 = 'DW3000',
-  DW2500c = 'DW2500c',
-  DW3000c = 'DW3000c',
-  DW6000 = 'DW6000',
-  DW5000c = 'DW5000c',
-  DW6000c = 'DW6000c',
-  DW7500c = 'DW7500c',
-  DW10000c = 'DW10000c',
-  DW15000c = 'DW15000c',
-  DW30000c = 'DW30000c',
-  DS100 = 'DS100',
-  DS200 = 'DS200',
-  DS300 = 'DS300',
-  DS400 = 'DS400',
-  DS500 = 'DS500',
-  DS600 = 'DS600',
-  DS1000 = 'DS1000',
-  DS1200 = 'DS1200',
-  DS1500 = 'DS1500',
-  DS2000 = 'DS2000',
-  ElasticPool = 'ElasticPool',
-}
+export type ServiceObjectiveName = 'System' | 'System0' | 'System1' | 'System2' | 'System3' | 'System4' | 'System2L' | 'System3L' | 'System4L' | 'Free' | 'Basic' | 'S0' | 'S1' | 'S2' | 'S3' | 'S4' | 'S6' | 'S7' | 'S9' | 'S12' | 'P1' | 'P2' | 'P3' | 'P4' | 'P6' | 'P11' | 'P15' | 'PRS1' | 'PRS2' | 'PRS4' | 'PRS6' | 'DW100' | 'DW200' | 'DW300' | 'DW400' | 'DW500' | 'DW600' | 'DW1000' | 'DW1200' | 'DW1000c' | 'DW1500' | 'DW1500c' | 'DW2000' | 'DW2000c' | 'DW3000' | 'DW2500c' | 'DW3000c' | 'DW6000' | 'DW5000c' | 'DW6000c' | 'DW7500c' | 'DW10000c' | 'DW15000c' | 'DW30000c' | 'DS100' | 'DS200' | 'DS300' | 'DS400' | 'DS500' | 'DS600' | 'DS1000' | 'DS1200' | 'DS1500' | 'DS2000' | 'ElasticPool';
 
 /**
  * Defines values for StorageKeyType.
@@ -7942,10 +7846,7 @@ export enum ServiceObjectiveName {
  * @readonly
  * @enum {string}
  */
-export enum StorageKeyType {
-  StorageAccessKey = 'StorageAccessKey',
-  SharedAccessKey = 'SharedAccessKey',
-}
+export type StorageKeyType = 'StorageAccessKey' | 'SharedAccessKey';
 
 /**
  * Defines values for AuthenticationType.
@@ -7953,122 +7854,57 @@ export enum StorageKeyType {
  * @readonly
  * @enum {string}
  */
-export enum AuthenticationType {
-  SQL = 'SQL',
-  ADPassword = 'ADPassword',
-}
+export type AuthenticationType = 'SQL' | 'ADPassword';
 
 /**
  * Defines values for UnitType.
- * Possible values include: 'count', 'bytes', 'seconds', 'percent',
- * 'countPerSecond', 'bytesPerSecond'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: UnitType = <UnitType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'count', 'bytes', 'seconds', 'percent', 'countPerSecond',
+ * 'bytesPerSecond'
  * @readonly
  * @enum {string}
  */
-export enum UnitType {
-  Count = 'count',
-  Bytes = 'bytes',
-  Seconds = 'seconds',
-  Percent = 'percent',
-  CountPerSecond = 'countPerSecond',
-  BytesPerSecond = 'bytesPerSecond',
-}
+export type UnitType = 'count' | 'bytes' | 'seconds' | 'percent' | 'countPerSecond' | 'bytesPerSecond';
 
 /**
  * Defines values for PrimaryAggregationType.
- * Possible values include: 'None', 'Average', 'Count', 'Minimum', 'Maximum',
- * 'Total'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PrimaryAggregationType =
- * <PrimaryAggregationType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'None', 'Average', 'Count', 'Minimum', 'Maximum', 'Total'
  * @readonly
  * @enum {string}
  */
-export enum PrimaryAggregationType {
-  None = 'None',
-  Average = 'Average',
-  Count = 'Count',
-  Minimum = 'Minimum',
-  Maximum = 'Maximum',
-  Total = 'Total',
-}
+export type PrimaryAggregationType = 'None' | 'Average' | 'Count' | 'Minimum' | 'Maximum' | 'Total';
 
 /**
  * Defines values for UnitDefinitionType.
- * Possible values include: 'Count', 'Bytes', 'Seconds', 'Percent',
- * 'CountPerSecond', 'BytesPerSecond'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: UnitDefinitionType =
- * <UnitDefinitionType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Count', 'Bytes', 'Seconds', 'Percent', 'CountPerSecond',
+ * 'BytesPerSecond'
  * @readonly
  * @enum {string}
  */
-export enum UnitDefinitionType {
-  Count = 'Count',
-  Bytes = 'Bytes',
-  Seconds = 'Seconds',
-  Percent = 'Percent',
-  CountPerSecond = 'CountPerSecond',
-  BytesPerSecond = 'BytesPerSecond',
-}
+export type UnitDefinitionType = 'Count' | 'Bytes' | 'Seconds' | 'Percent' | 'CountPerSecond' | 'BytesPerSecond';
 
 /**
  * Defines values for ElasticPoolEdition.
  * Possible values include: 'Basic', 'Standard', 'Premium'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ElasticPoolEdition =
- * <ElasticPoolEdition>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ElasticPoolEdition {
-  Basic = 'Basic',
-  Standard = 'Standard',
-  Premium = 'Premium',
-}
+export type ElasticPoolEdition = 'Basic' | 'Standard' | 'Premium';
 
 /**
  * Defines values for ReplicationRole.
- * Possible values include: 'Primary', 'Secondary', 'NonReadableSecondary',
- * 'Source', 'Copy'
+ * Possible values include: 'Primary', 'Secondary', 'NonReadableSecondary', 'Source', 'Copy'
  * @readonly
  * @enum {string}
  */
-export enum ReplicationRole {
-  Primary = 'Primary',
-  Secondary = 'Secondary',
-  NonReadableSecondary = 'NonReadableSecondary',
-  Source = 'Source',
-  Copy = 'Copy',
-}
+export type ReplicationRole = 'Primary' | 'Secondary' | 'NonReadableSecondary' | 'Source' | 'Copy';
 
 /**
  * Defines values for ReplicationState.
  * Possible values include: 'PENDING', 'SEEDING', 'CATCH_UP', 'SUSPENDED'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ReplicationState =
- * <ReplicationState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ReplicationState {
-  PENDING = 'PENDING',
-  SEEDING = 'SEEDING',
-  CATCHUP = 'CATCH_UP',
-  SUSPENDED = 'SUSPENDED',
-}
+export type ReplicationState = 'PENDING' | 'SEEDING' | 'CATCH_UP' | 'SUSPENDED';
 
 /**
  * Defines values for RecommendedIndexAction.
@@ -8076,47 +7912,24 @@ export enum ReplicationState {
  * @readonly
  * @enum {string}
  */
-export enum RecommendedIndexAction {
-  Create = 'Create',
-  Drop = 'Drop',
-  Rebuild = 'Rebuild',
-}
+export type RecommendedIndexAction = 'Create' | 'Drop' | 'Rebuild';
 
 /**
  * Defines values for RecommendedIndexState.
- * Possible values include: 'Active', 'Pending', 'Executing', 'Verifying',
- * 'Pending Revert', 'Reverting', 'Reverted', 'Ignored', 'Expired', 'Blocked',
- * 'Success'
+ * Possible values include: 'Active', 'Pending', 'Executing', 'Verifying', 'Pending Revert',
+ * 'Reverting', 'Reverted', 'Ignored', 'Expired', 'Blocked', 'Success'
  * @readonly
  * @enum {string}
  */
-export enum RecommendedIndexState {
-  Active = 'Active',
-  Pending = 'Pending',
-  Executing = 'Executing',
-  Verifying = 'Verifying',
-  PendingRevert = 'Pending Revert',
-  Reverting = 'Reverting',
-  Reverted = 'Reverted',
-  Ignored = 'Ignored',
-  Expired = 'Expired',
-  Blocked = 'Blocked',
-  Success = 'Success',
-}
+export type RecommendedIndexState = 'Active' | 'Pending' | 'Executing' | 'Verifying' | 'Pending Revert' | 'Reverting' | 'Reverted' | 'Ignored' | 'Expired' | 'Blocked' | 'Success';
 
 /**
  * Defines values for RecommendedIndexType.
- * Possible values include: 'CLUSTERED', 'NONCLUSTERED', 'COLUMNSTORE',
- * 'CLUSTERED COLUMNSTORE'
+ * Possible values include: 'CLUSTERED', 'NONCLUSTERED', 'COLUMNSTORE', 'CLUSTERED COLUMNSTORE'
  * @readonly
  * @enum {string}
  */
-export enum RecommendedIndexType {
-  CLUSTERED = 'CLUSTERED',
-  NONCLUSTERED = 'NONCLUSTERED',
-  COLUMNSTORE = 'COLUMNSTORE',
-  CLUSTEREDCOLUMNSTORE = 'CLUSTERED COLUMNSTORE',
-}
+export type RecommendedIndexType = 'CLUSTERED' | 'NONCLUSTERED' | 'COLUMNSTORE' | 'CLUSTERED COLUMNSTORE';
 
 /**
  * Defines values for TransparentDataEncryptionStatus.
@@ -8124,26 +7937,15 @@ export enum RecommendedIndexType {
  * @readonly
  * @enum {string}
  */
-export enum TransparentDataEncryptionStatus {
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type TransparentDataEncryptionStatus = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for TransparentDataEncryptionActivityStatus.
  * Possible values include: 'Encrypting', 'Decrypting'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TransparentDataEncryptionActivityStatus =
- * <TransparentDataEncryptionActivityStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum TransparentDataEncryptionActivityStatus {
-  Encrypting = 'Encrypting',
-  Decrypting = 'Decrypting',
-}
+export type TransparentDataEncryptionActivityStatus = 'Encrypting' | 'Decrypting';
 
 /**
  * Defines values for AutomaticTuningMode.
@@ -8151,12 +7953,7 @@ export enum TransparentDataEncryptionActivityStatus {
  * @readonly
  * @enum {string}
  */
-export enum AutomaticTuningMode {
-  Inherit = 'Inherit',
-  Custom = 'Custom',
-  Auto = 'Auto',
-  Unspecified = 'Unspecified',
-}
+export type AutomaticTuningMode = 'Inherit' | 'Custom' | 'Auto' | 'Unspecified';
 
 /**
  * Defines values for AutomaticTuningOptionModeDesired.
@@ -8164,11 +7961,7 @@ export enum AutomaticTuningMode {
  * @readonly
  * @enum {string}
  */
-export enum AutomaticTuningOptionModeDesired {
-  Off = 'Off',
-  On = 'On',
-  Default = 'Default',
-}
+export type AutomaticTuningOptionModeDesired = 'Off' | 'On' | 'Default';
 
 /**
  * Defines values for AutomaticTuningOptionModeActual.
@@ -8176,284 +7969,132 @@ export enum AutomaticTuningOptionModeDesired {
  * @readonly
  * @enum {string}
  */
-export enum AutomaticTuningOptionModeActual {
-  Off = 'Off',
-  On = 'On',
-}
+export type AutomaticTuningOptionModeActual = 'Off' | 'On';
 
 /**
  * Defines values for AutomaticTuningDisabledReason.
- * Possible values include: 'Default', 'Disabled', 'AutoConfigured',
- * 'InheritedFromServer', 'QueryStoreOff', 'QueryStoreReadOnly', 'NotSupported'
+ * Possible values include: 'Default', 'Disabled', 'AutoConfigured', 'InheritedFromServer',
+ * 'QueryStoreOff', 'QueryStoreReadOnly', 'NotSupported'
  * @readonly
  * @enum {string}
  */
-export enum AutomaticTuningDisabledReason {
-  Default = 'Default',
-  Disabled = 'Disabled',
-  AutoConfigured = 'AutoConfigured',
-  InheritedFromServer = 'InheritedFromServer',
-  QueryStoreOff = 'QueryStoreOff',
-  QueryStoreReadOnly = 'QueryStoreReadOnly',
-  NotSupported = 'NotSupported',
-}
+export type AutomaticTuningDisabledReason = 'Default' | 'Disabled' | 'AutoConfigured' | 'InheritedFromServer' | 'QueryStoreOff' | 'QueryStoreReadOnly' | 'NotSupported';
 
 /**
  * Defines values for ServerKeyType.
  * Possible values include: 'ServiceManaged', 'AzureKeyVault'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ServerKeyType =
- * <ServerKeyType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ServerKeyType {
-  ServiceManaged = 'ServiceManaged',
-  AzureKeyVault = 'AzureKeyVault',
-}
+export type ServerKeyType = 'ServiceManaged' | 'AzureKeyVault';
 
 /**
  * Defines values for ReadWriteEndpointFailoverPolicy.
  * Possible values include: 'Manual', 'Automatic'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ReadWriteEndpointFailoverPolicy =
- * <ReadWriteEndpointFailoverPolicy>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ReadWriteEndpointFailoverPolicy {
-  Manual = 'Manual',
-  Automatic = 'Automatic',
-}
+export type ReadWriteEndpointFailoverPolicy = 'Manual' | 'Automatic';
 
 /**
  * Defines values for ReadOnlyEndpointFailoverPolicy.
  * Possible values include: 'Disabled', 'Enabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ReadOnlyEndpointFailoverPolicy =
- * <ReadOnlyEndpointFailoverPolicy>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ReadOnlyEndpointFailoverPolicy {
-  Disabled = 'Disabled',
-  Enabled = 'Enabled',
-}
+export type ReadOnlyEndpointFailoverPolicy = 'Disabled' | 'Enabled';
 
 /**
  * Defines values for FailoverGroupReplicationRole.
  * Possible values include: 'Primary', 'Secondary'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: FailoverGroupReplicationRole =
- * <FailoverGroupReplicationRole>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum FailoverGroupReplicationRole {
-  Primary = 'Primary',
-  Secondary = 'Secondary',
-}
+export type FailoverGroupReplicationRole = 'Primary' | 'Secondary';
 
 /**
  * Defines values for IdentityType.
  * Possible values include: 'SystemAssigned'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IdentityType =
- * <IdentityType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IdentityType {
-  SystemAssigned = 'SystemAssigned',
-}
+export type IdentityType = 'SystemAssigned';
 
 /**
  * Defines values for OperationOrigin.
  * Possible values include: 'user', 'system'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: OperationOrigin =
- * <OperationOrigin>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum OperationOrigin {
-  User = 'user',
-  System = 'system',
-}
+export type OperationOrigin = 'user' | 'system';
 
 /**
  * Defines values for SyncAgentState.
  * Possible values include: 'Online', 'Offline', 'NeverConnected'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SyncAgentState =
- * <SyncAgentState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SyncAgentState {
-  Online = 'Online',
-  Offline = 'Offline',
-  NeverConnected = 'NeverConnected',
-}
+export type SyncAgentState = 'Online' | 'Offline' | 'NeverConnected';
 
 /**
  * Defines values for SyncMemberDbType.
  * Possible values include: 'AzureSqlDatabase', 'SqlServerDatabase'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SyncMemberDbType =
- * <SyncMemberDbType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SyncMemberDbType {
-  AzureSqlDatabase = 'AzureSqlDatabase',
-  SqlServerDatabase = 'SqlServerDatabase',
-}
+export type SyncMemberDbType = 'AzureSqlDatabase' | 'SqlServerDatabase';
 
 /**
  * Defines values for SyncGroupLogType.
  * Possible values include: 'All', 'Error', 'Warning', 'Success'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SyncGroupLogType =
- * <SyncGroupLogType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SyncGroupLogType {
-  All = 'All',
-  Error = 'Error',
-  Warning = 'Warning',
-  Success = 'Success',
-}
+export type SyncGroupLogType = 'All' | 'Error' | 'Warning' | 'Success';
 
 /**
  * Defines values for SyncConflictResolutionPolicy.
  * Possible values include: 'HubWin', 'MemberWin'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SyncConflictResolutionPolicy =
- * <SyncConflictResolutionPolicy>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SyncConflictResolutionPolicy {
-  HubWin = 'HubWin',
-  MemberWin = 'MemberWin',
-}
+export type SyncConflictResolutionPolicy = 'HubWin' | 'MemberWin';
 
 /**
  * Defines values for SyncGroupState.
- * Possible values include: 'NotReady', 'Error', 'Warning', 'Progressing',
- * 'Good'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SyncGroupState =
- * <SyncGroupState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotReady', 'Error', 'Warning', 'Progressing', 'Good'
  * @readonly
  * @enum {string}
  */
-export enum SyncGroupState {
-  NotReady = 'NotReady',
-  Error = 'Error',
-  Warning = 'Warning',
-  Progressing = 'Progressing',
-  Good = 'Good',
-}
+export type SyncGroupState = 'NotReady' | 'Error' | 'Warning' | 'Progressing' | 'Good';
 
 /**
  * Defines values for SyncDirection.
- * Possible values include: 'Bidirectional', 'OneWayMemberToHub',
- * 'OneWayHubToMember'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SyncDirection =
- * <SyncDirection>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Bidirectional', 'OneWayMemberToHub', 'OneWayHubToMember'
  * @readonly
  * @enum {string}
  */
-export enum SyncDirection {
-  Bidirectional = 'Bidirectional',
-  OneWayMemberToHub = 'OneWayMemberToHub',
-  OneWayHubToMember = 'OneWayHubToMember',
-}
+export type SyncDirection = 'Bidirectional' | 'OneWayMemberToHub' | 'OneWayHubToMember';
 
 /**
  * Defines values for SyncMemberState.
  * Possible values include: 'SyncInProgress', 'SyncSucceeded', 'SyncFailed',
- * 'DisabledTombstoneCleanup', 'DisabledBackupRestore',
- * 'SyncSucceededWithWarnings', 'SyncCancelling', 'SyncCancelled',
- * 'UnProvisioned', 'Provisioning', 'Provisioned', 'ProvisionFailed',
- * 'DeProvisioning', 'DeProvisioned', 'DeProvisionFailed', 'Reprovisioning',
+ * 'DisabledTombstoneCleanup', 'DisabledBackupRestore', 'SyncSucceededWithWarnings',
+ * 'SyncCancelling', 'SyncCancelled', 'UnProvisioned', 'Provisioning', 'Provisioned',
+ * 'ProvisionFailed', 'DeProvisioning', 'DeProvisioned', 'DeProvisionFailed', 'Reprovisioning',
  * 'ReprovisionFailed', 'UnReprovisioned'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SyncMemberState =
- * <SyncMemberState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SyncMemberState {
-  SyncInProgress = 'SyncInProgress',
-  SyncSucceeded = 'SyncSucceeded',
-  SyncFailed = 'SyncFailed',
-  DisabledTombstoneCleanup = 'DisabledTombstoneCleanup',
-  DisabledBackupRestore = 'DisabledBackupRestore',
-  SyncSucceededWithWarnings = 'SyncSucceededWithWarnings',
-  SyncCancelling = 'SyncCancelling',
-  SyncCancelled = 'SyncCancelled',
-  UnProvisioned = 'UnProvisioned',
-  Provisioning = 'Provisioning',
-  Provisioned = 'Provisioned',
-  ProvisionFailed = 'ProvisionFailed',
-  DeProvisioning = 'DeProvisioning',
-  DeProvisioned = 'DeProvisioned',
-  DeProvisionFailed = 'DeProvisionFailed',
-  Reprovisioning = 'Reprovisioning',
-  ReprovisionFailed = 'ReprovisionFailed',
-  UnReprovisioned = 'UnReprovisioned',
-}
+export type SyncMemberState = 'SyncInProgress' | 'SyncSucceeded' | 'SyncFailed' | 'DisabledTombstoneCleanup' | 'DisabledBackupRestore' | 'SyncSucceededWithWarnings' | 'SyncCancelling' | 'SyncCancelled' | 'UnProvisioned' | 'Provisioning' | 'Provisioned' | 'ProvisionFailed' | 'DeProvisioning' | 'DeProvisioned' | 'DeProvisionFailed' | 'Reprovisioning' | 'ReprovisionFailed' | 'UnReprovisioned';
 
 /**
  * Defines values for VirtualNetworkRuleState.
- * Possible values include: 'Initializing', 'InProgress', 'Ready', 'Deleting',
- * 'Unknown'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VirtualNetworkRuleState =
- * <VirtualNetworkRuleState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Initializing', 'InProgress', 'Ready', 'Deleting', 'Unknown'
  * @readonly
  * @enum {string}
  */
-export enum VirtualNetworkRuleState {
-  Initializing = 'Initializing',
-  InProgress = 'InProgress',
-  Ready = 'Ready',
-  Deleting = 'Deleting',
-  Unknown = 'Unknown',
-}
+export type VirtualNetworkRuleState = 'Initializing' | 'InProgress' | 'Ready' | 'Deleting' | 'Unknown';
 
 /**
  * Defines values for BlobAuditingPolicyState.
@@ -8461,96 +8102,42 @@ export enum VirtualNetworkRuleState {
  * @readonly
  * @enum {string}
  */
-export enum BlobAuditingPolicyState {
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type BlobAuditingPolicyState = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for JobAgentState.
- * Possible values include: 'Creating', 'Ready', 'Updating', 'Deleting',
- * 'Disabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: JobAgentState =
- * <JobAgentState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Creating', 'Ready', 'Updating', 'Deleting', 'Disabled'
  * @readonly
  * @enum {string}
  */
-export enum JobAgentState {
-  Creating = 'Creating',
-  Ready = 'Ready',
-  Updating = 'Updating',
-  Deleting = 'Deleting',
-  Disabled = 'Disabled',
-}
+export type JobAgentState = 'Creating' | 'Ready' | 'Updating' | 'Deleting' | 'Disabled';
 
 /**
  * Defines values for JobExecutionLifecycle.
- * Possible values include: 'Created', 'InProgress',
- * 'WaitingForChildJobExecutions', 'WaitingForRetry', 'Succeeded',
- * 'SucceededWithSkipped', 'Failed', 'TimedOut', 'Canceled', 'Skipped'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: JobExecutionLifecycle =
- * <JobExecutionLifecycle>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Created', 'InProgress', 'WaitingForChildJobExecutions',
+ * 'WaitingForRetry', 'Succeeded', 'SucceededWithSkipped', 'Failed', 'TimedOut', 'Canceled',
+ * 'Skipped'
  * @readonly
  * @enum {string}
  */
-export enum JobExecutionLifecycle {
-  Created = 'Created',
-  InProgress = 'InProgress',
-  WaitingForChildJobExecutions = 'WaitingForChildJobExecutions',
-  WaitingForRetry = 'WaitingForRetry',
-  Succeeded = 'Succeeded',
-  SucceededWithSkipped = 'SucceededWithSkipped',
-  Failed = 'Failed',
-  TimedOut = 'TimedOut',
-  Canceled = 'Canceled',
-  Skipped = 'Skipped',
-}
+export type JobExecutionLifecycle = 'Created' | 'InProgress' | 'WaitingForChildJobExecutions' | 'WaitingForRetry' | 'Succeeded' | 'SucceededWithSkipped' | 'Failed' | 'TimedOut' | 'Canceled' | 'Skipped';
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Created', 'InProgress', 'Succeeded', 'Failed',
- * 'Canceled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ProvisioningState =
- * <ProvisioningState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Created', 'InProgress', 'Succeeded', 'Failed', 'Canceled'
  * @readonly
  * @enum {string}
  */
-export enum ProvisioningState {
-  Created = 'Created',
-  InProgress = 'InProgress',
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-  Canceled = 'Canceled',
-}
+export type ProvisioningState = 'Created' | 'InProgress' | 'Succeeded' | 'Failed' | 'Canceled';
 
 /**
  * Defines values for JobTargetType.
- * Possible values include: 'TargetGroup', 'SqlDatabase', 'SqlElasticPool',
- * 'SqlShardMap', 'SqlServer'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: JobTargetType =
- * <JobTargetType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'TargetGroup', 'SqlDatabase', 'SqlElasticPool', 'SqlShardMap',
+ * 'SqlServer'
  * @readonly
  * @enum {string}
  */
-export enum JobTargetType {
-  TargetGroup = 'TargetGroup',
-  SqlDatabase = 'SqlDatabase',
-  SqlElasticPool = 'SqlElasticPool',
-  SqlShardMap = 'SqlShardMap',
-  SqlServer = 'SqlServer',
-}
+export type JobTargetType = 'TargetGroup' | 'SqlDatabase' | 'SqlElasticPool' | 'SqlShardMap' | 'SqlServer';
 
 /**
  * Defines values for JobScheduleType.
@@ -8558,55 +8145,31 @@ export enum JobTargetType {
  * @readonly
  * @enum {string}
  */
-export enum JobScheduleType {
-  Once = 'Once',
-  Recurring = 'Recurring',
-}
+export type JobScheduleType = 'Once' | 'Recurring';
 
 /**
  * Defines values for JobStepActionType.
  * Possible values include: 'TSql'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: JobStepActionType =
- * <JobStepActionType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum JobStepActionType {
-  TSql = 'TSql',
-}
+export type JobStepActionType = 'TSql';
 
 /**
  * Defines values for JobStepActionSource.
  * Possible values include: 'Inline'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: JobStepActionSource =
- * <JobStepActionSource>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum JobStepActionSource {
-  Inline = 'Inline',
-}
+export type JobStepActionSource = 'Inline';
 
 /**
  * Defines values for JobStepOutputType.
  * Possible values include: 'SqlDatabase'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: JobStepOutputType =
- * <JobStepOutputType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum JobStepOutputType {
-  SqlDatabase = 'SqlDatabase',
-}
+export type JobStepOutputType = 'SqlDatabase';
 
 /**
  * Defines values for JobTargetGroupMembershipType.
@@ -8614,64 +8177,31 @@ export enum JobStepOutputType {
  * @readonly
  * @enum {string}
  */
-export enum JobTargetGroupMembershipType {
-  Include = 'Include',
-  Exclude = 'Exclude',
-}
+export type JobTargetGroupMembershipType = 'Include' | 'Exclude';
 
 /**
  * Defines values for ManagedDatabaseStatus.
- * Possible values include: 'Online', 'Offline', 'Shutdown', 'Creating',
- * 'Inaccessible'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ManagedDatabaseStatus =
- * <ManagedDatabaseStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Online', 'Offline', 'Shutdown', 'Creating', 'Inaccessible'
  * @readonly
  * @enum {string}
  */
-export enum ManagedDatabaseStatus {
-  Online = 'Online',
-  Offline = 'Offline',
-  Shutdown = 'Shutdown',
-  Creating = 'Creating',
-  Inaccessible = 'Inaccessible',
-}
+export type ManagedDatabaseStatus = 'Online' | 'Offline' | 'Shutdown' | 'Creating' | 'Inaccessible';
 
 /**
  * Defines values for CatalogCollationType.
  * Possible values include: 'DATABASE_DEFAULT', 'SQL_Latin1_General_CP1_CI_AS'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: CatalogCollationType =
- * <CatalogCollationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum CatalogCollationType {
-  DATABASEDEFAULT = 'DATABASE_DEFAULT',
-  SQLLatin1GeneralCP1CIAS = 'SQL_Latin1_General_CP1_CI_AS',
-}
+export type CatalogCollationType = 'DATABASE_DEFAULT' | 'SQL_Latin1_General_CP1_CI_AS';
 
 /**
  * Defines values for ManagedDatabaseCreateMode.
- * Possible values include: 'Default', 'RestoreExternalBackup',
- * 'PointInTimeRestore'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ManagedDatabaseCreateMode =
- * <ManagedDatabaseCreateMode>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Default', 'RestoreExternalBackup', 'PointInTimeRestore'
  * @readonly
  * @enum {string}
  */
-export enum ManagedDatabaseCreateMode {
-  Default = 'Default',
-  RestoreExternalBackup = 'RestoreExternalBackup',
-  PointInTimeRestore = 'PointInTimeRestore',
-}
+export type ManagedDatabaseCreateMode = 'Default' | 'RestoreExternalBackup' | 'PointInTimeRestore';
 
 /**
  * Defines values for AutomaticTuningServerMode.
@@ -8679,11 +8209,7 @@ export enum ManagedDatabaseCreateMode {
  * @readonly
  * @enum {string}
  */
-export enum AutomaticTuningServerMode {
-  Custom = 'Custom',
-  Auto = 'Auto',
-  Unspecified = 'Unspecified',
-}
+export type AutomaticTuningServerMode = 'Custom' | 'Auto' | 'Unspecified';
 
 /**
  * Defines values for AutomaticTuningServerReason.
@@ -8691,11 +8217,7 @@ export enum AutomaticTuningServerMode {
  * @readonly
  * @enum {string}
  */
-export enum AutomaticTuningServerReason {
-  Default = 'Default',
-  Disabled = 'Disabled',
-  AutoConfigured = 'AutoConfigured',
-}
+export type AutomaticTuningServerReason = 'Default' | 'Disabled' | 'AutoConfigured';
 
 /**
  * Defines values for RestorePointType.
@@ -8703,69 +8225,32 @@ export enum AutomaticTuningServerReason {
  * @readonly
  * @enum {string}
  */
-export enum RestorePointType {
-  CONTINUOUS = 'CONTINUOUS',
-  DISCRETE = 'DISCRETE',
-}
+export type RestorePointType = 'CONTINUOUS' | 'DISCRETE';
 
 /**
  * Defines values for ManagementOperationState.
- * Possible values include: 'Pending', 'InProgress', 'Succeeded', 'Failed',
- * 'CancelInProgress', 'Cancelled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ManagementOperationState =
- * <ManagementOperationState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Pending', 'InProgress', 'Succeeded', 'Failed', 'CancelInProgress',
+ * 'Cancelled'
  * @readonly
  * @enum {string}
  */
-export enum ManagementOperationState {
-  Pending = 'Pending',
-  InProgress = 'InProgress',
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-  CancelInProgress = 'CancelInProgress',
-  Cancelled = 'Cancelled',
-}
+export type ManagementOperationState = 'Pending' | 'InProgress' | 'Succeeded' | 'Failed' | 'CancelInProgress' | 'Cancelled';
 
 /**
  * Defines values for MaxSizeUnit.
  * Possible values include: 'Megabytes', 'Gigabytes', 'Terabytes', 'Petabytes'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: MaxSizeUnit =
- * <MaxSizeUnit>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum MaxSizeUnit {
-  Megabytes = 'Megabytes',
-  Gigabytes = 'Gigabytes',
-  Terabytes = 'Terabytes',
-  Petabytes = 'Petabytes',
-}
+export type MaxSizeUnit = 'Megabytes' | 'Gigabytes' | 'Terabytes' | 'Petabytes';
 
 /**
  * Defines values for LogSizeUnit.
- * Possible values include: 'Megabytes', 'Gigabytes', 'Terabytes', 'Petabytes',
- * 'Percent'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: LogSizeUnit =
- * <LogSizeUnit>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Megabytes', 'Gigabytes', 'Terabytes', 'Petabytes', 'Percent'
  * @readonly
  * @enum {string}
  */
-export enum LogSizeUnit {
-  Megabytes = 'Megabytes',
-  Gigabytes = 'Gigabytes',
-  Terabytes = 'Terabytes',
-  Petabytes = 'Petabytes',
-  Percent = 'Percent',
-}
+export type LogSizeUnit = 'Megabytes' | 'Gigabytes' | 'Terabytes' | 'Petabytes' | 'Percent';
 
 /**
  * Defines values for CapabilityStatus.
@@ -8773,238 +8258,107 @@ export enum LogSizeUnit {
  * @readonly
  * @enum {string}
  */
-export enum CapabilityStatus {
-  Visible = 'Visible',
-  Available = 'Available',
-  Default = 'Default',
-  Disabled = 'Disabled',
-}
+export type CapabilityStatus = 'Visible' | 'Available' | 'Default' | 'Disabled';
 
 /**
  * Defines values for PerformanceLevelUnit.
  * Possible values include: 'DTU', 'VCores'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PerformanceLevelUnit =
- * <PerformanceLevelUnit>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PerformanceLevelUnit {
-  DTU = 'DTU',
-  VCores = 'VCores',
-}
+export type PerformanceLevelUnit = 'DTU' | 'VCores';
 
 /**
  * Defines values for CreateMode.
- * Possible values include: 'Default', 'Copy', 'Secondary',
- * 'PointInTimeRestore', 'Restore', 'Recovery', 'RestoreExternalBackup',
- * 'RestoreExternalBackupSecondary', 'RestoreLongTermRetentionBackup',
- * 'OnlineSecondary'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: CreateMode = <CreateMode>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Default', 'Copy', 'Secondary', 'PointInTimeRestore', 'Restore',
+ * 'Recovery', 'RestoreExternalBackup', 'RestoreExternalBackupSecondary',
+ * 'RestoreLongTermRetentionBackup', 'OnlineSecondary'
  * @readonly
  * @enum {string}
  */
-export enum CreateMode {
-  Default = 'Default',
-  Copy = 'Copy',
-  Secondary = 'Secondary',
-  PointInTimeRestore = 'PointInTimeRestore',
-  Restore = 'Restore',
-  Recovery = 'Recovery',
-  RestoreExternalBackup = 'RestoreExternalBackup',
-  RestoreExternalBackupSecondary = 'RestoreExternalBackupSecondary',
-  RestoreLongTermRetentionBackup = 'RestoreLongTermRetentionBackup',
-  OnlineSecondary = 'OnlineSecondary',
-}
+export type CreateMode = 'Default' | 'Copy' | 'Secondary' | 'PointInTimeRestore' | 'Restore' | 'Recovery' | 'RestoreExternalBackup' | 'RestoreExternalBackupSecondary' | 'RestoreLongTermRetentionBackup' | 'OnlineSecondary';
 
 /**
  * Defines values for SampleName.
- * Possible values include: 'AdventureWorksLT', 'WideWorldImportersStd',
- * 'WideWorldImportersFull'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SampleName = <SampleName>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'AdventureWorksLT', 'WideWorldImportersStd', 'WideWorldImportersFull'
  * @readonly
  * @enum {string}
  */
-export enum SampleName {
-  AdventureWorksLT = 'AdventureWorksLT',
-  WideWorldImportersStd = 'WideWorldImportersStd',
-  WideWorldImportersFull = 'WideWorldImportersFull',
-}
+export type SampleName = 'AdventureWorksLT' | 'WideWorldImportersStd' | 'WideWorldImportersFull';
 
 /**
  * Defines values for DatabaseStatus.
- * Possible values include: 'Online', 'Restoring', 'RecoveryPending',
- * 'Recovering', 'Suspect', 'Offline', 'Standby', 'Shutdown', 'EmergencyMode',
- * 'AutoClosed', 'Copying', 'Creating', 'Inaccessible', 'OfflineSecondary',
- * 'Pausing', 'Paused', 'Resuming', 'Scaling'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DatabaseStatus =
- * <DatabaseStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Online', 'Restoring', 'RecoveryPending', 'Recovering', 'Suspect',
+ * 'Offline', 'Standby', 'Shutdown', 'EmergencyMode', 'AutoClosed', 'Copying', 'Creating',
+ * 'Inaccessible', 'OfflineSecondary', 'Pausing', 'Paused', 'Resuming', 'Scaling'
  * @readonly
  * @enum {string}
  */
-export enum DatabaseStatus {
-  Online = 'Online',
-  Restoring = 'Restoring',
-  RecoveryPending = 'RecoveryPending',
-  Recovering = 'Recovering',
-  Suspect = 'Suspect',
-  Offline = 'Offline',
-  Standby = 'Standby',
-  Shutdown = 'Shutdown',
-  EmergencyMode = 'EmergencyMode',
-  AutoClosed = 'AutoClosed',
-  Copying = 'Copying',
-  Creating = 'Creating',
-  Inaccessible = 'Inaccessible',
-  OfflineSecondary = 'OfflineSecondary',
-  Pausing = 'Pausing',
-  Paused = 'Paused',
-  Resuming = 'Resuming',
-  Scaling = 'Scaling',
-}
+export type DatabaseStatus = 'Online' | 'Restoring' | 'RecoveryPending' | 'Recovering' | 'Suspect' | 'Offline' | 'Standby' | 'Shutdown' | 'EmergencyMode' | 'AutoClosed' | 'Copying' | 'Creating' | 'Inaccessible' | 'OfflineSecondary' | 'Pausing' | 'Paused' | 'Resuming' | 'Scaling';
 
 /**
  * Defines values for DatabaseLicenseType.
  * Possible values include: 'LicenseIncluded', 'BasePrice'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DatabaseLicenseType =
- * <DatabaseLicenseType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum DatabaseLicenseType {
-  LicenseIncluded = 'LicenseIncluded',
-  BasePrice = 'BasePrice',
-}
+export type DatabaseLicenseType = 'LicenseIncluded' | 'BasePrice';
 
 /**
  * Defines values for DatabaseReadScale.
  * Possible values include: 'Enabled', 'Disabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DatabaseReadScale =
- * <DatabaseReadScale>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum DatabaseReadScale {
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type DatabaseReadScale = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for ElasticPoolState.
  * Possible values include: 'Creating', 'Ready', 'Disabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ElasticPoolState =
- * <ElasticPoolState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ElasticPoolState {
-  Creating = 'Creating',
-  Ready = 'Ready',
-  Disabled = 'Disabled',
-}
+export type ElasticPoolState = 'Creating' | 'Ready' | 'Disabled';
 
 /**
  * Defines values for ElasticPoolLicenseType.
  * Possible values include: 'LicenseIncluded', 'BasePrice'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ElasticPoolLicenseType =
- * <ElasticPoolLicenseType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ElasticPoolLicenseType {
-  LicenseIncluded = 'LicenseIncluded',
-  BasePrice = 'BasePrice',
-}
+export type ElasticPoolLicenseType = 'LicenseIncluded' | 'BasePrice';
 
 /**
  * Defines values for VulnerabilityAssessmentScanTriggerType.
  * Possible values include: 'OnDemand', 'Recurring'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VulnerabilityAssessmentScanTriggerType =
- * <VulnerabilityAssessmentScanTriggerType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VulnerabilityAssessmentScanTriggerType {
-  OnDemand = 'OnDemand',
-  Recurring = 'Recurring',
-}
+export type VulnerabilityAssessmentScanTriggerType = 'OnDemand' | 'Recurring';
 
 /**
  * Defines values for VulnerabilityAssessmentScanState.
  * Possible values include: 'Passed', 'Failed', 'FailedToRun', 'InProgress'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VulnerabilityAssessmentScanState =
- * <VulnerabilityAssessmentScanState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VulnerabilityAssessmentScanState {
-  Passed = 'Passed',
-  Failed = 'Failed',
-  FailedToRun = 'FailedToRun',
-  InProgress = 'InProgress',
-}
+export type VulnerabilityAssessmentScanState = 'Passed' | 'Failed' | 'FailedToRun' | 'InProgress';
 
 /**
  * Defines values for InstanceFailoverGroupReplicationRole.
  * Possible values include: 'Primary', 'Secondary'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: InstanceFailoverGroupReplicationRole =
- * <InstanceFailoverGroupReplicationRole>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum InstanceFailoverGroupReplicationRole {
-  Primary = 'Primary',
-  Secondary = 'Secondary',
-}
+export type InstanceFailoverGroupReplicationRole = 'Primary' | 'Secondary';
 
 /**
  * Defines values for LongTermRetentionDatabaseState.
  * Possible values include: 'All', 'Live', 'Deleted'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: LongTermRetentionDatabaseState =
- * <LongTermRetentionDatabaseState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum LongTermRetentionDatabaseState {
-  All = 'All',
-  Live = 'Live',
-  Deleted = 'Deleted',
-}
+export type LongTermRetentionDatabaseState = 'All' | 'Live' | 'Deleted';
 
 /**
  * Defines values for VulnerabilityAssessmentPolicyBaselineName.
@@ -9012,45 +8366,24 @@ export enum LongTermRetentionDatabaseState {
  * @readonly
  * @enum {string}
  */
-export enum VulnerabilityAssessmentPolicyBaselineName {
-  Master = 'master',
-  Default = 'default',
-}
+export type VulnerabilityAssessmentPolicyBaselineName = 'master' | 'default';
 
 /**
  * Defines values for CapabilityGroup.
- * Possible values include: 'supportedEditions',
- * 'supportedElasticPoolEditions', 'supportedManagedInstanceVersions'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: CapabilityGroup =
- * <CapabilityGroup>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'supportedEditions', 'supportedElasticPoolEditions',
+ * 'supportedManagedInstanceVersions'
  * @readonly
  * @enum {string}
  */
-export enum CapabilityGroup {
-  SupportedEditions = 'supportedEditions',
-  SupportedElasticPoolEditions = 'supportedElasticPoolEditions',
-  SupportedManagedInstanceVersions = 'supportedManagedInstanceVersions',
-}
+export type CapabilityGroup = 'supportedEditions' | 'supportedElasticPoolEditions' | 'supportedManagedInstanceVersions';
 
 /**
  * Defines values for Type.
  * Possible values include: 'All', 'Error', 'Warning', 'Success'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Type = <Type>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Type {
-  All = 'All',
-  Error = 'Error',
-  Warning = 'Warning',
-  Success = 'Success',
-}
+export type Type = 'All' | 'Error' | 'Warning' | 'Success';
 
 /**
  * Contains response data for the get operation.
@@ -13400,6 +12733,139 @@ export type BackupLongTermRetentionPoliciesBeginCreateOrUpdateResponse = BackupL
        * The response body as parsed JSON or XML
        */
       parsedBody: BackupLongTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesGetResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesCreateOrUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabase operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesListByDatabaseResponse = ManagedBackupShortTermRetentionPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicyListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesBeginCreateOrUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesBeginUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabaseNext operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesListByDatabaseNextResponse = ManagedBackupShortTermRetentionPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicyListResult;
     };
 };
 

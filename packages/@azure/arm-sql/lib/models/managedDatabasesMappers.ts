@@ -83,6 +83,7 @@ export {
   JobVersion,
   LongTermRetentionBackup,
   BackupLongTermRetentionPolicy,
+  ManagedBackupShortTermRetentionPolicy,
   ServerAutomaticTuning,
   AutomaticTuningServerOptions,
   ServerDnsAlias,
