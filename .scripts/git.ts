@@ -4,7 +4,7 @@
  * license information.
  */
 
-import { Cred, Index, Merge, Oid, Reference, Repository, Reset, Signature, StatusFile } from "nodegit";
+import { Cred, Index, Merge, Oid, Reference, Repository, Reset, Signature, StatusFile, Branch as NodeBranch, MergeOptions } from "nodegit";
 import { Logger } from "./logger";
 
 export type ValidateFunction = (statuses: StatusFile[]) => boolean;
@@ -141,27 +141,27 @@ export async function getValidatedRepository(repositoryPath: string): Promise<Re
     return repository;
 }
 
-export async function mergeBranch(repository: Repository, toBranch: Branch, fromBranch: Branch): Promise<Oid> {
+export async function mergeBranch(repository: Repository, toBranch: Branch, fromBranch: Branch, mergeOptions?: MergeOptions): Promise<Oid> {
     _logger.logTrace(`Merging "${fromBranch.fullName()}" to "${toBranch.fullName()}" branch in ${repository.path()} repository`);
     try {
-        return repository.mergeBranches(toBranch.name, fromBranch.shorthand(), Signature.default(repository), Merge.PREFERENCE.NONE);
+        return repository.mergeBranches(toBranch.name, fromBranch.shorthand(), Signature.default(repository), Merge.PREFERENCE.NONE, mergeOptions);
     } catch (error) {
         throw new Error(`Probable merge conflicts. Error: ${error}`);
     }
 }
 
-export async function mergeMasterIntoBranch(repository: Repository, toBranch: Branch): Promise<Oid> {
-    return mergeBranch(repository, toBranch, Branch.RemoteMaster);
+export async function mergeMasterIntoBranch(repository: Repository, toBranch: Branch, mergeOptions?: MergeOptions): Promise<Oid> {
+    return mergeBranch(repository, toBranch, Branch.RemoteMaster, mergeOptions);
 }
 
-export async function pullBranch(repository: Repository, localBranch: Branch): Promise<void> {
+export async function pullBranch(repository: Repository, localBranch: Branch, mergeOptions?: MergeOptions): Promise<void> {
     _logger.logTrace(`Pulling "${localBranch.fullName()}" branch in ${repository.path()} repository`);
 
     await repository.fetchAll();
     _logger.logTrace(`Fetched all successfully`);
 
     const remoteBranch = new Branch(localBranch.name, BranchLocation.Remote, localBranch.remote);
-    await mergeBranch(repository, localBranch, remoteBranch);
+    await mergeBranch(repository, localBranch, remoteBranch, mergeOptions);
 
     const index = await repository.index();
     if (index.hasConflicts()) {
@@ -202,10 +202,11 @@ export async function checkoutRemoteBranch(repository: Repository, remoteBranch:
     if (branchExists) {
         branchRef = await checkoutBranch(repository, remoteBranch.name);
     } else {
-        branchRef = await createNewBranch(repository, remoteBranch.name, true);
+        branchRef = await createNewBranch(repository, remoteBranch.name);
+        await NodeBranch.setUpstream(branchRef, remoteBranch.shorthand());
         const commit = await repository.getReferenceCommit(remoteBranch.name);
+        await checkoutBranch(repository, branchRef);
         await Reset.reset(repository, commit as any, Reset.TYPE.HARD, {});
-        await pullBranch(repository, remoteBranch.toLocal());
     }
 
     return branchRef;
@@ -239,6 +240,7 @@ export async function checkoutMaster(repository: Repository): Promise<Reference>
 }
 
 export async function refreshRepository(repository: Repository) {
+    await repository.fetchAll();
     await pullMaster(repository);
     return checkoutMaster(repository);
 }
