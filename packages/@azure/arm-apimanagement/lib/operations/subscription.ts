@@ -47,7 +47,7 @@ export class Subscription {
    * @param callback The callback
    */
   list(resourceGroupName: string, serviceName: string, options: Models.SubscriptionListOptionalParams, callback: msRest.ServiceCallback<Models.SubscriptionCollection>): void;
-  list(resourceGroupName: string, serviceName: string, options?: Models.SubscriptionListOptionalParams, callback?: msRest.ServiceCallback<Models.SubscriptionCollection>): Promise<Models.SubscriptionListResponse> {
+  list(resourceGroupName: string, serviceName: string, options?: Models.SubscriptionListOptionalParams | msRest.ServiceCallback<Models.SubscriptionCollection>, callback?: msRest.ServiceCallback<Models.SubscriptionCollection>): Promise<Models.SubscriptionListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -86,7 +86,7 @@ export class Subscription {
    * @param callback The callback
    */
   getEntityTag(resourceGroupName: string, serviceName: string, sid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, sid: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.SubscriptionGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, sid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.SubscriptionGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -125,7 +125,7 @@ export class Subscription {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, sid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionContract>): void;
-  get(resourceGroupName: string, serviceName: string, sid: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SubscriptionContract>): Promise<Models.SubscriptionGetResponse> {
+  get(resourceGroupName: string, serviceName: string, sid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionContract>, callback?: msRest.ServiceCallback<Models.SubscriptionContract>): Promise<Models.SubscriptionGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,7 +167,7 @@ export class Subscription {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, sid: string, parameters: Models.SubscriptionCreateParameters, options: Models.SubscriptionCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.SubscriptionContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, sid: string, parameters: Models.SubscriptionCreateParameters, options?: Models.SubscriptionCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.SubscriptionContract>): Promise<Models.SubscriptionCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, sid: string, parameters: Models.SubscriptionCreateParameters, options?: Models.SubscriptionCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.SubscriptionContract>, callback?: msRest.ServiceCallback<Models.SubscriptionContract>): Promise<Models.SubscriptionCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -216,7 +216,7 @@ export class Subscription {
    * @param callback The callback
    */
   update(resourceGroupName: string, serviceName: string, sid: string, parameters: Models.SubscriptionUpdateParameters, ifMatch: string, options: Models.SubscriptionUpdateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, sid: string, parameters: Models.SubscriptionUpdateParameters, ifMatch: string, options?: Models.SubscriptionUpdateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, sid: string, parameters: Models.SubscriptionUpdateParameters, ifMatch: string, options?: Models.SubscriptionUpdateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -263,7 +263,7 @@ export class Subscription {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, sid: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, sid: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, sid: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -303,7 +303,7 @@ export class Subscription {
    * @param callback The callback
    */
   regeneratePrimaryKey(resourceGroupName: string, serviceName: string, sid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  regeneratePrimaryKey(resourceGroupName: string, serviceName: string, sid: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  regeneratePrimaryKey(resourceGroupName: string, serviceName: string, sid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -342,7 +342,7 @@ export class Subscription {
    * @param callback The callback
    */
   regenerateSecondaryKey(resourceGroupName: string, serviceName: string, sid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  regenerateSecondaryKey(resourceGroupName: string, serviceName: string, sid: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  regenerateSecondaryKey(resourceGroupName: string, serviceName: string, sid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -372,7 +372,7 @@ export class Subscription {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SubscriptionCollection>): Promise<Models.SubscriptionListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionCollection>, callback?: msRest.ServiceCallback<Models.SubscriptionCollection>): Promise<Models.SubscriptionListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
