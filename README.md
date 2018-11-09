@@ -2,18 +2,18 @@
 
 [![Build Status](https://travis-ci.org/Azure/azure-sdk-for-js.png?branch=master)](https://travis-ci.org/Azure/azure-sdk-for-js)
 
-This project provides a Javascript package that makes it easy to consume and manage
+This project provides an isomorphic Javascript package with TypeScript definitions that makes it easy to consume and manage
 Microsoft Azure Services.
 It supports SDKs for:
-- ARM services (packages with the naming convention of `azure-arm-<servicename>`)
-- data plane of some Azure services (packages with the naming convention of `azure-<servicename>`).
+- ARM services (control plane) (packages with the naming convention of `@azure/arm-<servicename>`)
+- data plane of some Azure services (packages with the naming convention of `@azure/<servicename>`).
 
 ## Documentation
 
 Documentation of the supported SDKs can be found here:
 - https://docs.microsoft.com/en-us/javascript/azure - This website primarily provides SDK documentation for
-  - ARM based services (`azure-arm-<serviceName>`)
-  - data plane SDKs like `azure-batch`, `azure-graph`, etc.
+  - ARM based services (`@azure/arm-<serviceName>`)
+  - data plane SDKs like `@azure/batch`, `@azure/graph`, etc.
 
 ## Authenticating
 
@@ -120,9 +120,8 @@ Please feel free to provide feedback for the extension by opening github issues 
 
 ## License
 
-This project is licensed under MIT and Apache-2.0.
-- "MIT" license is usually used for the client libraries generated using [Autorest](https://github.com/Azure/Autorest) that are targeting ARM (V2 version of Azure REST API). The license can be found in "LICENSE.MIT.txt" file in this repository.
-- "Apache-2.0" license is usually used for the client libraries generated using an internal code generator that are targeting ASM (V1 version of Azure REST API). The license can be found in "LICENSE.Apache.txt" file in this repository.
+This project is licensed under MIT.
+- "MIT" license is usually used for the client libraries generated using [Autorest.TypeScript](https://github.com/azure/autorest.typescript) that are targeting ARM (V2 version of Azure REST API). The license can be found in "LICENSE.MIT.txt" file in this repository.
 
 ## Contribute
 
