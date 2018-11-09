@@ -45,7 +45,7 @@ export class LargePersonGroupOperations {
    * @param callback The callback
    */
   create(largePersonGroupId: string, options: Models.LargePersonGroupCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(largePersonGroupId: string, options?: Models.LargePersonGroupCreateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  create(largePersonGroupId: string, options?: Models.LargePersonGroupCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         largePersonGroupId,
@@ -74,7 +74,7 @@ export class LargePersonGroupOperations {
    * @param callback The callback
    */
   deleteMethod(largePersonGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(largePersonGroupId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(largePersonGroupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         largePersonGroupId,
@@ -102,7 +102,7 @@ export class LargePersonGroupOperations {
    * @param callback The callback
    */
   get(largePersonGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LargePersonGroup>): void;
-  get(largePersonGroupId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LargePersonGroup>): Promise<Models.LargePersonGroupGetResponse> {
+  get(largePersonGroupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LargePersonGroup>, callback?: msRest.ServiceCallback<Models.LargePersonGroup>): Promise<Models.LargePersonGroupGetResponse> {
     return this.client.sendOperationRequest(
       {
         largePersonGroupId,
@@ -131,7 +131,7 @@ export class LargePersonGroupOperations {
    * @param callback The callback
    */
   update(largePersonGroupId: string, options: Models.LargePersonGroupUpdateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  update(largePersonGroupId: string, options?: Models.LargePersonGroupUpdateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(largePersonGroupId: string, options?: Models.LargePersonGroupUpdateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         largePersonGroupId,
@@ -159,7 +159,7 @@ export class LargePersonGroupOperations {
    * @param callback The callback
    */
   getTrainingStatus(largePersonGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TrainingStatus>): void;
-  getTrainingStatus(largePersonGroupId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TrainingStatus>): Promise<Models.LargePersonGroupGetTrainingStatusResponse> {
+  getTrainingStatus(largePersonGroupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TrainingStatus>, callback?: msRest.ServiceCallback<Models.TrainingStatus>): Promise<Models.LargePersonGroupGetTrainingStatusResponse> {
     return this.client.sendOperationRequest(
       {
         largePersonGroupId,
@@ -184,7 +184,7 @@ export class LargePersonGroupOperations {
    * @param callback The callback
    */
   list(options: Models.LargePersonGroupListOptionalParams, callback: msRest.ServiceCallback<Models.LargePersonGroup[]>): void;
-  list(options?: Models.LargePersonGroupListOptionalParams, callback?: msRest.ServiceCallback<Models.LargePersonGroup[]>): Promise<Models.LargePersonGroupListResponse> {
+  list(options?: Models.LargePersonGroupListOptionalParams | msRest.ServiceCallback<Models.LargePersonGroup[]>, callback?: msRest.ServiceCallback<Models.LargePersonGroup[]>): Promise<Models.LargePersonGroupListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -211,7 +211,7 @@ export class LargePersonGroupOperations {
    * @param callback The callback
    */
   train(largePersonGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  train(largePersonGroupId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  train(largePersonGroupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         largePersonGroupId,
