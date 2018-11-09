@@ -713,6 +713,48 @@ export interface PublicIPAddressDnsSettings {
 
 /**
  * @interface
+ * An interface representing DdoSSettings.
+ * Contains FQDN of the DNS record associated with the public IP address
+ *
+ */
+export interface DdoSSettings {
+  /**
+   * @member {string} [ddosCustomPolicy] The DDoS custom policy associated with
+   * the public IP.
+   */
+  ddosCustomPolicy?: string;
+  /**
+   * @member {ProtectionCoverage} [protectionCoverage] The type of the DDoS
+   * protection plan associated with the public IP. Possible values include:
+   * 'Basic', 'Standard'
+   */
+  protectionCoverage?: ProtectionCoverage;
+  /**
+   * @member {string} [domainNameLabel] Gets or sets the Domain name label.The
+   * concatenation of the domain name label and the regionalized DNS zone make
+   * up the fully qualified domain name associated with the public IP address.
+   * If a domain name label is specified, an A DNS record is created for the
+   * public IP in the Microsoft Azure DNS system.
+   */
+  domainNameLabel?: string;
+  /**
+   * @member {string} [fqdn] Gets the FQDN, Fully qualified domain name of the
+   * A DNS record associated with the public IP. This is the concatenation of
+   * the domainNameLabel and the regionalized DNS zone.
+   */
+  fqdn?: string;
+  /**
+   * @member {string} [reverseFqdn] Gets or Sets the Reverse FQDN. A
+   * user-visible, fully qualified domain name that resolves to this public IP
+   * address. If the reverseFqdn is specified, then a PTR DNS record is created
+   * pointing from the IP address in the in-addr.arpa domain to the reverse
+   * FQDN.
+   */
+  reverseFqdn?: string;
+}
+
+/**
+ * @interface
  * An interface representing IpTag.
  * Contains the IpTag associated with the object
  *
@@ -766,6 +808,11 @@ export interface PublicIPAddress extends Resource {
    * record associated with the public IP address.
    */
   dnsSettings?: PublicIPAddressDnsSettings;
+  /**
+   * @member {DdoSSettings} [ddosSettings] The DDoS protection custom policy
+   * associated with the public IP address.
+   */
+  ddosSettings?: DdoSSettings;
   /**
    * @member {IpTag[]} [ipTags] The list of tags associated with the public IP
    * address.
@@ -6306,25 +6353,6 @@ export interface RetentionPolicyParameters {
 
 /**
  * @interface
- * An interface representing FlowLogFormatParameters.
- * Parameters that define the flow log format.
- *
- */
-export interface FlowLogFormatParameters {
-  /**
-   * @member {FlowLogFormatType} [type] The file type of flow log. Possible
-   * values include: 'JSON'
-   */
-  type?: FlowLogFormatType;
-  /**
-   * @member {number} [version] The version (revision) of the flow log. Default
-   * value: 0 .
-   */
-  version?: number;
-}
-
-/**
- * @interface
  * An interface representing FlowLogStatusParameters.
  * Parameters that define a resource to query flow log and traffic analytics
  * (optional) status.
@@ -6361,11 +6389,6 @@ export interface TrafficAnalyticsConfigurationProperties {
    * @member {string} workspaceResourceId Resource Id of the attached workspace
    */
   workspaceResourceId: string;
-  /**
-   * @member {number} [trafficAnalyticsInterval] The interval in minutes which
-   * would decide how frequently TA service should do flow analytics
-   */
-  trafficAnalyticsInterval?: number;
 }
 
 /**
@@ -6408,10 +6431,6 @@ export interface FlowLogInformation {
    * @member {RetentionPolicyParameters} [retentionPolicy]
    */
   retentionPolicy?: RetentionPolicyParameters;
-  /**
-   * @member {FlowLogFormatParameters} [format]
-   */
-  format?: FlowLogFormatParameters;
   /**
    * @member {TrafficAnalyticsProperties} [flowAnalyticsConfiguration]
    */
@@ -10553,22 +10572,6 @@ export interface LoadBalancerOutboundRuleListResult extends Array<OutboundRule> 
  * An interface representing the NetworkInterfaceListResult.
  * Response for the ListNetworkInterface API service call.
  *
- * @extends Array<OutboundRule>
- */
-export interface LoadBalancerOutboundRuleListResult extends Array<OutboundRule> {
-  /**
-   * @member {string} [nextLink] The URL to get the next set of results.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * An interface representing the NetworkInterfaceListResult.
- * Response for the ListNetworkInterface API service call.
- *
  * @extends Array<NetworkInterface>
  */
 export interface NetworkInterfaceListResult extends Array<NetworkInterface> {
@@ -10937,6 +10940,20 @@ export interface VirtualNetworkPeeringListResult extends Array<VirtualNetworkPee
 
 /**
  * @interface
+ * An interface representing the VirtualNetworkTapListResult.
+ * Response for ListVirtualNetworkTap API service call.
+ *
+ * @extends Array<VirtualNetworkTap>
+ */
+export interface VirtualNetworkTapListResult extends Array<VirtualNetworkTap> {
+  /**
+   * @member {string} [nextLink] The URL to get the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the VirtualNetworkGatewayListResult.
  * Response for the ListVirtualNetworkGateways API service call.
  *
@@ -10997,20 +11014,6 @@ export interface LocalNetworkGatewayListResult extends Array<LocalNetworkGateway
    * the server.**
    */
   readonly nextLink?: string;
-}
-
-/**
- * @interface
- * An interface representing the VirtualNetworkTapListResult.
- * Response for ListVirtualNetworkTap API service call.
- *
- * @extends Array<VirtualNetworkTap>
- */
-export interface VirtualNetworkTapListResult extends Array<VirtualNetworkTap> {
-  /**
-   * @member {string} [nextLink] The URL to get the next set of results.
-   */
-  nextLink?: string;
 }
 
 /**
@@ -11303,22 +11306,6 @@ export type ApplicationGatewaySslCipherSuite = 'TLS_ECDHE_RSA_WITH_AES_256_CBC_S
 export type ApplicationGatewayCustomErrorStatusCode = 'HttpStatus403' | 'HttpStatus502';
 
 /**
- * Defines values for ApplicationGatewayCustomErrorStatusCode.
- * Possible values include: 'HttpStatus403', 'HttpStatus502'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewayCustomErrorStatusCode =
- * <ApplicationGatewayCustomErrorStatusCode>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum ApplicationGatewayCustomErrorStatusCode {
-  HttpStatus403 = 'HttpStatus403',
-  HttpStatus502 = 'HttpStatus502',
-}
-
-/**
  * Defines values for ApplicationGatewayRequestRoutingRuleType.
  * Possible values include: 'Basic', 'PathBasedRouting'
  * @readonly
@@ -11495,54 +11482,6 @@ export type ExpressRouteLinkAdminState = 'Enabled' | 'Disabled';
 export type ExpressRoutePortsEncapsulation = 'Dot1Q' | 'QinQ';
 
 /**
- * Defines values for ExpressRouteLinkConnectorType.
- * Possible values include: 'LC', 'SC'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ExpressRouteLinkConnectorType =
- * <ExpressRouteLinkConnectorType>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum ExpressRouteLinkConnectorType {
-  LC = 'LC',
-  SC = 'SC',
-}
-
-/**
- * Defines values for ExpressRouteLinkAdminState.
- * Possible values include: 'Enabled', 'Disabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ExpressRouteLinkAdminState =
- * <ExpressRouteLinkAdminState>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum ExpressRouteLinkAdminState {
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
-
-/**
- * Defines values for ExpressRoutePortsEncapsulation.
- * Possible values include: 'Dot1Q', 'QinQ'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ExpressRoutePortsEncapsulation =
- * <ExpressRoutePortsEncapsulation>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum ExpressRoutePortsEncapsulation {
-  Dot1Q = 'Dot1Q',
-  QinQ = 'QinQ',
-}
-
-/**
  * Defines values for LoadBalancerSkuName.
  * Possible values include: 'Basic', 'Standard'
  * @readonly
@@ -11657,21 +11596,6 @@ export type PcStatus = 'NotStarted' | 'Running' | 'Stopped' | 'Error' | 'Unknown
 export type PcError = 'InternalError' | 'AgentStopped' | 'CaptureFailed' | 'LocalFileFailed' | 'StorageFailed';
 
 /**
- * Defines values for FlowLogFormatType.
- * Possible values include: 'JSON'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: FlowLogFormatType =
- * <FlowLogFormatType>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum FlowLogFormatType {
-  JSON = 'JSON',
-}
-
-/**
  * Defines values for Protocol.
  * Possible values include: 'Tcp', 'Http', 'Https', 'Icmp'
  * @readonly
@@ -11751,23 +11675,6 @@ export type EvaluationState = 'NotStarted' | 'InProgress' | 'Completed';
  * @enum {string}
  */
 export type VerbosityLevel = 'Normal' | 'Minimum' | 'Full';
-
-/**
- * Defines values for VerbosityLevel.
- * Possible values include: 'Normal', 'Minimum', 'Full'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VerbosityLevel =
- * <VerbosityLevel>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum VerbosityLevel {
-  Normal = 'Normal',
-  Minimum = 'Minimum',
-  Full = 'Full',
-}
 
 /**
  * Defines values for PublicIPPrefixSkuName.
@@ -11973,6 +11880,14 @@ export type TunnelConnectionStatus = 'Unknown' | 'Connecting' | 'Connected' | 'N
  * @enum {string}
  */
 export type HubVirtualNetworkConnectionStatus = 'Unknown' | 'Connecting' | 'Connected' | 'NotConnected';
+
+/**
+ * Defines values for ProtectionCoverage.
+ * Possible values include: 'Basic', 'Standard'
+ * @readonly
+ * @enum {string}
+ */
+export type ProtectionCoverage = 'Basic' | 'Standard';
 
 /**
  * Defines values for Protocol1.
@@ -14322,291 +14237,6 @@ export type ExpressRouteLinksListNextResponse = ExpressRouteLinkListResult & {
 /**
  * Contains response data for the get operation.
  */
-export type ExpressRoutePortsLocationsListResponse = ExpressRoutePortsLocationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressRoutePortsLocationListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ExpressRoutePortsLocationsGetResponse = ExpressRoutePortsLocation & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressRoutePortsLocation;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type ExpressRoutePortsLocationsListNextResponse = ExpressRoutePortsLocationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressRoutePortsLocationListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ExpressRoutePortsGetResponse = ExpressRoutePort & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressRoutePort;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ExpressRoutePortsCreateOrUpdateResponse = ExpressRoutePort & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressRoutePort;
-    };
-};
-
-/**
- * Contains response data for the updateTags operation.
- */
-export type ExpressRoutePortsUpdateTagsResponse = ExpressRoutePort & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressRoutePort;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type ExpressRoutePortsListByResourceGroupResponse = ExpressRoutePortListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressRoutePortListResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type ExpressRoutePortsListResponse = ExpressRoutePortListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressRoutePortListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type ExpressRoutePortsBeginCreateOrUpdateResponse = ExpressRoutePort & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressRoutePort;
-    };
-};
-
-/**
- * Contains response data for the beginUpdateTags operation.
- */
-export type ExpressRoutePortsBeginUpdateTagsResponse = ExpressRoutePort & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressRoutePort;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type ExpressRoutePortsListByResourceGroupNextResponse = ExpressRoutePortListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressRoutePortListResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type ExpressRoutePortsListNextResponse = ExpressRoutePortListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressRoutePortListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ExpressRouteLinksGetResponse = ExpressRouteLink & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressRouteLink;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type ExpressRouteLinksListResponse = ExpressRouteLinkListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressRouteLinkListResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type ExpressRouteLinksListNextResponse = ExpressRouteLinkListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressRouteLinkListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
 export type InterfaceEndpointsGetResponse = InterfaceEndpoint & {
   /**
    * The underlying HTTP response.
@@ -14891,6 +14521,291 @@ export type LoadBalancersListAllNextResponse = LoadBalancerListResult & {
 
 /**
  * Contains response data for the listNext operation.
+ */
+export type LoadBalancersListNextResponse = LoadBalancerListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LoadBalancerListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type LoadBalancerBackendAddressPoolsListResponse = LoadBalancerBackendAddressPoolListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LoadBalancerBackendAddressPoolListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type LoadBalancerBackendAddressPoolsGetResponse = BackendAddressPool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackendAddressPool;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type LoadBalancerBackendAddressPoolsListNextResponse = LoadBalancerBackendAddressPoolListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LoadBalancerBackendAddressPoolListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type LoadBalancerFrontendIPConfigurationsListResponse = LoadBalancerFrontendIPConfigurationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LoadBalancerFrontendIPConfigurationListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type LoadBalancerFrontendIPConfigurationsGetResponse = FrontendIPConfiguration & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FrontendIPConfiguration;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type LoadBalancerFrontendIPConfigurationsListNextResponse = LoadBalancerFrontendIPConfigurationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LoadBalancerFrontendIPConfigurationListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type InboundNatRulesListResponse = InboundNatRuleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InboundNatRuleListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type InboundNatRulesGetResponse = InboundNatRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InboundNatRule;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type InboundNatRulesCreateOrUpdateResponse = InboundNatRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InboundNatRule;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type InboundNatRulesBeginCreateOrUpdateResponse = InboundNatRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InboundNatRule;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type InboundNatRulesListNextResponse = InboundNatRuleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InboundNatRuleListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type LoadBalancerLoadBalancingRulesListResponse = LoadBalancerLoadBalancingRuleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LoadBalancerLoadBalancingRuleListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type LoadBalancerLoadBalancingRulesGetResponse = LoadBalancingRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LoadBalancingRule;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type LoadBalancerLoadBalancingRulesListNextResponse = LoadBalancerLoadBalancingRuleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LoadBalancerLoadBalancingRuleListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
  */
 export type LoadBalancerOutboundRulesListResponse = LoadBalancerOutboundRuleListResult & {
   /**
@@ -18652,6 +18567,177 @@ export type VirtualNetworkPeeringsListNextResponse = VirtualNetworkPeeringListRe
 };
 
 /**
+ * Contains response data for the get operation.
+ */
+export type VirtualNetworkTapsGetResponse = VirtualNetworkTap & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTap;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type VirtualNetworkTapsCreateOrUpdateResponse = VirtualNetworkTap & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTap;
+    };
+};
+
+/**
+ * Contains response data for the updateTags operation.
+ */
+export type VirtualNetworkTapsUpdateTagsResponse = VirtualNetworkTap & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTap;
+    };
+};
+
+/**
+ * Contains response data for the listAll operation.
+ */
+export type VirtualNetworkTapsListAllResponse = VirtualNetworkTapListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTapListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type VirtualNetworkTapsListByResourceGroupResponse = VirtualNetworkTapListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTapListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type VirtualNetworkTapsBeginCreateOrUpdateResponse = VirtualNetworkTap & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTap;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateTags operation.
+ */
+export type VirtualNetworkTapsBeginUpdateTagsResponse = VirtualNetworkTap & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTap;
+    };
+};
+
+/**
+ * Contains response data for the listAllNext operation.
+ */
+export type VirtualNetworkTapsListAllNextResponse = VirtualNetworkTapListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTapListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type VirtualNetworkTapsListByResourceGroupNextResponse = VirtualNetworkTapListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTapListResult;
+    };
+};
+
+/**
  * Contains response data for the createOrUpdate operation.
  */
 export type VirtualNetworkGatewaysCreateOrUpdateResponse = VirtualNetworkGateway & {
@@ -19592,177 +19678,6 @@ export type LocalNetworkGatewaysListNextResponse = LocalNetworkGatewayListResult
        * The response body as parsed JSON or XML
        */
       parsedBody: LocalNetworkGatewayListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type VirtualNetworkTapsGetResponse = VirtualNetworkTap & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTap;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type VirtualNetworkTapsCreateOrUpdateResponse = VirtualNetworkTap & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTap;
-    };
-};
-
-/**
- * Contains response data for the updateTags operation.
- */
-export type VirtualNetworkTapsUpdateTagsResponse = VirtualNetworkTap & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTap;
-    };
-};
-
-/**
- * Contains response data for the listAll operation.
- */
-export type VirtualNetworkTapsListAllResponse = VirtualNetworkTapListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTapListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type VirtualNetworkTapsListByResourceGroupResponse = VirtualNetworkTapListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTapListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type VirtualNetworkTapsBeginCreateOrUpdateResponse = VirtualNetworkTap & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTap;
-    };
-};
-
-/**
- * Contains response data for the beginUpdateTags operation.
- */
-export type VirtualNetworkTapsBeginUpdateTagsResponse = VirtualNetworkTap & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTap;
-    };
-};
-
-/**
- * Contains response data for the listAllNext operation.
- */
-export type VirtualNetworkTapsListAllNextResponse = VirtualNetworkTapListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTapListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type VirtualNetworkTapsListByResourceGroupNextResponse = VirtualNetworkTapListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTapListResult;
     };
 };
 
