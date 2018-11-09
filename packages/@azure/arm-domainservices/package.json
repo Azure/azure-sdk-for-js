@@ -2,10 +2,10 @@
   "name": "@azure/arm-domainservices",
   "author": "Microsoft Corporation",
   "description": "DomainservicesManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "dependencies": {
-    "ms-rest-azure-js": "^1.0.181",
-    "ms-rest-js": "^1.0.457",
+    "ms-rest-azure-js": "^1.0.166",
+    "ms-rest-js": "^1.0.439",
     "tslib": "^1.9.3"
   },
   "keywords": [
@@ -25,7 +25,7 @@
     "rollup-plugin-node-resolve": "^3.4.0",
     "uglify-js": "^3.4.9"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/@azure/arm-domainservices",
+  "homepage": "https://github.com/azure/azure-sdk-for-js",
   "repository": {
     "type": "git",
     "url": "https://github.com/azure/azure-sdk-for-js.git"
@@ -33,23 +33,10 @@
   "bugs": {
     "url": "https://github.com/azure/azure-sdk-for-js/issues"
   },
-  "files": [
-    "dist/**/*.js",
-    "dist/**/*.js.map",
-    "dist/**/*.d.ts",
-    "dist/**/*.d.ts.map",
-    "esm/**/*.js",
-    "esm/**/*.js.map",
-    "esm/**/*.d.ts",
-    "esm/**/*.d.ts.map",
-    "lib/**/*.ts",
-    "rollup.config.js",
-    "tsconfig.json"
-  ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-domainservices.js.map'\" -o ./dist/arm-domainservices.min.js ./dist/arm-domainservices.js",
-    "prepack": "npm install && npm run build"
+    "prepare": "npm run build"
   },
   "sideEffects": false
 }

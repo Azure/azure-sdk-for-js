@@ -50,7 +50,7 @@ export class TriggerRuns {
    * @param callback The callback
    */
   queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TriggerRunsQueryResponse>): void;
-  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggerRunsQueryResponse>, callback?: msRest.ServiceCallback<Models.TriggerRunsQueryResponse>): Promise<Models.TriggerRunsQueryByFactoryResponse> {
+  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TriggerRunsQueryResponse>): Promise<Models.TriggerRunsQueryByFactoryResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

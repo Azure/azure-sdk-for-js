@@ -20,22 +20,21 @@ npm install @azure/loganalytics
 
 ```ts
 import * as msRest from "ms-rest-js";
-import * as msRestNodeAuth from "ms-rest-nodeauth";
 import { LogAnalyticsClient, LogAnalyticsModels, LogAnalyticsMappers } from "@azure/loganalytics";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new LogAnalyticsClient(creds, subscriptionId);
-  const workspaceId = "testworkspaceId";
-  const body: LogAnalyticsModels.QueryBody = {
-    query: "testquery",
-    timespan: "testtimespan",
-    workspaces: ["testworkspaces"]
-  };
-  client.query.execute(workspaceId, body).then((result) => {
-    console.log("The result is:");
-    console.log(result);
-  });
+const token = "<access_token>";
+const creds = new msRest.TokenCredentials(token);
+const client = new LogAnalyticsClient(creds, subscriptionId);
+const workspaceId = "testworkspaceId";
+const body = {
+  query: "testquery",
+  timespan: "testtimespan",
+  workspaces: ["testworkspaces"]
+};
+client.query.execute(workspaceId, body).then((result) => {
+  console.log("The result is:");
+  console.log(result);
 }).catch((err) => {
   console.error(err);
 });
@@ -49,34 +48,24 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 <html lang="en">
   <head>
     <title>@azure/loganalytics sample</title>
-    <script src="node_modules/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/ms-rest-browserauth/dist/msAuth.js"></script>
-    <script src="node_modules/@azure/loganalytics/dist/loganalytics.js"></script>
+    <script type="text/javascript" src="./node_modules/ms-rest-js/dist/msRest.browser.js"></script>
+    <script type="text/javascript" src="./dist/loganalytics.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
-      const authManager = new msAuth.AuthManager({
-        clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
-      });
-      authManager.finalizeLogin().then((res) => {
-        if (!res.isLoggedIn) {
-          // may cause redirects
-          authManager.login();
-        }
-        const client = new Azure.Loganalytics.LogAnalyticsClient(res.creds, subscriptionId);
-        const workspaceId = "testworkspaceId";
-        const body = {
-          query: "testquery",
-          timespan: "testtimespan",
-          workspaces: ["testworkspaces"]
-        };
-        client.query.execute(workspaceId, body).then((result) => {
-          console.log("The result is:");
-          console.log(result);
-        }).catch((err) => {
-          console.log("An error occurred:");
-          console.error(err);
-        });
+      const token = "<access_token>";
+      const creds = new msRest.TokenCredentials(token);
+      const client = new Azure.Loganalytics.LogAnalyticsClient(creds, subscriptionId);
+      const workspaceId = "testworkspaceId";
+      const body = {
+        query: "testquery",
+        timespan: "testtimespan",
+        workspaces: ["testworkspaces"]
+      };
+      client.query.execute(workspaceId, body).then((result) => {
+        console.log("The result is:");
+        console.log(result);
+      }).catch((err) => {
+        console.error(err);
       });
     </script>
   </head>

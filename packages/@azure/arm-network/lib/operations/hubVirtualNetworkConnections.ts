@@ -50,7 +50,7 @@ export class HubVirtualNetworkConnections {
    * @param callback The callback
    */
   get(resourceGroupName: string, virtualHubName: string, connectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HubVirtualNetworkConnection>): void;
-  get(resourceGroupName: string, virtualHubName: string, connectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HubVirtualNetworkConnection>, callback?: msRest.ServiceCallback<Models.HubVirtualNetworkConnection>): Promise<Models.HubVirtualNetworkConnectionsGetResponse> {
+  get(resourceGroupName: string, virtualHubName: string, connectionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HubVirtualNetworkConnection>): Promise<Models.HubVirtualNetworkConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +83,7 @@ export class HubVirtualNetworkConnections {
    * @param callback The callback
    */
   list(resourceGroupName: string, virtualHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>): void;
-  list(resourceGroupName: string, virtualHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>, callback?: msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>): Promise<Models.HubVirtualNetworkConnectionsListResponse> {
+  list(resourceGroupName: string, virtualHubName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>): Promise<Models.HubVirtualNetworkConnectionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class HubVirtualNetworkConnections {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>, callback?: msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>): Promise<Models.HubVirtualNetworkConnectionsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>): Promise<Models.HubVirtualNetworkConnectionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

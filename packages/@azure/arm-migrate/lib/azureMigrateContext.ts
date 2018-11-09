@@ -16,9 +16,16 @@ const packageName = "@azure/arm-migrate";
 const packageVersion = "1.0.0";
 
 export class AzureMigrateContext extends msRestAzure.AzureServiceClient {
+
   credentials: msRest.ServiceClientCredentials;
+
   subscriptionId: string;
-  apiVersion?: string;
+
+  apiVersion: string;
+
+  acceptLanguage: string;
+
+  longRunningOperationRetryTimeout: number;
 
   /**
    * Initializes a new instance of the AzureMigrate class.

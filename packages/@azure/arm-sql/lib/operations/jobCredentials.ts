@@ -53,7 +53,7 @@ export class JobCredentials {
    * @param callback The callback
    */
   listByAgent(resourceGroupName: string, serverName: string, jobAgentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobCredentialListResult>): void;
-  listByAgent(resourceGroupName: string, serverName: string, jobAgentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobCredentialListResult>, callback?: msRest.ServiceCallback<Models.JobCredentialListResult>): Promise<Models.JobCredentialsListByAgentResponse> {
+  listByAgent(resourceGroupName: string, serverName: string, jobAgentName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JobCredentialListResult>): Promise<Models.JobCredentialsListByAgentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +95,7 @@ export class JobCredentials {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobCredential>): void;
-  get(resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobCredential>, callback?: msRest.ServiceCallback<Models.JobCredential>): Promise<Models.JobCredentialsGetResponse> {
+  get(resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JobCredential>): Promise<Models.JobCredentialsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -141,7 +141,7 @@ export class JobCredentials {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, parameters: Models.JobCredential, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobCredential>): void;
-  createOrUpdate(resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, parameters: Models.JobCredential, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobCredential>, callback?: msRest.ServiceCallback<Models.JobCredential>): Promise<Models.JobCredentialsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, parameters: Models.JobCredential, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JobCredential>): Promise<Models.JobCredentialsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -185,7 +185,7 @@ export class JobCredentials {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -216,7 +216,7 @@ export class JobCredentials {
    * @param callback The callback
    */
   listByAgentNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobCredentialListResult>): void;
-  listByAgentNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobCredentialListResult>, callback?: msRest.ServiceCallback<Models.JobCredentialListResult>): Promise<Models.JobCredentialsListByAgentNextResponse> {
+  listByAgentNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JobCredentialListResult>): Promise<Models.JobCredentialsListByAgentNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

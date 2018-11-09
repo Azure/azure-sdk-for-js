@@ -56,7 +56,7 @@ export class FirewallRules {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serverName: string, firewallRuleName: string, parameters: Models.FirewallRule, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FirewallRule>): void;
-  createOrUpdate(resourceGroupName: string, serverName: string, firewallRuleName: string, parameters: Models.FirewallRule, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FirewallRule>, callback?: msRest.ServiceCallback<Models.FirewallRule>): Promise<Models.FirewallRulesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serverName: string, firewallRuleName: string, parameters: Models.FirewallRule, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FirewallRule>): Promise<Models.FirewallRulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +96,7 @@ export class FirewallRules {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serverName: string, firewallRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serverName: string, firewallRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serverName: string, firewallRuleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -135,7 +135,7 @@ export class FirewallRules {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, firewallRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FirewallRule>): void;
-  get(resourceGroupName: string, serverName: string, firewallRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FirewallRule>, callback?: msRest.ServiceCallback<Models.FirewallRule>): Promise<Models.FirewallRulesGetResponse> {
+  get(resourceGroupName: string, serverName: string, firewallRuleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FirewallRule>): Promise<Models.FirewallRulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -171,7 +171,7 @@ export class FirewallRules {
    * @param callback The callback
    */
   listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FirewallRuleListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FirewallRuleListResult>, callback?: msRest.ServiceCallback<Models.FirewallRuleListResult>): Promise<Models.FirewallRulesListByServerResponse> {
+  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FirewallRuleListResult>): Promise<Models.FirewallRulesListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

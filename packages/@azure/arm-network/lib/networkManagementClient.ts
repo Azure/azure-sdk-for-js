@@ -35,16 +35,12 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   expressRouteCrossConnectionPeerings: operations.ExpressRouteCrossConnectionPeerings;
   expressRouteGateways: operations.ExpressRouteGateways;
   expressRouteConnections: operations.ExpressRouteConnections;
-  expressRoutePortsLocations: operations.ExpressRoutePortsLocations;
-  expressRoutePorts: operations.ExpressRoutePorts;
-  expressRouteLinks: operations.ExpressRouteLinks;
   interfaceEndpoints: operations.InterfaceEndpoints;
   loadBalancers: operations.LoadBalancers;
   loadBalancerBackendAddressPools: operations.LoadBalancerBackendAddressPools;
   loadBalancerFrontendIPConfigurations: operations.LoadBalancerFrontendIPConfigurations;
   inboundNatRules: operations.InboundNatRules;
   loadBalancerLoadBalancingRules: operations.LoadBalancerLoadBalancingRules;
-  loadBalancerOutboundRules: operations.LoadBalancerOutboundRules;
   loadBalancerNetworkInterfaces: operations.LoadBalancerNetworkInterfaces;
   loadBalancerProbes: operations.LoadBalancerProbes;
   networkInterfaces: operations.NetworkInterfaces;
@@ -72,10 +68,10 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   virtualNetworks: operations.VirtualNetworks;
   subnets: operations.Subnets;
   virtualNetworkPeerings: operations.VirtualNetworkPeerings;
+  virtualNetworkTaps: operations.VirtualNetworkTaps;
   virtualNetworkGateways: operations.VirtualNetworkGateways;
   virtualNetworkGatewayConnections: operations.VirtualNetworkGatewayConnections;
   localNetworkGateways: operations.LocalNetworkGateways;
-  virtualNetworkTaps: operations.VirtualNetworkTaps;
   virtualWans: operations.VirtualWans;
   vpnSites: operations.VpnSites;
   vpnSitesConfiguration: operations.VpnSitesConfiguration;
@@ -112,16 +108,12 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.expressRouteCrossConnectionPeerings = new operations.ExpressRouteCrossConnectionPeerings(this);
     this.expressRouteGateways = new operations.ExpressRouteGateways(this);
     this.expressRouteConnections = new operations.ExpressRouteConnections(this);
-    this.expressRoutePortsLocations = new operations.ExpressRoutePortsLocations(this);
-    this.expressRoutePorts = new operations.ExpressRoutePorts(this);
-    this.expressRouteLinks = new operations.ExpressRouteLinks(this);
     this.interfaceEndpoints = new operations.InterfaceEndpoints(this);
     this.loadBalancers = new operations.LoadBalancers(this);
     this.loadBalancerBackendAddressPools = new operations.LoadBalancerBackendAddressPools(this);
     this.loadBalancerFrontendIPConfigurations = new operations.LoadBalancerFrontendIPConfigurations(this);
     this.inboundNatRules = new operations.InboundNatRules(this);
     this.loadBalancerLoadBalancingRules = new operations.LoadBalancerLoadBalancingRules(this);
-    this.loadBalancerOutboundRules = new operations.LoadBalancerOutboundRules(this);
     this.loadBalancerNetworkInterfaces = new operations.LoadBalancerNetworkInterfaces(this);
     this.loadBalancerProbes = new operations.LoadBalancerProbes(this);
     this.networkInterfaces = new operations.NetworkInterfaces(this);
@@ -149,10 +141,10 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.virtualNetworks = new operations.VirtualNetworks(this);
     this.subnets = new operations.Subnets(this);
     this.virtualNetworkPeerings = new operations.VirtualNetworkPeerings(this);
+    this.virtualNetworkTaps = new operations.VirtualNetworkTaps(this);
     this.virtualNetworkGateways = new operations.VirtualNetworkGateways(this);
     this.virtualNetworkGatewayConnections = new operations.VirtualNetworkGatewayConnections(this);
     this.localNetworkGateways = new operations.LocalNetworkGateways(this);
-    this.virtualNetworkTaps = new operations.VirtualNetworkTaps(this);
     this.virtualWans = new operations.VirtualWans(this);
     this.vpnSites = new operations.VpnSites(this);
     this.vpnSitesConfiguration = new operations.VpnSitesConfiguration(this);
@@ -188,7 +180,7 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param callback The callback
    */
   checkDnsNameAvailability(location: string, domainNameLabel: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DnsNameAvailabilityResult>): void;
-  checkDnsNameAvailability(location: string, domainNameLabel: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DnsNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.DnsNameAvailabilityResult>): Promise<Models.CheckDnsNameAvailabilityResponse> {
+  checkDnsNameAvailability(location: string, domainNameLabel: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DnsNameAvailabilityResult>): Promise<Models.CheckDnsNameAvailabilityResponse> {
     return this.sendOperationRequest(
       {
         location,
@@ -223,7 +215,7 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param callback The callback
    */
   supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualWanSecurityProviders>): void;
-  supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualWanSecurityProviders>, callback?: msRest.ServiceCallback<Models.VirtualWanSecurityProviders>): Promise<Models.SupportedSecurityProvidersResponse> {
+  supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualWanSecurityProviders>): Promise<Models.SupportedSecurityProvidersResponse> {
     return this.sendOperationRequest(
       {
         resourceGroupName,

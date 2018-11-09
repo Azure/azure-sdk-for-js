@@ -15,164 +15,6 @@ export { BaseResource, CloudError };
 
 
 /**
- * Contains the possible cases for InputSchemaMapping.
- */
-export type InputSchemaMappingUnion = InputSchemaMapping | JsonInputSchemaMapping;
-
-/**
- * @interface
- * An interface representing InputSchemaMapping.
- * By default, Event Grid expects events to be in the Event Grid event schema.
- * Specifying an input schema mapping enables publishing to Event Grid using a
- * custom input schema. Currently, the only supported type of
- * InputSchemaMapping is 'JsonInputSchemaMapping'.
- *
- */
-export interface InputSchemaMapping {
-  /**
-   * @member {string} inputSchemaMappingType Polymorphic Discriminator
-   */
-  inputSchemaMappingType: "InputSchemaMapping";
-}
-
-/**
- * @interface
- * An interface representing Resource.
- * Definition of a Resource
- *
- * @extends BaseResource
- */
-export interface Resource extends BaseResource {
-  /**
-   * @member {string} [id] Fully qualified identifier of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [name] Name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {string} [type] Type of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * @interface
- * An interface representing TrackedResource.
- * Definition of a Tracked Resource
- *
- * @extends Resource
- */
-export interface TrackedResource extends Resource {
-  /**
-   * @member {string} location Location of the resource
-   */
-  location: string;
-  /**
-   * @member {{ [propertyName: string]: string }} [tags] Tags of the resource
-   */
-  tags?: { [propertyName: string]: string };
-}
-
-/**
- * @interface
- * An interface representing Domain.
- * EventGrid Domain
- *
- * @extends TrackedResource
- */
-export interface Domain extends TrackedResource {
-  /**
-   * @member {DomainProvisioningState} [provisioningState] Provisioning state
-   * of the domain. Possible values include: 'Creating', 'Updating',
-   * 'Deleting', 'Succeeded', 'Canceled', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly provisioningState?: DomainProvisioningState;
-  /**
-   * @member {string} [endpoint] Endpoint for the domain.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly endpoint?: string;
-  /**
-   * @member {InputSchema} [inputSchema] This determines the format that Event
-   * Grid should expect for incoming events published to the domain. Possible
-   * values include: 'EventGridSchema', 'CustomEventSchema',
-   * 'CloudEventV01Schema'
-   */
-  inputSchema?: InputSchema;
-  /**
-   * @member {InputSchemaMappingUnion} [inputSchemaMapping] Information about
-   * the InputSchemaMapping which specified the info about mapping event
-   * payload.
-   */
-  inputSchemaMapping?: InputSchemaMappingUnion;
-}
-
-/**
- * @interface
- * An interface representing DomainUpdateParameters.
- * Properties of the Domain update
- *
- */
-export interface DomainUpdateParameters {
-  /**
-   * @member {{ [propertyName: string]: string }} [tags] Tags of the domains
-   * resource
-   */
-  tags?: { [propertyName: string]: string };
-}
-
-/**
- * @interface
- * An interface representing DomainSharedAccessKeys.
- * Shared access keys of the Domain
- *
- */
-export interface DomainSharedAccessKeys {
-  /**
-   * @member {string} [key1] Shared access key1 for the domain.
-   */
-  key1?: string;
-  /**
-   * @member {string} [key2] Shared access key2 for the domain.
-   */
-  key2?: string;
-}
-
-/**
- * @interface
- * An interface representing DomainRegenerateKeyRequest.
- * Domain regenerate share access key request
- *
- */
-export interface DomainRegenerateKeyRequest {
-  /**
-   * @member {string} keyName Key name to regenerate key1 or key2
-   */
-  keyName: string;
-}
-
-/**
- * @interface
- * An interface representing DomainTopic.
- * Domain Topic
- *
- * @extends Resource
- */
-export interface DomainTopic extends Resource {
-}
-
-/**
  * Contains the possible cases for EventSubscriptionDestination.
  */
 export type EventSubscriptionDestinationUnion = EventSubscriptionDestination | WebHookEventSubscriptionDestination | EventHubEventSubscriptionDestination | StorageQueueEventSubscriptionDestination | HybridConnectionEventSubscriptionDestination;
@@ -188,30 +30,6 @@ export interface EventSubscriptionDestination {
    * @member {string} endpointType Polymorphic Discriminator
    */
   endpointType: "EventSubscriptionDestination";
-}
-
-/**
- * Contains the possible cases for AdvancedFilter.
- */
-export type AdvancedFilterUnion = AdvancedFilter | NumberInAdvancedFilter | NumberNotInAdvancedFilter | NumberLessThanAdvancedFilter | NumberGreaterThanAdvancedFilter | NumberLessThanOrEqualsAdvancedFilter | NumberGreaterThanOrEqualsAdvancedFilter | BoolEqualsAdvancedFilter | StringInAdvancedFilter | StringNotInAdvancedFilter | StringBeginsWithAdvancedFilter | StringEndsWithAdvancedFilter | StringContainsAdvancedFilter;
-
-/**
- * @interface
- * An interface representing AdvancedFilter.
- * Represents an advanced filter that can be used to filter events based on
- * various event envelope/data fields.
- *
- */
-export interface AdvancedFilter {
-  /**
-   * @member {string} operatorType Polymorphic Discriminator
-   */
-  operatorType: "AdvancedFilter";
-  /**
-   * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
-   */
-  key?: string;
 }
 
 /**
@@ -247,11 +65,6 @@ export interface EventSubscriptionFilter {
    * should be compared in a case sensitive manner. Default value: false .
    */
   isSubjectCaseSensitive?: boolean;
-  /**
-   * @member {AdvancedFilterUnion[]} [advancedFilters] A list of advanced
-   * filters.
-   */
-  advancedFilters?: AdvancedFilterUnion[];
 }
 
 /**
@@ -297,24 +110,128 @@ export interface DeadLetterDestination {
 
 /**
  * @interface
- * An interface representing NumberInAdvancedFilter.
- * NumberIn filter
+ * An interface representing EventSubscriptionProperties.
+ * Properties of the Event Subscription
  *
  */
-export interface NumberInAdvancedFilter {
+export interface EventSubscriptionProperties {
   /**
-   * @member {string} operatorType Polymorphic Discriminator
+   * @member {string} [topic] Name of the topic of the event subscription.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  operatorType: "NumberIn";
+  readonly topic?: string;
   /**
-   * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
+   * @member {EventSubscriptionProvisioningState} [provisioningState]
+   * Provisioning state of the event subscription. Possible values include:
+   * 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed',
+   * 'AwaitingManualAction'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  key?: string;
+  readonly provisioningState?: EventSubscriptionProvisioningState;
   /**
-   * @member {number[]} [values] The set of filter values
+   * @member {EventSubscriptionDestinationUnion} [destination] Information
+   * about the destination where events have to be delivered for the event
+   * subscription.
    */
-  values?: number[];
+  destination?: EventSubscriptionDestinationUnion;
+  /**
+   * @member {EventSubscriptionFilter} [filter] Information about the filter
+   * for the event subscription.
+   */
+  filter?: EventSubscriptionFilter;
+  /**
+   * @member {string[]} [labels] List of user defined labels.
+   */
+  labels?: string[];
+  /**
+   * @member {EventDeliverySchema} [eventDeliverySchema] The event delivery
+   * schema for the event subscription. Possible values include:
+   * 'EventGridSchema', 'InputEventSchema', 'CloudEventV01Schema'. Default
+   * value: 'InputEventSchema' .
+   */
+  eventDeliverySchema?: EventDeliverySchema;
+  /**
+   * @member {RetryPolicy} [retryPolicy] The retry policy for events. This can
+   * be used to configure maximum number of delivery attempts and time to live
+   * for events.
+   */
+  retryPolicy?: RetryPolicy;
+  /**
+   * @member {DeadLetterDestinationUnion} [deadLetterDestination] The
+   * DeadLetter destination of the event subscription.
+   */
+  deadLetterDestination?: DeadLetterDestinationUnion;
+}
+
+/**
+ * @interface
+ * An interface representing Resource.
+ * Definition of a Resource
+ *
+ * @extends BaseResource
+ */
+export interface Resource extends BaseResource {
+  /**
+   * @member {string} [id] Fully qualified identifier of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [name] Name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [type] Type of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * @interface
+ * An interface representing WebHookEventSubscriptionDestinationProperties.
+ * Information about the webhook destination properties for an event
+ * subscription.
+ *
+ */
+export interface WebHookEventSubscriptionDestinationProperties {
+  /**
+   * @member {string} [endpointUrl] The URL that represents the endpoint of the
+   * destination of an event subscription.
+   */
+  endpointUrl?: string;
+  /**
+   * @member {string} [endpointBaseUrl] The base URL that represents the
+   * endpoint of the destination of an event subscription.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly endpointBaseUrl?: string;
+}
+
+/**
+ * @interface
+ * An interface representing StorageBlobDeadLetterDestinationProperties.
+ * Properties of the storage blob based dead letter destination.
+ *
+ */
+export interface StorageBlobDeadLetterDestinationProperties {
+  /**
+   * @member {string} [resourceId] The Azure Resource ID of the storage account
+   * that is the destination of the deadletter events
+   */
+  resourceId?: string;
+  /**
+   * @member {string} [blobContainerName] The name of the Storage blob
+   * container that is the destination of the deadletter events
+   */
+  blobContainerName?: string;
 }
 
 /**
@@ -338,248 +255,6 @@ export interface StorageBlobDeadLetterDestination {
    * container that is the destination of the deadletter events
    */
   blobContainerName?: string;
-}
-
-/**
- * @interface
- * An interface representing NumberNotInAdvancedFilter.
- * NumberNotIn Filter
- *
- */
-export interface NumberNotInAdvancedFilter {
-  /**
-   * @member {string} operatorType Polymorphic Discriminator
-   */
-  operatorType: "NumberNotIn";
-  /**
-   * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
-   */
-  key?: string;
-  /**
-   * @member {number[]} [values] The set of filter values
-   */
-  values?: number[];
-}
-
-/**
- * @interface
- * An interface representing NumberLessThanAdvancedFilter.
- * NumberLessThan Filter
- *
- */
-export interface NumberLessThanAdvancedFilter {
-  /**
-   * @member {string} operatorType Polymorphic Discriminator
-   */
-  operatorType: "NumberLessThan";
-  /**
-   * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
-   */
-  key?: string;
-  /**
-   * @member {number} [value] The filter value
-   */
-  value?: number;
-}
-
-/**
- * @interface
- * An interface representing NumberGreaterThanAdvancedFilter.
- * NumberGreaterThan Filter
- *
- */
-export interface NumberGreaterThanAdvancedFilter {
-  /**
-   * @member {string} operatorType Polymorphic Discriminator
-   */
-  operatorType: "NumberGreaterThan";
-  /**
-   * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
-   */
-  key?: string;
-  /**
-   * @member {number} [value] The filter value
-   */
-  value?: number;
-}
-
-/**
- * @interface
- * An interface representing NumberLessThanOrEqualsAdvancedFilter.
- * NumberLessThanOrEquals Filter
- *
- */
-export interface NumberLessThanOrEqualsAdvancedFilter {
-  /**
-   * @member {string} operatorType Polymorphic Discriminator
-   */
-  operatorType: "NumberLessThanOrEquals";
-  /**
-   * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
-   */
-  key?: string;
-  /**
-   * @member {number} [value] The filter value
-   */
-  value?: number;
-}
-
-/**
- * @interface
- * An interface representing NumberGreaterThanOrEqualsAdvancedFilter.
- * NumberGreaterThanOrEquals Filter
- *
- */
-export interface NumberGreaterThanOrEqualsAdvancedFilter {
-  /**
-   * @member {string} operatorType Polymorphic Discriminator
-   */
-  operatorType: "NumberGreaterThanOrEquals";
-  /**
-   * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
-   */
-  key?: string;
-  /**
-   * @member {number} [value] The filter value
-   */
-  value?: number;
-}
-
-/**
- * @interface
- * An interface representing BoolEqualsAdvancedFilter.
- * BoolEquals Filter
- *
- */
-export interface BoolEqualsAdvancedFilter {
-  /**
-   * @member {string} operatorType Polymorphic Discriminator
-   */
-  operatorType: "BoolEquals";
-  /**
-   * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
-   */
-  key?: string;
-  /**
-   * @member {boolean} [value] The filter value
-   */
-  value?: boolean;
-}
-
-/**
- * @interface
- * An interface representing StringInAdvancedFilter.
- * StringIn Filter
- *
- */
-export interface StringInAdvancedFilter {
-  /**
-   * @member {string} operatorType Polymorphic Discriminator
-   */
-  operatorType: "StringIn";
-  /**
-   * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
-   */
-  key?: string;
-  /**
-   * @member {string[]} [values] The set of filter values
-   */
-  values?: string[];
-}
-
-/**
- * @interface
- * An interface representing StringNotInAdvancedFilter.
- * StringNotIn Filter
- *
- */
-export interface StringNotInAdvancedFilter {
-  /**
-   * @member {string} operatorType Polymorphic Discriminator
-   */
-  operatorType: "StringNotIn";
-  /**
-   * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
-   */
-  key?: string;
-  /**
-   * @member {string[]} [values] The set of filter values
-   */
-  values?: string[];
-}
-
-/**
- * @interface
- * An interface representing StringBeginsWithAdvancedFilter.
- * StringBeginsWith Filter
- *
- */
-export interface StringBeginsWithAdvancedFilter {
-  /**
-   * @member {string} operatorType Polymorphic Discriminator
-   */
-  operatorType: "StringBeginsWith";
-  /**
-   * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
-   */
-  key?: string;
-  /**
-   * @member {string[]} [values] The set of filter values
-   */
-  values?: string[];
-}
-
-/**
- * @interface
- * An interface representing StringEndsWithAdvancedFilter.
- * StringEndsWith Filter
- *
- */
-export interface StringEndsWithAdvancedFilter {
-  /**
-   * @member {string} operatorType Polymorphic Discriminator
-   */
-  operatorType: "StringEndsWith";
-  /**
-   * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
-   */
-  key?: string;
-  /**
-   * @member {string[]} [values] The set of filter values
-   */
-  values?: string[];
-}
-
-/**
- * @interface
- * An interface representing StringContainsAdvancedFilter.
- * StringContains Filter
- *
- */
-export interface StringContainsAdvancedFilter {
-  /**
-   * @member {string} operatorType Polymorphic Discriminator
-   */
-  operatorType: "StringContains";
-  /**
-   * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
-   */
-  key?: string;
-  /**
-   * @member {string[]} [values] The set of filter values
-   */
-  values?: string[];
 }
 
 /**
@@ -609,6 +284,20 @@ export interface WebHookEventSubscriptionDestination {
 
 /**
  * @interface
+ * An interface representing EventHubEventSubscriptionDestinationProperties.
+ * The properties for a event hub destination.
+ *
+ */
+export interface EventHubEventSubscriptionDestinationProperties {
+  /**
+   * @member {string} [resourceId] The Azure Resource Id that represents the
+   * endpoint of an Event Hub destination of an event subscription.
+   */
+  resourceId?: string;
+}
+
+/**
+ * @interface
  * An interface representing EventHubEventSubscriptionDestination.
  * Information about the event hub destination for an event subscription
  *
@@ -623,6 +312,25 @@ export interface EventHubEventSubscriptionDestination {
    * endpoint of an Event Hub destination of an event subscription.
    */
   resourceId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing StorageQueueEventSubscriptionDestinationProperties.
+ * The properties for a storage queue destination.
+ *
+ */
+export interface StorageQueueEventSubscriptionDestinationProperties {
+  /**
+   * @member {string} [resourceId] The Azure Resource ID of the storage account
+   * that contains the queue that is the destination of an event subscription.
+   */
+  resourceId?: string;
+  /**
+   * @member {string} [queueName] The name of the Storage queue under a storage
+   * account that is the destination of an event subscription.
+   */
+  queueName?: string;
 }
 
 /**
@@ -646,6 +354,20 @@ export interface StorageQueueEventSubscriptionDestination {
    * account that is the destination of an event subscription.
    */
   queueName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing HybridConnectionEventSubscriptionDestinationProperties.
+ * The properties for a hybrid connection destination.
+ *
+ */
+export interface HybridConnectionEventSubscriptionDestinationProperties {
+  /**
+   * @member {string} [resourceId] The Azure Resource ID of an hybrid
+   * connection that is the destination of an event subscription.
+   */
+  resourceId?: string;
 }
 
 /**
@@ -706,14 +428,10 @@ export interface EventSubscription extends Resource {
    */
   labels?: string[];
   /**
-   * @member {Date} [expirationTimeUtc] Expiration time of the event
-   * subscription.
-   */
-  expirationTimeUtc?: Date;
-  /**
    * @member {EventDeliverySchema} [eventDeliverySchema] The event delivery
    * schema for the event subscription. Possible values include:
-   * 'EventGridSchema', 'CloudEventV01Schema', 'CustomInputSchema'
+   * 'EventGridSchema', 'InputEventSchema', 'CloudEventV01Schema'. Default
+   * value: 'InputEventSchema' .
    */
   eventDeliverySchema?: EventDeliverySchema;
   /**
@@ -752,14 +470,9 @@ export interface EventSubscriptionUpdateParameters {
    */
   labels?: string[];
   /**
-   * @member {Date} [expirationTimeUtc] Information about the expiration time
-   * for the event subscription.
-   */
-  expirationTimeUtc?: Date;
-  /**
    * @member {EventDeliverySchema} [eventDeliverySchema] The event delivery
    * schema for the event subscription. Possible values include:
-   * 'EventGridSchema', 'CloudEventV01Schema', 'CustomInputSchema'
+   * 'EventGridSchema', 'InputEventSchema', 'CloudEventV01Schema'
    */
   eventDeliverySchema?: EventDeliverySchema;
   /**
@@ -840,6 +553,64 @@ export interface Operation {
 }
 
 /**
+ * Contains the possible cases for InputSchemaMapping.
+ */
+export type InputSchemaMappingUnion = InputSchemaMapping | JsonInputSchemaMapping;
+
+/**
+ * @interface
+ * An interface representing InputSchemaMapping.
+ * By default, Event Grid expects events to be in the Event Grid event schema.
+ * Specifying an input schema mapping enables publishing to Event Grid using a
+ * custom input schema. Currently, the only supported type of
+ * InputSchemaMapping is 'JsonInputSchemaMapping'.
+ *
+ */
+export interface InputSchemaMapping {
+  /**
+   * @member {string} inputSchemaMappingType Polymorphic Discriminator
+   */
+  inputSchemaMappingType: "InputSchemaMapping";
+}
+
+/**
+ * @interface
+ * An interface representing TopicProperties.
+ * Properties of the Topic
+ *
+ */
+export interface TopicProperties {
+  /**
+   * @member {TopicProvisioningState} [provisioningState] Provisioning state of
+   * the topic. Possible values include: 'Creating', 'Updating', 'Deleting',
+   * 'Succeeded', 'Canceled', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: TopicProvisioningState;
+  /**
+   * @member {string} [endpoint] Endpoint for the topic.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly endpoint?: string;
+  /**
+   * @member {InputSchema} [inputSchema] This determines the format that Event
+   * Grid should expect for incoming events published to the topic. Possible
+   * values include: 'EventGridSchema', 'CustomEventSchema',
+   * 'CloudEventV01Schema'. Default value: 'EventGridSchema' .
+   */
+  inputSchema?: InputSchema;
+  /**
+   * @member {InputSchemaMappingUnion} [inputSchemaMapping] This enables
+   * publishing using custom event schemas. An InputSchemaMapping can be
+   * specified to map various properties of a source schema to various required
+   * properties of the EventGridEvent schema.
+   */
+  inputSchemaMapping?: InputSchemaMappingUnion;
+}
+
+/**
  * @interface
  * An interface representing JsonField.
  * This is used to express the source of an input schema mapping for a single
@@ -878,6 +649,47 @@ export interface JsonFieldWithDefault {
    * specified name in the published JSON event payload.
    */
   defaultValue?: string;
+}
+
+/**
+ * @interface
+ * An interface representing JsonInputSchemaMappingProperties.
+ * This can be used to map properties of a source schema (or default values,
+ * for certain supported properties) to properties of the EventGridEvent
+ * schema.
+ *
+ */
+export interface JsonInputSchemaMappingProperties {
+  /**
+   * @member {JsonField} [id] The mapping information for the Id property of
+   * the Event Grid Event.
+   */
+  id?: JsonField;
+  /**
+   * @member {JsonField} [topic] The mapping information for the Topic property
+   * of the Event Grid Event.
+   */
+  topic?: JsonField;
+  /**
+   * @member {JsonField} [eventTime] The mapping information for the EventTime
+   * property of the Event Grid Event.
+   */
+  eventTime?: JsonField;
+  /**
+   * @member {JsonFieldWithDefault} [eventType] The mapping information for the
+   * EventType property of the Event Grid Event.
+   */
+  eventType?: JsonFieldWithDefault;
+  /**
+   * @member {JsonFieldWithDefault} [subject] The mapping information for the
+   * Subject property of the Event Grid Event.
+   */
+  subject?: JsonFieldWithDefault;
+  /**
+   * @member {JsonFieldWithDefault} [dataVersion] The mapping information for
+   * the DataVersion property of the Event Grid Event.
+   */
+  dataVersion?: JsonFieldWithDefault;
 }
 
 /**
@@ -923,6 +735,24 @@ export interface JsonInputSchemaMapping {
    * the DataVersion property of the Event Grid Event.
    */
   dataVersion?: JsonFieldWithDefault;
+}
+
+/**
+ * @interface
+ * An interface representing TrackedResource.
+ * Definition of a Tracked Resource
+ *
+ * @extends Resource
+ */
+export interface TrackedResource extends Resource {
+  /**
+   * @member {string} location Location of the resource
+   */
+  location: string;
+  /**
+   * @member {{ [propertyName: string]: string }} [tags] Tags of the resource
+   */
+  tags?: { [propertyName: string]: string };
 }
 
 /**
@@ -1008,6 +838,27 @@ export interface TopicRegenerateKeyRequest {
 
 /**
  * @interface
+ * An interface representing EventTypeProperties.
+ * Properties of the event type
+ *
+ */
+export interface EventTypeProperties {
+  /**
+   * @member {string} [displayName] Display name of the event type.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [description] Description of the event type.
+   */
+  description?: string;
+  /**
+   * @member {string} [schemaUrl] Url of the schema for this event type.
+   */
+  schemaUrl?: string;
+}
+
+/**
+ * @interface
  * An interface representing EventType.
  * Event Type for a subject under a topic
  *
@@ -1026,6 +877,43 @@ export interface EventType extends Resource {
    * @member {string} [schemaUrl] Url of the schema for this event type.
    */
   schemaUrl?: string;
+}
+
+/**
+ * @interface
+ * An interface representing TopicTypeProperties.
+ * Properties of a topic type.
+ *
+ */
+export interface TopicTypeProperties {
+  /**
+   * @member {string} [provider] Namespace of the provider of the topic type.
+   */
+  provider?: string;
+  /**
+   * @member {string} [displayName] Display Name for the topic type.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [description] Description of the topic type.
+   */
+  description?: string;
+  /**
+   * @member {ResourceRegionType} [resourceRegionType] Region type of the
+   * resource. Possible values include: 'RegionalResource', 'GlobalResource'
+   */
+  resourceRegionType?: ResourceRegionType;
+  /**
+   * @member {TopicTypeProvisioningState} [provisioningState] Provisioning
+   * state of the topic type. Possible values include: 'Creating', 'Updating',
+   * 'Deleting', 'Succeeded', 'Canceled', 'Failed'
+   */
+  provisioningState?: TopicTypeProvisioningState;
+  /**
+   * @member {string[]} [supportedLocations] List of locations supported by
+   * this topic type.
+   */
+  supportedLocations?: string[];
 }
 
 /**
@@ -1081,26 +969,6 @@ export interface EventGridManagementClientOptions extends AzureServiceClientOpti
 
 /**
  * @interface
- * An interface representing the DomainsListResult.
- * Result of the List Domains operation
- *
- * @extends Array<Domain>
- */
-export interface DomainsListResult extends Array<Domain> {
-}
-
-/**
- * @interface
- * An interface representing the DomainTopicsListResult.
- * Result of the List Domain Topics operation
- *
- * @extends Array<DomainTopic>
- */
-export interface DomainTopicsListResult extends Array<DomainTopic> {
-}
-
-/**
- * @interface
  * An interface representing the EventSubscriptionsListResult.
  * Result of the List EventSubscriptions operation
  *
@@ -1150,18 +1018,58 @@ export interface TopicTypesListResult extends Array<TopicTypeInfo> {
 }
 
 /**
- * Defines values for DomainProvisioningState.
+ * Defines values for EventSubscriptionProvisioningState.
+ * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded',
+ * 'Canceled', 'Failed', 'AwaitingManualAction'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: EventSubscriptionProvisioningState =
+ * <EventSubscriptionProvisioningState>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum EventSubscriptionProvisioningState {
+  Creating = 'Creating',
+  Updating = 'Updating',
+  Deleting = 'Deleting',
+  Succeeded = 'Succeeded',
+  Canceled = 'Canceled',
+  Failed = 'Failed',
+  AwaitingManualAction = 'AwaitingManualAction',
+}
+
+/**
+ * Defines values for EventDeliverySchema.
+ * Possible values include: 'EventGridSchema', 'InputEventSchema',
+ * 'CloudEventV01Schema'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: EventDeliverySchema =
+ * <EventDeliverySchema>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum EventDeliverySchema {
+  EventGridSchema = 'EventGridSchema',
+  InputEventSchema = 'InputEventSchema',
+  CloudEventV01Schema = 'CloudEventV01Schema',
+}
+
+/**
+ * Defines values for TopicProvisioningState.
  * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded',
  * 'Canceled', 'Failed'
  * There could be more values for this enum apart from the ones defined here.If
  * you want to set a value that is not from the known values then you can do
  * the following:
- * let param: DomainProvisioningState =
- * <DomainProvisioningState>"someUnknownValueThatWillStillBeValid";
+ * let param: TopicProvisioningState =
+ * <TopicProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum DomainProvisioningState {
+export enum TopicProvisioningState {
   Creating = 'Creating',
   Updating = 'Updating',
   Deleting = 'Deleting',
@@ -1186,67 +1094,6 @@ export enum InputSchema {
   EventGridSchema = 'EventGridSchema',
   CustomEventSchema = 'CustomEventSchema',
   CloudEventV01Schema = 'CloudEventV01Schema',
-}
-
-/**
- * Defines values for EventSubscriptionProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded',
- * 'Canceled', 'Failed', 'AwaitingManualAction'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: EventSubscriptionProvisioningState =
- * <EventSubscriptionProvisioningState>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum EventSubscriptionProvisioningState {
-  Creating = 'Creating',
-  Updating = 'Updating',
-  Deleting = 'Deleting',
-  Succeeded = 'Succeeded',
-  Canceled = 'Canceled',
-  Failed = 'Failed',
-  AwaitingManualAction = 'AwaitingManualAction',
-}
-
-/**
- * Defines values for EventDeliverySchema.
- * Possible values include: 'EventGridSchema', 'CloudEventV01Schema',
- * 'CustomInputSchema'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: EventDeliverySchema =
- * <EventDeliverySchema>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum EventDeliverySchema {
-  EventGridSchema = 'EventGridSchema',
-  CloudEventV01Schema = 'CloudEventV01Schema',
-  CustomInputSchema = 'CustomInputSchema',
-}
-
-/**
- * Defines values for TopicProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded',
- * 'Canceled', 'Failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TopicProvisioningState =
- * <TopicProvisioningState>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum TopicProvisioningState {
-  Creating = 'Creating',
-  Updating = 'Updating',
-  Deleting = 'Deleting',
-  Succeeded = 'Succeeded',
-  Canceled = 'Canceled',
-  Failed = 'Failed',
 }
 
 /**
@@ -1285,215 +1132,6 @@ export enum TopicTypeProvisioningState {
   Canceled = 'Canceled',
   Failed = 'Failed',
 }
-
-/**
- * Contains response data for the get operation.
- */
-export type DomainsGetResponse = Domain & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Domain;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type DomainsCreateOrUpdateResponse = Domain & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Domain;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type DomainsUpdateResponse = Domain & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Domain;
-    };
-};
-
-/**
- * Contains response data for the listBySubscription operation.
- */
-export type DomainsListBySubscriptionResponse = DomainsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type DomainsListByResourceGroupResponse = DomainsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainsListResult;
-    };
-};
-
-/**
- * Contains response data for the listSharedAccessKeys operation.
- */
-export type DomainsListSharedAccessKeysResponse = DomainSharedAccessKeys & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainSharedAccessKeys;
-    };
-};
-
-/**
- * Contains response data for the regenerateKey operation.
- */
-export type DomainsRegenerateKeyResponse = DomainSharedAccessKeys & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainSharedAccessKeys;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type DomainsBeginCreateOrUpdateResponse = Domain & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Domain;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type DomainsBeginUpdateResponse = Domain & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Domain;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type DomainTopicsGetResponse = DomainTopic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainTopic;
-    };
-};
-
-/**
- * Contains response data for the listByDomain operation.
- */
-export type DomainTopicsListByDomainResponse = DomainTopicsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainTopicsListResult;
-    };
-};
 
 /**
  * Contains response data for the get operation.
@@ -1727,25 +1365,6 @@ export type EventSubscriptionsListRegionalByResourceGroupForTopicTypeResponse = 
  * Contains response data for the listByResource operation.
  */
 export type EventSubscriptionsListByResourceResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByDomainTopic operation.
- */
-export type EventSubscriptionsListByDomainTopicResponse = EventSubscriptionsListResult & {
   /**
    * The underlying HTTP response.
    */

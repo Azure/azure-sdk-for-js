@@ -24,7 +24,9 @@ export const apiVersion: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
+    isConstant: true,
     serializedName: "api-version",
+    defaultValue: '2018-07-15-preview',
     type: {
       name: "String"
     }
@@ -49,16 +51,6 @@ export const expand: msRest.OperationQueryParameter = {
   ],
   mapper: {
     serializedName: "$expand",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const fileName: msRest.OperationURLParameter = {
-  parameterPath: "fileName",
-  mapper: {
-    required: true,
-    serializedName: "fileName",
     type: {
       name: "String"
     }

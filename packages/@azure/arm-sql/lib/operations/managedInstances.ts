@@ -42,7 +42,7 @@ export class ManagedInstances {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceListResult>, callback?: msRest.ServiceCallback<Models.ManagedInstanceListResult>): Promise<Models.ManagedInstancesListResponse> {
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagedInstanceListResult>): Promise<Models.ManagedInstancesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -72,7 +72,7 @@ export class ManagedInstances {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceListResult>, callback?: msRest.ServiceCallback<Models.ManagedInstanceListResult>): Promise<Models.ManagedInstancesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagedInstanceListResult>): Promise<Models.ManagedInstancesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -106,7 +106,7 @@ export class ManagedInstances {
    * @param callback The callback
    */
   get(resourceGroupName: string, managedInstanceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedInstance>): void;
-  get(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstance>, callback?: msRest.ServiceCallback<Models.ManagedInstance>): Promise<Models.ManagedInstancesGetResponse> {
+  get(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagedInstance>): Promise<Models.ManagedInstancesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -237,7 +237,7 @@ export class ManagedInstances {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceListResult>, callback?: msRest.ServiceCallback<Models.ManagedInstanceListResult>): Promise<Models.ManagedInstancesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagedInstanceListResult>): Promise<Models.ManagedInstancesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -265,7 +265,7 @@ export class ManagedInstances {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceListResult>, callback?: msRest.ServiceCallback<Models.ManagedInstanceListResult>): Promise<Models.ManagedInstancesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagedInstanceListResult>): Promise<Models.ManagedInstancesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

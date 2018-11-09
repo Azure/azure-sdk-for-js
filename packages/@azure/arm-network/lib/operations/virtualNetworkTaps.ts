@@ -60,7 +60,7 @@ export class VirtualNetworkTaps {
    * @param callback The callback
    */
   get(resourceGroupName: string, tapName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkTap>): void;
-  get(resourceGroupName: string, tapName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkTap>, callback?: msRest.ServiceCallback<Models.VirtualNetworkTap>): Promise<Models.VirtualNetworkTapsGetResponse> {
+  get(resourceGroupName: string, tapName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetworkTap>): Promise<Models.VirtualNetworkTapsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class VirtualNetworkTaps {
    * @param callback The callback
    */
   listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkTapListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkTapListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkTapListResult>): Promise<Models.VirtualNetworkTapsListAllResponse> {
+  listAll(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetworkTapListResult>): Promise<Models.VirtualNetworkTapsListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -139,7 +139,7 @@ export class VirtualNetworkTaps {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkTapListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkTapListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkTapListResult>): Promise<Models.VirtualNetworkTapsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetworkTapListResult>): Promise<Models.VirtualNetworkTapsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -225,7 +225,7 @@ export class VirtualNetworkTaps {
    * @param callback The callback
    */
   listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkTapListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkTapListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkTapListResult>): Promise<Models.VirtualNetworkTapsListAllNextResponse> {
+  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetworkTapListResult>): Promise<Models.VirtualNetworkTapsListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -253,7 +253,7 @@ export class VirtualNetworkTaps {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkTapListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkTapListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkTapListResult>): Promise<Models.VirtualNetworkTapsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetworkTapListResult>): Promise<Models.VirtualNetworkTapsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

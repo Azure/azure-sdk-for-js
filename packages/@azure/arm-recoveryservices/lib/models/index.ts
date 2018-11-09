@@ -673,6 +673,31 @@ export interface PatchVault extends PatchTrackedResource {
 
 /**
  * @interface
+ * An interface representing VaultExtendedInfo.
+ * Vault extended information.
+ *
+ */
+export interface VaultExtendedInfo {
+  /**
+   * @member {string} [integrityKey] Integrity key.
+   */
+  integrityKey?: string;
+  /**
+   * @member {string} [encryptionKey] Encryption key.
+   */
+  encryptionKey?: string;
+  /**
+   * @member {string} [encryptionKeyThumbprint] Encryption key thumbprint.
+   */
+  encryptionKeyThumbprint?: string;
+  /**
+   * @member {string} [algorithm] Algorithm for Vault ExtendedInfo
+   */
+  algorithm?: string;
+}
+
+/**
+ * @interface
  * An interface representing VaultExtendedInfoResource.
  * Vault extended information.
  *

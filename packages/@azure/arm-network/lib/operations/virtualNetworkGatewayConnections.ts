@@ -62,7 +62,7 @@ export class VirtualNetworkGatewayConnections {
    * @param callback The callback
    */
   get(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkGatewayConnection>): void;
-  get(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkGatewayConnection>, callback?: msRest.ServiceCallback<Models.VirtualNetworkGatewayConnection>): Promise<Models.VirtualNetworkGatewayConnectionsGetResponse> {
+  get(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetworkGatewayConnection>): Promise<Models.VirtualNetworkGatewayConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -139,7 +139,7 @@ export class VirtualNetworkGatewayConnections {
    * @param callback The callback
    */
   getSharedKey(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectionSharedKey>): void;
-  getSharedKey(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionSharedKey>, callback?: msRest.ServiceCallback<Models.ConnectionSharedKey>): Promise<Models.VirtualNetworkGatewayConnectionsGetSharedKeyResponse> {
+  getSharedKey(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ConnectionSharedKey>): Promise<Models.VirtualNetworkGatewayConnectionsGetSharedKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -169,7 +169,7 @@ export class VirtualNetworkGatewayConnections {
    * @param callback The callback
    */
   list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkGatewayConnectionListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkGatewayConnectionListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkGatewayConnectionListResult>): Promise<Models.VirtualNetworkGatewayConnectionsListResponse> {
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetworkGatewayConnectionListResult>): Promise<Models.VirtualNetworkGatewayConnectionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -321,7 +321,7 @@ export class VirtualNetworkGatewayConnections {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkGatewayConnectionListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkGatewayConnectionListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkGatewayConnectionListResult>): Promise<Models.VirtualNetworkGatewayConnectionsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetworkGatewayConnectionListResult>): Promise<Models.VirtualNetworkGatewayConnectionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

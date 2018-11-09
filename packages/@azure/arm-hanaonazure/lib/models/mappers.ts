@@ -223,6 +223,58 @@ export const NetworkProfile: msRest.CompositeMapper = {
   }
 };
 
+export const HanaInstanceProperties: msRest.CompositeMapper = {
+  serializedName: "HanaInstanceProperties",
+  type: {
+    name: "Composite",
+    className: "HanaInstanceProperties",
+    modelProperties: {
+      hardwareProfile: {
+        serializedName: "hardwareProfile",
+        type: {
+          name: "Composite",
+          className: "HardwareProfile"
+        }
+      },
+      storageProfile: {
+        serializedName: "storageProfile",
+        type: {
+          name: "Composite",
+          className: "StorageProfile"
+        }
+      },
+      osProfile: {
+        serializedName: "osProfile",
+        type: {
+          name: "Composite",
+          className: "OSProfile"
+        }
+      },
+      networkProfile: {
+        serializedName: "networkProfile",
+        type: {
+          name: "Composite",
+          className: "NetworkProfile"
+        }
+      },
+      hanaInstanceId: {
+        readOnly: true,
+        serializedName: "hanaInstanceId",
+        type: {
+          name: "String"
+        }
+      },
+      powerState: {
+        readOnly: true,
+        serializedName: "powerState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const HanaInstance: msRest.CompositeMapper = {
   serializedName: "HanaInstance",
   type: {

@@ -65,7 +65,7 @@ export class CheckSkuAvailability {
    * @param callback The callback
    */
   list(location: string, skus: Models.SkuName[], kind: Models.Kind, type: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>): void;
-  list(location: string, skus: Models.SkuName[], kind: Models.Kind, type: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>, callback?: msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>): Promise<Models.CheckSkuAvailabilityListResponse> {
+  list(location: string, skus: Models.SkuName[], kind: Models.Kind, type: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>): Promise<Models.CheckSkuAvailabilityListResponse> {
     return this.client.sendOperationRequest(
       {
         location,

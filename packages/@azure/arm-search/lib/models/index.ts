@@ -133,6 +133,82 @@ export interface Sku {
 
 /**
  * @interface
+ * An interface representing SearchServiceProperties.
+ * Properties of the Search service.
+ *
+ */
+export interface SearchServiceProperties {
+  /**
+   * @member {number} [replicaCount] The number of replicas in the Search
+   * service. If specified, it must be a value between 1 and 12 inclusive for
+   * standard SKUs or between 1 and 3 inclusive for basic SKU. Default value: 1
+   * .
+   */
+  replicaCount?: number;
+  /**
+   * @member {number} [partitionCount] The number of partitions in the Search
+   * service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than
+   * 1 are only valid for standard SKUs. For 'standard3' services with
+   * hostingMode set to 'highDensity', the allowed values are between 1 and 3.
+   * Default value: 1 .
+   */
+  partitionCount?: number;
+  /**
+   * @member {HostingMode} [hostingMode] Applicable only for the standard3 SKU.
+   * You can set this property to enable up to 3 high density partitions that
+   * allow up to 1000 indexes, which is much higher than the maximum indexes
+   * allowed for any other SKU. For the standard3 SKU, the value is either
+   * 'default' or 'highDensity'. For all other SKUs, this value must be
+   * 'default'. Possible values include: 'default', 'highDensity'. Default
+   * value: 'default' .
+   */
+  hostingMode?: HostingMode;
+  /**
+   * @member {SearchServiceStatus} [status] The status of the Search service.
+   * Possible values include: 'running': The Search service is running and no
+   * provisioning operations are underway. 'provisioning': The Search service
+   * is being provisioned or scaled up or down. 'deleting': The Search service
+   * is being deleted. 'degraded': The Search service is degraded. This can
+   * occur when the underlying search units are not healthy. The Search service
+   * is most likely operational, but performance might be slow and some
+   * requests might be dropped. 'disabled': The Search service is disabled. In
+   * this state, the service will reject all API requests. 'error': The Search
+   * service is in an error state. If your service is in the degraded,
+   * disabled, or error states, it means the Azure Search team is actively
+   * investigating the underlying issue. Dedicated services in these states are
+   * still chargeable based on the number of search units provisioned. Possible
+   * values include: 'running', 'provisioning', 'deleting', 'degraded',
+   * 'disabled', 'error'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: SearchServiceStatus;
+  /**
+   * @member {string} [statusDetails] The details of the Search service status.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly statusDetails?: string;
+  /**
+   * @member {ProvisioningState} [provisioningState] The state of the last
+   * provisioning operation performed on the Search service. Provisioning is an
+   * intermediate state that occurs while service capacity is being
+   * established. After capacity is set up, provisioningState changes to either
+   * 'succeeded' or 'failed'. Client applications can poll provisioning status
+   * (the recommended polling interval is from 30 seconds to one minute) by
+   * using the Get Search Service operation to see when an operation is
+   * completed. If you are using the free service, this value tends to come
+   * back as 'succeeded' directly in the call to Create Search service. This is
+   * because the free service uses capacity that is already set up. Possible
+   * values include: 'succeeded', 'provisioning', 'failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/**
+ * @interface
  * An interface representing Resource.
  * Base type for all Azure resources.
  *

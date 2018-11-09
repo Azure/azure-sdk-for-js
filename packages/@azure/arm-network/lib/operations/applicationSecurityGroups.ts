@@ -60,7 +60,7 @@ export class ApplicationSecurityGroups {
    * @param callback The callback
    */
   get(resourceGroupName: string, applicationSecurityGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationSecurityGroup>): void;
-  get(resourceGroupName: string, applicationSecurityGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationSecurityGroup>, callback?: msRest.ServiceCallback<Models.ApplicationSecurityGroup>): Promise<Models.ApplicationSecurityGroupsGetResponse> {
+  get(resourceGroupName: string, applicationSecurityGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationSecurityGroup>): Promise<Models.ApplicationSecurityGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -100,7 +100,7 @@ export class ApplicationSecurityGroups {
    * @param callback The callback
    */
   listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>, callback?: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>): Promise<Models.ApplicationSecurityGroupsListAllResponse> {
+  listAll(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>): Promise<Models.ApplicationSecurityGroupsListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -127,7 +127,7 @@ export class ApplicationSecurityGroups {
    * @param callback The callback
    */
   list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>, callback?: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>): Promise<Models.ApplicationSecurityGroupsListResponse> {
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>): Promise<Models.ApplicationSecurityGroupsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -194,7 +194,7 @@ export class ApplicationSecurityGroups {
    * @param callback The callback
    */
   listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>, callback?: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>): Promise<Models.ApplicationSecurityGroupsListAllNextResponse> {
+  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>): Promise<Models.ApplicationSecurityGroupsListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -222,7 +222,7 @@ export class ApplicationSecurityGroups {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>, callback?: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>): Promise<Models.ApplicationSecurityGroupsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>): Promise<Models.ApplicationSecurityGroupsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

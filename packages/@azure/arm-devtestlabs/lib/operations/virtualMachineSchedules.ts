@@ -42,7 +42,7 @@ export class VirtualMachineSchedules {
    * @param virtualMachineName The name of the virtual machine.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, virtualMachineName: string, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
+  list(resourceGroupName: string, labName: string, virtualMachineName: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationSchedule>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -50,8 +50,8 @@ export class VirtualMachineSchedules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, virtualMachineName: string, options: Models.VirtualMachineSchedulesListOptionalParams, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
-  list(resourceGroupName: string, labName: string, virtualMachineName: string, options?: Models.VirtualMachineSchedulesListOptionalParams, callback?: msRest.ServiceCallback<Models.ScheduleList>): Promise<Models.VirtualMachineSchedulesListResponse> {
+  list(resourceGroupName: string, labName: string, virtualMachineName: string, options: Models.VirtualMachineSchedulesListOptionalParams, callback: msRest.ServiceCallback<Models.ResponseWithContinuationSchedule>): void;
+  list(resourceGroupName: string, labName: string, virtualMachineName: string, options?: Models.VirtualMachineSchedulesListOptionalParams, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationSchedule>): Promise<Models.VirtualMachineSchedulesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -278,14 +278,14 @@ export class VirtualMachineSchedules {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationSchedule>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ScheduleList>): Promise<Models.VirtualMachineSchedulesListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResponseWithContinuationSchedule>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationSchedule>): Promise<Models.VirtualMachineSchedulesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -319,7 +319,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ScheduleList
+      bodyMapper: Mappers.ResponseWithContinuationSchedule
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -491,7 +491,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ScheduleList
+      bodyMapper: Mappers.ResponseWithContinuationSchedule
     },
     default: {
       bodyMapper: Mappers.CloudError

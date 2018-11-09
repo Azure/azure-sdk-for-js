@@ -36,13 +36,13 @@ export class Labs {
   /**
    * @param callback The callback
    */
-  listBySubscription(callback: msRest.ServiceCallback<Models.LabList>): void;
+  listBySubscription(callback: msRest.ServiceCallback<Models.ResponseWithContinuationLab>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: Models.LabsListBySubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.LabList>): void;
-  listBySubscription(options?: Models.LabsListBySubscriptionOptionalParams, callback?: msRest.ServiceCallback<Models.LabList>): Promise<Models.LabsListBySubscriptionResponse> {
+  listBySubscription(options: Models.LabsListBySubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.ResponseWithContinuationLab>): void;
+  listBySubscription(options?: Models.LabsListBySubscriptionOptionalParams, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationLab>): Promise<Models.LabsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -62,14 +62,14 @@ export class Labs {
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.LabList>): void;
+  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationLab>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: Models.LabsListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.LabList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.LabsListByResourceGroupOptionalParams, callback?: msRest.ServiceCallback<Models.LabList>): Promise<Models.LabsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options: Models.LabsListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.ResponseWithContinuationLab>): void;
+  listByResourceGroup(resourceGroupName: string, options?: Models.LabsListByResourceGroupOptionalParams, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationLab>): Promise<Models.LabsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -249,20 +249,6 @@ export class Labs {
   }
 
   /**
-   * Import a virtual machine into a different lab. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
-   * @param name The name of the lab.
-   * @param importLabVirtualMachineRequest This represents the payload required to import a virtual
-   * machine from a different lab into the current one
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  importVirtualMachine(resourceGroupName: string, name: string, importLabVirtualMachineRequest: Models.ImportLabVirtualMachineRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginImportVirtualMachine(resourceGroupName,name,importLabVirtualMachineRequest,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
-  }
-
-  /**
    * List disk images available for custom image creation.
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the lab.
@@ -275,15 +261,15 @@ export class Labs {
    * @param name The name of the lab.
    * @param callback The callback
    */
-  listVhds(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.LabVhdList>): void;
+  listVhds(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationLabVhd>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the lab.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listVhds(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LabVhdList>): void;
-  listVhds(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LabVhdList>): Promise<Models.LabsListVhdsResponse> {
+  listVhds(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResponseWithContinuationLabVhd>): void;
+  listVhds(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationLabVhd>): Promise<Models.LabsListVhdsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -393,27 +379,6 @@ export class Labs {
   }
 
   /**
-   * Import a virtual machine into a different lab. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
-   * @param name The name of the lab.
-   * @param importLabVirtualMachineRequest This represents the payload required to import a virtual
-   * machine from a different lab into the current one
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginImportVirtualMachine(resourceGroupName: string, name: string, importLabVirtualMachineRequest: Models.ImportLabVirtualMachineRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        resourceGroupName,
-        name,
-        importLabVirtualMachineRequest,
-        options
-      },
-      beginImportVirtualMachineOperationSpec,
-      options);
-  }
-
-  /**
    * List labs in a subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -424,14 +389,14 @@ export class Labs {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.LabList>): void;
+  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationLab>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LabList>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LabList>): Promise<Models.LabsListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResponseWithContinuationLab>): void;
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationLab>): Promise<Models.LabsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -452,14 +417,14 @@ export class Labs {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.LabList>): void;
+  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationLab>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LabList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LabList>): Promise<Models.LabsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResponseWithContinuationLab>): void;
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationLab>): Promise<Models.LabsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -480,14 +445,14 @@ export class Labs {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listVhdsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.LabVhdList>): void;
+  listVhdsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationLabVhd>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listVhdsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LabVhdList>): void;
-  listVhdsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LabVhdList>): Promise<Models.LabsListVhdsNextResponse> {
+  listVhdsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResponseWithContinuationLabVhd>): void;
+  listVhdsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationLabVhd>): Promise<Models.LabsListVhdsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -518,7 +483,7 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.LabList
+      bodyMapper: Mappers.ResponseWithContinuationLab
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -546,7 +511,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.LabList
+      bodyMapper: Mappers.ResponseWithContinuationLab
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -661,7 +626,7 @@ const listVhdsOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.LabVhdList
+      bodyMapper: Mappers.ResponseWithContinuationLabVhd
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -720,7 +685,6 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
-    200: {},
     202: {},
     204: {},
     default: {
@@ -816,37 +780,6 @@ const beginExportResourceUsageOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginImportVirtualMachineOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}/importVirtualMachine",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "importLabVirtualMachineRequest",
-    mapper: {
-      ...Mappers.ImportLabVirtualMachineRequest,
-      required: true
-    }
-  },
-  responses: {
-    200: {},
-    202: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
 const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
@@ -859,7 +792,7 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.LabList
+      bodyMapper: Mappers.ResponseWithContinuationLab
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -880,7 +813,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.LabList
+      bodyMapper: Mappers.ResponseWithContinuationLab
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -901,7 +834,7 @@ const listVhdsNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.LabVhdList
+      bodyMapper: Mappers.ResponseWithContinuationLabVhd
     },
     default: {
       bodyMapper: Mappers.CloudError

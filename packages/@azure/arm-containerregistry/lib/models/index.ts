@@ -205,6 +205,20 @@ export interface OperationServiceSpecificationDefinition {
 
 /**
  * @interface
+ * An interface representing OperationPropertiesDefinition.
+ * The definition of Azure Monitoring properties.
+ *
+ */
+export interface OperationPropertiesDefinition {
+  /**
+   * @member {OperationServiceSpecificationDefinition} [serviceSpecification]
+   * The definition of Azure Monitoring service.
+   */
+  serviceSpecification?: OperationServiceSpecificationDefinition;
+}
+
+/**
+ * @interface
  * An interface representing OperationDefinition.
  * The definition of a container registry operation.
  *
@@ -298,6 +312,56 @@ export interface StorageAccountProperties {
 
 /**
  * @interface
+ * An interface representing RegistryProperties.
+ * The properties of a container registry.
+ *
+ */
+export interface RegistryProperties {
+  /**
+   * @member {string} [loginServer] The URL that can be used to log into the
+   * container registry.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly loginServer?: string;
+  /**
+   * @member {Date} [creationDate] The creation date of the container registry
+   * in ISO8601 format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationDate?: Date;
+  /**
+   * @member {ProvisioningState} [provisioningState] The provisioning state of
+   * the container registry at the time the operation was called. Possible
+   * values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Failed',
+   * 'Canceled'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * @member {Status} [status] The status of the container registry at the time
+   * the operation was called.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: Status;
+  /**
+   * @member {boolean} [adminUserEnabled] The value that indicates whether the
+   * admin user is enabled. Default value: false .
+   */
+  adminUserEnabled?: boolean;
+  /**
+   * @member {StorageAccountProperties} [storageAccount] The properties of the
+   * storage account for the container registry. Only applicable to Classic
+   * SKU.
+   */
+  storageAccount?: StorageAccountProperties;
+}
+
+/**
+ * @interface
  * An interface representing Resource.
  * An Azure resource.
  *
@@ -385,6 +449,27 @@ export interface Registry extends Resource {
    * @member {StorageAccountProperties} [storageAccount] The properties of the
    * storage account for the container registry. Only applicable to Classic
    * SKU.
+   */
+  storageAccount?: StorageAccountProperties;
+}
+
+/**
+ * @interface
+ * An interface representing RegistryPropertiesUpdateParameters.
+ * The parameters for updating the properties of a container registry.
+ *
+ */
+export interface RegistryPropertiesUpdateParameters {
+  /**
+   * @member {boolean} [adminUserEnabled] The value that indicates whether the
+   * admin user is enabled.
+   */
+  adminUserEnabled?: boolean;
+  /**
+   * @member {StorageAccountProperties} [storageAccount] The parameters of a
+   * storage account for the container registry. Only applicable to Classic
+   * SKU. If specified, the storage account must be in the same physical
+   * location as the container registry.
    */
   storageAccount?: StorageAccountProperties;
 }
@@ -564,6 +649,31 @@ export interface RegistryPolicies {
 
 /**
  * @interface
+ * An interface representing ReplicationProperties.
+ * The properties of a replication.
+ *
+ */
+export interface ReplicationProperties {
+  /**
+   * @member {ProvisioningState} [provisioningState] The provisioning state of
+   * the replication at the time the operation was called. Possible values
+   * include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Failed',
+   * 'Canceled'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * @member {Status} [status] The status of the replication at the time the
+   * operation was called.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: Status;
+}
+
+/**
+ * @interface
  * An interface representing Replication.
  * An object that represents a replication for a container registry.
  *
@@ -604,6 +714,40 @@ export interface ReplicationUpdateParameters {
 
 /**
  * @interface
+ * An interface representing WebhookProperties.
+ * The properties of a webhook.
+ *
+ */
+export interface WebhookProperties {
+  /**
+   * @member {WebhookStatus} [status] The status of the webhook at the time the
+   * operation was called. Possible values include: 'enabled', 'disabled'
+   */
+  status?: WebhookStatus;
+  /**
+   * @member {string} [scope] The scope of repositories where the event can be
+   * triggered. For example, 'foo:*' means events for all tags under repository
+   * 'foo'. 'foo:bar' means events for 'foo:bar' only. 'foo' is equivalent to
+   * 'foo:latest'. Empty means all events.
+   */
+  scope?: string;
+  /**
+   * @member {WebhookAction[]} actions The list of actions that trigger the
+   * webhook to post notifications.
+   */
+  actions: WebhookAction[];
+  /**
+   * @member {ProvisioningState} [provisioningState] The provisioning state of
+   * the webhook at the time the operation was called. Possible values include:
+   * 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Failed', 'Canceled'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/**
+ * @interface
  * An interface representing Webhook.
  * An object that represents a webhook for a container registry.
  *
@@ -635,6 +779,42 @@ export interface Webhook extends Resource {
    * the server.**
    */
   readonly provisioningState?: ProvisioningState;
+}
+
+/**
+ * @interface
+ * An interface representing WebhookPropertiesCreateParameters.
+ * The parameters for creating the properties of a webhook.
+ *
+ */
+export interface WebhookPropertiesCreateParameters {
+  /**
+   * @member {string} serviceUri The service URI for the webhook to post
+   * notifications.
+   */
+  serviceUri: string;
+  /**
+   * @member {{ [propertyName: string]: string }} [customHeaders] Custom
+   * headers that will be added to the webhook notifications.
+   */
+  customHeaders?: { [propertyName: string]: string };
+  /**
+   * @member {WebhookStatus} [status] The status of the webhook at the time the
+   * operation was called. Possible values include: 'enabled', 'disabled'
+   */
+  status?: WebhookStatus;
+  /**
+   * @member {string} [scope] The scope of repositories where the event can be
+   * triggered. For example, 'foo:*' means events for all tags under repository
+   * 'foo'. 'foo:bar' means events for 'foo:bar' only. 'foo' is equivalent to
+   * 'foo:latest'. Empty means all events.
+   */
+  scope?: string;
+  /**
+   * @member {WebhookAction[]} actions The list of actions that trigger the
+   * webhook to post notifications.
+   */
+  actions: WebhookAction[];
 }
 
 /**
@@ -681,6 +861,42 @@ export interface WebhookCreateParameters {
    * webhook to post notifications.
    */
   actions: WebhookAction[];
+}
+
+/**
+ * @interface
+ * An interface representing WebhookPropertiesUpdateParameters.
+ * The parameters for updating the properties of a webhook.
+ *
+ */
+export interface WebhookPropertiesUpdateParameters {
+  /**
+   * @member {string} [serviceUri] The service URI for the webhook to post
+   * notifications.
+   */
+  serviceUri?: string;
+  /**
+   * @member {{ [propertyName: string]: string }} [customHeaders] Custom
+   * headers that will be added to the webhook notifications.
+   */
+  customHeaders?: { [propertyName: string]: string };
+  /**
+   * @member {WebhookStatus} [status] The status of the webhook at the time the
+   * operation was called. Possible values include: 'enabled', 'disabled'
+   */
+  status?: WebhookStatus;
+  /**
+   * @member {string} [scope] The scope of repositories where the event can be
+   * triggered. For example, 'foo:*' means events for all tags under repository
+   * 'foo'. 'foo:bar' means events for 'foo:bar' only. 'foo' is equivalent to
+   * 'foo:latest'. Empty means all events.
+   */
+  scope?: string;
+  /**
+   * @member {WebhookAction[]} [actions] The list of actions that trigger the
+   * webhook to post notifications.
+   */
+  actions?: WebhookAction[];
 }
 
 /**
@@ -1135,6 +1351,88 @@ export interface AgentProperties {
 
 /**
  * @interface
+ * An interface representing RunProperties.
+ * The properties for a run.
+ *
+ */
+export interface RunProperties {
+  /**
+   * @member {string} [runId] The unique identifier for the run.
+   */
+  runId?: string;
+  /**
+   * @member {RunStatus} [status] The current status of the run. Possible
+   * values include: 'Queued', 'Started', 'Running', 'Succeeded', 'Failed',
+   * 'Canceled', 'Error', 'Timeout'
+   */
+  status?: RunStatus;
+  /**
+   * @member {Date} [lastUpdatedTime] The last updated time for the run.
+   */
+  lastUpdatedTime?: Date;
+  /**
+   * @member {RunType} [runType] The type of run. Possible values include:
+   * 'QuickBuild', 'QuickRun', 'AutoBuild', 'AutoRun'
+   */
+  runType?: RunType;
+  /**
+   * @member {Date} [createTime] The time the run was scheduled.
+   */
+  createTime?: Date;
+  /**
+   * @member {Date} [startTime] The time the run started.
+   */
+  startTime?: Date;
+  /**
+   * @member {Date} [finishTime] The time the run finished.
+   */
+  finishTime?: Date;
+  /**
+   * @member {ImageDescriptor[]} [outputImages] The list of all images that
+   * were generated from the run. This is applicable if the run generates base
+   * image dependencies.
+   */
+  outputImages?: ImageDescriptor[];
+  /**
+   * @member {string} [task] The task against which run was scheduled.
+   */
+  task?: string;
+  /**
+   * @member {ImageUpdateTrigger} [imageUpdateTrigger] The image update trigger
+   * that caused the run. This is applicable if the task has base image trigger
+   * configured.
+   */
+  imageUpdateTrigger?: ImageUpdateTrigger;
+  /**
+   * @member {SourceTriggerDescriptor} [sourceTrigger] The source trigger that
+   * caused the run.
+   */
+  sourceTrigger?: SourceTriggerDescriptor;
+  /**
+   * @member {boolean} [isArchiveEnabled] The value that indicates whether
+   * archiving is enabled or not. Default value: false .
+   */
+  isArchiveEnabled?: boolean;
+  /**
+   * @member {PlatformProperties} [platform] The platform properties against
+   * which the run will happen.
+   */
+  platform?: PlatformProperties;
+  /**
+   * @member {AgentProperties} [agentConfiguration] The machine configuration
+   * of the run agent.
+   */
+  agentConfiguration?: AgentProperties;
+  /**
+   * @member {ProvisioningState} [provisioningState] The provisioning state of
+   * a run. Possible values include: 'Creating', 'Updating', 'Deleting',
+   * 'Succeeded', 'Failed', 'Canceled'
+   */
+  provisioningState?: ProvisioningState;
+}
+
+/**
+ * @interface
  * An interface representing ProxyResource.
  * The resource model definition for a ARM proxy resource. It will have
  * everything other than required location and tags.
@@ -1399,11 +1697,6 @@ export interface TaskStepProperties {
    * context for the task step.
    */
   contextPath?: string;
-  /**
-   * @member {string} [contextAccessToken] The token (git PAT or SAS token of
-   * storage account blob) associated with the context for a step.
-   */
-  contextAccessToken?: string;
 }
 
 /**
@@ -1539,6 +1832,57 @@ export interface TriggerProperties {
 
 /**
  * @interface
+ * An interface representing TaskProperties.
+ * The properties of a task.
+ *
+ */
+export interface TaskProperties {
+  /**
+   * @member {ProvisioningState} [provisioningState] The provisioning state of
+   * the task. Possible values include: 'Creating', 'Updating', 'Deleting',
+   * 'Succeeded', 'Failed', 'Canceled'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * @member {Date} [creationDate] The creation date of task.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationDate?: Date;
+  /**
+   * @member {TaskStatus} [status] The current status of task. Possible values
+   * include: 'Disabled', 'Enabled'
+   */
+  status?: TaskStatus;
+  /**
+   * @member {PlatformProperties} platform The platform properties against
+   * which the run has to happen.
+   */
+  platform: PlatformProperties;
+  /**
+   * @member {AgentProperties} [agentConfiguration] The machine configuration
+   * of the run agent.
+   */
+  agentConfiguration?: AgentProperties;
+  /**
+   * @member {number} [timeout] Run timeout in seconds. Default value: 3600 .
+   */
+  timeout?: number;
+  /**
+   * @member {TaskStepPropertiesUnion} step The properties of a task step.
+   */
+  step: TaskStepPropertiesUnion;
+  /**
+   * @member {TriggerProperties} [trigger] The properties that describe all
+   * triggers for the task.
+   */
+  trigger?: TriggerProperties;
+}
+
+/**
+ * @interface
  * An interface representing Task.
  * The task that has the ARM resource and task properties.
  * The  task will have all information to schedule a run against it.
@@ -1635,11 +1979,6 @@ export interface TaskStepUpdateParameters {
    * context for the task step.
    */
   contextPath?: string;
-  /**
-   * @member {string} [contextAccessToken] The token (git PAT or SAS token of
-   * storage account blob) associated with the context for a step.
-   */
-  contextAccessToken?: string;
 }
 
 /**
@@ -1773,6 +2112,44 @@ export interface TriggerUpdateParameters {
    * based on base image dependencies.
    */
   baseImageTrigger?: BaseImageTriggerUpdateParameters;
+}
+
+/**
+ * @interface
+ * An interface representing TaskPropertiesUpdateParameters.
+ * The properties for updating a task.
+ *
+ */
+export interface TaskPropertiesUpdateParameters {
+  /**
+   * @member {TaskStatus} [status] The current status of task. Possible values
+   * include: 'Disabled', 'Enabled'
+   */
+  status?: TaskStatus;
+  /**
+   * @member {PlatformUpdateParameters} [platform] The platform properties
+   * against which the run has to happen.
+   */
+  platform?: PlatformUpdateParameters;
+  /**
+   * @member {AgentProperties} [agentConfiguration] The machine configuration
+   * of the run agent.
+   */
+  agentConfiguration?: AgentProperties;
+  /**
+   * @member {number} [timeout] Run timeout in seconds.
+   */
+  timeout?: number;
+  /**
+   * @member {TaskStepUpdateParametersUnion} [step] The properties for updating
+   * a task step.
+   */
+  step?: TaskStepUpdateParametersUnion;
+  /**
+   * @member {TriggerUpdateParameters} [trigger] The properties for updating
+   * trigger properties.
+   */
+  trigger?: TriggerUpdateParameters;
 }
 
 /**
@@ -2087,11 +2464,6 @@ export interface DockerBuildStep {
    */
   contextPath?: string;
   /**
-   * @member {string} [contextAccessToken] The token (git PAT or SAS token of
-   * storage account blob) associated with the context for a step.
-   */
-  contextAccessToken?: string;
-  /**
    * @member {string[]} [imageNames] The fully qualified image names including
    * the repository and tag.
    */
@@ -2143,11 +2515,6 @@ export interface FileTaskStep {
    */
   contextPath?: string;
   /**
-   * @member {string} [contextAccessToken] The token (git PAT or SAS token of
-   * storage account blob) associated with the context for a step.
-   */
-  contextAccessToken?: string;
-  /**
    * @member {string} taskFilePath The task template/definition file path
    * relative to the source context.
    */
@@ -2188,11 +2555,6 @@ export interface EncodedTaskStep {
    */
   contextPath?: string;
   /**
-   * @member {string} [contextAccessToken] The token (git PAT or SAS token of
-   * storage account blob) associated with the context for a step.
-   */
-  contextAccessToken?: string;
-  /**
    * @member {string} encodedTaskContent Base64 encoded value of the
    * template/definition file content.
    */
@@ -2225,11 +2587,6 @@ export interface DockerBuildStepUpdateParameters {
    * context for the task step.
    */
   contextPath?: string;
-  /**
-   * @member {string} [contextAccessToken] The token (git PAT or SAS token of
-   * storage account blob) associated with the context for a step.
-   */
-  contextAccessToken?: string;
   /**
    * @member {string[]} [imageNames] The fully qualified image names including
    * the repository and tag.
@@ -2274,11 +2631,6 @@ export interface FileTaskStepUpdateParameters {
    */
   contextPath?: string;
   /**
-   * @member {string} [contextAccessToken] The token (git PAT or SAS token of
-   * storage account blob) associated with the context for a step.
-   */
-  contextAccessToken?: string;
-  /**
    * @member {string} [taskFilePath] The task template/definition file path
    * relative to the source context.
    */
@@ -2311,11 +2663,6 @@ export interface EncodedTaskStepUpdateParameters {
    * context for the task step.
    */
   contextPath?: string;
-  /**
-   * @member {string} [contextAccessToken] The token (git PAT or SAS token of
-   * storage account blob) associated with the context for a step.
-   */
-  contextAccessToken?: string;
   /**
    * @member {string} [encodedTaskContent] Base64 encoded value of the
    * template/definition file content.

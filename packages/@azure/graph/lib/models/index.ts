@@ -16,6 +16,36 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
+ * An interface representing ErrorMessage.
+ * Active Directory error message.
+ *
+ */
+export interface ErrorMessage {
+  /**
+   * @member {string} [message] Error message value.
+   */
+  message?: string;
+}
+
+/**
+ * @interface
+ * An interface representing OdataError.
+ * Active Directory OData error information.
+ *
+ */
+export interface OdataError {
+  /**
+   * @member {string} [code] Error code.
+   */
+  code?: string;
+  /**
+   * @member {string} [message] Error message value.
+   */
+  message?: string;
+}
+
+/**
+ * @interface
  * An interface representing GraphError.
  * Active Directory error information.
  *
@@ -436,14 +466,6 @@ export interface Application {
    * grant flow for OAuth2
    */
   oauth2AllowImplicitFlow?: boolean;
-  /**
-   * @member {RequiredResourceAccess[]} [requiredResourceAccess] Specifies
-   * resources that this application requires access to and the set of OAuth
-   * permission scopes and application roles that it needs under each of those
-   * resources. This pre-configuration of required resource access drives the
-   * consent experience.
-   */
-  requiredResourceAccess?: RequiredResourceAccess[];
 }
 
 /**

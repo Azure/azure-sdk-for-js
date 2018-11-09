@@ -54,7 +54,7 @@ export class BackupLongTermRetentionPolicies {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupLongTermRetentionPolicy>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupLongTermRetentionPolicy>, callback?: msRest.ServiceCallback<Models.BackupLongTermRetentionPolicy>): Promise<Models.BackupLongTermRetentionPoliciesGetResponse> {
+  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupLongTermRetentionPolicy>): Promise<Models.BackupLongTermRetentionPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -108,7 +108,7 @@ export class BackupLongTermRetentionPolicies {
    * @param callback The callback
    */
   listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupLongTermRetentionPolicy>): void;
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupLongTermRetentionPolicy>, callback?: msRest.ServiceCallback<Models.BackupLongTermRetentionPolicy>): Promise<Models.BackupLongTermRetentionPoliciesListByDatabaseResponse> {
+  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupLongTermRetentionPolicy>): Promise<Models.BackupLongTermRetentionPoliciesListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

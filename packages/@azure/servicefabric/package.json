@@ -2,9 +2,9 @@
   "name": "@azure/servicefabric",
   "author": "Microsoft Corporation",
   "description": "ServiceFabricClient Library with typescript type definitions for node.js and browser.",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "dependencies": {
-    "ms-rest-js": "^1.0.455",
+    "ms-rest-js": "^1.0.443",
     "tslib": "^1.9.3"
   },
   "keywords": [
@@ -24,7 +24,7 @@
     "rollup-plugin-node-resolve": "^3.4.0",
     "uglify-js": "^3.4.9"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/@azure/servicefabric",
+  "homepage": "https://github.com/azure/azure-sdk-for-js",
   "repository": {
     "type": "git",
     "url": "https://github.com/azure/azure-sdk-for-js.git"
@@ -32,23 +32,10 @@
   "bugs": {
     "url": "https://github.com/azure/azure-sdk-for-js/issues"
   },
-  "files": [
-    "dist/**/*.js",
-    "dist/**/*.js.map",
-    "dist/**/*.d.ts",
-    "dist/**/*.d.ts.map",
-    "esm/**/*.js",
-    "esm/**/*.js.map",
-    "esm/**/*.d.ts",
-    "esm/**/*.d.ts.map",
-    "lib/**/*.ts",
-    "rollup.config.js",
-    "tsconfig.json"
-  ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/servicefabric.js.map'\" -o ./dist/servicefabric.min.js ./dist/servicefabric.js",
-    "prepack": "npm install && npm run build"
+    "prepare": "npm run build"
   },
   "sideEffects": false
 }

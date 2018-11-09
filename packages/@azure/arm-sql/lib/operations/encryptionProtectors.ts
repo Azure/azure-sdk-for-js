@@ -51,7 +51,7 @@ export class EncryptionProtectors {
    * @param callback The callback
    */
   listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EncryptionProtectorListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EncryptionProtectorListResult>, callback?: msRest.ServiceCallback<Models.EncryptionProtectorListResult>): Promise<Models.EncryptionProtectorsListByServerResponse> {
+  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EncryptionProtectorListResult>): Promise<Models.EncryptionProtectorsListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -86,7 +86,7 @@ export class EncryptionProtectors {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EncryptionProtector>): void;
-  get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EncryptionProtector>, callback?: msRest.ServiceCallback<Models.EncryptionProtector>): Promise<Models.EncryptionProtectorsGetResponse> {
+  get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EncryptionProtector>): Promise<Models.EncryptionProtectorsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -150,7 +150,7 @@ export class EncryptionProtectors {
    * @param callback The callback
    */
   listByServerNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EncryptionProtectorListResult>): void;
-  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EncryptionProtectorListResult>, callback?: msRest.ServiceCallback<Models.EncryptionProtectorListResult>): Promise<Models.EncryptionProtectorsListByServerNextResponse> {
+  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EncryptionProtectorListResult>): Promise<Models.EncryptionProtectorsListByServerNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

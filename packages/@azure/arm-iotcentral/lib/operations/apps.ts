@@ -162,64 +162,30 @@ export class Apps {
 
   /**
    * Check if an IoT Central application name is available.
-   * @param operationInputs Set the name parameter in the OperationInputs structure to the name of
-   * the IoT Central application to check.
+   * @param name The name of the IoT Central application instance to check.
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsCheckNameAvailabilityResponse>
    */
-  checkNameAvailability(operationInputs: Models.OperationInputs, options?: msRest.RequestOptionsBase): Promise<Models.AppsCheckNameAvailabilityResponse>;
+  checkNameAvailability(name: string, options?: msRest.RequestOptionsBase): Promise<Models.AppsCheckNameAvailabilityResponse>;
   /**
-   * @param operationInputs Set the name parameter in the OperationInputs structure to the name of
-   * the IoT Central application to check.
+   * @param name The name of the IoT Central application instance to check.
    * @param callback The callback
    */
-  checkNameAvailability(operationInputs: Models.OperationInputs, callback: msRest.ServiceCallback<Models.AppAvailabilityInfo>): void;
+  checkNameAvailability(name: string, callback: msRest.ServiceCallback<Models.AppNameAvailabilityInfo>): void;
   /**
-   * @param operationInputs Set the name parameter in the OperationInputs structure to the name of
-   * the IoT Central application to check.
+   * @param name The name of the IoT Central application instance to check.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(operationInputs: Models.OperationInputs, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppAvailabilityInfo>): void;
-  checkNameAvailability(operationInputs: Models.OperationInputs, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AppAvailabilityInfo>): Promise<Models.AppsCheckNameAvailabilityResponse> {
+  checkNameAvailability(name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppNameAvailabilityInfo>): void;
+  checkNameAvailability(name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AppNameAvailabilityInfo>): Promise<Models.AppsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
-        operationInputs,
+        name,
         options
       },
       checkNameAvailabilityOperationSpec,
       callback) as Promise<Models.AppsCheckNameAvailabilityResponse>;
-  }
-
-  /**
-   * Check if an IoT Central application subdomain is available.
-   * @param operationInputs Set the name parameter in the OperationInputs structure to the subdomain
-   * of the IoT Central application to check.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.AppsCheckSubdomainAvailabilityResponse>
-   */
-  checkSubdomainAvailability(operationInputs: Models.OperationInputs, options?: msRest.RequestOptionsBase): Promise<Models.AppsCheckSubdomainAvailabilityResponse>;
-  /**
-   * @param operationInputs Set the name parameter in the OperationInputs structure to the subdomain
-   * of the IoT Central application to check.
-   * @param callback The callback
-   */
-  checkSubdomainAvailability(operationInputs: Models.OperationInputs, callback: msRest.ServiceCallback<Models.AppAvailabilityInfo>): void;
-  /**
-   * @param operationInputs Set the name parameter in the OperationInputs structure to the subdomain
-   * of the IoT Central application to check.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  checkSubdomainAvailability(operationInputs: Models.OperationInputs, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppAvailabilityInfo>): void;
-  checkSubdomainAvailability(operationInputs: Models.OperationInputs, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AppAvailabilityInfo>): Promise<Models.AppsCheckSubdomainAvailabilityResponse> {
-    return this.client.sendOperationRequest(
-      {
-        operationInputs,
-        options
-      },
-      checkSubdomainAvailabilityOperationSpec,
-      callback) as Promise<Models.AppsCheckSubdomainAvailabilityResponse>;
   }
 
   /**
@@ -429,37 +395,9 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: "operationInputs",
-    mapper: {
-      ...Mappers.OperationInputs,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.AppAvailabilityInfo
+    parameterPath: {
+      name: "name"
     },
-    default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
-  },
-  serializer
-};
-
-const checkSubdomainAvailabilityOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.IoTCentral/checkSubdomainAvailability",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "operationInputs",
     mapper: {
       ...Mappers.OperationInputs,
       required: true
@@ -467,7 +405,7 @@ const checkSubdomainAvailabilityOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.AppAvailabilityInfo
+      bodyMapper: Mappers.AppNameAvailabilityInfo
     },
     default: {
       bodyMapper: Mappers.ErrorDetails

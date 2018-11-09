@@ -48,7 +48,7 @@ export class VirtualHubs {
    * @param callback The callback
    */
   get(resourceGroupName: string, virtualHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualHub>): void;
-  get(resourceGroupName: string, virtualHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualHub>, callback?: msRest.ServiceCallback<Models.VirtualHub>): Promise<Models.VirtualHubsGetResponse> {
+  get(resourceGroupName: string, virtualHubName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualHub>): Promise<Models.VirtualHubsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -115,7 +115,7 @@ export class VirtualHubs {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVirtualHubsResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualHubsResult>, callback?: msRest.ServiceCallback<Models.ListVirtualHubsResult>): Promise<Models.VirtualHubsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListVirtualHubsResult>): Promise<Models.VirtualHubsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -140,7 +140,7 @@ export class VirtualHubs {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVirtualHubsResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualHubsResult>, callback?: msRest.ServiceCallback<Models.ListVirtualHubsResult>): Promise<Models.VirtualHubsListResponse> {
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListVirtualHubsResult>): Promise<Models.VirtualHubsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -225,7 +225,7 @@ export class VirtualHubs {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVirtualHubsResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualHubsResult>, callback?: msRest.ServiceCallback<Models.ListVirtualHubsResult>): Promise<Models.VirtualHubsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListVirtualHubsResult>): Promise<Models.VirtualHubsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -253,7 +253,7 @@ export class VirtualHubs {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVirtualHubsResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualHubsResult>, callback?: msRest.ServiceCallback<Models.ListVirtualHubsResult>): Promise<Models.VirtualHubsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListVirtualHubsResult>): Promise<Models.VirtualHubsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

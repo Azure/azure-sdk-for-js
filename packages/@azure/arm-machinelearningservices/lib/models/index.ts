@@ -60,6 +60,81 @@ export interface Operation {
 
 /**
  * @interface
+ * An interface representing WorkspaceProperties.
+ * The properties of a machine learning workspace.
+ *
+ */
+export interface WorkspaceProperties {
+  /**
+   * @member {string} [workspaceId] The immutable id associated with this
+   * workspace.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly workspaceId?: string;
+  /**
+   * @member {string} [description] The description of this workspace.
+   */
+  description?: string;
+  /**
+   * @member {string} [friendlyName] The friendly name for this workspace. This
+   * name in mutable
+   */
+  friendlyName?: string;
+  /**
+   * @member {Date} [creationTime] The creation time of the machine learning
+   * workspace in ISO8601 format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationTime?: Date;
+  /**
+   * @member {string} [batchaiWorkspace] ARM id of the Batch AI workspace
+   * associated with this workspace. This cannot be changed once the workspace
+   * has been created
+   */
+  batchaiWorkspace?: string;
+  /**
+   * @member {string} [keyVault] ARM id of the key vault associated with this
+   * workspace. This cannot be changed once the workspace has been created
+   */
+  keyVault?: string;
+  /**
+   * @member {string} [applicationInsights] ARM id of the application insights
+   * associated with this workspace. This cannot be changed once the workspace
+   * has been created
+   */
+  applicationInsights?: string;
+  /**
+   * @member {string} [containerRegistry] ARM id of the container registry
+   * associated with this workspace. This cannot be changed once the workspace
+   * has been created
+   */
+  containerRegistry?: string;
+  /**
+   * @member {string} [storageAccount] ARM id of the storage account associated
+   * with this workspace. This cannot be changed once the workspace has been
+   * created
+   */
+  storageAccount?: string;
+  /**
+   * @member {string} [discoveryUrl] Url for the discovery service to identify
+   * regional endpoints for machine learning experimentation services
+   */
+  discoveryUrl?: string;
+  /**
+   * @member {ProvisioningState} [provisioningState] The current deployment
+   * state of workspace resource. The provisioningState is to indicate states
+   * for resource provisioning. Possible values include: 'Unknown', 'Updating',
+   * 'Creating', 'Deleting', 'Succeeded', 'Failed', 'Canceled'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/**
+ * @interface
  * An interface representing Resource.
  * Azure Resource Manager resource envelope.
  *
@@ -175,6 +250,23 @@ export interface Workspace extends Resource {
    * the server.**
    */
   readonly provisioningState?: ProvisioningState;
+}
+
+/**
+ * @interface
+ * An interface representing WorkspacePropertiesUpdateParameters.
+ * The parameters for updating the properties of a machine learning workspace.
+ *
+ */
+export interface WorkspacePropertiesUpdateParameters {
+  /**
+   * @member {string} [description] The description of this workspace.
+   */
+  description?: string;
+  /**
+   * @member {string} [friendlyName] The friendly name for this workspace.
+   */
+  friendlyName?: string;
 }
 
 /**

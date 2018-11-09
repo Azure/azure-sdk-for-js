@@ -70,17 +70,6 @@ export const locationName: msRest.OperationURLParameter = {
     }
   }
 };
-export const nextPageLink: msRest.OperationURLParameter = {
-  parameterPath: "nextPageLink",
-  mapper: {
-    required: true,
-    serializedName: "nextLink",
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -118,16 +107,6 @@ export const subscriptionId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "subscriptionId",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const virtualNetworkRuleName: msRest.OperationURLParameter = {
-  parameterPath: "virtualNetworkRuleName",
-  mapper: {
-    required: true,
-    serializedName: "virtualNetworkRuleName",
     type: {
       name: "String"
     }

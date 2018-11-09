@@ -184,6 +184,21 @@ export interface ErrorResponse {
 
 /**
  * @interface
+ * An interface representing Uri.
+ * The URI.
+ *
+ */
+export interface Uri {
+  /**
+   * @member {string} [uri] The URI.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly uri?: string;
+}
+
+/**
+ * @interface
  * An interface representing OsDiskImage.
  * OS disk image.
  *
@@ -223,6 +238,74 @@ export interface DataDiskImage {
    * the server.**
    */
   readonly sourceBlobSasUri?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ExtendedProductProperties.
+ * Product information.
+ *
+ */
+export interface ExtendedProductProperties {
+  /**
+   * @member {ComputeRole} [computeRole] Specifies kind of compute role
+   * inclided in the package. Possible values include: 'None', 'IaaS', 'PaaS'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly computeRole?: ComputeRole;
+  /**
+   * @member {boolean} [isSystemExtension] Specifies if product is a Virtual
+   * Machine Extension.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isSystemExtension?: boolean;
+  /**
+   * @member {string} [uri] The URI.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly uri?: string;
+  /**
+   * @member {boolean} [supportMultipleExtensions] Indicates if specified
+   * product supports multiple extensions.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly supportMultipleExtensions?: boolean;
+  /**
+   * @member {string} [version] Specifies product version.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly version?: string;
+  /**
+   * @member {OperatingSystem} [vmOsType] Specifies operating system used by
+   * the product. Possible values include: 'None', 'Windows', 'Linux'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly vmOsType?: OperatingSystem;
+  /**
+   * @member {boolean} [vmScaleSetEnabled] Indicates if virtual machine Scale
+   * Set is enabled in the specified product.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly vmScaleSetEnabled?: boolean;
+  /**
+   * @member {OsDiskImage} [osDiskImage] OS disk image used by product.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly osDiskImage?: OsDiskImage;
+  /**
+   * @member {DataDiskImage[]} [dataDiskImages] List of attached data disks.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly dataDiskImages?: DataDiskImage[];
 }
 
 /**
@@ -452,6 +535,90 @@ export interface ProductProperties {
 
 /**
  * @interface
+ * An interface representing ProductNestedProperties.
+ * Properties portion of the product resource.
+ *
+ */
+export interface ProductNestedProperties {
+  /**
+   * @member {string} [displayName] The display name of the product.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [description] The description of the product.
+   */
+  description?: string;
+  /**
+   * @member {string} [publisherDisplayName] The user-friendly name of the
+   * product publisher.
+   */
+  publisherDisplayName?: string;
+  /**
+   * @member {string} [publisherIdentifier] Publisher identifier.
+   */
+  publisherIdentifier?: string;
+  /**
+   * @member {string} [offer] The offer representing the product.
+   */
+  offer?: string;
+  /**
+   * @member {string} [offerVersion] The version of the product offer.
+   */
+  offerVersion?: string;
+  /**
+   * @member {string} [sku] The product SKU.
+   */
+  sku?: string;
+  /**
+   * @member {string} [billingPartNumber] The part number used for billing
+   * purposes.
+   */
+  billingPartNumber?: string;
+  /**
+   * @member {string} [vmExtensionType] The type of the Virtual Machine
+   * Extension.
+   */
+  vmExtensionType?: string;
+  /**
+   * @member {string} [galleryItemIdentity] The identifier of the gallery item
+   * corresponding to the product.
+   */
+  galleryItemIdentity?: string;
+  /**
+   * @member {IconUris} [iconUris] Additional links available for this product.
+   */
+  iconUris?: IconUris;
+  /**
+   * @member {ProductLink[]} [links] Additional links available for this
+   * product.
+   */
+  links?: ProductLink[];
+  /**
+   * @member {string} [legalTerms] The legal terms.
+   */
+  legalTerms?: string;
+  /**
+   * @member {string} [privacyPolicy] The privacy policy.
+   */
+  privacyPolicy?: string;
+  /**
+   * @member {number} [payloadLength] The length of product content.
+   */
+  payloadLength?: number;
+  /**
+   * @member {string} [productKind] The kind of the product (virtualMachine or
+   * virtualMachineExtension)
+   */
+  productKind?: string;
+  /**
+   * @member {ProductProperties} [productProperties] Additional properties for
+   * the product.
+   */
+  productProperties?: ProductProperties;
+}
+
+/**
+ * @interface
  * An interface representing Product.
  * Product information.
  *
@@ -537,6 +704,29 @@ export interface Product extends Resource {
 
 /**
  * @interface
+ * An interface representing RegistrationProperties.
+ * Properties portion of the registration resource.
+ *
+ */
+export interface RegistrationProperties {
+  /**
+   * @member {string} [objectId] The object identifier associated with the
+   * Azure Stack connecting to Azure.
+   */
+  objectId?: string;
+  /**
+   * @member {string} [cloudId] The identifier of the registered Azure Stack.
+   */
+  cloudId?: string;
+  /**
+   * @member {string} [billingModel] Specifies the billing mode for the Azure
+   * Stack registration.
+   */
+  billingModel?: string;
+}
+
+/**
+ * @interface
  * An interface representing Registration.
  * Registration information.
  *
@@ -574,6 +764,20 @@ export interface ActivationKeyResult {
 
 /**
  * @interface
+ * An interface representing RegistrationParameterProperties.
+ * Properties of the Azure Stack regstration resource
+ *
+ */
+export interface RegistrationParameterProperties {
+  /**
+   * @member {string} registrationToken The token identifying registered Azure
+   * Stack
+   */
+  registrationToken: string;
+}
+
+/**
+ * @interface
  * An interface representing RegistrationParameter.
  * Registration resource
  *
@@ -589,6 +793,19 @@ export interface RegistrationParameter {
    * include: 'global'
    */
   location?: Location;
+}
+
+/**
+ * @interface
+ * An interface representing CustomerSubscriptionProperties.
+ * Customer subscription properties.
+ *
+ */
+export interface CustomerSubscriptionProperties {
+  /**
+   * @member {string} [tenantId] Tenant Id.
+   */
+  tenantId?: string;
 }
 
 /**

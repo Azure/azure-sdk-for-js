@@ -4,13 +4,14 @@
  * license information.
  */
 
-import Octokit, { PullRequestsCreateParams, PullRequestsCreateReviewRequestParams, PullRequestsCreateReviewRequestResponse, PullRequestsGetAllParams, PullRequestsGetAllResponse, PullRequestsGetAllResponseItem, PullRequestsGetParams, PullRequestsUpdateParams, Response } from '@octokit/rest';
-import { Reference, Repository } from 'nodegit';
-import { Branch, commitChanges, createNewUniqueBranch, getToken, pushBranch, ValidateEachFunction, ValidateFunction } from './git';
-import { Logger } from './logger';
+import * as Octokit from '@octokit/rest'
+import { PullRequestsCreateParams, Response, PullRequestsCreateReviewRequestParams, PullRequestsCreateReviewRequestResponse } from '@octokit/rest';
+import { getToken, createNewUniqueBranch, commitChanges, pushBranch,ValidateFunction, ValidateEachFunction, Branch, BranchLocation } from './git';
+import { getLogger } from './logger';
+import { Repository } from 'nodegit';
 
 const _repositoryOwner = "Azure";
-const _logger = Logger.get();
+const _logger = getLogger();
 
 function getAuthenticatedClient(): Octokit {
     const octokit = new Octokit();
@@ -38,30 +39,6 @@ export async function createPullRequest(repositoryName: string, pullRequestTitle
             }
         });
     });
-}
-
-export async function listPullRequests(repositoryName: string, state?: "open" | "closed" | "all"): Promise<Response<PullRequestsGetAllResponse>> {
-    const octokit = getAuthenticatedClient();
-    const params: PullRequestsGetAllParams = {
-        owner: _repositoryOwner,
-        repo: repositoryName,
-        state: state
-    }
-
-    return new Promise<Response<PullRequestsGetAllResponse>>((resolve, reject) => {
-        octokit.pullRequests.getAll(params, (error, result) => {
-            if (error) {
-                reject(error);
-            } else {
-                resolve(result);
-            }
-        });
-    });
-}
-
-export async function findPullRequest(repositoryName: string, branchName: string, state?: "open" | "closed" | "all"): Promise<PullRequestsGetAllResponseItem | undefined> {
-    const allPullRequests = await listPullRequests(repositoryName, state);
-    return allPullRequests.data.find(el => el.head.ref === branchName);
 }
 
 export async function requestPullRequestReview(repositoryName: string, prId: number): Promise<Response<PullRequestsCreateReviewRequestResponse>> {
@@ -96,8 +73,8 @@ export async function commitAndCreatePullRequest(
     await createNewUniqueBranch(repository, `generated/${packageName}`, true);
 
     await commitChanges(repository, commitMessage, validate, validateEach);
-    const newBranchRef: Reference = await repository.getCurrentBranch();
-    const newBranch: Branch = Branch.fromReference(newBranchRef);
+    const newBranchRef = await repository.getCurrentBranch();
+    const newBranch = new Branch(newBranchRef.name(), BranchLocation.Local);
     _logger.logInfo(`Committed changes successfully on ${newBranch.name} branch`);
 
     await pushBranch(repository, newBranch);
@@ -110,82 +87,4 @@ export async function commitAndCreatePullRequest(
     _logger.logInfo(`Requested preview on pull request successfully - ${reviewResponse.data.html_url}`);
 
     return reviewResponse.data.html_url;
-}
-
-export async function getDataFromPullRequest(pullRequestUrl: string): Promise<{ packageName: string | undefined, branchName: string, prId: number }> {
-    const octokit: Octokit = getAuthenticatedClient();
-    const params: Octokit.PullRequestsGetParams = parsePullRequestUrl(pullRequestUrl);
-    const pullRequest: Octokit.Response<Octokit.PullRequestsGetResponse> = await octokit.pullRequests.get(params);
-    const branchName: string = pullRequest.data.head.ref;
-    const files: Octokit.Response<Octokit.PullRequestsGetFilesResponseItem[]> = await octokit.pullRequests.getFiles(params);
-    const path: string = getRootFolder(files.data.map(i => i.filename));
-    const packageName: string | undefined = getPackageNameFromPath(path);
-
-    _logger.logTrace(`Found "${packageName}" package name and ${branchName} branch name`)
-    return { packageName: packageName, branchName: branchName, prId: params.number };
-}
-
-function parsePullRequestUrl(pullRequestUrl: string): PullRequestsGetParams {
-    const parts = pullRequestUrl.split("/");
-    const hostIndex = parts.indexOf("github.com")
-    const owner = parts[hostIndex + 1];
-    const repositoryName = parts[hostIndex + 2];
-    const resourceIndex = parts.indexOf("pull");
-    const id = Number.parseInt(parts[resourceIndex + 1]);
-
-    return {
-        number: id,
-        owner: owner,
-        repo: repositoryName
-    };
-}
-
-function getPackageNameFromPath(rootFolder: string): string | undefined {
-    if (!rootFolder || !rootFolder.startsWith("packages/") || rootFolder === "packages/" || rootFolder === "packages/@azure/") {
-        _logger.logDebug(`Can't get package name from '${rootFolder}' path`);
-        return undefined;
-    }
-
-    return rootFolder.slice("packages/".length);
-}
-
-function getRootFolder(changedFiles: string[]): string {
-    const pathsParts = changedFiles.map(changedFile => changedFile.split("/"));
-    let commonParts = [];
-    if (changedFiles.length == 1) {
-        const parts = pathsParts[0];
-        commonParts = parts.slice(0, parts.length - 1);
-    } else {
-        const partCount = Math.max(...pathsParts.map(arr => arr.length));
-
-        for (let partIndex = 0; partIndex < partCount; partIndex++) {
-            const part = pathsParts[0][partIndex];
-            const partArray = pathsParts.map(p => p[partIndex]);
-
-            if (partArray.every(p => p === part)) {
-                commonParts.push(part);
-                continue;
-            }
-
-            break;
-        }
-    }
-
-    const commonPath = commonParts.join("/");
-    _logger.logTrace(`Found "${commonPath}" common path for files in the pull request`)
-
-    return commonPath;
-}
-
-export async function forcePrDiffRefresh(repositoryName: string, pullRequestId: number) {
-    const octokit = getAuthenticatedClient();
-    const params: PullRequestsUpdateParams = {
-        owner: _repositoryOwner,
-        repo: repositoryName,
-        number: pullRequestId,
-        base: "force-pr-diff-update"
-    }
-    await octokit.pullRequests.update(params)
-    params.base = "master";
-    return octokit.pullRequests.update(params)
 }

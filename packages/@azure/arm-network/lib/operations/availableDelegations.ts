@@ -44,7 +44,7 @@ export class AvailableDelegations {
    * @param callback The callback
    */
   list(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableDelegationsResult>): void;
-  list(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableDelegationsResult>, callback?: msRest.ServiceCallback<Models.AvailableDelegationsResult>): Promise<Models.AvailableDelegationsListResponse> {
+  list(location: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AvailableDelegationsResult>): Promise<Models.AvailableDelegationsListResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -72,7 +72,7 @@ export class AvailableDelegations {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableDelegationsResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableDelegationsResult>, callback?: msRest.ServiceCallback<Models.AvailableDelegationsResult>): Promise<Models.AvailableDelegationsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AvailableDelegationsResult>): Promise<Models.AvailableDelegationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

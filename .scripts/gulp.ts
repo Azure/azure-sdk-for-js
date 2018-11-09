@@ -4,28 +4,28 @@
  * license information.
  */
 
-import { PullRequestsGetAllResponseItem } from "@octokit/rest";
-import { execSync } from "child_process";
-import fs from "fs";
+import { SdkType, getCommandLineOptions } from "./commandLine";
+import { findAzureRestApiSpecsRepositoryPath, findSdkDirectory, saveContentToFile, findMissingSdks } from "./generateSdks";
+import { copyExistingNodeJsReadme, updateTypeScriptReadmeFile, findReadmeTypeScriptMdFilePaths, getPackageNamesFromReadmeTypeScriptMdFileContents, getAbsolutePackageFolderPathFromReadmeFileContents, updateMainReadmeFile, getSinglePackageName } from "./readme";
+import * as fs from "fs";
 import * as path from "path";
-import { SdkType } from "./commandLine";
-import { contains, npmInstall } from "./common";
-import { Branch, BranchLocation, checkoutRemoteBranch, commitAndPush, getValidatedRepository, mergeMasterIntoBranch, refreshRepository, unlockGitRepository, ValidateFunction, waitAndLockGitRepository } from "./git";
-import { commitAndCreatePullRequest, findPullRequest, forcePrDiffRefresh, requestPullRequestReview } from "./github";
-import { Logger } from "./logger";
-import { findMissingSdks, findSdkDirectory, saveContentToFile } from "./packages";
-import { copyExistingNodeJsReadme, findReadmeTypeScriptMdFilePaths, getAbsolutePackageFolderPathFromReadmeFileContents, getPackageNamesFromReadmeTypeScriptMdFileContents, getSinglePackageName, updateMainReadmeFile, updateTypeScriptReadmeFile } from "./readme";
 import { Version } from "./version";
+import { contains, npmInstall } from "./common";
+import { execSync } from "child_process";
+import { getLogger } from "./logger";
+import { refreshRepository, getValidatedRepository, waitAndLockGitRepository, unlockGitRepository, ValidateFunction, ValidateEachFunction, checkoutBranch, pullBranch, mergeBranch, mergeMasterIntoBranch, commitAndPush, checkoutRemoteBranch, Branch, BranchLocation } from "./git";
+import { commitAndCreatePullRequest } from "./github";
 
-const _logger = Logger.get();
+const _logger = getLogger();
+const _args = getCommandLineOptions();
 
 function containsPackageName(packageNames: string[], packageName: string): boolean {
     const result = contains(packageNames, packageName) ||
-        contains(packageNames, `@azure/${packageName}`) ||
-        contains(packageNames, `"${packageName}"`) ||
-        contains(packageNames, `"@azure/${packageName}"`) ||
-        contains(packageNames, `'${packageName}'`) ||
-        contains(packageNames, `'@azure/${packageName}'`);
+      contains(packageNames, `@azure/${packageName}`) ||
+      contains(packageNames, `"${packageName}"`) ||
+      contains(packageNames, `"@azure/${packageName}"`) ||
+      contains(packageNames, `'${packageName}'`) ||
+      contains(packageNames, `'@azure/${packageName}'`);
     _logger.logTrace(`Comparing package name "${packageName}" to ${JSON.stringify(packageNames)} - Result: ${result}`);
     return result;
 }
@@ -70,13 +70,8 @@ export async function generateSdk(azureRestAPISpecsRoot: string, azureSDKForJSRe
                 _logger.log(commandOutput);
 
                 _logger.log('Installing dependencies...');
-                const packageFolderPath: string | undefined = getAbsolutePackageFolderPathFromReadmeFileContents(azureSDKForJSRepoRoot, typeScriptReadmeFileContents);
-                if (!packageFolderPath) {
-                    _logger.log('Error:');
-                    _logger.log(`Could not determine the generated package folder's path from ${typeScriptReadmeFilePath}.`);
-                } else {
-                    npmInstall(packageFolderPath);
-                }
+                const packageFolderPath: string = getAbsolutePackageFolderPathFromReadmeFileContents(azureSDKForJSRepoRoot, typeScriptReadmeFileContents);
+                npmInstall(packageFolderPath);
             } catch (err) {
                 _logger.log('Error:');
                 _logger.log(`An error occurred while generating client for packages: "${packageNamesString}":\nErr: ${err}\nStderr: "${err.stderr}"`);
@@ -88,26 +83,27 @@ export async function generateSdk(azureRestAPISpecsRoot: string, azureSDKForJSRe
     }
 }
 
-export async function generateTsReadme(packageName: string, sdkType: SdkType, azureRestApiSpecsRepositoryPath: string, specDirectory?: string, skipSpecificationGeneration?: boolean): Promise<{ pullRequestUrl?: string, typescriptReadmePath?: string }> {
-    if (skipSpecificationGeneration) {
+export async function generateTsReadme(packageName: string, sdkType: SdkType): Promise<{ pullRequestUrl?: string, typescriptReadmePath?: string }> {
+    if (_args["skip-spec"]) {
         _logger.log(`Skipping spec generation`);
-        return {};
+        return { };
     }
 
+    const azureRestApiSpecsRepositoryPath: string = await findAzureRestApiSpecsRepositoryPath();
     const azureRestApiSpecRepository = await getValidatedRepository(azureRestApiSpecsRepositoryPath);
     _logger.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepositoryPath}`);
 
     await refreshRepository(azureRestApiSpecRepository);
     _logger.log(`Refreshed ${azureRestApiSpecsRepositoryPath} repository successfully`);
 
-    const sdkPath: string = specDirectory || await findSdkDirectory(azureRestApiSpecsRepositoryPath, packageName, sdkType);
+    const sdkPath: string = await findSdkDirectory(azureRestApiSpecsRepositoryPath, packageName, sdkType);
     _logger.log(`Found specification in ${sdkPath}`);
 
     await waitAndLockGitRepository(azureRestApiSpecRepository);
     const typescriptReadmePath: string = await copyExistingNodeJsReadme(sdkPath);
     _logger.log(`Copied readme file successfully`);
 
-    const newContent: string = await updateTypeScriptReadmeFile(typescriptReadmePath, sdkType);
+    const newContent: string = await updateTypeScriptReadmeFile(typescriptReadmePath, _args.getSdkType());
     _logger.log(`Generated content of the new TypeScript readme file successfully`);
 
     await saveContentToFile(typescriptReadmePath, newContent);
@@ -120,9 +116,8 @@ export async function generateTsReadme(packageName: string, sdkType: SdkType, az
     await saveContentToFile(readmeFilePath, updatedReadmeContent);
     _logger.log(`Content saved successfully to ${readmeFilePath}`);
 
-    const relativeReadmePath = typescriptReadmePath.replace(`${azureRestApiSpecsRepositoryPath}${path.sep}specification${path.sep}`, "");
-    const pullRequestTitle = `Add ${relativeReadmePath}`
-    const pullRequestDescription = "Auto generated";
+    const pullRequestTitle = `Add ${packageName}/${sdkType}/readme.typescript.md`;
+    const pullRequestDescription = "Autogenerated";
     const validate: ValidateFunction = statuses => statuses.length == 2;
 
     const pullRequestUrl = await commitAndCreatePullRequest(azureRestApiSpecRepository, packageName, pullRequestTitle, "azure-rest-api-specs", pullRequestTitle, pullRequestDescription, validate, `specification/${packageName}`);
@@ -131,9 +126,9 @@ export async function generateTsReadme(packageName: string, sdkType: SdkType, az
     return { pullRequestUrl: pullRequestUrl, typescriptReadmePath: typescriptReadmePath };
 }
 
-export async function generateMissingSdk(azureSdkForJsRepoPath: string, packageName: string, sdkType: SdkType, azureRestApiSpecsRepositoryPath: string, skipSpecGeneration?: boolean, skipSdkGeneration?: boolean): Promise<string> {
-    const readmeGenerationResult = await generateTsReadme(packageName, sdkType, azureRestApiSpecsRepositoryPath, undefined, skipSpecGeneration);
-    if (skipSdkGeneration) {
+export async function generateMissingSdk(azureSdkForJsRepoPath: string, packageName: string, sdkType: SdkType): Promise<string> {
+    const readmeGenerationResult = await generateTsReadme(packageName, sdkType);
+    if (_args["skip-sdk"]) {
         _logger.log(`Skipping sdk generation`);
         return "";
     }
@@ -142,6 +137,9 @@ export async function generateMissingSdk(azureSdkForJsRepoPath: string, packageN
         const generatedPackageName = await getSinglePackageName(readmeGenerationResult.typescriptReadmePath);
         packageName = generatedPackageName;
     }
+
+    const azureRestApiSpecsRepositoryPath: string = await findAzureRestApiSpecsRepositoryPath();
+    _logger.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepositoryPath}`);
 
     const azureSdkForJsRepository = await getValidatedRepository(azureSdkForJsRepoPath);
     await refreshRepository(azureSdkForJsRepository);
@@ -153,7 +151,7 @@ export async function generateMissingSdk(azureSdkForJsRepoPath: string, packageN
 
     const pullRequestTitle = `Generate ${packageName} package`;
     const pullRequestDescription =
-        `Auto generated. Matching specification pull request - ${readmeGenerationResult.pullRequestUrl}\n\n\n
+    `Autogenerated. Matching specification pull request - ${readmeGenerationResult.pullRequestUrl}\n\n\n
 \`\`\`
 ${_logger.getCapturedText()}
 \`\`\``
@@ -166,13 +164,13 @@ ${_logger.getCapturedText()}
     return pullRequestUrl;
 }
 
-export async function generateAllMissingSdks(azureSdkForJsRepoPath: string, azureRestApiSpecsRepository: string, skipSpecGeneration: boolean, skipSdkGeneration: boolean) {
+export async function generateAllMissingSdks(azureSdkForJsRepoPath: string, azureRestApiSpecsRepository: string) {
     const missingSdks = await findMissingSdks(azureRestApiSpecsRepository);
     _logger.log(`Found ${missingSdks.length} missing specifications`);
 
     for (const missingSdk of missingSdks) {
         try {
-            await generateMissingSdk(azureSdkForJsRepoPath, missingSdk.sdkName, missingSdk.sdkType, azureRestApiSpecsRepository, skipSpecGeneration, skipSdkGeneration);
+            await generateMissingSdk(azureSdkForJsRepoPath, missingSdk.sdkName, missingSdk.sdkType);
         } catch (error) {
             _logger.logError(error);
             continue;
@@ -180,7 +178,7 @@ export async function generateAllMissingSdks(azureSdkForJsRepoPath: string, azur
     }
 }
 
-export async function regenerate(branchName: string, packageName: string, azureSdkForJsRepoPath: string, azureRestAPISpecsPath: string, pullRequestId: number, skipVersionBump?: boolean, requestReview?: boolean) {
+export async function regenerate(branchName: string, packageName: string, azureSdkForJsRepoPath: string, azureRestAPISpecsPath: string, skipVersionBump?: boolean) {
     const azureSdkForJsRepository = await getValidatedRepository(azureSdkForJsRepoPath);
     await refreshRepository(azureSdkForJsRepository);
     _logger.log(`Refreshed ${azureSdkForJsRepository.path()} repository successfully`);
@@ -194,37 +192,18 @@ export async function regenerate(branchName: string, packageName: string, azureS
     _logger.log(`Merged master into ${localBranch.shorthand()} successfully`);
 
     if (skipVersionBump) {
-        _logger.log("Skipping version bump");
+        _logger.log("Skip version bump");
     } else {
         await bumpMinorVersion(azureSdkForJsRepoPath, packageName);
         _logger.log(`Successfully updated version in package.json`);
     }
 
-    const azureRestAPISpecsRepository = await getValidatedRepository(azureRestAPISpecsPath);
-    await refreshRepository(azureRestAPISpecsRepository);
-    _logger.log(`Refreshed ${azureRestAPISpecsRepository.path()} repository successfully`);
 
     await generateSdk(azureRestAPISpecsPath, azureSdkForJsRepoPath, packageName)
     _logger.log(`Generated sdk successfully`);
 
     await commitAndPush(azureSdkForJsRepository, localBranch, `Regenerated "${packageName}" SDK.`, undefined, `packages/${packageName}`);
     _logger.log(`Committed and pushed the changes successfully`);
-
-    await forcePrDiffRefresh("azure-sdk-for-js", pullRequestId);
-    _logger.logDebug(`Force refreshed pull request successfully`);
-
-    if (requestReview) {
-        if (!pullRequestId) {
-            const pullRequest: PullRequestsGetAllResponseItem | undefined = await findPullRequest("azure-sdk-for-js", branchName, "open");
-            if (pullRequest) {
-                pullRequestId = pullRequest.id;
-            }
-        }
-        await requestPullRequestReview("azure-sdk-for-js", pullRequestId);
-        _logger.log(`Requested review on PR ${pullRequestId} successfully`);
-    } else {
-        _logger.log("Skipping review requesting");
-    }
 }
 
 async function bumpMinorVersion(azureSdkForJsRepoPath: string, packageName: string) {

@@ -54,7 +54,7 @@ export class InstanceFailoverGroups {
    * @param callback The callback
    */
   get(resourceGroupName: string, locationName: string, failoverGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InstanceFailoverGroup>): void;
-  get(resourceGroupName: string, locationName: string, failoverGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InstanceFailoverGroup>, callback?: msRest.ServiceCallback<Models.InstanceFailoverGroup>): Promise<Models.InstanceFailoverGroupsGetResponse> {
+  get(resourceGroupName: string, locationName: string, failoverGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.InstanceFailoverGroup>): Promise<Models.InstanceFailoverGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -119,7 +119,7 @@ export class InstanceFailoverGroups {
    * @param callback The callback
    */
   listByLocation(resourceGroupName: string, locationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InstanceFailoverGroupListResult>): void;
-  listByLocation(resourceGroupName: string, locationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InstanceFailoverGroupListResult>, callback?: msRest.ServiceCallback<Models.InstanceFailoverGroupListResult>): Promise<Models.InstanceFailoverGroupsListByLocationResponse> {
+  listByLocation(resourceGroupName: string, locationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.InstanceFailoverGroupListResult>): Promise<Models.InstanceFailoverGroupsListByLocationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -264,7 +264,7 @@ export class InstanceFailoverGroups {
    * @param callback The callback
    */
   listByLocationNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InstanceFailoverGroupListResult>): void;
-  listByLocationNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InstanceFailoverGroupListResult>, callback?: msRest.ServiceCallback<Models.InstanceFailoverGroupListResult>): Promise<Models.InstanceFailoverGroupsListByLocationNextResponse> {
+  listByLocationNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.InstanceFailoverGroupListResult>): Promise<Models.InstanceFailoverGroupsListByLocationNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

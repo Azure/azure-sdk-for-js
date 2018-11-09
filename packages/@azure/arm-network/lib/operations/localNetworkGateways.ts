@@ -61,7 +61,7 @@ export class LocalNetworkGateways {
    * @param callback The callback
    */
   get(resourceGroupName: string, localNetworkGatewayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LocalNetworkGateway>): void;
-  get(resourceGroupName: string, localNetworkGatewayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LocalNetworkGateway>, callback?: msRest.ServiceCallback<Models.LocalNetworkGateway>): Promise<Models.LocalNetworkGatewaysGetResponse> {
+  get(resourceGroupName: string, localNetworkGatewayName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LocalNetworkGateway>): Promise<Models.LocalNetworkGatewaysGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -115,7 +115,7 @@ export class LocalNetworkGateways {
    * @param callback The callback
    */
   list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LocalNetworkGatewayListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LocalNetworkGatewayListResult>, callback?: msRest.ServiceCallback<Models.LocalNetworkGatewayListResult>): Promise<Models.LocalNetworkGatewaysListResponse> {
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LocalNetworkGatewayListResult>): Promise<Models.LocalNetworkGatewaysListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -201,7 +201,7 @@ export class LocalNetworkGateways {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LocalNetworkGatewayListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LocalNetworkGatewayListResult>, callback?: msRest.ServiceCallback<Models.LocalNetworkGatewayListResult>): Promise<Models.LocalNetworkGatewaysListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LocalNetworkGatewayListResult>): Promise<Models.LocalNetworkGatewaysListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

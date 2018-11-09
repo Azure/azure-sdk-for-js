@@ -53,7 +53,7 @@ export class ExtendedDatabaseBlobAuditingPolicies {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExtendedDatabaseBlobAuditingPolicy>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExtendedDatabaseBlobAuditingPolicy>, callback?: msRest.ServiceCallback<Models.ExtendedDatabaseBlobAuditingPolicy>): Promise<Models.ExtendedDatabaseBlobAuditingPoliciesGetResponse> {
+  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExtendedDatabaseBlobAuditingPolicy>): Promise<Models.ExtendedDatabaseBlobAuditingPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +95,7 @@ export class ExtendedDatabaseBlobAuditingPolicies {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.ExtendedDatabaseBlobAuditingPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExtendedDatabaseBlobAuditingPolicy>): void;
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.ExtendedDatabaseBlobAuditingPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExtendedDatabaseBlobAuditingPolicy>, callback?: msRest.ServiceCallback<Models.ExtendedDatabaseBlobAuditingPolicy>): Promise<Models.ExtendedDatabaseBlobAuditingPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.ExtendedDatabaseBlobAuditingPolicy, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExtendedDatabaseBlobAuditingPolicy>): Promise<Models.ExtendedDatabaseBlobAuditingPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

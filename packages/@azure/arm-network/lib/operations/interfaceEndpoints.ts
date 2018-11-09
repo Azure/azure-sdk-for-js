@@ -60,7 +60,7 @@ export class InterfaceEndpoints {
    * @param callback The callback
    */
   get(resourceGroupName: string, interfaceEndpointName: string, options: Models.InterfaceEndpointsGetOptionalParams, callback: msRest.ServiceCallback<Models.InterfaceEndpoint>): void;
-  get(resourceGroupName: string, interfaceEndpointName: string, options?: Models.InterfaceEndpointsGetOptionalParams | msRest.ServiceCallback<Models.InterfaceEndpoint>, callback?: msRest.ServiceCallback<Models.InterfaceEndpoint>): Promise<Models.InterfaceEndpointsGetResponse> {
+  get(resourceGroupName: string, interfaceEndpointName: string, options?: Models.InterfaceEndpointsGetOptionalParams, callback?: msRest.ServiceCallback<Models.InterfaceEndpoint>): Promise<Models.InterfaceEndpointsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -102,7 +102,7 @@ export class InterfaceEndpoints {
    * @param callback The callback
    */
   list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InterfaceEndpointListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InterfaceEndpointListResult>, callback?: msRest.ServiceCallback<Models.InterfaceEndpointListResult>): Promise<Models.InterfaceEndpointsListResponse> {
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.InterfaceEndpointListResult>): Promise<Models.InterfaceEndpointsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -127,7 +127,7 @@ export class InterfaceEndpoints {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InterfaceEndpointListResult>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InterfaceEndpointListResult>, callback?: msRest.ServiceCallback<Models.InterfaceEndpointListResult>): Promise<Models.InterfaceEndpointsListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.InterfaceEndpointListResult>): Promise<Models.InterfaceEndpointsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -192,7 +192,7 @@ export class InterfaceEndpoints {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InterfaceEndpointListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InterfaceEndpointListResult>, callback?: msRest.ServiceCallback<Models.InterfaceEndpointListResult>): Promise<Models.InterfaceEndpointsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.InterfaceEndpointListResult>): Promise<Models.InterfaceEndpointsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -220,7 +220,7 @@ export class InterfaceEndpoints {
    * @param callback The callback
    */
   listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InterfaceEndpointListResult>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InterfaceEndpointListResult>, callback?: msRest.ServiceCallback<Models.InterfaceEndpointListResult>): Promise<Models.InterfaceEndpointsListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.InterfaceEndpointListResult>): Promise<Models.InterfaceEndpointsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

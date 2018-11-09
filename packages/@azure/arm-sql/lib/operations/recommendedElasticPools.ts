@@ -53,7 +53,7 @@ export class RecommendedElasticPools {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, recommendedElasticPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecommendedElasticPool>): void;
-  get(resourceGroupName: string, serverName: string, recommendedElasticPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecommendedElasticPool>, callback?: msRest.ServiceCallback<Models.RecommendedElasticPool>): Promise<Models.RecommendedElasticPoolsGetResponse> {
+  get(resourceGroupName: string, serverName: string, recommendedElasticPoolName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RecommendedElasticPool>): Promise<Models.RecommendedElasticPoolsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -89,7 +89,7 @@ export class RecommendedElasticPools {
    * @param callback The callback
    */
   listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecommendedElasticPoolListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecommendedElasticPoolListResult>, callback?: msRest.ServiceCallback<Models.RecommendedElasticPoolListResult>): Promise<Models.RecommendedElasticPoolsListByServerResponse> {
+  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RecommendedElasticPoolListResult>): Promise<Models.RecommendedElasticPoolsListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -127,7 +127,7 @@ export class RecommendedElasticPools {
    * @param callback The callback
    */
   listMetrics(resourceGroupName: string, serverName: string, recommendedElasticPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecommendedElasticPoolListMetricsResult>): void;
-  listMetrics(resourceGroupName: string, serverName: string, recommendedElasticPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecommendedElasticPoolListMetricsResult>, callback?: msRest.ServiceCallback<Models.RecommendedElasticPoolListMetricsResult>): Promise<Models.RecommendedElasticPoolsListMetricsResponse> {
+  listMetrics(resourceGroupName: string, serverName: string, recommendedElasticPoolName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RecommendedElasticPoolListMetricsResult>): Promise<Models.RecommendedElasticPoolsListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

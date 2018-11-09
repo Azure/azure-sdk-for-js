@@ -14,132 +14,6 @@ import * as msRest from "ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
-export const Resource: msRest.CompositeMapper = {
-  serializedName: "Resource",
-  type: {
-    name: "Composite",
-    className: "Resource",
-    modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const TrackedResource: msRest.CompositeMapper = {
-  serializedName: "TrackedResource",
-  type: {
-    name: "Composite",
-    className: "TrackedResource",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      location: {
-        required: true,
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ProjectFileProperties: msRest.CompositeMapper = {
-  serializedName: "ProjectFileProperties",
-  type: {
-    name: "Composite",
-    className: "ProjectFileProperties",
-    modelProperties: {
-      extension: {
-        serializedName: "extension",
-        type: {
-          name: "String"
-        }
-      },
-      filePath: {
-        serializedName: "filePath",
-        type: {
-          name: "String"
-        }
-      },
-      lastModified: {
-        readOnly: true,
-        serializedName: "lastModified",
-        type: {
-          name: "DateTime"
-        }
-      },
-      mediaType: {
-        serializedName: "mediaType",
-        type: {
-          name: "String"
-        }
-      },
-      size: {
-        readOnly: true,
-        serializedName: "size",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const ProjectFile: msRest.CompositeMapper = {
-  serializedName: "ProjectFile",
-  type: {
-    name: "Composite",
-    className: "ProjectFile",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      etag: {
-        serializedName: "etag",
-        type: {
-          name: "String"
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "ProjectFileProperties"
-        }
-      }
-    }
-  }
-};
-
 export const ODataError: msRest.CompositeMapper = {
   serializedName: "ODataError",
   type: {
@@ -335,6 +209,66 @@ export const MigrateSyncCompleteCommandProperties: msRest.CompositeMapper = {
   }
 };
 
+export const Resource: msRest.CompositeMapper = {
+  serializedName: "Resource",
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TrackedResource: msRest.CompositeMapper = {
+  serializedName: "TrackedResource",
+  type: {
+    name: "Composite",
+    className: "TrackedResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      location: {
+        required: true,
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const GetTdeCertificatesSqlTaskOutput: msRest.CompositeMapper = {
   serializedName: "GetTdeCertificatesSqlTaskOutput",
   type: {
@@ -522,26 +456,6 @@ export const MySqlConnectionInfo: msRest.CompositeMapper = {
   }
 };
 
-export const MongoDbConnectionInfo: msRest.CompositeMapper = {
-  serializedName: "MongoDbConnectionInfo",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-    uberParent: "ConnectionInfo",
-    className: "MongoDbConnectionInfo",
-    modelProperties: {
-      ...ConnectionInfo.type.modelProperties,
-      connectionString: {
-        required: true,
-        serializedName: "connectionString",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const SqlConnectionInfo: msRest.CompositeMapper = {
   serializedName: "SqlConnectionInfo",
   type: {
@@ -720,442 +634,6 @@ export const GetTdeCertificatesSqlTaskProperties: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "GetTdeCertificatesSqlTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const MongoDbError: msRest.CompositeMapper = {
-  serializedName: "MongoDbError",
-  type: {
-    name: "Composite",
-    className: "MongoDbError",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      count: {
-        serializedName: "count",
-        type: {
-          name: "Number"
-        }
-      },
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MongoDbProgress: msRest.CompositeMapper = {
-  serializedName: "MongoDbProgress",
-  type: {
-    name: "Composite",
-    className: "MongoDbProgress",
-    modelProperties: {
-      bytesCopied: {
-        required: true,
-        serializedName: "bytesCopied",
-        type: {
-          name: "Number"
-        }
-      },
-      documentsCopied: {
-        required: true,
-        serializedName: "documentsCopied",
-        type: {
-          name: "Number"
-        }
-      },
-      elapsedTime: {
-        required: true,
-        serializedName: "elapsedTime",
-        type: {
-          name: "String"
-        }
-      },
-      errors: {
-        required: true,
-        serializedName: "errors",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Composite",
-              className: "MongoDbError"
-            }
-          }
-        }
-      },
-      eventsPending: {
-        required: true,
-        serializedName: "eventsPending",
-        type: {
-          name: "Number"
-        }
-      },
-      eventsReplayed: {
-        required: true,
-        serializedName: "eventsReplayed",
-        type: {
-          name: "Number"
-        }
-      },
-      lastEventTime: {
-        serializedName: "lastEventTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastReplayTime: {
-        serializedName: "lastReplayTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      qualifiedName: {
-        serializedName: "qualifiedName",
-        type: {
-          name: "String"
-        }
-      },
-      resultType: {
-        required: true,
-        serializedName: "resultType",
-        type: {
-          name: "String"
-        }
-      },
-      state: {
-        required: true,
-        serializedName: "state",
-        type: {
-          name: "String"
-        }
-      },
-      totalBytes: {
-        required: true,
-        serializedName: "totalBytes",
-        type: {
-          name: "Number"
-        }
-      },
-      totalDocuments: {
-        required: true,
-        serializedName: "totalDocuments",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const MongoDbCollectionProgress: msRest.CompositeMapper = {
-  serializedName: "Collection",
-  type: {
-    name: "Composite",
-    className: "MongoDbCollectionProgress",
-    modelProperties: {
-      ...MongoDbProgress.type.modelProperties
-    }
-  }
-};
-
-export const MongoDbDatabaseProgress: msRest.CompositeMapper = {
-  serializedName: "Database",
-  type: {
-    name: "Composite",
-    className: "MongoDbDatabaseProgress",
-    modelProperties: {
-      ...MongoDbProgress.type.modelProperties,
-      collections: {
-        serializedName: "collections",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Composite",
-              className: "MongoDbCollectionProgress"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const MongoDbMigrationProgress: msRest.CompositeMapper = {
-  serializedName: "Migration",
-  type: {
-    name: "Composite",
-    className: "MongoDbMigrationProgress",
-    modelProperties: {
-      ...MongoDbProgress.type.modelProperties,
-      databases: {
-        serializedName: "databases",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Composite",
-              className: "MongoDbDatabaseProgress"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const MongoDbThrottlingSettings: msRest.CompositeMapper = {
-  serializedName: "MongoDbThrottlingSettings",
-  type: {
-    name: "Composite",
-    className: "MongoDbThrottlingSettings",
-    modelProperties: {
-      minFreeCpu: {
-        serializedName: "minFreeCpu",
-        type: {
-          name: "Number"
-        }
-      },
-      minFreeMemoryMb: {
-        serializedName: "minFreeMemoryMb",
-        type: {
-          name: "Number"
-        }
-      },
-      maxParallelism: {
-        serializedName: "maxParallelism",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const MongoDbShardKeyField: msRest.CompositeMapper = {
-  serializedName: "MongoDbShardKeyField",
-  type: {
-    name: "Composite",
-    className: "MongoDbShardKeyField",
-    modelProperties: {
-      name: {
-        required: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      order: {
-        required: true,
-        serializedName: "order",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MongoDbShardKeySetting: msRest.CompositeMapper = {
-  serializedName: "MongoDbShardKeySetting",
-  type: {
-    name: "Composite",
-    className: "MongoDbShardKeySetting",
-    modelProperties: {
-      fields: {
-        required: true,
-        serializedName: "fields",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MongoDbShardKeyField"
-            }
-          }
-        }
-      },
-      isUnique: {
-        required: true,
-        serializedName: "isUnique",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const MongoDbCollectionSettings: msRest.CompositeMapper = {
-  serializedName: "MongoDbCollectionSettings",
-  type: {
-    name: "Composite",
-    className: "MongoDbCollectionSettings",
-    modelProperties: {
-      canDelete: {
-        serializedName: "canDelete",
-        type: {
-          name: "Boolean"
-        }
-      },
-      shardKey: {
-        serializedName: "shardKey",
-        type: {
-          name: "Composite",
-          className: "MongoDbShardKeySetting"
-        }
-      },
-      targetRUs: {
-        serializedName: "targetRUs",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const MongoDbDatabaseSettings: msRest.CompositeMapper = {
-  serializedName: "MongoDbDatabaseSettings",
-  type: {
-    name: "Composite",
-    className: "MongoDbDatabaseSettings",
-    modelProperties: {
-      collections: {
-        required: true,
-        serializedName: "collections",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Composite",
-              className: "MongoDbCollectionSettings"
-            }
-          }
-        }
-      },
-      targetRUs: {
-        serializedName: "targetRUs",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const MongoDbMigrationSettings: msRest.CompositeMapper = {
-  serializedName: "MongoDbMigrationSettings",
-  type: {
-    name: "Composite",
-    className: "MongoDbMigrationSettings",
-    modelProperties: {
-      boostRUs: {
-        serializedName: "boostRUs",
-        type: {
-          name: "Number"
-        }
-      },
-      databases: {
-        required: true,
-        serializedName: "databases",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Composite",
-              className: "MongoDbDatabaseSettings"
-            }
-          }
-        }
-      },
-      replication: {
-        serializedName: "replication",
-        type: {
-          name: "String"
-        }
-      },
-      source: {
-        required: true,
-        serializedName: "source",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
-          className: "MongoDbConnectionInfo"
-        }
-      },
-      target: {
-        required: true,
-        serializedName: "target",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
-          className: "MongoDbConnectionInfo"
-        }
-      },
-      throttling: {
-        serializedName: "throttling",
-        type: {
-          name: "Composite",
-          className: "MongoDbThrottlingSettings"
-        }
-      }
-    }
-  }
-};
-
-export const ValidateMongoDbTaskProperties: msRest.CompositeMapper = {
-  serializedName: "Validate.MongoDb",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: ProjectTaskProperties.type.polymorphicDiscriminator,
-    uberParent: "ProjectTaskProperties",
-    className: "ValidateMongoDbTaskProperties",
-    modelProperties: {
-      ...ProjectTaskProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "MongoDbMigrationSettings"
-        }
-      },
-      output: {
-        readOnly: true,
-        serializedName: "output",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MongoDbMigrationProgress"
             }
           }
         }
@@ -4747,39 +4225,6 @@ export const MigrateSqlServerSqlMITaskProperties: msRest.CompositeMapper = {
   }
 };
 
-export const MigrateMongoDbTaskProperties: msRest.CompositeMapper = {
-  serializedName: "Migrate.MongoDb",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: ProjectTaskProperties.type.polymorphicDiscriminator,
-    uberParent: "ProjectTaskProperties",
-    className: "MigrateMongoDbTaskProperties",
-    modelProperties: {
-      ...ProjectTaskProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "MongoDbMigrationSettings"
-        }
-      },
-      output: {
-        readOnly: true,
-        serializedName: "output",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MongoDbProgress"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const ConnectToTargetAzureDbForMySqlTaskOutput: msRest.CompositeMapper = {
   serializedName: "ConnectToTargetAzureDbForMySqlTaskOutput",
   type: {
@@ -5972,250 +5417,6 @@ export const ConnectToSourceSqlServerTaskProperties: msRest.CompositeMapper = {
   }
 };
 
-export const MongoDbShardKeyInfo: msRest.CompositeMapper = {
-  serializedName: "MongoDbShardKeyInfo",
-  type: {
-    name: "Composite",
-    className: "MongoDbShardKeyInfo",
-    modelProperties: {
-      fields: {
-        required: true,
-        serializedName: "fields",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MongoDbShardKeyField"
-            }
-          }
-        }
-      },
-      isUnique: {
-        required: true,
-        serializedName: "isUnique",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const MongoDbObjectInfo: msRest.CompositeMapper = {
-  serializedName: "MongoDbObjectInfo",
-  type: {
-    name: "Composite",
-    className: "MongoDbObjectInfo",
-    modelProperties: {
-      averageDocumentSize: {
-        required: true,
-        serializedName: "averageDocumentSize",
-        type: {
-          name: "Number"
-        }
-      },
-      dataSize: {
-        required: true,
-        serializedName: "dataSize",
-        type: {
-          name: "Number"
-        }
-      },
-      documentCount: {
-        required: true,
-        serializedName: "documentCount",
-        type: {
-          name: "Number"
-        }
-      },
-      name: {
-        required: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      qualifiedName: {
-        required: true,
-        serializedName: "qualifiedName",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MongoDbCollectionInfo: msRest.CompositeMapper = {
-  serializedName: "MongoDbCollectionInfo",
-  type: {
-    name: "Composite",
-    className: "MongoDbCollectionInfo",
-    modelProperties: {
-      ...MongoDbObjectInfo.type.modelProperties,
-      databaseName: {
-        required: true,
-        serializedName: "databaseName",
-        type: {
-          name: "String"
-        }
-      },
-      isCapped: {
-        required: true,
-        serializedName: "isCapped",
-        type: {
-          name: "Boolean"
-        }
-      },
-      isSystemCollection: {
-        required: true,
-        serializedName: "isSystemCollection",
-        type: {
-          name: "Boolean"
-        }
-      },
-      isView: {
-        required: true,
-        serializedName: "isView",
-        type: {
-          name: "Boolean"
-        }
-      },
-      shardKey: {
-        serializedName: "shardKey",
-        type: {
-          name: "Composite",
-          className: "MongoDbShardKeyInfo"
-        }
-      },
-      supportsSharding: {
-        required: true,
-        serializedName: "supportsSharding",
-        type: {
-          name: "Boolean"
-        }
-      },
-      viewOf: {
-        serializedName: "viewOf",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MongoDbDatabaseInfo: msRest.CompositeMapper = {
-  serializedName: "MongoDbDatabaseInfo",
-  type: {
-    name: "Composite",
-    className: "MongoDbDatabaseInfo",
-    modelProperties: {
-      ...MongoDbObjectInfo.type.modelProperties,
-      collections: {
-        required: true,
-        serializedName: "collections",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MongoDbCollectionInfo"
-            }
-          }
-        }
-      },
-      supportsSharding: {
-        required: true,
-        serializedName: "supportsSharding",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const MongoDbClusterInfo: msRest.CompositeMapper = {
-  serializedName: "MongoDbClusterInfo",
-  type: {
-    name: "Composite",
-    className: "MongoDbClusterInfo",
-    modelProperties: {
-      databases: {
-        required: true,
-        serializedName: "databases",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MongoDbDatabaseInfo"
-            }
-          }
-        }
-      },
-      supportsSharding: {
-        required: true,
-        serializedName: "supportsSharding",
-        type: {
-          name: "Boolean"
-        }
-      },
-      type: {
-        required: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      version: {
-        required: true,
-        serializedName: "version",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ConnectToMongoDbTaskProperties: msRest.CompositeMapper = {
-  serializedName: "Connect.MongoDb",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: ProjectTaskProperties.type.polymorphicDiscriminator,
-    uberParent: "ProjectTaskProperties",
-    className: "ConnectToMongoDbTaskProperties",
-    modelProperties: {
-      ...ProjectTaskProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
-          className: "MongoDbConnectionInfo"
-        }
-      },
-      output: {
-        readOnly: true,
-        serializedName: "output",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MongoDbClusterInfo"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const ProjectTask: msRest.CompositeMapper = {
   serializedName: "ProjectTask",
   type: {
@@ -6279,6 +5480,36 @@ export const ServiceSku: msRest.CompositeMapper = {
         serializedName: "capacity",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const DataMigrationServiceProperties: msRest.CompositeMapper = {
+  serializedName: "DataMigrationServiceProperties",
+  type: {
+    name: "Composite",
+    className: "DataMigrationServiceProperties",
+    modelProperties: {
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      publicKey: {
+        serializedName: "publicKey",
+        type: {
+          name: "String"
+        }
+      },
+      virtualSubnetId: {
+        required: true,
+        serializedName: "virtualSubnetId",
+        type: {
+          name: "String"
         }
       }
     }
@@ -6374,6 +5605,80 @@ export const DatabaseInfo: msRest.CompositeMapper = {
   }
 };
 
+export const ProjectProperties: msRest.CompositeMapper = {
+  serializedName: "ProjectProperties",
+  type: {
+    name: "Composite",
+    className: "ProjectProperties",
+    modelProperties: {
+      sourcePlatform: {
+        required: true,
+        serializedName: "sourcePlatform",
+        type: {
+          name: "String"
+        }
+      },
+      targetPlatform: {
+        required: true,
+        serializedName: "targetPlatform",
+        type: {
+          name: "String"
+        }
+      },
+      creationTime: {
+        readOnly: true,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      sourceConnectionInfo: {
+        serializedName: "sourceConnectionInfo",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "ConnectionInfo",
+          className: "ConnectionInfo"
+        }
+      },
+      targetConnectionInfo: {
+        serializedName: "targetConnectionInfo",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "ConnectionInfo",
+          className: "ConnectionInfo"
+        }
+      },
+      databasesInfo: {
+        serializedName: "databasesInfo",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DatabaseInfo"
+            }
+          }
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Project: msRest.CompositeMapper = {
   serializedName: "Project",
   type: {
@@ -6460,33 +5765,6 @@ export const ApiError: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ODataError"
-        }
-      }
-    }
-  }
-};
-
-export const FileStorageInfo: msRest.CompositeMapper = {
-  serializedName: "Unknown",
-  type: {
-    name: "Composite",
-    className: "FileStorageInfo",
-    modelProperties: {
-      uri: {
-        serializedName: "uri",
-        type: {
-          name: "String"
-        }
-      },
-      headers: {
-        serializedName: "headers",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
         }
       }
     }
@@ -7232,12 +6510,6 @@ export const MigrateSchemaSqlServerSqlDbDatabaseInput: msRest.CompositeMapper = 
     name: "Composite",
     className: "MigrateSchemaSqlServerSqlDbDatabaseInput",
     modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
       targetDatabaseName: {
         serializedName: "targetDatabaseName",
         type: {
@@ -7533,100 +6805,6 @@ export const MigrateSchemaSqlTaskOutputError: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ReportableException"
-        }
-      }
-    }
-  }
-};
-
-export const MongoDbCommandInput: msRest.CompositeMapper = {
-  serializedName: "MongoDbCommandInput",
-  type: {
-    name: "Composite",
-    className: "MongoDbCommandInput",
-    modelProperties: {
-      objectName: {
-        serializedName: "objectName",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MongoDbCancelCommand: msRest.CompositeMapper = {
-  serializedName: "cancel",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: CommandProperties.type.polymorphicDiscriminator,
-    uberParent: "CommandProperties",
-    className: "MongoDbCancelCommand",
-    modelProperties: {
-      ...CommandProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "MongoDbCommandInput"
-        }
-      }
-    }
-  }
-};
-
-export const MongoDbFinishCommandInput: msRest.CompositeMapper = {
-  serializedName: "MongoDbFinishCommandInput",
-  type: {
-    name: "Composite",
-    className: "MongoDbFinishCommandInput",
-    modelProperties: {
-      ...MongoDbCommandInput.type.modelProperties,
-      immediate: {
-        required: true,
-        serializedName: "immediate",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const MongoDbFinishCommand: msRest.CompositeMapper = {
-  serializedName: "finish",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: CommandProperties.type.polymorphicDiscriminator,
-    uberParent: "CommandProperties",
-    className: "MongoDbFinishCommand",
-    modelProperties: {
-      ...CommandProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "MongoDbFinishCommandInput"
-        }
-      }
-    }
-  }
-};
-
-export const MongoDbRestartCommand: msRest.CompositeMapper = {
-  serializedName: "restart",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: CommandProperties.type.polymorphicDiscriminator,
-    uberParent: "CommandProperties",
-    className: "MongoDbRestartCommand",
-    modelProperties: {
-      ...CommandProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "MongoDbCommandInput"
         }
       }
     }
@@ -8409,44 +7587,14 @@ export const ServiceOperationList: msRest.CompositeMapper = {
   }
 };
 
-export const FileList: msRest.CompositeMapper = {
-  serializedName: "FileList",
-  type: {
-    name: "Composite",
-    className: "FileList",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ProjectFile"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const discriminators = {
   'CommandProperties.Migrate.Sync.Complete.Database' : MigrateSyncCompleteCommandProperties,
   'Unknown' : CommandProperties,
   'ConnectionInfo.PostgreSqlConnectionInfo' : PostgreSqlConnectionInfo,
   'ConnectionInfo.MySqlConnectionInfo' : MySqlConnectionInfo,
-  'ConnectionInfo.MongoDbConnectionInfo' : MongoDbConnectionInfo,
   'Unknown' : ConnectionInfo,
   'ConnectionInfo.SqlConnectionInfo' : SqlConnectionInfo,
   'ProjectTaskProperties.GetTDECertificates.Sql' : GetTdeCertificatesSqlTaskProperties,
-  'ProjectTaskProperties.Validate.MongoDb' : ValidateMongoDbTaskProperties,
   'ProjectTaskProperties.ValidateMigrationInput.SqlServer.AzureSqlDbMI' : ValidateMigrationInputSqlServerSqlMITaskProperties,
   'ProjectTaskProperties.ValidateMigrationInput.SqlServer.SqlDb.Sync' : ValidateMigrationInputSqlServerSqlDbSyncTaskProperties,
   'MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.DatabaseLevelErrorOutput' : MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError,
@@ -8483,7 +7631,6 @@ export const discriminators = {
   'MigrateSqlServerSqlMITaskOutput.MigrationLevelOutput' : MigrateSqlServerSqlMITaskOutputMigrationLevel,
   'MigrateSqlServerSqlMITaskOutput' : MigrateSqlServerSqlMITaskOutput,
   'ProjectTaskProperties.Migrate.SqlServer.AzureSqlDbMI' : MigrateSqlServerSqlMITaskProperties,
-  'ProjectTaskProperties.Migrate.MongoDb' : MigrateMongoDbTaskProperties,
   'ProjectTaskProperties.ConnectToTarget.AzureDbForMySql' : ConnectToTargetAzureDbForMySqlTaskProperties,
   'ProjectTaskProperties.ConnectToTarget.AzureSqlDbMI' : ConnectToTargetSqlMITaskProperties,
   'ProjectTaskProperties.GetUserTables.AzureSqlDb.Sync' : GetUserTablesSqlSyncTaskProperties,
@@ -8497,7 +7644,6 @@ export const discriminators = {
   'ConnectToSourceSqlServerTaskOutput' : ConnectToSourceSqlServerTaskOutput,
   'ProjectTaskProperties.ConnectToSource.SqlServer.Sync' : ConnectToSourceSqlServerSyncTaskProperties,
   'ProjectTaskProperties.ConnectToSource.SqlServer' : ConnectToSourceSqlServerTaskProperties,
-  'ProjectTaskProperties.Connect.MongoDb' : ConnectToMongoDbTaskProperties,
   'Unknown' : ProjectTaskProperties,
   'ProjectTaskProperties.ConnectToSource.MySql' : ConnectToSourceMySqlTaskProperties,
   'MigrateSchemaSqlServerSqlDbTaskOutput' : MigrateSchemaSqlServerSqlDbTaskOutput,
@@ -8505,8 +7651,5 @@ export const discriminators = {
   'MigrateSchemaSqlServerSqlDbTaskOutput.MigrationLevelOutput' : MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel,
   'MigrateSchemaSqlServerSqlDbTaskOutput.DatabaseLevelOutput' : MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel,
   'MigrateSchemaSqlServerSqlDbTaskOutput.SchemaErrorOutput' : MigrateSchemaSqlServerSqlDbTaskOutputError,
-  'MigrateSchemaSqlServerSqlDbTaskOutput.ErrorOutput' : MigrateSchemaSqlTaskOutputError,
-  'CommandProperties.cancel' : MongoDbCancelCommand,
-  'CommandProperties.finish' : MongoDbFinishCommand,
-  'CommandProperties.restart' : MongoDbRestartCommand
+  'MigrateSchemaSqlServerSqlDbTaskOutput.ErrorOutput' : MigrateSchemaSqlTaskOutputError
 };

@@ -61,7 +61,7 @@ export class VirtualNetworkGateways {
    * @param callback The callback
    */
   get(resourceGroupName: string, virtualNetworkGatewayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkGateway>): void;
-  get(resourceGroupName: string, virtualNetworkGatewayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkGateway>, callback?: msRest.ServiceCallback<Models.VirtualNetworkGateway>): Promise<Models.VirtualNetworkGatewaysGetResponse> {
+  get(resourceGroupName: string, virtualNetworkGatewayName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetworkGateway>): Promise<Models.VirtualNetworkGatewaysGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -115,7 +115,7 @@ export class VirtualNetworkGateways {
    * @param callback The callback
    */
   list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkGatewayListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkGatewayListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkGatewayListResult>): Promise<Models.VirtualNetworkGatewaysListResponse> {
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetworkGatewayListResult>): Promise<Models.VirtualNetworkGatewaysListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -146,7 +146,7 @@ export class VirtualNetworkGateways {
    * @param callback The callback
    */
   listConnections(resourceGroupName: string, virtualNetworkGatewayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkGatewayListConnectionsResult>): void;
-  listConnections(resourceGroupName: string, virtualNetworkGatewayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkGatewayListConnectionsResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkGatewayListConnectionsResult>): Promise<Models.VirtualNetworkGatewaysListConnectionsResponse> {
+  listConnections(resourceGroupName: string, virtualNetworkGatewayName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetworkGatewayListConnectionsResult>): Promise<Models.VirtualNetworkGatewaysListConnectionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -257,7 +257,7 @@ export class VirtualNetworkGateways {
    * @param callback The callback
    */
   supportedVpnDevices(resourceGroupName: string, virtualNetworkGatewayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  supportedVpnDevices(resourceGroupName: string, virtualNetworkGatewayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.VirtualNetworkGatewaysSupportedVpnDevicesResponse> {
+  supportedVpnDevices(resourceGroupName: string, virtualNetworkGatewayName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.VirtualNetworkGatewaysSupportedVpnDevicesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -351,7 +351,7 @@ export class VirtualNetworkGateways {
    * @param callback The callback
    */
   vpnDeviceConfigurationScript(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: Models.VpnDeviceScriptParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  vpnDeviceConfigurationScript(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: Models.VpnDeviceScriptParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.VirtualNetworkGatewaysVpnDeviceConfigurationScriptResponse> {
+  vpnDeviceConfigurationScript(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: Models.VpnDeviceScriptParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.VirtualNetworkGatewaysVpnDeviceConfigurationScriptResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -638,7 +638,7 @@ export class VirtualNetworkGateways {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkGatewayListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkGatewayListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkGatewayListResult>): Promise<Models.VirtualNetworkGatewaysListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetworkGatewayListResult>): Promise<Models.VirtualNetworkGatewaysListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -666,7 +666,7 @@ export class VirtualNetworkGateways {
    * @param callback The callback
    */
   listConnectionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkGatewayListConnectionsResult>): void;
-  listConnectionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkGatewayListConnectionsResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkGatewayListConnectionsResult>): Promise<Models.VirtualNetworkGatewaysListConnectionsNextResponse> {
+  listConnectionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetworkGatewayListConnectionsResult>): Promise<Models.VirtualNetworkGatewaysListConnectionsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

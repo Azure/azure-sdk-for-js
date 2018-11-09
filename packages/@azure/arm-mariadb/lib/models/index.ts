@@ -85,6 +85,50 @@ export interface StorageProfile {
 }
 
 /**
+ * @interface
+ * An interface representing ServerProperties.
+ * The properties of a server.
+ *
+ */
+export interface ServerProperties {
+  /**
+   * @member {string} [administratorLogin] The administrator's login name of a
+   * server. Can only be specified when the server is being created (and is
+   * required for creation).
+   */
+  administratorLogin?: string;
+  /**
+   * @member {ServerVersion} [version] Server version. Possible values include:
+   * '5.6', '5.7'
+   */
+  version?: ServerVersion;
+  /**
+   * @member {SslEnforcementEnum} [sslEnforcement] Enable ssl enforcement or
+   * not when connect to server. Possible values include: 'Enabled', 'Disabled'
+   */
+  sslEnforcement?: SslEnforcementEnum;
+  /**
+   * @member {ServerState} [userVisibleState] A state of a server that is
+   * visible to user. Possible values include: 'Ready', 'Dropping', 'Disabled'
+   */
+  userVisibleState?: ServerState;
+  /**
+   * @member {string} [fullyQualifiedDomainName] The fully qualified domain
+   * name of a server.
+   */
+  fullyQualifiedDomainName?: string;
+  /**
+   * @member {Date} [earliestRestoreDate] Earliest restore point creation time
+   * (ISO8601 format)
+   */
+  earliestRestoreDate?: Date;
+  /**
+   * @member {StorageProfile} [storageProfile] Storage profile of a server.
+   */
+  storageProfile?: StorageProfile;
+}
+
+/**
  * Contains the possible cases for ServerPropertiesForCreate.
  */
 export type ServerPropertiesForCreateUnion = ServerPropertiesForCreate | ServerPropertiesForDefaultCreate | ServerPropertiesForRestore | ServerPropertiesForGeoRestore;
@@ -333,6 +377,34 @@ export interface ServerForCreate {
 
 /**
  * @interface
+ * An interface representing ServerUpdateParametersProperties.
+ * The properties that can be updated for a server.
+ *
+ */
+export interface ServerUpdateParametersProperties {
+  /**
+   * @member {StorageProfile} [storageProfile] Storage profile of a server.
+   */
+  storageProfile?: StorageProfile;
+  /**
+   * @member {string} [administratorLoginPassword] The password of the
+   * administrator login.
+   */
+  administratorLoginPassword?: string;
+  /**
+   * @member {ServerVersion} [version] The version of a server. Possible values
+   * include: '5.6', '5.7'
+   */
+  version?: ServerVersion;
+  /**
+   * @member {SslEnforcementEnum} [sslEnforcement] Enable ssl enforcement or
+   * not when connect to server. Possible values include: 'Enabled', 'Disabled'
+   */
+  sslEnforcement?: SslEnforcementEnum;
+}
+
+/**
+ * @interface
  * An interface representing ServerUpdateParameters.
  * Parameters allowd to update for a server.
  *
@@ -370,6 +442,25 @@ export interface ServerUpdateParameters {
 
 /**
  * @interface
+ * An interface representing FirewallRuleProperties.
+ * The properties of a server firewall rule.
+ *
+ */
+export interface FirewallRuleProperties {
+  /**
+   * @member {string} startIpAddress The start IP address of the server
+   * firewall rule. Must be IPv4 format.
+   */
+  startIpAddress: string;
+  /**
+   * @member {string} endIpAddress The end IP address of the server firewall
+   * rule. Must be IPv4 format.
+   */
+  endIpAddress: string;
+}
+
+/**
+ * @interface
  * An interface representing FirewallRule.
  * Represents a server firewall rule.
  *
@@ -390,30 +481,19 @@ export interface FirewallRule extends ProxyResource {
 
 /**
  * @interface
- * An interface representing VirtualNetworkRule.
- * A virtual network rule.
+ * An interface representing DatabaseProperties.
+ * The properties of a database.
  *
- * @extends ProxyResource
  */
-export interface VirtualNetworkRule extends ProxyResource {
+export interface DatabaseProperties {
   /**
-   * @member {string} virtualNetworkSubnetId The ARM resource id of the virtual
-   * network subnet.
+   * @member {string} [charset] The charset of the database.
    */
-  virtualNetworkSubnetId: string;
+  charset?: string;
   /**
-   * @member {boolean} [ignoreMissingVnetServiceEndpoint] Create firewall rule
-   * before the virtual network has vnet service endpoint enabled.
+   * @member {string} [collation] The collation of the database.
    */
-  ignoreMissingVnetServiceEndpoint?: boolean;
-  /**
-   * @member {VirtualNetworkRuleState} [state] Virtual Network Rule State.
-   * Possible values include: 'Initializing', 'InProgress', 'Ready',
-   * 'Deleting', 'Unknown'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly state?: VirtualNetworkRuleState;
+  collation?: string;
 }
 
 /**
@@ -432,6 +512,47 @@ export interface Database extends ProxyResource {
    * @member {string} [collation] The collation of the database.
    */
   collation?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ConfigurationProperties.
+ * The properties of a configuration.
+ *
+ */
+export interface ConfigurationProperties {
+  /**
+   * @member {string} [value] Value of the configuration.
+   */
+  value?: string;
+  /**
+   * @member {string} [description] Description of the configuration.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly description?: string;
+  /**
+   * @member {string} [defaultValue] Default value of the configuration.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly defaultValue?: string;
+  /**
+   * @member {string} [dataType] Data type of the configuration.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly dataType?: string;
+  /**
+   * @member {string} [allowedValues] Allowed values of the configuration.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly allowedValues?: string;
+  /**
+   * @member {string} [source] Source of the configuration.
+   */
+  source?: string;
 }
 
 /**
@@ -557,6 +678,41 @@ export interface OperationListResult {
    * @member {Operation[]} [value] The list of resource provider operations.
    */
   value?: Operation[];
+}
+
+/**
+ * @interface
+ * An interface representing LogFileProperties.
+ * The properties of a log file.
+ *
+ */
+export interface LogFileProperties {
+  /**
+   * @member {number} [sizeInKB] Size of the log file.
+   */
+  sizeInKB?: number;
+  /**
+   * @member {Date} [createdTime] Creation timestamp of the log file.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdTime?: Date;
+  /**
+   * @member {Date} [lastModifiedTime] Last modified timestamp of the log file.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastModifiedTime?: Date;
+  /**
+   * @member {string} [type] Type of the log file.
+   */
+  type?: string;
+  /**
+   * @member {string} [url] The url to download the log file from.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly url?: string;
 }
 
 /**
@@ -698,6 +854,53 @@ export interface NameAvailability {
 
 /**
  * @interface
+ * An interface representing SecurityAlertPolicyProperties.
+ * Properties of a security alert policy.
+ *
+ */
+export interface SecurityAlertPolicyProperties {
+  /**
+   * @member {ServerSecurityAlertPolicyState} state Specifies the state of the
+   * policy, whether it is enabled or disabled. Possible values include:
+   * 'Enabled', 'Disabled'
+   */
+  state: ServerSecurityAlertPolicyState;
+  /**
+   * @member {string[]} [disabledAlerts] Specifies an array of alerts that are
+   * disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability,
+   * Access_Anomaly
+   */
+  disabledAlerts?: string[];
+  /**
+   * @member {string[]} [emailAddresses] Specifies an array of e-mail addresses
+   * to which the alert is sent.
+   */
+  emailAddresses?: string[];
+  /**
+   * @member {boolean} [emailAccountAdmins] Specifies that the alert is sent to
+   * the account administrators.
+   */
+  emailAccountAdmins?: boolean;
+  /**
+   * @member {string} [storageEndpoint] Specifies the blob storage endpoint
+   * (e.g. https://MyAccount.blob.core.windows.net). This blob storage will
+   * hold all Threat Detection audit logs.
+   */
+  storageEndpoint?: string;
+  /**
+   * @member {string} [storageAccountAccessKey] Specifies the identifier key of
+   * the Threat Detection audit storage account.
+   */
+  storageAccountAccessKey?: string;
+  /**
+   * @member {number} [retentionDays] Specifies the number of days to keep in
+   * the Threat Detection audit logs.
+   */
+  retentionDays?: number;
+}
+
+/**
+ * @interface
  * An interface representing ServerSecurityAlertPolicy.
  * A server security alert policy.
  *
@@ -775,22 +978,6 @@ export interface ServerListResult extends Array<Server> {
  * @extends Array<FirewallRule>
  */
 export interface FirewallRuleListResult extends Array<FirewallRule> {
-}
-
-/**
- * @interface
- * An interface representing the VirtualNetworkRuleListResult.
- * A list of virtual network rules.
- *
- * @extends Array<VirtualNetworkRule>
- */
-export interface VirtualNetworkRuleListResult extends Array<VirtualNetworkRule> {
-  /**
-   * @member {string} [nextLink] Link to retrieve next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly nextLink?: string;
 }
 
 /**
@@ -907,26 +1094,6 @@ export enum SkuTier {
   Basic = 'Basic',
   GeneralPurpose = 'GeneralPurpose',
   MemoryOptimized = 'MemoryOptimized',
-}
-
-/**
- * Defines values for VirtualNetworkRuleState.
- * Possible values include: 'Initializing', 'InProgress', 'Ready', 'Deleting',
- * 'Unknown'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VirtualNetworkRuleState =
- * <VirtualNetworkRuleState>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum VirtualNetworkRuleState {
-  Initializing = 'Initializing',
-  InProgress = 'InProgress',
-  Ready = 'Ready',
-  Deleting = 'Deleting',
-  Unknown = 'Unknown',
 }
 
 /**
@@ -1163,101 +1330,6 @@ export type FirewallRulesBeginCreateOrUpdateResponse = FirewallRule & {
        * The response body as parsed JSON or XML
        */
       parsedBody: FirewallRule;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type VirtualNetworkRulesGetResponse = VirtualNetworkRule & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkRule;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type VirtualNetworkRulesCreateOrUpdateResponse = VirtualNetworkRule & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkRule;
-    };
-};
-
-/**
- * Contains response data for the listByServer operation.
- */
-export type VirtualNetworkRulesListByServerResponse = VirtualNetworkRuleListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkRuleListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type VirtualNetworkRulesBeginCreateOrUpdateResponse = VirtualNetworkRule & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkRule;
-    };
-};
-
-/**
- * Contains response data for the listByServerNext operation.
- */
-export type VirtualNetworkRulesListByServerNextResponse = VirtualNetworkRuleListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkRuleListResult;
     };
 };
 

@@ -48,7 +48,7 @@ export class VpnGateways {
    * @param callback The callback
    */
   get(resourceGroupName: string, gatewayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VpnGateway>): void;
-  get(resourceGroupName: string, gatewayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VpnGateway>, callback?: msRest.ServiceCallback<Models.VpnGateway>): Promise<Models.VpnGatewaysGetResponse> {
+  get(resourceGroupName: string, gatewayName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VpnGateway>): Promise<Models.VpnGatewaysGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -115,7 +115,7 @@ export class VpnGateways {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVpnGatewaysResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVpnGatewaysResult>, callback?: msRest.ServiceCallback<Models.ListVpnGatewaysResult>): Promise<Models.VpnGatewaysListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListVpnGatewaysResult>): Promise<Models.VpnGatewaysListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -140,7 +140,7 @@ export class VpnGateways {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVpnGatewaysResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVpnGatewaysResult>, callback?: msRest.ServiceCallback<Models.ListVpnGatewaysResult>): Promise<Models.VpnGatewaysListResponse> {
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListVpnGatewaysResult>): Promise<Models.VpnGatewaysListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -225,7 +225,7 @@ export class VpnGateways {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVpnGatewaysResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVpnGatewaysResult>, callback?: msRest.ServiceCallback<Models.ListVpnGatewaysResult>): Promise<Models.VpnGatewaysListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListVpnGatewaysResult>): Promise<Models.VpnGatewaysListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -253,7 +253,7 @@ export class VpnGateways {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVpnGatewaysResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVpnGatewaysResult>, callback?: msRest.ServiceCallback<Models.ListVpnGatewaysResult>): Promise<Models.VpnGatewaysListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListVpnGatewaysResult>): Promise<Models.VpnGatewaysListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

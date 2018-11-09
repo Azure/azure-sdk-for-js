@@ -47,7 +47,7 @@ export class AvailableResourceGroupDelegations {
    * @param callback The callback
    */
   list(location: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableDelegationsResult>): void;
-  list(location: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableDelegationsResult>, callback?: msRest.ServiceCallback<Models.AvailableDelegationsResult>): Promise<Models.AvailableResourceGroupDelegationsListResponse> {
+  list(location: string, resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AvailableDelegationsResult>): Promise<Models.AvailableResourceGroupDelegationsListResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -76,7 +76,7 @@ export class AvailableResourceGroupDelegations {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableDelegationsResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableDelegationsResult>, callback?: msRest.ServiceCallback<Models.AvailableDelegationsResult>): Promise<Models.AvailableResourceGroupDelegationsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AvailableDelegationsResult>): Promise<Models.AvailableResourceGroupDelegationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

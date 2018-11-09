@@ -16,108 +16,6 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
- * An interface representing Resource.
- * ARM resource.
- *
- * @extends BaseResource
- */
-export interface Resource extends BaseResource {
-  /**
-   * @member {string} [id] Resource ID.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [name] Resource name.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {string} [type] Resource type.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * @interface
- * An interface representing TrackedResource.
- * ARM tracked top level resource.
- *
- * @extends Resource
- */
-export interface TrackedResource extends Resource {
-  /**
-   * @member {{ [propertyName: string]: string }} [tags] Resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * @member {string} location Resource location.
-   */
-  location: string;
-}
-
-/**
- * @interface
- * An interface representing ProjectFileProperties.
- * Base class for file properties.
- *
- */
-export interface ProjectFileProperties {
-  /**
-   * @member {string} [extension] Optional File extension. If submitted it
-   * should not have a leading period and must match the extension from
-   * filePath.
-   */
-  extension?: string;
-  /**
-   * @member {string} [filePath] Relative path of this file resource. This
-   * property can be set when creating or updating the file resource.
-   */
-  filePath?: string;
-  /**
-   * @member {Date} [lastModified] Modification DateTime.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly lastModified?: Date;
-  /**
-   * @member {string} [mediaType] File content type. This propery can be
-   * modified to reflect the file content type.
-   */
-  mediaType?: string;
-  /**
-   * @member {number} [size] File size.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly size?: number;
-}
-
-/**
- * @interface
- * An interface representing ProjectFile.
- * A file resource
- *
- * @extends Resource
- */
-export interface ProjectFile extends Resource {
-  /**
-   * @member {string} [etag] HTTP strong entity tag value. This is ignored if
-   * submitted.
-   */
-  etag?: string;
-  /**
-   * @member {ProjectFileProperties} [properties] Custom file properties
-   */
-  properties?: ProjectFileProperties;
-}
-
-/**
- * @interface
  * An interface representing ODataError.
  * Error information in OData format.
  *
@@ -206,7 +104,7 @@ export interface MigrateSyncCompleteCommandInput {
 /**
  * Contains the possible cases for CommandProperties.
  */
-export type CommandPropertiesUnion = CommandProperties | MigrateSyncCompleteCommandProperties | MongoDbCancelCommand | MongoDbFinishCommand | MongoDbRestartCommand;
+export type CommandPropertiesUnion = CommandProperties | MigrateSyncCompleteCommandProperties;
 
 /**
  * @interface
@@ -278,6 +176,52 @@ export interface MigrateSyncCompleteCommandProperties {
 
 /**
  * @interface
+ * An interface representing Resource.
+ * ARM resource.
+ *
+ * @extends BaseResource
+ */
+export interface Resource extends BaseResource {
+  /**
+   * @member {string} [id] Resource ID.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [name] Resource name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [type] Resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * @interface
+ * An interface representing TrackedResource.
+ * ARM tracked top level resource.
+ *
+ * @extends Resource
+ */
+export interface TrackedResource extends Resource {
+  /**
+   * @member {{ [propertyName: string]: string }} [tags] Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * @member {string} location Resource location.
+   */
+  location: string;
+}
+
+/**
+ * @interface
  * An interface representing GetTdeCertificatesSqlTaskOutput.
  * Output of the task that gets TDE certificates in Base64 encoded format.
  *
@@ -342,7 +286,7 @@ export interface FileShare {
 /**
  * Contains the possible cases for ConnectionInfo.
  */
-export type ConnectionInfoUnion = ConnectionInfo | PostgreSqlConnectionInfo | MySqlConnectionInfo | MongoDbConnectionInfo | SqlConnectionInfo;
+export type ConnectionInfoUnion = ConnectionInfo | PostgreSqlConnectionInfo | MySqlConnectionInfo | SqlConnectionInfo;
 
 /**
  * @interface
@@ -429,33 +373,6 @@ export interface MySqlConnectionInfo {
 
 /**
  * @interface
- * An interface representing MongoDbConnectionInfo.
- * Describes a connection to a MongoDB data source
- *
- */
-export interface MongoDbConnectionInfo {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "MongoDbConnectionInfo";
-  /**
-   * @member {string} [userName] User name
-   */
-  userName?: string;
-  /**
-   * @member {string} [password] Password credential.
-   */
-  password?: string;
-  /**
-   * @member {string} connectionString A MongoDB connection string or blob
-   * container URL. The user name and password can be specified here or in the
-   * userName and password properties
-   */
-  connectionString: string;
-}
-
-/**
- * @interface
  * An interface representing SqlConnectionInfo.
  * Information for connecting to SQL database server
  *
@@ -534,7 +451,7 @@ export interface GetTdeCertificatesSqlTaskInput {
 /**
  * Contains the possible cases for ProjectTaskProperties.
  */
-export type ProjectTaskPropertiesUnion = ProjectTaskProperties | GetTdeCertificatesSqlTaskProperties | ValidateMongoDbTaskProperties | ValidateMigrationInputSqlServerSqlMITaskProperties | ValidateMigrationInputSqlServerSqlDbSyncTaskProperties | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties | MigrateMySqlAzureDbForMySqlSyncTaskProperties | MigrateSqlServerSqlDbSyncTaskProperties | MigrateSqlServerSqlDbTaskProperties | MigrateSqlServerSqlMITaskProperties | MigrateMongoDbTaskProperties | ConnectToTargetAzureDbForMySqlTaskProperties | ConnectToTargetSqlMITaskProperties | GetUserTablesSqlSyncTaskProperties | GetUserTablesSqlTaskProperties | ConnectToTargetSqlSqlDbSyncTaskProperties | ConnectToTargetSqlDbTaskProperties | ConnectToSourceSqlServerSyncTaskProperties | ConnectToSourceSqlServerTaskProperties | ConnectToMongoDbTaskProperties | ConnectToSourceMySqlTaskProperties | MigrateSchemaSqlServerSqlDbTaskProperties;
+export type ProjectTaskPropertiesUnion = ProjectTaskProperties | GetTdeCertificatesSqlTaskProperties | ValidateMigrationInputSqlServerSqlMITaskProperties | ValidateMigrationInputSqlServerSqlDbSyncTaskProperties | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties | MigrateMySqlAzureDbForMySqlSyncTaskProperties | MigrateSqlServerSqlDbSyncTaskProperties | MigrateSqlServerSqlDbTaskProperties | MigrateSqlServerSqlMITaskProperties | ConnectToTargetAzureDbForMySqlTaskProperties | ConnectToTargetSqlMITaskProperties | GetUserTablesSqlSyncTaskProperties | GetUserTablesSqlTaskProperties | ConnectToTargetSqlSqlDbSyncTaskProperties | ConnectToTargetSqlDbTaskProperties | ConnectToSourceSqlServerSyncTaskProperties | ConnectToSourceSqlServerTaskProperties | ConnectToSourceMySqlTaskProperties | MigrateSchemaSqlServerSqlDbTaskProperties;
 
 /**
  * @interface
@@ -614,358 +531,6 @@ export interface GetTdeCertificatesSqlTaskProperties {
    * the server.**
    */
   readonly output?: GetTdeCertificatesSqlTaskOutput[];
-}
-
-/**
- * @interface
- * An interface representing MongoDbError.
- * Describes an error or warning that occurred during a MongoDB migration
- *
- */
-export interface MongoDbError {
-  /**
-   * @member {string} [code] The non-localized, machine-readable code that
-   * describes the error or warning
-   */
-  code?: string;
-  /**
-   * @member {number} [count] The number of times the error or warning has
-   * occurred
-   */
-  count?: number;
-  /**
-   * @member {string} [message] The localized, human-readable message that
-   * describes the error or warning
-   */
-  message?: string;
-  /**
-   * @member {MongoDbErrorType} [type] The type of error or warning. Possible
-   * values include: 'Error', 'ValidationError', 'Warning'
-   */
-  type?: MongoDbErrorType;
-}
-
-/**
- * @interface
- * An interface representing MongoDbProgress.
- * Base class for MongoDB migration outputs
- *
- */
-export interface MongoDbProgress {
-  /**
-   * @member {number} bytesCopied The number of document bytes copied during
-   * the Copying stage
-   */
-  bytesCopied: number;
-  /**
-   * @member {number} documentsCopied The number of documents copied during the
-   * Copying stage
-   */
-  documentsCopied: number;
-  /**
-   * @member {string} elapsedTime The elapsed time in the format
-   * [ddd.]hh:mm:ss[.fffffff] (i.e. TimeSpan format)
-   */
-  elapsedTime: string;
-  /**
-   * @member {{ [propertyName: string]: MongoDbError }} errors The errors and
-   * warnings that have occurred for the current object. The keys are the error
-   * codes.
-   */
-  errors: { [propertyName: string]: MongoDbError };
-  /**
-   * @member {number} eventsPending The number of oplog events awaiting replay
-   */
-  eventsPending: number;
-  /**
-   * @member {number} eventsReplayed The number of oplog events replayed so far
-   */
-  eventsReplayed: number;
-  /**
-   * @member {Date} [lastEventTime] The timestamp of the last oplog event
-   * received, or null if no oplog event has been received yet
-   */
-  lastEventTime?: Date;
-  /**
-   * @member {Date} [lastReplayTime] The timestamp of the last oplog event
-   * replayed, or null if no oplog event has been replayed yet
-   */
-  lastReplayTime?: Date;
-  /**
-   * @member {string} [name] The name of the progress object. For a collection,
-   * this is the unqualified collection name. For a database, this is the
-   * database name. For the overall migration, this is null.
-   */
-  name?: string;
-  /**
-   * @member {string} [qualifiedName] The qualified name of the progress
-   * object. For a collection, this is the database-qualified name. For a
-   * database, this is the database name. For the overall migration, this is
-   * null.
-   */
-  qualifiedName?: string;
-  /**
-   * @member {ResultType} resultType The type of progress object. Possible
-   * values include: 'Migration', 'Database', 'Collection'
-   */
-  resultType: ResultType;
-  /**
-   * @member {MongoDbMigrationState} state Possible values include:
-   * 'NotStarted', 'ValidatingInput', 'Initializing', 'Restarting', 'Copying',
-   * 'InitialReplay', 'Replaying', 'Finalizing', 'Complete', 'Canceled',
-   * 'Failed'
-   */
-  state: MongoDbMigrationState;
-  /**
-   * @member {number} totalBytes The total number of document bytes on the
-   * source at the beginning of the Copying stage, or -1 if the total size was
-   * unknown
-   */
-  totalBytes: number;
-  /**
-   * @member {number} totalDocuments The total number of documents on the
-   * source at the beginning of the Copying stage, or -1 if the total count was
-   * unknown
-   */
-  totalDocuments: number;
-}
-
-/**
- * @interface
- * An interface representing MongoDbCollectionProgress.
- * Describes the progress of a collection
- *
- * @extends MongoDbProgress
- */
-export interface MongoDbCollectionProgress extends MongoDbProgress {
-}
-
-/**
- * @interface
- * An interface representing MongoDbDatabaseProgress.
- * Describes the progress of a database
- *
- * @extends MongoDbProgress
- */
-export interface MongoDbDatabaseProgress extends MongoDbProgress {
-  /**
-   * @member {{ [propertyName: string]: MongoDbCollectionProgress }}
-   * [collections] The progress of the collections in the database. The keys
-   * are the unqualified names of the collections
-   */
-  collections?: { [propertyName: string]: MongoDbCollectionProgress };
-}
-
-/**
- * @interface
- * An interface representing MongoDbMigrationProgress.
- * Describes the progress of the overall migration
- *
- * @extends MongoDbProgress
- */
-export interface MongoDbMigrationProgress extends MongoDbProgress {
-  /**
-   * @member {{ [propertyName: string]: MongoDbDatabaseProgress }} [databases]
-   * The progress of the databases in the migration. The keys are the names of
-   * the databases
-   */
-  databases?: { [propertyName: string]: MongoDbDatabaseProgress };
-}
-
-/**
- * @interface
- * An interface representing MongoDbThrottlingSettings.
- * Specifies resource limits for the migration
- *
- */
-export interface MongoDbThrottlingSettings {
-  /**
-   * @member {number} [minFreeCpu] The percentage of CPU time that the migrator
-   * will try to avoid using, from 0 to 100
-   */
-  minFreeCpu?: number;
-  /**
-   * @member {number} [minFreeMemoryMb] The number of megabytes of RAM that the
-   * migrator will try to avoid using
-   */
-  minFreeMemoryMb?: number;
-  /**
-   * @member {number} [maxParallelism] The maximum number of work items (e.g.
-   * collection copies) that will be processed in parallel
-   */
-  maxParallelism?: number;
-}
-
-/**
- * @interface
- * An interface representing MongoDbShardKeyField.
- * Describes a field reference within a MongoDB shard key
- *
- */
-export interface MongoDbShardKeyField {
-  /**
-   * @member {string} name The name of the field
-   */
-  name: string;
-  /**
-   * @member {MongoDbShardKeyOrder} order The field ordering. Possible values
-   * include: 'Forward', 'Reverse', 'Hashed'
-   */
-  order: MongoDbShardKeyOrder;
-}
-
-/**
- * @interface
- * An interface representing MongoDbShardKeySetting.
- * Describes a MongoDB shard key
- *
- */
-export interface MongoDbShardKeySetting {
-  /**
-   * @member {MongoDbShardKeyField[]} fields The fields within the shard key
-   */
-  fields: MongoDbShardKeyField[];
-  /**
-   * @member {boolean} isUnique Whether the shard key is unique
-   */
-  isUnique: boolean;
-}
-
-/**
- * @interface
- * An interface representing MongoDbCollectionSettings.
- * Describes how an individual MongoDB collection should be migrated
- *
- */
-export interface MongoDbCollectionSettings {
-  /**
-   * @member {boolean} [canDelete] Whether the migrator is allowed to drop the
-   * target collection in the course of performing a migration. The default is
-   * true.
-   */
-  canDelete?: boolean;
-  /**
-   * @member {MongoDbShardKeySetting} [shardKey]
-   */
-  shardKey?: MongoDbShardKeySetting;
-  /**
-   * @member {number} [targetRUs] The RUs that should be configured on a
-   * CosmosDB target, or null to use the default. This has no effect on
-   * non-CosmosDB targets.
-   */
-  targetRUs?: number;
-}
-
-/**
- * @interface
- * An interface representing MongoDbDatabaseSettings.
- * Describes how an individual MongoDB database should be migrated
- *
- */
-export interface MongoDbDatabaseSettings {
-  /**
-   * @member {{ [propertyName: string]: MongoDbCollectionSettings }}
-   * collections The collections on the source database to migrate to the
-   * target. The keys are the unqualified names of the collections.
-   */
-  collections: { [propertyName: string]: MongoDbCollectionSettings };
-  /**
-   * @member {number} [targetRUs] The RUs that should be configured on a
-   * CosmosDB target, or null to use the default, or 0 if throughput should not
-   * be provisioned for the database. This has no effect on non-CosmosDB
-   * targets.
-   */
-  targetRUs?: number;
-}
-
-/**
- * @interface
- * An interface representing MongoDbMigrationSettings.
- * Describes how a MongoDB data migration should be performed
- *
- */
-export interface MongoDbMigrationSettings {
-  /**
-   * @member {number} [boostRUs] The RU limit on a CosmosDB target that
-   * collections will be temporarily increased to (if lower) during the initial
-   * copy of a migration, from 10,000 to 1,000,000, or 0 to use the default
-   * boost (which is generally the maximum), or null to not boost the RUs. This
-   * setting has no effect on non-CosmosDB targets.
-   */
-  boostRUs?: number;
-  /**
-   * @member {{ [propertyName: string]: MongoDbDatabaseSettings }} databases
-   * The databases on the source cluster to migrate to the target. The keys are
-   * the names of the databases.
-   */
-  databases: { [propertyName: string]: MongoDbDatabaseSettings };
-  /**
-   * @member {MongoDbReplication} [replication] Describes how changes will be
-   * replicated from the source to the target. The default is OneTime. Possible
-   * values include: 'Disabled', 'OneTime', 'Continuous'
-   */
-  replication?: MongoDbReplication;
-  /**
-   * @member {MongoDbConnectionInfo} source Settings used to connect to the
-   * source cluster
-   */
-  source: MongoDbConnectionInfo;
-  /**
-   * @member {MongoDbConnectionInfo} target Settings used to connect to the
-   * target cluster
-   */
-  target: MongoDbConnectionInfo;
-  /**
-   * @member {MongoDbThrottlingSettings} [throttling] Settings used to limit
-   * the resource usage of the migration
-   */
-  throttling?: MongoDbThrottlingSettings;
-}
-
-/**
- * @interface
- * An interface representing ValidateMongoDbTaskProperties.
- * Properties for the task that validates a migration between MongoDB data
- * sources
- *
- */
-export interface ValidateMongoDbTaskProperties {
-  /**
-   * @member {string} taskType Polymorphic Discriminator
-   */
-  taskType: "Validate.MongoDb";
-  /**
-   * @member {ODataError[]} [errors] Array of errors. This is ignored if
-   * submitted.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly errors?: ODataError[];
-  /**
-   * @member {TaskState} [state] The state of the task. This is ignored if
-   * submitted. Possible values include: 'Unknown', 'Queued', 'Running',
-   * 'Canceled', 'Succeeded', 'Failed', 'FailedInputValidation', 'Faulted'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly state?: TaskState;
-  /**
-   * @member {CommandPropertiesUnion[]} [commands] Array of command properties.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly commands?: CommandPropertiesUnion[];
-  /**
-   * @member {MongoDbMigrationSettings} [input]
-   */
-  input?: MongoDbMigrationSettings;
-  /**
-   * @member {MongoDbMigrationProgress[]} [output] An array containing a single
-   * MongoDbMigrationProgress object
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly output?: MongoDbMigrationProgress[];
 }
 
 /**
@@ -4112,49 +3677,6 @@ export interface MigrateSqlServerSqlMITaskProperties {
 
 /**
  * @interface
- * An interface representing MigrateMongoDbTaskProperties.
- * Properties for the task that migrates data between MongoDB data sources
- *
- */
-export interface MigrateMongoDbTaskProperties {
-  /**
-   * @member {string} taskType Polymorphic Discriminator
-   */
-  taskType: "Migrate.MongoDb";
-  /**
-   * @member {ODataError[]} [errors] Array of errors. This is ignored if
-   * submitted.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly errors?: ODataError[];
-  /**
-   * @member {TaskState} [state] The state of the task. This is ignored if
-   * submitted. Possible values include: 'Unknown', 'Queued', 'Running',
-   * 'Canceled', 'Succeeded', 'Failed', 'FailedInputValidation', 'Faulted'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly state?: TaskState;
-  /**
-   * @member {CommandPropertiesUnion[]} [commands] Array of command properties.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly commands?: CommandPropertiesUnion[];
-  /**
-   * @member {MongoDbMigrationSettings} [input]
-   */
-  input?: MongoDbMigrationSettings;
-  /**
-   * @member {MongoDbProgress[]} [output] **NOTE: This property will not be
-   * serialized. It can only be populated by the server.**
-   */
-  readonly output?: MongoDbProgress[];
-}
-
-/**
- * @interface
  * An interface representing ConnectToTargetAzureDbForMySqlTaskOutput.
  * Output for the task that validates connection to Azure Database for MySQL
  * and target server requirements
@@ -5213,198 +4735,6 @@ export interface ConnectToSourceSqlServerTaskProperties {
 
 /**
  * @interface
- * An interface representing MongoDbShardKeyInfo.
- * Describes a MongoDB shard key
- *
- */
-export interface MongoDbShardKeyInfo {
-  /**
-   * @member {MongoDbShardKeyField[]} fields The fields within the shard key
-   */
-  fields: MongoDbShardKeyField[];
-  /**
-   * @member {boolean} isUnique Whether the shard key is unique
-   */
-  isUnique: boolean;
-}
-
-/**
- * @interface
- * An interface representing MongoDbObjectInfo.
- * Describes a database or collection within a MongoDB data source
- *
- */
-export interface MongoDbObjectInfo {
-  /**
-   * @member {number} averageDocumentSize The average document size, or -1 if
-   * the average size is unknown
-   */
-  averageDocumentSize: number;
-  /**
-   * @member {number} dataSize The estimated total data size, in bytes, or -1
-   * if the size is unknown.
-   */
-  dataSize: number;
-  /**
-   * @member {number} documentCount The estimated total number of documents, or
-   * -1 if the document count is unknown
-   */
-  documentCount: number;
-  /**
-   * @member {string} name The unqualified name of the database or collection
-   */
-  name: string;
-  /**
-   * @member {string} qualifiedName The qualified name of the database or
-   * collection. For a collection, this is the database-qualified name.
-   */
-  qualifiedName: string;
-}
-
-/**
- * @interface
- * An interface representing MongoDbCollectionInfo.
- * Describes a supported collection within a MongoDB database
- *
- * @extends MongoDbObjectInfo
- */
-export interface MongoDbCollectionInfo extends MongoDbObjectInfo {
-  /**
-   * @member {string} databaseName The name of the database containing the
-   * collection
-   */
-  databaseName: string;
-  /**
-   * @member {boolean} isCapped Whether the collection is a capped collection
-   * (i.e. whether it has a fixed size and acts like a circular buffer)
-   */
-  isCapped: boolean;
-  /**
-   * @member {boolean} isSystemCollection Whether the collection is system
-   * collection
-   */
-  isSystemCollection: boolean;
-  /**
-   * @member {boolean} isView Whether the collection is a view of another
-   * collection
-   */
-  isView: boolean;
-  /**
-   * @member {MongoDbShardKeyInfo} [shardKey] The shard key on the collection,
-   * or null if the collection is not sharded
-   */
-  shardKey?: MongoDbShardKeyInfo;
-  /**
-   * @member {boolean} supportsSharding Whether the database has sharding
-   * enabled. Note that the migration task will enable sharding on the target
-   * if necessary.
-   */
-  supportsSharding: boolean;
-  /**
-   * @member {string} [viewOf] The name of the collection that this is a view
-   * of, if IsView is true
-   */
-  viewOf?: string;
-}
-
-/**
- * @interface
- * An interface representing MongoDbDatabaseInfo.
- * Describes a database within a MongoDB data source
- *
- * @extends MongoDbObjectInfo
- */
-export interface MongoDbDatabaseInfo extends MongoDbObjectInfo {
-  /**
-   * @member {MongoDbCollectionInfo[]} collections A list of supported
-   * collections in a MongoDB database
-   */
-  collections: MongoDbCollectionInfo[];
-  /**
-   * @member {boolean} supportsSharding Whether the database has sharding
-   * enabled. Note that the migration task will enable sharding on the target
-   * if necessary.
-   */
-  supportsSharding: boolean;
-}
-
-/**
- * @interface
- * An interface representing MongoDbClusterInfo.
- * Describes a MongoDB data source
- *
- */
-export interface MongoDbClusterInfo {
-  /**
-   * @member {MongoDbDatabaseInfo[]} databases A list of non-system databases
-   * in the cluster
-   */
-  databases: MongoDbDatabaseInfo[];
-  /**
-   * @member {boolean} supportsSharding Whether the cluster supports sharded
-   * collections
-   */
-  supportsSharding: boolean;
-  /**
-   * @member {MongoDbClusterType} type The type of data source. Possible values
-   * include: 'BlobContainer', 'CosmosDb', 'MongoDb'
-   */
-  type: MongoDbClusterType;
-  /**
-   * @member {string} version The version of the data source in the form x.y.z
-   * (e.g. 3.6.7). Not used if Type is BlobContainer.
-   */
-  version: string;
-}
-
-/**
- * @interface
- * An interface representing ConnectToMongoDbTaskProperties.
- * Properties for the task that validates the connection to and provides
- * information about a MongoDB server
- *
- */
-export interface ConnectToMongoDbTaskProperties {
-  /**
-   * @member {string} taskType Polymorphic Discriminator
-   */
-  taskType: "Connect.MongoDb";
-  /**
-   * @member {ODataError[]} [errors] Array of errors. This is ignored if
-   * submitted.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly errors?: ODataError[];
-  /**
-   * @member {TaskState} [state] The state of the task. This is ignored if
-   * submitted. Possible values include: 'Unknown', 'Queued', 'Running',
-   * 'Canceled', 'Succeeded', 'Failed', 'FailedInputValidation', 'Faulted'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly state?: TaskState;
-  /**
-   * @member {CommandPropertiesUnion[]} [commands] Array of command properties.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly commands?: CommandPropertiesUnion[];
-  /**
-   * @member {MongoDbConnectionInfo} [input]
-   */
-  input?: MongoDbConnectionInfo;
-  /**
-   * @member {MongoDbClusterInfo[]} [output] An array containing a single
-   * MongoDbClusterInfo object
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly output?: MongoDbClusterInfo[];
-}
-
-/**
- * @interface
  * An interface representing ProjectTask.
  * A task resource
  *
@@ -5455,6 +4785,35 @@ export interface ServiceSku {
    * scaling
    */
   capacity?: number;
+}
+
+/**
+ * @interface
+ * An interface representing DataMigrationServiceProperties.
+ * Properties of the Database Migration Service instance
+ *
+ */
+export interface DataMigrationServiceProperties {
+  /**
+   * @member {ServiceProvisioningState} [provisioningState] The resource's
+   * provisioning state. Possible values include: 'Accepted', 'Deleting',
+   * 'Deploying', 'Stopped', 'Stopping', 'Starting', 'FailedToStart',
+   * 'FailedToStop', 'Succeeded', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: ServiceProvisioningState;
+  /**
+   * @member {string} [publicKey] The public key of the service, used to
+   * encrypt secrets sent to the service
+   */
+  publicKey?: string;
+  /**
+   * @member {string} virtualSubnetId The ID of the
+   * Microsoft.Network/virtualNetworks/subnets resource to which the service
+   * should be joined
+   */
+  virtualSubnetId: string;
 }
 
 /**
@@ -5533,6 +4892,53 @@ export interface DatabaseInfo {
 
 /**
  * @interface
+ * An interface representing ProjectProperties.
+ * Project-specific properties
+ *
+ */
+export interface ProjectProperties {
+  /**
+   * @member {ProjectSourcePlatform} sourcePlatform Source platform for the
+   * project. Possible values include: 'SQL', 'MySQL', 'PostgreSql', 'Unknown'
+   */
+  sourcePlatform: ProjectSourcePlatform;
+  /**
+   * @member {ProjectTargetPlatform} targetPlatform Target platform for the
+   * project. Possible values include: 'SQLDB', 'SQLMI', 'AzureDbForMySql',
+   * 'AzureDbForPostgreSql', 'Unknown'
+   */
+  targetPlatform: ProjectTargetPlatform;
+  /**
+   * @member {Date} [creationTime] UTC Date and time when project was created
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationTime?: Date;
+  /**
+   * @member {ConnectionInfoUnion} [sourceConnectionInfo] Information for
+   * connecting to source
+   */
+  sourceConnectionInfo?: ConnectionInfoUnion;
+  /**
+   * @member {ConnectionInfoUnion} [targetConnectionInfo] Information for
+   * connecting to target
+   */
+  targetConnectionInfo?: ConnectionInfoUnion;
+  /**
+   * @member {DatabaseInfo[]} [databasesInfo] List of DatabaseInfo
+   */
+  databasesInfo?: DatabaseInfo[];
+  /**
+   * @member {ProjectProvisioningState} [provisioningState] The project's
+   * provisioning state. Possible values include: 'Deleting', 'Succeeded'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: ProjectProvisioningState;
+}
+
+/**
+ * @interface
  * An interface representing Project.
  * A project resource
  *
@@ -5541,14 +4947,13 @@ export interface DatabaseInfo {
 export interface Project extends TrackedResource {
   /**
    * @member {ProjectSourcePlatform} sourcePlatform Source platform for the
-   * project. Possible values include: 'SQL', 'MySQL', 'PostgreSql', 'MongoDb',
-   * 'Unknown'
+   * project. Possible values include: 'SQL', 'MySQL', 'PostgreSql', 'Unknown'
    */
   sourcePlatform: ProjectSourcePlatform;
   /**
    * @member {ProjectTargetPlatform} targetPlatform Target platform for the
    * project. Possible values include: 'SQLDB', 'SQLMI', 'AzureDbForMySql',
-   * 'AzureDbForPostgreSql', 'MongoDb', 'Unknown'
+   * 'AzureDbForPostgreSql', 'Unknown'
    */
   targetPlatform: ProjectTargetPlatform;
   /**
@@ -5591,23 +4996,6 @@ export interface ApiError {
    * @member {ODataError} [error] Error information in OData format
    */
   error?: ODataError;
-}
-
-/**
- * @interface
- * An interface representing FileStorageInfo.
- * File storage information.
- *
- */
-export interface FileStorageInfo {
-  /**
-   * @member {string} [uri] A URI that can be used to access the file content.
-   */
-  uri?: string;
-  /**
-   * @member {{ [propertyName: string]: string }} [headers]
-   */
-  headers?: { [propertyName: string]: string };
 }
 
 /**
@@ -6219,10 +5607,6 @@ export interface SchemaMigrationSetting {
  */
 export interface MigrateSchemaSqlServerSqlDbDatabaseInput {
   /**
-   * @member {string} [name] Name of source database
-   */
-  name?: string;
-  /**
    * @member {string} [targetDatabaseName] Name of target database
    */
   targetDatabaseName?: string;
@@ -6519,132 +5903,6 @@ export interface MigrateSchemaSqlTaskOutputError {
    * the server.**
    */
   readonly error?: ReportableException;
-}
-
-/**
- * @interface
- * An interface representing MongoDbCommandInput.
- * Describes the input to the 'cancel' and 'restart' MongoDB migration commands
- *
- */
-export interface MongoDbCommandInput {
-  /**
-   * @member {string} [objectName] The qualified name of a database or
-   * collection to act upon, or null to act upon the entire migration
-   */
-  objectName?: string;
-}
-
-/**
- * @interface
- * An interface representing MongoDbCancelCommand.
- * Properties for the command that cancels a migration in whole or in part
- *
- */
-export interface MongoDbCancelCommand {
-  /**
-   * @member {string} commandType Polymorphic Discriminator
-   */
-  commandType: "cancel";
-  /**
-   * @member {ODataError[]} [errors] Array of errors. This is ignored if
-   * submitted.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly errors?: ODataError[];
-  /**
-   * @member {CommandState} [state] The state of the command. This is ignored
-   * if submitted. Possible values include: 'Unknown', 'Accepted', 'Running',
-   * 'Succeeded', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly state?: CommandState;
-  /**
-   * @member {MongoDbCommandInput} [input] Command input
-   */
-  input?: MongoDbCommandInput;
-}
-
-/**
- * @interface
- * An interface representing MongoDbFinishCommandInput.
- * Describes the input to the 'finish' MongoDB migration command
- *
- * @extends MongoDbCommandInput
- */
-export interface MongoDbFinishCommandInput extends MongoDbCommandInput {
-  /**
-   * @member {boolean} immediate If true, replication for the affected objects
-   * will be stopped immediately. If false, the migrator will finish replaying
-   * queued events before finishing the replication.
-   */
-  immediate: boolean;
-}
-
-/**
- * @interface
- * An interface representing MongoDbFinishCommand.
- * Properties for the command that finishes a migration in whole or in part
- *
- */
-export interface MongoDbFinishCommand {
-  /**
-   * @member {string} commandType Polymorphic Discriminator
-   */
-  commandType: "finish";
-  /**
-   * @member {ODataError[]} [errors] Array of errors. This is ignored if
-   * submitted.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly errors?: ODataError[];
-  /**
-   * @member {CommandState} [state] The state of the command. This is ignored
-   * if submitted. Possible values include: 'Unknown', 'Accepted', 'Running',
-   * 'Succeeded', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly state?: CommandState;
-  /**
-   * @member {MongoDbFinishCommandInput} [input] Command input
-   */
-  input?: MongoDbFinishCommandInput;
-}
-
-/**
- * @interface
- * An interface representing MongoDbRestartCommand.
- * Properties for the command that restarts a migration in whole or in part
- *
- */
-export interface MongoDbRestartCommand {
-  /**
-   * @member {string} commandType Polymorphic Discriminator
-   */
-  commandType: "restart";
-  /**
-   * @member {ODataError[]} [errors] Array of errors. This is ignored if
-   * submitted.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly errors?: ODataError[];
-  /**
-   * @member {CommandState} [state] The state of the command. This is ignored
-   * if submitted. Possible values include: 'Unknown', 'Accepted', 'Running',
-   * 'Succeeded', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly state?: CommandState;
-  /**
-   * @member {MongoDbCommandInput} [input] Command input
-   */
-  input?: MongoDbCommandInput;
 }
 
 /**
@@ -7305,365 +6563,699 @@ export interface ServiceOperationList extends Array<ServiceOperation> {
 }
 
 /**
- * @interface
- * An interface representing the FileList.
- * OData page of files
- *
- * @extends Array<ProjectFile>
- */
-export interface FileList extends Array<ProjectFile> {
-  /**
-   * @member {string} [nextLink] URL to load the next page of files
-   */
-  nextLink?: string;
-}
-
-/**
  * Defines values for CommandState.
- * Possible values include: 'Unknown', 'Accepted', 'Running', 'Succeeded', 'Failed'
+ * Possible values include: 'Unknown', 'Accepted', 'Running', 'Succeeded',
+ * 'Failed'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: CommandState =
+ * <CommandState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type CommandState = 'Unknown' | 'Accepted' | 'Running' | 'Succeeded' | 'Failed';
+export enum CommandState {
+  Unknown = 'Unknown',
+  Accepted = 'Accepted',
+  Running = 'Running',
+  Succeeded = 'Succeeded',
+  Failed = 'Failed',
+}
 
 /**
  * Defines values for SqlSourcePlatform.
  * Possible values include: 'SqlOnPrem'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SqlSourcePlatform =
+ * <SqlSourcePlatform>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SqlSourcePlatform = 'SqlOnPrem';
+export enum SqlSourcePlatform {
+  SqlOnPrem = 'SqlOnPrem',
+}
 
 /**
  * Defines values for AuthenticationType.
- * Possible values include: 'None', 'WindowsAuthentication', 'SqlAuthentication',
- * 'ActiveDirectoryIntegrated', 'ActiveDirectoryPassword'
+ * Possible values include: 'None', 'WindowsAuthentication',
+ * 'SqlAuthentication', 'ActiveDirectoryIntegrated', 'ActiveDirectoryPassword'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: AuthenticationType =
+ * <AuthenticationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type AuthenticationType = 'None' | 'WindowsAuthentication' | 'SqlAuthentication' | 'ActiveDirectoryIntegrated' | 'ActiveDirectoryPassword';
-
-/**
- * Defines values for MongoDbErrorType.
- * Possible values include: 'Error', 'ValidationError', 'Warning'
- * @readonly
- * @enum {string}
- */
-export type MongoDbErrorType = 'Error' | 'ValidationError' | 'Warning';
-
-/**
- * Defines values for MongoDbMigrationState.
- * Possible values include: 'NotStarted', 'ValidatingInput', 'Initializing', 'Restarting',
- * 'Copying', 'InitialReplay', 'Replaying', 'Finalizing', 'Complete', 'Canceled', 'Failed'
- * @readonly
- * @enum {string}
- */
-export type MongoDbMigrationState = 'NotStarted' | 'ValidatingInput' | 'Initializing' | 'Restarting' | 'Copying' | 'InitialReplay' | 'Replaying' | 'Finalizing' | 'Complete' | 'Canceled' | 'Failed';
-
-/**
- * Defines values for MongoDbShardKeyOrder.
- * Possible values include: 'Forward', 'Reverse', 'Hashed'
- * @readonly
- * @enum {string}
- */
-export type MongoDbShardKeyOrder = 'Forward' | 'Reverse' | 'Hashed';
-
-/**
- * Defines values for MongoDbReplication.
- * Possible values include: 'Disabled', 'OneTime', 'Continuous'
- * @readonly
- * @enum {string}
- */
-export type MongoDbReplication = 'Disabled' | 'OneTime' | 'Continuous';
+export enum AuthenticationType {
+  None = 'None',
+  WindowsAuthentication = 'WindowsAuthentication',
+  SqlAuthentication = 'SqlAuthentication',
+  ActiveDirectoryIntegrated = 'ActiveDirectoryIntegrated',
+  ActiveDirectoryPassword = 'ActiveDirectoryPassword',
+}
 
 /**
  * Defines values for BackupType.
- * Possible values include: 'Database', 'TransactionLog', 'File', 'DifferentialDatabase',
- * 'DifferentialFile', 'Partial', 'DifferentialPartial'
+ * Possible values include: 'Database', 'TransactionLog', 'File',
+ * 'DifferentialDatabase', 'DifferentialFile', 'Partial', 'DifferentialPartial'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: BackupType = <BackupType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type BackupType = 'Database' | 'TransactionLog' | 'File' | 'DifferentialDatabase' | 'DifferentialFile' | 'Partial' | 'DifferentialPartial';
+export enum BackupType {
+  Database = 'Database',
+  TransactionLog = 'TransactionLog',
+  File = 'File',
+  DifferentialDatabase = 'DifferentialDatabase',
+  DifferentialFile = 'DifferentialFile',
+  Partial = 'Partial',
+  DifferentialPartial = 'DifferentialPartial',
+}
 
 /**
  * Defines values for BackupMode.
  * Possible values include: 'CreateBackup', 'ExistingBackup'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: BackupMode = <BackupMode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type BackupMode = 'CreateBackup' | 'ExistingBackup';
+export enum BackupMode {
+  CreateBackup = 'CreateBackup',
+  ExistingBackup = 'ExistingBackup',
+}
 
 /**
  * Defines values for SyncTableMigrationState.
- * Possible values include: 'BEFORE_LOAD', 'FULL_LOAD', 'COMPLETED', 'CANCELED', 'ERROR', 'FAILED'
+ * Possible values include: 'BEFORE_LOAD', 'FULL_LOAD', 'COMPLETED',
+ * 'CANCELED', 'ERROR', 'FAILED'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SyncTableMigrationState =
+ * <SyncTableMigrationState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SyncTableMigrationState = 'BEFORE_LOAD' | 'FULL_LOAD' | 'COMPLETED' | 'CANCELED' | 'ERROR' | 'FAILED';
+export enum SyncTableMigrationState {
+  BEFORELOAD = 'BEFORE_LOAD',
+  FULLLOAD = 'FULL_LOAD',
+  COMPLETED = 'COMPLETED',
+  CANCELED = 'CANCELED',
+  ERROR = 'ERROR',
+  FAILED = 'FAILED',
+}
 
 /**
  * Defines values for SyncDatabaseMigrationReportingState.
- * Possible values include: 'UNDEFINED', 'CONFIGURING', 'INITIALIAZING', 'STARTING', 'RUNNING',
- * 'READY_TO_COMPLETE', 'COMPLETING', 'COMPLETE', 'CANCELLING', 'CANCELLED', 'FAILED'
+ * Possible values include: 'UNDEFINED', 'CONFIGURING', 'INITIALIAZING',
+ * 'STARTING', 'RUNNING', 'READY_TO_COMPLETE', 'COMPLETING', 'COMPLETE',
+ * 'CANCELLING', 'CANCELLED', 'FAILED'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SyncDatabaseMigrationReportingState =
+ * <SyncDatabaseMigrationReportingState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SyncDatabaseMigrationReportingState = 'UNDEFINED' | 'CONFIGURING' | 'INITIALIAZING' | 'STARTING' | 'RUNNING' | 'READY_TO_COMPLETE' | 'COMPLETING' | 'COMPLETE' | 'CANCELLING' | 'CANCELLED' | 'FAILED';
+export enum SyncDatabaseMigrationReportingState {
+  UNDEFINED = 'UNDEFINED',
+  CONFIGURING = 'CONFIGURING',
+  INITIALIAZING = 'INITIALIAZING',
+  STARTING = 'STARTING',
+  RUNNING = 'RUNNING',
+  READYTOCOMPLETE = 'READY_TO_COMPLETE',
+  COMPLETING = 'COMPLETING',
+  COMPLETE = 'COMPLETE',
+  CANCELLING = 'CANCELLING',
+  CANCELLED = 'CANCELLED',
+  FAILED = 'FAILED',
+}
 
 /**
  * Defines values for ValidationStatus.
- * Possible values include: 'Default', 'NotStarted', 'Initialized', 'InProgress', 'Completed',
- * 'CompletedWithIssues', 'Stopped', 'Failed'
+ * Possible values include: 'Default', 'NotStarted', 'Initialized',
+ * 'InProgress', 'Completed', 'CompletedWithIssues', 'Stopped', 'Failed'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ValidationStatus =
+ * <ValidationStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ValidationStatus = 'Default' | 'NotStarted' | 'Initialized' | 'InProgress' | 'Completed' | 'CompletedWithIssues' | 'Stopped' | 'Failed';
+export enum ValidationStatus {
+  Default = 'Default',
+  NotStarted = 'NotStarted',
+  Initialized = 'Initialized',
+  InProgress = 'InProgress',
+  Completed = 'Completed',
+  CompletedWithIssues = 'CompletedWithIssues',
+  Stopped = 'Stopped',
+  Failed = 'Failed',
+}
 
 /**
  * Defines values for Severity.
  * Possible values include: 'Message', 'Warning', 'Error'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Severity = <Severity>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type Severity = 'Message' | 'Warning' | 'Error';
+export enum Severity {
+  Message = 'Message',
+  Warning = 'Warning',
+  Error = 'Error',
+}
 
 /**
  * Defines values for UpdateActionType.
- * Possible values include: 'DeletedOnTarget', 'ChangedOnTarget', 'AddedOnTarget'
+ * Possible values include: 'DeletedOnTarget', 'ChangedOnTarget',
+ * 'AddedOnTarget'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: UpdateActionType =
+ * <UpdateActionType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type UpdateActionType = 'DeletedOnTarget' | 'ChangedOnTarget' | 'AddedOnTarget';
+export enum UpdateActionType {
+  DeletedOnTarget = 'DeletedOnTarget',
+  ChangedOnTarget = 'ChangedOnTarget',
+  AddedOnTarget = 'AddedOnTarget',
+}
 
 /**
  * Defines values for ObjectType.
- * Possible values include: 'StoredProcedures', 'Table', 'User', 'View', 'Function'
+ * Possible values include: 'StoredProcedures', 'Table', 'User', 'View',
+ * 'Function'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ObjectType = <ObjectType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ObjectType = 'StoredProcedures' | 'Table' | 'User' | 'View' | 'Function';
+export enum ObjectType {
+  StoredProcedures = 'StoredProcedures',
+  Table = 'Table',
+  User = 'User',
+  View = 'View',
+  Function = 'Function',
+}
 
 /**
  * Defines values for MigrationState.
- * Possible values include: 'None', 'InProgress', 'Failed', 'Warning', 'Completed', 'Skipped',
- * 'Stopped'
+ * Possible values include: 'None', 'InProgress', 'Failed', 'Warning',
+ * 'Completed', 'Skipped', 'Stopped'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: MigrationState =
+ * <MigrationState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type MigrationState = 'None' | 'InProgress' | 'Failed' | 'Warning' | 'Completed' | 'Skipped' | 'Stopped';
+export enum MigrationState {
+  None = 'None',
+  InProgress = 'InProgress',
+  Failed = 'Failed',
+  Warning = 'Warning',
+  Completed = 'Completed',
+  Skipped = 'Skipped',
+  Stopped = 'Stopped',
+}
 
 /**
  * Defines values for DatabaseMigrationStage.
- * Possible values include: 'None', 'Initialize', 'Backup', 'FileCopy', 'Restore', 'Completed'
+ * Possible values include: 'None', 'Initialize', 'Backup', 'FileCopy',
+ * 'Restore', 'Completed'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: DatabaseMigrationStage =
+ * <DatabaseMigrationStage>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type DatabaseMigrationStage = 'None' | 'Initialize' | 'Backup' | 'FileCopy' | 'Restore' | 'Completed';
+export enum DatabaseMigrationStage {
+  None = 'None',
+  Initialize = 'Initialize',
+  Backup = 'Backup',
+  FileCopy = 'FileCopy',
+  Restore = 'Restore',
+  Completed = 'Completed',
+}
 
 /**
  * Defines values for MigrationStatus.
- * Possible values include: 'Default', 'Connecting', 'SourceAndTargetSelected', 'SelectLogins',
- * 'Configured', 'Running', 'Error', 'Stopped', 'Completed', 'CompletedWithWarnings'
+ * Possible values include: 'Default', 'Connecting', 'SourceAndTargetSelected',
+ * 'SelectLogins', 'Configured', 'Running', 'Error', 'Stopped', 'Completed',
+ * 'CompletedWithWarnings'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: MigrationStatus =
+ * <MigrationStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type MigrationStatus = 'Default' | 'Connecting' | 'SourceAndTargetSelected' | 'SelectLogins' | 'Configured' | 'Running' | 'Error' | 'Stopped' | 'Completed' | 'CompletedWithWarnings';
+export enum MigrationStatus {
+  Default = 'Default',
+  Connecting = 'Connecting',
+  SourceAndTargetSelected = 'SourceAndTargetSelected',
+  SelectLogins = 'SelectLogins',
+  Configured = 'Configured',
+  Running = 'Running',
+  Error = 'Error',
+  Stopped = 'Stopped',
+  Completed = 'Completed',
+  CompletedWithWarnings = 'CompletedWithWarnings',
+}
 
 /**
  * Defines values for LoginMigrationStage.
- * Possible values include: 'None', 'Initialize', 'LoginMigration', 'EstablishUserMapping',
- * 'AssignRoleMembership', 'AssignRoleOwnership', 'EstablishServerPermissions',
- * 'EstablishObjectPermissions', 'Completed'
+ * Possible values include: 'None', 'Initialize', 'LoginMigration',
+ * 'EstablishUserMapping', 'AssignRoleMembership', 'AssignRoleOwnership',
+ * 'EstablishServerPermissions', 'EstablishObjectPermissions', 'Completed'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: LoginMigrationStage =
+ * <LoginMigrationStage>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type LoginMigrationStage = 'None' | 'Initialize' | 'LoginMigration' | 'EstablishUserMapping' | 'AssignRoleMembership' | 'AssignRoleOwnership' | 'EstablishServerPermissions' | 'EstablishObjectPermissions' | 'Completed';
+export enum LoginMigrationStage {
+  None = 'None',
+  Initialize = 'Initialize',
+  LoginMigration = 'LoginMigration',
+  EstablishUserMapping = 'EstablishUserMapping',
+  AssignRoleMembership = 'AssignRoleMembership',
+  AssignRoleOwnership = 'AssignRoleOwnership',
+  EstablishServerPermissions = 'EstablishServerPermissions',
+  EstablishObjectPermissions = 'EstablishObjectPermissions',
+  Completed = 'Completed',
+}
 
 /**
  * Defines values for LoginType.
- * Possible values include: 'WindowsUser', 'WindowsGroup', 'SqlLogin', 'Certificate',
- * 'AsymmetricKey', 'ExternalUser', 'ExternalGroup'
+ * Possible values include: 'WindowsUser', 'WindowsGroup', 'SqlLogin',
+ * 'Certificate', 'AsymmetricKey', 'ExternalUser', 'ExternalGroup'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: LoginType = <LoginType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type LoginType = 'WindowsUser' | 'WindowsGroup' | 'SqlLogin' | 'Certificate' | 'AsymmetricKey' | 'ExternalUser' | 'ExternalGroup';
+export enum LoginType {
+  WindowsUser = 'WindowsUser',
+  WindowsGroup = 'WindowsGroup',
+  SqlLogin = 'SqlLogin',
+  Certificate = 'Certificate',
+  AsymmetricKey = 'AsymmetricKey',
+  ExternalUser = 'ExternalUser',
+  ExternalGroup = 'ExternalGroup',
+}
 
 /**
  * Defines values for DatabaseState.
- * Possible values include: 'Online', 'Restoring', 'Recovering', 'RecoveryPending', 'Suspect',
- * 'Emergency', 'Offline', 'Copying', 'OfflineSecondary'
+ * Possible values include: 'Online', 'Restoring', 'Recovering',
+ * 'RecoveryPending', 'Suspect', 'Emergency', 'Offline', 'Copying',
+ * 'OfflineSecondary'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: DatabaseState =
+ * <DatabaseState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type DatabaseState = 'Online' | 'Restoring' | 'Recovering' | 'RecoveryPending' | 'Suspect' | 'Emergency' | 'Offline' | 'Copying' | 'OfflineSecondary';
+export enum DatabaseState {
+  Online = 'Online',
+  Restoring = 'Restoring',
+  Recovering = 'Recovering',
+  RecoveryPending = 'RecoveryPending',
+  Suspect = 'Suspect',
+  Emergency = 'Emergency',
+  Offline = 'Offline',
+  Copying = 'Copying',
+  OfflineSecondary = 'OfflineSecondary',
+}
 
 /**
  * Defines values for DatabaseCompatLevel.
- * Possible values include: 'CompatLevel80', 'CompatLevel90', 'CompatLevel100', 'CompatLevel110',
- * 'CompatLevel120', 'CompatLevel130', 'CompatLevel140'
+ * Possible values include: 'CompatLevel80', 'CompatLevel90', 'CompatLevel100',
+ * 'CompatLevel110', 'CompatLevel120', 'CompatLevel130', 'CompatLevel140'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: DatabaseCompatLevel =
+ * <DatabaseCompatLevel>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type DatabaseCompatLevel = 'CompatLevel80' | 'CompatLevel90' | 'CompatLevel100' | 'CompatLevel110' | 'CompatLevel120' | 'CompatLevel130' | 'CompatLevel140';
+export enum DatabaseCompatLevel {
+  CompatLevel80 = 'CompatLevel80',
+  CompatLevel90 = 'CompatLevel90',
+  CompatLevel100 = 'CompatLevel100',
+  CompatLevel110 = 'CompatLevel110',
+  CompatLevel120 = 'CompatLevel120',
+  CompatLevel130 = 'CompatLevel130',
+  CompatLevel140 = 'CompatLevel140',
+}
 
 /**
  * Defines values for DatabaseFileType.
- * Possible values include: 'Rows', 'Log', 'Filestream', 'NotSupported', 'Fulltext'
+ * Possible values include: 'Rows', 'Log', 'Filestream', 'NotSupported',
+ * 'Fulltext'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: DatabaseFileType =
+ * <DatabaseFileType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type DatabaseFileType = 'Rows' | 'Log' | 'Filestream' | 'NotSupported' | 'Fulltext';
+export enum DatabaseFileType {
+  Rows = 'Rows',
+  Log = 'Log',
+  Filestream = 'Filestream',
+  NotSupported = 'NotSupported',
+  Fulltext = 'Fulltext',
+}
 
 /**
  * Defines values for ServerLevelPermissionsGroup.
  * Possible values include: 'Default', 'MigrationFromSqlServerToAzureDB',
  * 'MigrationFromSqlServerToAzureMI', 'MigrationFromMySQLToAzureDBForMySQL'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ServerLevelPermissionsGroup =
+ * <ServerLevelPermissionsGroup>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ServerLevelPermissionsGroup = 'Default' | 'MigrationFromSqlServerToAzureDB' | 'MigrationFromSqlServerToAzureMI' | 'MigrationFromMySQLToAzureDBForMySQL';
-
-/**
- * Defines values for MongoDbClusterType.
- * Possible values include: 'BlobContainer', 'CosmosDb', 'MongoDb'
- * @readonly
- * @enum {string}
- */
-export type MongoDbClusterType = 'BlobContainer' | 'CosmosDb' | 'MongoDb';
+export enum ServerLevelPermissionsGroup {
+  Default = 'Default',
+  MigrationFromSqlServerToAzureDB = 'MigrationFromSqlServerToAzureDB',
+  MigrationFromSqlServerToAzureMI = 'MigrationFromSqlServerToAzureMI',
+  MigrationFromMySQLToAzureDBForMySQL = 'MigrationFromMySQLToAzureDBForMySQL',
+}
 
 /**
  * Defines values for TaskState.
- * Possible values include: 'Unknown', 'Queued', 'Running', 'Canceled', 'Succeeded', 'Failed',
- * 'FailedInputValidation', 'Faulted'
+ * Possible values include: 'Unknown', 'Queued', 'Running', 'Canceled',
+ * 'Succeeded', 'Failed', 'FailedInputValidation', 'Faulted'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: TaskState = <TaskState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type TaskState = 'Unknown' | 'Queued' | 'Running' | 'Canceled' | 'Succeeded' | 'Failed' | 'FailedInputValidation' | 'Faulted';
+export enum TaskState {
+  Unknown = 'Unknown',
+  Queued = 'Queued',
+  Running = 'Running',
+  Canceled = 'Canceled',
+  Succeeded = 'Succeeded',
+  Failed = 'Failed',
+  FailedInputValidation = 'FailedInputValidation',
+  Faulted = 'Faulted',
+}
 
 /**
  * Defines values for ServiceProvisioningState.
- * Possible values include: 'Accepted', 'Deleting', 'Deploying', 'Stopped', 'Stopping', 'Starting',
- * 'FailedToStart', 'FailedToStop', 'Succeeded', 'Failed'
+ * Possible values include: 'Accepted', 'Deleting', 'Deploying', 'Stopped',
+ * 'Stopping', 'Starting', 'FailedToStart', 'FailedToStop', 'Succeeded',
+ * 'Failed'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ServiceProvisioningState =
+ * <ServiceProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ServiceProvisioningState = 'Accepted' | 'Deleting' | 'Deploying' | 'Stopped' | 'Stopping' | 'Starting' | 'FailedToStart' | 'FailedToStop' | 'Succeeded' | 'Failed';
+export enum ServiceProvisioningState {
+  Accepted = 'Accepted',
+  Deleting = 'Deleting',
+  Deploying = 'Deploying',
+  Stopped = 'Stopped',
+  Stopping = 'Stopping',
+  Starting = 'Starting',
+  FailedToStart = 'FailedToStart',
+  FailedToStop = 'FailedToStop',
+  Succeeded = 'Succeeded',
+  Failed = 'Failed',
+}
 
 /**
  * Defines values for ProjectTargetPlatform.
- * Possible values include: 'SQLDB', 'SQLMI', 'AzureDbForMySql', 'AzureDbForPostgreSql', 'MongoDb',
- * 'Unknown'
+ * Possible values include: 'SQLDB', 'SQLMI', 'AzureDbForMySql',
+ * 'AzureDbForPostgreSql', 'Unknown'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ProjectTargetPlatform =
+ * <ProjectTargetPlatform>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ProjectTargetPlatform = 'SQLDB' | 'SQLMI' | 'AzureDbForMySql' | 'AzureDbForPostgreSql' | 'MongoDb' | 'Unknown';
+export enum ProjectTargetPlatform {
+  SQLDB = 'SQLDB',
+  SQLMI = 'SQLMI',
+  AzureDbForMySql = 'AzureDbForMySql',
+  AzureDbForPostgreSql = 'AzureDbForPostgreSql',
+  Unknown = 'Unknown',
+}
 
 /**
  * Defines values for ProjectSourcePlatform.
- * Possible values include: 'SQL', 'MySQL', 'PostgreSql', 'MongoDb', 'Unknown'
+ * Possible values include: 'SQL', 'MySQL', 'PostgreSql', 'Unknown'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ProjectSourcePlatform =
+ * <ProjectSourcePlatform>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ProjectSourcePlatform = 'SQL' | 'MySQL' | 'PostgreSql' | 'MongoDb' | 'Unknown';
+export enum ProjectSourcePlatform {
+  SQL = 'SQL',
+  MySQL = 'MySQL',
+  PostgreSql = 'PostgreSql',
+  Unknown = 'Unknown',
+}
 
 /**
  * Defines values for ProjectProvisioningState.
  * Possible values include: 'Deleting', 'Succeeded'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ProjectProvisioningState =
+ * <ProjectProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ProjectProvisioningState = 'Deleting' | 'Succeeded';
+export enum ProjectProvisioningState {
+  Deleting = 'Deleting',
+  Succeeded = 'Succeeded',
+}
 
 /**
  * Defines values for NameCheckFailureReason.
  * Possible values include: 'AlreadyExists', 'Invalid'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: NameCheckFailureReason =
+ * <NameCheckFailureReason>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type NameCheckFailureReason = 'AlreadyExists' | 'Invalid';
+export enum NameCheckFailureReason {
+  AlreadyExists = 'AlreadyExists',
+  Invalid = 'Invalid',
+}
 
 /**
  * Defines values for ServiceScalability.
  * Possible values include: 'none', 'manual', 'automatic'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ServiceScalability =
+ * <ServiceScalability>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ServiceScalability = 'none' | 'manual' | 'automatic';
+export enum ServiceScalability {
+  None = 'none',
+  Manual = 'manual',
+  Automatic = 'automatic',
+}
 
 /**
  * Defines values for ResourceSkuRestrictionsType.
  * Possible values include: 'location'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ResourceSkuRestrictionsType =
+ * <ResourceSkuRestrictionsType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ResourceSkuRestrictionsType = 'location';
+export enum ResourceSkuRestrictionsType {
+  Location = 'location',
+}
 
 /**
  * Defines values for ResourceSkuRestrictionsReasonCode.
  * Possible values include: 'QuotaId', 'NotAvailableForSubscription'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ResourceSkuRestrictionsReasonCode =
+ * <ResourceSkuRestrictionsReasonCode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ResourceSkuRestrictionsReasonCode = 'QuotaId' | 'NotAvailableForSubscription';
+export enum ResourceSkuRestrictionsReasonCode {
+  QuotaId = 'QuotaId',
+  NotAvailableForSubscription = 'NotAvailableForSubscription',
+}
 
 /**
  * Defines values for ResourceSkuCapacityScaleType.
  * Possible values include: 'Automatic', 'Manual', 'None'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ResourceSkuCapacityScaleType =
+ * <ResourceSkuCapacityScaleType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ResourceSkuCapacityScaleType = 'Automatic' | 'Manual' | 'None';
+export enum ResourceSkuCapacityScaleType {
+  Automatic = 'Automatic',
+  Manual = 'Manual',
+  None = 'None',
+}
 
 /**
  * Defines values for MySqlTargetPlatformType.
  * Possible values include: 'AzureDbForMySQL'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: MySqlTargetPlatformType =
+ * <MySqlTargetPlatformType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type MySqlTargetPlatformType = 'AzureDbForMySQL';
+export enum MySqlTargetPlatformType {
+  AzureDbForMySQL = 'AzureDbForMySQL',
+}
 
 /**
  * Defines values for SchemaMigrationOption.
  * Possible values include: 'None', 'ExtractFromSource', 'UseStorageFile'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SchemaMigrationOption =
+ * <SchemaMigrationOption>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SchemaMigrationOption = 'None' | 'ExtractFromSource' | 'UseStorageFile';
+export enum SchemaMigrationOption {
+  None = 'None',
+  ExtractFromSource = 'ExtractFromSource',
+  UseStorageFile = 'UseStorageFile',
+}
 
 /**
  * Defines values for SchemaMigrationStage.
- * Possible values include: 'NotStarted', 'ValidatingInputs', 'CollectingObjects',
- * 'DownloadingScript', 'GeneratingScript', 'UploadingScript', 'DeployingSchema', 'Completed',
- * 'CompletedWithWarnings', 'Failed'
+ * Possible values include: 'NotStarted', 'ValidatingInputs',
+ * 'CollectingObjects', 'DownloadingScript', 'GeneratingScript',
+ * 'UploadingScript', 'DeployingSchema', 'Completed', 'CompletedWithWarnings',
+ * 'Failed'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SchemaMigrationStage =
+ * <SchemaMigrationStage>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SchemaMigrationStage = 'NotStarted' | 'ValidatingInputs' | 'CollectingObjects' | 'DownloadingScript' | 'GeneratingScript' | 'UploadingScript' | 'DeployingSchema' | 'Completed' | 'CompletedWithWarnings' | 'Failed';
+export enum SchemaMigrationStage {
+  NotStarted = 'NotStarted',
+  ValidatingInputs = 'ValidatingInputs',
+  CollectingObjects = 'CollectingObjects',
+  DownloadingScript = 'DownloadingScript',
+  GeneratingScript = 'GeneratingScript',
+  UploadingScript = 'UploadingScript',
+  DeployingSchema = 'DeployingSchema',
+  Completed = 'Completed',
+  CompletedWithWarnings = 'CompletedWithWarnings',
+  Failed = 'Failed',
+}
 
 /**
  * Defines values for DataMigrationResultCode.
  * Possible values include: 'Initial', 'Completed', 'ObjectNotExistsInSource',
  * 'ObjectNotExistsInTarget', 'TargetObjectIsInaccessible', 'FatalError'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: DataMigrationResultCode =
+ * <DataMigrationResultCode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type DataMigrationResultCode = 'Initial' | 'Completed' | 'ObjectNotExistsInSource' | 'ObjectNotExistsInTarget' | 'TargetObjectIsInaccessible' | 'FatalError';
+export enum DataMigrationResultCode {
+  Initial = 'Initial',
+  Completed = 'Completed',
+  ObjectNotExistsInSource = 'ObjectNotExistsInSource',
+  ObjectNotExistsInTarget = 'ObjectNotExistsInTarget',
+  TargetObjectIsInaccessible = 'TargetObjectIsInaccessible',
+  FatalError = 'FatalError',
+}
 
 /**
  * Defines values for ErrorType.
  * Possible values include: 'Default', 'Warning', 'Error'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ErrorType = <ErrorType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ErrorType = 'Default' | 'Warning' | 'Error';
-
-/**
- * Defines values for ResultType.
- * Possible values include: 'Migration', 'Database', 'Collection'
- * @readonly
- * @enum {string}
- */
-export type ResultType = 'Migration' | 'Database' | 'Collection';
+export enum ErrorType {
+  Default = 'Default',
+  Warning = 'Warning',
+  Error = 'Error',
+}
 
 /**
  * Contains response data for the listSkus operation.
@@ -8270,138 +7862,5 @@ export type OperationsListNextResponse = ServiceOperationList & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ServiceOperationList;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type FilesListResponse = FileList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FileList;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type FilesGetResponse = ProjectFile & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProjectFile;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type FilesCreateOrUpdateResponse = ProjectFile & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProjectFile;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type FilesUpdateResponse = ProjectFile & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProjectFile;
-    };
-};
-
-/**
- * Contains response data for the read operation.
- */
-export type FilesReadResponse = FileStorageInfo & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FileStorageInfo;
-    };
-};
-
-/**
- * Contains response data for the readWrite operation.
- */
-export type FilesReadWriteResponse = FileStorageInfo & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FileStorageInfo;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type FilesListNextResponse = FileList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FileList;
     };
 };

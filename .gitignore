@@ -56,13 +56,9 @@ child.conf.json
 # temporary test artifacts
 test/tmp/*
 
-# dotenv environment variables file
+# dotenv environment variables file 
 .env
 
 # Coverage report
 coverage
 .nyc_output
-
-*.tgz
-**/dist/**/*
-**/dist/**/*

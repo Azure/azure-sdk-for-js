@@ -10,7 +10,6 @@
 
 export * from "./servers";
 export * from "./firewallRules";
-export * from "./virtualNetworkRules";
 export * from "./databases";
 export * from "./configurations";
 export * from "./logFiles";

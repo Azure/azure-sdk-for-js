@@ -51,7 +51,7 @@ export class VpnConnections {
    * @param callback The callback
    */
   get(resourceGroupName: string, gatewayName: string, connectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VpnConnection>): void;
-  get(resourceGroupName: string, gatewayName: string, connectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VpnConnection>, callback?: msRest.ServiceCallback<Models.VpnConnection>): Promise<Models.VpnConnectionsGetResponse> {
+  get(resourceGroupName: string, gatewayName: string, connectionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VpnConnection>): Promise<Models.VpnConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class VpnConnections {
    * @param callback The callback
    */
   listByVpnGateway(resourceGroupName: string, gatewayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVpnConnectionsResult>): void;
-  listByVpnGateway(resourceGroupName: string, gatewayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVpnConnectionsResult>, callback?: msRest.ServiceCallback<Models.ListVpnConnectionsResult>): Promise<Models.VpnConnectionsListByVpnGatewayResponse> {
+  listByVpnGateway(resourceGroupName: string, gatewayName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListVpnConnectionsResult>): Promise<Models.VpnConnectionsListByVpnGatewayResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -184,7 +184,7 @@ export class VpnConnections {
    * @param callback The callback
    */
   listByVpnGatewayNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVpnConnectionsResult>): void;
-  listByVpnGatewayNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVpnConnectionsResult>, callback?: msRest.ServiceCallback<Models.ListVpnConnectionsResult>): Promise<Models.VpnConnectionsListByVpnGatewayNextResponse> {
+  listByVpnGatewayNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListVpnConnectionsResult>): Promise<Models.VpnConnectionsListByVpnGatewayNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

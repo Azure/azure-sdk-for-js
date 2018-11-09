@@ -17,8 +17,6 @@ export {
   DirectoryObjectListResult,
   Application,
   AppRole,
-  RequiredResourceAccess,
-  ResourceAccess,
   ADGroup,
   ServicePrincipal
 } from "../models/mappers";

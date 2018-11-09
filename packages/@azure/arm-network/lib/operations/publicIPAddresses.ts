@@ -60,7 +60,7 @@ export class PublicIPAddresses {
    * @param callback The callback
    */
   get(resourceGroupName: string, publicIpAddressName: string, options: Models.PublicIPAddressesGetOptionalParams, callback: msRest.ServiceCallback<Models.PublicIPAddress>): void;
-  get(resourceGroupName: string, publicIpAddressName: string, options?: Models.PublicIPAddressesGetOptionalParams | msRest.ServiceCallback<Models.PublicIPAddress>, callback?: msRest.ServiceCallback<Models.PublicIPAddress>): Promise<Models.PublicIPAddressesGetResponse> {
+  get(resourceGroupName: string, publicIpAddressName: string, options?: Models.PublicIPAddressesGetOptionalParams, callback?: msRest.ServiceCallback<Models.PublicIPAddress>): Promise<Models.PublicIPAddressesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class PublicIPAddresses {
    * @param callback The callback
    */
   listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListAllResponse> {
+  listAll(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -139,7 +139,7 @@ export class PublicIPAddresses {
    * @param callback The callback
    */
   list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListResponse> {
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -170,7 +170,7 @@ export class PublicIPAddresses {
    * @param callback The callback
    */
   listVirtualMachineScaleSetPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  listVirtualMachineScaleSetPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesResponse> {
+  listVirtualMachineScaleSetPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -212,7 +212,7 @@ export class PublicIPAddresses {
    * @param callback The callback
    */
   listVirtualMachineScaleSetVMPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  listVirtualMachineScaleSetVMPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesResponse> {
+  listVirtualMachineScaleSetVMPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -259,7 +259,7 @@ export class PublicIPAddresses {
    * @param callback The callback
    */
   getVirtualMachineScaleSetPublicIPAddress(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, publicIpAddressName: string, options: Models.PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams, callback: msRest.ServiceCallback<Models.PublicIPAddress>): void;
-  getVirtualMachineScaleSetPublicIPAddress(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, publicIpAddressName: string, options?: Models.PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams | msRest.ServiceCallback<Models.PublicIPAddress>, callback?: msRest.ServiceCallback<Models.PublicIPAddress>): Promise<Models.PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse> {
+  getVirtualMachineScaleSetPublicIPAddress(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, publicIpAddressName: string, options?: Models.PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams, callback?: msRest.ServiceCallback<Models.PublicIPAddress>): Promise<Models.PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -350,7 +350,7 @@ export class PublicIPAddresses {
    * @param callback The callback
    */
   listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListAllNextResponse> {
+  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -378,7 +378,7 @@ export class PublicIPAddresses {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -407,7 +407,7 @@ export class PublicIPAddresses {
    * @param callback The callback
    */
   listVirtualMachineScaleSetPublicIPAddressesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  listVirtualMachineScaleSetPublicIPAddressesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesNextResponse> {
+  listVirtualMachineScaleSetPublicIPAddressesNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -437,7 +437,7 @@ export class PublicIPAddresses {
    * @param callback The callback
    */
   listVirtualMachineScaleSetVMPublicIPAddressesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  listVirtualMachineScaleSetVMPublicIPAddressesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextResponse> {
+  listVirtualMachineScaleSetVMPublicIPAddressesNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

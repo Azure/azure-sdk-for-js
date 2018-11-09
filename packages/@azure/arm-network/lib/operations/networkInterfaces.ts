@@ -60,7 +60,7 @@ export class NetworkInterfaces {
    * @param callback The callback
    */
   get(resourceGroupName: string, networkInterfaceName: string, options: Models.NetworkInterfacesGetOptionalParams, callback: msRest.ServiceCallback<Models.NetworkInterface>): void;
-  get(resourceGroupName: string, networkInterfaceName: string, options?: Models.NetworkInterfacesGetOptionalParams | msRest.ServiceCallback<Models.NetworkInterface>, callback?: msRest.ServiceCallback<Models.NetworkInterface>): Promise<Models.NetworkInterfacesGetResponse> {
+  get(resourceGroupName: string, networkInterfaceName: string, options?: Models.NetworkInterfacesGetOptionalParams, callback?: msRest.ServiceCallback<Models.NetworkInterface>): Promise<Models.NetworkInterfacesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class NetworkInterfaces {
    * @param callback The callback
    */
   listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): Promise<Models.NetworkInterfacesListAllResponse> {
+  listAll(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): Promise<Models.NetworkInterfacesListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -139,7 +139,7 @@ export class NetworkInterfaces {
    * @param callback The callback
    */
   list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): Promise<Models.NetworkInterfacesListResponse> {
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): Promise<Models.NetworkInterfacesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -198,7 +198,7 @@ export class NetworkInterfaces {
    * @param callback The callback
    */
   listVirtualMachineScaleSetVMNetworkInterfaces(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): void;
-  listVirtualMachineScaleSetVMNetworkInterfaces(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): Promise<Models.NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesResponse> {
+  listVirtualMachineScaleSetVMNetworkInterfaces(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): Promise<Models.NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -231,7 +231,7 @@ export class NetworkInterfaces {
    * @param callback The callback
    */
   listVirtualMachineScaleSetNetworkInterfaces(resourceGroupName: string, virtualMachineScaleSetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): void;
-  listVirtualMachineScaleSetNetworkInterfaces(resourceGroupName: string, virtualMachineScaleSetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): Promise<Models.NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesResponse> {
+  listVirtualMachineScaleSetNetworkInterfaces(resourceGroupName: string, virtualMachineScaleSetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): Promise<Models.NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -269,7 +269,7 @@ export class NetworkInterfaces {
    * @param callback The callback
    */
   getVirtualMachineScaleSetNetworkInterface(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, options: Models.NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams, callback: msRest.ServiceCallback<Models.NetworkInterface>): void;
-  getVirtualMachineScaleSetNetworkInterface(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, options?: Models.NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams | msRest.ServiceCallback<Models.NetworkInterface>, callback?: msRest.ServiceCallback<Models.NetworkInterface>): Promise<Models.NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceResponse> {
+  getVirtualMachineScaleSetNetworkInterface(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, options?: Models.NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams, callback?: msRest.ServiceCallback<Models.NetworkInterface>): Promise<Models.NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -309,7 +309,7 @@ export class NetworkInterfaces {
    * @param callback The callback
    */
   listVirtualMachineScaleSetIpConfigurations(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, options: Models.NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOptionalParams, callback: msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>): void;
-  listVirtualMachineScaleSetIpConfigurations(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, options?: Models.NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOptionalParams | msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>): Promise<Models.NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsResponse> {
+  listVirtualMachineScaleSetIpConfigurations(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, options?: Models.NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOptionalParams, callback?: msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>): Promise<Models.NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -352,7 +352,7 @@ export class NetworkInterfaces {
    * @param callback The callback
    */
   getVirtualMachineScaleSetIpConfiguration(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, options: Models.NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOptionalParams, callback: msRest.ServiceCallback<Models.NetworkInterfaceIPConfiguration>): void;
-  getVirtualMachineScaleSetIpConfiguration(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, options?: Models.NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOptionalParams | msRest.ServiceCallback<Models.NetworkInterfaceIPConfiguration>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceIPConfiguration>): Promise<Models.NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationResponse> {
+  getVirtualMachineScaleSetIpConfiguration(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, options?: Models.NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOptionalParams, callback?: msRest.ServiceCallback<Models.NetworkInterfaceIPConfiguration>): Promise<Models.NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -478,7 +478,7 @@ export class NetworkInterfaces {
    * @param callback The callback
    */
   listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): Promise<Models.NetworkInterfacesListAllNextResponse> {
+  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): Promise<Models.NetworkInterfacesListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -506,7 +506,7 @@ export class NetworkInterfaces {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): Promise<Models.NetworkInterfacesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): Promise<Models.NetworkInterfacesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -536,7 +536,7 @@ export class NetworkInterfaces {
    * @param callback The callback
    */
   listVirtualMachineScaleSetVMNetworkInterfacesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): void;
-  listVirtualMachineScaleSetVMNetworkInterfacesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): Promise<Models.NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesNextResponse> {
+  listVirtualMachineScaleSetVMNetworkInterfacesNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): Promise<Models.NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -565,7 +565,7 @@ export class NetworkInterfaces {
    * @param callback The callback
    */
   listVirtualMachineScaleSetNetworkInterfacesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): void;
-  listVirtualMachineScaleSetNetworkInterfacesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): Promise<Models.NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesNextResponse> {
+  listVirtualMachineScaleSetNetworkInterfacesNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkInterfaceListResult>): Promise<Models.NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -593,7 +593,7 @@ export class NetworkInterfaces {
    * @param callback The callback
    */
   listVirtualMachineScaleSetIpConfigurationsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>): void;
-  listVirtualMachineScaleSetIpConfigurationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>): Promise<Models.NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextResponse> {
+  listVirtualMachineScaleSetIpConfigurationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>): Promise<Models.NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

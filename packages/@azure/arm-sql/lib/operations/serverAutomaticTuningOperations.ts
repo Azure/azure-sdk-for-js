@@ -50,7 +50,7 @@ export class ServerAutomaticTuningOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerAutomaticTuning>): void;
-  get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerAutomaticTuning>, callback?: msRest.ServiceCallback<Models.ServerAutomaticTuning>): Promise<Models.ServerAutomaticTuningGetResponse> {
+  get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServerAutomaticTuning>): Promise<Models.ServerAutomaticTuningGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -88,7 +88,7 @@ export class ServerAutomaticTuningOperations {
    * @param callback The callback
    */
   update(resourceGroupName: string, serverName: string, parameters: Models.ServerAutomaticTuning, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerAutomaticTuning>): void;
-  update(resourceGroupName: string, serverName: string, parameters: Models.ServerAutomaticTuning, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerAutomaticTuning>, callback?: msRest.ServiceCallback<Models.ServerAutomaticTuning>): Promise<Models.ServerAutomaticTuningUpdateResponse> {
+  update(resourceGroupName: string, serverName: string, parameters: Models.ServerAutomaticTuning, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServerAutomaticTuning>): Promise<Models.ServerAutomaticTuningUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

@@ -142,11 +142,96 @@ export interface VirtualNetworkRule {
    * /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.
    */
   id?: string;
+}
+
+/**
+ * @interface
+ * An interface representing DatabaseAccountProperties.
+ * Properties for the database account.
+ *
+ */
+export interface DatabaseAccountProperties {
   /**
-   * @member {boolean} [ignoreMissingVNetServiceEndpoint] Create firewall rule
-   * before the virtual network has vnet service endpoint enabled.
+   * @member {string} [provisioningState]
    */
-  ignoreMissingVNetServiceEndpoint?: boolean;
+  provisioningState?: string;
+  /**
+   * @member {string} [documentEndpoint] The connection endpoint for the Cosmos
+   * DB database account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly documentEndpoint?: string;
+  /**
+   * @member {DatabaseAccountOfferType} [databaseAccountOfferType] The offer
+   * type for the Cosmos DB database account. Default value: Standard. Possible
+   * values include: 'Standard'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly databaseAccountOfferType?: DatabaseAccountOfferType;
+  /**
+   * @member {string} [ipRangeFilter] Cosmos DB Firewall Support: This value
+   * specifies the set of IP addresses or IP address ranges in CIDR form to be
+   * included as the allowed list of client IPs for a given database account.
+   * IP addresses/ranges must be comma separated and must not contain any
+   * spaces.
+   */
+  ipRangeFilter?: string;
+  /**
+   * @member {boolean} [isVirtualNetworkFilterEnabled] Flag to indicate whether
+   * to enable/disable Virtual Network ACL rules.
+   */
+  isVirtualNetworkFilterEnabled?: boolean;
+  /**
+   * @member {boolean} [enableAutomaticFailover] Enables automatic failover of
+   * the write region in the rare event that the region is unavailable due to
+   * an outage. Automatic failover will result in a new write region for the
+   * account and is chosen based on the failover priorities configured for the
+   * account.
+   */
+  enableAutomaticFailover?: boolean;
+  /**
+   * @member {ConsistencyPolicy} [consistencyPolicy] The consistency policy for
+   * the Cosmos DB database account.
+   */
+  consistencyPolicy?: ConsistencyPolicy;
+  /**
+   * @member {Capability[]} [capabilities] List of Cosmos DB capabilities for
+   * the account
+   */
+  capabilities?: Capability[];
+  /**
+   * @member {Location[]} [writeLocations] An array that contains the write
+   * location for the Cosmos DB account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly writeLocations?: Location[];
+  /**
+   * @member {Location[]} [readLocations] An array that contains of the read
+   * locations enabled for the Cosmos DB account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly readLocations?: Location[];
+  /**
+   * @member {FailoverPolicy[]} [failoverPolicies] An array that contains the
+   * regions ordered by their failover priorities.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly failoverPolicies?: FailoverPolicy[];
+  /**
+   * @member {VirtualNetworkRule[]} [virtualNetworkRules] List of Virtual
+   * Network ACL rules configured for the Cosmos DB account.
+   */
+  virtualNetworkRules?: VirtualNetworkRule[];
+  /**
+   * @member {boolean} [enableMultipleWriteLocations] Enables the account to
+   * write in multiple locations
+   */
+  enableMultipleWriteLocations?: boolean;
 }
 
 /**
@@ -328,6 +413,75 @@ export interface RegionForOnlineOffline {
    * each word capitalized.
    */
   region: string;
+}
+
+/**
+ * @interface
+ * An interface representing DatabaseAccountPatchProperties.
+ * Properties to update Azure Cosmos DB database accounts.
+ *
+ */
+export interface DatabaseAccountPatchProperties {
+  /**
+   * @member {Capability[]} [capabilities] List of Cosmos DB capabilities for
+   * the account
+   */
+  capabilities?: Capability[];
+}
+
+/**
+ * @interface
+ * An interface representing DatabaseAccountCreateUpdateProperties.
+ * Properties to create and update Azure Cosmos DB database accounts.
+ *
+ */
+export interface DatabaseAccountCreateUpdateProperties {
+  /**
+   * @member {ConsistencyPolicy} [consistencyPolicy] The consistency policy for
+   * the Cosmos DB account.
+   */
+  consistencyPolicy?: ConsistencyPolicy;
+  /**
+   * @member {Location[]} locations An array that contains the georeplication
+   * locations enabled for the Cosmos DB account.
+   */
+  locations: Location[];
+  /**
+   * @member {string} [ipRangeFilter] Cosmos DB Firewall Support: This value
+   * specifies the set of IP addresses or IP address ranges in CIDR form to be
+   * included as the allowed list of client IPs for a given database account.
+   * IP addresses/ranges must be comma separated and must not contain any
+   * spaces.
+   */
+  ipRangeFilter?: string;
+  /**
+   * @member {boolean} [isVirtualNetworkFilterEnabled] Flag to indicate whether
+   * to enable/disable Virtual Network ACL rules.
+   */
+  isVirtualNetworkFilterEnabled?: boolean;
+  /**
+   * @member {boolean} [enableAutomaticFailover] Enables automatic failover of
+   * the write region in the rare event that the region is unavailable due to
+   * an outage. Automatic failover will result in a new write region for the
+   * account and is chosen based on the failover priorities configured for the
+   * account.
+   */
+  enableAutomaticFailover?: boolean;
+  /**
+   * @member {Capability[]} [capabilities] List of Cosmos DB capabilities for
+   * the account
+   */
+  capabilities?: Capability[];
+  /**
+   * @member {VirtualNetworkRule[]} [virtualNetworkRules] List of Virtual
+   * Network ACL rules configured for the Cosmos DB account.
+   */
+  virtualNetworkRules?: VirtualNetworkRule[];
+  /**
+   * @member {boolean} [enableMultipleWriteLocations] Enables the account to
+   * write in multiple locations
+   */
+  enableMultipleWriteLocations?: boolean;
 }
 
 /**

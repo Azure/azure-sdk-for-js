@@ -57,6 +57,20 @@ export interface Operation {
 
 /**
  * @interface
+ * An interface representing LinkedServiceProperties.
+ * Linked service properties.
+ *
+ */
+export interface LinkedServiceProperties {
+  /**
+   * @member {string} resourceId The resource id of the resource that will be
+   * linked to the workspace.
+   */
+  resourceId: string;
+}
+
+/**
+ * @interface
  * An interface representing LinkedService.
  * The top level Linked service resource container.
  *
@@ -210,6 +224,53 @@ export interface UsageMetric {
 
 /**
  * @interface
+ * An interface representing ManagementGroupProperties.
+ * Management group properties.
+ *
+ */
+export interface ManagementGroupProperties {
+  /**
+   * @member {number} [serverCount] The number of servers connected to the
+   * management group.
+   */
+  serverCount?: number;
+  /**
+   * @member {boolean} [isGateway] Gets or sets a value indicating whether the
+   * management group is a gateway.
+   */
+  isGateway?: boolean;
+  /**
+   * @member {string} [name] The name of the management group.
+   */
+  name?: string;
+  /**
+   * @member {string} [id] The unique ID of the management group.
+   */
+  id?: string;
+  /**
+   * @member {Date} [created] The datetime that the management group was
+   * created.
+   */
+  created?: Date;
+  /**
+   * @member {Date} [dataReceived] The last datetime that the management group
+   * received data.
+   */
+  dataReceived?: Date;
+  /**
+   * @member {string} [version] The version of System Center that is managing
+   * the management group.
+   */
+  version?: string;
+  /**
+   * @member {string} [sku] The SKU of System Center that is managing the
+   * management group.
+   */
+  sku?: string;
+}
+
+/**
+ * @interface
  * An interface representing ManagementGroup.
  * A management group that is connected to a workspace
  *
@@ -268,6 +329,50 @@ export interface Sku {
    * 'Standalone'
    */
   name: SkuNameEnum;
+}
+
+/**
+ * @interface
+ * An interface representing WorkspaceProperties.
+ * Workspace properties.
+ *
+ */
+export interface WorkspaceProperties {
+  /**
+   * @member {EntityStatus} [provisioningState] The provisioning state of the
+   * workspace. Possible values include: 'Creating', 'Succeeded', 'Failed',
+   * 'Canceled', 'Deleting', 'ProvisioningAccount'
+   */
+  provisioningState?: EntityStatus;
+  /**
+   * @member {string} [source] The source of the workspace.  Source defines
+   * where the workspace was created. 'Azure' implies it was created in Azure.
+   * 'External' implies it was created via the Operational Insights Portal.
+   * This value is set on the service side and read-only on the client side.
+   */
+  source?: string;
+  /**
+   * @member {string} [customerId] The ID associated with the workspace.
+   * Setting this value at creation time allows the workspace being created to
+   * be linked to an existing workspace.
+   */
+  customerId?: string;
+  /**
+   * @member {string} [portalUrl] The URL of the Operational Insights portal
+   * for this workspace.  This value is set on the service side and read-only
+   * on the client side.
+   */
+  portalUrl?: string;
+  /**
+   * @member {Sku} [sku] The SKU of the workspace.
+   */
+  sku?: Sku;
+  /**
+   * @member {number} [retentionInDays] The workspace data retention in days.
+   * -1 means Unlimited retention for the Unlimited Sku. 730 days is the
+   * maximum allowed for all other Skus.
+   */
+  retentionInDays?: number;
 }
 
 /**

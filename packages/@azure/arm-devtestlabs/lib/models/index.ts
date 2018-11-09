@@ -66,11 +66,11 @@ export interface HourDetails {
  */
 export interface NotificationSettings {
   /**
-   * @member {EnableStatus} [status] If notifications are enabled for this
-   * schedule (i.e. Enabled, Disabled). Possible values include: 'Enabled',
-   * 'Disabled'
+   * @member {NotificationStatus} [status] If notifications are enabled for
+   * this schedule (i.e. Enabled, Disabled). Possible values include:
+   * 'Disabled', 'Enabled'
    */
-  status?: EnableStatus;
+  status?: NotificationStatus;
   /**
    * @member {number} [timeInMinutes] Time in minutes before event at which
    * notification will be sent.
@@ -81,16 +81,71 @@ export interface NotificationSettings {
    * will be sent.
    */
   webhookUrl?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ScheduleProperties.
+ * Properties of a schedule.
+ *
+ */
+export interface ScheduleProperties {
   /**
-   * @member {string} [emailRecipient] The email recipient to send
-   * notifications to (can be a list of semi-colon seperated email addresses).
+   * @member {EnableStatus} [status] The status of the schedule (i.e. Enabled,
+   * Disabled). Possible values include: 'Enabled', 'Disabled'
    */
-  emailRecipient?: string;
+  status?: EnableStatus;
   /**
-   * @member {string} [notificationLocale] The locale to use when sending a
-   * notification (fallback for unsupported languages is EN).
+   * @member {string} [taskType] The task type of the schedule (e.g.
+   * LabVmsShutdownTask, LabVmAutoStart).
    */
-  notificationLocale?: string;
+  taskType?: string;
+  /**
+   * @member {WeekDetails} [weeklyRecurrence] If the schedule will occur only
+   * some days of the week, specify the weekly recurrence.
+   */
+  weeklyRecurrence?: WeekDetails;
+  /**
+   * @member {DayDetails} [dailyRecurrence] If the schedule will occur once
+   * each day of the week, specify the daily recurrence.
+   */
+  dailyRecurrence?: DayDetails;
+  /**
+   * @member {HourDetails} [hourlyRecurrence] If the schedule will occur
+   * multiple times a day, specify the hourly recurrence.
+   */
+  hourlyRecurrence?: HourDetails;
+  /**
+   * @member {string} [timeZoneId] The time zone ID (e.g. Pacific Standard
+   * time).
+   */
+  timeZoneId?: string;
+  /**
+   * @member {NotificationSettings} [notificationSettings] Notification
+   * settings.
+   */
+  notificationSettings?: NotificationSettings;
+  /**
+   * @member {Date} [createdDate] The creation date of the schedule.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDate?: Date;
+  /**
+   * @member {string} [targetResourceId] The resource ID to which the schedule
+   * belongs
+   */
+  targetResourceId?: string;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
 }
 
 /**
@@ -187,17 +242,32 @@ export interface Schedule extends Resource {
   /**
    * @member {string} [provisioningState] The provisioning status of the
    * resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly provisioningState?: string;
+  provisioningState?: string;
   /**
    * @member {string} [uniqueIdentifier] The unique immutable identifier of a
    * resource (Guid).
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly uniqueIdentifier?: string;
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApplicableScheduleProperties.
+ * Properties of a schedules applicable to a virtual machine.
+ *
+ */
+export interface ApplicableScheduleProperties {
+  /**
+   * @member {Schedule} [labVmsShutdown] The auto-shutdown schedule, if one has
+   * been set at the lab or lab resource level.
+   */
+  labVmsShutdown?: Schedule;
+  /**
+   * @member {Schedule} [labVmsStartup] The auto-startup schedule, if one has
+   * been set at the lab or lab resource level.
+   */
+  labVmsStartup?: Schedule;
 }
 
 /**
@@ -273,11 +343,11 @@ export interface HourDetailsFragment {
  */
 export interface NotificationSettingsFragment {
   /**
-   * @member {EnableStatus} [status] If notifications are enabled for this
-   * schedule (i.e. Enabled, Disabled). Possible values include: 'Enabled',
-   * 'Disabled'
+   * @member {NotificationStatus} [status] If notifications are enabled for
+   * this schedule (i.e. Enabled, Disabled). Possible values include:
+   * 'Disabled', 'Enabled'
    */
-  status?: EnableStatus;
+  status?: NotificationStatus;
   /**
    * @member {number} [timeInMinutes] Time in minutes before event at which
    * notification will be sent.
@@ -288,40 +358,15 @@ export interface NotificationSettingsFragment {
    * will be sent.
    */
   webhookUrl?: string;
-  /**
-   * @member {string} [emailRecipient] The email recipient to send
-   * notifications to (can be a list of semi-colon seperated email addresses).
-   */
-  emailRecipient?: string;
-  /**
-   * @member {string} [notificationLocale] The locale to use when sending a
-   * notification (fallback for unsupported languages is EN).
-   */
-  notificationLocale?: string;
 }
 
 /**
  * @interface
- * An interface representing UpdateResource.
- * Represents an update resource
+ * An interface representing SchedulePropertiesFragment.
+ * Properties of a schedule.
  *
  */
-export interface UpdateResource {
-  /**
-   * @member {{ [propertyName: string]: string }} [tags] The tags of the
-   * resource.
-   */
-  tags?: { [propertyName: string]: string };
-}
-
-/**
- * @interface
- * An interface representing ScheduleFragment.
- * A schedule.
- *
- * @extends UpdateResource
- */
-export interface ScheduleFragment extends UpdateResource {
+export interface SchedulePropertiesFragment {
   /**
    * @member {EnableStatus} [status] The status of the schedule (i.e. Enabled,
    * Disabled). Possible values include: 'Enabled', 'Disabled'
@@ -362,6 +407,95 @@ export interface ScheduleFragment extends UpdateResource {
    * belongs
    */
   targetResourceId?: string;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ScheduleFragment.
+ * A schedule.
+ *
+ * @extends Resource
+ */
+export interface ScheduleFragment extends Resource {
+  /**
+   * @member {EnableStatus} [status] The status of the schedule (i.e. Enabled,
+   * Disabled). Possible values include: 'Enabled', 'Disabled'
+   */
+  status?: EnableStatus;
+  /**
+   * @member {string} [taskType] The task type of the schedule (e.g.
+   * LabVmsShutdownTask, LabVmAutoStart).
+   */
+  taskType?: string;
+  /**
+   * @member {WeekDetailsFragment} [weeklyRecurrence] If the schedule will
+   * occur only some days of the week, specify the weekly recurrence.
+   */
+  weeklyRecurrence?: WeekDetailsFragment;
+  /**
+   * @member {DayDetailsFragment} [dailyRecurrence] If the schedule will occur
+   * once each day of the week, specify the daily recurrence.
+   */
+  dailyRecurrence?: DayDetailsFragment;
+  /**
+   * @member {HourDetailsFragment} [hourlyRecurrence] If the schedule will
+   * occur multiple times a day, specify the hourly recurrence.
+   */
+  hourlyRecurrence?: HourDetailsFragment;
+  /**
+   * @member {string} [timeZoneId] The time zone ID (e.g. Pacific Standard
+   * time).
+   */
+  timeZoneId?: string;
+  /**
+   * @member {NotificationSettingsFragment} [notificationSettings] Notification
+   * settings.
+   */
+  notificationSettings?: NotificationSettingsFragment;
+  /**
+   * @member {string} [targetResourceId] The resource ID to which the schedule
+   * belongs
+   */
+  targetResourceId?: string;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApplicableSchedulePropertiesFragment.
+ * Properties of a schedules applicable to a virtual machine.
+ *
+ */
+export interface ApplicableSchedulePropertiesFragment {
+  /**
+   * @member {ScheduleFragment} [labVmsShutdown] The auto-shutdown schedule, if
+   * one has been set at the lab or lab resource level.
+   */
+  labVmsShutdown?: ScheduleFragment;
+  /**
+   * @member {ScheduleFragment} [labVmsStartup] The auto-startup schedule, if
+   * one has been set at the lab or lab resource level.
+   */
+  labVmsStartup?: ScheduleFragment;
 }
 
 /**
@@ -370,9 +504,9 @@ export interface ScheduleFragment extends UpdateResource {
  * Schedules applicable to a virtual machine. The schedules may have been
  * defined on a VM or on lab level.
  *
- * @extends UpdateResource
+ * @extends Resource
  */
-export interface ApplicableScheduleFragment extends UpdateResource {
+export interface ApplicableScheduleFragment extends Resource {
   /**
    * @member {ScheduleFragment} [labVmsShutdown] The auto-shutdown schedule, if
    * one has been set at the lab or lab resource level.
@@ -413,10 +547,6 @@ export interface ArtifactInstallProperties {
    * @member {string} [artifactId] The artifact's identifier.
    */
   artifactId?: string;
-  /**
-   * @member {string} [artifactTitle] The artifact's title.
-   */
-  artifactTitle?: string;
   /**
    * @member {ArtifactParameterProperties[]} [parameters] The parameters of the
    * artifact.
@@ -476,6 +606,59 @@ export interface ParametersValueFileInfo {
 
 /**
  * @interface
+ * An interface representing ArmTemplateProperties.
+ * Properties of an Azure Resource Manager template.
+ *
+ */
+export interface ArmTemplateProperties {
+  /**
+   * @member {string} [displayName] The display name of the ARM template.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly displayName?: string;
+  /**
+   * @member {string} [description] The description of the ARM template.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly description?: string;
+  /**
+   * @member {string} [publisher] The publisher of the ARM template.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly publisher?: string;
+  /**
+   * @member {string} [icon] The URI to the icon of the ARM template.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly icon?: string;
+  /**
+   * @member {any} [contents] The contents of the ARM template.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly contents?: any;
+  /**
+   * @member {Date} [createdDate] The creation date of the armTemplate.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDate?: Date;
+  /**
+   * @member {ParametersValueFileInfo[]} [parametersValueFilesInfo] File name
+   * and parameter values information from all azuredeploy.*.parameters.json
+   * for the ARM template.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly parametersValueFilesInfo?: ParametersValueFileInfo[];
+}
+
+/**
+ * @interface
  * An interface representing ArmTemplate.
  * An Azure Resource Manager template.
  *
@@ -526,13 +709,6 @@ export interface ArmTemplate extends Resource {
    * the server.**
    */
   readonly parametersValueFilesInfo?: ParametersValueFileInfo[];
-  /**
-   * @member {boolean} [enabled] Whether or not ARM template is enabled for use
-   * by lab user.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly enabled?: boolean;
 }
 
 /**
@@ -571,19 +747,59 @@ export interface ArmTemplateParameterProperties {
 
 /**
  * @interface
- * An interface representing ArmTemplateParameterPropertiesFragment.
- * Properties of an Azure Resource Manager template parameter.
+ * An interface representing ArtifactProperties.
+ * Properties of an artifact.
  *
  */
-export interface ArmTemplateParameterPropertiesFragment {
+export interface ArtifactProperties {
   /**
-   * @member {string} [name] The name of the template parameter.
+   * @member {string} [title] The artifact's title.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  name?: string;
+  readonly title?: string;
   /**
-   * @member {string} [value] The value of the template parameter.
+   * @member {string} [description] The artifact's description.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  value?: string;
+  readonly description?: string;
+  /**
+   * @member {string} [publisher] The artifact's publisher.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly publisher?: string;
+  /**
+   * @member {string} [filePath] The file path to the artifact.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly filePath?: string;
+  /**
+   * @member {string} [icon] The URI to the artifact icon.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly icon?: string;
+  /**
+   * @member {string} [targetOsType] The artifact's target OS.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly targetOsType?: string;
+  /**
+   * @member {any} [parameters] The artifact's parameters.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly parameters?: any;
+  /**
+   * @member {Date} [createdDate] The artifact's creation date.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDate?: Date;
 }
 
 /**
@@ -719,10 +935,6 @@ export interface ArtifactInstallPropertiesFragment {
    */
   artifactId?: string;
   /**
-   * @member {string} [artifactTitle] The artifact's title.
-   */
-  artifactTitle?: string;
-  /**
    * @member {ArtifactParameterPropertiesFragment[]} [parameters] The
    * parameters of the artifact.
    */
@@ -746,6 +958,68 @@ export interface ArtifactInstallPropertiesFragment {
    * on the virtual machine.
    */
   installTime?: Date;
+}
+
+/**
+ * @interface
+ * An interface representing ArtifactSourceProperties.
+ * Properties of an artifact source.
+ *
+ */
+export interface ArtifactSourceProperties {
+  /**
+   * @member {string} [displayName] The artifact source's display name.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [uri] The artifact source's URI.
+   */
+  uri?: string;
+  /**
+   * @member {SourceControlType} [sourceType] The artifact source's type.
+   * Possible values include: 'VsoGit', 'GitHub'
+   */
+  sourceType?: SourceControlType;
+  /**
+   * @member {string} [folderPath] The folder containing artifacts.
+   */
+  folderPath?: string;
+  /**
+   * @member {string} [armTemplateFolderPath] The folder containing Azure
+   * Resource Manager templates.
+   */
+  armTemplateFolderPath?: string;
+  /**
+   * @member {string} [branchRef] The artifact source's branch reference.
+   */
+  branchRef?: string;
+  /**
+   * @member {string} [securityToken] The security token to authenticate to the
+   * artifact source.
+   */
+  securityToken?: string;
+  /**
+   * @member {EnableStatus} [status] Indicates if the artifact source is
+   * enabled (values: Enabled, Disabled). Possible values include: 'Enabled',
+   * 'Disabled'
+   */
+  status?: EnableStatus;
+  /**
+   * @member {Date} [createdDate] The artifact source's creation date.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDate?: Date;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
 }
 
 /**
@@ -802,27 +1076,22 @@ export interface ArtifactSource extends Resource {
   /**
    * @member {string} [provisioningState] The provisioning status of the
    * resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly provisioningState?: string;
+  provisioningState?: string;
   /**
    * @member {string} [uniqueIdentifier] The unique immutable identifier of a
    * resource (Guid).
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly uniqueIdentifier?: string;
+  uniqueIdentifier?: string;
 }
 
 /**
  * @interface
- * An interface representing ArtifactSourceFragment.
+ * An interface representing ArtifactSourcePropertiesFragment.
  * Properties of an artifact source.
  *
- * @extends UpdateResource
  */
-export interface ArtifactSourceFragment extends UpdateResource {
+export interface ArtifactSourcePropertiesFragment {
   /**
    * @member {string} [displayName] The artifact source's display name.
    */
@@ -860,6 +1129,73 @@ export interface ArtifactSourceFragment extends UpdateResource {
    * 'Disabled'
    */
   status?: EnableStatus;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ArtifactSourceFragment.
+ * Properties of an artifact source.
+ *
+ * @extends Resource
+ */
+export interface ArtifactSourceFragment extends Resource {
+  /**
+   * @member {string} [displayName] The artifact source's display name.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [uri] The artifact source's URI.
+   */
+  uri?: string;
+  /**
+   * @member {SourceControlType} [sourceType] The artifact source's type.
+   * Possible values include: 'VsoGit', 'GitHub'
+   */
+  sourceType?: SourceControlType;
+  /**
+   * @member {string} [folderPath] The folder containing artifacts.
+   */
+  folderPath?: string;
+  /**
+   * @member {string} [armTemplateFolderPath] The folder containing Azure
+   * Resource Manager templates.
+   */
+  armTemplateFolderPath?: string;
+  /**
+   * @member {string} [branchRef] The artifact source's branch reference.
+   */
+  branchRef?: string;
+  /**
+   * @member {string} [securityToken] The security token to authenticate to the
+   * artifact source.
+   */
+  securityToken?: string;
+  /**
+   * @member {EnableStatus} [status] Indicates if the artifact source is
+   * enabled (values: Enabled, Disabled). Possible values include: 'Enabled',
+   * 'Disabled'
+   */
+  status?: EnableStatus;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
 }
 
 /**
@@ -901,48 +1237,11 @@ export interface AttachNewDataDiskOptions {
 
 /**
  * @interface
- * An interface representing AttachNewDataDiskOptionsFragment.
- * Properties to attach new disk to the Virtual Machine.
- *
- */
-export interface AttachNewDataDiskOptionsFragment {
-  /**
-   * @member {number} [diskSizeGiB] Size of the disk to be attached in
-   * GibiBytes.
-   */
-  diskSizeGiB?: number;
-  /**
-   * @member {string} [diskName] The name of the disk to be attached.
-   */
-  diskName?: string;
-  /**
-   * @member {StorageType} [diskType] The storage type for the disk (i.e.
-   * Standard, Premium). Possible values include: 'Standard', 'Premium'
-   */
-  diskType?: StorageType;
-}
-
-/**
- * @interface
  * An interface representing BulkCreationParameters.
  * Parameters for creating multiple virtual machines as a single action.
  *
  */
 export interface BulkCreationParameters {
-  /**
-   * @member {number} [instanceCount] The number of virtual machine instances
-   * to create.
-   */
-  instanceCount?: number;
-}
-
-/**
- * @interface
- * An interface representing BulkCreationParametersFragment.
- * Parameters for creating multiple virtual machines as a single action.
- *
- */
-export interface BulkCreationParametersFragment {
   /**
    * @member {number} [instanceCount] The number of virtual machine instances
    * to create.
@@ -1256,43 +1555,50 @@ export interface CustomImagePropertiesCustom {
 
 /**
  * @interface
- * An interface representing DataDiskStorageTypeInfo.
- * Storage information about the data disks present in the custom image
+ * An interface representing CustomImageProperties.
+ * Properties of a custom image.
  *
  */
-export interface DataDiskStorageTypeInfo {
+export interface CustomImageProperties {
   /**
-   * @member {string} [lun] Disk Lun
+   * @member {CustomImagePropertiesFromVm} [vm] The virtual machine from which
+   * the image is to be created.
    */
-  lun?: string;
+  vm?: CustomImagePropertiesFromVm;
   /**
-   * @member {StorageType} [storageType] Disk Storage Type. Possible values
-   * include: 'Standard', 'Premium'
+   * @member {CustomImagePropertiesCustom} [vhd] The VHD from which the image
+   * is to be created.
    */
-  storageType?: StorageType;
-}
-
-/**
- * @interface
- * An interface representing CustomImagePropertiesFromPlan.
- * Properties for plan on a custom image.
- *
- */
-export interface CustomImagePropertiesFromPlan {
+  vhd?: CustomImagePropertiesCustom;
   /**
-   * @member {string} [id] The id of the plan, equivalent to name of the plan
+   * @member {string} [description] The description of the custom image.
    */
-  id?: string;
+  description?: string;
   /**
-   * @member {string} [publisher] The publisher for the plan from the
-   * marketplace image the custom image is derived from
+   * @member {string} [author] The author of the custom image.
    */
-  publisher?: string;
+  author?: string;
   /**
-   * @member {string} [offer] The offer for the plan from the marketplace image
-   * the custom image is derived from
+   * @member {Date} [creationDate] The creation date of the custom image.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  offer?: string;
+  readonly creationDate?: Date;
+  /**
+   * @member {string} [managedImageId] The Managed Image Id backing the custom
+   * image.
+   */
+  managedImageId?: string;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
 }
 
 /**
@@ -1333,210 +1639,15 @@ export interface CustomImage extends Resource {
    */
   managedImageId?: string;
   /**
-   * @member {string} [managedSnapshotId] The Managed Snapshot Id backing the
-   * custom image.
-   */
-  managedSnapshotId?: string;
-  /**
-   * @member {DataDiskStorageTypeInfo[]} [dataDiskStorageInfo] Storage
-   * information about the data disks present in the custom image
-   */
-  dataDiskStorageInfo?: DataDiskStorageTypeInfo[];
-  /**
-   * @member {CustomImagePropertiesFromPlan} [customImagePlan] Storage
-   * information about the plan related to this custom image
-   */
-  customImagePlan?: CustomImagePropertiesFromPlan;
-  /**
-   * @member {boolean} [isPlanAuthorized] Whether or not the custom images
-   * underlying offer/plan has been enabled for programmatic deployment
-   */
-  isPlanAuthorized?: boolean;
-  /**
    * @member {string} [provisioningState] The provisioning status of the
    * resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly provisioningState?: string;
+  provisioningState?: string;
   /**
    * @member {string} [uniqueIdentifier] The unique immutable identifier of a
    * resource (Guid).
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly uniqueIdentifier?: string;
-}
-
-/**
- * @interface
- * An interface representing WindowsOsInfoFragment.
- * Information about a Windows OS.
- *
- */
-export interface WindowsOsInfoFragment {
-  /**
-   * @member {WindowsOsState} [windowsOsState] The state of the Windows OS
-   * (i.e. NonSysprepped, SysprepRequested, SysprepApplied). Possible values
-   * include: 'NonSysprepped', 'SysprepRequested', 'SysprepApplied'
-   */
-  windowsOsState?: WindowsOsState;
-}
-
-/**
- * @interface
- * An interface representing LinuxOsInfoFragment.
- * Information about a Linux OS.
- *
- */
-export interface LinuxOsInfoFragment {
-  /**
-   * @member {LinuxOsState} [linuxOsState] The state of the Linux OS (i.e.
-   * NonDeprovisioned, DeprovisionRequested, DeprovisionApplied). Possible
-   * values include: 'NonDeprovisioned', 'DeprovisionRequested',
-   * 'DeprovisionApplied'
-   */
-  linuxOsState?: LinuxOsState;
-}
-
-/**
- * @interface
- * An interface representing CustomImagePropertiesFromVmFragment.
- * Properties for creating a custom image from a virtual machine.
- *
- */
-export interface CustomImagePropertiesFromVmFragment {
-  /**
-   * @member {string} [sourceVmId] The source vm identifier.
-   */
-  sourceVmId?: string;
-  /**
-   * @member {WindowsOsInfoFragment} [windowsOsInfo] The Windows OS information
-   * of the VM.
-   */
-  windowsOsInfo?: WindowsOsInfoFragment;
-  /**
-   * @member {LinuxOsInfoFragment} [linuxOsInfo] The Linux OS information of
-   * the VM.
-   */
-  linuxOsInfo?: LinuxOsInfoFragment;
-}
-
-/**
- * @interface
- * An interface representing CustomImagePropertiesCustomFragment.
- * Properties for creating a custom image from a VHD.
- *
- */
-export interface CustomImagePropertiesCustomFragment {
-  /**
-   * @member {string} [imageName] The image name.
-   */
-  imageName?: string;
-  /**
-   * @member {boolean} [sysPrep] Indicates whether sysprep has been run on the
-   * VHD.
-   */
-  sysPrep?: boolean;
-  /**
-   * @member {CustomImageOsType} [osType] The OS type of the custom image (i.e.
-   * Windows, Linux). Possible values include: 'Windows', 'Linux', 'None'
-   */
-  osType?: CustomImageOsType;
-}
-
-/**
- * @interface
- * An interface representing DataDiskStorageTypeInfoFragment.
- * Storage information about the data disks present in the custom image
- *
- */
-export interface DataDiskStorageTypeInfoFragment {
-  /**
-   * @member {string} [lun] Disk Lun
-   */
-  lun?: string;
-  /**
-   * @member {StorageType} [storageType] Disk Storage Type. Possible values
-   * include: 'Standard', 'Premium'
-   */
-  storageType?: StorageType;
-}
-
-/**
- * @interface
- * An interface representing CustomImagePropertiesFromPlanFragment.
- * Properties for plan on a custom image.
- *
- */
-export interface CustomImagePropertiesFromPlanFragment {
-  /**
-   * @member {string} [id] The id of the plan, equivalent to name of the plan
-   */
-  id?: string;
-  /**
-   * @member {string} [publisher] The publisher for the plan from the
-   * marketplace image the custom image is derived from
-   */
-  publisher?: string;
-  /**
-   * @member {string} [offer] The offer for the plan from the marketplace image
-   * the custom image is derived from
-   */
-  offer?: string;
-}
-
-/**
- * @interface
- * An interface representing CustomImageFragment.
- * A custom image.
- *
- * @extends UpdateResource
- */
-export interface CustomImageFragment extends UpdateResource {
-  /**
-   * @member {CustomImagePropertiesFromVmFragment} [vm] The virtual machine
-   * from which the image is to be created.
-   */
-  vm?: CustomImagePropertiesFromVmFragment;
-  /**
-   * @member {CustomImagePropertiesCustomFragment} [vhd] The VHD from which the
-   * image is to be created.
-   */
-  vhd?: CustomImagePropertiesCustomFragment;
-  /**
-   * @member {string} [description] The description of the custom image.
-   */
-  description?: string;
-  /**
-   * @member {string} [author] The author of the custom image.
-   */
-  author?: string;
-  /**
-   * @member {string} [managedImageId] The Managed Image Id backing the custom
-   * image.
-   */
-  managedImageId?: string;
-  /**
-   * @member {string} [managedSnapshotId] The Managed Snapshot Id backing the
-   * custom image.
-   */
-  managedSnapshotId?: string;
-  /**
-   * @member {DataDiskStorageTypeInfoFragment[]} [dataDiskStorageInfo] Storage
-   * information about the data disks present in the custom image
-   */
-  dataDiskStorageInfo?: DataDiskStorageTypeInfoFragment[];
-  /**
-   * @member {CustomImagePropertiesFromPlanFragment} [customImagePlan] Storage
-   * information about the plan related to this custom image
-   */
-  customImagePlan?: CustomImagePropertiesFromPlanFragment;
-  /**
-   * @member {boolean} [isPlanAuthorized] Whether or not the custom images
-   * underlying offer/plan has been enabled for programmatic deployment
-   */
-  isPlanAuthorized?: boolean;
+  uniqueIdentifier?: string;
 }
 
 /**
@@ -1551,31 +1662,6 @@ export interface DataDiskProperties {
    * options to attach a new disk to the virtual machine.
    */
   attachNewDataDiskOptions?: AttachNewDataDiskOptions;
-  /**
-   * @member {string} [existingLabDiskId] Specifies the existing lab disk id to
-   * attach to virtual machine.
-   */
-  existingLabDiskId?: string;
-  /**
-   * @member {HostCachingOptions} [hostCaching] Caching option for a data disk
-   * (i.e. None, ReadOnly, ReadWrite). Possible values include: 'None',
-   * 'ReadOnly', 'ReadWrite'
-   */
-  hostCaching?: HostCachingOptions;
-}
-
-/**
- * @interface
- * An interface representing DataDiskPropertiesFragment.
- * Request body for adding a new or existing data disk to a virtual machine.
- *
- */
-export interface DataDiskPropertiesFragment {
-  /**
-   * @member {AttachNewDataDiskOptionsFragment} [attachNewDataDiskOptions]
-   * Specifies options to attach a new disk to the virtual machine.
-   */
-  attachNewDataDiskOptions?: AttachNewDataDiskOptionsFragment;
   /**
    * @member {string} [existingLabDiskId] Specifies the existing lab disk id to
    * attach to virtual machine.
@@ -1615,6 +1701,65 @@ export interface DetachDiskProperties {
    * the disk is attached.
    */
   leasedByLabVmId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing DiskProperties.
+ * Properties of a disk.
+ *
+ */
+export interface DiskProperties {
+  /**
+   * @member {StorageType} [diskType] The storage type for the disk (i.e.
+   * Standard, Premium). Possible values include: 'Standard', 'Premium'
+   */
+  diskType?: StorageType;
+  /**
+   * @member {number} [diskSizeGiB] The size of the disk in GibiBytes.
+   */
+  diskSizeGiB?: number;
+  /**
+   * @member {string} [leasedByLabVmId] The resource ID of the VM to which this
+   * disk is leased.
+   */
+  leasedByLabVmId?: string;
+  /**
+   * @member {string} [diskBlobName] When backed by a blob, the name of the VHD
+   * blob without extension.
+   */
+  diskBlobName?: string;
+  /**
+   * @member {string} [diskUri] When backed by a blob, the URI of underlying
+   * blob.
+   */
+  diskUri?: string;
+  /**
+   * @member {Date} [createdDate] The creation date of the disk.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDate?: Date;
+  /**
+   * @member {string} [hostCaching] The host caching policy of the disk (i.e.
+   * None, ReadOnly, ReadWrite).
+   */
+  hostCaching?: string;
+  /**
+   * @member {string} [managedDiskId] When backed by managed disk, this is the
+   * ID of the compute disk resource.
+   */
+  managedDiskId?: string;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
 }
 
 /**
@@ -1668,61 +1813,13 @@ export interface Disk extends Resource {
   /**
    * @member {string} [provisioningState] The provisioning status of the
    * resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly provisioningState?: string;
+  provisioningState?: string;
   /**
    * @member {string} [uniqueIdentifier] The unique immutable identifier of a
    * resource (Guid).
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly uniqueIdentifier?: string;
-}
-
-/**
- * @interface
- * An interface representing DiskFragment.
- * A Disk.
- *
- * @extends UpdateResource
- */
-export interface DiskFragment extends UpdateResource {
-  /**
-   * @member {StorageType} [diskType] The storage type for the disk (i.e.
-   * Standard, Premium). Possible values include: 'Standard', 'Premium'
-   */
-  diskType?: StorageType;
-  /**
-   * @member {number} [diskSizeGiB] The size of the disk in GibiBytes.
-   */
-  diskSizeGiB?: number;
-  /**
-   * @member {string} [leasedByLabVmId] The resource ID of the VM to which this
-   * disk is leased.
-   */
-  leasedByLabVmId?: string;
-  /**
-   * @member {string} [diskBlobName] When backed by a blob, the name of the VHD
-   * blob without extension.
-   */
-  diskBlobName?: string;
-  /**
-   * @member {string} [diskUri] When backed by a blob, the URI of underlying
-   * blob.
-   */
-  diskUri?: string;
-  /**
-   * @member {string} [hostCaching] The host caching policy of the disk (i.e.
-   * None, ReadOnly, ReadWrite).
-   */
-  hostCaching?: string;
-  /**
-   * @member {string} [managedDiskId] When backed by managed disk, this is the
-   * ID of the compute disk resource.
-   */
-  managedDiskId?: string;
+  uniqueIdentifier?: string;
 }
 
 /**
@@ -1742,6 +1839,48 @@ export interface EnvironmentDeploymentProperties {
    * the Azure Resource Manager template.
    */
   parameters?: ArmTemplateParameterProperties[];
+}
+
+/**
+ * @interface
+ * An interface representing EnvironmentProperties.
+ * Properties of an environment.
+ *
+ */
+export interface EnvironmentProperties {
+  /**
+   * @member {EnvironmentDeploymentProperties} [deploymentProperties] The
+   * deployment properties of the environment.
+   */
+  deploymentProperties?: EnvironmentDeploymentProperties;
+  /**
+   * @member {string} [armTemplateDisplayName] The display name of the Azure
+   * Resource Manager template that produced the environment.
+   */
+  armTemplateDisplayName?: string;
+  /**
+   * @member {string} [resourceGroupId] The identifier of the resource group
+   * containing the environment's resources.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resourceGroupId?: string;
+  /**
+   * @member {string} [createdByUser] The creator of the environment.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdByUser?: string;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
 }
 
 /**
@@ -1778,56 +1917,13 @@ export interface DtlEnvironment extends Resource {
   /**
    * @member {string} [provisioningState] The provisioning status of the
    * resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly provisioningState?: string;
+  provisioningState?: string;
   /**
    * @member {string} [uniqueIdentifier] The unique immutable identifier of a
    * resource (Guid).
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly uniqueIdentifier?: string;
-}
-
-/**
- * @interface
- * An interface representing EnvironmentDeploymentPropertiesFragment.
- * Properties of an environment deployment.
- *
- */
-export interface EnvironmentDeploymentPropertiesFragment {
-  /**
-   * @member {string} [armTemplateId] The Azure Resource Manager template's
-   * identifier.
-   */
-  armTemplateId?: string;
-  /**
-   * @member {ArmTemplateParameterPropertiesFragment[]} [parameters] The
-   * parameters of the Azure Resource Manager template.
-   */
-  parameters?: ArmTemplateParameterPropertiesFragment[];
-}
-
-/**
- * @interface
- * An interface representing DtlEnvironmentFragment.
- * An environment, which is essentially an ARM template deployment.
- *
- * @extends UpdateResource
- */
-export interface DtlEnvironmentFragment extends UpdateResource {
-  /**
-   * @member {EnvironmentDeploymentPropertiesFragment} [deploymentProperties]
-   * The deployment properties of the environment.
-   */
-  deploymentProperties?: EnvironmentDeploymentPropertiesFragment;
-  /**
-   * @member {string} [armTemplateDisplayName] The display name of the Azure
-   * Resource Manager template that produced the environment.
-   */
-  armTemplateDisplayName?: string;
+  uniqueIdentifier?: string;
 }
 
 /**
@@ -1849,11 +1945,6 @@ export interface EvaluatePoliciesProperties {
    * @member {string} [valueOffset] The value offset.
    */
   valueOffset?: string;
-  /**
-   * @member {string} [userObjectId] The user for which policies will be
-   * evaluated
-   */
-  userObjectId?: string;
 }
 
 /**
@@ -2125,74 +2216,11 @@ export interface NetworkInterfaceProperties {
 
 /**
  * @interface
- * An interface representing ScheduleCreationParameter.
- * Properties for creating a schedule.
+ * An interface representing LabVirtualMachineCreationParameterProperties.
+ * Properties for virtual machine creation.
  *
  */
-export interface ScheduleCreationParameter {
-  /**
-   * @member {EnableStatus} [status] The status of the schedule (i.e. Enabled,
-   * Disabled). Possible values include: 'Enabled', 'Disabled'
-   */
-  status?: EnableStatus;
-  /**
-   * @member {string} [taskType] The task type of the schedule (e.g.
-   * LabVmsShutdownTask, LabVmAutoStart).
-   */
-  taskType?: string;
-  /**
-   * @member {WeekDetails} [weeklyRecurrence] If the schedule will occur only
-   * some days of the week, specify the weekly recurrence.
-   */
-  weeklyRecurrence?: WeekDetails;
-  /**
-   * @member {DayDetails} [dailyRecurrence] If the schedule will occur once
-   * each day of the week, specify the daily recurrence.
-   */
-  dailyRecurrence?: DayDetails;
-  /**
-   * @member {HourDetails} [hourlyRecurrence] If the schedule will occur
-   * multiple times a day, specify the hourly recurrence.
-   */
-  hourlyRecurrence?: HourDetails;
-  /**
-   * @member {string} [timeZoneId] The time zone ID (e.g. Pacific Standard
-   * time).
-   */
-  timeZoneId?: string;
-  /**
-   * @member {NotificationSettings} [notificationSettings] Notification
-   * settings.
-   */
-  notificationSettings?: NotificationSettings;
-  /**
-   * @member {string} [targetResourceId] The resource ID to which the schedule
-   * belongs
-   */
-  targetResourceId?: string;
-  /**
-   * @member {string} [name] The name of the virtual machine or environment
-   */
-  name?: string;
-  /**
-   * @member {string} [location] The location of the new virtual machine or
-   * environment
-   */
-  location?: string;
-  /**
-   * @member {{ [propertyName: string]: string }} [tags] The tags of the
-   * resource.
-   */
-  tags?: { [propertyName: string]: string };
-}
-
-/**
- * @interface
- * An interface representing LabVirtualMachineCreationParameter.
- * Properties for creating a virtual machine.
- *
- */
-export interface LabVirtualMachineCreationParameter {
+export interface LabVirtualMachineCreationParameterProperties {
   /**
    * @member {BulkCreationParameters} [bulkCreationParameters] The number of
    * virtual machine instances to create.
@@ -2226,11 +2254,6 @@ export interface LabVirtualMachineCreationParameter {
    * @member {Date} [createdDate] The creation date of the virtual machine.
    */
   createdDate?: Date;
-  /**
-   * @member {string} [computeId] The resource identifier (Microsoft.Compute)
-   * of the virtual machine.
-   */
-  computeId?: string;
   /**
    * @member {string} [customImageId] The custom image identifier of the
    * virtual machine.
@@ -2299,15 +2322,20 @@ export interface LabVirtualMachineCreationParameter {
    */
   galleryImageReference?: GalleryImageReference;
   /**
-   * @member {string} [planId] The id of the plan associated with the virtual
-   * machine image
+   * @member {ComputeVmProperties} [computeVm] The compute virtual machine
+   * properties.
    */
-  planId?: string;
+  computeVm?: ComputeVmProperties;
   /**
    * @member {NetworkInterfaceProperties} [networkInterface] The network
    * interface properties.
    */
   networkInterface?: NetworkInterfaceProperties;
+  /**
+   * @member {ApplicableSchedule} [applicableSchedule] The applicable schedule
+   * for the virtual machine.
+   */
+  applicableSchedule?: ApplicableSchedule;
   /**
    * @member {Date} [expirationDate] The expiration date for VM.
    */
@@ -2334,299 +2362,29 @@ export interface LabVirtualMachineCreationParameter {
    */
   environmentId?: string;
   /**
-   * @member {DataDiskProperties[]} [dataDiskParameters] New or existing data
-   * disks to attach to the virtual machine after creation
-   */
-  dataDiskParameters?: DataDiskProperties[];
-  /**
-   * @member {ScheduleCreationParameter[]} [scheduleParameters] Virtual Machine
-   * schedules to be created
-   */
-  scheduleParameters?: ScheduleCreationParameter[];
-  /**
-   * @member {string} [lastKnownPowerState] Last known compute power state
-   * captured in DTL
-   */
-  lastKnownPowerState?: string;
-  /**
-   * @member {string} [name] The name of the virtual machine or environment
-   */
-  name?: string;
-  /**
-   * @member {string} [location] The location of the new virtual machine or
-   * environment
-   */
-  location?: string;
-  /**
-   * @member {{ [propertyName: string]: string }} [tags] The tags of the
-   * resource.
-   */
-  tags?: { [propertyName: string]: string };
-}
-
-/**
- * @interface
- * An interface representing FormulaPropertiesFromVm.
- * Information about a VM from which a formula is to be created.
- *
- */
-export interface FormulaPropertiesFromVm {
-  /**
-   * @member {string} [labVmId] The identifier of the VM from which a formula
-   * is to be created.
-   */
-  labVmId?: string;
-}
-
-/**
- * @interface
- * An interface representing Formula.
- * A formula for creating a VM, specifying an image base and other parameters
- *
- * @extends Resource
- */
-export interface Formula extends Resource {
-  /**
-   * @member {string} [description] The description of the formula.
-   */
-  description?: string;
-  /**
-   * @member {string} [author] The author of the formula.
-   */
-  author?: string;
-  /**
-   * @member {string} [osType] The OS type of the formula.
-   */
-  osType?: string;
-  /**
-   * @member {Date} [creationDate] The creation date of the formula.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly creationDate?: Date;
-  /**
-   * @member {LabVirtualMachineCreationParameter} [formulaContent] The content
-   * of the formula.
-   */
-  formulaContent?: LabVirtualMachineCreationParameter;
-  /**
-   * @member {FormulaPropertiesFromVm} [vm] Information about a VM from which a
-   * formula is to be created.
-   */
-  vm?: FormulaPropertiesFromVm;
-  /**
    * @member {string} [provisioningState] The provisioning status of the
    * resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly provisioningState?: string;
+  provisioningState?: string;
   /**
    * @member {string} [uniqueIdentifier] The unique immutable identifier of a
    * resource (Guid).
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly uniqueIdentifier?: string;
+  uniqueIdentifier?: string;
 }
 
 /**
  * @interface
- * An interface representing GalleryImageReferenceFragment.
- * The reference information for an Azure Marketplace image.
- *
- */
-export interface GalleryImageReferenceFragment {
-  /**
-   * @member {string} [offer] The offer of the gallery image.
-   */
-  offer?: string;
-  /**
-   * @member {string} [publisher] The publisher of the gallery image.
-   */
-  publisher?: string;
-  /**
-   * @member {string} [sku] The SKU of the gallery image.
-   */
-  sku?: string;
-  /**
-   * @member {string} [osType] The OS type of the gallery image.
-   */
-  osType?: string;
-  /**
-   * @member {string} [version] The version of the gallery image.
-   */
-  version?: string;
-}
-
-/**
- * @interface
- * An interface representing InboundNatRuleFragment.
- * A rule for NAT - exposing a VM's port (backendPort) on the public IP address
- * using a load balancer.
- *
- */
-export interface InboundNatRuleFragment {
-  /**
-   * @member {TransportProtocol} [transportProtocol] The transport protocol for
-   * the endpoint. Possible values include: 'Tcp', 'Udp'
-   */
-  transportProtocol?: TransportProtocol;
-  /**
-   * @member {number} [frontendPort] The external endpoint port of the inbound
-   * connection. Possible values range between 1 and 65535, inclusive. If
-   * unspecified, a value will be allocated automatically.
-   */
-  frontendPort?: number;
-  /**
-   * @member {number} [backendPort] The port to which the external traffic will
-   * be redirected.
-   */
-  backendPort?: number;
-}
-
-/**
- * @interface
- * An interface representing SharedPublicIpAddressConfigurationFragment.
- * Properties of a virtual machine that determine how it is connected to a load
- * balancer.
- *
- */
-export interface SharedPublicIpAddressConfigurationFragment {
-  /**
-   * @member {InboundNatRuleFragment[]} [inboundNatRules] The incoming NAT
-   * rules
-   */
-  inboundNatRules?: InboundNatRuleFragment[];
-}
-
-/**
- * @interface
- * An interface representing NetworkInterfacePropertiesFragment.
- * Properties of a network interface.
- *
- */
-export interface NetworkInterfacePropertiesFragment {
-  /**
-   * @member {string} [virtualNetworkId] The resource ID of the virtual
-   * network.
-   */
-  virtualNetworkId?: string;
-  /**
-   * @member {string} [subnetId] The resource ID of the sub net.
-   */
-  subnetId?: string;
-  /**
-   * @member {string} [publicIpAddressId] The resource ID of the public IP
-   * address.
-   */
-  publicIpAddressId?: string;
-  /**
-   * @member {string} [publicIpAddress] The public IP address.
-   */
-  publicIpAddress?: string;
-  /**
-   * @member {string} [privateIpAddress] The private IP address.
-   */
-  privateIpAddress?: string;
-  /**
-   * @member {string} [dnsName] The DNS name.
-   */
-  dnsName?: string;
-  /**
-   * @member {string} [rdpAuthority] The RdpAuthority property is a server DNS
-   * host name or IP address followed by the service port number for RDP
-   * (Remote Desktop Protocol).
-   */
-  rdpAuthority?: string;
-  /**
-   * @member {string} [sshAuthority] The SshAuthority property is a server DNS
-   * host name or IP address followed by the service port number for SSH.
-   */
-  sshAuthority?: string;
-  /**
-   * @member {SharedPublicIpAddressConfigurationFragment}
-   * [sharedPublicIpAddressConfiguration] The configuration for sharing a
-   * public IP address across multiple virtual machines.
-   */
-  sharedPublicIpAddressConfiguration?: SharedPublicIpAddressConfigurationFragment;
-}
-
-/**
- * @interface
- * An interface representing ScheduleCreationParameterFragment.
- * Properties for creating a schedule.
- *
- */
-export interface ScheduleCreationParameterFragment {
-  /**
-   * @member {EnableStatus} [status] The status of the schedule (i.e. Enabled,
-   * Disabled). Possible values include: 'Enabled', 'Disabled'
-   */
-  status?: EnableStatus;
-  /**
-   * @member {string} [taskType] The task type of the schedule (e.g.
-   * LabVmsShutdownTask, LabVmAutoStart).
-   */
-  taskType?: string;
-  /**
-   * @member {WeekDetailsFragment} [weeklyRecurrence] If the schedule will
-   * occur only some days of the week, specify the weekly recurrence.
-   */
-  weeklyRecurrence?: WeekDetailsFragment;
-  /**
-   * @member {DayDetailsFragment} [dailyRecurrence] If the schedule will occur
-   * once each day of the week, specify the daily recurrence.
-   */
-  dailyRecurrence?: DayDetailsFragment;
-  /**
-   * @member {HourDetailsFragment} [hourlyRecurrence] If the schedule will
-   * occur multiple times a day, specify the hourly recurrence.
-   */
-  hourlyRecurrence?: HourDetailsFragment;
-  /**
-   * @member {string} [timeZoneId] The time zone ID (e.g. Pacific Standard
-   * time).
-   */
-  timeZoneId?: string;
-  /**
-   * @member {NotificationSettingsFragment} [notificationSettings] Notification
-   * settings.
-   */
-  notificationSettings?: NotificationSettingsFragment;
-  /**
-   * @member {string} [targetResourceId] The resource ID to which the schedule
-   * belongs
-   */
-  targetResourceId?: string;
-  /**
-   * @member {string} [name] The name of the virtual machine or environment
-   */
-  name?: string;
-  /**
-   * @member {string} [location] The location of the new virtual machine or
-   * environment
-   */
-  location?: string;
-  /**
-   * @member {{ [propertyName: string]: string }} [tags] The tags of the
-   * resource.
-   */
-  tags?: { [propertyName: string]: string };
-}
-
-/**
- * @interface
- * An interface representing LabVirtualMachineCreationParameterFragment.
+ * An interface representing LabVirtualMachineCreationParameter.
  * Properties for creating a virtual machine.
  *
  */
-export interface LabVirtualMachineCreationParameterFragment {
+export interface LabVirtualMachineCreationParameter {
   /**
-   * @member {BulkCreationParametersFragment} [bulkCreationParameters] The
-   * number of virtual machine instances to create.
+   * @member {BulkCreationParameters} [bulkCreationParameters] The number of
+   * virtual machine instances to create.
    */
-  bulkCreationParameters?: BulkCreationParametersFragment;
+  bulkCreationParameters?: BulkCreationParameters;
   /**
    * @member {string} [notes] The notes of the virtual machine.
    */
@@ -2655,11 +2413,6 @@ export interface LabVirtualMachineCreationParameterFragment {
    * @member {Date} [createdDate] The creation date of the virtual machine.
    */
   createdDate?: Date;
-  /**
-   * @member {string} [computeId] The resource identifier (Microsoft.Compute)
-   * of the virtual machine.
-   */
-  computeId?: string;
   /**
    * @member {string} [customImageId] The custom image identifier of the
    * virtual machine.
@@ -2713,31 +2466,35 @@ export interface LabVirtualMachineCreationParameterFragment {
    */
   disallowPublicIpAddress?: boolean;
   /**
-   * @member {ArtifactInstallPropertiesFragment[]} [artifacts] The artifacts to
-   * be installed on the virtual machine.
+   * @member {ArtifactInstallProperties[]} [artifacts] The artifacts to be
+   * installed on the virtual machine.
    */
-  artifacts?: ArtifactInstallPropertiesFragment[];
+  artifacts?: ArtifactInstallProperties[];
   /**
-   * @member {ArtifactDeploymentStatusPropertiesFragment}
-   * [artifactDeploymentStatus] The artifact deployment status for the virtual
-   * machine.
+   * @member {ArtifactDeploymentStatusProperties} [artifactDeploymentStatus]
+   * The artifact deployment status for the virtual machine.
    */
-  artifactDeploymentStatus?: ArtifactDeploymentStatusPropertiesFragment;
+  artifactDeploymentStatus?: ArtifactDeploymentStatusProperties;
   /**
-   * @member {GalleryImageReferenceFragment} [galleryImageReference] The
-   * Microsoft Azure Marketplace image reference of the virtual machine.
+   * @member {GalleryImageReference} [galleryImageReference] The Microsoft
+   * Azure Marketplace image reference of the virtual machine.
    */
-  galleryImageReference?: GalleryImageReferenceFragment;
+  galleryImageReference?: GalleryImageReference;
   /**
-   * @member {string} [planId] The id of the plan associated with the virtual
-   * machine image
+   * @member {ComputeVmProperties} [computeVm] The compute virtual machine
+   * properties.
    */
-  planId?: string;
+  computeVm?: ComputeVmProperties;
   /**
-   * @member {NetworkInterfacePropertiesFragment} [networkInterface] The
-   * network interface properties.
+   * @member {NetworkInterfaceProperties} [networkInterface] The network
+   * interface properties.
    */
-  networkInterface?: NetworkInterfacePropertiesFragment;
+  networkInterface?: NetworkInterfaceProperties;
+  /**
+   * @member {ApplicableSchedule} [applicableSchedule] The applicable schedule
+   * for the virtual machine.
+   */
+  applicableSchedule?: ApplicableSchedule;
   /**
    * @member {Date} [expirationDate] The expiration date for VM.
    */
@@ -2764,20 +2521,15 @@ export interface LabVirtualMachineCreationParameterFragment {
    */
   environmentId?: string;
   /**
-   * @member {DataDiskPropertiesFragment[]} [dataDiskParameters] New or
-   * existing data disks to attach to the virtual machine after creation
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
    */
-  dataDiskParameters?: DataDiskPropertiesFragment[];
+  provisioningState?: string;
   /**
-   * @member {ScheduleCreationParameterFragment[]} [scheduleParameters] Virtual
-   * Machine schedules to be created
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
    */
-  scheduleParameters?: ScheduleCreationParameterFragment[];
-  /**
-   * @member {string} [lastKnownPowerState] Last known compute power state
-   * captured in DTL
-   */
-  lastKnownPowerState?: string;
+  uniqueIdentifier?: string;
   /**
    * @member {string} [name] The name of the virtual machine or environment
    */
@@ -2796,11 +2548,11 @@ export interface LabVirtualMachineCreationParameterFragment {
 
 /**
  * @interface
- * An interface representing FormulaPropertiesFromVmFragment.
+ * An interface representing FormulaPropertiesFromVm.
  * Information about a VM from which a formula is to be created.
  *
  */
-export interface FormulaPropertiesFromVmFragment {
+export interface FormulaPropertiesFromVm {
   /**
    * @member {string} [labVmId] The identifier of the VM from which a formula
    * is to be created.
@@ -2810,12 +2562,11 @@ export interface FormulaPropertiesFromVmFragment {
 
 /**
  * @interface
- * An interface representing FormulaFragment.
- * A formula for creating a VM, specifying an image base and other parameters
+ * An interface representing FormulaProperties.
+ * Properties of a formula.
  *
- * @extends UpdateResource
  */
-export interface FormulaFragment extends UpdateResource {
+export interface FormulaProperties {
   /**
    * @member {string} [description] The description of the formula.
    */
@@ -2829,15 +2580,116 @@ export interface FormulaFragment extends UpdateResource {
    */
   osType?: string;
   /**
-   * @member {LabVirtualMachineCreationParameterFragment} [formulaContent] The
-   * content of the formula.
+   * @member {Date} [creationDate] The creation date of the formula.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  formulaContent?: LabVirtualMachineCreationParameterFragment;
+  readonly creationDate?: Date;
   /**
-   * @member {FormulaPropertiesFromVmFragment} [vm] Information about a VM from
-   * which a formula is to be created.
+   * @member {LabVirtualMachineCreationParameter} [formulaContent] The content
+   * of the formula.
    */
-  vm?: FormulaPropertiesFromVmFragment;
+  formulaContent?: LabVirtualMachineCreationParameter;
+  /**
+   * @member {FormulaPropertiesFromVm} [vm] Information about a VM from which a
+   * formula is to be created.
+   */
+  vm?: FormulaPropertiesFromVm;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
+ * An interface representing Formula.
+ * A formula for creating a VM, specifying an image base and other parameters
+ *
+ * @extends Resource
+ */
+export interface Formula extends Resource {
+  /**
+   * @member {string} [description] The description of the formula.
+   */
+  description?: string;
+  /**
+   * @member {string} [author] The author of the formula.
+   */
+  author?: string;
+  /**
+   * @member {string} [osType] The OS type of the formula.
+   */
+  osType?: string;
+  /**
+   * @member {Date} [creationDate] The creation date of the formula.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationDate?: Date;
+  /**
+   * @member {LabVirtualMachineCreationParameter} [formulaContent] The content
+   * of the formula.
+   */
+  formulaContent?: LabVirtualMachineCreationParameter;
+  /**
+   * @member {FormulaPropertiesFromVm} [vm] Information about a VM from which a
+   * formula is to be created.
+   */
+  vm?: FormulaPropertiesFromVm;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
+ * An interface representing GalleryImageProperties.
+ * Properties of a gallery image.
+ *
+ */
+export interface GalleryImageProperties {
+  /**
+   * @member {string} [author] The author of the gallery image.
+   */
+  author?: string;
+  /**
+   * @member {Date} [createdDate] The creation date of the gallery image.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDate?: Date;
+  /**
+   * @member {string} [description] The description of the gallery image.
+   */
+  description?: string;
+  /**
+   * @member {GalleryImageReference} [imageReference] The image reference of
+   * the gallery image.
+   */
+  imageReference?: GalleryImageReference;
+  /**
+   * @member {string} [icon] The icon of the gallery image.
+   */
+  icon?: string;
+  /**
+   * @member {boolean} [enabled] Indicates whether this gallery image is
+   * enabled.
+   */
+  enabled?: boolean;
 }
 
 /**
@@ -2876,15 +2728,35 @@ export interface GalleryImage extends Resource {
    * enabled.
    */
   enabled?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing GalleryImageReferenceFragment.
+ * The reference information for an Azure Marketplace image.
+ *
+ */
+export interface GalleryImageReferenceFragment {
   /**
-   * @member {string} [planId] The third party plan that applies to this image
+   * @member {string} [offer] The offer of the gallery image.
    */
-  planId?: string;
+  offer?: string;
   /**
-   * @member {boolean} [isPlanAuthorized] Indicates if the plan has been
-   * authorized for programmatic deployment.
+   * @member {string} [publisher] The publisher of the gallery image.
    */
-  isPlanAuthorized?: boolean;
+  publisher?: string;
+  /**
+   * @member {string} [sku] The SKU of the gallery image.
+   */
+  sku?: string;
+  /**
+   * @member {string} [osType] The OS type of the gallery image.
+   */
+  osType?: string;
+  /**
+   * @member {string} [version] The version of the gallery image.
+   */
+  version?: string;
 }
 
 /**
@@ -2985,87 +2857,102 @@ export interface IdentityProperties {
 
 /**
  * @interface
- * An interface representing ImportLabVirtualMachineRequest.
- * This represents the payload required to import a virtual machine from a
- * different lab into the current one
+ * An interface representing InboundNatRuleFragment.
+ * A rule for NAT - exposing a VM's port (backendPort) on the public IP address
+ * using a load balancer.
  *
  */
-export interface ImportLabVirtualMachineRequest {
+export interface InboundNatRuleFragment {
   /**
-   * @member {string} [sourceVirtualMachineResourceId] The full resource ID of
-   * the virtual machine to be imported.
+   * @member {TransportProtocol} [transportProtocol] The transport protocol for
+   * the endpoint. Possible values include: 'Tcp', 'Udp'
    */
-  sourceVirtualMachineResourceId?: string;
+  transportProtocol?: TransportProtocol;
   /**
-   * @member {string} [destinationVirtualMachineName] The name of the virtual
-   * machine in the destination lab
+   * @member {number} [frontendPort] The external endpoint port of the inbound
+   * connection. Possible values range between 1 and 65535, inclusive. If
+   * unspecified, a value will be allocated automatically.
    */
-  destinationVirtualMachineName?: string;
+  frontendPort?: number;
+  /**
+   * @member {number} [backendPort] The port to which the external traffic will
+   * be redirected.
+   */
+  backendPort?: number;
 }
 
 /**
  * @interface
- * An interface representing LabAnnouncementProperties.
- * Properties of a lab's announcement banner
+ * An interface representing LabProperties.
+ * Properties of a lab.
  *
  */
-export interface LabAnnouncementProperties {
+export interface LabProperties {
   /**
-   * @member {string} [title] The plain text title for the lab announcement
+   * @member {string} [defaultStorageAccount] The lab's default storage
+   * account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  title?: string;
+  readonly defaultStorageAccount?: string;
   /**
-   * @member {string} [markdown] The markdown text (if any) that this lab
-   * displays in the UI. If left empty/null, nothing will be shown.
+   * @member {string} [defaultPremiumStorageAccount] The lab's default premium
+   * storage account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  markdown?: string;
+  readonly defaultPremiumStorageAccount?: string;
   /**
-   * @member {EnableStatus} [enabled] Is the lab announcement active/enabled at
-   * this time?. Possible values include: 'Enabled', 'Disabled'
+   * @member {string} [artifactsStorageAccount] The lab's artifact storage
+   * account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  enabled?: EnableStatus;
+  readonly artifactsStorageAccount?: string;
   /**
-   * @member {Date} [expirationDate] The time at which the announcement expires
-   * (null for never)
+   * @member {string} [premiumDataDiskStorageAccount] The lab's premium data
+   * disk storage account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  expirationDate?: Date;
+  readonly premiumDataDiskStorageAccount?: string;
   /**
-   * @member {boolean} [expired] Has this announcement expired?
+   * @member {string} [vaultName] The lab's Key vault.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  expired?: boolean;
+  readonly vaultName?: string;
+  /**
+   * @member {StorageType} [labStorageType] Type of storage used by the lab. It
+   * can be either Premium or Standard. Default is Premium. Possible values
+   * include: 'Standard', 'Premium'
+   */
+  labStorageType?: StorageType;
+  /**
+   * @member {Date} [createdDate] The creation date of the lab.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDate?: Date;
+  /**
+   * @member {PremiumDataDisk} [premiumDataDisks] The setting to enable usage
+   * of premium data disks.
+   * When its value is 'Enabled', creation of standard or premium data disks is
+   * allowed.
+   * When its value is 'Disabled', only creation of standard data disks is
+   * allowed. Possible values include: 'Disabled', 'Enabled'
+   */
+  premiumDataDisks?: PremiumDataDisk;
   /**
    * @member {string} [provisioningState] The provisioning status of the
    * resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly provisioningState?: string;
+  provisioningState?: string;
   /**
    * @member {string} [uniqueIdentifier] The unique immutable identifier of a
    * resource (Guid).
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly uniqueIdentifier?: string;
-}
-
-/**
- * @interface
- * An interface representing LabSupportProperties.
- * Properties of a lab's support banner
- *
- */
-export interface LabSupportProperties {
-  /**
-   * @member {EnableStatus} [enabled] Is the lab support banner active/enabled
-   * at this time?. Possible values include: 'Enabled', 'Disabled'
-   */
-  enabled?: EnableStatus;
-  /**
-   * @member {string} [markdown] The markdown text (if any) that this lab
-   * displays in the UI. If left empty/null, nothing will be shown.
-   */
-  markdown?: string;
+  uniqueIdentifier?: string;
 }
 
 /**
@@ -3117,18 +3004,6 @@ export interface Lab extends Resource {
    */
   labStorageType?: StorageType;
   /**
-   * @member {string[]} [mandatoryArtifactsResourceIdsLinux] The ordered list
-   * of artifact resource IDs that should be applied on all Linux VM creations
-   * by default, prior to the artifacts specified by the user.
-   */
-  mandatoryArtifactsResourceIdsLinux?: string[];
-  /**
-   * @member {string[]} [mandatoryArtifactsResourceIdsWindows] The ordered list
-   * of artifact resource IDs that should be applied on all Windows VM
-   * creations by default, prior to the artifacts specified by the user.
-   */
-  mandatoryArtifactsResourceIdsWindows?: string[];
-  /**
    * @member {Date} [createdDate] The creation date of the lab.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -3144,100 +3019,15 @@ export interface Lab extends Resource {
    */
   premiumDataDisks?: PremiumDataDisk;
   /**
-   * @member {EnvironmentPermission} [environmentPermission] The access rights
-   * to be granted to the user when provisioning an environment. Possible
-   * values include: 'Reader', 'Contributor'
-   */
-  environmentPermission?: EnvironmentPermission;
-  /**
-   * @member {LabAnnouncementProperties} [announcement] The properties of any
-   * lab announcement associated with this lab
-   */
-  announcement?: LabAnnouncementProperties;
-  /**
-   * @member {LabSupportProperties} [support] The properties of any lab support
-   * message associated with this lab
-   */
-  support?: LabSupportProperties;
-  /**
-   * @member {string} [vmCreationResourceGroup] The resource group in which lab
-   * virtual machines will be created in.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly vmCreationResourceGroup?: string;
-  /**
-   * @member {string} [publicIpId] The public IP address for the lab's load
-   * balancer.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly publicIpId?: string;
-  /**
-   * @member {string} [loadBalancerId] The load balancer used to for lab VMs
-   * that use shared IP address.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly loadBalancerId?: string;
-  /**
-   * @member {string} [networkSecurityGroupId] The Network Security Group
-   * attached to the lab VMs Network interfaces to restrict open ports.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly networkSecurityGroupId?: string;
-  /**
-   * @member {{ [propertyName: string]: string }} [extendedProperties] Extended
-   * properties of the lab used for experimental features
-   */
-  extendedProperties?: { [propertyName: string]: string };
-  /**
    * @member {string} [provisioningState] The provisioning status of the
    * resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly provisioningState?: string;
+  provisioningState?: string;
   /**
    * @member {string} [uniqueIdentifier] The unique immutable identifier of a
    * resource (Guid).
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly uniqueIdentifier?: string;
-}
-
-/**
- * @interface
- * An interface representing LabAnnouncementPropertiesFragment.
- * Properties of a lab's announcement banner
- *
- */
-export interface LabAnnouncementPropertiesFragment {
-  /**
-   * @member {string} [title] The plain text title for the lab announcement
-   */
-  title?: string;
-  /**
-   * @member {string} [markdown] The markdown text (if any) that this lab
-   * displays in the UI. If left empty/null, nothing will be shown.
-   */
-  markdown?: string;
-  /**
-   * @member {EnableStatus} [enabled] Is the lab announcement active/enabled at
-   * this time?. Possible values include: 'Enabled', 'Disabled'
-   */
-  enabled?: EnableStatus;
-  /**
-   * @member {Date} [expirationDate] The time at which the announcement expires
-   * (null for never)
-   */
-  expirationDate?: Date;
-  /**
-   * @member {boolean} [expired] Has this announcement expired?
-   */
-  expired?: boolean;
+  uniqueIdentifier?: string;
 }
 
 /**
@@ -3361,6 +3151,66 @@ export interface LabResourceCostProperties {
 
 /**
  * @interface
+ * An interface representing LabCostProperties.
+ * Properties of a cost item.
+ *
+ */
+export interface LabCostProperties {
+  /**
+   * @member {TargetCostProperties} [targetCost] The target cost properties
+   */
+  targetCost?: TargetCostProperties;
+  /**
+   * @member {LabCostSummaryProperties} [labCostSummary] The lab cost summary
+   * component of the cost data.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly labCostSummary?: LabCostSummaryProperties;
+  /**
+   * @member {LabCostDetailsProperties[]} [labCostDetails] The lab cost details
+   * component of the cost data.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly labCostDetails?: LabCostDetailsProperties[];
+  /**
+   * @member {LabResourceCostProperties[]} [resourceCosts] The resource cost
+   * component of the cost data.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resourceCosts?: LabResourceCostProperties[];
+  /**
+   * @member {string} [currencyCode] The currency code of the cost.
+   */
+  currencyCode?: string;
+  /**
+   * @member {Date} [startDateTime] The start time of the cost data.
+   */
+  startDateTime?: Date;
+  /**
+   * @member {Date} [endDateTime] The end time of the cost data.
+   */
+  endDateTime?: Date;
+  /**
+   * @member {Date} [createdDate] The creation date of the cost.
+   */
+  createdDate?: Date;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
  * An interface representing LabCost.
  * A cost item.
  *
@@ -3411,64 +3261,28 @@ export interface LabCost extends Resource {
   /**
    * @member {string} [provisioningState] The provisioning status of the
    * resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly provisioningState?: string;
+  provisioningState?: string;
   /**
    * @member {string} [uniqueIdentifier] The unique immutable identifier of a
    * resource (Guid).
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly uniqueIdentifier?: string;
+  uniqueIdentifier?: string;
 }
 
 /**
  * @interface
- * An interface representing LabSupportPropertiesFragment.
- * Properties of a lab's support banner
+ * An interface representing LabPropertiesFragment.
+ * Properties of a lab.
  *
  */
-export interface LabSupportPropertiesFragment {
-  /**
-   * @member {EnableStatus} [enabled] Is the lab support banner active/enabled
-   * at this time?. Possible values include: 'Enabled', 'Disabled'
-   */
-  enabled?: EnableStatus;
-  /**
-   * @member {string} [markdown] The markdown text (if any) that this lab
-   * displays in the UI. If left empty/null, nothing will be shown.
-   */
-  markdown?: string;
-}
-
-/**
- * @interface
- * An interface representing LabFragment.
- * A lab.
- *
- * @extends UpdateResource
- */
-export interface LabFragment extends UpdateResource {
+export interface LabPropertiesFragment {
   /**
    * @member {StorageType} [labStorageType] Type of storage used by the lab. It
    * can be either Premium or Standard. Default is Premium. Possible values
    * include: 'Standard', 'Premium'
    */
   labStorageType?: StorageType;
-  /**
-   * @member {string[]} [mandatoryArtifactsResourceIdsLinux] The ordered list
-   * of artifact resource IDs that should be applied on all Linux VM creations
-   * by default, prior to the artifacts specified by the user.
-   */
-  mandatoryArtifactsResourceIdsLinux?: string[];
-  /**
-   * @member {string[]} [mandatoryArtifactsResourceIdsWindows] The ordered list
-   * of artifact resource IDs that should be applied on all Windows VM
-   * creations by default, prior to the artifacts specified by the user.
-   */
-  mandatoryArtifactsResourceIdsWindows?: string[];
   /**
    * @member {PremiumDataDisk} [premiumDataDisks] The setting to enable usage
    * of premium data disks.
@@ -3479,26 +3293,50 @@ export interface LabFragment extends UpdateResource {
    */
   premiumDataDisks?: PremiumDataDisk;
   /**
-   * @member {EnvironmentPermission} [environmentPermission] The access rights
-   * to be granted to the user when provisioning an environment. Possible
-   * values include: 'Reader', 'Contributor'
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
    */
-  environmentPermission?: EnvironmentPermission;
+  provisioningState?: string;
   /**
-   * @member {LabAnnouncementPropertiesFragment} [announcement] The properties
-   * of any lab announcement associated with this lab
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
    */
-  announcement?: LabAnnouncementPropertiesFragment;
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
+ * An interface representing LabFragment.
+ * A lab.
+ *
+ * @extends Resource
+ */
+export interface LabFragment extends Resource {
   /**
-   * @member {LabSupportPropertiesFragment} [support] The properties of any lab
-   * support message associated with this lab
+   * @member {StorageType} [labStorageType] Type of storage used by the lab. It
+   * can be either Premium or Standard. Default is Premium. Possible values
+   * include: 'Standard', 'Premium'
    */
-  support?: LabSupportPropertiesFragment;
+  labStorageType?: StorageType;
   /**
-   * @member {{ [propertyName: string]: string }} [extendedProperties] Extended
-   * properties of the lab used for experimental features
+   * @member {PremiumDataDisk} [premiumDataDisks] The setting to enable usage
+   * of premium data disks.
+   * When its value is 'Enabled', creation of standard or premium data disks is
+   * allowed.
+   * When its value is 'Disabled', only creation of standard data disks is
+   * allowed. Possible values include: 'Disabled', 'Enabled'
    */
-  extendedProperties?: { [propertyName: string]: string };
+  premiumDataDisks?: PremiumDataDisk;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
 }
 
 /**
@@ -3516,12 +3354,11 @@ export interface LabVhd {
 
 /**
  * @interface
- * An interface representing LabVirtualMachine.
- * A virtual machine.
+ * An interface representing LabVirtualMachineProperties.
+ * Properties of a virtual machine.
  *
- * @extends Resource
  */
-export interface LabVirtualMachine extends Resource {
+export interface LabVirtualMachineProperties {
   /**
    * @member {string} [notes] The notes of the virtual machine.
    */
@@ -3553,8 +3390,10 @@ export interface LabVirtualMachine extends Resource {
   /**
    * @member {string} [computeId] The resource identifier (Microsoft.Compute)
    * of the virtual machine.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  computeId?: string;
+  readonly computeId?: string;
   /**
    * @member {string} [customImageId] The custom image identifier of the
    * virtual machine.
@@ -3623,17 +3462,10 @@ export interface LabVirtualMachine extends Resource {
    */
   galleryImageReference?: GalleryImageReference;
   /**
-   * @member {string} [planId] The id of the plan associated with the virtual
-   * machine image
-   */
-  planId?: string;
-  /**
    * @member {ComputeVmProperties} [computeVm] The compute virtual machine
    * properties.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly computeVm?: ComputeVmProperties;
+  computeVm?: ComputeVmProperties;
   /**
    * @member {NetworkInterfaceProperties} [networkInterface] The network
    * interface properties.
@@ -3642,10 +3474,8 @@ export interface LabVirtualMachine extends Resource {
   /**
    * @member {ApplicableSchedule} [applicableSchedule] The applicable schedule
    * for the virtual machine.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly applicableSchedule?: ApplicableSchedule;
+  applicableSchedule?: ApplicableSchedule;
   /**
    * @member {Date} [expirationDate] The expiration date for VM.
    */
@@ -3672,44 +3502,25 @@ export interface LabVirtualMachine extends Resource {
    */
   environmentId?: string;
   /**
-   * @member {DataDiskProperties[]} [dataDiskParameters] New or existing data
-   * disks to attach to the virtual machine after creation
-   */
-  dataDiskParameters?: DataDiskProperties[];
-  /**
-   * @member {ScheduleCreationParameter[]} [scheduleParameters] Virtual Machine
-   * schedules to be created
-   */
-  scheduleParameters?: ScheduleCreationParameter[];
-  /**
-   * @member {string} [lastKnownPowerState] Last known compute power state
-   * captured in DTL
-   */
-  lastKnownPowerState?: string;
-  /**
    * @member {string} [provisioningState] The provisioning status of the
    * resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly provisioningState?: string;
+  provisioningState?: string;
   /**
    * @member {string} [uniqueIdentifier] The unique immutable identifier of a
    * resource (Guid).
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly uniqueIdentifier?: string;
+  uniqueIdentifier?: string;
 }
 
 /**
  * @interface
- * An interface representing LabVirtualMachineFragment.
+ * An interface representing LabVirtualMachine.
  * A virtual machine.
  *
- * @extends UpdateResource
+ * @extends Resource
  */
-export interface LabVirtualMachineFragment extends UpdateResource {
+export interface LabVirtualMachine extends Resource {
   /**
    * @member {string} [notes] The notes of the virtual machine.
    */
@@ -3741,8 +3552,231 @@ export interface LabVirtualMachineFragment extends UpdateResource {
   /**
    * @member {string} [computeId] The resource identifier (Microsoft.Compute)
    * of the virtual machine.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  computeId?: string;
+  readonly computeId?: string;
+  /**
+   * @member {string} [customImageId] The custom image identifier of the
+   * virtual machine.
+   */
+  customImageId?: string;
+  /**
+   * @member {string} [osType] The OS type of the virtual machine.
+   */
+  osType?: string;
+  /**
+   * @member {string} [size] The size of the virtual machine.
+   */
+  size?: string;
+  /**
+   * @member {string} [userName] The user name of the virtual machine.
+   */
+  userName?: string;
+  /**
+   * @member {string} [password] The password of the virtual machine
+   * administrator.
+   */
+  password?: string;
+  /**
+   * @member {string} [sshKey] The SSH key of the virtual machine
+   * administrator.
+   */
+  sshKey?: string;
+  /**
+   * @member {boolean} [isAuthenticationWithSshKey] Indicates whether this
+   * virtual machine uses an SSH key for authentication.
+   */
+  isAuthenticationWithSshKey?: boolean;
+  /**
+   * @member {string} [fqdn] The fully-qualified domain name of the virtual
+   * machine.
+   */
+  fqdn?: string;
+  /**
+   * @member {string} [labSubnetName] The lab subnet name of the virtual
+   * machine.
+   */
+  labSubnetName?: string;
+  /**
+   * @member {string} [labVirtualNetworkId] The lab virtual network identifier
+   * of the virtual machine.
+   */
+  labVirtualNetworkId?: string;
+  /**
+   * @member {boolean} [disallowPublicIpAddress] Indicates whether the virtual
+   * machine is to be created without a public IP address.
+   */
+  disallowPublicIpAddress?: boolean;
+  /**
+   * @member {ArtifactInstallProperties[]} [artifacts] The artifacts to be
+   * installed on the virtual machine.
+   */
+  artifacts?: ArtifactInstallProperties[];
+  /**
+   * @member {ArtifactDeploymentStatusProperties} [artifactDeploymentStatus]
+   * The artifact deployment status for the virtual machine.
+   */
+  artifactDeploymentStatus?: ArtifactDeploymentStatusProperties;
+  /**
+   * @member {GalleryImageReference} [galleryImageReference] The Microsoft
+   * Azure Marketplace image reference of the virtual machine.
+   */
+  galleryImageReference?: GalleryImageReference;
+  /**
+   * @member {ComputeVmProperties} [computeVm] The compute virtual machine
+   * properties.
+   */
+  computeVm?: ComputeVmProperties;
+  /**
+   * @member {NetworkInterfaceProperties} [networkInterface] The network
+   * interface properties.
+   */
+  networkInterface?: NetworkInterfaceProperties;
+  /**
+   * @member {ApplicableSchedule} [applicableSchedule] The applicable schedule
+   * for the virtual machine.
+   */
+  applicableSchedule?: ApplicableSchedule;
+  /**
+   * @member {Date} [expirationDate] The expiration date for VM.
+   */
+  expirationDate?: Date;
+  /**
+   * @member {boolean} [allowClaim] Indicates whether another user can take
+   * ownership of the virtual machine
+   */
+  allowClaim?: boolean;
+  /**
+   * @member {string} [storageType] Storage type to use for virtual machine
+   * (i.e. Standard, Premium).
+   */
+  storageType?: string;
+  /**
+   * @member {VirtualMachineCreationSource} [virtualMachineCreationSource]
+   * Tells source of creation of lab virtual machine. Output property only.
+   * Possible values include: 'FromCustomImage', 'FromGalleryImage'
+   */
+  virtualMachineCreationSource?: VirtualMachineCreationSource;
+  /**
+   * @member {string} [environmentId] The resource ID of the environment that
+   * contains this virtual machine, if any.
+   */
+  environmentId?: string;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SharedPublicIpAddressConfigurationFragment.
+ * Properties of a virtual machine that determine how it is connected to a load
+ * balancer.
+ *
+ */
+export interface SharedPublicIpAddressConfigurationFragment {
+  /**
+   * @member {InboundNatRuleFragment[]} [inboundNatRules] The incoming NAT
+   * rules
+   */
+  inboundNatRules?: InboundNatRuleFragment[];
+}
+
+/**
+ * @interface
+ * An interface representing NetworkInterfacePropertiesFragment.
+ * Properties of a network interface.
+ *
+ */
+export interface NetworkInterfacePropertiesFragment {
+  /**
+   * @member {string} [virtualNetworkId] The resource ID of the virtual
+   * network.
+   */
+  virtualNetworkId?: string;
+  /**
+   * @member {string} [subnetId] The resource ID of the sub net.
+   */
+  subnetId?: string;
+  /**
+   * @member {string} [publicIpAddressId] The resource ID of the public IP
+   * address.
+   */
+  publicIpAddressId?: string;
+  /**
+   * @member {string} [publicIpAddress] The public IP address.
+   */
+  publicIpAddress?: string;
+  /**
+   * @member {string} [privateIpAddress] The private IP address.
+   */
+  privateIpAddress?: string;
+  /**
+   * @member {string} [dnsName] The DNS name.
+   */
+  dnsName?: string;
+  /**
+   * @member {string} [rdpAuthority] The RdpAuthority property is a server DNS
+   * host name or IP address followed by the service port number for RDP
+   * (Remote Desktop Protocol).
+   */
+  rdpAuthority?: string;
+  /**
+   * @member {string} [sshAuthority] The SshAuthority property is a server DNS
+   * host name or IP address followed by the service port number for SSH.
+   */
+  sshAuthority?: string;
+  /**
+   * @member {SharedPublicIpAddressConfigurationFragment}
+   * [sharedPublicIpAddressConfiguration] The configuration for sharing a
+   * public IP address across multiple virtual machines.
+   */
+  sharedPublicIpAddressConfiguration?: SharedPublicIpAddressConfigurationFragment;
+}
+
+/**
+ * @interface
+ * An interface representing LabVirtualMachinePropertiesFragment.
+ * Properties of a virtual machine.
+ *
+ */
+export interface LabVirtualMachinePropertiesFragment {
+  /**
+   * @member {string} [notes] The notes of the virtual machine.
+   */
+  notes?: string;
+  /**
+   * @member {string} [ownerObjectId] The object identifier of the owner of the
+   * virtual machine.
+   */
+  ownerObjectId?: string;
+  /**
+   * @member {string} [ownerUserPrincipalName] The user principal name of the
+   * virtual machine owner.
+   */
+  ownerUserPrincipalName?: string;
+  /**
+   * @member {string} [createdByUserId] The object identifier of the creator of
+   * the virtual machine.
+   */
+  createdByUserId?: string;
+  /**
+   * @member {string} [createdByUser] The email address of creator of the
+   * virtual machine.
+   */
+  createdByUser?: string;
+  /**
+   * @member {Date} [createdDate] The creation date of the virtual machine.
+   */
+  createdDate?: Date;
   /**
    * @member {string} [customImageId] The custom image identifier of the
    * virtual machine.
@@ -3812,15 +3846,20 @@ export interface LabVirtualMachineFragment extends UpdateResource {
    */
   galleryImageReference?: GalleryImageReferenceFragment;
   /**
-   * @member {string} [planId] The id of the plan associated with the virtual
-   * machine image
+   * @member {ComputeVmPropertiesFragment} [computeVm] The compute virtual
+   * machine properties.
    */
-  planId?: string;
+  computeVm?: ComputeVmPropertiesFragment;
   /**
    * @member {NetworkInterfacePropertiesFragment} [networkInterface] The
    * network interface properties.
    */
   networkInterface?: NetworkInterfacePropertiesFragment;
+  /**
+   * @member {ApplicableScheduleFragment} [applicableSchedule] The applicable
+   * schedule for the virtual machine.
+   */
+  applicableSchedule?: ApplicableScheduleFragment;
   /**
    * @member {Date} [expirationDate] The expiration date for VM.
    */
@@ -3847,44 +3886,184 @@ export interface LabVirtualMachineFragment extends UpdateResource {
    */
   environmentId?: string;
   /**
-   * @member {DataDiskPropertiesFragment[]} [dataDiskParameters] New or
-   * existing data disks to attach to the virtual machine after creation
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
    */
-  dataDiskParameters?: DataDiskPropertiesFragment[];
+  provisioningState?: string;
   /**
-   * @member {ScheduleCreationParameterFragment[]} [scheduleParameters] Virtual
-   * Machine schedules to be created
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
    */
-  scheduleParameters?: ScheduleCreationParameterFragment[];
-  /**
-   * @member {string} [lastKnownPowerState] Last known compute power state
-   * captured in DTL
-   */
-  lastKnownPowerState?: string;
+  uniqueIdentifier?: string;
 }
 
 /**
  * @interface
- * An interface representing NotificationChannel.
- * A notification.
+ * An interface representing LabVirtualMachineFragment.
+ * A virtual machine.
  *
  * @extends Resource
  */
-export interface NotificationChannel extends Resource {
+export interface LabVirtualMachineFragment extends Resource {
+  /**
+   * @member {string} [notes] The notes of the virtual machine.
+   */
+  notes?: string;
+  /**
+   * @member {string} [ownerObjectId] The object identifier of the owner of the
+   * virtual machine.
+   */
+  ownerObjectId?: string;
+  /**
+   * @member {string} [ownerUserPrincipalName] The user principal name of the
+   * virtual machine owner.
+   */
+  ownerUserPrincipalName?: string;
+  /**
+   * @member {string} [createdByUserId] The object identifier of the creator of
+   * the virtual machine.
+   */
+  createdByUserId?: string;
+  /**
+   * @member {string} [createdByUser] The email address of creator of the
+   * virtual machine.
+   */
+  createdByUser?: string;
+  /**
+   * @member {Date} [createdDate] The creation date of the virtual machine.
+   */
+  createdDate?: Date;
+  /**
+   * @member {string} [customImageId] The custom image identifier of the
+   * virtual machine.
+   */
+  customImageId?: string;
+  /**
+   * @member {string} [osType] The OS type of the virtual machine.
+   */
+  osType?: string;
+  /**
+   * @member {string} [size] The size of the virtual machine.
+   */
+  size?: string;
+  /**
+   * @member {string} [userName] The user name of the virtual machine.
+   */
+  userName?: string;
+  /**
+   * @member {string} [password] The password of the virtual machine
+   * administrator.
+   */
+  password?: string;
+  /**
+   * @member {string} [sshKey] The SSH key of the virtual machine
+   * administrator.
+   */
+  sshKey?: string;
+  /**
+   * @member {boolean} [isAuthenticationWithSshKey] Indicates whether this
+   * virtual machine uses an SSH key for authentication.
+   */
+  isAuthenticationWithSshKey?: boolean;
+  /**
+   * @member {string} [fqdn] The fully-qualified domain name of the virtual
+   * machine.
+   */
+  fqdn?: string;
+  /**
+   * @member {string} [labSubnetName] The lab subnet name of the virtual
+   * machine.
+   */
+  labSubnetName?: string;
+  /**
+   * @member {string} [labVirtualNetworkId] The lab virtual network identifier
+   * of the virtual machine.
+   */
+  labVirtualNetworkId?: string;
+  /**
+   * @member {boolean} [disallowPublicIpAddress] Indicates whether the virtual
+   * machine is to be created without a public IP address.
+   */
+  disallowPublicIpAddress?: boolean;
+  /**
+   * @member {ArtifactInstallPropertiesFragment[]} [artifacts] The artifacts to
+   * be installed on the virtual machine.
+   */
+  artifacts?: ArtifactInstallPropertiesFragment[];
+  /**
+   * @member {ArtifactDeploymentStatusPropertiesFragment}
+   * [artifactDeploymentStatus] The artifact deployment status for the virtual
+   * machine.
+   */
+  artifactDeploymentStatus?: ArtifactDeploymentStatusPropertiesFragment;
+  /**
+   * @member {GalleryImageReferenceFragment} [galleryImageReference] The
+   * Microsoft Azure Marketplace image reference of the virtual machine.
+   */
+  galleryImageReference?: GalleryImageReferenceFragment;
+  /**
+   * @member {ComputeVmPropertiesFragment} [computeVm] The compute virtual
+   * machine properties.
+   */
+  computeVm?: ComputeVmPropertiesFragment;
+  /**
+   * @member {NetworkInterfacePropertiesFragment} [networkInterface] The
+   * network interface properties.
+   */
+  networkInterface?: NetworkInterfacePropertiesFragment;
+  /**
+   * @member {ApplicableScheduleFragment} [applicableSchedule] The applicable
+   * schedule for the virtual machine.
+   */
+  applicableSchedule?: ApplicableScheduleFragment;
+  /**
+   * @member {Date} [expirationDate] The expiration date for VM.
+   */
+  expirationDate?: Date;
+  /**
+   * @member {boolean} [allowClaim] Indicates whether another user can take
+   * ownership of the virtual machine
+   */
+  allowClaim?: boolean;
+  /**
+   * @member {string} [storageType] Storage type to use for virtual machine
+   * (i.e. Standard, Premium).
+   */
+  storageType?: string;
+  /**
+   * @member {VirtualMachineCreationSource} [virtualMachineCreationSource]
+   * Tells source of creation of lab virtual machine. Output property only.
+   * Possible values include: 'FromCustomImage', 'FromGalleryImage'
+   */
+  virtualMachineCreationSource?: VirtualMachineCreationSource;
+  /**
+   * @member {string} [environmentId] The resource ID of the environment that
+   * contains this virtual machine, if any.
+   */
+  environmentId?: string;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
+ * An interface representing NotificationChannelProperties.
+ * Properties of a schedule.
+ *
+ */
+export interface NotificationChannelProperties {
   /**
    * @member {string} [webHookUrl] The webhook URL to send notifications to.
    */
   webHookUrl?: string;
-  /**
-   * @member {string} [emailRecipient] The email recipient to send
-   * notifications to (can be a list of semi-colon seperated email addresses).
-   */
-  emailRecipient?: string;
-  /**
-   * @member {string} [notificationLocale] The locale to use when sending a
-   * notification (fallback for unsupported languages is EN).
-   */
-  notificationLocale?: string;
   /**
    * @member {string} [description] Description of notification.
    */
@@ -3904,41 +4083,66 @@ export interface NotificationChannel extends Resource {
   /**
    * @member {string} [provisioningState] The provisioning status of the
    * resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly provisioningState?: string;
+  provisioningState?: string;
   /**
    * @member {string} [uniqueIdentifier] The unique immutable identifier of a
    * resource (Guid).
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly uniqueIdentifier?: string;
+  uniqueIdentifier?: string;
 }
 
 /**
  * @interface
- * An interface representing NotificationChannelFragment.
+ * An interface representing NotificationChannel.
  * A notification.
  *
- * @extends UpdateResource
+ * @extends Resource
  */
-export interface NotificationChannelFragment extends UpdateResource {
+export interface NotificationChannel extends Resource {
   /**
    * @member {string} [webHookUrl] The webhook URL to send notifications to.
    */
   webHookUrl?: string;
   /**
-   * @member {string} [emailRecipient] The email recipient to send
-   * notifications to (can be a list of semi-colon seperated email addresses).
+   * @member {string} [description] Description of notification.
    */
-  emailRecipient?: string;
+  description?: string;
   /**
-   * @member {string} [notificationLocale] The locale to use when sending a
-   * notification (fallback for unsupported languages is EN).
+   * @member {Event[]} [events] The list of event for which this notification
+   * is enabled.
    */
-  notificationLocale?: string;
+  events?: Event[];
+  /**
+   * @member {Date} [createdDate] The creation date of the notification
+   * channel.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDate?: Date;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
+ * An interface representing NotificationChannelPropertiesFragment.
+ * Properties of a schedule.
+ *
+ */
+export interface NotificationChannelPropertiesFragment {
+  /**
+   * @member {string} [webHookUrl] The webhook URL to send notifications to.
+   */
+  webHookUrl?: string;
   /**
    * @member {string} [description] Description of notification.
    */
@@ -3948,6 +4152,49 @@ export interface NotificationChannelFragment extends UpdateResource {
    * notification is enabled.
    */
   events?: EventFragment[];
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
+ * An interface representing NotificationChannelFragment.
+ * A notification.
+ *
+ * @extends Resource
+ */
+export interface NotificationChannelFragment extends Resource {
+  /**
+   * @member {string} [webHookUrl] The webhook URL to send notifications to.
+   */
+  webHookUrl?: string;
+  /**
+   * @member {string} [description] Description of notification.
+   */
+  description?: string;
+  /**
+   * @member {EventFragment[]} [events] The list of event for which this
+   * notification is enabled.
+   */
+  events?: EventFragment[];
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
 }
 
 /**
@@ -4067,12 +4314,11 @@ export interface OperationResult {
 
 /**
  * @interface
- * An interface representing Policy.
- * A Policy.
+ * An interface representing PolicyProperties.
+ * Properties of a Policy.
  *
- * @extends Resource
  */
-export interface Policy extends Resource {
+export interface PolicyProperties {
   /**
    * @member {string} [description] The description of the policy.
    */
@@ -4087,8 +4333,7 @@ export interface Policy extends Resource {
    * LabVmCount, LabVmSize, MaxVmsAllowedPerLab, etc. Possible values include:
    * 'UserOwnedLabVmCount', 'UserOwnedLabPremiumVmCount', 'LabVmCount',
    * 'LabPremiumVmCount', 'LabVmSize', 'GalleryImage',
-   * 'UserOwnedLabVmCountInSubnet', 'LabTargetCost', 'EnvironmentTemplate',
-   * 'ScheduleEditPermission'
+   * 'UserOwnedLabVmCountInSubnet', 'LabTargetCost'
    */
   factName?: PolicyFactName;
   /**
@@ -4115,27 +4360,23 @@ export interface Policy extends Resource {
   /**
    * @member {string} [provisioningState] The provisioning status of the
    * resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly provisioningState?: string;
+  provisioningState?: string;
   /**
    * @member {string} [uniqueIdentifier] The unique immutable identifier of a
    * resource (Guid).
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly uniqueIdentifier?: string;
+  uniqueIdentifier?: string;
 }
 
 /**
  * @interface
- * An interface representing PolicyFragment.
+ * An interface representing Policy.
  * A Policy.
  *
- * @extends UpdateResource
+ * @extends Resource
  */
-export interface PolicyFragment extends UpdateResource {
+export interface Policy extends Resource {
   /**
    * @member {string} [description] The description of the policy.
    */
@@ -4150,8 +4391,7 @@ export interface PolicyFragment extends UpdateResource {
    * LabVmCount, LabVmSize, MaxVmsAllowedPerLab, etc. Possible values include:
    * 'UserOwnedLabVmCount', 'UserOwnedLabPremiumVmCount', 'LabVmCount',
    * 'LabPremiumVmCount', 'LabVmSize', 'GalleryImage',
-   * 'UserOwnedLabVmCountInSubnet', 'LabTargetCost', 'EnvironmentTemplate',
-   * 'ScheduleEditPermission'
+   * 'UserOwnedLabVmCountInSubnet', 'LabTargetCost'
    */
   factName?: PolicyFactName;
   /**
@@ -4169,6 +4409,125 @@ export interface PolicyFragment extends UpdateResource {
    * include: 'AllowedValuesPolicy', 'MaxValuePolicy'
    */
   evaluatorType?: PolicyEvaluatorType;
+  /**
+   * @member {Date} [createdDate] The creation date of the policy.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDate?: Date;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
+ * An interface representing PolicyPropertiesFragment.
+ * Properties of a Policy.
+ *
+ */
+export interface PolicyPropertiesFragment {
+  /**
+   * @member {string} [description] The description of the policy.
+   */
+  description?: string;
+  /**
+   * @member {PolicyStatus} [status] The status of the policy. Possible values
+   * include: 'Enabled', 'Disabled'
+   */
+  status?: PolicyStatus;
+  /**
+   * @member {PolicyFactName} [factName] The fact name of the policy (e.g.
+   * LabVmCount, LabVmSize, MaxVmsAllowedPerLab, etc. Possible values include:
+   * 'UserOwnedLabVmCount', 'UserOwnedLabPremiumVmCount', 'LabVmCount',
+   * 'LabPremiumVmCount', 'LabVmSize', 'GalleryImage',
+   * 'UserOwnedLabVmCountInSubnet', 'LabTargetCost'
+   */
+  factName?: PolicyFactName;
+  /**
+   * @member {string} [factData] The fact data of the policy.
+   */
+  factData?: string;
+  /**
+   * @member {string} [threshold] The threshold of the policy (i.e. a number
+   * for MaxValuePolicy, and a JSON array of values for AllowedValuesPolicy).
+   */
+  threshold?: string;
+  /**
+   * @member {PolicyEvaluatorType} [evaluatorType] The evaluator type of the
+   * policy (i.e. AllowedValuesPolicy, MaxValuePolicy). Possible values
+   * include: 'AllowedValuesPolicy', 'MaxValuePolicy'
+   */
+  evaluatorType?: PolicyEvaluatorType;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
+ * An interface representing PolicyFragment.
+ * A Policy.
+ *
+ * @extends Resource
+ */
+export interface PolicyFragment extends Resource {
+  /**
+   * @member {string} [description] The description of the policy.
+   */
+  description?: string;
+  /**
+   * @member {PolicyStatus} [status] The status of the policy. Possible values
+   * include: 'Enabled', 'Disabled'
+   */
+  status?: PolicyStatus;
+  /**
+   * @member {PolicyFactName} [factName] The fact name of the policy (e.g.
+   * LabVmCount, LabVmSize, MaxVmsAllowedPerLab, etc. Possible values include:
+   * 'UserOwnedLabVmCount', 'UserOwnedLabPremiumVmCount', 'LabVmCount',
+   * 'LabPremiumVmCount', 'LabVmSize', 'GalleryImage',
+   * 'UserOwnedLabVmCountInSubnet', 'LabTargetCost'
+   */
+  factName?: PolicyFactName;
+  /**
+   * @member {string} [factData] The fact data of the policy.
+   */
+  factData?: string;
+  /**
+   * @member {string} [threshold] The threshold of the policy (i.e. a number
+   * for MaxValuePolicy, and a JSON array of values for AllowedValuesPolicy).
+   */
+  threshold?: string;
+  /**
+   * @member {PolicyEvaluatorType} [evaluatorType] The evaluator type of the
+   * policy (i.e. AllowedValuesPolicy, MaxValuePolicy). Possible values
+   * include: 'AllowedValuesPolicy', 'MaxValuePolicy'
+   */
+  evaluatorType?: PolicyEvaluatorType;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
 }
 
 /**
@@ -4209,32 +4568,6 @@ export interface PortFragment {
 
 /**
  * @interface
- * An interface representing RdpConnection.
- * Represents a .rdp file
- *
- */
-export interface RdpConnection {
-  /**
-   * @member {string} [contents] The contents of the .rdp file
-   */
-  contents?: string;
-}
-
-/**
- * @interface
- * An interface representing ResizeLabVirtualMachineProperties.
- * Request body for resizing a virtual machine.
- *
- */
-export interface ResizeLabVirtualMachineProperties {
-  /**
-   * @member {string} [size] Specifies the size of the virtual machine.
-   */
-  size?: string;
-}
-
-/**
- * @interface
  * An interface representing RetargetScheduleProperties.
  * Properties for retargeting a virtual machine schedule.
  *
@@ -4254,6 +4587,29 @@ export interface RetargetScheduleProperties {
 
 /**
  * @interface
+ * An interface representing SecretProperties.
+ * Properties of a secret.
+ *
+ */
+export interface SecretProperties {
+  /**
+   * @member {string} [value] The value of the secret for secret creation.
+   */
+  value?: string;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
  * An interface representing Secret.
  * A secret.
  *
@@ -4267,92 +4623,13 @@ export interface Secret extends Resource {
   /**
    * @member {string} [provisioningState] The provisioning status of the
    * resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly provisioningState?: string;
+  provisioningState?: string;
   /**
    * @member {string} [uniqueIdentifier] The unique immutable identifier of a
    * resource (Guid).
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly uniqueIdentifier?: string;
-}
-
-/**
- * @interface
- * An interface representing SecretFragment.
- * A secret.
- *
- * @extends UpdateResource
- */
-export interface SecretFragment extends UpdateResource {
-  /**
-   * @member {string} [value] The value of the secret for secret creation.
-   */
-  value?: string;
-}
-
-/**
- * @interface
- * An interface representing ServiceFabric.
- * A Service Fabric.
- *
- * @extends Resource
- */
-export interface ServiceFabric extends Resource {
-  /**
-   * @member {string} [externalServiceFabricId] The backing service fabric
-   * resource's id
-   */
-  externalServiceFabricId?: string;
-  /**
-   * @member {string} [environmentId] The resource id of the environment under
-   * which the service fabric resource is present
-   */
-  environmentId?: string;
-  /**
-   * @member {ApplicableSchedule} [applicableSchedule] The applicable schedule
-   * for the virtual machine.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly applicableSchedule?: ApplicableSchedule;
-  /**
-   * @member {string} [provisioningState] The provisioning status of the
-   * resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly provisioningState?: string;
-  /**
-   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
-   * resource (Guid).
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly uniqueIdentifier?: string;
-}
-
-/**
- * @interface
- * An interface representing ServiceFabricFragment.
- * A Service Fabric.
- *
- * @extends UpdateResource
- */
-export interface ServiceFabricFragment extends UpdateResource {
-  /**
-   * @member {string} [externalServiceFabricId] The backing service fabric
-   * resource's id
-   */
-  externalServiceFabricId?: string;
-  /**
-   * @member {string} [environmentId] The resource id of the environment under
-   * which the service fabric resource is present
-   */
-  environmentId?: string;
+  uniqueIdentifier?: string;
 }
 
 /**
@@ -4401,14 +4678,6 @@ export interface ShutdownNotificationContent {
    * @member {string} [owner] The owner of the virtual machine.
    */
   owner?: string;
-  /**
-   * @member {string} [vmUrl] The URL of the virtual machine.
-   */
-  vmUrl?: string;
-  /**
-   * @member {string} [minutesUntilShutdown] Minutes remaining until shutdown
-   */
-  minutesUntilShutdown?: string;
   /**
    * @member {string} [eventType] The event for which a notification will be
    * sent.
@@ -4647,6 +4916,39 @@ export interface UserSecretStore {
 
 /**
  * @interface
+ * An interface representing UserProperties.
+ * Properties of a lab user profile.
+ *
+ */
+export interface UserProperties {
+  /**
+   * @member {UserIdentity} [identity] The identity of the user.
+   */
+  identity?: UserIdentity;
+  /**
+   * @member {UserSecretStore} [secretStore] The secret store of the user.
+   */
+  secretStore?: UserSecretStore;
+  /**
+   * @member {Date} [createdDate] The creation date of the user profile.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDate?: Date;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
  * An interface representing User.
  * Profile of a lab user.
  *
@@ -4670,17 +4972,13 @@ export interface User extends Resource {
   /**
    * @member {string} [provisioningState] The provisioning status of the
    * resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly provisioningState?: string;
+  provisioningState?: string;
   /**
    * @member {string} [uniqueIdentifier] The unique immutable identifier of a
    * resource (Guid).
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly uniqueIdentifier?: string;
+  uniqueIdentifier?: string;
 }
 
 /**
@@ -4737,12 +5035,11 @@ export interface UserSecretStoreFragment {
 
 /**
  * @interface
- * An interface representing UserFragment.
- * Profile of a lab user.
+ * An interface representing UserPropertiesFragment.
+ * Properties of a lab user profile.
  *
- * @extends UpdateResource
  */
-export interface UserFragment extends UpdateResource {
+export interface UserPropertiesFragment {
   /**
    * @member {UserIdentityFragment} [identity] The identity of the user.
    */
@@ -4752,6 +5049,94 @@ export interface UserFragment extends UpdateResource {
    * user.
    */
   secretStore?: UserSecretStoreFragment;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
+ * An interface representing UserFragment.
+ * Profile of a lab user.
+ *
+ * @extends Resource
+ */
+export interface UserFragment extends Resource {
+  /**
+   * @member {UserIdentityFragment} [identity] The identity of the user.
+   */
+  identity?: UserIdentityFragment;
+  /**
+   * @member {UserSecretStoreFragment} [secretStore] The secret store of the
+   * user.
+   */
+  secretStore?: UserSecretStoreFragment;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
+ * An interface representing VirtualNetworkProperties.
+ * Properties of a virtual network.
+ *
+ */
+export interface VirtualNetworkProperties {
+  /**
+   * @member {Subnet[]} [allowedSubnets] The allowed subnets of the virtual
+   * network.
+   */
+  allowedSubnets?: Subnet[];
+  /**
+   * @member {string} [description] The description of the virtual network.
+   */
+  description?: string;
+  /**
+   * @member {string} [externalProviderResourceId] The Microsoft.Network
+   * resource identifier of the virtual network.
+   */
+  externalProviderResourceId?: string;
+  /**
+   * @member {ExternalSubnet[]} [externalSubnets] The external subnet
+   * properties.
+   */
+  externalSubnets?: ExternalSubnet[];
+  /**
+   * @member {SubnetOverride[]} [subnetOverrides] The subnet overrides of the
+   * virtual network.
+   */
+  subnetOverrides?: SubnetOverride[];
+  /**
+   * @member {Date} [createdDate] The creation date of the virtual network.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDate?: Date;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
 }
 
 /**
@@ -4779,10 +5164,8 @@ export interface VirtualNetwork extends Resource {
   /**
    * @member {ExternalSubnet[]} [externalSubnets] The external subnet
    * properties.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly externalSubnets?: ExternalSubnet[];
+  externalSubnets?: ExternalSubnet[];
   /**
    * @member {SubnetOverride[]} [subnetOverrides] The subnet overrides of the
    * virtual network.
@@ -4797,27 +5180,22 @@ export interface VirtualNetwork extends Resource {
   /**
    * @member {string} [provisioningState] The provisioning status of the
    * resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly provisioningState?: string;
+  provisioningState?: string;
   /**
    * @member {string} [uniqueIdentifier] The unique immutable identifier of a
    * resource (Guid).
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly uniqueIdentifier?: string;
+  uniqueIdentifier?: string;
 }
 
 /**
  * @interface
- * An interface representing VirtualNetworkFragment.
- * A virtual network.
+ * An interface representing VirtualNetworkPropertiesFragment.
+ * Properties of a virtual network.
  *
- * @extends UpdateResource
  */
-export interface VirtualNetworkFragment extends UpdateResource {
+export interface VirtualNetworkPropertiesFragment {
   /**
    * @member {SubnetFragment[]} [allowedSubnets] The allowed subnets of the
    * virtual network.
@@ -4833,10 +5211,69 @@ export interface VirtualNetworkFragment extends UpdateResource {
    */
   externalProviderResourceId?: string;
   /**
+   * @member {ExternalSubnetFragment[]} [externalSubnets] The external subnet
+   * properties.
+   */
+  externalSubnets?: ExternalSubnetFragment[];
+  /**
    * @member {SubnetOverrideFragment[]} [subnetOverrides] The subnet overrides
    * of the virtual network.
    */
   subnetOverrides?: SubnetOverrideFragment[];
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
+ * An interface representing VirtualNetworkFragment.
+ * A virtual network.
+ *
+ * @extends Resource
+ */
+export interface VirtualNetworkFragment extends Resource {
+  /**
+   * @member {SubnetFragment[]} [allowedSubnets] The allowed subnets of the
+   * virtual network.
+   */
+  allowedSubnets?: SubnetFragment[];
+  /**
+   * @member {string} [description] The description of the virtual network.
+   */
+  description?: string;
+  /**
+   * @member {string} [externalProviderResourceId] The Microsoft.Network
+   * resource identifier of the virtual network.
+   */
+  externalProviderResourceId?: string;
+  /**
+   * @member {ExternalSubnetFragment[]} [externalSubnets] The external subnet
+   * properties.
+   */
+  externalSubnets?: ExternalSubnetFragment[];
+  /**
+   * @member {SubnetOverrideFragment[]} [subnetOverrides] The subnet overrides
+   * of the virtual network.
+   */
+  subnetOverrides?: SubnetOverrideFragment[];
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
 }
 
 /**
@@ -4853,18 +5290,17 @@ export interface LabsListBySubscriptionOptionalParams extends msRest.RequestOpti
    */
   expand?: string;
   /**
-   * @member {string} [filter] The filter to apply to the operation. Example:
-   * '$filter=contains(name,'myName')
+   * @member {string} [filter] The filter to apply to the operation.
    */
   filter?: string;
   /**
    * @member {number} [top] The maximum number of resources to return from the
-   * operation. Example: '$top=10'
+   * operation.
    */
   top?: number;
   /**
    * @member {string} [orderby] The ordering expression for the results, using
-   * OData notation. Example: '$orderby=name desc'
+   * OData notation.
    */
   orderby?: string;
 }
@@ -4883,18 +5319,17 @@ export interface LabsListByResourceGroupOptionalParams extends msRest.RequestOpt
    */
   expand?: string;
   /**
-   * @member {string} [filter] The filter to apply to the operation. Example:
-   * '$filter=contains(name,'myName')
+   * @member {string} [filter] The filter to apply to the operation.
    */
   filter?: string;
   /**
    * @member {number} [top] The maximum number of resources to return from the
-   * operation. Example: '$top=10'
+   * operation.
    */
   top?: number;
   /**
    * @member {string} [orderby] The ordering expression for the results, using
-   * OData notation. Example: '$orderby=name desc'
+   * OData notation.
    */
   orderby?: string;
 }
@@ -4928,18 +5363,17 @@ export interface GlobalSchedulesListBySubscriptionOptionalParams extends msRest.
    */
   expand?: string;
   /**
-   * @member {string} [filter] The filter to apply to the operation. Example:
-   * '$filter=contains(name,'myName')
+   * @member {string} [filter] The filter to apply to the operation.
    */
   filter?: string;
   /**
    * @member {number} [top] The maximum number of resources to return from the
-   * operation. Example: '$top=10'
+   * operation.
    */
   top?: number;
   /**
    * @member {string} [orderby] The ordering expression for the results, using
-   * OData notation. Example: '$orderby=name desc'
+   * OData notation.
    */
   orderby?: string;
 }
@@ -4958,18 +5392,17 @@ export interface GlobalSchedulesListByResourceGroupOptionalParams extends msRest
    */
   expand?: string;
   /**
-   * @member {string} [filter] The filter to apply to the operation. Example:
-   * '$filter=contains(name,'myName')
+   * @member {string} [filter] The filter to apply to the operation.
    */
   filter?: string;
   /**
    * @member {number} [top] The maximum number of resources to return from the
-   * operation. Example: '$top=10'
+   * operation.
    */
   top?: number;
   /**
    * @member {string} [orderby] The ordering expression for the results, using
-   * OData notation. Example: '$orderby=name desc'
+   * OData notation.
    */
   orderby?: string;
 }
@@ -5003,18 +5436,17 @@ export interface ArtifactSourcesListOptionalParams extends msRest.RequestOptions
    */
   expand?: string;
   /**
-   * @member {string} [filter] The filter to apply to the operation. Example:
-   * '$filter=contains(name,'myName')
+   * @member {string} [filter] The filter to apply to the operation.
    */
   filter?: string;
   /**
    * @member {number} [top] The maximum number of resources to return from the
-   * operation. Example: '$top=10'
+   * operation.
    */
   top?: number;
   /**
    * @member {string} [orderby] The ordering expression for the results, using
-   * OData notation. Example: '$orderby=name desc'
+   * OData notation.
    */
   orderby?: string;
 }
@@ -5048,18 +5480,17 @@ export interface ArmTemplatesListOptionalParams extends msRest.RequestOptionsBas
    */
   expand?: string;
   /**
-   * @member {string} [filter] The filter to apply to the operation. Example:
-   * '$filter=contains(name,'myName')
+   * @member {string} [filter] The filter to apply to the operation.
    */
   filter?: string;
   /**
    * @member {number} [top] The maximum number of resources to return from the
-   * operation. Example: '$top=10'
+   * operation.
    */
   top?: number;
   /**
    * @member {string} [orderby] The ordering expression for the results, using
-   * OData notation. Example: '$orderby=name desc'
+   * OData notation.
    */
   orderby?: string;
 }
@@ -5093,18 +5524,17 @@ export interface ArtifactsListOptionalParams extends msRest.RequestOptionsBase {
    */
   expand?: string;
   /**
-   * @member {string} [filter] The filter to apply to the operation. Example:
-   * '$filter=contains(name,'myName')
+   * @member {string} [filter] The filter to apply to the operation.
    */
   filter?: string;
   /**
    * @member {number} [top] The maximum number of resources to return from the
-   * operation. Example: '$top=10'
+   * operation.
    */
   top?: number;
   /**
    * @member {string} [orderby] The ordering expression for the results, using
-   * OData notation. Example: '$orderby=name desc'
+   * OData notation.
    */
   orderby?: string;
 }
@@ -5153,18 +5583,17 @@ export interface CustomImagesListOptionalParams extends msRest.RequestOptionsBas
    */
   expand?: string;
   /**
-   * @member {string} [filter] The filter to apply to the operation. Example:
-   * '$filter=contains(name,'myName')
+   * @member {string} [filter] The filter to apply to the operation.
    */
   filter?: string;
   /**
    * @member {number} [top] The maximum number of resources to return from the
-   * operation. Example: '$top=10'
+   * operation.
    */
   top?: number;
   /**
    * @member {string} [orderby] The ordering expression for the results, using
-   * OData notation. Example: '$orderby=name desc'
+   * OData notation.
    */
   orderby?: string;
 }
@@ -5198,18 +5627,17 @@ export interface FormulasListOptionalParams extends msRest.RequestOptionsBase {
    */
   expand?: string;
   /**
-   * @member {string} [filter] The filter to apply to the operation. Example:
-   * '$filter=contains(name,'myName')
+   * @member {string} [filter] The filter to apply to the operation.
    */
   filter?: string;
   /**
    * @member {number} [top] The maximum number of resources to return from the
-   * operation. Example: '$top=10'
+   * operation.
    */
   top?: number;
   /**
    * @member {string} [orderby] The ordering expression for the results, using
-   * OData notation. Example: '$orderby=name desc'
+   * OData notation.
    */
   orderby?: string;
 }
@@ -5243,18 +5671,17 @@ export interface GalleryImagesListOptionalParams extends msRest.RequestOptionsBa
    */
   expand?: string;
   /**
-   * @member {string} [filter] The filter to apply to the operation. Example:
-   * '$filter=contains(name,'myName')
+   * @member {string} [filter] The filter to apply to the operation.
    */
   filter?: string;
   /**
    * @member {number} [top] The maximum number of resources to return from the
-   * operation. Example: '$top=10'
+   * operation.
    */
   top?: number;
   /**
    * @member {string} [orderby] The ordering expression for the results, using
-   * OData notation. Example: '$orderby=name desc'
+   * OData notation.
    */
   orderby?: string;
 }
@@ -5273,18 +5700,17 @@ export interface NotificationChannelsListOptionalParams extends msRest.RequestOp
    */
   expand?: string;
   /**
-   * @member {string} [filter] The filter to apply to the operation. Example:
-   * '$filter=contains(name,'myName')
+   * @member {string} [filter] The filter to apply to the operation.
    */
   filter?: string;
   /**
    * @member {number} [top] The maximum number of resources to return from the
-   * operation. Example: '$top=10'
+   * operation.
    */
   top?: number;
   /**
    * @member {string} [orderby] The ordering expression for the results, using
-   * OData notation. Example: '$orderby=name desc'
+   * OData notation.
    */
   orderby?: string;
 }
@@ -5318,18 +5744,17 @@ export interface PoliciesListOptionalParams extends msRest.RequestOptionsBase {
    */
   expand?: string;
   /**
-   * @member {string} [filter] The filter to apply to the operation. Example:
-   * '$filter=contains(name,'myName')
+   * @member {string} [filter] The filter to apply to the operation.
    */
   filter?: string;
   /**
    * @member {number} [top] The maximum number of resources to return from the
-   * operation. Example: '$top=10'
+   * operation.
    */
   top?: number;
   /**
    * @member {string} [orderby] The ordering expression for the results, using
-   * OData notation. Example: '$orderby=name desc'
+   * OData notation.
    */
   orderby?: string;
 }
@@ -5363,18 +5788,17 @@ export interface SchedulesListOptionalParams extends msRest.RequestOptionsBase {
    */
   expand?: string;
   /**
-   * @member {string} [filter] The filter to apply to the operation. Example:
-   * '$filter=contains(name,'myName')
+   * @member {string} [filter] The filter to apply to the operation.
    */
   filter?: string;
   /**
    * @member {number} [top] The maximum number of resources to return from the
-   * operation. Example: '$top=10'
+   * operation.
    */
   top?: number;
   /**
    * @member {string} [orderby] The ordering expression for the results, using
-   * OData notation. Example: '$orderby=name desc'
+   * OData notation.
    */
   orderby?: string;
 }
@@ -5403,18 +5827,17 @@ export interface SchedulesGetOptionalParams extends msRest.RequestOptionsBase {
  */
 export interface ServiceRunnersListOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] The filter to apply to the operation. Example:
-   * '$filter=contains(name,'myName')
+   * @member {string} [filter] The filter to apply to the operation.
    */
   filter?: string;
   /**
    * @member {number} [top] The maximum number of resources to return from the
-   * operation. Example: '$top=10'
+   * operation.
    */
   top?: number;
   /**
    * @member {string} [orderby] The ordering expression for the results, using
-   * OData notation. Example: '$orderby=name desc'
+   * OData notation.
    */
   orderby?: string;
 }
@@ -5433,18 +5856,17 @@ export interface UsersListOptionalParams extends msRest.RequestOptionsBase {
    */
   expand?: string;
   /**
-   * @member {string} [filter] The filter to apply to the operation. Example:
-   * '$filter=contains(name,'myName')
+   * @member {string} [filter] The filter to apply to the operation.
    */
   filter?: string;
   /**
    * @member {number} [top] The maximum number of resources to return from the
-   * operation. Example: '$top=10'
+   * operation.
    */
   top?: number;
   /**
    * @member {string} [orderby] The ordering expression for the results, using
-   * OData notation. Example: '$orderby=name desc'
+   * OData notation.
    */
   orderby?: string;
 }
@@ -5478,18 +5900,17 @@ export interface DisksListOptionalParams extends msRest.RequestOptionsBase {
    */
   expand?: string;
   /**
-   * @member {string} [filter] The filter to apply to the operation. Example:
-   * '$filter=contains(name,'myName')
+   * @member {string} [filter] The filter to apply to the operation.
    */
   filter?: string;
   /**
    * @member {number} [top] The maximum number of resources to return from the
-   * operation. Example: '$top=10'
+   * operation.
    */
   top?: number;
   /**
    * @member {string} [orderby] The ordering expression for the results, using
-   * OData notation. Example: '$orderby=name desc'
+   * OData notation.
    */
   orderby?: string;
 }
@@ -5523,18 +5944,17 @@ export interface EnvironmentsListOptionalParams extends msRest.RequestOptionsBas
    */
   expand?: string;
   /**
-   * @member {string} [filter] The filter to apply to the operation. Example:
-   * '$filter=contains(name,'myName')
+   * @member {string} [filter] The filter to apply to the operation.
    */
   filter?: string;
   /**
    * @member {number} [top] The maximum number of resources to return from the
-   * operation. Example: '$top=10'
+   * operation.
    */
   top?: number;
   /**
    * @member {string} [orderby] The ordering expression for the results, using
-   * OData notation. Example: '$orderby=name desc'
+   * OData notation.
    */
   orderby?: string;
 }
@@ -5568,18 +5988,17 @@ export interface SecretsListOptionalParams extends msRest.RequestOptionsBase {
    */
   expand?: string;
   /**
-   * @member {string} [filter] The filter to apply to the operation. Example:
-   * '$filter=contains(name,'myName')
+   * @member {string} [filter] The filter to apply to the operation.
    */
   filter?: string;
   /**
    * @member {number} [top] The maximum number of resources to return from the
-   * operation. Example: '$top=10'
+   * operation.
    */
   top?: number;
   /**
    * @member {string} [orderby] The ordering expression for the results, using
-   * OData notation. Example: '$orderby=name desc'
+   * OData notation.
    */
   orderby?: string;
 }
@@ -5601,96 +6020,6 @@ export interface SecretsGetOptionalParams extends msRest.RequestOptionsBase {
 
 /**
  * @interface
- * An interface representing ServiceFabricsListOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface ServiceFabricsListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [expand] Specify the $expand query. Example:
-   * 'properties($expand=applicableSchedule)'
-   */
-  expand?: string;
-  /**
-   * @member {string} [filter] The filter to apply to the operation. Example:
-   * '$filter=contains(name,'myName')
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] The maximum number of resources to return from the
-   * operation. Example: '$top=10'
-   */
-  top?: number;
-  /**
-   * @member {string} [orderby] The ordering expression for the results, using
-   * OData notation. Example: '$orderby=name desc'
-   */
-  orderby?: string;
-}
-
-/**
- * @interface
- * An interface representing ServiceFabricsGetOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface ServiceFabricsGetOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [expand] Specify the $expand query. Example:
-   * 'properties($expand=applicableSchedule)'
-   */
-  expand?: string;
-}
-
-/**
- * @interface
- * An interface representing ServiceFabricSchedulesListOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface ServiceFabricSchedulesListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [expand] Specify the $expand query. Example:
-   * 'properties($select=status)'
-   */
-  expand?: string;
-  /**
-   * @member {string} [filter] The filter to apply to the operation. Example:
-   * '$filter=contains(name,'myName')
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] The maximum number of resources to return from the
-   * operation. Example: '$top=10'
-   */
-  top?: number;
-  /**
-   * @member {string} [orderby] The ordering expression for the results, using
-   * OData notation. Example: '$orderby=name desc'
-   */
-  orderby?: string;
-}
-
-/**
- * @interface
- * An interface representing ServiceFabricSchedulesGetOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface ServiceFabricSchedulesGetOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [expand] Specify the $expand query. Example:
-   * 'properties($select=status)'
-   */
-  expand?: string;
-}
-
-/**
- * @interface
  * An interface representing VirtualMachinesListOptionalParams.
  * Optional Parameters.
  *
@@ -5703,18 +6032,17 @@ export interface VirtualMachinesListOptionalParams extends msRest.RequestOptions
    */
   expand?: string;
   /**
-   * @member {string} [filter] The filter to apply to the operation. Example:
-   * '$filter=contains(name,'myName')
+   * @member {string} [filter] The filter to apply to the operation.
    */
   filter?: string;
   /**
    * @member {number} [top] The maximum number of resources to return from the
-   * operation. Example: '$top=10'
+   * operation.
    */
   top?: number;
   /**
    * @member {string} [orderby] The ordering expression for the results, using
-   * OData notation. Example: '$orderby=name desc'
+   * OData notation.
    */
   orderby?: string;
 }
@@ -5748,18 +6076,17 @@ export interface VirtualMachineSchedulesListOptionalParams extends msRest.Reques
    */
   expand?: string;
   /**
-   * @member {string} [filter] The filter to apply to the operation. Example:
-   * '$filter=contains(name,'myName')
+   * @member {string} [filter] The filter to apply to the operation.
    */
   filter?: string;
   /**
    * @member {number} [top] The maximum number of resources to return from the
-   * operation. Example: '$top=10'
+   * operation.
    */
   top?: number;
   /**
    * @member {string} [orderby] The ordering expression for the results, using
-   * OData notation. Example: '$orderby=name desc'
+   * OData notation.
    */
   orderby?: string;
 }
@@ -5793,18 +6120,17 @@ export interface VirtualNetworksListOptionalParams extends msRest.RequestOptions
    */
   expand?: string;
   /**
-   * @member {string} [filter] The filter to apply to the operation. Example:
-   * '$filter=contains(name,'myName')
+   * @member {string} [filter] The filter to apply to the operation.
    */
   filter?: string;
   /**
    * @member {number} [top] The maximum number of resources to return from the
-   * operation. Example: '$top=10'
+   * operation.
    */
   top?: number;
   /**
    * @member {string} [orderby] The ordering expression for the results, using
-   * OData notation. Example: '$orderby=name desc'
+   * OData notation.
    */
   orderby?: string;
 }
@@ -5856,12 +6182,12 @@ export interface ProviderOperationResult extends Array<OperationMetadata> {
 
 /**
  * @interface
- * An interface representing the LabList.
+ * An interface representing the ResponseWithContinuationLab.
  * The response of a list operation.
  *
  * @extends Array<Lab>
  */
-export interface LabList extends Array<Lab> {
+export interface ResponseWithContinuationLab extends Array<Lab> {
   /**
    * @member {string} [nextLink] Link for next set of results.
    */
@@ -5870,12 +6196,12 @@ export interface LabList extends Array<Lab> {
 
 /**
  * @interface
- * An interface representing the LabVhdList.
+ * An interface representing the ResponseWithContinuationLabVhd.
  * The response of a list operation.
  *
  * @extends Array<LabVhd>
  */
-export interface LabVhdList extends Array<LabVhd> {
+export interface ResponseWithContinuationLabVhd extends Array<LabVhd> {
   /**
    * @member {string} [nextLink] Link for next set of results.
    */
@@ -5884,12 +6210,12 @@ export interface LabVhdList extends Array<LabVhd> {
 
 /**
  * @interface
- * An interface representing the ScheduleList.
+ * An interface representing the ResponseWithContinuationSchedule.
  * The response of a list operation.
  *
  * @extends Array<Schedule>
  */
-export interface ScheduleList extends Array<Schedule> {
+export interface ResponseWithContinuationSchedule extends Array<Schedule> {
   /**
    * @member {string} [nextLink] Link for next set of results.
    */
@@ -5898,12 +6224,12 @@ export interface ScheduleList extends Array<Schedule> {
 
 /**
  * @interface
- * An interface representing the ArtifactSourceList.
+ * An interface representing the ResponseWithContinuationArtifactSource.
  * The response of a list operation.
  *
  * @extends Array<ArtifactSource>
  */
-export interface ArtifactSourceList extends Array<ArtifactSource> {
+export interface ResponseWithContinuationArtifactSource extends Array<ArtifactSource> {
   /**
    * @member {string} [nextLink] Link for next set of results.
    */
@@ -5912,12 +6238,12 @@ export interface ArtifactSourceList extends Array<ArtifactSource> {
 
 /**
  * @interface
- * An interface representing the ArmTemplateList.
+ * An interface representing the ResponseWithContinuationArmTemplate.
  * The response of a list operation.
  *
  * @extends Array<ArmTemplate>
  */
-export interface ArmTemplateList extends Array<ArmTemplate> {
+export interface ResponseWithContinuationArmTemplate extends Array<ArmTemplate> {
   /**
    * @member {string} [nextLink] Link for next set of results.
    */
@@ -5926,12 +6252,12 @@ export interface ArmTemplateList extends Array<ArmTemplate> {
 
 /**
  * @interface
- * An interface representing the ArtifactList.
+ * An interface representing the ResponseWithContinuationArtifact.
  * The response of a list operation.
  *
  * @extends Array<Artifact>
  */
-export interface ArtifactList extends Array<Artifact> {
+export interface ResponseWithContinuationArtifact extends Array<Artifact> {
   /**
    * @member {string} [nextLink] Link for next set of results.
    */
@@ -5940,12 +6266,12 @@ export interface ArtifactList extends Array<Artifact> {
 
 /**
  * @interface
- * An interface representing the CustomImageList.
+ * An interface representing the ResponseWithContinuationCustomImage.
  * The response of a list operation.
  *
  * @extends Array<CustomImage>
  */
-export interface CustomImageList extends Array<CustomImage> {
+export interface ResponseWithContinuationCustomImage extends Array<CustomImage> {
   /**
    * @member {string} [nextLink] Link for next set of results.
    */
@@ -5954,12 +6280,12 @@ export interface CustomImageList extends Array<CustomImage> {
 
 /**
  * @interface
- * An interface representing the FormulaList.
+ * An interface representing the ResponseWithContinuationFormula.
  * The response of a list operation.
  *
  * @extends Array<Formula>
  */
-export interface FormulaList extends Array<Formula> {
+export interface ResponseWithContinuationFormula extends Array<Formula> {
   /**
    * @member {string} [nextLink] Link for next set of results.
    */
@@ -5968,12 +6294,12 @@ export interface FormulaList extends Array<Formula> {
 
 /**
  * @interface
- * An interface representing the GalleryImageList.
+ * An interface representing the ResponseWithContinuationGalleryImage.
  * The response of a list operation.
  *
  * @extends Array<GalleryImage>
  */
-export interface GalleryImageList extends Array<GalleryImage> {
+export interface ResponseWithContinuationGalleryImage extends Array<GalleryImage> {
   /**
    * @member {string} [nextLink] Link for next set of results.
    */
@@ -5982,12 +6308,12 @@ export interface GalleryImageList extends Array<GalleryImage> {
 
 /**
  * @interface
- * An interface representing the NotificationChannelList.
+ * An interface representing the ResponseWithContinuationNotificationChannel.
  * The response of a list operation.
  *
  * @extends Array<NotificationChannel>
  */
-export interface NotificationChannelList extends Array<NotificationChannel> {
+export interface ResponseWithContinuationNotificationChannel extends Array<NotificationChannel> {
   /**
    * @member {string} [nextLink] Link for next set of results.
    */
@@ -5996,12 +6322,12 @@ export interface NotificationChannelList extends Array<NotificationChannel> {
 
 /**
  * @interface
- * An interface representing the PolicyList.
+ * An interface representing the ResponseWithContinuationPolicy.
  * The response of a list operation.
  *
  * @extends Array<Policy>
  */
-export interface PolicyList extends Array<Policy> {
+export interface ResponseWithContinuationPolicy extends Array<Policy> {
   /**
    * @member {string} [nextLink] Link for next set of results.
    */
@@ -6010,12 +6336,12 @@ export interface PolicyList extends Array<Policy> {
 
 /**
  * @interface
- * An interface representing the ServiceRunnerList.
+ * An interface representing the ResponseWithContinuationServiceRunner.
  * The response of a list operation.
  *
  * @extends Array<ServiceRunner>
  */
-export interface ServiceRunnerList extends Array<ServiceRunner> {
+export interface ResponseWithContinuationServiceRunner extends Array<ServiceRunner> {
   /**
    * @member {string} [nextLink] Link for next set of results.
    */
@@ -6024,12 +6350,12 @@ export interface ServiceRunnerList extends Array<ServiceRunner> {
 
 /**
  * @interface
- * An interface representing the UserList.
+ * An interface representing the ResponseWithContinuationUser.
  * The response of a list operation.
  *
  * @extends Array<User>
  */
-export interface UserList extends Array<User> {
+export interface ResponseWithContinuationUser extends Array<User> {
   /**
    * @member {string} [nextLink] Link for next set of results.
    */
@@ -6038,12 +6364,12 @@ export interface UserList extends Array<User> {
 
 /**
  * @interface
- * An interface representing the DiskList.
+ * An interface representing the ResponseWithContinuationDisk.
  * The response of a list operation.
  *
  * @extends Array<Disk>
  */
-export interface DiskList extends Array<Disk> {
+export interface ResponseWithContinuationDisk extends Array<Disk> {
   /**
    * @member {string} [nextLink] Link for next set of results.
    */
@@ -6052,12 +6378,12 @@ export interface DiskList extends Array<Disk> {
 
 /**
  * @interface
- * An interface representing the DtlEnvironmentList.
+ * An interface representing the ResponseWithContinuationDtlEnvironment.
  * The response of a list operation.
  *
  * @extends Array<DtlEnvironment>
  */
-export interface DtlEnvironmentList extends Array<DtlEnvironment> {
+export interface ResponseWithContinuationDtlEnvironment extends Array<DtlEnvironment> {
   /**
    * @member {string} [nextLink] Link for next set of results.
    */
@@ -6066,12 +6392,12 @@ export interface DtlEnvironmentList extends Array<DtlEnvironment> {
 
 /**
  * @interface
- * An interface representing the SecretList.
+ * An interface representing the ResponseWithContinuationSecret.
  * The response of a list operation.
  *
  * @extends Array<Secret>
  */
-export interface SecretList extends Array<Secret> {
+export interface ResponseWithContinuationSecret extends Array<Secret> {
   /**
    * @member {string} [nextLink] Link for next set of results.
    */
@@ -6080,26 +6406,12 @@ export interface SecretList extends Array<Secret> {
 
 /**
  * @interface
- * An interface representing the ServiceFabricList.
- * The response of a list operation.
- *
- * @extends Array<ServiceFabric>
- */
-export interface ServiceFabricList extends Array<ServiceFabric> {
-  /**
-   * @member {string} [nextLink] Link for next set of results.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * An interface representing the LabVirtualMachineList.
+ * An interface representing the ResponseWithContinuationLabVirtualMachine.
  * The response of a list operation.
  *
  * @extends Array<LabVirtualMachine>
  */
-export interface LabVirtualMachineList extends Array<LabVirtualMachine> {
+export interface ResponseWithContinuationLabVirtualMachine extends Array<LabVirtualMachine> {
   /**
    * @member {string} [nextLink] Link for next set of results.
    */
@@ -6108,12 +6420,12 @@ export interface LabVirtualMachineList extends Array<LabVirtualMachine> {
 
 /**
  * @interface
- * An interface representing the VirtualNetworkList.
+ * An interface representing the ResponseWithContinuationVirtualNetwork.
  * The response of a list operation.
  *
  * @extends Array<VirtualNetwork>
  */
-export interface VirtualNetworkList extends Array<VirtualNetwork> {
+export interface ResponseWithContinuationVirtualNetwork extends Array<VirtualNetwork> {
   /**
    * @member {string} [nextLink] Link for next set of results.
    */
@@ -6134,6 +6446,22 @@ export interface VirtualNetworkList extends Array<VirtualNetwork> {
 export enum EnableStatus {
   Enabled = 'Enabled',
   Disabled = 'Disabled',
+}
+
+/**
+ * Defines values for NotificationStatus.
+ * Possible values include: 'Disabled', 'Enabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: NotificationStatus =
+ * <NotificationStatus>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum NotificationStatus {
+  Disabled = 'Disabled',
+  Enabled = 'Enabled',
 }
 
 /**
@@ -6335,22 +6663,6 @@ export enum PremiumDataDisk {
 }
 
 /**
- * Defines values for EnvironmentPermission.
- * Possible values include: 'Reader', 'Contributor'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: EnvironmentPermission =
- * <EnvironmentPermission>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum EnvironmentPermission {
-  Reader = 'Reader',
-  Contributor = 'Contributor',
-}
-
-/**
  * Defines values for TargetCostStatus.
  * Possible values include: 'Enabled', 'Disabled'
  * There could be more values for this enum apart from the ones defined here.If
@@ -6484,8 +6796,7 @@ export enum PolicyStatus {
  * Defines values for PolicyFactName.
  * Possible values include: 'UserOwnedLabVmCount',
  * 'UserOwnedLabPremiumVmCount', 'LabVmCount', 'LabPremiumVmCount',
- * 'LabVmSize', 'GalleryImage', 'UserOwnedLabVmCountInSubnet', 'LabTargetCost',
- * 'EnvironmentTemplate', 'ScheduleEditPermission'
+ * 'LabVmSize', 'GalleryImage', 'UserOwnedLabVmCountInSubnet', 'LabTargetCost'
  * There could be more values for this enum apart from the ones defined here.If
  * you want to set a value that is not from the known values then you can do
  * the following:
@@ -6503,8 +6814,6 @@ export enum PolicyFactName {
   GalleryImage = 'GalleryImage',
   UserOwnedLabVmCountInSubnet = 'UserOwnedLabVmCountInSubnet',
   LabTargetCost = 'LabTargetCost',
-  EnvironmentTemplate = 'EnvironmentTemplate',
-  ScheduleEditPermission = 'ScheduleEditPermission',
 }
 
 /**
@@ -6581,7 +6890,7 @@ export type ProviderOperationsListNextResponse = ProviderOperationResult & {
 /**
  * Contains response data for the listBySubscription operation.
  */
-export type LabsListBySubscriptionResponse = LabList & {
+export type LabsListBySubscriptionResponse = ResponseWithContinuationLab & {
   /**
    * The underlying HTTP response.
    */
@@ -6593,14 +6902,14 @@ export type LabsListBySubscriptionResponse = LabList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: LabList;
+      parsedBody: ResponseWithContinuationLab;
     };
 };
 
 /**
  * Contains response data for the listByResourceGroup operation.
  */
-export type LabsListByResourceGroupResponse = LabList & {
+export type LabsListByResourceGroupResponse = ResponseWithContinuationLab & {
   /**
    * The underlying HTTP response.
    */
@@ -6612,7 +6921,7 @@ export type LabsListByResourceGroupResponse = LabList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: LabList;
+      parsedBody: ResponseWithContinuationLab;
     };
 };
 
@@ -6695,7 +7004,7 @@ export type LabsGenerateUploadUriResponse = GenerateUploadUriResponse & {
 /**
  * Contains response data for the listVhds operation.
  */
-export type LabsListVhdsResponse = LabVhdList & {
+export type LabsListVhdsResponse = ResponseWithContinuationLabVhd & {
   /**
    * The underlying HTTP response.
    */
@@ -6707,7 +7016,7 @@ export type LabsListVhdsResponse = LabVhdList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: LabVhdList;
+      parsedBody: ResponseWithContinuationLabVhd;
     };
 };
 
@@ -6733,7 +7042,7 @@ export type LabsBeginCreateOrUpdateResponse = Lab & {
 /**
  * Contains response data for the listBySubscriptionNext operation.
  */
-export type LabsListBySubscriptionNextResponse = LabList & {
+export type LabsListBySubscriptionNextResponse = ResponseWithContinuationLab & {
   /**
    * The underlying HTTP response.
    */
@@ -6745,14 +7054,14 @@ export type LabsListBySubscriptionNextResponse = LabList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: LabList;
+      parsedBody: ResponseWithContinuationLab;
     };
 };
 
 /**
  * Contains response data for the listByResourceGroupNext operation.
  */
-export type LabsListByResourceGroupNextResponse = LabList & {
+export type LabsListByResourceGroupNextResponse = ResponseWithContinuationLab & {
   /**
    * The underlying HTTP response.
    */
@@ -6764,14 +7073,14 @@ export type LabsListByResourceGroupNextResponse = LabList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: LabList;
+      parsedBody: ResponseWithContinuationLab;
     };
 };
 
 /**
  * Contains response data for the listVhdsNext operation.
  */
-export type LabsListVhdsNextResponse = LabVhdList & {
+export type LabsListVhdsNextResponse = ResponseWithContinuationLabVhd & {
   /**
    * The underlying HTTP response.
    */
@@ -6783,7 +7092,7 @@ export type LabsListVhdsNextResponse = LabVhdList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: LabVhdList;
+      parsedBody: ResponseWithContinuationLabVhd;
     };
 };
 
@@ -6809,7 +7118,7 @@ export type OperationsGetResponse = OperationResult & {
 /**
  * Contains response data for the listBySubscription operation.
  */
-export type GlobalSchedulesListBySubscriptionResponse = ScheduleList & {
+export type GlobalSchedulesListBySubscriptionResponse = ResponseWithContinuationSchedule & {
   /**
    * The underlying HTTP response.
    */
@@ -6821,14 +7130,14 @@ export type GlobalSchedulesListBySubscriptionResponse = ScheduleList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ScheduleList;
+      parsedBody: ResponseWithContinuationSchedule;
     };
 };
 
 /**
  * Contains response data for the listByResourceGroup operation.
  */
-export type GlobalSchedulesListByResourceGroupResponse = ScheduleList & {
+export type GlobalSchedulesListByResourceGroupResponse = ResponseWithContinuationSchedule & {
   /**
    * The underlying HTTP response.
    */
@@ -6840,7 +7149,7 @@ export type GlobalSchedulesListByResourceGroupResponse = ScheduleList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ScheduleList;
+      parsedBody: ResponseWithContinuationSchedule;
     };
 };
 
@@ -6904,7 +7213,7 @@ export type GlobalSchedulesUpdateResponse = Schedule & {
 /**
  * Contains response data for the listBySubscriptionNext operation.
  */
-export type GlobalSchedulesListBySubscriptionNextResponse = ScheduleList & {
+export type GlobalSchedulesListBySubscriptionNextResponse = ResponseWithContinuationSchedule & {
   /**
    * The underlying HTTP response.
    */
@@ -6916,14 +7225,14 @@ export type GlobalSchedulesListBySubscriptionNextResponse = ScheduleList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ScheduleList;
+      parsedBody: ResponseWithContinuationSchedule;
     };
 };
 
 /**
  * Contains response data for the listByResourceGroupNext operation.
  */
-export type GlobalSchedulesListByResourceGroupNextResponse = ScheduleList & {
+export type GlobalSchedulesListByResourceGroupNextResponse = ResponseWithContinuationSchedule & {
   /**
    * The underlying HTTP response.
    */
@@ -6935,14 +7244,14 @@ export type GlobalSchedulesListByResourceGroupNextResponse = ScheduleList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ScheduleList;
+      parsedBody: ResponseWithContinuationSchedule;
     };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type ArtifactSourcesListResponse = ArtifactSourceList & {
+export type ArtifactSourcesListResponse = ResponseWithContinuationArtifactSource & {
   /**
    * The underlying HTTP response.
    */
@@ -6954,7 +7263,7 @@ export type ArtifactSourcesListResponse = ArtifactSourceList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ArtifactSourceList;
+      parsedBody: ResponseWithContinuationArtifactSource;
     };
 };
 
@@ -7018,7 +7327,7 @@ export type ArtifactSourcesUpdateResponse = ArtifactSource & {
 /**
  * Contains response data for the listNext operation.
  */
-export type ArtifactSourcesListNextResponse = ArtifactSourceList & {
+export type ArtifactSourcesListNextResponse = ResponseWithContinuationArtifactSource & {
   /**
    * The underlying HTTP response.
    */
@@ -7030,14 +7339,14 @@ export type ArtifactSourcesListNextResponse = ArtifactSourceList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ArtifactSourceList;
+      parsedBody: ResponseWithContinuationArtifactSource;
     };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type ArmTemplatesListResponse = ArmTemplateList & {
+export type ArmTemplatesListResponse = ResponseWithContinuationArmTemplate & {
   /**
    * The underlying HTTP response.
    */
@@ -7049,7 +7358,7 @@ export type ArmTemplatesListResponse = ArmTemplateList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ArmTemplateList;
+      parsedBody: ResponseWithContinuationArmTemplate;
     };
 };
 
@@ -7075,7 +7384,7 @@ export type ArmTemplatesGetResponse = ArmTemplate & {
 /**
  * Contains response data for the listNext operation.
  */
-export type ArmTemplatesListNextResponse = ArmTemplateList & {
+export type ArmTemplatesListNextResponse = ResponseWithContinuationArmTemplate & {
   /**
    * The underlying HTTP response.
    */
@@ -7087,14 +7396,14 @@ export type ArmTemplatesListNextResponse = ArmTemplateList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ArmTemplateList;
+      parsedBody: ResponseWithContinuationArmTemplate;
     };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type ArtifactsListResponse = ArtifactList & {
+export type ArtifactsListResponse = ResponseWithContinuationArtifact & {
   /**
    * The underlying HTTP response.
    */
@@ -7106,7 +7415,7 @@ export type ArtifactsListResponse = ArtifactList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ArtifactList;
+      parsedBody: ResponseWithContinuationArtifact;
     };
 };
 
@@ -7151,7 +7460,7 @@ export type ArtifactsGenerateArmTemplateResponse = ArmTemplateInfo & {
 /**
  * Contains response data for the listNext operation.
  */
-export type ArtifactsListNextResponse = ArtifactList & {
+export type ArtifactsListNextResponse = ResponseWithContinuationArtifact & {
   /**
    * The underlying HTTP response.
    */
@@ -7163,7 +7472,7 @@ export type ArtifactsListNextResponse = ArtifactList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ArtifactList;
+      parsedBody: ResponseWithContinuationArtifact;
     };
 };
 
@@ -7208,7 +7517,7 @@ export type CostsCreateOrUpdateResponse = LabCost & {
 /**
  * Contains response data for the list operation.
  */
-export type CustomImagesListResponse = CustomImageList & {
+export type CustomImagesListResponse = ResponseWithContinuationCustomImage & {
   /**
    * The underlying HTTP response.
    */
@@ -7220,7 +7529,7 @@ export type CustomImagesListResponse = CustomImageList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: CustomImageList;
+      parsedBody: ResponseWithContinuationCustomImage;
     };
 };
 
@@ -7263,25 +7572,6 @@ export type CustomImagesCreateOrUpdateResponse = CustomImage & {
 };
 
 /**
- * Contains response data for the update operation.
- */
-export type CustomImagesUpdateResponse = CustomImage & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CustomImage;
-    };
-};
-
-/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type CustomImagesBeginCreateOrUpdateResponse = CustomImage & {
@@ -7303,7 +7593,7 @@ export type CustomImagesBeginCreateOrUpdateResponse = CustomImage & {
 /**
  * Contains response data for the listNext operation.
  */
-export type CustomImagesListNextResponse = CustomImageList & {
+export type CustomImagesListNextResponse = ResponseWithContinuationCustomImage & {
   /**
    * The underlying HTTP response.
    */
@@ -7315,14 +7605,14 @@ export type CustomImagesListNextResponse = CustomImageList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: CustomImageList;
+      parsedBody: ResponseWithContinuationCustomImage;
     };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type FormulasListResponse = FormulaList & {
+export type FormulasListResponse = ResponseWithContinuationFormula & {
   /**
    * The underlying HTTP response.
    */
@@ -7334,7 +7624,7 @@ export type FormulasListResponse = FormulaList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: FormulaList;
+      parsedBody: ResponseWithContinuationFormula;
     };
 };
 
@@ -7377,25 +7667,6 @@ export type FormulasCreateOrUpdateResponse = Formula & {
 };
 
 /**
- * Contains response data for the update operation.
- */
-export type FormulasUpdateResponse = Formula & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Formula;
-    };
-};
-
-/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type FormulasBeginCreateOrUpdateResponse = Formula & {
@@ -7417,7 +7688,7 @@ export type FormulasBeginCreateOrUpdateResponse = Formula & {
 /**
  * Contains response data for the listNext operation.
  */
-export type FormulasListNextResponse = FormulaList & {
+export type FormulasListNextResponse = ResponseWithContinuationFormula & {
   /**
    * The underlying HTTP response.
    */
@@ -7429,14 +7700,14 @@ export type FormulasListNextResponse = FormulaList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: FormulaList;
+      parsedBody: ResponseWithContinuationFormula;
     };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type GalleryImagesListResponse = GalleryImageList & {
+export type GalleryImagesListResponse = ResponseWithContinuationGalleryImage & {
   /**
    * The underlying HTTP response.
    */
@@ -7448,14 +7719,14 @@ export type GalleryImagesListResponse = GalleryImageList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: GalleryImageList;
+      parsedBody: ResponseWithContinuationGalleryImage;
     };
 };
 
 /**
  * Contains response data for the listNext operation.
  */
-export type GalleryImagesListNextResponse = GalleryImageList & {
+export type GalleryImagesListNextResponse = ResponseWithContinuationGalleryImage & {
   /**
    * The underlying HTTP response.
    */
@@ -7467,14 +7738,14 @@ export type GalleryImagesListNextResponse = GalleryImageList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: GalleryImageList;
+      parsedBody: ResponseWithContinuationGalleryImage;
     };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type NotificationChannelsListResponse = NotificationChannelList & {
+export type NotificationChannelsListResponse = ResponseWithContinuationNotificationChannel & {
   /**
    * The underlying HTTP response.
    */
@@ -7486,7 +7757,7 @@ export type NotificationChannelsListResponse = NotificationChannelList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: NotificationChannelList;
+      parsedBody: ResponseWithContinuationNotificationChannel;
     };
 };
 
@@ -7550,7 +7821,7 @@ export type NotificationChannelsUpdateResponse = NotificationChannel & {
 /**
  * Contains response data for the listNext operation.
  */
-export type NotificationChannelsListNextResponse = NotificationChannelList & {
+export type NotificationChannelsListNextResponse = ResponseWithContinuationNotificationChannel & {
   /**
    * The underlying HTTP response.
    */
@@ -7562,7 +7833,7 @@ export type NotificationChannelsListNextResponse = NotificationChannelList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: NotificationChannelList;
+      parsedBody: ResponseWithContinuationNotificationChannel;
     };
 };
 
@@ -7588,7 +7859,7 @@ export type PolicySetsEvaluatePoliciesResponse = EvaluatePoliciesResponse & {
 /**
  * Contains response data for the list operation.
  */
-export type PoliciesListResponse = PolicyList & {
+export type PoliciesListResponse = ResponseWithContinuationPolicy & {
   /**
    * The underlying HTTP response.
    */
@@ -7600,7 +7871,7 @@ export type PoliciesListResponse = PolicyList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PolicyList;
+      parsedBody: ResponseWithContinuationPolicy;
     };
 };
 
@@ -7664,7 +7935,7 @@ export type PoliciesUpdateResponse = Policy & {
 /**
  * Contains response data for the listNext operation.
  */
-export type PoliciesListNextResponse = PolicyList & {
+export type PoliciesListNextResponse = ResponseWithContinuationPolicy & {
   /**
    * The underlying HTTP response.
    */
@@ -7676,14 +7947,14 @@ export type PoliciesListNextResponse = PolicyList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PolicyList;
+      parsedBody: ResponseWithContinuationPolicy;
     };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type SchedulesListResponse = ScheduleList & {
+export type SchedulesListResponse = ResponseWithContinuationSchedule & {
   /**
    * The underlying HTTP response.
    */
@@ -7695,7 +7966,7 @@ export type SchedulesListResponse = ScheduleList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ScheduleList;
+      parsedBody: ResponseWithContinuationSchedule;
     };
 };
 
@@ -7759,7 +8030,7 @@ export type SchedulesUpdateResponse = Schedule & {
 /**
  * Contains response data for the listApplicable operation.
  */
-export type SchedulesListApplicableResponse = ScheduleList & {
+export type SchedulesListApplicableResponse = ResponseWithContinuationSchedule & {
   /**
    * The underlying HTTP response.
    */
@@ -7771,14 +8042,14 @@ export type SchedulesListApplicableResponse = ScheduleList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ScheduleList;
+      parsedBody: ResponseWithContinuationSchedule;
     };
 };
 
 /**
  * Contains response data for the listNext operation.
  */
-export type SchedulesListNextResponse = ScheduleList & {
+export type SchedulesListNextResponse = ResponseWithContinuationSchedule & {
   /**
    * The underlying HTTP response.
    */
@@ -7790,14 +8061,14 @@ export type SchedulesListNextResponse = ScheduleList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ScheduleList;
+      parsedBody: ResponseWithContinuationSchedule;
     };
 };
 
 /**
  * Contains response data for the listApplicableNext operation.
  */
-export type SchedulesListApplicableNextResponse = ScheduleList & {
+export type SchedulesListApplicableNextResponse = ResponseWithContinuationSchedule & {
   /**
    * The underlying HTTP response.
    */
@@ -7809,14 +8080,14 @@ export type SchedulesListApplicableNextResponse = ScheduleList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ScheduleList;
+      parsedBody: ResponseWithContinuationSchedule;
     };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type ServiceRunnersListResponse = ServiceRunnerList & {
+export type ServiceRunnersListResponse = ResponseWithContinuationServiceRunner & {
   /**
    * The underlying HTTP response.
    */
@@ -7828,7 +8099,7 @@ export type ServiceRunnersListResponse = ServiceRunnerList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ServiceRunnerList;
+      parsedBody: ResponseWithContinuationServiceRunner;
     };
 };
 
@@ -7873,7 +8144,7 @@ export type ServiceRunnersCreateOrUpdateResponse = ServiceRunner & {
 /**
  * Contains response data for the listNext operation.
  */
-export type ServiceRunnersListNextResponse = ServiceRunnerList & {
+export type ServiceRunnersListNextResponse = ResponseWithContinuationServiceRunner & {
   /**
    * The underlying HTTP response.
    */
@@ -7885,14 +8156,14 @@ export type ServiceRunnersListNextResponse = ServiceRunnerList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ServiceRunnerList;
+      parsedBody: ResponseWithContinuationServiceRunner;
     };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type UsersListResponse = UserList & {
+export type UsersListResponse = ResponseWithContinuationUser & {
   /**
    * The underlying HTTP response.
    */
@@ -7904,7 +8175,7 @@ export type UsersListResponse = UserList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: UserList;
+      parsedBody: ResponseWithContinuationUser;
     };
 };
 
@@ -7966,28 +8237,9 @@ export type UsersUpdateResponse = User & {
 };
 
 /**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type UsersBeginCreateOrUpdateResponse = User & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: User;
-    };
-};
-
-/**
  * Contains response data for the listNext operation.
  */
-export type UsersListNextResponse = UserList & {
+export type UsersListNextResponse = ResponseWithContinuationUser & {
   /**
    * The underlying HTTP response.
    */
@@ -7999,14 +8251,14 @@ export type UsersListNextResponse = UserList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: UserList;
+      parsedBody: ResponseWithContinuationUser;
     };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type DisksListResponse = DiskList & {
+export type DisksListResponse = ResponseWithContinuationDisk & {
   /**
    * The underlying HTTP response.
    */
@@ -8018,7 +8270,7 @@ export type DisksListResponse = DiskList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: DiskList;
+      parsedBody: ResponseWithContinuationDisk;
     };
 };
 
@@ -8061,25 +8313,6 @@ export type DisksCreateOrUpdateResponse = Disk & {
 };
 
 /**
- * Contains response data for the update operation.
- */
-export type DisksUpdateResponse = Disk & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Disk;
-    };
-};
-
-/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type DisksBeginCreateOrUpdateResponse = Disk & {
@@ -8101,7 +8334,7 @@ export type DisksBeginCreateOrUpdateResponse = Disk & {
 /**
  * Contains response data for the listNext operation.
  */
-export type DisksListNextResponse = DiskList & {
+export type DisksListNextResponse = ResponseWithContinuationDisk & {
   /**
    * The underlying HTTP response.
    */
@@ -8113,14 +8346,14 @@ export type DisksListNextResponse = DiskList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: DiskList;
+      parsedBody: ResponseWithContinuationDisk;
     };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type EnvironmentsListResponse = DtlEnvironmentList & {
+export type EnvironmentsListResponse = ResponseWithContinuationDtlEnvironment & {
   /**
    * The underlying HTTP response.
    */
@@ -8132,7 +8365,7 @@ export type EnvironmentsListResponse = DtlEnvironmentList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: DtlEnvironmentList;
+      parsedBody: ResponseWithContinuationDtlEnvironment;
     };
 };
 
@@ -8175,25 +8408,6 @@ export type EnvironmentsCreateOrUpdateResponse = DtlEnvironment & {
 };
 
 /**
- * Contains response data for the update operation.
- */
-export type EnvironmentsUpdateResponse = DtlEnvironment & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DtlEnvironment;
-    };
-};
-
-/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type EnvironmentsBeginCreateOrUpdateResponse = DtlEnvironment & {
@@ -8215,7 +8429,7 @@ export type EnvironmentsBeginCreateOrUpdateResponse = DtlEnvironment & {
 /**
  * Contains response data for the listNext operation.
  */
-export type EnvironmentsListNextResponse = DtlEnvironmentList & {
+export type EnvironmentsListNextResponse = ResponseWithContinuationDtlEnvironment & {
   /**
    * The underlying HTTP response.
    */
@@ -8227,14 +8441,14 @@ export type EnvironmentsListNextResponse = DtlEnvironmentList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: DtlEnvironmentList;
+      parsedBody: ResponseWithContinuationDtlEnvironment;
     };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type SecretsListResponse = SecretList & {
+export type SecretsListResponse = ResponseWithContinuationSecret & {
   /**
    * The underlying HTTP response.
    */
@@ -8246,7 +8460,7 @@ export type SecretsListResponse = SecretList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SecretList;
+      parsedBody: ResponseWithContinuationSecret;
     };
 };
 
@@ -8289,47 +8503,9 @@ export type SecretsCreateOrUpdateResponse = Secret & {
 };
 
 /**
- * Contains response data for the update operation.
- */
-export type SecretsUpdateResponse = Secret & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Secret;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type SecretsBeginCreateOrUpdateResponse = Secret & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Secret;
-    };
-};
-
-/**
  * Contains response data for the listNext operation.
  */
-export type SecretsListNextResponse = SecretList & {
+export type SecretsListNextResponse = ResponseWithContinuationSecret & {
   /**
    * The underlying HTTP response.
    */
@@ -8341,14 +8517,14 @@ export type SecretsListNextResponse = SecretList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SecretList;
+      parsedBody: ResponseWithContinuationSecret;
     };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type ServiceFabricsListResponse = ServiceFabricList & {
+export type VirtualMachinesListResponse = ResponseWithContinuationLabVirtualMachine & {
   /**
    * The underlying HTTP response.
    */
@@ -8360,235 +8536,7 @@ export type ServiceFabricsListResponse = ServiceFabricList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ServiceFabricList;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ServiceFabricsGetResponse = ServiceFabric & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceFabric;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ServiceFabricsCreateOrUpdateResponse = ServiceFabric & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceFabric;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type ServiceFabricsUpdateResponse = ServiceFabric & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceFabric;
-    };
-};
-
-/**
- * Contains response data for the listApplicableSchedules operation.
- */
-export type ServiceFabricsListApplicableSchedulesResponse = ApplicableSchedule & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicableSchedule;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type ServiceFabricsBeginCreateOrUpdateResponse = ServiceFabric & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceFabric;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type ServiceFabricsListNextResponse = ServiceFabricList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceFabricList;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type ServiceFabricSchedulesListResponse = ScheduleList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ScheduleList;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ServiceFabricSchedulesGetResponse = Schedule & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Schedule;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ServiceFabricSchedulesCreateOrUpdateResponse = Schedule & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Schedule;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type ServiceFabricSchedulesUpdateResponse = Schedule & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Schedule;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type ServiceFabricSchedulesListNextResponse = ScheduleList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ScheduleList;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type VirtualMachinesListResponse = LabVirtualMachineList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LabVirtualMachineList;
+      parsedBody: ResponseWithContinuationLabVirtualMachine;
     };
 };
 
@@ -8650,25 +8598,6 @@ export type VirtualMachinesUpdateResponse = LabVirtualMachine & {
 };
 
 /**
- * Contains response data for the getRdpFileContents operation.
- */
-export type VirtualMachinesGetRdpFileContentsResponse = RdpConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RdpConnection;
-    };
-};
-
-/**
  * Contains response data for the listApplicableSchedules operation.
  */
 export type VirtualMachinesListApplicableSchedulesResponse = ApplicableSchedule & {
@@ -8709,7 +8638,7 @@ export type VirtualMachinesBeginCreateOrUpdateResponse = LabVirtualMachine & {
 /**
  * Contains response data for the listNext operation.
  */
-export type VirtualMachinesListNextResponse = LabVirtualMachineList & {
+export type VirtualMachinesListNextResponse = ResponseWithContinuationLabVirtualMachine & {
   /**
    * The underlying HTTP response.
    */
@@ -8721,14 +8650,14 @@ export type VirtualMachinesListNextResponse = LabVirtualMachineList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: LabVirtualMachineList;
+      parsedBody: ResponseWithContinuationLabVirtualMachine;
     };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type VirtualMachineSchedulesListResponse = ScheduleList & {
+export type VirtualMachineSchedulesListResponse = ResponseWithContinuationSchedule & {
   /**
    * The underlying HTTP response.
    */
@@ -8740,7 +8669,7 @@ export type VirtualMachineSchedulesListResponse = ScheduleList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ScheduleList;
+      parsedBody: ResponseWithContinuationSchedule;
     };
 };
 
@@ -8804,7 +8733,7 @@ export type VirtualMachineSchedulesUpdateResponse = Schedule & {
 /**
  * Contains response data for the listNext operation.
  */
-export type VirtualMachineSchedulesListNextResponse = ScheduleList & {
+export type VirtualMachineSchedulesListNextResponse = ResponseWithContinuationSchedule & {
   /**
    * The underlying HTTP response.
    */
@@ -8816,14 +8745,14 @@ export type VirtualMachineSchedulesListNextResponse = ScheduleList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ScheduleList;
+      parsedBody: ResponseWithContinuationSchedule;
     };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type VirtualNetworksListResponse = VirtualNetworkList & {
+export type VirtualNetworksListResponse = ResponseWithContinuationVirtualNetwork & {
   /**
    * The underlying HTTP response.
    */
@@ -8835,7 +8764,7 @@ export type VirtualNetworksListResponse = VirtualNetworkList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: VirtualNetworkList;
+      parsedBody: ResponseWithContinuationVirtualNetwork;
     };
 };
 
@@ -8918,7 +8847,7 @@ export type VirtualNetworksBeginCreateOrUpdateResponse = VirtualNetwork & {
 /**
  * Contains response data for the listNext operation.
  */
-export type VirtualNetworksListNextResponse = VirtualNetworkList & {
+export type VirtualNetworksListNextResponse = ResponseWithContinuationVirtualNetwork & {
   /**
    * The underlying HTTP response.
    */
@@ -8930,6 +8859,6 @@ export type VirtualNetworksListNextResponse = VirtualNetworkList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: VirtualNetworkList;
+      parsedBody: ResponseWithContinuationVirtualNetwork;
     };
 };

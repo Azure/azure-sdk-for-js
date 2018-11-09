@@ -267,68 +267,6 @@ export class Marketplaces {
   }
 
   /**
-   * Lists the marketplace records for all subscriptions belonging to a management group scope by
-   * current billing period. Marketplaces are available via this API only for May 1, 2014 or later.
-   * @param managementGroupId Azure Management Group ID.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.MarketplacesListByManagementGroupResponse>
-   */
-  listByManagementGroup(managementGroupId: string, options?: Models.MarketplacesListByManagementGroupOptionalParams): Promise<Models.MarketplacesListByManagementGroupResponse>;
-  /**
-   * @param managementGroupId Azure Management Group ID.
-   * @param callback The callback
-   */
-  listByManagementGroup(managementGroupId: string, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  /**
-   * @param managementGroupId Azure Management Group ID.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listByManagementGroup(managementGroupId: string, options: Models.MarketplacesListByManagementGroupOptionalParams, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  listByManagementGroup(managementGroupId: string, options?: Models.MarketplacesListByManagementGroupOptionalParams, callback?: msRest.ServiceCallback<Models.MarketplacesListResult>): Promise<Models.MarketplacesListByManagementGroupResponse> {
-    return this.client.sendOperationRequest(
-      {
-        managementGroupId,
-        options
-      },
-      listByManagementGroupOperationSpec,
-      callback) as Promise<Models.MarketplacesListByManagementGroupResponse>;
-  }
-
-  /**
-   * Lists the marketplace records for all subscriptions belonging to a management group scope by
-   * specified billing period. Marketplaces are available via this API only for May 1, 2014 or later.
-   * @param managementGroupId Azure Management Group ID.
-   * @param billingPeriodName Billing Period Name.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.MarketplacesListForBillingPeriodByManagementGroupResponse>
-   */
-  listForBillingPeriodByManagementGroup(managementGroupId: string, billingPeriodName: string, options?: Models.MarketplacesListForBillingPeriodByManagementGroupOptionalParams): Promise<Models.MarketplacesListForBillingPeriodByManagementGroupResponse>;
-  /**
-   * @param managementGroupId Azure Management Group ID.
-   * @param billingPeriodName Billing Period Name.
-   * @param callback The callback
-   */
-  listForBillingPeriodByManagementGroup(managementGroupId: string, billingPeriodName: string, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  /**
-   * @param managementGroupId Azure Management Group ID.
-   * @param billingPeriodName Billing Period Name.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listForBillingPeriodByManagementGroup(managementGroupId: string, billingPeriodName: string, options: Models.MarketplacesListForBillingPeriodByManagementGroupOptionalParams, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  listForBillingPeriodByManagementGroup(managementGroupId: string, billingPeriodName: string, options?: Models.MarketplacesListForBillingPeriodByManagementGroupOptionalParams, callback?: msRest.ServiceCallback<Models.MarketplacesListResult>): Promise<Models.MarketplacesListForBillingPeriodByManagementGroupResponse> {
-    return this.client.sendOperationRequest(
-      {
-        managementGroupId,
-        billingPeriodName,
-        options
-      },
-      listForBillingPeriodByManagementGroupOperationSpec,
-      callback) as Promise<Models.MarketplacesListForBillingPeriodByManagementGroupResponse>;
-  }
-
-  /**
    * Lists the marketplaces for a scope by subscriptionId and current billing period. Marketplaces
    * are available via this API only for May 1, 2014 or later.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
@@ -559,64 +497,6 @@ export class Marketplaces {
       listForBillingPeriodByEnrollmentAccountNextOperationSpec,
       callback) as Promise<Models.MarketplacesListForBillingPeriodByEnrollmentAccountNextResponse>;
   }
-
-  /**
-   * Lists the marketplace records for all subscriptions belonging to a management group scope by
-   * current billing period. Marketplaces are available via this API only for May 1, 2014 or later.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.MarketplacesListByManagementGroupNextResponse>
-   */
-  listByManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.MarketplacesListByManagementGroupNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listByManagementGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listByManagementGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  listByManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MarketplacesListResult>): Promise<Models.MarketplacesListByManagementGroupNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listByManagementGroupNextOperationSpec,
-      callback) as Promise<Models.MarketplacesListByManagementGroupNextResponse>;
-  }
-
-  /**
-   * Lists the marketplace records for all subscriptions belonging to a management group scope by
-   * specified billing period. Marketplaces are available via this API only for May 1, 2014 or later.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.MarketplacesListForBillingPeriodByManagementGroupNextResponse>
-   */
-  listForBillingPeriodByManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.MarketplacesListForBillingPeriodByManagementGroupNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listForBillingPeriodByManagementGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listForBillingPeriodByManagementGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  listForBillingPeriodByManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MarketplacesListResult>): Promise<Models.MarketplacesListForBillingPeriodByManagementGroupNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listForBillingPeriodByManagementGroupNextOperationSpec,
-      callback) as Promise<Models.MarketplacesListForBillingPeriodByManagementGroupNextResponse>;
-  }
 }
 
 // Operation Specifications
@@ -833,59 +713,6 @@ const listForBillingPeriodByEnrollmentAccountOperationSpec: msRest.OperationSpec
   serializer
 };
 
-const listByManagementGroupOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Consumption/marketplaces",
-  urlParameters: [
-    Parameters.managementGroupId
-  ],
-  queryParameters: [
-    Parameters.filter0,
-    Parameters.top,
-    Parameters.skiptoken,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.MarketplacesListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const listForBillingPeriodByManagementGroupOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/marketplaces",
-  urlParameters: [
-    Parameters.managementGroupId,
-    Parameters.billingPeriodName
-  ],
-  queryParameters: [
-    Parameters.filter0,
-    Parameters.top,
-    Parameters.skiptoken,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.MarketplacesListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
 const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
@@ -1034,48 +861,6 @@ const listByEnrollmentAccountNextOperationSpec: msRest.OperationSpec = {
 };
 
 const listForBillingPeriodByEnrollmentAccountNextOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.MarketplacesListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const listByManagementGroupNextOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.MarketplacesListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const listForBillingPeriodByManagementGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

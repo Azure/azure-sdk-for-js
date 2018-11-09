@@ -48,7 +48,7 @@ export class InboundNatRules {
    * @param callback The callback
    */
   list(resourceGroupName: string, loadBalancerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InboundNatRuleListResult>): void;
-  list(resourceGroupName: string, loadBalancerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InboundNatRuleListResult>, callback?: msRest.ServiceCallback<Models.InboundNatRuleListResult>): Promise<Models.InboundNatRulesListResponse> {
+  list(resourceGroupName: string, loadBalancerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.InboundNatRuleListResult>): Promise<Models.InboundNatRulesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +96,7 @@ export class InboundNatRules {
    * @param callback The callback
    */
   get(resourceGroupName: string, loadBalancerName: string, inboundNatRuleName: string, options: Models.InboundNatRulesGetOptionalParams, callback: msRest.ServiceCallback<Models.InboundNatRule>): void;
-  get(resourceGroupName: string, loadBalancerName: string, inboundNatRuleName: string, options?: Models.InboundNatRulesGetOptionalParams | msRest.ServiceCallback<Models.InboundNatRule>, callback?: msRest.ServiceCallback<Models.InboundNatRule>): Promise<Models.InboundNatRulesGetResponse> {
+  get(resourceGroupName: string, loadBalancerName: string, inboundNatRuleName: string, options?: Models.InboundNatRulesGetOptionalParams, callback?: msRest.ServiceCallback<Models.InboundNatRule>): Promise<Models.InboundNatRulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -184,7 +184,7 @@ export class InboundNatRules {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InboundNatRuleListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InboundNatRuleListResult>, callback?: msRest.ServiceCallback<Models.InboundNatRuleListResult>): Promise<Models.InboundNatRulesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.InboundNatRuleListResult>): Promise<Models.InboundNatRulesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

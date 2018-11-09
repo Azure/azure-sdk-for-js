@@ -1049,6 +1049,99 @@ export const TagsResource: msRest.CompositeMapper = {
   }
 };
 
+export const ApplicationInsightsComponentProperties: msRest.CompositeMapper = {
+  serializedName: "ApplicationInsightsComponentProperties",
+  type: {
+    name: "Composite",
+    className: "ApplicationInsightsComponentProperties",
+    modelProperties: {
+      applicationId: {
+        readOnly: true,
+        serializedName: "ApplicationId",
+        type: {
+          name: "String"
+        }
+      },
+      appId: {
+        readOnly: true,
+        serializedName: "AppId",
+        type: {
+          name: "String"
+        }
+      },
+      applicationType: {
+        required: true,
+        serializedName: "Application_Type",
+        defaultValue: 'web',
+        type: {
+          name: "String"
+        }
+      },
+      flowType: {
+        serializedName: "Flow_Type",
+        defaultValue: 'Bluefield',
+        type: {
+          name: "String"
+        }
+      },
+      requestSource: {
+        serializedName: "Request_Source",
+        defaultValue: 'rest',
+        type: {
+          name: "String"
+        }
+      },
+      instrumentationKey: {
+        readOnly: true,
+        serializedName: "InstrumentationKey",
+        type: {
+          name: "String"
+        }
+      },
+      creationDate: {
+        readOnly: true,
+        serializedName: "CreationDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      tenantId: {
+        readOnly: true,
+        serializedName: "TenantId",
+        type: {
+          name: "String"
+        }
+      },
+      hockeyAppId: {
+        serializedName: "HockeyAppId",
+        type: {
+          name: "String"
+        }
+      },
+      hockeyAppToken: {
+        readOnly: true,
+        serializedName: "HockeyAppToken",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      samplingPercentage: {
+        serializedName: "SamplingPercentage",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const ApplicationInsightsComponent: msRest.CompositeMapper = {
   serializedName: "ApplicationInsightsComponent",
   type: {
@@ -1544,6 +1637,101 @@ export const WebTestPropertiesConfiguration: msRest.CompositeMapper = {
   }
 };
 
+export const WebTestProperties: msRest.CompositeMapper = {
+  serializedName: "WebTestProperties",
+  type: {
+    name: "Composite",
+    className: "WebTestProperties",
+    modelProperties: {
+      syntheticMonitorId: {
+        required: true,
+        serializedName: "SyntheticMonitorId",
+        type: {
+          name: "String"
+        }
+      },
+      webTestName: {
+        required: true,
+        serializedName: "Name",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "Description",
+        type: {
+          name: "String"
+        }
+      },
+      enabled: {
+        serializedName: "Enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      frequency: {
+        serializedName: "Frequency",
+        defaultValue: 300,
+        type: {
+          name: "Number"
+        }
+      },
+      timeout: {
+        serializedName: "Timeout",
+        defaultValue: 30,
+        type: {
+          name: "Number"
+        }
+      },
+      webTestKind: {
+        required: true,
+        serializedName: "Kind",
+        defaultValue: 'ping',
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "ping",
+            "multistep"
+          ]
+        }
+      },
+      retryEnabled: {
+        serializedName: "RetryEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      locations: {
+        required: true,
+        serializedName: "Locations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "WebTestGeolocation"
+            }
+          }
+        }
+      },
+      configuration: {
+        serializedName: "Configuration",
+        type: {
+          name: "Composite",
+          className: "WebTestPropertiesConfiguration"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const WebTest: msRest.CompositeMapper = {
   serializedName: "WebTest",
   type: {
@@ -1777,6 +1965,89 @@ export const WorkbookResource: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const WorkbookProperties: msRest.CompositeMapper = {
+  serializedName: "WorkbookProperties",
+  type: {
+    name: "Composite",
+    className: "WorkbookProperties",
+    modelProperties: {
+      name: {
+        required: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      serializedData: {
+        required: true,
+        serializedName: "serializedData",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      },
+      workbookId: {
+        required: true,
+        serializedName: "workbookId",
+        type: {
+          name: "String"
+        }
+      },
+      sharedTypeKind: {
+        required: true,
+        serializedName: "kind",
+        defaultValue: 'shared',
+        type: {
+          name: "String"
+        }
+      },
+      timeModified: {
+        readOnly: true,
+        serializedName: "timeModified",
+        type: {
+          name: "String"
+        }
+      },
+      category: {
+        required: true,
+        serializedName: "category",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      userId: {
+        required: true,
+        serializedName: "userId",
+        type: {
+          name: "String"
+        }
+      },
+      sourceResourceId: {
+        serializedName: "sourceResourceId",
+        type: {
+          name: "String"
         }
       }
     }

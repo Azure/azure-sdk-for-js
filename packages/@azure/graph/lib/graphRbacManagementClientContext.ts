@@ -16,9 +16,16 @@ const packageName = "@azure/graph";
 const packageVersion = "1.0.0";
 
 export class GraphRbacManagementClientContext extends msRestAzure.AzureServiceClient {
+
   credentials: msRest.ServiceClientCredentials;
-  apiVersion?: string;
+
+  apiVersion: string;
+
   tenantID: string;
+
+  acceptLanguage: string;
+
+  longRunningOperationRetryTimeout: number;
 
   /**
    * Initializes a new instance of the GraphRbacManagementClient class.

@@ -14,6 +14,64 @@ import * as msRest from "ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
+export const WorkspaceProperties: msRest.CompositeMapper = {
+  serializedName: "WorkspaceProperties",
+  type: {
+    name: "Composite",
+    className: "WorkspaceProperties",
+    modelProperties: {
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      accountId: {
+        readOnly: true,
+        serializedName: "accountId",
+        type: {
+          name: "String"
+        }
+      },
+      workspaceId: {
+        readOnly: true,
+        serializedName: "workspaceId",
+        type: {
+          name: "String"
+        }
+      },
+      friendlyName: {
+        required: true,
+        serializedName: "friendlyName",
+        type: {
+          name: "String"
+        }
+      },
+      creationDate: {
+        readOnly: true,
+        serializedName: "creationDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Creating",
+            "Succeeded",
+            "Updating",
+            "Deleting",
+            "Failed"
+          ]
+        }
+      }
+    }
+  }
+};
+
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
@@ -122,6 +180,28 @@ export const Workspace: msRest.CompositeMapper = {
   }
 };
 
+export const WorkspacePropertiesUpdateParameters: msRest.CompositeMapper = {
+  serializedName: "WorkspacePropertiesUpdateParameters",
+  type: {
+    name: "Composite",
+    className: "WorkspacePropertiesUpdateParameters",
+    modelProperties: {
+      friendlyName: {
+        serializedName: "friendlyName",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const WorkspaceUpdateParameters: msRest.CompositeMapper = {
   serializedName: "WorkspaceUpdateParameters",
   type: {
@@ -149,6 +229,77 @@ export const WorkspaceUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.description",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ProjectProperties: msRest.CompositeMapper = {
+  serializedName: "ProjectProperties",
+  type: {
+    name: "Composite",
+    className: "ProjectProperties",
+    modelProperties: {
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      accountId: {
+        readOnly: true,
+        serializedName: "accountId",
+        type: {
+          name: "String"
+        }
+      },
+      workspaceId: {
+        readOnly: true,
+        serializedName: "workspaceId",
+        type: {
+          name: "String"
+        }
+      },
+      projectId: {
+        readOnly: true,
+        serializedName: "projectId",
+        type: {
+          name: "String"
+        }
+      },
+      gitrepo: {
+        serializedName: "gitrepo",
+        type: {
+          name: "String"
+        }
+      },
+      friendlyName: {
+        required: true,
+        serializedName: "friendlyName",
+        type: {
+          name: "String"
+        }
+      },
+      creationDate: {
+        readOnly: true,
+        serializedName: "creationDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Creating",
+            "Succeeded",
+            "Updating",
+            "Deleting",
+            "Failed"
+          ]
         }
       }
     }
@@ -221,6 +372,34 @@ export const Project: msRest.CompositeMapper = {
             "Deleting",
             "Failed"
           ]
+        }
+      }
+    }
+  }
+};
+
+export const ProjectPropertiesUpdateParameters: msRest.CompositeMapper = {
+  serializedName: "ProjectPropertiesUpdateParameters",
+  type: {
+    name: "Composite",
+    className: "ProjectPropertiesUpdateParameters",
+    modelProperties: {
+      friendlyName: {
+        serializedName: "friendlyName",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      gitrepo: {
+        serializedName: "gitrepo",
+        type: {
+          name: "String"
         }
       }
     }
@@ -314,6 +493,91 @@ export const StorageAccountProperties: msRest.CompositeMapper = {
   }
 };
 
+export const AccountProperties: msRest.CompositeMapper = {
+  serializedName: "AccountProperties",
+  type: {
+    name: "Composite",
+    className: "AccountProperties",
+    modelProperties: {
+      vsoAccountId: {
+        required: true,
+        serializedName: "vsoAccountId",
+        type: {
+          name: "String"
+        }
+      },
+      accountId: {
+        readOnly: true,
+        serializedName: "accountId",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      friendlyName: {
+        serializedName: "friendlyName",
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultId: {
+        required: true,
+        serializedName: "keyVaultId",
+        type: {
+          name: "String"
+        }
+      },
+      seats: {
+        serializedName: "seats",
+        type: {
+          name: "String"
+        }
+      },
+      discoveryUri: {
+        readOnly: true,
+        serializedName: "discoveryUri",
+        type: {
+          name: "String"
+        }
+      },
+      creationDate: {
+        readOnly: true,
+        serializedName: "creationDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      storageAccount: {
+        required: true,
+        serializedName: "storageAccount",
+        type: {
+          name: "Composite",
+          className: "StorageAccountProperties"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Creating",
+            "Succeeded",
+            "Updating",
+            "Deleting",
+            "Failed"
+          ]
+        }
+      }
+    }
+  }
+};
+
 export const Account: msRest.CompositeMapper = {
   serializedName: "Account",
   type: {
@@ -394,6 +658,40 @@ export const Account: msRest.CompositeMapper = {
             "Deleting",
             "Failed"
           ]
+        }
+      }
+    }
+  }
+};
+
+export const AccountPropertiesUpdateParameters: msRest.CompositeMapper = {
+  serializedName: "AccountPropertiesUpdateParameters",
+  type: {
+    name: "Composite",
+    className: "AccountPropertiesUpdateParameters",
+    modelProperties: {
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      friendlyName: {
+        serializedName: "friendlyName",
+        type: {
+          name: "String"
+        }
+      },
+      seats: {
+        serializedName: "seats",
+        type: {
+          name: "String"
+        }
+      },
+      storageAccountKey: {
+        serializedName: "storageAccountKey",
+        type: {
+          name: "String"
         }
       }
     }

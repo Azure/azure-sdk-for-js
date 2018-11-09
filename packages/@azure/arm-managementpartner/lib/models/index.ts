@@ -16,6 +16,50 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
+ * An interface representing PartnerProperties.
+ * this is the management partner properties
+ *
+ */
+export interface PartnerProperties {
+  /**
+   * @member {string} [partnerId] This is the partner id
+   */
+  partnerId?: string;
+  /**
+   * @member {string} [partnerName] This is the partner name
+   */
+  partnerName?: string;
+  /**
+   * @member {string} [tenantId] This is the tenant id.
+   */
+  tenantId?: string;
+  /**
+   * @member {string} [objectId] This is the object id.
+   */
+  objectId?: string;
+  /**
+   * @member {string} [version] This is the version.
+   */
+  version?: string;
+  /**
+   * @member {Date} [updatedTime] This is the DateTime when the partner was
+   * updated.
+   */
+  updatedTime?: Date;
+  /**
+   * @member {Date} [createdTime] This is the DateTime when the partner was
+   * created.
+   */
+  createdTime?: Date;
+  /**
+   * @member {State} [state] This is the partner state. Possible values
+   * include: 'Active', 'Deleted'
+   */
+  state?: State;
+}
+
+/**
+ * @interface
  * An interface representing PartnerResponse.
  * this is the management partner operations response
  *

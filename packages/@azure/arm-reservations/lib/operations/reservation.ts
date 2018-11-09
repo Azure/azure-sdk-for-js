@@ -29,8 +29,10 @@ export class Reservation {
 
   /**
    * Split a `Reservation` into two `Reservation`s with specified quantity distribution.
+   *
    * @summary Split the `Reservation`.
    * @param reservationOrderId Order Id of the reservation
+   *
    * @param body Information needed to Split a reservation item
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationSplitResponse>
@@ -45,6 +47,7 @@ export class Reservation {
    * must have same properties.
    * @summary Merges two `Reservation`s.
    * @param reservationOrderId Order Id of the reservation
+   *
    * @param body Information needed for commercial request for a reservation
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationMergeResponse>
@@ -58,17 +61,20 @@ export class Reservation {
    * List `Reservation`s within a single `ReservationOrder`.
    * @summary Get `Reservation`s in a given reservation Order
    * @param reservationOrderId Order Id of the reservation
+   *
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationListResponse>
    */
   list(reservationOrderId: string, options?: msRest.RequestOptionsBase): Promise<Models.ReservationListResponse>;
   /**
    * @param reservationOrderId Order Id of the reservation
+   *
    * @param callback The callback
    */
   list(reservationOrderId: string, callback: msRest.ServiceCallback<Models.ReservationList>): void;
   /**
    * @param reservationOrderId Order Id of the reservation
+   *
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -88,6 +94,7 @@ export class Reservation {
    * @summary Get `Reservation` details.
    * @param reservationId Id of the Reservation Item
    * @param reservationOrderId Order Id of the reservation
+   *
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationGetResponse>
    */
@@ -95,12 +102,14 @@ export class Reservation {
   /**
    * @param reservationId Id of the Reservation Item
    * @param reservationOrderId Order Id of the reservation
+   *
    * @param callback The callback
    */
   get(reservationId: string, reservationOrderId: string, callback: msRest.ServiceCallback<Models.ReservationResponse>): void;
   /**
    * @param reservationId Id of the Reservation Item
    * @param reservationOrderId Order Id of the reservation
+   *
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -120,6 +129,7 @@ export class Reservation {
    * Updates the applied scopes of the `Reservation`.
    * @summary Updates a `Reservation`.
    * @param reservationOrderId Order Id of the reservation
+   *
    * @param reservationId Id of the Reservation Item
    * @param parameters Information needed to patch a reservation item
    * @param [options] The optional parameters
@@ -132,9 +142,11 @@ export class Reservation {
 
   /**
    * List of all the revisions for the `Reservation`.
+   *
    * @summary Get `Reservation` revisions.
    * @param reservationId Id of the Reservation Item
    * @param reservationOrderId Order Id of the reservation
+   *
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationListRevisionsResponse>
    */
@@ -142,12 +154,14 @@ export class Reservation {
   /**
    * @param reservationId Id of the Reservation Item
    * @param reservationOrderId Order Id of the reservation
+   *
    * @param callback The callback
    */
   listRevisions(reservationId: string, reservationOrderId: string, callback: msRest.ServiceCallback<Models.ReservationList>): void;
   /**
    * @param reservationId Id of the Reservation Item
    * @param reservationOrderId Order Id of the reservation
+   *
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -165,8 +179,10 @@ export class Reservation {
 
   /**
    * Split a `Reservation` into two `Reservation`s with specified quantity distribution.
+   *
    * @summary Split the `Reservation`.
    * @param reservationOrderId Order Id of the reservation
+   *
    * @param body Information needed to Split a reservation item
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -187,6 +203,7 @@ export class Reservation {
    * must have same properties.
    * @summary Merges two `Reservation`s.
    * @param reservationOrderId Order Id of the reservation
+   *
    * @param body Information needed for commercial request for a reservation
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -206,6 +223,7 @@ export class Reservation {
    * Updates the applied scopes of the `Reservation`.
    * @summary Updates a `Reservation`.
    * @param reservationOrderId Order Id of the reservation
+   *
    * @param reservationId Id of the Reservation Item
    * @param parameters Information needed to patch a reservation item
    * @param [options] The optional parameters
@@ -254,6 +272,7 @@ export class Reservation {
 
   /**
    * List of all the revisions for the `Reservation`.
+   *
    * @summary Get `Reservation` revisions.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters

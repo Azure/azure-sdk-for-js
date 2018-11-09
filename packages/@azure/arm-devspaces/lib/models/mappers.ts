@@ -37,6 +37,51 @@ export const ContainerHostMapping: msRest.CompositeMapper = {
   }
 };
 
+export const ControllerProperties: msRest.CompositeMapper = {
+  serializedName: "ControllerProperties",
+  type: {
+    name: "Composite",
+    className: "ControllerProperties",
+    modelProperties: {
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      hostSuffix: {
+        required: true,
+        serializedName: "hostSuffix",
+        type: {
+          name: "String"
+        }
+      },
+      dataPlaneFqdn: {
+        readOnly: true,
+        serializedName: "dataPlaneFqdn",
+        type: {
+          name: "String"
+        }
+      },
+      targetContainerHostResourceId: {
+        required: true,
+        serializedName: "targetContainerHostResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      targetContainerHostCredentialsBase64: {
+        required: true,
+        serializedName: "targetContainerHostCredentialsBase64",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Sku: msRest.CompositeMapper = {
   serializedName: "Sku",
   type: {

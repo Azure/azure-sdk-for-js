@@ -4,8 +4,9 @@
  * license information.
  */
 
-import { Cred, Index, Merge, Oid, Reference, Repository, Reset, Signature, StatusFile } from "nodegit";
-import { Logger } from "./logger";
+import { Repository, Signature, Merge, Oid, Reference, Cred, StatusFile, Reset, Index } from "nodegit";
+import { getLogger } from "./logger";
+import { getCommandLineOptions } from "./commandLine";
 
 export type ValidateFunction = (statuses: StatusFile[]) => boolean;
 export type ValidateEachFunction = (path: string, matchedPatter: string) => number;
@@ -43,33 +44,18 @@ export class Branch {
     }
 
     convertTo(location: BranchLocation): Branch {
-        if (this.location == location) {
-            return this;
-        }
-
         return new Branch(this.name, location, this.remote);
-    }
-
-    toRemote(): Branch {
-        return this.convertTo(BranchLocation.Remote);
-    }
-
-    toLocal(): Branch {
-        return this.convertTo(BranchLocation.Local);
-    }
-
-    static fromReference(reference: Reference) {
-        const fullName = reference.name();
-        const parts = fullName.split("/");
-        return new Branch(parts.slice(2).join("/"), reference.isRemote() ? BranchLocation.Remote : BranchLocation.Local);
     }
 }
 
-const _logger = Logger.get();
-const _lockMap: { [key: string]: boolean } = {}
+const _args = getCommandLineOptions();
+const _logger = getLogger();
 
-function isLocked(repositoryPath: string): boolean {
-    return !!_lockMap[repositoryPath];
+const _lockMap = {}
+
+function isLocked(repositoryPath: string) {
+    const isLocked = _lockMap[repositoryPath];
+    return isLocked || false;
 }
 
 function lock(repositoryPath: string) {
@@ -77,13 +63,13 @@ function lock(repositoryPath: string) {
 }
 
 function unlock(repositoryPath: string) {
-    _lockMap[repositoryPath] = false;
+    _lockMap[repositoryPath] = true;
 }
 
 async function waitUntilUnlocked(repositoryPath: string): Promise<void> {
     _logger.logTrace("Waiting for the repository to be unlocked");
 
-    return new Promise<void>((resolve) => {
+    return new Promise<void>((resolve, reject) => {
         const wait = () => {
             setTimeout(() => {
                 _logger.logTrace(`Repository is ${isLocked(repositoryPath) ? "locked" : "unlocked"}`);
@@ -143,18 +129,14 @@ export async function getValidatedRepository(repositoryPath: string): Promise<Re
 
 export async function mergeBranch(repository: Repository, toBranch: Branch, fromBranch: Branch): Promise<Oid> {
     _logger.logTrace(`Merging "${fromBranch.fullName()}" to "${toBranch.fullName()}" branch in ${repository.path()} repository`);
-    try {
-        return repository.mergeBranches(toBranch.name, fromBranch.shorthand(), Signature.default(repository), Merge.PREFERENCE.NONE);
-    } catch (error) {
-        throw new Error(`Probable merge conflicts. Error: ${error}`);
-    }
+    return repository.mergeBranches(toBranch.name, fromBranch.shorthand(), Signature.default(repository), Merge.PREFERENCE.NONE);
 }
 
 export async function mergeMasterIntoBranch(repository: Repository, toBranch: Branch): Promise<Oid> {
     return mergeBranch(repository, toBranch, Branch.RemoteMaster);
 }
 
-export async function pullBranch(repository: Repository, localBranch: Branch): Promise<void> {
+export async function pullBranch(repository: Repository, localBranch: Branch): Promise<Oid> {
     _logger.logTrace(`Pulling "${localBranch.fullName()}" branch in ${repository.path()} repository`);
 
     await repository.fetchAll();
@@ -169,9 +151,10 @@ export async function pullBranch(repository: Repository, localBranch: Branch): P
     }
 
     _logger.logTrace(`Merged "${remoteBranch.fullName()}" to "${localBranch.fullName()}" successfully without any conflicts`);
+    return undefined;
 }
 
-export async function pullMaster(repository: Repository): Promise<void> {
+export async function pullMaster(repository: Repository): Promise<Oid> {
     return pullBranch(repository, Branch.LocalMaster);
 }
 
@@ -194,7 +177,7 @@ export async function checkoutRemoteBranch(repository: Repository, remoteBranch:
     _logger.logTrace(`Checking out "${remoteBranch.fullName()}" remote branch`);
 
     const branchNames = await repository.getReferenceNames(Reference.TYPE.LISTALL);
-    const localBranch = remoteBranch.toLocal();
+    const localBranch = remoteBranch.convertTo(BranchLocation.Local);
     const branchExists = branchNames.some(name => name === localBranch.fullNameWithoutRemote());
     _logger.logTrace(`Branch exists: ${branchExists}`);
 
@@ -205,19 +188,10 @@ export async function checkoutRemoteBranch(repository: Repository, remoteBranch:
         branchRef = await createNewBranch(repository, remoteBranch.name, true);
         const commit = await repository.getReferenceCommit(remoteBranch.name);
         await Reset.reset(repository, commit as any, Reset.TYPE.HARD, {});
-        await pullBranch(repository, remoteBranch.toLocal());
+        await pullBranch(repository, remoteBranch.convertTo(BranchLocation.Local));
     }
 
     return branchRef;
-}
-
-export async function rebaseBranch(repository: Repository, localBranch: Branch): Promise<Oid> {
-    return repository.rebaseBranches(
-        localBranch.name,
-        Branch.RemoteMaster.shorthand(),
-        "",
-        repository.defaultSignature(),
-        (_: any) => {});
 }
 
 function getCurrentDateSuffix(): string {
@@ -257,12 +231,15 @@ export async function commitChanges(repository: Repository, commitMessage: strin
     const index = await repository.refreshIndex();
     if (typeof validateEach === "string") {
         const folderName = validateEach;
-        validateEach = (path) => {
+        validateEach = (path, pattern) => {
              return path.startsWith(folderName) ? 0 : 1;
         }
     }
 
     await index.addAll("*", Index.ADD_OPTION.ADD_CHECK_PATHSPEC, validateEach);
+
+    const entries = index.entries();
+    _logger.logTrace(`Files added to the index ${index.entryCount}: ${JSON.stringify(entries)}`)
 
     await index.write();
     const oid = await index.writeTree();
@@ -273,34 +250,27 @@ export async function commitChanges(repository: Repository, commitMessage: strin
     return repository.createCommit("HEAD", author, author, commitMessage, oid, [head]);
 }
 
-export async function pushBranch(repository: Repository, localBranch: Branch, forcePush?: boolean): Promise<number> {
+export async function pushBranch(repository: Repository, localBranch: Branch): Promise<number> {
     const remote = await repository.getRemote("origin");
-    const refSpec = `${forcePush ? "+" : ""}refs/heads/${localBranch.name}:refs/heads/${localBranch.name}`;
+    const refSpec = `refs/heads/${localBranch.name}:refs/heads/${localBranch.name}`;
     _logger.logTrace(`Pushing to ${refSpec}`);
 
-    return new Promise<number>((resolve, reject) => {
-        remote.push([refSpec], {
-            callbacks: {
-                credentials: () => {
-                    return Cred.userpassPlaintextNew(getToken(), "x-oauth-basic");
-                }
+    return remote.push([refSpec], {
+        callbacks: {
+            credentials: function (url, userName) {
+                return Cred.userpassPlaintextNew(getToken(), "x-oauth-basic");
             }
-        }).then(result => {
-            resolve(result);
-        }).catch(error => {
-            _logger.logError(error);
-            reject(error);
-        })
+        }
     });
 }
 
-export async function commitAndPush(repository: Repository, localBranch: Branch, commitMessage: string, validate?: ValidateFunction, validateEach?: string | ValidateEachFunction, forcePush?: boolean): Promise<void> {
+export async function commitAndPush(repository: Repository, localBranch: Branch, commitMessage: string, validate?: ValidateFunction, validateEach?: string | ValidateEachFunction) {
     await commitChanges(repository, commitMessage, validate, validateEach);
-    await pushBranch(repository, localBranch, forcePush);
+    await pushBranch(repository, localBranch);
 }
 
 export function getToken(): string {
-    const token: string = process.env.SDK_GEN_GITHUB_TOKEN || "";
+    const token = _args.token || process.env.SDK_GEN_GITHUB_TOKEN;
     _validatePersonalAccessToken(token);
 
     return token;

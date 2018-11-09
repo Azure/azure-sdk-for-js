@@ -60,7 +60,7 @@ export class ApplicationGateways {
    * @param callback The callback
    */
   get(resourceGroupName: string, applicationGatewayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationGateway>): void;
-  get(resourceGroupName: string, applicationGatewayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationGateway>, callback?: msRest.ServiceCallback<Models.ApplicationGateway>): Promise<Models.ApplicationGatewaysGetResponse> {
+  get(resourceGroupName: string, applicationGatewayName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationGateway>): Promise<Models.ApplicationGatewaysGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -115,7 +115,7 @@ export class ApplicationGateways {
    * @param callback The callback
    */
   list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationGatewayListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationGatewayListResult>, callback?: msRest.ServiceCallback<Models.ApplicationGatewayListResult>): Promise<Models.ApplicationGatewaysListResponse> {
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationGatewayListResult>): Promise<Models.ApplicationGatewaysListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -140,7 +140,7 @@ export class ApplicationGateways {
    * @param callback The callback
    */
   listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationGatewayListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationGatewayListResult>, callback?: msRest.ServiceCallback<Models.ApplicationGatewayListResult>): Promise<Models.ApplicationGatewaysListAllResponse> {
+  listAll(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationGatewayListResult>): Promise<Models.ApplicationGatewaysListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -200,7 +200,7 @@ export class ApplicationGateways {
    * @param callback The callback
    */
   listAvailableWafRuleSets(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationGatewayAvailableWafRuleSetsResult>): void;
-  listAvailableWafRuleSets(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationGatewayAvailableWafRuleSetsResult>, callback?: msRest.ServiceCallback<Models.ApplicationGatewayAvailableWafRuleSetsResult>): Promise<Models.ApplicationGatewaysListAvailableWafRuleSetsResponse> {
+  listAvailableWafRuleSets(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationGatewayAvailableWafRuleSetsResult>): Promise<Models.ApplicationGatewaysListAvailableWafRuleSetsResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -224,7 +224,7 @@ export class ApplicationGateways {
    * @param callback The callback
    */
   listAvailableSslOptions(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationGatewayAvailableSslOptions>): void;
-  listAvailableSslOptions(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationGatewayAvailableSslOptions>, callback?: msRest.ServiceCallback<Models.ApplicationGatewayAvailableSslOptions>): Promise<Models.ApplicationGatewaysListAvailableSslOptionsResponse> {
+  listAvailableSslOptions(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationGatewayAvailableSslOptions>): Promise<Models.ApplicationGatewaysListAvailableSslOptionsResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -248,7 +248,7 @@ export class ApplicationGateways {
    * @param callback The callback
    */
   listAvailableSslPredefinedPolicies(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationGatewayAvailableSslPredefinedPolicies>): void;
-  listAvailableSslPredefinedPolicies(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationGatewayAvailableSslPredefinedPolicies>, callback?: msRest.ServiceCallback<Models.ApplicationGatewayAvailableSslPredefinedPolicies>): Promise<Models.ApplicationGatewaysListAvailableSslPredefinedPoliciesResponse> {
+  listAvailableSslPredefinedPolicies(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationGatewayAvailableSslPredefinedPolicies>): Promise<Models.ApplicationGatewaysListAvailableSslPredefinedPoliciesResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -275,7 +275,7 @@ export class ApplicationGateways {
    * @param callback The callback
    */
   getSslPredefinedPolicy(predefinedPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationGatewaySslPredefinedPolicy>): void;
-  getSslPredefinedPolicy(predefinedPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationGatewaySslPredefinedPolicy>, callback?: msRest.ServiceCallback<Models.ApplicationGatewaySslPredefinedPolicy>): Promise<Models.ApplicationGatewaysGetSslPredefinedPolicyResponse> {
+  getSslPredefinedPolicy(predefinedPolicyName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationGatewaySslPredefinedPolicy>): Promise<Models.ApplicationGatewaysGetSslPredefinedPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         predefinedPolicyName,
@@ -415,7 +415,7 @@ export class ApplicationGateways {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationGatewayListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationGatewayListResult>, callback?: msRest.ServiceCallback<Models.ApplicationGatewayListResult>): Promise<Models.ApplicationGatewaysListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationGatewayListResult>): Promise<Models.ApplicationGatewaysListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -443,7 +443,7 @@ export class ApplicationGateways {
    * @param callback The callback
    */
   listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationGatewayListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationGatewayListResult>, callback?: msRest.ServiceCallback<Models.ApplicationGatewayListResult>): Promise<Models.ApplicationGatewaysListAllNextResponse> {
+  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationGatewayListResult>): Promise<Models.ApplicationGatewaysListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -471,7 +471,7 @@ export class ApplicationGateways {
    * @param callback The callback
    */
   listAvailableSslPredefinedPoliciesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationGatewayAvailableSslPredefinedPolicies>): void;
-  listAvailableSslPredefinedPoliciesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationGatewayAvailableSslPredefinedPolicies>, callback?: msRest.ServiceCallback<Models.ApplicationGatewayAvailableSslPredefinedPolicies>): Promise<Models.ApplicationGatewaysListAvailableSslPredefinedPoliciesNextResponse> {
+  listAvailableSslPredefinedPoliciesNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationGatewayAvailableSslPredefinedPolicies>): Promise<Models.ApplicationGatewaysListAvailableSslPredefinedPoliciesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

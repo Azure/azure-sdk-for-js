@@ -16,6 +16,26 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
+ * An interface representing AccessControlRecordProperties.
+ * The properties of access control record.
+ *
+ */
+export interface AccessControlRecordProperties {
+  /**
+   * @member {string} initiatorName The iSCSI initiator name (IQN).
+   */
+  initiatorName: string;
+  /**
+   * @member {number} [volumeCount] The number of volumes using the access
+   * control record.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly volumeCount?: number;
+}
+
+/**
+ * @interface
  * An interface representing BaseModel.
  * Represents the base class for all other ARM object models
  *
@@ -133,6 +153,79 @@ export interface AlertErrorDetails {
 
 /**
  * @interface
+ * An interface representing AlertProperties.
+ * The properties of alert
+ *
+ */
+export interface AlertProperties {
+  /**
+   * @member {string} title The title of the alert
+   */
+  title: string;
+  /**
+   * @member {AlertScope} scope The scope of the alert. Possible values
+   * include: 'Resource', 'Device'
+   */
+  scope: AlertScope;
+  /**
+   * @member {string} alertType The type of the alert
+   */
+  alertType: string;
+  /**
+   * @member {Date} appearedAtTime The UTC time at which the alert was raised
+   */
+  appearedAtTime: Date;
+  /**
+   * @member {Date} appearedAtSourceTime The source time at which the alert was
+   * raised
+   */
+  appearedAtSourceTime: Date;
+  /**
+   * @member {Date} [clearedAtTime] The UTC time at which the alert was cleared
+   */
+  clearedAtTime?: Date;
+  /**
+   * @member {Date} [clearedAtSourceTime] The source time at which the alert
+   * was cleared
+   */
+  clearedAtSourceTime?: Date;
+  /**
+   * @member {AlertSource} source The source at which the alert was raised
+   */
+  source: AlertSource;
+  /**
+   * @member {string} [recommendation] The recommended action for the issue
+   * raised in the alert
+   */
+  recommendation?: string;
+  /**
+   * @member {string} [resolutionReason] The reason for resolving the alert
+   */
+  resolutionReason?: string;
+  /**
+   * @member {AlertSeverity} severity The severity of the alert. Possible
+   * values include: 'Informational', 'Warning', 'Critical'
+   */
+  severity: AlertSeverity;
+  /**
+   * @member {AlertStatus} status The current status of the alert. Possible
+   * values include: 'Active', 'Cleared'
+   */
+  status: AlertStatus;
+  /**
+   * @member {AlertErrorDetails} [errorDetails] The details of the error for
+   * which the alert was raised
+   */
+  errorDetails?: AlertErrorDetails;
+  /**
+   * @member {{ [propertyName: string]: string }} [detailedInformation] More
+   * details about the alert
+   */
+  detailedInformation?: { [propertyName: string]: string };
+}
+
+/**
+ * @interface
  * An interface representing Alert.
  * The alert.
  *
@@ -241,6 +334,37 @@ export interface AlertFilter {
    * are supported for this property.
    */
   appearedOnTime?: Date;
+}
+
+/**
+ * @interface
+ * An interface representing AlertNotificationProperties.
+ * The properties of the alert notification settings.
+ *
+ */
+export interface AlertNotificationProperties {
+  /**
+   * @member {AlertEmailNotificationStatus} emailNotification Indicates whether
+   * email notification enabled or not. Possible values include: 'Enabled',
+   * 'Disabled'
+   */
+  emailNotification: AlertEmailNotificationStatus;
+  /**
+   * @member {string} [alertNotificationCulture] The alert notification
+   * culture.
+   */
+  alertNotificationCulture?: string;
+  /**
+   * @member {AlertEmailNotificationStatus} [notificationToServiceOwners] The
+   * value indicating whether alert notification enabled for admin or not.
+   * Possible values include: 'Enabled', 'Disabled'
+   */
+  notificationToServiceOwners?: AlertEmailNotificationStatus;
+  /**
+   * @member {string[]} [additionalRecipientEmailList] The alert notification
+   * email list.
+   */
+  additionalRecipientEmailList?: string[];
 }
 
 /**
@@ -411,6 +535,45 @@ export interface BackupElement {
 
 /**
  * @interface
+ * An interface representing BackupProperties.
+ * The properties of the backup.
+ *
+ */
+export interface BackupProperties {
+  /**
+   * @member {Date} createdOn The time when the backup was created.
+   */
+  createdOn: Date;
+  /**
+   * @member {number} sizeInBytes The backup size in bytes.
+   */
+  sizeInBytes: number;
+  /**
+   * @member {BackupType} [backupType] The type of the backup. Possible values
+   * include: 'LocalSnapshot', 'CloudSnapshot'
+   */
+  backupType?: BackupType;
+  /**
+   * @member {BackupJobCreationType} [backupJobCreationType] The backup job
+   * creation type. Possible values include: 'Adhoc', 'BySchedule', 'BySSM'
+   */
+  backupJobCreationType?: BackupJobCreationType;
+  /**
+   * @member {string} [backupPolicyId] The path ID of the backup policy.
+   */
+  backupPolicyId?: string;
+  /**
+   * @member {string} [ssmHostName] The StorSimple Snapshot Manager host name.
+   */
+  ssmHostName?: string;
+  /**
+   * @member {BackupElement[]} elements The backup elements.
+   */
+  elements: BackupElement[];
+}
+
+/**
+ * @interface
  * An interface representing Backup.
  * The backup.
  *
@@ -473,6 +636,66 @@ export interface BackupFilter {
    * operators are supported for this property.
    */
   createdTime?: Date;
+}
+
+/**
+ * @interface
+ * An interface representing BackupPolicyProperties.
+ * The properties of the backup policy.
+ *
+ */
+export interface BackupPolicyProperties {
+  /**
+   * @member {string[]} volumeIds The path IDs of the volumes which are part of
+   * the backup policy.
+   */
+  volumeIds: string[];
+  /**
+   * @member {Date} [nextBackupTime] The time of the next backup for the backup
+   * policy.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextBackupTime?: Date;
+  /**
+   * @member {Date} [lastBackupTime] The time of the last backup for the backup
+   * policy.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastBackupTime?: Date;
+  /**
+   * @member {number} [schedulesCount] The count of schedules the backup policy
+   * contains.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly schedulesCount?: number;
+  /**
+   * @member {ScheduledBackupStatus} [scheduledBackupStatus] Indicates whether
+   * atleast one of the schedules in the backup policy is active or not.
+   * Possible values include: 'Disabled', 'Enabled'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly scheduledBackupStatus?: ScheduledBackupStatus;
+  /**
+   * @member {BackupPolicyCreationType} [backupPolicyCreationType] The backup
+   * policy creation type. Indicates whether this was created through SaaS or
+   * through StorSimple Snapshot Manager. Possible values include: 'BySaaS',
+   * 'BySSM'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly backupPolicyCreationType?: BackupPolicyCreationType;
+  /**
+   * @member {string} [ssmHostName] If the backup policy was created by
+   * StorSimple Snapshot Manager, then this field indicates the hostname of the
+   * StorSimple Snapshot Manager.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly ssmHostName?: string;
 }
 
 /**
@@ -561,6 +784,44 @@ export interface ScheduleRecurrence {
 
 /**
  * @interface
+ * An interface representing BackupScheduleProperties.
+ * The properties of the backup schedule.
+ *
+ */
+export interface BackupScheduleProperties {
+  /**
+   * @member {ScheduleRecurrence} scheduleRecurrence The schedule recurrence.
+   */
+  scheduleRecurrence: ScheduleRecurrence;
+  /**
+   * @member {BackupType} backupType The type of backup which needs to be
+   * taken. Possible values include: 'LocalSnapshot', 'CloudSnapshot'
+   */
+  backupType: BackupType;
+  /**
+   * @member {number} retentionCount The number of backups to be retained.
+   */
+  retentionCount: number;
+  /**
+   * @member {Date} startTime The start time of the schedule.
+   */
+  startTime: Date;
+  /**
+   * @member {ScheduleStatus} scheduleStatus The schedule status. Possible
+   * values include: 'Enabled', 'Disabled'
+   */
+  scheduleStatus: ScheduleStatus;
+  /**
+   * @member {Date} [lastSuccessfulRun] The last successful backup run which
+   * was triggered for the schedule.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastSuccessfulRun?: Date;
+}
+
+/**
+ * @interface
  * An interface representing BackupSchedule.
  * The backup schedule.
  *
@@ -643,6 +904,26 @@ export interface BandwidthSchedule {
    * applicable.
    */
   days: DayOfWeek[];
+}
+
+/**
+ * @interface
+ * An interface representing BandwidthRateSettingProperties.
+ * The properties of the bandwidth setting.
+ *
+ */
+export interface BandwidthRateSettingProperties {
+  /**
+   * @member {BandwidthSchedule[]} schedules The schedules.
+   */
+  schedules: BandwidthSchedule[];
+  /**
+   * @member {number} [volumeCount] The number of volumes that uses the
+   * bandwidth setting.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly volumeCount?: number;
 }
 
 /**
@@ -824,6 +1105,45 @@ export interface VmImage {
 
 /**
  * @interface
+ * An interface representing CloudApplianceConfigurationProperties.
+ * The properties of cloud appliance configuration.
+ *
+ */
+export interface CloudApplianceConfigurationProperties {
+  /**
+   * @member {string} modelNumber The model number.
+   */
+  modelNumber: string;
+  /**
+   * @member {string} cloudPlatform The cloud platform.
+   */
+  cloudPlatform: string;
+  /**
+   * @member {AcsConfiguration} acsConfiguration The ACS configuration.
+   */
+  acsConfiguration: AcsConfiguration;
+  /**
+   * @member {string[]} supportedStorageAccountTypes The supported storage
+   * account types.
+   */
+  supportedStorageAccountTypes: string[];
+  /**
+   * @member {string[]} supportedRegions The supported regions.
+   */
+  supportedRegions: string[];
+  /**
+   * @member {string[]} supportedVmTypes The supported virtual machine types.
+   */
+  supportedVmTypes: string[];
+  /**
+   * @member {VmImage[]} supportedVmImages The supported virtual machine
+   * images.
+   */
+  supportedVmImages: VmImage[];
+}
+
+/**
+ * @interface
  * An interface representing CloudApplianceConfiguration.
  * The cloud appliance configuration
  *
@@ -914,6 +1234,38 @@ export interface NetworkInterfaceData0Settings {
 
 /**
  * @interface
+ * An interface representing ConfigureDeviceRequestProperties.
+ * The properties of the configure device request.
+ *
+ */
+export interface ConfigureDeviceRequestProperties {
+  /**
+   * @member {string} friendlyName The friendly name for the device.
+   */
+  friendlyName: string;
+  /**
+   * @member {string} currentDeviceName The current name of the device.
+   */
+  currentDeviceName: string;
+  /**
+   * @member {string} timeZone The device time zone. For eg: "Pacific Standard
+   * Time"
+   */
+  timeZone: string;
+  /**
+   * @member {SecondaryDNSSettings} [dnsSettings] The secondary DNS Settings of
+   * the device.
+   */
+  dnsSettings?: SecondaryDNSSettings;
+  /**
+   * @member {NetworkInterfaceData0Settings} [networkInterfaceData0Settings]
+   * The 'Data 0' network interface card settings.
+   */
+  networkInterfaceData0Settings?: NetworkInterfaceData0Settings;
+}
+
+/**
+ * @interface
  * An interface representing ConfigureDeviceRequest.
  * The mandatory device configuration request.
  *
@@ -943,6 +1295,39 @@ export interface ConfigureDeviceRequest extends BaseModel {
    * The 'Data 0' network interface card settings.
    */
   networkInterfaceData0Settings?: NetworkInterfaceData0Settings;
+}
+
+/**
+ * @interface
+ * An interface representing ControllerPowerStateChangeRequestProperties.
+ * The properties of the controller power state change request.
+ *
+ */
+export interface ControllerPowerStateChangeRequestProperties {
+  /**
+   * @member {ControllerPowerStateAction} action The power state that the
+   * request is expecting for the controller of the device. Possible values
+   * include: 'Start', 'Restart', 'Shutdown'
+   */
+  action: ControllerPowerStateAction;
+  /**
+   * @member {ControllerId} activeController The active controller that the
+   * request is expecting on the device. Possible values include: 'Unknown',
+   * 'None', 'Controller0', 'Controller1'
+   */
+  activeController: ControllerId;
+  /**
+   * @member {ControllerStatus} controller0State The controller 0's status that
+   * the request is expecting on the device. Possible values include:
+   * 'NotPresent', 'PoweredOff', 'Ok', 'Recovering', 'Warning', 'Failure'
+   */
+  controller0State: ControllerStatus;
+  /**
+   * @member {ControllerStatus} controller1State The controller 1's status that
+   * the request is expecting on the device. Possible values include:
+   * 'NotPresent', 'PoweredOff', 'Ok', 'Recovering', 'Warning', 'Failure'
+   */
+  controller1State: ControllerStatus;
 }
 
 /**
@@ -1055,6 +1440,151 @@ export interface DeviceRolloverDetails {
    * 'NotSupportedAppliance', 'RolloverPending'
    */
   inEligibilityReason?: InEligibilityCategory;
+}
+
+/**
+ * @interface
+ * An interface representing DeviceProperties.
+ * The properties of the StorSimple device.
+ *
+ */
+export interface DeviceProperties {
+  /**
+   * @member {string} friendlyName The friendly name of the device.
+   */
+  friendlyName: string;
+  /**
+   * @member {Date} activationTime The UTC time at which the device was
+   * activated
+   */
+  activationTime: Date;
+  /**
+   * @member {string} culture The language culture setting on the device. For
+   * eg: "en-US"
+   */
+  culture: string;
+  /**
+   * @member {string} deviceDescription The device description.
+   */
+  deviceDescription: string;
+  /**
+   * @member {string} deviceSoftwareVersion The version number of the software
+   * running on the device.
+   */
+  deviceSoftwareVersion: string;
+  /**
+   * @member {string} [friendlySoftwareName] The friendly name of the software
+   * running on the device.
+   */
+  friendlySoftwareName?: string;
+  /**
+   * @member {DeviceConfigurationStatus} deviceConfigurationStatus The current
+   * configuration status of the device. Possible values include: 'Complete',
+   * 'Pending'
+   */
+  deviceConfigurationStatus: DeviceConfigurationStatus;
+  /**
+   * @member {string} targetIqn The target IQN.
+   */
+  targetIqn: string;
+  /**
+   * @member {string} modelDescription The device model.
+   */
+  modelDescription: string;
+  /**
+   * @member {DeviceStatus} status The current status of the device. Possible
+   * values include: 'Unknown', 'Online', 'Offline', 'Deactivated',
+   * 'RequiresAttention', 'MaintenanceMode', 'Creating', 'Provisioning',
+   * 'Deactivating', 'Deleted', 'ReadyToSetup'
+   */
+  status: DeviceStatus;
+  /**
+   * @member {string} serialNumber The serial number.
+   */
+  serialNumber: string;
+  /**
+   * @member {DeviceType} deviceType The type of the device. Possible values
+   * include: 'Invalid', 'Series8000VirtualAppliance',
+   * 'Series8000PhysicalAppliance'
+   */
+  deviceType: DeviceType;
+  /**
+   * @member {ControllerId} activeController The identifier of the active
+   * controller of the device. Possible values include: 'Unknown', 'None',
+   * 'Controller0', 'Controller1'
+   */
+  activeController: ControllerId;
+  /**
+   * @member {string} friendlySoftwareVersion The device friendly software
+   * version.
+   */
+  friendlySoftwareVersion: string;
+  /**
+   * @member {number} [availableLocalStorageInBytes] The storage in bytes that
+   * is available locally on the device.
+   */
+  availableLocalStorageInBytes?: number;
+  /**
+   * @member {number} [availableTieredStorageInBytes] The storage in bytes that
+   * is available on the device for tiered volumes.
+   */
+  availableTieredStorageInBytes?: number;
+  /**
+   * @member {number} [provisionedTieredStorageInBytes] The storage in bytes
+   * that has been provisioned on the device for tiered volumes.
+   */
+  provisionedTieredStorageInBytes?: number;
+  /**
+   * @member {number} [provisionedLocalStorageInBytes] The storage in bytes
+   * used for locally pinned volumes on the device (including additional local
+   * reservation).
+   */
+  provisionedLocalStorageInBytes?: number;
+  /**
+   * @member {number} [provisionedVolumeSizeInBytes] Total capacity in bytes of
+   * tiered and locally pinned volumes on the device
+   */
+  provisionedVolumeSizeInBytes?: number;
+  /**
+   * @member {number} [usingStorageInBytes] The storage in bytes that is
+   * currently being used on the device, including both local and cloud.
+   */
+  usingStorageInBytes?: number;
+  /**
+   * @member {number} [totalTieredStorageInBytes] The total tiered storage
+   * available on the device in bytes.
+   */
+  totalTieredStorageInBytes?: number;
+  /**
+   * @member {number} [agentGroupVersion] The device agent group version.
+   */
+  agentGroupVersion?: number;
+  /**
+   * @member {number} [networkInterfaceCardCount] The number of network
+   * interface cards
+   */
+  networkInterfaceCardCount?: number;
+  /**
+   * @member {string} [deviceLocation] The location of the virtual appliance.
+   */
+  deviceLocation?: string;
+  /**
+   * @member {VirtualMachineApiType} [virtualMachineApiType] The virtual
+   * machine API type. Possible values include: 'Classic', 'Arm'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly virtualMachineApiType?: VirtualMachineApiType;
+  /**
+   * @member {DeviceDetails} [details] The additional device details regarding
+   * the end point count and volume container count.
+   */
+  details?: DeviceDetails;
+  /**
+   * @member {DeviceRolloverDetails} [rolloverDetails] The additional device
+   * details for the service data encryption key rollover.
+   */
+  rolloverDetails?: DeviceRolloverDetails;
 }
 
 /**
@@ -1205,6 +1735,20 @@ export interface Device extends BaseModel {
 
 /**
  * @interface
+ * An interface representing DevicePatchProperties.
+ * The properties of the device patch.
+ *
+ */
+export interface DevicePatchProperties {
+  /**
+   * @member {string} [deviceDescription] Short description given for the
+   * device
+   */
+  deviceDescription?: string;
+}
+
+/**
+ * @interface
  * An interface representing DevicePatch.
  * The device patch.
  *
@@ -1267,6 +1811,28 @@ export interface DNSSettings {
    * for the device
    */
   secondaryIpv6DnsServers?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing EncryptionSettingsProperties.
+ * The properties of encryption settings.
+ *
+ */
+export interface EncryptionSettingsProperties {
+  /**
+   * @member {EncryptionStatus} encryptionStatus The encryption status to
+   * indicates if encryption is enabled or not. Possible values include:
+   * 'Enabled', 'Disabled'
+   */
+  encryptionStatus: EncryptionStatus;
+  /**
+   * @member {KeyRolloverStatus} keyRolloverStatus The key rollover status to
+   * indicates if key rollover is required or not. If secret's encryption has
+   * been upgraded, then it requires key rollover. Possible values include:
+   * 'Required', 'NotRequired'
+   */
+  keyRolloverStatus: KeyRolloverStatus;
 }
 
 /**
@@ -1587,6 +2153,28 @@ export interface HardwareComponent {
 
 /**
  * @interface
+ * An interface representing HardwareComponentGroupProperties.
+ * The properties of hardware component group.
+ *
+ */
+export interface HardwareComponentGroupProperties {
+  /**
+   * @member {string} displayName The display name the hardware component
+   * group.
+   */
+  displayName: string;
+  /**
+   * @member {Date} lastUpdatedTime The last updated time.
+   */
+  lastUpdatedTime: Date;
+  /**
+   * @member {HardwareComponent[]} components The list of hardware components.
+   */
+  components: HardwareComponent[];
+}
+
+/**
+ * @interface
  * An interface representing HardwareComponentGroup.
  * The hardware component group.
  *
@@ -1676,6 +2264,65 @@ export interface JobStage {
    * @member {string} [errorCode] The error code of the stage if any.
    */
   errorCode?: string;
+}
+
+/**
+ * @interface
+ * An interface representing JobProperties.
+ * The properties of the job.
+ *
+ */
+export interface JobProperties {
+  /**
+   * @member {JobType} jobType The type of the job. Possible values include:
+   * 'ScheduledBackup', 'ManualBackup', 'RestoreBackup', 'CloneVolume',
+   * 'FailoverVolumeContainers', 'CreateLocallyPinnedVolume', 'ModifyVolume',
+   * 'InstallUpdates', 'SupportPackageLogs', 'CreateCloudAppliance'
+   */
+  jobType: JobType;
+  /**
+   * @member {DataStatistics} [dataStats] The data statistics properties of the
+   * job.
+   */
+  dataStats?: DataStatistics;
+  /**
+   * @member {string} [entityLabel] The entity identifier for which the job
+   * ran.
+   */
+  entityLabel?: string;
+  /**
+   * @member {string} [entityType] The entity type for which the job ran.
+   */
+  entityType?: string;
+  /**
+   * @member {JobStage[]} [jobStages] The job stages.
+   */
+  jobStages?: JobStage[];
+  /**
+   * @member {string} [deviceId] The device ID in which the job ran.
+   */
+  deviceId?: string;
+  /**
+   * @member {boolean} [isCancellable] Represents whether the job is
+   * cancellable or not.
+   */
+  isCancellable?: boolean;
+  /**
+   * @member {BackupType} [backupType] The backup type (CloudSnapshot |
+   * LocalSnapshot). Applicable only for backup jobs. Possible values include:
+   * 'LocalSnapshot', 'CloudSnapshot'
+   */
+  backupType?: BackupType;
+  /**
+   * @member {string} [sourceDeviceId] The source device ID of the failover
+   * job.
+   */
+  sourceDeviceId?: string;
+  /**
+   * @member {Date} [backupPointInTime] The time of the backup used for the
+   * failover.
+   */
+  backupPointInTime?: Date;
 }
 
 /**
@@ -1844,6 +2491,26 @@ export interface ManagerSku {
 
 /**
  * @interface
+ * An interface representing ManagerProperties.
+ * The properties of the StorSimple Manager.
+ *
+ */
+export interface ManagerProperties {
+  /**
+   * @member {ManagerIntrinsicSettings} [cisIntrinsicSettings] Represents the
+   * type of StorSimple Manager.
+   */
+  cisIntrinsicSettings?: ManagerIntrinsicSettings;
+  /**
+   * @member {string} [provisioningState] Specifies the state of the resource
+   * as it is getting provisioned. Value of "Succeeded" means the Manager was
+   * successfully created.
+   */
+  provisioningState?: string;
+}
+
+/**
+ * @interface
  * An interface representing Resource.
  * The Azure Resource.
  *
@@ -1902,6 +2569,45 @@ export interface Manager extends Resource {
    * @member {string} [etag] The etag of the manager.
    */
   etag?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ManagerExtendedInfoProperties.
+ * The properties of the manager extended info.
+ *
+ */
+export interface ManagerExtendedInfoProperties {
+  /**
+   * @member {string} [version] The version of the extended info being
+   * persisted.
+   */
+  version?: string;
+  /**
+   * @member {string} integrityKey Represents the CIK of the resource.
+   */
+  integrityKey: string;
+  /**
+   * @member {string} [encryptionKey] Represents the CEK of the resource.
+   */
+  encryptionKey?: string;
+  /**
+   * @member {string} [encryptionKeyThumbprint] Represents the Cert thumbprint
+   * that was used to encrypt the CEK.
+   */
+  encryptionKeyThumbprint?: string;
+  /**
+   * @member {string} [portalCertificateThumbprint] Represents the portal
+   * thumbprint which can be used optionally to encrypt the entire data before
+   * storing it.
+   */
+  portalCertificateThumbprint?: string;
+  /**
+   * @member {string} algorithm Represents the encryption algorithm used to
+   * encrypt the keys. None - if Key is saved in plain text format. Algorithm
+   * name - if key is encrypted
+   */
+  algorithm: string;
 }
 
 /**
@@ -2353,6 +3059,30 @@ export interface WebproxySettings {
 
 /**
  * @interface
+ * An interface representing NetworkSettingsProperties.
+ * The properties of the network settings of device.
+ *
+ */
+export interface NetworkSettingsProperties {
+  /**
+   * @member {DNSSettings} dnsSettings The DNS (Domain Name System) settings of
+   * device.
+   */
+  dnsSettings: DNSSettings;
+  /**
+   * @member {NetworkAdapterList} networkAdapters The network adapter list of
+   * device.
+   */
+  networkAdapters: NetworkAdapterList;
+  /**
+   * @member {WebproxySettings} webproxySettings The webproxy settings of
+   * device.
+   */
+  webproxySettings: WebproxySettings;
+}
+
+/**
+ * @interface
  * An interface representing NetworkSettings.
  * Represents the network settings of a device.
  *
@@ -2374,6 +3104,25 @@ export interface NetworkSettings extends BaseModel {
    * device.
    */
   webproxySettings: WebproxySettings;
+}
+
+/**
+ * @interface
+ * An interface representing NetworkSettingsPatchProperties.
+ * The properties of the network settings patch.
+ *
+ */
+export interface NetworkSettingsPatchProperties {
+  /**
+   * @member {DNSSettings} [dnsSettings] The DNS (Domain Name System) settings
+   * of device.
+   */
+  dnsSettings?: DNSSettings;
+  /**
+   * @member {NetworkAdapterList} [networkAdapters] The network adapter list of
+   * device.
+   */
+  networkAdapters?: NetworkAdapterList;
 }
 
 /**
@@ -2445,6 +3194,25 @@ export interface RemoteManagementSettingsPatch {
 
 /**
  * @interface
+ * An interface representing SecuritySettingsProperties.
+ * The properties of security settings of a device.
+ *
+ */
+export interface SecuritySettingsProperties {
+  /**
+   * @member {RemoteManagementSettings} remoteManagementSettings The settings
+   * for remote management of a device.
+   */
+  remoteManagementSettings: RemoteManagementSettings;
+  /**
+   * @member {ChapSettings} chapSettings The Challenge-Handshake Authentication
+   * Protocol (CHAP) settings.
+   */
+  chapSettings: ChapSettings;
+}
+
+/**
+ * @interface
  * An interface representing SecuritySettings.
  * The security settings of a device.
  *
@@ -2461,6 +3229,40 @@ export interface SecuritySettings extends BaseModel {
    * Protocol (CHAP) settings.
    */
   chapSettings: ChapSettings;
+}
+
+/**
+ * @interface
+ * An interface representing SecuritySettingsPatchProperties.
+ * The properties of the security settings patch.
+ *
+ */
+export interface SecuritySettingsPatchProperties {
+  /**
+   * @member {RemoteManagementSettingsPatch} [remoteManagementSettings] The
+   * remote management settings.
+   */
+  remoteManagementSettings?: RemoteManagementSettingsPatch;
+  /**
+   * @member {AsymmetricEncryptedSecret} [deviceAdminPassword] The device
+   * administrator password.
+   */
+  deviceAdminPassword?: AsymmetricEncryptedSecret;
+  /**
+   * @member {AsymmetricEncryptedSecret} [snapshotPassword] The snapshot
+   * manager password.
+   */
+  snapshotPassword?: AsymmetricEncryptedSecret;
+  /**
+   * @member {ChapSettings} [chapSettings] The device CHAP and reverse-CHAP
+   * settings.
+   */
+  chapSettings?: ChapSettings;
+  /**
+   * @member {CloudApplianceSettings} [cloudApplianceSettings] The cloud
+   * appliance settings.
+   */
+  cloudApplianceSettings?: CloudApplianceSettings;
 }
 
 /**
@@ -2509,6 +3311,36 @@ export interface SendTestAlertEmailRequest {
    * email
    */
   emailList: string[];
+}
+
+/**
+ * @interface
+ * An interface representing StorageAccountCredentialProperties.
+ * The storage account credential properties.
+ *
+ */
+export interface StorageAccountCredentialProperties {
+  /**
+   * @member {string} endPoint The storage endpoint
+   */
+  endPoint: string;
+  /**
+   * @member {SslStatus} sslStatus Signifies whether SSL needs to be enabled or
+   * not. Possible values include: 'Enabled', 'Disabled'
+   */
+  sslStatus: SslStatus;
+  /**
+   * @member {AsymmetricEncryptedSecret} [accessKey] The details of the storage
+   * account password.
+   */
+  accessKey?: AsymmetricEncryptedSecret;
+  /**
+   * @member {number} [volumesCount] The count of volumes using this storage
+   * account credential.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly volumesCount?: number;
 }
 
 /**
@@ -2569,6 +3401,30 @@ export interface SymmetricEncryptedSecret {
 
 /**
  * @interface
+ * An interface representing TimeSettingsProperties.
+ * The properties of time settings of a device.
+ *
+ */
+export interface TimeSettingsProperties {
+  /**
+   * @member {string} timeZone The timezone of device, like '(UTC -06:00)
+   * Central America'
+   */
+  timeZone: string;
+  /**
+   * @member {string} [primaryTimeServer] The primary Network Time Protocol
+   * (NTP) server name, like 'time.windows.com'.
+   */
+  primaryTimeServer?: string;
+  /**
+   * @member {string[]} [secondaryTimeServer] The secondary Network Time
+   * Protocol (NTP) server name, like 'time.contoso.com'. It's optional.
+   */
+  secondaryTimeServer?: string[];
+}
+
+/**
+ * @interface
  * An interface representing TimeSettings.
  * The time settings of a device.
  *
@@ -2590,6 +3446,35 @@ export interface TimeSettings extends BaseModel {
    * Protocol (NTP) server name, like 'time.contoso.com'. It's optional.
    */
   secondaryTimeServer?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing UpdatesProperties.
+ * The properties of the updates profile.
+ *
+ */
+export interface UpdatesProperties {
+  /**
+   * @member {boolean} [regularUpdatesAvailable] Set to 'true' if regular
+   * updates are available for the device.
+   */
+  regularUpdatesAvailable?: boolean;
+  /**
+   * @member {boolean} [maintenanceModeUpdatesAvailable] Set to 'true' if
+   * maintenance mode update available.
+   */
+  maintenanceModeUpdatesAvailable?: boolean;
+  /**
+   * @member {boolean} [isUpdateInProgress] Indicates whether an update is in
+   * progress or not.
+   */
+  isUpdateInProgress?: boolean;
+  /**
+   * @member {Date} [lastUpdatedTime] The time when the last update was
+   * completed.
+   */
+  lastUpdatedTime?: Date;
 }
 
 /**
@@ -2620,6 +3505,68 @@ export interface Updates extends BaseModel {
    * completed.
    */
   lastUpdatedTime?: Date;
+}
+
+/**
+ * @interface
+ * An interface representing VolumeProperties.
+ * The properties of volume.
+ *
+ */
+export interface VolumeProperties {
+  /**
+   * @member {number} sizeInBytes The size of the volume in bytes.
+   */
+  sizeInBytes: number;
+  /**
+   * @member {VolumeType} volumeType The type of the volume. Possible values
+   * include: 'Tiered', 'Archival', 'LocallyPinned'
+   */
+  volumeType: VolumeType;
+  /**
+   * @member {string} [volumeContainerId] The ID of the volume container, in
+   * which this volume is created.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly volumeContainerId?: string;
+  /**
+   * @member {string[]} accessControlRecordIds The IDs of the access control
+   * records, associated with the volume.
+   */
+  accessControlRecordIds: string[];
+  /**
+   * @member {VolumeStatus} volumeStatus The volume status. Possible values
+   * include: 'Online', 'Offline'
+   */
+  volumeStatus: VolumeStatus;
+  /**
+   * @member {OperationStatus} [operationStatus] The operation status on the
+   * volume. Possible values include: 'None', 'Updating', 'Deleting',
+   * 'Restoring'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly operationStatus?: OperationStatus;
+  /**
+   * @member {BackupStatus} [backupStatus] The backup status of the volume.
+   * Possible values include: 'Enabled', 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly backupStatus?: BackupStatus;
+  /**
+   * @member {MonitoringStatus} monitoringStatus The monitoring status of the
+   * volume. Possible values include: 'Enabled', 'Disabled'
+   */
+  monitoringStatus: MonitoringStatus;
+  /**
+   * @member {string[]} [backupPolicyIds] The IDs of the backup policies, in
+   * which this volume is part of.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly backupPolicyIds?: string[];
 }
 
 /**
@@ -2683,6 +3630,67 @@ export interface Volume extends BaseModel {
    * the server.**
    */
   readonly backupPolicyIds?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing VolumeContainerProperties.
+ * The properties of volume container.
+ *
+ */
+export interface VolumeContainerProperties {
+  /**
+   * @member {AsymmetricEncryptedSecret} [encryptionKey] The key used to
+   * encrypt data in the volume container. It is required when property
+   * 'EncryptionStatus' is "Enabled".
+   */
+  encryptionKey?: AsymmetricEncryptedSecret;
+  /**
+   * @member {EncryptionStatus} [encryptionStatus] The flag to denote whether
+   * encryption is enabled or not. Possible values include: 'Enabled',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly encryptionStatus?: EncryptionStatus;
+  /**
+   * @member {number} [volumeCount] The number of volumes in the volume
+   * Container.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly volumeCount?: number;
+  /**
+   * @member {string} storageAccountCredentialId The path ID of storage account
+   * associated with the volume container.
+   */
+  storageAccountCredentialId: string;
+  /**
+   * @member {OwnerShipStatus} [ownerShipStatus] The owner ship status of the
+   * volume container. Only when the status is "NotOwned", the delete operation
+   * on the volume container is permitted. Possible values include: 'Owned',
+   * 'NotOwned'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly ownerShipStatus?: OwnerShipStatus;
+  /**
+   * @member {number} [bandWidthRateInMbps] The bandwidth-rate set on the
+   * volume container.
+   */
+  bandWidthRateInMbps?: number;
+  /**
+   * @member {string} [bandwidthSettingId] The ID of the bandwidth setting
+   * associated with the volume container.
+   */
+  bandwidthSettingId?: string;
+  /**
+   * @member {number} [totalCloudStorageUsageInBytes] The total cloud storage
+   * for the volume container.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly totalCloudStorageUsageInBytes?: number;
 }
 
 /**

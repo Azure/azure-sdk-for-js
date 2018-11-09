@@ -44,7 +44,7 @@ export class Capabilities {
    * @param callback The callback
    */
   listByLocation(locationName: string, options: Models.CapabilitiesListByLocationOptionalParams, callback: msRest.ServiceCallback<Models.LocationCapabilities>): void;
-  listByLocation(locationName: string, options?: Models.CapabilitiesListByLocationOptionalParams | msRest.ServiceCallback<Models.LocationCapabilities>, callback?: msRest.ServiceCallback<Models.LocationCapabilities>): Promise<Models.CapabilitiesListByLocationResponse> {
+  listByLocation(locationName: string, options?: Models.CapabilitiesListByLocationOptionalParams, callback?: msRest.ServiceCallback<Models.LocationCapabilities>): Promise<Models.CapabilitiesListByLocationResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,

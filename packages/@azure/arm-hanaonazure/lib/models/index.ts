@@ -194,6 +194,49 @@ export interface NetworkProfile {
 
 /**
  * @interface
+ * An interface representing HanaInstanceProperties.
+ * Describes the properties of a HANA instance.
+ *
+ */
+export interface HanaInstanceProperties {
+  /**
+   * @member {HardwareProfile} [hardwareProfile] Specifies the hardware
+   * settings for the HANA instance.
+   */
+  hardwareProfile?: HardwareProfile;
+  /**
+   * @member {StorageProfile} [storageProfile] Specifies the storage settings
+   * for the HANA instance disks.
+   */
+  storageProfile?: StorageProfile;
+  /**
+   * @member {OSProfile} [osProfile] Specifies the operating system settings
+   * for the HANA instance.
+   */
+  osProfile?: OSProfile;
+  /**
+   * @member {NetworkProfile} [networkProfile] Specifies the network settings
+   * for the HANA instance.
+   */
+  networkProfile?: NetworkProfile;
+  /**
+   * @member {string} [hanaInstanceId] Specifies the HANA instance unique ID.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly hanaInstanceId?: string;
+  /**
+   * @member {HanaInstancePowerStateEnum} [powerState] Resource power state.
+   * Possible values include: 'starting', 'started', 'stopping', 'stopped',
+   * 'restarting', 'unknown'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly powerState?: HanaInstancePowerStateEnum;
+}
+
+/**
+ * @interface
  * An interface representing HanaInstance.
  * HANA instance info on Azure (ARM properties and HANA properties)
  *

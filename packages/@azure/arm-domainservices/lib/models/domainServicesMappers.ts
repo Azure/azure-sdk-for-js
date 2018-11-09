@@ -18,6 +18,8 @@ export {
   HealthAlert,
   NotificationSettings,
   DomainSecuritySettings,
-  CloudError
+  CloudError,
+  DomainServiceProperties,
+  DomainServicePatchProperties
 } from "../models/mappers";
 

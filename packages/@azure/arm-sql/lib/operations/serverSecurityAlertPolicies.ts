@@ -51,7 +51,7 @@ export class ServerSecurityAlertPolicies {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerSecurityAlertPolicy>): void;
-  get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerSecurityAlertPolicy>, callback?: msRest.ServiceCallback<Models.ServerSecurityAlertPolicy>): Promise<Models.ServerSecurityAlertPoliciesGetResponse> {
+  get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServerSecurityAlertPolicy>): Promise<Models.ServerSecurityAlertPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

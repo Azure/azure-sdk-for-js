@@ -54,7 +54,7 @@ export class RestorePoints {
    * @param callback The callback
    */
   listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RestorePointListResult>): void;
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RestorePointListResult>, callback?: msRest.ServiceCallback<Models.RestorePointListResult>): Promise<Models.RestorePointsListByDatabaseResponse> {
+  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RestorePointListResult>): Promise<Models.RestorePointsListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -111,7 +111,7 @@ export class RestorePoints {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, databaseName: string, restorePointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RestorePoint>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, restorePointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RestorePoint>, callback?: msRest.ServiceCallback<Models.RestorePoint>): Promise<Models.RestorePointsGetResponse> {
+  get(resourceGroupName: string, serverName: string, databaseName: string, restorePointName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RestorePoint>): Promise<Models.RestorePointsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -154,7 +154,7 @@ export class RestorePoints {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serverName: string, databaseName: string, restorePointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serverName: string, databaseName: string, restorePointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serverName: string, databaseName: string, restorePointName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

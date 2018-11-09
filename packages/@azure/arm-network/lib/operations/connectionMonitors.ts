@@ -65,7 +65,7 @@ export class ConnectionMonitors {
    * @param callback The callback
    */
   get(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectionMonitorResult>): void;
-  get(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionMonitorResult>, callback?: msRest.ServiceCallback<Models.ConnectionMonitorResult>): Promise<Models.ConnectionMonitorsGetResponse> {
+  get(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ConnectionMonitorResult>): Promise<Models.ConnectionMonitorsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -150,7 +150,7 @@ export class ConnectionMonitors {
    * @param callback The callback
    */
   list(resourceGroupName: string, networkWatcherName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectionMonitorListResult>): void;
-  list(resourceGroupName: string, networkWatcherName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionMonitorListResult>, callback?: msRest.ServiceCallback<Models.ConnectionMonitorListResult>): Promise<Models.ConnectionMonitorsListResponse> {
+  list(resourceGroupName: string, networkWatcherName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ConnectionMonitorListResult>): Promise<Models.ConnectionMonitorsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

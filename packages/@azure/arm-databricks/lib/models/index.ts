@@ -38,6 +38,43 @@ export interface WorkspaceProviderAuthorization {
 
 /**
  * @interface
+ * An interface representing WorkspaceProperties.
+ * The workspace properties.
+ *
+ */
+export interface WorkspaceProperties {
+  /**
+   * @member {string} managedResourceGroupId The managed resource group Id.
+   */
+  managedResourceGroupId: string;
+  /**
+   * @member {any} [parameters] Name and value pairs that define the workspace
+   * parameters.
+   */
+  parameters?: any;
+  /**
+   * @member {ProvisioningState} [provisioningState] The workspace provisioning
+   * state. Possible values include: 'Accepted', 'Running', 'Ready',
+   * 'Creating', 'Created', 'Deleting', 'Deleted', 'Canceled', 'Failed',
+   * 'Succeeded', 'Updating'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * @member {string} [uiDefinitionUri] The blob URI where the UI definition
+   * file is located.
+   */
+  uiDefinitionUri?: string;
+  /**
+   * @member {WorkspaceProviderAuthorization[]} [authorizations] The workspace
+   * provider authorizations.
+   */
+  authorizations?: WorkspaceProviderAuthorization[];
+}
+
+/**
+ * @interface
  * An interface representing Sku.
  * SKU for the resource.
  *

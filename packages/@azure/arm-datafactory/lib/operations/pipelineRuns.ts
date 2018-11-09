@@ -50,7 +50,7 @@ export class PipelineRuns {
    * @param callback The callback
    */
   queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PipelineRunsQueryResponse>): void;
-  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PipelineRunsQueryResponse>, callback?: msRest.ServiceCallback<Models.PipelineRunsQueryResponse>): Promise<Models.PipelineRunsQueryByFactoryResponse> {
+  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PipelineRunsQueryResponse>): Promise<Models.PipelineRunsQueryByFactoryResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -86,7 +86,7 @@ export class PipelineRuns {
    * @param callback The callback
    */
   get(resourceGroupName: string, factoryName: string, runId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PipelineRun>): void;
-  get(resourceGroupName: string, factoryName: string, runId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PipelineRun>, callback?: msRest.ServiceCallback<Models.PipelineRun>): Promise<Models.PipelineRunsGetResponse> {
+  get(resourceGroupName: string, factoryName: string, runId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PipelineRun>): Promise<Models.PipelineRunsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -122,7 +122,7 @@ export class PipelineRuns {
    * @param callback The callback
    */
   cancel(resourceGroupName: string, factoryName: string, runId: string, options: Models.PipelineRunsCancelOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  cancel(resourceGroupName: string, factoryName: string, runId: string, options?: Models.PipelineRunsCancelOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  cancel(resourceGroupName: string, factoryName: string, runId: string, options?: Models.PipelineRunsCancelOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

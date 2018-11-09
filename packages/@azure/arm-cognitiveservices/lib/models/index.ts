@@ -103,6 +103,32 @@ export interface CognitiveServicesAccountUpdateParameters {
 
 /**
  * @interface
+ * An interface representing CognitiveServicesAccountProperties.
+ * Properties of Cognitive Services account.
+ *
+ */
+export interface CognitiveServicesAccountProperties {
+  /**
+   * @member {ProvisioningState} [provisioningState] Gets the status of the
+   * cognitive services account at the time the operation was called. Possible
+   * values include: 'Creating', 'ResolvingDNS', 'Moving', 'Deleting',
+   * 'Succeeded', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * @member {string} [endpoint] Endpoint of the created account.
+   */
+  endpoint?: string;
+  /**
+   * @member {string} [internalId] The internal identifier.
+   */
+  internalId?: string;
+}
+
+/**
+ * @interface
  * An interface representing CognitiveServicesAccount.
  * Cognitive Services Account is an Azure resource representing the provisioned
  * account, its type, location and SKU.
@@ -693,11 +719,28 @@ export interface OperationEntityListResult extends Array<OperationEntity> {
 
 /**
  * Defines values for SkuName.
- * Possible values include: 'F0', 'P0', 'P1', 'P2', 'S0', 'S1', 'S2', 'S3', 'S4', 'S5', 'S6'
+ * Possible values include: 'F0', 'P0', 'P1', 'P2', 'S0', 'S1', 'S2', 'S3',
+ * 'S4', 'S5', 'S6'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SkuName = <SkuName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'F0' | 'P0' | 'P1' | 'P2' | 'S0' | 'S1' | 'S2' | 'S3' | 'S4' | 'S5' | 'S6';
+export enum SkuName {
+  F0 = 'F0',
+  P0 = 'P0',
+  P1 = 'P1',
+  P2 = 'P2',
+  S0 = 'S0',
+  S1 = 'S1',
+  S2 = 'S2',
+  S3 = 'S3',
+  S4 = 'S4',
+  S5 = 'S5',
+  S6 = 'S6',
+}
 
 /**
  * Defines values for SkuTier.
@@ -705,26 +748,69 @@ export type SkuName = 'F0' | 'P0' | 'P1' | 'P2' | 'S0' | 'S1' | 'S2' | 'S3' | 'S
  * @readonly
  * @enum {string}
  */
-export type SkuTier = 'Free' | 'Standard' | 'Premium';
+export enum SkuTier {
+  Free = 'Free',
+  Standard = 'Standard',
+  Premium = 'Premium',
+}
 
 /**
  * Defines values for Kind.
- * Possible values include: 'Bing.Autosuggest.v7', 'Bing.CustomSearch', 'Bing.Search.v7',
- * 'Bing.Speech', 'Bing.SpellCheck.v7', 'ComputerVision', 'ContentModerator', 'CustomSpeech',
- * 'CustomVision.Prediction', 'CustomVision.Training', 'Emotion', 'Face', 'LUIS', 'QnAMaker',
- * 'SpeakerRecognition', 'SpeechTranslation', 'TextAnalytics', 'TextTranslation', 'WebLM'
+ * Possible values include: 'Bing.Autosuggest.v7', 'Bing.CustomSearch',
+ * 'Bing.Search.v7', 'Bing.Speech', 'Bing.SpellCheck.v7', 'ComputerVision',
+ * 'ContentModerator', 'CustomSpeech', 'CustomVision.Prediction',
+ * 'CustomVision.Training', 'Emotion', 'Face', 'LUIS', 'QnAMaker',
+ * 'SpeakerRecognition', 'SpeechTranslation', 'TextAnalytics',
+ * 'TextTranslation', 'WebLM'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Kind = <Kind>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type Kind = 'Bing.Autosuggest.v7' | 'Bing.CustomSearch' | 'Bing.Search.v7' | 'Bing.Speech' | 'Bing.SpellCheck.v7' | 'ComputerVision' | 'ContentModerator' | 'CustomSpeech' | 'CustomVision.Prediction' | 'CustomVision.Training' | 'Emotion' | 'Face' | 'LUIS' | 'QnAMaker' | 'SpeakerRecognition' | 'SpeechTranslation' | 'TextAnalytics' | 'TextTranslation' | 'WebLM';
+export enum Kind {
+  BingAutosuggestv7 = 'Bing.Autosuggest.v7',
+  BingCustomSearch = 'Bing.CustomSearch',
+  BingSearchv7 = 'Bing.Search.v7',
+  BingSpeech = 'Bing.Speech',
+  BingSpellCheckv7 = 'Bing.SpellCheck.v7',
+  ComputerVision = 'ComputerVision',
+  ContentModerator = 'ContentModerator',
+  CustomSpeech = 'CustomSpeech',
+  CustomVisionPrediction = 'CustomVision.Prediction',
+  CustomVisionTraining = 'CustomVision.Training',
+  Emotion = 'Emotion',
+  Face = 'Face',
+  LUIS = 'LUIS',
+  QnAMaker = 'QnAMaker',
+  SpeakerRecognition = 'SpeakerRecognition',
+  SpeechTranslation = 'SpeechTranslation',
+  TextAnalytics = 'TextAnalytics',
+  TextTranslation = 'TextTranslation',
+  WebLM = 'WebLM',
+}
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Creating', 'ResolvingDNS', 'Moving', 'Deleting', 'Succeeded', 'Failed'
+ * Possible values include: 'Creating', 'ResolvingDNS', 'Moving', 'Deleting',
+ * 'Succeeded', 'Failed'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ProvisioningState =
+ * <ProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Creating' | 'ResolvingDNS' | 'Moving' | 'Deleting' | 'Succeeded' | 'Failed';
+export enum ProvisioningState {
+  Creating = 'Creating',
+  ResolvingDNS = 'ResolvingDNS',
+  Moving = 'Moving',
+  Deleting = 'Deleting',
+  Succeeded = 'Succeeded',
+  Failed = 'Failed',
+}
 
 /**
  * Defines values for KeyName.
@@ -732,24 +818,49 @@ export type ProvisioningState = 'Creating' | 'ResolvingDNS' | 'Moving' | 'Deleti
  * @readonly
  * @enum {string}
  */
-export type KeyName = 'Key1' | 'Key2';
+export enum KeyName {
+  Key1 = 'Key1',
+  Key2 = 'Key2',
+}
 
 /**
  * Defines values for UnitType.
- * Possible values include: 'Count', 'Bytes', 'Seconds', 'Percent', 'CountPerSecond',
- * 'BytesPerSecond', 'Milliseconds'
+ * Possible values include: 'Count', 'Bytes', 'Seconds', 'Percent',
+ * 'CountPerSecond', 'BytesPerSecond', 'Milliseconds'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: UnitType = <UnitType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type UnitType = 'Count' | 'Bytes' | 'Seconds' | 'Percent' | 'CountPerSecond' | 'BytesPerSecond' | 'Milliseconds';
+export enum UnitType {
+  Count = 'Count',
+  Bytes = 'Bytes',
+  Seconds = 'Seconds',
+  Percent = 'Percent',
+  CountPerSecond = 'CountPerSecond',
+  BytesPerSecond = 'BytesPerSecond',
+  Milliseconds = 'Milliseconds',
+}
 
 /**
  * Defines values for QuotaUsageStatus.
  * Possible values include: 'Included', 'Blocked', 'InOverage', 'Unknown'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: QuotaUsageStatus =
+ * <QuotaUsageStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type QuotaUsageStatus = 'Included' | 'Blocked' | 'InOverage' | 'Unknown';
+export enum QuotaUsageStatus {
+  Included = 'Included',
+  Blocked = 'Blocked',
+  InOverage = 'InOverage',
+  Unknown = 'Unknown',
+}
 
 /**
  * Defines values for ResourceSkuRestrictionsType.
@@ -757,15 +868,26 @@ export type QuotaUsageStatus = 'Included' | 'Blocked' | 'InOverage' | 'Unknown';
  * @readonly
  * @enum {string}
  */
-export type ResourceSkuRestrictionsType = 'Location' | 'Zone';
+export enum ResourceSkuRestrictionsType {
+  Location = 'Location',
+  Zone = 'Zone',
+}
 
 /**
  * Defines values for ResourceSkuRestrictionsReasonCode.
  * Possible values include: 'QuotaId', 'NotAvailableForSubscription'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ResourceSkuRestrictionsReasonCode =
+ * <ResourceSkuRestrictionsReasonCode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ResourceSkuRestrictionsReasonCode = 'QuotaId' | 'NotAvailableForSubscription';
+export enum ResourceSkuRestrictionsReasonCode {
+  QuotaId = 'QuotaId',
+  NotAvailableForSubscription = 'NotAvailableForSubscription',
+}
 
 /**
  * Contains response data for the create operation.

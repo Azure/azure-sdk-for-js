@@ -47,7 +47,7 @@ export class LoadBalancerProbes {
    * @param callback The callback
    */
   list(resourceGroupName: string, loadBalancerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoadBalancerProbeListResult>): void;
-  list(resourceGroupName: string, loadBalancerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoadBalancerProbeListResult>, callback?: msRest.ServiceCallback<Models.LoadBalancerProbeListResult>): Promise<Models.LoadBalancerProbesListResponse> {
+  list(resourceGroupName: string, loadBalancerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LoadBalancerProbeListResult>): Promise<Models.LoadBalancerProbesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class LoadBalancerProbes {
    * @param callback The callback
    */
   get(resourceGroupName: string, loadBalancerName: string, probeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Probe>): void;
-  get(resourceGroupName: string, loadBalancerName: string, probeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Probe>, callback?: msRest.ServiceCallback<Models.Probe>): Promise<Models.LoadBalancerProbesGetResponse> {
+  get(resourceGroupName: string, loadBalancerName: string, probeName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Probe>): Promise<Models.LoadBalancerProbesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class LoadBalancerProbes {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoadBalancerProbeListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoadBalancerProbeListResult>, callback?: msRest.ServiceCallback<Models.LoadBalancerProbeListResult>): Promise<Models.LoadBalancerProbesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LoadBalancerProbeListResult>): Promise<Models.LoadBalancerProbesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

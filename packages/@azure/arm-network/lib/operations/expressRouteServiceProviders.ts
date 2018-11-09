@@ -41,7 +41,7 @@ export class ExpressRouteServiceProviders {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteServiceProviderListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteServiceProviderListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteServiceProviderListResult>): Promise<Models.ExpressRouteServiceProvidersListResponse> {
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteServiceProviderListResult>): Promise<Models.ExpressRouteServiceProvidersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -68,7 +68,7 @@ export class ExpressRouteServiceProviders {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteServiceProviderListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteServiceProviderListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteServiceProviderListResult>): Promise<Models.ExpressRouteServiceProvidersListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteServiceProviderListResult>): Promise<Models.ExpressRouteServiceProvidersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

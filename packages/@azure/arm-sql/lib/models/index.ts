@@ -16,6 +16,41 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
+ * An interface representing RecoverableDatabaseProperties.
+ * The properties of a recoverable database
+ *
+ */
+export interface RecoverableDatabaseProperties {
+  /**
+   * @member {string} [edition] The edition of the database
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly edition?: string;
+  /**
+   * @member {string} [serviceLevelObjective] The service level objective name
+   * of the database
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly serviceLevelObjective?: string;
+  /**
+   * @member {string} [elasticPoolName] The elastic pool name of the database
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly elasticPoolName?: string;
+  /**
+   * @member {Date} [lastAvailableBackupDate] The last available backup date of
+   * the database (ISO8601 format)
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastAvailableBackupDate?: Date;
+}
+
+/**
+ * @interface
  * An interface representing Resource.
  * ARM resource.
  *
@@ -86,6 +121,67 @@ export interface RecoverableDatabase extends ProxyResource {
    * the server.**
    */
   readonly lastAvailableBackupDate?: Date;
+}
+
+/**
+ * @interface
+ * An interface representing RestorableDroppedDatabaseProperties.
+ * The properties of a restorable dropped database
+ *
+ */
+export interface RestorableDroppedDatabaseProperties {
+  /**
+   * @member {string} [databaseName] The name of the database
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly databaseName?: string;
+  /**
+   * @member {string} [edition] The edition of the database
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly edition?: string;
+  /**
+   * @member {string} [maxSizeBytes] The max size in bytes of the database
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly maxSizeBytes?: string;
+  /**
+   * @member {string} [serviceLevelObjective] The service level objective name
+   * of the database
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly serviceLevelObjective?: string;
+  /**
+   * @member {string} [elasticPoolName] The elastic pool name of the database
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly elasticPoolName?: string;
+  /**
+   * @member {Date} [creationDate] The creation date of the database (ISO8601
+   * format)
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationDate?: Date;
+  /**
+   * @member {Date} [deletionDate] The deletion date of the database (ISO8601
+   * format)
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly deletionDate?: Date;
+  /**
+   * @member {Date} [earliestRestoreDate] The earliest restore date of the
+   * database (ISO8601 format)
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly earliestRestoreDate?: Date;
 }
 
 /**
@@ -227,6 +323,20 @@ export interface CheckNameAvailabilityResponse {
 
 /**
  * @interface
+ * An interface representing ServerConnectionPolicyProperties.
+ * The properties of a server secure connection policy.
+ *
+ */
+export interface ServerConnectionPolicyProperties {
+  /**
+   * @member {ServerConnectionType} connectionType The server connection type.
+   * Possible values include: 'Default', 'Proxy', 'Redirect'
+   */
+  connectionType: ServerConnectionType;
+}
+
+/**
+ * @interface
  * An interface representing ServerConnectionPolicy.
  * A server secure connection policy.
  *
@@ -250,6 +360,63 @@ export interface ServerConnectionPolicy extends ProxyResource {
    * Possible values include: 'Default', 'Proxy', 'Redirect'
    */
   connectionType: ServerConnectionType;
+}
+
+/**
+ * @interface
+ * An interface representing DatabaseSecurityAlertPolicyProperties.
+ * Properties for a database Threat Detection policy.
+ *
+ */
+export interface DatabaseSecurityAlertPolicyProperties {
+  /**
+   * @member {SecurityAlertPolicyState} state Specifies the state of the
+   * policy. If state is Enabled, storageEndpoint and storageAccountAccessKey
+   * are required. Possible values include: 'New', 'Enabled', 'Disabled'
+   */
+  state: SecurityAlertPolicyState;
+  /**
+   * @member {string} [disabledAlerts] Specifies the semicolon-separated list
+   * of alerts that are disabled, or empty string to disable no alerts.
+   * Possible values: Sql_Injection; Sql_Injection_Vulnerability;
+   * Access_Anomaly; Data_Exfiltration; Unsafe_Action.
+   */
+  disabledAlerts?: string;
+  /**
+   * @member {string} [emailAddresses] Specifies the semicolon-separated list
+   * of e-mail addresses to which the alert is sent.
+   */
+  emailAddresses?: string;
+  /**
+   * @member {SecurityAlertPolicyEmailAccountAdmins} [emailAccountAdmins]
+   * Specifies that the alert is sent to the account administrators. Possible
+   * values include: 'Enabled', 'Disabled'
+   */
+  emailAccountAdmins?: SecurityAlertPolicyEmailAccountAdmins;
+  /**
+   * @member {string} [storageEndpoint] Specifies the blob storage endpoint
+   * (e.g. https://MyAccount.blob.core.windows.net). This blob storage will
+   * hold all Threat Detection audit logs. If state is Enabled, storageEndpoint
+   * is required.
+   */
+  storageEndpoint?: string;
+  /**
+   * @member {string} [storageAccountAccessKey] Specifies the identifier key of
+   * the Threat Detection audit storage account. If state is Enabled,
+   * storageAccountAccessKey is required.
+   */
+  storageAccountAccessKey?: string;
+  /**
+   * @member {number} [retentionDays] Specifies the number of days to keep in
+   * the Threat Detection audit logs.
+   */
+  retentionDays?: number;
+  /**
+   * @member {SecurityAlertPolicyUseServerDefault} [useServerDefault] Specifies
+   * whether to use the default server policy. Possible values include:
+   * 'Enabled', 'Disabled'
+   */
+  useServerDefault?: SecurityAlertPolicyUseServerDefault;
 }
 
 /**
@@ -322,6 +489,41 @@ export interface DatabaseSecurityAlertPolicy extends ProxyResource {
 
 /**
  * @interface
+ * An interface representing DataMaskingPolicyProperties.
+ * The properties of a database data masking policy.
+ *
+ */
+export interface DataMaskingPolicyProperties {
+  /**
+   * @member {DataMaskingState} dataMaskingState The state of the data masking
+   * policy. Possible values include: 'Disabled', 'Enabled'
+   */
+  dataMaskingState: DataMaskingState;
+  /**
+   * @member {string} [exemptPrincipals] The list of the exempt principals.
+   * Specifies the semicolon-separated list of database users for which the
+   * data masking policy does not apply. The specified users receive data
+   * results without masking for all of the database queries.
+   */
+  exemptPrincipals?: string;
+  /**
+   * @member {string} [applicationPrincipals] The list of the application
+   * principals. This is a legacy parameter and is no longer used.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly applicationPrincipals?: string;
+  /**
+   * @member {string} [maskingLevel] The masking level. This is a legacy
+   * parameter and is no longer used.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly maskingLevel?: string;
+}
+
+/**
+ * @interface
  * An interface representing DataMaskingPolicy.
  * Represents a database data masking policy.
  *
@@ -367,6 +569,86 @@ export interface DataMaskingPolicy extends ProxyResource {
    * the server.**
    */
   readonly kind?: string;
+}
+
+/**
+ * @interface
+ * An interface representing DataMaskingRuleProperties.
+ * The properties of a database data masking rule.
+ *
+ */
+export interface DataMaskingRuleProperties {
+  /**
+   * @member {string} [id] The rule Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [aliasName] The alias name. This is a legacy parameter
+   * and is no longer used.
+   */
+  aliasName?: string;
+  /**
+   * @member {DataMaskingRuleState} [ruleState] The rule state. Used to delete
+   * a rule. To delete an existing rule, specify the schemaName, tableName,
+   * columnName, maskingFunction, and specify ruleState as disabled. However,
+   * if the rule doesn't already exist, the rule will be created with ruleState
+   * set to enabled, regardless of the provided value of ruleState. Possible
+   * values include: 'Disabled', 'Enabled'
+   */
+  ruleState?: DataMaskingRuleState;
+  /**
+   * @member {string} schemaName The schema name on which the data masking rule
+   * is applied.
+   */
+  schemaName: string;
+  /**
+   * @member {string} tableName The table name on which the data masking rule
+   * is applied.
+   */
+  tableName: string;
+  /**
+   * @member {string} columnName The column name on which the data masking rule
+   * is applied.
+   */
+  columnName: string;
+  /**
+   * @member {DataMaskingFunction} maskingFunction The masking function that is
+   * used for the data masking rule. Possible values include: 'Default', 'CCN',
+   * 'Email', 'Number', 'SSN', 'Text'
+   */
+  maskingFunction: DataMaskingFunction;
+  /**
+   * @member {string} [numberFrom] The numberFrom property of the masking rule.
+   * Required if maskingFunction is set to Number, otherwise this parameter
+   * will be ignored.
+   */
+  numberFrom?: string;
+  /**
+   * @member {string} [numberTo] The numberTo property of the data masking
+   * rule. Required if maskingFunction is set to Number, otherwise this
+   * parameter will be ignored.
+   */
+  numberTo?: string;
+  /**
+   * @member {string} [prefixSize] If maskingFunction is set to Text, the
+   * number of characters to show unmasked in the beginning of the string.
+   * Otherwise, this parameter will be ignored.
+   */
+  prefixSize?: string;
+  /**
+   * @member {string} [suffixSize] If maskingFunction is set to Text, the
+   * number of characters to show unmasked at the end of the string. Otherwise,
+   * this parameter will be ignored.
+   */
+  suffixSize?: string;
+  /**
+   * @member {string} [replacementString] If maskingFunction is set to Text,
+   * the character to use for masking the unexposed part of the string.
+   * Otherwise, this parameter will be ignored.
+   */
+  replacementString?: string;
 }
 
 /**
@@ -465,6 +747,27 @@ export interface DataMaskingRule extends ProxyResource {
 
 /**
  * @interface
+ * An interface representing FirewallRuleProperties.
+ * Represents the properties of a server firewall rule.
+ *
+ */
+export interface FirewallRuleProperties {
+  /**
+   * @member {string} startIpAddress The start IP address of the firewall rule.
+   * Must be IPv4 format. Use value '0.0.0.0' to represent all Azure-internal
+   * IP addresses.
+   */
+  startIpAddress: string;
+  /**
+   * @member {string} endIpAddress The end IP address of the firewall rule.
+   * Must be IPv4 format. Must be greater than or equal to startIpAddress. Use
+   * value '0.0.0.0' to represent all Azure-internal IP addresses.
+   */
+  endIpAddress: string;
+}
+
+/**
+ * @interface
  * An interface representing FirewallRule.
  * Represents a server firewall rule.
  *
@@ -500,6 +803,26 @@ export interface FirewallRule extends ProxyResource {
 
 /**
  * @interface
+ * An interface representing GeoBackupPolicyProperties.
+ * The properties of the geo backup policy.
+ *
+ */
+export interface GeoBackupPolicyProperties {
+  /**
+   * @member {GeoBackupPolicyState} state The state of the geo backup policy.
+   * Possible values include: 'Disabled', 'Enabled'
+   */
+  state: GeoBackupPolicyState;
+  /**
+   * @member {string} [storageType] The storage type of the geo backup policy.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly storageType?: string;
+}
+
+/**
+ * @interface
  * An interface representing GeoBackupPolicy.
  * A database geo backup policy.
  *
@@ -530,6 +853,53 @@ export interface GeoBackupPolicy extends ProxyResource {
    * the server.**
    */
   readonly location?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ExportRequest.
+ * Export database parameters.
+ *
+ */
+export interface ExportRequest {
+  /**
+   * @member {StorageKeyType} storageKeyType The type of the storage key to
+   * use. Possible values include: 'StorageAccessKey', 'SharedAccessKey'
+   */
+  storageKeyType: StorageKeyType;
+  /**
+   * @member {string} storageKey The storage key to use.  If storage key type
+   * is SharedAccessKey, it must be preceded with a "?."
+   */
+  storageKey: string;
+  /**
+   * @member {string} storageUri The storage uri to use.
+   */
+  storageUri: string;
+  /**
+   * @member {string} administratorLogin The name of the SQL administrator.
+   */
+  administratorLogin: string;
+  /**
+   * @member {string} administratorLoginPassword The password of the SQL
+   * administrator.
+   */
+  administratorLoginPassword: string;
+  /**
+   * @member {AuthenticationType} [authenticationType] The authentication type.
+   * Possible values include: 'SQL', 'ADPassword'. Default value: 'SQL' .
+   */
+  authenticationType?: AuthenticationType;
+}
+
+/**
+ * @interface
+ * An interface representing ImportExtensionProperties.
+ * Represents the properties for an import operation
+ *
+ * @extends ExportRequest
+ */
+export interface ImportExtensionProperties extends ExportRequest {
 }
 
 /**
@@ -575,6 +945,71 @@ export interface ImportExtensionRequest {
    * Possible values include: 'SQL', 'ADPassword'. Default value: 'SQL' .
    */
   authenticationType?: AuthenticationType;
+}
+
+/**
+ * @interface
+ * An interface representing ImportExportResponseProperties.
+ * Response for Import/Export Status operation.
+ *
+ */
+export interface ImportExportResponseProperties {
+  /**
+   * @member {string} [requestType] The request type of the operation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly requestType?: string;
+  /**
+   * @member {string} [requestId] The request type of the operation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly requestId?: string;
+  /**
+   * @member {string} [serverName] The name of the server.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly serverName?: string;
+  /**
+   * @member {string} [databaseName] The name of the database.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly databaseName?: string;
+  /**
+   * @member {string} [status] The status message returned from the server.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: string;
+  /**
+   * @member {string} [lastModifiedTime] The operation status last modified
+   * time.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastModifiedTime?: string;
+  /**
+   * @member {string} [queuedTime] The operation queued time.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly queuedTime?: string;
+  /**
+   * @member {string} [blobUri] The blob uri.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly blobUri?: string;
+  /**
+   * @member {string} [errorMessage] The error message returned from the
+   * server.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errorMessage?: string;
 }
 
 /**
@@ -641,43 +1076,6 @@ export interface ImportExportResponse extends ProxyResource {
    * the server.**
    */
   readonly errorMessage?: string;
-}
-
-/**
- * @interface
- * An interface representing ExportRequest.
- * Export database parameters.
- *
- */
-export interface ExportRequest {
-  /**
-   * @member {StorageKeyType} storageKeyType The type of the storage key to
-   * use. Possible values include: 'StorageAccessKey', 'SharedAccessKey'
-   */
-  storageKeyType: StorageKeyType;
-  /**
-   * @member {string} storageKey The storage key to use.  If storage key type
-   * is SharedAccessKey, it must be preceded with a "?."
-   */
-  storageKey: string;
-  /**
-   * @member {string} storageUri The storage uri to use.
-   */
-  storageUri: string;
-  /**
-   * @member {string} administratorLogin The name of the SQL administrator.
-   */
-  administratorLogin: string;
-  /**
-   * @member {string} administratorLoginPassword The password of the SQL
-   * administrator.
-   */
-  administratorLoginPassword: string;
-  /**
-   * @member {AuthenticationType} [authenticationType] The authentication type.
-   * Possible values include: 'SQL', 'ADPassword'. Default value: 'SQL' .
-   */
-  authenticationType?: AuthenticationType;
 }
 
 /**
@@ -927,6 +1325,81 @@ export interface RecommendedElasticPoolMetric {
 
 /**
  * @interface
+ * An interface representing RecommendedElasticPoolProperties.
+ * Represents the properties of a recommented elastic pool.
+ *
+ */
+export interface RecommendedElasticPoolProperties {
+  /**
+   * @member {ElasticPoolEdition} [databaseEdition] The edition of the
+   * recommended elastic pool. The ElasticPoolEdition enumeration contains all
+   * the valid editions. Possible values include: 'Basic', 'Standard',
+   * 'Premium'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly databaseEdition?: ElasticPoolEdition;
+  /**
+   * @member {number} [dtu] The DTU for the recommended elastic pool.
+   */
+  dtu?: number;
+  /**
+   * @member {number} [databaseDtuMin] The minimum DTU for the database.
+   */
+  databaseDtuMin?: number;
+  /**
+   * @member {number} [databaseDtuMax] The maximum DTU for the database.
+   */
+  databaseDtuMax?: number;
+  /**
+   * @member {number} [storageMB] Gets storage size in megabytes.
+   */
+  storageMB?: number;
+  /**
+   * @member {Date} [observationPeriodStart] The observation period start
+   * (ISO8601 format).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly observationPeriodStart?: Date;
+  /**
+   * @member {Date} [observationPeriodEnd] The observation period start
+   * (ISO8601 format).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly observationPeriodEnd?: Date;
+  /**
+   * @member {number} [maxObservedDtu] Gets maximum observed DTU.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly maxObservedDtu?: number;
+  /**
+   * @member {number} [maxObservedStorageMB] Gets maximum observed storage in
+   * megabytes.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly maxObservedStorageMB?: number;
+  /**
+   * @member {TrackedResource[]} [databases] The list of databases in this
+   * pool. Expanded property
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly databases?: TrackedResource[];
+  /**
+   * @member {RecommendedElasticPoolMetric[]} [metrics] The list of databases
+   * housed in the server. Expanded property
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly metrics?: RecommendedElasticPoolMetric[];
+}
+
+/**
+ * @interface
  * An interface representing RecommendedElasticPool.
  * Represents a recommented elastic pool.
  *
@@ -999,6 +1472,86 @@ export interface RecommendedElasticPool extends ProxyResource {
    * the server.**
    */
   readonly metrics?: RecommendedElasticPoolMetric[];
+}
+
+/**
+ * @interface
+ * An interface representing ReplicationLinkProperties.
+ * Represents the properties of a database replication link.
+ *
+ */
+export interface ReplicationLinkProperties {
+  /**
+   * @member {boolean} [isTerminationAllowed] Legacy value indicating whether
+   * termination is allowed.  Currently always returns true.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isTerminationAllowed?: boolean;
+  /**
+   * @member {string} [replicationMode] Replication mode of this replication
+   * link.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly replicationMode?: string;
+  /**
+   * @member {string} [partnerServer] The name of the server hosting the
+   * partner database.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly partnerServer?: string;
+  /**
+   * @member {string} [partnerDatabase] The name of the partner database.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly partnerDatabase?: string;
+  /**
+   * @member {string} [partnerLocation] The Azure Region of the partner
+   * database.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly partnerLocation?: string;
+  /**
+   * @member {ReplicationRole} [role] The role of the database in the
+   * replication link. Possible values include: 'Primary', 'Secondary',
+   * 'NonReadableSecondary', 'Source', 'Copy'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly role?: ReplicationRole;
+  /**
+   * @member {ReplicationRole} [partnerRole] The role of the partner database
+   * in the replication link. Possible values include: 'Primary', 'Secondary',
+   * 'NonReadableSecondary', 'Source', 'Copy'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly partnerRole?: ReplicationRole;
+  /**
+   * @member {Date} [startTime] The start time for the replication link.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly startTime?: Date;
+  /**
+   * @member {number} [percentComplete] The percentage of seeding complete for
+   * the replication link.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly percentComplete?: number;
+  /**
+   * @member {ReplicationState} [replicationState] The replication state for
+   * the replication link. Possible values include: 'PENDING', 'SEEDING',
+   * 'CATCH_UP', 'SUSPENDED'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly replicationState?: ReplicationState;
 }
 
 /**
@@ -1091,6 +1644,28 @@ export interface ReplicationLink extends ProxyResource {
 
 /**
  * @interface
+ * An interface representing ServerAdministratorProperties.
+ * The properties of an server Administrator.
+ *
+ */
+export interface ServerAdministratorProperties {
+  /**
+   * @member {string} login The server administrator login value.
+   */
+  login: string;
+  /**
+   * @member {string} sid The server administrator Sid (Secure ID).
+   */
+  sid: string;
+  /**
+   * @member {string} tenantId The server Active Directory Administrator tenant
+   * id.
+   */
+  tenantId: string;
+}
+
+/**
+ * @interface
  * An interface representing ServerAzureADAdministrator.
  * An server Active Directory Administrator.
  *
@@ -1110,6 +1685,25 @@ export interface ServerAzureADAdministrator extends ProxyResource {
    * id.
    */
   tenantId: string;
+}
+
+/**
+ * @interface
+ * An interface representing ServerCommunicationLinkProperties.
+ * The properties of a server communication link.
+ *
+ */
+export interface ServerCommunicationLinkProperties {
+  /**
+   * @member {string} [state] The state.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: string;
+  /**
+   * @member {string} partnerServer The name of the partner server.
+   */
+  partnerServer: string;
 }
 
 /**
@@ -1143,6 +1737,50 @@ export interface ServerCommunicationLink extends ProxyResource {
    * the server.**
    */
   readonly kind?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ServiceObjectiveProperties.
+ * Represents the properties of a database service objective.
+ *
+ */
+export interface ServiceObjectiveProperties {
+  /**
+   * @member {string} [serviceObjectiveName] The name for the service
+   * objective.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly serviceObjectiveName?: string;
+  /**
+   * @member {boolean} [isDefault] Gets whether the service level objective is
+   * the default service objective.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isDefault?: boolean;
+  /**
+   * @member {boolean} [isSystem] Gets whether the service level objective is a
+   * system service objective.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isSystem?: boolean;
+  /**
+   * @member {string} [description] The description for the service level
+   * objective.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly description?: string;
+  /**
+   * @member {boolean} [enabled] Gets whether the service level objective is
+   * enabled.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly enabled?: boolean;
 }
 
 /**
@@ -1188,6 +1826,145 @@ export interface ServiceObjective extends ProxyResource {
    * the server.**
    */
   readonly enabled?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing ElasticPoolActivityProperties.
+ * Represents the properties of an elastic pool.
+ *
+ */
+export interface ElasticPoolActivityProperties {
+  /**
+   * @member {Date} [endTime] The time the operation finished (ISO8601 format).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly endTime?: Date;
+  /**
+   * @member {number} [errorCode] The error code if available.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errorCode?: number;
+  /**
+   * @member {string} [errorMessage] The error message if available.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errorMessage?: string;
+  /**
+   * @member {number} [errorSeverity] The error severity if available.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errorSeverity?: number;
+  /**
+   * @member {string} [operation] The operation name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly operation?: string;
+  /**
+   * @member {string} [operationId] The unique operation ID.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly operationId?: string;
+  /**
+   * @member {number} [percentComplete] The percentage complete if available.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly percentComplete?: number;
+  /**
+   * @member {number} [requestedDatabaseDtuMax] The requested max DTU per
+   * database if available.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly requestedDatabaseDtuMax?: number;
+  /**
+   * @member {number} [requestedDatabaseDtuMin] The requested min DTU per
+   * database if available.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly requestedDatabaseDtuMin?: number;
+  /**
+   * @member {number} [requestedDtu] The requested DTU for the pool if
+   * available.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly requestedDtu?: number;
+  /**
+   * @member {string} [requestedElasticPoolName] The requested name for the
+   * elastic pool if available.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly requestedElasticPoolName?: string;
+  /**
+   * @member {number} [requestedStorageLimitInGB] The requested storage limit
+   * for the pool in GB if available.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly requestedStorageLimitInGB?: number;
+  /**
+   * @member {string} [elasticPoolName] The name of the elastic pool.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly elasticPoolName?: string;
+  /**
+   * @member {string} [serverName] The name of the server the elastic pool is
+   * in.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly serverName?: string;
+  /**
+   * @member {Date} [startTime] The time the operation started (ISO8601
+   * format).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly startTime?: Date;
+  /**
+   * @member {string} [state] The current state of the operation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: string;
+  /**
+   * @member {number} [requestedStorageLimitInMB] The requested storage limit
+   * in MB.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly requestedStorageLimitInMB?: number;
+  /**
+   * @member {number} [requestedDatabaseDtuGuarantee] The requested per
+   * database DTU guarantee.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly requestedDatabaseDtuGuarantee?: number;
+  /**
+   * @member {number} [requestedDatabaseDtuCap] The requested per database DTU
+   * cap.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly requestedDatabaseDtuCap?: number;
+  /**
+   * @member {number} [requestedDtuGuarantee] The requested DTU guarantee.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly requestedDtuGuarantee?: number;
 }
 
 /**
@@ -1332,6 +2109,111 @@ export interface ElasticPoolActivity extends ProxyResource {
    * the server.**
    */
   readonly requestedDtuGuarantee?: number;
+}
+
+/**
+ * @interface
+ * An interface representing ElasticPoolDatabaseActivityProperties.
+ * Represents the properties of an elastic pool database activity.
+ *
+ */
+export interface ElasticPoolDatabaseActivityProperties {
+  /**
+   * @member {string} [databaseName] The database name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly databaseName?: string;
+  /**
+   * @member {Date} [endTime] The time the operation finished (ISO8601 format).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly endTime?: Date;
+  /**
+   * @member {number} [errorCode] The error code if available.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errorCode?: number;
+  /**
+   * @member {string} [errorMessage] The error message if available.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errorMessage?: string;
+  /**
+   * @member {number} [errorSeverity] The error severity if available.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errorSeverity?: number;
+  /**
+   * @member {string} [operation] The operation name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly operation?: string;
+  /**
+   * @member {string} [operationId] The unique operation ID.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly operationId?: string;
+  /**
+   * @member {number} [percentComplete] The percentage complete if available.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly percentComplete?: number;
+  /**
+   * @member {string} [requestedElasticPoolName] The name for the elastic pool
+   * the database is moving into if available.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly requestedElasticPoolName?: string;
+  /**
+   * @member {string} [currentElasticPoolName] The name of the current elastic
+   * pool the database is in if available.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly currentElasticPoolName?: string;
+  /**
+   * @member {string} [currentServiceObjective] The name of the current service
+   * objective if available.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly currentServiceObjective?: string;
+  /**
+   * @member {string} [requestedServiceObjective] The name of the requested
+   * service objective if available.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly requestedServiceObjective?: string;
+  /**
+   * @member {string} [serverName] The name of the server the elastic pool is
+   * in.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly serverName?: string;
+  /**
+   * @member {Date} [startTime] The time the operation started (ISO8601
+   * format).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly startTime?: Date;
+  /**
+   * @member {string} [state] The current state of the operation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: string;
 }
 
 /**
@@ -1481,6 +2363,102 @@ export interface OperationImpact {
 
 /**
  * @interface
+ * An interface representing RecommendedIndexProperties.
+ * Represents the properties of a database recommended index.
+ *
+ */
+export interface RecommendedIndexProperties {
+  /**
+   * @member {RecommendedIndexAction} [action] The proposed index action. You
+   * can create a missing index, drop an unused index, or rebuild an existing
+   * index to improve its performance. Possible values include: 'Create',
+   * 'Drop', 'Rebuild'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly action?: RecommendedIndexAction;
+  /**
+   * @member {RecommendedIndexState} [state] The current recommendation state.
+   * Possible values include: 'Active', 'Pending', 'Executing', 'Verifying',
+   * 'Pending Revert', 'Reverting', 'Reverted', 'Ignored', 'Expired',
+   * 'Blocked', 'Success'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: RecommendedIndexState;
+  /**
+   * @member {Date} [created] The UTC datetime showing when this resource was
+   * created (ISO8601 format).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly created?: Date;
+  /**
+   * @member {Date} [lastModified] The UTC datetime of when was this resource
+   * last changed (ISO8601 format).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastModified?: Date;
+  /**
+   * @member {RecommendedIndexType} [indexType] The type of index (CLUSTERED,
+   * NONCLUSTERED, COLUMNSTORE, CLUSTERED COLUMNSTORE). Possible values
+   * include: 'CLUSTERED', 'NONCLUSTERED', 'COLUMNSTORE', 'CLUSTERED
+   * COLUMNSTORE'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly indexType?: RecommendedIndexType;
+  /**
+   * @member {string} [schema] The schema where table to build index over
+   * resides
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly schema?: string;
+  /**
+   * @member {string} [table] The table on which to build index.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly table?: string;
+  /**
+   * @member {string[]} [columns] Columns over which to build index
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly columns?: string[];
+  /**
+   * @member {string[]} [includedColumns] The list of column names to be
+   * included in the index
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly includedColumns?: string[];
+  /**
+   * @member {string} [indexScript] The full build index script
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly indexScript?: string;
+  /**
+   * @member {OperationImpact[]} [estimatedImpact] The estimated impact of
+   * doing recommended index action.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly estimatedImpact?: OperationImpact[];
+  /**
+   * @member {OperationImpact[]} [reportedImpact] The values reported after
+   * index action is complete.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly reportedImpact?: OperationImpact[];
+}
+
+/**
+ * @interface
  * An interface representing RecommendedIndex.
  * Represents a database recommended index.
  *
@@ -1578,6 +2556,21 @@ export interface RecommendedIndex extends ProxyResource {
 
 /**
  * @interface
+ * An interface representing TransparentDataEncryptionProperties.
+ * Represents the properties of a database transparent data encryption.
+ *
+ */
+export interface TransparentDataEncryptionProperties {
+  /**
+   * @member {TransparentDataEncryptionStatus} [status] The status of the
+   * database transparent data encryption. Possible values include: 'Enabled',
+   * 'Disabled'
+   */
+  status?: TransparentDataEncryptionStatus;
+}
+
+/**
+ * @interface
  * An interface representing TransparentDataEncryption.
  * Represents a database transparent data encryption configuration.
  *
@@ -1635,6 +2628,152 @@ export interface SloUsageMetric {
    * the server.**
    */
   readonly inRangeTimeRatio?: number;
+}
+
+/**
+ * @interface
+ * An interface representing ServiceTierAdvisorProperties.
+ * Represents the properties of a Service Tier Advisor.
+ *
+ */
+export interface ServiceTierAdvisorProperties {
+  /**
+   * @member {Date} [observationPeriodStart] The observation period start
+   * (ISO8601 format).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly observationPeriodStart?: Date;
+  /**
+   * @member {Date} [observationPeriodEnd] The observation period start
+   * (ISO8601 format).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly observationPeriodEnd?: Date;
+  /**
+   * @member {number} [activeTimeRatio] The activeTimeRatio for service tier
+   * advisor.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly activeTimeRatio?: number;
+  /**
+   * @member {number} [minDtu] Gets or sets minDtu for service tier advisor.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly minDtu?: number;
+  /**
+   * @member {number} [avgDtu] Gets or sets avgDtu for service tier advisor.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly avgDtu?: number;
+  /**
+   * @member {number} [maxDtu] Gets or sets maxDtu for service tier advisor.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly maxDtu?: number;
+  /**
+   * @member {number} [maxSizeInGB] Gets or sets maxSizeInGB for service tier
+   * advisor.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly maxSizeInGB?: number;
+  /**
+   * @member {SloUsageMetric[]} [serviceLevelObjectiveUsageMetrics] Gets or
+   * sets serviceLevelObjectiveUsageMetrics for the service tier advisor.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly serviceLevelObjectiveUsageMetrics?: SloUsageMetric[];
+  /**
+   * @member {string} [currentServiceLevelObjective] Gets or sets
+   * currentServiceLevelObjective for service tier advisor.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly currentServiceLevelObjective?: string;
+  /**
+   * @member {string} [currentServiceLevelObjectiveId] Gets or sets
+   * currentServiceLevelObjectiveId for service tier advisor.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly currentServiceLevelObjectiveId?: string;
+  /**
+   * @member {string} [usageBasedRecommendationServiceLevelObjective] Gets or
+   * sets usageBasedRecommendationServiceLevelObjective for service tier
+   * advisor.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly usageBasedRecommendationServiceLevelObjective?: string;
+  /**
+   * @member {string} [usageBasedRecommendationServiceLevelObjectiveId] Gets or
+   * sets usageBasedRecommendationServiceLevelObjectiveId for service tier
+   * advisor.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly usageBasedRecommendationServiceLevelObjectiveId?: string;
+  /**
+   * @member {string} [databaseSizeBasedRecommendationServiceLevelObjective]
+   * Gets or sets databaseSizeBasedRecommendationServiceLevelObjective for
+   * service tier advisor.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly databaseSizeBasedRecommendationServiceLevelObjective?: string;
+  /**
+   * @member {string} [databaseSizeBasedRecommendationServiceLevelObjectiveId]
+   * Gets or sets databaseSizeBasedRecommendationServiceLevelObjectiveId for
+   * service tier advisor.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly databaseSizeBasedRecommendationServiceLevelObjectiveId?: string;
+  /**
+   * @member {string} [disasterPlanBasedRecommendationServiceLevelObjective]
+   * Gets or sets disasterPlanBasedRecommendationServiceLevelObjective for
+   * service tier advisor.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly disasterPlanBasedRecommendationServiceLevelObjective?: string;
+  /**
+   * @member {string} [disasterPlanBasedRecommendationServiceLevelObjectiveId]
+   * Gets or sets disasterPlanBasedRecommendationServiceLevelObjectiveId for
+   * service tier advisor.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly disasterPlanBasedRecommendationServiceLevelObjectiveId?: string;
+  /**
+   * @member {string} [overallRecommendationServiceLevelObjective] Gets or sets
+   * overallRecommendationServiceLevelObjective for service tier advisor.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly overallRecommendationServiceLevelObjective?: string;
+  /**
+   * @member {string} [overallRecommendationServiceLevelObjectiveId] Gets or
+   * sets overallRecommendationServiceLevelObjectiveId for service tier
+   * advisor.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly overallRecommendationServiceLevelObjectiveId?: string;
+  /**
+   * @member {number} [confidence] Gets or sets confidence for service tier
+   * advisor.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly confidence?: number;
 }
 
 /**
@@ -1782,6 +2921,29 @@ export interface ServiceTierAdvisor extends ProxyResource {
    * the server.**
    */
   readonly confidence?: number;
+}
+
+/**
+ * @interface
+ * An interface representing TransparentDataEncryptionActivityProperties.
+ * Represents the properties of a database transparent data encryption Scan.
+ *
+ */
+export interface TransparentDataEncryptionActivityProperties {
+  /**
+   * @member {TransparentDataEncryptionActivityStatus} [status] The status of
+   * the database. Possible values include: 'Encrypting', 'Decrypting'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: TransparentDataEncryptionActivityStatus;
+  /**
+   * @member {number} [percentComplete] The percent complete of the transparent
+   * data encryption scan for a database.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly percentComplete?: number;
 }
 
 /**
@@ -1957,6 +3119,32 @@ export interface AutomaticTuningOptions {
 
 /**
  * @interface
+ * An interface representing DatabaseAutomaticTuningProperties.
+ * Database-level Automatic Tuning properties.
+ *
+ */
+export interface DatabaseAutomaticTuningProperties {
+  /**
+   * @member {AutomaticTuningMode} [desiredState] Automatic tuning desired
+   * state. Possible values include: 'Inherit', 'Custom', 'Auto', 'Unspecified'
+   */
+  desiredState?: AutomaticTuningMode;
+  /**
+   * @member {AutomaticTuningMode} [actualState] Automatic tuning actual state.
+   * Possible values include: 'Inherit', 'Custom', 'Auto', 'Unspecified'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly actualState?: AutomaticTuningMode;
+  /**
+   * @member {{ [propertyName: string]: AutomaticTuningOptions }} [options]
+   * Automatic tuning options definition.
+   */
+  options?: { [propertyName: string]: AutomaticTuningOptions };
+}
+
+/**
+ * @interface
  * An interface representing DatabaseAutomaticTuning.
  * Database-level Automatic Tuning.
  *
@@ -1980,6 +3168,43 @@ export interface DatabaseAutomaticTuning extends ProxyResource {
    * Automatic tuning options definition.
    */
   options?: { [propertyName: string]: AutomaticTuningOptions };
+}
+
+/**
+ * @interface
+ * An interface representing EncryptionProtectorProperties.
+ * Properties for an encryption protector execution.
+ *
+ */
+export interface EncryptionProtectorProperties {
+  /**
+   * @member {string} [subregion] Subregion of the encryption protector.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly subregion?: string;
+  /**
+   * @member {string} [serverKeyName] The name of the server key.
+   */
+  serverKeyName?: string;
+  /**
+   * @member {ServerKeyType} serverKeyType The encryption protector type like
+   * 'ServiceManaged', 'AzureKeyVault'. Possible values include:
+   * 'ServiceManaged', 'AzureKeyVault'
+   */
+  serverKeyType: ServerKeyType;
+  /**
+   * @member {string} [uri] The URI of the server key.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly uri?: string;
+  /**
+   * @member {string} [thumbprint] Thumbprint of the server key.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly thumbprint?: string;
 }
 
 /**
@@ -2097,6 +3322,49 @@ export interface PartnerInfo {
 
 /**
  * @interface
+ * An interface representing FailoverGroupProperties.
+ * Properties of a failover group.
+ *
+ */
+export interface FailoverGroupProperties {
+  /**
+   * @member {FailoverGroupReadWriteEndpoint} readWriteEndpoint Read-write
+   * endpoint of the failover group instance.
+   */
+  readWriteEndpoint: FailoverGroupReadWriteEndpoint;
+  /**
+   * @member {FailoverGroupReadOnlyEndpoint} [readOnlyEndpoint] Read-only
+   * endpoint of the failover group instance.
+   */
+  readOnlyEndpoint?: FailoverGroupReadOnlyEndpoint;
+  /**
+   * @member {FailoverGroupReplicationRole} [replicationRole] Local replication
+   * role of the failover group instance. Possible values include: 'Primary',
+   * 'Secondary'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly replicationRole?: FailoverGroupReplicationRole;
+  /**
+   * @member {string} [replicationState] Replication state of the failover
+   * group instance.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly replicationState?: string;
+  /**
+   * @member {PartnerInfo[]} partnerServers List of partner server information
+   * for the failover group.
+   */
+  partnerServers: PartnerInfo[];
+  /**
+   * @member {string[]} [databases] List of databases in the failover group.
+   */
+  databases?: string[];
+}
+
+/**
+ * @interface
  * An interface representing FailoverGroup.
  * A failover group.
  *
@@ -2143,6 +3411,29 @@ export interface FailoverGroup extends ProxyResource {
    * for the failover group.
    */
   partnerServers: PartnerInfo[];
+  /**
+   * @member {string[]} [databases] List of databases in the failover group.
+   */
+  databases?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing FailoverGroupUpdateProperties.
+ * Properties of a failover group update.
+ *
+ */
+export interface FailoverGroupUpdateProperties {
+  /**
+   * @member {FailoverGroupReadWriteEndpoint} [readWriteEndpoint] Read-write
+   * endpoint of the failover group instance.
+   */
+  readWriteEndpoint?: FailoverGroupReadWriteEndpoint;
+  /**
+   * @member {FailoverGroupReadOnlyEndpoint} [readOnlyEndpoint] Read-only
+   * endpoint of the failover group instance.
+   */
+  readOnlyEndpoint?: FailoverGroupReadOnlyEndpoint;
   /**
    * @member {string[]} [databases] List of databases in the failover group.
    */
@@ -2239,6 +3530,73 @@ export interface Sku {
    * the resource this may be omitted.
    */
   capacity?: number;
+}
+
+/**
+ * @interface
+ * An interface representing ManagedInstanceProperties.
+ * The properties of a managed instance.
+ *
+ */
+export interface ManagedInstanceProperties {
+  /**
+   * @member {string} [fullyQualifiedDomainName] The fully qualified domain
+   * name of the managed instance.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly fullyQualifiedDomainName?: string;
+  /**
+   * @member {string} [administratorLogin] Administrator username for the
+   * managed instance. Can only be specified when the managed instance is being
+   * created (and is required for creation).
+   */
+  administratorLogin?: string;
+  /**
+   * @member {string} [administratorLoginPassword] The administrator login
+   * password (required for managed instance creation).
+   */
+  administratorLoginPassword?: string;
+  /**
+   * @member {string} [subnetId] Subnet resource ID for the managed instance.
+   */
+  subnetId?: string;
+  /**
+   * @member {string} [state] The state of the managed instance.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: string;
+  /**
+   * @member {string} [licenseType] The license type. Possible values are
+   * 'LicenseIncluded' and 'BasePrice'.
+   */
+  licenseType?: string;
+  /**
+   * @member {number} [vCores] The number of VCores.
+   */
+  vCores?: number;
+  /**
+   * @member {number} [storageSizeInGB] The maximum storage size in GB.
+   */
+  storageSizeInGB?: number;
+  /**
+   * @member {string} [collation] Collation of the managed instance.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly collation?: string;
+  /**
+   * @member {string} [dnsZone] The Dns Zone that the managed instance is in.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly dnsZone?: string;
+  /**
+   * @member {string} [dnsZonePartner] The resource id of another managed
+   * instance whose DNS zone this managed instance will share after creation.
+   */
+  dnsZonePartner?: string;
 }
 
 /**
@@ -2469,6 +3827,39 @@ export interface Operation {
 
 /**
  * @interface
+ * An interface representing ServerKeyProperties.
+ * Properties for a server key execution.
+ *
+ */
+export interface ServerKeyProperties {
+  /**
+   * @member {string} [subregion] Subregion of the server key.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly subregion?: string;
+  /**
+   * @member {ServerKeyType} serverKeyType The server key type like
+   * 'ServiceManaged', 'AzureKeyVault'. Possible values include:
+   * 'ServiceManaged', 'AzureKeyVault'
+   */
+  serverKeyType: ServerKeyType;
+  /**
+   * @member {string} [uri] The URI of the server key.
+   */
+  uri?: string;
+  /**
+   * @member {string} [thumbprint] Thumbprint of the server key.
+   */
+  thumbprint?: string;
+  /**
+   * @member {Date} [creationDate] The server key creation date.
+   */
+  creationDate?: Date;
+}
+
+/**
+ * @interface
  * An interface representing ServerKey.
  * A server key.
  *
@@ -2510,6 +3901,42 @@ export interface ServerKey extends ProxyResource {
    * @member {Date} [creationDate] The server key creation date.
    */
   creationDate?: Date;
+}
+
+/**
+ * @interface
+ * An interface representing ServerProperties.
+ * The properties of a server.
+ *
+ */
+export interface ServerProperties {
+  /**
+   * @member {string} [administratorLogin] Administrator username for the
+   * server. Once created it cannot be changed.
+   */
+  administratorLogin?: string;
+  /**
+   * @member {string} [administratorLoginPassword] The administrator login
+   * password (required for server creation).
+   */
+  administratorLoginPassword?: string;
+  /**
+   * @member {string} [version] The version of the server.
+   */
+  version?: string;
+  /**
+   * @member {string} [state] The state of the server.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: string;
+  /**
+   * @member {string} [fullyQualifiedDomainName] The fully qualified domain
+   * name of the server.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly fullyQualifiedDomainName?: string;
 }
 
 /**
@@ -2603,6 +4030,57 @@ export interface ServerUpdate {
 
 /**
  * @interface
+ * An interface representing SyncAgentProperties.
+ * Properties of an Azure SQL Database sync agent.
+ *
+ */
+export interface SyncAgentProperties {
+  /**
+   * @member {string} [name] Name of the sync agent.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [syncDatabaseId] ARM resource id of the sync database in
+   * the sync agent.
+   */
+  syncDatabaseId?: string;
+  /**
+   * @member {Date} [lastAliveTime] Last alive time of the sync agent.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastAliveTime?: Date;
+  /**
+   * @member {SyncAgentState} [state] State of the sync agent. Possible values
+   * include: 'Online', 'Offline', 'NeverConnected'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: SyncAgentState;
+  /**
+   * @member {boolean} [isUpToDate] If the sync agent version is up to date.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isUpToDate?: boolean;
+  /**
+   * @member {Date} [expiryTime] Expiration time of the sync agent version.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly expiryTime?: Date;
+  /**
+   * @member {string} [version] Version of the sync agent.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly version?: string;
+}
+
+/**
+ * @interface
  * An interface representing SyncAgent.
  * An Azure SQL Database sync agent.
  *
@@ -2666,6 +4144,55 @@ export interface SyncAgentKeyProperties {
    * the server.**
    */
   readonly syncAgentKey?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SyncAgentLinkedDatabaseProperties.
+ * Properties of an Azure SQL Database sync agent linked database.
+ *
+ */
+export interface SyncAgentLinkedDatabaseProperties {
+  /**
+   * @member {SyncMemberDbType} [databaseType] Type of the sync agent linked
+   * database. Possible values include: 'AzureSqlDatabase', 'SqlServerDatabase'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly databaseType?: SyncMemberDbType;
+  /**
+   * @member {string} [databaseId] Id of the sync agent linked database.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly databaseId?: string;
+  /**
+   * @member {string} [description] Description of the sync agent linked
+   * database.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly description?: string;
+  /**
+   * @member {string} [serverName] Server name of the sync agent linked
+   * database.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly serverName?: string;
+  /**
+   * @member {string} [databaseName] Database name of the sync agent linked
+   * database.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly databaseName?: string;
+  /**
+   * @member {string} [userName] User name of the sync agent linked database.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly userName?: string;
 }
 
 /**
@@ -2952,6 +4479,58 @@ export interface SyncGroupSchema {
 
 /**
  * @interface
+ * An interface representing SyncGroupProperties.
+ * Properties of a sync group.
+ *
+ */
+export interface SyncGroupProperties {
+  /**
+   * @member {number} [interval] Sync interval of the sync group.
+   */
+  interval?: number;
+  /**
+   * @member {Date} [lastSyncTime] Last sync time of the sync group.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastSyncTime?: Date;
+  /**
+   * @member {SyncConflictResolutionPolicy} [conflictResolutionPolicy] Conflict
+   * resolution policy of the sync group. Possible values include: 'HubWin',
+   * 'MemberWin'
+   */
+  conflictResolutionPolicy?: SyncConflictResolutionPolicy;
+  /**
+   * @member {string} [syncDatabaseId] ARM resource id of the sync database in
+   * the sync group.
+   */
+  syncDatabaseId?: string;
+  /**
+   * @member {string} [hubDatabaseUserName] User name for the sync group hub
+   * database credential.
+   */
+  hubDatabaseUserName?: string;
+  /**
+   * @member {string} [hubDatabasePassword] Password for the sync group hub
+   * database credential.
+   */
+  hubDatabasePassword?: string;
+  /**
+   * @member {SyncGroupState} [syncState] Sync state of the sync group.
+   * Possible values include: 'NotReady', 'Error', 'Warning', 'Progressing',
+   * 'Good'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly syncState?: SyncGroupState;
+  /**
+   * @member {SyncGroupSchema} [schema] Sync schema of the sync group.
+   */
+  schema?: SyncGroupSchema;
+}
+
+/**
+ * @interface
  * An interface representing SyncGroup.
  * An Azure SQL Database sync group.
  *
@@ -3001,6 +4580,68 @@ export interface SyncGroup extends ProxyResource {
    * @member {SyncGroupSchema} [schema] Sync schema of the sync group.
    */
   schema?: SyncGroupSchema;
+}
+
+/**
+ * @interface
+ * An interface representing SyncMemberProperties.
+ * Properties of a sync member.
+ *
+ */
+export interface SyncMemberProperties {
+  /**
+   * @member {SyncMemberDbType} [databaseType] Database type of the sync
+   * member. Possible values include: 'AzureSqlDatabase', 'SqlServerDatabase'
+   */
+  databaseType?: SyncMemberDbType;
+  /**
+   * @member {string} [syncAgentId] ARM resource id of the sync agent in the
+   * sync member.
+   */
+  syncAgentId?: string;
+  /**
+   * @member {string} [sqlServerDatabaseId] SQL Server database id of the sync
+   * member.
+   */
+  sqlServerDatabaseId?: string;
+  /**
+   * @member {string} [serverName] Server name of the member database in the
+   * sync member
+   */
+  serverName?: string;
+  /**
+   * @member {string} [databaseName] Database name of the member database in
+   * the sync member.
+   */
+  databaseName?: string;
+  /**
+   * @member {string} [userName] User name of the member database in the sync
+   * member.
+   */
+  userName?: string;
+  /**
+   * @member {string} [password] Password of the member database in the sync
+   * member.
+   */
+  password?: string;
+  /**
+   * @member {SyncDirection} [syncDirection] Sync direction of the sync member.
+   * Possible values include: 'Bidirectional', 'OneWayMemberToHub',
+   * 'OneWayHubToMember'
+   */
+  syncDirection?: SyncDirection;
+  /**
+   * @member {SyncMemberState} [syncState] Sync state of the sync member.
+   * Possible values include: 'SyncInProgress', 'SyncSucceeded', 'SyncFailed',
+   * 'DisabledTombstoneCleanup', 'DisabledBackupRestore',
+   * 'SyncSucceededWithWarnings', 'SyncCancelling', 'SyncCancelled',
+   * 'UnProvisioned', 'Provisioning', 'Provisioned', 'ProvisionFailed',
+   * 'DeProvisioning', 'DeProvisioned', 'DeProvisionFailed', 'Reprovisioning',
+   * 'ReprovisionFailed', 'UnReprovisioned'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly syncState?: SyncMemberState;
 }
 
 /**
@@ -3068,6 +4709,39 @@ export interface SyncMember extends ProxyResource {
 
 /**
  * @interface
+ * An interface representing SubscriptionUsageProperties.
+ * Properties of a subscription usage.
+ *
+ */
+export interface SubscriptionUsageProperties {
+  /**
+   * @member {string} [displayName] User-readable name of the metric.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly displayName?: string;
+  /**
+   * @member {number} [currentValue] Current value of the metric.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly currentValue?: number;
+  /**
+   * @member {number} [limit] Boundary value of the metric.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly limit?: number;
+  /**
+   * @member {string} [unit] Unit of the metric.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly unit?: string;
+}
+
+/**
+ * @interface
  * An interface representing SubscriptionUsage.
  * Usage Metric of a Subscription in a Location.
  *
@@ -3102,6 +4776,33 @@ export interface SubscriptionUsage extends ProxyResource {
 
 /**
  * @interface
+ * An interface representing VirtualNetworkRuleProperties.
+ * Properties of a virtual network rule.
+ *
+ */
+export interface VirtualNetworkRuleProperties {
+  /**
+   * @member {string} virtualNetworkSubnetId The ARM resource id of the virtual
+   * network subnet.
+   */
+  virtualNetworkSubnetId: string;
+  /**
+   * @member {boolean} [ignoreMissingVnetServiceEndpoint] Create firewall rule
+   * before the virtual network has vnet service endpoint enabled.
+   */
+  ignoreMissingVnetServiceEndpoint?: boolean;
+  /**
+   * @member {VirtualNetworkRuleState} [state] Virtual Network Rule State.
+   * Possible values include: 'Initializing', 'InProgress', 'Ready',
+   * 'Deleting', 'Unknown'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: VirtualNetworkRuleState;
+}
+
+/**
+ * @interface
  * An interface representing VirtualNetworkRule.
  * A virtual network rule.
  *
@@ -3130,12 +4831,11 @@ export interface VirtualNetworkRule extends ProxyResource {
 
 /**
  * @interface
- * An interface representing ExtendedDatabaseBlobAuditingPolicy.
- * An extended database blob auditing policy.
+ * An interface representing ExtendedDatabaseBlobAuditingPolicyProperties.
+ * Properties of an extended database blob auditing policy.
  *
- * @extends ProxyResource
  */
-export interface ExtendedDatabaseBlobAuditingPolicy extends ProxyResource {
+export interface ExtendedDatabaseBlobAuditingPolicyProperties {
   /**
    * @member {string} [predicateExpression] Specifies condition of where clause
    * when creating an audit.
@@ -3143,7 +4843,7 @@ export interface ExtendedDatabaseBlobAuditingPolicy extends ProxyResource {
   predicateExpression?: string;
   /**
    * @member {BlobAuditingPolicyState} state Specifies the state of the policy.
-   * If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are
+   * If state is Enabled, storageEndpoint and storageAccountAccessKey are
    * required. Possible values include: 'Enabled', 'Disabled'
    */
   state: BlobAuditingPolicyState;
@@ -3155,13 +4855,13 @@ export interface ExtendedDatabaseBlobAuditingPolicy extends ProxyResource {
   storageEndpoint?: string;
   /**
    * @member {string} [storageAccountAccessKey] Specifies the identifier key of
-   * the auditing storage account. If state is Enabled and storageEndpoint is
-   * specified, storageAccountAccessKey is required.
+   * the auditing storage account. If state is Enabled, storageAccountAccessKey
+   * is required.
    */
   storageAccountAccessKey?: string;
   /**
    * @member {number} [retentionDays] Specifies the number of days to keep in
-   * the audit logs in the storage account.
+   * the audit logs.
    */
   retentionDays?: number;
   /**
@@ -3223,11 +4923,11 @@ export interface ExtendedDatabaseBlobAuditingPolicy extends ProxyResource {
    * REFERENCES
    *
    * The general form for defining an action to be audited is:
-   * {action} ON {object} BY {principal}
+   * <action> ON <object> BY <principal>
    *
    * Note that <object> in the above format can refer to an object like a
    * table, view, or stored procedure, or an entire database or schema. For the
-   * latter cases, the forms DATABASE::{db_name} and SCHEMA::{schema_name} are
+   * latter cases, the forms DATABASE::<db_name> and SCHEMA::<schema_name> are
    * used, respectively.
    *
    * For example:
@@ -3249,28 +4949,251 @@ export interface ExtendedDatabaseBlobAuditingPolicy extends ProxyResource {
    * storageAccountAccessKey value is the storage's secondary key.
    */
   isStorageSecondaryKeyInUse?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing ExtendedDatabaseBlobAuditingPolicy.
+ * An extended database blob auditing policy.
+ *
+ * @extends ProxyResource
+ */
+export interface ExtendedDatabaseBlobAuditingPolicy extends ProxyResource {
   /**
-   * @member {boolean} [isAzureMonitorTargetEnabled] Specifies whether audit
-   * events are sent to Azure Monitor.
-   * In order to send the events to Azure Monitor, specify 'State' as 'Enabled'
-   * and 'IsAzureMonitorTargetEnabled' as true.
-   *
-   * When using REST API to configure auditing, Diagnostic Settings with
-   * 'SQLSecurityAuditEvents' diagnostic logs category on the database should
-   * be also created.
-   * Note that for server level audit you should use the 'master' database as
-   * {databaseName}.
-   *
-   * Diagnostic Settings URI format:
-   * PUT
-   * https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
-   *
-   * For more information, see [Diagnostic Settings REST
-   * API](https://go.microsoft.com/fwlink/?linkid=2033207)
-   * or [Diagnostic Settings
-   * PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)
+   * @member {string} [predicateExpression] Specifies condition of where clause
+   * when creating an audit.
    */
-  isAzureMonitorTargetEnabled?: boolean;
+  predicateExpression?: string;
+  /**
+   * @member {BlobAuditingPolicyState} state Specifies the state of the policy.
+   * If state is Enabled, storageEndpoint and storageAccountAccessKey are
+   * required. Possible values include: 'Enabled', 'Disabled'
+   */
+  state: BlobAuditingPolicyState;
+  /**
+   * @member {string} [storageEndpoint] Specifies the blob storage endpoint
+   * (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled,
+   * storageEndpoint is required.
+   */
+  storageEndpoint?: string;
+  /**
+   * @member {string} [storageAccountAccessKey] Specifies the identifier key of
+   * the auditing storage account. If state is Enabled, storageAccountAccessKey
+   * is required.
+   */
+  storageAccountAccessKey?: string;
+  /**
+   * @member {number} [retentionDays] Specifies the number of days to keep in
+   * the audit logs.
+   */
+  retentionDays?: number;
+  /**
+   * @member {string[]} [auditActionsAndGroups] Specifies the Actions-Groups
+   * and Actions to audit.
+   *
+   * The recommended set of action groups to use is the following combination -
+   * this will audit all the queries and stored procedures executed against the
+   * database, as well as successful and failed logins:
+   *
+   * BATCH_COMPLETED_GROUP,
+   * SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP,
+   * FAILED_DATABASE_AUTHENTICATION_GROUP.
+   *
+   * This above combination is also the set that is configured by default when
+   * enabling auditing from the Azure portal.
+   *
+   * The supported action groups to audit are (note: choose only specific
+   * groups that cover your auditing needs. Using unnecessary groups could lead
+   * to very large quantities of audit records):
+   *
+   * APPLICATION_ROLE_CHANGE_PASSWORD_GROUP
+   * BACKUP_RESTORE_GROUP
+   * DATABASE_LOGOUT_GROUP
+   * DATABASE_OBJECT_CHANGE_GROUP
+   * DATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP
+   * DATABASE_OBJECT_PERMISSION_CHANGE_GROUP
+   * DATABASE_OPERATION_GROUP
+   * DATABASE_PERMISSION_CHANGE_GROUP
+   * DATABASE_PRINCIPAL_CHANGE_GROUP
+   * DATABASE_PRINCIPAL_IMPERSONATION_GROUP
+   * DATABASE_ROLE_MEMBER_CHANGE_GROUP
+   * FAILED_DATABASE_AUTHENTICATION_GROUP
+   * SCHEMA_OBJECT_ACCESS_GROUP
+   * SCHEMA_OBJECT_CHANGE_GROUP
+   * SCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP
+   * SCHEMA_OBJECT_PERMISSION_CHANGE_GROUP
+   * SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP
+   * USER_CHANGE_PASSWORD_GROUP
+   * BATCH_STARTED_GROUP
+   * BATCH_COMPLETED_GROUP
+   *
+   * These are groups that cover all sql statements and stored procedures
+   * executed against the database, and should not be used in combination with
+   * other groups as this will result in duplicate audit logs.
+   *
+   * For more information, see [Database-Level Audit Action
+   * Groups](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups).
+   *
+   * For Database auditing policy, specific Actions can also be specified (note
+   * that Actions cannot be specified for Server auditing policy). The
+   * supported actions to audit are:
+   * SELECT
+   * UPDATE
+   * INSERT
+   * DELETE
+   * EXECUTE
+   * RECEIVE
+   * REFERENCES
+   *
+   * The general form for defining an action to be audited is:
+   * <action> ON <object> BY <principal>
+   *
+   * Note that <object> in the above format can refer to an object like a
+   * table, view, or stored procedure, or an entire database or schema. For the
+   * latter cases, the forms DATABASE::<db_name> and SCHEMA::<schema_name> are
+   * used, respectively.
+   *
+   * For example:
+   * SELECT on dbo.myTable by public
+   * SELECT on DATABASE::myDatabase by public
+   * SELECT on SCHEMA::mySchema by public
+   *
+   * For more information, see [Database-Level Audit
+   * Actions](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions)
+   */
+  auditActionsAndGroups?: string[];
+  /**
+   * @member {string} [storageAccountSubscriptionId] Specifies the blob storage
+   * subscription Id.
+   */
+  storageAccountSubscriptionId?: string;
+  /**
+   * @member {boolean} [isStorageSecondaryKeyInUse] Specifies whether
+   * storageAccountAccessKey value is the storage's secondary key.
+   */
+  isStorageSecondaryKeyInUse?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing ExtendedServerBlobAuditingPolicyProperties.
+ * Properties of an extended server blob auditing policy.
+ *
+ */
+export interface ExtendedServerBlobAuditingPolicyProperties {
+  /**
+   * @member {string} [predicateExpression] Specifies condition of where clause
+   * when creating an audit.
+   */
+  predicateExpression?: string;
+  /**
+   * @member {BlobAuditingPolicyState} state Specifies the state of the policy.
+   * If state is Enabled, storageEndpoint and storageAccountAccessKey are
+   * required. Possible values include: 'Enabled', 'Disabled'
+   */
+  state: BlobAuditingPolicyState;
+  /**
+   * @member {string} [storageEndpoint] Specifies the blob storage endpoint
+   * (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled,
+   * storageEndpoint is required.
+   */
+  storageEndpoint?: string;
+  /**
+   * @member {string} [storageAccountAccessKey] Specifies the identifier key of
+   * the auditing storage account. If state is Enabled, storageAccountAccessKey
+   * is required.
+   */
+  storageAccountAccessKey?: string;
+  /**
+   * @member {number} [retentionDays] Specifies the number of days to keep in
+   * the audit logs.
+   */
+  retentionDays?: number;
+  /**
+   * @member {string[]} [auditActionsAndGroups] Specifies the Actions-Groups
+   * and Actions to audit.
+   *
+   * The recommended set of action groups to use is the following combination -
+   * this will audit all the queries and stored procedures executed against the
+   * database, as well as successful and failed logins:
+   *
+   * BATCH_COMPLETED_GROUP,
+   * SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP,
+   * FAILED_DATABASE_AUTHENTICATION_GROUP.
+   *
+   * This above combination is also the set that is configured by default when
+   * enabling auditing from the Azure portal.
+   *
+   * The supported action groups to audit are (note: choose only specific
+   * groups that cover your auditing needs. Using unnecessary groups could lead
+   * to very large quantities of audit records):
+   *
+   * APPLICATION_ROLE_CHANGE_PASSWORD_GROUP
+   * BACKUP_RESTORE_GROUP
+   * DATABASE_LOGOUT_GROUP
+   * DATABASE_OBJECT_CHANGE_GROUP
+   * DATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP
+   * DATABASE_OBJECT_PERMISSION_CHANGE_GROUP
+   * DATABASE_OPERATION_GROUP
+   * DATABASE_PERMISSION_CHANGE_GROUP
+   * DATABASE_PRINCIPAL_CHANGE_GROUP
+   * DATABASE_PRINCIPAL_IMPERSONATION_GROUP
+   * DATABASE_ROLE_MEMBER_CHANGE_GROUP
+   * FAILED_DATABASE_AUTHENTICATION_GROUP
+   * SCHEMA_OBJECT_ACCESS_GROUP
+   * SCHEMA_OBJECT_CHANGE_GROUP
+   * SCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP
+   * SCHEMA_OBJECT_PERMISSION_CHANGE_GROUP
+   * SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP
+   * USER_CHANGE_PASSWORD_GROUP
+   * BATCH_STARTED_GROUP
+   * BATCH_COMPLETED_GROUP
+   *
+   * These are groups that cover all sql statements and stored procedures
+   * executed against the database, and should not be used in combination with
+   * other groups as this will result in duplicate audit logs.
+   *
+   * For more information, see [Database-Level Audit Action
+   * Groups](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups).
+   *
+   * For Database auditing policy, specific Actions can also be specified (note
+   * that Actions cannot be specified for Server auditing policy). The
+   * supported actions to audit are:
+   * SELECT
+   * UPDATE
+   * INSERT
+   * DELETE
+   * EXECUTE
+   * RECEIVE
+   * REFERENCES
+   *
+   * The general form for defining an action to be audited is:
+   * <action> ON <object> BY <principal>
+   *
+   * Note that <object> in the above format can refer to an object like a
+   * table, view, or stored procedure, or an entire database or schema. For the
+   * latter cases, the forms DATABASE::<db_name> and SCHEMA::<schema_name> are
+   * used, respectively.
+   *
+   * For example:
+   * SELECT on dbo.myTable by public
+   * SELECT on DATABASE::myDatabase by public
+   * SELECT on SCHEMA::mySchema by public
+   *
+   * For more information, see [Database-Level Audit
+   * Actions](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions)
+   */
+  auditActionsAndGroups?: string[];
+  /**
+   * @member {string} [storageAccountSubscriptionId] Specifies the blob storage
+   * subscription Id.
+   */
+  storageAccountSubscriptionId?: string;
+  /**
+   * @member {boolean} [isStorageSecondaryKeyInUse] Specifies whether
+   * storageAccountAccessKey value is the storage's secondary key.
+   */
+  isStorageSecondaryKeyInUse?: boolean;
 }
 
 /**
@@ -3288,7 +5211,7 @@ export interface ExtendedServerBlobAuditingPolicy extends ProxyResource {
   predicateExpression?: string;
   /**
    * @member {BlobAuditingPolicyState} state Specifies the state of the policy.
-   * If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are
+   * If state is Enabled, storageEndpoint and storageAccountAccessKey are
    * required. Possible values include: 'Enabled', 'Disabled'
    */
   state: BlobAuditingPolicyState;
@@ -3300,13 +5223,13 @@ export interface ExtendedServerBlobAuditingPolicy extends ProxyResource {
   storageEndpoint?: string;
   /**
    * @member {string} [storageAccountAccessKey] Specifies the identifier key of
-   * the auditing storage account. If state is Enabled and storageEndpoint is
-   * specified, storageAccountAccessKey is required.
+   * the auditing storage account. If state is Enabled, storageAccountAccessKey
+   * is required.
    */
   storageAccountAccessKey?: string;
   /**
    * @member {number} [retentionDays] Specifies the number of days to keep in
-   * the audit logs in the storage account.
+   * the audit logs.
    */
   retentionDays?: number;
   /**
@@ -3368,11 +5291,11 @@ export interface ExtendedServerBlobAuditingPolicy extends ProxyResource {
    * REFERENCES
    *
    * The general form for defining an action to be audited is:
-   * {action} ON {object} BY {principal}
+   * <action> ON <object> BY <principal>
    *
    * Note that <object> in the above format can refer to an object like a
    * table, view, or stored procedure, or an entire database or schema. For the
-   * latter cases, the forms DATABASE::{db_name} and SCHEMA::{schema_name} are
+   * latter cases, the forms DATABASE::<db_name> and SCHEMA::<schema_name> are
    * used, respectively.
    *
    * For example:
@@ -3394,28 +5317,123 @@ export interface ExtendedServerBlobAuditingPolicy extends ProxyResource {
    * storageAccountAccessKey value is the storage's secondary key.
    */
   isStorageSecondaryKeyInUse?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing ServerBlobAuditingPolicyProperties.
+ * Properties of a server blob auditing policy.
+ *
+ */
+export interface ServerBlobAuditingPolicyProperties {
   /**
-   * @member {boolean} [isAzureMonitorTargetEnabled] Specifies whether audit
-   * events are sent to Azure Monitor.
-   * In order to send the events to Azure Monitor, specify 'State' as 'Enabled'
-   * and 'IsAzureMonitorTargetEnabled' as true.
-   *
-   * When using REST API to configure auditing, Diagnostic Settings with
-   * 'SQLSecurityAuditEvents' diagnostic logs category on the database should
-   * be also created.
-   * Note that for server level audit you should use the 'master' database as
-   * {databaseName}.
-   *
-   * Diagnostic Settings URI format:
-   * PUT
-   * https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
-   *
-   * For more information, see [Diagnostic Settings REST
-   * API](https://go.microsoft.com/fwlink/?linkid=2033207)
-   * or [Diagnostic Settings
-   * PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)
+   * @member {BlobAuditingPolicyState} state Specifies the state of the policy.
+   * If state is Enabled, storageEndpoint and storageAccountAccessKey are
+   * required. Possible values include: 'Enabled', 'Disabled'
    */
-  isAzureMonitorTargetEnabled?: boolean;
+  state: BlobAuditingPolicyState;
+  /**
+   * @member {string} [storageEndpoint] Specifies the blob storage endpoint
+   * (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled,
+   * storageEndpoint is required.
+   */
+  storageEndpoint?: string;
+  /**
+   * @member {string} [storageAccountAccessKey] Specifies the identifier key of
+   * the auditing storage account. If state is Enabled, storageAccountAccessKey
+   * is required.
+   */
+  storageAccountAccessKey?: string;
+  /**
+   * @member {number} [retentionDays] Specifies the number of days to keep in
+   * the audit logs.
+   */
+  retentionDays?: number;
+  /**
+   * @member {string[]} [auditActionsAndGroups] Specifies the Actions-Groups
+   * and Actions to audit.
+   *
+   * The recommended set of action groups to use is the following combination -
+   * this will audit all the queries and stored procedures executed against the
+   * database, as well as successful and failed logins:
+   *
+   * BATCH_COMPLETED_GROUP,
+   * SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP,
+   * FAILED_DATABASE_AUTHENTICATION_GROUP.
+   *
+   * This above combination is also the set that is configured by default when
+   * enabling auditing from the Azure portal.
+   *
+   * The supported action groups to audit are (note: choose only specific
+   * groups that cover your auditing needs. Using unnecessary groups could lead
+   * to very large quantities of audit records):
+   *
+   * APPLICATION_ROLE_CHANGE_PASSWORD_GROUP
+   * BACKUP_RESTORE_GROUP
+   * DATABASE_LOGOUT_GROUP
+   * DATABASE_OBJECT_CHANGE_GROUP
+   * DATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP
+   * DATABASE_OBJECT_PERMISSION_CHANGE_GROUP
+   * DATABASE_OPERATION_GROUP
+   * DATABASE_PERMISSION_CHANGE_GROUP
+   * DATABASE_PRINCIPAL_CHANGE_GROUP
+   * DATABASE_PRINCIPAL_IMPERSONATION_GROUP
+   * DATABASE_ROLE_MEMBER_CHANGE_GROUP
+   * FAILED_DATABASE_AUTHENTICATION_GROUP
+   * SCHEMA_OBJECT_ACCESS_GROUP
+   * SCHEMA_OBJECT_CHANGE_GROUP
+   * SCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP
+   * SCHEMA_OBJECT_PERMISSION_CHANGE_GROUP
+   * SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP
+   * USER_CHANGE_PASSWORD_GROUP
+   * BATCH_STARTED_GROUP
+   * BATCH_COMPLETED_GROUP
+   *
+   * These are groups that cover all sql statements and stored procedures
+   * executed against the database, and should not be used in combination with
+   * other groups as this will result in duplicate audit logs.
+   *
+   * For more information, see [Database-Level Audit Action
+   * Groups](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups).
+   *
+   * For Database auditing policy, specific Actions can also be specified (note
+   * that Actions cannot be specified for Server auditing policy). The
+   * supported actions to audit are:
+   * SELECT
+   * UPDATE
+   * INSERT
+   * DELETE
+   * EXECUTE
+   * RECEIVE
+   * REFERENCES
+   *
+   * The general form for defining an action to be audited is:
+   * <action> ON <object> BY <principal>
+   *
+   * Note that <object> in the above format can refer to an object like a
+   * table, view, or stored procedure, or an entire database or schema. For the
+   * latter cases, the forms DATABASE::<db_name> and SCHEMA::<schema_name> are
+   * used, respectively.
+   *
+   * For example:
+   * SELECT on dbo.myTable by public
+   * SELECT on DATABASE::myDatabase by public
+   * SELECT on SCHEMA::mySchema by public
+   *
+   * For more information, see [Database-Level Audit
+   * Actions](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions)
+   */
+  auditActionsAndGroups?: string[];
+  /**
+   * @member {string} [storageAccountSubscriptionId] Specifies the blob storage
+   * subscription Id.
+   */
+  storageAccountSubscriptionId?: string;
+  /**
+   * @member {boolean} [isStorageSecondaryKeyInUse] Specifies whether
+   * storageAccountAccessKey value is the storage's secondary key.
+   */
+  isStorageSecondaryKeyInUse?: boolean;
 }
 
 /**
@@ -3428,7 +5446,7 @@ export interface ExtendedServerBlobAuditingPolicy extends ProxyResource {
 export interface ServerBlobAuditingPolicy extends ProxyResource {
   /**
    * @member {BlobAuditingPolicyState} state Specifies the state of the policy.
-   * If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are
+   * If state is Enabled, storageEndpoint and storageAccountAccessKey are
    * required. Possible values include: 'Enabled', 'Disabled'
    */
   state: BlobAuditingPolicyState;
@@ -3440,13 +5458,13 @@ export interface ServerBlobAuditingPolicy extends ProxyResource {
   storageEndpoint?: string;
   /**
    * @member {string} [storageAccountAccessKey] Specifies the identifier key of
-   * the auditing storage account. If state is Enabled and storageEndpoint is
-   * specified, storageAccountAccessKey is required.
+   * the auditing storage account. If state is Enabled, storageAccountAccessKey
+   * is required.
    */
   storageAccountAccessKey?: string;
   /**
    * @member {number} [retentionDays] Specifies the number of days to keep in
-   * the audit logs in the storage account.
+   * the audit logs.
    */
   retentionDays?: number;
   /**
@@ -3508,11 +5526,11 @@ export interface ServerBlobAuditingPolicy extends ProxyResource {
    * REFERENCES
    *
    * The general form for defining an action to be audited is:
-   * {action} ON {object} BY {principal}
+   * <action> ON <object> BY <principal>
    *
    * Note that <object> in the above format can refer to an object like a
    * table, view, or stored procedure, or an entire database or schema. For the
-   * latter cases, the forms DATABASE::{db_name} and SCHEMA::{schema_name} are
+   * latter cases, the forms DATABASE::<db_name> and SCHEMA::<schema_name> are
    * used, respectively.
    *
    * For example:
@@ -3534,28 +5552,123 @@ export interface ServerBlobAuditingPolicy extends ProxyResource {
    * storageAccountAccessKey value is the storage's secondary key.
    */
   isStorageSecondaryKeyInUse?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing DatabaseBlobAuditingPolicyProperties.
+ * Properties of a database blob auditing policy.
+ *
+ */
+export interface DatabaseBlobAuditingPolicyProperties {
   /**
-   * @member {boolean} [isAzureMonitorTargetEnabled] Specifies whether audit
-   * events are sent to Azure Monitor.
-   * In order to send the events to Azure Monitor, specify 'State' as 'Enabled'
-   * and 'IsAzureMonitorTargetEnabled' as true.
-   *
-   * When using REST API to configure auditing, Diagnostic Settings with
-   * 'SQLSecurityAuditEvents' diagnostic logs category on the database should
-   * be also created.
-   * Note that for server level audit you should use the 'master' database as
-   * {databaseName}.
-   *
-   * Diagnostic Settings URI format:
-   * PUT
-   * https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
-   *
-   * For more information, see [Diagnostic Settings REST
-   * API](https://go.microsoft.com/fwlink/?linkid=2033207)
-   * or [Diagnostic Settings
-   * PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)
+   * @member {BlobAuditingPolicyState} state Specifies the state of the policy.
+   * If state is Enabled, storageEndpoint and storageAccountAccessKey are
+   * required. Possible values include: 'Enabled', 'Disabled'
    */
-  isAzureMonitorTargetEnabled?: boolean;
+  state: BlobAuditingPolicyState;
+  /**
+   * @member {string} [storageEndpoint] Specifies the blob storage endpoint
+   * (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled,
+   * storageEndpoint is required.
+   */
+  storageEndpoint?: string;
+  /**
+   * @member {string} [storageAccountAccessKey] Specifies the identifier key of
+   * the auditing storage account. If state is Enabled, storageAccountAccessKey
+   * is required.
+   */
+  storageAccountAccessKey?: string;
+  /**
+   * @member {number} [retentionDays] Specifies the number of days to keep in
+   * the audit logs.
+   */
+  retentionDays?: number;
+  /**
+   * @member {string[]} [auditActionsAndGroups] Specifies the Actions-Groups
+   * and Actions to audit.
+   *
+   * The recommended set of action groups to use is the following combination -
+   * this will audit all the queries and stored procedures executed against the
+   * database, as well as successful and failed logins:
+   *
+   * BATCH_COMPLETED_GROUP,
+   * SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP,
+   * FAILED_DATABASE_AUTHENTICATION_GROUP.
+   *
+   * This above combination is also the set that is configured by default when
+   * enabling auditing from the Azure portal.
+   *
+   * The supported action groups to audit are (note: choose only specific
+   * groups that cover your auditing needs. Using unnecessary groups could lead
+   * to very large quantities of audit records):
+   *
+   * APPLICATION_ROLE_CHANGE_PASSWORD_GROUP
+   * BACKUP_RESTORE_GROUP
+   * DATABASE_LOGOUT_GROUP
+   * DATABASE_OBJECT_CHANGE_GROUP
+   * DATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP
+   * DATABASE_OBJECT_PERMISSION_CHANGE_GROUP
+   * DATABASE_OPERATION_GROUP
+   * DATABASE_PERMISSION_CHANGE_GROUP
+   * DATABASE_PRINCIPAL_CHANGE_GROUP
+   * DATABASE_PRINCIPAL_IMPERSONATION_GROUP
+   * DATABASE_ROLE_MEMBER_CHANGE_GROUP
+   * FAILED_DATABASE_AUTHENTICATION_GROUP
+   * SCHEMA_OBJECT_ACCESS_GROUP
+   * SCHEMA_OBJECT_CHANGE_GROUP
+   * SCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP
+   * SCHEMA_OBJECT_PERMISSION_CHANGE_GROUP
+   * SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP
+   * USER_CHANGE_PASSWORD_GROUP
+   * BATCH_STARTED_GROUP
+   * BATCH_COMPLETED_GROUP
+   *
+   * These are groups that cover all sql statements and stored procedures
+   * executed against the database, and should not be used in combination with
+   * other groups as this will result in duplicate audit logs.
+   *
+   * For more information, see [Database-Level Audit Action
+   * Groups](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups).
+   *
+   * For Database auditing policy, specific Actions can also be specified (note
+   * that Actions cannot be specified for Server auditing policy). The
+   * supported actions to audit are:
+   * SELECT
+   * UPDATE
+   * INSERT
+   * DELETE
+   * EXECUTE
+   * RECEIVE
+   * REFERENCES
+   *
+   * The general form for defining an action to be audited is:
+   * <action> ON <object> BY <principal>
+   *
+   * Note that <object> in the above format can refer to an object like a
+   * table, view, or stored procedure, or an entire database or schema. For the
+   * latter cases, the forms DATABASE::<db_name> and SCHEMA::<schema_name> are
+   * used, respectively.
+   *
+   * For example:
+   * SELECT on dbo.myTable by public
+   * SELECT on DATABASE::myDatabase by public
+   * SELECT on SCHEMA::mySchema by public
+   *
+   * For more information, see [Database-Level Audit
+   * Actions](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions)
+   */
+  auditActionsAndGroups?: string[];
+  /**
+   * @member {string} [storageAccountSubscriptionId] Specifies the blob storage
+   * subscription Id.
+   */
+  storageAccountSubscriptionId?: string;
+  /**
+   * @member {boolean} [isStorageSecondaryKeyInUse] Specifies whether
+   * storageAccountAccessKey value is the storage's secondary key.
+   */
+  isStorageSecondaryKeyInUse?: boolean;
 }
 
 /**
@@ -3574,7 +5687,7 @@ export interface DatabaseBlobAuditingPolicy extends ProxyResource {
   readonly kind?: string;
   /**
    * @member {BlobAuditingPolicyState} state Specifies the state of the policy.
-   * If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are
+   * If state is Enabled, storageEndpoint and storageAccountAccessKey are
    * required. Possible values include: 'Enabled', 'Disabled'
    */
   state: BlobAuditingPolicyState;
@@ -3586,13 +5699,13 @@ export interface DatabaseBlobAuditingPolicy extends ProxyResource {
   storageEndpoint?: string;
   /**
    * @member {string} [storageAccountAccessKey] Specifies the identifier key of
-   * the auditing storage account. If state is Enabled and storageEndpoint is
-   * specified, storageAccountAccessKey is required.
+   * the auditing storage account. If state is Enabled, storageAccountAccessKey
+   * is required.
    */
   storageAccountAccessKey?: string;
   /**
    * @member {number} [retentionDays] Specifies the number of days to keep in
-   * the audit logs in the storage account.
+   * the audit logs.
    */
   retentionDays?: number;
   /**
@@ -3654,11 +5767,11 @@ export interface DatabaseBlobAuditingPolicy extends ProxyResource {
    * REFERENCES
    *
    * The general form for defining an action to be audited is:
-   * {action} ON {object} BY {principal}
+   * <action> ON <object> BY <principal>
    *
    * Note that <object> in the above format can refer to an object like a
    * table, view, or stored procedure, or an entire database or schema. For the
-   * latter cases, the forms DATABASE::{db_name} and SCHEMA::{schema_name} are
+   * latter cases, the forms DATABASE::<db_name> and SCHEMA::<schema_name> are
    * used, respectively.
    *
    * For example:
@@ -3680,28 +5793,6 @@ export interface DatabaseBlobAuditingPolicy extends ProxyResource {
    * storageAccountAccessKey value is the storage's secondary key.
    */
   isStorageSecondaryKeyInUse?: boolean;
-  /**
-   * @member {boolean} [isAzureMonitorTargetEnabled] Specifies whether audit
-   * events are sent to Azure Monitor.
-   * In order to send the events to Azure Monitor, specify 'State' as 'Enabled'
-   * and 'IsAzureMonitorTargetEnabled' as true.
-   *
-   * When using REST API to configure auditing, Diagnostic Settings with
-   * 'SQLSecurityAuditEvents' diagnostic logs category on the database should
-   * be also created.
-   * Note that for server level audit you should use the 'master' database as
-   * {databaseName}.
-   *
-   * Diagnostic Settings URI format:
-   * PUT
-   * https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
-   *
-   * For more information, see [Diagnostic Settings REST
-   * API](https://go.microsoft.com/fwlink/?linkid=2033207)
-   * or [Diagnostic Settings
-   * PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)
-   */
-  isAzureMonitorTargetEnabled?: boolean;
 }
 
 /**
@@ -3716,6 +5807,20 @@ export interface DatabaseVulnerabilityAssessmentRuleBaselineItem {
    * @member {string[]} result The rule baseline result
    */
   result: string[];
+}
+
+/**
+ * @interface
+ * An interface representing DatabaseVulnerabilityAssessmentRuleBaselineProperties.
+ * Properties of a database Vulnerability Assessment rule baseline.
+ *
+ */
+export interface DatabaseVulnerabilityAssessmentRuleBaselineProperties {
+  /**
+   * @member {DatabaseVulnerabilityAssessmentRuleBaselineItem[]}
+   * baselineResults The rule baseline result
+   */
+  baselineResults: DatabaseVulnerabilityAssessmentRuleBaselineItem[];
 }
 
 /**
@@ -3759,19 +5864,17 @@ export interface VulnerabilityAssessmentRecurringScansProperties {
 
 /**
  * @interface
- * An interface representing DatabaseVulnerabilityAssessment.
- * A database vulnerability assessment.
+ * An interface representing DatabaseVulnerabilityAssessmentProperties.
+ * Properties of a database Vulnerability Assessment.
  *
- * @extends ProxyResource
  */
-export interface DatabaseVulnerabilityAssessment extends ProxyResource {
+export interface DatabaseVulnerabilityAssessmentProperties {
   /**
-   * @member {string} [storageContainerPath] A blob storage container path to
+   * @member {string} storageContainerPath A blob storage container path to
    * hold the scan results (e.g.
-   * https://myStorage.blob.core.windows.net/VaScans/).  It is required if
-   * server level vulnerability assessment policy doesn't set
+   * https://myStorage.blob.core.windows.net/VaScans/).
    */
-  storageContainerPath?: string;
+  storageContainerPath: string;
   /**
    * @member {string} [storageContainerSasKey] A shared access signature (SAS
    * Key) that has write access to the blob container specified in
@@ -3781,9 +5884,8 @@ export interface DatabaseVulnerabilityAssessment extends ProxyResource {
   storageContainerSasKey?: string;
   /**
    * @member {string} [storageAccountAccessKey] Specifies the identifier key of
-   * the storage account for vulnerability assessment scan results. If
-   * 'StorageContainerSasKey' isn't specified, storageAccountAccessKey is
-   * required.
+   * the vulnerability assessment storage account. If 'StorageContainerSasKey'
+   * isn't specified, storageAccountAccessKey is required.
    */
   storageAccountAccessKey?: string;
   /**
@@ -3791,6 +5893,61 @@ export interface DatabaseVulnerabilityAssessment extends ProxyResource {
    * The recurring scans settings
    */
   recurringScans?: VulnerabilityAssessmentRecurringScansProperties;
+}
+
+/**
+ * @interface
+ * An interface representing DatabaseVulnerabilityAssessment.
+ * A database vulnerability assessment.
+ *
+ * @extends ProxyResource
+ */
+export interface DatabaseVulnerabilityAssessment extends ProxyResource {
+  /**
+   * @member {string} storageContainerPath A blob storage container path to
+   * hold the scan results (e.g.
+   * https://myStorage.blob.core.windows.net/VaScans/).
+   */
+  storageContainerPath: string;
+  /**
+   * @member {string} [storageContainerSasKey] A shared access signature (SAS
+   * Key) that has write access to the blob container specified in
+   * 'storageContainerPath' parameter. If 'storageAccountAccessKey' isn't
+   * specified, StorageContainerSasKey is required.
+   */
+  storageContainerSasKey?: string;
+  /**
+   * @member {string} [storageAccountAccessKey] Specifies the identifier key of
+   * the vulnerability assessment storage account. If 'StorageContainerSasKey'
+   * isn't specified, storageAccountAccessKey is required.
+   */
+  storageAccountAccessKey?: string;
+  /**
+   * @member {VulnerabilityAssessmentRecurringScansProperties} [recurringScans]
+   * The recurring scans settings
+   */
+  recurringScans?: VulnerabilityAssessmentRecurringScansProperties;
+}
+
+/**
+ * @interface
+ * An interface representing JobAgentProperties.
+ * Properties of a job agent.
+ *
+ */
+export interface JobAgentProperties {
+  /**
+   * @member {string} databaseId Resource ID of the database to store job
+   * metadata in.
+   */
+  databaseId: string;
+  /**
+   * @member {JobAgentState} [state] The state of the job agent. Possible
+   * values include: 'Creating', 'Ready', 'Updating', 'Deleting', 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: JobAgentState;
 }
 
 /**
@@ -3830,6 +5987,23 @@ export interface JobAgentUpdate {
    * @member {{ [propertyName: string]: string }} [tags] Resource tags.
    */
   tags?: { [propertyName: string]: string };
+}
+
+/**
+ * @interface
+ * An interface representing JobCredentialProperties.
+ * Properties of a job credential.
+ *
+ */
+export interface JobCredentialProperties {
+  /**
+   * @member {string} username The credential user name.
+   */
+  username: string;
+  /**
+   * @member {string} password The credential password.
+   */
+  password: string;
 }
 
 /**
@@ -3878,6 +6052,100 @@ export interface JobExecutionTarget {
    * the server.**
    */
   readonly databaseName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing JobExecutionProperties.
+ * Properties for an Azure SQL Database Elastic job execution.
+ *
+ */
+export interface JobExecutionProperties {
+  /**
+   * @member {number} [jobVersion] The job version number.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly jobVersion?: number;
+  /**
+   * @member {string} [stepName] The job step name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly stepName?: string;
+  /**
+   * @member {number} [stepId] The job step id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly stepId?: number;
+  /**
+   * @member {string} [jobExecutionId] The unique identifier of the job
+   * execution.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly jobExecutionId?: string;
+  /**
+   * @member {JobExecutionLifecycle} [lifecycle] The detailed state of the job
+   * execution. Possible values include: 'Created', 'InProgress',
+   * 'WaitingForChildJobExecutions', 'WaitingForRetry', 'Succeeded',
+   * 'SucceededWithSkipped', 'Failed', 'TimedOut', 'Canceled', 'Skipped'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lifecycle?: JobExecutionLifecycle;
+  /**
+   * @member {ProvisioningState} [provisioningState] The ARM provisioning state
+   * of the job execution. Possible values include: 'Created', 'InProgress',
+   * 'Succeeded', 'Failed', 'Canceled'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * @member {Date} [createTime] The time that the job execution was created.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createTime?: Date;
+  /**
+   * @member {Date} [startTime] The time that the job execution started.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly startTime?: Date;
+  /**
+   * @member {Date} [endTime] The time that the job execution completed.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly endTime?: Date;
+  /**
+   * @member {number} [currentAttempts] Number of times the job execution has
+   * been attempted.
+   */
+  currentAttempts?: number;
+  /**
+   * @member {Date} [currentAttemptStartTime] Start time of the current
+   * attempt.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly currentAttemptStartTime?: Date;
+  /**
+   * @member {string} [lastMessage] The last status or error message.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastMessage?: string;
+  /**
+   * @member {JobExecutionTarget} [target] The target that this execution is
+   * executed on.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly target?: JobExecutionTarget;
 }
 
 /**
@@ -4010,6 +6278,30 @@ export interface JobSchedule {
 
 /**
  * @interface
+ * An interface representing JobProperties.
+ * Properties of a job.
+ *
+ */
+export interface JobProperties {
+  /**
+   * @member {string} [description] User-defined description of the job.
+   * Default value: '' .
+   */
+  description?: string;
+  /**
+   * @member {number} [version] The job version number.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly version?: number;
+  /**
+   * @member {JobSchedule} [schedule] Schedule properties of the job.
+   */
+  schedule?: JobSchedule;
+}
+
+/**
+ * @interface
  * An interface representing Job.
  * A job.
  *
@@ -4138,6 +6430,45 @@ export interface JobStepExecutionOptions {
 
 /**
  * @interface
+ * An interface representing JobStepProperties.
+ * Properties of a job step.
+ *
+ */
+export interface JobStepProperties {
+  /**
+   * @member {number} [stepId] The job step's index within the job. If not
+   * specified when creating the job step, it will be created as the last step.
+   * If not specified when updating the job step, the step id is not modified.
+   */
+  stepId?: number;
+  /**
+   * @member {string} targetGroup The resource ID of the target group that the
+   * job step will be executed on.
+   */
+  targetGroup: string;
+  /**
+   * @member {string} credential The resource ID of the job credential that
+   * will be used to connect to the targets.
+   */
+  credential: string;
+  /**
+   * @member {JobStepAction} action The action payload of the job step.
+   */
+  action: JobStepAction;
+  /**
+   * @member {JobStepOutput} [output] Output destination properties of the job
+   * step.
+   */
+  output?: JobStepOutput;
+  /**
+   * @member {JobStepExecutionOptions} [executionOptions] Execution options for
+   * the job step.
+   */
+  executionOptions?: JobStepExecutionOptions;
+}
+
+/**
+ * @interface
  * An interface representing JobStep.
  * A job step.
  *
@@ -4221,6 +6552,19 @@ export interface JobTarget {
 
 /**
  * @interface
+ * An interface representing JobTargetGroupProperties.
+ * Properties of job target group.
+ *
+ */
+export interface JobTargetGroupProperties {
+  /**
+   * @member {JobTarget[]} members Members of the target group.
+   */
+  members: JobTarget[];
+}
+
+/**
+ * @interface
  * An interface representing JobTargetGroup.
  * A group of job targets.
  *
@@ -4241,6 +6585,54 @@ export interface JobTargetGroup extends ProxyResource {
  * @extends ProxyResource
  */
 export interface JobVersion extends ProxyResource {
+}
+
+/**
+ * @interface
+ * An interface representing LongTermRetentionBackupProperties.
+ * Properties of a long term retention backup
+ *
+ */
+export interface LongTermRetentionBackupProperties {
+  /**
+   * @member {string} [serverName] The server name that the backup database
+   * belong to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly serverName?: string;
+  /**
+   * @member {Date} [serverCreateTime] The create time of the server.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly serverCreateTime?: Date;
+  /**
+   * @member {string} [databaseName] The name of the database the backup belong
+   * to
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly databaseName?: string;
+  /**
+   * @member {Date} [databaseDeletionTime] The delete time of the database
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly databaseDeletionTime?: Date;
+  /**
+   * @member {Date} [backupTime] The time the backup was taken
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly backupTime?: Date;
+  /**
+   * @member {Date} [backupExpirationTime] The time the long term retention
+   * backup will expire.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly backupExpirationTime?: Date;
 }
 
 /**
@@ -4294,6 +6686,35 @@ export interface LongTermRetentionBackup extends ProxyResource {
 
 /**
  * @interface
+ * An interface representing LongTermRetentionPolicyProperties.
+ * Properties of a long term retention policy
+ *
+ */
+export interface LongTermRetentionPolicyProperties {
+  /**
+   * @member {string} [weeklyRetention] The weekly retention policy for an LTR
+   * backup in an ISO 8601 format.
+   */
+  weeklyRetention?: string;
+  /**
+   * @member {string} [monthlyRetention] The montly retention policy for an LTR
+   * backup in an ISO 8601 format.
+   */
+  monthlyRetention?: string;
+  /**
+   * @member {string} [yearlyRetention] The yearly retention policy for an LTR
+   * backup in an ISO 8601 format.
+   */
+  yearlyRetention?: string;
+  /**
+   * @member {number} [weekOfYear] The week of year to take the yearly backup
+   * in an ISO 8601 format.
+   */
+  weekOfYear?: number;
+}
+
+/**
+ * @interface
  * An interface representing BackupLongTermRetentionPolicy.
  * A long term retention policy.
  *
@@ -4306,8 +6727,8 @@ export interface BackupLongTermRetentionPolicy extends ProxyResource {
    */
   weeklyRetention?: string;
   /**
-   * @member {string} [monthlyRetention] The monthly retention policy for an
-   * LTR backup in an ISO 8601 format.
+   * @member {string} [monthlyRetention] The montly retention policy for an LTR
+   * backup in an ISO 8601 format.
    */
   monthlyRetention?: string;
   /**
@@ -4334,6 +6755,94 @@ export interface CompleteDatabaseRestoreDefinition {
    * @member {string} lastBackupName The last backup name to apply
    */
   lastBackupName: string;
+}
+
+/**
+ * @interface
+ * An interface representing ManagedDatabaseProperties.
+ * The managed database's properties.
+ *
+ */
+export interface ManagedDatabaseProperties {
+  /**
+   * @member {string} [collation] Collation of the managed database.
+   */
+  collation?: string;
+  /**
+   * @member {ManagedDatabaseStatus} [status] Status for the database. Possible
+   * values include: 'Online', 'Offline', 'Shutdown', 'Creating',
+   * 'Inaccessible'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: ManagedDatabaseStatus;
+  /**
+   * @member {Date} [creationDate] Creation date of the database.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationDate?: Date;
+  /**
+   * @member {Date} [earliestRestorePoint] Earliest restore point in time for
+   * point in time restore.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly earliestRestorePoint?: Date;
+  /**
+   * @member {Date} [restorePointInTime] Conditional. If createMode is
+   * PointInTimeRestore, this value is required. Specifies the point in time
+   * (ISO8601 format) of the source database that will be restored to create
+   * the new database.
+   */
+  restorePointInTime?: Date;
+  /**
+   * @member {string} [defaultSecondaryLocation] Geo paired region.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly defaultSecondaryLocation?: string;
+  /**
+   * @member {CatalogCollationType} [catalogCollation] Collation of the
+   * metadata catalog. Possible values include: 'DATABASE_DEFAULT',
+   * 'SQL_Latin1_General_CP1_CI_AS'
+   */
+  catalogCollation?: CatalogCollationType;
+  /**
+   * @member {ManagedDatabaseCreateMode} [createMode] Managed database create
+   * mode. PointInTimeRestore: Create a database by restoring a point in time
+   * backup of an existing database. SourceDatabaseName,
+   * SourceManagedInstanceName and PointInTime must be specified.
+   * RestoreExternalBackup: Create a database by restoring from external backup
+   * files. Collation, StorageContainerUri and StorageContainerSasToken must be
+   * specified. Possible values include: 'Default', 'RestoreExternalBackup',
+   * 'PointInTimeRestore'
+   */
+  createMode?: ManagedDatabaseCreateMode;
+  /**
+   * @member {string} [storageContainerUri] Conditional. If createMode is
+   * RestoreExternalBackup, this value is required. Specifies the uri of the
+   * storage container where backups for this restore are stored.
+   */
+  storageContainerUri?: string;
+  /**
+   * @member {string} [sourceDatabaseId] The resource identifier of the source
+   * database associated with create operation of this database.
+   */
+  sourceDatabaseId?: string;
+  /**
+   * @member {string} [storageContainerSasToken] Conditional. If createMode is
+   * RestoreExternalBackup, this value is required. Specifies the storage
+   * container sas token.
+   */
+  storageContainerSasToken?: string;
+  /**
+   * @member {string} [failoverGroupId] Instance Failover Group resource
+   * identifier that this managed database belongs to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly failoverGroupId?: string;
 }
 
 /**
@@ -4555,6 +7064,32 @@ export interface AutomaticTuningServerOptions {
 
 /**
  * @interface
+ * An interface representing AutomaticTuningServerProperties.
+ * Server-level Automatic Tuning properties.
+ *
+ */
+export interface AutomaticTuningServerProperties {
+  /**
+   * @member {AutomaticTuningServerMode} [desiredState] Automatic tuning
+   * desired state. Possible values include: 'Custom', 'Auto', 'Unspecified'
+   */
+  desiredState?: AutomaticTuningServerMode;
+  /**
+   * @member {AutomaticTuningServerMode} [actualState] Automatic tuning actual
+   * state. Possible values include: 'Custom', 'Auto', 'Unspecified'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly actualState?: AutomaticTuningServerMode;
+  /**
+   * @member {{ [propertyName: string]: AutomaticTuningServerOptions }}
+   * [options] Automatic tuning options definition.
+   */
+  options?: { [propertyName: string]: AutomaticTuningServerOptions };
+}
+
+/**
+ * @interface
  * An interface representing ServerAutomaticTuning.
  * Server-level Automatic Tuning.
  *
@@ -4578,6 +7113,21 @@ export interface ServerAutomaticTuning extends ProxyResource {
    * [options] Automatic tuning options definition.
    */
   options?: { [propertyName: string]: AutomaticTuningServerOptions };
+}
+
+/**
+ * @interface
+ * An interface representing ServerDnsAliasProperties.
+ * Properties of a server DNS alias.
+ *
+ */
+export interface ServerDnsAliasProperties {
+  /**
+   * @member {string} [azureDnsRecord] The fully qualified DNS record for alias
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly azureDnsRecord?: string;
 }
 
 /**
@@ -4608,6 +7158,53 @@ export interface ServerDnsAliasAcquisition {
    * will be acquired to point to this server instead.
    */
   oldServerDnsAliasId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SecurityAlertPolicyProperties.
+ * Properties of a security alert policy.
+ *
+ */
+export interface SecurityAlertPolicyProperties {
+  /**
+   * @member {SecurityAlertPolicyState} state Specifies the state of the
+   * policy, whether it is enabled or disabled. Possible values include: 'New',
+   * 'Enabled', 'Disabled'
+   */
+  state: SecurityAlertPolicyState;
+  /**
+   * @member {string[]} [disabledAlerts] Specifies an array of alerts that are
+   * disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability,
+   * Access_Anomaly, Data_Exfiltration, Unsafe_Action
+   */
+  disabledAlerts?: string[];
+  /**
+   * @member {string[]} [emailAddresses] Specifies an array of e-mail addresses
+   * to which the alert is sent.
+   */
+  emailAddresses?: string[];
+  /**
+   * @member {boolean} [emailAccountAdmins] Specifies that the alert is sent to
+   * the account administrators.
+   */
+  emailAccountAdmins?: boolean;
+  /**
+   * @member {string} [storageEndpoint] Specifies the blob storage endpoint
+   * (e.g. https://MyAccount.blob.core.windows.net). This blob storage will
+   * hold all Threat Detection audit logs.
+   */
+  storageEndpoint?: string;
+  /**
+   * @member {string} [storageAccountAccessKey] Specifies the identifier key of
+   * the Threat Detection audit storage account.
+   */
+  storageAccountAccessKey?: string;
+  /**
+   * @member {number} [retentionDays] Specifies the number of days to keep in
+   * the Threat Detection audit logs.
+   */
+  retentionDays?: number;
 }
 
 /**
@@ -4656,6 +7253,42 @@ export interface ServerSecurityAlertPolicy extends ProxyResource {
    * the Threat Detection audit logs.
    */
   retentionDays?: number;
+}
+
+/**
+ * @interface
+ * An interface representing RestorePointProperties.
+ * Properties of a database restore point
+ *
+ */
+export interface RestorePointProperties {
+  /**
+   * @member {RestorePointType} [restorePointType] The type of restore point.
+   * Possible values include: 'CONTINUOUS', 'DISCRETE'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly restorePointType?: RestorePointType;
+  /**
+   * @member {Date} [earliestRestoreDate] The earliest time to which this
+   * database can be restored
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly earliestRestoreDate?: Date;
+  /**
+   * @member {Date} [restorePointCreationDate] The time the backup was taken
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly restorePointCreationDate?: Date;
+  /**
+   * @member {string} [restorePointLabel] The label of restore point for backup
+   * request by user
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly restorePointLabel?: string;
 }
 
 /**
@@ -4717,6 +7350,104 @@ export interface CreateDatabaseRestorePointDefinition {
 
 /**
  * @interface
+ * An interface representing DatabaseOperationProperties.
+ * The properties of a database operation.
+ *
+ */
+export interface DatabaseOperationProperties {
+  /**
+   * @member {string} [databaseName] The name of the database the operation is
+   * being performed on.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly databaseName?: string;
+  /**
+   * @member {string} [operation] The name of operation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly operation?: string;
+  /**
+   * @member {string} [operationFriendlyName] The friendly name of operation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly operationFriendlyName?: string;
+  /**
+   * @member {number} [percentComplete] The percentage of the operation
+   * completed.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly percentComplete?: number;
+  /**
+   * @member {string} [serverName] The name of the server.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly serverName?: string;
+  /**
+   * @member {Date} [startTime] The operation start time.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly startTime?: Date;
+  /**
+   * @member {ManagementOperationState} [state] The operation state. Possible
+   * values include: 'Pending', 'InProgress', 'Succeeded', 'Failed',
+   * 'CancelInProgress', 'Cancelled'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: ManagementOperationState;
+  /**
+   * @member {number} [errorCode] The operation error code.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errorCode?: number;
+  /**
+   * @member {string} [errorDescription] The operation error description.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errorDescription?: string;
+  /**
+   * @member {number} [errorSeverity] The operation error severity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errorSeverity?: number;
+  /**
+   * @member {boolean} [isUserError] Whether or not the error is a user error.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isUserError?: boolean;
+  /**
+   * @member {Date} [estimatedCompletionTime] The estimated completion time of
+   * the operation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly estimatedCompletionTime?: Date;
+  /**
+   * @member {string} [description] The operation description.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly description?: string;
+  /**
+   * @member {boolean} [isCancellable] Whether the operation can be cancelled.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isCancellable?: boolean;
+}
+
+/**
+ * @interface
  * An interface representing DatabaseOperation.
  * A database operation.
  *
@@ -4769,6 +7500,102 @@ export interface DatabaseOperation extends ProxyResource {
    * the server.**
    */
   readonly state?: ManagementOperationState;
+  /**
+   * @member {number} [errorCode] The operation error code.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errorCode?: number;
+  /**
+   * @member {string} [errorDescription] The operation error description.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errorDescription?: string;
+  /**
+   * @member {number} [errorSeverity] The operation error severity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errorSeverity?: number;
+  /**
+   * @member {boolean} [isUserError] Whether or not the error is a user error.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isUserError?: boolean;
+  /**
+   * @member {Date} [estimatedCompletionTime] The estimated completion time of
+   * the operation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly estimatedCompletionTime?: Date;
+  /**
+   * @member {string} [description] The operation description.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly description?: string;
+  /**
+   * @member {boolean} [isCancellable] Whether the operation can be cancelled.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isCancellable?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing ElasticPoolOperationProperties.
+ * The properties of a elastic pool operation.
+ *
+ */
+export interface ElasticPoolOperationProperties {
+  /**
+   * @member {string} [elasticPoolName] The name of the elastic pool the
+   * operation is being performed on.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly elasticPoolName?: string;
+  /**
+   * @member {string} [operation] The name of operation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly operation?: string;
+  /**
+   * @member {string} [operationFriendlyName] The friendly name of operation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly operationFriendlyName?: string;
+  /**
+   * @member {number} [percentComplete] The percentage of the operation
+   * completed.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly percentComplete?: number;
+  /**
+   * @member {string} [serverName] The name of the server.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly serverName?: string;
+  /**
+   * @member {Date} [startTime] The operation start time.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly startTime?: Date;
+  /**
+   * @member {string} [state] The operation state.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: string;
   /**
    * @member {number} [errorCode] The operation error code.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -5602,6 +8429,207 @@ export interface LocationCapabilities {
 
 /**
  * @interface
+ * An interface representing DatabaseProperties.
+ * The database's properties.
+ *
+ */
+export interface DatabaseProperties {
+  /**
+   * @member {CreateMode} [createMode] Specifies the mode of database creation.
+   *
+   * Default: regular database creation.
+   *
+   * Copy: creates a database as a copy of an existing database.
+   * sourceDatabaseId must be specified as the resource ID of the source
+   * database.
+   *
+   * Secondary: creates a database as a secondary replica of an existing
+   * database. sourceDatabaseId must be specified as the resource ID of the
+   * existing primary database.
+   *
+   * PointInTimeRestore: Creates a database by restoring a point in time backup
+   * of an existing database. sourceDatabaseId must be specified as the
+   * resource ID of the existing database, and restorePointInTime must be
+   * specified.
+   *
+   * Recovery: Creates a database by restoring a geo-replicated backup.
+   * sourceDatabaseId must be specified as the recoverable database resource ID
+   * to restore.
+   *
+   * Restore: Creates a database by restoring a backup of a deleted database.
+   * sourceDatabaseId must be specified. If sourceDatabaseId is the database's
+   * original resource ID, then sourceDatabaseDeletionDate must be specified.
+   * Otherwise sourceDatabaseId must be the restorable dropped database
+   * resource ID and sourceDatabaseDeletionDate is ignored. restorePointInTime
+   * may also be specified to restore from an earlier point in time.
+   *
+   * RestoreLongTermRetentionBackup: Creates a database by restoring from a
+   * long term retention vault. recoveryServicesRecoveryPointResourceId must be
+   * specified as the recovery point resource ID.
+   *
+   * Copy, Secondary, and RestoreLongTermRetentionBackup are not supported for
+   * DataWarehouse edition. Possible values include: 'Default', 'Copy',
+   * 'Secondary', 'PointInTimeRestore', 'Restore', 'Recovery',
+   * 'RestoreExternalBackup', 'RestoreExternalBackupSecondary',
+   * 'RestoreLongTermRetentionBackup', 'OnlineSecondary'
+   */
+  createMode?: CreateMode;
+  /**
+   * @member {string} [collation] The collation of the database.
+   */
+  collation?: string;
+  /**
+   * @member {number} [maxSizeBytes] The max size of the database expressed in
+   * bytes.
+   */
+  maxSizeBytes?: number;
+  /**
+   * @member {SampleName} [sampleName] The name of the sample schema to apply
+   * when creating this database. Possible values include: 'AdventureWorksLT',
+   * 'WideWorldImportersStd', 'WideWorldImportersFull'
+   */
+  sampleName?: SampleName;
+  /**
+   * @member {string} [elasticPoolId] The resource identifier of the elastic
+   * pool containing this database.
+   */
+  elasticPoolId?: string;
+  /**
+   * @member {string} [sourceDatabaseId] The resource identifier of the source
+   * database associated with create operation of this database.
+   */
+  sourceDatabaseId?: string;
+  /**
+   * @member {DatabaseStatus} [status] The status of the database. Possible
+   * values include: 'Online', 'Restoring', 'RecoveryPending', 'Recovering',
+   * 'Suspect', 'Offline', 'Standby', 'Shutdown', 'EmergencyMode',
+   * 'AutoClosed', 'Copying', 'Creating', 'Inaccessible', 'OfflineSecondary',
+   * 'Pausing', 'Paused', 'Resuming', 'Scaling'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: DatabaseStatus;
+  /**
+   * @member {string} [databaseId] The ID of the database.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly databaseId?: string;
+  /**
+   * @member {Date} [creationDate] The creation date of the database (ISO8601
+   * format).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationDate?: Date;
+  /**
+   * @member {string} [currentServiceObjectiveName] The current service level
+   * objective name of the database.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly currentServiceObjectiveName?: string;
+  /**
+   * @member {string} [requestedServiceObjectiveName] The requested service
+   * level objective name of the database.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly requestedServiceObjectiveName?: string;
+  /**
+   * @member {string} [defaultSecondaryLocation] The default secondary region
+   * for this database.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly defaultSecondaryLocation?: string;
+  /**
+   * @member {string} [failoverGroupId] Failover Group resource identifier that
+   * this database belongs to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly failoverGroupId?: string;
+  /**
+   * @member {Date} [restorePointInTime] Specifies the point in time (ISO8601
+   * format) of the source database that will be restored to create the new
+   * database.
+   */
+  restorePointInTime?: Date;
+  /**
+   * @member {Date} [sourceDatabaseDeletionDate] Specifies the time that the
+   * database was deleted.
+   */
+  sourceDatabaseDeletionDate?: Date;
+  /**
+   * @member {string} [recoveryServicesRecoveryPointId] The resource identifier
+   * of the recovery point associated with create operation of this database.
+   */
+  recoveryServicesRecoveryPointId?: string;
+  /**
+   * @member {string} [longTermRetentionBackupResourceId] The resource
+   * identifier of the long term retention backup associated with create
+   * operation of this database.
+   */
+  longTermRetentionBackupResourceId?: string;
+  /**
+   * @member {string} [recoverableDatabaseId] The resource identifier of the
+   * recoverable database associated with create operation of this database.
+   */
+  recoverableDatabaseId?: string;
+  /**
+   * @member {string} [restorableDroppedDatabaseId] The resource identifier of
+   * the restorable dropped database associated with create operation of this
+   * database.
+   */
+  restorableDroppedDatabaseId?: string;
+  /**
+   * @member {CatalogCollationType} [catalogCollation] Collation of the
+   * metadata catalog. Possible values include: 'DATABASE_DEFAULT',
+   * 'SQL_Latin1_General_CP1_CI_AS'
+   */
+  catalogCollation?: CatalogCollationType;
+  /**
+   * @member {boolean} [zoneRedundant] Whether or not this database is zone
+   * redundant, which means the replicas of this database will be spread across
+   * multiple availability zones.
+   */
+  zoneRedundant?: boolean;
+  /**
+   * @member {DatabaseLicenseType} [licenseType] The license type to apply for
+   * this database. Possible values include: 'LicenseIncluded', 'BasePrice'
+   */
+  licenseType?: DatabaseLicenseType;
+  /**
+   * @member {number} [maxLogSizeBytes] The max log size for this database.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly maxLogSizeBytes?: number;
+  /**
+   * @member {Date} [earliestRestoreDate] This records the earliest start date
+   * and time that restore is available for this database (ISO8601 format).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly earliestRestoreDate?: Date;
+  /**
+   * @member {DatabaseReadScale} [readScale] The state of read-only routing. If
+   * enabled, connections that have application intent set to readonly in their
+   * connection string may be routed to a readonly secondary replica in the
+   * same region. Possible values include: 'Enabled', 'Disabled'
+   */
+  readScale?: DatabaseReadScale;
+  /**
+   * @member {Sku} [currentSku] The name and tier of the SKU.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly currentSku?: Sku;
+}
+
+/**
+ * @interface
  * An interface representing Database.
  * A database resource.
  *
@@ -6062,6 +9090,51 @@ export interface ElasticPoolPerDatabaseSettings {
 
 /**
  * @interface
+ * An interface representing ElasticPoolProperties.
+ * Properties of an elastic pool
+ *
+ */
+export interface ElasticPoolProperties {
+  /**
+   * @member {ElasticPoolState} [state] The state of the elastic pool. Possible
+   * values include: 'Creating', 'Ready', 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: ElasticPoolState;
+  /**
+   * @member {Date} [creationDate] The creation date of the elastic pool
+   * (ISO8601 format).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationDate?: Date;
+  /**
+   * @member {number} [maxSizeBytes] The storage limit for the database elastic
+   * pool in bytes.
+   */
+  maxSizeBytes?: number;
+  /**
+   * @member {ElasticPoolPerDatabaseSettings} [perDatabaseSettings] The per
+   * database settings for the elastic pool.
+   */
+  perDatabaseSettings?: ElasticPoolPerDatabaseSettings;
+  /**
+   * @member {boolean} [zoneRedundant] Whether or not this elastic pool is zone
+   * redundant, which means the replicas of this elastic pool will be spread
+   * across multiple availability zones.
+   */
+  zoneRedundant?: boolean;
+  /**
+   * @member {ElasticPoolLicenseType} [licenseType] The license type to apply
+   * for this elastic pool. Possible values include: 'LicenseIncluded',
+   * 'BasePrice'
+   */
+  licenseType?: ElasticPoolLicenseType;
+}
+
+/**
+ * @interface
  * An interface representing ElasticPool.
  * An elastic pool.
  *
@@ -6093,6 +9166,37 @@ export interface ElasticPool extends TrackedResource {
    * the server.**
    */
   readonly creationDate?: Date;
+  /**
+   * @member {number} [maxSizeBytes] The storage limit for the database elastic
+   * pool in bytes.
+   */
+  maxSizeBytes?: number;
+  /**
+   * @member {ElasticPoolPerDatabaseSettings} [perDatabaseSettings] The per
+   * database settings for the elastic pool.
+   */
+  perDatabaseSettings?: ElasticPoolPerDatabaseSettings;
+  /**
+   * @member {boolean} [zoneRedundant] Whether or not this elastic pool is zone
+   * redundant, which means the replicas of this elastic pool will be spread
+   * across multiple availability zones.
+   */
+  zoneRedundant?: boolean;
+  /**
+   * @member {ElasticPoolLicenseType} [licenseType] The license type to apply
+   * for this elastic pool. Possible values include: 'LicenseIncluded',
+   * 'BasePrice'
+   */
+  licenseType?: ElasticPoolLicenseType;
+}
+
+/**
+ * @interface
+ * An interface representing ElasticPoolUpdateProperties.
+ * Properties of an elastic pool
+ *
+ */
+export interface ElasticPoolUpdateProperties {
   /**
    * @member {number} [maxSizeBytes] The storage limit for the database elastic
    * pool in bytes.
@@ -6179,6 +9283,67 @@ export interface VulnerabilityAssessmentScanError {
 
 /**
  * @interface
+ * An interface representing VulnerabilityAssessmentScanRecordProperties.
+ * Properties of a vulnerability assessment scan record.
+ *
+ */
+export interface VulnerabilityAssessmentScanRecordProperties {
+  /**
+   * @member {string} [scanId] The scan ID.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly scanId?: string;
+  /**
+   * @member {VulnerabilityAssessmentScanTriggerType} [triggerType] The scan
+   * trigger type. Possible values include: 'OnDemand', 'Recurring'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly triggerType?: VulnerabilityAssessmentScanTriggerType;
+  /**
+   * @member {VulnerabilityAssessmentScanState} [state] The scan status.
+   * Possible values include: 'Passed', 'Failed', 'FailedToRun', 'InProgress'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: VulnerabilityAssessmentScanState;
+  /**
+   * @member {Date} [startTime] The scan start time (UTC).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly startTime?: Date;
+  /**
+   * @member {Date} [endTime] The scan end time (UTC).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly endTime?: Date;
+  /**
+   * @member {VulnerabilityAssessmentScanError[]} [errors] The scan errors.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errors?: VulnerabilityAssessmentScanError[];
+  /**
+   * @member {string} [storageContainerPath] The scan results storage container
+   * path.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly storageContainerPath?: string;
+  /**
+   * @member {number} [numberOfFailedSecurityChecks] The number of failed
+   * security checks.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly numberOfFailedSecurityChecks?: number;
+}
+
+/**
+ * @interface
  * An interface representing VulnerabilityAssessmentScanRecord.
  * A vulnerability assessment scan record.
  *
@@ -6237,6 +9402,23 @@ export interface VulnerabilityAssessmentScanRecord extends ProxyResource {
    * the server.**
    */
   readonly numberOfFailedSecurityChecks?: number;
+}
+
+/**
+ * @interface
+ * An interface representing DatabaseVulnerabilityAssessmentScanExportProperties.
+ * Properties of the export operation's result.
+ *
+ */
+export interface DatabaseVulnerabilityAssessmentScanExportProperties {
+  /**
+   * @member {string} [exportedReportLocation] Location of the exported report
+   * (e.g.
+   * https://myStorage.blob.core.windows.net/VaScans/scans/serverName/databaseName/scan_scanId.xlsx).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly exportedReportLocation?: string;
 }
 
 /**
@@ -6337,6 +9519,50 @@ export interface ManagedInstancePairInfo {
 
 /**
  * @interface
+ * An interface representing InstanceFailoverGroupProperties.
+ * Properties of a instance failover group.
+ *
+ */
+export interface InstanceFailoverGroupProperties {
+  /**
+   * @member {InstanceFailoverGroupReadWriteEndpoint} readWriteEndpoint
+   * Read-write endpoint of the failover group instance.
+   */
+  readWriteEndpoint: InstanceFailoverGroupReadWriteEndpoint;
+  /**
+   * @member {InstanceFailoverGroupReadOnlyEndpoint} [readOnlyEndpoint]
+   * Read-only endpoint of the failover group instance.
+   */
+  readOnlyEndpoint?: InstanceFailoverGroupReadOnlyEndpoint;
+  /**
+   * @member {InstanceFailoverGroupReplicationRole} [replicationRole] Local
+   * replication role of the failover group instance. Possible values include:
+   * 'Primary', 'Secondary'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly replicationRole?: InstanceFailoverGroupReplicationRole;
+  /**
+   * @member {string} [replicationState] Replication state of the failover
+   * group instance.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly replicationState?: string;
+  /**
+   * @member {PartnerRegionInfo[]} partnerRegions Partner region information
+   * for the failover group.
+   */
+  partnerRegions: PartnerRegionInfo[];
+  /**
+   * @member {ManagedInstancePairInfo[]} managedInstancePairs List of managed
+   * instance pairs in the failover group.
+   */
+  managedInstancePairs: ManagedInstancePairInfo[];
+}
+
+/**
+ * @interface
  * An interface representing InstanceFailoverGroup.
  * An instance failover group.
  *
@@ -6382,6 +9608,20 @@ export interface InstanceFailoverGroup extends ProxyResource {
 
 /**
  * @interface
+ * An interface representing BackupShortTermRetentionPolicyProperties.
+ * Properties of a short term retention policy
+ *
+ */
+export interface BackupShortTermRetentionPolicyProperties {
+  /**
+   * @member {number} [retentionDays] The backup retention period in days. This
+   * is how many days Point-in-Time Restore will be supported.
+   */
+  retentionDays?: number;
+}
+
+/**
+ * @interface
  * An interface representing BackupShortTermRetentionPolicy.
  * A short term retention policy.
  *
@@ -6393,6 +9633,23 @@ export interface BackupShortTermRetentionPolicy extends ProxyResource {
    * is how many days Point-in-Time Restore will be supported.
    */
   retentionDays?: number;
+}
+
+/**
+ * @interface
+ * An interface representing TdeCertificateProperties.
+ * Properties of a TDE certificate.
+ *
+ */
+export interface TdeCertificateProperties {
+  /**
+   * @member {string} privateBlob The base64 encoded certificate private blob.
+   */
+  privateBlob: string;
+  /**
+   * @member {string} [certPassword] The certificate password.
+   */
+  certPassword?: string;
 }
 
 /**
@@ -6411,6 +9668,38 @@ export interface TdeCertificate extends ProxyResource {
    * @member {string} [certPassword] The certificate password.
    */
   certPassword?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ManagedInstanceKeyProperties.
+ * Properties for a key execution.
+ *
+ */
+export interface ManagedInstanceKeyProperties {
+  /**
+   * @member {ServerKeyType} serverKeyType The key type like 'ServiceManaged',
+   * 'AzureKeyVault'. Possible values include: 'ServiceManaged',
+   * 'AzureKeyVault'
+   */
+  serverKeyType: ServerKeyType;
+  /**
+   * @member {string} [uri] The URI of the key. If the ServerKeyType is
+   * AzureKeyVault, then the URI is required.
+   */
+  uri?: string;
+  /**
+   * @member {string} [thumbprint] Thumbprint of the key.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly thumbprint?: string;
+  /**
+   * @member {Date} [creationDate] The key creation date.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationDate?: Date;
 }
 
 /**
@@ -6451,6 +9740,37 @@ export interface ManagedInstanceKey extends ProxyResource {
    * the server.**
    */
   readonly creationDate?: Date;
+}
+
+/**
+ * @interface
+ * An interface representing ManagedInstanceEncryptionProtectorProperties.
+ * Properties for an encryption protector execution.
+ *
+ */
+export interface ManagedInstanceEncryptionProtectorProperties {
+  /**
+   * @member {string} [serverKeyName] The name of the managed instance key.
+   */
+  serverKeyName?: string;
+  /**
+   * @member {ServerKeyType} serverKeyType The encryption protector type like
+   * 'ServiceManaged', 'AzureKeyVault'. Possible values include:
+   * 'ServiceManaged', 'AzureKeyVault'
+   */
+  serverKeyType: ServerKeyType;
+  /**
+   * @member {string} [uri] The URI of the server key.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly uri?: string;
+  /**
+   * @member {string} [thumbprint] Thumbprint of the server key.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly thumbprint?: string;
 }
 
 /**
@@ -7314,22 +10634,6 @@ export interface VirtualNetworkRuleListResult extends Array<VirtualNetworkRule> 
 
 /**
  * @interface
- * An interface representing the DatabaseVulnerabilityAssessmentListResult.
- * A list of the database's vulnerability assessments.
- *
- * @extends Array<DatabaseVulnerabilityAssessment>
- */
-export interface DatabaseVulnerabilityAssessmentListResult extends Array<DatabaseVulnerabilityAssessment> {
-  /**
-   * @member {string} [nextLink] Link to retrieve next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
  * An interface representing the JobAgentListResult.
  * A list of Azure SQL job agents.
  *
@@ -7622,7 +10926,10 @@ export interface ManagedInstanceEncryptionProtectorListResult extends Array<Mana
  * @readonly
  * @enum {string}
  */
-export type CheckNameAvailabilityReason = 'Invalid' | 'AlreadyExists';
+export enum CheckNameAvailabilityReason {
+  Invalid = 'Invalid',
+  AlreadyExists = 'AlreadyExists',
+}
 
 /**
  * Defines values for ServerConnectionType.
@@ -7630,7 +10937,11 @@ export type CheckNameAvailabilityReason = 'Invalid' | 'AlreadyExists';
  * @readonly
  * @enum {string}
  */
-export type ServerConnectionType = 'Default' | 'Proxy' | 'Redirect';
+export enum ServerConnectionType {
+  Default = 'Default',
+  Proxy = 'Proxy',
+  Redirect = 'Redirect',
+}
 
 /**
  * Defines values for SecurityAlertPolicyState.
@@ -7638,7 +10949,11 @@ export type ServerConnectionType = 'Default' | 'Proxy' | 'Redirect';
  * @readonly
  * @enum {string}
  */
-export type SecurityAlertPolicyState = 'New' | 'Enabled' | 'Disabled';
+export enum SecurityAlertPolicyState {
+  New = 'New',
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for SecurityAlertPolicyEmailAccountAdmins.
@@ -7646,7 +10961,10 @@ export type SecurityAlertPolicyState = 'New' | 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type SecurityAlertPolicyEmailAccountAdmins = 'Enabled' | 'Disabled';
+export enum SecurityAlertPolicyEmailAccountAdmins {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for SecurityAlertPolicyUseServerDefault.
@@ -7654,7 +10972,10 @@ export type SecurityAlertPolicyEmailAccountAdmins = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type SecurityAlertPolicyUseServerDefault = 'Enabled' | 'Disabled';
+export enum SecurityAlertPolicyUseServerDefault {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for DataMaskingState.
@@ -7662,7 +10983,10 @@ export type SecurityAlertPolicyUseServerDefault = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type DataMaskingState = 'Disabled' | 'Enabled';
+export enum DataMaskingState {
+  Disabled = 'Disabled',
+  Enabled = 'Enabled',
+}
 
 /**
  * Defines values for DataMaskingRuleState.
@@ -7670,7 +10994,10 @@ export type DataMaskingState = 'Disabled' | 'Enabled';
  * @readonly
  * @enum {string}
  */
-export type DataMaskingRuleState = 'Disabled' | 'Enabled';
+export enum DataMaskingRuleState {
+  Disabled = 'Disabled',
+  Enabled = 'Enabled',
+}
 
 /**
  * Defines values for DataMaskingFunction.
@@ -7678,7 +11005,14 @@ export type DataMaskingRuleState = 'Disabled' | 'Enabled';
  * @readonly
  * @enum {string}
  */
-export type DataMaskingFunction = 'Default' | 'CCN' | 'Email' | 'Number' | 'SSN' | 'Text';
+export enum DataMaskingFunction {
+  Default = 'Default',
+  CCN = 'CCN',
+  Email = 'Email',
+  Number = 'Number',
+  SSN = 'SSN',
+  Text = 'Text',
+}
 
 /**
  * Defines values for GeoBackupPolicyState.
@@ -7686,30 +11020,123 @@ export type DataMaskingFunction = 'Default' | 'CCN' | 'Email' | 'Number' | 'SSN'
  * @readonly
  * @enum {string}
  */
-export type GeoBackupPolicyState = 'Disabled' | 'Enabled';
+export enum GeoBackupPolicyState {
+  Disabled = 'Disabled',
+  Enabled = 'Enabled',
+}
 
 /**
  * Defines values for DatabaseEdition.
- * Possible values include: 'Web', 'Business', 'Basic', 'Standard', 'Premium', 'PremiumRS', 'Free',
- * 'Stretch', 'DataWarehouse', 'System', 'System2'
+ * Possible values include: 'Web', 'Business', 'Basic', 'Standard', 'Premium',
+ * 'PremiumRS', 'Free', 'Stretch', 'DataWarehouse', 'System', 'System2'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: DatabaseEdition =
+ * <DatabaseEdition>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type DatabaseEdition = 'Web' | 'Business' | 'Basic' | 'Standard' | 'Premium' | 'PremiumRS' | 'Free' | 'Stretch' | 'DataWarehouse' | 'System' | 'System2';
+export enum DatabaseEdition {
+  Web = 'Web',
+  Business = 'Business',
+  Basic = 'Basic',
+  Standard = 'Standard',
+  Premium = 'Premium',
+  PremiumRS = 'PremiumRS',
+  Free = 'Free',
+  Stretch = 'Stretch',
+  DataWarehouse = 'DataWarehouse',
+  System = 'System',
+  System2 = 'System2',
+}
 
 /**
  * Defines values for ServiceObjectiveName.
- * Possible values include: 'System', 'System0', 'System1', 'System2', 'System3', 'System4',
- * 'System2L', 'System3L', 'System4L', 'Free', 'Basic', 'S0', 'S1', 'S2', 'S3', 'S4', 'S6', 'S7',
- * 'S9', 'S12', 'P1', 'P2', 'P3', 'P4', 'P6', 'P11', 'P15', 'PRS1', 'PRS2', 'PRS4', 'PRS6',
- * 'DW100', 'DW200', 'DW300', 'DW400', 'DW500', 'DW600', 'DW1000', 'DW1200', 'DW1000c', 'DW1500',
- * 'DW1500c', 'DW2000', 'DW2000c', 'DW3000', 'DW2500c', 'DW3000c', 'DW6000', 'DW5000c', 'DW6000c',
- * 'DW7500c', 'DW10000c', 'DW15000c', 'DW30000c', 'DS100', 'DS200', 'DS300', 'DS400', 'DS500',
- * 'DS600', 'DS1000', 'DS1200', 'DS1500', 'DS2000', 'ElasticPool'
+ * Possible values include: 'System', 'System0', 'System1', 'System2',
+ * 'System3', 'System4', 'System2L', 'System3L', 'System4L', 'Free', 'Basic',
+ * 'S0', 'S1', 'S2', 'S3', 'S4', 'S6', 'S7', 'S9', 'S12', 'P1', 'P2', 'P3',
+ * 'P4', 'P6', 'P11', 'P15', 'PRS1', 'PRS2', 'PRS4', 'PRS6', 'DW100', 'DW200',
+ * 'DW300', 'DW400', 'DW500', 'DW600', 'DW1000', 'DW1200', 'DW1000c', 'DW1500',
+ * 'DW1500c', 'DW2000', 'DW2000c', 'DW3000', 'DW2500c', 'DW3000c', 'DW6000',
+ * 'DW5000c', 'DW6000c', 'DW7500c', 'DW10000c', 'DW15000c', 'DW30000c',
+ * 'DS100', 'DS200', 'DS300', 'DS400', 'DS500', 'DS600', 'DS1000', 'DS1200',
+ * 'DS1500', 'DS2000', 'ElasticPool'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ServiceObjectiveName =
+ * <ServiceObjectiveName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ServiceObjectiveName = 'System' | 'System0' | 'System1' | 'System2' | 'System3' | 'System4' | 'System2L' | 'System3L' | 'System4L' | 'Free' | 'Basic' | 'S0' | 'S1' | 'S2' | 'S3' | 'S4' | 'S6' | 'S7' | 'S9' | 'S12' | 'P1' | 'P2' | 'P3' | 'P4' | 'P6' | 'P11' | 'P15' | 'PRS1' | 'PRS2' | 'PRS4' | 'PRS6' | 'DW100' | 'DW200' | 'DW300' | 'DW400' | 'DW500' | 'DW600' | 'DW1000' | 'DW1200' | 'DW1000c' | 'DW1500' | 'DW1500c' | 'DW2000' | 'DW2000c' | 'DW3000' | 'DW2500c' | 'DW3000c' | 'DW6000' | 'DW5000c' | 'DW6000c' | 'DW7500c' | 'DW10000c' | 'DW15000c' | 'DW30000c' | 'DS100' | 'DS200' | 'DS300' | 'DS400' | 'DS500' | 'DS600' | 'DS1000' | 'DS1200' | 'DS1500' | 'DS2000' | 'ElasticPool';
+export enum ServiceObjectiveName {
+  System = 'System',
+  System0 = 'System0',
+  System1 = 'System1',
+  System2 = 'System2',
+  System3 = 'System3',
+  System4 = 'System4',
+  System2L = 'System2L',
+  System3L = 'System3L',
+  System4L = 'System4L',
+  Free = 'Free',
+  Basic = 'Basic',
+  S0 = 'S0',
+  S1 = 'S1',
+  S2 = 'S2',
+  S3 = 'S3',
+  S4 = 'S4',
+  S6 = 'S6',
+  S7 = 'S7',
+  S9 = 'S9',
+  S12 = 'S12',
+  P1 = 'P1',
+  P2 = 'P2',
+  P3 = 'P3',
+  P4 = 'P4',
+  P6 = 'P6',
+  P11 = 'P11',
+  P15 = 'P15',
+  PRS1 = 'PRS1',
+  PRS2 = 'PRS2',
+  PRS4 = 'PRS4',
+  PRS6 = 'PRS6',
+  DW100 = 'DW100',
+  DW200 = 'DW200',
+  DW300 = 'DW300',
+  DW400 = 'DW400',
+  DW500 = 'DW500',
+  DW600 = 'DW600',
+  DW1000 = 'DW1000',
+  DW1200 = 'DW1200',
+  DW1000c = 'DW1000c',
+  DW1500 = 'DW1500',
+  DW1500c = 'DW1500c',
+  DW2000 = 'DW2000',
+  DW2000c = 'DW2000c',
+  DW3000 = 'DW3000',
+  DW2500c = 'DW2500c',
+  DW3000c = 'DW3000c',
+  DW6000 = 'DW6000',
+  DW5000c = 'DW5000c',
+  DW6000c = 'DW6000c',
+  DW7500c = 'DW7500c',
+  DW10000c = 'DW10000c',
+  DW15000c = 'DW15000c',
+  DW30000c = 'DW30000c',
+  DS100 = 'DS100',
+  DS200 = 'DS200',
+  DS300 = 'DS300',
+  DS400 = 'DS400',
+  DS500 = 'DS500',
+  DS600 = 'DS600',
+  DS1000 = 'DS1000',
+  DS1200 = 'DS1200',
+  DS1500 = 'DS1500',
+  DS2000 = 'DS2000',
+  ElasticPool = 'ElasticPool',
+}
 
 /**
  * Defines values for StorageKeyType.
@@ -7717,7 +11144,10 @@ export type ServiceObjectiveName = 'System' | 'System0' | 'System1' | 'System2' 
  * @readonly
  * @enum {string}
  */
-export type StorageKeyType = 'StorageAccessKey' | 'SharedAccessKey';
+export enum StorageKeyType {
+  StorageAccessKey = 'StorageAccessKey',
+  SharedAccessKey = 'SharedAccessKey',
+}
 
 /**
  * Defines values for AuthenticationType.
@@ -7725,57 +11155,122 @@ export type StorageKeyType = 'StorageAccessKey' | 'SharedAccessKey';
  * @readonly
  * @enum {string}
  */
-export type AuthenticationType = 'SQL' | 'ADPassword';
+export enum AuthenticationType {
+  SQL = 'SQL',
+  ADPassword = 'ADPassword',
+}
 
 /**
  * Defines values for UnitType.
- * Possible values include: 'count', 'bytes', 'seconds', 'percent', 'countPerSecond',
- * 'bytesPerSecond'
+ * Possible values include: 'count', 'bytes', 'seconds', 'percent',
+ * 'countPerSecond', 'bytesPerSecond'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: UnitType = <UnitType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type UnitType = 'count' | 'bytes' | 'seconds' | 'percent' | 'countPerSecond' | 'bytesPerSecond';
+export enum UnitType {
+  Count = 'count',
+  Bytes = 'bytes',
+  Seconds = 'seconds',
+  Percent = 'percent',
+  CountPerSecond = 'countPerSecond',
+  BytesPerSecond = 'bytesPerSecond',
+}
 
 /**
  * Defines values for PrimaryAggregationType.
- * Possible values include: 'None', 'Average', 'Count', 'Minimum', 'Maximum', 'Total'
+ * Possible values include: 'None', 'Average', 'Count', 'Minimum', 'Maximum',
+ * 'Total'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: PrimaryAggregationType =
+ * <PrimaryAggregationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type PrimaryAggregationType = 'None' | 'Average' | 'Count' | 'Minimum' | 'Maximum' | 'Total';
+export enum PrimaryAggregationType {
+  None = 'None',
+  Average = 'Average',
+  Count = 'Count',
+  Minimum = 'Minimum',
+  Maximum = 'Maximum',
+  Total = 'Total',
+}
 
 /**
  * Defines values for UnitDefinitionType.
- * Possible values include: 'Count', 'Bytes', 'Seconds', 'Percent', 'CountPerSecond',
- * 'BytesPerSecond'
+ * Possible values include: 'Count', 'Bytes', 'Seconds', 'Percent',
+ * 'CountPerSecond', 'BytesPerSecond'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: UnitDefinitionType =
+ * <UnitDefinitionType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type UnitDefinitionType = 'Count' | 'Bytes' | 'Seconds' | 'Percent' | 'CountPerSecond' | 'BytesPerSecond';
+export enum UnitDefinitionType {
+  Count = 'Count',
+  Bytes = 'Bytes',
+  Seconds = 'Seconds',
+  Percent = 'Percent',
+  CountPerSecond = 'CountPerSecond',
+  BytesPerSecond = 'BytesPerSecond',
+}
 
 /**
  * Defines values for ElasticPoolEdition.
  * Possible values include: 'Basic', 'Standard', 'Premium'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ElasticPoolEdition =
+ * <ElasticPoolEdition>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ElasticPoolEdition = 'Basic' | 'Standard' | 'Premium';
+export enum ElasticPoolEdition {
+  Basic = 'Basic',
+  Standard = 'Standard',
+  Premium = 'Premium',
+}
 
 /**
  * Defines values for ReplicationRole.
- * Possible values include: 'Primary', 'Secondary', 'NonReadableSecondary', 'Source', 'Copy'
+ * Possible values include: 'Primary', 'Secondary', 'NonReadableSecondary',
+ * 'Source', 'Copy'
  * @readonly
  * @enum {string}
  */
-export type ReplicationRole = 'Primary' | 'Secondary' | 'NonReadableSecondary' | 'Source' | 'Copy';
+export enum ReplicationRole {
+  Primary = 'Primary',
+  Secondary = 'Secondary',
+  NonReadableSecondary = 'NonReadableSecondary',
+  Source = 'Source',
+  Copy = 'Copy',
+}
 
 /**
  * Defines values for ReplicationState.
  * Possible values include: 'PENDING', 'SEEDING', 'CATCH_UP', 'SUSPENDED'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ReplicationState =
+ * <ReplicationState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ReplicationState = 'PENDING' | 'SEEDING' | 'CATCH_UP' | 'SUSPENDED';
+export enum ReplicationState {
+  PENDING = 'PENDING',
+  SEEDING = 'SEEDING',
+  CATCHUP = 'CATCH_UP',
+  SUSPENDED = 'SUSPENDED',
+}
 
 /**
  * Defines values for RecommendedIndexAction.
@@ -7783,24 +11278,47 @@ export type ReplicationState = 'PENDING' | 'SEEDING' | 'CATCH_UP' | 'SUSPENDED';
  * @readonly
  * @enum {string}
  */
-export type RecommendedIndexAction = 'Create' | 'Drop' | 'Rebuild';
+export enum RecommendedIndexAction {
+  Create = 'Create',
+  Drop = 'Drop',
+  Rebuild = 'Rebuild',
+}
 
 /**
  * Defines values for RecommendedIndexState.
- * Possible values include: 'Active', 'Pending', 'Executing', 'Verifying', 'Pending Revert',
- * 'Reverting', 'Reverted', 'Ignored', 'Expired', 'Blocked', 'Success'
+ * Possible values include: 'Active', 'Pending', 'Executing', 'Verifying',
+ * 'Pending Revert', 'Reverting', 'Reverted', 'Ignored', 'Expired', 'Blocked',
+ * 'Success'
  * @readonly
  * @enum {string}
  */
-export type RecommendedIndexState = 'Active' | 'Pending' | 'Executing' | 'Verifying' | 'Pending Revert' | 'Reverting' | 'Reverted' | 'Ignored' | 'Expired' | 'Blocked' | 'Success';
+export enum RecommendedIndexState {
+  Active = 'Active',
+  Pending = 'Pending',
+  Executing = 'Executing',
+  Verifying = 'Verifying',
+  PendingRevert = 'Pending Revert',
+  Reverting = 'Reverting',
+  Reverted = 'Reverted',
+  Ignored = 'Ignored',
+  Expired = 'Expired',
+  Blocked = 'Blocked',
+  Success = 'Success',
+}
 
 /**
  * Defines values for RecommendedIndexType.
- * Possible values include: 'CLUSTERED', 'NONCLUSTERED', 'COLUMNSTORE', 'CLUSTERED COLUMNSTORE'
+ * Possible values include: 'CLUSTERED', 'NONCLUSTERED', 'COLUMNSTORE',
+ * 'CLUSTERED COLUMNSTORE'
  * @readonly
  * @enum {string}
  */
-export type RecommendedIndexType = 'CLUSTERED' | 'NONCLUSTERED' | 'COLUMNSTORE' | 'CLUSTERED COLUMNSTORE';
+export enum RecommendedIndexType {
+  CLUSTERED = 'CLUSTERED',
+  NONCLUSTERED = 'NONCLUSTERED',
+  COLUMNSTORE = 'COLUMNSTORE',
+  CLUSTEREDCOLUMNSTORE = 'CLUSTERED COLUMNSTORE',
+}
 
 /**
  * Defines values for TransparentDataEncryptionStatus.
@@ -7808,15 +11326,26 @@ export type RecommendedIndexType = 'CLUSTERED' | 'NONCLUSTERED' | 'COLUMNSTORE' 
  * @readonly
  * @enum {string}
  */
-export type TransparentDataEncryptionStatus = 'Enabled' | 'Disabled';
+export enum TransparentDataEncryptionStatus {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for TransparentDataEncryptionActivityStatus.
  * Possible values include: 'Encrypting', 'Decrypting'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: TransparentDataEncryptionActivityStatus =
+ * <TransparentDataEncryptionActivityStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type TransparentDataEncryptionActivityStatus = 'Encrypting' | 'Decrypting';
+export enum TransparentDataEncryptionActivityStatus {
+  Encrypting = 'Encrypting',
+  Decrypting = 'Decrypting',
+}
 
 /**
  * Defines values for AutomaticTuningMode.
@@ -7824,7 +11353,12 @@ export type TransparentDataEncryptionActivityStatus = 'Encrypting' | 'Decrypting
  * @readonly
  * @enum {string}
  */
-export type AutomaticTuningMode = 'Inherit' | 'Custom' | 'Auto' | 'Unspecified';
+export enum AutomaticTuningMode {
+  Inherit = 'Inherit',
+  Custom = 'Custom',
+  Auto = 'Auto',
+  Unspecified = 'Unspecified',
+}
 
 /**
  * Defines values for AutomaticTuningOptionModeDesired.
@@ -7832,7 +11366,11 @@ export type AutomaticTuningMode = 'Inherit' | 'Custom' | 'Auto' | 'Unspecified';
  * @readonly
  * @enum {string}
  */
-export type AutomaticTuningOptionModeDesired = 'Off' | 'On' | 'Default';
+export enum AutomaticTuningOptionModeDesired {
+  Off = 'Off',
+  On = 'On',
+  Default = 'Default',
+}
 
 /**
  * Defines values for AutomaticTuningOptionModeActual.
@@ -7840,132 +11378,284 @@ export type AutomaticTuningOptionModeDesired = 'Off' | 'On' | 'Default';
  * @readonly
  * @enum {string}
  */
-export type AutomaticTuningOptionModeActual = 'Off' | 'On';
+export enum AutomaticTuningOptionModeActual {
+  Off = 'Off',
+  On = 'On',
+}
 
 /**
  * Defines values for AutomaticTuningDisabledReason.
- * Possible values include: 'Default', 'Disabled', 'AutoConfigured', 'InheritedFromServer',
- * 'QueryStoreOff', 'QueryStoreReadOnly', 'NotSupported'
+ * Possible values include: 'Default', 'Disabled', 'AutoConfigured',
+ * 'InheritedFromServer', 'QueryStoreOff', 'QueryStoreReadOnly', 'NotSupported'
  * @readonly
  * @enum {string}
  */
-export type AutomaticTuningDisabledReason = 'Default' | 'Disabled' | 'AutoConfigured' | 'InheritedFromServer' | 'QueryStoreOff' | 'QueryStoreReadOnly' | 'NotSupported';
+export enum AutomaticTuningDisabledReason {
+  Default = 'Default',
+  Disabled = 'Disabled',
+  AutoConfigured = 'AutoConfigured',
+  InheritedFromServer = 'InheritedFromServer',
+  QueryStoreOff = 'QueryStoreOff',
+  QueryStoreReadOnly = 'QueryStoreReadOnly',
+  NotSupported = 'NotSupported',
+}
 
 /**
  * Defines values for ServerKeyType.
  * Possible values include: 'ServiceManaged', 'AzureKeyVault'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ServerKeyType =
+ * <ServerKeyType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ServerKeyType = 'ServiceManaged' | 'AzureKeyVault';
+export enum ServerKeyType {
+  ServiceManaged = 'ServiceManaged',
+  AzureKeyVault = 'AzureKeyVault',
+}
 
 /**
  * Defines values for ReadWriteEndpointFailoverPolicy.
  * Possible values include: 'Manual', 'Automatic'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ReadWriteEndpointFailoverPolicy =
+ * <ReadWriteEndpointFailoverPolicy>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ReadWriteEndpointFailoverPolicy = 'Manual' | 'Automatic';
+export enum ReadWriteEndpointFailoverPolicy {
+  Manual = 'Manual',
+  Automatic = 'Automatic',
+}
 
 /**
  * Defines values for ReadOnlyEndpointFailoverPolicy.
  * Possible values include: 'Disabled', 'Enabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ReadOnlyEndpointFailoverPolicy =
+ * <ReadOnlyEndpointFailoverPolicy>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ReadOnlyEndpointFailoverPolicy = 'Disabled' | 'Enabled';
+export enum ReadOnlyEndpointFailoverPolicy {
+  Disabled = 'Disabled',
+  Enabled = 'Enabled',
+}
 
 /**
  * Defines values for FailoverGroupReplicationRole.
  * Possible values include: 'Primary', 'Secondary'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: FailoverGroupReplicationRole =
+ * <FailoverGroupReplicationRole>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type FailoverGroupReplicationRole = 'Primary' | 'Secondary';
+export enum FailoverGroupReplicationRole {
+  Primary = 'Primary',
+  Secondary = 'Secondary',
+}
 
 /**
  * Defines values for IdentityType.
  * Possible values include: 'SystemAssigned'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: IdentityType =
+ * <IdentityType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type IdentityType = 'SystemAssigned';
+export enum IdentityType {
+  SystemAssigned = 'SystemAssigned',
+}
 
 /**
  * Defines values for OperationOrigin.
  * Possible values include: 'user', 'system'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: OperationOrigin =
+ * <OperationOrigin>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type OperationOrigin = 'user' | 'system';
+export enum OperationOrigin {
+  User = 'user',
+  System = 'system',
+}
 
 /**
  * Defines values for SyncAgentState.
  * Possible values include: 'Online', 'Offline', 'NeverConnected'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SyncAgentState =
+ * <SyncAgentState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SyncAgentState = 'Online' | 'Offline' | 'NeverConnected';
+export enum SyncAgentState {
+  Online = 'Online',
+  Offline = 'Offline',
+  NeverConnected = 'NeverConnected',
+}
 
 /**
  * Defines values for SyncMemberDbType.
  * Possible values include: 'AzureSqlDatabase', 'SqlServerDatabase'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SyncMemberDbType =
+ * <SyncMemberDbType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SyncMemberDbType = 'AzureSqlDatabase' | 'SqlServerDatabase';
+export enum SyncMemberDbType {
+  AzureSqlDatabase = 'AzureSqlDatabase',
+  SqlServerDatabase = 'SqlServerDatabase',
+}
 
 /**
  * Defines values for SyncGroupLogType.
  * Possible values include: 'All', 'Error', 'Warning', 'Success'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SyncGroupLogType =
+ * <SyncGroupLogType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SyncGroupLogType = 'All' | 'Error' | 'Warning' | 'Success';
+export enum SyncGroupLogType {
+  All = 'All',
+  Error = 'Error',
+  Warning = 'Warning',
+  Success = 'Success',
+}
 
 /**
  * Defines values for SyncConflictResolutionPolicy.
  * Possible values include: 'HubWin', 'MemberWin'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SyncConflictResolutionPolicy =
+ * <SyncConflictResolutionPolicy>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SyncConflictResolutionPolicy = 'HubWin' | 'MemberWin';
+export enum SyncConflictResolutionPolicy {
+  HubWin = 'HubWin',
+  MemberWin = 'MemberWin',
+}
 
 /**
  * Defines values for SyncGroupState.
- * Possible values include: 'NotReady', 'Error', 'Warning', 'Progressing', 'Good'
+ * Possible values include: 'NotReady', 'Error', 'Warning', 'Progressing',
+ * 'Good'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SyncGroupState =
+ * <SyncGroupState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SyncGroupState = 'NotReady' | 'Error' | 'Warning' | 'Progressing' | 'Good';
+export enum SyncGroupState {
+  NotReady = 'NotReady',
+  Error = 'Error',
+  Warning = 'Warning',
+  Progressing = 'Progressing',
+  Good = 'Good',
+}
 
 /**
  * Defines values for SyncDirection.
- * Possible values include: 'Bidirectional', 'OneWayMemberToHub', 'OneWayHubToMember'
+ * Possible values include: 'Bidirectional', 'OneWayMemberToHub',
+ * 'OneWayHubToMember'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SyncDirection =
+ * <SyncDirection>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SyncDirection = 'Bidirectional' | 'OneWayMemberToHub' | 'OneWayHubToMember';
+export enum SyncDirection {
+  Bidirectional = 'Bidirectional',
+  OneWayMemberToHub = 'OneWayMemberToHub',
+  OneWayHubToMember = 'OneWayHubToMember',
+}
 
 /**
  * Defines values for SyncMemberState.
  * Possible values include: 'SyncInProgress', 'SyncSucceeded', 'SyncFailed',
- * 'DisabledTombstoneCleanup', 'DisabledBackupRestore', 'SyncSucceededWithWarnings',
- * 'SyncCancelling', 'SyncCancelled', 'UnProvisioned', 'Provisioning', 'Provisioned',
- * 'ProvisionFailed', 'DeProvisioning', 'DeProvisioned', 'DeProvisionFailed', 'Reprovisioning',
+ * 'DisabledTombstoneCleanup', 'DisabledBackupRestore',
+ * 'SyncSucceededWithWarnings', 'SyncCancelling', 'SyncCancelled',
+ * 'UnProvisioned', 'Provisioning', 'Provisioned', 'ProvisionFailed',
+ * 'DeProvisioning', 'DeProvisioned', 'DeProvisionFailed', 'Reprovisioning',
  * 'ReprovisionFailed', 'UnReprovisioned'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SyncMemberState =
+ * <SyncMemberState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SyncMemberState = 'SyncInProgress' | 'SyncSucceeded' | 'SyncFailed' | 'DisabledTombstoneCleanup' | 'DisabledBackupRestore' | 'SyncSucceededWithWarnings' | 'SyncCancelling' | 'SyncCancelled' | 'UnProvisioned' | 'Provisioning' | 'Provisioned' | 'ProvisionFailed' | 'DeProvisioning' | 'DeProvisioned' | 'DeProvisionFailed' | 'Reprovisioning' | 'ReprovisionFailed' | 'UnReprovisioned';
+export enum SyncMemberState {
+  SyncInProgress = 'SyncInProgress',
+  SyncSucceeded = 'SyncSucceeded',
+  SyncFailed = 'SyncFailed',
+  DisabledTombstoneCleanup = 'DisabledTombstoneCleanup',
+  DisabledBackupRestore = 'DisabledBackupRestore',
+  SyncSucceededWithWarnings = 'SyncSucceededWithWarnings',
+  SyncCancelling = 'SyncCancelling',
+  SyncCancelled = 'SyncCancelled',
+  UnProvisioned = 'UnProvisioned',
+  Provisioning = 'Provisioning',
+  Provisioned = 'Provisioned',
+  ProvisionFailed = 'ProvisionFailed',
+  DeProvisioning = 'DeProvisioning',
+  DeProvisioned = 'DeProvisioned',
+  DeProvisionFailed = 'DeProvisionFailed',
+  Reprovisioning = 'Reprovisioning',
+  ReprovisionFailed = 'ReprovisionFailed',
+  UnReprovisioned = 'UnReprovisioned',
+}
 
 /**
  * Defines values for VirtualNetworkRuleState.
- * Possible values include: 'Initializing', 'InProgress', 'Ready', 'Deleting', 'Unknown'
+ * Possible values include: 'Initializing', 'InProgress', 'Ready', 'Deleting',
+ * 'Unknown'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: VirtualNetworkRuleState =
+ * <VirtualNetworkRuleState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type VirtualNetworkRuleState = 'Initializing' | 'InProgress' | 'Ready' | 'Deleting' | 'Unknown';
+export enum VirtualNetworkRuleState {
+  Initializing = 'Initializing',
+  InProgress = 'InProgress',
+  Ready = 'Ready',
+  Deleting = 'Deleting',
+  Unknown = 'Unknown',
+}
 
 /**
  * Defines values for BlobAuditingPolicyState.
@@ -7973,42 +11663,96 @@ export type VirtualNetworkRuleState = 'Initializing' | 'InProgress' | 'Ready' | 
  * @readonly
  * @enum {string}
  */
-export type BlobAuditingPolicyState = 'Enabled' | 'Disabled';
+export enum BlobAuditingPolicyState {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for JobAgentState.
- * Possible values include: 'Creating', 'Ready', 'Updating', 'Deleting', 'Disabled'
+ * Possible values include: 'Creating', 'Ready', 'Updating', 'Deleting',
+ * 'Disabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: JobAgentState =
+ * <JobAgentState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type JobAgentState = 'Creating' | 'Ready' | 'Updating' | 'Deleting' | 'Disabled';
+export enum JobAgentState {
+  Creating = 'Creating',
+  Ready = 'Ready',
+  Updating = 'Updating',
+  Deleting = 'Deleting',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for JobExecutionLifecycle.
- * Possible values include: 'Created', 'InProgress', 'WaitingForChildJobExecutions',
- * 'WaitingForRetry', 'Succeeded', 'SucceededWithSkipped', 'Failed', 'TimedOut', 'Canceled',
- * 'Skipped'
+ * Possible values include: 'Created', 'InProgress',
+ * 'WaitingForChildJobExecutions', 'WaitingForRetry', 'Succeeded',
+ * 'SucceededWithSkipped', 'Failed', 'TimedOut', 'Canceled', 'Skipped'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: JobExecutionLifecycle =
+ * <JobExecutionLifecycle>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type JobExecutionLifecycle = 'Created' | 'InProgress' | 'WaitingForChildJobExecutions' | 'WaitingForRetry' | 'Succeeded' | 'SucceededWithSkipped' | 'Failed' | 'TimedOut' | 'Canceled' | 'Skipped';
+export enum JobExecutionLifecycle {
+  Created = 'Created',
+  InProgress = 'InProgress',
+  WaitingForChildJobExecutions = 'WaitingForChildJobExecutions',
+  WaitingForRetry = 'WaitingForRetry',
+  Succeeded = 'Succeeded',
+  SucceededWithSkipped = 'SucceededWithSkipped',
+  Failed = 'Failed',
+  TimedOut = 'TimedOut',
+  Canceled = 'Canceled',
+  Skipped = 'Skipped',
+}
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Created', 'InProgress', 'Succeeded', 'Failed', 'Canceled'
+ * Possible values include: 'Created', 'InProgress', 'Succeeded', 'Failed',
+ * 'Canceled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ProvisioningState =
+ * <ProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Created' | 'InProgress' | 'Succeeded' | 'Failed' | 'Canceled';
+export enum ProvisioningState {
+  Created = 'Created',
+  InProgress = 'InProgress',
+  Succeeded = 'Succeeded',
+  Failed = 'Failed',
+  Canceled = 'Canceled',
+}
 
 /**
  * Defines values for JobTargetType.
- * Possible values include: 'TargetGroup', 'SqlDatabase', 'SqlElasticPool', 'SqlShardMap',
- * 'SqlServer'
+ * Possible values include: 'TargetGroup', 'SqlDatabase', 'SqlElasticPool',
+ * 'SqlShardMap', 'SqlServer'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: JobTargetType =
+ * <JobTargetType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type JobTargetType = 'TargetGroup' | 'SqlDatabase' | 'SqlElasticPool' | 'SqlShardMap' | 'SqlServer';
+export enum JobTargetType {
+  TargetGroup = 'TargetGroup',
+  SqlDatabase = 'SqlDatabase',
+  SqlElasticPool = 'SqlElasticPool',
+  SqlShardMap = 'SqlShardMap',
+  SqlServer = 'SqlServer',
+}
 
 /**
  * Defines values for JobScheduleType.
@@ -8016,31 +11760,55 @@ export type JobTargetType = 'TargetGroup' | 'SqlDatabase' | 'SqlElasticPool' | '
  * @readonly
  * @enum {string}
  */
-export type JobScheduleType = 'Once' | 'Recurring';
+export enum JobScheduleType {
+  Once = 'Once',
+  Recurring = 'Recurring',
+}
 
 /**
  * Defines values for JobStepActionType.
  * Possible values include: 'TSql'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: JobStepActionType =
+ * <JobStepActionType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type JobStepActionType = 'TSql';
+export enum JobStepActionType {
+  TSql = 'TSql',
+}
 
 /**
  * Defines values for JobStepActionSource.
  * Possible values include: 'Inline'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: JobStepActionSource =
+ * <JobStepActionSource>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type JobStepActionSource = 'Inline';
+export enum JobStepActionSource {
+  Inline = 'Inline',
+}
 
 /**
  * Defines values for JobStepOutputType.
  * Possible values include: 'SqlDatabase'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: JobStepOutputType =
+ * <JobStepOutputType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type JobStepOutputType = 'SqlDatabase';
+export enum JobStepOutputType {
+  SqlDatabase = 'SqlDatabase',
+}
 
 /**
  * Defines values for JobTargetGroupMembershipType.
@@ -8048,31 +11816,64 @@ export type JobStepOutputType = 'SqlDatabase';
  * @readonly
  * @enum {string}
  */
-export type JobTargetGroupMembershipType = 'Include' | 'Exclude';
+export enum JobTargetGroupMembershipType {
+  Include = 'Include',
+  Exclude = 'Exclude',
+}
 
 /**
  * Defines values for ManagedDatabaseStatus.
- * Possible values include: 'Online', 'Offline', 'Shutdown', 'Creating', 'Inaccessible'
+ * Possible values include: 'Online', 'Offline', 'Shutdown', 'Creating',
+ * 'Inaccessible'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ManagedDatabaseStatus =
+ * <ManagedDatabaseStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ManagedDatabaseStatus = 'Online' | 'Offline' | 'Shutdown' | 'Creating' | 'Inaccessible';
+export enum ManagedDatabaseStatus {
+  Online = 'Online',
+  Offline = 'Offline',
+  Shutdown = 'Shutdown',
+  Creating = 'Creating',
+  Inaccessible = 'Inaccessible',
+}
 
 /**
  * Defines values for CatalogCollationType.
  * Possible values include: 'DATABASE_DEFAULT', 'SQL_Latin1_General_CP1_CI_AS'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: CatalogCollationType =
+ * <CatalogCollationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type CatalogCollationType = 'DATABASE_DEFAULT' | 'SQL_Latin1_General_CP1_CI_AS';
+export enum CatalogCollationType {
+  DATABASEDEFAULT = 'DATABASE_DEFAULT',
+  SQLLatin1GeneralCP1CIAS = 'SQL_Latin1_General_CP1_CI_AS',
+}
 
 /**
  * Defines values for ManagedDatabaseCreateMode.
- * Possible values include: 'Default', 'RestoreExternalBackup', 'PointInTimeRestore'
+ * Possible values include: 'Default', 'RestoreExternalBackup',
+ * 'PointInTimeRestore'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ManagedDatabaseCreateMode =
+ * <ManagedDatabaseCreateMode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ManagedDatabaseCreateMode = 'Default' | 'RestoreExternalBackup' | 'PointInTimeRestore';
+export enum ManagedDatabaseCreateMode {
+  Default = 'Default',
+  RestoreExternalBackup = 'RestoreExternalBackup',
+  PointInTimeRestore = 'PointInTimeRestore',
+}
 
 /**
  * Defines values for AutomaticTuningServerMode.
@@ -8080,7 +11881,11 @@ export type ManagedDatabaseCreateMode = 'Default' | 'RestoreExternalBackup' | 'P
  * @readonly
  * @enum {string}
  */
-export type AutomaticTuningServerMode = 'Custom' | 'Auto' | 'Unspecified';
+export enum AutomaticTuningServerMode {
+  Custom = 'Custom',
+  Auto = 'Auto',
+  Unspecified = 'Unspecified',
+}
 
 /**
  * Defines values for AutomaticTuningServerReason.
@@ -8088,7 +11893,11 @@ export type AutomaticTuningServerMode = 'Custom' | 'Auto' | 'Unspecified';
  * @readonly
  * @enum {string}
  */
-export type AutomaticTuningServerReason = 'Default' | 'Disabled' | 'AutoConfigured';
+export enum AutomaticTuningServerReason {
+  Default = 'Default',
+  Disabled = 'Disabled',
+  AutoConfigured = 'AutoConfigured',
+}
 
 /**
  * Defines values for RestorePointType.
@@ -8096,32 +11905,69 @@ export type AutomaticTuningServerReason = 'Default' | 'Disabled' | 'AutoConfigur
  * @readonly
  * @enum {string}
  */
-export type RestorePointType = 'CONTINUOUS' | 'DISCRETE';
+export enum RestorePointType {
+  CONTINUOUS = 'CONTINUOUS',
+  DISCRETE = 'DISCRETE',
+}
 
 /**
  * Defines values for ManagementOperationState.
- * Possible values include: 'Pending', 'InProgress', 'Succeeded', 'Failed', 'CancelInProgress',
- * 'Cancelled'
+ * Possible values include: 'Pending', 'InProgress', 'Succeeded', 'Failed',
+ * 'CancelInProgress', 'Cancelled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ManagementOperationState =
+ * <ManagementOperationState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ManagementOperationState = 'Pending' | 'InProgress' | 'Succeeded' | 'Failed' | 'CancelInProgress' | 'Cancelled';
+export enum ManagementOperationState {
+  Pending = 'Pending',
+  InProgress = 'InProgress',
+  Succeeded = 'Succeeded',
+  Failed = 'Failed',
+  CancelInProgress = 'CancelInProgress',
+  Cancelled = 'Cancelled',
+}
 
 /**
  * Defines values for MaxSizeUnit.
  * Possible values include: 'Megabytes', 'Gigabytes', 'Terabytes', 'Petabytes'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: MaxSizeUnit =
+ * <MaxSizeUnit>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type MaxSizeUnit = 'Megabytes' | 'Gigabytes' | 'Terabytes' | 'Petabytes';
+export enum MaxSizeUnit {
+  Megabytes = 'Megabytes',
+  Gigabytes = 'Gigabytes',
+  Terabytes = 'Terabytes',
+  Petabytes = 'Petabytes',
+}
 
 /**
  * Defines values for LogSizeUnit.
- * Possible values include: 'Megabytes', 'Gigabytes', 'Terabytes', 'Petabytes', 'Percent'
+ * Possible values include: 'Megabytes', 'Gigabytes', 'Terabytes', 'Petabytes',
+ * 'Percent'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: LogSizeUnit =
+ * <LogSizeUnit>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type LogSizeUnit = 'Megabytes' | 'Gigabytes' | 'Terabytes' | 'Petabytes' | 'Percent';
+export enum LogSizeUnit {
+  Megabytes = 'Megabytes',
+  Gigabytes = 'Gigabytes',
+  Terabytes = 'Terabytes',
+  Petabytes = 'Petabytes',
+  Percent = 'Percent',
+}
 
 /**
  * Defines values for CapabilityStatus.
@@ -8129,107 +11975,238 @@ export type LogSizeUnit = 'Megabytes' | 'Gigabytes' | 'Terabytes' | 'Petabytes' 
  * @readonly
  * @enum {string}
  */
-export type CapabilityStatus = 'Visible' | 'Available' | 'Default' | 'Disabled';
+export enum CapabilityStatus {
+  Visible = 'Visible',
+  Available = 'Available',
+  Default = 'Default',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for PerformanceLevelUnit.
  * Possible values include: 'DTU', 'VCores'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: PerformanceLevelUnit =
+ * <PerformanceLevelUnit>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type PerformanceLevelUnit = 'DTU' | 'VCores';
+export enum PerformanceLevelUnit {
+  DTU = 'DTU',
+  VCores = 'VCores',
+}
 
 /**
  * Defines values for CreateMode.
- * Possible values include: 'Default', 'Copy', 'Secondary', 'PointInTimeRestore', 'Restore',
- * 'Recovery', 'RestoreExternalBackup', 'RestoreExternalBackupSecondary',
- * 'RestoreLongTermRetentionBackup', 'OnlineSecondary'
+ * Possible values include: 'Default', 'Copy', 'Secondary',
+ * 'PointInTimeRestore', 'Restore', 'Recovery', 'RestoreExternalBackup',
+ * 'RestoreExternalBackupSecondary', 'RestoreLongTermRetentionBackup',
+ * 'OnlineSecondary'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: CreateMode = <CreateMode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type CreateMode = 'Default' | 'Copy' | 'Secondary' | 'PointInTimeRestore' | 'Restore' | 'Recovery' | 'RestoreExternalBackup' | 'RestoreExternalBackupSecondary' | 'RestoreLongTermRetentionBackup' | 'OnlineSecondary';
+export enum CreateMode {
+  Default = 'Default',
+  Copy = 'Copy',
+  Secondary = 'Secondary',
+  PointInTimeRestore = 'PointInTimeRestore',
+  Restore = 'Restore',
+  Recovery = 'Recovery',
+  RestoreExternalBackup = 'RestoreExternalBackup',
+  RestoreExternalBackupSecondary = 'RestoreExternalBackupSecondary',
+  RestoreLongTermRetentionBackup = 'RestoreLongTermRetentionBackup',
+  OnlineSecondary = 'OnlineSecondary',
+}
 
 /**
  * Defines values for SampleName.
- * Possible values include: 'AdventureWorksLT', 'WideWorldImportersStd', 'WideWorldImportersFull'
+ * Possible values include: 'AdventureWorksLT', 'WideWorldImportersStd',
+ * 'WideWorldImportersFull'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SampleName = <SampleName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SampleName = 'AdventureWorksLT' | 'WideWorldImportersStd' | 'WideWorldImportersFull';
+export enum SampleName {
+  AdventureWorksLT = 'AdventureWorksLT',
+  WideWorldImportersStd = 'WideWorldImportersStd',
+  WideWorldImportersFull = 'WideWorldImportersFull',
+}
 
 /**
  * Defines values for DatabaseStatus.
- * Possible values include: 'Online', 'Restoring', 'RecoveryPending', 'Recovering', 'Suspect',
- * 'Offline', 'Standby', 'Shutdown', 'EmergencyMode', 'AutoClosed', 'Copying', 'Creating',
- * 'Inaccessible', 'OfflineSecondary', 'Pausing', 'Paused', 'Resuming', 'Scaling'
+ * Possible values include: 'Online', 'Restoring', 'RecoveryPending',
+ * 'Recovering', 'Suspect', 'Offline', 'Standby', 'Shutdown', 'EmergencyMode',
+ * 'AutoClosed', 'Copying', 'Creating', 'Inaccessible', 'OfflineSecondary',
+ * 'Pausing', 'Paused', 'Resuming', 'Scaling'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: DatabaseStatus =
+ * <DatabaseStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type DatabaseStatus = 'Online' | 'Restoring' | 'RecoveryPending' | 'Recovering' | 'Suspect' | 'Offline' | 'Standby' | 'Shutdown' | 'EmergencyMode' | 'AutoClosed' | 'Copying' | 'Creating' | 'Inaccessible' | 'OfflineSecondary' | 'Pausing' | 'Paused' | 'Resuming' | 'Scaling';
+export enum DatabaseStatus {
+  Online = 'Online',
+  Restoring = 'Restoring',
+  RecoveryPending = 'RecoveryPending',
+  Recovering = 'Recovering',
+  Suspect = 'Suspect',
+  Offline = 'Offline',
+  Standby = 'Standby',
+  Shutdown = 'Shutdown',
+  EmergencyMode = 'EmergencyMode',
+  AutoClosed = 'AutoClosed',
+  Copying = 'Copying',
+  Creating = 'Creating',
+  Inaccessible = 'Inaccessible',
+  OfflineSecondary = 'OfflineSecondary',
+  Pausing = 'Pausing',
+  Paused = 'Paused',
+  Resuming = 'Resuming',
+  Scaling = 'Scaling',
+}
 
 /**
  * Defines values for DatabaseLicenseType.
  * Possible values include: 'LicenseIncluded', 'BasePrice'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: DatabaseLicenseType =
+ * <DatabaseLicenseType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type DatabaseLicenseType = 'LicenseIncluded' | 'BasePrice';
+export enum DatabaseLicenseType {
+  LicenseIncluded = 'LicenseIncluded',
+  BasePrice = 'BasePrice',
+}
 
 /**
  * Defines values for DatabaseReadScale.
  * Possible values include: 'Enabled', 'Disabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: DatabaseReadScale =
+ * <DatabaseReadScale>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type DatabaseReadScale = 'Enabled' | 'Disabled';
+export enum DatabaseReadScale {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for ElasticPoolState.
  * Possible values include: 'Creating', 'Ready', 'Disabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ElasticPoolState =
+ * <ElasticPoolState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ElasticPoolState = 'Creating' | 'Ready' | 'Disabled';
+export enum ElasticPoolState {
+  Creating = 'Creating',
+  Ready = 'Ready',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for ElasticPoolLicenseType.
  * Possible values include: 'LicenseIncluded', 'BasePrice'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ElasticPoolLicenseType =
+ * <ElasticPoolLicenseType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ElasticPoolLicenseType = 'LicenseIncluded' | 'BasePrice';
+export enum ElasticPoolLicenseType {
+  LicenseIncluded = 'LicenseIncluded',
+  BasePrice = 'BasePrice',
+}
 
 /**
  * Defines values for VulnerabilityAssessmentScanTriggerType.
  * Possible values include: 'OnDemand', 'Recurring'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: VulnerabilityAssessmentScanTriggerType =
+ * <VulnerabilityAssessmentScanTriggerType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type VulnerabilityAssessmentScanTriggerType = 'OnDemand' | 'Recurring';
+export enum VulnerabilityAssessmentScanTriggerType {
+  OnDemand = 'OnDemand',
+  Recurring = 'Recurring',
+}
 
 /**
  * Defines values for VulnerabilityAssessmentScanState.
  * Possible values include: 'Passed', 'Failed', 'FailedToRun', 'InProgress'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: VulnerabilityAssessmentScanState =
+ * <VulnerabilityAssessmentScanState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type VulnerabilityAssessmentScanState = 'Passed' | 'Failed' | 'FailedToRun' | 'InProgress';
+export enum VulnerabilityAssessmentScanState {
+  Passed = 'Passed',
+  Failed = 'Failed',
+  FailedToRun = 'FailedToRun',
+  InProgress = 'InProgress',
+}
 
 /**
  * Defines values for InstanceFailoverGroupReplicationRole.
  * Possible values include: 'Primary', 'Secondary'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: InstanceFailoverGroupReplicationRole =
+ * <InstanceFailoverGroupReplicationRole>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type InstanceFailoverGroupReplicationRole = 'Primary' | 'Secondary';
+export enum InstanceFailoverGroupReplicationRole {
+  Primary = 'Primary',
+  Secondary = 'Secondary',
+}
 
 /**
  * Defines values for LongTermRetentionDatabaseState.
  * Possible values include: 'All', 'Live', 'Deleted'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: LongTermRetentionDatabaseState =
+ * <LongTermRetentionDatabaseState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type LongTermRetentionDatabaseState = 'All' | 'Live' | 'Deleted';
+export enum LongTermRetentionDatabaseState {
+  All = 'All',
+  Live = 'Live',
+  Deleted = 'Deleted',
+}
 
 /**
  * Defines values for VulnerabilityAssessmentPolicyBaselineName.
@@ -8237,24 +12214,45 @@ export type LongTermRetentionDatabaseState = 'All' | 'Live' | 'Deleted';
  * @readonly
  * @enum {string}
  */
-export type VulnerabilityAssessmentPolicyBaselineName = 'master' | 'default';
+export enum VulnerabilityAssessmentPolicyBaselineName {
+  Master = 'master',
+  Default = 'default',
+}
 
 /**
  * Defines values for CapabilityGroup.
- * Possible values include: 'supportedEditions', 'supportedElasticPoolEditions',
- * 'supportedManagedInstanceVersions'
+ * Possible values include: 'supportedEditions',
+ * 'supportedElasticPoolEditions', 'supportedManagedInstanceVersions'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: CapabilityGroup =
+ * <CapabilityGroup>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type CapabilityGroup = 'supportedEditions' | 'supportedElasticPoolEditions' | 'supportedManagedInstanceVersions';
+export enum CapabilityGroup {
+  SupportedEditions = 'supportedEditions',
+  SupportedElasticPoolEditions = 'supportedElasticPoolEditions',
+  SupportedManagedInstanceVersions = 'supportedManagedInstanceVersions',
+}
 
 /**
  * Defines values for Type.
  * Possible values include: 'All', 'Error', 'Warning', 'Success'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Type = <Type>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type Type = 'All' | 'Error' | 'Warning' | 'Success';
+export enum Type {
+  All = 'All',
+  Error = 'Error',
+  Warning = 'Warning',
+  Success = 'Success',
+}
 
 /**
  * Contains response data for the get operation.
@@ -11487,44 +15485,6 @@ export type DatabaseVulnerabilityAssessmentsCreateOrUpdateResponse = DatabaseVul
 };
 
 /**
- * Contains response data for the listByDatabase operation.
- */
-export type DatabaseVulnerabilityAssessmentsListByDatabaseResponse = DatabaseVulnerabilityAssessmentListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatabaseVulnerabilityAssessmentListResult;
-    };
-};
-
-/**
- * Contains response data for the listByDatabaseNext operation.
- */
-export type DatabaseVulnerabilityAssessmentsListByDatabaseNextResponse = DatabaseVulnerabilityAssessmentListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatabaseVulnerabilityAssessmentListResult;
-    };
-};
-
-/**
  * Contains response data for the listByServer operation.
  */
 export type JobAgentsListByServerResponse = JobAgentListResult & {
@@ -13102,25 +17062,6 @@ export type CapabilitiesListByLocationResponse = LocationCapabilities & {
 };
 
 /**
- * Contains response data for the listByDatabase operation.
- */
-export type DatabaseVulnerabilityAssessmentScansListByDatabaseResponse = VulnerabilityAssessmentScanRecordListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VulnerabilityAssessmentScanRecordListResult;
-    };
-};
-
-/**
  * Contains response data for the get operation.
  */
 export type DatabaseVulnerabilityAssessmentScansGetResponse = VulnerabilityAssessmentScanRecord & {
@@ -13136,6 +17077,25 @@ export type DatabaseVulnerabilityAssessmentScansGetResponse = VulnerabilityAsses
        * The response body as parsed JSON or XML
        */
       parsedBody: VulnerabilityAssessmentScanRecord;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabase operation.
+ */
+export type DatabaseVulnerabilityAssessmentScansListByDatabaseResponse = VulnerabilityAssessmentScanRecordListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VulnerabilityAssessmentScanRecordListResult;
     };
 };
 
@@ -13326,44 +17286,6 @@ export type ManagedDatabaseVulnerabilityAssessmentsCreateOrUpdateResponse = Data
        * The response body as parsed JSON or XML
        */
       parsedBody: DatabaseVulnerabilityAssessment;
-    };
-};
-
-/**
- * Contains response data for the listByDatabase operation.
- */
-export type ManagedDatabaseVulnerabilityAssessmentsListByDatabaseResponse = DatabaseVulnerabilityAssessmentListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatabaseVulnerabilityAssessmentListResult;
-    };
-};
-
-/**
- * Contains response data for the listByDatabaseNext operation.
- */
-export type ManagedDatabaseVulnerabilityAssessmentsListByDatabaseNextResponse = DatabaseVulnerabilityAssessmentListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatabaseVulnerabilityAssessmentListResult;
     };
 };
 

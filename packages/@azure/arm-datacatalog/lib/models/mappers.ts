@@ -36,6 +36,64 @@ export const Principals: msRest.CompositeMapper = {
   }
 };
 
+export const ADCCatalogProperties: msRest.CompositeMapper = {
+  serializedName: "ADCCatalogProperties",
+  type: {
+    name: "Composite",
+    className: "ADCCatalogProperties",
+    modelProperties: {
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "String"
+        }
+      },
+      units: {
+        serializedName: "units",
+        type: {
+          name: "Number"
+        }
+      },
+      admins: {
+        serializedName: "admins",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Principals"
+            }
+          }
+        }
+      },
+      users: {
+        serializedName: "users",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Principals"
+            }
+          }
+        }
+      },
+      successfullyProvisioned: {
+        serializedName: "successfullyProvisioned",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enableAutomaticUnitAdjustment: {
+        serializedName: "enableAutomaticUnitAdjustment",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {

@@ -16,6 +16,95 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
+ * An interface representing ProjectProperties.
+ * Properties of a project.
+ *
+ */
+export interface ProjectProperties {
+  /**
+   * @member {Date} [createdTimestamp] Time when this project was created.
+   * Date-Time represented in ISO-8601 format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdTimestamp?: Date;
+  /**
+   * @member {Date} [updatedTimestamp] Time when this project was last updated.
+   * Date-Time represented in ISO-8601 format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly updatedTimestamp?: Date;
+  /**
+   * @member {DiscoveryStatus} [discoveryStatus] Reports whether project is
+   * under discovery. Possible values include: 'Unknown', 'NotStarted',
+   * 'InProgress', 'Completed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly discoveryStatus?: DiscoveryStatus;
+  /**
+   * @member {string} [customerWorkspaceId] ARM ID of the Service Map workspace
+   * created by user.
+   */
+  customerWorkspaceId?: string;
+  /**
+   * @member {string} [customerWorkspaceLocation] Location of the Service Map
+   * workspace created by user.
+   */
+  customerWorkspaceLocation?: string;
+  /**
+   * @member {Date} [lastDiscoveryTimestamp] Time when this project was
+   * created. Date-Time represented in ISO-8601 format. This value will be null
+   * until discovery is complete.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastDiscoveryTimestamp?: Date;
+  /**
+   * @member {string} [lastDiscoverySessionId] Session id of the last
+   * discovery.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastDiscoverySessionId?: string;
+  /**
+   * @member {number} [numberOfGroups] Number of groups created in the project.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly numberOfGroups?: number;
+  /**
+   * @member {number} [numberOfMachines] Number of machines in the project.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly numberOfMachines?: number;
+  /**
+   * @member {number} [numberOfAssessments] Number of assessments created in
+   * the project.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly numberOfAssessments?: number;
+  /**
+   * @member {Date} [lastAssessmentTimestamp] Time when last assessment was
+   * created. Date-Time represented in ISO-8601 format. This value will be null
+   * until assessment is created.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastAssessmentTimestamp?: Date;
+  /**
+   * @member {ProvisioningState} [provisioningState] Provisioning state of the
+   * project. Possible values include: 'Accepted', 'Creating', 'Deleting',
+   * 'Failed', 'Moving', 'Succeeded'
+   */
+  provisioningState?: ProvisioningState;
+}
+
+/**
+ * @interface
  * An interface representing Project.
  * Azure Migrate Project.
  *
@@ -137,6 +226,41 @@ export interface Project extends BaseResource {
 
 /**
  * @interface
+ * An interface representing GroupProperties.
+ * Properties of group resource.
+ *
+ */
+export interface GroupProperties {
+  /**
+   * @member {string[]} machines List of machine names that are part of this
+   * group.
+   */
+  machines: string[];
+  /**
+   * @member {string[]} [assessments] List of References to Assessments created
+   * on this group.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly assessments?: string[];
+  /**
+   * @member {Date} [createdTimestamp] Time when this project was created.
+   * Date-Time represented in ISO-8601 format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdTimestamp?: Date;
+  /**
+   * @member {Date} [updatedTimestamp] Time when this project was last updated.
+   * Date-Time represented in ISO-8601 format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly updatedTimestamp?: Date;
+}
+
+/**
+ * @interface
  * An interface representing Group.
  * A group created in a Migration project.
  *
@@ -193,6 +317,164 @@ export interface Group extends BaseResource {
    * the server.**
    */
   readonly updatedTimestamp?: Date;
+}
+
+/**
+ * @interface
+ * An interface representing AssessmentProperties.
+ * Properties of an assessment.
+ *
+ */
+export interface AssessmentProperties {
+  /**
+   * @member {AzureLocation} azureLocation Target Azure location for which the
+   * machines should be assessed. These enums are the same as used by Compute
+   * API. Possible values include: 'Unknown', 'EastAsia', 'SoutheastAsia',
+   * 'AustraliaEast', 'AustraliaSoutheast', 'BrazilSouth', 'CanadaCentral',
+   * 'CanadaEast', 'WestEurope', 'NorthEurope', 'CentralIndia', 'SouthIndia',
+   * 'WestIndia', 'JapanEast', 'JapanWest', 'KoreaCentral', 'KoreaSouth',
+   * 'UkWest', 'UkSouth', 'NorthCentralUs', 'EastUs', 'WestUs2',
+   * 'SouthCentralUs', 'CentralUs', 'EastUs2', 'WestUs', 'WestCentralUs',
+   * 'GermanyCentral', 'GermanyNortheast', 'ChinaNorth', 'ChinaEast'
+   */
+  azureLocation: AzureLocation;
+  /**
+   * @member {AzureOfferCode} azureOfferCode Offer code according to which cost
+   * estimation is done. Possible values include: 'Unknown', 'MSAZR0003P',
+   * 'MSAZR0044P', 'MSAZR0059P', 'MSAZR0060P', 'MSAZR0062P', 'MSAZR0063P',
+   * 'MSAZR0064P', 'MSAZR0029P', 'MSAZR0022P', 'MSAZR0023P', 'MSAZR0148P',
+   * 'MSAZR0025P', 'MSAZR0036P', 'MSAZR0120P', 'MSAZR0121P', 'MSAZR0122P',
+   * 'MSAZR0123P', 'MSAZR0124P', 'MSAZR0125P', 'MSAZR0126P', 'MSAZR0127P',
+   * 'MSAZR0128P', 'MSAZR0129P', 'MSAZR0130P', 'MSAZR0111P', 'MSAZR0144P',
+   * 'MSAZR0149P', 'MSMCAZR0044P', 'MSMCAZR0059P', 'MSMCAZR0060P',
+   * 'MSMCAZR0063P', 'MSMCAZR0120P', 'MSMCAZR0121P', 'MSMCAZR0125P',
+   * 'MSMCAZR0128P', 'MSAZRDE0003P', 'MSAZRDE0044P'
+   */
+  azureOfferCode: AzureOfferCode;
+  /**
+   * @member {AzurePricingTier} azurePricingTier Pricing tier for Size
+   * evaluation. Possible values include: 'Standard', 'Basic'
+   */
+  azurePricingTier: AzurePricingTier;
+  /**
+   * @member {AzureStorageRedundancy} azureStorageRedundancy Storage Redundancy
+   * type offered by Azure. Possible values include: 'Unknown',
+   * 'LocallyRedundant', 'ZoneRedundant', 'GeoRedundant',
+   * 'ReadAccessGeoRedundant'
+   */
+  azureStorageRedundancy: AzureStorageRedundancy;
+  /**
+   * @member {number} scalingFactor Scaling factor used over utilization data
+   * to add a performance buffer for new machines to be created in Azure. Min
+   * Value = 1.0, Max value = 1.9, Default = 1.3.
+   */
+  scalingFactor: number;
+  /**
+   * @member {Percentile} percentile Percentile of performance data used to
+   * recommend Azure size. Possible values include: 'Percentile50',
+   * 'Percentile90', 'Percentile95', 'Percentile99'
+   */
+  percentile: Percentile;
+  /**
+   * @member {TimeRange} timeRange Time range of performance data used to
+   * recommend a size. Possible values include: 'Day', 'Week', 'Month'
+   */
+  timeRange: TimeRange;
+  /**
+   * @member {AssessmentStage} stage User configurable setting that describes
+   * the status of the assessment. Possible values include: 'InProgress',
+   * 'UnderReview', 'Approved'
+   */
+  stage: AssessmentStage;
+  /**
+   * @member {Currency} currency Currency to report prices in. Possible values
+   * include: 'Unknown', 'USD', 'DKK', 'CAD', 'IDR', 'JPY', 'KRW', 'NZD',
+   * 'NOK', 'RUB', 'SAR', 'ZAR', 'SEK', 'TRY', 'GBP', 'MXN', 'MYR', 'INR',
+   * 'HKD', 'BRL', 'TWD', 'EUR', 'CHF', 'ARS', 'AUD', 'CNY'
+   */
+  currency: Currency;
+  /**
+   * @member {AzureHybridUseBenefit} azureHybridUseBenefit AHUB discount on
+   * windows virtual machines. Possible values include: 'Unknown', 'Yes', 'No'
+   */
+  azureHybridUseBenefit: AzureHybridUseBenefit;
+  /**
+   * @member {number} discountPercentage Custom discount percentage to be
+   * applied on final costs. Can be in the range [0, 100].
+   */
+  discountPercentage: number;
+  /**
+   * @member {number} [confidenceRatingInPercentage] Confidence rating
+   * percentage for assessment. Can be in the range [0, 100].
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly confidenceRatingInPercentage?: number;
+  /**
+   * @member {AssessmentSizingCriterion} sizingCriterion Assessment sizing
+   * criterion. Possible values include: 'PerformanceBased', 'AsOnPremises'
+   */
+  sizingCriterion: AssessmentSizingCriterion;
+  /**
+   * @member {Date} [pricesTimestamp] Time when the Azure Prices were queried.
+   * Date-Time represented in ISO-8601 format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly pricesTimestamp?: Date;
+  /**
+   * @member {Date} [createdTimestamp] Time when this project was created.
+   * Date-Time represented in ISO-8601 format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdTimestamp?: Date;
+  /**
+   * @member {Date} [updatedTimestamp] Time when this project was last updated.
+   * Date-Time represented in ISO-8601 format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly updatedTimestamp?: Date;
+  /**
+   * @member {number} [monthlyComputeCost] Monthly compute cost estimate for
+   * the machines that are part of this assessment as a group, for a 31-day
+   * month.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly monthlyComputeCost?: number;
+  /**
+   * @member {number} [monthlyBandwidthCost] Monthly network cost estimate for
+   * the machines that are part of this assessment as a group, for a 31-day
+   * month.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly monthlyBandwidthCost?: number;
+  /**
+   * @member {number} [monthlyStorageCost] Monthly storage cost estimate for
+   * the machines that are part of this assessment as a group, for a 31-day
+   * month.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly monthlyStorageCost?: number;
+  /**
+   * @member {AssessmentStatus} [status] Wheter the assessment has been created
+   * and is valid. Possible values include: 'Created', 'Updated', 'Running',
+   * 'Completed', 'Invalid'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: AssessmentStatus;
+  /**
+   * @member {number} [numberOfMachines] Number of assessed machines part of
+   * this assessment.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly numberOfMachines?: number;
 }
 
 /**
@@ -421,6 +703,124 @@ export interface NetworkAdapter {
    * the server.**
    */
   readonly ipAddresses?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing MachineProperties.
+ * Properties of a machine.
+ *
+ */
+export interface MachineProperties {
+  /**
+   * @member {MachineBootType} [bootType] Boot type of the machine. Possible
+   * values include: 'Unknown', 'EFI', 'BIOS'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly bootType?: MachineBootType;
+  /**
+   * @member {string} [datacenterContainer] Container defined in the management
+   * solution that this machine is part of in the datacenter.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly datacenterContainer?: string;
+  /**
+   * @member {string} [datacenterManagementServer] Name of the server hosting
+   * the datacenter management solution.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly datacenterManagementServer?: string;
+  /**
+   * @member {string} [datacenterMachineId] ID of the machine as tracked by the
+   * datacenter management solution.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly datacenterMachineId?: string;
+  /**
+   * @member {string} [datacenterManagementServerId] ID of the server hosting
+   * the datacenter management solution.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly datacenterManagementServerId?: string;
+  /**
+   * @member {string} [description] Description of the machine
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly description?: string;
+  /**
+   * @member {string} [displayName] User readable name of the machine as
+   * defined by the user in their private datacenter.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly displayName?: string;
+  /**
+   * @member {number} [megabytesOfMemory] Memory in Megabytes.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly megabytesOfMemory?: number;
+  /**
+   * @member {number} [numberOfCores] Processor count.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly numberOfCores?: number;
+  /**
+   * @member {string} [operatingSystem] Operating System of the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly operatingSystem?: string;
+  /**
+   * @member {string[]} [groups] List of references to the groups that the
+   * machine is member of.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly groups?: string[];
+  /**
+   * @member {Date} [createdTimestamp] Time when this machine was created.
+   * Date-Time represented in ISO-8601 format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdTimestamp?: Date;
+  /**
+   * @member {Date} [updatedTimestamp] Time when this machine was last updated.
+   * Date-Time represented in ISO-8601 format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly updatedTimestamp?: Date;
+  /**
+   * @member {Date} [discoveredTimestamp] Time when this machine was discovered
+   * by Azure Migrate agent. Date-Time represented in ISO-8601 format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly discoveredTimestamp?: Date;
+  /**
+   * @member {{ [propertyName: string]: Disk }} [disks] Dictionary of disks
+   * attached to the machine. Key is ID of disk. Value is a disk object
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly disks?: { [propertyName: string]: Disk };
+  /**
+   * @member {{ [propertyName: string]: NetworkAdapter }} [networkAdapters]
+   * Dictionary of network adapters attached to the machine. Key is ID of
+   * network adapter. Value is a network adapter object
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly networkAdapters?: { [propertyName: string]: NetworkAdapter };
 }
 
 /**
@@ -824,6 +1224,274 @@ export interface AssessedNetworkAdapter {
    * the server.**
    */
   readonly suitabilityExplanation?: AzureNetworkAdapterSuitabilityExplanation;
+}
+
+/**
+ * @interface
+ * An interface representing AssessedMachineProperties.
+ * Properties of an assessed machine.
+ *
+ */
+export interface AssessedMachineProperties {
+  /**
+   * @member {string[]} [groups] List of references to the groups that the
+   * machine is member of.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly groups?: string[];
+  /**
+   * @member {Date} [discoveredTimestamp] Time when this machine was discovered
+   * by Azure Migrate agent. Date-Time represented in ISO-8601 format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly discoveredTimestamp?: Date;
+  /**
+   * @member {MachineBootType} [bootType] Boot type of the machine. Possible
+   * values include: 'Unknown', 'EFI', 'BIOS'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly bootType?: MachineBootType;
+  /**
+   * @member {string} [datacenterContainer] Container defined in the management
+   * solution that this machine is part of in the datacenter.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly datacenterContainer?: string;
+  /**
+   * @member {string} [datacenterManagementServer] Name of the server hosting
+   * the datacenter management solution.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly datacenterManagementServer?: string;
+  /**
+   * @member {string} [datacenterMachineId] ID of the machine as tracked by the
+   * datacenter management solution.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly datacenterMachineId?: string;
+  /**
+   * @member {string} [datacenterManagementServerId] ID of the server hosting
+   * the datacenter management solution.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly datacenterManagementServerId?: string;
+  /**
+   * @member {string} [description] Description of the machine
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly description?: string;
+  /**
+   * @member {string} [displayName] User readable name of the machine as
+   * defined by the user in their private datacenter.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly displayName?: string;
+  /**
+   * @member {number} [megabytesOfMemory] Memory in Megabytes.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly megabytesOfMemory?: number;
+  /**
+   * @member {number} [numberOfCores] Processor count.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly numberOfCores?: number;
+  /**
+   * @member {string} [operatingSystem] Operating System of the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly operatingSystem?: string;
+  /**
+   * @member {number} [monthlyBandwidthCost] Monthly network cost estimate for
+   * the network adapters that are attached to this machine as a group, for a
+   * 31-day month.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly monthlyBandwidthCost?: number;
+  /**
+   * @member {number} [monthlyStorageCost] Monthly storage cost estimate for
+   * the disks that are attached to this machine as a group, for a 31-day
+   * month.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly monthlyStorageCost?: number;
+  /**
+   * @member {{ [propertyName: string]: AssessedDisk }} [disks] Dictionary of
+   * disks attached to the machine. Key is ID of disk. Value is a disk object.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly disks?: { [propertyName: string]: AssessedDisk };
+  /**
+   * @member {{ [propertyName: string]: AssessedNetworkAdapter }}
+   * [networkAdapters] Dictionary of network adapters attached to the machine.
+   * Key is name of the adapter. Value is a network adapter object.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly networkAdapters?: { [propertyName: string]: AssessedNetworkAdapter };
+  /**
+   * @member {AzureVmSize} [recommendedSize] Recommended Azure size for this
+   * machine. Possible values include: 'Unknown', 'Basic_A0', 'Basic_A1',
+   * 'Basic_A2', 'Basic_A3', 'Basic_A4', 'Standard_A0', 'Standard_A1',
+   * 'Standard_A2', 'Standard_A3', 'Standard_A4', 'Standard_A5', 'Standard_A6',
+   * 'Standard_A7', 'Standard_A8', 'Standard_A9', 'Standard_A10',
+   * 'Standard_A11', 'Standard_A1_v2', 'Standard_A2_v2', 'Standard_A4_v2',
+   * 'Standard_A8_v2', 'Standard_A2m_v2', 'Standard_A4m_v2', 'Standard_A8m_v2',
+   * 'Standard_D1', 'Standard_D2', 'Standard_D3', 'Standard_D4',
+   * 'Standard_D11', 'Standard_D12', 'Standard_D13', 'Standard_D14',
+   * 'Standard_D1_v2', 'Standard_D2_v2', 'Standard_D3_v2', 'Standard_D4_v2',
+   * 'Standard_D5_v2', 'Standard_D11_v2', 'Standard_D12_v2', 'Standard_D13_v2',
+   * 'Standard_D14_v2', 'Standard_D15_v2', 'Standard_DS1', 'Standard_DS2',
+   * 'Standard_DS3', 'Standard_DS4', 'Standard_DS11', 'Standard_DS12',
+   * 'Standard_DS13', 'Standard_DS14', 'Standard_DS1_v2', 'Standard_DS2_v2',
+   * 'Standard_DS3_v2', 'Standard_DS4_v2', 'Standard_DS5_v2',
+   * 'Standard_DS11_v2', 'Standard_DS12_v2', 'Standard_DS13_v2',
+   * 'Standard_DS14_v2', 'Standard_DS15_v2', 'Standard_F1', 'Standard_F2',
+   * 'Standard_F4', 'Standard_F8', 'Standard_F16', 'Standard_F1s',
+   * 'Standard_F2s', 'Standard_F4s', 'Standard_F8s', 'Standard_F16s',
+   * 'Standard_G1', 'Standard_G2', 'Standard_G3', 'Standard_G4', 'Standard_G5',
+   * 'Standard_GS1', 'Standard_GS2', 'Standard_GS3', 'Standard_GS4',
+   * 'Standard_GS5', 'Standard_H8', 'Standard_H16', 'Standard_H8m',
+   * 'Standard_H16m', 'Standard_H16r', 'Standard_H16mr', 'Standard_L4s',
+   * 'Standard_L8s', 'Standard_L16s', 'Standard_L32s'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly recommendedSize?: AzureVmSize;
+  /**
+   * @member {number} [numberOfCoresForRecommendedSize] Number of CPU cores in
+   * the Recommended Azure VM Size.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly numberOfCoresForRecommendedSize?: number;
+  /**
+   * @member {number} [megabytesOfMemoryForRecommendedSize] Megabytes of memory
+   * in the Recommended Azure VM Size.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly megabytesOfMemoryForRecommendedSize?: number;
+  /**
+   * @member {number} [monthlyComputeCostForRecommendedSize] Compute Cost for a
+   * 31-day month, if the machine is migrated to Azure with the Recommended
+   * Size.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly monthlyComputeCostForRecommendedSize?: number;
+  /**
+   * @member {number} [percentageCoresUtilization] Utilization percentage of
+   * the processor core as observed in the private data center, in the Time
+   * Range selected on Assessment, reported as the Percentile value based on
+   * the percentile number selected in assessment.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly percentageCoresUtilization?: number;
+  /**
+   * @member {number} [percentageMemoryUtilization] Utilization percentage of
+   * the memory as observed in the private data center, in the Time Range
+   * selected on Assessment, reported as the Percentile value based on the
+   * percentile number selected in assessment.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly percentageMemoryUtilization?: number;
+  /**
+   * @member {number} [percentageCoresUtilizationDataPointsExpected] Expected
+   * data points for percentage of cores utilization.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly percentageCoresUtilizationDataPointsExpected?: number;
+  /**
+   * @member {number} [percentageCoresUtilizationDataPointsReceived] Received
+   * data points for percentage of cores utilization.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly percentageCoresUtilizationDataPointsReceived?: number;
+  /**
+   * @member {number} [percentageMemoryUtilizationDataPointsExpected] Expected
+   * data points for percentage of memory utilization.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly percentageMemoryUtilizationDataPointsExpected?: number;
+  /**
+   * @member {number} [percentageMemoryUtilizationDataPointsReceived] Received
+   * data points for percentage of memory utilization.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly percentageMemoryUtilizationDataPointsReceived?: number;
+  /**
+   * @member {CloudSuitability} [suitability] Whether machine is suitable for
+   * migration to Azure. Possible values include: 'Unknown', 'NotSuitable',
+   * 'Suitable', 'ConditionallySuitable', 'ReadinessUnknown'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly suitability?: CloudSuitability;
+  /**
+   * @member {AzureVmSuitabilityExplanation} [suitabilityExplanation] If
+   * machine is not ready to be migrated, this explains the reasons and
+   * mitigation steps. Possible values include: 'Unknown', 'NotApplicable',
+   * 'GuestOperatingSystemArchitectureNotSupported',
+   * 'GuestOperatingSystemNotSupported', 'BootTypeNotSupported',
+   * 'MoreDisksThanSupported', 'NoSuitableVmSizeFound',
+   * 'OneOrMoreDisksNotSuitable', 'OneOrMoreAdaptersNotSuitable',
+   * 'InternalErrorOccuredDuringComputeEvaluation',
+   * 'InternalErrorOccuredDuringStorageEvaluation',
+   * 'InternalErrorOccuredDuringNetworkEvaluation',
+   * 'NoVmSizeSupportsStoragePerformance',
+   * 'NoVmSizeSupportsNetworkPerformance', 'NoVmSizeForSelectedPricingTier',
+   * 'NoVmSizeForSelectedAzureLocation', 'CheckRedHatLinuxVersion',
+   * 'CheckOpenSuseLinuxVersion', 'CheckWindowsServer2008R2Version',
+   * 'CheckCentOsVersion', 'CheckDebianLinuxVersion', 'CheckSuseLinuxVersion',
+   * 'CheckOracleLinuxVersion', 'CheckUbuntuLinuxVersion',
+   * 'CheckCoreOsLinuxVersion', 'WindowsServerVersionConditionallySupported',
+   * 'NoGuestOperatingSystemConditionallySupported',
+   * 'WindowsClientVersionsConditionallySupported', 'BootTypeUnknown',
+   * 'GuestOperatingSystemUnknown', 'WindowsServerVersionsSupportedWithCaveat',
+   * 'WindowsOSNoLongerUnderMSSupport',
+   * 'EndorsedWithConditionsLinuxDistributions',
+   * 'UnendorsedLinuxDistributions', 'NoVmSizeForStandardPricingTier',
+   * 'NoVmSizeForBasicPricingTier'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly suitabilityExplanation?: AzureVmSuitabilityExplanation;
+  /**
+   * @member {Date} [createdTimestamp] Time when this machine was created.
+   * Date-Time represented in ISO-8601 format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdTimestamp?: Date;
+  /**
+   * @member {Date} [updatedTimestamp] Time when this machine was last updated.
+   * Date-Time represented in ISO-8601 format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly updatedTimestamp?: Date;
 }
 
 /**

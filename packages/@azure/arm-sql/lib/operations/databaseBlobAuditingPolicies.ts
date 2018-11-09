@@ -53,7 +53,7 @@ export class DatabaseBlobAuditingPolicies {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicy>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicy>, callback?: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicy>): Promise<Models.DatabaseBlobAuditingPoliciesGetResponse> {
+  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicy>): Promise<Models.DatabaseBlobAuditingPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +95,7 @@ export class DatabaseBlobAuditingPolicies {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DatabaseBlobAuditingPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicy>): void;
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DatabaseBlobAuditingPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicy>, callback?: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicy>): Promise<Models.DatabaseBlobAuditingPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DatabaseBlobAuditingPolicy, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicy>): Promise<Models.DatabaseBlobAuditingPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

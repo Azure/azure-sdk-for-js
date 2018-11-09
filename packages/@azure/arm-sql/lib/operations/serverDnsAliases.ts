@@ -54,7 +54,7 @@ export class ServerDnsAliases {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, dnsAliasName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerDnsAlias>): void;
-  get(resourceGroupName: string, serverName: string, dnsAliasName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerDnsAlias>, callback?: msRest.ServiceCallback<Models.ServerDnsAlias>): Promise<Models.ServerDnsAliasesGetResponse> {
+  get(resourceGroupName: string, serverName: string, dnsAliasName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServerDnsAlias>): Promise<Models.ServerDnsAliasesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -118,7 +118,7 @@ export class ServerDnsAliases {
    * @param callback The callback
    */
   listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerDnsAliasListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerDnsAliasListResult>, callback?: msRest.ServiceCallback<Models.ServerDnsAliasListResult>): Promise<Models.ServerDnsAliasesListByServerResponse> {
+  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServerDnsAliasListResult>): Promise<Models.ServerDnsAliasesListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -227,7 +227,7 @@ export class ServerDnsAliases {
    * @param callback The callback
    */
   listByServerNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerDnsAliasListResult>): void;
-  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerDnsAliasListResult>, callback?: msRest.ServiceCallback<Models.ServerDnsAliasListResult>): Promise<Models.ServerDnsAliasesListByServerNextResponse> {
+  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServerDnsAliasListResult>): Promise<Models.ServerDnsAliasesListByServerNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

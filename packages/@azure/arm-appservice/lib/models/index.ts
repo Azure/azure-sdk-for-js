@@ -9982,30 +9982,6 @@ export interface WebAppsRestartSlotOptionalParams extends msRest.RequestOptionsB
 
 /**
  * @interface
- * An interface representing WebAppsStartNetworkTraceSlotOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface WebAppsStartNetworkTraceSlotOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {number} [durationInSeconds] The duration to keep capturing in
-   * seconds.
-   */
-  durationInSeconds?: number;
-  /**
-   * @member {number} [maxFrameLength] The maximum frame length in bytes
-   * (Optional).
-   */
-  maxFrameLength?: number;
-  /**
-   * @member {string} [sasUrl] The Blob URL to store capture file.
-   */
-  sasUrl?: string;
-}
-
-/**
- * @interface
  * An interface representing WebAppsListUsagesSlotOptionalParams.
  * Optional Parameters.
  *
@@ -10019,30 +9995,6 @@ export interface WebAppsListUsagesSlotOptionalParams extends msRest.RequestOptio
    * eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
    */
   filter?: string;
-}
-
-/**
- * @interface
- * An interface representing WebAppsStartNetworkTraceOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface WebAppsStartNetworkTraceOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {number} [durationInSeconds] The duration to keep capturing in
-   * seconds.
-   */
-  durationInSeconds?: number;
-  /**
-   * @member {number} [maxFrameLength] The maximum frame length in bytes
-   * (Optional).
-   */
-  maxFrameLength?: number;
-  /**
-   * @member {string} [sasUrl] The Blob URL to store capture file.
-   */
-  sasUrl?: string;
 }
 
 /**
@@ -10094,54 +10046,6 @@ export interface WebAppsBeginStartWebSiteNetworkTraceOperationOptionalParams ext
  * @extends RequestOptionsBase
  */
 export interface WebAppsBeginStartWebSiteNetworkTraceOperationSlotOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {number} [durationInSeconds] The duration to keep capturing in
-   * seconds.
-   */
-  durationInSeconds?: number;
-  /**
-   * @member {number} [maxFrameLength] The maximum frame length in bytes
-   * (Optional).
-   */
-  maxFrameLength?: number;
-  /**
-   * @member {string} [sasUrl] The Blob URL to store capture file.
-   */
-  sasUrl?: string;
-}
-
-/**
- * @interface
- * An interface representing WebAppsBeginStartNetworkTraceSlotOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface WebAppsBeginStartNetworkTraceSlotOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {number} [durationInSeconds] The duration to keep capturing in
-   * seconds.
-   */
-  durationInSeconds?: number;
-  /**
-   * @member {number} [maxFrameLength] The maximum frame length in bytes
-   * (Optional).
-   */
-  maxFrameLength?: number;
-  /**
-   * @member {string} [sasUrl] The Blob URL to store capture file.
-   */
-  sasUrl?: string;
-}
-
-/**
- * @interface
- * An interface representing WebAppsBeginStartNetworkTraceOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface WebAppsBeginStartNetworkTraceOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {number} [durationInSeconds] The duration to keep capturing in
    * seconds.
@@ -11306,66 +11210,134 @@ export interface ResourceHealthMetadataCollection extends Array<ResourceHealthMe
 
 /**
  * Defines values for KeyVaultSecretStatus.
- * Possible values include: 'Initialized', 'WaitingOnCertificateOrder', 'Succeeded',
- * 'CertificateOrderFailed', 'OperationNotPermittedOnKeyVault',
+ * Possible values include: 'Initialized', 'WaitingOnCertificateOrder',
+ * 'Succeeded', 'CertificateOrderFailed', 'OperationNotPermittedOnKeyVault',
  * 'AzureServiceUnauthorizedToAccessKeyVault', 'KeyVaultDoesNotExist',
- * 'KeyVaultSecretDoesNotExist', 'UnknownError', 'ExternalPrivateKey', 'Unknown'
+ * 'KeyVaultSecretDoesNotExist', 'UnknownError', 'ExternalPrivateKey',
+ * 'Unknown'
  * @readonly
  * @enum {string}
  */
-export type KeyVaultSecretStatus = 'Initialized' | 'WaitingOnCertificateOrder' | 'Succeeded' | 'CertificateOrderFailed' | 'OperationNotPermittedOnKeyVault' | 'AzureServiceUnauthorizedToAccessKeyVault' | 'KeyVaultDoesNotExist' | 'KeyVaultSecretDoesNotExist' | 'UnknownError' | 'ExternalPrivateKey' | 'Unknown';
+export enum KeyVaultSecretStatus {
+  Initialized = 'Initialized',
+  WaitingOnCertificateOrder = 'WaitingOnCertificateOrder',
+  Succeeded = 'Succeeded',
+  CertificateOrderFailed = 'CertificateOrderFailed',
+  OperationNotPermittedOnKeyVault = 'OperationNotPermittedOnKeyVault',
+  AzureServiceUnauthorizedToAccessKeyVault = 'AzureServiceUnauthorizedToAccessKeyVault',
+  KeyVaultDoesNotExist = 'KeyVaultDoesNotExist',
+  KeyVaultSecretDoesNotExist = 'KeyVaultSecretDoesNotExist',
+  UnknownError = 'UnknownError',
+  ExternalPrivateKey = 'ExternalPrivateKey',
+  Unknown = 'Unknown',
+}
 
 /**
  * Defines values for CertificateProductType.
- * Possible values include: 'StandardDomainValidatedSsl', 'StandardDomainValidatedWildCardSsl'
+ * Possible values include: 'StandardDomainValidatedSsl',
+ * 'StandardDomainValidatedWildCardSsl'
  * @readonly
  * @enum {string}
  */
-export type CertificateProductType = 'StandardDomainValidatedSsl' | 'StandardDomainValidatedWildCardSsl';
+export enum CertificateProductType {
+  StandardDomainValidatedSsl = 'StandardDomainValidatedSsl',
+  StandardDomainValidatedWildCardSsl = 'StandardDomainValidatedWildCardSsl',
+}
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Succeeded', 'Failed', 'Canceled', 'InProgress', 'Deleting'
+ * Possible values include: 'Succeeded', 'Failed', 'Canceled', 'InProgress',
+ * 'Deleting'
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Succeeded' | 'Failed' | 'Canceled' | 'InProgress' | 'Deleting';
+export enum ProvisioningState {
+  Succeeded = 'Succeeded',
+  Failed = 'Failed',
+  Canceled = 'Canceled',
+  InProgress = 'InProgress',
+  Deleting = 'Deleting',
+}
 
 /**
  * Defines values for CertificateOrderStatus.
- * Possible values include: 'Pendingissuance', 'Issued', 'Revoked', 'Canceled', 'Denied',
- * 'Pendingrevocation', 'PendingRekey', 'Unused', 'Expired', 'NotSubmitted'
+ * Possible values include: 'Pendingissuance', 'Issued', 'Revoked', 'Canceled',
+ * 'Denied', 'Pendingrevocation', 'PendingRekey', 'Unused', 'Expired',
+ * 'NotSubmitted'
  * @readonly
  * @enum {string}
  */
-export type CertificateOrderStatus = 'Pendingissuance' | 'Issued' | 'Revoked' | 'Canceled' | 'Denied' | 'Pendingrevocation' | 'PendingRekey' | 'Unused' | 'Expired' | 'NotSubmitted';
+export enum CertificateOrderStatus {
+  Pendingissuance = 'Pendingissuance',
+  Issued = 'Issued',
+  Revoked = 'Revoked',
+  Canceled = 'Canceled',
+  Denied = 'Denied',
+  Pendingrevocation = 'Pendingrevocation',
+  PendingRekey = 'PendingRekey',
+  Unused = 'Unused',
+  Expired = 'Expired',
+  NotSubmitted = 'NotSubmitted',
+}
 
 /**
  * Defines values for CertificateOrderActionType.
  * Possible values include: 'CertificateIssued', 'CertificateOrderCanceled',
- * 'CertificateOrderCreated', 'CertificateRevoked', 'DomainValidationComplete', 'FraudDetected',
- * 'OrgNameChange', 'OrgValidationComplete', 'SanDrop', 'FraudCleared', 'CertificateExpired',
- * 'CertificateExpirationWarning', 'FraudDocumentationRequired', 'Unknown'
+ * 'CertificateOrderCreated', 'CertificateRevoked', 'DomainValidationComplete',
+ * 'FraudDetected', 'OrgNameChange', 'OrgValidationComplete', 'SanDrop',
+ * 'FraudCleared', 'CertificateExpired', 'CertificateExpirationWarning',
+ * 'FraudDocumentationRequired', 'Unknown'
  * @readonly
  * @enum {string}
  */
-export type CertificateOrderActionType = 'CertificateIssued' | 'CertificateOrderCanceled' | 'CertificateOrderCreated' | 'CertificateRevoked' | 'DomainValidationComplete' | 'FraudDetected' | 'OrgNameChange' | 'OrgValidationComplete' | 'SanDrop' | 'FraudCleared' | 'CertificateExpired' | 'CertificateExpirationWarning' | 'FraudDocumentationRequired' | 'Unknown';
+export enum CertificateOrderActionType {
+  CertificateIssued = 'CertificateIssued',
+  CertificateOrderCanceled = 'CertificateOrderCanceled',
+  CertificateOrderCreated = 'CertificateOrderCreated',
+  CertificateRevoked = 'CertificateRevoked',
+  DomainValidationComplete = 'DomainValidationComplete',
+  FraudDetected = 'FraudDetected',
+  OrgNameChange = 'OrgNameChange',
+  OrgValidationComplete = 'OrgValidationComplete',
+  SanDrop = 'SanDrop',
+  FraudCleared = 'FraudCleared',
+  CertificateExpired = 'CertificateExpired',
+  CertificateExpirationWarning = 'CertificateExpirationWarning',
+  FraudDocumentationRequired = 'FraudDocumentationRequired',
+  Unknown = 'Unknown',
+}
 
 /**
  * Defines values for RouteType.
  * Possible values include: 'DEFAULT', 'INHERITED', 'STATIC'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: RouteType = <RouteType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type RouteType = 'DEFAULT' | 'INHERITED' | 'STATIC';
+export enum RouteType {
+  DEFAULT = 'DEFAULT',
+  INHERITED = 'INHERITED',
+  STATIC = 'STATIC',
+}
 
 /**
  * Defines values for ManagedServiceIdentityType.
  * Possible values include: 'SystemAssigned', 'UserAssigned'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ManagedServiceIdentityType =
+ * <ManagedServiceIdentityType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ManagedServiceIdentityType = 'SystemAssigned' | 'UserAssigned';
+export enum ManagedServiceIdentityType {
+  SystemAssigned = 'SystemAssigned',
+  UserAssigned = 'UserAssigned',
+}
 
 /**
  * Defines values for IpFilterTag.
@@ -11373,7 +11345,10 @@ export type ManagedServiceIdentityType = 'SystemAssigned' | 'UserAssigned';
  * @readonly
  * @enum {string}
  */
-export type IpFilterTag = 'Default' | 'XffProxy';
+export enum IpFilterTag {
+  Default = 'Default',
+  XffProxy = 'XffProxy',
+}
 
 /**
  * Defines values for AutoHealActionType.
@@ -11381,16 +11356,33 @@ export type IpFilterTag = 'Default' | 'XffProxy';
  * @readonly
  * @enum {string}
  */
-export type AutoHealActionType = 'Recycle' | 'LogEvent' | 'CustomAction';
+export enum AutoHealActionType {
+  Recycle = 'Recycle',
+  LogEvent = 'LogEvent',
+  CustomAction = 'CustomAction',
+}
 
 /**
  * Defines values for ConnectionStringType.
- * Possible values include: 'MySql', 'SQLServer', 'SQLAzure', 'Custom', 'NotificationHub',
- * 'ServiceBus', 'EventHub', 'ApiHub', 'DocDb', 'RedisCache', 'PostgreSQL'
+ * Possible values include: 'MySql', 'SQLServer', 'SQLAzure', 'Custom',
+ * 'NotificationHub', 'ServiceBus', 'EventHub', 'ApiHub', 'DocDb',
+ * 'RedisCache', 'PostgreSQL'
  * @readonly
  * @enum {string}
  */
-export type ConnectionStringType = 'MySql' | 'SQLServer' | 'SQLAzure' | 'Custom' | 'NotificationHub' | 'ServiceBus' | 'EventHub' | 'ApiHub' | 'DocDb' | 'RedisCache' | 'PostgreSQL';
+export enum ConnectionStringType {
+  MySql = 'MySql',
+  SQLServer = 'SQLServer',
+  SQLAzure = 'SQLAzure',
+  Custom = 'Custom',
+  NotificationHub = 'NotificationHub',
+  ServiceBus = 'ServiceBus',
+  EventHub = 'EventHub',
+  ApiHub = 'ApiHub',
+  DocDb = 'DocDb',
+  RedisCache = 'RedisCache',
+  PostgreSQL = 'PostgreSQL',
+}
 
 /**
  * Defines values for AzureStorageType.
@@ -11398,7 +11390,10 @@ export type ConnectionStringType = 'MySql' | 'SQLServer' | 'SQLAzure' | 'Custom'
  * @readonly
  * @enum {string}
  */
-export type AzureStorageType = 'AzureFiles' | 'AzureBlob';
+export enum AzureStorageType {
+  AzureFiles = 'AzureFiles',
+  AzureBlob = 'AzureBlob',
+}
 
 /**
  * Defines values for AzureStorageState.
@@ -11406,16 +11401,39 @@ export type AzureStorageType = 'AzureFiles' | 'AzureBlob';
  * @readonly
  * @enum {string}
  */
-export type AzureStorageState = 'Ok' | 'InvalidCredentials' | 'InvalidShare';
+export enum AzureStorageState {
+  Ok = 'Ok',
+  InvalidCredentials = 'InvalidCredentials',
+  InvalidShare = 'InvalidShare',
+}
 
 /**
  * Defines values for ScmType.
- * Possible values include: 'None', 'Dropbox', 'Tfs', 'LocalGit', 'GitHub', 'CodePlexGit',
- * 'CodePlexHg', 'BitbucketGit', 'BitbucketHg', 'ExternalGit', 'ExternalHg', 'OneDrive', 'VSO'
+ * Possible values include: 'None', 'Dropbox', 'Tfs', 'LocalGit', 'GitHub',
+ * 'CodePlexGit', 'CodePlexHg', 'BitbucketGit', 'BitbucketHg', 'ExternalGit',
+ * 'ExternalHg', 'OneDrive', 'VSO'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ScmType = <ScmType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ScmType = 'None' | 'Dropbox' | 'Tfs' | 'LocalGit' | 'GitHub' | 'CodePlexGit' | 'CodePlexHg' | 'BitbucketGit' | 'BitbucketHg' | 'ExternalGit' | 'ExternalHg' | 'OneDrive' | 'VSO';
+export enum ScmType {
+  None = 'None',
+  Dropbox = 'Dropbox',
+  Tfs = 'Tfs',
+  LocalGit = 'LocalGit',
+  GitHub = 'GitHub',
+  CodePlexGit = 'CodePlexGit',
+  CodePlexHg = 'CodePlexHg',
+  BitbucketGit = 'BitbucketGit',
+  BitbucketHg = 'BitbucketHg',
+  ExternalGit = 'ExternalGit',
+  ExternalHg = 'ExternalHg',
+  OneDrive = 'OneDrive',
+  VSO = 'VSO',
+}
 
 /**
  * Defines values for ManagedPipelineMode.
@@ -11423,32 +11441,58 @@ export type ScmType = 'None' | 'Dropbox' | 'Tfs' | 'LocalGit' | 'GitHub' | 'Code
  * @readonly
  * @enum {string}
  */
-export type ManagedPipelineMode = 'Integrated' | 'Classic';
+export enum ManagedPipelineMode {
+  Integrated = 'Integrated',
+  Classic = 'Classic',
+}
 
 /**
  * Defines values for SiteLoadBalancing.
- * Possible values include: 'WeightedRoundRobin', 'LeastRequests', 'LeastResponseTime',
- * 'WeightedTotalTraffic', 'RequestHash'
+ * Possible values include: 'WeightedRoundRobin', 'LeastRequests',
+ * 'LeastResponseTime', 'WeightedTotalTraffic', 'RequestHash'
  * @readonly
  * @enum {string}
  */
-export type SiteLoadBalancing = 'WeightedRoundRobin' | 'LeastRequests' | 'LeastResponseTime' | 'WeightedTotalTraffic' | 'RequestHash';
+export enum SiteLoadBalancing {
+  WeightedRoundRobin = 'WeightedRoundRobin',
+  LeastRequests = 'LeastRequests',
+  LeastResponseTime = 'LeastResponseTime',
+  WeightedTotalTraffic = 'WeightedTotalTraffic',
+  RequestHash = 'RequestHash',
+}
 
 /**
  * Defines values for SupportedTlsVersions.
  * Possible values include: '1.0', '1.1', '1.2'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SupportedTlsVersions =
+ * <SupportedTlsVersions>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SupportedTlsVersions = '1.0' | '1.1' | '1.2';
+export enum SupportedTlsVersions {
+  OneFullStopZero = '1.0',
+  OneFullStopOne = '1.1',
+  OneFullStopTwo = '1.2',
+}
 
 /**
  * Defines values for FtpsState.
  * Possible values include: 'AllAllowed', 'FtpsOnly', 'Disabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: FtpsState = <FtpsState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type FtpsState = 'AllAllowed' | 'FtpsOnly' | 'Disabled';
+export enum FtpsState {
+  AllAllowed = 'AllAllowed',
+  FtpsOnly = 'FtpsOnly',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for SslState.
@@ -11456,7 +11500,11 @@ export type FtpsState = 'AllAllowed' | 'FtpsOnly' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type SslState = 'Disabled' | 'SniEnabled' | 'IpBasedEnabled';
+export enum SslState {
+  Disabled = 'Disabled',
+  SniEnabled = 'SniEnabled',
+  IpBasedEnabled = 'IpBasedEnabled',
+}
 
 /**
  * Defines values for HostType.
@@ -11464,7 +11512,10 @@ export type SslState = 'Disabled' | 'SniEnabled' | 'IpBasedEnabled';
  * @readonly
  * @enum {string}
  */
-export type HostType = 'Standard' | 'Repository';
+export enum HostType {
+  Standard = 'Standard',
+  Repository = 'Repository',
+}
 
 /**
  * Defines values for UsageState.
@@ -11472,7 +11523,10 @@ export type HostType = 'Standard' | 'Repository';
  * @readonly
  * @enum {string}
  */
-export type UsageState = 'Normal' | 'Exceeded';
+export enum UsageState {
+  Normal = 'Normal',
+  Exceeded = 'Exceeded',
+}
 
 /**
  * Defines values for SiteAvailabilityState.
@@ -11480,7 +11534,11 @@ export type UsageState = 'Normal' | 'Exceeded';
  * @readonly
  * @enum {string}
  */
-export type SiteAvailabilityState = 'Normal' | 'Limited' | 'DisasterRecoveryMode';
+export enum SiteAvailabilityState {
+  Normal = 'Normal',
+  Limited = 'Limited',
+  DisasterRecoveryMode = 'DisasterRecoveryMode',
+}
 
 /**
  * Defines values for StatusOptions.
@@ -11488,17 +11546,44 @@ export type SiteAvailabilityState = 'Normal' | 'Limited' | 'DisasterRecoveryMode
  * @readonly
  * @enum {string}
  */
-export type StatusOptions = 'Ready' | 'Pending' | 'Creating';
+export enum StatusOptions {
+  Ready = 'Ready',
+  Pending = 'Pending',
+  Creating = 'Creating',
+}
 
 /**
  * Defines values for DomainStatus.
- * Possible values include: 'Active', 'Awaiting', 'Cancelled', 'Confiscated', 'Disabled',
- * 'Excluded', 'Expired', 'Failed', 'Held', 'Locked', 'Parked', 'Pending', 'Reserved', 'Reverted',
- * 'Suspended', 'Transferred', 'Unknown', 'Unlocked', 'Unparked', 'Updated', 'JsonConverterFailed'
+ * Possible values include: 'Active', 'Awaiting', 'Cancelled', 'Confiscated',
+ * 'Disabled', 'Excluded', 'Expired', 'Failed', 'Held', 'Locked', 'Parked',
+ * 'Pending', 'Reserved', 'Reverted', 'Suspended', 'Transferred', 'Unknown',
+ * 'Unlocked', 'Unparked', 'Updated', 'JsonConverterFailed'
  * @readonly
  * @enum {string}
  */
-export type DomainStatus = 'Active' | 'Awaiting' | 'Cancelled' | 'Confiscated' | 'Disabled' | 'Excluded' | 'Expired' | 'Failed' | 'Held' | 'Locked' | 'Parked' | 'Pending' | 'Reserved' | 'Reverted' | 'Suspended' | 'Transferred' | 'Unknown' | 'Unlocked' | 'Unparked' | 'Updated' | 'JsonConverterFailed';
+export enum DomainStatus {
+  Active = 'Active',
+  Awaiting = 'Awaiting',
+  Cancelled = 'Cancelled',
+  Confiscated = 'Confiscated',
+  Disabled = 'Disabled',
+  Excluded = 'Excluded',
+  Expired = 'Expired',
+  Failed = 'Failed',
+  Held = 'Held',
+  Locked = 'Locked',
+  Parked = 'Parked',
+  Pending = 'Pending',
+  Reserved = 'Reserved',
+  Reverted = 'Reverted',
+  Suspended = 'Suspended',
+  Transferred = 'Transferred',
+  Unknown = 'Unknown',
+  Unlocked = 'Unlocked',
+  Unparked = 'Unparked',
+  Updated = 'Updated',
+  JsonConverterFailed = 'JsonConverterFailed',
+}
 
 /**
  * Defines values for AzureResourceType.
@@ -11506,7 +11591,10 @@ export type DomainStatus = 'Active' | 'Awaiting' | 'Cancelled' | 'Confiscated' |
  * @readonly
  * @enum {string}
  */
-export type AzureResourceType = 'Website' | 'TrafficManager';
+export enum AzureResourceType {
+  Website = 'Website',
+  TrafficManager = 'TrafficManager',
+}
 
 /**
  * Defines values for CustomHostNameDnsRecordType.
@@ -11514,7 +11602,10 @@ export type AzureResourceType = 'Website' | 'TrafficManager';
  * @readonly
  * @enum {string}
  */
-export type CustomHostNameDnsRecordType = 'CName' | 'A';
+export enum CustomHostNameDnsRecordType {
+  CName = 'CName',
+  A = 'A',
+}
 
 /**
  * Defines values for HostNameType.
@@ -11522,7 +11613,10 @@ export type CustomHostNameDnsRecordType = 'CName' | 'A';
  * @readonly
  * @enum {string}
  */
-export type HostNameType = 'Verified' | 'Managed';
+export enum HostNameType {
+  Verified = 'Verified',
+  Managed = 'Managed',
+}
 
 /**
  * Defines values for DnsType.
@@ -11530,7 +11624,10 @@ export type HostNameType = 'Verified' | 'Managed';
  * @readonly
  * @enum {string}
  */
-export type DnsType = 'AzureDns' | 'DefaultDomainRegistrarDns';
+export enum DnsType {
+  AzureDns = 'AzureDns',
+  DefaultDomainRegistrarDns = 'DefaultDomainRegistrarDns',
+}
 
 /**
  * Defines values for DomainType.
@@ -11538,7 +11635,10 @@ export type DnsType = 'AzureDns' | 'DefaultDomainRegistrarDns';
  * @readonly
  * @enum {string}
  */
-export type DomainType = 'Regular' | 'SoftDeleted';
+export enum DomainType {
+  Regular = 'Regular',
+  SoftDeleted = 'SoftDeleted',
+}
 
 /**
  * Defines values for HostingEnvironmentStatus.
@@ -11546,7 +11646,12 @@ export type DomainType = 'Regular' | 'SoftDeleted';
  * @readonly
  * @enum {string}
  */
-export type HostingEnvironmentStatus = 'Preparing' | 'Ready' | 'Scaling' | 'Deleting';
+export enum HostingEnvironmentStatus {
+  Preparing = 'Preparing',
+  Ready = 'Ready',
+  Scaling = 'Scaling',
+  Deleting = 'Deleting',
+}
 
 /**
  * Defines values for InternalLoadBalancingMode.
@@ -11554,7 +11659,11 @@ export type HostingEnvironmentStatus = 'Preparing' | 'Ready' | 'Scaling' | 'Dele
  * @readonly
  * @enum {string}
  */
-export type InternalLoadBalancingMode = 'None' | 'Web' | 'Publishing';
+export enum InternalLoadBalancingMode {
+  None = 'None',
+  Web = 'Web',
+  Publishing = 'Publishing',
+}
 
 /**
  * Defines values for ComputeModeOptions.
@@ -11562,15 +11671,28 @@ export type InternalLoadBalancingMode = 'None' | 'Web' | 'Publishing';
  * @readonly
  * @enum {string}
  */
-export type ComputeModeOptions = 'Shared' | 'Dedicated' | 'Dynamic';
+export enum ComputeModeOptions {
+  Shared = 'Shared',
+  Dedicated = 'Dedicated',
+  Dynamic = 'Dynamic',
+}
 
 /**
  * Defines values for WorkerSizeOptions.
- * Possible values include: 'Small', 'Medium', 'Large', 'D1', 'D2', 'D3', 'Default'
+ * Possible values include: 'Small', 'Medium', 'Large', 'D1', 'D2', 'D3',
+ * 'Default'
  * @readonly
  * @enum {string}
  */
-export type WorkerSizeOptions = 'Small' | 'Medium' | 'Large' | 'D1' | 'D2' | 'D3' | 'Default';
+export enum WorkerSizeOptions {
+  Small = 'Small',
+  Medium = 'Medium',
+  Large = 'Large',
+  D1 = 'D1',
+  D2 = 'D2',
+  D3 = 'D3',
+  Default = 'Default',
+}
 
 /**
  * Defines values for AccessControlEntryAction.
@@ -11578,56 +11700,102 @@ export type WorkerSizeOptions = 'Small' | 'Medium' | 'Large' | 'D1' | 'D2' | 'D3
  * @readonly
  * @enum {string}
  */
-export type AccessControlEntryAction = 'Permit' | 'Deny';
+export enum AccessControlEntryAction {
+  Permit = 'Permit',
+  Deny = 'Deny',
+}
 
 /**
  * Defines values for OperationStatus.
- * Possible values include: 'InProgress', 'Failed', 'Succeeded', 'TimedOut', 'Created'
+ * Possible values include: 'InProgress', 'Failed', 'Succeeded', 'TimedOut',
+ * 'Created'
  * @readonly
  * @enum {string}
  */
-export type OperationStatus = 'InProgress' | 'Failed' | 'Succeeded' | 'TimedOut' | 'Created';
+export enum OperationStatus {
+  InProgress = 'InProgress',
+  Failed = 'Failed',
+  Succeeded = 'Succeeded',
+  TimedOut = 'TimedOut',
+  Created = 'Created',
+}
 
 /**
  * Defines values for IssueType.
- * Possible values include: 'ServiceIncident', 'AppDeployment', 'AppCrash', 'RuntimeIssueDetected',
- * 'AseDeployment', 'UserIssue', 'PlatformIssue', 'Other'
+ * Possible values include: 'ServiceIncident', 'AppDeployment', 'AppCrash',
+ * 'RuntimeIssueDetected', 'AseDeployment', 'UserIssue', 'PlatformIssue',
+ * 'Other'
  * @readonly
  * @enum {string}
  */
-export type IssueType = 'ServiceIncident' | 'AppDeployment' | 'AppCrash' | 'RuntimeIssueDetected' | 'AseDeployment' | 'UserIssue' | 'PlatformIssue' | 'Other';
+export enum IssueType {
+  ServiceIncident = 'ServiceIncident',
+  AppDeployment = 'AppDeployment',
+  AppCrash = 'AppCrash',
+  RuntimeIssueDetected = 'RuntimeIssueDetected',
+  AseDeployment = 'AseDeployment',
+  UserIssue = 'UserIssue',
+  PlatformIssue = 'PlatformIssue',
+  Other = 'Other',
+}
 
 /**
  * Defines values for SolutionType.
- * Possible values include: 'QuickSolution', 'DeepInvestigation', 'BestPractices'
+ * Possible values include: 'QuickSolution', 'DeepInvestigation',
+ * 'BestPractices'
  * @readonly
  * @enum {string}
  */
-export type SolutionType = 'QuickSolution' | 'DeepInvestigation' | 'BestPractices';
+export enum SolutionType {
+  QuickSolution = 'QuickSolution',
+  DeepInvestigation = 'DeepInvestigation',
+  BestPractices = 'BestPractices',
+}
 
 /**
  * Defines values for RenderingType.
- * Possible values include: 'NoGraph', 'Table', 'TimeSeries', 'TimeSeriesPerInstance'
+ * Possible values include: 'NoGraph', 'Table', 'TimeSeries',
+ * 'TimeSeriesPerInstance'
  * @readonly
  * @enum {string}
  */
-export type RenderingType = 'NoGraph' | 'Table' | 'TimeSeries' | 'TimeSeriesPerInstance';
+export enum RenderingType {
+  NoGraph = 'NoGraph',
+  Table = 'Table',
+  TimeSeries = 'TimeSeries',
+  TimeSeriesPerInstance = 'TimeSeriesPerInstance',
+}
 
 /**
  * Defines values for ResourceScopeType.
  * Possible values include: 'ServerFarm', 'Subscription', 'WebSite'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ResourceScopeType =
+ * <ResourceScopeType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ResourceScopeType = 'ServerFarm' | 'Subscription' | 'WebSite';
+export enum ResourceScopeType {
+  ServerFarm = 'ServerFarm',
+  Subscription = 'Subscription',
+  WebSite = 'WebSite',
+}
 
 /**
  * Defines values for NotificationLevel.
- * Possible values include: 'Critical', 'Warning', 'Information', 'NonUrgentSuggestion'
+ * Possible values include: 'Critical', 'Warning', 'Information',
+ * 'NonUrgentSuggestion'
  * @readonly
  * @enum {string}
  */
-export type NotificationLevel = 'Critical' | 'Warning' | 'Information' | 'NonUrgentSuggestion';
+export enum NotificationLevel {
+  Critical = 'Critical',
+  Warning = 'Warning',
+  Information = 'Information',
+  NonUrgentSuggestion = 'NonUrgentSuggestion',
+}
 
 /**
  * Defines values for Channels.
@@ -11635,41 +11803,85 @@ export type NotificationLevel = 'Critical' | 'Warning' | 'Information' | 'NonUrg
  * @readonly
  * @enum {string}
  */
-export type Channels = 'Notification' | 'Api' | 'Email' | 'Webhook' | 'All';
+export enum Channels {
+  Notification = 'Notification',
+  Api = 'Api',
+  Email = 'Email',
+  Webhook = 'Webhook',
+  All = 'All',
+}
 
 /**
  * Defines values for AppServicePlanRestrictions.
- * Possible values include: 'None', 'Free', 'Shared', 'Basic', 'Standard', 'Premium'
+ * Possible values include: 'None', 'Free', 'Shared', 'Basic', 'Standard',
+ * 'Premium'
  * @readonly
  * @enum {string}
  */
-export type AppServicePlanRestrictions = 'None' | 'Free' | 'Shared' | 'Basic' | 'Standard' | 'Premium';
+export enum AppServicePlanRestrictions {
+  None = 'None',
+  Free = 'Free',
+  Shared = 'Shared',
+  Basic = 'Basic',
+  Standard = 'Standard',
+  Premium = 'Premium',
+}
 
 /**
  * Defines values for InAvailabilityReasonType.
  * Possible values include: 'Invalid', 'AlreadyExists'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: InAvailabilityReasonType =
+ * <InAvailabilityReasonType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type InAvailabilityReasonType = 'Invalid' | 'AlreadyExists';
+export enum InAvailabilityReasonType {
+  Invalid = 'Invalid',
+  AlreadyExists = 'AlreadyExists',
+}
 
 /**
  * Defines values for CheckNameResourceTypes.
- * Possible values include: 'Site', 'Slot', 'HostingEnvironment', 'PublishingUser',
- * 'Microsoft.Web/sites', 'Microsoft.Web/sites/slots', 'Microsoft.Web/hostingEnvironments',
- * 'Microsoft.Web/publishingUsers'
+ * Possible values include: 'Site', 'Slot', 'HostingEnvironment',
+ * 'PublishingUser', 'Microsoft.Web/sites', 'Microsoft.Web/sites/slots',
+ * 'Microsoft.Web/hostingEnvironments', 'Microsoft.Web/publishingUsers'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: CheckNameResourceTypes =
+ * <CheckNameResourceTypes>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type CheckNameResourceTypes = 'Site' | 'Slot' | 'HostingEnvironment' | 'PublishingUser' | 'Microsoft.Web/sites' | 'Microsoft.Web/sites/slots' | 'Microsoft.Web/hostingEnvironments' | 'Microsoft.Web/publishingUsers';
+export enum CheckNameResourceTypes {
+  Site = 'Site',
+  Slot = 'Slot',
+  HostingEnvironment = 'HostingEnvironment',
+  PublishingUser = 'PublishingUser',
+  MicrosoftWebsites = 'Microsoft.Web/sites',
+  MicrosoftWebsitesslots = 'Microsoft.Web/sites/slots',
+  MicrosoftWebhostingEnvironments = 'Microsoft.Web/hostingEnvironments',
+  MicrosoftWebpublishingUsers = 'Microsoft.Web/publishingUsers',
+}
 
 /**
  * Defines values for ValidateResourceTypes.
  * Possible values include: 'ServerFarm', 'Site'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ValidateResourceTypes =
+ * <ValidateResourceTypes>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ValidateResourceTypes = 'ServerFarm' | 'Site';
+export enum ValidateResourceTypes {
+  ServerFarm = 'ServerFarm',
+  Site = 'Site',
+}
 
 /**
  * Defines values for LogLevel.
@@ -11677,24 +11889,52 @@ export type ValidateResourceTypes = 'ServerFarm' | 'Site';
  * @readonly
  * @enum {string}
  */
-export type LogLevel = 'Off' | 'Verbose' | 'Information' | 'Warning' | 'Error';
+export enum LogLevel {
+  Off = 'Off',
+  Verbose = 'Verbose',
+  Information = 'Information',
+  Warning = 'Warning',
+  Error = 'Error',
+}
 
 /**
  * Defines values for BackupItemStatus.
- * Possible values include: 'InProgress', 'Failed', 'Succeeded', 'TimedOut', 'Created', 'Skipped',
- * 'PartiallySucceeded', 'DeleteInProgress', 'DeleteFailed', 'Deleted'
+ * Possible values include: 'InProgress', 'Failed', 'Succeeded', 'TimedOut',
+ * 'Created', 'Skipped', 'PartiallySucceeded', 'DeleteInProgress',
+ * 'DeleteFailed', 'Deleted'
  * @readonly
  * @enum {string}
  */
-export type BackupItemStatus = 'InProgress' | 'Failed' | 'Succeeded' | 'TimedOut' | 'Created' | 'Skipped' | 'PartiallySucceeded' | 'DeleteInProgress' | 'DeleteFailed' | 'Deleted';
+export enum BackupItemStatus {
+  InProgress = 'InProgress',
+  Failed = 'Failed',
+  Succeeded = 'Succeeded',
+  TimedOut = 'TimedOut',
+  Created = 'Created',
+  Skipped = 'Skipped',
+  PartiallySucceeded = 'PartiallySucceeded',
+  DeleteInProgress = 'DeleteInProgress',
+  DeleteFailed = 'DeleteFailed',
+  Deleted = 'Deleted',
+}
 
 /**
  * Defines values for DatabaseType.
  * Possible values include: 'SqlAzure', 'MySql', 'LocalMySql', 'PostgreSql'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: DatabaseType =
+ * <DatabaseType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type DatabaseType = 'SqlAzure' | 'MySql' | 'LocalMySql' | 'PostgreSql';
+export enum DatabaseType {
+  SqlAzure = 'SqlAzure',
+  MySql = 'MySql',
+  LocalMySql = 'LocalMySql',
+  PostgreSql = 'PostgreSql',
+}
 
 /**
  * Defines values for FrequencyUnit.
@@ -11702,15 +11942,25 @@ export type DatabaseType = 'SqlAzure' | 'MySql' | 'LocalMySql' | 'PostgreSql';
  * @readonly
  * @enum {string}
  */
-export type FrequencyUnit = 'Day' | 'Hour';
+export enum FrequencyUnit {
+  Day = 'Day',
+  Hour = 'Hour',
+}
 
 /**
  * Defines values for ContinuousWebJobStatus.
- * Possible values include: 'Initializing', 'Starting', 'Running', 'PendingRestart', 'Stopped'
+ * Possible values include: 'Initializing', 'Starting', 'Running',
+ * 'PendingRestart', 'Stopped'
  * @readonly
  * @enum {string}
  */
-export type ContinuousWebJobStatus = 'Initializing' | 'Starting' | 'Running' | 'PendingRestart' | 'Stopped';
+export enum ContinuousWebJobStatus {
+  Initializing = 'Initializing',
+  Starting = 'Starting',
+  Running = 'Running',
+  PendingRestart = 'PendingRestart',
+  Stopped = 'Stopped',
+}
 
 /**
  * Defines values for WebJobType.
@@ -11718,15 +11968,27 @@ export type ContinuousWebJobStatus = 'Initializing' | 'Starting' | 'Running' | '
  * @readonly
  * @enum {string}
  */
-export type WebJobType = 'Continuous' | 'Triggered';
+export enum WebJobType {
+  Continuous = 'Continuous',
+  Triggered = 'Triggered',
+}
 
 /**
  * Defines values for PublishingProfileFormat.
  * Possible values include: 'FileZilla3', 'WebDeploy', 'Ftp'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: PublishingProfileFormat =
+ * <PublishingProfileFormat>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type PublishingProfileFormat = 'FileZilla3' | 'WebDeploy' | 'Ftp';
+export enum PublishingProfileFormat {
+  FileZilla3 = 'FileZilla3',
+  WebDeploy = 'WebDeploy',
+  Ftp = 'Ftp',
+}
 
 /**
  * Defines values for DnsVerificationTestResult.
@@ -11734,7 +11996,11 @@ export type PublishingProfileFormat = 'FileZilla3' | 'WebDeploy' | 'Ftp';
  * @readonly
  * @enum {string}
  */
-export type DnsVerificationTestResult = 'Passed' | 'Failed' | 'Skipped';
+export enum DnsVerificationTestResult {
+  Passed = 'Passed',
+  Failed = 'Failed',
+  Skipped = 'Skipped',
+}
 
 /**
  * Defines values for MSDeployLogEntryType.
@@ -11742,15 +12008,26 @@ export type DnsVerificationTestResult = 'Passed' | 'Failed' | 'Skipped';
  * @readonly
  * @enum {string}
  */
-export type MSDeployLogEntryType = 'Message' | 'Warning' | 'Error';
+export enum MSDeployLogEntryType {
+  Message = 'Message',
+  Warning = 'Warning',
+  Error = 'Error',
+}
 
 /**
  * Defines values for MSDeployProvisioningState.
- * Possible values include: 'accepted', 'running', 'succeeded', 'failed', 'canceled'
+ * Possible values include: 'accepted', 'running', 'succeeded', 'failed',
+ * 'canceled'
  * @readonly
  * @enum {string}
  */
-export type MSDeployProvisioningState = 'accepted' | 'running' | 'succeeded' | 'failed' | 'canceled';
+export enum MSDeployProvisioningState {
+  Accepted = 'accepted',
+  Running = 'running',
+  Succeeded = 'succeeded',
+  Failed = 'failed',
+  Canceled = 'canceled',
+}
 
 /**
  * Defines values for MySqlMigrationType.
@@ -11758,7 +12035,10 @@ export type MSDeployProvisioningState = 'accepted' | 'running' | 'succeeded' | '
  * @readonly
  * @enum {string}
  */
-export type MySqlMigrationType = 'LocalToRemote' | 'RemoteToLocal';
+export enum MySqlMigrationType {
+  LocalToRemote = 'LocalToRemote',
+  RemoteToLocal = 'RemoteToLocal',
+}
 
 /**
  * Defines values for PublicCertificateLocation.
@@ -11766,15 +12046,26 @@ export type MySqlMigrationType = 'LocalToRemote' | 'RemoteToLocal';
  * @readonly
  * @enum {string}
  */
-export type PublicCertificateLocation = 'CurrentUserMy' | 'LocalMachineMy' | 'Unknown';
+export enum PublicCertificateLocation {
+  CurrentUserMy = 'CurrentUserMy',
+  LocalMachineMy = 'LocalMachineMy',
+  Unknown = 'Unknown',
+}
 
 /**
  * Defines values for BackupRestoreOperationType.
- * Possible values include: 'Default', 'Clone', 'Relocation', 'Snapshot', 'CloudFS'
+ * Possible values include: 'Default', 'Clone', 'Relocation', 'Snapshot',
+ * 'CloudFS'
  * @readonly
  * @enum {string}
  */
-export type BackupRestoreOperationType = 'Default' | 'Clone' | 'Relocation' | 'Snapshot' | 'CloudFS';
+export enum BackupRestoreOperationType {
+  Default = 'Default',
+  Clone = 'Clone',
+  Relocation = 'Relocation',
+  Snapshot = 'Snapshot',
+  CloudFS = 'CloudFS',
+}
 
 /**
  * Defines values for UnauthenticatedClientAction.
@@ -11782,16 +12073,25 @@ export type BackupRestoreOperationType = 'Default' | 'Clone' | 'Relocation' | 'S
  * @readonly
  * @enum {string}
  */
-export type UnauthenticatedClientAction = 'RedirectToLoginPage' | 'AllowAnonymous';
+export enum UnauthenticatedClientAction {
+  RedirectToLoginPage = 'RedirectToLoginPage',
+  AllowAnonymous = 'AllowAnonymous',
+}
 
 /**
  * Defines values for BuiltInAuthenticationProvider.
- * Possible values include: 'AzureActiveDirectory', 'Facebook', 'Google', 'MicrosoftAccount',
- * 'Twitter'
+ * Possible values include: 'AzureActiveDirectory', 'Facebook', 'Google',
+ * 'MicrosoftAccount', 'Twitter'
  * @readonly
  * @enum {string}
  */
-export type BuiltInAuthenticationProvider = 'AzureActiveDirectory' | 'Facebook' | 'Google' | 'MicrosoftAccount' | 'Twitter';
+export enum BuiltInAuthenticationProvider {
+  AzureActiveDirectory = 'AzureActiveDirectory',
+  Facebook = 'Facebook',
+  Google = 'Google',
+  MicrosoftAccount = 'MicrosoftAccount',
+  Twitter = 'Twitter',
+}
 
 /**
  * Defines values for CloneAbilityResult.
@@ -11799,7 +12099,11 @@ export type BuiltInAuthenticationProvider = 'AzureActiveDirectory' | 'Facebook' 
  * @readonly
  * @enum {string}
  */
-export type CloneAbilityResult = 'Cloneable' | 'PartiallyCloneable' | 'NotCloneable';
+export enum CloneAbilityResult {
+  Cloneable = 'Cloneable',
+  PartiallyCloneable = 'PartiallyCloneable',
+  NotCloneable = 'NotCloneable',
+}
 
 /**
  * Defines values for SiteExtensionType.
@@ -11807,7 +12111,10 @@ export type CloneAbilityResult = 'Cloneable' | 'PartiallyCloneable' | 'NotClonea
  * @readonly
  * @enum {string}
  */
-export type SiteExtensionType = 'Gallery' | 'WebRoot';
+export enum SiteExtensionType {
+  Gallery = 'Gallery',
+  WebRoot = 'WebRoot',
+}
 
 /**
  * Defines values for TriggeredWebJobStatus.
@@ -11815,32 +12122,73 @@ export type SiteExtensionType = 'Gallery' | 'WebRoot';
  * @readonly
  * @enum {string}
  */
-export type TriggeredWebJobStatus = 'Success' | 'Failed' | 'Error';
+export enum TriggeredWebJobStatus {
+  Success = 'Success',
+  Failed = 'Failed',
+  Error = 'Error',
+}
 
 /**
  * Defines values for SkuName.
- * Possible values include: 'Free', 'Shared', 'Basic', 'Standard', 'Premium', 'Dynamic',
- * 'Isolated', 'PremiumV2', 'ElasticPremium', 'ElasticIsolated'
+ * Possible values include: 'Free', 'Shared', 'Basic', 'Standard', 'Premium',
+ * 'Dynamic', 'Isolated', 'PremiumV2', 'ElasticPremium', 'ElasticIsolated'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SkuName = <SkuName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'Free' | 'Shared' | 'Basic' | 'Standard' | 'Premium' | 'Dynamic' | 'Isolated' | 'PremiumV2' | 'ElasticPremium' | 'ElasticIsolated';
+export enum SkuName {
+  Free = 'Free',
+  Shared = 'Shared',
+  Basic = 'Basic',
+  Standard = 'Standard',
+  Premium = 'Premium',
+  Dynamic = 'Dynamic',
+  Isolated = 'Isolated',
+  PremiumV2 = 'PremiumV2',
+  ElasticPremium = 'ElasticPremium',
+  ElasticIsolated = 'ElasticIsolated',
+}
 
 /**
  * Defines values for OsTypeSelected.
- * Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions'
+ * Possible values include: 'Windows', 'Linux', 'WindowsFunctions',
+ * 'LinuxFunctions'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: OsTypeSelected =
+ * <OsTypeSelected>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type OsTypeSelected = 'Windows' | 'Linux' | 'WindowsFunctions' | 'LinuxFunctions';
+export enum OsTypeSelected {
+  Windows = 'Windows',
+  Linux = 'Linux',
+  WindowsFunctions = 'WindowsFunctions',
+  LinuxFunctions = 'LinuxFunctions',
+}
 
 /**
  * Defines values for OsTypeSelected1.
- * Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions'
+ * Possible values include: 'Windows', 'Linux', 'WindowsFunctions',
+ * 'LinuxFunctions'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: OsTypeSelected1 =
+ * <OsTypeSelected1>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type OsTypeSelected1 = 'Windows' | 'Linux' | 'WindowsFunctions' | 'LinuxFunctions';
+export enum OsTypeSelected1 {
+  Windows = 'Windows',
+  Linux = 'Linux',
+  WindowsFunctions = 'WindowsFunctions',
+  LinuxFunctions = 'LinuxFunctions',
+}
 
 /**
  * Contains response data for the list operation.
@@ -15797,7 +16145,11 @@ export type WebAppsListNetworkFeaturesResponse = NetworkFeatures & {
 /**
  * Contains response data for the getNetworkTraceOperation operation.
  */
-export type WebAppsGetNetworkTraceOperationResponse = Array<NetworkTrace> & {
+export type WebAppsGetNetworkTraceOperationResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -15809,7 +16161,7 @@ export type WebAppsGetNetworkTraceOperationResponse = Array<NetworkTrace> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: NetworkTrace[];
+      parsedBody: any;
     };
 };
 
@@ -15839,7 +16191,11 @@ export type WebAppsStartWebSiteNetworkTraceResponse = {
 /**
  * Contains response data for the startWebSiteNetworkTraceOperation operation.
  */
-export type WebAppsStartWebSiteNetworkTraceOperationResponse = Array<NetworkTrace> & {
+export type WebAppsStartWebSiteNetworkTraceOperationResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -15851,7 +16207,7 @@ export type WebAppsStartWebSiteNetworkTraceOperationResponse = Array<NetworkTrac
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: NetworkTrace[];
+      parsedBody: any;
     };
 };
 
@@ -15859,44 +16215,6 @@ export type WebAppsStartWebSiteNetworkTraceOperationResponse = Array<NetworkTrac
  * Contains response data for the getNetworkTraces operation.
  */
 export type WebAppsGetNetworkTracesResponse = Array<NetworkTrace> & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkTrace[];
-    };
-};
-
-/**
- * Contains response data for the getNetworkTraceOperationV2 operation.
- */
-export type WebAppsGetNetworkTraceOperationV2Response = Array<NetworkTrace> & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkTrace[];
-    };
-};
-
-/**
- * Contains response data for the getNetworkTracesV2 operation.
- */
-export type WebAppsGetNetworkTracesV2Response = Array<NetworkTrace> & {
   /**
    * The underlying HTTP response.
    */
@@ -17977,7 +18295,11 @@ export type WebAppsListNetworkFeaturesSlotResponse = NetworkFeatures & {
 /**
  * Contains response data for the getNetworkTraceOperationSlot operation.
  */
-export type WebAppsGetNetworkTraceOperationSlotResponse = Array<NetworkTrace> & {
+export type WebAppsGetNetworkTraceOperationSlotResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -17989,7 +18311,7 @@ export type WebAppsGetNetworkTraceOperationSlotResponse = Array<NetworkTrace> & 
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: NetworkTrace[];
+      parsedBody: any;
     };
 };
 
@@ -18019,7 +18341,11 @@ export type WebAppsStartWebSiteNetworkTraceSlotResponse = {
 /**
  * Contains response data for the startWebSiteNetworkTraceOperationSlot operation.
  */
-export type WebAppsStartWebSiteNetworkTraceOperationSlotResponse = Array<NetworkTrace> & {
+export type WebAppsStartWebSiteNetworkTraceOperationSlotResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -18031,7 +18357,7 @@ export type WebAppsStartWebSiteNetworkTraceOperationSlotResponse = Array<Network
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: NetworkTrace[];
+      parsedBody: any;
     };
 };
 
@@ -18039,44 +18365,6 @@ export type WebAppsStartWebSiteNetworkTraceOperationSlotResponse = Array<Network
  * Contains response data for the getNetworkTracesSlot operation.
  */
 export type WebAppsGetNetworkTracesSlotResponse = Array<NetworkTrace> & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkTrace[];
-    };
-};
-
-/**
- * Contains response data for the getNetworkTraceOperationSlotV2 operation.
- */
-export type WebAppsGetNetworkTraceOperationSlotV2Response = Array<NetworkTrace> & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkTrace[];
-    };
-};
-
-/**
- * Contains response data for the getNetworkTracesSlotV2 operation.
- */
-export type WebAppsGetNetworkTracesSlotV2Response = Array<NetworkTrace> & {
   /**
    * The underlying HTTP response.
    */
@@ -18635,25 +18923,6 @@ export type WebAppsUpdateSourceControlSlotResponse = SiteSourceControl & {
 };
 
 /**
- * Contains response data for the startNetworkTraceSlot operation.
- */
-export type WebAppsStartNetworkTraceSlotResponse = Array<NetworkTrace> & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkTrace[];
-    };
-};
-
-/**
  * Contains response data for the listTriggeredWebJobsSlot operation.
  */
 export type WebAppsListTriggeredWebJobsSlotResponse = TriggeredWebJobCollection & {
@@ -19030,25 +19299,6 @@ export type WebAppsUpdateSourceControlResponse = SiteSourceControl & {
        * The response body as parsed JSON or XML
        */
       parsedBody: SiteSourceControl;
-    };
-};
-
-/**
- * Contains response data for the startNetworkTrace operation.
- */
-export type WebAppsStartNetworkTraceResponse = Array<NetworkTrace> & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkTrace[];
     };
 };
 
@@ -19454,7 +19704,11 @@ export type WebAppsBeginMigrateMySqlResponse = Operation & {
 /**
  * Contains response data for the beginStartWebSiteNetworkTraceOperation operation.
  */
-export type WebAppsBeginStartWebSiteNetworkTraceOperationResponse = Array<NetworkTrace> & {
+export type WebAppsBeginStartWebSiteNetworkTraceOperationResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -19466,7 +19720,7 @@ export type WebAppsBeginStartWebSiteNetworkTraceOperationResponse = Array<Networ
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: NetworkTrace[];
+      parsedBody: any;
     };
 };
 
@@ -19587,7 +19841,11 @@ export type WebAppsBeginCreateInstanceMSDeployOperationSlotResponse = MSDeploySt
 /**
  * Contains response data for the beginStartWebSiteNetworkTraceOperationSlot operation.
  */
-export type WebAppsBeginStartWebSiteNetworkTraceOperationSlotResponse = Array<NetworkTrace> & {
+export type WebAppsBeginStartWebSiteNetworkTraceOperationSlotResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -19599,7 +19857,7 @@ export type WebAppsBeginStartWebSiteNetworkTraceOperationSlotResponse = Array<Ne
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: NetworkTrace[];
+      parsedBody: any;
     };
 };
 
@@ -19642,25 +19900,6 @@ export type WebAppsBeginCreateOrUpdateSourceControlSlotResponse = SiteSourceCont
 };
 
 /**
- * Contains response data for the beginStartNetworkTraceSlot operation.
- */
-export type WebAppsBeginStartNetworkTraceSlotResponse = Array<NetworkTrace> & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkTrace[];
-    };
-};
-
-/**
  * Contains response data for the beginCreateOrUpdateSourceControl operation.
  */
 export type WebAppsBeginCreateOrUpdateSourceControlResponse = SiteSourceControl & {
@@ -19676,25 +19915,6 @@ export type WebAppsBeginCreateOrUpdateSourceControlResponse = SiteSourceControl 
        * The response body as parsed JSON or XML
        */
       parsedBody: SiteSourceControl;
-    };
-};
-
-/**
- * Contains response data for the beginStartNetworkTrace operation.
- */
-export type WebAppsBeginStartNetworkTraceResponse = Array<NetworkTrace> & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkTrace[];
     };
 };
 

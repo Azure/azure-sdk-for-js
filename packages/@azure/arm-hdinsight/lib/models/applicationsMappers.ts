@@ -38,8 +38,6 @@ export {
   ClusterDefinition,
   SecurityProfile,
   QuotaInfo,
-  ConnectivityEndpoint,
-  ClusterIdentity,
-  ClusterIdentityUserAssignedIdentitiesValue
+  ConnectivityEndpoint
 } from "../models/mappers";
 

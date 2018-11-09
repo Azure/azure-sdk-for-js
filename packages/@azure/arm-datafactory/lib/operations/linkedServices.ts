@@ -47,7 +47,7 @@ export class LinkedServices {
    * @param callback The callback
    */
   listByFactory(resourceGroupName: string, factoryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LinkedServiceListResponse>): void;
-  listByFactory(resourceGroupName: string, factoryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LinkedServiceListResponse>, callback?: msRest.ServiceCallback<Models.LinkedServiceListResponse>): Promise<Models.LinkedServicesListByFactoryResponse> {
+  listByFactory(resourceGroupName: string, factoryName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LinkedServiceListResponse>): Promise<Models.LinkedServicesListByFactoryResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -85,7 +85,7 @@ export class LinkedServices {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, factoryName: string, linkedServiceName: string, linkedService: Models.LinkedServiceResource, options: Models.LinkedServicesCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.LinkedServiceResource>): void;
-  createOrUpdate(resourceGroupName: string, factoryName: string, linkedServiceName: string, linkedService: Models.LinkedServiceResource, options?: Models.LinkedServicesCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.LinkedServiceResource>, callback?: msRest.ServiceCallback<Models.LinkedServiceResource>): Promise<Models.LinkedServicesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, factoryName: string, linkedServiceName: string, linkedService: Models.LinkedServiceResource, options?: Models.LinkedServicesCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.LinkedServiceResource>): Promise<Models.LinkedServicesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -122,7 +122,7 @@ export class LinkedServices {
    * @param callback The callback
    */
   get(resourceGroupName: string, factoryName: string, linkedServiceName: string, options: Models.LinkedServicesGetOptionalParams, callback: msRest.ServiceCallback<Models.LinkedServiceResource>): void;
-  get(resourceGroupName: string, factoryName: string, linkedServiceName: string, options?: Models.LinkedServicesGetOptionalParams | msRest.ServiceCallback<Models.LinkedServiceResource>, callback?: msRest.ServiceCallback<Models.LinkedServiceResource>): Promise<Models.LinkedServicesGetResponse> {
+  get(resourceGroupName: string, factoryName: string, linkedServiceName: string, options?: Models.LinkedServicesGetOptionalParams, callback?: msRest.ServiceCallback<Models.LinkedServiceResource>): Promise<Models.LinkedServicesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +158,7 @@ export class LinkedServices {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, factoryName: string, linkedServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, factoryName: string, linkedServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, factoryName: string, linkedServiceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -188,7 +188,7 @@ export class LinkedServices {
    * @param callback The callback
    */
   listByFactoryNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LinkedServiceListResponse>): void;
-  listByFactoryNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LinkedServiceListResponse>, callback?: msRest.ServiceCallback<Models.LinkedServiceListResponse>): Promise<Models.LinkedServicesListByFactoryNextResponse> {
+  listByFactoryNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LinkedServiceListResponse>): Promise<Models.LinkedServicesListByFactoryNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

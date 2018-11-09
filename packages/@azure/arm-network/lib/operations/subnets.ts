@@ -64,7 +64,7 @@ export class Subnets {
    * @param callback The callback
    */
   get(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options: Models.SubnetsGetOptionalParams, callback: msRest.ServiceCallback<Models.Subnet>): void;
-  get(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: Models.SubnetsGetOptionalParams | msRest.ServiceCallback<Models.Subnet>, callback?: msRest.ServiceCallback<Models.Subnet>): Promise<Models.SubnetsGetResponse> {
+  get(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: Models.SubnetsGetOptionalParams, callback?: msRest.ServiceCallback<Models.Subnet>): Promise<Models.SubnetsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -111,7 +111,7 @@ export class Subnets {
    * @param callback The callback
    */
   list(resourceGroupName: string, virtualNetworkName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubnetListResult>): void;
-  list(resourceGroupName: string, virtualNetworkName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubnetListResult>, callback?: msRest.ServiceCallback<Models.SubnetListResult>): Promise<Models.SubnetsListResponse> {
+  list(resourceGroupName: string, virtualNetworkName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SubnetListResult>): Promise<Models.SubnetsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -182,7 +182,7 @@ export class Subnets {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubnetListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubnetListResult>, callback?: msRest.ServiceCallback<Models.SubnetListResult>): Promise<Models.SubnetsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SubnetListResult>): Promise<Models.SubnetsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

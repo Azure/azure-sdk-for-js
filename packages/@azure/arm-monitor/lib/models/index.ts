@@ -1557,24 +1557,6 @@ export interface AzureFunctionReceiver {
 
 /**
  * @interface
- * An interface representing ArmRoleReceiver.
- * An arm role receiver.
- *
- */
-export interface ArmRoleReceiver {
-  /**
-   * @member {string} name The name of the arm role receiver. Names must be
-   * unique across all receivers within an action group.
-   */
-  name: string;
-  /**
-   * @member {string} roleId The arm role id.
-   */
-  roleId: string;
-}
-
-/**
- * @interface
  * An interface representing ActionGroupResource.
  * An action group resource.
  *
@@ -1637,12 +1619,6 @@ export interface ActionGroupResource extends Resource {
    * azure function receivers that are part of this action group.
    */
   azureFunctionReceivers?: AzureFunctionReceiver[];
-  /**
-   * @member {ArmRoleReceiver[]} [armRoleReceivers] The list of ARM role
-   * receivers that are part of this action group. Roles are Azure RBAC roles
-   * and only built-in roles are supported.
-   */
-  armRoleReceivers?: ArmRoleReceiver[];
 }
 
 /**

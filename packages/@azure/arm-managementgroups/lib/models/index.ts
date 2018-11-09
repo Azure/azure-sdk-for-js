@@ -165,6 +165,24 @@ export interface TenantBackfillStatusResult {
 
 /**
  * @interface
+ * An interface representing ManagementGroupInfoProperties.
+ * The generic properties of a management group.
+ *
+ */
+export interface ManagementGroupInfoProperties {
+  /**
+   * @member {string} [tenantId] The AAD Tenant ID associated with the
+   * management group. For example, 00000000-0000-0000-0000-000000000000
+   */
+  tenantId?: string;
+  /**
+   * @member {string} [displayName] The friendly name of the management group.
+   */
+  displayName?: string;
+}
+
+/**
+ * @interface
  * An interface representing ManagementGroupInfo.
  * The management group resource.
  *
@@ -296,6 +314,37 @@ export interface ManagementGroupChildInfo {
 
 /**
  * @interface
+ * An interface representing ManagementGroupProperties.
+ * The generic properties of a management group.
+ *
+ */
+export interface ManagementGroupProperties {
+  /**
+   * @member {string} [tenantId] The AAD Tenant ID associated with the
+   * management group. For example, 00000000-0000-0000-0000-000000000000
+   */
+  tenantId?: string;
+  /**
+   * @member {string} [displayName] The friendly name of the management group.
+   */
+  displayName?: string;
+  /**
+   * @member {string[]} [roles] The role definitions associated with the
+   * management group.
+   */
+  roles?: string[];
+  /**
+   * @member {ManagementGroupDetails} [details] Details.
+   */
+  details?: ManagementGroupDetails;
+  /**
+   * @member {ManagementGroupChildInfo[]} [children] The list of children.
+   */
+  children?: ManagementGroupChildInfo[];
+}
+
+/**
+ * @interface
  * An interface representing ManagementGroup.
  * The management group details.
  *
@@ -350,6 +399,20 @@ export interface ManagementGroup extends BaseResource {
 
 /**
  * @interface
+ * An interface representing OperationResultsProperties.
+ * @summary Properties
+ *
+ */
+export interface OperationResultsProperties {
+  /**
+   * @member {ProvisioningState} [provisioningState] Provisioning State.
+   * Possible values include: 'Updating'
+   */
+  provisioningState?: ProvisioningState;
+}
+
+/**
+ * @interface
  * An interface representing OperationResults.
  * The results of an asynchronous operation.
  *
@@ -397,6 +460,64 @@ export interface EntityParentGroupInfo {
    * /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000
    */
   id?: string;
+}
+
+/**
+ * @interface
+ * An interface representing EntityInfoProperties.
+ * The generic properties of an entity.
+ *
+ */
+export interface EntityInfoProperties {
+  /**
+   * @member {string} [tenantId] The AAD Tenant ID associated with the entity.
+   * For example, 00000000-0000-0000-0000-000000000000
+   */
+  tenantId?: string;
+  /**
+   * @member {string} [displayName] The friendly name of the management group.
+   */
+  displayName?: string;
+  /**
+   * @member {EntityParentGroupInfo} [parent] Parent.
+   */
+  parent?: EntityParentGroupInfo;
+  /**
+   * @member {Permissions} [permissions] Permissions. Possible values include:
+   * 'noaccess', 'view', 'edit', 'delete'
+   */
+  permissions?: Permissions;
+  /**
+   * @member {InheritedPermissions} [inheritedPermissions] Inherited
+   * Permissions. Possible values include: 'noaccess', 'view', 'edit', 'delete'
+   */
+  inheritedPermissions?: InheritedPermissions;
+  /**
+   * @member {number} [numberOfDescendants] Number of Descendants.
+   */
+  numberOfDescendants?: number;
+  /**
+   * @member {number} [numberOfChildren] Number of Children. Number of children
+   * is the number of Groups and Subscriptions that are exactly one level
+   * underneath the current Group.
+   */
+  numberOfChildren?: number;
+  /**
+   * @member {number} [numberOfChildGroups] Number of Child Groups. Number of
+   * child groups is the number of Groups that are exactly one level underneath
+   * the current Group.
+   */
+  numberOfChildGroups?: number;
+  /**
+   * @member {string[]} [parentDisplayNameChain] The parent display name chain
+   * from the root group to the immediate parent
+   */
+  parentDisplayNameChain?: string[];
+  /**
+   * @member {string[]} [parentNameChain] The parent name chain from the root
+   * group to the immediate parent
+   */
+  parentNameChain?: string[];
 }
 
 /**
@@ -476,6 +597,28 @@ export interface EntityInfo {
    * group to the immediate parent
    */
   parentNameChain?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing EntityHierarchyItemProperties.
+ * The generic properties of a management group.
+ *
+ */
+export interface EntityHierarchyItemProperties {
+  /**
+   * @member {string} [displayName] The friendly name of the management group.
+   */
+  displayName?: string;
+  /**
+   * @member {Permissions1} [permissions] Permissions. Possible values include:
+   * 'noaccess', 'view', 'edit', 'delete'
+   */
+  permissions?: Permissions1;
+  /**
+   * @member {EntityHierarchyItem[]} [children] The list of children.
+   */
+  children?: EntityHierarchyItem[];
 }
 
 /**
@@ -647,6 +790,45 @@ export interface CreateManagementGroupChildInfo {
    * the server.**
    */
   readonly roles?: string[];
+  /**
+   * @member {CreateManagementGroupChildInfo[]} [children] The list of
+   * children.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly children?: CreateManagementGroupChildInfo[];
+}
+
+/**
+ * @interface
+ * An interface representing CreateManagementGroupProperties.
+ * The generic properties of a management group used during creation.
+ *
+ */
+export interface CreateManagementGroupProperties {
+  /**
+   * @member {string} [tenantId] The AAD Tenant ID associated with the
+   * management group. For example, 00000000-0000-0000-0000-000000000000
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * @member {string} [displayName] The friendly name of the management group.
+   * If no value is passed then this  field will be set to the groupId.
+   */
+  displayName?: string;
+  /**
+   * @member {string[]} [roles] The roles definitions associated with the
+   * management group.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly roles?: string[];
+  /**
+   * @member {CreateManagementGroupDetails} [details] Details.
+   */
+  details?: CreateManagementGroupDetails;
   /**
    * @member {CreateManagementGroupChildInfo[]} [children] The list of
    * children.

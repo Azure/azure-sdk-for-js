@@ -41,7 +41,7 @@ export class AzureFirewallFqdnTags {
    * @param callback The callback
    */
   listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureFirewallFqdnTagListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureFirewallFqdnTagListResult>, callback?: msRest.ServiceCallback<Models.AzureFirewallFqdnTagListResult>): Promise<Models.AzureFirewallFqdnTagsListAllResponse> {
+  listAll(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AzureFirewallFqdnTagListResult>): Promise<Models.AzureFirewallFqdnTagsListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -68,7 +68,7 @@ export class AzureFirewallFqdnTags {
    * @param callback The callback
    */
   listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureFirewallFqdnTagListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureFirewallFqdnTagListResult>, callback?: msRest.ServiceCallback<Models.AzureFirewallFqdnTagListResult>): Promise<Models.AzureFirewallFqdnTagsListAllNextResponse> {
+  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AzureFirewallFqdnTagListResult>): Promise<Models.AzureFirewallFqdnTagsListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

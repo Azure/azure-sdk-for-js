@@ -121,6 +121,35 @@ export const CognitiveServicesAccountUpdateParameters: msRest.CompositeMapper = 
   }
 };
 
+export const CognitiveServicesAccountProperties: msRest.CompositeMapper = {
+  serializedName: "CognitiveServicesAccountProperties",
+  type: {
+    name: "Composite",
+    className: "CognitiveServicesAccountProperties",
+    modelProperties: {
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      endpoint: {
+        serializedName: "endpoint",
+        type: {
+          name: "String"
+        }
+      },
+      internalId: {
+        serializedName: "internalId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const CognitiveServicesAccount: msRest.CompositeMapper = {
   serializedName: "CognitiveServicesAccount",
   type: {

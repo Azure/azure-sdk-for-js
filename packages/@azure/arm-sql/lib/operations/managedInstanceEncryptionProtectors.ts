@@ -51,7 +51,7 @@ export class ManagedInstanceEncryptionProtectors {
    * @param callback The callback
    */
   listByInstance(resourceGroupName: string, managedInstanceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedInstanceEncryptionProtectorListResult>): void;
-  listByInstance(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceEncryptionProtectorListResult>, callback?: msRest.ServiceCallback<Models.ManagedInstanceEncryptionProtectorListResult>): Promise<Models.ManagedInstanceEncryptionProtectorsListByInstanceResponse> {
+  listByInstance(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagedInstanceEncryptionProtectorListResult>): Promise<Models.ManagedInstanceEncryptionProtectorsListByInstanceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -86,7 +86,7 @@ export class ManagedInstanceEncryptionProtectors {
    * @param callback The callback
    */
   get(resourceGroupName: string, managedInstanceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedInstanceEncryptionProtector>): void;
-  get(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceEncryptionProtector>, callback?: msRest.ServiceCallback<Models.ManagedInstanceEncryptionProtector>): Promise<Models.ManagedInstanceEncryptionProtectorsGetResponse> {
+  get(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagedInstanceEncryptionProtector>): Promise<Models.ManagedInstanceEncryptionProtectorsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -150,7 +150,7 @@ export class ManagedInstanceEncryptionProtectors {
    * @param callback The callback
    */
   listByInstanceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedInstanceEncryptionProtectorListResult>): void;
-  listByInstanceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceEncryptionProtectorListResult>, callback?: msRest.ServiceCallback<Models.ManagedInstanceEncryptionProtectorListResult>): Promise<Models.ManagedInstanceEncryptionProtectorsListByInstanceNextResponse> {
+  listByInstanceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagedInstanceEncryptionProtectorListResult>): Promise<Models.ManagedInstanceEncryptionProtectorsListByInstanceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

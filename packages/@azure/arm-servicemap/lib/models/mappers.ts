@@ -101,6 +101,26 @@ export const MachineReference: msRest.CompositeMapper = {
   }
 };
 
+export const ProcessReferenceProperties: msRest.CompositeMapper = {
+  serializedName: "ProcessReference_properties",
+  type: {
+    name: "Composite",
+    className: "ProcessReferenceProperties",
+    modelProperties: {
+      machine: {
+        readOnly: true,
+        serializedName: "machine",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
+          uberParent: "ResourceReference",
+          className: "MachineReference"
+        }
+      }
+    }
+  }
+};
+
 export const ProcessReference: msRest.CompositeMapper = {
   serializedName: "ref:process",
   type: {
@@ -118,6 +138,39 @@ export const ProcessReference: msRest.CompositeMapper = {
           polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
           uberParent: "ResourceReference",
           className: "MachineReference"
+        }
+      }
+    }
+  }
+};
+
+export const PortReferenceProperties: msRest.CompositeMapper = {
+  serializedName: "PortReference_properties",
+  type: {
+    name: "Composite",
+    className: "PortReferenceProperties",
+    modelProperties: {
+      machine: {
+        readOnly: true,
+        serializedName: "machine",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
+          uberParent: "ResourceReference",
+          className: "MachineReference"
+        }
+      },
+      ipAddress: {
+        readOnly: true,
+        serializedName: "ipAddress",
+        type: {
+          name: "String"
+        }
+      },
+      portNumber: {
+        serializedName: "portNumber",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -154,6 +207,37 @@ export const PortReference: msRest.CompositeMapper = {
         serializedName: "properties.portNumber",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const MachineReferenceWithHintsProperties: msRest.CompositeMapper = {
+  serializedName: "MachineReferenceWithHints_properties",
+  type: {
+    name: "Composite",
+    className: "MachineReferenceWithHintsProperties",
+    modelProperties: {
+      displayNameHint: {
+        readOnly: true,
+        serializedName: "displayNameHint",
+        type: {
+          name: "String"
+        }
+      },
+      osFamilyHint: {
+        readOnly: true,
+        serializedName: "osFamilyHint",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "unknown",
+            "windows",
+            "linux",
+            "solaris",
+            "aix"
+          ]
         }
       }
     }
@@ -589,6 +673,129 @@ export const HostingConfiguration: msRest.CompositeMapper = {
   }
 };
 
+export const MachineProperties: msRest.CompositeMapper = {
+  serializedName: "Machine_properties",
+  type: {
+    name: "Composite",
+    className: "MachineProperties",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      monitoringState: {
+        serializedName: "monitoringState",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "monitored",
+            "discovered"
+          ]
+        }
+      },
+      virtualizationState: {
+        serializedName: "virtualizationState",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "unknown",
+            "physical",
+            "virtual",
+            "hypervisor"
+          ]
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      computerName: {
+        serializedName: "computerName",
+        type: {
+          name: "String"
+        }
+      },
+      fullyQualifiedDomainName: {
+        serializedName: "fullyQualifiedDomainName",
+        type: {
+          name: "String"
+        }
+      },
+      bootTime: {
+        serializedName: "bootTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      timezone: {
+        serializedName: "timezone",
+        type: {
+          name: "Composite",
+          className: "Timezone"
+        }
+      },
+      agent: {
+        serializedName: "agent",
+        type: {
+          name: "Composite",
+          className: "AgentConfiguration"
+        }
+      },
+      resources: {
+        serializedName: "resources",
+        type: {
+          name: "Composite",
+          className: "MachineResourcesConfiguration"
+        }
+      },
+      networking: {
+        serializedName: "networking",
+        type: {
+          name: "Composite",
+          className: "NetworkConfiguration"
+        }
+      },
+      operatingSystem: {
+        serializedName: "operatingSystem",
+        type: {
+          name: "Composite",
+          className: "OperatingSystemConfiguration"
+        }
+      },
+      virtualMachine: {
+        serializedName: "virtualMachine",
+        type: {
+          name: "Composite",
+          className: "VirtualMachineConfiguration"
+        }
+      },
+      hypervisor: {
+        serializedName: "hypervisor",
+        type: {
+          name: "Composite",
+          className: "HypervisorConfiguration"
+        }
+      },
+      hosting: {
+        serializedName: "hosting",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "kind",
+            clientName: "kind"
+          },
+          uberParent: "HostingConfiguration",
+          className: "HostingConfiguration"
+        }
+      }
+    }
+  }
+};
+
 export const Machine: msRest.CompositeMapper = {
   serializedName: "machine",
   type: {
@@ -885,6 +1092,124 @@ export const ProcessHostingConfiguration: msRest.CompositeMapper = {
   }
 };
 
+export const ProcessProperties: msRest.CompositeMapper = {
+  serializedName: "Process_properties",
+  type: {
+    name: "Composite",
+    className: "ProcessProperties",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      monitoringState: {
+        serializedName: "monitoringState",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "monitored",
+            "discovered"
+          ]
+        }
+      },
+      machine: {
+        serializedName: "machine",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "kind",
+            clientName: "kind"
+          },
+          uberParent: "ResourceReference",
+          className: "ResourceReference"
+        }
+      },
+      executableName: {
+        serializedName: "executableName",
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      role: {
+        serializedName: "role",
+        type: {
+          name: "String"
+        }
+      },
+      group: {
+        serializedName: "group",
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Composite",
+          className: "ProcessDetails"
+        }
+      },
+      user: {
+        serializedName: "user",
+        type: {
+          name: "Composite",
+          className: "ProcessUser"
+        }
+      },
+      clientOf: {
+        serializedName: "clientOf",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "kind",
+            clientName: "kind"
+          },
+          uberParent: "ResourceReference",
+          className: "ResourceReference"
+        }
+      },
+      acceptorOf: {
+        serializedName: "acceptorOf",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "kind",
+            clientName: "kind"
+          },
+          uberParent: "ResourceReference",
+          className: "ResourceReference"
+        }
+      },
+      hosting: {
+        serializedName: "hosting",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "kind",
+            clientName: "kind"
+          },
+          uberParent: "ProcessHostingConfiguration",
+          className: "ProcessHostingConfiguration"
+        }
+      }
+    }
+  }
+};
+
 export const Process: msRest.CompositeMapper = {
   serializedName: "process",
   type: {
@@ -1004,6 +1329,56 @@ export const Process: msRest.CompositeMapper = {
   }
 };
 
+export const PortProperties: msRest.CompositeMapper = {
+  serializedName: "Port_properties",
+  type: {
+    name: "Composite",
+    className: "PortProperties",
+    modelProperties: {
+      monitoringState: {
+        serializedName: "monitoringState",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "monitored",
+            "discovered"
+          ]
+        }
+      },
+      machine: {
+        serializedName: "machine",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "kind",
+            clientName: "kind"
+          },
+          uberParent: "ResourceReference",
+          className: "ResourceReference"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      ipAddress: {
+        serializedName: "ipAddress",
+        type: {
+          name: "String"
+        }
+      },
+      portNumber: {
+        serializedName: "portNumber",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const Port: msRest.CompositeMapper = {
   serializedName: "port",
   type: {
@@ -1055,6 +1430,29 @@ export const Port: msRest.CompositeMapper = {
   }
 };
 
+export const ClientGroupProperties: msRest.CompositeMapper = {
+  serializedName: "ClientGroup_properties",
+  type: {
+    name: "Composite",
+    className: "ClientGroupProperties",
+    modelProperties: {
+      clientsOf: {
+        required: true,
+        serializedName: "clientsOf",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "kind",
+            clientName: "kind"
+          },
+          uberParent: "ResourceReference",
+          className: "ResourceReference"
+        }
+      }
+    }
+  }
+};
+
 export const ClientGroup: msRest.CompositeMapper = {
   serializedName: "clientGroup",
   type: {
@@ -1073,6 +1471,45 @@ export const ClientGroup: msRest.CompositeMapper = {
           },
           uberParent: "ResourceReference",
           className: "ResourceReference"
+        }
+      }
+    }
+  }
+};
+
+export const ClientGroupMemberProperties: msRest.CompositeMapper = {
+  serializedName: "ClientGroupMember_properties",
+  type: {
+    name: "Composite",
+    className: "ClientGroupMemberProperties",
+    modelProperties: {
+      ipAddress: {
+        serializedName: "ipAddress",
+        type: {
+          name: "String"
+        }
+      },
+      port: {
+        serializedName: "port",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
+          uberParent: "ResourceReference",
+          className: "PortReference"
+        }
+      },
+      processes: {
+        serializedName: "processes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
+              uberParent: "ResourceReference",
+              className: "ProcessReference"
+            }
+          }
         }
       }
     }
@@ -1111,6 +1548,53 @@ export const ClientGroupMember: msRest.CompositeMapper = {
               polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
               uberParent: "ResourceReference",
               className: "ProcessReference"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MachineGroupProperties: msRest.CompositeMapper = {
+  serializedName: "MachineGroup_properties",
+  type: {
+    name: "Composite",
+    className: "MachineGroupProperties",
+    modelProperties: {
+      groupType: {
+        serializedName: "groupType",
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        required: true,
+        serializedName: "displayName",
+        constraints: {
+          MaxLength: 256,
+          MinLength: 1
+        },
+        type: {
+          name: "String"
+        }
+      },
+      count: {
+        serializedName: "count",
+        type: {
+          name: "Number"
+        }
+      },
+      machines: {
+        serializedName: "machines",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
+              uberParent: "ResourceReference",
+              className: "MachineReferenceWithHints"
             }
           }
         }
@@ -1202,6 +1686,63 @@ export const MachineCountsByOperatingSystem: msRest.CompositeMapper = {
   }
 };
 
+export const SummaryProperties: msRest.CompositeMapper = {
+  serializedName: "SummaryProperties",
+  type: {
+    name: "Composite",
+    className: "SummaryProperties",
+    modelProperties: {
+      startTime: {
+        required: true,
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        required: true,
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const MachinesSummaryProperties: msRest.CompositeMapper = {
+  serializedName: "MachinesSummaryProperties",
+  type: {
+    name: "Composite",
+    className: "MachinesSummaryProperties",
+    modelProperties: {
+      ...SummaryProperties.type.modelProperties,
+      total: {
+        required: true,
+        serializedName: "total",
+        type: {
+          name: "Number"
+        }
+      },
+      live: {
+        required: true,
+        serializedName: "live",
+        type: {
+          name: "Number"
+        }
+      },
+      os: {
+        required: true,
+        serializedName: "os",
+        type: {
+          name: "Composite",
+          className: "MachineCountsByOperatingSystem"
+        }
+      }
+    }
+  }
+};
+
 export const MachinesSummary: msRest.CompositeMapper = {
   serializedName: "MachinesSummary",
   type: {
@@ -1266,6 +1807,85 @@ export const Relationship: msRest.CompositeMapper = {
         serializedName: "kind",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RelationshipProperties: msRest.CompositeMapper = {
+  serializedName: "RelationshipProperties",
+  type: {
+    name: "Composite",
+    className: "RelationshipProperties",
+    modelProperties: {
+      source: {
+        required: true,
+        serializedName: "source",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "kind",
+            clientName: "kind"
+          },
+          uberParent: "ResourceReference",
+          className: "ResourceReference"
+        }
+      },
+      destination: {
+        required: true,
+        serializedName: "destination",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "kind",
+            clientName: "kind"
+          },
+          uberParent: "ResourceReference",
+          className: "ResourceReference"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const ConnectionProperties: msRest.CompositeMapper = {
+  serializedName: "ConnectionProperties",
+  type: {
+    name: "Composite",
+    className: "ConnectionProperties",
+    modelProperties: {
+      ...RelationshipProperties.type.modelProperties,
+      serverPort: {
+        serializedName: "serverPort",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
+          uberParent: "ResourceReference",
+          className: "PortReference"
+        }
+      },
+      failureState: {
+        serializedName: "failureState",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "ok",
+            "failed",
+            "mixed"
+          ]
         }
       }
     }
@@ -1341,6 +1961,48 @@ export const Connection: msRest.CompositeMapper = {
   }
 };
 
+export const AcceptorProperties: msRest.CompositeMapper = {
+  serializedName: "AcceptorProperties",
+  type: {
+    name: "Composite",
+    className: "AcceptorProperties",
+    modelProperties: {
+      source: {
+        required: true,
+        serializedName: "source",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
+          uberParent: "ResourceReference",
+          className: "PortReference"
+        }
+      },
+      destination: {
+        required: true,
+        serializedName: "destination",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
+          uberParent: "ResourceReference",
+          className: "ProcessReference"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const Acceptor: msRest.CompositeMapper = {
   serializedName: "rel:acceptor",
   type: {
@@ -1376,78 +2038,6 @@ export const Acceptor: msRest.CompositeMapper = {
       },
       endTime: {
         serializedName: "properties.endTime",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const SummaryProperties: msRest.CompositeMapper = {
-  serializedName: "SummaryProperties",
-  type: {
-    name: "Composite",
-    className: "SummaryProperties",
-    modelProperties: {
-      startTime: {
-        required: true,
-        serializedName: "startTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      endTime: {
-        required: true,
-        serializedName: "endTime",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const RelationshipProperties: msRest.CompositeMapper = {
-  serializedName: "RelationshipProperties",
-  type: {
-    name: "Composite",
-    className: "RelationshipProperties",
-    modelProperties: {
-      source: {
-        required: true,
-        serializedName: "source",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "kind",
-            clientName: "kind"
-          },
-          uberParent: "ResourceReference",
-          className: "ResourceReference"
-        }
-      },
-      destination: {
-        required: true,
-        serializedName: "destination",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "kind",
-            clientName: "kind"
-          },
-          uberParent: "ResourceReference",
-          className: "ResourceReference"
-        }
-      },
-      startTime: {
-        serializedName: "startTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      endTime: {
-        serializedName: "endTime",
         type: {
           name: "DateTime"
         }

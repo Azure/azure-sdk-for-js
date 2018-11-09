@@ -60,7 +60,7 @@ export class ServiceEndpointPolicies {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceEndpointPolicyName: string, options: Models.ServiceEndpointPoliciesGetOptionalParams, callback: msRest.ServiceCallback<Models.ServiceEndpointPolicy>): void;
-  get(resourceGroupName: string, serviceEndpointPolicyName: string, options?: Models.ServiceEndpointPoliciesGetOptionalParams | msRest.ServiceCallback<Models.ServiceEndpointPolicy>, callback?: msRest.ServiceCallback<Models.ServiceEndpointPolicy>): Promise<Models.ServiceEndpointPoliciesGetResponse> {
+  get(resourceGroupName: string, serviceEndpointPolicyName: string, options?: Models.ServiceEndpointPoliciesGetOptionalParams, callback?: msRest.ServiceCallback<Models.ServiceEndpointPolicy>): Promise<Models.ServiceEndpointPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class ServiceEndpointPolicies {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceEndpointPolicyListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceEndpointPolicyListResult>, callback?: msRest.ServiceCallback<Models.ServiceEndpointPolicyListResult>): Promise<Models.ServiceEndpointPoliciesListResponse> {
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceEndpointPolicyListResult>): Promise<Models.ServiceEndpointPoliciesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -139,7 +139,7 @@ export class ServiceEndpointPolicies {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceEndpointPolicyListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceEndpointPolicyListResult>, callback?: msRest.ServiceCallback<Models.ServiceEndpointPolicyListResult>): Promise<Models.ServiceEndpointPoliciesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceEndpointPolicyListResult>): Promise<Models.ServiceEndpointPoliciesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -225,7 +225,7 @@ export class ServiceEndpointPolicies {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceEndpointPolicyListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceEndpointPolicyListResult>, callback?: msRest.ServiceCallback<Models.ServiceEndpointPolicyListResult>): Promise<Models.ServiceEndpointPoliciesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceEndpointPolicyListResult>): Promise<Models.ServiceEndpointPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -253,7 +253,7 @@ export class ServiceEndpointPolicies {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceEndpointPolicyListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceEndpointPolicyListResult>, callback?: msRest.ServiceCallback<Models.ServiceEndpointPolicyListResult>): Promise<Models.ServiceEndpointPoliciesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceEndpointPolicyListResult>): Promise<Models.ServiceEndpointPoliciesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -42,7 +42,7 @@ export class Disks {
    * @param userName The name of the user profile.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, userName: string, callback: msRest.ServiceCallback<Models.DiskList>): void;
+  list(resourceGroupName: string, labName: string, userName: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationDisk>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -50,8 +50,8 @@ export class Disks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, userName: string, options: Models.DisksListOptionalParams, callback: msRest.ServiceCallback<Models.DiskList>): void;
-  list(resourceGroupName: string, labName: string, userName: string, options?: Models.DisksListOptionalParams, callback?: msRest.ServiceCallback<Models.DiskList>): Promise<Models.DisksListResponse> {
+  list(resourceGroupName: string, labName: string, userName: string, options: Models.DisksListOptionalParams, callback: msRest.ServiceCallback<Models.ResponseWithContinuationDisk>): void;
+  list(resourceGroupName: string, labName: string, userName: string, options?: Models.DisksListOptionalParams, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationDisk>): Promise<Models.DisksListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -130,50 +130,6 @@ export class Disks {
   deleteMethod(resourceGroupName: string, labName: string, userName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,labName,userName,name,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
-  }
-
-  /**
-   * Modify properties of disks.
-   * @param resourceGroupName The name of the resource group.
-   * @param labName The name of the lab.
-   * @param userName The name of the user profile.
-   * @param name The name of the disk.
-   * @param disk A Disk.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.DisksUpdateResponse>
-   */
-  update(resourceGroupName: string, labName: string, userName: string, name: string, disk: Models.DiskFragment, options?: msRest.RequestOptionsBase): Promise<Models.DisksUpdateResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param labName The name of the lab.
-   * @param userName The name of the user profile.
-   * @param name The name of the disk.
-   * @param disk A Disk.
-   * @param callback The callback
-   */
-  update(resourceGroupName: string, labName: string, userName: string, name: string, disk: Models.DiskFragment, callback: msRest.ServiceCallback<Models.Disk>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param labName The name of the lab.
-   * @param userName The name of the user profile.
-   * @param name The name of the disk.
-   * @param disk A Disk.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  update(resourceGroupName: string, labName: string, userName: string, name: string, disk: Models.DiskFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Disk>): void;
-  update(resourceGroupName: string, labName: string, userName: string, name: string, disk: Models.DiskFragment, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Disk>): Promise<Models.DisksUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        labName,
-        userName,
-        name,
-        disk,
-        options
-      },
-      updateOperationSpec,
-      callback) as Promise<Models.DisksUpdateResponse>;
   }
 
   /**
@@ -315,14 +271,14 @@ export class Disks {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DiskList>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationDisk>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiskList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DiskList>): Promise<Models.DisksListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResponseWithContinuationDisk>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationDisk>): Promise<Models.DisksListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -356,7 +312,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.DiskList
+      bodyMapper: Mappers.ResponseWithContinuationDisk
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -382,40 +338,6 @@ const getOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.Disk
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const updateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/disks/{name}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.labName,
-    Parameters.userName,
-    Parameters.name
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "disk",
-    mapper: {
-      ...Mappers.DiskFragment,
-      required: true
-    }
-  },
   responses: {
     200: {
       bodyMapper: Mappers.Disk
@@ -481,7 +403,6 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
-    200: {},
     202: {},
     204: {},
     default: {
@@ -569,7 +490,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.DiskList
+      bodyMapper: Mappers.ResponseWithContinuationDisk
     },
     default: {
       bodyMapper: Mappers.CloudError

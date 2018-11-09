@@ -47,7 +47,7 @@ export class DefaultSecurityRules {
    * @param callback The callback
    */
   list(resourceGroupName: string, networkSecurityGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityRuleListResult>): void;
-  list(resourceGroupName: string, networkSecurityGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityRuleListResult>, callback?: msRest.ServiceCallback<Models.SecurityRuleListResult>): Promise<Models.DefaultSecurityRulesListResponse> {
+  list(resourceGroupName: string, networkSecurityGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SecurityRuleListResult>): Promise<Models.DefaultSecurityRulesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class DefaultSecurityRules {
    * @param callback The callback
    */
   get(resourceGroupName: string, networkSecurityGroupName: string, defaultSecurityRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityRule>): void;
-  get(resourceGroupName: string, networkSecurityGroupName: string, defaultSecurityRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityRule>, callback?: msRest.ServiceCallback<Models.SecurityRule>): Promise<Models.DefaultSecurityRulesGetResponse> {
+  get(resourceGroupName: string, networkSecurityGroupName: string, defaultSecurityRuleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SecurityRule>): Promise<Models.DefaultSecurityRulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class DefaultSecurityRules {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityRuleListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityRuleListResult>, callback?: msRest.ServiceCallback<Models.SecurityRuleListResult>): Promise<Models.DefaultSecurityRulesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SecurityRuleListResult>): Promise<Models.DefaultSecurityRulesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
