@@ -32,11 +32,11 @@ export class InvoicePricesheet {
    * @param billingAccountId Azure Billing Account ID.
    * @param invoiceName The name of an invoice resource.
    * @param [options] The optional parameters
-   * @returns Promise<Models.InvoicePricesheetPostResponse>
+   * @returns Promise<Models.InvoicePricesheetDownloadResponse>
    */
-  post(billingAccountId: string, invoiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.InvoicePricesheetPostResponse> {
-    return this.beginPost(billingAccountId,invoiceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.InvoicePricesheetPostResponse>;
+  download(billingAccountId: string, invoiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.InvoicePricesheetDownloadResponse> {
+    return this.beginDownload(billingAccountId,invoiceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.InvoicePricesheetDownloadResponse>;
   }
 
   /**
@@ -46,23 +46,23 @@ export class InvoicePricesheet {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginPost(billingAccountId: string, invoiceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDownload(billingAccountId: string, invoiceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         billingAccountId,
         invoiceName,
         options
       },
-      beginPostOperationSpec,
+      beginDownloadOperationSpec,
       options);
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const beginPostOperationSpec: msRest.OperationSpec = {
+const beginDownloadOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoices/{invoiceName}/pricesheets/default/download",
+  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoices/{invoiceName}/pricesheet/default/download",
   urlParameters: [
     Parameters.billingAccountId,
     Parameters.invoiceName
@@ -76,10 +76,10 @@ const beginPostOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.DownloadUrl,
-      headersMapper: Mappers.InvoicePricesheetPostHeaders
+      headersMapper: Mappers.InvoicePricesheetDownloadHeaders
     },
     202: {
-      headersMapper: Mappers.InvoicePricesheetPostHeaders
+      headersMapper: Mappers.InvoicePricesheetDownloadHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

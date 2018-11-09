@@ -10,7 +10,7 @@
 
 export {
   DownloadUrl,
-  InvoicePricesheetPostHeaders,
+  InvoicePricesheetDownloadHeaders,
   ErrorResponse,
   ErrorDetails
 } from "../models/mappers";
