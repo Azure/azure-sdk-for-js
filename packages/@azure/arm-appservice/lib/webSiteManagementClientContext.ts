@@ -16,16 +16,9 @@ const packageName = "@azure/arm-appservice";
 const packageVersion = "1.0.0";
 
 export class WebSiteManagementClientContext extends msRestAzure.AzureServiceClient {
-
   credentials: msRest.ServiceClientCredentials;
-
   subscriptionId: string;
-
-  apiVersion: string;
-
-  acceptLanguage: string;
-
-  longRunningOperationRetryTimeout: number;
+  apiVersion?: string;
 
   /**
    * Initializes a new instance of the WebSiteManagementClient class.
@@ -45,6 +38,11 @@ export class WebSiteManagementClientContext extends msRestAzure.AzureServiceClie
     if (!options) {
       options = {};
     }
+    if(!options.userAgent) {
+      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
+      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
+    }
+
     super(credentials, options);
 
     this.apiVersion = '2018-02-01';
@@ -55,7 +53,6 @@ export class WebSiteManagementClientContext extends msRestAzure.AzureServiceClie
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
 
-    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
