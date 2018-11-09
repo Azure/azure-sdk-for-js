@@ -151,6 +151,7 @@ export class VirtualNetworks {
 
   /**
    * Checks whether a private IP address is available for use.
+   * @param ipAddress The private IP address to be verified.
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkName The name of the virtual network.
    * @param ipAddress The private IP address to be verified.
@@ -159,6 +160,7 @@ export class VirtualNetworks {
    */
   checkIPAddressAvailability(resourceGroupName: string, virtualNetworkName: string, ipAddress: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworksCheckIPAddressAvailabilityResponse>;
   /**
+   * @param ipAddress The private IP address to be verified.
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkName The name of the virtual network.
    * @param ipAddress The private IP address to be verified.
@@ -166,6 +168,7 @@ export class VirtualNetworks {
    */
   checkIPAddressAvailability(resourceGroupName: string, virtualNetworkName: string, ipAddress: string, callback: msRest.ServiceCallback<Models.IPAddressAvailabilityResult>): void;
   /**
+   * @param ipAddress The private IP address to be verified.
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkName The name of the virtual network.
    * @param ipAddress The private IP address to be verified.
@@ -176,6 +179,7 @@ export class VirtualNetworks {
   checkIPAddressAvailability(resourceGroupName: string, virtualNetworkName: string, ipAddress: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IPAddressAvailabilityResult>, callback?: msRest.ServiceCallback<Models.IPAddressAvailabilityResult>): Promise<Models.VirtualNetworksCheckIPAddressAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
+        ipAddress,
         resourceGroupName,
         virtualNetworkName,
         ipAddress,
