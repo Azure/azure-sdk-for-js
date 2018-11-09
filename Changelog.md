@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0 - 2018-11-09
+
+- Renamed NPM package to @azure/ms-rest-js
+
 ## 1.0.0 - 2018-10-04
 
 - Moved to Rollup for node and browser bundles
