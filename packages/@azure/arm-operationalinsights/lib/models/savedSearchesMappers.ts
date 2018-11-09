@@ -8,7 +8,21 @@
  * regenerated.
  */
 
-export * from "./storageInsights";
-export * from "./workspaces";
-export * from "./savedSearches";
-export * from "./operations";
+export {
+  CloudError,
+  SavedSearch,
+  BaseResource,
+  Tag,
+  SavedSearchesListResult,
+  SearchMetadata,
+  CoreSummary,
+  SearchSort,
+  SearchMetadataSchema,
+  SearchResultsResponse,
+  SearchError,
+  StorageInsight,
+  StorageAccount,
+  StorageInsightStatus,
+  Resource
+} from "../models/mappers";
+

@@ -30,41 +30,11 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
-export const dataSourceName: msRest.OperationURLParameter = {
-  parameterPath: "dataSourceName",
+export const id: msRest.OperationURLParameter = {
+  parameterPath: "id",
   mapper: {
     required: true,
-    serializedName: "dataSourceName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const filter: msRest.OperationQueryParameter = {
-  parameterPath: "filter",
-  mapper: {
-    required: true,
-    serializedName: "$filter",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const intelligencePackName: msRest.OperationURLParameter = {
-  parameterPath: "intelligencePackName",
-  mapper: {
-    required: true,
-    serializedName: "intelligencePackName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const linkedServiceName: msRest.OperationURLParameter = {
-  parameterPath: "linkedServiceName",
-  mapper: {
-    required: true,
-    serializedName: "linkedServiceName",
+    serializedName: "id",
     type: {
       name: "String"
     }
@@ -81,7 +51,17 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const resourceGroupName0: msRest.OperationURLParameter = {
+export const purgeId: msRest.OperationURLParameter = {
+  parameterPath: "purgeId",
+  mapper: {
+    required: true,
+    serializedName: "purgeId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     required: true,
@@ -96,23 +76,21 @@ export const resourceGroupName0: msRest.OperationURLParameter = {
     }
   }
 };
-export const resourceGroupName1: msRest.OperationURLParameter = {
-  parameterPath: "resourceGroupName",
+export const savedSearchId: msRest.OperationURLParameter = {
+  parameterPath: "savedSearchId",
   mapper: {
     required: true,
-    serializedName: "resourceGroupName",
+    serializedName: "savedSearchId",
     type: {
       name: "String"
     }
   }
 };
-export const skiptoken: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "skiptoken"
-  ],
+export const storageInsightName: msRest.OperationURLParameter = {
+  parameterPath: "storageInsightName",
   mapper: {
-    serializedName: "$skiptoken",
+    required: true,
+    serializedName: "storageInsightName",
     type: {
       name: "String"
     }
@@ -128,26 +106,11 @@ export const subscriptionId: msRest.OperationURLParameter = {
     }
   }
 };
-export const workspaceName0: msRest.OperationURLParameter = {
+export const workspaceName: msRest.OperationURLParameter = {
   parameterPath: "workspaceName",
   mapper: {
     required: true,
     serializedName: "workspaceName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const workspaceName1: msRest.OperationURLParameter = {
-  parameterPath: "workspaceName",
-  mapper: {
-    required: true,
-    serializedName: "workspaceName",
-    constraints: {
-      MaxLength: 63,
-      MinLength: 4,
-      Pattern: /^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$/
-    },
     type: {
       name: "String"
     }

@@ -13,49 +13,52 @@ import * as msRest from "ms-rest-js";
 import * as msRestAzure from "ms-rest-azure-js";
 
 const packageName = "@azure/arm-operationalinsights";
-const packageVersion = "1.0.0-preview";
+const packageVersion = "0.1.0";
 
 export class OperationalInsightsManagementClientContext extends msRestAzure.AzureServiceClient {
-
   credentials: msRest.ServiceClientCredentials;
-
   subscriptionId: string;
-
-  apiVersion: string;
-
-  acceptLanguage: string;
-
-  longRunningOperationRetryTimeout: number;
+  apiVersion?: string;
+  purgeId: string;
 
   /**
    * Initializes a new instance of the OperationalInsightsManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId Gets subscription credentials which uniquely identify Microsoft Azure
-   * subscription. The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The Subscription ID.
+   * @param purgeId In a purge status request, this is the Id of the operation the status of which is
+   * returned.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.OperationalInsightsManagementClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, purgeId: string, options?: Models.OperationalInsightsManagementClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
     if (subscriptionId == undefined) {
       throw new Error('\'subscriptionId\' cannot be null.');
     }
+    if (purgeId == undefined) {
+      throw new Error('\'purgeId\' cannot be null.');
+    }
 
     if (!options) {
       options = {};
     }
+    if(!options.userAgent) {
+      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
+      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
+    }
+
     super(credentials, options);
 
-    this.apiVersion = '2015-11-01-preview';
+    this.apiVersion = '2020-20-20';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
+    this.purgeId = purgeId;
 
-    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }

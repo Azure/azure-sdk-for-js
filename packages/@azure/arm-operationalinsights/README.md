@@ -13,7 +13,7 @@ npm install @azure/arm-operationalinsights
 
 ## How to use
 
-### nodejs - Authentication, client creation and get linkedServices as an example written in TypeScript.
+### nodejs - Authentication, client creation and get storageInsights as an example written in TypeScript.
 
 ```ts
 import * as msRest from "ms-rest-js";
@@ -26,8 +26,8 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new OperationalInsightsManagementClient(creds, subscriptionId);
   const resourceGroupName = "testresourceGroupName";
   const workspaceName = "testworkspaceName";
-  const linkedServiceName = "testlinkedServiceName";
-  client.linkedServices.get(resourceGroupName, workspaceName, linkedServiceName).then((result) => {
+  const storageInsightName = "teststorageInsightName";
+  client.storageInsights.get(resourceGroupName, workspaceName, storageInsightName).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -36,7 +36,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-### browser - Authentication, client creation and get linkedServices as an example written in JavaScript.
+### browser - Authentication, client creation and get storageInsights as an example written in JavaScript.
 See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
@@ -63,12 +63,12 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         const client = new Azure.ArmOperationalinsights.OperationalInsightsManagementClient(res.creds, subscriptionId);
         const resourceGroupName = "testresourceGroupName";
         const workspaceName = "testworkspaceName";
-        const linkedServiceName = "testlinkedServiceName";
-        client.linkedServices.get(resourceGroupName, workspaceName, linkedServiceName).then((result) => {
+        const storageInsightName = "teststorageInsightName";
+        client.storageInsights.get(resourceGroupName, workspaceName, storageInsightName).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
-          console.log('An error occurred:');
+          console.log("An error occurred:");
           console.error(err);
         });
       });

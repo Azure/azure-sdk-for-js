@@ -17,23 +17,24 @@ import { OperationalInsightsManagementClientContext } from "./operationalInsight
 
 class OperationalInsightsManagementClient extends OperationalInsightsManagementClientContext {
   // Operation groups
-  linkedServices: operations.LinkedServices;
-  dataSources: operations.DataSources;
+  storageInsights: operations.StorageInsights;
   workspaces: operations.Workspaces;
+  savedSearches: operations.SavedSearches;
   operations: operations.Operations;
 
   /**
    * Initializes a new instance of the OperationalInsightsManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId Gets subscription credentials which uniquely identify Microsoft Azure
-   * subscription. The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The Subscription ID.
+   * @param purgeId In a purge status request, this is the Id of the operation the status of which is
+   * returned.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.OperationalInsightsManagementClientOptions) {
-    super(credentials, subscriptionId, options);
-    this.linkedServices = new operations.LinkedServices(this);
-    this.dataSources = new operations.DataSources(this);
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, purgeId: string, options?: Models.OperationalInsightsManagementClientOptions) {
+    super(credentials, subscriptionId, purgeId, options);
+    this.storageInsights = new operations.StorageInsights(this);
     this.workspaces = new operations.Workspaces(this);
+    this.savedSearches = new operations.SavedSearches(this);
     this.operations = new operations.Operations(this);
   }
 }

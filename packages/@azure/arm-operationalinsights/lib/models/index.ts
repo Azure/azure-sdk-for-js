@@ -22,8 +22,7 @@ export { BaseResource, CloudError };
  */
 export interface OperationDisplay {
   /**
-   * @member {string} [provider] Service provider: Microsoft
-   * OperationsManagement.
+   * @member {string} [provider] Service provider: OperationalInsights.
    */
   provider?: string;
   /**
@@ -57,264 +56,488 @@ export interface Operation {
 
 /**
  * @interface
- * An interface representing LinkedService.
- * The top level Linked service resource container.
+ * An interface representing OperationListResult.
+ * Result of the request to list OperationalInsights operations.
  *
- * @extends BaseResource
  */
-export interface LinkedService extends BaseResource {
+export interface OperationListResult {
   /**
-   * @member {string} resourceId The resource id of the resource that will be
-   * linked to the workspace.
+   * @member {Operation[]} [value] List of operations supported by the
+   * OperationalInsights resource provider.
    */
-  resourceId: string;
+  value?: Operation[];
 }
 
 /**
  * @interface
- * An interface representing DataSource.
- * Datasources under OMS Workspace.
- *
- * @extends BaseResource
- */
-export interface DataSource extends BaseResource {
-  /**
-   * @member {any} properties The data source properties in raw json format,
-   * each kind of data source have it's own schema.
-   */
-  properties: any;
-  /**
-   * @member {string} [eTag] The ETag of the data source.
-   */
-  eTag?: string;
-  /**
-   * @member {DataSourceKind} kind Possible values include: 'AzureActivityLog',
-   * 'ChangeTrackingPath', 'ChangeTrackingDefaultPath',
-   * 'ChangeTrackingDefaultRegistry', 'ChangeTrackingCustomRegistry',
-   * 'CustomLog', 'CustomLogCollection', 'GenericDataSource', 'IISLogs',
-   * 'LinuxPerformanceObject', 'LinuxPerformanceCollection', 'LinuxSyslog',
-   * 'LinuxSyslogCollection', 'WindowsEvent', 'WindowsPerformanceCounter'
-   */
-  kind: DataSourceKind;
-}
-
-/**
- * @interface
- * An interface representing DataSourceFilter.
- * DataSource filter. Right now, only filter by kind is supported.
+ * An interface representing LinkTarget.
+ * Metadata for a workspace that isn't linked to an Azure subscription.
  *
  */
-export interface DataSourceFilter {
+export interface LinkTarget {
   /**
-   * @member {DataSourceKind} [kind] Possible values include:
-   * 'AzureActivityLog', 'ChangeTrackingPath', 'ChangeTrackingDefaultPath',
-   * 'ChangeTrackingDefaultRegistry', 'ChangeTrackingCustomRegistry',
-   * 'CustomLog', 'CustomLogCollection', 'GenericDataSource', 'IISLogs',
-   * 'LinuxPerformanceObject', 'LinuxPerformanceCollection', 'LinuxSyslog',
-   * 'LinuxSyslogCollection', 'WindowsEvent', 'WindowsPerformanceCounter'
-   */
-  kind?: DataSourceKind;
-}
-
-/**
- * @interface
- * An interface representing IntelligencePack.
- * Intelligence Pack containing a string name and boolean indicating if it's
- * enabled.
- *
- */
-export interface IntelligencePack {
-  /**
-   * @member {string} [name] The name of the intelligence pack.
-   */
-  name?: string;
-  /**
-   * @member {boolean} [enabled] The enabled boolean for the intelligence pack.
-   */
-  enabled?: boolean;
-  /**
-   * @member {string} [displayName] The display name of the intelligence pack.
-   */
-  displayName?: string;
-}
-
-/**
- * @interface
- * An interface representing SharedKeys.
- * The shared keys for a workspace.
- *
- */
-export interface SharedKeys {
-  /**
-   * @member {string} [primarySharedKey] The primary shared key of a workspace.
-   */
-  primarySharedKey?: string;
-  /**
-   * @member {string} [secondarySharedKey] The secondary shared key of a
+   * @member {string} [customerId] The GUID that uniquely identifies the
    * workspace.
-   */
-  secondarySharedKey?: string;
-}
-
-/**
- * @interface
- * An interface representing MetricName.
- * The name of a metric.
- *
- */
-export interface MetricName {
-  /**
-   * @member {string} [value] The system name of the metric.
-   */
-  value?: string;
-  /**
-   * @member {string} [localizedValue] The localized name of the metric.
-   */
-  localizedValue?: string;
-}
-
-/**
- * @interface
- * An interface representing UsageMetric.
- * A metric describing the usage of a resource.
- *
- */
-export interface UsageMetric {
-  /**
-   * @member {MetricName} [name] The name of the metric.
-   */
-  name?: MetricName;
-  /**
-   * @member {string} [unit] The units used for the metric.
-   */
-  unit?: string;
-  /**
-   * @member {number} [currentValue] The current value of the metric.
-   */
-  currentValue?: number;
-  /**
-   * @member {number} [limit] The quota limit for the metric.
-   */
-  limit?: number;
-  /**
-   * @member {Date} [nextResetTime] The time that the metric's value will
-   * reset.
-   */
-  nextResetTime?: Date;
-  /**
-   * @member {string} [quotaPeriod] The quota period that determines the length
-   * of time between value resets.
-   */
-  quotaPeriod?: string;
-}
-
-/**
- * @interface
- * An interface representing ManagementGroup.
- * A management group that is connected to a workspace
- *
- */
-export interface ManagementGroup {
-  /**
-   * @member {number} [serverCount] The number of servers connected to the
-   * management group.
-   */
-  serverCount?: number;
-  /**
-   * @member {boolean} [isGateway] Gets or sets a value indicating whether the
-   * management group is a gateway.
-   */
-  isGateway?: boolean;
-  /**
-   * @member {string} [name] The name of the management group.
-   */
-  name?: string;
-  /**
-   * @member {string} [id] The unique ID of the management group.
-   */
-  id?: string;
-  /**
-   * @member {Date} [created] The datetime that the management group was
-   * created.
-   */
-  created?: Date;
-  /**
-   * @member {Date} [dataReceived] The last datetime that the management group
-   * received data.
-   */
-  dataReceived?: Date;
-  /**
-   * @member {string} [version] The version of System Center that is managing
-   * the management group.
-   */
-  version?: string;
-  /**
-   * @member {string} [sku] The SKU of System Center that is managing the
-   * management group.
-   */
-  sku?: string;
-}
-
-/**
- * @interface
- * An interface representing Sku.
- * The SKU (tier) of a workspace.
- *
- */
-export interface Sku {
-  /**
-   * @member {SkuNameEnum} name The name of the SKU. Possible values include:
-   * 'Free', 'Standard', 'Premium', 'Unlimited', 'PerNode', 'PerGB2018',
-   * 'Standalone'
-   */
-  name: SkuNameEnum;
-}
-
-/**
- * @interface
- * An interface representing Workspace.
- * The top level Workspace resource container.
- *
- * @extends BaseResource
- */
-export interface Workspace extends BaseResource {
-  /**
-   * @member {EntityStatus} [provisioningState] The provisioning state of the
-   * workspace. Possible values include: 'Creating', 'Succeeded', 'Failed',
-   * 'Canceled', 'Deleting', 'ProvisioningAccount'
-   */
-  provisioningState?: EntityStatus;
-  /**
-   * @member {string} [source] The source of the workspace.  Source defines
-   * where the workspace was created. 'Azure' implies it was created in Azure.
-   * 'External' implies it was created via the Operational Insights Portal.
-   * This value is set on the service side and read-only on the client side.
-   */
-  source?: string;
-  /**
-   * @member {string} [customerId] The ID associated with the workspace.
-   * Setting this value at creation time allows the workspace being created to
-   * be linked to an existing workspace.
    */
   customerId?: string;
   /**
-   * @member {string} [portalUrl] The URL of the Operational Insights portal
-   * for this workspace.  This value is set on the service side and read-only
-   * on the client side.
+   * @member {string} [displayName] The display name of the workspace.
    */
-  portalUrl?: string;
+  displayName?: string;
   /**
-   * @member {Sku} [sku] The SKU of the workspace.
+   * @member {string} [workspaceName] The DNS valid workspace name.
    */
-  sku?: Sku;
+  workspaceName?: string;
   /**
-   * @member {number} [retentionInDays] The workspace data retention in days.
-   * -1 means Unlimited retention for the Unlimited Sku. 730 days is the
-   * maximum allowed for all other Skus.
+   * @member {string} [location] The location of the workspace.
    */
-  retentionInDays?: number;
+  location?: string;
+}
+
+/**
+ * @interface
+ * An interface representing Tag.
+ * A tag of a saved search.
+ *
+ */
+export interface Tag {
   /**
-   * @member {string} [eTag] The ETag of the workspace.
+   * @member {string} name The tag name.
+   */
+  name: string;
+  /**
+   * @member {string} value The tag value.
+   */
+  value: string;
+}
+
+/**
+ * @interface
+ * An interface representing CoreSummary.
+ * The core summary of a search.
+ *
+ */
+export interface CoreSummary {
+  /**
+   * @member {string} [status] The status of a core summary.
+   */
+  status?: string;
+  /**
+   * @member {number} numberOfDocuments The number of documents of a core
+   * summary.
+   */
+  numberOfDocuments: number;
+}
+
+/**
+ * @interface
+ * An interface representing SearchSort.
+ * The sort parameters for search.
+ *
+ */
+export interface SearchSort {
+  /**
+   * @member {string} [name] The name of the field the search query is sorted
+   * on.
+   */
+  name?: string;
+  /**
+   * @member {SearchSortEnum} [order] The sort order of the search. Possible
+   * values include: 'asc', 'desc'
+   */
+  order?: SearchSortEnum;
+}
+
+/**
+ * @interface
+ * An interface representing SearchMetadataSchema.
+ * Schema metadata for search.
+ *
+ */
+export interface SearchMetadataSchema {
+  /**
+   * @member {string} [name] The name of the metadata schema.
+   */
+  name?: string;
+  /**
+   * @member {number} [version] The version of the metadata schema.
+   */
+  version?: number;
+}
+
+/**
+ * @interface
+ * An interface representing SearchMetadata.
+ * Metadata for search results.
+ *
+ */
+export interface SearchMetadata {
+  /**
+   * @member {string} [searchId] The request id of the search.
+   */
+  searchId?: string;
+  /**
+   * @member {string} [resultType] The search result type.
+   */
+  resultType?: string;
+  /**
+   * @member {number} [total] The total number of search results.
+   */
+  total?: number;
+  /**
+   * @member {number} [top] The number of top search results.
+   */
+  top?: number;
+  /**
+   * @member {string} [id] The id of the search results request.
+   */
+  id?: string;
+  /**
+   * @member {CoreSummary[]} [coreSummaries] The core summaries.
+   */
+  coreSummaries?: CoreSummary[];
+  /**
+   * @member {string} [status] The status of the search results.
+   */
+  status?: string;
+  /**
+   * @member {Date} [startTime] The start time for the search.
+   */
+  startTime?: Date;
+  /**
+   * @member {Date} [lastUpdated] The time of last update.
+   */
+  lastUpdated?: Date;
+  /**
+   * @member {string} [eTag] The ETag of the search results.
+   */
+  eTag?: string;
+  /**
+   * @member {SearchSort[]} [sort] How the results are sorted.
+   */
+  sort?: SearchSort[];
+  /**
+   * @member {number} [requestTime] The request time.
+   */
+  requestTime?: number;
+  /**
+   * @member {string} [aggregatedValueField] The aggregated value field.
+   */
+  aggregatedValueField?: string;
+  /**
+   * @member {string} [aggregatedGroupingFields] The aggregated grouping
+   * fields.
+   */
+  aggregatedGroupingFields?: string;
+  /**
+   * @member {number} [sum] The sum of all aggregates returned in the result
+   * set.
+   */
+  sum?: number;
+  /**
+   * @member {number} [max] The max of all aggregates returned in the result
+   * set.
+   */
+  max?: number;
+  /**
+   * @member {SearchMetadataSchema} [schema] The schema.
+   */
+  schema?: SearchMetadataSchema;
+}
+
+/**
+ * @interface
+ * An interface representing SavedSearch.
+ * Value object for saved search results.
+ *
+ * @extends BaseResource
+ */
+export interface SavedSearch extends BaseResource {
+  /**
+   * @member {string} [id] The id of the saved search.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [name] The name of the saved search.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [type] The type of the saved search.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [eTag] The ETag of the saved search.
+   */
+  eTag?: string;
+  /**
+   * @member {string} category The category of the saved search. This helps the
+   * user to find a saved search faster.
+   */
+  category: string;
+  /**
+   * @member {string} displayName Saved search display name.
+   */
+  displayName: string;
+  /**
+   * @member {string} query The query expression for the saved search. Please
+   * see
+   * https://docs.microsoft.com/en-us/azure/log-analytics/log-analytics-search-reference
+   * for reference.
+   */
+  query: string;
+  /**
+   * @member {number} [version] The version number of the query lanuage. The
+   * current version is 2 and is the default.
+   */
+  version?: number;
+  /**
+   * @member {Tag[]} [tags] The tags attached to the saved search.
+   */
+  tags?: Tag[];
+}
+
+/**
+ * @interface
+ * An interface representing SavedSearchesListResult.
+ * The saved search list operation response.
+ *
+ */
+export interface SavedSearchesListResult {
+  /**
+   * @member {SearchMetadata} [metadata] The metadata from search results.
+   */
+  metadata?: SearchMetadata;
+  /**
+   * @member {SavedSearch[]} [value] The array of result values.
+   */
+  value?: SavedSearch[];
+}
+
+/**
+ * @interface
+ * An interface representing SearchError.
+ * Details for a search error.
+ *
+ */
+export interface SearchError {
+  /**
+   * @member {string} [type] The error type.
+   */
+  type?: string;
+  /**
+   * @member {string} [message] The error message.
+   */
+  message?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SearchResultsResponse.
+ * The get search result operation response.
+ *
+ */
+export interface SearchResultsResponse {
+  /**
+   * @member {string} [id] The id of the search, which includes the full url.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {SearchMetadata} [metadata] The metadata from search results.
+   */
+  metadata?: SearchMetadata;
+  /**
+   * @member {any[]} [value] The array of result values.
+   */
+  value?: any[];
+  /**
+   * @member {SearchError} [error] The error.
+   */
+  error?: SearchError;
+}
+
+/**
+ * @interface
+ * An interface representing SearchSchemaValue.
+ * Value object for schema results.
+ *
+ */
+export interface SearchSchemaValue {
+  /**
+   * @member {string} [name] The name of the schema.
+   */
+  name?: string;
+  /**
+   * @member {string} [displayName] The display name of the schema.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [type] The type.
+   */
+  type?: string;
+  /**
+   * @member {boolean} indexed The boolean that indicates the field is
+   * searchable as free text.
+   */
+  indexed: boolean;
+  /**
+   * @member {boolean} stored The boolean that indicates whether or not the
+   * field is stored.
+   */
+  stored: boolean;
+  /**
+   * @member {boolean} facet The boolean that indicates whether or not the
+   * field is a facet.
+   */
+  facet: boolean;
+  /**
+   * @member {string[]} [ownerType] The array of workflows containing the
+   * field.
+   */
+  ownerType?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing SearchGetSchemaResponse.
+ * The get schema operation response.
+ *
+ */
+export interface SearchGetSchemaResponse {
+  /**
+   * @member {SearchMetadata} [metadata] The metadata from search results.
+   */
+  metadata?: SearchMetadata;
+  /**
+   * @member {SearchSchemaValue[]} [value] The array of result values.
+   */
+  value?: SearchSchemaValue[];
+}
+
+/**
+ * @interface
+ * An interface representing SearchHighlight.
+ * Highlight details.
+ *
+ */
+export interface SearchHighlight {
+  /**
+   * @member {string} [pre] The string that is put before a matched result.
+   */
+  pre?: string;
+  /**
+   * @member {string} [post] The string that is put after a matched result.
+   */
+  post?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SearchParameters.
+ * Parameters specifying the search query and range.
+ *
+ */
+export interface SearchParameters {
+  /**
+   * @member {number} [top] The number to get from the top.
+   */
+  top?: number;
+  /**
+   * @member {SearchHighlight} [highlight] The highlight that looks for all
+   * occurences of a string.
+   */
+  highlight?: SearchHighlight;
+  /**
+   * @member {string} query The query to search.
+   */
+  query: string;
+  /**
+   * @member {Date} [start] The start date filter, so the only query results
+   * returned are after this date.
+   */
+  start?: Date;
+  /**
+   * @member {Date} [end] The end date filter, so the only query results
+   * returned are before this date.
+   */
+  end?: Date;
+}
+
+/**
+ * @interface
+ * An interface representing StorageAccount.
+ * Describes a storage account connection.
+ *
+ */
+export interface StorageAccount {
+  /**
+   * @member {string} id The Azure Resource Manager ID of the storage account
+   * resource.
+   */
+  id: string;
+  /**
+   * @member {string} key The storage account key.
+   */
+  key: string;
+}
+
+/**
+ * @interface
+ * An interface representing StorageInsightStatus.
+ * The status of the storage insight.
+ *
+ */
+export interface StorageInsightStatus {
+  /**
+   * @member {StorageInsightState} state The state of the storage insight
+   * connection to the workspace. Possible values include: 'OK', 'ERROR'
+   */
+  state: StorageInsightState;
+  /**
+   * @member {string} [description] Description of the state of the storage
+   * insight.
+   */
+  description?: string;
+}
+
+/**
+ * @interface
+ * An interface representing StorageInsight.
+ * The top level storage insight resource container.
+ *
+ * @extends BaseResource
+ */
+export interface StorageInsight extends BaseResource {
+  /**
+   * @member {string[]} [containers] The names of the blob containers that the
+   * workspace should read
+   */
+  containers?: string[];
+  /**
+   * @member {string[]} [tables] The names of the Azure tables that the
+   * workspace should read
+   */
+  tables?: string[];
+  /**
+   * @member {StorageAccount} storageAccount The storage account connection
+   * details
+   */
+  storageAccount: StorageAccount;
+  /**
+   * @member {StorageInsightStatus} [status] The status of the storage insight
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: StorageInsightStatus;
+  /**
+   * @member {string} [eTag] The ETag of the storage insight.
    */
   eTag?: string;
 }
@@ -346,9 +569,9 @@ export interface Resource extends BaseResource {
    */
   readonly type?: string;
   /**
-   * @member {string} [location] Resource location
+   * @member {string} location Resource location
    */
-  location?: string;
+  location: string;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Resource tags
    */
@@ -388,17 +611,96 @@ export interface ProxyResource {
 
 /**
  * @interface
- * An interface representing DataSourcesListByWorkspaceOptionalParams.
- * Optional Parameters.
+ * An interface representing WorkspacePurgeBodyFilters.
+ * User-defined filters to return data which will be purged from the table.
  *
- * @extends RequestOptionsBase
  */
-export interface DataSourcesListByWorkspaceOptionalParams extends msRest.RequestOptionsBase {
+export interface WorkspacePurgeBodyFilters {
   /**
-   * @member {string} [skiptoken] Starting point of the collection of data
-   * source instances.
+   * @member {string} [column] The column of the table over which the given
+   * query should run
    */
-  skiptoken?: string;
+  column?: string;
+  /**
+   * @member {string} [operator] A query operator to evaluate over the provided
+   * column and value(s).
+   */
+  operator?: string;
+  /**
+   * @member {any} [value] the value for the operator to function over. This
+   * can be a number (e.g., > 100), a string (timestamp >= '2017-09-01') or
+   * array of values.
+   */
+  value?: any;
+  /**
+   * @member {string} [key] When filtering over custom dimensions, this key
+   * will be used as the name of the custom dimension.
+   */
+  key?: string;
+}
+
+/**
+ * @interface
+ * An interface representing WorkspacePurgeBody.
+ * Describes the body of a purge request for an App Insights Workspace
+ *
+ */
+export interface WorkspacePurgeBody {
+  /**
+   * @member {string} table Table from which to purge data.
+   */
+  table: string;
+  /**
+   * @member {WorkspacePurgeBodyFilters[]} filters The set of columns and
+   * filters (queries) to run over them to purge the resulting data.
+   */
+  filters: WorkspacePurgeBodyFilters[];
+}
+
+/**
+ * @interface
+ * An interface representing WorkspacePurgeResponse.
+ * Response containing operationId for a specific purge action.
+ *
+ */
+export interface WorkspacePurgeResponse {
+  /**
+   * @member {string} operationId Id to use when querying for status for a
+   * particular purge operation.
+   */
+  operationId: string;
+}
+
+/**
+ * @interface
+ * An interface representing WorkspacePurgeStatusResponse.
+ * Response containing status for a specific purge operation.
+ *
+ */
+export interface WorkspacePurgeStatusResponse {
+  /**
+   * @member {PurgeState} status Status of the operation represented by the
+   * requested Id. Possible values include: 'pending', 'completed'
+   */
+  status: PurgeState;
+}
+
+/**
+ * @interface
+ * An interface representing SharedKeys.
+ * The shared keys for a workspace.
+ *
+ */
+export interface SharedKeys {
+  /**
+   * @member {string} [primarySharedKey] The primary shared key of a workspace.
+   */
+  primarySharedKey?: string;
+  /**
+   * @member {string} [secondarySharedKey] The secondary shared key of a
+   * workspace.
+   */
+  secondarySharedKey?: string;
 }
 
 /**
@@ -413,160 +715,64 @@ export interface OperationalInsightsManagementClientOptions extends AzureService
   baseUri?: string;
 }
 
-
 /**
  * @interface
- * An interface representing the LinkedServiceListResult.
- * The list linked service operation response.
+ * An interface representing WorkspacesPurgeHeaders.
+ * Defines headers for Purge operation.
  *
- * @extends Array<LinkedService>
  */
-export interface LinkedServiceListResult extends Array<LinkedService> {
-}
-
-/**
- * @interface
- * An interface representing the DataSourceListResult.
- * The list data source by workspace operation response.
- *
- * @extends Array<DataSource>
- */
-export interface DataSourceListResult extends Array<DataSource> {
+export interface WorkspacesPurgeHeaders {
   /**
-   * @member {string} [nextLink] The link (url) to the next page of
-   * datasources.
+   * @member {string} [xMsStatusLocation] The location from which to request
+   * the operation status.
    */
-  nextLink?: string;
+  xMsStatusLocation: string;
 }
+
 
 /**
  * @interface
- * An interface representing the WorkspaceListUsagesResult.
- * The list workspace usages operation response.
+ * An interface representing the StorageInsightListResult.
+ * The list storage insights operation response.
  *
- * @extends Array<UsageMetric>
+ * @extends Array<StorageInsight>
  */
-export interface WorkspaceListUsagesResult extends Array<UsageMetric> {
-}
-
-/**
- * @interface
- * An interface representing the WorkspaceListManagementGroupsResult.
- * The list workspace managmement groups operation response.
- *
- * @extends Array<ManagementGroup>
- */
-export interface WorkspaceListManagementGroupsResult extends Array<ManagementGroup> {
-}
-
-/**
- * @interface
- * An interface representing the WorkspaceListResult.
- * The list workspaces operation response.
- *
- * @extends Array<Workspace>
- */
-export interface WorkspaceListResult extends Array<Workspace> {
-}
-
-/**
- * @interface
- * An interface representing the OperationListResult.
- * Result of the request to list solution operations.
- *
- * @extends Array<Operation>
- */
-export interface OperationListResult extends Array<Operation> {
+export interface StorageInsightListResult extends Array<StorageInsight> {
   /**
-   * @member {string} [nextLink] URL to get the next set of operation list
-   * results if there are any.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {string} [odataNextLink] The link (url) to the next page of
+   * results.
    */
-  readonly nextLink?: string;
+  odataNextLink?: string;
 }
 
 /**
- * Defines values for DataSourceKind.
- * Possible values include: 'AzureActivityLog', 'ChangeTrackingPath',
- * 'ChangeTrackingDefaultPath', 'ChangeTrackingDefaultRegistry',
- * 'ChangeTrackingCustomRegistry', 'CustomLog', 'CustomLogCollection',
- * 'GenericDataSource', 'IISLogs', 'LinuxPerformanceObject',
- * 'LinuxPerformanceCollection', 'LinuxSyslog', 'LinuxSyslogCollection',
- * 'WindowsEvent', 'WindowsPerformanceCounter'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DataSourceKind =
- * <DataSourceKind>"someUnknownValueThatWillStillBeValid";
+ * Defines values for SearchSortEnum.
+ * Possible values include: 'asc', 'desc'
  * @readonly
  * @enum {string}
  */
-export enum DataSourceKind {
-  AzureActivityLog = 'AzureActivityLog',
-  ChangeTrackingPath = 'ChangeTrackingPath',
-  ChangeTrackingDefaultPath = 'ChangeTrackingDefaultPath',
-  ChangeTrackingDefaultRegistry = 'ChangeTrackingDefaultRegistry',
-  ChangeTrackingCustomRegistry = 'ChangeTrackingCustomRegistry',
-  CustomLog = 'CustomLog',
-  CustomLogCollection = 'CustomLogCollection',
-  GenericDataSource = 'GenericDataSource',
-  IISLogs = 'IISLogs',
-  LinuxPerformanceObject = 'LinuxPerformanceObject',
-  LinuxPerformanceCollection = 'LinuxPerformanceCollection',
-  LinuxSyslog = 'LinuxSyslog',
-  LinuxSyslogCollection = 'LinuxSyslogCollection',
-  WindowsEvent = 'WindowsEvent',
-  WindowsPerformanceCounter = 'WindowsPerformanceCounter',
-}
+export type SearchSortEnum = 'asc' | 'desc';
 
 /**
- * Defines values for SkuNameEnum.
- * Possible values include: 'Free', 'Standard', 'Premium', 'Unlimited',
- * 'PerNode', 'PerGB2018', 'Standalone'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SkuNameEnum =
- * <SkuNameEnum>"someUnknownValueThatWillStillBeValid";
+ * Defines values for StorageInsightState.
+ * Possible values include: 'OK', 'ERROR'
  * @readonly
  * @enum {string}
  */
-export enum SkuNameEnum {
-  Free = 'Free',
-  Standard = 'Standard',
-  Premium = 'Premium',
-  Unlimited = 'Unlimited',
-  PerNode = 'PerNode',
-  PerGB2018 = 'PerGB2018',
-  Standalone = 'Standalone',
-}
+export type StorageInsightState = 'OK' | 'ERROR';
 
 /**
- * Defines values for EntityStatus.
- * Possible values include: 'Creating', 'Succeeded', 'Failed', 'Canceled',
- * 'Deleting', 'ProvisioningAccount'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: EntityStatus =
- * <EntityStatus>"someUnknownValueThatWillStillBeValid";
+ * Defines values for PurgeState.
+ * Possible values include: 'pending', 'completed'
  * @readonly
  * @enum {string}
  */
-export enum EntityStatus {
-  Creating = 'Creating',
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-  Canceled = 'Canceled',
-  Deleting = 'Deleting',
-  ProvisioningAccount = 'ProvisioningAccount',
-}
+export type PurgeState = 'pending' | 'completed';
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type LinkedServicesCreateOrUpdateResponse = LinkedService & {
+export type StorageInsightsCreateOrUpdateResponse = StorageInsight & {
   /**
    * The underlying HTTP response.
    */
@@ -578,14 +784,14 @@ export type LinkedServicesCreateOrUpdateResponse = LinkedService & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: LinkedService;
+      parsedBody: StorageInsight;
     };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type LinkedServicesGetResponse = LinkedService & {
+export type StorageInsightsGetResponse = StorageInsight & {
   /**
    * The underlying HTTP response.
    */
@@ -597,14 +803,14 @@ export type LinkedServicesGetResponse = LinkedService & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: LinkedService;
+      parsedBody: StorageInsight;
     };
 };
 
 /**
  * Contains response data for the listByWorkspace operation.
  */
-export type LinkedServicesListByWorkspaceResponse = LinkedServiceListResult & {
+export type StorageInsightsListByWorkspaceResponse = StorageInsightListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -616,71 +822,14 @@ export type LinkedServicesListByWorkspaceResponse = LinkedServiceListResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: LinkedServiceListResult;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type DataSourcesCreateOrUpdateResponse = DataSource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataSource;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type DataSourcesGetResponse = DataSource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataSource;
-    };
-};
-
-/**
- * Contains response data for the listByWorkspace operation.
- */
-export type DataSourcesListByWorkspaceResponse = DataSourceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataSourceListResult;
+      parsedBody: StorageInsightListResult;
     };
 };
 
 /**
  * Contains response data for the listByWorkspaceNext operation.
  */
-export type DataSourcesListByWorkspaceNextResponse = DataSourceListResult & {
+export type StorageInsightsListByWorkspaceNextResponse = StorageInsightListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -692,14 +841,14 @@ export type DataSourcesListByWorkspaceNextResponse = DataSourceListResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: DataSourceListResult;
+      parsedBody: StorageInsightListResult;
     };
 };
 
 /**
- * Contains response data for the listIntelligencePacks operation.
+ * Contains response data for the listLinkTargets operation.
  */
-export type WorkspacesListIntelligencePacksResponse = Array<IntelligencePack> & {
+export type WorkspacesListLinkTargetsResponse = Array<LinkTarget> & {
   /**
    * The underlying HTTP response.
    */
@@ -711,14 +860,113 @@ export type WorkspacesListIntelligencePacksResponse = Array<IntelligencePack> & 
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: IntelligencePack[];
+      parsedBody: LinkTarget[];
     };
 };
 
 /**
- * Contains response data for the getSharedKeys operation.
+ * Contains response data for the getSchema operation.
  */
-export type WorkspacesGetSharedKeysResponse = SharedKeys & {
+export type WorkspacesGetSchemaResponse = SearchGetSchemaResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SearchGetSchemaResponse;
+    };
+};
+
+/**
+ * Contains response data for the getSearchResults operation.
+ */
+export type WorkspacesGetSearchResultsResponse = SearchResultsResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SearchResultsResponse;
+    };
+};
+
+/**
+ * Contains response data for the updateSearchResults operation.
+ */
+export type WorkspacesUpdateSearchResultsResponse = SearchResultsResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SearchResultsResponse;
+    };
+};
+
+/**
+ * Contains response data for the purge operation.
+ */
+export type WorkspacesPurgeResponse = WorkspacePurgeResponse & WorkspacesPurgeHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: WorkspacesPurgeHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkspacePurgeResponse;
+    };
+};
+
+/**
+ * Contains response data for the getPurgeStatus operation.
+ */
+export type WorkspacesGetPurgeStatusResponse = WorkspacePurgeStatusResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkspacePurgeStatusResponse;
+    };
+};
+
+/**
+ * Contains response data for the listKeys operation.
+ */
+export type WorkspacesListKeysResponse = SharedKeys & {
   /**
    * The underlying HTTP response.
    */
@@ -735,9 +983,9 @@ export type WorkspacesGetSharedKeysResponse = SharedKeys & {
 };
 
 /**
- * Contains response data for the listUsages operation.
+ * Contains response data for the regenerateSharedKeys operation.
  */
-export type WorkspacesListUsagesResponse = WorkspaceListUsagesResult & {
+export type WorkspacesRegenerateSharedKeysResponse = SharedKeys & {
   /**
    * The underlying HTTP response.
    */
@@ -749,14 +997,14 @@ export type WorkspacesListUsagesResponse = WorkspaceListUsagesResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: WorkspaceListUsagesResult;
+      parsedBody: SharedKeys;
     };
 };
 
 /**
- * Contains response data for the listManagementGroups operation.
+ * Contains response data for the beginGetSearchResults operation.
  */
-export type WorkspacesListManagementGroupsResponse = WorkspaceListManagementGroupsResult & {
+export type WorkspacesBeginGetSearchResultsResponse = SearchResultsResponse & {
   /**
    * The underlying HTTP response.
    */
@@ -768,52 +1016,14 @@ export type WorkspacesListManagementGroupsResponse = WorkspaceListManagementGrou
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: WorkspaceListManagementGroupsResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type WorkspacesListByResourceGroupResponse = WorkspaceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type WorkspacesListResponse = WorkspaceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
+      parsedBody: SearchResultsResponse;
     };
 };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type WorkspacesCreateOrUpdateResponse = Workspace & {
+export type SavedSearchesCreateOrUpdateResponse = SavedSearch & {
   /**
    * The underlying HTTP response.
    */
@@ -825,14 +1035,14 @@ export type WorkspacesCreateOrUpdateResponse = Workspace & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Workspace;
+      parsedBody: SavedSearch;
     };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type WorkspacesGetResponse = Workspace & {
+export type SavedSearchesGetResponse = SavedSearch & {
   /**
    * The underlying HTTP response.
    */
@@ -844,14 +1054,14 @@ export type WorkspacesGetResponse = Workspace & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Workspace;
+      parsedBody: SavedSearch;
     };
 };
 
 /**
- * Contains response data for the update operation.
+ * Contains response data for the listByWorkspace operation.
  */
-export type WorkspacesUpdateResponse = Workspace & {
+export type SavedSearchesListByWorkspaceResponse = SavedSearchesListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -863,14 +1073,14 @@ export type WorkspacesUpdateResponse = Workspace & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Workspace;
+      parsedBody: SavedSearchesListResult;
     };
 };
 
 /**
- * Contains response data for the beginCreateOrUpdate operation.
+ * Contains response data for the getResults operation.
  */
-export type WorkspacesBeginCreateOrUpdateResponse = Workspace & {
+export type SavedSearchesGetResultsResponse = SearchResultsResponse & {
   /**
    * The underlying HTTP response.
    */
@@ -882,7 +1092,7 @@ export type WorkspacesBeginCreateOrUpdateResponse = Workspace & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Workspace;
+      parsedBody: SearchResultsResponse;
     };
 };
 
@@ -890,25 +1100,6 @@ export type WorkspacesBeginCreateOrUpdateResponse = Workspace & {
  * Contains response data for the list operation.
  */
 export type OperationsListResponse = OperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type OperationsListNextResponse = OperationListResult & {
   /**
    * The underlying HTTP response.
    */

@@ -9,20 +9,23 @@
  */
 
 export {
+  LinkTarget,
   CloudError,
-  IntelligencePack,
-  SharedKeys,
-  WorkspaceListUsagesResult,
-  UsageMetric,
-  MetricName,
-  WorkspaceListManagementGroupsResult,
-  ManagementGroup,
-  WorkspaceListResult,
-  Workspace,
-  BaseResource,
-  Sku,
-  LinkedService,
-  DataSource,
-  Resource
+  SearchGetSchemaResponse,
+  SearchMetadata,
+  CoreSummary,
+  SearchSort,
+  SearchMetadataSchema,
+  SearchSchemaValue,
+  SearchParameters,
+  SearchHighlight,
+  SearchResultsResponse,
+  SearchError,
+  WorkspacePurgeBody,
+  WorkspacePurgeBodyFilters,
+  WorkspacePurgeResponse,
+  WorkspacesPurgeHeaders,
+  WorkspacePurgeStatusResponse,
+  SharedKeys
 } from "../models/mappers";
 
