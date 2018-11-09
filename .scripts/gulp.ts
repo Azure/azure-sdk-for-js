@@ -10,13 +10,13 @@ import fs from "fs";
 import * as path from "path";
 import { SdkType } from "./commandLine";
 import { contains, npmInstall } from "./common";
-import { Branch, BranchLocation, checkoutRemoteBranch, commitAndPush, getValidatedRepository, mergeMasterIntoBranch, refreshRepository, unlockGitRepository, ValidateFunction, waitAndLockGitRepository } from "./git";
+import { Branch, BranchLocation, checkoutRemoteBranch, commitAndPush, getValidatedRepository, mergeMasterIntoBranch, refreshRepository, unlockGitRepository, ValidateFunction, waitAndLockGitRepository, checkoutBranch } from "./git";
 import { commitAndCreatePullRequest, findPullRequest, forcePrDiffRefresh, requestPullRequestReview } from "./github";
 import { Logger } from "./logger";
 import { findMissingSdks, findSdkDirectory, saveContentToFile } from "./packages";
 import { copyExistingNodeJsReadme, findReadmeTypeScriptMdFilePaths, getAbsolutePackageFolderPathFromReadmeFileContents, getPackageNamesFromReadmeTypeScriptMdFileContents, getSinglePackageName, updateMainReadmeFile, updateTypeScriptReadmeFile } from "./readme";
 import { Version } from "./version";
-import { Merge } from 'nodegit/merge';
+import { Merge } from 'nodegit';
 
 const _logger = Logger.get();
 
@@ -183,6 +183,7 @@ export async function generateAllMissingSdks(azureSdkForJsRepoPath: string, azur
 
 export async function regenerate(branchName: string, packageName: string, azureSdkForJsRepoPath: string, azureRestAPISpecsPath: string, pullRequestId: number, skipVersionBump?: boolean, requestReview?: boolean) {
     const azureSdkForJsRepository = await getValidatedRepository(azureSdkForJsRepoPath);
+    const currentBranch = await azureSdkForJsRepository.getCurrentBranch();
     await refreshRepository(azureSdkForJsRepository);
     _logger.log(`Refreshed ${azureSdkForJsRepository.path()} repository successfully`);
 
@@ -226,6 +227,8 @@ export async function regenerate(branchName: string, packageName: string, azureS
     } else {
         _logger.log("Skipping review requesting");
     }
+
+    await checkoutBranch(azureSdkForJsRepository, currentBranch);
 }
 
 async function bumpMinorVersion(azureSdkForJsRepoPath: string, packageName: string) {
