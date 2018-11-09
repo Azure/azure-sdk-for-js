@@ -194,9 +194,9 @@ export class ApiIssue {
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
    * @param parameters Update parameters.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ApiIssueUpdateResponse>
+   * @returns Promise<msRest.RestResponse>
    */
-  update(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueContract, options?: Models.ApiIssueUpdateOptionalParams): Promise<Models.ApiIssueUpdateResponse>;
+  update(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueUpdateContract, options?: Models.ApiIssueUpdateOptionalParams): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -205,7 +205,7 @@ export class ApiIssue {
    * @param parameters Update parameters.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueContract, callback: msRest.ServiceCallback<Models.IssueContract>): void;
+  update(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueUpdateContract, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -215,8 +215,8 @@ export class ApiIssue {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueContract, options: Models.ApiIssueUpdateOptionalParams, callback: msRest.ServiceCallback<Models.IssueContract>): void;
-  update(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueContract, options?: Models.ApiIssueUpdateOptionalParams | msRest.ServiceCallback<Models.IssueContract>, callback?: msRest.ServiceCallback<Models.IssueContract>): Promise<Models.ApiIssueUpdateResponse> {
+  update(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueUpdateContract, options: Models.ApiIssueUpdateOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueUpdateContract, options?: Models.ApiIssueUpdateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -227,7 +227,7 @@ export class ApiIssue {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.ApiIssueUpdateResponse>;
+      callback);
   }
 
   /**
@@ -450,17 +450,12 @@ const updateOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "parameters",
     mapper: {
-      ...Mappers.IssueContract,
+      ...Mappers.IssueUpdateContract,
       required: true
     }
   },
   responses: {
-    200: {
-      bodyMapper: Mappers.IssueContract
-    },
-    201: {
-      bodyMapper: Mappers.IssueContract
-    },
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
