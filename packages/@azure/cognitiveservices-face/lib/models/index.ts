@@ -1740,43 +1740,23 @@ export interface LargeFaceListAddFaceFromStreamOptionalParams extends msRest.Req
  * @readonly
  * @enum {string}
  */
-export enum Gender {
-  Male = 'male',
-  Female = 'female',
-  Genderless = 'genderless',
-}
+export type Gender = 'male' | 'female' | 'genderless';
 
 /**
  * Defines values for GlassesType.
- * Possible values include: 'noGlasses', 'readingGlasses', 'sunglasses',
- * 'swimmingGoggles'
+ * Possible values include: 'noGlasses', 'readingGlasses', 'sunglasses', 'swimmingGoggles'
  * @readonly
  * @enum {string}
  */
-export enum GlassesType {
-  NoGlasses = 'noGlasses',
-  ReadingGlasses = 'readingGlasses',
-  Sunglasses = 'sunglasses',
-  SwimmingGoggles = 'swimmingGoggles',
-}
+export type GlassesType = 'noGlasses' | 'readingGlasses' | 'sunglasses' | 'swimmingGoggles';
 
 /**
  * Defines values for HairColorType.
- * Possible values include: 'unknown', 'white', 'gray', 'blond', 'brown',
- * 'red', 'black', 'other'
+ * Possible values include: 'unknown', 'white', 'gray', 'blond', 'brown', 'red', 'black', 'other'
  * @readonly
  * @enum {string}
  */
-export enum HairColorType {
-  Unknown = 'unknown',
-  White = 'white',
-  Gray = 'gray',
-  Blond = 'blond',
-  Brown = 'brown',
-  Red = 'red',
-  Black = 'black',
-  Other = 'other',
-}
+export type HairColorType = 'unknown' | 'white' | 'gray' | 'blond' | 'brown' | 'red' | 'black' | 'other';
 
 /**
  * Defines values for AccessoryType.
@@ -1784,11 +1764,7 @@ export enum HairColorType {
  * @readonly
  * @enum {string}
  */
-export enum AccessoryType {
-  HeadWear = 'headWear',
-  Glasses = 'glasses',
-  Mask = 'mask',
-}
+export type AccessoryType = 'headWear' | 'glasses' | 'mask';
 
 /**
  * Defines values for BlurLevel.
@@ -1796,11 +1772,7 @@ export enum AccessoryType {
  * @readonly
  * @enum {string}
  */
-export enum BlurLevel {
-  Low = 'Low',
-  Medium = 'Medium',
-  High = 'High',
-}
+export type BlurLevel = 'Low' | 'Medium' | 'High';
 
 /**
  * Defines values for ExposureLevel.
@@ -1808,11 +1780,7 @@ export enum BlurLevel {
  * @readonly
  * @enum {string}
  */
-export enum ExposureLevel {
-  UnderExposure = 'UnderExposure',
-  GoodExposure = 'GoodExposure',
-  OverExposure = 'OverExposure',
-}
+export type ExposureLevel = 'UnderExposure' | 'GoodExposure' | 'OverExposure';
 
 /**
  * Defines values for NoiseLevel.
@@ -1820,11 +1788,7 @@ export enum ExposureLevel {
  * @readonly
  * @enum {string}
  */
-export enum NoiseLevel {
-  Low = 'Low',
-  Medium = 'Medium',
-  High = 'High',
-}
+export type NoiseLevel = 'Low' | 'Medium' | 'High';
 
 /**
  * Defines values for FindSimilarMatchMode.
@@ -1832,10 +1796,7 @@ export enum NoiseLevel {
  * @readonly
  * @enum {string}
  */
-export enum FindSimilarMatchMode {
-  MatchPerson = 'matchPerson',
-  MatchFace = 'matchFace',
-}
+export type FindSimilarMatchMode = 'matchPerson' | 'matchFace';
 
 /**
  * Defines values for TrainingStatusType.
@@ -1843,37 +1804,16 @@ export enum FindSimilarMatchMode {
  * @readonly
  * @enum {string}
  */
-export enum TrainingStatusType {
-  Nonstarted = 'nonstarted',
-  Running = 'running',
-  Succeeded = 'succeeded',
-  Failed = 'failed',
-}
+export type TrainingStatusType = 'nonstarted' | 'running' | 'succeeded' | 'failed';
 
 /**
  * Defines values for FaceAttributeType.
- * Possible values include: 'age', 'gender', 'headPose', 'smile', 'facialHair',
- * 'glasses', 'emotion', 'hair', 'makeup', 'occlusion', 'accessories', 'blur',
- * 'exposure', 'noise'
+ * Possible values include: 'age', 'gender', 'headPose', 'smile', 'facialHair', 'glasses',
+ * 'emotion', 'hair', 'makeup', 'occlusion', 'accessories', 'blur', 'exposure', 'noise'
  * @readonly
  * @enum {string}
  */
-export enum FaceAttributeType {
-  Age = 'age',
-  Gender = 'gender',
-  HeadPose = 'headPose',
-  Smile = 'smile',
-  FacialHair = 'facialHair',
-  Glasses = 'glasses',
-  Emotion = 'emotion',
-  Hair = 'hair',
-  Makeup = 'makeup',
-  Occlusion = 'occlusion',
-  Accessories = 'accessories',
-  Blur = 'blur',
-  Exposure = 'exposure',
-  Noise = 'noise',
-}
+export type FaceAttributeType = 'age' | 'gender' | 'headPose' | 'smile' | 'facialHair' | 'glasses' | 'emotion' | 'hair' | 'makeup' | 'occlusion' | 'accessories' | 'blur' | 'exposure' | 'noise';
 
 /**
  * Contains response data for the findSimilar operation.
