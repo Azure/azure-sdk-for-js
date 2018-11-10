@@ -50,7 +50,7 @@ export class UserGroup {
    * @param callback The callback
    */
   list(resourceGroupName: string, serviceName: string, uid: string, options: Models.UserGroupListOptionalParams, callback: msRest.ServiceCallback<Models.GroupCollection>): void;
-  list(resourceGroupName: string, serviceName: string, uid: string, options?: Models.UserGroupListOptionalParams, callback?: msRest.ServiceCallback<Models.GroupCollection>): Promise<Models.UserGroupListResponse> {
+  list(resourceGroupName: string, serviceName: string, uid: string, options?: Models.UserGroupListOptionalParams | msRest.ServiceCallback<Models.GroupCollection>, callback?: msRest.ServiceCallback<Models.GroupCollection>): Promise<Models.UserGroupListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -80,7 +80,7 @@ export class UserGroup {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GroupCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.GroupCollection>): Promise<Models.UserGroupListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GroupCollection>, callback?: msRest.ServiceCallback<Models.GroupCollection>): Promise<Models.UserGroupListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
