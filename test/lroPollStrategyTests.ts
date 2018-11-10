@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import assert from "assert";
-import { HttpHeaders, HttpOperationResponse, TokenCredentials, WebResource } from "ms-rest-js";
+import { HttpHeaders, HttpOperationResponse, TokenCredentials, WebResource } from "@azure/ms-rest-js";
 import { AzureServiceClient } from "../lib/azureServiceClient";
 import { getDelayInSeconds, isFinished } from "../lib/lroPollStrategy";
 

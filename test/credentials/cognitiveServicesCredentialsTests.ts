@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import assert from "assert";
-import { WebResource } from "ms-rest-js";
+import { WebResource } from "@azure/ms-rest-js";
 import { CognitiveServicesCredentials } from "../../lib/credentials/cognitiveServicesCredentials";
 import * as msAssert from "../msAssert";
 

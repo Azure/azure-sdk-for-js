@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { HttpOperationResponse, RequestOptionsBase, RestResponse, flattenResponse } from "ms-rest-js";
+import { HttpOperationResponse, RequestOptionsBase, RestResponse, flattenResponse } from "@azure/ms-rest-js";
 import { AzureServiceClient } from "./azureServiceClient";
 import { createLROPollStrategyFromInitialResponse, createLROPollStrategyFromPollState, LROPollState, LROPollStrategy } from "./lroPollStrategy";
 import { LongRunningOperationStates } from "./util/constants";
