@@ -377,9 +377,9 @@ export interface ServerEndpointCreateParameters extends ProxyResource {
  */
 export interface TriggerRolloverRequest {
   /**
-   * @member {string} [certificateData] Certificate Data
+   * @member {string} [serverCertificate] Certificate Data
    */
-  certificateData?: string;
+  serverCertificate?: string;
 }
 
 /**
