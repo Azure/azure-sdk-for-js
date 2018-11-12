@@ -31,27 +31,7 @@ export interface IShareCreateOptions {
   quota?: number;
 }
 
-export interface IShareGetPropertiesOptions {
-  /**
-   * The snapshot parameter is an opaque
-   * DateTime value that, when present, specifies the share snapshot to query.
-   *
-   * @type {string}
-   * @memberof IShareGetPropertiesOptions
-   */
-  sharesnapshot?: string;
-}
-
 export interface IShareDeleteMethodOptions {
-  /**
-   * The snapshot parameter is an opaque
-   * DateTime value that, when present, specifies the share snapshot to query.
-   *
-   * @type {string}
-   * @memberof IShareDeleteMethodOptions
-   */
-  sharesnapshot?: string;
-
   /**
    * Specifies the option
    * include to delete the base share and all of its snapshots. Possible values
@@ -203,7 +183,7 @@ export class ShareURL extends StorageURL {
     return new ShareURL(
       setURLParameter(
         this.url,
-        URLConstants.Parameters.SNAPSHOT,
+        URLConstants.Parameters.SHARE_SNAPSHOT,
         snapshot.length === 0 ? undefined : snapshot
       ),
       this.pipeline
@@ -238,17 +218,14 @@ export class ShareURL extends StorageURL {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IShareGetPropertiesOptions} [options]
    * @returns {Promise<Models.ShareGetPropertiesResponse>}
    * @memberof ShareURL
    */
   public async getProperties(
-    aborter: Aborter,
-    options: IShareGetPropertiesOptions = {}
+    aborter: Aborter
   ): Promise<Models.ShareGetPropertiesResponse> {
     return this.context.getProperties({
-      abortSignal: aborter,
-      ...options
+      abortSignal: aborter
     });
   }
 

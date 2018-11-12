@@ -8,6 +8,7 @@
     "./dist/index.js": "./browser/azure-storage.file.min.js",
     "./dist-esm/lib/index.js": "./dist-esm/lib/index.browser.js",
     "./dist-esm/test/utils/index.js": "./dist-esm/test/utils/index.browser.js",
+    "./dist-esm/lib/FileDownloadResponse.js": "./dist-esm/lib/FileDownloadResponse.browser.js",
     "os": false,
     "process": false
   },
