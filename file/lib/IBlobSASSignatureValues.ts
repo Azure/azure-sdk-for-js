@@ -188,10 +188,10 @@ export function generateBlobSASQueryParameters(
   const stringToSign = [
     verifiedPermissions ? verifiedPermissions : "",
     blobSASSignatureValues.startTime
-      ? truncatedISO8061Date(blobSASSignatureValues.startTime)
+      ? truncatedISO8061Date(blobSASSignatureValues.startTime, false)
       : "",
     blobSASSignatureValues.expiryTime
-      ? truncatedISO8061Date(blobSASSignatureValues.expiryTime)
+      ? truncatedISO8061Date(blobSASSignatureValues.expiryTime, false)
       : "",
     getCanonicalName(
       sharedKeyCredential.accountName,

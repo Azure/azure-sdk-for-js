@@ -6,11 +6,14 @@ export const BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES: number = 100 * 1024 * 1024; // 10
 export const BLOCK_BLOB_MAX_BLOCKS: number = 50000;
 export const BLOB_DEFAULT_DOWNLOAD_BLOCK_BYTES: number = 4 * 1024 * 1024; // 4MB
 
+export const FILE_MAX_SIZE_BYTES: number = 1024 * 1024 * 1024 * 1024; // 1TB
+export const FILE_RANGE_MAX_SIZE_BYTES: number = 4 * 1024 * 1024 * 1024; // 4MB
+
 export const URLConstants = {
   Parameters: {
     FORCE_BROWSER_NO_CACHE: "_",
+    SHARE_SNAPSHOT: "sharesnapshot",
     SIGNATURE: "sig",
-    SNAPSHOT: "snapshot",
     TIMEOUT: "timeout"
   }
 };

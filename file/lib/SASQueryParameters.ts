@@ -226,14 +226,18 @@ export class SASQueryParameters {
           this.tryAppendQueryParameter(
             queries,
             param,
-            this.startTime ? truncatedISO8061Date(this.startTime) : undefined
+            this.startTime
+              ? truncatedISO8061Date(this.startTime, false)
+              : undefined
           );
           break;
         case "se":
           this.tryAppendQueryParameter(
             queries,
             param,
-            this.expiryTime ? truncatedISO8061Date(this.expiryTime) : undefined
+            this.expiryTime
+              ? truncatedISO8061Date(this.expiryTime, false)
+              : undefined
           );
           break;
         case "sip":
