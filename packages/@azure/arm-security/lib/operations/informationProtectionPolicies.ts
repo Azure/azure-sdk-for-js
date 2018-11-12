@@ -56,7 +56,7 @@ export class InformationProtectionPolicies {
    * @param callback The callback
    */
   get(scope: string, informationProtectionPolicyName: Models.InformationProtectionPolicyName, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InformationProtectionPolicy>): void;
-  get(scope: string, informationProtectionPolicyName: Models.InformationProtectionPolicyName, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.InformationProtectionPolicy>): Promise<Models.InformationProtectionPoliciesGetResponse> {
+  get(scope: string, informationProtectionPolicyName: Models.InformationProtectionPolicyName, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InformationProtectionPolicy>, callback?: msRest.ServiceCallback<Models.InformationProtectionPolicy>): Promise<Models.InformationProtectionPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -97,7 +97,7 @@ export class InformationProtectionPolicies {
    * @param callback The callback
    */
   createOrUpdate(scope: string, informationProtectionPolicyName: Models.InformationProtectionPolicyName1, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InformationProtectionPolicy>): void;
-  createOrUpdate(scope: string, informationProtectionPolicyName: Models.InformationProtectionPolicyName1, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.InformationProtectionPolicy>): Promise<Models.InformationProtectionPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(scope: string, informationProtectionPolicyName: Models.InformationProtectionPolicyName1, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InformationProtectionPolicy>, callback?: msRest.ServiceCallback<Models.InformationProtectionPolicy>): Promise<Models.InformationProtectionPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -132,7 +132,7 @@ export class InformationProtectionPolicies {
    * @param callback The callback
    */
   list(scope: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InformationProtectionPolicyList>): void;
-  list(scope: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.InformationProtectionPolicyList>): Promise<Models.InformationProtectionPoliciesListResponse> {
+  list(scope: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InformationProtectionPolicyList>, callback?: msRest.ServiceCallback<Models.InformationProtectionPolicyList>): Promise<Models.InformationProtectionPoliciesListResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -160,7 +160,7 @@ export class InformationProtectionPolicies {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InformationProtectionPolicyList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.InformationProtectionPolicyList>): Promise<Models.InformationProtectionPoliciesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InformationProtectionPolicyList>, callback?: msRest.ServiceCallback<Models.InformationProtectionPolicyList>): Promise<Models.InformationProtectionPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
