@@ -53,7 +53,7 @@ export class ApiPolicy {
    * @param callback The callback
    */
   listByApi(resourceGroupName: string, serviceName: string, apiId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyCollection>): void;
-  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyCollection>): Promise<Models.ApiPolicyListByApiResponse> {
+  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyCollection>, callback?: msRest.ServiceCallback<Models.PolicyCollection>): Promise<Models.ApiPolicyListByApiResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -92,7 +92,7 @@ export class ApiPolicy {
    * @param callback The callback
    */
   getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiPolicyGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiPolicyGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,7 +131,7 @@ export class ApiPolicy {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, apiId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyContract>): void;
-  get(resourceGroupName: string, serviceName: string, apiId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyContract>): Promise<Models.ApiPolicyGetResponse> {
+  get(resourceGroupName: string, serviceName: string, apiId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyContract>, callback?: msRest.ServiceCallback<Models.PolicyContract>): Promise<Models.ApiPolicyGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -173,7 +173,7 @@ export class ApiPolicy {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, parameters: Models.PolicyContract, options: Models.ApiPolicyCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.PolicyContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, parameters: Models.PolicyContract, options?: Models.ApiPolicyCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyContract>): Promise<Models.ApiPolicyCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, parameters: Models.PolicyContract, options?: Models.ApiPolicyCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.PolicyContract>, callback?: msRest.ServiceCallback<Models.PolicyContract>): Promise<Models.ApiPolicyCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -219,7 +219,7 @@ export class ApiPolicy {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

@@ -47,7 +47,7 @@ export class Logger {
    * @param callback The callback
    */
   listByService(resourceGroupName: string, serviceName: string, options: Models.LoggerListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.LoggerCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.LoggerListByServiceOptionalParams, callback?: msRest.ServiceCallback<Models.LoggerCollection>): Promise<Models.LoggerListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.LoggerListByServiceOptionalParams | msRest.ServiceCallback<Models.LoggerCollection>, callback?: msRest.ServiceCallback<Models.LoggerCollection>): Promise<Models.LoggerListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class Logger {
    * @param callback The callback
    */
   getEntityTag(resourceGroupName: string, serviceName: string, loggerid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, loggerid: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.LoggerGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, loggerid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.LoggerGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -118,7 +118,7 @@ export class Logger {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, loggerid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoggerContract>): void;
-  get(resourceGroupName: string, serviceName: string, loggerid: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LoggerContract>): Promise<Models.LoggerGetResponse> {
+  get(resourceGroupName: string, serviceName: string, loggerid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoggerContract>, callback?: msRest.ServiceCallback<Models.LoggerContract>): Promise<Models.LoggerGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -157,7 +157,7 @@ export class Logger {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, loggerid: string, parameters: Models.LoggerContract, options: Models.LoggerCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.LoggerContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, loggerid: string, parameters: Models.LoggerContract, options?: Models.LoggerCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.LoggerContract>): Promise<Models.LoggerCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, loggerid: string, parameters: Models.LoggerContract, options?: Models.LoggerCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.LoggerContract>, callback?: msRest.ServiceCallback<Models.LoggerContract>): Promise<Models.LoggerCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -203,7 +203,7 @@ export class Logger {
    * @param callback The callback
    */
   update(resourceGroupName: string, serviceName: string, loggerid: string, parameters: Models.LoggerUpdateContract, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, loggerid: string, parameters: Models.LoggerUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, loggerid: string, parameters: Models.LoggerUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -247,7 +247,7 @@ export class Logger {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, loggerid: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, loggerid: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, loggerid: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -278,7 +278,7 @@ export class Logger {
    * @param callback The callback
    */
   listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoggerCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LoggerCollection>): Promise<Models.LoggerListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoggerCollection>, callback?: msRest.ServiceCallback<Models.LoggerCollection>): Promise<Models.LoggerListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

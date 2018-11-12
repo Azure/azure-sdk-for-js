@@ -50,7 +50,7 @@ export class ApiProduct {
    * @param callback The callback
    */
   listByApis(resourceGroupName: string, serviceName: string, apiId: string, options: Models.ApiProductListByApisOptionalParams, callback: msRest.ServiceCallback<Models.ProductCollection>): void;
-  listByApis(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiProductListByApisOptionalParams, callback?: msRest.ServiceCallback<Models.ProductCollection>): Promise<Models.ApiProductListByApisResponse> {
+  listByApis(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiProductListByApisOptionalParams | msRest.ServiceCallback<Models.ProductCollection>, callback?: msRest.ServiceCallback<Models.ProductCollection>): Promise<Models.ApiProductListByApisResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -80,7 +80,7 @@ export class ApiProduct {
    * @param callback The callback
    */
   listByApisNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProductCollection>): void;
-  listByApisNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProductCollection>): Promise<Models.ApiProductListByApisNextResponse> {
+  listByApisNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProductCollection>, callback?: msRest.ServiceCallback<Models.ProductCollection>): Promise<Models.ApiProductListByApisNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
