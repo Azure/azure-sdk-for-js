@@ -361,8 +361,10 @@ export interface NetworkInterfaceDnsSettings {
 export interface NetworkInterface extends Resource {
   /**
    * @member {SubResource} [virtualMachine] The reference of a virtual machine.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  virtualMachine?: SubResource;
+  readonly virtualMachine?: SubResource;
   /**
    * @member {NetworkSecurityGroup} [networkSecurityGroup] The reference of the
    * NetworkSecurityGroup resource.
