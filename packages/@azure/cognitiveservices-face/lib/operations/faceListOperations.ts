@@ -44,7 +44,7 @@ export class FaceListOperations {
    * @param callback The callback
    */
   create(faceListId: string, options: Models.FaceListCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(faceListId: string, options?: Models.FaceListCreateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  create(faceListId: string, options?: Models.FaceListCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         faceListId,
@@ -72,7 +72,7 @@ export class FaceListOperations {
    * @param callback The callback
    */
   get(faceListId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FaceList>): void;
-  get(faceListId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FaceList>): Promise<Models.FaceListGetResponse> {
+  get(faceListId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FaceList>, callback?: msRest.ServiceCallback<Models.FaceList>): Promise<Models.FaceListGetResponse> {
     return this.client.sendOperationRequest(
       {
         faceListId,
@@ -100,7 +100,7 @@ export class FaceListOperations {
    * @param callback The callback
    */
   update(faceListId: string, options: Models.FaceListUpdateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  update(faceListId: string, options?: Models.FaceListUpdateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(faceListId: string, options?: Models.FaceListUpdateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         faceListId,
@@ -129,7 +129,7 @@ export class FaceListOperations {
    * @param callback The callback
    */
   deleteMethod(faceListId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(faceListId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(faceListId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         faceListId,
@@ -155,7 +155,7 @@ export class FaceListOperations {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FaceList[]>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FaceList[]>): Promise<Models.FaceListListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FaceList[]>, callback?: msRest.ServiceCallback<Models.FaceList[]>): Promise<Models.FaceListListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -186,7 +186,7 @@ export class FaceListOperations {
    * @param callback The callback
    */
   deleteFace(faceListId: string, persistedFaceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteFace(faceListId: string, persistedFaceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteFace(faceListId: string, persistedFaceId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         faceListId,
@@ -219,7 +219,7 @@ export class FaceListOperations {
    * @param callback The callback
    */
   addFaceFromUrl(faceListId: string, url: string, options: Models.FaceListAddFaceFromUrlOptionalParams, callback: msRest.ServiceCallback<Models.PersistedFace>): void;
-  addFaceFromUrl(faceListId: string, url: string, options?: Models.FaceListAddFaceFromUrlOptionalParams, callback?: msRest.ServiceCallback<Models.PersistedFace>): Promise<Models.FaceListAddFaceFromUrlResponse> {
+  addFaceFromUrl(faceListId: string, url: string, options?: Models.FaceListAddFaceFromUrlOptionalParams | msRest.ServiceCallback<Models.PersistedFace>, callback?: msRest.ServiceCallback<Models.PersistedFace>): Promise<Models.FaceListAddFaceFromUrlResponse> {
     return this.client.sendOperationRequest(
       {
         faceListId,
@@ -252,7 +252,7 @@ export class FaceListOperations {
    * @param callback The callback
    */
   addFaceFromStream(faceListId: string, image: msRest.HttpRequestBody, options: Models.FaceListAddFaceFromStreamOptionalParams, callback: msRest.ServiceCallback<Models.PersistedFace>): void;
-  addFaceFromStream(faceListId: string, image: msRest.HttpRequestBody, options?: Models.FaceListAddFaceFromStreamOptionalParams, callback?: msRest.ServiceCallback<Models.PersistedFace>): Promise<Models.FaceListAddFaceFromStreamResponse> {
+  addFaceFromStream(faceListId: string, image: msRest.HttpRequestBody, options?: Models.FaceListAddFaceFromStreamOptionalParams | msRest.ServiceCallback<Models.PersistedFace>, callback?: msRest.ServiceCallback<Models.PersistedFace>): Promise<Models.FaceListAddFaceFromStreamResponse> {
     return this.client.sendOperationRequest(
       {
         faceListId,
