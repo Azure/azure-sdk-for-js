@@ -68,9 +68,9 @@ export interface SecurityContact extends Resource {
    */
   email: string;
   /**
-   * @member {string} phone The phone number of this security contact
+   * @member {string} [phone] The phone number of this security contact
    */
-  phone: string;
+  phone?: string;
   /**
    * @member {AlertNotifications} alertNotifications Whether to send security
    * alerts notifications to the security contact. Possible values include:
