@@ -2,18 +2,18 @@
 
 [![Build Status](https://dev.azure.com/azure-public/adx/_apis/build/status/public.Azure.azure-sdk-for-js)](https://dev.azure.com/azure-public/adx/_build/latest?definitionId=2)
 
-This project provides a Javascript package that makes it easy to consume and manage
+This project provides an isomorphic Javascript package with TypeScript definitions that makes it easy to consume and manage
 Microsoft Azure Services.
 It supports SDKs for:
-- ARM services (packages with the naming convention of `azure-arm-<servicename>`)
-- data plane of some Azure services (packages with the naming convention of `azure-<servicename>`).
+- ARM services (control plane) (packages with the naming convention of `@azure/arm-<servicename>`)
+- data plane of some Azure services (packages with the naming convention of `@azure/<servicename>`).
 
 ## Documentation
 
 Documentation of the supported SDKs can be found here:
 - https://docs.microsoft.com/en-us/javascript/azure - This website primarily provides SDK documentation for
-  - ARM based services (`azure-arm-<serviceName>`)
-  - data plane SDKs like `azure-batch`, `azure-graph`, etc.
+  - ARM based services (`@azure/arm-<serviceName>`)
+  - data plane SDKs like `@azure/batch`, `@azure/graph`, etc.
   
 ## Authentication
 - For Node.js-based authentication, look at [ms-rest-nodeauth](https://npmjs.com/package/ms-rest-nodeauth).
@@ -23,28 +23,13 @@ Documentation of the supported SDKs can be found here:
 ## Need Help?
 
 * [Read the docs](https://docs.microsoft.com/en-us/javascript/azure/?view=azure-node-latest)
-* [Open an issue in GitHub](http://github.com/azure/azure-sdk-for-node)
+* [Open an issue in GitHub](https://github.com/Azure/azure-sdk-for-js/issues)
 * [Microsoft Azure Forums on MSDN and Stack Overflow](http://go.microsoft.com/fwlink/?LinkId=234489)
-
-## AzureNodeEssentials VSCode extension
-
-The [AzureNodeEssentials](https://marketplace.visualstudio.com/items?itemName=azuresdkteam.azurenodeessentials) extension helps you easily interact with Azure.
-It helps you:
-- create a project scaffolding
-- install correct dependencies
-- ready to use snippets for authentication and deploying templates to azure
-
-Please feel free to provide feedback for the extension by opening github issues over [here](https://github.com/Azure/azure-node-essentials).
-
-## Related Projects
-
-* [Azure CLI](http://github.com/azure/azure-xplat-cli)
 
 ## License
 
-This project is licensed under MIT and Apache-2.0.
-- "MIT" license is usually used for the client libraries generated using [Autorest](https://github.com/Azure/Autorest) that are targeting ARM (V2 version of Azure REST API). The license can be found in "LICENSE.MIT.txt" file in this repository.
-- "Apache-2.0" license is usually used for the client libraries generated using an internal code generator that are targeting ASM (V1 version of Azure REST API). The license can be found in "LICENSE.Apache.txt" file in this repository.
+This project is licensed under MIT.
+- "MIT" license is usually used for the client libraries generated using [Autorest.TypeScript](https://github.com/azure/autorest.typescript) that are targeting ARM (V2 version of Azure REST API). The license can be found in "LICENSE.MIT.txt" file in this repository.
 
 ## Contribute
 

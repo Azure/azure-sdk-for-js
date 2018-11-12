@@ -445,6 +445,7 @@ export const NetworkInterface: msRest.CompositeMapper = {
     modelProperties: {
       ...Resource.type.modelProperties,
       virtualMachine: {
+        readOnly: true,
         serializedName: "properties.virtualMachine",
         type: {
           name: "Composite",
