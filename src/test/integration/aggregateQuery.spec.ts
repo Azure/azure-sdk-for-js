@@ -2,16 +2,16 @@ import assert from "assert";
 import * as util from "util";
 import { QueryIterator } from "../..";
 import { Container, ContainerDefinition, Database } from "../../client";
-import { CosmosClient } from "../../CosmosClient";
 import { DataType, IndexKind, PartitionKind } from "../../documents";
 import { SqlQuerySpec } from "../../queryExecutionContext";
-import { endpoint, masterKey } from "../common/_testConfig";
+import { FeedOptions } from "../../request";
 import { TestData } from "../common/TestData";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
 // process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
-describe.skip("NodeJS Aggregate Query Tests", async function() {
+describe("NodeJS Aggregate Query Tests", async function() {
+  this.timeout(process.env.MOCHA_TIMEOUT || 20000);
   const partitionKey = "key";
   const uniquePartitionKey = "uniquePartitionKey";
   const testdata = new TestData(partitionKey, uniquePartitionKey);
@@ -28,7 +28,7 @@ describe.skip("NodeJS Aggregate Query Tests", async function() {
           indexes: [
             {
               kind: IndexKind.Hash,
-              dataType: DataType.Number
+              dataType: DataType.String
             },
             {
               kind: IndexKind.Range,
@@ -53,7 +53,12 @@ describe.skip("NodeJS Aggregate Query Tests", async function() {
     //          - bulk inserts documents to the container
     before(async function() {
       await removeAllDatabases();
-      container = await getTestContainer("Validate Aggregate Document Query", undefined, containerDefinition);
+      container = await getTestContainer(
+        "Validate Aggregate Document Query",
+        undefined,
+        containerDefinition,
+        containerOptions
+      );
       db = container.database;
       await bulkInsertItems(container, documentDefinitions);
     });
@@ -106,9 +111,9 @@ describe.skip("NodeJS Aggregate Query Tests", async function() {
       const results: any[] = [];
       try {
         while (results.length <= expectedResults.length) {
-          const { result: currentItem } = await queryIterator.current();
           const { result: item } = await queryIterator.nextItem();
-          if (!item) {
+          const { result: currentItem } = await queryIterator.current();
+          if (item === undefined) {
             break;
           }
           results.push(item);
@@ -195,9 +200,9 @@ describe.skip("NodeJS Aggregate Query Tests", async function() {
     };
 
     const executeQueryAndValidateResults = async function(query: string | SqlQuerySpec, expectedResults: any[]) {
-      const options = { enableCrossPartitionQuery: true };
+      const options: FeedOptions = { enableCrossPartitionQuery: true, maxDegreeOfParallelism: 2, maxItemCount: 1 };
 
-      const queryIterator = container.items.query(query);
+      const queryIterator = container.items.query(query, options);
       await validateToArray(queryIterator, expectedResults);
       queryIterator.reset();
       await validateExecuteNextAndHasMoreResults(queryIterator, options, expectedResults);
