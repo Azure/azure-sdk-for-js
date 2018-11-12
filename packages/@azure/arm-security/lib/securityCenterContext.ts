@@ -13,7 +13,7 @@ import * as msRest from "ms-rest-js";
 import * as msRestAzure from "ms-rest-azure-js";
 
 const packageName = "@azure/arm-security";
-const packageVersion = "1.0.0-preview";
+const packageVersion = "0.1.0";
 
 export class SecurityCenterContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
@@ -42,6 +42,11 @@ export class SecurityCenterContext extends msRestAzure.AzureServiceClient {
     if (!options) {
       options = {};
     }
+    if(!options.userAgent) {
+      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
+      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
+    }
+
     super(credentials, options);
 
     this.acceptLanguage = 'en-US';
@@ -52,7 +57,6 @@ export class SecurityCenterContext extends msRestAzure.AzureServiceClient {
     this.subscriptionId = subscriptionId;
     this.ascLocation = ascLocation;
 
-    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }

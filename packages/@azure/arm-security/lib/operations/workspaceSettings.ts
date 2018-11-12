@@ -41,7 +41,7 @@ export class WorkspaceSettings {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceSettingList>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkspaceSettingList>): Promise<Models.WorkspaceSettingsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceSettingList>, callback?: msRest.ServiceCallback<Models.WorkspaceSettingList>): Promise<Models.WorkspaceSettingsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -68,7 +68,7 @@ export class WorkspaceSettings {
    * @param callback The callback
    */
   get(workspaceSettingName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceSetting>): void;
-  get(workspaceSettingName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkspaceSetting>): Promise<Models.WorkspaceSettingsGetResponse> {
+  get(workspaceSettingName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceSetting>, callback?: msRest.ServiceCallback<Models.WorkspaceSetting>): Promise<Models.WorkspaceSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceSettingName,
@@ -99,7 +99,7 @@ export class WorkspaceSettings {
    * @param callback The callback
    */
   create(workspaceSettingName: string, workspaceSetting: Models.WorkspaceSetting, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceSetting>): void;
-  create(workspaceSettingName: string, workspaceSetting: Models.WorkspaceSetting, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkspaceSetting>): Promise<Models.WorkspaceSettingsCreateResponse> {
+  create(workspaceSettingName: string, workspaceSetting: Models.WorkspaceSetting, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceSetting>, callback?: msRest.ServiceCallback<Models.WorkspaceSetting>): Promise<Models.WorkspaceSettingsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceSettingName,
@@ -131,7 +131,7 @@ export class WorkspaceSettings {
    * @param callback The callback
    */
   update(workspaceSettingName: string, workspaceSetting: Models.WorkspaceSetting, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceSetting>): void;
-  update(workspaceSettingName: string, workspaceSetting: Models.WorkspaceSetting, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkspaceSetting>): Promise<Models.WorkspaceSettingsUpdateResponse> {
+  update(workspaceSettingName: string, workspaceSetting: Models.WorkspaceSetting, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceSetting>, callback?: msRest.ServiceCallback<Models.WorkspaceSetting>): Promise<Models.WorkspaceSettingsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceSettingName,
@@ -161,7 +161,7 @@ export class WorkspaceSettings {
    * @param callback The callback
    */
   deleteMethod(workspaceSettingName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(workspaceSettingName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(workspaceSettingName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceSettingName,
@@ -189,7 +189,7 @@ export class WorkspaceSettings {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceSettingList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkspaceSettingList>): Promise<Models.WorkspaceSettingsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceSettingList>, callback?: msRest.ServiceCallback<Models.WorkspaceSettingList>): Promise<Models.WorkspaceSettingsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

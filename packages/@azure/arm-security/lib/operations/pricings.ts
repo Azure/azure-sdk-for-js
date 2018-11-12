@@ -41,7 +41,7 @@ export class Pricings {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PricingList>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PricingList>): Promise<Models.PricingsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PricingList>, callback?: msRest.ServiceCallback<Models.PricingList>): Promise<Models.PricingsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -71,7 +71,7 @@ export class Pricings {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PricingList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PricingList>): Promise<Models.PricingsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PricingList>, callback?: msRest.ServiceCallback<Models.PricingList>): Promise<Models.PricingsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -100,7 +100,7 @@ export class Pricings {
    * @param callback The callback
    */
   getSubscriptionPricing(pricingName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Pricing>): void;
-  getSubscriptionPricing(pricingName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Pricing>): Promise<Models.PricingsGetSubscriptionPricingResponse> {
+  getSubscriptionPricing(pricingName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Pricing>, callback?: msRest.ServiceCallback<Models.Pricing>): Promise<Models.PricingsGetSubscriptionPricingResponse> {
     return this.client.sendOperationRequest(
       {
         pricingName,
@@ -131,7 +131,7 @@ export class Pricings {
    * @param callback The callback
    */
   updateSubscriptionPricing(pricingName: string, pricing: Models.Pricing, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Pricing>): void;
-  updateSubscriptionPricing(pricingName: string, pricing: Models.Pricing, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Pricing>): Promise<Models.PricingsUpdateSubscriptionPricingResponse> {
+  updateSubscriptionPricing(pricingName: string, pricing: Models.Pricing, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Pricing>, callback?: msRest.ServiceCallback<Models.Pricing>): Promise<Models.PricingsUpdateSubscriptionPricingResponse> {
     return this.client.sendOperationRequest(
       {
         pricingName,
@@ -166,7 +166,7 @@ export class Pricings {
    * @param callback The callback
    */
   getResourceGroupPricing(resourceGroupName: string, pricingName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Pricing>): void;
-  getResourceGroupPricing(resourceGroupName: string, pricingName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Pricing>): Promise<Models.PricingsGetResourceGroupPricingResponse> {
+  getResourceGroupPricing(resourceGroupName: string, pricingName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Pricing>, callback?: msRest.ServiceCallback<Models.Pricing>): Promise<Models.PricingsGetResourceGroupPricingResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -204,7 +204,7 @@ export class Pricings {
    * @param callback The callback
    */
   createOrUpdateResourceGroupPricing(resourceGroupName: string, pricingName: string, pricing: Models.Pricing, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Pricing>): void;
-  createOrUpdateResourceGroupPricing(resourceGroupName: string, pricingName: string, pricing: Models.Pricing, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Pricing>): Promise<Models.PricingsCreateOrUpdateResourceGroupPricingResponse> {
+  createOrUpdateResourceGroupPricing(resourceGroupName: string, pricingName: string, pricing: Models.Pricing, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Pricing>, callback?: msRest.ServiceCallback<Models.Pricing>): Promise<Models.PricingsCreateOrUpdateResourceGroupPricingResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -234,7 +234,7 @@ export class Pricings {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PricingList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PricingList>): Promise<Models.PricingsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PricingList>, callback?: msRest.ServiceCallback<Models.PricingList>): Promise<Models.PricingsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -262,7 +262,7 @@ export class Pricings {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PricingList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PricingList>): Promise<Models.PricingsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PricingList>, callback?: msRest.ServiceCallback<Models.PricingList>): Promise<Models.PricingsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
