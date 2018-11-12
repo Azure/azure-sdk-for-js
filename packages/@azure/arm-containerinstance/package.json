@@ -5,7 +5,11 @@
   "version": "0.1.0",
   "dependencies": {
     "ms-rest-azure-js": "^1.0.181",
+<<<<<<< HEAD
     "ms-rest-js": "^1.0.462",
+=======
+    "ms-rest-js": "^1.0.460",
+>>>>>>> 0f1ff186c004c02102592d4f6a9378e6f9f256cb
     "tslib": "^1.9.3"
   },
   "keywords": [
