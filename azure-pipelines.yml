@@ -1,0 +1,56 @@
+trigger:
+- master
+
+jobs:
+- job: Test
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  strategy:
+    matrix:
+      Node6:
+        node.version: 6.x
+      Node8:
+        node.version: 8.x
+      Node10:
+        node.version: 10.x
+      Node11:
+        node.version: 11.x
+  steps:
+  - task: NodeTool@0
+    displayName: 'Install Node'
+    inputs:
+      versionSpec: $(node.version)
+  - script: npm install
+  - task: Npm@1
+    displayName: 'npm test'
+    inputs:
+      command: custom
+      verbose: false
+      customCommand: test
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFiles: '**/test-results.xml'
+      testRunTitle: 'Test results for JavaScript'
+  - task: PublishCodeCoverageResults@1
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
+      reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
+- job: Build
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  steps:
+  - task: Npm@1
+    displayName: 'npm pack'
+    inputs:
+      command: custom
+      verbose: false
+      customCommand: pack
+  - task: CopyFiles@2
+    displayName: 'Copy Files to: drop'
+    inputs:
+      Contents: '*.tgz'
+      TargetFolder: drop
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: $(Build.SourcesDirectory)/drop
