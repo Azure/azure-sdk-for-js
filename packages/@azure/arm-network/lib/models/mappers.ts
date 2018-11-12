@@ -3863,6 +3863,7 @@ export const AzureFirewallIPConfiguration: msRest.CompositeMapper = {
     modelProperties: {
       ...SubResource.type.modelProperties,
       privateIPAddress: {
+        readOnly: true,
         serializedName: "properties.privateIPAddress",
         type: {
           name: "String"

@@ -2859,8 +2859,10 @@ export interface AzureFirewallIPConfiguration extends SubResource {
   /**
    * @member {string} [privateIPAddress] The Firewall Internal Load Balancer IP
    * to be used as the next hop in User Defined Routes.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  privateIPAddress?: string;
+  readonly privateIPAddress?: string;
   /**
    * @member {SubResource} [subnet] Reference of the subnet resource. This
    * resource must be named 'AzureFirewallSubnet'.
