@@ -1440,6 +1440,111 @@ export interface AadConnectivityState1 {
 
 /**
  * @interface
+ * An interface representing ConnectedResource.
+ * Describes properties of a connected resource
+ *
+ */
+export interface ConnectedResource {
+  /**
+   * @member {string} [connectedResourceId] The Azure resource id of the
+   * connected resource
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly connectedResourceId?: string;
+  /**
+   * @member {string} [tcpPorts] The allowed tcp ports
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly tcpPorts?: string;
+  /**
+   * @member {string} [udpPorts] The allowed udp ports
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly udpPorts?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ConnectableResource.
+ * Describes the allowed inbound and outbound traffic of an Azure resource
+ *
+ */
+export interface ConnectableResource {
+  /**
+   * @member {string} [id] The Azure resource id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {ConnectedResource[]} [inboundConnectedResources] The list of
+   * Azure resources that the resource has inbound allowed connection from
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly inboundConnectedResources?: ConnectedResource[];
+  /**
+   * @member {ConnectedResource[]} [outboundConnectedResources] The list of
+   * Azure resources that the resource has outbound allowed connection to
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly outboundConnectedResources?: ConnectedResource[];
+}
+
+/**
+ * @interface
+ * An interface representing AllowedConnectionsResource.
+ * The resource whose properties describes the allowed traffic between Azure
+ * resources
+ *
+ */
+export interface AllowedConnectionsResource {
+  /**
+   * @member {string} [id] Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [name] Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [type] Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [location] Location where the resource is stored
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly location?: string;
+  /**
+   * @member {Date} [calculatedDateTime] The UTC time on which the allowed
+   * connections resource was calculated
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly calculatedDateTime?: Date;
+  /**
+   * @member {ConnectableResource[]} [connectableResources] List of connectable
+   * resources
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly connectableResources?: ConnectableResource[];
+}
+
+/**
+ * @interface
  * An interface representing TasksListOptionalParams.
  * Optional Parameters.
  *
@@ -1814,6 +1919,22 @@ export interface TopologyList extends Array<TopologyResource> {
 }
 
 /**
+ * @interface
+ * An interface representing the AllowedConnectionsList.
+ * List of all possible traffic between Azure resources
+ *
+ * @extends Array<AllowedConnectionsResource>
+ */
+export interface AllowedConnectionsList extends Array<AllowedConnectionsResource> {
+  /**
+   * @member {string} [nextLink] The URI to fetch the next page.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
  * Defines values for AlertNotifications.
  * Possible values include: 'On', 'Off'
  * @readonly
@@ -1900,6 +2021,14 @@ export type AadConnectivityState = 'Discovered' | 'NotLicensed' | 'Connected';
  * @enum {string}
  */
 export type ExternalSecuritySolutionKind = 'CEF' | 'ATA' | 'AAD';
+
+/**
+ * Defines values for ConnectionType.
+ * Possible values include: 'Internal', 'External'
+ * @readonly
+ * @enum {string}
+ */
+export type ConnectionType = 'Internal' | 'External';
 
 /**
  * Defines values for SettingName.
@@ -3558,5 +3687,100 @@ export type TopologyListByHomeRegionNextResponse = TopologyList & {
        * The response body as parsed JSON or XML
        */
       parsedBody: TopologyList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type AllowedConnectionsListResponse = AllowedConnectionsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AllowedConnectionsList;
+    };
+};
+
+/**
+ * Contains response data for the listByHomeRegion operation.
+ */
+export type AllowedConnectionsListByHomeRegionResponse = AllowedConnectionsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AllowedConnectionsList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type AllowedConnectionsGetResponse = AllowedConnectionsResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AllowedConnectionsResource;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type AllowedConnectionsListNextResponse = AllowedConnectionsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AllowedConnectionsList;
+    };
+};
+
+/**
+ * Contains response data for the listByHomeRegionNext operation.
+ */
+export type AllowedConnectionsListByHomeRegionNextResponse = AllowedConnectionsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AllowedConnectionsList;
     };
 };
