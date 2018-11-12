@@ -41,7 +41,7 @@ export class AutoProvisioningSettings {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AutoProvisioningSettingList>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AutoProvisioningSettingList>): Promise<Models.AutoProvisioningSettingsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutoProvisioningSettingList>, callback?: msRest.ServiceCallback<Models.AutoProvisioningSettingList>): Promise<Models.AutoProvisioningSettingsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -68,7 +68,7 @@ export class AutoProvisioningSettings {
    * @param callback The callback
    */
   get(settingName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AutoProvisioningSetting>): void;
-  get(settingName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AutoProvisioningSetting>): Promise<Models.AutoProvisioningSettingsGetResponse> {
+  get(settingName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutoProvisioningSetting>, callback?: msRest.ServiceCallback<Models.AutoProvisioningSetting>): Promise<Models.AutoProvisioningSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         settingName,
@@ -99,7 +99,7 @@ export class AutoProvisioningSettings {
    * @param callback The callback
    */
   create(settingName: string, setting: Models.AutoProvisioningSetting, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AutoProvisioningSetting>): void;
-  create(settingName: string, setting: Models.AutoProvisioningSetting, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AutoProvisioningSetting>): Promise<Models.AutoProvisioningSettingsCreateResponse> {
+  create(settingName: string, setting: Models.AutoProvisioningSetting, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutoProvisioningSetting>, callback?: msRest.ServiceCallback<Models.AutoProvisioningSetting>): Promise<Models.AutoProvisioningSettingsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         settingName,
@@ -128,7 +128,7 @@ export class AutoProvisioningSettings {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AutoProvisioningSettingList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AutoProvisioningSettingList>): Promise<Models.AutoProvisioningSettingsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutoProvisioningSettingList>, callback?: msRest.ServiceCallback<Models.AutoProvisioningSettingList>): Promise<Models.AutoProvisioningSettingsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

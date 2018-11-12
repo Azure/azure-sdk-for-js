@@ -50,7 +50,7 @@ export class Compliances {
    * @param callback The callback
    */
   list(scope: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ComplianceList>): void;
-  list(scope: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ComplianceList>): Promise<Models.CompliancesListResponse> {
+  list(scope: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ComplianceList>, callback?: msRest.ServiceCallback<Models.ComplianceList>): Promise<Models.CompliancesListResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -87,7 +87,7 @@ export class Compliances {
    * @param callback The callback
    */
   get(scope: string, complianceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Compliance>): void;
-  get(scope: string, complianceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Compliance>): Promise<Models.CompliancesGetResponse> {
+  get(scope: string, complianceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Compliance>, callback?: msRest.ServiceCallback<Models.Compliance>): Promise<Models.CompliancesGetResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -116,7 +116,7 @@ export class Compliances {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ComplianceList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ComplianceList>): Promise<Models.CompliancesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ComplianceList>, callback?: msRest.ServiceCallback<Models.ComplianceList>): Promise<Models.CompliancesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

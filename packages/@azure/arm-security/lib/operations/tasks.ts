@@ -41,7 +41,7 @@ export class Tasks {
    * @param callback The callback
    */
   list(options: Models.TasksListOptionalParams, callback: msRest.ServiceCallback<Models.SecurityTaskList>): void;
-  list(options?: Models.TasksListOptionalParams, callback?: msRest.ServiceCallback<Models.SecurityTaskList>): Promise<Models.TasksListResponse> {
+  list(options?: Models.TasksListOptionalParams | msRest.ServiceCallback<Models.SecurityTaskList>, callback?: msRest.ServiceCallback<Models.SecurityTaskList>): Promise<Models.TasksListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -65,7 +65,7 @@ export class Tasks {
    * @param callback The callback
    */
   listByHomeRegion(options: Models.TasksListByHomeRegionOptionalParams, callback: msRest.ServiceCallback<Models.SecurityTaskList>): void;
-  listByHomeRegion(options?: Models.TasksListByHomeRegionOptionalParams, callback?: msRest.ServiceCallback<Models.SecurityTaskList>): Promise<Models.TasksListByHomeRegionResponse> {
+  listByHomeRegion(options?: Models.TasksListByHomeRegionOptionalParams | msRest.ServiceCallback<Models.SecurityTaskList>, callback?: msRest.ServiceCallback<Models.SecurityTaskList>): Promise<Models.TasksListByHomeRegionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -92,7 +92,7 @@ export class Tasks {
    * @param callback The callback
    */
   getSubscriptionLevelTask(taskName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityTask>): void;
-  getSubscriptionLevelTask(taskName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SecurityTask>): Promise<Models.TasksGetSubscriptionLevelTaskResponse> {
+  getSubscriptionLevelTask(taskName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityTask>, callback?: msRest.ServiceCallback<Models.SecurityTask>): Promise<Models.TasksGetSubscriptionLevelTaskResponse> {
     return this.client.sendOperationRequest(
       {
         taskName,
@@ -126,7 +126,7 @@ export class Tasks {
    * @param callback The callback
    */
   updateSubscriptionLevelTaskState(taskName: string, taskUpdateActionType: Models.TaskUpdateActionType, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  updateSubscriptionLevelTaskState(taskName: string, taskUpdateActionType: Models.TaskUpdateActionType, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  updateSubscriptionLevelTaskState(taskName: string, taskUpdateActionType: Models.TaskUpdateActionType, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         taskName,
@@ -158,7 +158,7 @@ export class Tasks {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: Models.TasksListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.SecurityTaskList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.TasksListByResourceGroupOptionalParams, callback?: msRest.ServiceCallback<Models.SecurityTaskList>): Promise<Models.TasksListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: Models.TasksListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.SecurityTaskList>, callback?: msRest.ServiceCallback<Models.SecurityTaskList>): Promise<Models.TasksListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -192,7 +192,7 @@ export class Tasks {
    * @param callback The callback
    */
   getResourceGroupLevelTask(resourceGroupName: string, taskName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityTask>): void;
-  getResourceGroupLevelTask(resourceGroupName: string, taskName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SecurityTask>): Promise<Models.TasksGetResourceGroupLevelTaskResponse> {
+  getResourceGroupLevelTask(resourceGroupName: string, taskName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityTask>, callback?: msRest.ServiceCallback<Models.SecurityTask>): Promise<Models.TasksGetResourceGroupLevelTaskResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -233,7 +233,7 @@ export class Tasks {
    * @param callback The callback
    */
   updateResourceGroupLevelTaskState(resourceGroupName: string, taskName: string, taskUpdateActionType: Models.TaskUpdateActionType1, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  updateResourceGroupLevelTaskState(resourceGroupName: string, taskName: string, taskUpdateActionType: Models.TaskUpdateActionType1, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  updateResourceGroupLevelTaskState(resourceGroupName: string, taskName: string, taskUpdateActionType: Models.TaskUpdateActionType1, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -263,7 +263,7 @@ export class Tasks {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityTaskList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SecurityTaskList>): Promise<Models.TasksListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityTaskList>, callback?: msRest.ServiceCallback<Models.SecurityTaskList>): Promise<Models.TasksListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -291,7 +291,7 @@ export class Tasks {
    * @param callback The callback
    */
   listByHomeRegionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityTaskList>): void;
-  listByHomeRegionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SecurityTaskList>): Promise<Models.TasksListByHomeRegionNextResponse> {
+  listByHomeRegionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityTaskList>, callback?: msRest.ServiceCallback<Models.SecurityTaskList>): Promise<Models.TasksListByHomeRegionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -319,7 +319,7 @@ export class Tasks {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityTaskList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SecurityTaskList>): Promise<Models.TasksListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityTaskList>, callback?: msRest.ServiceCallback<Models.SecurityTaskList>): Promise<Models.TasksListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

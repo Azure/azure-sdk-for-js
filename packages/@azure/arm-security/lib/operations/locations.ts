@@ -43,7 +43,7 @@ export class Locations {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AscLocationList>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AscLocationList>): Promise<Models.LocationsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AscLocationList>, callback?: msRest.ServiceCallback<Models.AscLocationList>): Promise<Models.LocationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -67,7 +67,7 @@ export class Locations {
    * @param callback The callback
    */
   get(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AscLocation>): void;
-  get(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AscLocation>): Promise<Models.LocationsGetResponse> {
+  get(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AscLocation>, callback?: msRest.ServiceCallback<Models.AscLocation>): Promise<Models.LocationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -96,7 +96,7 @@ export class Locations {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AscLocationList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AscLocationList>): Promise<Models.LocationsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AscLocationList>, callback?: msRest.ServiceCallback<Models.AscLocationList>): Promise<Models.LocationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
