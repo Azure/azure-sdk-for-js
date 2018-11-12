@@ -60,8 +60,8 @@ export class DefaultQueryExecutionContext implements IExecutionContext {
    * @instance
    */
   public async nextItem(): Promise<Response<any>> {
-    const response = await this.current();
     ++this.currentIndex;
+    const response = await this.current();
     return response;
   }
 
@@ -112,7 +112,7 @@ export class DefaultQueryExecutionContext implements IExecutionContext {
     return (
       this.state === DefaultQueryExecutionContext.STATES.start ||
       this.continuation !== undefined ||
-      this.currentIndex < this.resources.length ||
+      this.currentIndex < this.resources.length - 1 ||
       this.currentPartitionIndex < this.fetchFunctions.length
     );
   }

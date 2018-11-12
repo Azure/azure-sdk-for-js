@@ -90,7 +90,10 @@ describe("NodeJS CRUD Tests", function() {
       const queryIterator = container.items.readAll();
       let cnt = 0;
       while (queryIterator.hasMoreResults()) {
-        await queryIterator.nextItem();
+        const { result } = await queryIterator.nextItem();
+        if (result === undefined) {
+          break;
+        }
         cnt++;
       }
       assert.equal(cnt, documentDefinitions.length);
@@ -152,20 +155,20 @@ describe("NodeJS CRUD Tests", function() {
     const queryIteratorNextAndMoreTest = async function() {
       const queryIterator = resources.container.items.readAll({ maxItemCount: 2 });
       assert.equal(queryIterator.hasMoreResults(), true);
-      const { result: doc1 } = await queryIterator.current();
-      assert.equal(doc1.id, resources.doc1.id, "call queryIterator.current after reset should return first document");
       const { result: doc2 } = await queryIterator.nextItem();
       assert.equal(doc2.id, resources.doc1.id, "call queryIterator.nextItem after reset should return first document");
+      const { result: doc1 } = await queryIterator.current();
+      assert.equal(doc1.id, resources.doc1.id, "call queryIterator.current after reset should return first document");
       assert.equal(queryIterator.hasMoreResults(), true);
-      const { result: doc3 } = await queryIterator.current();
-      assert.equal(doc3.id, resources.doc2.id, "call queryIterator.current should return second document");
       const { result: doc4 } = await queryIterator.nextItem();
       assert.equal(doc4.id, resources.doc2.id, "call queryIterator.nextItem again should return second document");
+      const { result: doc3 } = await queryIterator.current();
+      assert.equal(doc3.id, resources.doc2.id, "call queryIterator.current should return second document");
       assert.equal(queryIterator.hasMoreResults(), true);
-      const { result: doc5 } = await queryIterator.current();
-      assert.equal(doc5.id, resources.doc3.id, "call queryIterator.current should return third document");
       const { result: doc6 } = await queryIterator.nextItem();
       assert.equal(doc6.id, resources.doc3.id, "call queryIterator.nextItem again should return third document");
+      const { result: doc5 } = await queryIterator.current();
+      assert.equal(doc5.id, resources.doc3.id, "call queryIterator.current should return third document");
       const { result: doc7 } = await queryIterator.nextItem();
       assert.equal(doc7, undefined, "queryIterator should return undefined if there is no elements");
     };

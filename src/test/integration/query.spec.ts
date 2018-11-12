@@ -41,6 +41,7 @@ describe("ResourceLink Trimming of leading and trailing slashes", function() {
 });
 
 describe("Test Query Metrics On Single Partition Collection", function() {
+  this.timeout(process.env.MOCHA_TIMEOUT || 20000);
   const collectionId = "testCollection2";
 
   const testQueryMetricsOnSinglePartition = async function(document: any) {
