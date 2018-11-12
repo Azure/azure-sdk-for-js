@@ -41,7 +41,6 @@ export {
   QueryTroubleshootingParameters,
   FlowLogInformation,
   RetentionPolicyParameters,
-  FlowLogFormatParameters,
   TrafficAnalyticsProperties,
   TrafficAnalyticsConfigurationProperties,
   FlowLogStatusParameters,
