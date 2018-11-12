@@ -53,7 +53,7 @@ export class ApiSchema {
    * @param callback The callback
    */
   listByApi(resourceGroupName: string, serviceName: string, apiId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SchemaCollection>): void;
-  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SchemaCollection>): Promise<Models.ApiSchemaListByApiResponse> {
+  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SchemaCollection>, callback?: msRest.ServiceCallback<Models.SchemaCollection>): Promise<Models.ApiSchemaListByApiResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -98,7 +98,7 @@ export class ApiSchema {
    * @param callback The callback
    */
   getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiSchemaGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiSchemaGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -144,7 +144,7 @@ export class ApiSchema {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SchemaContract>): void;
-  get(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SchemaContract>): Promise<Models.ApiSchemaGetResponse> {
+  get(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SchemaContract>, callback?: msRest.ServiceCallback<Models.SchemaContract>): Promise<Models.ApiSchemaGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -193,7 +193,7 @@ export class ApiSchema {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, parameters: Models.SchemaContract, options: Models.ApiSchemaCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.SchemaContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, parameters: Models.SchemaContract, options?: Models.ApiSchemaCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.SchemaContract>): Promise<Models.ApiSchemaCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, parameters: Models.SchemaContract, options?: Models.ApiSchemaCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.SchemaContract>, callback?: msRest.ServiceCallback<Models.SchemaContract>): Promise<Models.ApiSchemaCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -246,7 +246,7 @@ export class ApiSchema {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -278,7 +278,7 @@ export class ApiSchema {
    * @param callback The callback
    */
   listByApiNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SchemaCollection>): void;
-  listByApiNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SchemaCollection>): Promise<Models.ApiSchemaListByApiResponse> {
+  listByApiNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SchemaCollection>, callback?: msRest.ServiceCallback<Models.SchemaCollection>): Promise<Models.ApiSchemaListByApiResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

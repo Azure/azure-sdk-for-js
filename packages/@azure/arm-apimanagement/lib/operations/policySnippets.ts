@@ -47,7 +47,7 @@ export class PolicySnippets {
    * @param callback The callback
    */
   listByService(resourceGroupName: string, serviceName: string, options: Models.PolicySnippetsListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.PolicySnippetsCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.PolicySnippetsListByServiceOptionalParams, callback?: msRest.ServiceCallback<Models.PolicySnippetsCollection>): Promise<Models.PolicySnippetsListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.PolicySnippetsListByServiceOptionalParams | msRest.ServiceCallback<Models.PolicySnippetsCollection>, callback?: msRest.ServiceCallback<Models.PolicySnippetsCollection>): Promise<Models.PolicySnippetsListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

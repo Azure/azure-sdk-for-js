@@ -52,7 +52,7 @@ export class ApiRelease {
    * @param callback The callback
    */
   list(resourceGroupName: string, serviceName: string, apiId: string, options: Models.ApiReleaseListOptionalParams, callback: msRest.ServiceCallback<Models.ApiReleaseCollection>): void;
-  list(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiReleaseListOptionalParams, callback?: msRest.ServiceCallback<Models.ApiReleaseCollection>): Promise<Models.ApiReleaseListResponse> {
+  list(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiReleaseListOptionalParams | msRest.ServiceCallback<Models.ApiReleaseCollection>, callback?: msRest.ServiceCallback<Models.ApiReleaseCollection>): Promise<Models.ApiReleaseListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -94,7 +94,7 @@ export class ApiRelease {
    * @param callback The callback
    */
   getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiReleaseGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiReleaseGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -137,7 +137,7 @@ export class ApiRelease {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiReleaseContract>): void;
-  get(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApiReleaseContract>): Promise<Models.ApiReleaseGetResponse> {
+  get(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiReleaseContract>, callback?: msRest.ServiceCallback<Models.ApiReleaseContract>): Promise<Models.ApiReleaseGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -183,7 +183,7 @@ export class ApiRelease {
    * @param callback The callback
    */
   create(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, parameters: Models.ApiReleaseContract, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiReleaseContract>): void;
-  create(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, parameters: Models.ApiReleaseContract, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApiReleaseContract>): Promise<Models.ApiReleaseCreateResponse> {
+  create(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, parameters: Models.ApiReleaseContract, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiReleaseContract>, callback?: msRest.ServiceCallback<Models.ApiReleaseContract>): Promise<Models.ApiReleaseCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -236,7 +236,7 @@ export class ApiRelease {
    * @param callback The callback
    */
   update(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, parameters: Models.ApiReleaseContract, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, parameters: Models.ApiReleaseContract, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, parameters: Models.ApiReleaseContract, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -287,7 +287,7 @@ export class ApiRelease {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -321,7 +321,7 @@ export class ApiRelease {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiReleaseCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApiReleaseCollection>): Promise<Models.ApiReleaseListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiReleaseCollection>, callback?: msRest.ServiceCallback<Models.ApiReleaseCollection>): Promise<Models.ApiReleaseListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
