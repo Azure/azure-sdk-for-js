@@ -84,6 +84,16 @@ export const complianceName: msRest.OperationURLParameter = {
     }
   }
 };
+export const connectionType: msRest.OperationURLParameter = {
+  parameterPath: "connectionType",
+  mapper: {
+    required: true,
+    serializedName: "connectionType",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const discoveredSecuritySolutionName: msRest.OperationURLParameter = {
   parameterPath: "discoveredSecuritySolutionName",
   mapper: {
