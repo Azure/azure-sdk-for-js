@@ -60,7 +60,7 @@ export class QuotaByCounterKeys {
    * @param callback The callback
    */
   listByService(resourceGroupName: string, serviceName: string, quotaCounterKey: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.QuotaCounterCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, quotaCounterKey: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.QuotaCounterCollection>): Promise<Models.QuotaByCounterKeysListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, quotaCounterKey: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.QuotaCounterCollection>, callback?: msRest.ServiceCallback<Models.QuotaCounterCollection>): Promise<Models.QuotaByCounterKeysListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -109,7 +109,7 @@ export class QuotaByCounterKeys {
    * @param callback The callback
    */
   update(resourceGroupName: string, serviceName: string, quotaCounterKey: string, parameters: Models.QuotaCounterValueContractProperties, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, quotaCounterKey: string, parameters: Models.QuotaCounterValueContractProperties, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, quotaCounterKey: string, parameters: Models.QuotaCounterValueContractProperties, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

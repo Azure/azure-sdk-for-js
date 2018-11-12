@@ -47,7 +47,7 @@ export class SignInSettings {
    * @param callback The callback
    */
   getEntityTag(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.SignInSettingsGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.SignInSettingsGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -79,7 +79,7 @@ export class SignInSettings {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PortalSigninSettings>): void;
-  get(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PortalSigninSettings>): Promise<Models.SignInSettingsGetResponse> {
+  get(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PortalSigninSettings>, callback?: msRest.ServiceCallback<Models.PortalSigninSettings>): Promise<Models.SignInSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -120,7 +120,7 @@ export class SignInSettings {
    * @param callback The callback
    */
   update(resourceGroupName: string, serviceName: string, parameters: Models.PortalSigninSettings, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, parameters: Models.PortalSigninSettings, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, parameters: Models.PortalSigninSettings, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -157,7 +157,7 @@ export class SignInSettings {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalSigninSettings, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PortalSigninSettings>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalSigninSettings, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PortalSigninSettings>): Promise<Models.SignInSettingsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalSigninSettings, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PortalSigninSettings>, callback?: msRest.ServiceCallback<Models.PortalSigninSettings>): Promise<Models.SignInSettingsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
