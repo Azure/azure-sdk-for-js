@@ -53,7 +53,7 @@ export class ProductApi {
    * @param callback The callback
    */
   listByProduct(resourceGroupName: string, serviceName: string, productId: string, options: Models.ProductApiListByProductOptionalParams, callback: msRest.ServiceCallback<Models.ApiCollection>): void;
-  listByProduct(resourceGroupName: string, serviceName: string, productId: string, options?: Models.ProductApiListByProductOptionalParams, callback?: msRest.ServiceCallback<Models.ApiCollection>): Promise<Models.ProductApiListByProductResponse> {
+  listByProduct(resourceGroupName: string, serviceName: string, productId: string, options?: Models.ProductApiListByProductOptionalParams | msRest.ServiceCallback<Models.ApiCollection>, callback?: msRest.ServiceCallback<Models.ApiCollection>): Promise<Models.ProductApiListByProductResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -98,7 +98,7 @@ export class ProductApi {
    * @param callback The callback
    */
   checkEntityExists(resourceGroupName: string, serviceName: string, productId: string, apiId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
-  checkEntityExists(resourceGroupName: string, serviceName: string, productId: string, apiId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<boolean>): Promise<Models.ProductApiCheckEntityExistsResponse> {
+  checkEntityExists(resourceGroupName: string, serviceName: string, productId: string, apiId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.ProductApiCheckEntityExistsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -144,7 +144,7 @@ export class ProductApi {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, productId: string, apiId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, productId: string, apiId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApiContract>): Promise<Models.ProductApiCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, productId: string, apiId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiContract>, callback?: msRest.ServiceCallback<Models.ApiContract>): Promise<Models.ProductApiCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -190,7 +190,7 @@ export class ProductApi {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, productId: string, apiId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, productId: string, apiId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, productId: string, apiId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -221,7 +221,7 @@ export class ProductApi {
    * @param callback The callback
    */
   listByProductNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiCollection>): void;
-  listByProductNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApiCollection>): Promise<Models.ProductApiListByProductNextResponse> {
+  listByProductNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiCollection>, callback?: msRest.ServiceCallback<Models.ApiCollection>): Promise<Models.ProductApiListByProductNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

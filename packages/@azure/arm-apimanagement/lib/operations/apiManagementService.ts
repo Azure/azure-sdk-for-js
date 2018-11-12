@@ -105,7 +105,7 @@ export class ApiManagementService {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiManagementServiceResource>): void;
-  get(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApiManagementServiceResource>): Promise<Models.ApiManagementServiceGetResponse> {
+  get(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiManagementServiceResource>, callback?: msRest.ServiceCallback<Models.ApiManagementServiceResource>): Promise<Models.ApiManagementServiceGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -137,7 +137,7 @@ export class ApiManagementService {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -166,7 +166,7 @@ export class ApiManagementService {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiManagementServiceListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApiManagementServiceListResult>): Promise<Models.ApiManagementServiceListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiManagementServiceListResult>, callback?: msRest.ServiceCallback<Models.ApiManagementServiceListResult>): Promise<Models.ApiManagementServiceListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -191,7 +191,7 @@ export class ApiManagementService {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiManagementServiceListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApiManagementServiceListResult>): Promise<Models.ApiManagementServiceListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiManagementServiceListResult>, callback?: msRest.ServiceCallback<Models.ApiManagementServiceListResult>): Promise<Models.ApiManagementServiceListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -221,7 +221,7 @@ export class ApiManagementService {
    * @param callback The callback
    */
   getSsoToken(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiManagementServiceGetSsoTokenResult>): void;
-  getSsoToken(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApiManagementServiceGetSsoTokenResult>): Promise<Models.ApiManagementServiceGetSsoTokenResponse> {
+  getSsoToken(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiManagementServiceGetSsoTokenResult>, callback?: msRest.ServiceCallback<Models.ApiManagementServiceGetSsoTokenResult>): Promise<Models.ApiManagementServiceGetSsoTokenResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -250,7 +250,7 @@ export class ApiManagementService {
    * @param callback The callback
    */
   checkNameAvailability(parameters: Models.ApiManagementServiceCheckNameAvailabilityParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiManagementServiceNameAvailabilityResult>): void;
-  checkNameAvailability(parameters: Models.ApiManagementServiceCheckNameAvailabilityParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApiManagementServiceNameAvailabilityResult>): Promise<Models.ApiManagementServiceCheckNameAvailabilityResponse> {
+  checkNameAvailability(parameters: Models.ApiManagementServiceCheckNameAvailabilityParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiManagementServiceNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.ApiManagementServiceNameAvailabilityResult>): Promise<Models.ApiManagementServiceCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
@@ -301,7 +301,7 @@ export class ApiManagementService {
    * @param callback The callback
    */
   uploadCertificate(resourceGroupName: string, serviceName: string, parameters: Models.ApiManagementServiceUploadCertificateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateInformation>): void;
-  uploadCertificate(resourceGroupName: string, serviceName: string, parameters: Models.ApiManagementServiceUploadCertificateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CertificateInformation>): Promise<Models.ApiManagementServiceUploadCertificateResponse> {
+  uploadCertificate(resourceGroupName: string, serviceName: string, parameters: Models.ApiManagementServiceUploadCertificateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateInformation>, callback?: msRest.ServiceCallback<Models.CertificateInformation>): Promise<Models.ApiManagementServiceUploadCertificateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -474,7 +474,7 @@ export class ApiManagementService {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiManagementServiceListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApiManagementServiceListResult>): Promise<Models.ApiManagementServiceListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiManagementServiceListResult>, callback?: msRest.ServiceCallback<Models.ApiManagementServiceListResult>): Promise<Models.ApiManagementServiceListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -502,7 +502,7 @@ export class ApiManagementService {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiManagementServiceListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApiManagementServiceListResult>): Promise<Models.ApiManagementServiceListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiManagementServiceListResult>, callback?: msRest.ServiceCallback<Models.ApiManagementServiceListResult>): Promise<Models.ApiManagementServiceListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

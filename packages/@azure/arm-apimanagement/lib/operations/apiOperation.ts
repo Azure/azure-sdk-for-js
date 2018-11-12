@@ -53,7 +53,7 @@ export class ApiOperation {
    * @param callback The callback
    */
   listByApi(resourceGroupName: string, serviceName: string, apiId: string, options: Models.ApiOperationListByApiOptionalParams, callback: msRest.ServiceCallback<Models.OperationCollection>): void;
-  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiOperationListByApiOptionalParams, callback?: msRest.ServiceCallback<Models.OperationCollection>): Promise<Models.ApiOperationListByApiResponse> {
+  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiOperationListByApiOptionalParams | msRest.ServiceCallback<Models.OperationCollection>, callback?: msRest.ServiceCallback<Models.OperationCollection>): Promise<Models.ApiOperationListByApiResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -98,7 +98,7 @@ export class ApiOperation {
    * @param callback The callback
    */
   getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiOperationGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiOperationGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -144,7 +144,7 @@ export class ApiOperation {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationContract>): void;
-  get(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationContract>): Promise<Models.ApiOperationGetResponse> {
+  get(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationContract>, callback?: msRest.ServiceCallback<Models.OperationContract>): Promise<Models.ApiOperationGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -193,7 +193,7 @@ export class ApiOperation {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, parameters: Models.OperationContract, options: Models.ApiOperationCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.OperationContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, parameters: Models.OperationContract, options?: Models.ApiOperationCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.OperationContract>): Promise<Models.ApiOperationCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, parameters: Models.OperationContract, options?: Models.ApiOperationCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.OperationContract>, callback?: msRest.ServiceCallback<Models.OperationContract>): Promise<Models.ApiOperationCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -249,7 +249,7 @@ export class ApiOperation {
    * @param callback The callback
    */
   update(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, parameters: Models.OperationUpdateContract, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, parameters: Models.OperationUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, parameters: Models.OperationUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -303,7 +303,7 @@ export class ApiOperation {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -335,7 +335,7 @@ export class ApiOperation {
    * @param callback The callback
    */
   listByApiNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationCollection>): void;
-  listByApiNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationCollection>): Promise<Models.ApiOperationListByApiNextResponse> {
+  listByApiNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationCollection>, callback?: msRest.ServiceCallback<Models.OperationCollection>): Promise<Models.ApiOperationListByApiNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

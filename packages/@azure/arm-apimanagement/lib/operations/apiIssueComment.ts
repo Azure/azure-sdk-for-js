@@ -53,7 +53,7 @@ export class ApiIssueComment {
    * @param callback The callback
    */
   listByService(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options: Models.ApiIssueCommentListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.IssueCommentCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options?: Models.ApiIssueCommentListByServiceOptionalParams, callback?: msRest.ServiceCallback<Models.IssueCommentCollection>): Promise<Models.ApiIssueCommentListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options?: Models.ApiIssueCommentListByServiceOptionalParams | msRest.ServiceCallback<Models.IssueCommentCollection>, callback?: msRest.ServiceCallback<Models.IssueCommentCollection>): Promise<Models.ApiIssueCommentListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -97,7 +97,7 @@ export class ApiIssueComment {
    * @param callback The callback
    */
   getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, commentId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, commentId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiIssueCommentGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, commentId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiIssueCommentGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -141,7 +141,7 @@ export class ApiIssueComment {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, commentId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IssueCommentContract>): void;
-  get(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, commentId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IssueCommentContract>): Promise<Models.ApiIssueCommentGetResponse> {
+  get(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, commentId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IssueCommentContract>, callback?: msRest.ServiceCallback<Models.IssueCommentContract>): Promise<Models.ApiIssueCommentGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -188,7 +188,7 @@ export class ApiIssueComment {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, commentId: string, parameters: Models.IssueCommentContract, options: Models.ApiIssueCommentCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.IssueCommentContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, commentId: string, parameters: Models.IssueCommentContract, options?: Models.ApiIssueCommentCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.IssueCommentContract>): Promise<Models.ApiIssueCommentCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, commentId: string, parameters: Models.IssueCommentContract, options?: Models.ApiIssueCommentCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.IssueCommentContract>, callback?: msRest.ServiceCallback<Models.IssueCommentContract>): Promise<Models.ApiIssueCommentCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -239,7 +239,7 @@ export class ApiIssueComment {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, commentId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, commentId: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, commentId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -272,7 +272,7 @@ export class ApiIssueComment {
    * @param callback The callback
    */
   listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IssueCommentCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IssueCommentCollection>): Promise<Models.ApiIssueCommentListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IssueCommentCollection>, callback?: msRest.ServiceCallback<Models.IssueCommentCollection>): Promise<Models.ApiIssueCommentListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

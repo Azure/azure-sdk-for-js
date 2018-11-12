@@ -50,7 +50,7 @@ export class ApiIssue {
    * @param callback The callback
    */
   listByService(resourceGroupName: string, serviceName: string, apiId: string, options: Models.ApiIssueListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.IssueCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiIssueListByServiceOptionalParams, callback?: msRest.ServiceCallback<Models.IssueCollection>): Promise<Models.ApiIssueListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiIssueListByServiceOptionalParams | msRest.ServiceCallback<Models.IssueCollection>, callback?: msRest.ServiceCallback<Models.IssueCollection>): Promise<Models.ApiIssueListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -89,7 +89,7 @@ export class ApiIssue {
    * @param callback The callback
    */
   getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiIssueGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiIssueGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -129,7 +129,7 @@ export class ApiIssue {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IssueContract>): void;
-  get(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IssueContract>): Promise<Models.ApiIssueGetResponse> {
+  get(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IssueContract>, callback?: msRest.ServiceCallback<Models.IssueContract>): Promise<Models.ApiIssueGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -172,7 +172,7 @@ export class ApiIssue {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueContract, options: Models.ApiIssueCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.IssueContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueContract, options?: Models.ApiIssueCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.IssueContract>): Promise<Models.ApiIssueCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueContract, options?: Models.ApiIssueCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.IssueContract>, callback?: msRest.ServiceCallback<Models.IssueContract>): Promise<Models.ApiIssueCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -219,7 +219,7 @@ export class ApiIssue {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -251,7 +251,7 @@ export class ApiIssue {
    * @param callback The callback
    */
   listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IssueCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IssueCollection>): Promise<Models.ApiIssueListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IssueCollection>, callback?: msRest.ServiceCallback<Models.IssueCollection>): Promise<Models.ApiIssueListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

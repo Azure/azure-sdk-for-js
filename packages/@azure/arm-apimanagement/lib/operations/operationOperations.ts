@@ -53,7 +53,7 @@ export class OperationOperations {
    * @param callback The callback
    */
   listByTags(resourceGroupName: string, serviceName: string, apiId: string, options: Models.OperationListByTagsOptionalParams, callback: msRest.ServiceCallback<Models.TagResourceCollection>): void;
-  listByTags(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.OperationListByTagsOptionalParams, callback?: msRest.ServiceCallback<Models.TagResourceCollection>): Promise<Models.OperationListByTagsResponse> {
+  listByTags(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.OperationListByTagsOptionalParams | msRest.ServiceCallback<Models.TagResourceCollection>, callback?: msRest.ServiceCallback<Models.TagResourceCollection>): Promise<Models.OperationListByTagsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +83,7 @@ export class OperationOperations {
    * @param callback The callback
    */
   listByTagsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagResourceCollection>): void;
-  listByTagsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TagResourceCollection>): Promise<Models.OperationListByTagsNextResponse> {
+  listByTagsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagResourceCollection>, callback?: msRest.ServiceCallback<Models.TagResourceCollection>): Promise<Models.OperationListByTagsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

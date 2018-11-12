@@ -47,7 +47,7 @@ export class EmailTemplate {
    * @param callback The callback
    */
   listByService(resourceGroupName: string, serviceName: string, options: Models.EmailTemplateListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.EmailTemplateCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.EmailTemplateListByServiceOptionalParams, callback?: msRest.ServiceCallback<Models.EmailTemplateCollection>): Promise<Models.EmailTemplateListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.EmailTemplateListByServiceOptionalParams | msRest.ServiceCallback<Models.EmailTemplateCollection>, callback?: msRest.ServiceCallback<Models.EmailTemplateCollection>): Promise<Models.EmailTemplateListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -103,7 +103,7 @@ export class EmailTemplate {
    * @param callback The callback
    */
   getEntityTag(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.EmailTemplateGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.EmailTemplateGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -160,7 +160,7 @@ export class EmailTemplate {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EmailTemplateContract>): void;
-  get(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EmailTemplateContract>): Promise<Models.EmailTemplateGetResponse> {
+  get(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EmailTemplateContract>, callback?: msRest.ServiceCallback<Models.EmailTemplateContract>): Promise<Models.EmailTemplateGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -220,7 +220,7 @@ export class EmailTemplate {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, parameters: Models.EmailTemplateUpdateParameters, options: Models.EmailTemplateCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.EmailTemplateContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, parameters: Models.EmailTemplateUpdateParameters, options?: Models.EmailTemplateCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.EmailTemplateContract>): Promise<Models.EmailTemplateCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, parameters: Models.EmailTemplateUpdateParameters, options?: Models.EmailTemplateCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.EmailTemplateContract>, callback?: msRest.ServiceCallback<Models.EmailTemplateContract>): Promise<Models.EmailTemplateCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -281,7 +281,7 @@ export class EmailTemplate {
    * @param callback The callback
    */
   update(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, parameters: Models.EmailTemplateUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, parameters: Models.EmailTemplateUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, parameters: Models.EmailTemplateUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -345,7 +345,7 @@ export class EmailTemplate {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -376,7 +376,7 @@ export class EmailTemplate {
    * @param callback The callback
    */
   listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EmailTemplateCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EmailTemplateCollection>): Promise<Models.EmailTemplateListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EmailTemplateCollection>, callback?: msRest.ServiceCallback<Models.EmailTemplateCollection>): Promise<Models.EmailTemplateListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
