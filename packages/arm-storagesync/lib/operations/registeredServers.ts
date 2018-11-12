@@ -48,7 +48,7 @@ export class RegisteredServers {
    * @param callback The callback
    */
   listByStorageSyncService(resourceGroupName: string, storageSyncServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegisteredServerArray>): void;
-  listByStorageSyncService(resourceGroupName: string, storageSyncServiceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RegisteredServerArray>): Promise<Models.RegisteredServersListByStorageSyncServiceResponse> {
+  listByStorageSyncService(resourceGroupName: string, storageSyncServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegisteredServerArray>, callback?: msRest.ServiceCallback<Models.RegisteredServerArray>): Promise<Models.RegisteredServersListByStorageSyncServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +83,7 @@ export class RegisteredServers {
    * @param callback The callback
    */
   get(resourceGroupName: string, storageSyncServiceName: string, serverId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegisteredServer>): void;
-  get(resourceGroupName: string, storageSyncServiceName: string, serverId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RegisteredServer>): Promise<Models.RegisteredServersGetResponse> {
+  get(resourceGroupName: string, storageSyncServiceName: string, serverId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegisteredServer>, callback?: msRest.ServiceCallback<Models.RegisteredServer>): Promise<Models.RegisteredServersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
