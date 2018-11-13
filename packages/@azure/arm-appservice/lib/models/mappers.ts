@@ -1286,6 +1286,13 @@ export const DeletedSite: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      geoRegionName: {
+        readOnly: true,
+        serializedName: "properties.geoRegionName",
+        type: {
+          name: "String"
+        }
       }
     }
   }

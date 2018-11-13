@@ -1004,6 +1004,12 @@ export interface DeletedSite extends ProxyOnlyResource {
    * the server.**
    */
   readonly deletedSiteKind?: string;
+  /**
+   * @member {string} [geoRegionName] Geo Region of the deleted site
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly geoRegionName?: string;
 }
 
 /**
