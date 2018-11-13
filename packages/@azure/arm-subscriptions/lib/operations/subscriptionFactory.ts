@@ -29,30 +29,30 @@ export class SubscriptionFactory {
 
   /**
    * Creates an Azure subscription
-   * @param billingAccountId The id of the commerce root billing account.
-   * @param invoiceSectionId The id of the invoice section.
+   * @param billingAccountName The name of the commerce root billing account.
+   * @param invoiceSectionName The name of the invoice section.
    * @param body The subscription creation parameters.
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionFactoryCreateSubscriptionResponse>
    */
-  createSubscription(billingAccountId: string, invoiceSectionId: string, body: Models.SubscriptionCreationParameters, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionFactoryCreateSubscriptionResponse> {
-    return this.beginCreateSubscription(billingAccountId,invoiceSectionId,body,options)
+  createSubscription(billingAccountName: string, invoiceSectionName: string, body: Models.SubscriptionCreationParameters, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionFactoryCreateSubscriptionResponse> {
+    return this.beginCreateSubscription(billingAccountName,invoiceSectionName,body,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SubscriptionFactoryCreateSubscriptionResponse>;
   }
 
   /**
    * Creates an Azure subscription
-   * @param billingAccountId The id of the commerce root billing account.
-   * @param invoiceSectionId The id of the invoice section.
+   * @param billingAccountName The name of the commerce root billing account.
+   * @param invoiceSectionName The name of the invoice section.
    * @param body The subscription creation parameters.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateSubscription(billingAccountId: string, invoiceSectionId: string, body: Models.SubscriptionCreationParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateSubscription(billingAccountName: string, invoiceSectionName: string, body: Models.SubscriptionCreationParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
-        billingAccountId,
-        invoiceSectionId,
+        billingAccountName,
+        invoiceSectionName,
         body,
         options
       },
@@ -65,10 +65,10 @@ export class SubscriptionFactory {
 const serializer = new msRest.Serializer(Mappers);
 const beginCreateSubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}/providers/Microsoft.Subscription/createSubscription",
+  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Subscription/createSubscription",
   urlParameters: [
-    Parameters.billingAccountId,
-    Parameters.invoiceSectionId
+    Parameters.billingAccountName,
+    Parameters.invoiceSectionName
   ],
   queryParameters: [
     Parameters.apiVersion0

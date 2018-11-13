@@ -358,10 +358,10 @@ export interface SubscriptionOperationGetHeaders {
    */
   location: string;
   /**
-   * @member {string} [retryAfter] The amount of delay to use while the status
+   * @member {number} [retryAfter] The amount of delay to use while the status
    * of the operation is checked. The value is expressed in seconds.
    */
-  retryAfter: string;
+  retryAfter: number;
 }
 
 /**
@@ -377,10 +377,10 @@ export interface SubscriptionFactoryCreateSubscriptionHeaders {
    */
   location: string;
   /**
-   * @member {string} [retryAfter] The amount of delay to use while the status
+   * @member {number} [retryAfter] The amount of delay to use while the status
    * of the operation is checked. The value is expressed in seconds.
    */
-  retryAfter: string;
+  retryAfter: number;
 }
 
 

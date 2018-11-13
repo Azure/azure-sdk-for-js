@@ -44,21 +44,21 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     }
   }
 };
-export const billingAccountId: msRest.OperationURLParameter = {
-  parameterPath: "billingAccountId",
+export const billingAccountName: msRest.OperationURLParameter = {
+  parameterPath: "billingAccountName",
   mapper: {
     required: true,
-    serializedName: "billingAccountId",
+    serializedName: "billingAccountName",
     type: {
       name: "String"
     }
   }
 };
-export const invoiceSectionId: msRest.OperationURLParameter = {
-  parameterPath: "invoiceSectionId",
+export const invoiceSectionName: msRest.OperationURLParameter = {
+  parameterPath: "invoiceSectionName",
   mapper: {
     required: true,
-    serializedName: "invoiceSectionId",
+    serializedName: "invoiceSectionName",
     type: {
       name: "String"
     }

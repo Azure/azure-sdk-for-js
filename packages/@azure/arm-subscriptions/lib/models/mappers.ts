@@ -430,7 +430,7 @@ export const SubscriptionOperationGetHeaders: msRest.CompositeMapper = {
       retryAfter: {
         serializedName: "retry-after",
         type: {
-          name: "String"
+          name: "Number"
         }
       }
     }
@@ -452,7 +452,7 @@ export const SubscriptionFactoryCreateSubscriptionHeaders: msRest.CompositeMappe
       retryAfter: {
         serializedName: "retry-after",
         type: {
-          name: "String"
+          name: "Number"
         }
       }
     }
