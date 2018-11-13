@@ -26,7 +26,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-03-01-preview',
+    defaultValue: '2018-11-01-preview',
     type: {
       name: "String"
     }
@@ -44,11 +44,21 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     }
   }
 };
-export const enrollmentAccountName: msRest.OperationURLParameter = {
-  parameterPath: "enrollmentAccountName",
+export const billingAccountId: msRest.OperationURLParameter = {
+  parameterPath: "billingAccountId",
   mapper: {
     required: true,
-    serializedName: "enrollmentAccountName",
+    serializedName: "billingAccountId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const invoiceSectionId: msRest.OperationURLParameter = {
+  parameterPath: "invoiceSectionId",
+  mapper: {
+    required: true,
+    serializedName: "invoiceSectionId",
     type: {
       name: "String"
     }
@@ -64,6 +74,16 @@ export const nextPageLink: msRest.OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+export const operationId: msRest.OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    required: true,
+    serializedName: "operationId",
+    type: {
+      name: "String"
+    }
+  }
 };
 export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",

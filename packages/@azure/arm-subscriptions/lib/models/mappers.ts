@@ -59,22 +59,23 @@ export const SubscriptionCreationParameters: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      owners: {
-        serializedName: "owners",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AdPrincipal"
-            }
-          }
-        }
-      },
-      offerType: {
-        serializedName: "offerType",
+      billingProfileId: {
+        serializedName: "billingProfileId",
         type: {
           name: "String"
+        }
+      },
+      skuId: {
+        serializedName: "skuId",
+        type: {
+          name: "String"
+        }
+      },
+      owner: {
+        serializedName: "owner",
+        type: {
+          name: "Composite",
+          className: "AdPrincipal"
         }
       },
       additionalParameters: {
@@ -414,11 +415,33 @@ export const TenantIdDescription: msRest.CompositeMapper = {
   }
 };
 
-export const SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders: msRest.CompositeMapper = {
-  serializedName: "subscriptionfactory-createsubscriptioninenrollmentaccount-headers",
+export const SubscriptionOperationGetHeaders: msRest.CompositeMapper = {
+  serializedName: "subscriptionoperation-get-headers",
   type: {
     name: "Composite",
-    className: "SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders",
+    className: "SubscriptionOperationGetHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SubscriptionFactoryCreateSubscriptionHeaders: msRest.CompositeMapper = {
+  serializedName: "subscriptionfactory-createsubscription-headers",
+  type: {
+    name: "Composite",
+    className: "SubscriptionFactoryCreateSubscriptionHeaders",
     modelProperties: {
       location: {
         serializedName: "location",

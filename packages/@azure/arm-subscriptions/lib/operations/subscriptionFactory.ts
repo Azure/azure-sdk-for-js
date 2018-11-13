@@ -29,44 +29,46 @@ export class SubscriptionFactory {
 
   /**
    * Creates an Azure subscription
-   * @param enrollmentAccountName The name of the enrollment account to which the subscription will
-   * be billed.
+   * @param billingAccountId The id of the commerce root billing account.
+   * @param invoiceSectionId The id of the invoice section.
    * @param body The subscription creation parameters.
    * @param [options] The optional parameters
-   * @returns Promise<Models.SubscriptionFactoryCreateSubscriptionInEnrollmentAccountResponse>
+   * @returns Promise<Models.SubscriptionFactoryCreateSubscriptionResponse>
    */
-  createSubscriptionInEnrollmentAccount(enrollmentAccountName: string, body: Models.SubscriptionCreationParameters, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionFactoryCreateSubscriptionInEnrollmentAccountResponse> {
-    return this.beginCreateSubscriptionInEnrollmentAccount(enrollmentAccountName,body,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SubscriptionFactoryCreateSubscriptionInEnrollmentAccountResponse>;
+  createSubscription(billingAccountId: string, invoiceSectionId: string, body: Models.SubscriptionCreationParameters, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionFactoryCreateSubscriptionResponse> {
+    return this.beginCreateSubscription(billingAccountId,invoiceSectionId,body,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SubscriptionFactoryCreateSubscriptionResponse>;
   }
 
   /**
    * Creates an Azure subscription
-   * @param enrollmentAccountName The name of the enrollment account to which the subscription will
-   * be billed.
+   * @param billingAccountId The id of the commerce root billing account.
+   * @param invoiceSectionId The id of the invoice section.
    * @param body The subscription creation parameters.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateSubscriptionInEnrollmentAccount(enrollmentAccountName: string, body: Models.SubscriptionCreationParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateSubscription(billingAccountId: string, invoiceSectionId: string, body: Models.SubscriptionCreationParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
-        enrollmentAccountName,
+        billingAccountId,
+        invoiceSectionId,
         body,
         options
       },
-      beginCreateSubscriptionInEnrollmentAccountOperationSpec,
+      beginCreateSubscriptionOperationSpec,
       options);
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const beginCreateSubscriptionInEnrollmentAccountOperationSpec: msRest.OperationSpec = {
+const beginCreateSubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "providers/Microsoft.Billing/enrollmentAccounts/{enrollmentAccountName}/providers/Microsoft.Subscription/createSubscription",
+  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}/providers/Microsoft.Subscription/createSubscription",
   urlParameters: [
-    Parameters.enrollmentAccountName
+    Parameters.billingAccountId,
+    Parameters.invoiceSectionId
   ],
   queryParameters: [
     Parameters.apiVersion0
@@ -84,10 +86,10 @@ const beginCreateSubscriptionInEnrollmentAccountOperationSpec: msRest.OperationS
   responses: {
     200: {
       bodyMapper: Mappers.SubscriptionCreationResult,
-      headersMapper: Mappers.SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders
+      headersMapper: Mappers.SubscriptionFactoryCreateSubscriptionHeaders
     },
     202: {
-      headersMapper: Mappers.SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders
+      headersMapper: Mappers.SubscriptionFactoryCreateSubscriptionHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

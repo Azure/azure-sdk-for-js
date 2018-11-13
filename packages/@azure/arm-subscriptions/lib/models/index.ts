@@ -53,19 +53,17 @@ export interface SubscriptionCreationParameters {
    */
   displayName?: string;
   /**
-   * @member {AdPrincipal[]} [owners] The list of principals that should be
-   * granted Owner access on the subscription. Principals should be of type
-   * User, Service Principal or Security Group.
+   * @member {string} [billingProfileId] The ARM id of the billing profile.
    */
-  owners?: AdPrincipal[];
+  billingProfileId?: string;
   /**
-   * @member {OfferType} [offerType] The offer type of the subscription. For
-   * example, MS-AZR-0017P (EnterpriseAgreement) and MS-AZR-0148P
-   * (EnterpriseAgreement devTest) are available. Only valid when creating a
-   * subscription in a enrollment account scope. Possible values include:
-   * 'MS-AZR-0017P', 'MS-AZR-0148P'
+   * @member {string} [skuId] The commerce id of the sku.
    */
-  offerType?: OfferType;
+  skuId?: string;
+  /**
+   * @member {AdPrincipal} [owner] rbac owner of the subscription
+   */
+  owner?: AdPrincipal;
   /**
    * @member {{ [propertyName: string]: any }} [additionalParameters]
    * Additional, untyped parameters to support custom subscription creation
@@ -349,11 +347,30 @@ export interface SubscriptionClientOptions extends AzureServiceClientOptions {
 
 /**
  * @interface
- * An interface representing SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders.
- * Defines headers for CreateSubscriptionInEnrollmentAccount operation.
+ * An interface representing SubscriptionOperationGetHeaders.
+ * Defines headers for Get operation.
  *
  */
-export interface SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders {
+export interface SubscriptionOperationGetHeaders {
+  /**
+   * @member {string} [location] The URL where the status of the asynchronous
+   * operation can be checked.
+   */
+  location: string;
+  /**
+   * @member {string} [retryAfter] The amount of delay to use while the status
+   * of the operation is checked. The value is expressed in seconds.
+   */
+  retryAfter: string;
+}
+
+/**
+ * @interface
+ * An interface representing SubscriptionFactoryCreateSubscriptionHeaders.
+ * Defines headers for CreateSubscription operation.
+ *
+ */
+export interface SubscriptionFactoryCreateSubscriptionHeaders {
   /**
    * @member {string} [location] GET this URL to retrieve the status of the
    * asynchronous operation.
@@ -407,34 +424,12 @@ export interface TenantListResult extends Array<TenantIdDescription> {
 }
 
 /**
- * Defines values for OfferType.
- * Possible values include: 'MS-AZR-0017P', 'MS-AZR-0148P'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: OfferType = <OfferType>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum OfferType {
-  MSAZR0017P = 'MS-AZR-0017P',
-  MSAZR0148P = 'MS-AZR-0148P',
-}
-
-/**
  * Defines values for SubscriptionState.
- * Possible values include: 'Enabled', 'Warned', 'PastDue', 'Disabled',
- * 'Deleted'
+ * Possible values include: 'Enabled', 'Warned', 'PastDue', 'Disabled', 'Deleted'
  * @readonly
  * @enum {string}
  */
-export enum SubscriptionState {
-  Enabled = 'Enabled',
-  Warned = 'Warned',
-  PastDue = 'PastDue',
-  Disabled = 'Disabled',
-  Deleted = 'Deleted',
-}
+export type SubscriptionState = 'Enabled' | 'Warned' | 'PastDue' | 'Disabled' | 'Deleted';
 
 /**
  * Defines values for SpendingLimit.
@@ -442,11 +437,7 @@ export enum SubscriptionState {
  * @readonly
  * @enum {string}
  */
-export enum SpendingLimit {
-  On = 'On',
-  Off = 'Off',
-  CurrentPeriodOff = 'CurrentPeriodOff',
-}
+export type SpendingLimit = 'On' | 'Off' | 'CurrentPeriodOff';
 
 /**
  * Contains response data for the list operation.
@@ -468,28 +459,9 @@ export type OperationsListResponse = OperationListResult & {
 };
 
 /**
- * Contains response data for the list operation.
+ * Contains response data for the get operation.
  */
-export type SubscriptionOperationsListResponse = SubscriptionOperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SubscriptionOperationListResult;
-    };
-};
-
-/**
- * Contains response data for the createSubscriptionInEnrollmentAccount operation.
- */
-export type SubscriptionFactoryCreateSubscriptionInEnrollmentAccountResponse = SubscriptionCreationResult & SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders & {
+export type SubscriptionOperationGetResponse = SubscriptionCreationResult & SubscriptionOperationGetHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -497,7 +469,30 @@ export type SubscriptionFactoryCreateSubscriptionInEnrollmentAccountResponse = S
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders;
+      parsedHeaders: SubscriptionOperationGetHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SubscriptionCreationResult;
+    };
+};
+
+/**
+ * Contains response data for the createSubscription operation.
+ */
+export type SubscriptionFactoryCreateSubscriptionResponse = SubscriptionCreationResult & SubscriptionFactoryCreateSubscriptionHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: SubscriptionFactoryCreateSubscriptionHeaders;
       /**
        * The response body as text (string format)
        */
