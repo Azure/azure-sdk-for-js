@@ -64,7 +64,7 @@ export class Clusters {
    * @param callback The callback
    */
   update(resourceGroupName: string, clusterName: string, parameters: Models.ClusterPatchParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Cluster>): void;
-  update(resourceGroupName: string, clusterName: string, parameters: Models.ClusterPatchParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Cluster>): Promise<Models.ClustersUpdateResponse> {
+  update(resourceGroupName: string, clusterName: string, parameters: Models.ClusterPatchParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Cluster>, callback?: msRest.ServiceCallback<Models.Cluster>): Promise<Models.ClustersUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -109,7 +109,7 @@ export class Clusters {
    * @param callback The callback
    */
   get(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Cluster>): void;
-  get(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Cluster>): Promise<Models.ClustersGetResponse> {
+  get(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Cluster>, callback?: msRest.ServiceCallback<Models.Cluster>): Promise<Models.ClustersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -138,7 +138,7 @@ export class Clusters {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -176,13 +176,26 @@ export class Clusters {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
       callback) as Promise<Models.ClustersListResponse>;
+  }
+
+  /**
+   * Rotate disk encryption key of the specified HDInsight cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param parameters The parameters for the disk encryption operation.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  rotateDiskEncryptionKey(resourceGroupName: string, clusterName: string, parameters: Models.ClusterDiskEncryptionParameters, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginRotateDiskEncryptionKey(resourceGroupName,clusterName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -257,6 +270,26 @@ export class Clusters {
   }
 
   /**
+   * Rotate disk encryption key of the specified HDInsight cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param parameters The parameters for the disk encryption operation.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginRotateDiskEncryptionKey(resourceGroupName: string, clusterName: string, parameters: Models.ClusterDiskEncryptionParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        clusterName,
+        parameters,
+        options
+      },
+      beginRotateDiskEncryptionKeyOperationSpec,
+      options);
+  }
+
+  /**
    * Executes script actions on the specified HDInsight cluster.
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
@@ -294,7 +327,7 @@ export class Clusters {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -322,7 +355,7 @@ export class Clusters {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -514,6 +547,37 @@ const beginResizeOperationSpec: msRest.OperationSpec = {
     parameterPath: "parameters",
     mapper: {
       ...Mappers.ClusterResizeParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginRotateDiskEncryptionKeyOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/rotatediskencryptionkey",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.ClusterDiskEncryptionParameters,
       required: true
     }
   },

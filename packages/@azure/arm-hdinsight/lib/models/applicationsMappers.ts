@@ -39,6 +39,7 @@ export {
   SecurityProfile,
   QuotaInfo,
   ConnectivityEndpoint,
+  DiskEncryptionProperties,
   ClusterIdentity,
   ClusterIdentityUserAssignedIdentitiesValue
 } from "../models/mappers";

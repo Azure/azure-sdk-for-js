@@ -47,7 +47,7 @@ export class ScriptExecutionHistory {
    * @param callback The callback
    */
   listByCluster(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ScriptActionExecutionHistoryList>): void;
-  listByCluster(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ScriptActionExecutionHistoryList>): Promise<Models.ScriptExecutionHistoryListByClusterResponse> {
+  listByCluster(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScriptActionExecutionHistoryList>, callback?: msRest.ServiceCallback<Models.ScriptActionExecutionHistoryList>): Promise<Models.ScriptExecutionHistoryListByClusterResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class ScriptExecutionHistory {
    * @param callback The callback
    */
   promote(resourceGroupName: string, clusterName: string, scriptExecutionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  promote(resourceGroupName: string, clusterName: string, scriptExecutionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  promote(resourceGroupName: string, clusterName: string, scriptExecutionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class ScriptExecutionHistory {
    * @param callback The callback
    */
   listByClusterNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ScriptActionExecutionHistoryList>): void;
-  listByClusterNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ScriptActionExecutionHistoryList>): Promise<Models.ScriptExecutionHistoryListByClusterNextResponse> {
+  listByClusterNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScriptActionExecutionHistoryList>, callback?: msRest.ServiceCallback<Models.ScriptActionExecutionHistoryList>): Promise<Models.ScriptExecutionHistoryListByClusterNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
