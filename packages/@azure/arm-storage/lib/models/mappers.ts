@@ -869,6 +869,30 @@ export const Endpoints: msRest.CompositeMapper = {
   }
 };
 
+export const GeoReplicationStats: msRest.CompositeMapper = {
+  serializedName: "GeoReplicationStats",
+  type: {
+    name: "Composite",
+    className: "GeoReplicationStats",
+    modelProperties: {
+      status: {
+        readOnly: true,
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      lastSyncTime: {
+        readOnly: true,
+        serializedName: "lastSyncTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
@@ -1094,6 +1118,14 @@ export const StorageAccount: msRest.CompositeMapper = {
         serializedName: "properties.isHnsEnabled",
         type: {
           name: "Boolean"
+        }
+      },
+      geoReplicationStats: {
+        readOnly: true,
+        serializedName: "properties.geoReplicationStats",
+        type: {
+          name: "Composite",
+          className: "GeoReplicationStats"
         }
       }
     }

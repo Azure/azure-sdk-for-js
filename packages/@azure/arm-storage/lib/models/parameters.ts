@@ -90,6 +90,21 @@ export const containerName: msRest.OperationURLParameter = {
     }
   }
 };
+export const expand: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "expand"
+  ],
+  mapper: {
+    serializedName: "$expand",
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "geoReplicationStats"
+      ]
+    }
+  }
+};
 export const ifMatch0: msRest.OperationParameter = {
   parameterPath: [
     "options",
