@@ -1280,6 +1280,13 @@ export const DeletedSite: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      geoRegionName: {
+        readOnly: true,
+        serializedName: "properties.geoRegionName",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -8275,6 +8282,12 @@ export const DeletedAppRestoreRequest: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      useDRSecondary: {
+        serializedName: "properties.useDRSecondary",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -11175,6 +11188,12 @@ export const SnapshotRestoreRequest: msRest.CompositeMapper = {
       },
       ignoreConflictingHostNames: {
         serializedName: "properties.ignoreConflictingHostNames",
+        type: {
+          name: "Boolean"
+        }
+      },
+      useDRSecondary: {
+        serializedName: "properties.useDRSecondary",
         type: {
           name: "Boolean"
         }
