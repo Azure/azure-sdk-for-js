@@ -42,7 +42,7 @@ export class DeletedWebApps {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeletedWebAppCollection>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DeletedWebAppCollection>): Promise<Models.DeletedWebAppsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedWebAppCollection>, callback?: msRest.ServiceCallback<Models.DeletedWebAppCollection>): Promise<Models.DeletedWebAppsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -70,7 +70,7 @@ export class DeletedWebApps {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeletedWebAppCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DeletedWebAppCollection>): Promise<Models.DeletedWebAppsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedWebAppCollection>, callback?: msRest.ServiceCallback<Models.DeletedWebAppCollection>): Promise<Models.DeletedWebAppsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
