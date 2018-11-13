@@ -1,4 +1,4 @@
-# ms-rest-azure-js
+# ms-rest-azure-js [![Build Status](https://dev.azure.com/azure-public/adx/_apis/build/status/public.Azure.ms-rest-azure-js)](https://dev.azure.com/azure-public/adx/_build/latest?definitionId=10)
 
 Azure Runtime for isomorphic javascript libraries (that work in the browser and node.js environemnt) generated via [Autorest](https://github.com/Azure/Autorest).
 
