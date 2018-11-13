@@ -1,12 +1,14 @@
 const { major } = require("semver");
 const { spawn, exec } = require("child_process");
 const { join } = require("path");
+const kill = require("tree-kill");
 
 const webpackDevServer = spawn(join(__dirname, "../node_modules/.bin/ts-node"), ["-T", join(__dirname, "../testserver")], { shell: true })
 function cleanupDevServer() {
   webpackDevServer.stderr.destroy();
   webpackDevServer.stdout.destroy();
-  webpackDevServer.kill();
+  console.log(`kill ${webpackDevServer.pid}`);
+  kill(webpackDevServer.pid);
 };
 
 let mochaRunning = false
@@ -20,7 +22,7 @@ const webpackDevServerHandler = (data) => {
         resolve();
       } else {
         const mochaChromeExecutable = join(__dirname, "../node_modules/.bin/mocha-chrome");
-        exec(`${mochaChromeExecutable} http://localhost:3001`, (err, stdout, stderr) => {
+        exec(`${mochaChromeExecutable} http://localhost:3001 --timeout 60000`, (err, stdout, stderr) => {
           console.log(stdout);
           console.error(stderr);
           if (err) {

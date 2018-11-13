@@ -1,47 +1,37 @@
-pool:
-  vmImage: 'Ubuntu 16.04'
-
 trigger:
 - master
 
-steps:
+jobs:
+- job: Pack
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  steps:
+  - task: NodeTool@0
+    displayName: 'Install Node 11.x'
+    inputs:
+      versionSpec: 11.x
+  - task: Npm@1
+    displayName: 'npm pack'
+    inputs:
+      command: custom
+      verbose: false
+      customCommand: pack
+  - task: CopyFiles@2
+    displayName: 'Copy Files to: drop'
+    inputs:
+      Contents: '*.tgz'
+      TargetFolder: drop
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: $(Build.SourcesDirectory)/drop
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: $(Build.SourcesDirectory)/dist
+      artifactName: dist
+- template: azure-pipelines-job.yml
+  parameters:
+    nodeVersion: '6'
+- template: azure-pipelines-job.yml
+  parameters:
+    nodeVersion: '8'
 
-- task: Npm@1
-  displayName: 'npm install'
-  inputs:
-    verbose: false
-
-- task: Npm@1
-  displayName: 'npm test'
-  inputs:
-    command: custom
-    verbose: false
-    customCommand: test
-
-- task: PublishTestResults@2
-  inputs:
-    testResultsFiles: '**/test-results.xml'
-    testRunTitle: 'Test results for JavaScript'
-
-- task: PublishCodeCoverageResults@1
-  inputs:
-    codeCoverageTool: Cobertura
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
-    reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
-
-- task: Npm@1
-  displayName: 'npm pack'
-  inputs:
-    command: custom
-    verbose: false
-    customCommand: pack
-
-- task: CopyFiles@2
-  displayName: 'Copy Files to: drop'
-  inputs:
-    Contents: '*.tgz'
-    TargetFolder: drop
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathtoPublish: $(Build.SourcesDirectory)/drop
