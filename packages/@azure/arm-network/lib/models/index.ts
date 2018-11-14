@@ -5495,11 +5495,11 @@ export interface ContainerNetworkInterfaceConfiguration extends SubResource {
    */
   ipConfigurations?: IPConfigurationProfile[];
   /**
-   * @member {ContainerNetworkInterface[]} [containerNetworkInterfaces] A list
-   * of container network interfaces created from this container network
-   * interface configuration.
+   * @member {SubResource[]} [containerNetworkInterfaces] A list of container
+   * network interfaces created from this container network interface
+   * configuration.
    */
-  containerNetworkInterfaces?: ContainerNetworkInterface[];
+  containerNetworkInterfaces?: SubResource[];
   /**
    * @member {string} [provisioningState] The provisioning state of the
    * resource.
