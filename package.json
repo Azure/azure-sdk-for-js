@@ -5,7 +5,7 @@
     "email": "azsdkteam@microsoft.com",
     "url": "https://github.com/Azure/ms-rest-azure-js"
   },
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Isomorphic Azure client runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
     "isomorphic",
@@ -41,7 +41,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@azure/ms-rest-js": "^1.1.0",
+    "@azure/ms-rest-js": "^1.1.1",
     "tslib": "^1.9.2"
   },
   "devDependencies": {
@@ -54,6 +54,7 @@
     "nyc": "^12.0.2",
     "rollup": "^0.66.4",
     "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-visualizer": "^0.9.2",
     "shx": "^0.2.2",
     "ts-loader": "^2.3.7",
