@@ -7,7 +7,7 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptions,
   RestError,
-  WebResource
+  WebResource,
 } from "ms-rest-js";
 
 import { IRetryOptions } from "../RetryPolicyFactory";
@@ -58,7 +58,7 @@ const DEFAULT_RETRY_OPTIONS: IRetryOptions = {
   retryDelayInMs: 4 * 1000,
   retryPolicyType: RetryPolicyType.EXPONENTIAL,
   secondaryHost: "",
-  tryTimeout: 60
+  tryTimeoutInMs: 60 * 1000
 };
 
 /**
@@ -103,10 +103,10 @@ export class RetryPolicy extends BaseRequestPolicy {
           ? Math.floor(retryOptions.maxTries)
           : DEFAULT_RETRY_OPTIONS.maxTries,
 
-      tryTimeout:
-        retryOptions.tryTimeout && retryOptions.tryTimeout >= 0
-          ? retryOptions.tryTimeout
-          : DEFAULT_RETRY_OPTIONS.tryTimeout,
+      tryTimeoutInMs:
+        retryOptions.tryTimeoutInMs && retryOptions.tryTimeoutInMs >= 0
+          ? retryOptions.tryTimeoutInMs
+          : DEFAULT_RETRY_OPTIONS.tryTimeoutInMs,
 
       retryDelayInMs:
         retryOptions.retryDelayInMs && retryOptions.retryDelayInMs >= 0
@@ -184,7 +184,7 @@ export class RetryPolicy extends BaseRequestPolicy {
     newRequest.url = setURLParameter(
       newRequest.url,
       URLConstants.Parameters.TIMEOUT,
-      this.retryOptions.tryTimeout!.toString()
+      Math.floor(this.retryOptions.tryTimeoutInMs! / 1000).toString()
     );
 
     let response: HttpOperationResponse | undefined;
