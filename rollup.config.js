@@ -1,5 +1,6 @@
 import nodeResolve from "rollup-plugin-node-resolve";
 import visualizer from "rollup-plugin-visualizer";
+import sourcemaps from "rollup-plugin-sourcemaps";
 
 const banner = `/** @license ms-rest-azure-js
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -24,6 +25,7 @@ const config = {
   },
   plugins: [
     nodeResolve({ module: true }),
+    sourcemaps(),
     visualizer({ filename: "dist/node-stats.html", sourcemap: true })
   ]
 }
