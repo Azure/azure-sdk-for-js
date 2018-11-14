@@ -7347,6 +7347,11 @@ export interface ResponsysObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7390,6 +7395,11 @@ export interface SalesforceMarketingCloudObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7433,6 +7443,11 @@ export interface VerticaTableDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7476,6 +7491,11 @@ export interface NetezzaTableDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7519,6 +7539,11 @@ export interface ZohoObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7562,6 +7587,11 @@ export interface XeroObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7605,6 +7635,11 @@ export interface SquareObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7648,6 +7683,11 @@ export interface SparkObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7691,6 +7731,11 @@ export interface ShopifyObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7734,6 +7779,11 @@ export interface ServiceNowObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7777,6 +7827,11 @@ export interface QuickBooksObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7820,6 +7875,11 @@ export interface PrestoObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7863,6 +7923,11 @@ export interface PhoenixObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7906,6 +7971,11 @@ export interface PaypalObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7949,6 +8019,11 @@ export interface MarketoObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7992,6 +8067,11 @@ export interface MariaDBTableDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -8035,6 +8115,11 @@ export interface MagentoObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -8078,6 +8163,11 @@ export interface JiraObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -8121,6 +8211,11 @@ export interface ImpalaObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -8164,6 +8259,11 @@ export interface HubspotObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -8207,6 +8307,11 @@ export interface HiveObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -8250,6 +8355,11 @@ export interface HBaseObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -8293,6 +8403,11 @@ export interface GreenplumTableDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -8336,6 +8451,11 @@ export interface GoogleBigQueryObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -8379,6 +8499,11 @@ export interface EloquaObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -8422,6 +8547,11 @@ export interface DrillTableDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -8465,6 +8595,11 @@ export interface CouchbaseTableDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -8508,6 +8643,11 @@ export interface ConcurObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -8551,6 +8691,11 @@ export interface AzurePostgreSqlTableDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -8594,6 +8739,11 @@ export interface AmazonMWSObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -12088,10 +12238,10 @@ export interface SqlDWSource {
  */
 export interface StoredProcedureParameter {
   /**
-   * @member {any} value Stored procedure parameter value. Type: string (or
+   * @member {any} [value] Stored procedure parameter value. Type: string (or
    * Expression with resultType string).
    */
-  value: any;
+  value?: any;
   /**
    * @member {StoredProcedureParameterType} [type] Stored procedure parameter
    * type. Possible values include: 'String', 'Int', 'Decimal', 'Guid',
