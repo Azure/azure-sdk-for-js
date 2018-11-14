@@ -2367,8 +2367,10 @@ export interface ApplicationGatewayRewriteRuleSet extends SubResource {
    * @member {string} [provisioningState] Provisioning state of the rewrite
    * rule set resource. Possible values are: 'Updating', 'Deleting', and
    * 'Failed'.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /**
    * @member {string} [name] Name of the rewrite rule set that is unique within
    * an Application Gateway.

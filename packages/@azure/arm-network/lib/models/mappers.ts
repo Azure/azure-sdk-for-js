@@ -3086,6 +3086,7 @@ export const ApplicationGatewayRewriteRuleSet: msRest.CompositeMapper = {
         }
       },
       provisioningState: {
+        readOnly: true,
         serializedName: "properties.provisioningState",
         type: {
           name: "String"
