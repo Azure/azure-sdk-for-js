@@ -6,11 +6,7 @@ import { Aborter } from "./Aborter";
 import { BlobURL } from "./BlobURL";
 import { BlockBlobURL } from "./BlockBlobURL";
 import { BlobHTTPHeaders } from "./generated/models";
-import {
-  BlobUploadCommonResponse,
-  IDownloadFromBlobOptions,
-  IUploadToBlockBlobOptions
-} from "./highlevel.common";
+import { BlobUploadCommonResponse, IDownloadFromBlobOptions, IUploadToBlockBlobOptions } from "./highlevel.common";
 import { IBlobAccessConditions } from "./models";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
@@ -18,7 +14,7 @@ import {
   BLOB_DEFAULT_DOWNLOAD_BLOCK_BYTES,
   BLOCK_BLOB_MAX_BLOCKS,
   BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
-  BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES
+  BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
 } from "./utils/constants";
 import { generateBlockID } from "./utils/utils.common";
 import { streamToBuffer } from "./utils/utils.node";
@@ -101,7 +97,7 @@ async function uploadResetableStreamToBlockBlob(
     );
   }
   if (options.blockSize === 0) {
-    if (size > BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES * BLOCK_BLOB_MAX_BLOCKS) {
+    if (size > BLOCK_BLOB_MAX_BLOCKS * BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES) {
       throw new RangeError(`${size} is too larger to upload to a block blob.`);
     }
     if (size > BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES) {
@@ -240,7 +236,8 @@ export async function downloadBlobToBuffer(
         off,
         chunkEnd - off + 1,
         {
-          blobAccessConditions: options.blobAccessConditions
+          blobAccessConditions: options.blobAccessConditions,
+          maxRetryRequests: options.maxRetryRequestsPerBlock
         }
       );
       const stream = response.readableStreamBody!;
