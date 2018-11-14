@@ -17,10 +17,10 @@ npm install @azure/arm-apimanagement
 
 #### nodejs - Authentication, client creation and listByService policy as an example written in TypeScript.
 
-##### Install ms-rest-nodeauth
+##### Install @azure/ms-rest-nodeauth
 
 ```
-npm install ms-rest-nodeauth
+npm install @azure/ms-rest-nodeauth
 ```
 
 ##### Sample code
@@ -48,10 +48,10 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 
 #### browser - Authentication, client creation and listByService policy as an example written in JavaScript.
 
-##### Install ms-rest-browserauth
+##### Install @azure/ms-rest-browserauth
 
 ```
-npm install ms-rest-browserauth
+npm install @azure/ms-rest-browserauth
 ```
 
 ##### Sample code
@@ -66,7 +66,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
     <title>@azure/arm-apimanagement sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
     <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
-    <script src="node_modules/ms-rest-browserauth/dist/msAuth.js"></script>
+    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/arm-apimanagement/dist/arm-apimanagement.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
