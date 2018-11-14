@@ -923,6 +923,46 @@ export const PublicIPAddressDnsSettings: msRest.CompositeMapper = {
   }
 };
 
+export const DdoSSettings: msRest.CompositeMapper = {
+  serializedName: "DdoSSettings",
+  type: {
+    name: "Composite",
+    className: "DdoSSettings",
+    modelProperties: {
+      ddosCustomPolicy: {
+        serializedName: "ddosCustomPolicy",
+        type: {
+          name: "String"
+        }
+      },
+      protectionCoverage: {
+        serializedName: "protectionCoverage",
+        type: {
+          name: "String"
+        }
+      },
+      domainNameLabel: {
+        serializedName: "domainNameLabel",
+        type: {
+          name: "String"
+        }
+      },
+      fqdn: {
+        serializedName: "fqdn",
+        type: {
+          name: "String"
+        }
+      },
+      reverseFqdn: {
+        serializedName: "reverseFqdn",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const IpTag: msRest.CompositeMapper = {
   serializedName: "IpTag",
   type: {
@@ -984,6 +1024,13 @@ export const PublicIPAddress: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PublicIPAddressDnsSettings"
+        }
+      },
+      ddosSettings: {
+        serializedName: "properties.ddosSettings",
+        type: {
+          name: "Composite",
+          className: "DdoSSettings"
         }
       },
       ipTags: {

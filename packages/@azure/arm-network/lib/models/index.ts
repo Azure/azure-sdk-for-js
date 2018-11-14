@@ -715,6 +715,48 @@ export interface PublicIPAddressDnsSettings {
 
 /**
  * @interface
+ * An interface representing DdoSSettings.
+ * Contains FQDN of the DNS record associated with the public IP address
+ *
+ */
+export interface DdoSSettings {
+  /**
+   * @member {string} [ddosCustomPolicy] The DDoS custom policy associated with
+   * the public IP.
+   */
+  ddosCustomPolicy?: string;
+  /**
+   * @member {ProtectionCoverage} [protectionCoverage] The type of the DDoS
+   * protection plan associated with the public IP. Possible values include:
+   * 'Basic', 'Standard'
+   */
+  protectionCoverage?: ProtectionCoverage;
+  /**
+   * @member {string} [domainNameLabel] Gets or sets the Domain name label.The
+   * concatenation of the domain name label and the regionalized DNS zone make
+   * up the fully qualified domain name associated with the public IP address.
+   * If a domain name label is specified, an A DNS record is created for the
+   * public IP in the Microsoft Azure DNS system.
+   */
+  domainNameLabel?: string;
+  /**
+   * @member {string} [fqdn] Gets the FQDN, Fully qualified domain name of the
+   * A DNS record associated with the public IP. This is the concatenation of
+   * the domainNameLabel and the regionalized DNS zone.
+   */
+  fqdn?: string;
+  /**
+   * @member {string} [reverseFqdn] Gets or Sets the Reverse FQDN. A
+   * user-visible, fully qualified domain name that resolves to this public IP
+   * address. If the reverseFqdn is specified, then a PTR DNS record is created
+   * pointing from the IP address in the in-addr.arpa domain to the reverse
+   * FQDN.
+   */
+  reverseFqdn?: string;
+}
+
+/**
+ * @interface
  * An interface representing IpTag.
  * Contains the IpTag associated with the object
  *
@@ -768,6 +810,11 @@ export interface PublicIPAddress extends Resource {
    * record associated with the public IP address.
    */
   dnsSettings?: PublicIPAddressDnsSettings;
+  /**
+   * @member {DdoSSettings} [ddosSettings] The DDoS protection custom policy
+   * associated with the public IP address.
+   */
+  ddosSettings?: DdoSSettings;
   /**
    * @member {IpTag[]} [ipTags] The list of tags associated with the public IP
    * address.
@@ -12755,6 +12802,22 @@ export enum HubVirtualNetworkConnectionStatus {
   Connecting = 'Connecting',
   Connected = 'Connected',
   NotConnected = 'NotConnected',
+}
+
+/**
+ * Defines values for ProtectionCoverage.
+ * Possible values include: 'Basic', 'Standard'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ProtectionCoverage =
+ * <ProtectionCoverage>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum ProtectionCoverage {
+  Basic = 'Basic',
+  Standard = 'Standard',
 }
 
 /**
