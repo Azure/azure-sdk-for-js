@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/backendPoolsMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class BackendPools {
    * @param callback The callback
    */
   listByFrontDoor(resourceGroupName: string, frontDoorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackendPoolListResult>): void;
-  listByFrontDoor(resourceGroupName: string, frontDoorName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackendPoolListResult>): Promise<Models.BackendPoolsListByFrontDoorResponse> {
+  listByFrontDoor(resourceGroupName: string, frontDoorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackendPoolListResult>, callback?: msRest.ServiceCallback<Models.BackendPoolListResult>): Promise<Models.BackendPoolsListByFrontDoorResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +83,7 @@ export class BackendPools {
    * @param callback The callback
    */
   get(resourceGroupName: string, frontDoorName: string, backendPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackendPool>): void;
-  get(resourceGroupName: string, frontDoorName: string, backendPoolName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackendPool>): Promise<Models.BackendPoolsGetResponse> {
+  get(resourceGroupName: string, frontDoorName: string, backendPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackendPool>, callback?: msRest.ServiceCallback<Models.BackendPool>): Promise<Models.BackendPoolsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -182,7 +182,7 @@ export class BackendPools {
    * @param callback The callback
    */
   listByFrontDoorNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackendPoolListResult>): void;
-  listByFrontDoorNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackendPoolListResult>): Promise<Models.BackendPoolsListByFrontDoorNextResponse> {
+  listByFrontDoorNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackendPoolListResult>, callback?: msRest.ServiceCallback<Models.BackendPoolListResult>): Promise<Models.BackendPoolsListByFrontDoorNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

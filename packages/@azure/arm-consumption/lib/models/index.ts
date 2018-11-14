@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -2615,136 +2615,66 @@ export interface OperationListResult extends Array<Operation> {
 /**
  * Defines values for BillingFrequency.
  * Possible values include: 'Month', 'Quarter', 'Year'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: BillingFrequency =
- * <BillingFrequency>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum BillingFrequency {
-  Month = 'Month',
-  Quarter = 'Quarter',
-  Year = 'Year',
-}
+export type BillingFrequency = 'Month' | 'Quarter' | 'Year';
 
 /**
  * Defines values for CategoryType.
  * Possible values include: 'Cost', 'Usage'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: CategoryType =
- * <CategoryType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum CategoryType {
-  Cost = 'Cost',
-  Usage = 'Usage',
-}
+export type CategoryType = 'Cost' | 'Usage';
 
 /**
  * Defines values for TimeGrainType.
  * Possible values include: 'Monthly', 'Quarterly', 'Annually'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TimeGrainType =
- * <TimeGrainType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum TimeGrainType {
-  Monthly = 'Monthly',
-  Quarterly = 'Quarterly',
-  Annually = 'Annually',
-}
+export type TimeGrainType = 'Monthly' | 'Quarterly' | 'Annually';
 
 /**
  * Defines values for OperatorType.
  * Possible values include: 'EqualTo', 'GreaterThan', 'GreaterThanOrEqualTo'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: OperatorType =
- * <OperatorType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum OperatorType {
-  EqualTo = 'EqualTo',
-  GreaterThan = 'GreaterThan',
-  GreaterThanOrEqualTo = 'GreaterThanOrEqualTo',
-}
+export type OperatorType = 'EqualTo' | 'GreaterThan' | 'GreaterThanOrEqualTo';
 
 /**
  * Defines values for Grain.
  * Possible values include: 'Daily', 'Monthly', 'Yearly'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Grain = <Grain>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Grain {
-  Daily = 'Daily',
-  Monthly = 'Monthly',
-  Yearly = 'Yearly',
-}
+export type Grain = 'Daily' | 'Monthly' | 'Yearly';
 
 /**
  * Defines values for ChargeType.
  * Possible values include: 'Actual', 'Forecast'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ChargeType = <ChargeType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ChargeType {
-  Actual = 'Actual',
-  Forecast = 'Forecast',
-}
+export type ChargeType = 'Actual' | 'Forecast';
 
 /**
  * Defines values for Bound.
  * Possible values include: 'Upper', 'Lower'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Bound = <Bound>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Bound {
-  Upper = 'Upper',
-  Lower = 'Lower',
-}
+export type Bound = 'Upper' | 'Lower';
 
 /**
  * Defines values for Datagrain.
  * Possible values include: 'DailyGrain', 'MonthlyGrain'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Datagrain = <Datagrain>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Datagrain {
-  /**
-   * Daily grain of data
-   */
-  DailyGrain = 'daily',
-  /**
-   * Monthly grain of data
-   */
-  MonthlyGrain = 'monthly',
-}
+export type Datagrain = 'daily' | 'monthly';
 
 /**
  * Contains response data for the list operation.

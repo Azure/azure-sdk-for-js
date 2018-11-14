@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/replicationvCentersMappers";
 import * as Parameters from "../models/parameters";
@@ -46,7 +46,7 @@ export class ReplicationvCenters {
    * @param callback The callback
    */
   listByReplicationFabrics(fabricName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VCenterCollection>): void;
-  listByReplicationFabrics(fabricName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VCenterCollection>): Promise<Models.ReplicationvCentersListByReplicationFabricsResponse> {
+  listByReplicationFabrics(fabricName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VCenterCollection>, callback?: msRest.ServiceCallback<Models.VCenterCollection>): Promise<Models.ReplicationvCentersListByReplicationFabricsResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -78,7 +78,7 @@ export class ReplicationvCenters {
    * @param callback The callback
    */
   get(fabricName: string, vCenterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VCenter>): void;
-  get(fabricName: string, vCenterName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VCenter>): Promise<Models.ReplicationvCentersGetResponse> {
+  get(fabricName: string, vCenterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VCenter>, callback?: msRest.ServiceCallback<Models.VCenter>): Promise<Models.ReplicationvCentersGetResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -146,7 +146,7 @@ export class ReplicationvCenters {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VCenterCollection>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VCenterCollection>): Promise<Models.ReplicationvCentersListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VCenterCollection>, callback?: msRest.ServiceCallback<Models.VCenterCollection>): Promise<Models.ReplicationvCentersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -235,7 +235,7 @@ export class ReplicationvCenters {
    * @param callback The callback
    */
   listByReplicationFabricsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VCenterCollection>): void;
-  listByReplicationFabricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VCenterCollection>): Promise<Models.ReplicationvCentersListByReplicationFabricsNextResponse> {
+  listByReplicationFabricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VCenterCollection>, callback?: msRest.ServiceCallback<Models.VCenterCollection>): Promise<Models.ReplicationvCentersListByReplicationFabricsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -264,7 +264,7 @@ export class ReplicationvCenters {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VCenterCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VCenterCollection>): Promise<Models.ReplicationvCentersListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VCenterCollection>, callback?: msRest.ServiceCallback<Models.VCenterCollection>): Promise<Models.ReplicationvCentersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

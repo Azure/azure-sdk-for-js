@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/hanaInstancesMappers";
 import * as Parameters from "../models/parameters";
@@ -43,7 +43,7 @@ export class HanaInstances {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HanaInstancesListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HanaInstancesListResult>): Promise<Models.HanaInstancesListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HanaInstancesListResult>, callback?: msRest.ServiceCallback<Models.HanaInstancesListResult>): Promise<Models.HanaInstancesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -72,7 +72,7 @@ export class HanaInstances {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HanaInstancesListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HanaInstancesListResult>): Promise<Models.HanaInstancesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HanaInstancesListResult>, callback?: msRest.ServiceCallback<Models.HanaInstancesListResult>): Promise<Models.HanaInstancesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -105,7 +105,7 @@ export class HanaInstances {
    * @param callback The callback
    */
   get(resourceGroupName: string, hanaInstanceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HanaInstance>): void;
-  get(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HanaInstance>): Promise<Models.HanaInstancesGetResponse> {
+  get(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HanaInstance>, callback?: msRest.ServiceCallback<Models.HanaInstance>): Promise<Models.HanaInstancesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -137,7 +137,7 @@ export class HanaInstances {
    * @param callback The callback
    */
   restart(resourceGroupName: string, hanaInstanceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  restart(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  restart(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -168,7 +168,7 @@ export class HanaInstances {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HanaInstancesListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HanaInstancesListResult>): Promise<Models.HanaInstancesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HanaInstancesListResult>, callback?: msRest.ServiceCallback<Models.HanaInstancesListResult>): Promise<Models.HanaInstancesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -198,7 +198,7 @@ export class HanaInstances {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HanaInstancesListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HanaInstancesListResult>): Promise<Models.HanaInstancesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HanaInstancesListResult>, callback?: msRest.ServiceCallback<Models.HanaInstancesListResult>): Promise<Models.HanaInstancesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

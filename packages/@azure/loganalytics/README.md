@@ -1,26 +1,33 @@
-# An isomorphic javascript sdk for - LogAnalyticsClient
-This project provides an isomorphic javascript package. Right now it supports:
-- node.js version 6.x.x or higher
-- browser javascript
+## An isomorphic javascript sdk for - LogAnalyticsClient
 
-## How to Install
+This package contains an isomorphic SDK for LogAnalyticsClient.
 
-- nodejs
+### Currently supported environments
+
+- Node.js version 6.x.x or higher
+- Browser JavaScript
+
+### How to Install
+
 ```
 npm install @azure/loganalytics
 ```
-- browser
-```html
-<script type="text/javascript" src="@azure/loganalytics/dist/loganalytics.js"></script>
+
+### How to use
+
+#### nodejs - Authentication, client creation and execute query as an example written in TypeScript.
+
+##### Install @azure/ms-rest-nodeauth
+
+```
+npm install @azure/ms-rest-nodeauth
 ```
 
-## How to use
-
-### nodejs - Authentication, client creation and execute query as an example written in TypeScript.
+##### Sample code
 
 ```ts
-import * as msRest from "ms-rest-js";
-import * as msRestNodeAuth from "ms-rest-nodeauth";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { LogAnalyticsClient, LogAnalyticsModels, LogAnalyticsMappers } from "@azure/loganalytics";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
@@ -41,7 +48,17 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-### browser - Authentication, client creation and execute query as an example written in javascript.
+#### browser - Authentication, client creation and execute query as an example written in JavaScript.
+
+##### Install @azure/ms-rest-browserauth
+
+```
+npm install @azure/ms-rest-browserauth
+```
+
+##### Sample code
+
+See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
 ```html
@@ -49,8 +66,8 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 <html lang="en">
   <head>
     <title>@azure/loganalytics sample</title>
-    <script src="node_modules/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/ms-rest-browserauth/dist/msAuth.js"></script>
+    <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
+    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/loganalytics/dist/loganalytics.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
@@ -80,10 +97,10 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
       });
     </script>
   </head>
-  <body>
-  </body>
+  <body></body>
 </html>
 ```
 
-# Related projects
- - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
+## Related projects
+
+- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)

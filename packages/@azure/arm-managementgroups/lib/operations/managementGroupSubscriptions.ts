@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/managementGroupSubscriptionsMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class ManagementGroupSubscriptions {
    * @param callback The callback
    */
   create(groupId: string, subscriptionId: string, options: Models.ManagementGroupSubscriptionsCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(groupId: string, subscriptionId: string, options?: Models.ManagementGroupSubscriptionsCreateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  create(groupId: string, subscriptionId: string, options?: Models.ManagementGroupSubscriptionsCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         groupId,
@@ -79,7 +79,7 @@ export class ManagementGroupSubscriptions {
    * @param callback The callback
    */
   deleteMethod(groupId: string, subscriptionId: string, options: Models.ManagementGroupSubscriptionsDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(groupId: string, subscriptionId: string, options?: Models.ManagementGroupSubscriptionsDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(groupId: string, subscriptionId: string, options?: Models.ManagementGroupSubscriptionsDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         groupId,
