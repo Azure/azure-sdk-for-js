@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1 - 2018-11-13
+
+- Improve debugging by adding rollup-plugin-sourcemaps
+
 ## 1.1.0 - 2018-11-09
 
 - Renamed NPM package to @azure/ms-rest-js

@@ -2,6 +2,7 @@ import nodeResolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import visualizer from "rollup-plugin-visualizer";
 import json from "rollup-plugin-json";
+import sourcemaps from "rollup-plugin-sourcemaps";
 
 const banner = `/** @license ms-rest-js
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -32,6 +33,7 @@ const nodeConfig = {
   plugins: [
     nodeResolve({ module: true }),
     commonjs(),
+    sourcemaps(),
     json(),
     visualizer({ filename: "dist/node-stats.html", sourcemap: true })
   ]
@@ -53,6 +55,7 @@ const browserConfig = {
   plugins: [
     nodeResolve({ module: true, browser: true }),
     commonjs(),
+    sourcemaps(),
     visualizer({ filename: "dist/browser-stats.html", sourcemap: true })
   ]
 };
