@@ -4782,7 +4782,6 @@ export const UserEntityBaseParameters: msRest.CompositeMapper = {
         }
       },
       identities: {
-        readOnly: true,
         serializedName: "identities",
         type: {
           name: "Sequence",
@@ -4819,7 +4818,6 @@ export const UserContract: msRest.CompositeMapper = {
         }
       },
       identities: {
-        readOnly: true,
         serializedName: "properties.identities",
         type: {
           name: "Sequence",
@@ -6903,7 +6901,6 @@ export const UserCreateParameters: msRest.CompositeMapper = {
         }
       },
       identities: {
-        readOnly: true,
         serializedName: "properties.identities",
         type: {
           name: "Sequence",
@@ -7029,7 +7026,6 @@ export const UserUpdateParameters: msRest.CompositeMapper = {
         }
       },
       identities: {
-        readOnly: true,
         serializedName: "properties.identities",
         type: {
           name: "Sequence",

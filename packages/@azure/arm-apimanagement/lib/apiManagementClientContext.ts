@@ -16,16 +16,9 @@ const packageName = "@azure/arm-apimanagement";
 const packageVersion = "1.0.0-preview";
 
 export class ApiManagementClientContext extends msRestAzure.AzureServiceClient {
-
   credentials: msRest.ServiceClientCredentials;
-
-  apiVersion: string;
-
+  apiVersion?: string;
   subscriptionId: string;
-
-  acceptLanguage: string;
-
-  longRunningOperationRetryTimeout: number;
 
   /**
    * Initializes a new instance of the ApiManagementClient class.

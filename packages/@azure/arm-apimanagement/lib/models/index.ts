@@ -3390,10 +3390,8 @@ export interface UserEntityBaseParameters {
   /**
    * @member {UserIdentityContract[]} [identities] Collection of user
    * identities.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly identities?: UserIdentityContract[];
+  identities?: UserIdentityContract[];
 }
 
 /**
@@ -3420,10 +3418,8 @@ export interface UserContract extends Resource {
   /**
    * @member {UserIdentityContract[]} [identities] Collection of user
    * identities.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly identities?: UserIdentityContract[];
+  identities?: UserIdentityContract[];
   /**
    * @member {string} [firstName] First name.
    */
@@ -4950,10 +4946,8 @@ export interface UserCreateParameters {
   /**
    * @member {UserIdentityContract[]} [identities] Collection of user
    * identities.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly identities?: UserIdentityContract[];
+  identities?: UserIdentityContract[];
   /**
    * @member {string} email Email address. Must not be empty and must be unique
    * within the service instance.
@@ -5037,10 +5031,8 @@ export interface UserUpdateParameters {
   /**
    * @member {UserIdentityContract[]} [identities] Collection of user
    * identities.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly identities?: UserIdentityContract[];
+  identities?: UserIdentityContract[];
   /**
    * @member {string} [email] Email address. Must not be empty and must be
    * unique within the service instance.
