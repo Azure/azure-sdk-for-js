@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/heatMapMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class HeatMap {
    * @param callback The callback
    */
   get(resourceGroupName: string, profileName: string, options: Models.HeatMapGetOptionalParams, callback: msRest.ServiceCallback<Models.HeatMapModel>): void;
-  get(resourceGroupName: string, profileName: string, options?: Models.HeatMapGetOptionalParams, callback?: msRest.ServiceCallback<Models.HeatMapModel>): Promise<Models.HeatMapGetResponse> {
+  get(resourceGroupName: string, profileName: string, options?: Models.HeatMapGetOptionalParams | msRest.ServiceCallback<Models.HeatMapModel>, callback?: msRest.ServiceCallback<Models.HeatMapModel>): Promise<Models.HeatMapGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

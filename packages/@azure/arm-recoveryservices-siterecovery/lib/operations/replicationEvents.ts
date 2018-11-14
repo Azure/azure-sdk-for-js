@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/replicationEventsMappers";
 import * as Parameters from "../models/parameters";
@@ -42,7 +42,7 @@ export class ReplicationEvents {
    * @param callback The callback
    */
   list(options: Models.ReplicationEventsListOptionalParams, callback: msRest.ServiceCallback<Models.EventCollection>): void;
-  list(options?: Models.ReplicationEventsListOptionalParams, callback?: msRest.ServiceCallback<Models.EventCollection>): Promise<Models.ReplicationEventsListResponse> {
+  list(options?: Models.ReplicationEventsListOptionalParams | msRest.ServiceCallback<Models.EventCollection>, callback?: msRest.ServiceCallback<Models.EventCollection>): Promise<Models.ReplicationEventsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -70,7 +70,7 @@ export class ReplicationEvents {
    * @param callback The callback
    */
   get(eventName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Event>): void;
-  get(eventName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Event>): Promise<Models.ReplicationEventsGetResponse> {
+  get(eventName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Event>, callback?: msRest.ServiceCallback<Models.Event>): Promise<Models.ReplicationEventsGetResponse> {
     return this.client.sendOperationRequest(
       {
         eventName,
@@ -99,7 +99,7 @@ export class ReplicationEvents {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventCollection>): Promise<Models.ReplicationEventsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventCollection>, callback?: msRest.ServiceCallback<Models.EventCollection>): Promise<Models.ReplicationEventsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

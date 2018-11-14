@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
@@ -17,13 +17,16 @@ import { ServiceFabricMeshManagementClientContext } from "./serviceFabricMeshMan
 
 class ServiceFabricMeshManagementClient extends ServiceFabricMeshManagementClientContext {
   // Operation groups
+  operations: operations.Operations;
+  secret: operations.Secret;
+  secretValue: operations.SecretValueOperations;
+  volume: operations.Volume;
+  network: operations.Network;
+  gateway: operations.Gateway;
   application: operations.Application;
   service: operations.Service;
-  replica: operations.Replica;
+  serviceReplica: operations.ServiceReplica;
   codePackage: operations.CodePackage;
-  operations: operations.Operations;
-  network: operations.Network;
-  volume: operations.Volume;
 
   /**
    * Initializes a new instance of the ServiceFabricMeshManagementClient class.
@@ -33,13 +36,16 @@ class ServiceFabricMeshManagementClient extends ServiceFabricMeshManagementClien
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ServiceFabricMeshManagementClientOptions) {
     super(credentials, subscriptionId, options);
+    this.operations = new operations.Operations(this);
+    this.secret = new operations.Secret(this);
+    this.secretValue = new operations.SecretValueOperations(this);
+    this.volume = new operations.Volume(this);
+    this.network = new operations.Network(this);
+    this.gateway = new operations.Gateway(this);
     this.application = new operations.Application(this);
     this.service = new operations.Service(this);
-    this.replica = new operations.Replica(this);
+    this.serviceReplica = new operations.ServiceReplica(this);
     this.codePackage = new operations.CodePackage(this);
-    this.operations = new operations.Operations(this);
-    this.network = new operations.Network(this);
-    this.volume = new operations.Volume(this);
   }
 }
 

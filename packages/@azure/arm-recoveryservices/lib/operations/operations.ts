@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/operationsMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class Operations {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClientDiscoveryResponse>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ClientDiscoveryResponse>): Promise<Models.OperationsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClientDiscoveryResponse>, callback?: msRest.ServiceCallback<Models.ClientDiscoveryResponse>): Promise<Models.OperationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -68,7 +68,7 @@ export class Operations {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClientDiscoveryResponse>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ClientDiscoveryResponse>): Promise<Models.OperationsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClientDiscoveryResponse>, callback?: msRest.ServiceCallback<Models.ClientDiscoveryResponse>): Promise<Models.OperationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

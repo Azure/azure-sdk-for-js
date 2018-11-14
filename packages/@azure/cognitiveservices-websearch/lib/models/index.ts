@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { ServiceClientOptions } from "ms-rest-js";
-import * as msRest from "ms-rest-js";
+import { ServiceClientOptions } from "@azure/ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 
 
 /**
@@ -2050,9 +2050,13 @@ export interface StructuredValue {
  */
 export interface WebSearchAPIClientOptions extends ServiceClientOptions {
   /**
-   * @member {string} [baseUri]
+   * @member {string} [endpoint] Supported Cognitive Services endpoints
+   * (protocol and hostname, for example:
+   * "https://westus.api.cognitive.microsoft.com",
+   * "https://api.cognitive.microsoft.com"). Default value:
+   * 'https://api.cognitive.microsoft.com' .
    */
-  baseUri?: string;
+  endpoint?: string;
 }
 
 /**
@@ -2342,120 +2346,56 @@ export interface WebSearchOptionalParams extends msRest.RequestOptionsBase {
 
 /**
  * Defines values for AnswerType.
- * Possible values include: 'WebPages', 'Images', 'SpellSuggestions', 'News',
- * 'RelatedSearches', 'Videos', 'Computation', 'TimeZone'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AnswerType = <AnswerType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'WebPages', 'Images', 'SpellSuggestions', 'News', 'RelatedSearches',
+ * 'Videos', 'Computation', 'TimeZone'
  * @readonly
  * @enum {string}
  */
-export enum AnswerType {
-  WebPages = 'WebPages',
-  Images = 'Images',
-  SpellSuggestions = 'SpellSuggestions',
-  News = 'News',
-  RelatedSearches = 'RelatedSearches',
-  Videos = 'Videos',
-  Computation = 'Computation',
-  TimeZone = 'TimeZone',
-}
+export type AnswerType = 'WebPages' | 'Images' | 'SpellSuggestions' | 'News' | 'RelatedSearches' | 'Videos' | 'Computation' | 'TimeZone';
 
 /**
  * Defines values for ErrorCode.
- * Possible values include: 'None', 'ServerError', 'InvalidRequest',
- * 'RateLimitExceeded', 'InvalidAuthorization', 'InsufficientAuthorization'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ErrorCode = <ErrorCode>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'None', 'ServerError', 'InvalidRequest', 'RateLimitExceeded',
+ * 'InvalidAuthorization', 'InsufficientAuthorization'
  * @readonly
  * @enum {string}
  */
-export enum ErrorCode {
-  None = 'None',
-  ServerError = 'ServerError',
-  InvalidRequest = 'InvalidRequest',
-  RateLimitExceeded = 'RateLimitExceeded',
-  InvalidAuthorization = 'InvalidAuthorization',
-  InsufficientAuthorization = 'InsufficientAuthorization',
-}
+export type ErrorCode = 'None' | 'ServerError' | 'InvalidRequest' | 'RateLimitExceeded' | 'InvalidAuthorization' | 'InsufficientAuthorization';
 
 /**
  * Defines values for ErrorSubCode.
- * Possible values include: 'UnexpectedError', 'ResourceError',
- * 'NotImplemented', 'ParameterMissing', 'ParameterInvalidValue',
- * 'HttpNotAllowed', 'Blocked', 'AuthorizationMissing',
- * 'AuthorizationRedundancy', 'AuthorizationDisabled', 'AuthorizationExpired'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ErrorSubCode =
- * <ErrorSubCode>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'UnexpectedError', 'ResourceError', 'NotImplemented',
+ * 'ParameterMissing', 'ParameterInvalidValue', 'HttpNotAllowed', 'Blocked',
+ * 'AuthorizationMissing', 'AuthorizationRedundancy', 'AuthorizationDisabled',
+ * 'AuthorizationExpired'
  * @readonly
  * @enum {string}
  */
-export enum ErrorSubCode {
-  UnexpectedError = 'UnexpectedError',
-  ResourceError = 'ResourceError',
-  NotImplemented = 'NotImplemented',
-  ParameterMissing = 'ParameterMissing',
-  ParameterInvalidValue = 'ParameterInvalidValue',
-  HttpNotAllowed = 'HttpNotAllowed',
-  Blocked = 'Blocked',
-  AuthorizationMissing = 'AuthorizationMissing',
-  AuthorizationRedundancy = 'AuthorizationRedundancy',
-  AuthorizationDisabled = 'AuthorizationDisabled',
-  AuthorizationExpired = 'AuthorizationExpired',
-}
+export type ErrorSubCode = 'UnexpectedError' | 'ResourceError' | 'NotImplemented' | 'ParameterMissing' | 'ParameterInvalidValue' | 'HttpNotAllowed' | 'Blocked' | 'AuthorizationMissing' | 'AuthorizationRedundancy' | 'AuthorizationDisabled' | 'AuthorizationExpired';
 
 /**
  * Defines values for Freshness.
  * Possible values include: 'Day', 'Week', 'Month'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Freshness = <Freshness>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Freshness {
-  Day = 'Day',
-  Week = 'Week',
-  Month = 'Month',
-}
+export type Freshness = 'Day' | 'Week' | 'Month';
 
 /**
  * Defines values for SafeSearch.
  * Possible values include: 'Off', 'Moderate', 'Strict'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SafeSearch = <SafeSearch>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SafeSearch {
-  Off = 'Off',
-  Moderate = 'Moderate',
-  Strict = 'Strict',
-}
+export type SafeSearch = 'Off' | 'Moderate' | 'Strict';
 
 /**
  * Defines values for TextFormat.
  * Possible values include: 'Raw', 'Html'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TextFormat = <TextFormat>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum TextFormat {
-  Raw = 'Raw',
-  Html = 'Html',
-}
+export type TextFormat = 'Raw' | 'Html';
 
 /**
  * Contains response data for the search operation.

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/tagsMappers";
 import * as Parameters from "../models/parameters";
@@ -44,7 +44,7 @@ export class Tags {
    * @param callback The callback
    */
   get(billingAccountId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsResult>): void;
-  get(billingAccountId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TagsResult>): Promise<Models.TagsGetResponse> {
+  get(billingAccountId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsResult>, callback?: msRest.ServiceCallback<Models.TagsResult>): Promise<Models.TagsGetResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountId,

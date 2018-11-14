@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
@@ -605,8 +605,6 @@ export const GetTdeCertificatesSqlTaskInput: msRest.CompositeMapper = {
         serializedName: "connectionInfo",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "SqlConnectionInfo"
         }
       },
@@ -674,11 +672,6 @@ export const ProjectTaskProperties: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "commandType",
-                clientName: "commandType"
-              },
-              uberParent: "CommandProperties",
               className: "CommandProperties"
             }
           }
@@ -1105,8 +1098,6 @@ export const MongoDbMigrationSettings: msRest.CompositeMapper = {
         serializedName: "source",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "MongoDbConnectionInfo"
         }
       },
@@ -1115,8 +1106,6 @@ export const MongoDbMigrationSettings: msRest.CompositeMapper = {
         serializedName: "target",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "MongoDbConnectionInfo"
         }
       },
@@ -1401,8 +1390,6 @@ export const ValidateMigrationInputSqlServerSqlMITaskInput: msRest.CompositeMapp
         serializedName: "sourceConnectionInfo",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "SqlConnectionInfo"
         }
       },
@@ -1411,8 +1398,6 @@ export const ValidateMigrationInputSqlServerSqlMITaskInput: msRest.CompositeMapp
         serializedName: "targetConnectionInfo",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "SqlConnectionInfo"
         }
       },
@@ -1624,8 +1609,6 @@ export const ValidateSyncMigrationInputSqlServerTaskInput: msRest.CompositeMappe
         serializedName: "sourceConnectionInfo",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "SqlConnectionInfo"
         }
       },
@@ -1634,8 +1617,6 @@ export const ValidateSyncMigrationInputSqlServerTaskInput: msRest.CompositeMappe
         serializedName: "targetConnectionInfo",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "SqlConnectionInfo"
         }
       },
@@ -2124,8 +2105,6 @@ export const MigratePostgreSqlAzureDbForPostgreSqlSyncTaskInput: msRest.Composit
         serializedName: "targetConnectionInfo",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "PostgreSqlConnectionInfo"
         }
       },
@@ -2134,8 +2113,6 @@ export const MigratePostgreSqlAzureDbForPostgreSqlSyncTaskInput: msRest.Composit
         serializedName: "sourceConnectionInfo",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "PostgreSqlConnectionInfo"
         }
       }
@@ -2167,11 +2144,6 @@ export const MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties: msRest.Com
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "resultType",
-                clientName: "resultType"
-              },
-              uberParent: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput",
               className: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput"
             }
           }
@@ -2572,8 +2544,6 @@ export const MigrateMySqlAzureDbForMySqlSyncTaskInput: msRest.CompositeMapper = 
         serializedName: "sourceConnectionInfo",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "MySqlConnectionInfo"
         }
       },
@@ -2582,8 +2552,6 @@ export const MigrateMySqlAzureDbForMySqlSyncTaskInput: msRest.CompositeMapper = 
         serializedName: "targetConnectionInfo",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "MySqlConnectionInfo"
         }
       },
@@ -2628,11 +2596,6 @@ export const MigrateMySqlAzureDbForMySqlSyncTaskProperties: msRest.CompositeMapp
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "resultType",
-                clientName: "resultType"
-              },
-              uberParent: "MigrateMySqlAzureDbForMySqlSyncTaskOutput",
               className: "MigrateMySqlAzureDbForMySqlSyncTaskOutput"
             }
           }
@@ -3018,8 +2981,6 @@ export const SqlMigrationTaskInput: msRest.CompositeMapper = {
         serializedName: "sourceConnectionInfo",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "SqlConnectionInfo"
         }
       },
@@ -3028,8 +2989,6 @@ export const SqlMigrationTaskInput: msRest.CompositeMapper = {
         serializedName: "targetConnectionInfo",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "SqlConnectionInfo"
         }
       }
@@ -3120,11 +3079,6 @@ export const MigrateSqlServerSqlDbSyncTaskProperties: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "resultType",
-                clientName: "resultType"
-              },
-              uberParent: "MigrateSqlServerSqlDbSyncTaskOutput",
               className: "MigrateSqlServerSqlDbSyncTaskOutput"
             }
           }
@@ -4180,11 +4134,6 @@ export const MigrateSqlServerSqlDbTaskProperties: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "resultType",
-                clientName: "resultType"
-              },
-              uberParent: "MigrateSqlServerSqlDbTaskOutput",
               className: "MigrateSqlServerSqlDbTaskOutput"
             }
           }
@@ -4733,11 +4682,6 @@ export const MigrateSqlServerSqlMITaskProperties: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "resultType",
-                clientName: "resultType"
-              },
-              uberParent: "MigrateSqlServerSqlMITaskOutput",
               className: "MigrateSqlServerSqlMITaskOutput"
             }
           }
@@ -4847,8 +4791,6 @@ export const ConnectToTargetAzureDbForMySqlTaskInput: msRest.CompositeMapper = {
         serializedName: "sourceConnectionInfo",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "MySqlConnectionInfo"
         }
       },
@@ -4857,8 +4799,6 @@ export const ConnectToTargetAzureDbForMySqlTaskInput: msRest.CompositeMapper = {
         serializedName: "targetConnectionInfo",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "MySqlConnectionInfo"
         }
       }
@@ -4978,8 +4918,6 @@ export const ConnectToTargetSqlMITaskInput: msRest.CompositeMapper = {
         serializedName: "targetConnectionInfo",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "SqlConnectionInfo"
         }
       }
@@ -5131,8 +5069,6 @@ export const GetUserTablesSqlSyncTaskInput: msRest.CompositeMapper = {
         serializedName: "sourceConnectionInfo",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "SqlConnectionInfo"
         }
       },
@@ -5141,8 +5077,6 @@ export const GetUserTablesSqlSyncTaskInput: msRest.CompositeMapper = {
         serializedName: "targetConnectionInfo",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "SqlConnectionInfo"
         }
       },
@@ -5266,8 +5200,6 @@ export const GetUserTablesSqlTaskInput: msRest.CompositeMapper = {
         serializedName: "connectionInfo",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "SqlConnectionInfo"
         }
       },
@@ -5374,8 +5306,6 @@ export const ConnectToTargetSqlSqlDbSyncTaskInput: msRest.CompositeMapper = {
         serializedName: "sourceConnectionInfo",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "SqlConnectionInfo"
         }
       },
@@ -5384,8 +5314,6 @@ export const ConnectToTargetSqlSqlDbSyncTaskInput: msRest.CompositeMapper = {
         serializedName: "targetConnectionInfo",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "SqlConnectionInfo"
         }
       }
@@ -5437,8 +5365,6 @@ export const ConnectToTargetSqlDbTaskInput: msRest.CompositeMapper = {
         serializedName: "targetConnectionInfo",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "SqlConnectionInfo"
         }
       }
@@ -5860,8 +5786,6 @@ export const ConnectToSourceSqlServerTaskInput: msRest.CompositeMapper = {
         serializedName: "sourceConnectionInfo",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "SqlConnectionInfo"
         }
       },
@@ -5920,11 +5844,6 @@ export const ConnectToSourceSqlServerSyncTaskProperties: msRest.CompositeMapper 
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "resultType",
-                clientName: "resultType"
-              },
-              uberParent: "ConnectToSourceSqlServerTaskOutput",
               className: "ConnectToSourceSqlServerTaskOutput"
             }
           }
@@ -5958,11 +5877,6 @@ export const ConnectToSourceSqlServerTaskProperties: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "resultType",
-                clientName: "resultType"
-              },
-              uberParent: "ConnectToSourceSqlServerTaskOutput",
               className: "ConnectToSourceSqlServerTaskOutput"
             }
           }
@@ -6194,8 +6108,6 @@ export const ConnectToMongoDbTaskProperties: msRest.CompositeMapper = {
         serializedName: "input",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "MongoDbConnectionInfo"
         }
       },
@@ -6233,11 +6145,6 @@ export const ProjectTask: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "taskType",
-            clientName: "taskType"
-          },
-          uberParent: "ProjectTaskProperties",
           className: "ProjectTaskProperties"
         }
       }
@@ -6406,11 +6313,6 @@ export const Project: msRest.CompositeMapper = {
         serializedName: "properties.sourceConnectionInfo",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "type",
-            clientName: "type"
-          },
-          uberParent: "ConnectionInfo",
           className: "ConnectionInfo"
         }
       },
@@ -6418,11 +6320,6 @@ export const Project: msRest.CompositeMapper = {
         serializedName: "properties.targetConnectionInfo",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "type",
-            clientName: "type"
-          },
-          uberParent: "ConnectionInfo",
           className: "ConnectionInfo"
         }
       },
@@ -7041,8 +6938,6 @@ export const ConnectToSourceMySqlTaskInput: msRest.CompositeMapper = {
         serializedName: "sourceConnectionInfo",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "MySqlConnectionInfo"
         }
       },
@@ -7332,11 +7227,6 @@ export const MigrateSchemaSqlServerSqlDbTaskProperties: msRest.CompositeMapper =
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "resultType",
-                clientName: "resultType"
-              },
-              uberParent: "MigrateSchemaSqlServerSqlDbTaskOutput",
               className: "MigrateSchemaSqlServerSqlDbTaskOutput"
             }
           }
@@ -7929,8 +7819,6 @@ export const NonSqlMigrationTaskInput: msRest.CompositeMapper = {
         serializedName: "targetConnectionInfo",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
-          uberParent: "ConnectionInfo",
           className: "SqlConnectionInfo"
         }
       },

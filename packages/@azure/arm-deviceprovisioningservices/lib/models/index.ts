@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -856,114 +856,53 @@ export interface SharedAccessSignatureAuthorizationRuleListResult extends Array<
 /**
  * Defines values for IotDpsSku.
  * Possible values include: 'S1'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IotDpsSku = <IotDpsSku>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IotDpsSku {
-  S1 = 'S1',
-}
+export type IotDpsSku = 'S1';
 
 /**
  * Defines values for State.
- * Possible values include: 'Activating', 'Active', 'Deleting', 'Deleted',
- * 'ActivationFailed', 'DeletionFailed', 'Transitioning', 'Suspending',
- * 'Suspended', 'Resuming', 'FailingOver', 'FailoverFailed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: State = <State>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Activating', 'Active', 'Deleting', 'Deleted', 'ActivationFailed',
+ * 'DeletionFailed', 'Transitioning', 'Suspending', 'Suspended', 'Resuming', 'FailingOver',
+ * 'FailoverFailed'
  * @readonly
  * @enum {string}
  */
-export enum State {
-  Activating = 'Activating',
-  Active = 'Active',
-  Deleting = 'Deleting',
-  Deleted = 'Deleted',
-  ActivationFailed = 'ActivationFailed',
-  DeletionFailed = 'DeletionFailed',
-  Transitioning = 'Transitioning',
-  Suspending = 'Suspending',
-  Suspended = 'Suspended',
-  Resuming = 'Resuming',
-  FailingOver = 'FailingOver',
-  FailoverFailed = 'FailoverFailed',
-}
+export type State = 'Activating' | 'Active' | 'Deleting' | 'Deleted' | 'ActivationFailed' | 'DeletionFailed' | 'Transitioning' | 'Suspending' | 'Suspended' | 'Resuming' | 'FailingOver' | 'FailoverFailed';
 
 /**
  * Defines values for AllocationPolicy.
  * Possible values include: 'Hashed', 'GeoLatency', 'Static'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AllocationPolicy =
- * <AllocationPolicy>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AllocationPolicy {
-  Hashed = 'Hashed',
-  GeoLatency = 'GeoLatency',
-  Static = 'Static',
-}
+export type AllocationPolicy = 'Hashed' | 'GeoLatency' | 'Static';
 
 /**
  * Defines values for AccessRightsDescription.
- * Possible values include: 'ServiceConfig', 'EnrollmentRead',
- * 'EnrollmentWrite', 'DeviceConnect', 'RegistrationStatusRead',
- * 'RegistrationStatusWrite'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AccessRightsDescription =
- * <AccessRightsDescription>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'ServiceConfig', 'EnrollmentRead', 'EnrollmentWrite', 'DeviceConnect',
+ * 'RegistrationStatusRead', 'RegistrationStatusWrite'
  * @readonly
  * @enum {string}
  */
-export enum AccessRightsDescription {
-  ServiceConfig = 'ServiceConfig',
-  EnrollmentRead = 'EnrollmentRead',
-  EnrollmentWrite = 'EnrollmentWrite',
-  DeviceConnect = 'DeviceConnect',
-  RegistrationStatusRead = 'RegistrationStatusRead',
-  RegistrationStatusWrite = 'RegistrationStatusWrite',
-}
+export type AccessRightsDescription = 'ServiceConfig' | 'EnrollmentRead' | 'EnrollmentWrite' | 'DeviceConnect' | 'RegistrationStatusRead' | 'RegistrationStatusWrite';
 
 /**
  * Defines values for NameUnavailabilityReason.
  * Possible values include: 'Invalid', 'AlreadyExists'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: NameUnavailabilityReason =
- * <NameUnavailabilityReason>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum NameUnavailabilityReason {
-  Invalid = 'Invalid',
-  AlreadyExists = 'AlreadyExists',
-}
+export type NameUnavailabilityReason = 'Invalid' | 'AlreadyExists';
 
 /**
  * Defines values for CertificatePurpose.
  * Possible values include: 'clientAuthentication', 'serverAuthentication'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: CertificatePurpose =
- * <CertificatePurpose>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum CertificatePurpose {
-  ClientAuthentication = 'clientAuthentication',
-  ServerAuthentication = 'serverAuthentication',
-}
+export type CertificatePurpose = 'clientAuthentication' | 'serverAuthentication';
 
 /**
  * Contains response data for the list operation.

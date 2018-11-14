@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/usagesMappers";
 import * as Parameters from "../models/parameters";
@@ -45,7 +45,7 @@ export class Usages {
    * @param callback The callback
    */
   listByLocation(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsageListResult>): void;
-  listByLocation(location: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UsageListResult>): Promise<Models.UsagesListByLocationResponse> {
+  listByLocation(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageListResult>, callback?: msRest.ServiceCallback<Models.UsageListResult>): Promise<Models.UsagesListByLocationResponse> {
     return this.client.sendOperationRequest(
       {
         location,

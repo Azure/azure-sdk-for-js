@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -419,10 +419,7 @@ export interface UsageAggregationListResult extends Array<UsageAggregation> {
  * @readonly
  * @enum {string}
  */
-export enum AggregationGranularity {
-  Daily = 'Daily',
-  Hourly = 'Hourly',
-}
+export type AggregationGranularity = 'Daily' | 'Hourly';
 
 /**
  * Contains response data for the list operation.

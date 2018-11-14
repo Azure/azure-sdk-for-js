@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/usageDetailsMappers";
 import * as Parameters from "../models/parameters";
@@ -42,7 +42,7 @@ export class UsageDetails {
    * @param callback The callback
    */
   list(options: Models.UsageDetailsListOptionalParams, callback: msRest.ServiceCallback<Models.UsageDetailsListResult>): void;
-  list(options?: Models.UsageDetailsListOptionalParams, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListResponse> {
+  list(options?: Models.UsageDetailsListOptionalParams | msRest.ServiceCallback<Models.UsageDetailsListResult>, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -70,7 +70,7 @@ export class UsageDetails {
    * @param callback The callback
    */
   listByBillingPeriod(billingPeriodName: string, options: Models.UsageDetailsListByBillingPeriodOptionalParams, callback: msRest.ServiceCallback<Models.UsageDetailsListResult>): void;
-  listByBillingPeriod(billingPeriodName: string, options?: Models.UsageDetailsListByBillingPeriodOptionalParams, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListByBillingPeriodResponse> {
+  listByBillingPeriod(billingPeriodName: string, options?: Models.UsageDetailsListByBillingPeriodOptionalParams | msRest.ServiceCallback<Models.UsageDetailsListResult>, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListByBillingPeriodResponse> {
     return this.client.sendOperationRequest(
       {
         billingPeriodName,
@@ -99,7 +99,7 @@ export class UsageDetails {
    * @param callback The callback
    */
   listByBillingAccount(billingAccountId: string, options: Models.UsageDetailsListByBillingAccountOptionalParams, callback: msRest.ServiceCallback<Models.UsageDetailsListResult>): void;
-  listByBillingAccount(billingAccountId: string, options?: Models.UsageDetailsListByBillingAccountOptionalParams, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListByBillingAccountResponse> {
+  listByBillingAccount(billingAccountId: string, options?: Models.UsageDetailsListByBillingAccountOptionalParams | msRest.ServiceCallback<Models.UsageDetailsListResult>, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListByBillingAccountResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountId,
@@ -131,7 +131,7 @@ export class UsageDetails {
    * @param callback The callback
    */
   listForBillingPeriodByBillingAccount(billingAccountId: string, billingPeriodName: string, options: Models.UsageDetailsListForBillingPeriodByBillingAccountOptionalParams, callback: msRest.ServiceCallback<Models.UsageDetailsListResult>): void;
-  listForBillingPeriodByBillingAccount(billingAccountId: string, billingPeriodName: string, options?: Models.UsageDetailsListForBillingPeriodByBillingAccountOptionalParams, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListForBillingPeriodByBillingAccountResponse> {
+  listForBillingPeriodByBillingAccount(billingAccountId: string, billingPeriodName: string, options?: Models.UsageDetailsListForBillingPeriodByBillingAccountOptionalParams | msRest.ServiceCallback<Models.UsageDetailsListResult>, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListForBillingPeriodByBillingAccountResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountId,
@@ -161,7 +161,7 @@ export class UsageDetails {
    * @param callback The callback
    */
   listByDepartment(departmentId: string, options: Models.UsageDetailsListByDepartmentOptionalParams, callback: msRest.ServiceCallback<Models.UsageDetailsListResult>): void;
-  listByDepartment(departmentId: string, options?: Models.UsageDetailsListByDepartmentOptionalParams, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListByDepartmentResponse> {
+  listByDepartment(departmentId: string, options?: Models.UsageDetailsListByDepartmentOptionalParams | msRest.ServiceCallback<Models.UsageDetailsListResult>, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListByDepartmentResponse> {
     return this.client.sendOperationRequest(
       {
         departmentId,
@@ -193,7 +193,7 @@ export class UsageDetails {
    * @param callback The callback
    */
   listForBillingPeriodByDepartment(departmentId: string, billingPeriodName: string, options: Models.UsageDetailsListForBillingPeriodByDepartmentOptionalParams, callback: msRest.ServiceCallback<Models.UsageDetailsListResult>): void;
-  listForBillingPeriodByDepartment(departmentId: string, billingPeriodName: string, options?: Models.UsageDetailsListForBillingPeriodByDepartmentOptionalParams, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListForBillingPeriodByDepartmentResponse> {
+  listForBillingPeriodByDepartment(departmentId: string, billingPeriodName: string, options?: Models.UsageDetailsListForBillingPeriodByDepartmentOptionalParams | msRest.ServiceCallback<Models.UsageDetailsListResult>, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListForBillingPeriodByDepartmentResponse> {
     return this.client.sendOperationRequest(
       {
         departmentId,
@@ -223,7 +223,7 @@ export class UsageDetails {
    * @param callback The callback
    */
   listByEnrollmentAccount(enrollmentAccountId: string, options: Models.UsageDetailsListByEnrollmentAccountOptionalParams, callback: msRest.ServiceCallback<Models.UsageDetailsListResult>): void;
-  listByEnrollmentAccount(enrollmentAccountId: string, options?: Models.UsageDetailsListByEnrollmentAccountOptionalParams, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListByEnrollmentAccountResponse> {
+  listByEnrollmentAccount(enrollmentAccountId: string, options?: Models.UsageDetailsListByEnrollmentAccountOptionalParams | msRest.ServiceCallback<Models.UsageDetailsListResult>, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListByEnrollmentAccountResponse> {
     return this.client.sendOperationRequest(
       {
         enrollmentAccountId,
@@ -255,7 +255,7 @@ export class UsageDetails {
    * @param callback The callback
    */
   listForBillingPeriodByEnrollmentAccount(enrollmentAccountId: string, billingPeriodName: string, options: Models.UsageDetailsListForBillingPeriodByEnrollmentAccountOptionalParams, callback: msRest.ServiceCallback<Models.UsageDetailsListResult>): void;
-  listForBillingPeriodByEnrollmentAccount(enrollmentAccountId: string, billingPeriodName: string, options?: Models.UsageDetailsListForBillingPeriodByEnrollmentAccountOptionalParams, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListForBillingPeriodByEnrollmentAccountResponse> {
+  listForBillingPeriodByEnrollmentAccount(enrollmentAccountId: string, billingPeriodName: string, options?: Models.UsageDetailsListForBillingPeriodByEnrollmentAccountOptionalParams | msRest.ServiceCallback<Models.UsageDetailsListResult>, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListForBillingPeriodByEnrollmentAccountResponse> {
     return this.client.sendOperationRequest(
       {
         enrollmentAccountId,
@@ -285,7 +285,7 @@ export class UsageDetails {
    * @param callback The callback
    */
   listByManagementGroup(managementGroupId: string, options: Models.UsageDetailsListByManagementGroupOptionalParams, callback: msRest.ServiceCallback<Models.UsageDetailsListResult>): void;
-  listByManagementGroup(managementGroupId: string, options?: Models.UsageDetailsListByManagementGroupOptionalParams, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListByManagementGroupResponse> {
+  listByManagementGroup(managementGroupId: string, options?: Models.UsageDetailsListByManagementGroupOptionalParams | msRest.ServiceCallback<Models.UsageDetailsListResult>, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListByManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         managementGroupId,
@@ -318,7 +318,7 @@ export class UsageDetails {
    * @param callback The callback
    */
   listForBillingPeriodByManagementGroup(managementGroupId: string, billingPeriodName: string, options: Models.UsageDetailsListForBillingPeriodByManagementGroupOptionalParams, callback: msRest.ServiceCallback<Models.UsageDetailsListResult>): void;
-  listForBillingPeriodByManagementGroup(managementGroupId: string, billingPeriodName: string, options?: Models.UsageDetailsListForBillingPeriodByManagementGroupOptionalParams, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListForBillingPeriodByManagementGroupResponse> {
+  listForBillingPeriodByManagementGroup(managementGroupId: string, billingPeriodName: string, options?: Models.UsageDetailsListForBillingPeriodByManagementGroupOptionalParams | msRest.ServiceCallback<Models.UsageDetailsListResult>, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListForBillingPeriodByManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         managementGroupId,
@@ -348,7 +348,7 @@ export class UsageDetails {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsageDetailsListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageDetailsListResult>, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -377,7 +377,7 @@ export class UsageDetails {
    * @param callback The callback
    */
   listByBillingPeriodNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsageDetailsListResult>): void;
-  listByBillingPeriodNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListByBillingPeriodNextResponse> {
+  listByBillingPeriodNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageDetailsListResult>, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListByBillingPeriodNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -406,7 +406,7 @@ export class UsageDetails {
    * @param callback The callback
    */
   listByBillingAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsageDetailsListResult>): void;
-  listByBillingAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListByBillingAccountNextResponse> {
+  listByBillingAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageDetailsListResult>, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListByBillingAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -435,7 +435,7 @@ export class UsageDetails {
    * @param callback The callback
    */
   listForBillingPeriodByBillingAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsageDetailsListResult>): void;
-  listForBillingPeriodByBillingAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListForBillingPeriodByBillingAccountNextResponse> {
+  listForBillingPeriodByBillingAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageDetailsListResult>, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListForBillingPeriodByBillingAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -464,7 +464,7 @@ export class UsageDetails {
    * @param callback The callback
    */
   listByDepartmentNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsageDetailsListResult>): void;
-  listByDepartmentNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListByDepartmentNextResponse> {
+  listByDepartmentNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageDetailsListResult>, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListByDepartmentNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -493,7 +493,7 @@ export class UsageDetails {
    * @param callback The callback
    */
   listForBillingPeriodByDepartmentNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsageDetailsListResult>): void;
-  listForBillingPeriodByDepartmentNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListForBillingPeriodByDepartmentNextResponse> {
+  listForBillingPeriodByDepartmentNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageDetailsListResult>, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListForBillingPeriodByDepartmentNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -522,7 +522,7 @@ export class UsageDetails {
    * @param callback The callback
    */
   listByEnrollmentAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsageDetailsListResult>): void;
-  listByEnrollmentAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListByEnrollmentAccountNextResponse> {
+  listByEnrollmentAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageDetailsListResult>, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListByEnrollmentAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -551,7 +551,7 @@ export class UsageDetails {
    * @param callback The callback
    */
   listForBillingPeriodByEnrollmentAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsageDetailsListResult>): void;
-  listForBillingPeriodByEnrollmentAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListForBillingPeriodByEnrollmentAccountNextResponse> {
+  listForBillingPeriodByEnrollmentAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageDetailsListResult>, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListForBillingPeriodByEnrollmentAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -580,7 +580,7 @@ export class UsageDetails {
    * @param callback The callback
    */
   listByManagementGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsageDetailsListResult>): void;
-  listByManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListByManagementGroupNextResponse> {
+  listByManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageDetailsListResult>, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListByManagementGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -610,7 +610,7 @@ export class UsageDetails {
    * @param callback The callback
    */
   listForBillingPeriodByManagementGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsageDetailsListResult>): void;
-  listForBillingPeriodByManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListForBillingPeriodByManagementGroupNextResponse> {
+  listForBillingPeriodByManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageDetailsListResult>, callback?: msRest.ServiceCallback<Models.UsageDetailsListResult>): Promise<Models.UsageDetailsListForBillingPeriodByManagementGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

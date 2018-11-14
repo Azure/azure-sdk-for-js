@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/managersMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class Managers {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagerList>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagerList>): Promise<Models.ManagersListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagerList>, callback?: msRest.ServiceCallback<Models.ManagerList>): Promise<Models.ManagersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -68,7 +68,7 @@ export class Managers {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagerList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagerList>): Promise<Models.ManagersListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagerList>, callback?: msRest.ServiceCallback<Models.ManagerList>): Promise<Models.ManagersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +99,7 @@ export class Managers {
    * @param callback The callback
    */
   get(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Manager>): void;
-  get(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Manager>): Promise<Models.ManagersGetResponse> {
+  get(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Manager>, callback?: msRest.ServiceCallback<Models.Manager>): Promise<Models.ManagersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -134,7 +134,7 @@ export class Managers {
    * @param callback The callback
    */
   createOrUpdate(parameters: Models.Manager, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Manager>): void;
-  createOrUpdate(parameters: Models.Manager, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Manager>): Promise<Models.ManagersCreateOrUpdateResponse> {
+  createOrUpdate(parameters: Models.Manager, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Manager>, callback?: msRest.ServiceCallback<Models.Manager>): Promise<Models.ManagersCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
@@ -167,7 +167,7 @@ export class Managers {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -202,7 +202,7 @@ export class Managers {
    * @param callback The callback
    */
   update(parameters: Models.ManagerPatch, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Manager>): void;
-  update(parameters: Models.ManagerPatch, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Manager>): Promise<Models.ManagersUpdateResponse> {
+  update(parameters: Models.ManagerPatch, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Manager>, callback?: msRest.ServiceCallback<Models.Manager>): Promise<Models.ManagersUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
@@ -238,7 +238,7 @@ export class Managers {
    * @param callback The callback
    */
   getDevicePublicEncryptionKey(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicKey>): void;
-  getDevicePublicEncryptionKey(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PublicKey>): Promise<Models.ManagersGetDevicePublicEncryptionKeyResponse> {
+  getDevicePublicEncryptionKey(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicKey>, callback?: msRest.ServiceCallback<Models.PublicKey>): Promise<Models.ManagersGetDevicePublicEncryptionKeyResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -271,7 +271,7 @@ export class Managers {
    * @param callback The callback
    */
   getEncryptionSettings(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EncryptionSettings>): void;
-  getEncryptionSettings(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EncryptionSettings>): Promise<Models.ManagersGetEncryptionSettingsResponse> {
+  getEncryptionSettings(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EncryptionSettings>, callback?: msRest.ServiceCallback<Models.EncryptionSettings>): Promise<Models.ManagersGetEncryptionSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -303,7 +303,7 @@ export class Managers {
    * @param callback The callback
    */
   getExtendedInfo(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagerExtendedInfo>): void;
-  getExtendedInfo(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagerExtendedInfo>): Promise<Models.ManagersGetExtendedInfoResponse> {
+  getExtendedInfo(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagerExtendedInfo>, callback?: msRest.ServiceCallback<Models.ManagerExtendedInfo>): Promise<Models.ManagersGetExtendedInfoResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -338,7 +338,7 @@ export class Managers {
    * @param callback The callback
    */
   createExtendedInfo(parameters: Models.ManagerExtendedInfo, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagerExtendedInfo>): void;
-  createExtendedInfo(parameters: Models.ManagerExtendedInfo, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagerExtendedInfo>): Promise<Models.ManagersCreateExtendedInfoResponse> {
+  createExtendedInfo(parameters: Models.ManagerExtendedInfo, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagerExtendedInfo>, callback?: msRest.ServiceCallback<Models.ManagerExtendedInfo>): Promise<Models.ManagersCreateExtendedInfoResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
@@ -371,7 +371,7 @@ export class Managers {
    * @param callback The callback
    */
   deleteExtendedInfo(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteExtendedInfo(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteExtendedInfo(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -409,7 +409,7 @@ export class Managers {
    * @param callback The callback
    */
   updateExtendedInfo(parameters: Models.ManagerExtendedInfo, resourceGroupName: string, managerName: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagerExtendedInfo>): void;
-  updateExtendedInfo(parameters: Models.ManagerExtendedInfo, resourceGroupName: string, managerName: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagerExtendedInfo>): Promise<Models.ManagersUpdateExtendedInfoResponse> {
+  updateExtendedInfo(parameters: Models.ManagerExtendedInfo, resourceGroupName: string, managerName: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagerExtendedInfo>, callback?: msRest.ServiceCallback<Models.ManagerExtendedInfo>): Promise<Models.ManagersUpdateExtendedInfoResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
@@ -443,7 +443,7 @@ export class Managers {
    * @param callback The callback
    */
   listFeatureSupportStatus(resourceGroupName: string, managerName: string, options: Models.ManagersListFeatureSupportStatusOptionalParams, callback: msRest.ServiceCallback<Models.FeatureList>): void;
-  listFeatureSupportStatus(resourceGroupName: string, managerName: string, options?: Models.ManagersListFeatureSupportStatusOptionalParams, callback?: msRest.ServiceCallback<Models.FeatureList>): Promise<Models.ManagersListFeatureSupportStatusResponse> {
+  listFeatureSupportStatus(resourceGroupName: string, managerName: string, options?: Models.ManagersListFeatureSupportStatusOptionalParams | msRest.ServiceCallback<Models.FeatureList>, callback?: msRest.ServiceCallback<Models.FeatureList>): Promise<Models.ManagersListFeatureSupportStatusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -475,7 +475,7 @@ export class Managers {
    * @param callback The callback
    */
   getActivationKey(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Key>): void;
-  getActivationKey(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Key>): Promise<Models.ManagersGetActivationKeyResponse> {
+  getActivationKey(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Key>, callback?: msRest.ServiceCallback<Models.Key>): Promise<Models.ManagersGetActivationKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -507,7 +507,7 @@ export class Managers {
    * @param callback The callback
    */
   getPublicEncryptionKey(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SymmetricEncryptedSecret>): void;
-  getPublicEncryptionKey(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SymmetricEncryptedSecret>): Promise<Models.ManagersGetPublicEncryptionKeyResponse> {
+  getPublicEncryptionKey(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SymmetricEncryptedSecret>, callback?: msRest.ServiceCallback<Models.SymmetricEncryptedSecret>): Promise<Models.ManagersGetPublicEncryptionKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -542,7 +542,7 @@ export class Managers {
    * @param callback The callback
    */
   listMetrics(resourceGroupName: string, managerName: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricList>): void;
-  listMetrics(resourceGroupName: string, managerName: string, filter: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricList>): Promise<Models.ManagersListMetricsResponse> {
+  listMetrics(resourceGroupName: string, managerName: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricList>, callback?: msRest.ServiceCallback<Models.MetricList>): Promise<Models.ManagersListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -575,7 +575,7 @@ export class Managers {
    * @param callback The callback
    */
   listMetricDefinition(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricDefinitionList>): void;
-  listMetricDefinition(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricDefinitionList>): Promise<Models.ManagersListMetricDefinitionResponse> {
+  listMetricDefinition(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionList>, callback?: msRest.ServiceCallback<Models.MetricDefinitionList>): Promise<Models.ManagersListMetricDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -607,7 +607,7 @@ export class Managers {
    * @param callback The callback
    */
   regenerateActivationKey(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Key>): void;
-  regenerateActivationKey(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Key>): Promise<Models.ManagersRegenerateActivationKeyResponse> {
+  regenerateActivationKey(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Key>, callback?: msRest.ServiceCallback<Models.Key>): Promise<Models.ManagersRegenerateActivationKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

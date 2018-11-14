@@ -38,8 +38,6 @@ export {
   Eventhub,
   CaptureDescription,
   Destination,
-  MigrationConfigProperties,
-  IpFilterRule,
-  VirtualNetworkRule
+  MigrationConfigProperties
 } from "../models/mappers";
 

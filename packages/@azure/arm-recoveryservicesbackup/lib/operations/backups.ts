@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/backupsMappers";
 import * as Parameters from "../models/parameters";
@@ -64,7 +64,7 @@ export class Backups {
    * @param callback The callback
    */
   trigger(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, parameters: Models.BackupRequestResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  trigger(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, parameters: Models.BackupRequestResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  trigger(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, parameters: Models.BackupRequestResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,

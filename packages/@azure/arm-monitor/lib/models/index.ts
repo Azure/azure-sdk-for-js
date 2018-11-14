@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -3546,44 +3546,24 @@ export interface MetricNamespaceCollection extends Array<MetricNamespace> {
  * @readonly
  * @enum {string}
  */
-export enum MetricStatisticType {
-  Average = 'Average',
-  Min = 'Min',
-  Max = 'Max',
-  Sum = 'Sum',
-}
+export type MetricStatisticType = 'Average' | 'Min' | 'Max' | 'Sum';
 
 /**
  * Defines values for TimeAggregationType.
- * Possible values include: 'Average', 'Minimum', 'Maximum', 'Total', 'Count',
- * 'Last'
+ * Possible values include: 'Average', 'Minimum', 'Maximum', 'Total', 'Count', 'Last'
  * @readonly
  * @enum {string}
  */
-export enum TimeAggregationType {
-  Average = 'Average',
-  Minimum = 'Minimum',
-  Maximum = 'Maximum',
-  Total = 'Total',
-  Count = 'Count',
-  Last = 'Last',
-}
+export type TimeAggregationType = 'Average' | 'Minimum' | 'Maximum' | 'Total' | 'Count' | 'Last';
 
 /**
  * Defines values for ComparisonOperationType.
- * Possible values include: 'Equals', 'NotEquals', 'GreaterThan',
- * 'GreaterThanOrEqual', 'LessThan', 'LessThanOrEqual'
+ * Possible values include: 'Equals', 'NotEquals', 'GreaterThan', 'GreaterThanOrEqual', 'LessThan',
+ * 'LessThanOrEqual'
  * @readonly
  * @enum {string}
  */
-export enum ComparisonOperationType {
-  Equals = 'Equals',
-  NotEquals = 'NotEquals',
-  GreaterThan = 'GreaterThan',
-  GreaterThanOrEqual = 'GreaterThanOrEqual',
-  LessThan = 'LessThan',
-  LessThanOrEqual = 'LessThanOrEqual',
-}
+export type ComparisonOperationType = 'Equals' | 'NotEquals' | 'GreaterThan' | 'GreaterThanOrEqual' | 'LessThan' | 'LessThanOrEqual';
 
 /**
  * Defines values for ScaleDirection.
@@ -3591,11 +3571,7 @@ export enum ComparisonOperationType {
  * @readonly
  * @enum {string}
  */
-export enum ScaleDirection {
-  None = 'None',
-  Increase = 'Increase',
-  Decrease = 'Decrease',
-}
+export type ScaleDirection = 'None' | 'Increase' | 'Decrease';
 
 /**
  * Defines values for ScaleType.
@@ -3603,43 +3579,23 @@ export enum ScaleDirection {
  * @readonly
  * @enum {string}
  */
-export enum ScaleType {
-  ChangeCount = 'ChangeCount',
-  PercentChangeCount = 'PercentChangeCount',
-  ExactCount = 'ExactCount',
-}
+export type ScaleType = 'ChangeCount' | 'PercentChangeCount' | 'ExactCount';
 
 /**
  * Defines values for RecurrenceFrequency.
- * Possible values include: 'None', 'Second', 'Minute', 'Hour', 'Day', 'Week',
- * 'Month', 'Year'
+ * Possible values include: 'None', 'Second', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Year'
  * @readonly
  * @enum {string}
  */
-export enum RecurrenceFrequency {
-  None = 'None',
-  Second = 'Second',
-  Minute = 'Minute',
-  Hour = 'Hour',
-  Day = 'Day',
-  Week = 'Week',
-  Month = 'Month',
-  Year = 'Year',
-}
+export type RecurrenceFrequency = 'None' | 'Second' | 'Minute' | 'Hour' | 'Day' | 'Week' | 'Month' | 'Year';
 
 /**
  * Defines values for ConditionOperator.
- * Possible values include: 'GreaterThan', 'GreaterThanOrEqual', 'LessThan',
- * 'LessThanOrEqual'
+ * Possible values include: 'GreaterThan', 'GreaterThanOrEqual', 'LessThan', 'LessThanOrEqual'
  * @readonly
  * @enum {string}
  */
-export enum ConditionOperator {
-  GreaterThan = 'GreaterThan',
-  GreaterThanOrEqual = 'GreaterThanOrEqual',
-  LessThan = 'LessThan',
-  LessThanOrEqual = 'LessThanOrEqual',
-}
+export type ConditionOperator = 'GreaterThan' | 'GreaterThanOrEqual' | 'LessThan' | 'LessThanOrEqual';
 
 /**
  * Defines values for TimeAggregationOperator.
@@ -3647,13 +3603,7 @@ export enum ConditionOperator {
  * @readonly
  * @enum {string}
  */
-export enum TimeAggregationOperator {
-  Average = 'Average',
-  Minimum = 'Minimum',
-  Maximum = 'Maximum',
-  Total = 'Total',
-  Last = 'Last',
-}
+export type TimeAggregationOperator = 'Average' | 'Minimum' | 'Maximum' | 'Total' | 'Last';
 
 /**
  * Defines values for CategoryType.
@@ -3661,10 +3611,7 @@ export enum TimeAggregationOperator {
  * @readonly
  * @enum {string}
  */
-export enum CategoryType {
-  Metrics = 'Metrics',
-  Logs = 'Logs',
-}
+export type CategoryType = 'Metrics' | 'Logs';
 
 /**
  * Defines values for ReceiverStatus.
@@ -3672,61 +3619,32 @@ export enum CategoryType {
  * @readonly
  * @enum {string}
  */
-export enum ReceiverStatus {
-  NotSpecified = 'NotSpecified',
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type ReceiverStatus = 'NotSpecified' | 'Enabled' | 'Disabled';
 
 /**
  * Defines values for EventLevel.
- * Possible values include: 'Critical', 'Error', 'Warning', 'Informational',
- * 'Verbose'
+ * Possible values include: 'Critical', 'Error', 'Warning', 'Informational', 'Verbose'
  * @readonly
  * @enum {string}
  */
-export enum EventLevel {
-  Critical = 'Critical',
-  Error = 'Error',
-  Warning = 'Warning',
-  Informational = 'Informational',
-  Verbose = 'Verbose',
-}
+export type EventLevel = 'Critical' | 'Error' | 'Warning' | 'Informational' | 'Verbose';
 
 /**
  * Defines values for Unit.
- * Possible values include: 'Count', 'Bytes', 'Seconds', 'CountPerSecond',
- * 'BytesPerSecond', 'Percent', 'MilliSeconds', 'ByteSeconds', 'Unspecified'
+ * Possible values include: 'Count', 'Bytes', 'Seconds', 'CountPerSecond', 'BytesPerSecond',
+ * 'Percent', 'MilliSeconds', 'ByteSeconds', 'Unspecified'
  * @readonly
  * @enum {string}
  */
-export enum Unit {
-  Count = 'Count',
-  Bytes = 'Bytes',
-  Seconds = 'Seconds',
-  CountPerSecond = 'CountPerSecond',
-  BytesPerSecond = 'BytesPerSecond',
-  Percent = 'Percent',
-  MilliSeconds = 'MilliSeconds',
-  ByteSeconds = 'ByteSeconds',
-  Unspecified = 'Unspecified',
-}
+export type Unit = 'Count' | 'Bytes' | 'Seconds' | 'CountPerSecond' | 'BytesPerSecond' | 'Percent' | 'MilliSeconds' | 'ByteSeconds' | 'Unspecified';
 
 /**
  * Defines values for AggregationType.
- * Possible values include: 'None', 'Average', 'Count', 'Minimum', 'Maximum',
- * 'Total'
+ * Possible values include: 'None', 'Average', 'Count', 'Minimum', 'Maximum', 'Total'
  * @readonly
  * @enum {string}
  */
-export enum AggregationType {
-  None = 'None',
-  Average = 'Average',
-  Count = 'Count',
-  Minimum = 'Minimum',
-  Maximum = 'Maximum',
-  Total = 'Total',
-}
+export type AggregationType = 'None' | 'Average' | 'Count' | 'Minimum' | 'Maximum' | 'Total';
 
 /**
  * Defines values for Sensitivity.
@@ -3734,110 +3652,55 @@ export enum AggregationType {
  * @readonly
  * @enum {string}
  */
-export enum Sensitivity {
-  Low = 'Low',
-  Medium = 'Medium',
-  High = 'High',
-}
+export type Sensitivity = 'Low' | 'Medium' | 'High';
 
 /**
  * Defines values for Enabled.
  * Possible values include: 'true', 'false'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Enabled = <Enabled>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Enabled {
-  True = 'true',
-  False = 'false',
-}
+export type Enabled = 'true' | 'false';
 
 /**
  * Defines values for ProvisioningState.
  * Possible values include: 'Succeeded', 'Deploying', 'Canceled', 'Failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ProvisioningState =
- * <ProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ProvisioningState {
-  Succeeded = 'Succeeded',
-  Deploying = 'Deploying',
-  Canceled = 'Canceled',
-  Failed = 'Failed',
-}
+export type ProvisioningState = 'Succeeded' | 'Deploying' | 'Canceled' | 'Failed';
 
 /**
  * Defines values for QueryType.
  * Possible values include: 'ResultCount'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: QueryType = <QueryType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum QueryType {
-  ResultCount = 'ResultCount',
-}
+export type QueryType = 'ResultCount';
 
 /**
  * Defines values for ConditionalOperator.
  * Possible values include: 'GreaterThan', 'LessThan', 'Equal'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ConditionalOperator =
- * <ConditionalOperator>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ConditionalOperator {
-  GreaterThan = 'GreaterThan',
-  LessThan = 'LessThan',
-  Equal = 'Equal',
-}
+export type ConditionalOperator = 'GreaterThan' | 'LessThan' | 'Equal';
 
 /**
  * Defines values for MetricTriggerType.
  * Possible values include: 'Consecutive', 'Total'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: MetricTriggerType =
- * <MetricTriggerType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum MetricTriggerType {
-  Consecutive = 'Consecutive',
-  Total = 'Total',
-}
+export type MetricTriggerType = 'Consecutive' | 'Total';
 
 /**
  * Defines values for AlertSeverity.
  * Possible values include: '0', '1', '2', '3', '4'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AlertSeverity =
- * <AlertSeverity>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AlertSeverity {
-  Zero = '0',
-  One = '1',
-  Two = '2',
-  Three = '3',
-  Four = '4',
-}
+export type AlertSeverity = '0' | '1' | '2' | '3' | '4';
 
 /**
  * Defines values for ResultType.
@@ -3845,10 +3708,7 @@ export enum AlertSeverity {
  * @readonly
  * @enum {string}
  */
-export enum ResultType {
-  Data = 'Data',
-  Metadata = 'Metadata',
-}
+export type ResultType = 'Data' | 'Metadata';
 
 /**
  * Contains response data for the listByResourceGroup operation.

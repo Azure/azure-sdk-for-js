@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/protectionPoliciesMappers";
 import * as Parameters from "../models/parameters";
@@ -55,7 +55,7 @@ export class ProtectionPolicies {
    * @param callback The callback
    */
   get(vaultName: string, resourceGroupName: string, policyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectionPolicyResource>): void;
-  get(vaultName: string, resourceGroupName: string, policyName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProtectionPolicyResource>): Promise<Models.ProtectionPoliciesGetResponse> {
+  get(vaultName: string, resourceGroupName: string, policyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionPolicyResource>, callback?: msRest.ServiceCallback<Models.ProtectionPolicyResource>): Promise<Models.ProtectionPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -99,7 +99,7 @@ export class ProtectionPolicies {
    * @param callback The callback
    */
   createOrUpdate(vaultName: string, resourceGroupName: string, policyName: string, parameters: Models.ProtectionPolicyResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectionPolicyResource>): void;
-  createOrUpdate(vaultName: string, resourceGroupName: string, policyName: string, parameters: Models.ProtectionPolicyResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProtectionPolicyResource>): Promise<Models.ProtectionPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(vaultName: string, resourceGroupName: string, policyName: string, parameters: Models.ProtectionPolicyResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionPolicyResource>, callback?: msRest.ServiceCallback<Models.ProtectionPolicyResource>): Promise<Models.ProtectionPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -141,7 +141,7 @@ export class ProtectionPolicies {
    * @param callback The callback
    */
   deleteMethod(vaultName: string, resourceGroupName: string, policyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(vaultName: string, resourceGroupName: string, policyName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(vaultName: string, resourceGroupName: string, policyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,

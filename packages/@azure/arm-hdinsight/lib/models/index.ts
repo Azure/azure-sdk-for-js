@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -917,12 +917,6 @@ export interface ApplicationGetHttpsEndpoint {
    * @member {number} [publicPort] The public port to connect to.
    */
   publicPort?: number;
-  /**
-   * @property Describes unknown properties. The value of an unknown property
-   * MUST be of type "string". Due to valid TS constraints we have modeled this
-   * as a union of `string | any`.
-   */
-  [property: string]: string | any;
 }
 
 /**
@@ -1011,11 +1005,6 @@ export interface ApplicationProperties {
    * the server.**
    */
   readonly marketplaceIdentifier?: string;
-  /**
-   * @member {string} [additionalProperties] The additional properties for
-   * application.
-   */
-  additionalProperties?: string;
 }
 
 /**
@@ -1328,9 +1317,7 @@ export interface OperationListResult extends Array<Operation> {
  * @readonly
  * @enum {string}
  */
-export enum DirectoryType {
-  ActiveDirectory = 'ActiveDirectory',
-}
+export type DirectoryType = 'ActiveDirectory';
 
 /**
  * Defines values for OSType.
@@ -1338,10 +1325,7 @@ export enum DirectoryType {
  * @readonly
  * @enum {string}
  */
-export enum OSType {
-  Windows = 'Windows',
-  Linux = 'Linux',
-}
+export type OSType = 'Windows' | 'Linux';
 
 /**
  * Defines values for Tier.
@@ -1349,39 +1333,24 @@ export enum OSType {
  * @readonly
  * @enum {string}
  */
-export enum Tier {
-  Standard = 'Standard',
-  Premium = 'Premium',
-}
+export type Tier = 'Standard' | 'Premium';
 
 /**
  * Defines values for ResourceIdentityType.
- * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,
- * UserAssigned', 'None'
+ * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
+ * 'None'
  * @readonly
  * @enum {string}
  */
-export enum ResourceIdentityType {
-  SystemAssigned = 'SystemAssigned',
-  UserAssigned = 'UserAssigned',
-  SystemAssignedUserAssigned = 'SystemAssigned, UserAssigned',
-  None = 'None',
-}
+export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
 
 /**
  * Defines values for HDInsightClusterProvisioningState.
- * Possible values include: 'InProgress', 'Failed', 'Succeeded', 'Canceled',
- * 'Deleting'
+ * Possible values include: 'InProgress', 'Failed', 'Succeeded', 'Canceled', 'Deleting'
  * @readonly
  * @enum {string}
  */
-export enum HDInsightClusterProvisioningState {
-  InProgress = 'InProgress',
-  Failed = 'Failed',
-  Succeeded = 'Succeeded',
-  Canceled = 'Canceled',
-  Deleting = 'Deleting',
-}
+export type HDInsightClusterProvisioningState = 'InProgress' | 'Failed' | 'Succeeded' | 'Canceled' | 'Deleting';
 
 /**
  * Defines values for AsyncOperationState.
@@ -1389,11 +1358,7 @@ export enum HDInsightClusterProvisioningState {
  * @readonly
  * @enum {string}
  */
-export enum AsyncOperationState {
-  InProgress = 'InProgress',
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-}
+export type AsyncOperationState = 'InProgress' | 'Succeeded' | 'Failed';
 
 /**
  * Contains response data for the create operation.

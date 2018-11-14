@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -4630,37 +4630,11 @@ export interface StreamingEndpointListResult extends Array<StreamingEndpoint> {
 
 /**
  * Defines values for FilterTrackPropertyType.
- * Possible values include: 'Unknown', 'Type', 'Name', 'Language', 'FourCC',
- * 'Bitrate'
+ * Possible values include: 'Unknown', 'Type', 'Name', 'Language', 'FourCC', 'Bitrate'
  * @readonly
  * @enum {string}
  */
-export enum FilterTrackPropertyType {
-  /**
-   * The unknown track property type.
-   */
-  Unknown = 'Unknown',
-  /**
-   * The type.
-   */
-  Type = 'Type',
-  /**
-   * The name.
-   */
-  Name = 'Name',
-  /**
-   * The language.
-   */
-  Language = 'Language',
-  /**
-   * The fourCC.
-   */
-  FourCC = 'FourCC',
-  /**
-   * The bitrate.
-   */
-  Bitrate = 'Bitrate',
-}
+export type FilterTrackPropertyType = 'Unknown' | 'Type' | 'Name' | 'Language' | 'FourCC' | 'Bitrate';
 
 /**
  * Defines values for FilterTrackPropertyCompareOperation.
@@ -4668,16 +4642,7 @@ export enum FilterTrackPropertyType {
  * @readonly
  * @enum {string}
  */
-export enum FilterTrackPropertyCompareOperation {
-  /**
-   * The equal operation.
-   */
-  Equal = 'Equal',
-  /**
-   * The not equal operation.
-   */
-  NotEqual = 'NotEqual',
-}
+export type FilterTrackPropertyCompareOperation = 'Equal' | 'NotEqual';
 
 /**
  * Defines values for MetricUnit.
@@ -4685,20 +4650,7 @@ export enum FilterTrackPropertyCompareOperation {
  * @readonly
  * @enum {string}
  */
-export enum MetricUnit {
-  /**
-   * The number of bytes.
-   */
-  Bytes = 'Bytes',
-  /**
-   * The count.
-   */
-  Count = 'Count',
-  /**
-   * The number of milliseconds.
-   */
-  Milliseconds = 'Milliseconds',
-}
+export type MetricUnit = 'Bytes' | 'Count' | 'Milliseconds';
 
 /**
  * Defines values for MetricAggregationType.
@@ -4706,20 +4658,7 @@ export enum MetricUnit {
  * @readonly
  * @enum {string}
  */
-export enum MetricAggregationType {
-  /**
-   * The average.
-   */
-  Average = 'Average',
-  /**
-   * The count of a number of items, usually requests.
-   */
-  Count = 'Count',
-  /**
-   * The sum.
-   */
-  Total = 'Total',
-}
+export type MetricAggregationType = 'Average' | 'Count' | 'Total';
 
 /**
  * Defines values for StorageAccountType.
@@ -4727,16 +4666,7 @@ export enum MetricAggregationType {
  * @readonly
  * @enum {string}
  */
-export enum StorageAccountType {
-  /**
-   * The primary storage account for the Media Services account.
-   */
-  Primary = 'Primary',
-  /**
-   * A secondary storage account for the Media Services account.
-   */
-  Secondary = 'Secondary',
-}
+export type StorageAccountType = 'Primary' | 'Secondary';
 
 /**
  * Defines values for AssetStorageEncryptionFormat.
@@ -4744,17 +4674,7 @@ export enum StorageAccountType {
  * @readonly
  * @enum {string}
  */
-export enum AssetStorageEncryptionFormat {
-  /**
-   * The Asset does not use client-side storage encryption (this is the only
-   * allowed value for new Assets).
-   */
-  None = 'None',
-  /**
-   * The Asset is encrypted with Media Services client-side encryption.
-   */
-  MediaStorageClientEncryption = 'MediaStorageClientEncryption',
-}
+export type AssetStorageEncryptionFormat = 'None' | 'MediaStorageClientEncryption';
 
 /**
  * Defines values for AssetContainerPermission.
@@ -4762,50 +4682,15 @@ export enum AssetStorageEncryptionFormat {
  * @readonly
  * @enum {string}
  */
-export enum AssetContainerPermission {
-  /**
-   * The SAS URL will allow read access to the container.
-   */
-  Read = 'Read',
-  /**
-   * The SAS URL will allow read and write access to the container.
-   */
-  ReadWrite = 'ReadWrite',
-  /**
-   * The SAS URL will allow read, write and delete access to the container.
-   */
-  ReadWriteDelete = 'ReadWriteDelete',
-}
+export type AssetContainerPermission = 'Read' | 'ReadWrite' | 'ReadWriteDelete';
 
 /**
  * Defines values for ContentKeyPolicyPlayReadyUnknownOutputPassingOption.
- * Possible values include: 'Unknown', 'NotAllowed', 'Allowed',
- * 'AllowedWithVideoConstriction'
+ * Possible values include: 'Unknown', 'NotAllowed', 'Allowed', 'AllowedWithVideoConstriction'
  * @readonly
  * @enum {string}
  */
-export enum ContentKeyPolicyPlayReadyUnknownOutputPassingOption {
-  /**
-   * Represents a ContentKeyPolicyPlayReadyUnknownOutputPassingOption that is
-   * unavailable in current API version.
-   */
-  Unknown = 'Unknown',
-  /**
-   * Passing the video portion of protected content to an Unknown Output is not
-   * allowed.
-   */
-  NotAllowed = 'NotAllowed',
-  /**
-   * Passing the video portion of protected content to an Unknown Output is
-   * allowed.
-   */
-  Allowed = 'Allowed',
-  /**
-   * Passing the video portion of protected content to an Unknown Output is
-   * allowed but with constrained resolution.
-   */
-  AllowedWithVideoConstriction = 'AllowedWithVideoConstriction',
-}
+export type ContentKeyPolicyPlayReadyUnknownOutputPassingOption = 'Unknown' | 'NotAllowed' | 'Allowed' | 'AllowedWithVideoConstriction';
 
 /**
  * Defines values for ContentKeyPolicyPlayReadyLicenseType.
@@ -4813,48 +4698,15 @@ export enum ContentKeyPolicyPlayReadyUnknownOutputPassingOption {
  * @readonly
  * @enum {string}
  */
-export enum ContentKeyPolicyPlayReadyLicenseType {
-  /**
-   * Represents a ContentKeyPolicyPlayReadyLicenseType that is unavailable in
-   * current API version.
-   */
-  Unknown = 'Unknown',
-  /**
-   * Non persistent license.
-   */
-  NonPersistent = 'NonPersistent',
-  /**
-   * Persistent license. Allows offline playback.
-   */
-  Persistent = 'Persistent',
-}
+export type ContentKeyPolicyPlayReadyLicenseType = 'Unknown' | 'NonPersistent' | 'Persistent';
 
 /**
  * Defines values for ContentKeyPolicyPlayReadyContentType.
- * Possible values include: 'Unknown', 'Unspecified', 'UltraVioletDownload',
- * 'UltraVioletStreaming'
+ * Possible values include: 'Unknown', 'Unspecified', 'UltraVioletDownload', 'UltraVioletStreaming'
  * @readonly
  * @enum {string}
  */
-export enum ContentKeyPolicyPlayReadyContentType {
-  /**
-   * Represents a ContentKeyPolicyPlayReadyContentType that is unavailable in
-   * current API version.
-   */
-  Unknown = 'Unknown',
-  /**
-   * Unspecified content type.
-   */
-  Unspecified = 'Unspecified',
-  /**
-   * Ultraviolet download content type.
-   */
-  UltraVioletDownload = 'UltraVioletDownload',
-  /**
-   * Ultraviolet streaming content type.
-   */
-  UltraVioletStreaming = 'UltraVioletStreaming',
-}
+export type ContentKeyPolicyPlayReadyContentType = 'Unknown' | 'Unspecified' | 'UltraVioletDownload' | 'UltraVioletStreaming';
 
 /**
  * Defines values for ContentKeyPolicyRestrictionTokenType.
@@ -4862,49 +4714,15 @@ export enum ContentKeyPolicyPlayReadyContentType {
  * @readonly
  * @enum {string}
  */
-export enum ContentKeyPolicyRestrictionTokenType {
-  /**
-   * Represents a ContentKeyPolicyRestrictionTokenType that is unavailable in
-   * current API version.
-   */
-  Unknown = 'Unknown',
-  /**
-   * Simple Web Token.
-   */
-  Swt = 'Swt',
-  /**
-   * JSON Web Token.
-   */
-  Jwt = 'Jwt',
-}
+export type ContentKeyPolicyRestrictionTokenType = 'Unknown' | 'Swt' | 'Jwt';
 
 /**
  * Defines values for ContentKeyPolicyFairPlayRentalAndLeaseKeyType.
- * Possible values include: 'Unknown', 'Undefined', 'PersistentUnlimited',
- * 'PersistentLimited'
+ * Possible values include: 'Unknown', 'Undefined', 'PersistentUnlimited', 'PersistentLimited'
  * @readonly
  * @enum {string}
  */
-export enum ContentKeyPolicyFairPlayRentalAndLeaseKeyType {
-  /**
-   * Represents a ContentKeyPolicyFairPlayRentalAndLeaseKeyType that is
-   * unavailable in current API version.
-   */
-  Unknown = 'Unknown',
-  /**
-   * Key duration is not specified.
-   */
-  Undefined = 'Undefined',
-  /**
-   * Content key can be persisted with an unlimited duration
-   */
-  PersistentUnlimited = 'PersistentUnlimited',
-  /**
-   * Content key can be persisted and the valid duration is limited by the
-   * Rental Duration value
-   */
-  PersistentLimited = 'PersistentLimited',
-}
+export type ContentKeyPolicyFairPlayRentalAndLeaseKeyType = 'Unknown' | 'Undefined' | 'PersistentUnlimited' | 'PersistentLimited';
 
 /**
  * Defines values for AacAudioProfile.
@@ -4912,21 +4730,7 @@ export enum ContentKeyPolicyFairPlayRentalAndLeaseKeyType {
  * @readonly
  * @enum {string}
  */
-export enum AacAudioProfile {
-  /**
-   * Specifies that the output audio is to be encoded into AAC Low Complexity
-   * profile (AAC-LC).
-   */
-  AacLc = 'AacLc',
-  /**
-   * Specifies that the output audio is to be encoded into HE-AAC v1 profile.
-   */
-  HeAacV1 = 'HeAacV1',
-  /**
-   * Specifies that the output audio is to be encoded into HE-AAC v2 profile.
-   */
-  HeAacV2 = 'HeAacV2',
-}
+export type AacAudioProfile = 'AacLc' | 'HeAacV1' | 'HeAacV2';
 
 /**
  * Defines values for StretchMode.
@@ -4934,30 +4738,7 @@ export enum AacAudioProfile {
  * @readonly
  * @enum {string}
  */
-export enum StretchMode {
-  /**
-   * Strictly respect the output resolution without considering the pixel
-   * aspect ratio or display aspect ratio of the input video.
-   */
-  None = 'None',
-  /**
-   * Override the output resolution, and change it to match the display aspect
-   * ratio of the input, without padding. For example, if the input is
-   * 1920x1080 and the encoding preset asks for 1280x1280, then the value in
-   * the preset is overridden, and the output will be at 1280x720, which
-   * maintains the input aspect ratio of 16:9.
-   */
-  AutoSize = 'AutoSize',
-  /**
-   * Pad the output (with either letterbox or pillar box) to honor the output
-   * resolution, while ensuring that the active video region in the output has
-   * the same aspect ratio as the input. For example, if the input is 1920x1080
-   * and the encoding preset asks for 1280x1280, then the output will be at
-   * 1280x1280, which contains an inner rectangle of 1280x720 at aspect ratio
-   * of 16:9, and pillar box regions 280 pixels wide at the left and right.
-   */
-  AutoFit = 'AutoFit',
-}
+export type StretchMode = 'None' | 'AutoSize' | 'AutoFit';
 
 /**
  * Defines values for DeinterlaceParity.
@@ -4965,20 +4746,7 @@ export enum StretchMode {
  * @readonly
  * @enum {string}
  */
-export enum DeinterlaceParity {
-  /**
-   * Automatically detect the order of fields
-   */
-  Auto = 'Auto',
-  /**
-   * Apply top field first processing of input video.
-   */
-  TopFieldFirst = 'TopFieldFirst',
-  /**
-   * Apply bottom field first processing of input video.
-   */
-  BottomFieldFirst = 'BottomFieldFirst',
-}
+export type DeinterlaceParity = 'Auto' | 'TopFieldFirst' | 'BottomFieldFirst';
 
 /**
  * Defines values for DeinterlaceMode.
@@ -4986,87 +4754,23 @@ export enum DeinterlaceParity {
  * @readonly
  * @enum {string}
  */
-export enum DeinterlaceMode {
-  /**
-   * Disables de-interlacing of the source video.
-   */
-  Off = 'Off',
-  /**
-   * Apply automatic pixel adaptive de-interlacing on each frame in the input
-   * video.
-   */
-  AutoPixelAdaptive = 'AutoPixelAdaptive',
-}
+export type DeinterlaceMode = 'Off' | 'AutoPixelAdaptive';
 
 /**
  * Defines values for Rotation.
- * Possible values include: 'Auto', 'None', 'Rotate0', 'Rotate90', 'Rotate180',
- * 'Rotate270'
+ * Possible values include: 'Auto', 'None', 'Rotate0', 'Rotate90', 'Rotate180', 'Rotate270'
  * @readonly
  * @enum {string}
  */
-export enum Rotation {
-  /**
-   * Automatically detect and rotate as needed.
-   */
-  Auto = 'Auto',
-  /**
-   * Do not rotate the video.  If the output format supports it, any metadata
-   * about rotation is kept intact.
-   */
-  None = 'None',
-  /**
-   * Do not rotate the video but remove any metadata about the rotation.
-   */
-  Rotate0 = 'Rotate0',
-  /**
-   * Rotate 90 degrees clockwise.
-   */
-  Rotate90 = 'Rotate90',
-  /**
-   * Rotate 180 degrees clockwise.
-   */
-  Rotate180 = 'Rotate180',
-  /**
-   * Rotate 270 degrees clockwise.
-   */
-  Rotate270 = 'Rotate270',
-}
+export type Rotation = 'Auto' | 'None' | 'Rotate0' | 'Rotate90' | 'Rotate180' | 'Rotate270';
 
 /**
  * Defines values for H264VideoProfile.
- * Possible values include: 'Auto', 'Baseline', 'Main', 'High', 'High422',
- * 'High444'
+ * Possible values include: 'Auto', 'Baseline', 'Main', 'High', 'High422', 'High444'
  * @readonly
  * @enum {string}
  */
-export enum H264VideoProfile {
-  /**
-   * Tells the encoder to automatically determine the appropriate H.264
-   * profile.
-   */
-  Auto = 'Auto',
-  /**
-   * Baseline profile
-   */
-  Baseline = 'Baseline',
-  /**
-   * Main profile
-   */
-  Main = 'Main',
-  /**
-   * High profile.
-   */
-  High = 'High',
-  /**
-   * High 4:2:2 profile.
-   */
-  High422 = 'High422',
-  /**
-   * High 4:4:4 predictive profile.
-   */
-  High444 = 'High444',
-}
+export type H264VideoProfile = 'Auto' | 'Baseline' | 'Main' | 'High' | 'High422' | 'High444';
 
 /**
  * Defines values for EntropyMode.
@@ -5074,16 +4778,7 @@ export enum H264VideoProfile {
  * @readonly
  * @enum {string}
  */
-export enum EntropyMode {
-  /**
-   * Context Adaptive Binary Arithmetic Coder (CABAC) entropy encoding.
-   */
-  Cabac = 'Cabac',
-  /**
-   * Context Adaptive Variable Length Coder (CAVLC) entropy encoding.
-   */
-  Cavlc = 'Cavlc',
-}
+export type EntropyMode = 'Cabac' | 'Cavlc';
 
 /**
  * Defines values for H264Complexity.
@@ -5091,111 +4786,25 @@ export enum EntropyMode {
  * @readonly
  * @enum {string}
  */
-export enum H264Complexity {
-  /**
-   * Tells the encoder to use settings that are optimized for faster encoding.
-   * Quality is sacrificed to decrease encoding time.
-   */
-  Speed = 'Speed',
-  /**
-   * Tells the encoder to use settings that achieve a balance between speed and
-   * quality.
-   */
-  Balanced = 'Balanced',
-  /**
-   * Tells the encoder to use settings that are optimized to produce higher
-   * quality output at the expense of slower overall encode time.
-   */
-  Quality = 'Quality',
-}
+export type H264Complexity = 'Speed' | 'Balanced' | 'Quality';
 
 /**
  * Defines values for EncoderNamedPreset.
  * Possible values include: 'H264SingleBitrateSD', 'H264SingleBitrate720p',
  * 'H264SingleBitrate1080p', 'AdaptiveStreaming', 'AACGoodQualityAudio',
- * 'H264MultipleBitrate1080p', 'H264MultipleBitrate720p',
- * 'H264MultipleBitrateSD'
+ * 'H264MultipleBitrate1080p', 'H264MultipleBitrate720p', 'H264MultipleBitrateSD'
  * @readonly
  * @enum {string}
  */
-export enum EncoderNamedPreset {
-  /**
-   * Produces an MP4 file where the video is encoded with H.264 codec at 2200
-   * kbps and a picture height of 480 pixels, and the stereo audio is encoded
-   * with AAC-LC codec at 64 kbps.
-   */
-  H264SingleBitrateSD = 'H264SingleBitrateSD',
-  /**
-   * Produces an MP4 file where the video is encoded with H.264 codec at 4500
-   * kbps and a picture height of 720 pixels, and the stereo audio is encoded
-   * with AAC-LC codec at 64 kbps.
-   */
-  H264SingleBitrate720p = 'H264SingleBitrate720p',
-  /**
-   * Produces an MP4 file where the video is encoded with H.264 codec at 6750
-   * kbps and a picture height of 1080 pixels, and the stereo audio is encoded
-   * with AAC-LC codec at 64 kbps.
-   */
-  H264SingleBitrate1080p = 'H264SingleBitrate1080p',
-  /**
-   * Produces a set of GOP aligned MP4 files with H.264 video and stereo AAC
-   * audio. Auto-generates a bitrate ladder based on the input resolution and
-   * bitrate. The auto-generated preset will never exceed the input resolution
-   * and bitrate. For example, if the input is 720p at 3 Mbps, output will
-   * remain 720p at best, and will start at rates lower than 3 Mbps. The output
-   * will will have video and audio in separate MP4 files, which is optimal for
-   * adaptive streaming.
-   */
-  AdaptiveStreaming = 'AdaptiveStreaming',
-  /**
-   * Produces a single MP4 file containing only stereo audio encoded at 192
-   * kbps.
-   */
-  AACGoodQualityAudio = 'AACGoodQualityAudio',
-  /**
-   * Produces a set of 8 GOP-aligned MP4 files, ranging from 6000 kbps to 400
-   * kbps, and stereo AAC audio. Resolution starts at 1080p and goes down to
-   * 360p.
-   */
-  H264MultipleBitrate1080p = 'H264MultipleBitrate1080p',
-  /**
-   * Produces a set of 6 GOP-aligned MP4 files, ranging from 3400 kbps to 400
-   * kbps, and stereo AAC audio. Resolution starts at 720p and goes down to
-   * 360p.
-   */
-  H264MultipleBitrate720p = 'H264MultipleBitrate720p',
-  /**
-   * Produces a set of 5 GOP-aligned MP4 files, ranging from 1600kbps to 400
-   * kbps, and stereo AAC audio. Resolution starts at 480p and goes down to
-   * 360p.
-   */
-  H264MultipleBitrateSD = 'H264MultipleBitrateSD',
-}
+export type EncoderNamedPreset = 'H264SingleBitrateSD' | 'H264SingleBitrate720p' | 'H264SingleBitrate1080p' | 'AdaptiveStreaming' | 'AACGoodQualityAudio' | 'H264MultipleBitrate1080p' | 'H264MultipleBitrate720p' | 'H264MultipleBitrateSD';
 
 /**
  * Defines values for InsightsType.
- * Possible values include: 'AudioInsightsOnly', 'VideoInsightsOnly',
- * 'AllInsights'
+ * Possible values include: 'AudioInsightsOnly', 'VideoInsightsOnly', 'AllInsights'
  * @readonly
  * @enum {string}
  */
-export enum InsightsType {
-  /**
-   * Generate audio only insights. Ignore video even if present. Fails if no
-   * audio is present.
-   */
-  AudioInsightsOnly = 'AudioInsightsOnly',
-  /**
-   * Generate video only insights. Ignore audio if present. Fails if no video
-   * is present.
-   */
-  VideoInsightsOnly = 'VideoInsightsOnly',
-  /**
-   * Generate both audio and video insights. Fails if either audio or video
-   * Insights fail.
-   */
-  AllInsights = 'AllInsights',
-}
+export type InsightsType = 'AudioInsightsOnly' | 'VideoInsightsOnly' | 'AllInsights';
 
 /**
  * Defines values for OnErrorType.
@@ -5203,18 +4812,7 @@ export enum InsightsType {
  * @readonly
  * @enum {string}
  */
-export enum OnErrorType {
-  /**
-   * Tells the service that if this TransformOutput fails, then any other
-   * incomplete TransformOutputs can be stopped.
-   */
-  StopProcessingJob = 'StopProcessingJob',
-  /**
-   * Tells the service that if this TransformOutput fails, then allow any other
-   * TransformOutput to continue.
-   */
-  ContinueJob = 'ContinueJob',
-}
+export type OnErrorType = 'StopProcessingJob' | 'ContinueJob';
 
 /**
  * Defines values for Priority.
@@ -5222,110 +4820,25 @@ export enum OnErrorType {
  * @readonly
  * @enum {string}
  */
-export enum Priority {
-  /**
-   * Used for TransformOutputs that can be generated after Normal and High
-   * priority TransformOutputs.
-   */
-  Low = 'Low',
-  /**
-   * Used for TransformOutputs that can be generated at Normal priority.
-   */
-  Normal = 'Normal',
-  /**
-   * Used for TransformOutputs that should take precedence over others.
-   */
-  High = 'High',
-}
+export type Priority = 'Low' | 'Normal' | 'High';
 
 /**
  * Defines values for JobErrorCode.
- * Possible values include: 'ServiceError', 'ServiceTransientError',
- * 'DownloadNotAccessible', 'DownloadTransientError', 'UploadNotAccessible',
- * 'UploadTransientError', 'ConfigurationUnsupported', 'ContentMalformed',
- * 'ContentUnsupported'
+ * Possible values include: 'ServiceError', 'ServiceTransientError', 'DownloadNotAccessible',
+ * 'DownloadTransientError', 'UploadNotAccessible', 'UploadTransientError',
+ * 'ConfigurationUnsupported', 'ContentMalformed', 'ContentUnsupported'
  * @readonly
  * @enum {string}
  */
-export enum JobErrorCode {
-  /**
-   * Fatal service error, please contact support.
-   */
-  ServiceError = 'ServiceError',
-  /**
-   * Transient error, please retry, if retry is unsuccessful, please contact
-   * support.
-   */
-  ServiceTransientError = 'ServiceTransientError',
-  /**
-   * While trying to download the input files, the files were not accessible,
-   * please check the availability of the source.
-   */
-  DownloadNotAccessible = 'DownloadNotAccessible',
-  /**
-   * While trying to download the input files, there was an issue during
-   * transfer (storage service, network errors), see details and check your
-   * source.
-   */
-  DownloadTransientError = 'DownloadTransientError',
-  /**
-   * While trying to upload the output files, the destination was not
-   * reachable, please check the availability of the destination.
-   */
-  UploadNotAccessible = 'UploadNotAccessible',
-  /**
-   * While trying to upload the output files, there was an issue during
-   * transfer (storage service, network errors), see details and check your
-   * destination.
-   */
-  UploadTransientError = 'UploadTransientError',
-  /**
-   * There was a problem with the combination of input files and the
-   * configuration settings applied, fix the configuration settings and retry
-   * with the same input, or change input to match the configuration.
-   */
-  ConfigurationUnsupported = 'ConfigurationUnsupported',
-  /**
-   * There was a problem with the input content (for example: zero byte files,
-   * or corrupt/non-decodable files), check the input files.
-   */
-  ContentMalformed = 'ContentMalformed',
-  /**
-   * There was a problem with the format of the input (not valid media file, or
-   * an unsupported file/codec), check the validity of the input files.
-   */
-  ContentUnsupported = 'ContentUnsupported',
-}
+export type JobErrorCode = 'ServiceError' | 'ServiceTransientError' | 'DownloadNotAccessible' | 'DownloadTransientError' | 'UploadNotAccessible' | 'UploadTransientError' | 'ConfigurationUnsupported' | 'ContentMalformed' | 'ContentUnsupported';
 
 /**
  * Defines values for JobErrorCategory.
- * Possible values include: 'Service', 'Download', 'Upload', 'Configuration',
- * 'Content'
+ * Possible values include: 'Service', 'Download', 'Upload', 'Configuration', 'Content'
  * @readonly
  * @enum {string}
  */
-export enum JobErrorCategory {
-  /**
-   * The error is service related.
-   */
-  Service = 'Service',
-  /**
-   * The error is download related.
-   */
-  Download = 'Download',
-  /**
-   * The error is upload related.
-   */
-  Upload = 'Upload',
-  /**
-   * The error is configuration related.
-   */
-  Configuration = 'Configuration',
-  /**
-   * The error is related to data in the input files.
-   */
-  Content = 'Content',
-}
+export type JobErrorCategory = 'Service' | 'Download' | 'Upload' | 'Configuration' | 'Content';
 
 /**
  * Defines values for JobRetry.
@@ -5333,59 +4846,16 @@ export enum JobErrorCategory {
  * @readonly
  * @enum {string}
  */
-export enum JobRetry {
-  /**
-   * Issue needs to be investigated and then the job resubmitted with
-   * corrections or retried once the underlying issue has been corrected.
-   */
-  DoNotRetry = 'DoNotRetry',
-  /**
-   * Issue may be resolved after waiting for a period of time and resubmitting
-   * the same Job.
-   */
-  MayRetry = 'MayRetry',
-}
+export type JobRetry = 'DoNotRetry' | 'MayRetry';
 
 /**
  * Defines values for JobState.
- * Possible values include: 'Canceled', 'Canceling', 'Error', 'Finished',
- * 'Processing', 'Queued', 'Scheduled'
+ * Possible values include: 'Canceled', 'Canceling', 'Error', 'Finished', 'Processing', 'Queued',
+ * 'Scheduled'
  * @readonly
  * @enum {string}
  */
-export enum JobState {
-  /**
-   * The job was canceled. This is a final state for the job.
-   */
-  Canceled = 'Canceled',
-  /**
-   * The job is in the process of being canceled. This is a transient state for
-   * the job.
-   */
-  Canceling = 'Canceling',
-  /**
-   * The job has encountered an error. This is a final state for the job.
-   */
-  Error = 'Error',
-  /**
-   * The job is finished. This is a final state for the job.
-   */
-  Finished = 'Finished',
-  /**
-   * The job is processing. This is a transient state for the job.
-   */
-  Processing = 'Processing',
-  /**
-   * The job is in a queued state, waiting for resources to become available.
-   * This is a transient state.
-   */
-  Queued = 'Queued',
-  /**
-   * The job is being scheduled to run on an available resource. This is a
-   * transient state, between queued and processing states.
-   */
-  Scheduled = 'Scheduled',
-}
+export type JobState = 'Canceled' | 'Canceling' | 'Error' | 'Finished' | 'Processing' | 'Queued' | 'Scheduled';
 
 /**
  * Defines values for TrackPropertyType.
@@ -5393,16 +4863,7 @@ export enum JobState {
  * @readonly
  * @enum {string}
  */
-export enum TrackPropertyType {
-  /**
-   * Unknown track property
-   */
-  Unknown = 'Unknown',
-  /**
-   * Track FourCC
-   */
-  FourCC = 'FourCC',
-}
+export type TrackPropertyType = 'Unknown' | 'FourCC';
 
 /**
  * Defines values for TrackPropertyCompareOperation.
@@ -5410,38 +4871,15 @@ export enum TrackPropertyType {
  * @readonly
  * @enum {string}
  */
-export enum TrackPropertyCompareOperation {
-  /**
-   * Unknown track property compare operation
-   */
-  Unknown = 'Unknown',
-  /**
-   * Equal operation
-   */
-  Equal = 'Equal',
-}
+export type TrackPropertyCompareOperation = 'Unknown' | 'Equal';
 
 /**
  * Defines values for StreamingLocatorContentKeyType.
- * Possible values include: 'CommonEncryptionCenc', 'CommonEncryptionCbcs',
- * 'EnvelopeEncryption'
+ * Possible values include: 'CommonEncryptionCenc', 'CommonEncryptionCbcs', 'EnvelopeEncryption'
  * @readonly
  * @enum {string}
  */
-export enum StreamingLocatorContentKeyType {
-  /**
-   * Common Encryption using CENC
-   */
-  CommonEncryptionCenc = 'CommonEncryptionCenc',
-  /**
-   * Common Encryption using CBCS
-   */
-  CommonEncryptionCbcs = 'CommonEncryptionCbcs',
-  /**
-   * Envelope Encryption
-   */
-  EnvelopeEncryption = 'EnvelopeEncryption',
-}
+export type StreamingLocatorContentKeyType = 'CommonEncryptionCenc' | 'CommonEncryptionCbcs' | 'EnvelopeEncryption';
 
 /**
  * Defines values for StreamingPolicyStreamingProtocol.
@@ -5449,50 +4887,16 @@ export enum StreamingLocatorContentKeyType {
  * @readonly
  * @enum {string}
  */
-export enum StreamingPolicyStreamingProtocol {
-  /**
-   * HLS protocol
-   */
-  Hls = 'Hls',
-  /**
-   * DASH protocol
-   */
-  Dash = 'Dash',
-  /**
-   * SmoothStreaming protocol
-   */
-  SmoothStreaming = 'SmoothStreaming',
-  /**
-   * Download protocol
-   */
-  Download = 'Download',
-}
+export type StreamingPolicyStreamingProtocol = 'Hls' | 'Dash' | 'SmoothStreaming' | 'Download';
 
 /**
  * Defines values for EncryptionScheme.
- * Possible values include: 'NoEncryption', 'EnvelopeEncryption',
- * 'CommonEncryptionCenc', 'CommonEncryptionCbcs'
+ * Possible values include: 'NoEncryption', 'EnvelopeEncryption', 'CommonEncryptionCenc',
+ * 'CommonEncryptionCbcs'
  * @readonly
  * @enum {string}
  */
-export enum EncryptionScheme {
-  /**
-   * NoEncryption scheme
-   */
-  NoEncryption = 'NoEncryption',
-  /**
-   * EnvelopeEncryption scheme
-   */
-  EnvelopeEncryption = 'EnvelopeEncryption',
-  /**
-   * CommonEncryptionCenc scheme
-   */
-  CommonEncryptionCenc = 'CommonEncryptionCenc',
-  /**
-   * CommonEncryptionCbcs scheme
-   */
-  CommonEncryptionCbcs = 'CommonEncryptionCbcs',
-}
+export type EncryptionScheme = 'NoEncryption' | 'EnvelopeEncryption' | 'CommonEncryptionCenc' | 'CommonEncryptionCbcs';
 
 /**
  * Defines values for LiveOutputResourceState.
@@ -5500,11 +4904,7 @@ export enum EncryptionScheme {
  * @readonly
  * @enum {string}
  */
-export enum LiveOutputResourceState {
-  Creating = 'Creating',
-  Running = 'Running',
-  Deleting = 'Deleting',
-}
+export type LiveOutputResourceState = 'Creating' | 'Running' | 'Deleting';
 
 /**
  * Defines values for LiveEventInputProtocol.
@@ -5512,10 +4912,7 @@ export enum LiveOutputResourceState {
  * @readonly
  * @enum {string}
  */
-export enum LiveEventInputProtocol {
-  FragmentedMP4 = 'FragmentedMP4',
-  RTMP = 'RTMP',
-}
+export type LiveEventInputProtocol = 'FragmentedMP4' | 'RTMP';
 
 /**
  * Defines values for LiveEventEncodingType.
@@ -5523,25 +4920,15 @@ export enum LiveEventInputProtocol {
  * @readonly
  * @enum {string}
  */
-export enum LiveEventEncodingType {
-  None = 'None',
-  Basic = 'Basic',
-}
+export type LiveEventEncodingType = 'None' | 'Basic';
 
 /**
  * Defines values for LiveEventResourceState.
- * Possible values include: 'Stopped', 'Starting', 'Running', 'Stopping',
- * 'Deleting'
+ * Possible values include: 'Stopped', 'Starting', 'Running', 'Stopping', 'Deleting'
  * @readonly
  * @enum {string}
  */
-export enum LiveEventResourceState {
-  Stopped = 'Stopped',
-  Starting = 'Starting',
-  Running = 'Running',
-  Stopping = 'Stopping',
-  Deleting = 'Deleting',
-}
+export type LiveEventResourceState = 'Stopped' | 'Starting' | 'Running' | 'Stopping' | 'Deleting';
 
 /**
  * Defines values for StreamOptionsFlag.
@@ -5549,26 +4936,15 @@ export enum LiveEventResourceState {
  * @readonly
  * @enum {string}
  */
-export enum StreamOptionsFlag {
-  Default = 'Default',
-  LowLatency = 'LowLatency',
-}
+export type StreamOptionsFlag = 'Default' | 'LowLatency';
 
 /**
  * Defines values for StreamingEndpointResourceState.
- * Possible values include: 'Stopped', 'Starting', 'Running', 'Stopping',
- * 'Deleting', 'Scaling'
+ * Possible values include: 'Stopped', 'Starting', 'Running', 'Stopping', 'Deleting', 'Scaling'
  * @readonly
  * @enum {string}
  */
-export enum StreamingEndpointResourceState {
-  Stopped = 'Stopped',
-  Starting = 'Starting',
-  Running = 'Running',
-  Stopping = 'Stopping',
-  Deleting = 'Deleting',
-  Scaling = 'Scaling',
-}
+export type StreamingEndpointResourceState = 'Stopped' | 'Starting' | 'Running' | 'Stopping' | 'Deleting' | 'Scaling';
 
 /**
  * Contains response data for the list operation.

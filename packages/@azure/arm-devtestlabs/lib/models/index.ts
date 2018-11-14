@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -6123,422 +6123,188 @@ export interface VirtualNetworkList extends Array<VirtualNetwork> {
 /**
  * Defines values for EnableStatus.
  * Possible values include: 'Enabled', 'Disabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: EnableStatus =
- * <EnableStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum EnableStatus {
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type EnableStatus = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for SourceControlType.
  * Possible values include: 'VsoGit', 'GitHub'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SourceControlType =
- * <SourceControlType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SourceControlType {
-  VsoGit = 'VsoGit',
-  GitHub = 'GitHub',
-}
+export type SourceControlType = 'VsoGit' | 'GitHub';
 
 /**
  * Defines values for StorageType.
  * Possible values include: 'Standard', 'Premium'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: StorageType =
- * <StorageType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum StorageType {
-  Standard = 'Standard',
-  Premium = 'Premium',
-}
+export type StorageType = 'Standard' | 'Premium';
 
 /**
  * Defines values for CostThresholdStatus.
  * Possible values include: 'Enabled', 'Disabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: CostThresholdStatus =
- * <CostThresholdStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum CostThresholdStatus {
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type CostThresholdStatus = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for WindowsOsState.
- * Possible values include: 'NonSysprepped', 'SysprepRequested',
- * 'SysprepApplied'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: WindowsOsState =
- * <WindowsOsState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NonSysprepped', 'SysprepRequested', 'SysprepApplied'
  * @readonly
  * @enum {string}
  */
-export enum WindowsOsState {
-  NonSysprepped = 'NonSysprepped',
-  SysprepRequested = 'SysprepRequested',
-  SysprepApplied = 'SysprepApplied',
-}
+export type WindowsOsState = 'NonSysprepped' | 'SysprepRequested' | 'SysprepApplied';
 
 /**
  * Defines values for LinuxOsState.
- * Possible values include: 'NonDeprovisioned', 'DeprovisionRequested',
- * 'DeprovisionApplied'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: LinuxOsState =
- * <LinuxOsState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NonDeprovisioned', 'DeprovisionRequested', 'DeprovisionApplied'
  * @readonly
  * @enum {string}
  */
-export enum LinuxOsState {
-  NonDeprovisioned = 'NonDeprovisioned',
-  DeprovisionRequested = 'DeprovisionRequested',
-  DeprovisionApplied = 'DeprovisionApplied',
-}
+export type LinuxOsState = 'NonDeprovisioned' | 'DeprovisionRequested' | 'DeprovisionApplied';
 
 /**
  * Defines values for CustomImageOsType.
  * Possible values include: 'Windows', 'Linux', 'None'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: CustomImageOsType =
- * <CustomImageOsType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum CustomImageOsType {
-  Windows = 'Windows',
-  Linux = 'Linux',
-  None = 'None',
-}
+export type CustomImageOsType = 'Windows' | 'Linux' | 'None';
 
 /**
  * Defines values for HostCachingOptions.
  * Possible values include: 'None', 'ReadOnly', 'ReadWrite'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HostCachingOptions =
- * <HostCachingOptions>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum HostCachingOptions {
-  None = 'None',
-  ReadOnly = 'ReadOnly',
-  ReadWrite = 'ReadWrite',
-}
+export type HostCachingOptions = 'None' | 'ReadOnly' | 'ReadWrite';
 
 /**
  * Defines values for NotificationChannelEventType.
  * Possible values include: 'AutoShutdown', 'Cost'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: NotificationChannelEventType =
- * <NotificationChannelEventType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum NotificationChannelEventType {
-  AutoShutdown = 'AutoShutdown',
-  Cost = 'Cost',
-}
+export type NotificationChannelEventType = 'AutoShutdown' | 'Cost';
 
 /**
  * Defines values for TransportProtocol.
  * Possible values include: 'Tcp', 'Udp'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TransportProtocol =
- * <TransportProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum TransportProtocol {
-  Tcp = 'Tcp',
-  Udp = 'Udp',
-}
+export type TransportProtocol = 'Tcp' | 'Udp';
 
 /**
  * Defines values for VirtualMachineCreationSource.
  * Possible values include: 'FromCustomImage', 'FromGalleryImage'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VirtualMachineCreationSource =
- * <VirtualMachineCreationSource>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VirtualMachineCreationSource {
-  FromCustomImage = 'FromCustomImage',
-  FromGalleryImage = 'FromGalleryImage',
-}
+export type VirtualMachineCreationSource = 'FromCustomImage' | 'FromGalleryImage';
 
 /**
  * Defines values for FileUploadOptions.
  * Possible values include: 'UploadFilesAndGenerateSasTokens', 'None'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: FileUploadOptions =
- * <FileUploadOptions>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum FileUploadOptions {
-  UploadFilesAndGenerateSasTokens = 'UploadFilesAndGenerateSasTokens',
-  None = 'None',
-}
+export type FileUploadOptions = 'UploadFilesAndGenerateSasTokens' | 'None';
 
 /**
  * Defines values for PremiumDataDisk.
  * Possible values include: 'Disabled', 'Enabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PremiumDataDisk =
- * <PremiumDataDisk>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PremiumDataDisk {
-  Disabled = 'Disabled',
-  Enabled = 'Enabled',
-}
+export type PremiumDataDisk = 'Disabled' | 'Enabled';
 
 /**
  * Defines values for EnvironmentPermission.
  * Possible values include: 'Reader', 'Contributor'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: EnvironmentPermission =
- * <EnvironmentPermission>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum EnvironmentPermission {
-  Reader = 'Reader',
-  Contributor = 'Contributor',
-}
+export type EnvironmentPermission = 'Reader' | 'Contributor';
 
 /**
  * Defines values for TargetCostStatus.
  * Possible values include: 'Enabled', 'Disabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TargetCostStatus =
- * <TargetCostStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum TargetCostStatus {
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type TargetCostStatus = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for ReportingCycleType.
  * Possible values include: 'CalendarMonth', 'Custom'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ReportingCycleType =
- * <ReportingCycleType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ReportingCycleType {
-  CalendarMonth = 'CalendarMonth',
-  Custom = 'Custom',
-}
+export type ReportingCycleType = 'CalendarMonth' | 'Custom';
 
 /**
  * Defines values for CostType.
  * Possible values include: 'Unavailable', 'Reported', 'Projected'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: CostType = <CostType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum CostType {
-  Unavailable = 'Unavailable',
-  Reported = 'Reported',
-  Projected = 'Projected',
-}
+export type CostType = 'Unavailable' | 'Reported' | 'Projected';
 
 /**
  * Defines values for HttpStatusCode.
- * Possible values include: 'Continue', 'SwitchingProtocols', 'OK', 'Created',
- * 'Accepted', 'NonAuthoritativeInformation', 'NoContent', 'ResetContent',
- * 'PartialContent', 'MultipleChoices', 'MovedPermanently', 'Redirect',
- * 'SeeOther', 'NotModified', 'UseProxy', 'Unused', 'TemporaryRedirect',
- * 'BadRequest', 'Unauthorized', 'PaymentRequired', 'Forbidden', 'NotFound',
- * 'MethodNotAllowed', 'NotAcceptable', 'ProxyAuthenticationRequired',
- * 'RequestTimeout', 'Conflict', 'Gone', 'LengthRequired',
- * 'PreconditionFailed', 'RequestEntityTooLarge', 'RequestUriTooLong',
- * 'UnsupportedMediaType', 'RequestedRangeNotSatisfiable', 'ExpectationFailed',
- * 'UpgradeRequired', 'InternalServerError', 'NotImplemented', 'BadGateway',
+ * Possible values include: 'Continue', 'SwitchingProtocols', 'OK', 'Created', 'Accepted',
+ * 'NonAuthoritativeInformation', 'NoContent', 'ResetContent', 'PartialContent', 'MultipleChoices',
+ * 'MovedPermanently', 'Redirect', 'SeeOther', 'NotModified', 'UseProxy', 'Unused',
+ * 'TemporaryRedirect', 'BadRequest', 'Unauthorized', 'PaymentRequired', 'Forbidden', 'NotFound',
+ * 'MethodNotAllowed', 'NotAcceptable', 'ProxyAuthenticationRequired', 'RequestTimeout',
+ * 'Conflict', 'Gone', 'LengthRequired', 'PreconditionFailed', 'RequestEntityTooLarge',
+ * 'RequestUriTooLong', 'UnsupportedMediaType', 'RequestedRangeNotSatisfiable',
+ * 'ExpectationFailed', 'UpgradeRequired', 'InternalServerError', 'NotImplemented', 'BadGateway',
  * 'ServiceUnavailable', 'GatewayTimeout', 'HttpVersionNotSupported'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HttpStatusCode =
- * <HttpStatusCode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum HttpStatusCode {
-  Continue = 'Continue',
-  SwitchingProtocols = 'SwitchingProtocols',
-  OK = 'OK',
-  Created = 'Created',
-  Accepted = 'Accepted',
-  NonAuthoritativeInformation = 'NonAuthoritativeInformation',
-  NoContent = 'NoContent',
-  ResetContent = 'ResetContent',
-  PartialContent = 'PartialContent',
-  MultipleChoices = 'MultipleChoices',
-  MovedPermanently = 'MovedPermanently',
-  Redirect = 'Redirect',
-  SeeOther = 'SeeOther',
-  NotModified = 'NotModified',
-  UseProxy = 'UseProxy',
-  Unused = 'Unused',
-  TemporaryRedirect = 'TemporaryRedirect',
-  BadRequest = 'BadRequest',
-  Unauthorized = 'Unauthorized',
-  PaymentRequired = 'PaymentRequired',
-  Forbidden = 'Forbidden',
-  NotFound = 'NotFound',
-  MethodNotAllowed = 'MethodNotAllowed',
-  NotAcceptable = 'NotAcceptable',
-  ProxyAuthenticationRequired = 'ProxyAuthenticationRequired',
-  RequestTimeout = 'RequestTimeout',
-  Conflict = 'Conflict',
-  Gone = 'Gone',
-  LengthRequired = 'LengthRequired',
-  PreconditionFailed = 'PreconditionFailed',
-  RequestEntityTooLarge = 'RequestEntityTooLarge',
-  RequestUriTooLong = 'RequestUriTooLong',
-  UnsupportedMediaType = 'UnsupportedMediaType',
-  RequestedRangeNotSatisfiable = 'RequestedRangeNotSatisfiable',
-  ExpectationFailed = 'ExpectationFailed',
-  UpgradeRequired = 'UpgradeRequired',
-  InternalServerError = 'InternalServerError',
-  NotImplemented = 'NotImplemented',
-  BadGateway = 'BadGateway',
-  ServiceUnavailable = 'ServiceUnavailable',
-  GatewayTimeout = 'GatewayTimeout',
-  HttpVersionNotSupported = 'HttpVersionNotSupported',
-}
+export type HttpStatusCode = 'Continue' | 'SwitchingProtocols' | 'OK' | 'Created' | 'Accepted' | 'NonAuthoritativeInformation' | 'NoContent' | 'ResetContent' | 'PartialContent' | 'MultipleChoices' | 'MovedPermanently' | 'Redirect' | 'SeeOther' | 'NotModified' | 'UseProxy' | 'Unused' | 'TemporaryRedirect' | 'BadRequest' | 'Unauthorized' | 'PaymentRequired' | 'Forbidden' | 'NotFound' | 'MethodNotAllowed' | 'NotAcceptable' | 'ProxyAuthenticationRequired' | 'RequestTimeout' | 'Conflict' | 'Gone' | 'LengthRequired' | 'PreconditionFailed' | 'RequestEntityTooLarge' | 'RequestUriTooLong' | 'UnsupportedMediaType' | 'RequestedRangeNotSatisfiable' | 'ExpectationFailed' | 'UpgradeRequired' | 'InternalServerError' | 'NotImplemented' | 'BadGateway' | 'ServiceUnavailable' | 'GatewayTimeout' | 'HttpVersionNotSupported';
 
 /**
  * Defines values for PolicyStatus.
  * Possible values include: 'Enabled', 'Disabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PolicyStatus =
- * <PolicyStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PolicyStatus {
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type PolicyStatus = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for PolicyFactName.
- * Possible values include: 'UserOwnedLabVmCount',
- * 'UserOwnedLabPremiumVmCount', 'LabVmCount', 'LabPremiumVmCount',
- * 'LabVmSize', 'GalleryImage', 'UserOwnedLabVmCountInSubnet', 'LabTargetCost',
- * 'EnvironmentTemplate', 'ScheduleEditPermission'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PolicyFactName =
- * <PolicyFactName>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'UserOwnedLabVmCount', 'UserOwnedLabPremiumVmCount', 'LabVmCount',
+ * 'LabPremiumVmCount', 'LabVmSize', 'GalleryImage', 'UserOwnedLabVmCountInSubnet',
+ * 'LabTargetCost', 'EnvironmentTemplate', 'ScheduleEditPermission'
  * @readonly
  * @enum {string}
  */
-export enum PolicyFactName {
-  UserOwnedLabVmCount = 'UserOwnedLabVmCount',
-  UserOwnedLabPremiumVmCount = 'UserOwnedLabPremiumVmCount',
-  LabVmCount = 'LabVmCount',
-  LabPremiumVmCount = 'LabPremiumVmCount',
-  LabVmSize = 'LabVmSize',
-  GalleryImage = 'GalleryImage',
-  UserOwnedLabVmCountInSubnet = 'UserOwnedLabVmCountInSubnet',
-  LabTargetCost = 'LabTargetCost',
-  EnvironmentTemplate = 'EnvironmentTemplate',
-  ScheduleEditPermission = 'ScheduleEditPermission',
-}
+export type PolicyFactName = 'UserOwnedLabVmCount' | 'UserOwnedLabPremiumVmCount' | 'LabVmCount' | 'LabPremiumVmCount' | 'LabVmSize' | 'GalleryImage' | 'UserOwnedLabVmCountInSubnet' | 'LabTargetCost' | 'EnvironmentTemplate' | 'ScheduleEditPermission';
 
 /**
  * Defines values for PolicyEvaluatorType.
  * Possible values include: 'AllowedValuesPolicy', 'MaxValuePolicy'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PolicyEvaluatorType =
- * <PolicyEvaluatorType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PolicyEvaluatorType {
-  AllowedValuesPolicy = 'AllowedValuesPolicy',
-  MaxValuePolicy = 'MaxValuePolicy',
-}
+export type PolicyEvaluatorType = 'AllowedValuesPolicy' | 'MaxValuePolicy';
 
 /**
  * Defines values for UsagePermissionType.
  * Possible values include: 'Default', 'Deny', 'Allow'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: UsagePermissionType =
- * <UsagePermissionType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum UsagePermissionType {
-  Default = 'Default',
-  Deny = 'Deny',
-  Allow = 'Allow',
-}
+export type UsagePermissionType = 'Default' | 'Deny' | 'Allow';
 
 /**
  * Contains response data for the list operation.

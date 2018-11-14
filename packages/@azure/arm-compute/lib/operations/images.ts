@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/imagesMappers";
 import * as Parameters from "../models/parameters";
@@ -86,7 +86,7 @@ export class Images {
    * @param callback The callback
    */
   get(resourceGroupName: string, imageName: string, options: Models.ImagesGetOptionalParams, callback: msRest.ServiceCallback<Models.Image>): void;
-  get(resourceGroupName: string, imageName: string, options?: Models.ImagesGetOptionalParams, callback?: msRest.ServiceCallback<Models.Image>): Promise<Models.ImagesGetResponse> {
+  get(resourceGroupName: string, imageName: string, options?: Models.ImagesGetOptionalParams | msRest.ServiceCallback<Models.Image>, callback?: msRest.ServiceCallback<Models.Image>): Promise<Models.ImagesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -115,7 +115,7 @@ export class Images {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImageListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ImageListResult>): Promise<Models.ImagesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageListResult>, callback?: msRest.ServiceCallback<Models.ImageListResult>): Promise<Models.ImagesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -141,7 +141,7 @@ export class Images {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImageListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ImageListResult>): Promise<Models.ImagesListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageListResult>, callback?: msRest.ServiceCallback<Models.ImageListResult>): Promise<Models.ImagesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -226,7 +226,7 @@ export class Images {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImageListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ImageListResult>): Promise<Models.ImagesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageListResult>, callback?: msRest.ServiceCallback<Models.ImageListResult>): Promise<Models.ImagesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -255,7 +255,7 @@ export class Images {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImageListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ImageListResult>): Promise<Models.ImagesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageListResult>, callback?: msRest.ServiceCallback<Models.ImageListResult>): Promise<Models.ImagesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

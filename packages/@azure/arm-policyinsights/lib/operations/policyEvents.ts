@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/policyEventsMappers";
 import * as Parameters from "../models/parameters";
@@ -44,7 +44,7 @@ export class PolicyEvents {
    * @param callback The callback
    */
   listQueryResultsForManagementGroup(managementGroupName: string, options: Models.PolicyEventsListQueryResultsForManagementGroupOptionalParams, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
-  listQueryResultsForManagementGroup(managementGroupName: string, options?: Models.PolicyEventsListQueryResultsForManagementGroupOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForManagementGroupResponse> {
+  listQueryResultsForManagementGroup(managementGroupName: string, options?: Models.PolicyEventsListQueryResultsForManagementGroupOptionalParams | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         managementGroupName,
@@ -72,7 +72,7 @@ export class PolicyEvents {
    * @param callback The callback
    */
   listQueryResultsForSubscription(subscriptionId: string, options: Models.PolicyEventsListQueryResultsForSubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
-  listQueryResultsForSubscription(subscriptionId: string, options?: Models.PolicyEventsListQueryResultsForSubscriptionOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForSubscriptionResponse> {
+  listQueryResultsForSubscription(subscriptionId: string, options?: Models.PolicyEventsListQueryResultsForSubscriptionOptionalParams | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForSubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -103,7 +103,7 @@ export class PolicyEvents {
    * @param callback The callback
    */
   listQueryResultsForResourceGroup(subscriptionId: string, resourceGroupName: string, options: Models.PolicyEventsListQueryResultsForResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
-  listQueryResultsForResourceGroup(subscriptionId: string, resourceGroupName: string, options?: Models.PolicyEventsListQueryResultsForResourceGroupOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForResourceGroupResponse> {
+  listQueryResultsForResourceGroup(subscriptionId: string, resourceGroupName: string, options?: Models.PolicyEventsListQueryResultsForResourceGroupOptionalParams | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -132,7 +132,7 @@ export class PolicyEvents {
    * @param callback The callback
    */
   listQueryResultsForResource(resourceId: string, options: Models.PolicyEventsListQueryResultsForResourceOptionalParams, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
-  listQueryResultsForResource(resourceId: string, options?: Models.PolicyEventsListQueryResultsForResourceOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForResourceResponse> {
+  listQueryResultsForResource(resourceId: string, options?: Models.PolicyEventsListQueryResultsForResourceOptionalParams | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
@@ -163,7 +163,7 @@ export class PolicyEvents {
    * @param callback The callback
    */
   listQueryResultsForPolicySetDefinition(subscriptionId: string, policySetDefinitionName: string, options: Models.PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
-  listQueryResultsForPolicySetDefinition(subscriptionId: string, policySetDefinitionName: string, options?: Models.PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForPolicySetDefinitionResponse> {
+  listQueryResultsForPolicySetDefinition(subscriptionId: string, policySetDefinitionName: string, options?: Models.PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForPolicySetDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -195,7 +195,7 @@ export class PolicyEvents {
    * @param callback The callback
    */
   listQueryResultsForPolicyDefinition(subscriptionId: string, policyDefinitionName: string, options: Models.PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
-  listQueryResultsForPolicyDefinition(subscriptionId: string, policyDefinitionName: string, options?: Models.PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForPolicyDefinitionResponse> {
+  listQueryResultsForPolicyDefinition(subscriptionId: string, policyDefinitionName: string, options?: Models.PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForPolicyDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -228,7 +228,7 @@ export class PolicyEvents {
    * @param callback The callback
    */
   listQueryResultsForSubscriptionLevelPolicyAssignment(subscriptionId: string, policyAssignmentName: string, options: Models.PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
-  listQueryResultsForSubscriptionLevelPolicyAssignment(subscriptionId: string, policyAssignmentName: string, options?: Models.PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentResponse> {
+  listQueryResultsForSubscriptionLevelPolicyAssignment(subscriptionId: string, policyAssignmentName: string, options?: Models.PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -264,7 +264,7 @@ export class PolicyEvents {
    * @param callback The callback
    */
   listQueryResultsForResourceGroupLevelPolicyAssignment(subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options: Models.PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
-  listQueryResultsForResourceGroupLevelPolicyAssignment(subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options?: Models.PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentResponse> {
+  listQueryResultsForResourceGroupLevelPolicyAssignment(subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options?: Models.PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -297,7 +297,7 @@ export class PolicyEvents {
    * @param callback The callback
    */
   getMetadata(scope: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  getMetadata(scope: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.PolicyEventsGetMetadataResponse> {
+  getMetadata(scope: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.PolicyEventsGetMetadataResponse> {
     return this.client.sendOperationRequest(
       {
         scope,

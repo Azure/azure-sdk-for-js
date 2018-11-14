@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/securityPINsMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class SecurityPINs {
    * @param callback The callback
    */
   get(vaultName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TokenInformation>): void;
-  get(vaultName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TokenInformation>): Promise<Models.SecurityPINsGetResponse> {
+  get(vaultName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TokenInformation>, callback?: msRest.ServiceCallback<Models.TokenInformation>): Promise<Models.SecurityPINsGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
