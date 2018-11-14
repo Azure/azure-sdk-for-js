@@ -7,7 +7,7 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptions,
   RestError,
-  WebResource
+  WebResource,
 } from "ms-rest-js";
 
 import { IRetryOptions } from "../RetryPolicyFactory";
@@ -184,7 +184,7 @@ export class RetryPolicy extends BaseRequestPolicy {
     newRequest.url = setURLParameter(
       newRequest.url,
       URLConstants.Parameters.TIMEOUT,
-      this.retryOptions.tryTimeoutInMs!.toString()
+      Math.floor(this.retryOptions.tryTimeoutInMs! / 1000).toString()
     );
 
     let response: HttpOperationResponse | undefined;
