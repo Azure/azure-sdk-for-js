@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
@@ -26,17 +26,17 @@ export const apiVersion: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-09-01-preview',
+    defaultValue: '2018-07-01-preview',
     type: {
       name: "String"
     }
   }
 };
-export const applicationResourceName: msRest.OperationURLParameter = {
-  parameterPath: "applicationResourceName",
+export const applicationName: msRest.OperationURLParameter = {
+  parameterPath: "applicationName",
   mapper: {
     required: true,
-    serializedName: "applicationResourceName",
+    serializedName: "applicationName",
     type: {
       name: "String"
     }
@@ -51,24 +51,14 @@ export const codePackageName: msRest.OperationURLParameter = {
     type: {
       name: "String"
     }
-  }
-};
-export const gatewayResourceName: msRest.OperationURLParameter = {
-  parameterPath: "gatewayResourceName",
-  mapper: {
-    required: true,
-    serializedName: "gatewayResourceName",
-    type: {
-      name: "String"
-    }
   },
   skipEncoding: true
 };
-export const networkResourceName: msRest.OperationURLParameter = {
-  parameterPath: "networkResourceName",
+export const networkName: msRest.OperationURLParameter = {
+  parameterPath: "networkName",
   mapper: {
     required: true,
-    serializedName: "networkResourceName",
+    serializedName: "networkName",
     type: {
       name: "String"
     }
@@ -107,33 +97,11 @@ export const resourceGroupName: msRest.OperationURLParameter = {
     }
   }
 };
-export const secretResourceName: msRest.OperationURLParameter = {
-  parameterPath: "secretResourceName",
+export const serviceName: msRest.OperationURLParameter = {
+  parameterPath: "serviceName",
   mapper: {
     required: true,
-    serializedName: "secretResourceName",
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-export const secretValueResourceName: msRest.OperationURLParameter = {
-  parameterPath: "secretValueResourceName",
-  mapper: {
-    required: true,
-    serializedName: "secretValueResourceName",
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-export const serviceResourceName: msRest.OperationURLParameter = {
-  parameterPath: "serviceResourceName",
-  mapper: {
-    required: true,
-    serializedName: "serviceResourceName",
+    serializedName: "serviceName",
     type: {
       name: "String"
     }
@@ -162,11 +130,11 @@ export const tail: msRest.OperationQueryParameter = {
     }
   }
 };
-export const volumeResourceName: msRest.OperationURLParameter = {
-  parameterPath: "volumeResourceName",
+export const volumeName: msRest.OperationURLParameter = {
+  parameterPath: "volumeName",
   mapper: {
     required: true,
-    serializedName: "volumeResourceName",
+    serializedName: "volumeName",
     type: {
       name: "String"
     }

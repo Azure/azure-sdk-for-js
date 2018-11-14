@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
@@ -839,6 +839,11 @@ export const RuleCondition: msRest.CompositeMapper = {
         serializedName: "dataSource",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "odata.type",
+            clientName: "odatatype"
+          },
+          uberParent: "RuleDataSource",
           className: "RuleDataSource"
         }
       },
@@ -1205,6 +1210,11 @@ export const AlertRuleResource: msRest.CompositeMapper = {
         serializedName: "properties.condition",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "odata.type",
+            clientName: "odatatype"
+          },
+          uberParent: "RuleCondition",
           className: "RuleCondition"
         }
       },
@@ -1215,6 +1225,11 @@ export const AlertRuleResource: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "odata.type",
+                clientName: "odatatype"
+              },
+              uberParent: "RuleAction",
               className: "RuleAction"
             }
           }
@@ -1273,6 +1288,11 @@ export const AlertRuleResourcePatch: msRest.CompositeMapper = {
         serializedName: "properties.condition",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "odata.type",
+            clientName: "odatatype"
+          },
+          uberParent: "RuleCondition",
           className: "RuleCondition"
         }
       },
@@ -1283,6 +1303,11 @@ export const AlertRuleResourcePatch: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "odata.type",
+                clientName: "odatatype"
+              },
+              uberParent: "RuleAction",
               className: "RuleAction"
             }
           }
@@ -3405,6 +3430,11 @@ export const MetricAlertResource: msRest.CompositeMapper = {
         serializedName: "properties.criteria",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "odata.type",
+            clientName: "odatatype"
+          },
+          uberParent: "MetricAlertCriteria",
           className: "MetricAlertCriteria",
           additionalProperties: {
             type: {
@@ -3522,6 +3552,11 @@ export const MetricAlertResourcePatch: msRest.CompositeMapper = {
         serializedName: "properties.criteria",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "odata.type",
+            clientName: "odatatype"
+          },
+          uberParent: "MetricAlertCriteria",
           className: "MetricAlertCriteria",
           additionalProperties: {
             type: {
@@ -3795,6 +3830,8 @@ export const MetricAlertSingleResourceMultipleMetricCriteria: msRest.CompositeMa
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: MultiMetricCriteria.type.polymorphicDiscriminator,
+              uberParent: "MultiMetricCriteria",
               className: "MetricCriteria",
               additionalProperties: MultiMetricCriteria.type.additionalProperties
             }
@@ -3822,6 +3859,11 @@ export const MetricAlertMultipleResourceMultipleMetricCriteria: msRest.Composite
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "criterionType",
+                clientName: "criterionType"
+              },
+              uberParent: "MultiMetricCriteria",
               className: "MultiMetricCriteria",
               additionalProperties: {
                 type: {
@@ -3976,6 +4018,11 @@ export const LogSearchRuleResource: msRest.CompositeMapper = {
         serializedName: "properties.action",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "odata.type",
+            clientName: "odatatype"
+          },
+          uberParent: "Action",
           className: "Action"
         }
       }

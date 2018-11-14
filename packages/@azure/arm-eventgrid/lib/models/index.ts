@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -1151,60 +1151,140 @@ export interface TopicTypesListResult extends Array<TopicTypeInfo> {
 
 /**
  * Defines values for DomainProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
+ * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded',
+ * 'Canceled', 'Failed'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: DomainProvisioningState =
+ * <DomainProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type DomainProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
+export enum DomainProvisioningState {
+  Creating = 'Creating',
+  Updating = 'Updating',
+  Deleting = 'Deleting',
+  Succeeded = 'Succeeded',
+  Canceled = 'Canceled',
+  Failed = 'Failed',
+}
 
 /**
  * Defines values for InputSchema.
- * Possible values include: 'EventGridSchema', 'CustomEventSchema', 'CloudEventV01Schema'
+ * Possible values include: 'EventGridSchema', 'CustomEventSchema',
+ * 'CloudEventV01Schema'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: InputSchema =
+ * <InputSchema>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type InputSchema = 'EventGridSchema' | 'CustomEventSchema' | 'CloudEventV01Schema';
+export enum InputSchema {
+  EventGridSchema = 'EventGridSchema',
+  CustomEventSchema = 'CustomEventSchema',
+  CloudEventV01Schema = 'CloudEventV01Schema',
+}
 
 /**
  * Defines values for EventSubscriptionProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed',
- * 'AwaitingManualAction'
+ * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded',
+ * 'Canceled', 'Failed', 'AwaitingManualAction'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: EventSubscriptionProvisioningState =
+ * <EventSubscriptionProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type EventSubscriptionProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed' | 'AwaitingManualAction';
+export enum EventSubscriptionProvisioningState {
+  Creating = 'Creating',
+  Updating = 'Updating',
+  Deleting = 'Deleting',
+  Succeeded = 'Succeeded',
+  Canceled = 'Canceled',
+  Failed = 'Failed',
+  AwaitingManualAction = 'AwaitingManualAction',
+}
 
 /**
  * Defines values for EventDeliverySchema.
- * Possible values include: 'EventGridSchema', 'CloudEventV01Schema', 'CustomInputSchema'
+ * Possible values include: 'EventGridSchema', 'CloudEventV01Schema',
+ * 'CustomInputSchema'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: EventDeliverySchema =
+ * <EventDeliverySchema>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type EventDeliverySchema = 'EventGridSchema' | 'CloudEventV01Schema' | 'CustomInputSchema';
+export enum EventDeliverySchema {
+  EventGridSchema = 'EventGridSchema',
+  CloudEventV01Schema = 'CloudEventV01Schema',
+  CustomInputSchema = 'CustomInputSchema',
+}
 
 /**
  * Defines values for TopicProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
+ * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded',
+ * 'Canceled', 'Failed'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: TopicProvisioningState =
+ * <TopicProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type TopicProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
+export enum TopicProvisioningState {
+  Creating = 'Creating',
+  Updating = 'Updating',
+  Deleting = 'Deleting',
+  Succeeded = 'Succeeded',
+  Canceled = 'Canceled',
+  Failed = 'Failed',
+}
 
 /**
  * Defines values for ResourceRegionType.
  * Possible values include: 'RegionalResource', 'GlobalResource'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ResourceRegionType =
+ * <ResourceRegionType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ResourceRegionType = 'RegionalResource' | 'GlobalResource';
+export enum ResourceRegionType {
+  RegionalResource = 'RegionalResource',
+  GlobalResource = 'GlobalResource',
+}
 
 /**
  * Defines values for TopicTypeProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
+ * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded',
+ * 'Canceled', 'Failed'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: TopicTypeProvisioningState =
+ * <TopicTypeProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type TopicTypeProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
+export enum TopicTypeProvisioningState {
+  Creating = 'Creating',
+  Updating = 'Updating',
+  Deleting = 'Deleting',
+  Succeeded = 'Succeeded',
+  Canceled = 'Canceled',
+  Failed = 'Failed',
+}
 
 /**
  * Contains response data for the get operation.

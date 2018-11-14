@@ -4,15 +4,15 @@ import nodeResolve from "rollup-plugin-node-resolve";
  */
 const config = {
   input: './esm/visualStudioResourceProviderClient.js',
-  external: ["@azure/ms-rest-js", "@azure/ms-rest-azure-js"],
+  external: ["ms-rest-js", "ms-rest-azure-js"],
   output: {
     file: "./dist/arm-visualstudio.js",
     format: "umd",
     name: "Azure.ArmVisualstudio",
     sourcemap: true,
     globals: {
-      "@azure/ms-rest-js": "msRest",
-      "@azure/ms-rest-azure-js": "msRestAzure"
+      "ms-rest-js": "msRest",
+      "ms-rest-azure-js": "msRestAzure"
     },
     banner: `/*
  * Copyright (c) Microsoft Corporation. All rights reserved.

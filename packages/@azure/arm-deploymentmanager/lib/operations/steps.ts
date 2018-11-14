@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/stepsMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class Steps {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, stepName: string, options: Models.StepsCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.StepResource>): void;
-  createOrUpdate(resourceGroupName: string, stepName: string, options?: Models.StepsCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.StepResource>, callback?: msRest.ServiceCallback<Models.StepResource>): Promise<Models.StepsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, stepName: string, options?: Models.StepsCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.StepResource>): Promise<Models.StepsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -80,7 +80,7 @@ export class Steps {
    * @param callback The callback
    */
   get(resourceGroupName: string, stepName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StepResource>): void;
-  get(resourceGroupName: string, stepName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StepResource>, callback?: msRest.ServiceCallback<Models.StepResource>): Promise<Models.StepsGetResponse> {
+  get(resourceGroupName: string, stepName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StepResource>): Promise<Models.StepsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class Steps {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, stepName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, stepName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, stepName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

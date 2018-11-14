@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/rolloutsMappers";
 import * as Parameters from "../models/parameters";
@@ -62,7 +62,7 @@ export class Rollouts {
    * @param callback The callback
    */
   get(resourceGroupName: string, rolloutName: string, options: Models.RolloutsGetOptionalParams, callback: msRest.ServiceCallback<Models.Rollout>): void;
-  get(resourceGroupName: string, rolloutName: string, options?: Models.RolloutsGetOptionalParams | msRest.ServiceCallback<Models.Rollout>, callback?: msRest.ServiceCallback<Models.Rollout>): Promise<Models.RolloutsGetResponse> {
+  get(resourceGroupName: string, rolloutName: string, options?: Models.RolloutsGetOptionalParams, callback?: msRest.ServiceCallback<Models.Rollout>): Promise<Models.RolloutsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +95,7 @@ export class Rollouts {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, rolloutName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, rolloutName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, rolloutName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -128,7 +128,7 @@ export class Rollouts {
    * @param callback The callback
    */
   cancel(resourceGroupName: string, rolloutName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Rollout>): void;
-  cancel(resourceGroupName: string, rolloutName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Rollout>, callback?: msRest.ServiceCallback<Models.Rollout>): Promise<Models.RolloutsCancelResponse> {
+  cancel(resourceGroupName: string, rolloutName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Rollout>): Promise<Models.RolloutsCancelResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -161,7 +161,7 @@ export class Rollouts {
    * @param callback The callback
    */
   restart(resourceGroupName: string, rolloutName: string, options: Models.RolloutsRestartOptionalParams, callback: msRest.ServiceCallback<Models.Rollout>): void;
-  restart(resourceGroupName: string, rolloutName: string, options?: Models.RolloutsRestartOptionalParams | msRest.ServiceCallback<Models.Rollout>, callback?: msRest.ServiceCallback<Models.Rollout>): Promise<Models.RolloutsRestartResponse> {
+  restart(resourceGroupName: string, rolloutName: string, options?: Models.RolloutsRestartOptionalParams, callback?: msRest.ServiceCallback<Models.Rollout>): Promise<Models.RolloutsRestartResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/machineLearningComputeMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class MachineLearningCompute {
    * @param callback The callback
    */
   listAvailableOperations(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableOperations>): void;
-  listAvailableOperations(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableOperations>, callback?: msRest.ServiceCallback<Models.AvailableOperations>): Promise<Models.MachineLearningComputeListAvailableOperationsResponse> {
+  listAvailableOperations(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AvailableOperations>): Promise<Models.MachineLearningComputeListAvailableOperationsResponse> {
     return this.client.sendOperationRequest(
       {
         options

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -2754,58 +2754,110 @@ export interface FunctionListResult extends Array<FunctionModel> {
 /**
  * Defines values for SkuName.
  * Possible values include: 'Standard'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SkuName = <SkuName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'Standard';
+export enum SkuName {
+  Standard = 'Standard',
+}
 
 /**
  * Defines values for OutputStartMode.
  * Possible values include: 'JobStartTime', 'CustomTime', 'LastOutputEventTime'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: OutputStartMode =
+ * <OutputStartMode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type OutputStartMode = 'JobStartTime' | 'CustomTime' | 'LastOutputEventTime';
+export enum OutputStartMode {
+  JobStartTime = 'JobStartTime',
+  CustomTime = 'CustomTime',
+  LastOutputEventTime = 'LastOutputEventTime',
+}
 
 /**
  * Defines values for EventsOutOfOrderPolicy.
  * Possible values include: 'Adjust', 'Drop'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: EventsOutOfOrderPolicy =
+ * <EventsOutOfOrderPolicy>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type EventsOutOfOrderPolicy = 'Adjust' | 'Drop';
+export enum EventsOutOfOrderPolicy {
+  Adjust = 'Adjust',
+  Drop = 'Drop',
+}
 
 /**
  * Defines values for OutputErrorPolicy.
  * Possible values include: 'Stop', 'Drop'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: OutputErrorPolicy =
+ * <OutputErrorPolicy>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type OutputErrorPolicy = 'Stop' | 'Drop';
+export enum OutputErrorPolicy {
+  Stop = 'Stop',
+  Drop = 'Drop',
+}
 
 /**
  * Defines values for CompatibilityLevel.
  * Possible values include: '1.0'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: CompatibilityLevel =
+ * <CompatibilityLevel>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type CompatibilityLevel = '1.0';
+export enum CompatibilityLevel {
+  OneFullStopZero = '1.0',
+}
 
 /**
  * Defines values for JsonOutputSerializationFormat.
  * Possible values include: 'LineSeparated', 'Array'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: JsonOutputSerializationFormat =
+ * <JsonOutputSerializationFormat>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type JsonOutputSerializationFormat = 'LineSeparated' | 'Array';
+export enum JsonOutputSerializationFormat {
+  LineSeparated = 'LineSeparated',
+  Array = 'Array',
+}
 
 /**
  * Defines values for Encoding.
  * Possible values include: 'UTF8'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Encoding = <Encoding>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type Encoding = 'UTF8';
+export enum Encoding {
+  UTF8 = 'UTF8',
+}
 
 /**
  * Defines values for UdfType.
@@ -2813,7 +2865,9 @@ export type Encoding = 'UTF8';
  * @readonly
  * @enum {string}
  */
-export type UdfType = 'Scalar';
+export enum UdfType {
+  Scalar = 'Scalar',
+}
 
 /**
  * Contains response data for the list operation.

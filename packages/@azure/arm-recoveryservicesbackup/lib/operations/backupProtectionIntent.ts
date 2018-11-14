@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/backupProtectionIntentMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class BackupProtectionIntent {
    * @param callback The callback
    */
   list(vaultName: string, resourceGroupName: string, options: Models.BackupProtectionIntentListOptionalParams, callback: msRest.ServiceCallback<Models.ProtectionIntentResourceList>): void;
-  list(vaultName: string, resourceGroupName: string, options?: Models.BackupProtectionIntentListOptionalParams | msRest.ServiceCallback<Models.ProtectionIntentResourceList>, callback?: msRest.ServiceCallback<Models.ProtectionIntentResourceList>): Promise<Models.BackupProtectionIntentListResponse> {
+  list(vaultName: string, resourceGroupName: string, options?: Models.BackupProtectionIntentListOptionalParams, callback?: msRest.ServiceCallback<Models.ProtectionIntentResourceList>): Promise<Models.BackupProtectionIntentListResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -79,7 +79,7 @@ export class BackupProtectionIntent {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectionIntentResourceList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionIntentResourceList>, callback?: msRest.ServiceCallback<Models.ProtectionIntentResourceList>): Promise<Models.BackupProtectionIntentListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProtectionIntentResourceList>): Promise<Models.BackupProtectionIntentListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

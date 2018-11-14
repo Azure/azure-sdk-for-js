@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/blobContainersMappers";
 import * as Parameters from "../models/parameters";
@@ -57,7 +57,7 @@ export class BlobContainers {
    * @param callback The callback
    */
   list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListContainerItems>): void;
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListContainerItems>, callback?: msRest.ServiceCallback<Models.ListContainerItems>): Promise<Models.BlobContainersListResponse> {
+  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListContainerItems>): Promise<Models.BlobContainersListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class BlobContainers {
    * @param callback The callback
    */
   create(resourceGroupName: string, accountName: string, containerName: string, options: Models.BlobContainersCreateOptionalParams, callback: msRest.ServiceCallback<Models.BlobContainer>): void;
-  create(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersCreateOptionalParams | msRest.ServiceCallback<Models.BlobContainer>, callback?: msRest.ServiceCallback<Models.BlobContainer>): Promise<Models.BlobContainersCreateResponse> {
+  create(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersCreateOptionalParams, callback?: msRest.ServiceCallback<Models.BlobContainer>): Promise<Models.BlobContainersCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,7 +167,7 @@ export class BlobContainers {
    * @param callback The callback
    */
   update(resourceGroupName: string, accountName: string, containerName: string, options: Models.BlobContainersUpdateOptionalParams, callback: msRest.ServiceCallback<Models.BlobContainer>): void;
-  update(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersUpdateOptionalParams | msRest.ServiceCallback<Models.BlobContainer>, callback?: msRest.ServiceCallback<Models.BlobContainer>): Promise<Models.BlobContainersUpdateResponse> {
+  update(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.BlobContainer>): Promise<Models.BlobContainersUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -221,7 +221,7 @@ export class BlobContainers {
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, containerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BlobContainer>): void;
-  get(resourceGroupName: string, accountName: string, containerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BlobContainer>, callback?: msRest.ServiceCallback<Models.BlobContainer>): Promise<Models.BlobContainersGetResponse> {
+  get(resourceGroupName: string, accountName: string, containerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BlobContainer>): Promise<Models.BlobContainersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -275,7 +275,7 @@ export class BlobContainers {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, accountName: string, containerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, containerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, accountName: string, containerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -337,7 +337,7 @@ export class BlobContainers {
    * @param callback The callback
    */
   setLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LegalHold>): void;
-  setLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LegalHold>, callback?: msRest.ServiceCallback<Models.LegalHold>): Promise<Models.BlobContainersSetLegalHoldResponse> {
+  setLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LegalHold>): Promise<Models.BlobContainersSetLegalHoldResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -399,7 +399,7 @@ export class BlobContainers {
    * @param callback The callback
    */
   clearLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LegalHold>): void;
-  clearLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LegalHold>, callback?: msRest.ServiceCallback<Models.LegalHold>): Promise<Models.BlobContainersClearLegalHoldResponse> {
+  clearLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LegalHold>): Promise<Models.BlobContainersClearLegalHoldResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -461,7 +461,7 @@ export class BlobContainers {
    * @param callback The callback
    */
   createOrUpdateImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, immutabilityPeriodSinceCreationInDays: number, options: Models.BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
-  createOrUpdateImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, immutabilityPeriodSinceCreationInDays: number, options?: Models.BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams | msRest.ServiceCallback<Models.ImmutabilityPolicy>, callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>): Promise<Models.BlobContainersCreateOrUpdateImmutabilityPolicyResponse> {
+  createOrUpdateImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, immutabilityPeriodSinceCreationInDays: number, options?: Models.BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams, callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>): Promise<Models.BlobContainersCreateOrUpdateImmutabilityPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -517,7 +517,7 @@ export class BlobContainers {
    * @param callback The callback
    */
   getImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, options: Models.BlobContainersGetImmutabilityPolicyOptionalParams, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
-  getImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersGetImmutabilityPolicyOptionalParams | msRest.ServiceCallback<Models.ImmutabilityPolicy>, callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>): Promise<Models.BlobContainersGetImmutabilityPolicyResponse> {
+  getImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersGetImmutabilityPolicyOptionalParams, callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>): Promise<Models.BlobContainersGetImmutabilityPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -583,7 +583,7 @@ export class BlobContainers {
    * @param callback The callback
    */
   deleteImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
-  deleteImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImmutabilityPolicy>, callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>): Promise<Models.BlobContainersDeleteImmutabilityPolicyResponse> {
+  deleteImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>): Promise<Models.BlobContainersDeleteImmutabilityPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -648,7 +648,7 @@ export class BlobContainers {
    * @param callback The callback
    */
   lockImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
-  lockImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImmutabilityPolicy>, callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>): Promise<Models.BlobContainersLockImmutabilityPolicyResponse> {
+  lockImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>): Promise<Models.BlobContainersLockImmutabilityPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -720,7 +720,7 @@ export class BlobContainers {
    * @param callback The callback
    */
   extendImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, immutabilityPeriodSinceCreationInDays: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
-  extendImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, immutabilityPeriodSinceCreationInDays: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImmutabilityPolicy>, callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>): Promise<Models.BlobContainersExtendImmutabilityPolicyResponse> {
+  extendImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, immutabilityPeriodSinceCreationInDays: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>): Promise<Models.BlobContainersExtendImmutabilityPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

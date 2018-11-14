@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -2475,34 +2475,72 @@ export interface TaskListResult extends Array<Task> {
 /**
  * Defines values for ImportMode.
  * Possible values include: 'NoForce', 'Force'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ImportMode = <ImportMode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ImportMode = 'NoForce' | 'Force';
+export enum ImportMode {
+  NoForce = 'NoForce',
+  Force = 'Force',
+}
 
 /**
  * Defines values for SkuName.
  * Possible values include: 'Classic', 'Basic', 'Standard', 'Premium'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SkuName = <SkuName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'Classic' | 'Basic' | 'Standard' | 'Premium';
+export enum SkuName {
+  Classic = 'Classic',
+  Basic = 'Basic',
+  Standard = 'Standard',
+  Premium = 'Premium',
+}
 
 /**
  * Defines values for SkuTier.
  * Possible values include: 'Classic', 'Basic', 'Standard', 'Premium'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SkuTier = <SkuTier>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SkuTier = 'Classic' | 'Basic' | 'Standard' | 'Premium';
+export enum SkuTier {
+  Classic = 'Classic',
+  Basic = 'Basic',
+  Standard = 'Standard',
+  Premium = 'Premium',
+}
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Failed', 'Canceled'
+ * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded',
+ * 'Failed', 'Canceled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ProvisioningState =
+ * <ProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled';
+export enum ProvisioningState {
+  Creating = 'Creating',
+  Updating = 'Updating',
+  Deleting = 'Deleting',
+  Succeeded = 'Succeeded',
+  Failed = 'Failed',
+  Canceled = 'Canceled',
+}
 
 /**
  * Defines values for PasswordName.
@@ -2510,144 +2548,287 @@ export type ProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeede
  * @readonly
  * @enum {string}
  */
-export type PasswordName = 'password' | 'password2';
+export enum PasswordName {
+  Password = 'password',
+  Password2 = 'password2',
+}
 
 /**
  * Defines values for RegistryUsageUnit.
  * Possible values include: 'Count', 'Bytes'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: RegistryUsageUnit =
+ * <RegistryUsageUnit>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type RegistryUsageUnit = 'Count' | 'Bytes';
+export enum RegistryUsageUnit {
+  Count = 'Count',
+  Bytes = 'Bytes',
+}
 
 /**
  * Defines values for PolicyStatus.
  * Possible values include: 'enabled', 'disabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: PolicyStatus =
+ * <PolicyStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type PolicyStatus = 'enabled' | 'disabled';
+export enum PolicyStatus {
+  Enabled = 'enabled',
+  Disabled = 'disabled',
+}
 
 /**
  * Defines values for TrustPolicyType.
  * Possible values include: 'Notary'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: TrustPolicyType =
+ * <TrustPolicyType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type TrustPolicyType = 'Notary';
+export enum TrustPolicyType {
+  Notary = 'Notary',
+}
 
 /**
  * Defines values for WebhookStatus.
  * Possible values include: 'enabled', 'disabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: WebhookStatus =
+ * <WebhookStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type WebhookStatus = 'enabled' | 'disabled';
+export enum WebhookStatus {
+  Enabled = 'enabled',
+  Disabled = 'disabled',
+}
 
 /**
  * Defines values for WebhookAction.
  * Possible values include: 'push', 'delete', 'quarantine'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: WebhookAction =
+ * <WebhookAction>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type WebhookAction = 'push' | 'delete' | 'quarantine';
+export enum WebhookAction {
+  Push = 'push',
+  Delete = 'delete',
+  Quarantine = 'quarantine',
+}
 
 /**
  * Defines values for RunStatus.
- * Possible values include: 'Queued', 'Started', 'Running', 'Succeeded', 'Failed', 'Canceled',
- * 'Error', 'Timeout'
+ * Possible values include: 'Queued', 'Started', 'Running', 'Succeeded',
+ * 'Failed', 'Canceled', 'Error', 'Timeout'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: RunStatus = <RunStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type RunStatus = 'Queued' | 'Started' | 'Running' | 'Succeeded' | 'Failed' | 'Canceled' | 'Error' | 'Timeout';
+export enum RunStatus {
+  Queued = 'Queued',
+  Started = 'Started',
+  Running = 'Running',
+  Succeeded = 'Succeeded',
+  Failed = 'Failed',
+  Canceled = 'Canceled',
+  Error = 'Error',
+  Timeout = 'Timeout',
+}
 
 /**
  * Defines values for RunType.
  * Possible values include: 'QuickBuild', 'QuickRun', 'AutoBuild', 'AutoRun'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: RunType = <RunType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type RunType = 'QuickBuild' | 'QuickRun' | 'AutoBuild' | 'AutoRun';
+export enum RunType {
+  QuickBuild = 'QuickBuild',
+  QuickRun = 'QuickRun',
+  AutoBuild = 'AutoBuild',
+  AutoRun = 'AutoRun',
+}
 
 /**
  * Defines values for OS.
  * Possible values include: 'Windows', 'Linux'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: OS = <OS>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type OS = 'Windows' | 'Linux';
+export enum OS {
+  Windows = 'Windows',
+  Linux = 'Linux',
+}
 
 /**
  * Defines values for Architecture.
  * Possible values include: 'amd64', 'x86', 'arm'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Architecture =
+ * <Architecture>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type Architecture = 'amd64' | 'x86' | 'arm';
+export enum Architecture {
+  Amd64 = 'amd64',
+  X86 = 'x86',
+  Arm = 'arm',
+}
 
 /**
  * Defines values for Variant.
  * Possible values include: 'v6', 'v7', 'v8'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Variant = <Variant>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type Variant = 'v6' | 'v7' | 'v8';
+export enum Variant {
+  V6 = 'v6',
+  V7 = 'v7',
+  V8 = 'v8',
+}
 
 /**
  * Defines values for TaskStatus.
  * Possible values include: 'Disabled', 'Enabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: TaskStatus = <TaskStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type TaskStatus = 'Disabled' | 'Enabled';
+export enum TaskStatus {
+  Disabled = 'Disabled',
+  Enabled = 'Enabled',
+}
 
 /**
  * Defines values for BaseImageDependencyType.
  * Possible values include: 'BuildTime', 'RunTime'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: BaseImageDependencyType =
+ * <BaseImageDependencyType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type BaseImageDependencyType = 'BuildTime' | 'RunTime';
+export enum BaseImageDependencyType {
+  BuildTime = 'BuildTime',
+  RunTime = 'RunTime',
+}
 
 /**
  * Defines values for SourceControlType.
  * Possible values include: 'Github', 'VisualStudioTeamService'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SourceControlType =
+ * <SourceControlType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SourceControlType = 'Github' | 'VisualStudioTeamService';
+export enum SourceControlType {
+  Github = 'Github',
+  VisualStudioTeamService = 'VisualStudioTeamService',
+}
 
 /**
  * Defines values for TokenType.
  * Possible values include: 'PAT', 'OAuth'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: TokenType = <TokenType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type TokenType = 'PAT' | 'OAuth';
+export enum TokenType {
+  PAT = 'PAT',
+  OAuth = 'OAuth',
+}
 
 /**
  * Defines values for SourceTriggerEvent.
  * Possible values include: 'commit', 'pullrequest'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SourceTriggerEvent =
+ * <SourceTriggerEvent>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SourceTriggerEvent = 'commit' | 'pullrequest';
+export enum SourceTriggerEvent {
+  Commit = 'commit',
+  Pullrequest = 'pullrequest',
+}
 
 /**
  * Defines values for TriggerStatus.
  * Possible values include: 'Disabled', 'Enabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: TriggerStatus =
+ * <TriggerStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type TriggerStatus = 'Disabled' | 'Enabled';
+export enum TriggerStatus {
+  Disabled = 'Disabled',
+  Enabled = 'Enabled',
+}
 
 /**
  * Defines values for BaseImageTriggerType.
  * Possible values include: 'All', 'Runtime'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: BaseImageTriggerType =
+ * <BaseImageTriggerType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type BaseImageTriggerType = 'All' | 'Runtime';
+export enum BaseImageTriggerType {
+  All = 'All',
+  Runtime = 'Runtime',
+}
 
 /**
  * Contains response data for the checkNameAvailability operation.

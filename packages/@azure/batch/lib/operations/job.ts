@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/jobMappers";
 import * as Parameters from "../models/parameters";
@@ -45,7 +45,7 @@ export class Job {
    * @param callback The callback
    */
   getAllLifetimeStatistics(options: Models.JobGetAllLifetimeStatisticsOptionalParams, callback: msRest.ServiceCallback<Models.JobStatistics>): void;
-  getAllLifetimeStatistics(options?: Models.JobGetAllLifetimeStatisticsOptionalParams | msRest.ServiceCallback<Models.JobStatistics>, callback?: msRest.ServiceCallback<Models.JobStatistics>): Promise<Models.JobGetAllLifetimeStatisticsResponse> {
+  getAllLifetimeStatistics(options?: Models.JobGetAllLifetimeStatisticsOptionalParams, callback?: msRest.ServiceCallback<Models.JobStatistics>): Promise<Models.JobGetAllLifetimeStatisticsResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -79,7 +79,7 @@ export class Job {
    * @param callback The callback
    */
   deleteMethod(jobId: string, options: Models.JobDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(jobId: string, options?: Models.JobDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.JobDeleteResponse> {
+  deleteMethod(jobId: string, options?: Models.JobDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.JobDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -107,7 +107,7 @@ export class Job {
    * @param callback The callback
    */
   get(jobId: string, options: Models.JobGetOptionalParams, callback: msRest.ServiceCallback<Models.CloudJob>): void;
-  get(jobId: string, options?: Models.JobGetOptionalParams | msRest.ServiceCallback<Models.CloudJob>, callback?: msRest.ServiceCallback<Models.CloudJob>): Promise<Models.JobGetResponse> {
+  get(jobId: string, options?: Models.JobGetOptionalParams, callback?: msRest.ServiceCallback<Models.CloudJob>): Promise<Models.JobGetResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -141,7 +141,7 @@ export class Job {
    * @param callback The callback
    */
   patch(jobId: string, jobPatchParameter: Models.JobPatchParameter, options: Models.JobPatchOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  patch(jobId: string, jobPatchParameter: Models.JobPatchParameter, options?: Models.JobPatchOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.JobPatchResponse> {
+  patch(jobId: string, jobPatchParameter: Models.JobPatchParameter, options?: Models.JobPatchOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.JobPatchResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -176,7 +176,7 @@ export class Job {
    * @param callback The callback
    */
   update(jobId: string, jobUpdateParameter: Models.JobUpdateParameter, options: Models.JobUpdateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  update(jobId: string, jobUpdateParameter: Models.JobUpdateParameter, options?: Models.JobUpdateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.JobUpdateResponse> {
+  update(jobId: string, jobUpdateParameter: Models.JobUpdateParameter, options?: Models.JobUpdateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.JobUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -218,7 +218,7 @@ export class Job {
    * @param callback The callback
    */
   disable(jobId: string, disableTasks: Models.DisableJobOption, options: Models.JobDisableOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  disable(jobId: string, disableTasks: Models.DisableJobOption, options?: Models.JobDisableOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.JobDisableResponse> {
+  disable(jobId: string, disableTasks: Models.DisableJobOption, options?: Models.JobDisableOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.JobDisableResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -252,7 +252,7 @@ export class Job {
    * @param callback The callback
    */
   enable(jobId: string, options: Models.JobEnableOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  enable(jobId: string, options?: Models.JobEnableOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.JobEnableResponse> {
+  enable(jobId: string, options?: Models.JobEnableOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.JobEnableResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -285,7 +285,7 @@ export class Job {
    * @param callback The callback
    */
   terminate(jobId: string, options: Models.JobTerminateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  terminate(jobId: string, options?: Models.JobTerminateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.JobTerminateResponse> {
+  terminate(jobId: string, options?: Models.JobTerminateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.JobTerminateResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -320,7 +320,7 @@ export class Job {
    * @param callback The callback
    */
   add(job: Models.JobAddParameter, options: Models.JobAddOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  add(job: Models.JobAddParameter, options?: Models.JobAddOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.JobAddResponse> {
+  add(job: Models.JobAddParameter, options?: Models.JobAddOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.JobAddResponse> {
     return this.client.sendOperationRequest(
       {
         job,
@@ -345,7 +345,7 @@ export class Job {
    * @param callback The callback
    */
   list(options: Models.JobListOptionalParams, callback: msRest.ServiceCallback<Models.CloudJobListResult>): void;
-  list(options?: Models.JobListOptionalParams | msRest.ServiceCallback<Models.CloudJobListResult>, callback?: msRest.ServiceCallback<Models.CloudJobListResult>): Promise<Models.JobListResponse> {
+  list(options?: Models.JobListOptionalParams, callback?: msRest.ServiceCallback<Models.CloudJobListResult>): Promise<Models.JobListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -372,7 +372,7 @@ export class Job {
    * @param callback The callback
    */
   listFromJobSchedule(jobScheduleId: string, options: Models.JobListFromJobScheduleOptionalParams, callback: msRest.ServiceCallback<Models.CloudJobListResult>): void;
-  listFromJobSchedule(jobScheduleId: string, options?: Models.JobListFromJobScheduleOptionalParams | msRest.ServiceCallback<Models.CloudJobListResult>, callback?: msRest.ServiceCallback<Models.CloudJobListResult>): Promise<Models.JobListFromJobScheduleResponse> {
+  listFromJobSchedule(jobScheduleId: string, options?: Models.JobListFromJobScheduleOptionalParams, callback?: msRest.ServiceCallback<Models.CloudJobListResult>): Promise<Models.JobListFromJobScheduleResponse> {
     return this.client.sendOperationRequest(
       {
         jobScheduleId,
@@ -406,7 +406,7 @@ export class Job {
    * @param callback The callback
    */
   listPreparationAndReleaseTaskStatus(jobId: string, options: Models.JobListPreparationAndReleaseTaskStatusOptionalParams, callback: msRest.ServiceCallback<Models.CloudJobListPreparationAndReleaseTaskStatusResult>): void;
-  listPreparationAndReleaseTaskStatus(jobId: string, options?: Models.JobListPreparationAndReleaseTaskStatusOptionalParams | msRest.ServiceCallback<Models.CloudJobListPreparationAndReleaseTaskStatusResult>, callback?: msRest.ServiceCallback<Models.CloudJobListPreparationAndReleaseTaskStatusResult>): Promise<Models.JobListPreparationAndReleaseTaskStatusResponse> {
+  listPreparationAndReleaseTaskStatus(jobId: string, options?: Models.JobListPreparationAndReleaseTaskStatusOptionalParams, callback?: msRest.ServiceCallback<Models.CloudJobListPreparationAndReleaseTaskStatusResult>): Promise<Models.JobListPreparationAndReleaseTaskStatusResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -436,7 +436,7 @@ export class Job {
    * @param callback The callback
    */
   getTaskCounts(jobId: string, options: Models.JobGetTaskCountsOptionalParams, callback: msRest.ServiceCallback<Models.TaskCounts>): void;
-  getTaskCounts(jobId: string, options?: Models.JobGetTaskCountsOptionalParams | msRest.ServiceCallback<Models.TaskCounts>, callback?: msRest.ServiceCallback<Models.TaskCounts>): Promise<Models.JobGetTaskCountsResponse> {
+  getTaskCounts(jobId: string, options?: Models.JobGetTaskCountsOptionalParams, callback?: msRest.ServiceCallback<Models.TaskCounts>): Promise<Models.JobGetTaskCountsResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -464,7 +464,7 @@ export class Job {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: Models.JobListNextOptionalParams, callback: msRest.ServiceCallback<Models.CloudJobListResult>): void;
-  listNext(nextPageLink: string, options?: Models.JobListNextOptionalParams | msRest.ServiceCallback<Models.CloudJobListResult>, callback?: msRest.ServiceCallback<Models.CloudJobListResult>): Promise<Models.JobListResponse> {
+  listNext(nextPageLink: string, options?: Models.JobListNextOptionalParams, callback?: msRest.ServiceCallback<Models.CloudJobListResult>): Promise<Models.JobListResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -492,7 +492,7 @@ export class Job {
    * @param callback The callback
    */
   listFromJobScheduleNext(nextPageLink: string, options: Models.JobListFromJobScheduleNextOptionalParams, callback: msRest.ServiceCallback<Models.CloudJobListResult>): void;
-  listFromJobScheduleNext(nextPageLink: string, options?: Models.JobListFromJobScheduleNextOptionalParams | msRest.ServiceCallback<Models.CloudJobListResult>, callback?: msRest.ServiceCallback<Models.CloudJobListResult>): Promise<Models.JobListFromJobScheduleResponse> {
+  listFromJobScheduleNext(nextPageLink: string, options?: Models.JobListFromJobScheduleNextOptionalParams, callback?: msRest.ServiceCallback<Models.CloudJobListResult>): Promise<Models.JobListFromJobScheduleResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -526,7 +526,7 @@ export class Job {
    * @param callback The callback
    */
   listPreparationAndReleaseTaskStatusNext(nextPageLink: string, options: Models.JobListPreparationAndReleaseTaskStatusNextOptionalParams, callback: msRest.ServiceCallback<Models.CloudJobListPreparationAndReleaseTaskStatusResult>): void;
-  listPreparationAndReleaseTaskStatusNext(nextPageLink: string, options?: Models.JobListPreparationAndReleaseTaskStatusNextOptionalParams | msRest.ServiceCallback<Models.CloudJobListPreparationAndReleaseTaskStatusResult>, callback?: msRest.ServiceCallback<Models.CloudJobListPreparationAndReleaseTaskStatusResult>): Promise<Models.JobListPreparationAndReleaseTaskStatusResponse> {
+  listPreparationAndReleaseTaskStatusNext(nextPageLink: string, options?: Models.JobListPreparationAndReleaseTaskStatusNextOptionalParams, callback?: msRest.ServiceCallback<Models.CloudJobListPreparationAndReleaseTaskStatusResult>): Promise<Models.JobListPreparationAndReleaseTaskStatusResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

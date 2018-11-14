@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/assetsMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class Assets {
    * @param callback The callback
    */
   list(resourceGroupName: string, accountName: string, options: Models.AssetsListOptionalParams, callback: msRest.ServiceCallback<Models.AssetCollection>): void;
-  list(resourceGroupName: string, accountName: string, options?: Models.AssetsListOptionalParams | msRest.ServiceCallback<Models.AssetCollection>, callback?: msRest.ServiceCallback<Models.AssetCollection>): Promise<Models.AssetsListResponse> {
+  list(resourceGroupName: string, accountName: string, options?: Models.AssetsListOptionalParams, callback?: msRest.ServiceCallback<Models.AssetCollection>): Promise<Models.AssetsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -84,7 +84,7 @@ export class Assets {
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, assetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Asset>): void;
-  get(resourceGroupName: string, accountName: string, assetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Asset>, callback?: msRest.ServiceCallback<Models.Asset>): Promise<Models.AssetsGetResponse> {
+  get(resourceGroupName: string, accountName: string, assetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Asset>): Promise<Models.AssetsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -124,7 +124,7 @@ export class Assets {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, accountName: string, assetName: string, parameters: Models.Asset, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Asset>): void;
-  createOrUpdate(resourceGroupName: string, accountName: string, assetName: string, parameters: Models.Asset, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Asset>, callback?: msRest.ServiceCallback<Models.Asset>): Promise<Models.AssetsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, accountName: string, assetName: string, parameters: Models.Asset, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Asset>): Promise<Models.AssetsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -162,7 +162,7 @@ export class Assets {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, accountName: string, assetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, assetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, accountName: string, assetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -202,7 +202,7 @@ export class Assets {
    * @param callback The callback
    */
   update(resourceGroupName: string, accountName: string, assetName: string, parameters: Models.Asset, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Asset>): void;
-  update(resourceGroupName: string, accountName: string, assetName: string, parameters: Models.Asset, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Asset>, callback?: msRest.ServiceCallback<Models.Asset>): Promise<Models.AssetsUpdateResponse> {
+  update(resourceGroupName: string, accountName: string, assetName: string, parameters: Models.Asset, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Asset>): Promise<Models.AssetsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -244,7 +244,7 @@ export class Assets {
    * @param callback The callback
    */
   listContainerSas(resourceGroupName: string, accountName: string, assetName: string, parameters: Models.ListContainerSasInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AssetContainerSas>): void;
-  listContainerSas(resourceGroupName: string, accountName: string, assetName: string, parameters: Models.ListContainerSasInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssetContainerSas>, callback?: msRest.ServiceCallback<Models.AssetContainerSas>): Promise<Models.AssetsListContainerSasResponse> {
+  listContainerSas(resourceGroupName: string, accountName: string, assetName: string, parameters: Models.ListContainerSasInput, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AssetContainerSas>): Promise<Models.AssetsListContainerSasResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -283,7 +283,7 @@ export class Assets {
    * @param callback The callback
    */
   getEncryptionKey(resourceGroupName: string, accountName: string, assetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageEncryptedAssetDecryptionData>): void;
-  getEncryptionKey(resourceGroupName: string, accountName: string, assetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageEncryptedAssetDecryptionData>, callback?: msRest.ServiceCallback<Models.StorageEncryptedAssetDecryptionData>): Promise<Models.AssetsGetEncryptionKeyResponse> {
+  getEncryptionKey(resourceGroupName: string, accountName: string, assetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StorageEncryptedAssetDecryptionData>): Promise<Models.AssetsGetEncryptionKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -320,7 +320,7 @@ export class Assets {
    * @param callback The callback
    */
   listStreamingLocators(resourceGroupName: string, accountName: string, assetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListStreamingLocatorsResponse>): void;
-  listStreamingLocators(resourceGroupName: string, accountName: string, assetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListStreamingLocatorsResponse>, callback?: msRest.ServiceCallback<Models.ListStreamingLocatorsResponse>): Promise<Models.AssetsListStreamingLocatorsResponse> {
+  listStreamingLocators(resourceGroupName: string, accountName: string, assetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListStreamingLocatorsResponse>): Promise<Models.AssetsListStreamingLocatorsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -351,7 +351,7 @@ export class Assets {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AssetCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssetCollection>, callback?: msRest.ServiceCallback<Models.AssetCollection>): Promise<Models.AssetsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AssetCollection>): Promise<Models.AssetsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

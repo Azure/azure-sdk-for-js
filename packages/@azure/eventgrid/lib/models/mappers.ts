@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
@@ -1858,6 +1858,11 @@ export const MediaJobOutputStateChangeEventData: msRest.CompositeMapper = {
         serializedName: "output",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "@odata.type",
+            clientName: "odatatype"
+          },
+          uberParent: "MediaJobOutput",
           className: "MediaJobOutput"
         }
       },
@@ -1923,6 +1928,11 @@ export const MediaJobFinishedEventData: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "@odata.type",
+                clientName: "odatatype"
+              },
+              uberParent: "MediaJobOutput",
               className: "MediaJobOutput"
             }
           }
@@ -1946,6 +1956,11 @@ export const MediaJobCanceledEventData: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "@odata.type",
+                clientName: "odatatype"
+              },
+              uberParent: "MediaJobOutput",
               className: "MediaJobOutput"
             }
           }
@@ -1969,6 +1984,11 @@ export const MediaJobErroredEventData: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "@odata.type",
+                clientName: "odatatype"
+              },
+              uberParent: "MediaJobOutput",
               className: "MediaJobOutput"
             }
           }

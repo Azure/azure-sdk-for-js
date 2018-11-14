@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/tagsMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class Tags {
    * @param callback The callback
    */
   deleteValue(tagName: string, tagValue: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteValue(tagName: string, tagValue: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteValue(tagName: string, tagValue: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         tagName,
@@ -79,7 +79,7 @@ export class Tags {
    * @param callback The callback
    */
   createOrUpdateValue(tagName: string, tagValue: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagValue>): void;
-  createOrUpdateValue(tagName: string, tagValue: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagValue>, callback?: msRest.ServiceCallback<Models.TagValue>): Promise<Models.TagsCreateOrUpdateValueResponse> {
+  createOrUpdateValue(tagName: string, tagValue: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TagValue>): Promise<Models.TagsCreateOrUpdateValueResponse> {
     return this.client.sendOperationRequest(
       {
         tagName,
@@ -111,7 +111,7 @@ export class Tags {
    * @param callback The callback
    */
   createOrUpdate(tagName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagDetails>): void;
-  createOrUpdate(tagName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagDetails>, callback?: msRest.ServiceCallback<Models.TagDetails>): Promise<Models.TagsCreateOrUpdateResponse> {
+  createOrUpdate(tagName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TagDetails>): Promise<Models.TagsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         tagName,
@@ -140,7 +140,7 @@ export class Tags {
    * @param callback The callback
    */
   deleteMethod(tagName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(tagName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(tagName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         tagName,
@@ -165,7 +165,7 @@ export class Tags {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsListResult>, callback?: msRest.ServiceCallback<Models.TagsListResult>): Promise<Models.TagsListResponse> {
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TagsListResult>): Promise<Models.TagsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -192,7 +192,7 @@ export class Tags {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsListResult>, callback?: msRest.ServiceCallback<Models.TagsListResult>): Promise<Models.TagsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TagsListResult>): Promise<Models.TagsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/integrationAccountCertificatesMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class IntegrationAccountCertificates {
    * @param callback The callback
    */
   list(resourceGroupName: string, integrationAccountName: string, options: Models.IntegrationAccountCertificatesListOptionalParams, callback: msRest.ServiceCallback<Models.IntegrationAccountCertificateListResult>): void;
-  list(resourceGroupName: string, integrationAccountName: string, options?: Models.IntegrationAccountCertificatesListOptionalParams | msRest.ServiceCallback<Models.IntegrationAccountCertificateListResult>, callback?: msRest.ServiceCallback<Models.IntegrationAccountCertificateListResult>): Promise<Models.IntegrationAccountCertificatesListResponse> {
+  list(resourceGroupName: string, integrationAccountName: string, options?: Models.IntegrationAccountCertificatesListOptionalParams, callback?: msRest.ServiceCallback<Models.IntegrationAccountCertificateListResult>): Promise<Models.IntegrationAccountCertificatesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class IntegrationAccountCertificates {
    * @param callback The callback
    */
   get(resourceGroupName: string, integrationAccountName: string, certificateName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationAccountCertificate>): void;
-  get(resourceGroupName: string, integrationAccountName: string, certificateName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationAccountCertificate>, callback?: msRest.ServiceCallback<Models.IntegrationAccountCertificate>): Promise<Models.IntegrationAccountCertificatesGetResponse> {
+  get(resourceGroupName: string, integrationAccountName: string, certificateName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IntegrationAccountCertificate>): Promise<Models.IntegrationAccountCertificatesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -121,7 +121,7 @@ export class IntegrationAccountCertificates {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, integrationAccountName: string, certificateName: string, certificate: Models.IntegrationAccountCertificate, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationAccountCertificate>): void;
-  createOrUpdate(resourceGroupName: string, integrationAccountName: string, certificateName: string, certificate: Models.IntegrationAccountCertificate, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationAccountCertificate>, callback?: msRest.ServiceCallback<Models.IntegrationAccountCertificate>): Promise<Models.IntegrationAccountCertificatesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, integrationAccountName: string, certificateName: string, certificate: Models.IntegrationAccountCertificate, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IntegrationAccountCertificate>): Promise<Models.IntegrationAccountCertificatesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +158,7 @@ export class IntegrationAccountCertificates {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, integrationAccountName: string, certificateName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, integrationAccountName: string, certificateName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, integrationAccountName: string, certificateName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -188,7 +188,7 @@ export class IntegrationAccountCertificates {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationAccountCertificateListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationAccountCertificateListResult>, callback?: msRest.ServiceCallback<Models.IntegrationAccountCertificateListResult>): Promise<Models.IntegrationAccountCertificatesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IntegrationAccountCertificateListResult>): Promise<Models.IntegrationAccountCertificatesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

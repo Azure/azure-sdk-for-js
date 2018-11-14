@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -2411,7 +2411,10 @@ export interface StorageDomainList extends Array<StorageDomain> {
  * @readonly
  * @enum {string}
  */
-export type AlertScope = 'Resource' | 'Device';
+export enum AlertScope {
+  Resource = 'Resource',
+  Device = 'Device',
+}
 
 /**
  * Defines values for AlertSourceType.
@@ -2419,7 +2422,10 @@ export type AlertScope = 'Resource' | 'Device';
  * @readonly
  * @enum {string}
  */
-export type AlertSourceType = 'Resource' | 'Device';
+export enum AlertSourceType {
+  Resource = 'Resource',
+  Device = 'Device',
+}
 
 /**
  * Defines values for AlertSeverity.
@@ -2427,7 +2433,11 @@ export type AlertSourceType = 'Resource' | 'Device';
  * @readonly
  * @enum {string}
  */
-export type AlertSeverity = 'Informational' | 'Warning' | 'Critical';
+export enum AlertSeverity {
+  Informational = 'Informational',
+  Warning = 'Warning',
+  Critical = 'Critical',
+}
 
 /**
  * Defines values for AlertStatus.
@@ -2435,7 +2445,10 @@ export type AlertSeverity = 'Informational' | 'Warning' | 'Critical';
  * @readonly
  * @enum {string}
  */
-export type AlertStatus = 'Active' | 'Cleared';
+export enum AlertStatus {
+  Active = 'Active',
+  Cleared = 'Cleared',
+}
 
 /**
  * Defines values for AlertEmailNotificationStatus.
@@ -2443,7 +2456,10 @@ export type AlertStatus = 'Active' | 'Cleared';
  * @readonly
  * @enum {string}
  */
-export type AlertEmailNotificationStatus = 'Enabled' | 'Disabled';
+export enum AlertEmailNotificationStatus {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for ServiceOwnersAlertNotificationStatus.
@@ -2451,7 +2467,10 @@ export type AlertEmailNotificationStatus = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type ServiceOwnersAlertNotificationStatus = 'Enabled' | 'Disabled';
+export enum ServiceOwnersAlertNotificationStatus {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for EncryptionAlgorithm.
@@ -2459,7 +2478,11 @@ export type ServiceOwnersAlertNotificationStatus = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type EncryptionAlgorithm = 'None' | 'AES256' | 'RSAES_PKCS1_v_1_5';
+export enum EncryptionAlgorithm {
+  None = 'None',
+  AES256 = 'AES256',
+  RSAESPKCS1V15 = 'RSAES_PKCS1_v_1_5',
+}
 
 /**
  * Defines values for InitiatedBy.
@@ -2467,7 +2490,10 @@ export type EncryptionAlgorithm = 'None' | 'AES256' | 'RSAES_PKCS1_v_1_5';
  * @readonly
  * @enum {string}
  */
-export type InitiatedBy = 'Manual' | 'Scheduled';
+export enum InitiatedBy {
+  Manual = 'Manual',
+  Scheduled = 'Scheduled',
+}
 
 /**
  * Defines values for DataPolicy.
@@ -2475,7 +2501,12 @@ export type InitiatedBy = 'Manual' | 'Scheduled';
  * @readonly
  * @enum {string}
  */
-export type DataPolicy = 'Invalid' | 'Local' | 'Tiered' | 'Cloud';
+export enum DataPolicy {
+  Invalid = 'Invalid',
+  Local = 'Local',
+  Tiered = 'Tiered',
+  Cloud = 'Cloud',
+}
 
 /**
  * Defines values for ShareStatus.
@@ -2483,7 +2514,10 @@ export type DataPolicy = 'Invalid' | 'Local' | 'Tiered' | 'Cloud';
  * @readonly
  * @enum {string}
  */
-export type ShareStatus = 'Online' | 'Offline';
+export enum ShareStatus {
+  Online = 'Online',
+  Offline = 'Offline',
+}
 
 /**
  * Defines values for MonitoringStatus.
@@ -2491,7 +2525,10 @@ export type ShareStatus = 'Online' | 'Offline';
  * @readonly
  * @enum {string}
  */
-export type MonitoringStatus = 'Enabled' | 'Disabled';
+export enum MonitoringStatus {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for DiskStatus.
@@ -2499,16 +2536,28 @@ export type MonitoringStatus = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type DiskStatus = 'Online' | 'Offline';
+export enum DiskStatus {
+  Online = 'Online',
+  Offline = 'Offline',
+}
 
 /**
  * Defines values for DeviceOperation.
- * Possible values include: 'None', 'Delete', 'DeleteWithWarning', 'DRSource', 'DRTarget',
- * 'Browsable', 'ReadOnlyForDR', 'Deactivate'
+ * Possible values include: 'None', 'Delete', 'DeleteWithWarning', 'DRSource',
+ * 'DRTarget', 'Browsable', 'ReadOnlyForDR', 'Deactivate'
  * @readonly
  * @enum {string}
  */
-export type DeviceOperation = 'None' | 'Delete' | 'DeleteWithWarning' | 'DRSource' | 'DRTarget' | 'Browsable' | 'ReadOnlyForDR' | 'Deactivate';
+export enum DeviceOperation {
+  None = 'None',
+  Delete = 'Delete',
+  DeleteWithWarning = 'DeleteWithWarning',
+  DRSource = 'DRSource',
+  DRTarget = 'DRTarget',
+  Browsable = 'Browsable',
+  ReadOnlyForDR = 'ReadOnlyForDR',
+  Deactivate = 'Deactivate',
+}
 
 /**
  * Defines values for SupportedDeviceCapabilities.
@@ -2516,7 +2565,11 @@ export type DeviceOperation = 'None' | 'Delete' | 'DeleteWithWarning' | 'DRSourc
  * @readonly
  * @enum {string}
  */
-export type SupportedDeviceCapabilities = 'Invalid' | 'FileServer' | 'IscsiServer';
+export enum SupportedDeviceCapabilities {
+  Invalid = 'Invalid',
+  FileServer = 'FileServer',
+  IscsiServer = 'IscsiServer',
+}
 
 /**
  * Defines values for DeviceConfigurationStatus.
@@ -2524,25 +2577,49 @@ export type SupportedDeviceCapabilities = 'Invalid' | 'FileServer' | 'IscsiServe
  * @readonly
  * @enum {string}
  */
-export type DeviceConfigurationStatus = 'Complete' | 'Pending';
+export enum DeviceConfigurationStatus {
+  Complete = 'Complete',
+  Pending = 'Pending',
+}
 
 /**
  * Defines values for DeviceStatus.
- * Possible values include: 'Unknown', 'Online', 'Offline', 'RequiresAttention', 'MaintenanceMode',
- * 'Creating', 'Provisioning', 'Deleted', 'ReadyToSetup', 'Deactivated', 'Deactivating'
+ * Possible values include: 'Unknown', 'Online', 'Offline',
+ * 'RequiresAttention', 'MaintenanceMode', 'Creating', 'Provisioning',
+ * 'Deleted', 'ReadyToSetup', 'Deactivated', 'Deactivating'
  * @readonly
  * @enum {string}
  */
-export type DeviceStatus = 'Unknown' | 'Online' | 'Offline' | 'RequiresAttention' | 'MaintenanceMode' | 'Creating' | 'Provisioning' | 'Deleted' | 'ReadyToSetup' | 'Deactivated' | 'Deactivating';
+export enum DeviceStatus {
+  Unknown = 'Unknown',
+  Online = 'Online',
+  Offline = 'Offline',
+  RequiresAttention = 'RequiresAttention',
+  MaintenanceMode = 'MaintenanceMode',
+  Creating = 'Creating',
+  Provisioning = 'Provisioning',
+  Deleted = 'Deleted',
+  ReadyToSetup = 'ReadyToSetup',
+  Deactivated = 'Deactivated',
+  Deactivating = 'Deactivating',
+}
 
 /**
  * Defines values for DeviceType.
  * Possible values include: 'Invalid', 'Appliance', 'VirtualAppliance',
- * 'Series9000OnPremVirtualAppliance', 'Series9000VirtualAppliance', 'Series9000PhysicalAppliance'
+ * 'Series9000OnPremVirtualAppliance', 'Series9000VirtualAppliance',
+ * 'Series9000PhysicalAppliance'
  * @readonly
  * @enum {string}
  */
-export type DeviceType = 'Invalid' | 'Appliance' | 'VirtualAppliance' | 'Series9000OnPremVirtualAppliance' | 'Series9000VirtualAppliance' | 'Series9000PhysicalAppliance';
+export enum DeviceType {
+  Invalid = 'Invalid',
+  Appliance = 'Appliance',
+  VirtualAppliance = 'VirtualAppliance',
+  Series9000OnPremVirtualAppliance = 'Series9000OnPremVirtualAppliance',
+  Series9000VirtualAppliance = 'Series9000VirtualAppliance',
+  Series9000PhysicalAppliance = 'Series9000PhysicalAppliance',
+}
 
 /**
  * Defines values for EncryptionStatus.
@@ -2550,7 +2627,10 @@ export type DeviceType = 'Invalid' | 'Appliance' | 'VirtualAppliance' | 'Series9
  * @readonly
  * @enum {string}
  */
-export type EncryptionStatus = 'Enabled' | 'Disabled';
+export enum EncryptionStatus {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for KeyRolloverStatus.
@@ -2558,24 +2638,42 @@ export type EncryptionStatus = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type KeyRolloverStatus = 'Required' | 'NotRequired';
+export enum KeyRolloverStatus {
+  Required = 'Required',
+  NotRequired = 'NotRequired',
+}
 
 /**
  * Defines values for JobStatus.
- * Possible values include: 'Invalid', 'Running', 'Succeeded', 'Failed', 'Canceled', 'Paused',
- * 'Scheduled'
+ * Possible values include: 'Invalid', 'Running', 'Succeeded', 'Failed',
+ * 'Canceled', 'Paused', 'Scheduled'
  * @readonly
  * @enum {string}
  */
-export type JobStatus = 'Invalid' | 'Running' | 'Succeeded' | 'Failed' | 'Canceled' | 'Paused' | 'Scheduled';
+export enum JobStatus {
+  Invalid = 'Invalid',
+  Running = 'Running',
+  Succeeded = 'Succeeded',
+  Failed = 'Failed',
+  Canceled = 'Canceled',
+  Paused = 'Paused',
+  Scheduled = 'Scheduled',
+}
 
 /**
  * Defines values for JobType.
- * Possible values include: 'Backup', 'Clone', 'Failover', 'DownloadUpdates', 'InstallUpdates'
+ * Possible values include: 'Backup', 'Clone', 'Failover', 'DownloadUpdates',
+ * 'InstallUpdates'
  * @readonly
  * @enum {string}
  */
-export type JobType = 'Backup' | 'Clone' | 'Failover' | 'DownloadUpdates' | 'InstallUpdates';
+export enum JobType {
+  Backup = 'Backup',
+  Clone = 'Clone',
+  Failover = 'Failover',
+  DownloadUpdates = 'DownloadUpdates',
+  InstallUpdates = 'InstallUpdates',
+}
 
 /**
  * Defines values for TargetType.
@@ -2583,15 +2681,24 @@ export type JobType = 'Backup' | 'Clone' | 'Failover' | 'DownloadUpdates' | 'Ins
  * @readonly
  * @enum {string}
  */
-export type TargetType = 'FileServer' | 'DiskServer';
+export enum TargetType {
+  FileServer = 'FileServer',
+  DiskServer = 'DiskServer',
+}
 
 /**
  * Defines values for DownloadPhase.
- * Possible values include: 'Unknown', 'Initializing', 'Downloading', 'Verifying'
+ * Possible values include: 'Unknown', 'Initializing', 'Downloading',
+ * 'Verifying'
  * @readonly
  * @enum {string}
  */
-export type DownloadPhase = 'Unknown' | 'Initializing' | 'Downloading' | 'Verifying';
+export enum DownloadPhase {
+  Unknown = 'Unknown',
+  Initializing = 'Initializing',
+  Downloading = 'Downloading',
+  Verifying = 'Verifying',
+}
 
 /**
  * Defines values for ManagerType.
@@ -2599,24 +2706,42 @@ export type DownloadPhase = 'Unknown' | 'Initializing' | 'Downloading' | 'Verify
  * @readonly
  * @enum {string}
  */
-export type ManagerType = 'GardaV1' | 'HelsinkiV1';
+export enum ManagerType {
+  GardaV1 = 'GardaV1',
+  HelsinkiV1 = 'HelsinkiV1',
+}
 
 /**
  * Defines values for MetricUnit.
- * Possible values include: 'Bytes', 'BytesPerSecond', 'Count', 'CountPerSecond', 'Percent',
- * 'Seconds'
+ * Possible values include: 'Bytes', 'BytesPerSecond', 'Count',
+ * 'CountPerSecond', 'Percent', 'Seconds'
  * @readonly
  * @enum {string}
  */
-export type MetricUnit = 'Bytes' | 'BytesPerSecond' | 'Count' | 'CountPerSecond' | 'Percent' | 'Seconds';
+export enum MetricUnit {
+  Bytes = 'Bytes',
+  BytesPerSecond = 'BytesPerSecond',
+  Count = 'Count',
+  CountPerSecond = 'CountPerSecond',
+  Percent = 'Percent',
+  Seconds = 'Seconds',
+}
 
 /**
  * Defines values for MetricAggregationType.
- * Possible values include: 'Average', 'Last', 'Maximum', 'Minimum', 'None', 'Total'
+ * Possible values include: 'Average', 'Last', 'Maximum', 'Minimum', 'None',
+ * 'Total'
  * @readonly
  * @enum {string}
  */
-export type MetricAggregationType = 'Average' | 'Last' | 'Maximum' | 'Minimum' | 'None' | 'Total';
+export enum MetricAggregationType {
+  Average = 'Average',
+  Last = 'Last',
+  Maximum = 'Maximum',
+  Minimum = 'Minimum',
+  None = 'None',
+  Total = 'Total',
+}
 
 /**
  * Defines values for DhcpStatus.
@@ -2624,15 +2749,23 @@ export type MetricAggregationType = 'Average' | 'Last' | 'Maximum' | 'Minimum' |
  * @readonly
  * @enum {string}
  */
-export type DhcpStatus = 'Enabled' | 'Disabled';
+export enum DhcpStatus {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for AuthType.
- * Possible values include: 'Invalid', 'AccessControlService', 'AzureActiveDirectory'
+ * Possible values include: 'Invalid', 'AccessControlService',
+ * 'AzureActiveDirectory'
  * @readonly
  * @enum {string}
  */
-export type AuthType = 'Invalid' | 'AccessControlService' | 'AzureActiveDirectory';
+export enum AuthType {
+  Invalid = 'Invalid',
+  AccessControlService = 'AccessControlService',
+  AzureActiveDirectory = 'AzureActiveDirectory',
+}
 
 /**
  * Defines values for CloudType.
@@ -2640,7 +2773,13 @@ export type AuthType = 'Invalid' | 'AccessControlService' | 'AzureActiveDirector
  * @readonly
  * @enum {string}
  */
-export type CloudType = 'Azure' | 'S3' | 'S3_RRS' | 'OpenStack' | 'HP';
+export enum CloudType {
+  Azure = 'Azure',
+  S3 = 'S3',
+  S3RRS = 'S3_RRS',
+  OpenStack = 'OpenStack',
+  HP = 'HP',
+}
 
 /**
  * Defines values for SslStatus.
@@ -2648,7 +2787,10 @@ export type CloudType = 'Azure' | 'S3' | 'S3_RRS' | 'OpenStack' | 'HP';
  * @readonly
  * @enum {string}
  */
-export type SslStatus = 'Enabled' | 'Disabled';
+export enum SslStatus {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for UpdateOperation.
@@ -2656,18 +2798,55 @@ export type SslStatus = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type UpdateOperation = 'Idle' | 'Scanning' | 'Downloading' | 'Installing';
+export enum UpdateOperation {
+  Idle = 'Idle',
+  Scanning = 'Scanning',
+  Downloading = 'Downloading',
+  Installing = 'Installing',
+}
 
 /**
  * Defines values for ContractVersions.
- * Possible values include: 'InvalidVersion', 'V2011_09', 'V2012_02', 'V2012_05', 'V2012_12',
- * 'V2013_04', 'V2013_10', 'V2013_11', 'V2014_04', 'V2014_06', 'V2014_07', 'V2014_09', 'V2014_10',
- * 'V2014_12', 'V2015_01', 'V2015_02', 'V2015_04', 'V2015_05', 'V2015_06', 'V2015_07', 'V2015_08',
- * 'V2015_10', 'V2015_12', 'V2016_01', 'V2016_02', 'V2016_04', 'V2016_05', 'V2016_07', 'V2016_08'
+ * Possible values include: 'InvalidVersion', 'V2011_09', 'V2012_02',
+ * 'V2012_05', 'V2012_12', 'V2013_04', 'V2013_10', 'V2013_11', 'V2014_04',
+ * 'V2014_06', 'V2014_07', 'V2014_09', 'V2014_10', 'V2014_12', 'V2015_01',
+ * 'V2015_02', 'V2015_04', 'V2015_05', 'V2015_06', 'V2015_07', 'V2015_08',
+ * 'V2015_10', 'V2015_12', 'V2016_01', 'V2016_02', 'V2016_04', 'V2016_05',
+ * 'V2016_07', 'V2016_08'
  * @readonly
  * @enum {string}
  */
-export type ContractVersions = 'InvalidVersion' | 'V2011_09' | 'V2012_02' | 'V2012_05' | 'V2012_12' | 'V2013_04' | 'V2013_10' | 'V2013_11' | 'V2014_04' | 'V2014_06' | 'V2014_07' | 'V2014_09' | 'V2014_10' | 'V2014_12' | 'V2015_01' | 'V2015_02' | 'V2015_04' | 'V2015_05' | 'V2015_06' | 'V2015_07' | 'V2015_08' | 'V2015_10' | 'V2015_12' | 'V2016_01' | 'V2016_02' | 'V2016_04' | 'V2016_05' | 'V2016_07' | 'V2016_08';
+export enum ContractVersions {
+  InvalidVersion = 'InvalidVersion',
+  V201109 = 'V2011_09',
+  V201202 = 'V2012_02',
+  V201205 = 'V2012_05',
+  V201212 = 'V2012_12',
+  V201304 = 'V2013_04',
+  V201310 = 'V2013_10',
+  V201311 = 'V2013_11',
+  V201404 = 'V2014_04',
+  V201406 = 'V2014_06',
+  V201407 = 'V2014_07',
+  V201409 = 'V2014_09',
+  V201410 = 'V2014_10',
+  V201412 = 'V2014_12',
+  V201501 = 'V2015_01',
+  V201502 = 'V2015_02',
+  V201504 = 'V2015_04',
+  V201505 = 'V2015_05',
+  V201506 = 'V2015_06',
+  V201507 = 'V2015_07',
+  V201508 = 'V2015_08',
+  V201510 = 'V2015_10',
+  V201512 = 'V2015_12',
+  V201601 = 'V2016_01',
+  V201602 = 'V2016_02',
+  V201604 = 'V2016_04',
+  V201605 = 'V2016_05',
+  V201607 = 'V2016_07',
+  V201608 = 'V2016_08',
+}
 
 /**
  * Contains response data for the list operation.

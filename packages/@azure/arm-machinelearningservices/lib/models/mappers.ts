@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
@@ -534,6 +534,11 @@ export const ComputeResource: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "computeType",
+            clientName: "computeType"
+          },
+          uberParent: "Compute",
           className: "Compute"
         }
       }

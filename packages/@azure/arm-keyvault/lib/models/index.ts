@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -765,43 +765,127 @@ export interface OperationListResult extends Array<Operation> {
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'standard' | 'premium';
+export enum SkuName {
+  Standard = 'standard',
+  Premium = 'premium',
+}
 
 /**
  * Defines values for KeyPermissions.
- * Possible values include: 'encrypt', 'decrypt', 'wrapKey', 'unwrapKey', 'sign', 'verify', 'get',
- * 'list', 'create', 'update', 'import', 'delete', 'backup', 'restore', 'recover', 'purge'
+ * Possible values include: 'encrypt', 'decrypt', 'wrapKey', 'unwrapKey',
+ * 'sign', 'verify', 'get', 'list', 'create', 'update', 'import', 'delete',
+ * 'backup', 'restore', 'recover', 'purge'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: KeyPermissions =
+ * <KeyPermissions>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type KeyPermissions = 'encrypt' | 'decrypt' | 'wrapKey' | 'unwrapKey' | 'sign' | 'verify' | 'get' | 'list' | 'create' | 'update' | 'import' | 'delete' | 'backup' | 'restore' | 'recover' | 'purge';
+export enum KeyPermissions {
+  Encrypt = 'encrypt',
+  Decrypt = 'decrypt',
+  WrapKey = 'wrapKey',
+  UnwrapKey = 'unwrapKey',
+  Sign = 'sign',
+  Verify = 'verify',
+  Get = 'get',
+  List = 'list',
+  Create = 'create',
+  Update = 'update',
+  Import = 'import',
+  Delete = 'delete',
+  Backup = 'backup',
+  Restore = 'restore',
+  Recover = 'recover',
+  Purge = 'purge',
+}
 
 /**
  * Defines values for SecretPermissions.
- * Possible values include: 'get', 'list', 'set', 'delete', 'backup', 'restore', 'recover', 'purge'
+ * Possible values include: 'get', 'list', 'set', 'delete', 'backup',
+ * 'restore', 'recover', 'purge'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SecretPermissions =
+ * <SecretPermissions>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SecretPermissions = 'get' | 'list' | 'set' | 'delete' | 'backup' | 'restore' | 'recover' | 'purge';
+export enum SecretPermissions {
+  Get = 'get',
+  List = 'list',
+  Set = 'set',
+  Delete = 'delete',
+  Backup = 'backup',
+  Restore = 'restore',
+  Recover = 'recover',
+  Purge = 'purge',
+}
 
 /**
  * Defines values for CertificatePermissions.
- * Possible values include: 'get', 'list', 'delete', 'create', 'import', 'update',
- * 'managecontacts', 'getissuers', 'listissuers', 'setissuers', 'deleteissuers', 'manageissuers',
- * 'recover', 'purge', 'backup', 'restore'
+ * Possible values include: 'get', 'list', 'delete', 'create', 'import',
+ * 'update', 'managecontacts', 'getissuers', 'listissuers', 'setissuers',
+ * 'deleteissuers', 'manageissuers', 'recover', 'purge', 'backup', 'restore'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: CertificatePermissions =
+ * <CertificatePermissions>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type CertificatePermissions = 'get' | 'list' | 'delete' | 'create' | 'import' | 'update' | 'managecontacts' | 'getissuers' | 'listissuers' | 'setissuers' | 'deleteissuers' | 'manageissuers' | 'recover' | 'purge' | 'backup' | 'restore';
+export enum CertificatePermissions {
+  Get = 'get',
+  List = 'list',
+  Delete = 'delete',
+  Create = 'create',
+  Import = 'import',
+  Update = 'update',
+  Managecontacts = 'managecontacts',
+  Getissuers = 'getissuers',
+  Listissuers = 'listissuers',
+  Setissuers = 'setissuers',
+  Deleteissuers = 'deleteissuers',
+  Manageissuers = 'manageissuers',
+  Recover = 'recover',
+  Purge = 'purge',
+  Backup = 'backup',
+  Restore = 'restore',
+}
 
 /**
  * Defines values for StoragePermissions.
- * Possible values include: 'get', 'list', 'delete', 'set', 'update', 'regeneratekey', 'recover',
- * 'purge', 'backup', 'restore', 'setsas', 'listsas', 'getsas', 'deletesas'
+ * Possible values include: 'get', 'list', 'delete', 'set', 'update',
+ * 'regeneratekey', 'recover', 'purge', 'backup', 'restore', 'setsas',
+ * 'listsas', 'getsas', 'deletesas'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: StoragePermissions =
+ * <StoragePermissions>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type StoragePermissions = 'get' | 'list' | 'delete' | 'set' | 'update' | 'regeneratekey' | 'recover' | 'purge' | 'backup' | 'restore' | 'setsas' | 'listsas' | 'getsas' | 'deletesas';
+export enum StoragePermissions {
+  Get = 'get',
+  List = 'list',
+  Delete = 'delete',
+  Set = 'set',
+  Update = 'update',
+  Regeneratekey = 'regeneratekey',
+  Recover = 'recover',
+  Purge = 'purge',
+  Backup = 'backup',
+  Restore = 'restore',
+  Setsas = 'setsas',
+  Listsas = 'listsas',
+  Getsas = 'getsas',
+  Deletesas = 'deletesas',
+}
 
 /**
  * Defines values for CreateMode.
@@ -809,23 +893,42 @@ export type StoragePermissions = 'get' | 'list' | 'delete' | 'set' | 'update' | 
  * @readonly
  * @enum {string}
  */
-export type CreateMode = 'recover' | 'default';
+export enum CreateMode {
+  Recover = 'recover',
+  Default = 'default',
+}
 
 /**
  * Defines values for NetworkRuleBypassOptions.
  * Possible values include: 'AzureServices', 'None'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: NetworkRuleBypassOptions =
+ * <NetworkRuleBypassOptions>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type NetworkRuleBypassOptions = 'AzureServices' | 'None';
+export enum NetworkRuleBypassOptions {
+  AzureServices = 'AzureServices',
+  None = 'None',
+}
 
 /**
  * Defines values for NetworkRuleAction.
  * Possible values include: 'Allow', 'Deny'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: NetworkRuleAction =
+ * <NetworkRuleAction>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type NetworkRuleAction = 'Allow' | 'Deny';
+export enum NetworkRuleAction {
+  Allow = 'Allow',
+  Deny = 'Deny',
+}
 
 /**
  * Defines values for Reason.
@@ -833,7 +936,10 @@ export type NetworkRuleAction = 'Allow' | 'Deny';
  * @readonly
  * @enum {string}
  */
-export type Reason = 'AccountNameInvalid' | 'AlreadyExists';
+export enum Reason {
+  AccountNameInvalid = 'AccountNameInvalid',
+  AlreadyExists = 'AlreadyExists',
+}
 
 /**
  * Defines values for AccessPolicyUpdateKind.
@@ -841,7 +947,11 @@ export type Reason = 'AccountNameInvalid' | 'AlreadyExists';
  * @readonly
  * @enum {string}
  */
-export type AccessPolicyUpdateKind = 'add' | 'replace' | 'remove';
+export enum AccessPolicyUpdateKind {
+  Add = 'add',
+  Replace = 'replace',
+  Remove = 'remove',
+}
 
 /**
  * Contains response data for the createOrUpdate operation.

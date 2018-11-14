@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/jitNetworkAccessPoliciesMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class JitNetworkAccessPolicies {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>, callback?: msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>): Promise<Models.JitNetworkAccessPoliciesListResponse> {
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>): Promise<Models.JitNetworkAccessPoliciesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -66,7 +66,7 @@ export class JitNetworkAccessPolicies {
    * @param callback The callback
    */
   listByRegion(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>): void;
-  listByRegion(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>, callback?: msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>): Promise<Models.JitNetworkAccessPoliciesListByRegionResponse> {
+  listByRegion(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>): Promise<Models.JitNetworkAccessPoliciesListByRegionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -97,7 +97,7 @@ export class JitNetworkAccessPolicies {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>, callback?: msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>): Promise<Models.JitNetworkAccessPoliciesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>): Promise<Models.JitNetworkAccessPoliciesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -129,7 +129,7 @@ export class JitNetworkAccessPolicies {
    * @param callback The callback
    */
   listByResourceGroupAndRegion(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>): void;
-  listByResourceGroupAndRegion(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>, callback?: msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>): Promise<Models.JitNetworkAccessPoliciesListByResourceGroupAndRegionResponse> {
+  listByResourceGroupAndRegion(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>): Promise<Models.JitNetworkAccessPoliciesListByResourceGroupAndRegionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -164,7 +164,7 @@ export class JitNetworkAccessPolicies {
    * @param callback The callback
    */
   get(resourceGroupName: string, jitNetworkAccessPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JitNetworkAccessPolicy>): void;
-  get(resourceGroupName: string, jitNetworkAccessPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JitNetworkAccessPolicy>, callback?: msRest.ServiceCallback<Models.JitNetworkAccessPolicy>): Promise<Models.JitNetworkAccessPoliciesGetResponse> {
+  get(resourceGroupName: string, jitNetworkAccessPolicyName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JitNetworkAccessPolicy>): Promise<Models.JitNetworkAccessPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -202,7 +202,7 @@ export class JitNetworkAccessPolicies {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, jitNetworkAccessPolicyName: string, body: Models.JitNetworkAccessPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JitNetworkAccessPolicy>): void;
-  createOrUpdate(resourceGroupName: string, jitNetworkAccessPolicyName: string, body: Models.JitNetworkAccessPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JitNetworkAccessPolicy>, callback?: msRest.ServiceCallback<Models.JitNetworkAccessPolicy>): Promise<Models.JitNetworkAccessPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, jitNetworkAccessPolicyName: string, body: Models.JitNetworkAccessPolicy, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JitNetworkAccessPolicy>): Promise<Models.JitNetworkAccessPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -238,7 +238,7 @@ export class JitNetworkAccessPolicies {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, jitNetworkAccessPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, jitNetworkAccessPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, jitNetworkAccessPolicyName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -276,7 +276,7 @@ export class JitNetworkAccessPolicies {
    * @param callback The callback
    */
   initiate(resourceGroupName: string, jitNetworkAccessPolicyName: string, body: Models.JitNetworkAccessPolicyInitiateRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JitNetworkAccessRequest>): void;
-  initiate(resourceGroupName: string, jitNetworkAccessPolicyName: string, body: Models.JitNetworkAccessPolicyInitiateRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JitNetworkAccessRequest>, callback?: msRest.ServiceCallback<Models.JitNetworkAccessRequest>): Promise<Models.JitNetworkAccessPoliciesInitiateResponse> {
+  initiate(resourceGroupName: string, jitNetworkAccessPolicyName: string, body: Models.JitNetworkAccessPolicyInitiateRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JitNetworkAccessRequest>): Promise<Models.JitNetworkAccessPoliciesInitiateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -306,7 +306,7 @@ export class JitNetworkAccessPolicies {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>, callback?: msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>): Promise<Models.JitNetworkAccessPoliciesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>): Promise<Models.JitNetworkAccessPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -335,7 +335,7 @@ export class JitNetworkAccessPolicies {
    * @param callback The callback
    */
   listByRegionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>): void;
-  listByRegionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>, callback?: msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>): Promise<Models.JitNetworkAccessPoliciesListByRegionNextResponse> {
+  listByRegionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>): Promise<Models.JitNetworkAccessPoliciesListByRegionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -364,7 +364,7 @@ export class JitNetworkAccessPolicies {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>, callback?: msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>): Promise<Models.JitNetworkAccessPoliciesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>): Promise<Models.JitNetworkAccessPoliciesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -393,7 +393,7 @@ export class JitNetworkAccessPolicies {
    * @param callback The callback
    */
   listByResourceGroupAndRegionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>): void;
-  listByResourceGroupAndRegionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>, callback?: msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>): Promise<Models.JitNetworkAccessPoliciesListByResourceGroupAndRegionNextResponse> {
+  listByResourceGroupAndRegionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JitNetworkAccessPoliciesList>): Promise<Models.JitNetworkAccessPoliciesListByResourceGroupAndRegionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

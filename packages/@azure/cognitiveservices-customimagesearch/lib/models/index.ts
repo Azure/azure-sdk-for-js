@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { ServiceClientOptions } from "@azure/ms-rest-js";
-import * as msRest from "@azure/ms-rest-js";
+import { ServiceClientOptions } from "ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 
 /**
@@ -933,13 +933,9 @@ export interface WebPage {
  */
 export interface CustomImageSearchAPIClientOptions extends ServiceClientOptions {
   /**
-   * @member {string} [endpoint] Supported Cognitive Services endpoints
-   * (protocol and hostname, for example:
-   * "https://westus.api.cognitive.microsoft.com",
-   * "https://api.cognitive.microsoft.com"). Default value:
-   * 'https://api.cognitive.microsoft.com' .
+   * @member {string} [baseUri]
    */
-  endpoint?: string;
+  baseUri?: string;
 }
 
 /**
@@ -1336,89 +1332,206 @@ export interface CustomInstanceImageSearchOptionalParams extends msRest.RequestO
 
 /**
  * Defines values for ErrorCode.
- * Possible values include: 'None', 'ServerError', 'InvalidRequest', 'RateLimitExceeded',
- * 'InvalidAuthorization', 'InsufficientAuthorization'
+ * Possible values include: 'None', 'ServerError', 'InvalidRequest',
+ * 'RateLimitExceeded', 'InvalidAuthorization', 'InsufficientAuthorization'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ErrorCode = <ErrorCode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ErrorCode = 'None' | 'ServerError' | 'InvalidRequest' | 'RateLimitExceeded' | 'InvalidAuthorization' | 'InsufficientAuthorization';
+export enum ErrorCode {
+  None = 'None',
+  ServerError = 'ServerError',
+  InvalidRequest = 'InvalidRequest',
+  RateLimitExceeded = 'RateLimitExceeded',
+  InvalidAuthorization = 'InvalidAuthorization',
+  InsufficientAuthorization = 'InsufficientAuthorization',
+}
 
 /**
  * Defines values for ErrorSubCode.
- * Possible values include: 'UnexpectedError', 'ResourceError', 'NotImplemented',
- * 'ParameterMissing', 'ParameterInvalidValue', 'HttpNotAllowed', 'Blocked',
- * 'AuthorizationMissing', 'AuthorizationRedundancy', 'AuthorizationDisabled',
- * 'AuthorizationExpired'
+ * Possible values include: 'UnexpectedError', 'ResourceError',
+ * 'NotImplemented', 'ParameterMissing', 'ParameterInvalidValue',
+ * 'HttpNotAllowed', 'Blocked', 'AuthorizationMissing',
+ * 'AuthorizationRedundancy', 'AuthorizationDisabled', 'AuthorizationExpired'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ErrorSubCode =
+ * <ErrorSubCode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ErrorSubCode = 'UnexpectedError' | 'ResourceError' | 'NotImplemented' | 'ParameterMissing' | 'ParameterInvalidValue' | 'HttpNotAllowed' | 'Blocked' | 'AuthorizationMissing' | 'AuthorizationRedundancy' | 'AuthorizationDisabled' | 'AuthorizationExpired';
+export enum ErrorSubCode {
+  UnexpectedError = 'UnexpectedError',
+  ResourceError = 'ResourceError',
+  NotImplemented = 'NotImplemented',
+  ParameterMissing = 'ParameterMissing',
+  ParameterInvalidValue = 'ParameterInvalidValue',
+  HttpNotAllowed = 'HttpNotAllowed',
+  Blocked = 'Blocked',
+  AuthorizationMissing = 'AuthorizationMissing',
+  AuthorizationRedundancy = 'AuthorizationRedundancy',
+  AuthorizationDisabled = 'AuthorizationDisabled',
+  AuthorizationExpired = 'AuthorizationExpired',
+}
 
 /**
  * Defines values for ImageAspect.
  * Possible values include: 'All', 'Square', 'Wide', 'Tall'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ImageAspect =
+ * <ImageAspect>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ImageAspect = 'All' | 'Square' | 'Wide' | 'Tall';
+export enum ImageAspect {
+  All = 'All',
+  Square = 'Square',
+  Wide = 'Wide',
+  Tall = 'Tall',
+}
 
 /**
  * Defines values for ImageColor.
- * Possible values include: 'ColorOnly', 'Monochrome', 'Black', 'Blue', 'Brown', 'Gray', 'Green',
- * 'Orange', 'Pink', 'Purple', 'Red', 'Teal', 'White', 'Yellow'
+ * Possible values include: 'ColorOnly', 'Monochrome', 'Black', 'Blue',
+ * 'Brown', 'Gray', 'Green', 'Orange', 'Pink', 'Purple', 'Red', 'Teal',
+ * 'White', 'Yellow'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ImageColor = <ImageColor>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ImageColor = 'ColorOnly' | 'Monochrome' | 'Black' | 'Blue' | 'Brown' | 'Gray' | 'Green' | 'Orange' | 'Pink' | 'Purple' | 'Red' | 'Teal' | 'White' | 'Yellow';
+export enum ImageColor {
+  ColorOnly = 'ColorOnly',
+  Monochrome = 'Monochrome',
+  Black = 'Black',
+  Blue = 'Blue',
+  Brown = 'Brown',
+  Gray = 'Gray',
+  Green = 'Green',
+  Orange = 'Orange',
+  Pink = 'Pink',
+  Purple = 'Purple',
+  Red = 'Red',
+  Teal = 'Teal',
+  White = 'White',
+  Yellow = 'Yellow',
+}
 
 /**
  * Defines values for Freshness.
  * Possible values include: 'Day', 'Week', 'Month'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Freshness = <Freshness>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type Freshness = 'Day' | 'Week' | 'Month';
+export enum Freshness {
+  Day = 'Day',
+  Week = 'Week',
+  Month = 'Month',
+}
 
 /**
  * Defines values for ImageContent.
  * Possible values include: 'Face', 'Portrait'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ImageContent =
+ * <ImageContent>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ImageContent = 'Face' | 'Portrait';
+export enum ImageContent {
+  Face = 'Face',
+  Portrait = 'Portrait',
+}
 
 /**
  * Defines values for ImageType.
- * Possible values include: 'AnimatedGif', 'Clipart', 'Line', 'Photo', 'Shopping', 'Transparent'
+ * Possible values include: 'AnimatedGif', 'Clipart', 'Line', 'Photo',
+ * 'Shopping', 'Transparent'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ImageType = <ImageType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ImageType = 'AnimatedGif' | 'Clipart' | 'Line' | 'Photo' | 'Shopping' | 'Transparent';
+export enum ImageType {
+  AnimatedGif = 'AnimatedGif',
+  Clipart = 'Clipart',
+  Line = 'Line',
+  Photo = 'Photo',
+  Shopping = 'Shopping',
+  Transparent = 'Transparent',
+}
 
 /**
  * Defines values for ImageLicense.
- * Possible values include: 'All', 'Any', 'Public', 'Share', 'ShareCommercially', 'Modify',
- * 'ModifyCommercially'
+ * Possible values include: 'All', 'Any', 'Public', 'Share',
+ * 'ShareCommercially', 'Modify', 'ModifyCommercially'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ImageLicense =
+ * <ImageLicense>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ImageLicense = 'All' | 'Any' | 'Public' | 'Share' | 'ShareCommercially' | 'Modify' | 'ModifyCommercially';
+export enum ImageLicense {
+  All = 'All',
+  Any = 'Any',
+  Public = 'Public',
+  Share = 'Share',
+  ShareCommercially = 'ShareCommercially',
+  Modify = 'Modify',
+  ModifyCommercially = 'ModifyCommercially',
+}
 
 /**
  * Defines values for SafeSearch.
  * Possible values include: 'Off', 'Moderate', 'Strict'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SafeSearch = <SafeSearch>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SafeSearch = 'Off' | 'Moderate' | 'Strict';
+export enum SafeSearch {
+  Off = 'Off',
+  Moderate = 'Moderate',
+  Strict = 'Strict',
+}
 
 /**
  * Defines values for ImageSize.
  * Possible values include: 'All', 'Small', 'Medium', 'Large', 'Wallpaper'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ImageSize = <ImageSize>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ImageSize = 'All' | 'Small' | 'Medium' | 'Large' | 'Wallpaper';
+export enum ImageSize {
+  All = 'All',
+  Small = 'Small',
+  Medium = 'Medium',
+  Large = 'Large',
+  Wallpaper = 'Wallpaper',
+}
 
 /**
  * Contains response data for the imageSearch operation.

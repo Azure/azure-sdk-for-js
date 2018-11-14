@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -1495,7 +1495,10 @@ export interface DeploymentOperationsListResult extends Array<DeploymentOperatio
  * @readonly
  * @enum {string}
  */
-export type DeploymentMode = 'Incremental' | 'Complete';
+export enum DeploymentMode {
+  Incremental = 'Incremental',
+  Complete = 'Complete',
+}
 
 /**
  * Defines values for OnErrorDeploymentType.
@@ -1503,16 +1506,24 @@ export type DeploymentMode = 'Incremental' | 'Complete';
  * @readonly
  * @enum {string}
  */
-export type OnErrorDeploymentType = 'LastSuccessful' | 'SpecificDeployment';
+export enum OnErrorDeploymentType {
+  LastSuccessful = 'LastSuccessful',
+  SpecificDeployment = 'SpecificDeployment',
+}
 
 /**
  * Defines values for ResourceIdentityType.
- * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
- * 'None'
+ * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,
+ * UserAssigned', 'None'
  * @readonly
  * @enum {string}
  */
-export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
+export enum ResourceIdentityType {
+  SystemAssigned = 'SystemAssigned',
+  UserAssigned = 'UserAssigned',
+  SystemAssignedUserAssigned = 'SystemAssigned, UserAssigned',
+  None = 'None',
+}
 
 /**
  * Contains response data for the list operation.

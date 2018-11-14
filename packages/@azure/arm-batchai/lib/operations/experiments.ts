@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/experimentsMappers";
 import * as Parameters from "../models/parameters";
@@ -54,7 +54,7 @@ export class Experiments {
    * @param callback The callback
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, options: Models.ExperimentsListByWorkspaceOptionalParams, callback: msRest.ServiceCallback<Models.ExperimentListResult>): void;
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: Models.ExperimentsListByWorkspaceOptionalParams | msRest.ServiceCallback<Models.ExperimentListResult>, callback?: msRest.ServiceCallback<Models.ExperimentListResult>): Promise<Models.ExperimentsListByWorkspaceResponse> {
+  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: Models.ExperimentsListByWorkspaceOptionalParams, callback?: msRest.ServiceCallback<Models.ExperimentListResult>): Promise<Models.ExperimentsListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -135,7 +135,7 @@ export class Experiments {
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, experimentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Experiment>): void;
-  get(resourceGroupName: string, workspaceName: string, experimentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Experiment>, callback?: msRest.ServiceCallback<Models.Experiment>): Promise<Models.ExperimentsGetResponse> {
+  get(resourceGroupName: string, workspaceName: string, experimentName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Experiment>): Promise<Models.ExperimentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -213,7 +213,7 @@ export class Experiments {
    * @param callback The callback
    */
   listByWorkspaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExperimentListResult>): void;
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExperimentListResult>, callback?: msRest.ServiceCallback<Models.ExperimentListResult>): Promise<Models.ExperimentsListByWorkspaceNextResponse> {
+  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExperimentListResult>): Promise<Models.ExperimentsListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

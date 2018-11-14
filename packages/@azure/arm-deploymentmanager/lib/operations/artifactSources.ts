@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/artifactSourcesMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class ArtifactSources {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, artifactSourceName: string, options: Models.ArtifactSourcesCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.ArtifactSource>): void;
-  createOrUpdate(resourceGroupName: string, artifactSourceName: string, options?: Models.ArtifactSourcesCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.ArtifactSource>, callback?: msRest.ServiceCallback<Models.ArtifactSource>): Promise<Models.ArtifactSourcesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, artifactSourceName: string, options?: Models.ArtifactSourcesCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.ArtifactSource>): Promise<Models.ArtifactSourcesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -80,7 +80,7 @@ export class ArtifactSources {
    * @param callback The callback
    */
   get(resourceGroupName: string, artifactSourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ArtifactSource>): void;
-  get(resourceGroupName: string, artifactSourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArtifactSource>, callback?: msRest.ServiceCallback<Models.ArtifactSource>): Promise<Models.ArtifactSourcesGetResponse> {
+  get(resourceGroupName: string, artifactSourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ArtifactSource>): Promise<Models.ArtifactSourcesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class ArtifactSources {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, artifactSourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, artifactSourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, artifactSourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

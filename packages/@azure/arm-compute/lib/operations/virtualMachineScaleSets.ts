@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/virtualMachineScaleSetsMappers";
 import * as Parameters from "../models/parameters";
@@ -86,7 +86,7 @@ export class VirtualMachineScaleSets {
    * @param callback The callback
    */
   get(resourceGroupName: string, vmScaleSetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSet>): void;
-  get(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSet>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSet>): Promise<Models.VirtualMachineScaleSetsGetResponse> {
+  get(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSet>): Promise<Models.VirtualMachineScaleSetsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -145,7 +145,7 @@ export class VirtualMachineScaleSets {
    * @param callback The callback
    */
   getInstanceView(resourceGroupName: string, vmScaleSetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetInstanceView>): void;
-  getInstanceView(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSetInstanceView>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetInstanceView>): Promise<Models.VirtualMachineScaleSetsGetInstanceViewResponse> {
+  getInstanceView(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetInstanceView>): Promise<Models.VirtualMachineScaleSetsGetInstanceViewResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -174,7 +174,7 @@ export class VirtualMachineScaleSets {
    * @param callback The callback
    */
   list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSetListResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetListResult>): Promise<Models.VirtualMachineScaleSetsListResponse> {
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetListResult>): Promise<Models.VirtualMachineScaleSetsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -201,7 +201,7 @@ export class VirtualMachineScaleSets {
    * @param callback The callback
    */
   listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetListWithLinkResult>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSetListWithLinkResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetListWithLinkResult>): Promise<Models.VirtualMachineScaleSetsListAllResponse> {
+  listAll(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetListWithLinkResult>): Promise<Models.VirtualMachineScaleSetsListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -232,7 +232,7 @@ export class VirtualMachineScaleSets {
    * @param callback The callback
    */
   listSkus(resourceGroupName: string, vmScaleSetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetListSkusResult>): void;
-  listSkus(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSetListSkusResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetListSkusResult>): Promise<Models.VirtualMachineScaleSetsListSkusResponse> {
+  listSkus(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetListSkusResult>): Promise<Models.VirtualMachineScaleSetsListSkusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -264,7 +264,7 @@ export class VirtualMachineScaleSets {
    * @param callback The callback
    */
   getOSUpgradeHistory(resourceGroupName: string, vmScaleSetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetListOSUpgradeHistory>): void;
-  getOSUpgradeHistory(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSetListOSUpgradeHistory>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetListOSUpgradeHistory>): Promise<Models.VirtualMachineScaleSetsGetOSUpgradeHistoryResponse> {
+  getOSUpgradeHistory(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetListOSUpgradeHistory>): Promise<Models.VirtualMachineScaleSetsGetOSUpgradeHistoryResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -407,7 +407,7 @@ export class VirtualMachineScaleSets {
    * @param callback The callback
    */
   forceRecoveryServiceFabricPlatformUpdateDomainWalk(resourceGroupName: string, vmScaleSetName: string, platformUpdateDomain: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoveryWalkResponse>): void;
-  forceRecoveryServiceFabricPlatformUpdateDomainWalk(resourceGroupName: string, vmScaleSetName: string, platformUpdateDomain: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryWalkResponse>, callback?: msRest.ServiceCallback<Models.RecoveryWalkResponse>): Promise<Models.VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkResponse> {
+  forceRecoveryServiceFabricPlatformUpdateDomainWalk(resourceGroupName: string, vmScaleSetName: string, platformUpdateDomain: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RecoveryWalkResponse>): Promise<Models.VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -687,7 +687,7 @@ export class VirtualMachineScaleSets {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSetListResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetListResult>): Promise<Models.VirtualMachineScaleSetsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetListResult>): Promise<Models.VirtualMachineScaleSetsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -717,7 +717,7 @@ export class VirtualMachineScaleSets {
    * @param callback The callback
    */
   listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetListWithLinkResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSetListWithLinkResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetListWithLinkResult>): Promise<Models.VirtualMachineScaleSetsListAllNextResponse> {
+  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetListWithLinkResult>): Promise<Models.VirtualMachineScaleSetsListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -746,7 +746,7 @@ export class VirtualMachineScaleSets {
    * @param callback The callback
    */
   listSkusNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetListSkusResult>): void;
-  listSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSetListSkusResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetListSkusResult>): Promise<Models.VirtualMachineScaleSetsListSkusNextResponse> {
+  listSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetListSkusResult>): Promise<Models.VirtualMachineScaleSetsListSkusNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -774,7 +774,7 @@ export class VirtualMachineScaleSets {
    * @param callback The callback
    */
   getOSUpgradeHistoryNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetListOSUpgradeHistory>): void;
-  getOSUpgradeHistoryNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSetListOSUpgradeHistory>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetListOSUpgradeHistory>): Promise<Models.VirtualMachineScaleSetsGetOSUpgradeHistoryNextResponse> {
+  getOSUpgradeHistoryNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetListOSUpgradeHistory>): Promise<Models.VirtualMachineScaleSetsGetOSUpgradeHistoryNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

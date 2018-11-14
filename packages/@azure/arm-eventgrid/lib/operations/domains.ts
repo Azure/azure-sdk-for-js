@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/domainsMappers";
 import * as Parameters from "../models/parameters";
@@ -49,7 +49,7 @@ export class Domains {
    * @param callback The callback
    */
   get(resourceGroupName: string, domainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Domain>): void;
-  get(resourceGroupName: string, domainName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Domain>, callback?: msRest.ServiceCallback<Models.Domain>): Promise<Models.DomainsGetResponse> {
+  get(resourceGroupName: string, domainName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Domain>): Promise<Models.DomainsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -117,7 +117,7 @@ export class Domains {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainsListResult>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainsListResult>, callback?: msRest.ServiceCallback<Models.DomainsListResult>): Promise<Models.DomainsListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DomainsListResult>): Promise<Models.DomainsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -145,7 +145,7 @@ export class Domains {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainsListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainsListResult>, callback?: msRest.ServiceCallback<Models.DomainsListResult>): Promise<Models.DomainsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DomainsListResult>): Promise<Models.DomainsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -177,7 +177,7 @@ export class Domains {
    * @param callback The callback
    */
   listSharedAccessKeys(resourceGroupName: string, domainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainSharedAccessKeys>): void;
-  listSharedAccessKeys(resourceGroupName: string, domainName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainSharedAccessKeys>, callback?: msRest.ServiceCallback<Models.DomainSharedAccessKeys>): Promise<Models.DomainsListSharedAccessKeysResponse> {
+  listSharedAccessKeys(resourceGroupName: string, domainName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DomainSharedAccessKeys>): Promise<Models.DomainsListSharedAccessKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -213,7 +213,7 @@ export class Domains {
    * @param callback The callback
    */
   regenerateKey(resourceGroupName: string, domainName: string, regenerateKeyRequest: Models.DomainRegenerateKeyRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainSharedAccessKeys>): void;
-  regenerateKey(resourceGroupName: string, domainName: string, regenerateKeyRequest: Models.DomainRegenerateKeyRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainSharedAccessKeys>, callback?: msRest.ServiceCallback<Models.DomainSharedAccessKeys>): Promise<Models.DomainsRegenerateKeyResponse> {
+  regenerateKey(resourceGroupName: string, domainName: string, regenerateKeyRequest: Models.DomainRegenerateKeyRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DomainSharedAccessKeys>): Promise<Models.DomainsRegenerateKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

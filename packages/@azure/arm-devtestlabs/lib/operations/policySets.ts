@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/policySetsMappers";
 import * as Parameters from "../models/parameters";
@@ -53,7 +53,7 @@ export class PolicySets {
    * @param callback The callback
    */
   evaluatePolicies(resourceGroupName: string, labName: string, name: string, evaluatePoliciesRequest: Models.EvaluatePoliciesRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EvaluatePoliciesResponse>): void;
-  evaluatePolicies(resourceGroupName: string, labName: string, name: string, evaluatePoliciesRequest: Models.EvaluatePoliciesRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EvaluatePoliciesResponse>, callback?: msRest.ServiceCallback<Models.EvaluatePoliciesResponse>): Promise<Models.PolicySetsEvaluatePoliciesResponse> {
+  evaluatePolicies(resourceGroupName: string, labName: string, name: string, evaluatePoliciesRequest: Models.EvaluatePoliciesRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EvaluatePoliciesResponse>): Promise<Models.PolicySetsEvaluatePoliciesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

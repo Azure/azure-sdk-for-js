@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/customInstanceMappers";
 import * as Parameters from "../models/parameters";
@@ -66,7 +66,7 @@ export class CustomInstance {
    * @param callback The callback
    */
   imageSearch(customConfig: string, query: string, options: Models.CustomInstanceImageSearchOptionalParams, callback: msRest.ServiceCallback<Models.Images>): void;
-  imageSearch(customConfig: string, query: string, options?: Models.CustomInstanceImageSearchOptionalParams | msRest.ServiceCallback<Models.Images>, callback?: msRest.ServiceCallback<Models.Images>): Promise<Models.CustomInstanceImageSearchResponse> {
+  imageSearch(customConfig: string, query: string, options?: Models.CustomInstanceImageSearchOptionalParams, callback?: msRest.ServiceCallback<Models.Images>): Promise<Models.CustomInstanceImageSearchResponse> {
     return this.client.sendOperationRequest(
       {
         customConfig,
@@ -82,10 +82,7 @@ export class CustomInstance {
 const serializer = new msRest.Serializer(Mappers);
 const imageSearchOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "images/search",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  path: "bingcustomsearch/v7.0/images/search",
   queryParameters: [
     Parameters.customConfig,
     Parameters.aspect,

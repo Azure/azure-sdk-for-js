@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/partnerMappers";
 import * as Parameters from "../models/parameters";
@@ -45,7 +45,7 @@ export class Partner {
    * @param callback The callback
    */
   get(partnerId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PartnerResponse>): void;
-  get(partnerId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PartnerResponse>, callback?: msRest.ServiceCallback<Models.PartnerResponse>): Promise<Models.PartnerGetResponse> {
+  get(partnerId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PartnerResponse>): Promise<Models.PartnerGetResponse> {
     return this.client.sendOperationRequest(
       {
         partnerId,
@@ -74,7 +74,7 @@ export class Partner {
    * @param callback The callback
    */
   create(partnerId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PartnerResponse>): void;
-  create(partnerId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PartnerResponse>, callback?: msRest.ServiceCallback<Models.PartnerResponse>): Promise<Models.PartnerCreateResponse> {
+  create(partnerId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PartnerResponse>): Promise<Models.PartnerCreateResponse> {
     return this.client.sendOperationRequest(
       {
         partnerId,
@@ -103,7 +103,7 @@ export class Partner {
    * @param callback The callback
    */
   update(partnerId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PartnerResponse>): void;
-  update(partnerId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PartnerResponse>, callback?: msRest.ServiceCallback<Models.PartnerResponse>): Promise<Models.PartnerUpdateResponse> {
+  update(partnerId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PartnerResponse>): Promise<Models.PartnerUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         partnerId,
@@ -132,7 +132,7 @@ export class Partner {
    * @param callback The callback
    */
   deleteMethod(partnerId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(partnerId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(partnerId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         partnerId,

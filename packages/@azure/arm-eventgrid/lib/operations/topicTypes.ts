@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/topicTypesMappers";
 import * as Parameters from "../models/parameters";
@@ -42,7 +42,7 @@ export class TopicTypes {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TopicTypesListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopicTypesListResult>, callback?: msRest.ServiceCallback<Models.TopicTypesListResult>): Promise<Models.TopicTypesListResponse> {
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TopicTypesListResult>): Promise<Models.TopicTypesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -70,7 +70,7 @@ export class TopicTypes {
    * @param callback The callback
    */
   get(topicTypeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TopicTypeInfo>): void;
-  get(topicTypeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopicTypeInfo>, callback?: msRest.ServiceCallback<Models.TopicTypeInfo>): Promise<Models.TopicTypesGetResponse> {
+  get(topicTypeName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TopicTypeInfo>): Promise<Models.TopicTypesGetResponse> {
     return this.client.sendOperationRequest(
       {
         topicTypeName,
@@ -99,7 +99,7 @@ export class TopicTypes {
    * @param callback The callback
    */
   listEventTypes(topicTypeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventTypesListResult>): void;
-  listEventTypes(topicTypeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventTypesListResult>, callback?: msRest.ServiceCallback<Models.EventTypesListResult>): Promise<Models.TopicTypesListEventTypesResponse> {
+  listEventTypes(topicTypeName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventTypesListResult>): Promise<Models.TopicTypesListEventTypesResponse> {
     return this.client.sendOperationRequest(
       {
         topicTypeName,

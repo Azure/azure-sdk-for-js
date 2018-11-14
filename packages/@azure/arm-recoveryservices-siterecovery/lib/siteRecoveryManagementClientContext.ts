@@ -9,18 +9,27 @@
  */
 
 import * as Models from "./models";
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 
 const packageName = "@azure/arm-recoveryservices-siterecovery";
-const packageVersion = "0.1.0";
+const packageVersion = "1.0.0";
 
 export class SiteRecoveryManagementClientContext extends msRestAzure.AzureServiceClient {
+
   credentials: msRest.ServiceClientCredentials;
+
   subscriptionId: string;
+
   resourceGroupName: string;
+
   resourceName: string;
-  apiVersion?: string;
+
+  apiVersion: string;
+
+  acceptLanguage: string;
+
+  longRunningOperationRetryTimeout: number;
 
   /**
    * Initializes a new instance of the SiteRecoveryManagementClient class.
@@ -48,11 +57,6 @@ export class SiteRecoveryManagementClientContext extends msRestAzure.AzureServic
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
-      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
-
     super(credentials, options);
 
     this.apiVersion = '2018-01-10';
@@ -65,6 +69,7 @@ export class SiteRecoveryManagementClientContext extends msRestAzure.AzureServic
     this.resourceGroupName = resourceGroupName;
     this.resourceName = resourceName;
 
+    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }

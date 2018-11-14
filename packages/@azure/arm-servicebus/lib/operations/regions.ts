@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/regionsMappers";
 import * as Parameters from "../models/parameters";
@@ -44,7 +44,7 @@ export class Regions {
    * @param callback The callback
    */
   listBySku(sku: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PremiumMessagingRegionsListResult>): void;
-  listBySku(sku: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PremiumMessagingRegionsListResult>, callback?: msRest.ServiceCallback<Models.PremiumMessagingRegionsListResult>): Promise<Models.RegionsListBySkuResponse> {
+  listBySku(sku: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PremiumMessagingRegionsListResult>): Promise<Models.RegionsListBySkuResponse> {
     return this.client.sendOperationRequest(
       {
         sku,
@@ -72,7 +72,7 @@ export class Regions {
    * @param callback The callback
    */
   listBySkuNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PremiumMessagingRegionsListResult>): void;
-  listBySkuNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PremiumMessagingRegionsListResult>, callback?: msRest.ServiceCallback<Models.PremiumMessagingRegionsListResult>): Promise<Models.RegionsListBySkuNextResponse> {
+  listBySkuNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PremiumMessagingRegionsListResult>): Promise<Models.RegionsListBySkuNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

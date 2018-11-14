@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/machinesMappers";
 import * as Parameters from "../models/parameters";
@@ -49,7 +49,7 @@ export class Machines {
    * @param callback The callback
    */
   listByProject(resourceGroupName: string, projectName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MachineResultList>): void;
-  listByProject(resourceGroupName: string, projectName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MachineResultList>, callback?: msRest.ServiceCallback<Models.MachineResultList>): Promise<Models.MachinesListByProjectResponse> {
+  listByProject(resourceGroupName: string, projectName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MachineResultList>): Promise<Models.MachinesListByProjectResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -86,7 +86,7 @@ export class Machines {
    * @param callback The callback
    */
   get(resourceGroupName: string, projectName: string, machineName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Machine>): void;
-  get(resourceGroupName: string, projectName: string, machineName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Machine>, callback?: msRest.ServiceCallback<Models.Machine>): Promise<Models.MachinesGetResponse> {
+  get(resourceGroupName: string, projectName: string, machineName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Machine>): Promise<Models.MachinesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

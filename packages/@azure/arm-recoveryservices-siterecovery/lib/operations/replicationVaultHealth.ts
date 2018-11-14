@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/replicationVaultHealthMappers";
 import * as Parameters from "../models/parameters";
@@ -43,7 +43,7 @@ export class ReplicationVaultHealth {
    * @param callback The callback
    */
   get(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VaultHealthDetails>): void;
-  get(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultHealthDetails>, callback?: msRest.ServiceCallback<Models.VaultHealthDetails>): Promise<Models.ReplicationVaultHealthGetResponse> {
+  get(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VaultHealthDetails>): Promise<Models.ReplicationVaultHealthGetResponse> {
     return this.client.sendOperationRequest(
       {
         options

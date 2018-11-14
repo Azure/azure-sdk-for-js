@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/virtualMachineRunCommandsMappers";
 import * as Parameters from "../models/parameters";
@@ -44,7 +44,7 @@ export class VirtualMachineRunCommands {
    * @param callback The callback
    */
   list(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RunCommandListResult>): void;
-  list(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RunCommandListResult>, callback?: msRest.ServiceCallback<Models.RunCommandListResult>): Promise<Models.VirtualMachineRunCommandsListResponse> {
+  list(location: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RunCommandListResult>): Promise<Models.VirtualMachineRunCommandsListResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -75,7 +75,7 @@ export class VirtualMachineRunCommands {
    * @param callback The callback
    */
   get(location: string, commandId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RunCommandDocument>): void;
-  get(location: string, commandId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RunCommandDocument>, callback?: msRest.ServiceCallback<Models.RunCommandDocument>): Promise<Models.VirtualMachineRunCommandsGetResponse> {
+  get(location: string, commandId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RunCommandDocument>): Promise<Models.VirtualMachineRunCommandsGetResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -104,7 +104,7 @@ export class VirtualMachineRunCommands {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RunCommandListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RunCommandListResult>, callback?: msRest.ServiceCallback<Models.RunCommandListResult>): Promise<Models.VirtualMachineRunCommandsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RunCommandListResult>): Promise<Models.VirtualMachineRunCommandsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

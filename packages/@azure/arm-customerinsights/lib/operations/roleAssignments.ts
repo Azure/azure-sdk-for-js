@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/roleAssignmentsMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class RoleAssignments {
    * @param callback The callback
    */
   listByHub(resourceGroupName: string, hubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleAssignmentListResult>): void;
-  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RoleAssignmentListResult>, callback?: msRest.ServiceCallback<Models.RoleAssignmentListResult>): Promise<Models.RoleAssignmentsListByHubResponse> {
+  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoleAssignmentListResult>): Promise<Models.RoleAssignmentsListByHubResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -97,7 +97,7 @@ export class RoleAssignments {
    * @param callback The callback
    */
   get(resourceGroupName: string, hubName: string, assignmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleAssignmentResourceFormat>): void;
-  get(resourceGroupName: string, hubName: string, assignmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RoleAssignmentResourceFormat>, callback?: msRest.ServiceCallback<Models.RoleAssignmentResourceFormat>): Promise<Models.RoleAssignmentsGetResponse> {
+  get(resourceGroupName: string, hubName: string, assignmentName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoleAssignmentResourceFormat>): Promise<Models.RoleAssignmentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -133,7 +133,7 @@ export class RoleAssignments {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, hubName: string, assignmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, hubName: string, assignmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, hubName: string, assignmentName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -185,7 +185,7 @@ export class RoleAssignments {
    * @param callback The callback
    */
   listByHubNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleAssignmentListResult>): void;
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RoleAssignmentListResult>, callback?: msRest.ServiceCallback<Models.RoleAssignmentListResult>): Promise<Models.RoleAssignmentsListByHubNextResponse> {
+  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoleAssignmentListResult>): Promise<Models.RoleAssignmentsListByHubNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

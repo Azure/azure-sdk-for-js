@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -2572,10 +2572,16 @@ export interface ClusterListResult extends Array<Cluster> {
 /**
  * Defines values for UsageUnit.
  * Possible values include: 'Count'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: UsageUnit = <UsageUnit>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type UsageUnit = 'Count';
+export enum UsageUnit {
+  Count = 'Count',
+}
 
 /**
  * Defines values for CachingType.
@@ -2583,23 +2589,47 @@ export type UsageUnit = 'Count';
  * @readonly
  * @enum {string}
  */
-export type CachingType = 'none' | 'readonly' | 'readwrite';
+export enum CachingType {
+  None = 'none',
+  Readonly = 'readonly',
+  Readwrite = 'readwrite',
+}
 
 /**
  * Defines values for StorageAccountType.
  * Possible values include: 'Standard_LRS', 'Premium_LRS'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: StorageAccountType =
+ * <StorageAccountType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type StorageAccountType = 'Standard_LRS' | 'Premium_LRS';
+export enum StorageAccountType {
+  StandardLRS = 'Standard_LRS',
+  PremiumLRS = 'Premium_LRS',
+}
 
 /**
  * Defines values for FileServerProvisioningState.
- * Possible values include: 'creating', 'updating', 'deleting', 'succeeded', 'failed'
+ * Possible values include: 'creating', 'updating', 'deleting', 'succeeded',
+ * 'failed'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: FileServerProvisioningState =
+ * <FileServerProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type FileServerProvisioningState = 'creating' | 'updating' | 'deleting' | 'succeeded' | 'failed';
+export enum FileServerProvisioningState {
+  Creating = 'creating',
+  Updating = 'updating',
+  Deleting = 'deleting',
+  Succeeded = 'succeeded',
+  Failed = 'failed',
+}
 
 /**
  * Defines values for VmPriority.
@@ -2607,64 +2637,135 @@ export type FileServerProvisioningState = 'creating' | 'updating' | 'deleting' |
  * @readonly
  * @enum {string}
  */
-export type VmPriority = 'dedicated' | 'lowpriority';
+export enum VmPriority {
+  Dedicated = 'dedicated',
+  Lowpriority = 'lowpriority',
+}
 
 /**
  * Defines values for DeallocationOption.
  * Possible values include: 'requeue', 'terminate', 'waitforjobcompletion'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: DeallocationOption =
+ * <DeallocationOption>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type DeallocationOption = 'requeue' | 'terminate' | 'waitforjobcompletion';
+export enum DeallocationOption {
+  Requeue = 'requeue',
+  Terminate = 'terminate',
+  Waitforjobcompletion = 'waitforjobcompletion',
+}
 
 /**
  * Defines values for ProvisioningState.
  * Possible values include: 'creating', 'succeeded', 'failed', 'deleting'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ProvisioningState =
+ * <ProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'creating' | 'succeeded' | 'failed' | 'deleting';
+export enum ProvisioningState {
+  Creating = 'creating',
+  Succeeded = 'succeeded',
+  Failed = 'failed',
+  Deleting = 'deleting',
+}
 
 /**
  * Defines values for AllocationState.
  * Possible values include: 'steady', 'resizing'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: AllocationState =
+ * <AllocationState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type AllocationState = 'steady' | 'resizing';
+export enum AllocationState {
+  Steady = 'steady',
+  Resizing = 'resizing',
+}
 
 /**
  * Defines values for JobPriority.
  * Possible values include: 'low', 'normal', 'high'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: JobPriority =
+ * <JobPriority>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type JobPriority = 'low' | 'normal' | 'high';
+export enum JobPriority {
+  Low = 'low',
+  Normal = 'normal',
+  High = 'high',
+}
 
 /**
  * Defines values for ToolType.
- * Possible values include: 'cntk', 'tensorflow', 'caffe', 'caffe2', 'chainer', 'horovod',
- * 'custommpi', 'custom'
+ * Possible values include: 'cntk', 'tensorflow', 'caffe', 'caffe2', 'chainer',
+ * 'horovod', 'custommpi', 'custom'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ToolType = <ToolType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ToolType = 'cntk' | 'tensorflow' | 'caffe' | 'caffe2' | 'chainer' | 'horovod' | 'custommpi' | 'custom';
+export enum ToolType {
+  Cntk = 'cntk',
+  Tensorflow = 'tensorflow',
+  Caffe = 'caffe',
+  Caffe2 = 'caffe2',
+  Chainer = 'chainer',
+  Horovod = 'horovod',
+  Custommpi = 'custommpi',
+  Custom = 'custom',
+}
 
 /**
  * Defines values for ExecutionState.
- * Possible values include: 'queued', 'running', 'terminating', 'succeeded', 'failed'
+ * Possible values include: 'queued', 'running', 'terminating', 'succeeded',
+ * 'failed'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ExecutionState =
+ * <ExecutionState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ExecutionState = 'queued' | 'running' | 'terminating' | 'succeeded' | 'failed';
+export enum ExecutionState {
+  Queued = 'queued',
+  Running = 'running',
+  Terminating = 'terminating',
+  Succeeded = 'succeeded',
+  Failed = 'failed',
+}
 
 /**
  * Defines values for FileType.
  * Possible values include: 'file', 'directory'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: FileType = <FileType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type FileType = 'file' | 'directory';
+export enum FileType {
+  File = 'file',
+  Directory = 'directory',
+}
 
 /**
  * Contains response data for the list operation.

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/serviceUnitsMappers";
 import * as Parameters from "../models/parameters";
@@ -71,7 +71,7 @@ export class ServiceUnits {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceUnitName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceUnitResource>): void;
-  get(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceUnitName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceUnitResource>, callback?: msRest.ServiceCallback<Models.ServiceUnitResource>): Promise<Models.ServiceUnitsGetResponse> {
+  get(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceUnitName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceUnitResource>): Promise<Models.ServiceUnitsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -111,7 +111,7 @@ export class ServiceUnits {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceUnitName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceUnitName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceUnitName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

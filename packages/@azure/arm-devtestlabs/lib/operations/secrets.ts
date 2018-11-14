@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/secretsMappers";
 import * as Parameters from "../models/parameters";
@@ -51,7 +51,7 @@ export class Secrets {
    * @param callback The callback
    */
   list(resourceGroupName: string, labName: string, userName: string, options: Models.SecretsListOptionalParams, callback: msRest.ServiceCallback<Models.SecretList>): void;
-  list(resourceGroupName: string, labName: string, userName: string, options?: Models.SecretsListOptionalParams | msRest.ServiceCallback<Models.SecretList>, callback?: msRest.ServiceCallback<Models.SecretList>): Promise<Models.SecretsListResponse> {
+  list(resourceGroupName: string, labName: string, userName: string, options?: Models.SecretsListOptionalParams, callback?: msRest.ServiceCallback<Models.SecretList>): Promise<Models.SecretsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -90,7 +90,7 @@ export class Secrets {
    * @param callback The callback
    */
   get(resourceGroupName: string, labName: string, userName: string, name: string, options: Models.SecretsGetOptionalParams, callback: msRest.ServiceCallback<Models.Secret>): void;
-  get(resourceGroupName: string, labName: string, userName: string, name: string, options?: Models.SecretsGetOptionalParams | msRest.ServiceCallback<Models.Secret>, callback?: msRest.ServiceCallback<Models.Secret>): Promise<Models.SecretsGetResponse> {
+  get(resourceGroupName: string, labName: string, userName: string, name: string, options?: Models.SecretsGetOptionalParams, callback?: msRest.ServiceCallback<Models.Secret>): Promise<Models.SecretsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -145,7 +145,7 @@ export class Secrets {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, labName: string, userName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, labName: string, userName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, labName: string, userName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -188,7 +188,7 @@ export class Secrets {
    * @param callback The callback
    */
   update(resourceGroupName: string, labName: string, userName: string, name: string, secret: Models.SecretFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Secret>): void;
-  update(resourceGroupName: string, labName: string, userName: string, name: string, secret: Models.SecretFragment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Secret>, callback?: msRest.ServiceCallback<Models.Secret>): Promise<Models.SecretsUpdateResponse> {
+  update(resourceGroupName: string, labName: string, userName: string, name: string, secret: Models.SecretFragment, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Secret>): Promise<Models.SecretsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -244,7 +244,7 @@ export class Secrets {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecretList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretList>, callback?: msRest.ServiceCallback<Models.SecretList>): Promise<Models.SecretsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SecretList>): Promise<Models.SecretsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

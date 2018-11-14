@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/activityLogAlertsMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class ActivityLogAlerts {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, activityLogAlertName: string, activityLogAlert: Models.ActivityLogAlertResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ActivityLogAlertResource>): void;
-  createOrUpdate(resourceGroupName: string, activityLogAlertName: string, activityLogAlert: Models.ActivityLogAlertResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActivityLogAlertResource>, callback?: msRest.ServiceCallback<Models.ActivityLogAlertResource>): Promise<Models.ActivityLogAlertsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, activityLogAlertName: string, activityLogAlert: Models.ActivityLogAlertResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ActivityLogAlertResource>): Promise<Models.ActivityLogAlertsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +83,7 @@ export class ActivityLogAlerts {
    * @param callback The callback
    */
   get(resourceGroupName: string, activityLogAlertName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ActivityLogAlertResource>): void;
-  get(resourceGroupName: string, activityLogAlertName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActivityLogAlertResource>, callback?: msRest.ServiceCallback<Models.ActivityLogAlertResource>): Promise<Models.ActivityLogAlertsGetResponse> {
+  get(resourceGroupName: string, activityLogAlertName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ActivityLogAlertResource>): Promise<Models.ActivityLogAlertsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -115,7 +115,7 @@ export class ActivityLogAlerts {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, activityLogAlertName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, activityLogAlertName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, activityLogAlertName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -151,7 +151,7 @@ export class ActivityLogAlerts {
    * @param callback The callback
    */
   update(resourceGroupName: string, activityLogAlertName: string, activityLogAlertPatch: Models.ActivityLogAlertPatchBody, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ActivityLogAlertResource>): void;
-  update(resourceGroupName: string, activityLogAlertName: string, activityLogAlertPatch: Models.ActivityLogAlertPatchBody, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActivityLogAlertResource>, callback?: msRest.ServiceCallback<Models.ActivityLogAlertResource>): Promise<Models.ActivityLogAlertsUpdateResponse> {
+  update(resourceGroupName: string, activityLogAlertName: string, activityLogAlertPatch: Models.ActivityLogAlertPatchBody, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ActivityLogAlertResource>): Promise<Models.ActivityLogAlertsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -178,7 +178,7 @@ export class ActivityLogAlerts {
    * @param callback The callback
    */
   listBySubscriptionId(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ActivityLogAlertList>): void;
-  listBySubscriptionId(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActivityLogAlertList>, callback?: msRest.ServiceCallback<Models.ActivityLogAlertList>): Promise<Models.ActivityLogAlertsListBySubscriptionIdResponse> {
+  listBySubscriptionId(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ActivityLogAlertList>): Promise<Models.ActivityLogAlertsListBySubscriptionIdResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -205,7 +205,7 @@ export class ActivityLogAlerts {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ActivityLogAlertList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActivityLogAlertList>, callback?: msRest.ServiceCallback<Models.ActivityLogAlertList>): Promise<Models.ActivityLogAlertsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ActivityLogAlertList>): Promise<Models.ActivityLogAlertsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

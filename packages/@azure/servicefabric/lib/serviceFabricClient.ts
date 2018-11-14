@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
@@ -49,7 +49,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getClusterManifest(options: Models.ServiceFabricClientGetClusterManifestOptionalParams, callback: msRest.ServiceCallback<Models.ClusterManifest>): void;
-  getClusterManifest(options?: Models.ServiceFabricClientGetClusterManifestOptionalParams | msRest.ServiceCallback<Models.ClusterManifest>, callback?: msRest.ServiceCallback<Models.ClusterManifest>): Promise<Models.GetClusterManifestResponse> {
+  getClusterManifest(options?: Models.ServiceFabricClientGetClusterManifestOptionalParams, callback?: msRest.ServiceCallback<Models.ClusterManifest>): Promise<Models.GetClusterManifestResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -77,7 +77,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getClusterHealth(options: Models.ServiceFabricClientGetClusterHealthOptionalParams, callback: msRest.ServiceCallback<Models.ClusterHealth>): void;
-  getClusterHealth(options?: Models.ServiceFabricClientGetClusterHealthOptionalParams | msRest.ServiceCallback<Models.ClusterHealth>, callback?: msRest.ServiceCallback<Models.ClusterHealth>): Promise<Models.GetClusterHealthResponse> {
+  getClusterHealth(options?: Models.ServiceFabricClientGetClusterHealthOptionalParams, callback?: msRest.ServiceCallback<Models.ClusterHealth>): Promise<Models.GetClusterHealthResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -106,7 +106,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getClusterHealthUsingPolicy(options: Models.ServiceFabricClientGetClusterHealthUsingPolicyOptionalParams, callback: msRest.ServiceCallback<Models.ClusterHealth>): void;
-  getClusterHealthUsingPolicy(options?: Models.ServiceFabricClientGetClusterHealthUsingPolicyOptionalParams | msRest.ServiceCallback<Models.ClusterHealth>, callback?: msRest.ServiceCallback<Models.ClusterHealth>): Promise<Models.GetClusterHealthUsingPolicyResponse> {
+  getClusterHealthUsingPolicy(options?: Models.ServiceFabricClientGetClusterHealthUsingPolicyOptionalParams, callback?: msRest.ServiceCallback<Models.ClusterHealth>): Promise<Models.GetClusterHealthUsingPolicyResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -134,7 +134,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getClusterHealthChunk(options: Models.ServiceFabricClientGetClusterHealthChunkOptionalParams, callback: msRest.ServiceCallback<Models.ClusterHealthChunk>): void;
-  getClusterHealthChunk(options?: Models.ServiceFabricClientGetClusterHealthChunkOptionalParams | msRest.ServiceCallback<Models.ClusterHealthChunk>, callback?: msRest.ServiceCallback<Models.ClusterHealthChunk>): Promise<Models.GetClusterHealthChunkResponse> {
+  getClusterHealthChunk(options?: Models.ServiceFabricClientGetClusterHealthChunkOptionalParams, callback?: msRest.ServiceCallback<Models.ClusterHealthChunk>): Promise<Models.GetClusterHealthChunkResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -168,7 +168,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getClusterHealthChunkUsingPolicyAndAdvancedFilters(options: Models.ServiceFabricClientGetClusterHealthChunkUsingPolicyAndAdvancedFiltersOptionalParams, callback: msRest.ServiceCallback<Models.ClusterHealthChunk>): void;
-  getClusterHealthChunkUsingPolicyAndAdvancedFilters(options?: Models.ServiceFabricClientGetClusterHealthChunkUsingPolicyAndAdvancedFiltersOptionalParams | msRest.ServiceCallback<Models.ClusterHealthChunk>, callback?: msRest.ServiceCallback<Models.ClusterHealthChunk>): Promise<Models.GetClusterHealthChunkUsingPolicyAndAdvancedFiltersResponse> {
+  getClusterHealthChunkUsingPolicyAndAdvancedFilters(options?: Models.ServiceFabricClientGetClusterHealthChunkUsingPolicyAndAdvancedFiltersOptionalParams, callback?: msRest.ServiceCallback<Models.ClusterHealthChunk>): Promise<Models.GetClusterHealthChunkUsingPolicyAndAdvancedFiltersResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -207,7 +207,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   reportClusterHealth(healthInformation: Models.HealthInformation, options: Models.ServiceFabricClientReportClusterHealthOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  reportClusterHealth(healthInformation: Models.HealthInformation, options?: Models.ServiceFabricClientReportClusterHealthOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  reportClusterHealth(healthInformation: Models.HealthInformation, options?: Models.ServiceFabricClientReportClusterHealthOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         healthInformation,
@@ -235,7 +235,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getProvisionedFabricCodeVersionInfoList(options: Models.ServiceFabricClientGetProvisionedFabricCodeVersionInfoListOptionalParams, callback: msRest.ServiceCallback<Models.FabricCodeVersionInfo[]>): void;
-  getProvisionedFabricCodeVersionInfoList(options?: Models.ServiceFabricClientGetProvisionedFabricCodeVersionInfoListOptionalParams | msRest.ServiceCallback<Models.FabricCodeVersionInfo[]>, callback?: msRest.ServiceCallback<Models.FabricCodeVersionInfo[]>): Promise<Models.GetProvisionedFabricCodeVersionInfoListResponse> {
+  getProvisionedFabricCodeVersionInfoList(options?: Models.ServiceFabricClientGetProvisionedFabricCodeVersionInfoListOptionalParams, callback?: msRest.ServiceCallback<Models.FabricCodeVersionInfo[]>): Promise<Models.GetProvisionedFabricCodeVersionInfoListResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -262,7 +262,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getProvisionedFabricConfigVersionInfoList(options: Models.ServiceFabricClientGetProvisionedFabricConfigVersionInfoListOptionalParams, callback: msRest.ServiceCallback<Models.FabricConfigVersionInfo[]>): void;
-  getProvisionedFabricConfigVersionInfoList(options?: Models.ServiceFabricClientGetProvisionedFabricConfigVersionInfoListOptionalParams | msRest.ServiceCallback<Models.FabricConfigVersionInfo[]>, callback?: msRest.ServiceCallback<Models.FabricConfigVersionInfo[]>): Promise<Models.GetProvisionedFabricConfigVersionInfoListResponse> {
+  getProvisionedFabricConfigVersionInfoList(options?: Models.ServiceFabricClientGetProvisionedFabricConfigVersionInfoListOptionalParams, callback?: msRest.ServiceCallback<Models.FabricConfigVersionInfo[]>): Promise<Models.GetProvisionedFabricConfigVersionInfoListResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -288,7 +288,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getClusterUpgradeProgress(options: Models.ServiceFabricClientGetClusterUpgradeProgressOptionalParams, callback: msRest.ServiceCallback<Models.ClusterUpgradeProgressObject>): void;
-  getClusterUpgradeProgress(options?: Models.ServiceFabricClientGetClusterUpgradeProgressOptionalParams | msRest.ServiceCallback<Models.ClusterUpgradeProgressObject>, callback?: msRest.ServiceCallback<Models.ClusterUpgradeProgressObject>): Promise<Models.GetClusterUpgradeProgressResponse> {
+  getClusterUpgradeProgress(options?: Models.ServiceFabricClientGetClusterUpgradeProgressOptionalParams, callback?: msRest.ServiceCallback<Models.ClusterUpgradeProgressObject>): Promise<Models.GetClusterUpgradeProgressResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -318,7 +318,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getClusterConfiguration(configurationApiVersion: string, options: Models.ServiceFabricClientGetClusterConfigurationOptionalParams, callback: msRest.ServiceCallback<Models.ClusterConfiguration>): void;
-  getClusterConfiguration(configurationApiVersion: string, options?: Models.ServiceFabricClientGetClusterConfigurationOptionalParams | msRest.ServiceCallback<Models.ClusterConfiguration>, callback?: msRest.ServiceCallback<Models.ClusterConfiguration>): Promise<Models.GetClusterConfigurationResponse> {
+  getClusterConfiguration(configurationApiVersion: string, options?: Models.ServiceFabricClientGetClusterConfigurationOptionalParams, callback?: msRest.ServiceCallback<Models.ClusterConfiguration>): Promise<Models.GetClusterConfigurationResponse> {
     return this.sendOperationRequest(
       {
         configurationApiVersion,
@@ -344,7 +344,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getClusterConfigurationUpgradeStatus(options: Models.ServiceFabricClientGetClusterConfigurationUpgradeStatusOptionalParams, callback: msRest.ServiceCallback<Models.ClusterConfigurationUpgradeStatusInfo>): void;
-  getClusterConfigurationUpgradeStatus(options?: Models.ServiceFabricClientGetClusterConfigurationUpgradeStatusOptionalParams | msRest.ServiceCallback<Models.ClusterConfigurationUpgradeStatusInfo>, callback?: msRest.ServiceCallback<Models.ClusterConfigurationUpgradeStatusInfo>): Promise<Models.GetClusterConfigurationUpgradeStatusResponse> {
+  getClusterConfigurationUpgradeStatus(options?: Models.ServiceFabricClientGetClusterConfigurationUpgradeStatusOptionalParams, callback?: msRest.ServiceCallback<Models.ClusterConfigurationUpgradeStatusInfo>): Promise<Models.GetClusterConfigurationUpgradeStatusResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -370,7 +370,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getUpgradeOrchestrationServiceState(options: Models.ServiceFabricClientGetUpgradeOrchestrationServiceStateOptionalParams, callback: msRest.ServiceCallback<Models.UpgradeOrchestrationServiceState>): void;
-  getUpgradeOrchestrationServiceState(options?: Models.ServiceFabricClientGetUpgradeOrchestrationServiceStateOptionalParams | msRest.ServiceCallback<Models.UpgradeOrchestrationServiceState>, callback?: msRest.ServiceCallback<Models.UpgradeOrchestrationServiceState>): Promise<Models.GetUpgradeOrchestrationServiceStateResponse> {
+  getUpgradeOrchestrationServiceState(options?: Models.ServiceFabricClientGetUpgradeOrchestrationServiceStateOptionalParams, callback?: msRest.ServiceCallback<Models.UpgradeOrchestrationServiceState>): Promise<Models.GetUpgradeOrchestrationServiceStateResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -402,7 +402,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   setUpgradeOrchestrationServiceState(upgradeOrchestrationServiceState: Models.UpgradeOrchestrationServiceState, options: Models.ServiceFabricClientSetUpgradeOrchestrationServiceStateOptionalParams, callback: msRest.ServiceCallback<Models.UpgradeOrchestrationServiceStateSummary>): void;
-  setUpgradeOrchestrationServiceState(upgradeOrchestrationServiceState: Models.UpgradeOrchestrationServiceState, options?: Models.ServiceFabricClientSetUpgradeOrchestrationServiceStateOptionalParams | msRest.ServiceCallback<Models.UpgradeOrchestrationServiceStateSummary>, callback?: msRest.ServiceCallback<Models.UpgradeOrchestrationServiceStateSummary>): Promise<Models.SetUpgradeOrchestrationServiceStateResponse> {
+  setUpgradeOrchestrationServiceState(upgradeOrchestrationServiceState: Models.UpgradeOrchestrationServiceState, options?: Models.ServiceFabricClientSetUpgradeOrchestrationServiceStateOptionalParams, callback?: msRest.ServiceCallback<Models.UpgradeOrchestrationServiceStateSummary>): Promise<Models.SetUpgradeOrchestrationServiceStateResponse> {
     return this.sendOperationRequest(
       {
         upgradeOrchestrationServiceState,
@@ -431,7 +431,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   provisionCluster(provisionFabricDescription: Models.ProvisionFabricDescription, options: Models.ServiceFabricClientProvisionClusterOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  provisionCluster(provisionFabricDescription: Models.ProvisionFabricDescription, options?: Models.ServiceFabricClientProvisionClusterOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  provisionCluster(provisionFabricDescription: Models.ProvisionFabricDescription, options?: Models.ServiceFabricClientProvisionClusterOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         provisionFabricDescription,
@@ -460,7 +460,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   unprovisionCluster(unprovisionFabricDescription: Models.UnprovisionFabricDescription, options: Models.ServiceFabricClientUnprovisionClusterOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  unprovisionCluster(unprovisionFabricDescription: Models.UnprovisionFabricDescription, options?: Models.ServiceFabricClientUnprovisionClusterOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  unprovisionCluster(unprovisionFabricDescription: Models.UnprovisionFabricDescription, options?: Models.ServiceFabricClientUnprovisionClusterOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         unprovisionFabricDescription,
@@ -486,7 +486,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   rollbackClusterUpgrade(options: Models.ServiceFabricClientRollbackClusterUpgradeOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  rollbackClusterUpgrade(options?: Models.ServiceFabricClientRollbackClusterUpgradeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  rollbackClusterUpgrade(options?: Models.ServiceFabricClientRollbackClusterUpgradeOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -515,7 +515,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   resumeClusterUpgrade(resumeClusterUpgradeDescription: Models.ResumeClusterUpgradeDescription, options: Models.ServiceFabricClientResumeClusterUpgradeOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  resumeClusterUpgrade(resumeClusterUpgradeDescription: Models.ResumeClusterUpgradeDescription, options?: Models.ServiceFabricClientResumeClusterUpgradeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  resumeClusterUpgrade(resumeClusterUpgradeDescription: Models.ResumeClusterUpgradeDescription, options?: Models.ServiceFabricClientResumeClusterUpgradeOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         resumeClusterUpgradeDescription,
@@ -545,7 +545,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   startClusterUpgrade(startClusterUpgradeDescription: Models.StartClusterUpgradeDescription, options: Models.ServiceFabricClientStartClusterUpgradeOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  startClusterUpgrade(startClusterUpgradeDescription: Models.StartClusterUpgradeDescription, options?: Models.ServiceFabricClientStartClusterUpgradeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  startClusterUpgrade(startClusterUpgradeDescription: Models.StartClusterUpgradeDescription, options?: Models.ServiceFabricClientStartClusterUpgradeOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         startClusterUpgradeDescription,
@@ -578,7 +578,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   startClusterConfigurationUpgrade(clusterConfigurationUpgradeDescription: Models.ClusterConfigurationUpgradeDescription, options: Models.ServiceFabricClientStartClusterConfigurationUpgradeOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  startClusterConfigurationUpgrade(clusterConfigurationUpgradeDescription: Models.ClusterConfigurationUpgradeDescription, options?: Models.ServiceFabricClientStartClusterConfigurationUpgradeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  startClusterConfigurationUpgrade(clusterConfigurationUpgradeDescription: Models.ClusterConfigurationUpgradeDescription, options?: Models.ServiceFabricClientStartClusterConfigurationUpgradeOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         clusterConfigurationUpgradeDescription,
@@ -607,7 +607,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   updateClusterUpgrade(updateClusterUpgradeDescription: Models.UpdateClusterUpgradeDescription, options: Models.ServiceFabricClientUpdateClusterUpgradeOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  updateClusterUpgrade(updateClusterUpgradeDescription: Models.UpdateClusterUpgradeDescription, options?: Models.ServiceFabricClientUpdateClusterUpgradeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  updateClusterUpgrade(updateClusterUpgradeDescription: Models.UpdateClusterUpgradeDescription, options?: Models.ServiceFabricClientUpdateClusterUpgradeOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         updateClusterUpgradeDescription,
@@ -635,7 +635,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getAadMetadata(options: Models.ServiceFabricClientGetAadMetadataOptionalParams, callback: msRest.ServiceCallback<Models.AadMetadataObject>): void;
-  getAadMetadata(options?: Models.ServiceFabricClientGetAadMetadataOptionalParams | msRest.ServiceCallback<Models.AadMetadataObject>, callback?: msRest.ServiceCallback<Models.AadMetadataObject>): Promise<Models.GetAadMetadataResponse> {
+  getAadMetadata(options?: Models.ServiceFabricClientGetAadMetadataOptionalParams, callback?: msRest.ServiceCallback<Models.AadMetadataObject>): Promise<Models.GetAadMetadataResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -660,7 +660,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getNodeInfoList(options: Models.ServiceFabricClientGetNodeInfoListOptionalParams, callback: msRest.ServiceCallback<Models.PagedNodeInfoList>): void;
-  getNodeInfoList(options?: Models.ServiceFabricClientGetNodeInfoListOptionalParams | msRest.ServiceCallback<Models.PagedNodeInfoList>, callback?: msRest.ServiceCallback<Models.PagedNodeInfoList>): Promise<Models.GetNodeInfoListResponse> {
+  getNodeInfoList(options?: Models.ServiceFabricClientGetNodeInfoListOptionalParams, callback?: msRest.ServiceCallback<Models.PagedNodeInfoList>): Promise<Models.GetNodeInfoListResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -688,7 +688,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getNodeInfo(nodeName: string, options: Models.ServiceFabricClientGetNodeInfoOptionalParams, callback: msRest.ServiceCallback<Models.NodeInfo>): void;
-  getNodeInfo(nodeName: string, options?: Models.ServiceFabricClientGetNodeInfoOptionalParams | msRest.ServiceCallback<Models.NodeInfo>, callback?: msRest.ServiceCallback<Models.NodeInfo>): Promise<Models.GetNodeInfoResponse> {
+  getNodeInfo(nodeName: string, options?: Models.ServiceFabricClientGetNodeInfoOptionalParams, callback?: msRest.ServiceCallback<Models.NodeInfo>): Promise<Models.GetNodeInfoResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -719,7 +719,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getNodeHealth(nodeName: string, options: Models.ServiceFabricClientGetNodeHealthOptionalParams, callback: msRest.ServiceCallback<Models.NodeHealth>): void;
-  getNodeHealth(nodeName: string, options?: Models.ServiceFabricClientGetNodeHealthOptionalParams | msRest.ServiceCallback<Models.NodeHealth>, callback?: msRest.ServiceCallback<Models.NodeHealth>): Promise<Models.GetNodeHealthResponse> {
+  getNodeHealth(nodeName: string, options?: Models.ServiceFabricClientGetNodeHealthOptionalParams, callback?: msRest.ServiceCallback<Models.NodeHealth>): Promise<Models.GetNodeHealthResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -751,7 +751,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getNodeHealthUsingPolicy(nodeName: string, options: Models.ServiceFabricClientGetNodeHealthUsingPolicyOptionalParams, callback: msRest.ServiceCallback<Models.NodeHealth>): void;
-  getNodeHealthUsingPolicy(nodeName: string, options?: Models.ServiceFabricClientGetNodeHealthUsingPolicyOptionalParams | msRest.ServiceCallback<Models.NodeHealth>, callback?: msRest.ServiceCallback<Models.NodeHealth>): Promise<Models.GetNodeHealthUsingPolicyResponse> {
+  getNodeHealthUsingPolicy(nodeName: string, options?: Models.ServiceFabricClientGetNodeHealthUsingPolicyOptionalParams, callback?: msRest.ServiceCallback<Models.NodeHealth>): Promise<Models.GetNodeHealthUsingPolicyResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -794,7 +794,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   reportNodeHealth(nodeName: string, healthInformation: Models.HealthInformation, options: Models.ServiceFabricClientReportNodeHealthOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  reportNodeHealth(nodeName: string, healthInformation: Models.HealthInformation, options?: Models.ServiceFabricClientReportNodeHealthOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  reportNodeHealth(nodeName: string, healthInformation: Models.HealthInformation, options?: Models.ServiceFabricClientReportNodeHealthOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -825,7 +825,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getNodeLoadInfo(nodeName: string, options: Models.ServiceFabricClientGetNodeLoadInfoOptionalParams, callback: msRest.ServiceCallback<Models.NodeLoadInfo>): void;
-  getNodeLoadInfo(nodeName: string, options?: Models.ServiceFabricClientGetNodeLoadInfoOptionalParams | msRest.ServiceCallback<Models.NodeLoadInfo>, callback?: msRest.ServiceCallback<Models.NodeLoadInfo>): Promise<Models.GetNodeLoadInfoResponse> {
+  getNodeLoadInfo(nodeName: string, options?: Models.ServiceFabricClientGetNodeLoadInfoOptionalParams, callback?: msRest.ServiceCallback<Models.NodeLoadInfo>): Promise<Models.GetNodeLoadInfoResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -863,7 +863,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   disableNode(nodeName: string, deactivationIntentDescription: Models.DeactivationIntentDescription, options: Models.ServiceFabricClientDisableNodeOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  disableNode(nodeName: string, deactivationIntentDescription: Models.DeactivationIntentDescription, options?: Models.ServiceFabricClientDisableNodeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  disableNode(nodeName: string, deactivationIntentDescription: Models.DeactivationIntentDescription, options?: Models.ServiceFabricClientDisableNodeOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -895,7 +895,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   enableNode(nodeName: string, options: Models.ServiceFabricClientEnableNodeOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  enableNode(nodeName: string, options?: Models.ServiceFabricClientEnableNodeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  enableNode(nodeName: string, options?: Models.ServiceFabricClientEnableNodeOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -930,7 +930,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   removeNodeState(nodeName: string, options: Models.ServiceFabricClientRemoveNodeStateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  removeNodeState(nodeName: string, options?: Models.ServiceFabricClientRemoveNodeStateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  removeNodeState(nodeName: string, options?: Models.ServiceFabricClientRemoveNodeStateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -965,7 +965,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   restartNode(nodeName: string, restartNodeDescription: Models.RestartNodeDescription, options: Models.ServiceFabricClientRestartNodeOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  restartNode(nodeName: string, restartNodeDescription: Models.RestartNodeDescription, options?: Models.ServiceFabricClientRestartNodeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  restartNode(nodeName: string, restartNodeDescription: Models.RestartNodeDescription, options?: Models.ServiceFabricClientRestartNodeOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -1001,7 +1001,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getApplicationTypeInfoList(options: Models.ServiceFabricClientGetApplicationTypeInfoListOptionalParams, callback: msRest.ServiceCallback<Models.PagedApplicationTypeInfoList>): void;
-  getApplicationTypeInfoList(options?: Models.ServiceFabricClientGetApplicationTypeInfoListOptionalParams | msRest.ServiceCallback<Models.PagedApplicationTypeInfoList>, callback?: msRest.ServiceCallback<Models.PagedApplicationTypeInfoList>): Promise<Models.GetApplicationTypeInfoListResponse> {
+  getApplicationTypeInfoList(options?: Models.ServiceFabricClientGetApplicationTypeInfoListOptionalParams, callback?: msRest.ServiceCallback<Models.PagedApplicationTypeInfoList>): Promise<Models.GetApplicationTypeInfoListResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -1041,7 +1041,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getApplicationTypeInfoListByName(applicationTypeName: string, options: Models.ServiceFabricClientGetApplicationTypeInfoListByNameOptionalParams, callback: msRest.ServiceCallback<Models.PagedApplicationTypeInfoList>): void;
-  getApplicationTypeInfoListByName(applicationTypeName: string, options?: Models.ServiceFabricClientGetApplicationTypeInfoListByNameOptionalParams | msRest.ServiceCallback<Models.PagedApplicationTypeInfoList>, callback?: msRest.ServiceCallback<Models.PagedApplicationTypeInfoList>): Promise<Models.GetApplicationTypeInfoListByNameResponse> {
+  getApplicationTypeInfoListByName(applicationTypeName: string, options?: Models.ServiceFabricClientGetApplicationTypeInfoListByNameOptionalParams, callback?: msRest.ServiceCallback<Models.PagedApplicationTypeInfoList>): Promise<Models.GetApplicationTypeInfoListByNameResponse> {
     return this.sendOperationRequest(
       {
         applicationTypeName,
@@ -1080,7 +1080,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   provisionApplicationType(provisionApplicationTypeDescriptionBaseRequiredBodyParam: Models.ProvisionApplicationTypeDescriptionBaseUnion, options: Models.ServiceFabricClientProvisionApplicationTypeOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  provisionApplicationType(provisionApplicationTypeDescriptionBaseRequiredBodyParam: Models.ProvisionApplicationTypeDescriptionBaseUnion, options?: Models.ServiceFabricClientProvisionApplicationTypeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  provisionApplicationType(provisionApplicationTypeDescriptionBaseRequiredBodyParam: Models.ProvisionApplicationTypeDescriptionBaseUnion, options?: Models.ServiceFabricClientProvisionApplicationTypeOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         provisionApplicationTypeDescriptionBaseRequiredBodyParam,
@@ -1117,7 +1117,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   unprovisionApplicationType(applicationTypeName: string, unprovisionApplicationTypeDescriptionInfo: Models.UnprovisionApplicationTypeDescriptionInfo, options: Models.ServiceFabricClientUnprovisionApplicationTypeOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  unprovisionApplicationType(applicationTypeName: string, unprovisionApplicationTypeDescriptionInfo: Models.UnprovisionApplicationTypeDescriptionInfo, options?: Models.ServiceFabricClientUnprovisionApplicationTypeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  unprovisionApplicationType(applicationTypeName: string, unprovisionApplicationTypeDescriptionInfo: Models.UnprovisionApplicationTypeDescriptionInfo, options?: Models.ServiceFabricClientUnprovisionApplicationTypeOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         applicationTypeName,
@@ -1153,7 +1153,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getServiceTypeInfoList(applicationTypeName: string, applicationTypeVersion: string, options: Models.ServiceFabricClientGetServiceTypeInfoListOptionalParams, callback: msRest.ServiceCallback<Models.ServiceTypeInfo[]>): void;
-  getServiceTypeInfoList(applicationTypeName: string, applicationTypeVersion: string, options?: Models.ServiceFabricClientGetServiceTypeInfoListOptionalParams | msRest.ServiceCallback<Models.ServiceTypeInfo[]>, callback?: msRest.ServiceCallback<Models.ServiceTypeInfo[]>): Promise<Models.GetServiceTypeInfoListResponse> {
+  getServiceTypeInfoList(applicationTypeName: string, applicationTypeVersion: string, options?: Models.ServiceFabricClientGetServiceTypeInfoListOptionalParams, callback?: msRest.ServiceCallback<Models.ServiceTypeInfo[]>): Promise<Models.GetServiceTypeInfoListResponse> {
     return this.sendOperationRequest(
       {
         applicationTypeName,
@@ -1193,7 +1193,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getServiceTypeInfoByName(applicationTypeName: string, applicationTypeVersion: string, serviceTypeName: string, options: Models.ServiceFabricClientGetServiceTypeInfoByNameOptionalParams, callback: msRest.ServiceCallback<Models.ServiceTypeInfo>): void;
-  getServiceTypeInfoByName(applicationTypeName: string, applicationTypeVersion: string, serviceTypeName: string, options?: Models.ServiceFabricClientGetServiceTypeInfoByNameOptionalParams | msRest.ServiceCallback<Models.ServiceTypeInfo>, callback?: msRest.ServiceCallback<Models.ServiceTypeInfo>): Promise<Models.GetServiceTypeInfoByNameResponse> {
+  getServiceTypeInfoByName(applicationTypeName: string, applicationTypeVersion: string, serviceTypeName: string, options?: Models.ServiceFabricClientGetServiceTypeInfoByNameOptionalParams, callback?: msRest.ServiceCallback<Models.ServiceTypeInfo>): Promise<Models.GetServiceTypeInfoByNameResponse> {
     return this.sendOperationRequest(
       {
         applicationTypeName,
@@ -1234,7 +1234,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getServiceManifest(applicationTypeName: string, applicationTypeVersion: string, serviceManifestName: string, options: Models.ServiceFabricClientGetServiceManifestOptionalParams, callback: msRest.ServiceCallback<Models.ServiceTypeManifest>): void;
-  getServiceManifest(applicationTypeName: string, applicationTypeVersion: string, serviceManifestName: string, options?: Models.ServiceFabricClientGetServiceManifestOptionalParams | msRest.ServiceCallback<Models.ServiceTypeManifest>, callback?: msRest.ServiceCallback<Models.ServiceTypeManifest>): Promise<Models.GetServiceManifestResponse> {
+  getServiceManifest(applicationTypeName: string, applicationTypeVersion: string, serviceManifestName: string, options?: Models.ServiceFabricClientGetServiceManifestOptionalParams, callback?: msRest.ServiceCallback<Models.ServiceTypeManifest>): Promise<Models.GetServiceManifestResponse> {
     return this.sendOperationRequest(
       {
         applicationTypeName,
@@ -1284,7 +1284,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getDeployedServiceTypeInfoList(nodeName: string, applicationId: string, options: Models.ServiceFabricClientGetDeployedServiceTypeInfoListOptionalParams, callback: msRest.ServiceCallback<Models.DeployedServiceTypeInfo[]>): void;
-  getDeployedServiceTypeInfoList(nodeName: string, applicationId: string, options?: Models.ServiceFabricClientGetDeployedServiceTypeInfoListOptionalParams | msRest.ServiceCallback<Models.DeployedServiceTypeInfo[]>, callback?: msRest.ServiceCallback<Models.DeployedServiceTypeInfo[]>): Promise<Models.GetDeployedServiceTypeInfoListResponse> {
+  getDeployedServiceTypeInfoList(nodeName: string, applicationId: string, options?: Models.ServiceFabricClientGetDeployedServiceTypeInfoListOptionalParams, callback?: msRest.ServiceCallback<Models.DeployedServiceTypeInfo[]>): Promise<Models.GetDeployedServiceTypeInfoListResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -1337,7 +1337,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getDeployedServiceTypeInfoByName(nodeName: string, applicationId: string, serviceTypeName: string, options: Models.ServiceFabricClientGetDeployedServiceTypeInfoByNameOptionalParams, callback: msRest.ServiceCallback<Models.DeployedServiceTypeInfo[]>): void;
-  getDeployedServiceTypeInfoByName(nodeName: string, applicationId: string, serviceTypeName: string, options?: Models.ServiceFabricClientGetDeployedServiceTypeInfoByNameOptionalParams | msRest.ServiceCallback<Models.DeployedServiceTypeInfo[]>, callback?: msRest.ServiceCallback<Models.DeployedServiceTypeInfo[]>): Promise<Models.GetDeployedServiceTypeInfoByNameResponse> {
+  getDeployedServiceTypeInfoByName(nodeName: string, applicationId: string, serviceTypeName: string, options?: Models.ServiceFabricClientGetDeployedServiceTypeInfoByNameOptionalParams, callback?: msRest.ServiceCallback<Models.DeployedServiceTypeInfo[]>): Promise<Models.GetDeployedServiceTypeInfoByNameResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -1368,7 +1368,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   createApplication(applicationDescription: Models.ApplicationDescription, options: Models.ServiceFabricClientCreateApplicationOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  createApplication(applicationDescription: Models.ApplicationDescription, options?: Models.ServiceFabricClientCreateApplicationOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  createApplication(applicationDescription: Models.ApplicationDescription, options?: Models.ServiceFabricClientCreateApplicationOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         applicationDescription,
@@ -1414,7 +1414,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   deleteApplication(applicationId: string, options: Models.ServiceFabricClientDeleteApplicationOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteApplication(applicationId: string, options?: Models.ServiceFabricClientDeleteApplicationOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteApplication(applicationId: string, options?: Models.ServiceFabricClientDeleteApplicationOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         applicationId,
@@ -1459,7 +1459,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getApplicationLoadInfo(applicationId: string, options: Models.ServiceFabricClientGetApplicationLoadInfoOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationLoadInfo>): void;
-  getApplicationLoadInfo(applicationId: string, options?: Models.ServiceFabricClientGetApplicationLoadInfoOptionalParams | msRest.ServiceCallback<Models.ApplicationLoadInfo>, callback?: msRest.ServiceCallback<Models.ApplicationLoadInfo>): Promise<Models.GetApplicationLoadInfoResponse> {
+  getApplicationLoadInfo(applicationId: string, options?: Models.ServiceFabricClientGetApplicationLoadInfoOptionalParams, callback?: msRest.ServiceCallback<Models.ApplicationLoadInfo>): Promise<Models.GetApplicationLoadInfoResponse> {
     return this.sendOperationRequest(
       {
         applicationId,
@@ -1491,7 +1491,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getApplicationInfoList(options: Models.ServiceFabricClientGetApplicationInfoListOptionalParams, callback: msRest.ServiceCallback<Models.PagedApplicationInfoList>): void;
-  getApplicationInfoList(options?: Models.ServiceFabricClientGetApplicationInfoListOptionalParams | msRest.ServiceCallback<Models.PagedApplicationInfoList>, callback?: msRest.ServiceCallback<Models.PagedApplicationInfoList>): Promise<Models.GetApplicationInfoListResponse> {
+  getApplicationInfoList(options?: Models.ServiceFabricClientGetApplicationInfoListOptionalParams, callback?: msRest.ServiceCallback<Models.PagedApplicationInfoList>): Promise<Models.GetApplicationInfoListResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -1534,7 +1534,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getApplicationInfo(applicationId: string, options: Models.ServiceFabricClientGetApplicationInfoOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationInfo>): void;
-  getApplicationInfo(applicationId: string, options?: Models.ServiceFabricClientGetApplicationInfoOptionalParams | msRest.ServiceCallback<Models.ApplicationInfo>, callback?: msRest.ServiceCallback<Models.ApplicationInfo>): Promise<Models.GetApplicationInfoResponse> {
+  getApplicationInfo(applicationId: string, options?: Models.ServiceFabricClientGetApplicationInfoOptionalParams, callback?: msRest.ServiceCallback<Models.ApplicationInfo>): Promise<Models.GetApplicationInfoResponse> {
     return this.sendOperationRequest(
       {
         applicationId,
@@ -1576,7 +1576,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getApplicationHealth(applicationId: string, options: Models.ServiceFabricClientGetApplicationHealthOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationHealth>): void;
-  getApplicationHealth(applicationId: string, options?: Models.ServiceFabricClientGetApplicationHealthOptionalParams | msRest.ServiceCallback<Models.ApplicationHealth>, callback?: msRest.ServiceCallback<Models.ApplicationHealth>): Promise<Models.GetApplicationHealthResponse> {
+  getApplicationHealth(applicationId: string, options?: Models.ServiceFabricClientGetApplicationHealthOptionalParams, callback?: msRest.ServiceCallback<Models.ApplicationHealth>): Promise<Models.GetApplicationHealthResponse> {
     return this.sendOperationRequest(
       {
         applicationId,
@@ -1619,7 +1619,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getApplicationHealthUsingPolicy(applicationId: string, options: Models.ServiceFabricClientGetApplicationHealthUsingPolicyOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationHealth>): void;
-  getApplicationHealthUsingPolicy(applicationId: string, options?: Models.ServiceFabricClientGetApplicationHealthUsingPolicyOptionalParams | msRest.ServiceCallback<Models.ApplicationHealth>, callback?: msRest.ServiceCallback<Models.ApplicationHealth>): Promise<Models.GetApplicationHealthUsingPolicyResponse> {
+  getApplicationHealthUsingPolicy(applicationId: string, options?: Models.ServiceFabricClientGetApplicationHealthUsingPolicyOptionalParams, callback?: msRest.ServiceCallback<Models.ApplicationHealth>): Promise<Models.GetApplicationHealthUsingPolicyResponse> {
     return this.sendOperationRequest(
       {
         applicationId,
@@ -1674,7 +1674,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   reportApplicationHealth(applicationId: string, healthInformation: Models.HealthInformation, options: Models.ServiceFabricClientReportApplicationHealthOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  reportApplicationHealth(applicationId: string, healthInformation: Models.HealthInformation, options?: Models.ServiceFabricClientReportApplicationHealthOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  reportApplicationHealth(applicationId: string, healthInformation: Models.HealthInformation, options?: Models.ServiceFabricClientReportApplicationHealthOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         applicationId,
@@ -1720,7 +1720,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   startApplicationUpgrade(applicationId: string, applicationUpgradeDescription: Models.ApplicationUpgradeDescription, options: Models.ServiceFabricClientStartApplicationUpgradeOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  startApplicationUpgrade(applicationId: string, applicationUpgradeDescription: Models.ApplicationUpgradeDescription, options?: Models.ServiceFabricClientStartApplicationUpgradeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  startApplicationUpgrade(applicationId: string, applicationUpgradeDescription: Models.ApplicationUpgradeDescription, options?: Models.ServiceFabricClientStartApplicationUpgradeOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         applicationId,
@@ -1763,7 +1763,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getApplicationUpgrade(applicationId: string, options: Models.ServiceFabricClientGetApplicationUpgradeOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationUpgradeProgressInfo>): void;
-  getApplicationUpgrade(applicationId: string, options?: Models.ServiceFabricClientGetApplicationUpgradeOptionalParams | msRest.ServiceCallback<Models.ApplicationUpgradeProgressInfo>, callback?: msRest.ServiceCallback<Models.ApplicationUpgradeProgressInfo>): Promise<Models.GetApplicationUpgradeResponse> {
+  getApplicationUpgrade(applicationId: string, options?: Models.ServiceFabricClientGetApplicationUpgradeOptionalParams, callback?: msRest.ServiceCallback<Models.ApplicationUpgradeProgressInfo>): Promise<Models.GetApplicationUpgradeResponse> {
     return this.sendOperationRequest(
       {
         applicationId,
@@ -1812,7 +1812,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   updateApplicationUpgrade(applicationId: string, applicationUpgradeUpdateDescription: Models.ApplicationUpgradeUpdateDescription, options: Models.ServiceFabricClientUpdateApplicationUpgradeOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  updateApplicationUpgrade(applicationId: string, applicationUpgradeUpdateDescription: Models.ApplicationUpgradeUpdateDescription, options?: Models.ServiceFabricClientUpdateApplicationUpgradeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  updateApplicationUpgrade(applicationId: string, applicationUpgradeUpdateDescription: Models.ApplicationUpgradeUpdateDescription, options?: Models.ServiceFabricClientUpdateApplicationUpgradeOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         applicationId,
@@ -1862,7 +1862,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   resumeApplicationUpgrade(applicationId: string, resumeApplicationUpgradeDescription: Models.ResumeApplicationUpgradeDescription, options: Models.ServiceFabricClientResumeApplicationUpgradeOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  resumeApplicationUpgrade(applicationId: string, resumeApplicationUpgradeDescription: Models.ResumeApplicationUpgradeDescription, options?: Models.ServiceFabricClientResumeApplicationUpgradeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  resumeApplicationUpgrade(applicationId: string, resumeApplicationUpgradeDescription: Models.ResumeApplicationUpgradeDescription, options?: Models.ServiceFabricClientResumeApplicationUpgradeOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         applicationId,
@@ -1908,7 +1908,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   rollbackApplicationUpgrade(applicationId: string, options: Models.ServiceFabricClientRollbackApplicationUpgradeOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  rollbackApplicationUpgrade(applicationId: string, options?: Models.ServiceFabricClientRollbackApplicationUpgradeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  rollbackApplicationUpgrade(applicationId: string, options?: Models.ServiceFabricClientRollbackApplicationUpgradeOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         applicationId,
@@ -1941,7 +1941,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getDeployedApplicationInfoList(nodeName: string, options: Models.ServiceFabricClientGetDeployedApplicationInfoListOptionalParams, callback: msRest.ServiceCallback<Models.PagedDeployedApplicationInfoList>): void;
-  getDeployedApplicationInfoList(nodeName: string, options?: Models.ServiceFabricClientGetDeployedApplicationInfoListOptionalParams | msRest.ServiceCallback<Models.PagedDeployedApplicationInfoList>, callback?: msRest.ServiceCallback<Models.PagedDeployedApplicationInfoList>): Promise<Models.GetDeployedApplicationInfoListResponse> {
+  getDeployedApplicationInfoList(nodeName: string, options?: Models.ServiceFabricClientGetDeployedApplicationInfoListOptionalParams, callback?: msRest.ServiceCallback<Models.PagedDeployedApplicationInfoList>): Promise<Models.GetDeployedApplicationInfoListResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -1989,7 +1989,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getDeployedApplicationInfo(nodeName: string, applicationId: string, options: Models.ServiceFabricClientGetDeployedApplicationInfoOptionalParams, callback: msRest.ServiceCallback<Models.DeployedApplicationInfo>): void;
-  getDeployedApplicationInfo(nodeName: string, applicationId: string, options?: Models.ServiceFabricClientGetDeployedApplicationInfoOptionalParams | msRest.ServiceCallback<Models.DeployedApplicationInfo>, callback?: msRest.ServiceCallback<Models.DeployedApplicationInfo>): Promise<Models.GetDeployedApplicationInfoResponse> {
+  getDeployedApplicationInfo(nodeName: string, applicationId: string, options?: Models.ServiceFabricClientGetDeployedApplicationInfoOptionalParams, callback?: msRest.ServiceCallback<Models.DeployedApplicationInfo>): Promise<Models.GetDeployedApplicationInfoResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -2037,7 +2037,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getDeployedApplicationHealth(nodeName: string, applicationId: string, options: Models.ServiceFabricClientGetDeployedApplicationHealthOptionalParams, callback: msRest.ServiceCallback<Models.DeployedApplicationHealth>): void;
-  getDeployedApplicationHealth(nodeName: string, applicationId: string, options?: Models.ServiceFabricClientGetDeployedApplicationHealthOptionalParams | msRest.ServiceCallback<Models.DeployedApplicationHealth>, callback?: msRest.ServiceCallback<Models.DeployedApplicationHealth>): Promise<Models.GetDeployedApplicationHealthResponse> {
+  getDeployedApplicationHealth(nodeName: string, applicationId: string, options?: Models.ServiceFabricClientGetDeployedApplicationHealthOptionalParams, callback?: msRest.ServiceCallback<Models.DeployedApplicationHealth>): Promise<Models.GetDeployedApplicationHealthResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -2090,7 +2090,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getDeployedApplicationHealthUsingPolicy(nodeName: string, applicationId: string, options: Models.ServiceFabricClientGetDeployedApplicationHealthUsingPolicyOptionalParams, callback: msRest.ServiceCallback<Models.DeployedApplicationHealth>): void;
-  getDeployedApplicationHealthUsingPolicy(nodeName: string, applicationId: string, options?: Models.ServiceFabricClientGetDeployedApplicationHealthUsingPolicyOptionalParams | msRest.ServiceCallback<Models.DeployedApplicationHealth>, callback?: msRest.ServiceCallback<Models.DeployedApplicationHealth>): Promise<Models.GetDeployedApplicationHealthUsingPolicyResponse> {
+  getDeployedApplicationHealthUsingPolicy(nodeName: string, applicationId: string, options?: Models.ServiceFabricClientGetDeployedApplicationHealthUsingPolicyOptionalParams, callback?: msRest.ServiceCallback<Models.DeployedApplicationHealth>): Promise<Models.GetDeployedApplicationHealthUsingPolicyResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -2151,7 +2151,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   reportDeployedApplicationHealth(nodeName: string, applicationId: string, healthInformation: Models.HealthInformation, options: Models.ServiceFabricClientReportDeployedApplicationHealthOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  reportDeployedApplicationHealth(nodeName: string, applicationId: string, healthInformation: Models.HealthInformation, options?: Models.ServiceFabricClientReportDeployedApplicationHealthOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  reportDeployedApplicationHealth(nodeName: string, applicationId: string, healthInformation: Models.HealthInformation, options?: Models.ServiceFabricClientReportDeployedApplicationHealthOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -2185,7 +2185,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getApplicationManifest(applicationTypeName: string, applicationTypeVersion: string, options: Models.ServiceFabricClientGetApplicationManifestOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationTypeManifest>): void;
-  getApplicationManifest(applicationTypeName: string, applicationTypeVersion: string, options?: Models.ServiceFabricClientGetApplicationManifestOptionalParams | msRest.ServiceCallback<Models.ApplicationTypeManifest>, callback?: msRest.ServiceCallback<Models.ApplicationTypeManifest>): Promise<Models.GetApplicationManifestResponse> {
+  getApplicationManifest(applicationTypeName: string, applicationTypeVersion: string, options?: Models.ServiceFabricClientGetApplicationManifestOptionalParams, callback?: msRest.ServiceCallback<Models.ApplicationTypeManifest>): Promise<Models.GetApplicationManifestResponse> {
     return this.sendOperationRequest(
       {
         applicationTypeName,
@@ -2229,7 +2229,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getServiceInfoList(applicationId: string, options: Models.ServiceFabricClientGetServiceInfoListOptionalParams, callback: msRest.ServiceCallback<Models.PagedServiceInfoList>): void;
-  getServiceInfoList(applicationId: string, options?: Models.ServiceFabricClientGetServiceInfoListOptionalParams | msRest.ServiceCallback<Models.PagedServiceInfoList>, callback?: msRest.ServiceCallback<Models.PagedServiceInfoList>): Promise<Models.GetServiceInfoListResponse> {
+  getServiceInfoList(applicationId: string, options?: Models.ServiceFabricClientGetServiceInfoListOptionalParams, callback?: msRest.ServiceCallback<Models.PagedServiceInfoList>): Promise<Models.GetServiceInfoListResponse> {
     return this.sendOperationRequest(
       {
         applicationId,
@@ -2287,7 +2287,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getServiceInfo(applicationId: string, serviceId: string, options: Models.ServiceFabricClientGetServiceInfoOptionalParams, callback: msRest.ServiceCallback<Models.ServiceInfoUnion>): void;
-  getServiceInfo(applicationId: string, serviceId: string, options?: Models.ServiceFabricClientGetServiceInfoOptionalParams | msRest.ServiceCallback<Models.ServiceInfoUnion>, callback?: msRest.ServiceCallback<Models.ServiceInfoUnion>): Promise<Models.GetServiceInfoResponse> {
+  getServiceInfo(applicationId: string, serviceId: string, options?: Models.ServiceFabricClientGetServiceInfoOptionalParams, callback?: msRest.ServiceCallback<Models.ServiceInfoUnion>): Promise<Models.GetServiceInfoResponse> {
     return this.sendOperationRequest(
       {
         applicationId,
@@ -2331,7 +2331,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getApplicationNameInfo(serviceId: string, options: Models.ServiceFabricClientGetApplicationNameInfoOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationNameInfo>): void;
-  getApplicationNameInfo(serviceId: string, options?: Models.ServiceFabricClientGetApplicationNameInfoOptionalParams | msRest.ServiceCallback<Models.ApplicationNameInfo>, callback?: msRest.ServiceCallback<Models.ApplicationNameInfo>): Promise<Models.GetApplicationNameInfoResponse> {
+  getApplicationNameInfo(serviceId: string, options?: Models.ServiceFabricClientGetApplicationNameInfoOptionalParams, callback?: msRest.ServiceCallback<Models.ApplicationNameInfo>): Promise<Models.GetApplicationNameInfoResponse> {
     return this.sendOperationRequest(
       {
         serviceId,
@@ -2378,7 +2378,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   createService(applicationId: string, serviceDescription: Models.ServiceDescriptionUnion, options: Models.ServiceFabricClientCreateServiceOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  createService(applicationId: string, serviceDescription: Models.ServiceDescriptionUnion, options?: Models.ServiceFabricClientCreateServiceOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  createService(applicationId: string, serviceDescription: Models.ServiceDescriptionUnion, options?: Models.ServiceFabricClientCreateServiceOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         applicationId,
@@ -2429,7 +2429,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   createServiceFromTemplate(applicationId: string, serviceFromTemplateDescription: Models.ServiceFromTemplateDescription, options: Models.ServiceFabricClientCreateServiceFromTemplateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  createServiceFromTemplate(applicationId: string, serviceFromTemplateDescription: Models.ServiceFromTemplateDescription, options?: Models.ServiceFabricClientCreateServiceFromTemplateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  createServiceFromTemplate(applicationId: string, serviceFromTemplateDescription: Models.ServiceFromTemplateDescription, options?: Models.ServiceFabricClientCreateServiceFromTemplateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         applicationId,
@@ -2475,7 +2475,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   deleteService(serviceId: string, options: Models.ServiceFabricClientDeleteServiceOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteService(serviceId: string, options?: Models.ServiceFabricClientDeleteServiceOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteService(serviceId: string, options?: Models.ServiceFabricClientDeleteServiceOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         serviceId,
@@ -2525,7 +2525,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   updateService(serviceId: string, serviceUpdateDescription: Models.ServiceUpdateDescriptionUnion, options: Models.ServiceFabricClientUpdateServiceOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  updateService(serviceId: string, serviceUpdateDescription: Models.ServiceUpdateDescriptionUnion, options?: Models.ServiceFabricClientUpdateServiceOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  updateService(serviceId: string, serviceUpdateDescription: Models.ServiceUpdateDescriptionUnion, options?: Models.ServiceFabricClientUpdateServiceOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         serviceId,
@@ -2568,7 +2568,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getServiceDescription(serviceId: string, options: Models.ServiceFabricClientGetServiceDescriptionOptionalParams, callback: msRest.ServiceCallback<Models.ServiceDescriptionUnion>): void;
-  getServiceDescription(serviceId: string, options?: Models.ServiceFabricClientGetServiceDescriptionOptionalParams | msRest.ServiceCallback<Models.ServiceDescriptionUnion>, callback?: msRest.ServiceCallback<Models.ServiceDescriptionUnion>): Promise<Models.GetServiceDescriptionResponse> {
+  getServiceDescription(serviceId: string, options?: Models.ServiceFabricClientGetServiceDescriptionOptionalParams, callback?: msRest.ServiceCallback<Models.ServiceDescriptionUnion>): Promise<Models.GetServiceDescriptionResponse> {
     return this.sendOperationRequest(
       {
         serviceId,
@@ -2613,7 +2613,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getServiceHealth(serviceId: string, options: Models.ServiceFabricClientGetServiceHealthOptionalParams, callback: msRest.ServiceCallback<Models.ServiceHealth>): void;
-  getServiceHealth(serviceId: string, options?: Models.ServiceFabricClientGetServiceHealthOptionalParams | msRest.ServiceCallback<Models.ServiceHealth>, callback?: msRest.ServiceCallback<Models.ServiceHealth>): Promise<Models.GetServiceHealthResponse> {
+  getServiceHealth(serviceId: string, options?: Models.ServiceFabricClientGetServiceHealthOptionalParams, callback?: msRest.ServiceCallback<Models.ServiceHealth>): Promise<Models.GetServiceHealthResponse> {
     return this.sendOperationRequest(
       {
         serviceId,
@@ -2664,7 +2664,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getServiceHealthUsingPolicy(serviceId: string, options: Models.ServiceFabricClientGetServiceHealthUsingPolicyOptionalParams, callback: msRest.ServiceCallback<Models.ServiceHealth>): void;
-  getServiceHealthUsingPolicy(serviceId: string, options?: Models.ServiceFabricClientGetServiceHealthUsingPolicyOptionalParams | msRest.ServiceCallback<Models.ServiceHealth>, callback?: msRest.ServiceCallback<Models.ServiceHealth>): Promise<Models.GetServiceHealthUsingPolicyResponse> {
+  getServiceHealthUsingPolicy(serviceId: string, options?: Models.ServiceFabricClientGetServiceHealthUsingPolicyOptionalParams, callback?: msRest.ServiceCallback<Models.ServiceHealth>): Promise<Models.GetServiceHealthUsingPolicyResponse> {
     return this.sendOperationRequest(
       {
         serviceId,
@@ -2719,7 +2719,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   reportServiceHealth(serviceId: string, healthInformation: Models.HealthInformation, options: Models.ServiceFabricClientReportServiceHealthOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  reportServiceHealth(serviceId: string, healthInformation: Models.HealthInformation, options?: Models.ServiceFabricClientReportServiceHealthOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  reportServiceHealth(serviceId: string, healthInformation: Models.HealthInformation, options?: Models.ServiceFabricClientReportServiceHealthOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         serviceId,
@@ -2761,7 +2761,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   resolveService(serviceId: string, options: Models.ServiceFabricClientResolveServiceOptionalParams, callback: msRest.ServiceCallback<Models.ResolvedServicePartition>): void;
-  resolveService(serviceId: string, options?: Models.ServiceFabricClientResolveServiceOptionalParams | msRest.ServiceCallback<Models.ResolvedServicePartition>, callback?: msRest.ServiceCallback<Models.ResolvedServicePartition>): Promise<Models.ResolveServiceResponse> {
+  resolveService(serviceId: string, options?: Models.ServiceFabricClientResolveServiceOptionalParams, callback?: msRest.ServiceCallback<Models.ResolvedServicePartition>): Promise<Models.ResolveServiceResponse> {
     return this.sendOperationRequest(
       {
         serviceId,
@@ -2803,7 +2803,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getPartitionInfoList(serviceId: string, options: Models.ServiceFabricClientGetPartitionInfoListOptionalParams, callback: msRest.ServiceCallback<Models.PagedServicePartitionInfoList>): void;
-  getPartitionInfoList(serviceId: string, options?: Models.ServiceFabricClientGetPartitionInfoListOptionalParams | msRest.ServiceCallback<Models.PagedServicePartitionInfoList>, callback?: msRest.ServiceCallback<Models.PagedServicePartitionInfoList>): Promise<Models.GetPartitionInfoListResponse> {
+  getPartitionInfoList(serviceId: string, options?: Models.ServiceFabricClientGetPartitionInfoListOptionalParams, callback?: msRest.ServiceCallback<Models.PagedServicePartitionInfoList>): Promise<Models.GetPartitionInfoListResponse> {
     return this.sendOperationRequest(
       {
         serviceId,
@@ -2834,7 +2834,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getPartitionInfo(partitionId: string, options: Models.ServiceFabricClientGetPartitionInfoOptionalParams, callback: msRest.ServiceCallback<Models.ServicePartitionInfoUnion>): void;
-  getPartitionInfo(partitionId: string, options?: Models.ServiceFabricClientGetPartitionInfoOptionalParams | msRest.ServiceCallback<Models.ServicePartitionInfoUnion>, callback?: msRest.ServiceCallback<Models.ServicePartitionInfoUnion>): Promise<Models.GetPartitionInfoResponse> {
+  getPartitionInfo(partitionId: string, options?: Models.ServiceFabricClientGetPartitionInfoOptionalParams, callback?: msRest.ServiceCallback<Models.ServicePartitionInfoUnion>): Promise<Models.GetPartitionInfoResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -2864,7 +2864,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getServiceNameInfo(partitionId: string, options: Models.ServiceFabricClientGetServiceNameInfoOptionalParams, callback: msRest.ServiceCallback<Models.ServiceNameInfo>): void;
-  getServiceNameInfo(partitionId: string, options?: Models.ServiceFabricClientGetServiceNameInfoOptionalParams | msRest.ServiceCallback<Models.ServiceNameInfo>, callback?: msRest.ServiceCallback<Models.ServiceNameInfo>): Promise<Models.GetServiceNameInfoResponse> {
+  getServiceNameInfo(partitionId: string, options?: Models.ServiceFabricClientGetServiceNameInfoOptionalParams, callback?: msRest.ServiceCallback<Models.ServiceNameInfo>): Promise<Models.GetServiceNameInfoResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -2898,7 +2898,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getPartitionHealth(partitionId: string, options: Models.ServiceFabricClientGetPartitionHealthOptionalParams, callback: msRest.ServiceCallback<Models.PartitionHealth>): void;
-  getPartitionHealth(partitionId: string, options?: Models.ServiceFabricClientGetPartitionHealthOptionalParams | msRest.ServiceCallback<Models.PartitionHealth>, callback?: msRest.ServiceCallback<Models.PartitionHealth>): Promise<Models.GetPartitionHealthResponse> {
+  getPartitionHealth(partitionId: string, options?: Models.ServiceFabricClientGetPartitionHealthOptionalParams, callback?: msRest.ServiceCallback<Models.PartitionHealth>): Promise<Models.GetPartitionHealthResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -2940,7 +2940,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getPartitionHealthUsingPolicy(partitionId: string, options: Models.ServiceFabricClientGetPartitionHealthUsingPolicyOptionalParams, callback: msRest.ServiceCallback<Models.PartitionHealth>): void;
-  getPartitionHealthUsingPolicy(partitionId: string, options?: Models.ServiceFabricClientGetPartitionHealthUsingPolicyOptionalParams | msRest.ServiceCallback<Models.PartitionHealth>, callback?: msRest.ServiceCallback<Models.PartitionHealth>): Promise<Models.GetPartitionHealthUsingPolicyResponse> {
+  getPartitionHealthUsingPolicy(partitionId: string, options?: Models.ServiceFabricClientGetPartitionHealthUsingPolicyOptionalParams, callback?: msRest.ServiceCallback<Models.PartitionHealth>): Promise<Models.GetPartitionHealthUsingPolicyResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -2983,7 +2983,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   reportPartitionHealth(partitionId: string, healthInformation: Models.HealthInformation, options: Models.ServiceFabricClientReportPartitionHealthOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  reportPartitionHealth(partitionId: string, healthInformation: Models.HealthInformation, options?: Models.ServiceFabricClientReportPartitionHealthOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  reportPartitionHealth(partitionId: string, healthInformation: Models.HealthInformation, options?: Models.ServiceFabricClientReportPartitionHealthOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -3015,7 +3015,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getPartitionLoadInformation(partitionId: string, options: Models.ServiceFabricClientGetPartitionLoadInformationOptionalParams, callback: msRest.ServiceCallback<Models.PartitionLoadInformation>): void;
-  getPartitionLoadInformation(partitionId: string, options?: Models.ServiceFabricClientGetPartitionLoadInformationOptionalParams | msRest.ServiceCallback<Models.PartitionLoadInformation>, callback?: msRest.ServiceCallback<Models.PartitionLoadInformation>): Promise<Models.GetPartitionLoadInformationResponse> {
+  getPartitionLoadInformation(partitionId: string, options?: Models.ServiceFabricClientGetPartitionLoadInformationOptionalParams, callback?: msRest.ServiceCallback<Models.PartitionLoadInformation>): Promise<Models.GetPartitionLoadInformationResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -3044,7 +3044,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   resetPartitionLoad(partitionId: string, options: Models.ServiceFabricClientResetPartitionLoadOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  resetPartitionLoad(partitionId: string, options?: Models.ServiceFabricClientResetPartitionLoadOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  resetPartitionLoad(partitionId: string, options?: Models.ServiceFabricClientResetPartitionLoadOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -3075,7 +3075,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   recoverPartition(partitionId: string, options: Models.ServiceFabricClientRecoverPartitionOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  recoverPartition(partitionId: string, options?: Models.ServiceFabricClientRecoverPartitionOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  recoverPartition(partitionId: string, options?: Models.ServiceFabricClientRecoverPartitionOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -3120,7 +3120,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   recoverServicePartitions(serviceId: string, options: Models.ServiceFabricClientRecoverServicePartitionsOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  recoverServicePartitions(serviceId: string, options?: Models.ServiceFabricClientRecoverServicePartitionsOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  recoverServicePartitions(serviceId: string, options?: Models.ServiceFabricClientRecoverServicePartitionsOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         serviceId,
@@ -3150,7 +3150,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   recoverSystemPartitions(options: Models.ServiceFabricClientRecoverSystemPartitionsOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  recoverSystemPartitions(options?: Models.ServiceFabricClientRecoverSystemPartitionsOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  recoverSystemPartitions(options?: Models.ServiceFabricClientRecoverSystemPartitionsOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -3177,7 +3177,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   recoverAllPartitions(options: Models.ServiceFabricClientRecoverAllPartitionsOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  recoverAllPartitions(options?: Models.ServiceFabricClientRecoverAllPartitionsOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  recoverAllPartitions(options?: Models.ServiceFabricClientRecoverAllPartitionsOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -3216,7 +3216,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   createRepairTask(repairTask: Models.RepairTask, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RepairTaskUpdateInfo>): void;
-  createRepairTask(repairTask: Models.RepairTask, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RepairTaskUpdateInfo>, callback?: msRest.ServiceCallback<Models.RepairTaskUpdateInfo>): Promise<Models.CreateRepairTaskResponse> {
+  createRepairTask(repairTask: Models.RepairTask, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RepairTaskUpdateInfo>): Promise<Models.CreateRepairTaskResponse> {
     return this.sendOperationRequest(
       {
         repairTask,
@@ -3246,7 +3246,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   cancelRepairTask(repairTaskCancelDescription: Models.RepairTaskCancelDescription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RepairTaskUpdateInfo>): void;
-  cancelRepairTask(repairTaskCancelDescription: Models.RepairTaskCancelDescription, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RepairTaskUpdateInfo>, callback?: msRest.ServiceCallback<Models.RepairTaskUpdateInfo>): Promise<Models.CancelRepairTaskResponse> {
+  cancelRepairTask(repairTaskCancelDescription: Models.RepairTaskCancelDescription, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RepairTaskUpdateInfo>): Promise<Models.CancelRepairTaskResponse> {
     return this.sendOperationRequest(
       {
         repairTaskCancelDescription,
@@ -3276,7 +3276,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   deleteRepairTask(repairTaskDeleteDescription: Models.RepairTaskDeleteDescription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteRepairTask(repairTaskDeleteDescription: Models.RepairTaskDeleteDescription, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteRepairTask(repairTaskDeleteDescription: Models.RepairTaskDeleteDescription, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         repairTaskDeleteDescription,
@@ -3303,7 +3303,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getRepairTaskList(options: Models.ServiceFabricClientGetRepairTaskListOptionalParams, callback: msRest.ServiceCallback<Models.RepairTask[]>): void;
-  getRepairTaskList(options?: Models.ServiceFabricClientGetRepairTaskListOptionalParams | msRest.ServiceCallback<Models.RepairTask[]>, callback?: msRest.ServiceCallback<Models.RepairTask[]>): Promise<Models.GetRepairTaskListResponse> {
+  getRepairTaskList(options?: Models.ServiceFabricClientGetRepairTaskListOptionalParams, callback?: msRest.ServiceCallback<Models.RepairTask[]>): Promise<Models.GetRepairTaskListResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -3332,7 +3332,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   forceApproveRepairTask(repairTaskApproveDescription: Models.RepairTaskApproveDescription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RepairTaskUpdateInfo>): void;
-  forceApproveRepairTask(repairTaskApproveDescription: Models.RepairTaskApproveDescription, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RepairTaskUpdateInfo>, callback?: msRest.ServiceCallback<Models.RepairTaskUpdateInfo>): Promise<Models.ForceApproveRepairTaskResponse> {
+  forceApproveRepairTask(repairTaskApproveDescription: Models.RepairTaskApproveDescription, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RepairTaskUpdateInfo>): Promise<Models.ForceApproveRepairTaskResponse> {
     return this.sendOperationRequest(
       {
         repairTaskApproveDescription,
@@ -3365,7 +3365,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   updateRepairTaskHealthPolicy(repairTaskUpdateHealthPolicyDescription: Models.RepairTaskUpdateHealthPolicyDescription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RepairTaskUpdateInfo>): void;
-  updateRepairTaskHealthPolicy(repairTaskUpdateHealthPolicyDescription: Models.RepairTaskUpdateHealthPolicyDescription, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RepairTaskUpdateInfo>, callback?: msRest.ServiceCallback<Models.RepairTaskUpdateInfo>): Promise<Models.UpdateRepairTaskHealthPolicyResponse> {
+  updateRepairTaskHealthPolicy(repairTaskUpdateHealthPolicyDescription: Models.RepairTaskUpdateHealthPolicyDescription, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RepairTaskUpdateInfo>): Promise<Models.UpdateRepairTaskHealthPolicyResponse> {
     return this.sendOperationRequest(
       {
         repairTaskUpdateHealthPolicyDescription,
@@ -3395,7 +3395,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   updateRepairExecutionState(repairTask: Models.RepairTask, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RepairTaskUpdateInfo>): void;
-  updateRepairExecutionState(repairTask: Models.RepairTask, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RepairTaskUpdateInfo>, callback?: msRest.ServiceCallback<Models.RepairTaskUpdateInfo>): Promise<Models.UpdateRepairExecutionStateResponse> {
+  updateRepairExecutionState(repairTask: Models.RepairTask, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RepairTaskUpdateInfo>): Promise<Models.UpdateRepairExecutionStateResponse> {
     return this.sendOperationRequest(
       {
         repairTask,
@@ -3426,7 +3426,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getReplicaInfoList(partitionId: string, options: Models.ServiceFabricClientGetReplicaInfoListOptionalParams, callback: msRest.ServiceCallback<Models.PagedReplicaInfoList>): void;
-  getReplicaInfoList(partitionId: string, options?: Models.ServiceFabricClientGetReplicaInfoListOptionalParams | msRest.ServiceCallback<Models.PagedReplicaInfoList>, callback?: msRest.ServiceCallback<Models.PagedReplicaInfoList>): Promise<Models.GetReplicaInfoListResponse> {
+  getReplicaInfoList(partitionId: string, options?: Models.ServiceFabricClientGetReplicaInfoListOptionalParams, callback?: msRest.ServiceCallback<Models.PagedReplicaInfoList>): Promise<Models.GetReplicaInfoListResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -3459,7 +3459,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getReplicaInfo(partitionId: string, replicaId: string, options: Models.ServiceFabricClientGetReplicaInfoOptionalParams, callback: msRest.ServiceCallback<Models.ReplicaInfoUnion>): void;
-  getReplicaInfo(partitionId: string, replicaId: string, options?: Models.ServiceFabricClientGetReplicaInfoOptionalParams | msRest.ServiceCallback<Models.ReplicaInfoUnion>, callback?: msRest.ServiceCallback<Models.ReplicaInfoUnion>): Promise<Models.GetReplicaInfoResponse> {
+  getReplicaInfo(partitionId: string, replicaId: string, options?: Models.ServiceFabricClientGetReplicaInfoOptionalParams, callback?: msRest.ServiceCallback<Models.ReplicaInfoUnion>): Promise<Models.GetReplicaInfoResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -3495,7 +3495,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getReplicaHealth(partitionId: string, replicaId: string, options: Models.ServiceFabricClientGetReplicaHealthOptionalParams, callback: msRest.ServiceCallback<Models.ReplicaHealthUnion>): void;
-  getReplicaHealth(partitionId: string, replicaId: string, options?: Models.ServiceFabricClientGetReplicaHealthOptionalParams | msRest.ServiceCallback<Models.ReplicaHealthUnion>, callback?: msRest.ServiceCallback<Models.ReplicaHealthUnion>): Promise<Models.GetReplicaHealthResponse> {
+  getReplicaHealth(partitionId: string, replicaId: string, options?: Models.ServiceFabricClientGetReplicaHealthOptionalParams, callback?: msRest.ServiceCallback<Models.ReplicaHealthUnion>): Promise<Models.GetReplicaHealthResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -3534,7 +3534,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getReplicaHealthUsingPolicy(partitionId: string, replicaId: string, options: Models.ServiceFabricClientGetReplicaHealthUsingPolicyOptionalParams, callback: msRest.ServiceCallback<Models.ReplicaHealthUnion>): void;
-  getReplicaHealthUsingPolicy(partitionId: string, replicaId: string, options?: Models.ServiceFabricClientGetReplicaHealthUsingPolicyOptionalParams | msRest.ServiceCallback<Models.ReplicaHealthUnion>, callback?: msRest.ServiceCallback<Models.ReplicaHealthUnion>): Promise<Models.GetReplicaHealthUsingPolicyResponse> {
+  getReplicaHealthUsingPolicy(partitionId: string, replicaId: string, options?: Models.ServiceFabricClientGetReplicaHealthUsingPolicyOptionalParams, callback?: msRest.ServiceCallback<Models.ReplicaHealthUnion>): Promise<Models.GetReplicaHealthUsingPolicyResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -3590,7 +3590,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   reportReplicaHealth(partitionId: string, replicaId: string, replicaHealthReportServiceKind: Models.ReplicaHealthReportServiceKind, healthInformation: Models.HealthInformation, options: Models.ServiceFabricClientReportReplicaHealthOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  reportReplicaHealth(partitionId: string, replicaId: string, replicaHealthReportServiceKind: Models.ReplicaHealthReportServiceKind, healthInformation: Models.HealthInformation, options?: Models.ServiceFabricClientReportReplicaHealthOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  reportReplicaHealth(partitionId: string, replicaId: string, replicaHealthReportServiceKind: Models.ReplicaHealthReportServiceKind, healthInformation: Models.HealthInformation, options?: Models.ServiceFabricClientReportReplicaHealthOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -3641,7 +3641,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getDeployedServiceReplicaInfoList(nodeName: string, applicationId: string, options: Models.ServiceFabricClientGetDeployedServiceReplicaInfoListOptionalParams, callback: msRest.ServiceCallback<Models.DeployedServiceReplicaInfoUnion[]>): void;
-  getDeployedServiceReplicaInfoList(nodeName: string, applicationId: string, options?: Models.ServiceFabricClientGetDeployedServiceReplicaInfoListOptionalParams | msRest.ServiceCallback<Models.DeployedServiceReplicaInfoUnion[]>, callback?: msRest.ServiceCallback<Models.DeployedServiceReplicaInfoUnion[]>): Promise<Models.GetDeployedServiceReplicaInfoListResponse> {
+  getDeployedServiceReplicaInfoList(nodeName: string, applicationId: string, options?: Models.ServiceFabricClientGetDeployedServiceReplicaInfoListOptionalParams, callback?: msRest.ServiceCallback<Models.DeployedServiceReplicaInfoUnion[]>): Promise<Models.GetDeployedServiceReplicaInfoListResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -3679,7 +3679,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getDeployedServiceReplicaDetailInfo(nodeName: string, partitionId: string, replicaId: string, options: Models.ServiceFabricClientGetDeployedServiceReplicaDetailInfoOptionalParams, callback: msRest.ServiceCallback<Models.DeployedServiceReplicaDetailInfoUnion>): void;
-  getDeployedServiceReplicaDetailInfo(nodeName: string, partitionId: string, replicaId: string, options?: Models.ServiceFabricClientGetDeployedServiceReplicaDetailInfoOptionalParams | msRest.ServiceCallback<Models.DeployedServiceReplicaDetailInfoUnion>, callback?: msRest.ServiceCallback<Models.DeployedServiceReplicaDetailInfoUnion>): Promise<Models.GetDeployedServiceReplicaDetailInfoResponse> {
+  getDeployedServiceReplicaDetailInfo(nodeName: string, partitionId: string, replicaId: string, options?: Models.ServiceFabricClientGetDeployedServiceReplicaDetailInfoOptionalParams, callback?: msRest.ServiceCallback<Models.DeployedServiceReplicaDetailInfoUnion>): Promise<Models.GetDeployedServiceReplicaDetailInfoResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -3715,7 +3715,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getDeployedServiceReplicaDetailInfoByPartitionId(nodeName: string, partitionId: string, options: Models.ServiceFabricClientGetDeployedServiceReplicaDetailInfoByPartitionIdOptionalParams, callback: msRest.ServiceCallback<Models.DeployedServiceReplicaDetailInfoUnion>): void;
-  getDeployedServiceReplicaDetailInfoByPartitionId(nodeName: string, partitionId: string, options?: Models.ServiceFabricClientGetDeployedServiceReplicaDetailInfoByPartitionIdOptionalParams | msRest.ServiceCallback<Models.DeployedServiceReplicaDetailInfoUnion>, callback?: msRest.ServiceCallback<Models.DeployedServiceReplicaDetailInfoUnion>): Promise<Models.GetDeployedServiceReplicaDetailInfoByPartitionIdResponse> {
+  getDeployedServiceReplicaDetailInfoByPartitionId(nodeName: string, partitionId: string, options?: Models.ServiceFabricClientGetDeployedServiceReplicaDetailInfoByPartitionIdOptionalParams, callback?: msRest.ServiceCallback<Models.DeployedServiceReplicaDetailInfoUnion>): Promise<Models.GetDeployedServiceReplicaDetailInfoByPartitionIdResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -3753,7 +3753,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   restartReplica(nodeName: string, partitionId: string, replicaId: string, options: Models.ServiceFabricClientRestartReplicaOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  restartReplica(nodeName: string, partitionId: string, replicaId: string, options?: Models.ServiceFabricClientRestartReplicaOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  restartReplica(nodeName: string, partitionId: string, replicaId: string, options?: Models.ServiceFabricClientRestartReplicaOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -3796,7 +3796,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   removeReplica(nodeName: string, partitionId: string, replicaId: string, options: Models.ServiceFabricClientRemoveReplicaOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  removeReplica(nodeName: string, partitionId: string, replicaId: string, options?: Models.ServiceFabricClientRemoveReplicaOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  removeReplica(nodeName: string, partitionId: string, replicaId: string, options?: Models.ServiceFabricClientRemoveReplicaOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -3843,7 +3843,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getDeployedServicePackageInfoList(nodeName: string, applicationId: string, options: Models.ServiceFabricClientGetDeployedServicePackageInfoListOptionalParams, callback: msRest.ServiceCallback<Models.DeployedServicePackageInfo[]>): void;
-  getDeployedServicePackageInfoList(nodeName: string, applicationId: string, options?: Models.ServiceFabricClientGetDeployedServicePackageInfoListOptionalParams | msRest.ServiceCallback<Models.DeployedServicePackageInfo[]>, callback?: msRest.ServiceCallback<Models.DeployedServicePackageInfo[]>): Promise<Models.GetDeployedServicePackageInfoListResponse> {
+  getDeployedServicePackageInfoList(nodeName: string, applicationId: string, options?: Models.ServiceFabricClientGetDeployedServicePackageInfoListOptionalParams, callback?: msRest.ServiceCallback<Models.DeployedServicePackageInfo[]>): Promise<Models.GetDeployedServicePackageInfoListResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -3894,7 +3894,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getDeployedServicePackageInfoListByName(nodeName: string, applicationId: string, servicePackageName: string, options: Models.ServiceFabricClientGetDeployedServicePackageInfoListByNameOptionalParams, callback: msRest.ServiceCallback<Models.DeployedServicePackageInfo[]>): void;
-  getDeployedServicePackageInfoListByName(nodeName: string, applicationId: string, servicePackageName: string, options?: Models.ServiceFabricClientGetDeployedServicePackageInfoListByNameOptionalParams | msRest.ServiceCallback<Models.DeployedServicePackageInfo[]>, callback?: msRest.ServiceCallback<Models.DeployedServicePackageInfo[]>): Promise<Models.GetDeployedServicePackageInfoListByNameResponse> {
+  getDeployedServicePackageInfoListByName(nodeName: string, applicationId: string, servicePackageName: string, options?: Models.ServiceFabricClientGetDeployedServicePackageInfoListByNameOptionalParams, callback?: msRest.ServiceCallback<Models.DeployedServicePackageInfo[]>): Promise<Models.GetDeployedServicePackageInfoListByNameResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -3946,7 +3946,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getDeployedServicePackageHealth(nodeName: string, applicationId: string, servicePackageName: string, options: Models.ServiceFabricClientGetDeployedServicePackageHealthOptionalParams, callback: msRest.ServiceCallback<Models.DeployedServicePackageHealth>): void;
-  getDeployedServicePackageHealth(nodeName: string, applicationId: string, servicePackageName: string, options?: Models.ServiceFabricClientGetDeployedServicePackageHealthOptionalParams | msRest.ServiceCallback<Models.DeployedServicePackageHealth>, callback?: msRest.ServiceCallback<Models.DeployedServicePackageHealth>): Promise<Models.GetDeployedServicePackageHealthResponse> {
+  getDeployedServicePackageHealth(nodeName: string, applicationId: string, servicePackageName: string, options?: Models.ServiceFabricClientGetDeployedServicePackageHealthOptionalParams, callback?: msRest.ServiceCallback<Models.DeployedServicePackageHealth>): Promise<Models.GetDeployedServicePackageHealthResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -4002,7 +4002,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getDeployedServicePackageHealthUsingPolicy(nodeName: string, applicationId: string, servicePackageName: string, options: Models.ServiceFabricClientGetDeployedServicePackageHealthUsingPolicyOptionalParams, callback: msRest.ServiceCallback<Models.DeployedServicePackageHealth>): void;
-  getDeployedServicePackageHealthUsingPolicy(nodeName: string, applicationId: string, servicePackageName: string, options?: Models.ServiceFabricClientGetDeployedServicePackageHealthUsingPolicyOptionalParams | msRest.ServiceCallback<Models.DeployedServicePackageHealth>, callback?: msRest.ServiceCallback<Models.DeployedServicePackageHealth>): Promise<Models.GetDeployedServicePackageHealthUsingPolicyResponse> {
+  getDeployedServicePackageHealthUsingPolicy(nodeName: string, applicationId: string, servicePackageName: string, options?: Models.ServiceFabricClientGetDeployedServicePackageHealthUsingPolicyOptionalParams, callback?: msRest.ServiceCallback<Models.DeployedServicePackageHealth>): Promise<Models.GetDeployedServicePackageHealthUsingPolicyResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -4066,7 +4066,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   reportDeployedServicePackageHealth(nodeName: string, applicationId: string, servicePackageName: string, healthInformation: Models.HealthInformation, options: Models.ServiceFabricClientReportDeployedServicePackageHealthOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  reportDeployedServicePackageHealth(nodeName: string, applicationId: string, servicePackageName: string, healthInformation: Models.HealthInformation, options?: Models.ServiceFabricClientReportDeployedServicePackageHealthOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  reportDeployedServicePackageHealth(nodeName: string, applicationId: string, servicePackageName: string, healthInformation: Models.HealthInformation, options?: Models.ServiceFabricClientReportDeployedServicePackageHealthOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -4109,7 +4109,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   deployServicePackageToNode(nodeName: string, deployServicePackageToNodeDescription: Models.DeployServicePackageToNodeDescription, options: Models.ServiceFabricClientDeployServicePackageToNodeOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deployServicePackageToNode(nodeName: string, deployServicePackageToNodeDescription: Models.DeployServicePackageToNodeDescription, options?: Models.ServiceFabricClientDeployServicePackageToNodeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deployServicePackageToNode(nodeName: string, deployServicePackageToNodeDescription: Models.DeployServicePackageToNodeDescription, options?: Models.ServiceFabricClientDeployServicePackageToNodeOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -4154,7 +4154,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getDeployedCodePackageInfoList(nodeName: string, applicationId: string, options: Models.ServiceFabricClientGetDeployedCodePackageInfoListOptionalParams, callback: msRest.ServiceCallback<Models.DeployedCodePackageInfo[]>): void;
-  getDeployedCodePackageInfoList(nodeName: string, applicationId: string, options?: Models.ServiceFabricClientGetDeployedCodePackageInfoListOptionalParams | msRest.ServiceCallback<Models.DeployedCodePackageInfo[]>, callback?: msRest.ServiceCallback<Models.DeployedCodePackageInfo[]>): Promise<Models.GetDeployedCodePackageInfoListResponse> {
+  getDeployedCodePackageInfoList(nodeName: string, applicationId: string, options?: Models.ServiceFabricClientGetDeployedCodePackageInfoListOptionalParams, callback?: msRest.ServiceCallback<Models.DeployedCodePackageInfo[]>): Promise<Models.GetDeployedCodePackageInfoListResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -4206,7 +4206,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   restartDeployedCodePackage(nodeName: string, applicationId: string, restartDeployedCodePackageDescription: Models.RestartDeployedCodePackageDescription, options: Models.ServiceFabricClientRestartDeployedCodePackageOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  restartDeployedCodePackage(nodeName: string, applicationId: string, restartDeployedCodePackageDescription: Models.RestartDeployedCodePackageDescription, options?: Models.ServiceFabricClientRestartDeployedCodePackageOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  restartDeployedCodePackage(nodeName: string, applicationId: string, restartDeployedCodePackageDescription: Models.RestartDeployedCodePackageDescription, options?: Models.ServiceFabricClientRestartDeployedCodePackageOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -4265,7 +4265,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getContainerLogsDeployedOnNode(nodeName: string, applicationId: string, serviceManifestName: string, codePackageName: string, options: Models.ServiceFabricClientGetContainerLogsDeployedOnNodeOptionalParams, callback: msRest.ServiceCallback<Models.ContainerLogs>): void;
-  getContainerLogsDeployedOnNode(nodeName: string, applicationId: string, serviceManifestName: string, codePackageName: string, options?: Models.ServiceFabricClientGetContainerLogsDeployedOnNodeOptionalParams | msRest.ServiceCallback<Models.ContainerLogs>, callback?: msRest.ServiceCallback<Models.ContainerLogs>): Promise<Models.GetContainerLogsDeployedOnNodeResponse> {
+  getContainerLogsDeployedOnNode(nodeName: string, applicationId: string, serviceManifestName: string, codePackageName: string, options?: Models.ServiceFabricClientGetContainerLogsDeployedOnNodeOptionalParams, callback?: msRest.ServiceCallback<Models.ContainerLogs>): Promise<Models.GetContainerLogsDeployedOnNodeResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -4334,7 +4334,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   invokeContainerApi(nodeName: string, applicationId: string, serviceManifestName: string, codePackageName: string, codePackageInstanceId: string, containerApiRequestBody: Models.ContainerApiRequestBody, options: Models.ServiceFabricClientInvokeContainerApiOptionalParams, callback: msRest.ServiceCallback<Models.ContainerApiResponse>): void;
-  invokeContainerApi(nodeName: string, applicationId: string, serviceManifestName: string, codePackageName: string, codePackageInstanceId: string, containerApiRequestBody: Models.ContainerApiRequestBody, options?: Models.ServiceFabricClientInvokeContainerApiOptionalParams | msRest.ServiceCallback<Models.ContainerApiResponse>, callback?: msRest.ServiceCallback<Models.ContainerApiResponse>): Promise<Models.InvokeContainerApiResponse> {
+  invokeContainerApi(nodeName: string, applicationId: string, serviceManifestName: string, codePackageName: string, codePackageInstanceId: string, containerApiRequestBody: Models.ContainerApiRequestBody, options?: Models.ServiceFabricClientInvokeContainerApiOptionalParams, callback?: msRest.ServiceCallback<Models.ContainerApiResponse>): Promise<Models.InvokeContainerApiResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -4373,7 +4373,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   createComposeDeployment(createComposeDeploymentDescription: Models.CreateComposeDeploymentDescription, options: Models.ServiceFabricClientCreateComposeDeploymentOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  createComposeDeployment(createComposeDeploymentDescription: Models.CreateComposeDeploymentDescription, options?: Models.ServiceFabricClientCreateComposeDeploymentOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  createComposeDeployment(createComposeDeploymentDescription: Models.CreateComposeDeploymentDescription, options?: Models.ServiceFabricClientCreateComposeDeploymentOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         createComposeDeploymentDescription,
@@ -4404,7 +4404,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getComposeDeploymentStatus(deploymentName: string, options: Models.ServiceFabricClientGetComposeDeploymentStatusOptionalParams, callback: msRest.ServiceCallback<Models.ComposeDeploymentStatusInfo>): void;
-  getComposeDeploymentStatus(deploymentName: string, options?: Models.ServiceFabricClientGetComposeDeploymentStatusOptionalParams | msRest.ServiceCallback<Models.ComposeDeploymentStatusInfo>, callback?: msRest.ServiceCallback<Models.ComposeDeploymentStatusInfo>): Promise<Models.GetComposeDeploymentStatusResponse> {
+  getComposeDeploymentStatus(deploymentName: string, options?: Models.ServiceFabricClientGetComposeDeploymentStatusOptionalParams, callback?: msRest.ServiceCallback<Models.ComposeDeploymentStatusInfo>): Promise<Models.GetComposeDeploymentStatusResponse> {
     return this.sendOperationRequest(
       {
         deploymentName,
@@ -4433,7 +4433,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getComposeDeploymentStatusList(options: Models.ServiceFabricClientGetComposeDeploymentStatusListOptionalParams, callback: msRest.ServiceCallback<Models.PagedComposeDeploymentStatusInfoList>): void;
-  getComposeDeploymentStatusList(options?: Models.ServiceFabricClientGetComposeDeploymentStatusListOptionalParams | msRest.ServiceCallback<Models.PagedComposeDeploymentStatusInfoList>, callback?: msRest.ServiceCallback<Models.PagedComposeDeploymentStatusInfoList>): Promise<Models.GetComposeDeploymentStatusListResponse> {
+  getComposeDeploymentStatusList(options?: Models.ServiceFabricClientGetComposeDeploymentStatusListOptionalParams, callback?: msRest.ServiceCallback<Models.PagedComposeDeploymentStatusInfoList>): Promise<Models.GetComposeDeploymentStatusListResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -4463,7 +4463,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getComposeDeploymentUpgradeProgress(deploymentName: string, options: Models.ServiceFabricClientGetComposeDeploymentUpgradeProgressOptionalParams, callback: msRest.ServiceCallback<Models.ComposeDeploymentUpgradeProgressInfo>): void;
-  getComposeDeploymentUpgradeProgress(deploymentName: string, options?: Models.ServiceFabricClientGetComposeDeploymentUpgradeProgressOptionalParams | msRest.ServiceCallback<Models.ComposeDeploymentUpgradeProgressInfo>, callback?: msRest.ServiceCallback<Models.ComposeDeploymentUpgradeProgressInfo>): Promise<Models.GetComposeDeploymentUpgradeProgressResponse> {
+  getComposeDeploymentUpgradeProgress(deploymentName: string, options?: Models.ServiceFabricClientGetComposeDeploymentUpgradeProgressOptionalParams, callback?: msRest.ServiceCallback<Models.ComposeDeploymentUpgradeProgressInfo>): Promise<Models.GetComposeDeploymentUpgradeProgressResponse> {
     return this.sendOperationRequest(
       {
         deploymentName,
@@ -4492,7 +4492,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   removeComposeDeployment(deploymentName: string, options: Models.ServiceFabricClientRemoveComposeDeploymentOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  removeComposeDeployment(deploymentName: string, options?: Models.ServiceFabricClientRemoveComposeDeploymentOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  removeComposeDeployment(deploymentName: string, options?: Models.ServiceFabricClientRemoveComposeDeploymentOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         deploymentName,
@@ -4525,7 +4525,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   startComposeDeploymentUpgrade(deploymentName: string, composeDeploymentUpgradeDescription: Models.ComposeDeploymentUpgradeDescription, options: Models.ServiceFabricClientStartComposeDeploymentUpgradeOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  startComposeDeploymentUpgrade(deploymentName: string, composeDeploymentUpgradeDescription: Models.ComposeDeploymentUpgradeDescription, options?: Models.ServiceFabricClientStartComposeDeploymentUpgradeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  startComposeDeploymentUpgrade(deploymentName: string, composeDeploymentUpgradeDescription: Models.ComposeDeploymentUpgradeDescription, options?: Models.ServiceFabricClientStartComposeDeploymentUpgradeOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         deploymentName,
@@ -4553,7 +4553,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getChaos(options: Models.ServiceFabricClientGetChaosOptionalParams, callback: msRest.ServiceCallback<Models.Chaos>): void;
-  getChaos(options?: Models.ServiceFabricClientGetChaosOptionalParams | msRest.ServiceCallback<Models.Chaos>, callback?: msRest.ServiceCallback<Models.Chaos>): Promise<Models.GetChaosResponse> {
+  getChaos(options?: Models.ServiceFabricClientGetChaosOptionalParams, callback?: msRest.ServiceCallback<Models.Chaos>): Promise<Models.GetChaosResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -4587,7 +4587,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   startChaos(chaosParameters: Models.ChaosParameters, options: Models.ServiceFabricClientStartChaosOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  startChaos(chaosParameters: Models.ChaosParameters, options?: Models.ServiceFabricClientStartChaosOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  startChaos(chaosParameters: Models.ChaosParameters, options?: Models.ServiceFabricClientStartChaosOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         chaosParameters,
@@ -4617,7 +4617,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   stopChaos(options: Models.ServiceFabricClientStopChaosOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  stopChaos(options?: Models.ServiceFabricClientStopChaosOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  stopChaos(options?: Models.ServiceFabricClientStopChaosOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -4649,7 +4649,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getChaosEvents(options: Models.ServiceFabricClientGetChaosEventsOptionalParams, callback: msRest.ServiceCallback<Models.ChaosEventsSegment>): void;
-  getChaosEvents(options?: Models.ServiceFabricClientGetChaosEventsOptionalParams | msRest.ServiceCallback<Models.ChaosEventsSegment>, callback?: msRest.ServiceCallback<Models.ChaosEventsSegment>): Promise<Models.GetChaosEventsResponse> {
+  getChaosEvents(options?: Models.ServiceFabricClientGetChaosEventsOptionalParams, callback?: msRest.ServiceCallback<Models.ChaosEventsSegment>): Promise<Models.GetChaosEventsResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -4675,7 +4675,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getChaosSchedule(options: Models.ServiceFabricClientGetChaosScheduleOptionalParams, callback: msRest.ServiceCallback<Models.ChaosScheduleDescription>): void;
-  getChaosSchedule(options?: Models.ServiceFabricClientGetChaosScheduleOptionalParams | msRest.ServiceCallback<Models.ChaosScheduleDescription>, callback?: msRest.ServiceCallback<Models.ChaosScheduleDescription>): Promise<Models.GetChaosScheduleResponse> {
+  getChaosSchedule(options?: Models.ServiceFabricClientGetChaosScheduleOptionalParams, callback?: msRest.ServiceCallback<Models.ChaosScheduleDescription>): Promise<Models.GetChaosScheduleResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -4707,7 +4707,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   postChaosSchedule(chaosSchedule: Models.ChaosScheduleDescription, options: Models.ServiceFabricClientPostChaosScheduleOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  postChaosSchedule(chaosSchedule: Models.ChaosScheduleDescription, options?: Models.ServiceFabricClientPostChaosScheduleOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  postChaosSchedule(chaosSchedule: Models.ChaosScheduleDescription, options?: Models.ServiceFabricClientPostChaosScheduleOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         chaosSchedule,
@@ -4743,7 +4743,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   uploadFile(contentPath: string, options: Models.ServiceFabricClientUploadFileOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  uploadFile(contentPath: string, options?: Models.ServiceFabricClientUploadFileOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  uploadFile(contentPath: string, options?: Models.ServiceFabricClientUploadFileOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         contentPath,
@@ -4773,7 +4773,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getImageStoreContent(contentPath: string, options: Models.ServiceFabricClientGetImageStoreContentOptionalParams, callback: msRest.ServiceCallback<Models.ImageStoreContent>): void;
-  getImageStoreContent(contentPath: string, options?: Models.ServiceFabricClientGetImageStoreContentOptionalParams | msRest.ServiceCallback<Models.ImageStoreContent>, callback?: msRest.ServiceCallback<Models.ImageStoreContent>): Promise<Models.GetImageStoreContentResponse> {
+  getImageStoreContent(contentPath: string, options?: Models.ServiceFabricClientGetImageStoreContentOptionalParams, callback?: msRest.ServiceCallback<Models.ImageStoreContent>): Promise<Models.GetImageStoreContentResponse> {
     return this.sendOperationRequest(
       {
         contentPath,
@@ -4803,7 +4803,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   deleteImageStoreContent(contentPath: string, options: Models.ServiceFabricClientDeleteImageStoreContentOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteImageStoreContent(contentPath: string, options?: Models.ServiceFabricClientDeleteImageStoreContentOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteImageStoreContent(contentPath: string, options?: Models.ServiceFabricClientDeleteImageStoreContentOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         contentPath,
@@ -4829,7 +4829,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getImageStoreRootContent(options: Models.ServiceFabricClientGetImageStoreRootContentOptionalParams, callback: msRest.ServiceCallback<Models.ImageStoreContent>): void;
-  getImageStoreRootContent(options?: Models.ServiceFabricClientGetImageStoreRootContentOptionalParams | msRest.ServiceCallback<Models.ImageStoreContent>, callback?: msRest.ServiceCallback<Models.ImageStoreContent>): Promise<Models.GetImageStoreRootContentResponse> {
+  getImageStoreRootContent(options?: Models.ServiceFabricClientGetImageStoreRootContentOptionalParams, callback?: msRest.ServiceCallback<Models.ImageStoreContent>): Promise<Models.GetImageStoreRootContentResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -4858,7 +4858,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   copyImageStoreContent(imageStoreCopyDescription: Models.ImageStoreCopyDescription, options: Models.ServiceFabricClientCopyImageStoreContentOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  copyImageStoreContent(imageStoreCopyDescription: Models.ImageStoreCopyDescription, options?: Models.ServiceFabricClientCopyImageStoreContentOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  copyImageStoreContent(imageStoreCopyDescription: Models.ImageStoreCopyDescription, options?: Models.ServiceFabricClientCopyImageStoreContentOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         imageStoreCopyDescription,
@@ -4891,7 +4891,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   deleteImageStoreUploadSession(sessionId: string, options: Models.ServiceFabricClientDeleteImageStoreUploadSessionOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteImageStoreUploadSession(sessionId: string, options?: Models.ServiceFabricClientDeleteImageStoreUploadSessionOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteImageStoreUploadSession(sessionId: string, options?: Models.ServiceFabricClientDeleteImageStoreUploadSessionOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         sessionId,
@@ -4925,7 +4925,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   commitImageStoreUploadSession(sessionId: string, options: Models.ServiceFabricClientCommitImageStoreUploadSessionOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  commitImageStoreUploadSession(sessionId: string, options?: Models.ServiceFabricClientCommitImageStoreUploadSessionOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  commitImageStoreUploadSession(sessionId: string, options?: Models.ServiceFabricClientCommitImageStoreUploadSessionOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         sessionId,
@@ -4958,7 +4958,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getImageStoreUploadSessionById(sessionId: string, options: Models.ServiceFabricClientGetImageStoreUploadSessionByIdOptionalParams, callback: msRest.ServiceCallback<Models.UploadSession>): void;
-  getImageStoreUploadSessionById(sessionId: string, options?: Models.ServiceFabricClientGetImageStoreUploadSessionByIdOptionalParams | msRest.ServiceCallback<Models.UploadSession>, callback?: msRest.ServiceCallback<Models.UploadSession>): Promise<Models.GetImageStoreUploadSessionByIdResponse> {
+  getImageStoreUploadSessionById(sessionId: string, options?: Models.ServiceFabricClientGetImageStoreUploadSessionByIdOptionalParams, callback?: msRest.ServiceCallback<Models.UploadSession>): Promise<Models.GetImageStoreUploadSessionByIdResponse> {
     return this.sendOperationRequest(
       {
         sessionId,
@@ -4988,7 +4988,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getImageStoreUploadSessionByPath(contentPath: string, options: Models.ServiceFabricClientGetImageStoreUploadSessionByPathOptionalParams, callback: msRest.ServiceCallback<Models.UploadSession>): void;
-  getImageStoreUploadSessionByPath(contentPath: string, options?: Models.ServiceFabricClientGetImageStoreUploadSessionByPathOptionalParams | msRest.ServiceCallback<Models.UploadSession>, callback?: msRest.ServiceCallback<Models.UploadSession>): Promise<Models.GetImageStoreUploadSessionByPathResponse> {
+  getImageStoreUploadSessionByPath(contentPath: string, options?: Models.ServiceFabricClientGetImageStoreUploadSessionByPathOptionalParams, callback?: msRest.ServiceCallback<Models.UploadSession>): Promise<Models.GetImageStoreUploadSessionByPathResponse> {
     return this.sendOperationRequest(
       {
         contentPath,
@@ -5046,7 +5046,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   uploadFileChunk(contentPath: string, sessionId: string, contentRange: string, options: Models.ServiceFabricClientUploadFileChunkOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  uploadFileChunk(contentPath: string, sessionId: string, contentRange: string, options?: Models.ServiceFabricClientUploadFileChunkOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  uploadFileChunk(contentPath: string, sessionId: string, contentRange: string, options?: Models.ServiceFabricClientUploadFileChunkOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         contentPath,
@@ -5088,7 +5088,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   invokeInfrastructureCommand(command: string, options: Models.ServiceFabricClientInvokeInfrastructureCommandOptionalParams, callback: msRest.ServiceCallback<string>): void;
-  invokeInfrastructureCommand(command: string, options?: Models.ServiceFabricClientInvokeInfrastructureCommandOptionalParams | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.InvokeInfrastructureCommandResponse> {
+  invokeInfrastructureCommand(command: string, options?: Models.ServiceFabricClientInvokeInfrastructureCommandOptionalParams, callback?: msRest.ServiceCallback<string>): Promise<Models.InvokeInfrastructureCommandResponse> {
     return this.sendOperationRequest(
       {
         command,
@@ -5128,7 +5128,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   invokeInfrastructureQuery(command: string, options: Models.ServiceFabricClientInvokeInfrastructureQueryOptionalParams, callback: msRest.ServiceCallback<string>): void;
-  invokeInfrastructureQuery(command: string, options?: Models.ServiceFabricClientInvokeInfrastructureQueryOptionalParams | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.InvokeInfrastructureQueryResponse> {
+  invokeInfrastructureQuery(command: string, options?: Models.ServiceFabricClientInvokeInfrastructureQueryOptionalParams, callback?: msRest.ServiceCallback<string>): Promise<Models.InvokeInfrastructureQueryResponse> {
     return this.sendOperationRequest(
       {
         command,
@@ -5202,7 +5202,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   startDataLoss(serviceId: string, partitionId: string, operationId: string, dataLossMode: Models.DataLossMode, options: Models.ServiceFabricClientStartDataLossOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  startDataLoss(serviceId: string, partitionId: string, operationId: string, dataLossMode: Models.DataLossMode, options?: Models.ServiceFabricClientStartDataLossOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  startDataLoss(serviceId: string, partitionId: string, operationId: string, dataLossMode: Models.DataLossMode, options?: Models.ServiceFabricClientStartDataLossOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         serviceId,
@@ -5256,7 +5256,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getDataLossProgress(serviceId: string, partitionId: string, operationId: string, options: Models.ServiceFabricClientGetDataLossProgressOptionalParams, callback: msRest.ServiceCallback<Models.PartitionDataLossProgress>): void;
-  getDataLossProgress(serviceId: string, partitionId: string, operationId: string, options?: Models.ServiceFabricClientGetDataLossProgressOptionalParams | msRest.ServiceCallback<Models.PartitionDataLossProgress>, callback?: msRest.ServiceCallback<Models.PartitionDataLossProgress>): Promise<Models.GetDataLossProgressResponse> {
+  getDataLossProgress(serviceId: string, partitionId: string, operationId: string, options?: Models.ServiceFabricClientGetDataLossProgressOptionalParams, callback?: msRest.ServiceCallback<Models.PartitionDataLossProgress>): Promise<Models.GetDataLossProgressResponse> {
     return this.sendOperationRequest(
       {
         serviceId,
@@ -5326,7 +5326,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   startQuorumLoss(serviceId: string, partitionId: string, operationId: string, quorumLossMode: Models.QuorumLossMode, quorumLossDuration: number, options: Models.ServiceFabricClientStartQuorumLossOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  startQuorumLoss(serviceId: string, partitionId: string, operationId: string, quorumLossMode: Models.QuorumLossMode, quorumLossDuration: number, options?: Models.ServiceFabricClientStartQuorumLossOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  startQuorumLoss(serviceId: string, partitionId: string, operationId: string, quorumLossMode: Models.QuorumLossMode, quorumLossDuration: number, options?: Models.ServiceFabricClientStartQuorumLossOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         serviceId,
@@ -5382,7 +5382,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getQuorumLossProgress(serviceId: string, partitionId: string, operationId: string, options: Models.ServiceFabricClientGetQuorumLossProgressOptionalParams, callback: msRest.ServiceCallback<Models.PartitionQuorumLossProgress>): void;
-  getQuorumLossProgress(serviceId: string, partitionId: string, operationId: string, options?: Models.ServiceFabricClientGetQuorumLossProgressOptionalParams | msRest.ServiceCallback<Models.PartitionQuorumLossProgress>, callback?: msRest.ServiceCallback<Models.PartitionQuorumLossProgress>): Promise<Models.GetQuorumLossProgressResponse> {
+  getQuorumLossProgress(serviceId: string, partitionId: string, operationId: string, options?: Models.ServiceFabricClientGetQuorumLossProgressOptionalParams, callback?: msRest.ServiceCallback<Models.PartitionQuorumLossProgress>): Promise<Models.GetQuorumLossProgressResponse> {
     return this.sendOperationRequest(
       {
         serviceId,
@@ -5445,7 +5445,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   startPartitionRestart(serviceId: string, partitionId: string, operationId: string, restartPartitionMode: Models.RestartPartitionMode, options: Models.ServiceFabricClientStartPartitionRestartOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  startPartitionRestart(serviceId: string, partitionId: string, operationId: string, restartPartitionMode: Models.RestartPartitionMode, options?: Models.ServiceFabricClientStartPartitionRestartOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  startPartitionRestart(serviceId: string, partitionId: string, operationId: string, restartPartitionMode: Models.RestartPartitionMode, options?: Models.ServiceFabricClientStartPartitionRestartOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         serviceId,
@@ -5499,7 +5499,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getPartitionRestartProgress(serviceId: string, partitionId: string, operationId: string, options: Models.ServiceFabricClientGetPartitionRestartProgressOptionalParams, callback: msRest.ServiceCallback<Models.PartitionRestartProgress>): void;
-  getPartitionRestartProgress(serviceId: string, partitionId: string, operationId: string, options?: Models.ServiceFabricClientGetPartitionRestartProgressOptionalParams | msRest.ServiceCallback<Models.PartitionRestartProgress>, callback?: msRest.ServiceCallback<Models.PartitionRestartProgress>): Promise<Models.GetPartitionRestartProgressResponse> {
+  getPartitionRestartProgress(serviceId: string, partitionId: string, operationId: string, options?: Models.ServiceFabricClientGetPartitionRestartProgressOptionalParams, callback?: msRest.ServiceCallback<Models.PartitionRestartProgress>): Promise<Models.GetPartitionRestartProgressResponse> {
     return this.sendOperationRequest(
       {
         serviceId,
@@ -5564,7 +5564,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   startNodeTransition(nodeName: string, operationId: string, nodeTransitionType: Models.NodeTransitionType, nodeInstanceId: string, stopDurationInSeconds: number, options: Models.ServiceFabricClientStartNodeTransitionOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  startNodeTransition(nodeName: string, operationId: string, nodeTransitionType: Models.NodeTransitionType, nodeInstanceId: string, stopDurationInSeconds: number, options?: Models.ServiceFabricClientStartNodeTransitionOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  startNodeTransition(nodeName: string, operationId: string, nodeTransitionType: Models.NodeTransitionType, nodeInstanceId: string, stopDurationInSeconds: number, options?: Models.ServiceFabricClientStartNodeTransitionOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -5604,7 +5604,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getNodeTransitionProgress(nodeName: string, operationId: string, options: Models.ServiceFabricClientGetNodeTransitionProgressOptionalParams, callback: msRest.ServiceCallback<Models.NodeTransitionProgress>): void;
-  getNodeTransitionProgress(nodeName: string, operationId: string, options?: Models.ServiceFabricClientGetNodeTransitionProgressOptionalParams | msRest.ServiceCallback<Models.NodeTransitionProgress>, callback?: msRest.ServiceCallback<Models.NodeTransitionProgress>): Promise<Models.GetNodeTransitionProgressResponse> {
+  getNodeTransitionProgress(nodeName: string, operationId: string, options?: Models.ServiceFabricClientGetNodeTransitionProgressOptionalParams, callback?: msRest.ServiceCallback<Models.NodeTransitionProgress>): Promise<Models.GetNodeTransitionProgressResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -5679,7 +5679,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getFaultOperationList(typeFilter: number, stateFilter: number, options: Models.ServiceFabricClientGetFaultOperationListOptionalParams, callback: msRest.ServiceCallback<Models.OperationStatus[]>): void;
-  getFaultOperationList(typeFilter: number, stateFilter: number, options?: Models.ServiceFabricClientGetFaultOperationListOptionalParams | msRest.ServiceCallback<Models.OperationStatus[]>, callback?: msRest.ServiceCallback<Models.OperationStatus[]>): Promise<Models.GetFaultOperationListResponse> {
+  getFaultOperationList(typeFilter: number, stateFilter: number, options?: Models.ServiceFabricClientGetFaultOperationListOptionalParams, callback?: msRest.ServiceCallback<Models.OperationStatus[]>): Promise<Models.GetFaultOperationListResponse> {
     return this.sendOperationRequest(
       {
         typeFilter,
@@ -5734,7 +5734,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   cancelOperation(operationId: string, force: boolean, options: Models.ServiceFabricClientCancelOperationOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  cancelOperation(operationId: string, force: boolean, options?: Models.ServiceFabricClientCancelOperationOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  cancelOperation(operationId: string, force: boolean, options?: Models.ServiceFabricClientCancelOperationOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         operationId,
@@ -5765,7 +5765,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   createBackupPolicy(backupPolicyDescription: Models.BackupPolicyDescription, options: Models.ServiceFabricClientCreateBackupPolicyOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  createBackupPolicy(backupPolicyDescription: Models.BackupPolicyDescription, options?: Models.ServiceFabricClientCreateBackupPolicyOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  createBackupPolicy(backupPolicyDescription: Models.BackupPolicyDescription, options?: Models.ServiceFabricClientCreateBackupPolicyOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         backupPolicyDescription,
@@ -5796,7 +5796,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   deleteBackupPolicy(backupPolicyName: string, options: Models.ServiceFabricClientDeleteBackupPolicyOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteBackupPolicy(backupPolicyName: string, options?: Models.ServiceFabricClientDeleteBackupPolicyOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteBackupPolicy(backupPolicyName: string, options?: Models.ServiceFabricClientDeleteBackupPolicyOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         backupPolicyName,
@@ -5822,7 +5822,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getBackupPolicyList(options: Models.ServiceFabricClientGetBackupPolicyListOptionalParams, callback: msRest.ServiceCallback<Models.PagedBackupPolicyDescriptionList>): void;
-  getBackupPolicyList(options?: Models.ServiceFabricClientGetBackupPolicyListOptionalParams | msRest.ServiceCallback<Models.PagedBackupPolicyDescriptionList>, callback?: msRest.ServiceCallback<Models.PagedBackupPolicyDescriptionList>): Promise<Models.GetBackupPolicyListResponse> {
+  getBackupPolicyList(options?: Models.ServiceFabricClientGetBackupPolicyListOptionalParams, callback?: msRest.ServiceCallback<Models.PagedBackupPolicyDescriptionList>): Promise<Models.GetBackupPolicyListResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -5850,7 +5850,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getBackupPolicyByName(backupPolicyName: string, options: Models.ServiceFabricClientGetBackupPolicyByNameOptionalParams, callback: msRest.ServiceCallback<Models.BackupPolicyDescription>): void;
-  getBackupPolicyByName(backupPolicyName: string, options?: Models.ServiceFabricClientGetBackupPolicyByNameOptionalParams | msRest.ServiceCallback<Models.BackupPolicyDescription>, callback?: msRest.ServiceCallback<Models.BackupPolicyDescription>): Promise<Models.GetBackupPolicyByNameResponse> {
+  getBackupPolicyByName(backupPolicyName: string, options?: Models.ServiceFabricClientGetBackupPolicyByNameOptionalParams, callback?: msRest.ServiceCallback<Models.BackupPolicyDescription>): Promise<Models.GetBackupPolicyByNameResponse> {
     return this.sendOperationRequest(
       {
         backupPolicyName,
@@ -5880,7 +5880,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getAllEntitiesBackedUpByPolicy(backupPolicyName: string, options: Models.ServiceFabricClientGetAllEntitiesBackedUpByPolicyOptionalParams, callback: msRest.ServiceCallback<Models.PagedBackupEntityList>): void;
-  getAllEntitiesBackedUpByPolicy(backupPolicyName: string, options?: Models.ServiceFabricClientGetAllEntitiesBackedUpByPolicyOptionalParams | msRest.ServiceCallback<Models.PagedBackupEntityList>, callback?: msRest.ServiceCallback<Models.PagedBackupEntityList>): Promise<Models.GetAllEntitiesBackedUpByPolicyResponse> {
+  getAllEntitiesBackedUpByPolicy(backupPolicyName: string, options?: Models.ServiceFabricClientGetAllEntitiesBackedUpByPolicyOptionalParams, callback?: msRest.ServiceCallback<Models.PagedBackupEntityList>): Promise<Models.GetAllEntitiesBackedUpByPolicyResponse> {
     return this.sendOperationRequest(
       {
         backupPolicyName,
@@ -5912,7 +5912,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   updateBackupPolicy(backupPolicyDescription: Models.BackupPolicyDescription, backupPolicyName: string, options: Models.ServiceFabricClientUpdateBackupPolicyOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  updateBackupPolicy(backupPolicyDescription: Models.BackupPolicyDescription, backupPolicyName: string, options?: Models.ServiceFabricClientUpdateBackupPolicyOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  updateBackupPolicy(backupPolicyDescription: Models.BackupPolicyDescription, backupPolicyName: string, options?: Models.ServiceFabricClientUpdateBackupPolicyOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         backupPolicyDescription,
@@ -5961,7 +5961,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   enableApplicationBackup(applicationId: string, enableBackupDescription: Models.EnableBackupDescription, options: Models.ServiceFabricClientEnableApplicationBackupOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  enableApplicationBackup(applicationId: string, enableBackupDescription: Models.EnableBackupDescription, options?: Models.ServiceFabricClientEnableApplicationBackupOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  enableApplicationBackup(applicationId: string, enableBackupDescription: Models.EnableBackupDescription, options?: Models.ServiceFabricClientEnableApplicationBackupOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         applicationId,
@@ -6003,7 +6003,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   disableApplicationBackup(applicationId: string, options: Models.ServiceFabricClientDisableApplicationBackupOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  disableApplicationBackup(applicationId: string, options?: Models.ServiceFabricClientDisableApplicationBackupOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  disableApplicationBackup(applicationId: string, options?: Models.ServiceFabricClientDisableApplicationBackupOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         applicationId,
@@ -6045,7 +6045,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getApplicationBackupConfigurationInfo(applicationId: string, options: Models.ServiceFabricClientGetApplicationBackupConfigurationInfoOptionalParams, callback: msRest.ServiceCallback<Models.PagedBackupConfigurationInfoList>): void;
-  getApplicationBackupConfigurationInfo(applicationId: string, options?: Models.ServiceFabricClientGetApplicationBackupConfigurationInfoOptionalParams | msRest.ServiceCallback<Models.PagedBackupConfigurationInfoList>, callback?: msRest.ServiceCallback<Models.PagedBackupConfigurationInfoList>): Promise<Models.GetApplicationBackupConfigurationInfoResponse> {
+  getApplicationBackupConfigurationInfo(applicationId: string, options?: Models.ServiceFabricClientGetApplicationBackupConfigurationInfoOptionalParams, callback?: msRest.ServiceCallback<Models.PagedBackupConfigurationInfoList>): Promise<Models.GetApplicationBackupConfigurationInfoResponse> {
     return this.sendOperationRequest(
       {
         applicationId,
@@ -6089,7 +6089,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getApplicationBackupList(applicationId: string, options: Models.ServiceFabricClientGetApplicationBackupListOptionalParams, callback: msRest.ServiceCallback<Models.PagedBackupInfoList>): void;
-  getApplicationBackupList(applicationId: string, options?: Models.ServiceFabricClientGetApplicationBackupListOptionalParams | msRest.ServiceCallback<Models.PagedBackupInfoList>, callback?: msRest.ServiceCallback<Models.PagedBackupInfoList>): Promise<Models.GetApplicationBackupListResponse> {
+  getApplicationBackupList(applicationId: string, options?: Models.ServiceFabricClientGetApplicationBackupListOptionalParams, callback?: msRest.ServiceCallback<Models.PagedBackupInfoList>): Promise<Models.GetApplicationBackupListResponse> {
     return this.sendOperationRequest(
       {
         applicationId,
@@ -6132,7 +6132,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   suspendApplicationBackup(applicationId: string, options: Models.ServiceFabricClientSuspendApplicationBackupOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  suspendApplicationBackup(applicationId: string, options?: Models.ServiceFabricClientSuspendApplicationBackupOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  suspendApplicationBackup(applicationId: string, options?: Models.ServiceFabricClientSuspendApplicationBackupOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         applicationId,
@@ -6174,7 +6174,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   resumeApplicationBackup(applicationId: string, options: Models.ServiceFabricClientResumeApplicationBackupOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  resumeApplicationBackup(applicationId: string, options?: Models.ServiceFabricClientResumeApplicationBackupOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  resumeApplicationBackup(applicationId: string, options?: Models.ServiceFabricClientResumeApplicationBackupOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         applicationId,
@@ -6224,7 +6224,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   enableServiceBackup(serviceId: string, enableBackupDescription: Models.EnableBackupDescription, options: Models.ServiceFabricClientEnableServiceBackupOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  enableServiceBackup(serviceId: string, enableBackupDescription: Models.EnableBackupDescription, options?: Models.ServiceFabricClientEnableServiceBackupOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  enableServiceBackup(serviceId: string, enableBackupDescription: Models.EnableBackupDescription, options?: Models.ServiceFabricClientEnableServiceBackupOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         serviceId,
@@ -6270,7 +6270,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   disableServiceBackup(serviceId: string, options: Models.ServiceFabricClientDisableServiceBackupOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  disableServiceBackup(serviceId: string, options?: Models.ServiceFabricClientDisableServiceBackupOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  disableServiceBackup(serviceId: string, options?: Models.ServiceFabricClientDisableServiceBackupOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         serviceId,
@@ -6312,7 +6312,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getServiceBackupConfigurationInfo(serviceId: string, options: Models.ServiceFabricClientGetServiceBackupConfigurationInfoOptionalParams, callback: msRest.ServiceCallback<Models.PagedBackupConfigurationInfoList>): void;
-  getServiceBackupConfigurationInfo(serviceId: string, options?: Models.ServiceFabricClientGetServiceBackupConfigurationInfoOptionalParams | msRest.ServiceCallback<Models.PagedBackupConfigurationInfoList>, callback?: msRest.ServiceCallback<Models.PagedBackupConfigurationInfoList>): Promise<Models.GetServiceBackupConfigurationInfoResponse> {
+  getServiceBackupConfigurationInfo(serviceId: string, options?: Models.ServiceFabricClientGetServiceBackupConfigurationInfoOptionalParams, callback?: msRest.ServiceCallback<Models.PagedBackupConfigurationInfoList>): Promise<Models.GetServiceBackupConfigurationInfoResponse> {
     return this.sendOperationRequest(
       {
         serviceId,
@@ -6356,7 +6356,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getServiceBackupList(serviceId: string, options: Models.ServiceFabricClientGetServiceBackupListOptionalParams, callback: msRest.ServiceCallback<Models.PagedBackupInfoList>): void;
-  getServiceBackupList(serviceId: string, options?: Models.ServiceFabricClientGetServiceBackupListOptionalParams | msRest.ServiceCallback<Models.PagedBackupInfoList>, callback?: msRest.ServiceCallback<Models.PagedBackupInfoList>): Promise<Models.GetServiceBackupListResponse> {
+  getServiceBackupList(serviceId: string, options?: Models.ServiceFabricClientGetServiceBackupListOptionalParams, callback?: msRest.ServiceCallback<Models.PagedBackupInfoList>): Promise<Models.GetServiceBackupListResponse> {
     return this.sendOperationRequest(
       {
         serviceId,
@@ -6399,7 +6399,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   suspendServiceBackup(serviceId: string, options: Models.ServiceFabricClientSuspendServiceBackupOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  suspendServiceBackup(serviceId: string, options?: Models.ServiceFabricClientSuspendServiceBackupOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  suspendServiceBackup(serviceId: string, options?: Models.ServiceFabricClientSuspendServiceBackupOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         serviceId,
@@ -6441,7 +6441,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   resumeServiceBackup(serviceId: string, options: Models.ServiceFabricClientResumeServiceBackupOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  resumeServiceBackup(serviceId: string, options?: Models.ServiceFabricClientResumeServiceBackupOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  resumeServiceBackup(serviceId: string, options?: Models.ServiceFabricClientResumeServiceBackupOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         serviceId,
@@ -6478,7 +6478,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   enablePartitionBackup(partitionId: string, enableBackupDescription: Models.EnableBackupDescription, options: Models.ServiceFabricClientEnablePartitionBackupOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  enablePartitionBackup(partitionId: string, enableBackupDescription: Models.EnableBackupDescription, options?: Models.ServiceFabricClientEnablePartitionBackupOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  enablePartitionBackup(partitionId: string, enableBackupDescription: Models.EnableBackupDescription, options?: Models.ServiceFabricClientEnablePartitionBackupOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -6512,7 +6512,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   disablePartitionBackup(partitionId: string, options: Models.ServiceFabricClientDisablePartitionBackupOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  disablePartitionBackup(partitionId: string, options?: Models.ServiceFabricClientDisablePartitionBackupOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  disablePartitionBackup(partitionId: string, options?: Models.ServiceFabricClientDisablePartitionBackupOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -6541,7 +6541,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getPartitionBackupConfigurationInfo(partitionId: string, options: Models.ServiceFabricClientGetPartitionBackupConfigurationInfoOptionalParams, callback: msRest.ServiceCallback<Models.PartitionBackupConfigurationInfo>): void;
-  getPartitionBackupConfigurationInfo(partitionId: string, options?: Models.ServiceFabricClientGetPartitionBackupConfigurationInfoOptionalParams | msRest.ServiceCallback<Models.PartitionBackupConfigurationInfo>, callback?: msRest.ServiceCallback<Models.PartitionBackupConfigurationInfo>): Promise<Models.GetPartitionBackupConfigurationInfoResponse> {
+  getPartitionBackupConfigurationInfo(partitionId: string, options?: Models.ServiceFabricClientGetPartitionBackupConfigurationInfoOptionalParams, callback?: msRest.ServiceCallback<Models.PartitionBackupConfigurationInfo>): Promise<Models.GetPartitionBackupConfigurationInfoResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -6573,7 +6573,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getPartitionBackupList(partitionId: string, options: Models.ServiceFabricClientGetPartitionBackupListOptionalParams, callback: msRest.ServiceCallback<Models.PagedBackupInfoList>): void;
-  getPartitionBackupList(partitionId: string, options?: Models.ServiceFabricClientGetPartitionBackupListOptionalParams | msRest.ServiceCallback<Models.PagedBackupInfoList>, callback?: msRest.ServiceCallback<Models.PagedBackupInfoList>): Promise<Models.GetPartitionBackupListResponse> {
+  getPartitionBackupList(partitionId: string, options?: Models.ServiceFabricClientGetPartitionBackupListOptionalParams, callback?: msRest.ServiceCallback<Models.PagedBackupInfoList>): Promise<Models.GetPartitionBackupListResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -6603,7 +6603,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   suspendPartitionBackup(partitionId: string, options: Models.ServiceFabricClientSuspendPartitionBackupOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  suspendPartitionBackup(partitionId: string, options?: Models.ServiceFabricClientSuspendPartitionBackupOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  suspendPartitionBackup(partitionId: string, options?: Models.ServiceFabricClientSuspendPartitionBackupOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -6633,7 +6633,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   resumePartitionBackup(partitionId: string, options: Models.ServiceFabricClientResumePartitionBackupOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  resumePartitionBackup(partitionId: string, options?: Models.ServiceFabricClientResumePartitionBackupOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  resumePartitionBackup(partitionId: string, options?: Models.ServiceFabricClientResumePartitionBackupOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -6667,7 +6667,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   backupPartition(partitionId: string, options: Models.ServiceFabricClientBackupPartitionOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  backupPartition(partitionId: string, options?: Models.ServiceFabricClientBackupPartitionOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  backupPartition(partitionId: string, options?: Models.ServiceFabricClientBackupPartitionOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -6697,7 +6697,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getPartitionBackupProgress(partitionId: string, options: Models.ServiceFabricClientGetPartitionBackupProgressOptionalParams, callback: msRest.ServiceCallback<Models.BackupProgressInfo>): void;
-  getPartitionBackupProgress(partitionId: string, options?: Models.ServiceFabricClientGetPartitionBackupProgressOptionalParams | msRest.ServiceCallback<Models.BackupProgressInfo>, callback?: msRest.ServiceCallback<Models.BackupProgressInfo>): Promise<Models.GetPartitionBackupProgressResponse> {
+  getPartitionBackupProgress(partitionId: string, options?: Models.ServiceFabricClientGetPartitionBackupProgressOptionalParams, callback?: msRest.ServiceCallback<Models.BackupProgressInfo>): Promise<Models.GetPartitionBackupProgressResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -6736,7 +6736,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   restorePartition(partitionId: string, restorePartitionDescription: Models.RestorePartitionDescription, options: Models.ServiceFabricClientRestorePartitionOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  restorePartition(partitionId: string, restorePartitionDescription: Models.RestorePartitionDescription, options?: Models.ServiceFabricClientRestorePartitionOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  restorePartition(partitionId: string, restorePartitionDescription: Models.RestorePartitionDescription, options?: Models.ServiceFabricClientRestorePartitionOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -6767,7 +6767,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getPartitionRestoreProgress(partitionId: string, options: Models.ServiceFabricClientGetPartitionRestoreProgressOptionalParams, callback: msRest.ServiceCallback<Models.RestoreProgressInfo>): void;
-  getPartitionRestoreProgress(partitionId: string, options?: Models.ServiceFabricClientGetPartitionRestoreProgressOptionalParams | msRest.ServiceCallback<Models.RestoreProgressInfo>, callback?: msRest.ServiceCallback<Models.RestoreProgressInfo>): Promise<Models.GetPartitionRestoreProgressResponse> {
+  getPartitionRestoreProgress(partitionId: string, options?: Models.ServiceFabricClientGetPartitionRestoreProgressOptionalParams, callback?: msRest.ServiceCallback<Models.RestoreProgressInfo>): Promise<Models.GetPartitionRestoreProgressResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -6801,7 +6801,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getBackupsFromBackupLocation(getBackupByStorageQueryDescription: Models.GetBackupByStorageQueryDescription, options: Models.ServiceFabricClientGetBackupsFromBackupLocationOptionalParams, callback: msRest.ServiceCallback<Models.PagedBackupInfoList>): void;
-  getBackupsFromBackupLocation(getBackupByStorageQueryDescription: Models.GetBackupByStorageQueryDescription, options?: Models.ServiceFabricClientGetBackupsFromBackupLocationOptionalParams | msRest.ServiceCallback<Models.PagedBackupInfoList>, callback?: msRest.ServiceCallback<Models.PagedBackupInfoList>): Promise<Models.GetBackupsFromBackupLocationResponse> {
+  getBackupsFromBackupLocation(getBackupByStorageQueryDescription: Models.GetBackupByStorageQueryDescription, options?: Models.ServiceFabricClientGetBackupsFromBackupLocationOptionalParams, callback?: msRest.ServiceCallback<Models.PagedBackupInfoList>): Promise<Models.GetBackupsFromBackupLocationResponse> {
     return this.sendOperationRequest(
       {
         getBackupByStorageQueryDescription,
@@ -6830,7 +6830,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   createName(nameDescription: Models.NameDescription, options: Models.ServiceFabricClientCreateNameOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  createName(nameDescription: Models.NameDescription, options?: Models.ServiceFabricClientCreateNameOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  createName(nameDescription: Models.NameDescription, options?: Models.ServiceFabricClientCreateNameOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         nameDescription,
@@ -6859,7 +6859,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getNameExistsInfo(nameId: string, options: Models.ServiceFabricClientGetNameExistsInfoOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  getNameExistsInfo(nameId: string, options?: Models.ServiceFabricClientGetNameExistsInfoOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  getNameExistsInfo(nameId: string, options?: Models.ServiceFabricClientGetNameExistsInfoOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         nameId,
@@ -6889,7 +6889,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   deleteName(nameId: string, options: Models.ServiceFabricClientDeleteNameOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteName(nameId: string, options?: Models.ServiceFabricClientDeleteNameOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteName(nameId: string, options?: Models.ServiceFabricClientDeleteNameOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         nameId,
@@ -6920,7 +6920,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getSubNameInfoList(nameId: string, options: Models.ServiceFabricClientGetSubNameInfoListOptionalParams, callback: msRest.ServiceCallback<Models.PagedSubNameInfoList>): void;
-  getSubNameInfoList(nameId: string, options?: Models.ServiceFabricClientGetSubNameInfoListOptionalParams | msRest.ServiceCallback<Models.PagedSubNameInfoList>, callback?: msRest.ServiceCallback<Models.PagedSubNameInfoList>): Promise<Models.GetSubNameInfoListResponse> {
+  getSubNameInfoList(nameId: string, options?: Models.ServiceFabricClientGetSubNameInfoListOptionalParams, callback?: msRest.ServiceCallback<Models.PagedSubNameInfoList>): Promise<Models.GetSubNameInfoListResponse> {
     return this.sendOperationRequest(
       {
         nameId,
@@ -6951,7 +6951,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getPropertyInfoList(nameId: string, options: Models.ServiceFabricClientGetPropertyInfoListOptionalParams, callback: msRest.ServiceCallback<Models.PagedPropertyInfoList>): void;
-  getPropertyInfoList(nameId: string, options?: Models.ServiceFabricClientGetPropertyInfoListOptionalParams | msRest.ServiceCallback<Models.PagedPropertyInfoList>, callback?: msRest.ServiceCallback<Models.PagedPropertyInfoList>): Promise<Models.GetPropertyInfoListResponse> {
+  getPropertyInfoList(nameId: string, options?: Models.ServiceFabricClientGetPropertyInfoListOptionalParams, callback?: msRest.ServiceCallback<Models.PagedPropertyInfoList>): Promise<Models.GetPropertyInfoListResponse> {
     return this.sendOperationRequest(
       {
         nameId,
@@ -6983,7 +6983,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   putProperty(nameId: string, propertyDescription: Models.PropertyDescription, options: Models.ServiceFabricClientPutPropertyOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  putProperty(nameId: string, propertyDescription: Models.PropertyDescription, options?: Models.ServiceFabricClientPutPropertyOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  putProperty(nameId: string, propertyDescription: Models.PropertyDescription, options?: Models.ServiceFabricClientPutPropertyOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         nameId,
@@ -7017,7 +7017,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getPropertyInfo(nameId: string, propertyName: string, options: Models.ServiceFabricClientGetPropertyInfoOptionalParams, callback: msRest.ServiceCallback<Models.PropertyInfo>): void;
-  getPropertyInfo(nameId: string, propertyName: string, options?: Models.ServiceFabricClientGetPropertyInfoOptionalParams | msRest.ServiceCallback<Models.PropertyInfo>, callback?: msRest.ServiceCallback<Models.PropertyInfo>): Promise<Models.GetPropertyInfoResponse> {
+  getPropertyInfo(nameId: string, propertyName: string, options?: Models.ServiceFabricClientGetPropertyInfoOptionalParams, callback?: msRest.ServiceCallback<Models.PropertyInfo>): Promise<Models.GetPropertyInfoResponse> {
     return this.sendOperationRequest(
       {
         nameId,
@@ -7051,7 +7051,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   deleteProperty(nameId: string, propertyName: string, options: Models.ServiceFabricClientDeletePropertyOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteProperty(nameId: string, propertyName: string, options?: Models.ServiceFabricClientDeletePropertyOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteProperty(nameId: string, propertyName: string, options?: Models.ServiceFabricClientDeletePropertyOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         nameId,
@@ -7084,7 +7084,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   submitPropertyBatch(nameId: string, propertyBatchDescriptionList: Models.PropertyBatchDescriptionList, options: Models.ServiceFabricClientSubmitPropertyBatchOptionalParams, callback: msRest.ServiceCallback<Models.PropertyBatchInfoUnion>): void;
-  submitPropertyBatch(nameId: string, propertyBatchDescriptionList: Models.PropertyBatchDescriptionList, options?: Models.ServiceFabricClientSubmitPropertyBatchOptionalParams | msRest.ServiceCallback<Models.PropertyBatchInfoUnion>, callback?: msRest.ServiceCallback<Models.PropertyBatchInfoUnion>): Promise<Models.SubmitPropertyBatchResponse> {
+  submitPropertyBatch(nameId: string, propertyBatchDescriptionList: Models.PropertyBatchDescriptionList, options?: Models.ServiceFabricClientSubmitPropertyBatchOptionalParams, callback?: msRest.ServiceCallback<Models.PropertyBatchInfoUnion>): Promise<Models.SubmitPropertyBatchResponse> {
     return this.sendOperationRequest(
       {
         nameId,
@@ -7117,7 +7117,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getClusterEventList(startTimeUtc: string, endTimeUtc: string, options: Models.ServiceFabricClientGetClusterEventListOptionalParams, callback: msRest.ServiceCallback<Models.ClusterEventUnion[]>): void;
-  getClusterEventList(startTimeUtc: string, endTimeUtc: string, options?: Models.ServiceFabricClientGetClusterEventListOptionalParams | msRest.ServiceCallback<Models.ClusterEventUnion[]>, callback?: msRest.ServiceCallback<Models.ClusterEventUnion[]>): Promise<Models.GetClusterEventListResponse> {
+  getClusterEventList(startTimeUtc: string, endTimeUtc: string, options?: Models.ServiceFabricClientGetClusterEventListOptionalParams, callback?: msRest.ServiceCallback<Models.ClusterEventUnion[]>): Promise<Models.GetClusterEventListResponse> {
     return this.sendOperationRequest(
       {
         startTimeUtc,
@@ -7150,7 +7150,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getContainersEventList(startTimeUtc: string, endTimeUtc: string, options: Models.ServiceFabricClientGetContainersEventListOptionalParams, callback: msRest.ServiceCallback<Models.ContainerInstanceEvent[]>): void;
-  getContainersEventList(startTimeUtc: string, endTimeUtc: string, options?: Models.ServiceFabricClientGetContainersEventListOptionalParams | msRest.ServiceCallback<Models.ContainerInstanceEvent[]>, callback?: msRest.ServiceCallback<Models.ContainerInstanceEvent[]>): Promise<Models.GetContainersEventListResponse> {
+  getContainersEventList(startTimeUtc: string, endTimeUtc: string, options?: Models.ServiceFabricClientGetContainersEventListOptionalParams, callback?: msRest.ServiceCallback<Models.ContainerInstanceEvent[]>): Promise<Models.GetContainersEventListResponse> {
     return this.sendOperationRequest(
       {
         startTimeUtc,
@@ -7186,7 +7186,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getNodeEventList(nodeName: string, startTimeUtc: string, endTimeUtc: string, options: Models.ServiceFabricClientGetNodeEventListOptionalParams, callback: msRest.ServiceCallback<Models.NodeEventUnion[]>): void;
-  getNodeEventList(nodeName: string, startTimeUtc: string, endTimeUtc: string, options?: Models.ServiceFabricClientGetNodeEventListOptionalParams | msRest.ServiceCallback<Models.NodeEventUnion[]>, callback?: msRest.ServiceCallback<Models.NodeEventUnion[]>): Promise<Models.GetNodeEventListResponse> {
+  getNodeEventList(nodeName: string, startTimeUtc: string, endTimeUtc: string, options?: Models.ServiceFabricClientGetNodeEventListOptionalParams, callback?: msRest.ServiceCallback<Models.NodeEventUnion[]>): Promise<Models.GetNodeEventListResponse> {
     return this.sendOperationRequest(
       {
         nodeName,
@@ -7220,7 +7220,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getNodesEventList(startTimeUtc: string, endTimeUtc: string, options: Models.ServiceFabricClientGetNodesEventListOptionalParams, callback: msRest.ServiceCallback<Models.NodeEventUnion[]>): void;
-  getNodesEventList(startTimeUtc: string, endTimeUtc: string, options?: Models.ServiceFabricClientGetNodesEventListOptionalParams | msRest.ServiceCallback<Models.NodeEventUnion[]>, callback?: msRest.ServiceCallback<Models.NodeEventUnion[]>): Promise<Models.GetNodesEventListResponse> {
+  getNodesEventList(startTimeUtc: string, endTimeUtc: string, options?: Models.ServiceFabricClientGetNodesEventListOptionalParams, callback?: msRest.ServiceCallback<Models.NodeEventUnion[]>): Promise<Models.GetNodesEventListResponse> {
     return this.sendOperationRequest(
       {
         startTimeUtc,
@@ -7268,7 +7268,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getApplicationEventList(applicationId: string, startTimeUtc: string, endTimeUtc: string, options: Models.ServiceFabricClientGetApplicationEventListOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationEventUnion[]>): void;
-  getApplicationEventList(applicationId: string, startTimeUtc: string, endTimeUtc: string, options?: Models.ServiceFabricClientGetApplicationEventListOptionalParams | msRest.ServiceCallback<Models.ApplicationEventUnion[]>, callback?: msRest.ServiceCallback<Models.ApplicationEventUnion[]>): Promise<Models.GetApplicationEventListResponse> {
+  getApplicationEventList(applicationId: string, startTimeUtc: string, endTimeUtc: string, options?: Models.ServiceFabricClientGetApplicationEventListOptionalParams, callback?: msRest.ServiceCallback<Models.ApplicationEventUnion[]>): Promise<Models.GetApplicationEventListResponse> {
     return this.sendOperationRequest(
       {
         applicationId,
@@ -7302,7 +7302,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getApplicationsEventList(startTimeUtc: string, endTimeUtc: string, options: Models.ServiceFabricClientGetApplicationsEventListOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationEventUnion[]>): void;
-  getApplicationsEventList(startTimeUtc: string, endTimeUtc: string, options?: Models.ServiceFabricClientGetApplicationsEventListOptionalParams | msRest.ServiceCallback<Models.ApplicationEventUnion[]>, callback?: msRest.ServiceCallback<Models.ApplicationEventUnion[]>): Promise<Models.GetApplicationsEventListResponse> {
+  getApplicationsEventList(startTimeUtc: string, endTimeUtc: string, options?: Models.ServiceFabricClientGetApplicationsEventListOptionalParams, callback?: msRest.ServiceCallback<Models.ApplicationEventUnion[]>): Promise<Models.GetApplicationsEventListResponse> {
     return this.sendOperationRequest(
       {
         startTimeUtc,
@@ -7350,7 +7350,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getServiceEventList(serviceId: string, startTimeUtc: string, endTimeUtc: string, options: Models.ServiceFabricClientGetServiceEventListOptionalParams, callback: msRest.ServiceCallback<Models.ServiceEventUnion[]>): void;
-  getServiceEventList(serviceId: string, startTimeUtc: string, endTimeUtc: string, options?: Models.ServiceFabricClientGetServiceEventListOptionalParams | msRest.ServiceCallback<Models.ServiceEventUnion[]>, callback?: msRest.ServiceCallback<Models.ServiceEventUnion[]>): Promise<Models.GetServiceEventListResponse> {
+  getServiceEventList(serviceId: string, startTimeUtc: string, endTimeUtc: string, options?: Models.ServiceFabricClientGetServiceEventListOptionalParams, callback?: msRest.ServiceCallback<Models.ServiceEventUnion[]>): Promise<Models.GetServiceEventListResponse> {
     return this.sendOperationRequest(
       {
         serviceId,
@@ -7384,7 +7384,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getServicesEventList(startTimeUtc: string, endTimeUtc: string, options: Models.ServiceFabricClientGetServicesEventListOptionalParams, callback: msRest.ServiceCallback<Models.ServiceEventUnion[]>): void;
-  getServicesEventList(startTimeUtc: string, endTimeUtc: string, options?: Models.ServiceFabricClientGetServicesEventListOptionalParams | msRest.ServiceCallback<Models.ServiceEventUnion[]>, callback?: msRest.ServiceCallback<Models.ServiceEventUnion[]>): Promise<Models.GetServicesEventListResponse> {
+  getServicesEventList(startTimeUtc: string, endTimeUtc: string, options?: Models.ServiceFabricClientGetServicesEventListOptionalParams, callback?: msRest.ServiceCallback<Models.ServiceEventUnion[]>): Promise<Models.GetServicesEventListResponse> {
     return this.sendOperationRequest(
       {
         startTimeUtc,
@@ -7420,7 +7420,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getPartitionEventList(partitionId: string, startTimeUtc: string, endTimeUtc: string, options: Models.ServiceFabricClientGetPartitionEventListOptionalParams, callback: msRest.ServiceCallback<Models.PartitionEventUnion[]>): void;
-  getPartitionEventList(partitionId: string, startTimeUtc: string, endTimeUtc: string, options?: Models.ServiceFabricClientGetPartitionEventListOptionalParams | msRest.ServiceCallback<Models.PartitionEventUnion[]>, callback?: msRest.ServiceCallback<Models.PartitionEventUnion[]>): Promise<Models.GetPartitionEventListResponse> {
+  getPartitionEventList(partitionId: string, startTimeUtc: string, endTimeUtc: string, options?: Models.ServiceFabricClientGetPartitionEventListOptionalParams, callback?: msRest.ServiceCallback<Models.PartitionEventUnion[]>): Promise<Models.GetPartitionEventListResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -7454,7 +7454,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getPartitionsEventList(startTimeUtc: string, endTimeUtc: string, options: Models.ServiceFabricClientGetPartitionsEventListOptionalParams, callback: msRest.ServiceCallback<Models.PartitionEventUnion[]>): void;
-  getPartitionsEventList(startTimeUtc: string, endTimeUtc: string, options?: Models.ServiceFabricClientGetPartitionsEventListOptionalParams | msRest.ServiceCallback<Models.PartitionEventUnion[]>, callback?: msRest.ServiceCallback<Models.PartitionEventUnion[]>): Promise<Models.GetPartitionsEventListResponse> {
+  getPartitionsEventList(startTimeUtc: string, endTimeUtc: string, options?: Models.ServiceFabricClientGetPartitionsEventListOptionalParams, callback?: msRest.ServiceCallback<Models.PartitionEventUnion[]>): Promise<Models.GetPartitionsEventListResponse> {
     return this.sendOperationRequest(
       {
         startTimeUtc,
@@ -7493,7 +7493,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getPartitionReplicaEventList(partitionId: string, replicaId: string, startTimeUtc: string, endTimeUtc: string, options: Models.ServiceFabricClientGetPartitionReplicaEventListOptionalParams, callback: msRest.ServiceCallback<Models.ReplicaEventUnion[]>): void;
-  getPartitionReplicaEventList(partitionId: string, replicaId: string, startTimeUtc: string, endTimeUtc: string, options?: Models.ServiceFabricClientGetPartitionReplicaEventListOptionalParams | msRest.ServiceCallback<Models.ReplicaEventUnion[]>, callback?: msRest.ServiceCallback<Models.ReplicaEventUnion[]>): Promise<Models.GetPartitionReplicaEventListResponse> {
+  getPartitionReplicaEventList(partitionId: string, replicaId: string, startTimeUtc: string, endTimeUtc: string, options?: Models.ServiceFabricClientGetPartitionReplicaEventListOptionalParams, callback?: msRest.ServiceCallback<Models.ReplicaEventUnion[]>): Promise<Models.GetPartitionReplicaEventListResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -7531,7 +7531,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getPartitionReplicasEventList(partitionId: string, startTimeUtc: string, endTimeUtc: string, options: Models.ServiceFabricClientGetPartitionReplicasEventListOptionalParams, callback: msRest.ServiceCallback<Models.ReplicaEventUnion[]>): void;
-  getPartitionReplicasEventList(partitionId: string, startTimeUtc: string, endTimeUtc: string, options?: Models.ServiceFabricClientGetPartitionReplicasEventListOptionalParams | msRest.ServiceCallback<Models.ReplicaEventUnion[]>, callback?: msRest.ServiceCallback<Models.ReplicaEventUnion[]>): Promise<Models.GetPartitionReplicasEventListResponse> {
+  getPartitionReplicasEventList(partitionId: string, startTimeUtc: string, endTimeUtc: string, options?: Models.ServiceFabricClientGetPartitionReplicasEventListOptionalParams, callback?: msRest.ServiceCallback<Models.ReplicaEventUnion[]>): Promise<Models.GetPartitionReplicasEventListResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
@@ -7562,7 +7562,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getCorrelatedEventList(eventInstanceId: string, options: Models.ServiceFabricClientGetCorrelatedEventListOptionalParams, callback: msRest.ServiceCallback<Models.FabricEventUnion[]>): void;
-  getCorrelatedEventList(eventInstanceId: string, options?: Models.ServiceFabricClientGetCorrelatedEventListOptionalParams | msRest.ServiceCallback<Models.FabricEventUnion[]>, callback?: msRest.ServiceCallback<Models.FabricEventUnion[]>): Promise<Models.GetCorrelatedEventListResponse> {
+  getCorrelatedEventList(eventInstanceId: string, options?: Models.ServiceFabricClientGetCorrelatedEventListOptionalParams, callback?: msRest.ServiceCallback<Models.FabricEventUnion[]>): Promise<Models.GetCorrelatedEventListResponse> {
     return this.sendOperationRequest(
       {
         eventInstanceId,
@@ -7595,7 +7595,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   createApplicationResource(applicationResourceName: string, applicationResourceDescription: Models.ApplicationResourceDescription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  createApplicationResource(applicationResourceName: string, applicationResourceDescription: Models.ApplicationResourceDescription, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  createApplicationResource(applicationResourceName: string, applicationResourceDescription: Models.ApplicationResourceDescription, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         applicationResourceName,
@@ -7626,7 +7626,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getApplicationResource(applicationResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>): void;
-  getApplicationResource(applicationResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationResourceDescription>, callback?: msRest.ServiceCallback<Models.ApplicationResourceDescription>): Promise<Models.GetApplicationResourceResponse> {
+  getApplicationResource(applicationResourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationResourceDescription>): Promise<Models.GetApplicationResourceResponse> {
     return this.sendOperationRequest(
       {
         applicationResourceName,
@@ -7655,7 +7655,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   deleteApplicationResource(applicationResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteApplicationResource(applicationResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteApplicationResource(applicationResourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         applicationResourceName,
@@ -7684,7 +7684,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getServices(applicationResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PagedServiceResourceDescriptionList>): void;
-  getServices(applicationResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PagedServiceResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.PagedServiceResourceDescriptionList>): Promise<Models.GetServicesResponse> {
+  getServices(applicationResourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PagedServiceResourceDescriptionList>): Promise<Models.GetServicesResponse> {
     return this.sendOperationRequest(
       {
         applicationResourceName,
@@ -7716,7 +7716,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getService(applicationResourceName: string, serviceResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceResourceDescription>): void;
-  getService(applicationResourceName: string, serviceResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceResourceDescription>, callback?: msRest.ServiceCallback<Models.ServiceResourceDescription>): Promise<Models.GetServiceResponse> {
+  getService(applicationResourceName: string, serviceResourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceResourceDescription>): Promise<Models.GetServiceResponse> {
     return this.sendOperationRequest(
       {
         applicationResourceName,
@@ -7750,7 +7750,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getReplicas(applicationResourceName: string, serviceResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PagedServiceResourceReplicaDescriptionList>): void;
-  getReplicas(applicationResourceName: string, serviceResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PagedServiceResourceReplicaDescriptionList>, callback?: msRest.ServiceCallback<Models.PagedServiceResourceReplicaDescriptionList>): Promise<Models.GetReplicasResponse> {
+  getReplicas(applicationResourceName: string, serviceResourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PagedServiceResourceReplicaDescriptionList>): Promise<Models.GetReplicasResponse> {
     return this.sendOperationRequest(
       {
         applicationResourceName,
@@ -7787,7 +7787,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getReplica(applicationResourceName: string, serviceResourceName: string, replicaName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceResourceReplicaDescription>): void;
-  getReplica(applicationResourceName: string, serviceResourceName: string, replicaName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceResourceReplicaDescription>, callback?: msRest.ServiceCallback<Models.ServiceResourceReplicaDescription>): Promise<Models.GetReplicaResponse> {
+  getReplica(applicationResourceName: string, serviceResourceName: string, replicaName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceResourceReplicaDescription>): Promise<Models.GetReplicaResponse> {
     return this.sendOperationRequest(
       {
         applicationResourceName,
@@ -7822,7 +7822,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   createVolumeResource(volumeResourceName: string, volumeResourceDescription: Models.VolumeResourceDescription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  createVolumeResource(volumeResourceName: string, volumeResourceDescription: Models.VolumeResourceDescription, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  createVolumeResource(volumeResourceName: string, volumeResourceDescription: Models.VolumeResourceDescription, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         volumeResourceName,
@@ -7853,7 +7853,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   getVolumeResource(volumeResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VolumeResourceDescription>): void;
-  getVolumeResource(volumeResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeResourceDescription>, callback?: msRest.ServiceCallback<Models.VolumeResourceDescription>): Promise<Models.GetVolumeResourceResponse> {
+  getVolumeResource(volumeResourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VolumeResourceDescription>): Promise<Models.GetVolumeResourceResponse> {
     return this.sendOperationRequest(
       {
         volumeResourceName,
@@ -7882,7 +7882,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @param callback The callback
    */
   deleteVolumeResource(volumeResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteVolumeResource(volumeResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteVolumeResource(volumeResourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         volumeResourceName,

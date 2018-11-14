@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/containerServicesMappers";
 import * as Parameters from "../models/parameters";
@@ -45,7 +45,7 @@ export class ContainerServices {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContainerServiceListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContainerServiceListResult>, callback?: msRest.ServiceCallback<Models.ContainerServiceListResult>): Promise<Models.ContainerServicesListResponse> {
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ContainerServiceListResult>): Promise<Models.ContainerServicesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -97,7 +97,7 @@ export class ContainerServices {
    * @param callback The callback
    */
   get(resourceGroupName: string, containerServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContainerService>): void;
-  get(resourceGroupName: string, containerServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContainerService>, callback?: msRest.ServiceCallback<Models.ContainerService>): Promise<Models.ContainerServicesGetResponse> {
+  get(resourceGroupName: string, containerServiceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ContainerService>): Promise<Models.ContainerServicesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -146,7 +146,7 @@ export class ContainerServices {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContainerServiceListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContainerServiceListResult>, callback?: msRest.ServiceCallback<Models.ContainerServiceListResult>): Promise<Models.ContainerServicesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ContainerServiceListResult>): Promise<Models.ContainerServicesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -223,7 +223,7 @@ export class ContainerServices {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContainerServiceListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContainerServiceListResult>, callback?: msRest.ServiceCallback<Models.ContainerServiceListResult>): Promise<Models.ContainerServicesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ContainerServiceListResult>): Promise<Models.ContainerServicesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -254,7 +254,7 @@ export class ContainerServices {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContainerServiceListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContainerServiceListResult>, callback?: msRest.ServiceCallback<Models.ContainerServiceListResult>): Promise<Models.ContainerServicesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ContainerServiceListResult>): Promise<Models.ContainerServicesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

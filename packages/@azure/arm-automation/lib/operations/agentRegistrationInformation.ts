@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/agentRegistrationInformationMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class AgentRegistrationInformation {
    * @param callback The callback
    */
   get(resourceGroupName: string, automationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgentRegistration>): void;
-  get(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentRegistration>, callback?: msRest.ServiceCallback<Models.AgentRegistration>): Promise<Models.AgentRegistrationInformationGetResponse> {
+  get(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AgentRegistration>): Promise<Models.AgentRegistrationInformationGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class AgentRegistrationInformation {
    * @param callback The callback
    */
   regenerateKey(resourceGroupName: string, automationAccountName: string, parameters: Models.AgentRegistrationRegenerateKeyParameter, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgentRegistration>): void;
-  regenerateKey(resourceGroupName: string, automationAccountName: string, parameters: Models.AgentRegistrationRegenerateKeyParameter, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentRegistration>, callback?: msRest.ServiceCallback<Models.AgentRegistration>): Promise<Models.AgentRegistrationInformationRegenerateKeyResponse> {
+  regenerateKey(resourceGroupName: string, automationAccountName: string, parameters: Models.AgentRegistrationRegenerateKeyParameter, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AgentRegistration>): Promise<Models.AgentRegistrationInformationRegenerateKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

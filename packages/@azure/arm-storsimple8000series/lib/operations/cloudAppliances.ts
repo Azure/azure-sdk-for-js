@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/cloudAppliancesMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class CloudAppliances {
    * @param callback The callback
    */
   listSupportedConfigurations(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CloudApplianceConfigurationList>): void;
-  listSupportedConfigurations(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudApplianceConfigurationList>, callback?: msRest.ServiceCallback<Models.CloudApplianceConfigurationList>): Promise<Models.CloudAppliancesListSupportedConfigurationsResponse> {
+  listSupportedConfigurations(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CloudApplianceConfigurationList>): Promise<Models.CloudAppliancesListSupportedConfigurationsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

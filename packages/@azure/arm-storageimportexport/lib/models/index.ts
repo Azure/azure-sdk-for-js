@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -758,12 +758,24 @@ export interface ListOperationsResponse extends Array<Operation> {
 
 /**
  * Defines values for DriveState.
- * Possible values include: 'Specified', 'Received', 'NeverReceived', 'Transferring', 'Completed',
- * 'CompletedMoreInfo', 'ShippedBack'
+ * Possible values include: 'Specified', 'Received', 'NeverReceived',
+ * 'Transferring', 'Completed', 'CompletedMoreInfo', 'ShippedBack'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: DriveState = <DriveState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type DriveState = 'Specified' | 'Received' | 'NeverReceived' | 'Transferring' | 'Completed' | 'CompletedMoreInfo' | 'ShippedBack';
+export enum DriveState {
+  Specified = 'Specified',
+  Received = 'Received',
+  NeverReceived = 'NeverReceived',
+  Transferring = 'Transferring',
+  Completed = 'Completed',
+  CompletedMoreInfo = 'CompletedMoreInfo',
+  ShippedBack = 'ShippedBack',
+}
 
 /**
  * Contains response data for the list operation.

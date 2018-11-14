@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -1861,16 +1861,34 @@ export interface SharedAccessSignatureAuthorizationRuleListResult extends Array<
 
 /**
  * Defines values for AccessRights.
- * Possible values include: 'RegistryRead', 'RegistryWrite', 'ServiceConnect', 'DeviceConnect',
- * 'RegistryRead, RegistryWrite', 'RegistryRead, ServiceConnect', 'RegistryRead, DeviceConnect',
- * 'RegistryWrite, ServiceConnect', 'RegistryWrite, DeviceConnect', 'ServiceConnect,
- * DeviceConnect', 'RegistryRead, RegistryWrite, ServiceConnect', 'RegistryRead, RegistryWrite,
- * DeviceConnect', 'RegistryRead, ServiceConnect, DeviceConnect', 'RegistryWrite, ServiceConnect,
- * DeviceConnect', 'RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect'
+ * Possible values include: 'RegistryRead', 'RegistryWrite', 'ServiceConnect',
+ * 'DeviceConnect', 'RegistryRead, RegistryWrite', 'RegistryRead,
+ * ServiceConnect', 'RegistryRead, DeviceConnect', 'RegistryWrite,
+ * ServiceConnect', 'RegistryWrite, DeviceConnect', 'ServiceConnect,
+ * DeviceConnect', 'RegistryRead, RegistryWrite, ServiceConnect',
+ * 'RegistryRead, RegistryWrite, DeviceConnect', 'RegistryRead, ServiceConnect,
+ * DeviceConnect', 'RegistryWrite, ServiceConnect, DeviceConnect',
+ * 'RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect'
  * @readonly
  * @enum {string}
  */
-export type AccessRights = 'RegistryRead' | 'RegistryWrite' | 'ServiceConnect' | 'DeviceConnect' | 'RegistryRead, RegistryWrite' | 'RegistryRead, ServiceConnect' | 'RegistryRead, DeviceConnect' | 'RegistryWrite, ServiceConnect' | 'RegistryWrite, DeviceConnect' | 'ServiceConnect, DeviceConnect' | 'RegistryRead, RegistryWrite, ServiceConnect' | 'RegistryRead, RegistryWrite, DeviceConnect' | 'RegistryRead, ServiceConnect, DeviceConnect' | 'RegistryWrite, ServiceConnect, DeviceConnect' | 'RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect';
+export enum AccessRights {
+  RegistryRead = 'RegistryRead',
+  RegistryWrite = 'RegistryWrite',
+  ServiceConnect = 'ServiceConnect',
+  DeviceConnect = 'DeviceConnect',
+  RegistryReadRegistryWrite = 'RegistryRead, RegistryWrite',
+  RegistryReadServiceConnect = 'RegistryRead, ServiceConnect',
+  RegistryReadDeviceConnect = 'RegistryRead, DeviceConnect',
+  RegistryWriteServiceConnect = 'RegistryWrite, ServiceConnect',
+  RegistryWriteDeviceConnect = 'RegistryWrite, DeviceConnect',
+  ServiceConnectDeviceConnect = 'ServiceConnect, DeviceConnect',
+  RegistryReadRegistryWriteServiceConnect = 'RegistryRead, RegistryWrite, ServiceConnect',
+  RegistryReadRegistryWriteDeviceConnect = 'RegistryRead, RegistryWrite, DeviceConnect',
+  RegistryReadServiceConnectDeviceConnect = 'RegistryRead, ServiceConnect, DeviceConnect',
+  RegistryWriteServiceConnectDeviceConnect = 'RegistryWrite, ServiceConnect, DeviceConnect',
+  RegistryReadRegistryWriteServiceConnectDeviceConnect = 'RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect',
+}
 
 /**
  * Defines values for IpFilterActionType.
@@ -1878,40 +1896,85 @@ export type AccessRights = 'RegistryRead' | 'RegistryWrite' | 'ServiceConnect' |
  * @readonly
  * @enum {string}
  */
-export type IpFilterActionType = 'Accept' | 'Reject';
+export enum IpFilterActionType {
+  Accept = 'Accept',
+  Reject = 'Reject',
+}
 
 /**
  * Defines values for RoutingSource.
  * Possible values include: 'Invalid', 'DeviceMessages', 'TwinChangeEvents',
  * 'DeviceLifecycleEvents', 'DeviceJobLifecycleEvents'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: RoutingSource =
+ * <RoutingSource>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type RoutingSource = 'Invalid' | 'DeviceMessages' | 'TwinChangeEvents' | 'DeviceLifecycleEvents' | 'DeviceJobLifecycleEvents';
+export enum RoutingSource {
+  Invalid = 'Invalid',
+  DeviceMessages = 'DeviceMessages',
+  TwinChangeEvents = 'TwinChangeEvents',
+  DeviceLifecycleEvents = 'DeviceLifecycleEvents',
+  DeviceJobLifecycleEvents = 'DeviceJobLifecycleEvents',
+}
 
 /**
  * Defines values for OperationMonitoringLevel.
- * Possible values include: 'None', 'Error', 'Information', 'Error, Information'
+ * Possible values include: 'None', 'Error', 'Information', 'Error,
+ * Information'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: OperationMonitoringLevel =
+ * <OperationMonitoringLevel>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type OperationMonitoringLevel = 'None' | 'Error' | 'Information' | 'Error, Information';
+export enum OperationMonitoringLevel {
+  None = 'None',
+  Error = 'Error',
+  Information = 'Information',
+  ErrorInformation = 'Error, Information',
+}
 
 /**
  * Defines values for Capabilities.
  * Possible values include: 'None', 'DeviceManagement'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Capabilities =
+ * <Capabilities>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type Capabilities = 'None' | 'DeviceManagement';
+export enum Capabilities {
+  None = 'None',
+  DeviceManagement = 'DeviceManagement',
+}
 
 /**
  * Defines values for IotHubSku.
  * Possible values include: 'F1', 'S1', 'S2', 'S3', 'B1', 'B2', 'B3'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: IotHubSku = <IotHubSku>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type IotHubSku = 'F1' | 'S1' | 'S2' | 'S3' | 'B1' | 'B2' | 'B3';
+export enum IotHubSku {
+  F1 = 'F1',
+  S1 = 'S1',
+  S2 = 'S2',
+  S3 = 'S3',
+  B1 = 'B1',
+  B2 = 'B2',
+  B3 = 'B3',
+}
 
 /**
  * Defines values for IotHubSkuTier.
@@ -1919,33 +1982,71 @@ export type IotHubSku = 'F1' | 'S1' | 'S2' | 'S3' | 'B1' | 'B2' | 'B3';
  * @readonly
  * @enum {string}
  */
-export type IotHubSkuTier = 'Free' | 'Standard' | 'Basic';
+export enum IotHubSkuTier {
+  Free = 'Free',
+  Standard = 'Standard',
+  Basic = 'Basic',
+}
 
 /**
  * Defines values for EndpointHealthStatus.
  * Possible values include: 'unknown', 'healthy', 'unhealthy', 'dead'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: EndpointHealthStatus =
+ * <EndpointHealthStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type EndpointHealthStatus = 'unknown' | 'healthy' | 'unhealthy' | 'dead';
+export enum EndpointHealthStatus {
+  Unknown = 'unknown',
+  Healthy = 'healthy',
+  Unhealthy = 'unhealthy',
+  Dead = 'dead',
+}
 
 /**
  * Defines values for JobType.
- * Possible values include: 'unknown', 'export', 'import', 'backup', 'readDeviceProperties',
- * 'writeDeviceProperties', 'updateDeviceConfiguration', 'rebootDevice', 'factoryResetDevice',
+ * Possible values include: 'unknown', 'export', 'import', 'backup',
+ * 'readDeviceProperties', 'writeDeviceProperties',
+ * 'updateDeviceConfiguration', 'rebootDevice', 'factoryResetDevice',
  * 'firmwareUpdate'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: JobType = <JobType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type JobType = 'unknown' | 'export' | 'import' | 'backup' | 'readDeviceProperties' | 'writeDeviceProperties' | 'updateDeviceConfiguration' | 'rebootDevice' | 'factoryResetDevice' | 'firmwareUpdate';
+export enum JobType {
+  Unknown = 'unknown',
+  Export = 'export',
+  Import = 'import',
+  Backup = 'backup',
+  ReadDeviceProperties = 'readDeviceProperties',
+  WriteDeviceProperties = 'writeDeviceProperties',
+  UpdateDeviceConfiguration = 'updateDeviceConfiguration',
+  RebootDevice = 'rebootDevice',
+  FactoryResetDevice = 'factoryResetDevice',
+  FirmwareUpdate = 'firmwareUpdate',
+}
 
 /**
  * Defines values for JobStatus.
- * Possible values include: 'unknown', 'enqueued', 'running', 'completed', 'failed', 'cancelled'
+ * Possible values include: 'unknown', 'enqueued', 'running', 'completed',
+ * 'failed', 'cancelled'
  * @readonly
  * @enum {string}
  */
-export type JobStatus = 'unknown' | 'enqueued' | 'running' | 'completed' | 'failed' | 'cancelled';
+export enum JobStatus {
+  Unknown = 'unknown',
+  Enqueued = 'enqueued',
+  Running = 'running',
+  Completed = 'completed',
+  Failed = 'failed',
+  Cancelled = 'cancelled',
+}
 
 /**
  * Defines values for IotHubScaleType.
@@ -1953,7 +2054,11 @@ export type JobStatus = 'unknown' | 'enqueued' | 'running' | 'completed' | 'fail
  * @readonly
  * @enum {string}
  */
-export type IotHubScaleType = 'Automatic' | 'Manual' | 'None';
+export enum IotHubScaleType {
+  Automatic = 'Automatic',
+  Manual = 'Manual',
+  None = 'None',
+}
 
 /**
  * Defines values for IotHubNameUnavailabilityReason.
@@ -1961,23 +2066,43 @@ export type IotHubScaleType = 'Automatic' | 'Manual' | 'None';
  * @readonly
  * @enum {string}
  */
-export type IotHubNameUnavailabilityReason = 'Invalid' | 'AlreadyExists';
+export enum IotHubNameUnavailabilityReason {
+  Invalid = 'Invalid',
+  AlreadyExists = 'AlreadyExists',
+}
 
 /**
  * Defines values for TestResultStatus.
  * Possible values include: 'undefined', 'false', 'true'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: TestResultStatus =
+ * <TestResultStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type TestResultStatus = 'undefined' | 'false' | 'true';
+export enum TestResultStatus {
+  Undefined = 'undefined',
+  False = 'false',
+  True = 'true',
+}
 
 /**
  * Defines values for RouteErrorSeverity.
  * Possible values include: 'error', 'warning'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: RouteErrorSeverity =
+ * <RouteErrorSeverity>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type RouteErrorSeverity = 'error' | 'warning';
+export enum RouteErrorSeverity {
+  Error = 'error',
+  Warning = 'warning',
+}
 
 /**
  * Contains response data for the list operation.

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/backupUsageSummariesMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class BackupUsageSummaries {
    * @param callback The callback
    */
   list(vaultName: string, resourceGroupName: string, options: Models.BackupUsageSummariesListOptionalParams, callback: msRest.ServiceCallback<Models.BackupManagementUsageList>): void;
-  list(vaultName: string, resourceGroupName: string, options?: Models.BackupUsageSummariesListOptionalParams | msRest.ServiceCallback<Models.BackupManagementUsageList>, callback?: msRest.ServiceCallback<Models.BackupManagementUsageList>): Promise<Models.BackupUsageSummariesListResponse> {
+  list(vaultName: string, resourceGroupName: string, options?: Models.BackupUsageSummariesListOptionalParams, callback?: msRest.ServiceCallback<Models.BackupManagementUsageList>): Promise<Models.BackupUsageSummariesListResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,

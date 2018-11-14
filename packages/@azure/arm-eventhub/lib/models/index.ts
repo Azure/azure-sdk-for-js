@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -605,6 +605,43 @@ export interface MessagingPlan extends TrackedResource {
 
 /**
  * @interface
+ * An interface representing IpFilterRule.
+ * Single item in a List or Get IpFilterRules operation
+ *
+ * @extends Resource
+ */
+export interface IpFilterRule extends Resource {
+  /**
+   * @member {string} [ipMask] IP Mask
+   */
+  ipMask?: string;
+  /**
+   * @member {IPAction} [action] The IP Filter Action. Possible values include:
+   * 'Accept', 'Reject'
+   */
+  action?: IPAction;
+  /**
+   * @member {string} [filterName] IP Filter name
+   */
+  filterName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing VirtualNetworkRule.
+ * Single item in a List or Get VirtualNetworkRules operation
+ *
+ * @extends Resource
+ */
+export interface VirtualNetworkRule extends Resource {
+  /**
+   * @member {string} [virtualNetworkSubnetId] ARM ID of Virtual Network Subnet
+   */
+  virtualNetworkSubnetId?: string;
+}
+
+/**
+ * @interface
  * An interface representing EventHubsListByNamespaceOptionalParams.
  * Optional Parameters.
  *
@@ -710,6 +747,36 @@ export interface AuthorizationRuleListResult extends Array<AuthorizationRule> {
 
 /**
  * @interface
+ * An interface representing the IpFilterRuleListResult.
+ * The response from the List namespace operation.
+ *
+ * @extends Array<IpFilterRule>
+ */
+export interface IpFilterRuleListResult extends Array<IpFilterRule> {
+  /**
+   * @member {string} [nextLink] Link to the next set of results. Not empty if
+   * Value contains an incomplete list of IpFilter Rules
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the VirtualNetworkRuleListResult.
+ * The response from the List namespace operation.
+ *
+ * @extends Array<VirtualNetworkRule>
+ */
+export interface VirtualNetworkRuleListResult extends Array<VirtualNetworkRule> {
+  /**
+   * @member {string} [nextLink] Link to the next set of results. Not empty if
+   * Value contains an incomplete list of VirtualNetwork Rules
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the ArmDisasterRecoveryListResult.
  * The result of the List Alias(Disaster Recovery configuration) operation.
  *
@@ -775,26 +842,49 @@ export interface MessagingRegionsListResult extends Array<MessagingRegions> {
 /**
  * Defines values for SkuName.
  * Possible values include: 'Basic', 'Standard'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SkuName = <SkuName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'Basic' | 'Standard';
+export enum SkuName {
+  Basic = 'Basic',
+  Standard = 'Standard',
+}
 
 /**
  * Defines values for SkuTier.
  * Possible values include: 'Basic', 'Standard'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SkuTier = <SkuTier>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SkuTier = 'Basic' | 'Standard';
+export enum SkuTier {
+  Basic = 'Basic',
+  Standard = 'Standard',
+}
 
 /**
  * Defines values for AccessRights.
  * Possible values include: 'Manage', 'Send', 'Listen'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: AccessRights =
+ * <AccessRights>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type AccessRights = 'Manage' | 'Send' | 'Listen';
+export enum AccessRights {
+  Manage = 'Manage',
+  Send = 'Send',
+  Listen = 'Listen',
+}
 
 /**
  * Defines values for KeyType.
@@ -802,16 +892,29 @@ export type AccessRights = 'Manage' | 'Send' | 'Listen';
  * @readonly
  * @enum {string}
  */
-export type KeyType = 'PrimaryKey' | 'SecondaryKey';
+export enum KeyType {
+  PrimaryKey = 'PrimaryKey',
+  SecondaryKey = 'SecondaryKey',
+}
 
 /**
  * Defines values for EntityStatus.
- * Possible values include: 'Active', 'Disabled', 'Restoring', 'SendDisabled', 'ReceiveDisabled',
- * 'Creating', 'Deleting', 'Renaming', 'Unknown'
+ * Possible values include: 'Active', 'Disabled', 'Restoring', 'SendDisabled',
+ * 'ReceiveDisabled', 'Creating', 'Deleting', 'Renaming', 'Unknown'
  * @readonly
  * @enum {string}
  */
-export type EntityStatus = 'Active' | 'Disabled' | 'Restoring' | 'SendDisabled' | 'ReceiveDisabled' | 'Creating' | 'Deleting' | 'Renaming' | 'Unknown';
+export enum EntityStatus {
+  Active = 'Active',
+  Disabled = 'Disabled',
+  Restoring = 'Restoring',
+  SendDisabled = 'SendDisabled',
+  ReceiveDisabled = 'ReceiveDisabled',
+  Creating = 'Creating',
+  Deleting = 'Deleting',
+  Renaming = 'Renaming',
+  Unknown = 'Unknown',
+}
 
 /**
  * Defines values for EncodingCaptureDescription.
@@ -819,16 +922,26 @@ export type EntityStatus = 'Active' | 'Disabled' | 'Restoring' | 'SendDisabled' 
  * @readonly
  * @enum {string}
  */
-export type EncodingCaptureDescription = 'Avro' | 'AvroDeflate';
+export enum EncodingCaptureDescription {
+  Avro = 'Avro',
+  AvroDeflate = 'AvroDeflate',
+}
 
 /**
  * Defines values for UnavailableReason.
- * Possible values include: 'None', 'InvalidName', 'SubscriptionIsDisabled', 'NameInUse',
- * 'NameInLockdown', 'TooManyNamespaceInCurrentSubscription'
+ * Possible values include: 'None', 'InvalidName', 'SubscriptionIsDisabled',
+ * 'NameInUse', 'NameInLockdown', 'TooManyNamespaceInCurrentSubscription'
  * @readonly
  * @enum {string}
  */
-export type UnavailableReason = 'None' | 'InvalidName' | 'SubscriptionIsDisabled' | 'NameInUse' | 'NameInLockdown' | 'TooManyNamespaceInCurrentSubscription';
+export enum UnavailableReason {
+  None = 'None',
+  InvalidName = 'InvalidName',
+  SubscriptionIsDisabled = 'SubscriptionIsDisabled',
+  NameInUse = 'NameInUse',
+  NameInLockdown = 'NameInLockdown',
+  TooManyNamespaceInCurrentSubscription = 'TooManyNamespaceInCurrentSubscription',
+}
 
 /**
  * Defines values for ProvisioningStateDR.
@@ -836,7 +949,11 @@ export type UnavailableReason = 'None' | 'InvalidName' | 'SubscriptionIsDisabled
  * @readonly
  * @enum {string}
  */
-export type ProvisioningStateDR = 'Accepted' | 'Succeeded' | 'Failed';
+export enum ProvisioningStateDR {
+  Accepted = 'Accepted',
+  Succeeded = 'Succeeded',
+  Failed = 'Failed',
+}
 
 /**
  * Defines values for RoleDisasterRecovery.
@@ -844,7 +961,26 @@ export type ProvisioningStateDR = 'Accepted' | 'Succeeded' | 'Failed';
  * @readonly
  * @enum {string}
  */
-export type RoleDisasterRecovery = 'Primary' | 'PrimaryNotReplicating' | 'Secondary';
+export enum RoleDisasterRecovery {
+  Primary = 'Primary',
+  PrimaryNotReplicating = 'PrimaryNotReplicating',
+  Secondary = 'Secondary',
+}
+
+/**
+ * Defines values for IPAction.
+ * Possible values include: 'Accept', 'Reject'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: IPAction = <IPAction>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum IPAction {
+  Accept = 'Accept',
+  Reject = 'Reject',
+}
 
 /**
  * Contains response data for the list operation.
@@ -1113,6 +1249,120 @@ export type NamespacesRegenerateKeysResponse = AccessKeys & {
 };
 
 /**
+ * Contains response data for the listIPFilterRules operation.
+ */
+export type NamespacesListIPFilterRulesResponse = IpFilterRuleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IpFilterRuleListResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdateIpFilterRule operation.
+ */
+export type NamespacesCreateOrUpdateIpFilterRuleResponse = IpFilterRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IpFilterRule;
+    };
+};
+
+/**
+ * Contains response data for the getIpFilterRule operation.
+ */
+export type NamespacesGetIpFilterRuleResponse = IpFilterRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IpFilterRule;
+    };
+};
+
+/**
+ * Contains response data for the listVirtualNetworkRules operation.
+ */
+export type NamespacesListVirtualNetworkRulesResponse = VirtualNetworkRuleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkRuleListResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdateVirtualNetworkRule operation.
+ */
+export type NamespacesCreateOrUpdateVirtualNetworkRuleResponse = VirtualNetworkRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkRule;
+    };
+};
+
+/**
+ * Contains response data for the getVirtualNetworkRule operation.
+ */
+export type NamespacesGetVirtualNetworkRuleResponse = VirtualNetworkRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkRule;
+    };
+};
+
+/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type NamespacesBeginCreateOrUpdateResponse = EHNamespace & {
@@ -1185,6 +1435,44 @@ export type NamespacesListAuthorizationRulesNextResponse = AuthorizationRuleList
        * The response body as parsed JSON or XML
        */
       parsedBody: AuthorizationRuleListResult;
+    };
+};
+
+/**
+ * Contains response data for the listIPFilterRulesNext operation.
+ */
+export type NamespacesListIPFilterRulesNextResponse = IpFilterRuleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IpFilterRuleListResult;
+    };
+};
+
+/**
+ * Contains response data for the listVirtualNetworkRulesNext operation.
+ */
+export type NamespacesListVirtualNetworkRulesNextResponse = VirtualNetworkRuleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkRuleListResult;
     };
 };
 

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/activityLogsMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class ActivityLogs {
    * @param callback The callback
    */
   list(options: Models.ActivityLogsListOptionalParams, callback: msRest.ServiceCallback<Models.EventDataCollection>): void;
-  list(options?: Models.ActivityLogsListOptionalParams | msRest.ServiceCallback<Models.EventDataCollection>, callback?: msRest.ServiceCallback<Models.EventDataCollection>): Promise<Models.ActivityLogsListResponse> {
+  list(options?: Models.ActivityLogsListOptionalParams, callback?: msRest.ServiceCallback<Models.EventDataCollection>): Promise<Models.ActivityLogsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -68,7 +68,7 @@ export class ActivityLogs {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventDataCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventDataCollection>, callback?: msRest.ServiceCallback<Models.EventDataCollection>): Promise<Models.ActivityLogsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventDataCollection>): Promise<Models.ActivityLogsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

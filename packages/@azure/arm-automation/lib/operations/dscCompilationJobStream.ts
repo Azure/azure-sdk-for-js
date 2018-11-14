@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/dscCompilationJobStreamMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class DscCompilationJobStream {
    * @param callback The callback
    */
   listByJob(resourceGroupName: string, automationAccountName: string, jobId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobStreamListResult>): void;
-  listByJob(resourceGroupName: string, automationAccountName: string, jobId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobStreamListResult>, callback?: msRest.ServiceCallback<Models.JobStreamListResult>): Promise<Models.DscCompilationJobStreamListByJobResponse> {
+  listByJob(resourceGroupName: string, automationAccountName: string, jobId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JobStreamListResult>): Promise<Models.DscCompilationJobStreamListByJobResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

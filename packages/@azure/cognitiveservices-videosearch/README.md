@@ -1,33 +1,26 @@
-## An isomorphic javascript sdk for - VideoSearchAPIClient
+# An isomorphic javascript sdk for - VideoSearchAPIClient
+This project provides an isomorphic javascript package. Right now it supports:
+- node.js version 6.x.x or higher
+- browser javascript
 
-This package contains an isomorphic SDK for VideoSearchAPIClient.
+## How to Install
 
-### Currently supported environments
-
-- Node.js version 6.x.x or higher
-- Browser JavaScript
-
-### How to Install
-
+- nodejs
 ```
 npm install @azure/cognitiveservices-videosearch
 ```
-
-### How to use
-
-#### nodejs - Authentication, client creation and search videos as an example written in TypeScript.
-
-##### Install @azure/ms-rest-nodeauth
-
-```
-npm install @azure/ms-rest-nodeauth
+- browser
+```html
+<script type="text/javascript" src="@azure/cognitiveservices-videosearch/dist/cognitiveservices-videosearch.js"></script>
 ```
 
-##### Sample code
+## How to use
+
+### nodejs - Authentication, client creation and search videos as an example written in TypeScript.
 
 ```ts
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
+import * as msRest from "ms-rest-js";
+import * as msRestNodeAuth from "ms-rest-nodeauth";
 import { VideoSearchAPIClient, VideoSearchAPIModels, VideoSearchAPIMappers } from "@azure/cognitiveservices-videosearch";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
@@ -61,17 +54,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and search videos as an example written in JavaScript.
-
-##### Install @azure/ms-rest-browserauth
-
-```
-npm install @azure/ms-rest-browserauth
-```
-
-##### Sample code
-
-See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
+### browser - Authentication, client creation and search videos as an example written in javascript.
 
 - index.html
 ```html
@@ -79,8 +62,8 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 <html lang="en">
   <head>
     <title>@azure/cognitiveservices-videosearch sample</title>
-    <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
+    <script src="node_modules/ms-rest-js/dist/msRest.browser.js"></script>
+    <script src="node_modules/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/cognitiveservices-videosearch/dist/cognitiveservices-videosearch.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
@@ -123,10 +106,10 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
       });
     </script>
   </head>
-  <body></body>
+  <body>
+  </body>
 </html>
 ```
 
-## Related projects
-
-- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
+# Related projects
+ - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)

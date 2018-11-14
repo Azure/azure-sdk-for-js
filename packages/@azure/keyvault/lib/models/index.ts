@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -2970,36 +2970,110 @@ export interface DeletedSasDefinitionListResult extends Array<DeletedSasDefiniti
 /**
  * Defines values for JsonWebKeyType.
  * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: JsonWebKeyType =
+ * <JsonWebKeyType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeyType = 'EC' | 'EC-HSM' | 'RSA' | 'RSA-HSM' | 'oct';
+export enum JsonWebKeyType {
+  /**
+   * Elliptic Curve.
+   */
+  EC = 'EC',
+  /**
+   * Elliptic Curve with a private key which is not exportable from the HSM.
+   */
+  ECHSM = 'EC-HSM',
+  /**
+   * RSA (https://tools.ietf.org/html/rfc3447)
+   */
+  RSA = 'RSA',
+  /**
+   * RSA with a private key which is not exportable from the HSM.
+   */
+  RSAHSM = 'RSA-HSM',
+  /**
+   * Octet sequence (used to represent symmetric keys)
+   */
+  Oct = 'oct',
+}
 
 /**
  * Defines values for JsonWebKeyCurveName.
  * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: JsonWebKeyCurveName =
+ * <JsonWebKeyCurveName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeyCurveName = 'P-256' | 'P-384' | 'P-521' | 'P-256K';
+export enum JsonWebKeyCurveName {
+  /**
+   * The NIST P-256 elliptic curve, AKA SECG curve SECP256R1.
+   */
+  P256 = 'P-256',
+  /**
+   * The NIST P-384 elliptic curve, AKA SECG curve SECP384R1.
+   */
+  P384 = 'P-384',
+  /**
+   * The NIST P-521 elliptic curve, AKA SECG curve SECP521R1.
+   */
+  P521 = 'P-521',
+  /**
+   * The SECG SECP256K1 elliptic curve.
+   */
+  P256K = 'P-256K',
+}
 
 /**
  * Defines values for DeletionRecoveryLevel.
- * Possible values include: 'Purgeable', 'Recoverable+Purgeable', 'Recoverable',
- * 'Recoverable+ProtectedSubscription'
+ * Possible values include: 'Purgeable', 'Recoverable+Purgeable',
+ * 'Recoverable', 'Recoverable+ProtectedSubscription'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: DeletionRecoveryLevel =
+ * <DeletionRecoveryLevel>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type DeletionRecoveryLevel = 'Purgeable' | 'Recoverable+Purgeable' | 'Recoverable' | 'Recoverable+ProtectedSubscription';
+export enum DeletionRecoveryLevel {
+  Purgeable = 'Purgeable',
+  RecoverablePurgeable = 'Recoverable+Purgeable',
+  Recoverable = 'Recoverable',
+  RecoverableProtectedSubscription = 'Recoverable+ProtectedSubscription',
+}
 
 /**
  * Defines values for KeyUsageType.
- * Possible values include: 'digitalSignature', 'nonRepudiation', 'keyEncipherment',
- * 'dataEncipherment', 'keyAgreement', 'keyCertSign', 'cRLSign', 'encipherOnly', 'decipherOnly'
+ * Possible values include: 'digitalSignature', 'nonRepudiation',
+ * 'keyEncipherment', 'dataEncipherment', 'keyAgreement', 'keyCertSign',
+ * 'cRLSign', 'encipherOnly', 'decipherOnly'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: KeyUsageType =
+ * <KeyUsageType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type KeyUsageType = 'digitalSignature' | 'nonRepudiation' | 'keyEncipherment' | 'dataEncipherment' | 'keyAgreement' | 'keyCertSign' | 'cRLSign' | 'encipherOnly' | 'decipherOnly';
+export enum KeyUsageType {
+  DigitalSignature = 'digitalSignature',
+  NonRepudiation = 'nonRepudiation',
+  KeyEncipherment = 'keyEncipherment',
+  DataEncipherment = 'dataEncipherment',
+  KeyAgreement = 'keyAgreement',
+  KeyCertSign = 'keyCertSign',
+  CRLSign = 'cRLSign',
+  EncipherOnly = 'encipherOnly',
+  DecipherOnly = 'decipherOnly',
+}
 
 /**
  * Defines values for ActionType.
@@ -3007,40 +3081,133 @@ export type KeyUsageType = 'digitalSignature' | 'nonRepudiation' | 'keyEncipherm
  * @readonly
  * @enum {string}
  */
-export type ActionType = 'EmailContacts' | 'AutoRenew';
+export enum ActionType {
+  EmailContacts = 'EmailContacts',
+  AutoRenew = 'AutoRenew',
+}
 
 /**
  * Defines values for JsonWebKeyOperation.
- * Possible values include: 'encrypt', 'decrypt', 'sign', 'verify', 'wrapKey', 'unwrapKey'
+ * Possible values include: 'encrypt', 'decrypt', 'sign', 'verify', 'wrapKey',
+ * 'unwrapKey'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: JsonWebKeyOperation =
+ * <JsonWebKeyOperation>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeyOperation = 'encrypt' | 'decrypt' | 'sign' | 'verify' | 'wrapKey' | 'unwrapKey';
+export enum JsonWebKeyOperation {
+  Encrypt = 'encrypt',
+  Decrypt = 'decrypt',
+  Sign = 'sign',
+  Verify = 'verify',
+  WrapKey = 'wrapKey',
+  UnwrapKey = 'unwrapKey',
+}
 
 /**
  * Defines values for JsonWebKeyEncryptionAlgorithm.
  * Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: JsonWebKeyEncryptionAlgorithm =
+ * <JsonWebKeyEncryptionAlgorithm>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeyEncryptionAlgorithm = 'RSA-OAEP' | 'RSA-OAEP-256' | 'RSA1_5';
+export enum JsonWebKeyEncryptionAlgorithm {
+  RSAOAEP = 'RSA-OAEP',
+  RSAOAEP256 = 'RSA-OAEP-256',
+  RSA15 = 'RSA1_5',
+}
 
 /**
  * Defines values for JsonWebKeySignatureAlgorithm.
- * Possible values include: 'PS256', 'PS384', 'PS512', 'RS256', 'RS384', 'RS512', 'RSNULL',
- * 'ES256', 'ES384', 'ES512', 'ES256K'
+ * Possible values include: 'PS256', 'PS384', 'PS512', 'RS256', 'RS384',
+ * 'RS512', 'RSNULL', 'ES256', 'ES384', 'ES512', 'ES256K'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: JsonWebKeySignatureAlgorithm =
+ * <JsonWebKeySignatureAlgorithm>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeySignatureAlgorithm = 'PS256' | 'PS384' | 'PS512' | 'RS256' | 'RS384' | 'RS512' | 'RSNULL' | 'ES256' | 'ES384' | 'ES512' | 'ES256K';
+export enum JsonWebKeySignatureAlgorithm {
+  /**
+   * RSASSA-PSS using SHA-256 and MGF1 with SHA-256, as described in
+   * https://tools.ietf.org/html/rfc7518
+   */
+  PS256 = 'PS256',
+  /**
+   * RSASSA-PSS using SHA-384 and MGF1 with SHA-384, as described in
+   * https://tools.ietf.org/html/rfc7518
+   */
+  PS384 = 'PS384',
+  /**
+   * RSASSA-PSS using SHA-512 and MGF1 with SHA-512, as described in
+   * https://tools.ietf.org/html/rfc7518
+   */
+  PS512 = 'PS512',
+  /**
+   * RSASSA-PKCS1-v1_5 using SHA-256, as described in
+   * https://tools.ietf.org/html/rfc7518
+   */
+  RS256 = 'RS256',
+  /**
+   * RSASSA-PKCS1-v1_5 using SHA-384, as described in
+   * https://tools.ietf.org/html/rfc7518
+   */
+  RS384 = 'RS384',
+  /**
+   * RSASSA-PKCS1-v1_5 using SHA-512, as described in
+   * https://tools.ietf.org/html/rfc7518
+   */
+  RS512 = 'RS512',
+  /**
+   * Reserved
+   */
+  RSNULL = 'RSNULL',
+  /**
+   * ECDSA using P-256 and SHA-256, as described in
+   * https://tools.ietf.org/html/rfc7518.
+   */
+  ES256 = 'ES256',
+  /**
+   * ECDSA using P-384 and SHA-384, as described in
+   * https://tools.ietf.org/html/rfc7518
+   */
+  ES384 = 'ES384',
+  /**
+   * ECDSA using P-521 and SHA-512, as described in
+   * https://tools.ietf.org/html/rfc7518
+   */
+  ES512 = 'ES512',
+  /**
+   * ECDSA using P-256K and SHA-256, as described in
+   * https://tools.ietf.org/html/rfc7518
+   */
+  ES256K = 'ES256K',
+}
 
 /**
  * Defines values for SasTokenType.
  * Possible values include: 'account', 'service'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SasTokenType =
+ * <SasTokenType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SasTokenType = 'account' | 'service';
+export enum SasTokenType {
+  Account = 'account',
+  Service = 'service',
+}
 
 /**
  * Contains response data for the createKey operation.

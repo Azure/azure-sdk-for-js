@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/objectDataTypesMappers";
 import * as Parameters from "../models/parameters";
@@ -53,7 +53,7 @@ export class ObjectDataTypes {
    * @param callback The callback
    */
   listFieldsByModuleAndType(resourceGroupName: string, automationAccountName: string, moduleName: string, typeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TypeFieldListResult>): void;
-  listFieldsByModuleAndType(resourceGroupName: string, automationAccountName: string, moduleName: string, typeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TypeFieldListResult>, callback?: msRest.ServiceCallback<Models.TypeFieldListResult>): Promise<Models.ObjectDataTypesListFieldsByModuleAndTypeResponse> {
+  listFieldsByModuleAndType(resourceGroupName: string, automationAccountName: string, moduleName: string, typeName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TypeFieldListResult>): Promise<Models.ObjectDataTypesListFieldsByModuleAndTypeResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -90,7 +90,7 @@ export class ObjectDataTypes {
    * @param callback The callback
    */
   listFieldsByType(resourceGroupName: string, automationAccountName: string, typeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TypeFieldListResult>): void;
-  listFieldsByType(resourceGroupName: string, automationAccountName: string, typeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TypeFieldListResult>, callback?: msRest.ServiceCallback<Models.TypeFieldListResult>): Promise<Models.ObjectDataTypesListFieldsByTypeResponse> {
+  listFieldsByType(resourceGroupName: string, automationAccountName: string, typeName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TypeFieldListResult>): Promise<Models.ObjectDataTypesListFieldsByTypeResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

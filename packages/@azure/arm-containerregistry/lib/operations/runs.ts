@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/runsMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class Runs {
    * @param callback The callback
    */
   list(resourceGroupName: string, registryName: string, options: Models.RunsListOptionalParams, callback: msRest.ServiceCallback<Models.RunListResult>): void;
-  list(resourceGroupName: string, registryName: string, options?: Models.RunsListOptionalParams | msRest.ServiceCallback<Models.RunListResult>, callback?: msRest.ServiceCallback<Models.RunListResult>): Promise<Models.RunsListResponse> {
+  list(resourceGroupName: string, registryName: string, options?: Models.RunsListOptionalParams, callback?: msRest.ServiceCallback<Models.RunListResult>): Promise<Models.RunsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +83,7 @@ export class Runs {
    * @param callback The callback
    */
   get(resourceGroupName: string, registryName: string, runId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Run>): void;
-  get(resourceGroupName: string, registryName: string, runId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Run>, callback?: msRest.ServiceCallback<Models.Run>): Promise<Models.RunsGetResponse> {
+  get(resourceGroupName: string, registryName: string, runId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Run>): Promise<Models.RunsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -133,7 +133,7 @@ export class Runs {
    * @param callback The callback
    */
   getLogSasUrl(resourceGroupName: string, registryName: string, runId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RunGetLogResult>): void;
-  getLogSasUrl(resourceGroupName: string, registryName: string, runId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RunGetLogResult>, callback?: msRest.ServiceCallback<Models.RunGetLogResult>): Promise<Models.RunsGetLogSasUrlResponse> {
+  getLogSasUrl(resourceGroupName: string, registryName: string, runId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RunGetLogResult>): Promise<Models.RunsGetLogSasUrlResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -218,7 +218,7 @@ export class Runs {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RunListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RunListResult>, callback?: msRest.ServiceCallback<Models.RunListResult>): Promise<Models.RunsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RunListResult>): Promise<Models.RunsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

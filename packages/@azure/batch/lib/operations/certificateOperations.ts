@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/certificateOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -44,7 +44,7 @@ export class CertificateOperations {
    * @param callback The callback
    */
   add(certificate: Models.CertificateAddParameter, options: Models.CertificateAddOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  add(certificate: Models.CertificateAddParameter, options?: Models.CertificateAddOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.CertificateAddResponse> {
+  add(certificate: Models.CertificateAddParameter, options?: Models.CertificateAddOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.CertificateAddResponse> {
     return this.client.sendOperationRequest(
       {
         certificate,
@@ -69,7 +69,7 @@ export class CertificateOperations {
    * @param callback The callback
    */
   list(options: Models.CertificateListOptionalParams, callback: msRest.ServiceCallback<Models.CertificateListResult>): void;
-  list(options?: Models.CertificateListOptionalParams | msRest.ServiceCallback<Models.CertificateListResult>, callback?: msRest.ServiceCallback<Models.CertificateListResult>): Promise<Models.CertificateListResponse> {
+  list(options?: Models.CertificateListOptionalParams, callback?: msRest.ServiceCallback<Models.CertificateListResult>): Promise<Models.CertificateListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -108,7 +108,7 @@ export class CertificateOperations {
    * @param callback The callback
    */
   cancelDeletion(thumbprintAlgorithm: string, thumbprint: string, options: Models.CertificateCancelDeletionOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  cancelDeletion(thumbprintAlgorithm: string, thumbprint: string, options?: Models.CertificateCancelDeletionOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.CertificateCancelDeletionResponse> {
+  cancelDeletion(thumbprintAlgorithm: string, thumbprint: string, options?: Models.CertificateCancelDeletionOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.CertificateCancelDeletionResponse> {
     return this.client.sendOperationRequest(
       {
         thumbprintAlgorithm,
@@ -151,7 +151,7 @@ export class CertificateOperations {
    * @param callback The callback
    */
   deleteMethod(thumbprintAlgorithm: string, thumbprint: string, options: Models.CertificateDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(thumbprintAlgorithm: string, thumbprint: string, options?: Models.CertificateDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.CertificateDeleteResponse> {
+  deleteMethod(thumbprintAlgorithm: string, thumbprint: string, options?: Models.CertificateDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.CertificateDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         thumbprintAlgorithm,
@@ -186,7 +186,7 @@ export class CertificateOperations {
    * @param callback The callback
    */
   get(thumbprintAlgorithm: string, thumbprint: string, options: Models.CertificateGetOptionalParams, callback: msRest.ServiceCallback<Models.Certificate>): void;
-  get(thumbprintAlgorithm: string, thumbprint: string, options?: Models.CertificateGetOptionalParams | msRest.ServiceCallback<Models.Certificate>, callback?: msRest.ServiceCallback<Models.Certificate>): Promise<Models.CertificateGetResponse> {
+  get(thumbprintAlgorithm: string, thumbprint: string, options?: Models.CertificateGetOptionalParams, callback?: msRest.ServiceCallback<Models.Certificate>): Promise<Models.CertificateGetResponse> {
     return this.client.sendOperationRequest(
       {
         thumbprintAlgorithm,
@@ -215,7 +215,7 @@ export class CertificateOperations {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: Models.CertificateListNextOptionalParams, callback: msRest.ServiceCallback<Models.CertificateListResult>): void;
-  listNext(nextPageLink: string, options?: Models.CertificateListNextOptionalParams | msRest.ServiceCallback<Models.CertificateListResult>, callback?: msRest.ServiceCallback<Models.CertificateListResult>): Promise<Models.CertificateListResponse> {
+  listNext(nextPageLink: string, options?: Models.CertificateListNextOptionalParams, callback?: msRest.ServiceCallback<Models.CertificateListResult>): Promise<Models.CertificateListResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

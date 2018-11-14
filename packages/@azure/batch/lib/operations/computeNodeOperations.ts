@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/computeNodeOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -51,7 +51,7 @@ export class ComputeNodeOperations {
    * @param callback The callback
    */
   addUser(poolId: string, nodeId: string, user: Models.ComputeNodeUser, options: Models.ComputeNodeAddUserOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  addUser(poolId: string, nodeId: string, user: Models.ComputeNodeUser, options?: Models.ComputeNodeAddUserOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ComputeNodeAddUserResponse> {
+  addUser(poolId: string, nodeId: string, user: Models.ComputeNodeUser, options?: Models.ComputeNodeAddUserOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ComputeNodeAddUserResponse> {
     return this.client.sendOperationRequest(
       {
         poolId,
@@ -88,7 +88,7 @@ export class ComputeNodeOperations {
    * @param callback The callback
    */
   deleteUser(poolId: string, nodeId: string, userName: string, options: Models.ComputeNodeDeleteUserOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteUser(poolId: string, nodeId: string, userName: string, options?: Models.ComputeNodeDeleteUserOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ComputeNodeDeleteUserResponse> {
+  deleteUser(poolId: string, nodeId: string, userName: string, options?: Models.ComputeNodeDeleteUserOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ComputeNodeDeleteUserResponse> {
     return this.client.sendOperationRequest(
       {
         poolId,
@@ -132,7 +132,7 @@ export class ComputeNodeOperations {
    * @param callback The callback
    */
   updateUser(poolId: string, nodeId: string, userName: string, nodeUpdateUserParameter: Models.NodeUpdateUserParameter, options: Models.ComputeNodeUpdateUserOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  updateUser(poolId: string, nodeId: string, userName: string, nodeUpdateUserParameter: Models.NodeUpdateUserParameter, options?: Models.ComputeNodeUpdateUserOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ComputeNodeUpdateUserResponse> {
+  updateUser(poolId: string, nodeId: string, userName: string, nodeUpdateUserParameter: Models.NodeUpdateUserParameter, options?: Models.ComputeNodeUpdateUserOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ComputeNodeUpdateUserResponse> {
     return this.client.sendOperationRequest(
       {
         poolId,
@@ -166,7 +166,7 @@ export class ComputeNodeOperations {
    * @param callback The callback
    */
   get(poolId: string, nodeId: string, options: Models.ComputeNodeGetOptionalParams, callback: msRest.ServiceCallback<Models.ComputeNode>): void;
-  get(poolId: string, nodeId: string, options?: Models.ComputeNodeGetOptionalParams | msRest.ServiceCallback<Models.ComputeNode>, callback?: msRest.ServiceCallback<Models.ComputeNode>): Promise<Models.ComputeNodeGetResponse> {
+  get(poolId: string, nodeId: string, options?: Models.ComputeNodeGetOptionalParams, callback?: msRest.ServiceCallback<Models.ComputeNode>): Promise<Models.ComputeNodeGetResponse> {
     return this.client.sendOperationRequest(
       {
         poolId,
@@ -199,7 +199,7 @@ export class ComputeNodeOperations {
    * @param callback The callback
    */
   reboot(poolId: string, nodeId: string, options: Models.ComputeNodeRebootOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  reboot(poolId: string, nodeId: string, options?: Models.ComputeNodeRebootOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ComputeNodeRebootResponse> {
+  reboot(poolId: string, nodeId: string, options?: Models.ComputeNodeRebootOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ComputeNodeRebootResponse> {
     return this.client.sendOperationRequest(
       {
         poolId,
@@ -233,7 +233,7 @@ export class ComputeNodeOperations {
    * @param callback The callback
    */
   reimage(poolId: string, nodeId: string, options: Models.ComputeNodeReimageOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  reimage(poolId: string, nodeId: string, options?: Models.ComputeNodeReimageOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ComputeNodeReimageResponse> {
+  reimage(poolId: string, nodeId: string, options?: Models.ComputeNodeReimageOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ComputeNodeReimageResponse> {
     return this.client.sendOperationRequest(
       {
         poolId,
@@ -266,7 +266,7 @@ export class ComputeNodeOperations {
    * @param callback The callback
    */
   disableScheduling(poolId: string, nodeId: string, options: Models.ComputeNodeDisableSchedulingOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  disableScheduling(poolId: string, nodeId: string, options?: Models.ComputeNodeDisableSchedulingOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ComputeNodeDisableSchedulingResponse> {
+  disableScheduling(poolId: string, nodeId: string, options?: Models.ComputeNodeDisableSchedulingOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ComputeNodeDisableSchedulingResponse> {
     return this.client.sendOperationRequest(
       {
         poolId,
@@ -299,7 +299,7 @@ export class ComputeNodeOperations {
    * @param callback The callback
    */
   enableScheduling(poolId: string, nodeId: string, options: Models.ComputeNodeEnableSchedulingOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  enableScheduling(poolId: string, nodeId: string, options?: Models.ComputeNodeEnableSchedulingOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ComputeNodeEnableSchedulingResponse> {
+  enableScheduling(poolId: string, nodeId: string, options?: Models.ComputeNodeEnableSchedulingOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ComputeNodeEnableSchedulingResponse> {
     return this.client.sendOperationRequest(
       {
         poolId,
@@ -335,7 +335,7 @@ export class ComputeNodeOperations {
    * @param callback The callback
    */
   getRemoteLoginSettings(poolId: string, nodeId: string, options: Models.ComputeNodeGetRemoteLoginSettingsOptionalParams, callback: msRest.ServiceCallback<Models.ComputeNodeGetRemoteLoginSettingsResult>): void;
-  getRemoteLoginSettings(poolId: string, nodeId: string, options?: Models.ComputeNodeGetRemoteLoginSettingsOptionalParams | msRest.ServiceCallback<Models.ComputeNodeGetRemoteLoginSettingsResult>, callback?: msRest.ServiceCallback<Models.ComputeNodeGetRemoteLoginSettingsResult>): Promise<Models.ComputeNodeGetRemoteLoginSettingsResponse> {
+  getRemoteLoginSettings(poolId: string, nodeId: string, options?: Models.ComputeNodeGetRemoteLoginSettingsOptionalParams, callback?: msRest.ServiceCallback<Models.ComputeNodeGetRemoteLoginSettingsResult>): Promise<Models.ComputeNodeGetRemoteLoginSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         poolId,
@@ -373,7 +373,7 @@ export class ComputeNodeOperations {
    * @param callback The callback
    */
   getRemoteDesktop(poolId: string, nodeId: string, options: Models.ComputeNodeGetRemoteDesktopOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  getRemoteDesktop(poolId: string, nodeId: string, options?: Models.ComputeNodeGetRemoteDesktopOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ComputeNodeGetRemoteDesktopResponse> {
+  getRemoteDesktop(poolId: string, nodeId: string, options?: Models.ComputeNodeGetRemoteDesktopOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ComputeNodeGetRemoteDesktopResponse> {
     return this.client.sendOperationRequest(
       {
         poolId,
@@ -418,7 +418,7 @@ export class ComputeNodeOperations {
    * @param callback The callback
    */
   uploadBatchServiceLogs(poolId: string, nodeId: string, uploadBatchServiceLogsConfiguration: Models.UploadBatchServiceLogsConfiguration, options: Models.ComputeNodeUploadBatchServiceLogsOptionalParams, callback: msRest.ServiceCallback<Models.UploadBatchServiceLogsResult>): void;
-  uploadBatchServiceLogs(poolId: string, nodeId: string, uploadBatchServiceLogsConfiguration: Models.UploadBatchServiceLogsConfiguration, options?: Models.ComputeNodeUploadBatchServiceLogsOptionalParams | msRest.ServiceCallback<Models.UploadBatchServiceLogsResult>, callback?: msRest.ServiceCallback<Models.UploadBatchServiceLogsResult>): Promise<Models.ComputeNodeUploadBatchServiceLogsResponse> {
+  uploadBatchServiceLogs(poolId: string, nodeId: string, uploadBatchServiceLogsConfiguration: Models.UploadBatchServiceLogsConfiguration, options?: Models.ComputeNodeUploadBatchServiceLogsOptionalParams, callback?: msRest.ServiceCallback<Models.UploadBatchServiceLogsResult>): Promise<Models.ComputeNodeUploadBatchServiceLogsResponse> {
     return this.client.sendOperationRequest(
       {
         poolId,
@@ -448,7 +448,7 @@ export class ComputeNodeOperations {
    * @param callback The callback
    */
   list(poolId: string, options: Models.ComputeNodeListOptionalParams, callback: msRest.ServiceCallback<Models.ComputeNodeListResult>): void;
-  list(poolId: string, options?: Models.ComputeNodeListOptionalParams | msRest.ServiceCallback<Models.ComputeNodeListResult>, callback?: msRest.ServiceCallback<Models.ComputeNodeListResult>): Promise<Models.ComputeNodeListResponse> {
+  list(poolId: string, options?: Models.ComputeNodeListOptionalParams, callback?: msRest.ServiceCallback<Models.ComputeNodeListResult>): Promise<Models.ComputeNodeListResponse> {
     return this.client.sendOperationRequest(
       {
         poolId,
@@ -476,7 +476,7 @@ export class ComputeNodeOperations {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: Models.ComputeNodeListNextOptionalParams, callback: msRest.ServiceCallback<Models.ComputeNodeListResult>): void;
-  listNext(nextPageLink: string, options?: Models.ComputeNodeListNextOptionalParams | msRest.ServiceCallback<Models.ComputeNodeListResult>, callback?: msRest.ServiceCallback<Models.ComputeNodeListResult>): Promise<Models.ComputeNodeListResponse> {
+  listNext(nextPageLink: string, options?: Models.ComputeNodeListNextOptionalParams, callback?: msRest.ServiceCallback<Models.ComputeNodeListResult>): Promise<Models.ComputeNodeListResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

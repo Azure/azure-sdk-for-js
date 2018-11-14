@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 
 /**
@@ -1486,124 +1486,254 @@ export interface TrainingAPIClientCreateTagOptionalParams extends msRest.Request
 /**
  * Defines values for DomainType.
  * Possible values include: 'Classification', 'ObjectDetection'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: DomainType = <DomainType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type DomainType = 'Classification' | 'ObjectDetection';
+export enum DomainType {
+  Classification = 'Classification',
+  ObjectDetection = 'ObjectDetection',
+}
 
 /**
  * Defines values for ImageCreateStatus.
- * Possible values include: 'OK', 'OKDuplicate', 'ErrorSource', 'ErrorImageFormat',
- * 'ErrorImageSize', 'ErrorStorage', 'ErrorLimitExceed', 'ErrorTagLimitExceed',
- * 'ErrorRegionLimitExceed', 'ErrorUnknown', 'ErrorNegativeAndRegularTagOnSameImage'
+ * Possible values include: 'OK', 'OKDuplicate', 'ErrorSource',
+ * 'ErrorImageFormat', 'ErrorImageSize', 'ErrorStorage', 'ErrorLimitExceed',
+ * 'ErrorTagLimitExceed', 'ErrorRegionLimitExceed', 'ErrorUnknown',
+ * 'ErrorNegativeAndRegularTagOnSameImage'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ImageCreateStatus =
+ * <ImageCreateStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ImageCreateStatus = 'OK' | 'OKDuplicate' | 'ErrorSource' | 'ErrorImageFormat' | 'ErrorImageSize' | 'ErrorStorage' | 'ErrorLimitExceed' | 'ErrorTagLimitExceed' | 'ErrorRegionLimitExceed' | 'ErrorUnknown' | 'ErrorNegativeAndRegularTagOnSameImage';
+export enum ImageCreateStatus {
+  OK = 'OK',
+  OKDuplicate = 'OKDuplicate',
+  ErrorSource = 'ErrorSource',
+  ErrorImageFormat = 'ErrorImageFormat',
+  ErrorImageSize = 'ErrorImageSize',
+  ErrorStorage = 'ErrorStorage',
+  ErrorLimitExceed = 'ErrorLimitExceed',
+  ErrorTagLimitExceed = 'ErrorTagLimitExceed',
+  ErrorRegionLimitExceed = 'ErrorRegionLimitExceed',
+  ErrorUnknown = 'ErrorUnknown',
+  ErrorNegativeAndRegularTagOnSameImage = 'ErrorNegativeAndRegularTagOnSameImage',
+}
 
 /**
  * Defines values for OrderBy.
  * Possible values include: 'Newest', 'Oldest', 'Suggested'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: OrderBy = <OrderBy>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type OrderBy = 'Newest' | 'Oldest' | 'Suggested';
+export enum OrderBy {
+  Newest = 'Newest',
+  Oldest = 'Oldest',
+  Suggested = 'Suggested',
+}
 
 /**
  * Defines values for Classifier.
  * Possible values include: 'Multiclass', 'Multilabel'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Classifier = <Classifier>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type Classifier = 'Multiclass' | 'Multilabel';
+export enum Classifier {
+  Multiclass = 'Multiclass',
+  Multilabel = 'Multilabel',
+}
 
 /**
  * Defines values for ExportPlatformModel.
  * Possible values include: 'CoreML', 'TensorFlow', 'DockerFile', 'ONNX'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ExportPlatformModel =
+ * <ExportPlatformModel>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ExportPlatformModel = 'CoreML' | 'TensorFlow' | 'DockerFile' | 'ONNX';
+export enum ExportPlatformModel {
+  CoreML = 'CoreML',
+  TensorFlow = 'TensorFlow',
+  DockerFile = 'DockerFile',
+  ONNX = 'ONNX',
+}
 
 /**
  * Defines values for ExportStatusModel.
  * Possible values include: 'Exporting', 'Failed', 'Done'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ExportStatusModel =
+ * <ExportStatusModel>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ExportStatusModel = 'Exporting' | 'Failed' | 'Done';
+export enum ExportStatusModel {
+  Exporting = 'Exporting',
+  Failed = 'Failed',
+  Done = 'Done',
+}
 
 /**
  * Defines values for ExportFlavorModel.
  * Possible values include: 'Linux', 'Windows', 'ONNX10', 'ONNX12'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ExportFlavorModel =
+ * <ExportFlavorModel>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ExportFlavorModel = 'Linux' | 'Windows' | 'ONNX10' | 'ONNX12';
+export enum ExportFlavorModel {
+  Linux = 'Linux',
+  Windows = 'Windows',
+  ONNX10 = 'ONNX10',
+  ONNX12 = 'ONNX12',
+}
 
 /**
  * Defines values for TagType.
  * Possible values include: 'Regular', 'Negative'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: TagType = <TagType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type TagType = 'Regular' | 'Negative';
+export enum TagType {
+  Regular = 'Regular',
+  Negative = 'Negative',
+}
 
 /**
  * Defines values for OrderBy1.
  * Possible values include: 'Newest', 'Oldest'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: OrderBy1 = <OrderBy1>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type OrderBy1 = 'Newest' | 'Oldest';
+export enum OrderBy1 {
+  Newest = 'Newest',
+  Oldest = 'Oldest',
+}
 
 /**
  * Defines values for OrderBy2.
  * Possible values include: 'Newest', 'Oldest'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: OrderBy2 = <OrderBy2>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type OrderBy2 = 'Newest' | 'Oldest';
+export enum OrderBy2 {
+  Newest = 'Newest',
+  Oldest = 'Oldest',
+}
 
 /**
  * Defines values for OrderBy3.
  * Possible values include: 'Newest', 'Oldest'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: OrderBy3 = <OrderBy3>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type OrderBy3 = 'Newest' | 'Oldest';
+export enum OrderBy3 {
+  Newest = 'Newest',
+  Oldest = 'Oldest',
+}
 
 /**
  * Defines values for ClassificationType.
  * Possible values include: 'Multiclass', 'Multilabel'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ClassificationType =
+ * <ClassificationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ClassificationType = 'Multiclass' | 'Multilabel';
+export enum ClassificationType {
+  Multiclass = 'Multiclass',
+  Multilabel = 'Multilabel',
+}
 
 /**
  * Defines values for Flavor.
  * Possible values include: 'Linux', 'Windows', 'ONNX10', 'ONNX12'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Flavor = <Flavor>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type Flavor = 'Linux' | 'Windows' | 'ONNX10' | 'ONNX12';
+export enum Flavor {
+  Linux = 'Linux',
+  Windows = 'Windows',
+  ONNX10 = 'ONNX10',
+  ONNX12 = 'ONNX12',
+}
 
 /**
  * Defines values for Type.
  * Possible values include: 'Regular', 'Negative'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Type = <Type>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type Type = 'Regular' | 'Negative';
+export enum Type {
+  Regular = 'Regular',
+  Negative = 'Negative',
+}
 
 /**
  * Defines values for Platform.
  * Possible values include: 'CoreML', 'TensorFlow', 'DockerFile', 'ONNX'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Platform = <Platform>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type Platform = 'CoreML' | 'TensorFlow' | 'DockerFile' | 'ONNX';
+export enum Platform {
+  CoreML = 'CoreML',
+  TensorFlow = 'TensorFlow',
+  DockerFile = 'DockerFile',
+  ONNX = 'ONNX',
+}
 
 /**
  * Contains response data for the getDomains operation.

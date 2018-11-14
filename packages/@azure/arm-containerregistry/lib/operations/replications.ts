@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/replicationsMappers";
 import * as Parameters from "../models/parameters";
@@ -51,7 +51,7 @@ export class Replications {
    * @param callback The callback
    */
   get(resourceGroupName: string, registryName: string, replicationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Replication>): void;
-  get(resourceGroupName: string, registryName: string, replicationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Replication>, callback?: msRest.ServiceCallback<Models.Replication>): Promise<Models.ReplicationsGetResponse> {
+  get(resourceGroupName: string, registryName: string, replicationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Replication>): Promise<Models.ReplicationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -125,7 +125,7 @@ export class Replications {
    * @param callback The callback
    */
   list(resourceGroupName: string, registryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReplicationListResult>): void;
-  list(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationListResult>, callback?: msRest.ServiceCallback<Models.ReplicationListResult>): Promise<Models.ReplicationsListResponse> {
+  list(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ReplicationListResult>): Promise<Models.ReplicationsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -218,7 +218,7 @@ export class Replications {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReplicationListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationListResult>, callback?: msRest.ServiceCallback<Models.ReplicationListResult>): Promise<Models.ReplicationsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ReplicationListResult>): Promise<Models.ReplicationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

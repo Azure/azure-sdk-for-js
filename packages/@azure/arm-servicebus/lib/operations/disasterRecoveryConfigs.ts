@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/disasterRecoveryConfigsMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class DisasterRecoveryConfigs {
    * @param callback The callback
    */
   checkNameAvailabilityMethod(resourceGroupName: string, namespaceName: string, parameters: Models.CheckNameAvailability, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
-  checkNameAvailabilityMethod(resourceGroupName: string, namespaceName: string, parameters: Models.CheckNameAvailability, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.DisasterRecoveryConfigsCheckNameAvailabilityMethodResponse> {
+  checkNameAvailabilityMethod(resourceGroupName: string, namespaceName: string, parameters: Models.CheckNameAvailability, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.DisasterRecoveryConfigsCheckNameAvailabilityMethodResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +83,7 @@ export class DisasterRecoveryConfigs {
    * @param callback The callback
    */
   list(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ArmDisasterRecoveryListResult>): void;
-  list(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArmDisasterRecoveryListResult>, callback?: msRest.ServiceCallback<Models.ArmDisasterRecoveryListResult>): Promise<Models.DisasterRecoveryConfigsListResponse> {
+  list(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ArmDisasterRecoveryListResult>): Promise<Models.DisasterRecoveryConfigsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -121,7 +121,7 @@ export class DisasterRecoveryConfigs {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, namespaceName: string, alias: string, parameters: Models.ArmDisasterRecovery, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ArmDisasterRecovery>): void;
-  createOrUpdate(resourceGroupName: string, namespaceName: string, alias: string, parameters: Models.ArmDisasterRecovery, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArmDisasterRecovery>, callback?: msRest.ServiceCallback<Models.ArmDisasterRecovery>): Promise<Models.DisasterRecoveryConfigsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, namespaceName: string, alias: string, parameters: Models.ArmDisasterRecovery, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ArmDisasterRecovery>): Promise<Models.DisasterRecoveryConfigsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +158,7 @@ export class DisasterRecoveryConfigs {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, namespaceName: string, alias: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, namespaceName: string, alias: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, namespaceName: string, alias: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -194,7 +194,7 @@ export class DisasterRecoveryConfigs {
    * @param callback The callback
    */
   get(resourceGroupName: string, namespaceName: string, alias: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ArmDisasterRecovery>): void;
-  get(resourceGroupName: string, namespaceName: string, alias: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArmDisasterRecovery>, callback?: msRest.ServiceCallback<Models.ArmDisasterRecovery>): Promise<Models.DisasterRecoveryConfigsGetResponse> {
+  get(resourceGroupName: string, namespaceName: string, alias: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ArmDisasterRecovery>): Promise<Models.DisasterRecoveryConfigsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -231,7 +231,7 @@ export class DisasterRecoveryConfigs {
    * @param callback The callback
    */
   breakPairing(resourceGroupName: string, namespaceName: string, alias: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  breakPairing(resourceGroupName: string, namespaceName: string, alias: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  breakPairing(resourceGroupName: string, namespaceName: string, alias: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -267,7 +267,7 @@ export class DisasterRecoveryConfigs {
    * @param callback The callback
    */
   failOver(resourceGroupName: string, namespaceName: string, alias: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  failOver(resourceGroupName: string, namespaceName: string, alias: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  failOver(resourceGroupName: string, namespaceName: string, alias: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -303,7 +303,7 @@ export class DisasterRecoveryConfigs {
    * @param callback The callback
    */
   listAuthorizationRules(resourceGroupName: string, namespaceName: string, alias: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SBAuthorizationRuleListResult>): void;
-  listAuthorizationRules(resourceGroupName: string, namespaceName: string, alias: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SBAuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.SBAuthorizationRuleListResult>): Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesResponse> {
+  listAuthorizationRules(resourceGroupName: string, namespaceName: string, alias: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SBAuthorizationRuleListResult>): Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -342,7 +342,7 @@ export class DisasterRecoveryConfigs {
    * @param callback The callback
    */
   getAuthorizationRule(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SBAuthorizationRule>): void;
-  getAuthorizationRule(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SBAuthorizationRule>, callback?: msRest.ServiceCallback<Models.SBAuthorizationRule>): Promise<Models.DisasterRecoveryConfigsGetAuthorizationRuleResponse> {
+  getAuthorizationRule(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SBAuthorizationRule>): Promise<Models.DisasterRecoveryConfigsGetAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -382,7 +382,7 @@ export class DisasterRecoveryConfigs {
    * @param callback The callback
    */
   listKeys(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessKeys>): void;
-  listKeys(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessKeys>, callback?: msRest.ServiceCallback<Models.AccessKeys>): Promise<Models.DisasterRecoveryConfigsListKeysResponse> {
+  listKeys(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccessKeys>): Promise<Models.DisasterRecoveryConfigsListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -413,7 +413,7 @@ export class DisasterRecoveryConfigs {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ArmDisasterRecoveryListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArmDisasterRecoveryListResult>, callback?: msRest.ServiceCallback<Models.ArmDisasterRecoveryListResult>): Promise<Models.DisasterRecoveryConfigsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ArmDisasterRecoveryListResult>): Promise<Models.DisasterRecoveryConfigsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -441,7 +441,7 @@ export class DisasterRecoveryConfigs {
    * @param callback The callback
    */
   listAuthorizationRulesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SBAuthorizationRuleListResult>): void;
-  listAuthorizationRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SBAuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.SBAuthorizationRuleListResult>): Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesNextResponse> {
+  listAuthorizationRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SBAuthorizationRuleListResult>): Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

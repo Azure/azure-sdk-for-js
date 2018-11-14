@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/nodeCountInformationMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class NodeCountInformation {
    * @param callback The callback
    */
   get(resourceGroupName: string, automationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NodeCounts>): void;
-  get(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NodeCounts>, callback?: msRest.ServiceCallback<Models.NodeCounts>): Promise<Models.NodeCountInformationGetResponse> {
+  get(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NodeCounts>): Promise<Models.NodeCountInformationGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

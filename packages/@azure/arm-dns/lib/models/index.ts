@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -753,15 +753,30 @@ export interface ZoneListResult extends Array<Zone> {
  * @readonly
  * @enum {string}
  */
-export type ZoneType = 'Public' | 'Private';
+export enum ZoneType {
+  Public = 'Public',
+  Private = 'Private',
+}
 
 /**
  * Defines values for RecordType.
- * Possible values include: 'A', 'AAAA', 'CAA', 'CNAME', 'MX', 'NS', 'PTR', 'SOA', 'SRV', 'TXT'
+ * Possible values include: 'A', 'AAAA', 'CAA', 'CNAME', 'MX', 'NS', 'PTR',
+ * 'SOA', 'SRV', 'TXT'
  * @readonly
  * @enum {string}
  */
-export type RecordType = 'A' | 'AAAA' | 'CAA' | 'CNAME' | 'MX' | 'NS' | 'PTR' | 'SOA' | 'SRV' | 'TXT';
+export enum RecordType {
+  A = 'A',
+  AAAA = 'AAAA',
+  CAA = 'CAA',
+  CNAME = 'CNAME',
+  MX = 'MX',
+  NS = 'NS',
+  PTR = 'PTR',
+  SOA = 'SOA',
+  SRV = 'SRV',
+  TXT = 'TXT',
+}
 
 /**
  * Contains response data for the update operation.

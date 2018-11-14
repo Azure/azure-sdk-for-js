@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/backupWorkloadItemsMappers";
 import * as Parameters from "../models/parameters";
@@ -58,7 +58,7 @@ export class BackupWorkloadItems {
    * @param callback The callback
    */
   list(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, options: Models.BackupWorkloadItemsListOptionalParams, callback: msRest.ServiceCallback<Models.WorkloadItemResourceList>): void;
-  list(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, options?: Models.BackupWorkloadItemsListOptionalParams | msRest.ServiceCallback<Models.WorkloadItemResourceList>, callback?: msRest.ServiceCallback<Models.WorkloadItemResourceList>): Promise<Models.BackupWorkloadItemsListResponse> {
+  list(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, options?: Models.BackupWorkloadItemsListOptionalParams, callback?: msRest.ServiceCallback<Models.WorkloadItemResourceList>): Promise<Models.BackupWorkloadItemsListResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -91,7 +91,7 @@ export class BackupWorkloadItems {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkloadItemResourceList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkloadItemResourceList>, callback?: msRest.ServiceCallback<Models.WorkloadItemResourceList>): Promise<Models.BackupWorkloadItemsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkloadItemResourceList>): Promise<Models.BackupWorkloadItemsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
