@@ -445,6 +445,7 @@ export const NetworkInterface: msRest.CompositeMapper = {
     modelProperties: {
       ...Resource.type.modelProperties,
       virtualMachine: {
+        readOnly: true,
         serializedName: "properties.virtualMachine",
         type: {
           name: "Composite",
@@ -4005,6 +4006,7 @@ export const AzureFirewallIPConfiguration: msRest.CompositeMapper = {
     modelProperties: {
       ...SubResource.type.modelProperties,
       privateIPAddress: {
+        readOnly: true,
         serializedName: "properties.privateIPAddress",
         type: {
           name: "String"
