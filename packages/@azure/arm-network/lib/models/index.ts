@@ -2339,20 +2339,15 @@ export interface ApplicationGatewayRewriteRuleActionSet {
  */
 export interface ApplicationGatewayRewriteRule {
   /**
-   * @member {ApplicationGatewayRewriteRuleActionSet} [actionSet] Set of
-   * actions to be done as part of the rewrite Rule.
-   */
-  actionSet?: ApplicationGatewayRewriteRuleActionSet;
-  /**
-   * @member {string} [provisioningState] Provisioning state of the rewrite
-   * rule. Possible values are: 'Updating', 'Deleting', and 'Failed'.
-   */
-  provisioningState?: string;
-  /**
    * @member {string} [name] Name of the rewrite rule that is unique within an
    * Application Gateway.
    */
   name?: string;
+  /**
+   * @member {ApplicationGatewayRewriteRuleActionSet} [actionSet] Set of
+   * actions to be done as part of the rewrite Rule.
+   */
+  actionSet?: ApplicationGatewayRewriteRuleActionSet;
 }
 
 /**

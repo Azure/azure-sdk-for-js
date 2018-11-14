@@ -3049,23 +3049,17 @@ export const ApplicationGatewayRewriteRule: msRest.CompositeMapper = {
     name: "Composite",
     className: "ApplicationGatewayRewriteRule",
     modelProperties: {
-      actionSet: {
-        serializedName: "properties.actionSet",
-        type: {
-          name: "Composite",
-          className: "ApplicationGatewayRewriteRuleActionSet"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        type: {
-          name: "String"
-        }
-      },
       name: {
         serializedName: "name",
         type: {
           name: "String"
+        }
+      },
+      actionSet: {
+        serializedName: "actionSet",
+        type: {
+          name: "Composite",
+          className: "ApplicationGatewayRewriteRuleActionSet"
         }
       }
     }
