@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
@@ -37,6 +37,7 @@ class ApiManagementClient extends ApiManagementClientContext {
   backend: operations.Backend;
   certificate: operations.Certificate;
   apiManagementOperations: operations.ApiManagementOperations;
+  apiManagementServiceSkus: operations.ApiManagementServiceSkus;
   apiManagementService: operations.ApiManagementService;
   diagnostic: operations.Diagnostic;
   diagnosticLogger: operations.DiagnosticLogger;
@@ -106,6 +107,7 @@ class ApiManagementClient extends ApiManagementClientContext {
     this.backend = new operations.Backend(this);
     this.certificate = new operations.Certificate(this);
     this.apiManagementOperations = new operations.ApiManagementOperations(this);
+    this.apiManagementServiceSkus = new operations.ApiManagementServiceSkus(this);
     this.apiManagementService = new operations.ApiManagementService(this);
     this.diagnostic = new operations.Diagnostic(this);
     this.diagnosticLogger = new operations.DiagnosticLogger(this);

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
@@ -3248,6 +3248,98 @@ export const CertificateCreateOrUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.password",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceSku: msRest.CompositeMapper = {
+  serializedName: "ResourceSku",
+  type: {
+    name: "Composite",
+    className: "ResourceSku",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceSkuCapacity: msRest.CompositeMapper = {
+  serializedName: "ResourceSkuCapacity",
+  type: {
+    name: "Composite",
+    className: "ResourceSkuCapacity",
+    modelProperties: {
+      minimum: {
+        readOnly: true,
+        serializedName: "minimum",
+        type: {
+          name: "Number"
+        }
+      },
+      maximum: {
+        readOnly: true,
+        serializedName: "maximum",
+        type: {
+          name: "Number"
+        }
+      },
+      default: {
+        readOnly: true,
+        serializedName: "default",
+        type: {
+          name: "Number"
+        }
+      },
+      scaleType: {
+        readOnly: true,
+        serializedName: "scaleType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Automatic",
+            "Manual",
+            "None"
+          ]
+        }
+      }
+    }
+  }
+};
+
+export const ResourceSkuResult: msRest.CompositeMapper = {
+  serializedName: "ResourceSkuResult",
+  type: {
+    name: "Composite",
+    className: "ResourceSkuResult",
+    modelProperties: {
+      resourceType: {
+        readOnly: true,
+        serializedName: "resourceType",
+        type: {
+          name: "String"
+        }
+      },
+      sku: {
+        readOnly: true,
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "ResourceSku"
+        }
+      },
+      capacity: {
+        readOnly: true,
+        serializedName: "capacity",
+        type: {
+          name: "Composite",
+          className: "ResourceSkuCapacity"
         }
       }
     }
@@ -8980,6 +9072,35 @@ export const OperationListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "Operation"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceSkuResults: msRest.CompositeMapper = {
+  serializedName: "ResourceSkuResults",
+  type: {
+    name: "Composite",
+    className: "ResourceSkuResults",
+    modelProperties: {
+      value: {
+        required: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceSkuResult"
             }
           }
         }

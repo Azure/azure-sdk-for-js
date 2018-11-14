@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -2254,6 +2254,83 @@ export interface CertificateCreateOrUpdateParameters {
    * @member {string} password Password for the Certificate
    */
   password: string;
+}
+
+/**
+ * @interface
+ * An interface representing ResourceSku.
+ * Describes an available API Management SKU.
+ *
+ */
+export interface ResourceSku {
+  /**
+   * @member {SkuType} [name] Name of the Sku. Possible values include:
+   * 'Developer', 'Standard', 'Premium', 'Basic'
+   */
+  name?: SkuType;
+}
+
+/**
+ * @interface
+ * An interface representing ResourceSkuCapacity.
+ * Describes scaling information of a SKU.
+ *
+ */
+export interface ResourceSkuCapacity {
+  /**
+   * @member {number} [minimum] The minimum capacity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly minimum?: number;
+  /**
+   * @member {number} [maximum] The maximum capacity that can be set.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly maximum?: number;
+  /**
+   * @member {number} [default] The default capacity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly default?: number;
+  /**
+   * @member {ResourceSkuCapacityScaleType} [scaleType] The scale type
+   * applicable to the sku. Possible values include: 'Automatic', 'Manual',
+   * 'None'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly scaleType?: ResourceSkuCapacityScaleType;
+}
+
+/**
+ * @interface
+ * An interface representing ResourceSkuResult.
+ * Describes an available API Management service SKU.
+ *
+ */
+export interface ResourceSkuResult {
+  /**
+   * @member {string} [resourceType] The type of resource the SKU applies to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resourceType?: string;
+  /**
+   * @member {ResourceSku} [sku] Specifies API Management SKU.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly sku?: ResourceSku;
+  /**
+   * @member {ResourceSkuCapacity} [capacity] Specifies the number of API
+   * Management units.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly capacity?: ResourceSkuCapacity;
 }
 
 /**
@@ -8500,6 +8577,21 @@ export interface OperationListResult extends Array<Operation> {
 
 /**
  * @interface
+ * An interface representing the ResourceSkuResults.
+ * The API Management service SKUs operation response.
+ *
+ * @extends Array<ResourceSkuResult>
+ */
+export interface ResourceSkuResults extends Array<ResourceSkuResult> {
+  /**
+   * @member {string} [nextLink] The uri to fetch the next page of API
+   * Management service Skus.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the ApiManagementServiceListResult.
  * The response of the List API Management services operation.
  *
@@ -8832,20 +8924,28 @@ export type BearerTokenSendingMethod = 'authorizationHeader' | 'query';
 export type BackendProtocol = 'http' | 'soap';
 
 /**
- * Defines values for HostnameType.
- * Possible values include: 'Proxy', 'Portal', 'Management', 'Scm'
- * @readonly
- * @enum {string}
- */
-export type HostnameType = 'Proxy' | 'Portal' | 'Management' | 'Scm';
-
-/**
  * Defines values for SkuType.
  * Possible values include: 'Developer', 'Standard', 'Premium', 'Basic'
  * @readonly
  * @enum {string}
  */
 export type SkuType = 'Developer' | 'Standard' | 'Premium' | 'Basic';
+
+/**
+ * Defines values for ResourceSkuCapacityScaleType.
+ * Possible values include: 'Automatic', 'Manual', 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type ResourceSkuCapacityScaleType = 'Automatic' | 'Manual' | 'None';
+
+/**
+ * Defines values for HostnameType.
+ * Possible values include: 'Proxy', 'Portal', 'Management', 'Scm'
+ * @readonly
+ * @enum {string}
+ */
+export type HostnameType = 'Proxy' | 'Portal' | 'Management' | 'Scm';
 
 /**
  * Defines values for VirtualNetworkType.
@@ -10540,6 +10640,44 @@ export type ApiManagementOperationsListNextResponse = OperationListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: OperationListResult;
+    };
+};
+
+/**
+ * Contains response data for the listAvailableServiceSkus operation.
+ */
+export type ApiManagementServiceSkusListAvailableServiceSkusResponse = ResourceSkuResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceSkuResults;
+    };
+};
+
+/**
+ * Contains response data for the listAvailableServiceSkusNext operation.
+ */
+export type ApiManagementServiceSkusListAvailableServiceSkusNextResponse = ResourceSkuResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceSkuResults;
     };
 };
 
