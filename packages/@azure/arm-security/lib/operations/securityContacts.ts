@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/securityContactsMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class SecurityContacts {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityContactList>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SecurityContactList>): Promise<Models.SecurityContactsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityContactList>, callback?: msRest.ServiceCallback<Models.SecurityContactList>): Promise<Models.SecurityContactsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -68,7 +68,7 @@ export class SecurityContacts {
    * @param callback The callback
    */
   get(securityContactName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityContact>): void;
-  get(securityContactName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SecurityContact>): Promise<Models.SecurityContactsGetResponse> {
+  get(securityContactName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityContact>, callback?: msRest.ServiceCallback<Models.SecurityContact>): Promise<Models.SecurityContactsGetResponse> {
     return this.client.sendOperationRequest(
       {
         securityContactName,
@@ -99,7 +99,7 @@ export class SecurityContacts {
    * @param callback The callback
    */
   create(securityContactName: string, securityContact: Models.SecurityContact, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityContact>): void;
-  create(securityContactName: string, securityContact: Models.SecurityContact, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SecurityContact>): Promise<Models.SecurityContactsCreateResponse> {
+  create(securityContactName: string, securityContact: Models.SecurityContact, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityContact>, callback?: msRest.ServiceCallback<Models.SecurityContact>): Promise<Models.SecurityContactsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         securityContactName,
@@ -128,7 +128,7 @@ export class SecurityContacts {
    * @param callback The callback
    */
   deleteMethod(securityContactName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(securityContactName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(securityContactName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         securityContactName,
@@ -159,7 +159,7 @@ export class SecurityContacts {
    * @param callback The callback
    */
   update(securityContactName: string, securityContact: Models.SecurityContact, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityContact>): void;
-  update(securityContactName: string, securityContact: Models.SecurityContact, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SecurityContact>): Promise<Models.SecurityContactsUpdateResponse> {
+  update(securityContactName: string, securityContact: Models.SecurityContact, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityContact>, callback?: msRest.ServiceCallback<Models.SecurityContact>): Promise<Models.SecurityContactsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         securityContactName,
@@ -188,7 +188,7 @@ export class SecurityContacts {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityContactList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SecurityContactList>): Promise<Models.SecurityContactsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityContactList>, callback?: msRest.ServiceCallback<Models.SecurityContactList>): Promise<Models.SecurityContactsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

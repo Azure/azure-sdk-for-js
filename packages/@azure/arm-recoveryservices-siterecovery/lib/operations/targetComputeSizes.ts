@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/targetComputeSizesMappers";
 import * as Parameters from "../models/parameters";
@@ -51,7 +51,7 @@ export class TargetComputeSizes {
    * @param callback The callback
    */
   listByReplicationProtectedItems(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TargetComputeSizeCollection>): void;
-  listByReplicationProtectedItems(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TargetComputeSizeCollection>): Promise<Models.TargetComputeSizesListByReplicationProtectedItemsResponse> {
+  listByReplicationProtectedItems(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TargetComputeSizeCollection>, callback?: msRest.ServiceCallback<Models.TargetComputeSizeCollection>): Promise<Models.TargetComputeSizesListByReplicationProtectedItemsResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -82,7 +82,7 @@ export class TargetComputeSizes {
    * @param callback The callback
    */
   listByReplicationProtectedItemsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TargetComputeSizeCollection>): void;
-  listByReplicationProtectedItemsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TargetComputeSizeCollection>): Promise<Models.TargetComputeSizesListByReplicationProtectedItemsNextResponse> {
+  listByReplicationProtectedItemsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TargetComputeSizeCollection>, callback?: msRest.ServiceCallback<Models.TargetComputeSizeCollection>): Promise<Models.TargetComputeSizesListByReplicationProtectedItemsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
@@ -913,11 +913,6 @@ export const JobDetails: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "copyLogDetailsType",
-                clientName: "copyLogDetailsType"
-              },
-              uberParent: "CopyLogDetails",
               className: "CopyLogDetails"
             }
           }
@@ -1656,11 +1651,6 @@ export const JobResource: msRest.CompositeMapper = {
         serializedName: "properties.details",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "jobDetailsType",
-            clientName: "jobDetailsType"
-          },
-          uberParent: "JobDetails",
           className: "JobDetails"
         }
       },
@@ -1906,11 +1896,6 @@ export const UnencryptedCredentials: msRest.CompositeMapper = {
         serializedName: "jobSecrets",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "jobSecretsType",
-            clientName: "jobSecretsType"
-          },
-          uberParent: "JobSecrets",
           className: "JobSecrets"
         }
       }

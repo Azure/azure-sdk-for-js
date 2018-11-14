@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/chargesMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class Charges {
    * @param callback The callback
    */
   listByEnrollmentAccount(billingAccountId: string, enrollmentAccountId: string, options: Models.ChargesListByEnrollmentAccountOptionalParams, callback: msRest.ServiceCallback<Models.ChargesListResult>): void;
-  listByEnrollmentAccount(billingAccountId: string, enrollmentAccountId: string, options?: Models.ChargesListByEnrollmentAccountOptionalParams, callback?: msRest.ServiceCallback<Models.ChargesListResult>): Promise<Models.ChargesListByEnrollmentAccountResponse> {
+  listByEnrollmentAccount(billingAccountId: string, enrollmentAccountId: string, options?: Models.ChargesListByEnrollmentAccountOptionalParams | msRest.ServiceCallback<Models.ChargesListResult>, callback?: msRest.ServiceCallback<Models.ChargesListResult>): Promise<Models.ChargesListByEnrollmentAccountResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountId,
@@ -82,7 +82,7 @@ export class Charges {
    * @param callback The callback
    */
   listForBillingPeriodByEnrollmentAccount(billingAccountId: string, enrollmentAccountId: string, billingPeriodName: string, options: Models.ChargesListForBillingPeriodByEnrollmentAccountOptionalParams, callback: msRest.ServiceCallback<Models.ChargeSummary>): void;
-  listForBillingPeriodByEnrollmentAccount(billingAccountId: string, enrollmentAccountId: string, billingPeriodName: string, options?: Models.ChargesListForBillingPeriodByEnrollmentAccountOptionalParams, callback?: msRest.ServiceCallback<Models.ChargeSummary>): Promise<Models.ChargesListForBillingPeriodByEnrollmentAccountResponse> {
+  listForBillingPeriodByEnrollmentAccount(billingAccountId: string, enrollmentAccountId: string, billingPeriodName: string, options?: Models.ChargesListForBillingPeriodByEnrollmentAccountOptionalParams | msRest.ServiceCallback<Models.ChargeSummary>, callback?: msRest.ServiceCallback<Models.ChargeSummary>): Promise<Models.ChargesListForBillingPeriodByEnrollmentAccountResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountId,
@@ -115,7 +115,7 @@ export class Charges {
    * @param callback The callback
    */
   listByDepartment(billingAccountId: string, departmentId: string, options: Models.ChargesListByDepartmentOptionalParams, callback: msRest.ServiceCallback<Models.ChargesListResult>): void;
-  listByDepartment(billingAccountId: string, departmentId: string, options?: Models.ChargesListByDepartmentOptionalParams, callback?: msRest.ServiceCallback<Models.ChargesListResult>): Promise<Models.ChargesListByDepartmentResponse> {
+  listByDepartment(billingAccountId: string, departmentId: string, options?: Models.ChargesListByDepartmentOptionalParams | msRest.ServiceCallback<Models.ChargesListResult>, callback?: msRest.ServiceCallback<Models.ChargesListResult>): Promise<Models.ChargesListByDepartmentResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountId,
@@ -150,7 +150,7 @@ export class Charges {
    * @param callback The callback
    */
   listForBillingPeriodByDepartment(billingAccountId: string, departmentId: string, billingPeriodName: string, options: Models.ChargesListForBillingPeriodByDepartmentOptionalParams, callback: msRest.ServiceCallback<Models.ChargeSummary>): void;
-  listForBillingPeriodByDepartment(billingAccountId: string, departmentId: string, billingPeriodName: string, options?: Models.ChargesListForBillingPeriodByDepartmentOptionalParams, callback?: msRest.ServiceCallback<Models.ChargeSummary>): Promise<Models.ChargesListForBillingPeriodByDepartmentResponse> {
+  listForBillingPeriodByDepartment(billingAccountId: string, departmentId: string, billingPeriodName: string, options?: Models.ChargesListForBillingPeriodByDepartmentOptionalParams | msRest.ServiceCallback<Models.ChargeSummary>, callback?: msRest.ServiceCallback<Models.ChargeSummary>): Promise<Models.ChargesListForBillingPeriodByDepartmentResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountId,

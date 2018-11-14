@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -845,6 +845,13 @@ export interface StorageAccount extends TrackedResource {
    * sets to true.
    */
   isHnsEnabled?: boolean;
+  /**
+   * @member {boolean} [failoverInProgress] If the failover is in progress, the
+   * value will be true, otherwise, it will be null.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly failoverInProgress?: boolean;
 }
 
 /**
@@ -1995,33 +2002,19 @@ export interface UsageListResult extends Array<Usage> {
 /**
  * Defines values for ReasonCode.
  * Possible values include: 'QuotaId', 'NotAvailableForSubscription'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ReasonCode = <ReasonCode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ReasonCode {
-  QuotaId = 'QuotaId',
-  NotAvailableForSubscription = 'NotAvailableForSubscription',
-}
+export type ReasonCode = 'QuotaId' | 'NotAvailableForSubscription';
 
 /**
  * Defines values for SkuName.
- * Possible values include: 'Standard_LRS', 'Standard_GRS', 'Standard_RAGRS',
- * 'Standard_ZRS', 'Premium_LRS', 'Premium_ZRS'
+ * Possible values include: 'Standard_LRS', 'Standard_GRS', 'Standard_RAGRS', 'Standard_ZRS',
+ * 'Premium_LRS', 'Premium_ZRS'
  * @readonly
  * @enum {string}
  */
-export enum SkuName {
-  StandardLRS = 'Standard_LRS',
-  StandardGRS = 'Standard_GRS',
-  StandardRAGRS = 'Standard_RAGRS',
-  StandardZRS = 'Standard_ZRS',
-  PremiumLRS = 'Premium_LRS',
-  PremiumZRS = 'Premium_ZRS',
-}
+export type SkuName = 'Standard_LRS' | 'Standard_GRS' | 'Standard_RAGRS' | 'Standard_ZRS' | 'Premium_LRS' | 'Premium_ZRS';
 
 /**
  * Defines values for SkuTier.
@@ -2029,25 +2022,16 @@ export enum SkuName {
  * @readonly
  * @enum {string}
  */
-export enum SkuTier {
-  Standard = 'Standard',
-  Premium = 'Premium',
-}
+export type SkuTier = 'Standard' | 'Premium';
 
 /**
  * Defines values for Kind.
- * Possible values include: 'Storage', 'StorageV2', 'BlobStorage',
- * 'FileStorage', 'BlockBlobStorage'
+ * Possible values include: 'Storage', 'StorageV2', 'BlobStorage', 'FileStorage',
+ * 'BlockBlobStorage'
  * @readonly
  * @enum {string}
  */
-export enum Kind {
-  Storage = 'Storage',
-  StorageV2 = 'StorageV2',
-  BlobStorage = 'BlobStorage',
-  FileStorage = 'FileStorage',
-  BlockBlobStorage = 'BlockBlobStorage',
-}
+export type Kind = 'Storage' | 'StorageV2' | 'BlobStorage' | 'FileStorage' | 'BlockBlobStorage';
 
 /**
  * Defines values for Reason.
@@ -2055,25 +2039,15 @@ export enum Kind {
  * @readonly
  * @enum {string}
  */
-export enum Reason {
-  AccountNameInvalid = 'AccountNameInvalid',
-  AlreadyExists = 'AlreadyExists',
-}
+export type Reason = 'AccountNameInvalid' | 'AlreadyExists';
 
 /**
  * Defines values for KeySource.
  * Possible values include: 'Microsoft.Storage', 'Microsoft.Keyvault'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: KeySource = <KeySource>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum KeySource {
-  MicrosoftStorage = 'Microsoft.Storage',
-  MicrosoftKeyvault = 'Microsoft.Keyvault',
-}
+export type KeySource = 'Microsoft.Storage' | 'Microsoft.Keyvault';
 
 /**
  * Defines values for Action.
@@ -2081,41 +2055,24 @@ export enum KeySource {
  * @readonly
  * @enum {string}
  */
-export enum Action {
-  Allow = 'Allow',
-}
+export type Action = 'Allow';
 
 /**
  * Defines values for State.
- * Possible values include: 'provisioning', 'deprovisioning', 'succeeded',
- * 'failed', 'networkSourceDeleted'
+ * Possible values include: 'provisioning', 'deprovisioning', 'succeeded', 'failed',
+ * 'networkSourceDeleted'
  * @readonly
  * @enum {string}
  */
-export enum State {
-  Provisioning = 'provisioning',
-  Deprovisioning = 'deprovisioning',
-  Succeeded = 'succeeded',
-  Failed = 'failed',
-  NetworkSourceDeleted = 'networkSourceDeleted',
-}
+export type State = 'provisioning' | 'deprovisioning' | 'succeeded' | 'failed' | 'networkSourceDeleted';
 
 /**
  * Defines values for Bypass.
  * Possible values include: 'None', 'Logging', 'Metrics', 'AzureServices'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Bypass = <Bypass>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Bypass {
-  None = 'None',
-  Logging = 'Logging',
-  Metrics = 'Metrics',
-  AzureServices = 'AzureServices',
-}
+export type Bypass = 'None' | 'Logging' | 'Metrics' | 'AzureServices';
 
 /**
  * Defines values for DefaultAction.
@@ -2123,10 +2080,7 @@ export enum Bypass {
  * @readonly
  * @enum {string}
  */
-export enum DefaultAction {
-  Allow = 'Allow',
-  Deny = 'Deny',
-}
+export type DefaultAction = 'Allow' | 'Deny';
 
 /**
  * Defines values for AccessTier.
@@ -2134,10 +2088,7 @@ export enum DefaultAction {
  * @readonly
  * @enum {string}
  */
-export enum AccessTier {
-  Hot = 'Hot',
-  Cool = 'Cool',
-}
+export type AccessTier = 'Hot' | 'Cool';
 
 /**
  * Defines values for ProvisioningState.
@@ -2145,11 +2096,7 @@ export enum AccessTier {
  * @readonly
  * @enum {string}
  */
-export enum ProvisioningState {
-  Creating = 'Creating',
-  ResolvingDNS = 'ResolvingDNS',
-  Succeeded = 'Succeeded',
-}
+export type ProvisioningState = 'Creating' | 'ResolvingDNS' | 'Succeeded';
 
 /**
  * Defines values for AccountStatus.
@@ -2157,10 +2104,7 @@ export enum ProvisioningState {
  * @readonly
  * @enum {string}
  */
-export enum AccountStatus {
-  Available = 'available',
-  Unavailable = 'unavailable',
-}
+export type AccountStatus = 'available' | 'unavailable';
 
 /**
  * Defines values for KeyPermission.
@@ -2168,82 +2112,40 @@ export enum AccountStatus {
  * @readonly
  * @enum {string}
  */
-export enum KeyPermission {
-  Read = 'Read',
-  Full = 'Full',
-}
+export type KeyPermission = 'Read' | 'Full';
 
 /**
  * Defines values for UsageUnit.
- * Possible values include: 'Count', 'Bytes', 'Seconds', 'Percent',
- * 'CountsPerSecond', 'BytesPerSecond'
+ * Possible values include: 'Count', 'Bytes', 'Seconds', 'Percent', 'CountsPerSecond',
+ * 'BytesPerSecond'
  * @readonly
  * @enum {string}
  */
-export enum UsageUnit {
-  Count = 'Count',
-  Bytes = 'Bytes',
-  Seconds = 'Seconds',
-  Percent = 'Percent',
-  CountsPerSecond = 'CountsPerSecond',
-  BytesPerSecond = 'BytesPerSecond',
-}
+export type UsageUnit = 'Count' | 'Bytes' | 'Seconds' | 'Percent' | 'CountsPerSecond' | 'BytesPerSecond';
 
 /**
  * Defines values for Services.
  * Possible values include: 'b', 'q', 't', 'f'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Services = <Services>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Services {
-  B = 'b',
-  Q = 'q',
-  T = 't',
-  F = 'f',
-}
+export type Services = 'b' | 'q' | 't' | 'f';
 
 /**
  * Defines values for SignedResourceTypes.
  * Possible values include: 's', 'c', 'o'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SignedResourceTypes =
- * <SignedResourceTypes>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SignedResourceTypes {
-  S = 's',
-  C = 'c',
-  O = 'o',
-}
+export type SignedResourceTypes = 's' | 'c' | 'o';
 
 /**
  * Defines values for Permissions.
  * Possible values include: 'r', 'd', 'w', 'l', 'a', 'c', 'u', 'p'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Permissions =
- * <Permissions>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Permissions {
-  R = 'r',
-  D = 'd',
-  W = 'w',
-  L = 'l',
-  A = 'a',
-  C = 'c',
-  U = 'u',
-  P = 'p',
-}
+export type Permissions = 'r' | 'd' | 'w' | 'l' | 'a' | 'c' | 'u' | 'p';
 
 /**
  * Defines values for HttpProtocol.
@@ -2251,28 +2153,15 @@ export enum Permissions {
  * @readonly
  * @enum {string}
  */
-export enum HttpProtocol {
-  Httpshttp = 'https,http',
-  Https = 'https',
-}
+export type HttpProtocol = 'https,http' | 'https';
 
 /**
  * Defines values for SignedResource.
  * Possible values include: 'b', 'c', 'f', 's'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SignedResource =
- * <SignedResource>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SignedResource {
-  B = 'b',
-  C = 'c',
-  F = 'f',
-  S = 's',
-}
+export type SignedResource = 'b' | 'c' | 'f' | 's';
 
 /**
  * Defines values for PublicAccess.
@@ -2280,95 +2169,47 @@ export enum SignedResource {
  * @readonly
  * @enum {string}
  */
-export enum PublicAccess {
-  Container = 'Container',
-  Blob = 'Blob',
-  None = 'None',
-}
+export type PublicAccess = 'Container' | 'Blob' | 'None';
 
 /**
  * Defines values for LeaseStatus.
  * Possible values include: 'Locked', 'Unlocked'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: LeaseStatus =
- * <LeaseStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum LeaseStatus {
-  Locked = 'Locked',
-  Unlocked = 'Unlocked',
-}
+export type LeaseStatus = 'Locked' | 'Unlocked';
 
 /**
  * Defines values for LeaseState.
- * Possible values include: 'Available', 'Leased', 'Expired', 'Breaking',
- * 'Broken'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: LeaseState = <LeaseState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Available', 'Leased', 'Expired', 'Breaking', 'Broken'
  * @readonly
  * @enum {string}
  */
-export enum LeaseState {
-  Available = 'Available',
-  Leased = 'Leased',
-  Expired = 'Expired',
-  Breaking = 'Breaking',
-  Broken = 'Broken',
-}
+export type LeaseState = 'Available' | 'Leased' | 'Expired' | 'Breaking' | 'Broken';
 
 /**
  * Defines values for LeaseDuration.
  * Possible values include: 'Infinite', 'Fixed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: LeaseDuration =
- * <LeaseDuration>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum LeaseDuration {
-  Infinite = 'Infinite',
-  Fixed = 'Fixed',
-}
+export type LeaseDuration = 'Infinite' | 'Fixed';
 
 /**
  * Defines values for ImmutabilityPolicyState.
  * Possible values include: 'Locked', 'Unlocked'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ImmutabilityPolicyState =
- * <ImmutabilityPolicyState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ImmutabilityPolicyState {
-  Locked = 'Locked',
-  Unlocked = 'Unlocked',
-}
+export type ImmutabilityPolicyState = 'Locked' | 'Unlocked';
 
 /**
  * Defines values for ImmutabilityPolicyUpdateType.
  * Possible values include: 'put', 'lock', 'extend'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ImmutabilityPolicyUpdateType =
- * <ImmutabilityPolicyUpdateType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ImmutabilityPolicyUpdateType {
-  Put = 'put',
-  Lock = 'lock',
-  Extend = 'extend',
-}
+export type ImmutabilityPolicyUpdateType = 'put' | 'lock' | 'extend';
 
 /**
  * Contains response data for the list operation.

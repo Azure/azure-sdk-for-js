@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/jobScheduleMappers";
 import * as Parameters from "../models/parameters";
@@ -44,7 +44,7 @@ export class JobSchedule {
    * @param callback The callback
    */
   exists(jobScheduleId: string, options: Models.JobScheduleExistsOptionalParams, callback: msRest.ServiceCallback<boolean>): void;
-  exists(jobScheduleId: string, options?: Models.JobScheduleExistsOptionalParams, callback?: msRest.ServiceCallback<boolean>): Promise<Models.JobScheduleExistsResponse> {
+  exists(jobScheduleId: string, options?: Models.JobScheduleExistsOptionalParams | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.JobScheduleExistsResponse> {
     return this.client.sendOperationRequest(
       {
         jobScheduleId,
@@ -77,7 +77,7 @@ export class JobSchedule {
    * @param callback The callback
    */
   deleteMethod(jobScheduleId: string, options: Models.JobScheduleDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(jobScheduleId: string, options?: Models.JobScheduleDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.JobScheduleDeleteResponse> {
+  deleteMethod(jobScheduleId: string, options?: Models.JobScheduleDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.JobScheduleDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         jobScheduleId,
@@ -105,7 +105,7 @@ export class JobSchedule {
    * @param callback The callback
    */
   get(jobScheduleId: string, options: Models.JobScheduleGetOptionalParams, callback: msRest.ServiceCallback<Models.CloudJobSchedule>): void;
-  get(jobScheduleId: string, options?: Models.JobScheduleGetOptionalParams, callback?: msRest.ServiceCallback<Models.CloudJobSchedule>): Promise<Models.JobScheduleGetResponse> {
+  get(jobScheduleId: string, options?: Models.JobScheduleGetOptionalParams | msRest.ServiceCallback<Models.CloudJobSchedule>, callback?: msRest.ServiceCallback<Models.CloudJobSchedule>): Promise<Models.JobScheduleGetResponse> {
     return this.client.sendOperationRequest(
       {
         jobScheduleId,
@@ -140,7 +140,7 @@ export class JobSchedule {
    * @param callback The callback
    */
   patch(jobScheduleId: string, jobSchedulePatchParameter: Models.JobSchedulePatchParameter, options: Models.JobSchedulePatchOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  patch(jobScheduleId: string, jobSchedulePatchParameter: Models.JobSchedulePatchParameter, options?: Models.JobSchedulePatchOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.JobSchedulePatchResponse> {
+  patch(jobScheduleId: string, jobSchedulePatchParameter: Models.JobSchedulePatchParameter, options?: Models.JobSchedulePatchOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.JobSchedulePatchResponse> {
     return this.client.sendOperationRequest(
       {
         jobScheduleId,
@@ -176,7 +176,7 @@ export class JobSchedule {
    * @param callback The callback
    */
   update(jobScheduleId: string, jobScheduleUpdateParameter: Models.JobScheduleUpdateParameter, options: Models.JobScheduleUpdateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  update(jobScheduleId: string, jobScheduleUpdateParameter: Models.JobScheduleUpdateParameter, options?: Models.JobScheduleUpdateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.JobScheduleUpdateResponse> {
+  update(jobScheduleId: string, jobScheduleUpdateParameter: Models.JobScheduleUpdateParameter, options?: Models.JobScheduleUpdateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.JobScheduleUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         jobScheduleId,
@@ -206,7 +206,7 @@ export class JobSchedule {
    * @param callback The callback
    */
   disable(jobScheduleId: string, options: Models.JobScheduleDisableOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  disable(jobScheduleId: string, options?: Models.JobScheduleDisableOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.JobScheduleDisableResponse> {
+  disable(jobScheduleId: string, options?: Models.JobScheduleDisableOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.JobScheduleDisableResponse> {
     return this.client.sendOperationRequest(
       {
         jobScheduleId,
@@ -234,7 +234,7 @@ export class JobSchedule {
    * @param callback The callback
    */
   enable(jobScheduleId: string, options: Models.JobScheduleEnableOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  enable(jobScheduleId: string, options?: Models.JobScheduleEnableOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.JobScheduleEnableResponse> {
+  enable(jobScheduleId: string, options?: Models.JobScheduleEnableOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.JobScheduleEnableResponse> {
     return this.client.sendOperationRequest(
       {
         jobScheduleId,
@@ -262,7 +262,7 @@ export class JobSchedule {
    * @param callback The callback
    */
   terminate(jobScheduleId: string, options: Models.JobScheduleTerminateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  terminate(jobScheduleId: string, options?: Models.JobScheduleTerminateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.JobScheduleTerminateResponse> {
+  terminate(jobScheduleId: string, options?: Models.JobScheduleTerminateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.JobScheduleTerminateResponse> {
     return this.client.sendOperationRequest(
       {
         jobScheduleId,
@@ -290,7 +290,7 @@ export class JobSchedule {
    * @param callback The callback
    */
   add(cloudJobSchedule: Models.JobScheduleAddParameter, options: Models.JobScheduleAddOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  add(cloudJobSchedule: Models.JobScheduleAddParameter, options?: Models.JobScheduleAddOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.JobScheduleAddResponse> {
+  add(cloudJobSchedule: Models.JobScheduleAddParameter, options?: Models.JobScheduleAddOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.JobScheduleAddResponse> {
     return this.client.sendOperationRequest(
       {
         cloudJobSchedule,
@@ -315,7 +315,7 @@ export class JobSchedule {
    * @param callback The callback
    */
   list(options: Models.JobScheduleListOptionalParams, callback: msRest.ServiceCallback<Models.CloudJobScheduleListResult>): void;
-  list(options?: Models.JobScheduleListOptionalParams, callback?: msRest.ServiceCallback<Models.CloudJobScheduleListResult>): Promise<Models.JobScheduleListResponse> {
+  list(options?: Models.JobScheduleListOptionalParams | msRest.ServiceCallback<Models.CloudJobScheduleListResult>, callback?: msRest.ServiceCallback<Models.CloudJobScheduleListResult>): Promise<Models.JobScheduleListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -342,7 +342,7 @@ export class JobSchedule {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: Models.JobScheduleListNextOptionalParams, callback: msRest.ServiceCallback<Models.CloudJobScheduleListResult>): void;
-  listNext(nextPageLink: string, options?: Models.JobScheduleListNextOptionalParams, callback?: msRest.ServiceCallback<Models.CloudJobScheduleListResult>): Promise<Models.JobScheduleListResponse> {
+  listNext(nextPageLink: string, options?: Models.JobScheduleListNextOptionalParams | msRest.ServiceCallback<Models.CloudJobScheduleListResult>, callback?: msRest.ServiceCallback<Models.CloudJobScheduleListResult>): Promise<Models.JobScheduleListResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

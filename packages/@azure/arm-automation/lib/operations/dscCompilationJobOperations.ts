@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/dscCompilationJobOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -65,7 +65,7 @@ export class DscCompilationJobOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, automationAccountName: string, compilationJobName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DscCompilationJob>): void;
-  get(resourceGroupName: string, automationAccountName: string, compilationJobName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DscCompilationJob>): Promise<Models.DscCompilationJobGetResponse> {
+  get(resourceGroupName: string, automationAccountName: string, compilationJobName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscCompilationJob>, callback?: msRest.ServiceCallback<Models.DscCompilationJob>): Promise<Models.DscCompilationJobGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -98,7 +98,7 @@ export class DscCompilationJobOperations {
    * @param callback The callback
    */
   listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: Models.DscCompilationJobListByAutomationAccountOptionalParams, callback: msRest.ServiceCallback<Models.DscCompilationJobListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.DscCompilationJobListByAutomationAccountOptionalParams, callback?: msRest.ServiceCallback<Models.DscCompilationJobListResult>): Promise<Models.DscCompilationJobListByAutomationAccountResponse> {
+  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.DscCompilationJobListByAutomationAccountOptionalParams | msRest.ServiceCallback<Models.DscCompilationJobListResult>, callback?: msRest.ServiceCallback<Models.DscCompilationJobListResult>): Promise<Models.DscCompilationJobListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -136,7 +136,7 @@ export class DscCompilationJobOperations {
    * @param callback The callback
    */
   getStream(resourceGroupName: string, automationAccountName: string, jobId: string, jobStreamId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobStream>): void;
-  getStream(resourceGroupName: string, automationAccountName: string, jobId: string, jobStreamId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JobStream>): Promise<Models.DscCompilationJobGetStreamResponse> {
+  getStream(resourceGroupName: string, automationAccountName: string, jobId: string, jobStreamId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobStream>, callback?: msRest.ServiceCallback<Models.JobStream>): Promise<Models.DscCompilationJobGetStreamResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -189,7 +189,7 @@ export class DscCompilationJobOperations {
    * @param callback The callback
    */
   listByAutomationAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DscCompilationJobListResult>): void;
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DscCompilationJobListResult>): Promise<Models.DscCompilationJobListByAutomationAccountNextResponse> {
+  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscCompilationJobListResult>, callback?: msRest.ServiceCallback<Models.DscCompilationJobListResult>): Promise<Models.DscCompilationJobListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

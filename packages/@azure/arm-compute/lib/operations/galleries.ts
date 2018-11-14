@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/galleriesMappers";
 import * as Parameters from "../models/parameters";
@@ -62,7 +62,7 @@ export class Galleries {
    * @param callback The callback
    */
   get(resourceGroupName: string, galleryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Gallery>): void;
-  get(resourceGroupName: string, galleryName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Gallery>): Promise<Models.GalleriesGetResponse> {
+  get(resourceGroupName: string, galleryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Gallery>, callback?: msRest.ServiceCallback<Models.Gallery>): Promise<Models.GalleriesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -103,7 +103,7 @@ export class Galleries {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GalleryList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.GalleryList>): Promise<Models.GalleriesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryList>, callback?: msRest.ServiceCallback<Models.GalleryList>): Promise<Models.GalleriesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -128,7 +128,7 @@ export class Galleries {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GalleryList>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.GalleryList>): Promise<Models.GalleriesListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryList>, callback?: msRest.ServiceCallback<Models.GalleryList>): Promise<Models.GalleriesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -194,7 +194,7 @@ export class Galleries {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GalleryList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.GalleryList>): Promise<Models.GalleriesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryList>, callback?: msRest.ServiceCallback<Models.GalleryList>): Promise<Models.GalleriesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -222,7 +222,7 @@ export class Galleries {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GalleryList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.GalleryList>): Promise<Models.GalleriesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryList>, callback?: msRest.ServiceCallback<Models.GalleryList>): Promise<Models.GalleriesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

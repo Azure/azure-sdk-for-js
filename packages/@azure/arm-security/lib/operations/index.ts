@@ -24,3 +24,4 @@ export * from "./discoveredSecuritySolutions";
 export * from "./jitNetworkAccessPolicies";
 export * from "./externalSecuritySolutions";
 export * from "./topology";
+export * from "./allowedConnections";

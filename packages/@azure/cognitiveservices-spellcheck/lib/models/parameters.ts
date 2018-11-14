@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: [
@@ -105,6 +105,18 @@ export const docId: msRest.OperationQueryParameter = {
       name: "String"
     }
   }
+};
+export const endpoint: msRest.OperationURLParameter = {
+  parameterPath: "endpoint",
+  mapper: {
+    required: true,
+    serializedName: "Endpoint",
+    defaultValue: 'https://api.cognitive.microsoft.com',
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 export const location: msRest.OperationParameter = {
   parameterPath: [

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/webTestsMappers";
 import * as Parameters from "../models/parameters";
@@ -44,7 +44,7 @@ export class WebTests {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebTestListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebTestListResult>): Promise<Models.WebTestsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTestListResult>, callback?: msRest.ServiceCallback<Models.WebTestListResult>): Promise<Models.WebTestsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -75,7 +75,7 @@ export class WebTests {
    * @param callback The callback
    */
   get(resourceGroupName: string, webTestName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebTest>): void;
-  get(resourceGroupName: string, webTestName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebTest>): Promise<Models.WebTestsGetResponse> {
+  get(resourceGroupName: string, webTestName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTest>, callback?: msRest.ServiceCallback<Models.WebTest>): Promise<Models.WebTestsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -113,7 +113,7 @@ export class WebTests {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, webTestName: string, webTestDefinition: Models.WebTest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebTest>): void;
-  createOrUpdate(resourceGroupName: string, webTestName: string, webTestDefinition: Models.WebTest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebTest>): Promise<Models.WebTestsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, webTestName: string, webTestDefinition: Models.WebTest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTest>, callback?: msRest.ServiceCallback<Models.WebTest>): Promise<Models.WebTestsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -149,7 +149,7 @@ export class WebTests {
    * @param callback The callback
    */
   updateTags(resourceGroupName: string, webTestName: string, webTestTags: Models.TagsResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebTest>): void;
-  updateTags(resourceGroupName: string, webTestName: string, webTestTags: Models.TagsResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebTest>): Promise<Models.WebTestsUpdateTagsResponse> {
+  updateTags(resourceGroupName: string, webTestName: string, webTestTags: Models.TagsResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTest>, callback?: msRest.ServiceCallback<Models.WebTest>): Promise<Models.WebTestsUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -182,7 +182,7 @@ export class WebTests {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, webTestName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, webTestName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, webTestName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -208,7 +208,7 @@ export class WebTests {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebTestListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebTestListResult>): Promise<Models.WebTestsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTestListResult>, callback?: msRest.ServiceCallback<Models.WebTestListResult>): Promise<Models.WebTestsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -238,7 +238,7 @@ export class WebTests {
    * @param callback The callback
    */
   listByComponent(componentName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebTestListResult>): void;
-  listByComponent(componentName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebTestListResult>): Promise<Models.WebTestsListByComponentResponse> {
+  listByComponent(componentName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTestListResult>, callback?: msRest.ServiceCallback<Models.WebTestListResult>): Promise<Models.WebTestsListByComponentResponse> {
     return this.client.sendOperationRequest(
       {
         componentName,
@@ -267,7 +267,7 @@ export class WebTests {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebTestListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebTestListResult>): Promise<Models.WebTestsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTestListResult>, callback?: msRest.ServiceCallback<Models.WebTestListResult>): Promise<Models.WebTestsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -295,7 +295,7 @@ export class WebTests {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebTestListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebTestListResult>): Promise<Models.WebTestsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTestListResult>, callback?: msRest.ServiceCallback<Models.WebTestListResult>): Promise<Models.WebTestsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -323,7 +323,7 @@ export class WebTests {
    * @param callback The callback
    */
   listByComponentNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebTestListResult>): void;
-  listByComponentNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebTestListResult>): Promise<Models.WebTestsListByComponentNextResponse> {
+  listByComponentNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTestListResult>, callback?: msRest.ServiceCallback<Models.WebTestListResult>): Promise<Models.WebTestsListByComponentNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
