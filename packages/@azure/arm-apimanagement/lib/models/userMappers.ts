@@ -9,14 +9,15 @@
  */
 
 export {
+  CurrentUserIdentity,
+  ErrorResponse,
+  ErrorFieldContract,
   UserCollection,
   UserContract,
   Resource,
   BaseResource,
   UserIdentityContract,
   GroupContractProperties,
-  ErrorResponse,
-  ErrorFieldContract,
   UserGetEntityTagHeaders,
   UserGetHeaders,
   UserCreateParameters,
