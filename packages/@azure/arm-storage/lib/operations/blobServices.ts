@@ -63,7 +63,7 @@ export class BlobServices {
    * @param callback The callback
    */
   setServiceProperties(resourceGroupName: string, accountName: string, parameters: Models.BlobServiceProperties, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BlobServiceProperties>): void;
-  setServiceProperties(resourceGroupName: string, accountName: string, parameters: Models.BlobServiceProperties, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BlobServiceProperties>): Promise<Models.BlobServicesSetServicePropertiesResponse> {
+  setServiceProperties(resourceGroupName: string, accountName: string, parameters: Models.BlobServiceProperties, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BlobServiceProperties>, callback?: msRest.ServiceCallback<Models.BlobServiceProperties>): Promise<Models.BlobServicesSetServicePropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -106,7 +106,7 @@ export class BlobServices {
    * @param callback The callback
    */
   getServiceProperties(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BlobServiceProperties>): void;
-  getServiceProperties(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BlobServiceProperties>): Promise<Models.BlobServicesGetServicePropertiesResponse> {
+  getServiceProperties(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BlobServiceProperties>, callback?: msRest.ServiceCallback<Models.BlobServiceProperties>): Promise<Models.BlobServicesGetServicePropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

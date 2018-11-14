@@ -1095,6 +1095,13 @@ export const StorageAccount: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      failoverInProgress: {
+        readOnly: true,
+        serializedName: "properties.failoverInProgress",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
