@@ -119,6 +119,46 @@ export class SASQueryParameters {
   public readonly signature: string;
 
   /**
+   * Value for cache-control header in Blob/File Service SAS.
+   *
+   * @type {string}
+   * @memberof SASQueryParameters
+   */
+  public readonly cacheControl?: string;
+
+  /**
+   * Value for content-disposition header in Blob/File Service SAS.
+   *
+   * @type {string}
+   * @memberof SASQueryParameters
+   */
+  public readonly contentDisposition?: string;
+
+  /**
+   * Value for content-encoding header in Blob/File Service SAS.
+   *
+   * @type {string}
+   * @memberof SASQueryParameters
+   */
+  public readonly contentEncoding?: string;
+
+  /**
+   * Value for content-length header in Blob/File Service SAS.
+   *
+   * @type {string}
+   * @memberof SASQueryParameters
+   */
+  public readonly contentLanguage?: string;
+
+  /**
+   * Value for content-type header in Blob/File Service SAS.
+   *
+   * @type {string}
+   * @memberof SASQueryParameters
+   */
+  public readonly contentType?: string;
+
+  /**
    * Inner value of getter ipRange.
    *
    * @private
@@ -158,6 +198,11 @@ export class SASQueryParameters {
    * @param {IIPRange} [ipRange] Representing the range of valid IP addresses for this SAS token
    * @param {string} [identifier] Representing the signed identifier (only for Service SAS)
    * @param {string} [resource] Representing the storage container or blob (only for Service SAS)
+   * @param {string} [cacheControl] Representing the cache-control header (only for Blob/File Service SAS)
+   * @param {string} [contentDisposition] Representing the content-disposition header (only for Blob/File Service SAS)
+   * @param {string} [contentEncoding] Representing the content-encoding header (only for Blob/File Service SAS)
+   * @param {string} [contentLanguage] Representing the content-language header (only for Blob/File Service SAS)
+   * @param {string} [contentType] Representing the content-type header (only for Blob/File Service SAS)
    * @memberof SASQueryParameters
    */
   constructor(
@@ -171,7 +216,12 @@ export class SASQueryParameters {
     expiryTime?: Date,
     ipRange?: IIPRange,
     identifier?: string,
-    resource?: string
+    resource?: string,
+    cacheControl?: string,
+    contentDisposition?: string,
+    contentEncoding?: string,
+    contentLanguage?: string,
+    contentType?: string
   ) {
     this.version = version;
     this.services = services;
@@ -184,6 +234,11 @@ export class SASQueryParameters {
     this.identifier = identifier;
     this.resource = resource;
     this.signature = signature;
+    this.cacheControl = cacheControl;
+    this.contentDisposition = contentDisposition;
+    this.contentEncoding = contentEncoding;
+    this.contentLanguage = contentLanguage;
+    this.contentType = contentType;
   }
 
   /**
@@ -204,7 +259,12 @@ export class SASQueryParameters {
       "si",
       "sr",
       "sp",
-      "sig"
+      "sig",
+      "rscc",
+      "rscd",
+      "rsce",
+      "rscl",
+      "rsct"
     ];
     const queries: string[] = [];
 
@@ -258,6 +318,21 @@ export class SASQueryParameters {
           break;
         case "sig":
           this.tryAppendQueryParameter(queries, param, this.signature);
+          break;
+        case "rscc":
+          this.tryAppendQueryParameter(queries, param, this.cacheControl);
+          break;
+        case "rscd":
+          this.tryAppendQueryParameter(queries, param, this.contentDisposition);
+          break;
+        case "rsce":
+          this.tryAppendQueryParameter(queries, param, this.contentEncoding);
+          break;
+        case "rscl":
+          this.tryAppendQueryParameter(queries, param, this.contentLanguage);
+          break;
+        case "rsct":
+          this.tryAppendQueryParameter(queries, param, this.contentType);
           break;
       }
     }

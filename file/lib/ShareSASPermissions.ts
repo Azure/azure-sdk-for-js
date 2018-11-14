@@ -1,75 +1,64 @@
 /**
- * This is a helper class to construct a string representing the permissions granted by a ServiceSAS to a container.
+ * This is a helper class to construct a string representing the permissions granted by a ServiceSAS to a share.
  * Setting a value to true means that any SAS which uses these permissions will grant permissions for that operation.
  * Once all the values are set, this should be serialized with toString and set as the permissions field on a
  * {@link ServiceSASSignatureValues} object. It is possible to construct the permissions string without this class, but
  * the order of the permissions is particular and this class guarantees correctness.
  *
  * @export
- * @class ContainerSASPermissions
+ * @class ShareSASPermissions
  */
-export class ContainerSASPermissions {
+export class ShareSASPermissions {
   /**
-   * Creates an {@link ContainerSASPermissions} from the specified permissions string. This method will throw an
+   * Creates an {@link ShareSASPermissions} from the specified permissions string. This method will throw an
    * Error if it encounters a character that does not correspond to a valid permission.
    *
    * @static
    * @param {string} permissions
    * @returns
-   * @memberof ContainerSASPermissions
+   * @memberof ShareSASPermissions
    */
   public static parse(permissions: string) {
-    const containerSASPermissions = new ContainerSASPermissions();
+    const shareSASPermissions = new ShareSASPermissions();
 
     for (const char of permissions) {
       switch (char) {
         case "r":
-          containerSASPermissions.read = true;
-          break;
-        case "a":
-          containerSASPermissions.add = true;
+          shareSASPermissions.read = true;
           break;
         case "c":
-          containerSASPermissions.create = true;
+          shareSASPermissions.create = true;
           break;
         case "w":
-          containerSASPermissions.write = true;
+          shareSASPermissions.write = true;
           break;
         case "d":
-          containerSASPermissions.delete = true;
+          shareSASPermissions.delete = true;
           break;
         case "l":
-          containerSASPermissions.list = true;
+          shareSASPermissions.list = true;
           break;
         default:
           throw new RangeError(`Invalid permission ${char}`);
       }
     }
 
-    return containerSASPermissions;
+    return shareSASPermissions;
   }
 
   /**
    * Specifies Read access granted.
    *
    * @type {boolean}
-   * @memberof ContainerSASPermissions
+   * @memberof ShareSASPermissions
    */
   public read: boolean = false;
-
-  /**
-   * Specifies Add access granted.
-   *
-   * @type {boolean}
-   * @memberof ContainerSASPermissions
-   */
-  public add: boolean = false;
 
   /**
    * Specifies Create access granted.
    *
    * @type {boolean}
-   * @memberof ContainerSASPermissions
+   * @memberof ShareSASPermissions
    */
   public create: boolean = false;
 
@@ -77,7 +66,7 @@ export class ContainerSASPermissions {
    * Specifies Write access granted.
    *
    * @type {boolean}
-   * @memberof ContainerSASPermissions
+   * @memberof ShareSASPermissions
    */
   public write: boolean = false;
 
@@ -85,7 +74,7 @@ export class ContainerSASPermissions {
    * Specifies Delete access granted.
    *
    * @type {boolean}
-   * @memberof ContainerSASPermissions
+   * @memberof ShareSASPermissions
    */
   public delete: boolean = false;
 
@@ -93,7 +82,7 @@ export class ContainerSASPermissions {
    * Specifies List access granted.
    *
    * @type {boolean}
-   * @memberof ContainerSASPermissions
+   * @memberof ShareSASPermissions
    */
   public list: boolean = false;
 
@@ -105,15 +94,12 @@ export class ContainerSASPermissions {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @returns {string}
-   * @memberof ContainerSASPermissions
+   * @memberof ShareSASPermissions
    */
   public toString(): string {
     const permissions: string[] = [];
     if (this.read) {
       permissions.push("r");
-    }
-    if (this.add) {
-      permissions.push("a");
     }
     if (this.create) {
       permissions.push("c");

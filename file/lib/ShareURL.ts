@@ -1,16 +1,13 @@
 import { HttpResponse } from "ms-rest-js";
+
 import { Aborter } from "./Aborter";
 import * as Models from "./generated/models";
 import { Share } from "./generated/operations";
 import { Pipeline } from "./Pipeline";
 import { ServiceURL } from "./ServiceURL";
 import { StorageURL } from "./StorageURL";
-import { ETagNone, URLConstants } from "./utils/constants";
-import {
-  appendToURLPath,
-  setURLParameter,
-  truncatedISO8061Date
-} from "./utils/utils.common";
+import { URLConstants } from "./utils/constants";
+import { appendToURLPath, setURLParameter, truncatedISO8061Date } from "./utils/utils.common";
 
 export interface IShareCreateOptions {
   /**
