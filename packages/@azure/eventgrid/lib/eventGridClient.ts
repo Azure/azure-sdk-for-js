@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
@@ -47,7 +47,7 @@ class EventGridClient extends EventGridClientContext {
    * @param callback The callback
    */
   publishEvents(topicHostname: string, events: Models.EventGridEvent[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  publishEvents(topicHostname: string, events: Models.EventGridEvent[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  publishEvents(topicHostname: string, events: Models.EventGridEvent[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         topicHostname,

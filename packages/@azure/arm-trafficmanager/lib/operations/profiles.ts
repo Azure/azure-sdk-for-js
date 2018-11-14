@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/profilesMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class Profiles {
    * @param callback The callback
    */
   checkTrafficManagerRelativeDnsNameAvailability(parameters: Models.CheckTrafficManagerRelativeDnsNameAvailabilityParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TrafficManagerNameAvailability>): void;
-  checkTrafficManagerRelativeDnsNameAvailability(parameters: Models.CheckTrafficManagerRelativeDnsNameAvailabilityParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TrafficManagerNameAvailability>): Promise<Models.ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityResponse> {
+  checkTrafficManagerRelativeDnsNameAvailability(parameters: Models.CheckTrafficManagerRelativeDnsNameAvailabilityParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TrafficManagerNameAvailability>, callback?: msRest.ServiceCallback<Models.TrafficManagerNameAvailability>): Promise<Models.ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
@@ -78,7 +78,7 @@ export class Profiles {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProfileListResult>, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -103,7 +103,7 @@ export class Profiles {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProfileListResult>, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -133,7 +133,7 @@ export class Profiles {
    * @param callback The callback
    */
   get(resourceGroupName: string, profileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Profile>): void;
-  get(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Profile>): Promise<Models.ProfilesGetResponse> {
+  get(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Profile>, callback?: msRest.ServiceCallback<Models.Profile>): Promise<Models.ProfilesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -171,7 +171,7 @@ export class Profiles {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, profileName: string, parameters: Models.Profile, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Profile>): void;
-  createOrUpdate(resourceGroupName: string, profileName: string, parameters: Models.Profile, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Profile>): Promise<Models.ProfilesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, profileName: string, parameters: Models.Profile, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Profile>, callback?: msRest.ServiceCallback<Models.Profile>): Promise<Models.ProfilesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -207,7 +207,7 @@ export class Profiles {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, profileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeleteOperationResult>): void;
-  deleteMethod(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DeleteOperationResult>): Promise<Models.ProfilesDeleteMethodResponse> {
+  deleteMethod(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeleteOperationResult>, callback?: msRest.ServiceCallback<Models.DeleteOperationResult>): Promise<Models.ProfilesDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -242,7 +242,7 @@ export class Profiles {
    * @param callback The callback
    */
   update(resourceGroupName: string, profileName: string, parameters: Models.Profile, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Profile>): void;
-  update(resourceGroupName: string, profileName: string, parameters: Models.Profile, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Profile>): Promise<Models.ProfilesUpdateResponse> {
+  update(resourceGroupName: string, profileName: string, parameters: Models.Profile, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Profile>, callback?: msRest.ServiceCallback<Models.Profile>): Promise<Models.ProfilesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

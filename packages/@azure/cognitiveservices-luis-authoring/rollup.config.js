@@ -4,15 +4,15 @@ import nodeResolve from "rollup-plugin-node-resolve";
  */
 const config = {
   input: './esm/lUISAuthoringClient.js',
-  external: ["ms-rest-js", "ms-rest-azure-js"],
+  external: ["@azure/ms-rest-js", "@azure/ms-rest-azure-js"],
   output: {
     file: "./dist/cognitiveservices-luis-authoring.js",
     format: "umd",
     name: "Azure.CognitiveservicesLuisAuthoring",
     sourcemap: true,
     globals: {
-      "ms-rest-js": "msRest",
-      "ms-rest-azure-js": "msRestAzure"
+      "@azure/ms-rest-js": "msRest",
+      "@azure/ms-rest-azure-js": "msRestAzure"
     },
     banner: `/*
  * Copyright (c) Microsoft Corporation. All rights reserved.

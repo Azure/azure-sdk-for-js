@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/appServiceEnvironmentsMappers";
 import * as Parameters from "../models/parameters";
@@ -43,7 +43,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServiceEnvironmentCollection>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AppServiceEnvironmentCollection>): Promise<Models.AppServiceEnvironmentsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServiceEnvironmentCollection>, callback?: msRest.ServiceCallback<Models.AppServiceEnvironmentCollection>): Promise<Models.AppServiceEnvironmentsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -71,7 +71,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServiceEnvironmentCollection>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AppServiceEnvironmentCollection>): Promise<Models.AppServiceEnvironmentsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServiceEnvironmentCollection>, callback?: msRest.ServiceCallback<Models.AppServiceEnvironmentCollection>): Promise<Models.AppServiceEnvironmentsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -103,7 +103,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   get(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServiceEnvironmentResource>): void;
-  get(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AppServiceEnvironmentResource>): Promise<Models.AppServiceEnvironmentsGetResponse> {
+  get(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServiceEnvironmentResource>, callback?: msRest.ServiceCallback<Models.AppServiceEnvironmentResource>): Promise<Models.AppServiceEnvironmentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -166,7 +166,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   update(resourceGroupName: string, name: string, hostingEnvironmentEnvelope: Models.AppServiceEnvironmentPatchResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServiceEnvironmentResource>): void;
-  update(resourceGroupName: string, name: string, hostingEnvironmentEnvelope: Models.AppServiceEnvironmentPatchResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AppServiceEnvironmentResource>): Promise<Models.AppServiceEnvironmentsUpdateResponse> {
+  update(resourceGroupName: string, name: string, hostingEnvironmentEnvelope: Models.AppServiceEnvironmentPatchResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServiceEnvironmentResource>, callback?: msRest.ServiceCallback<Models.AppServiceEnvironmentResource>): Promise<Models.AppServiceEnvironmentsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -200,7 +200,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listCapacities(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StampCapacityCollection>): void;
-  listCapacities(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StampCapacityCollection>): Promise<Models.AppServiceEnvironmentsListCapacitiesResponse> {
+  listCapacities(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StampCapacityCollection>, callback?: msRest.ServiceCallback<Models.StampCapacityCollection>): Promise<Models.AppServiceEnvironmentsListCapacitiesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -233,7 +233,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listVips(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AddressResponse>): void;
-  listVips(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AddressResponse>): Promise<Models.AppServiceEnvironmentsListVipsResponse> {
+  listVips(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AddressResponse>, callback?: msRest.ServiceCallback<Models.AddressResponse>): Promise<Models.AppServiceEnvironmentsListVipsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -280,7 +280,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listDiagnostics(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HostingEnvironmentDiagnostics[]>): void;
-  listDiagnostics(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HostingEnvironmentDiagnostics[]>): Promise<Models.AppServiceEnvironmentsListDiagnosticsResponse> {
+  listDiagnostics(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HostingEnvironmentDiagnostics[]>, callback?: msRest.ServiceCallback<Models.HostingEnvironmentDiagnostics[]>): Promise<Models.AppServiceEnvironmentsListDiagnosticsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -316,7 +316,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   getDiagnosticsItem(resourceGroupName: string, name: string, diagnosticsName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HostingEnvironmentDiagnostics>): void;
-  getDiagnosticsItem(resourceGroupName: string, name: string, diagnosticsName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HostingEnvironmentDiagnostics>): Promise<Models.AppServiceEnvironmentsGetDiagnosticsItemResponse> {
+  getDiagnosticsItem(resourceGroupName: string, name: string, diagnosticsName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HostingEnvironmentDiagnostics>, callback?: msRest.ServiceCallback<Models.HostingEnvironmentDiagnostics>): Promise<Models.AppServiceEnvironmentsGetDiagnosticsItemResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -350,7 +350,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listMetricDefinitions(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricDefinition>): void;
-  listMetricDefinitions(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricDefinition>): Promise<Models.AppServiceEnvironmentsListMetricDefinitionsResponse> {
+  listMetricDefinitions(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinition>, callback?: msRest.ServiceCallback<Models.MetricDefinition>): Promise<Models.AppServiceEnvironmentsListMetricDefinitionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -383,7 +383,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listMetrics(resourceGroupName: string, name: string, options: Models.AppServiceEnvironmentsListMetricsOptionalParams, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listMetrics(resourceGroupName: string, name: string, options?: Models.AppServiceEnvironmentsListMetricsOptionalParams, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListMetricsResponse> {
+  listMetrics(resourceGroupName: string, name: string, options?: Models.AppServiceEnvironmentsListMetricsOptionalParams | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -416,7 +416,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listMultiRolePools(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkerPoolCollection>): void;
-  listMultiRolePools(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkerPoolCollection>): Promise<Models.AppServiceEnvironmentsListMultiRolePoolsResponse> {
+  listMultiRolePools(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkerPoolCollection>, callback?: msRest.ServiceCallback<Models.WorkerPoolCollection>): Promise<Models.AppServiceEnvironmentsListMultiRolePoolsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -449,7 +449,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   getMultiRolePool(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkerPoolResource>): void;
-  getMultiRolePool(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkerPoolResource>): Promise<Models.AppServiceEnvironmentsGetMultiRolePoolResponse> {
+  getMultiRolePool(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkerPoolResource>, callback?: msRest.ServiceCallback<Models.WorkerPoolResource>): Promise<Models.AppServiceEnvironmentsGetMultiRolePoolResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -499,7 +499,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   updateMultiRolePool(resourceGroupName: string, name: string, multiRolePoolEnvelope: Models.WorkerPoolResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkerPoolResource>): void;
-  updateMultiRolePool(resourceGroupName: string, name: string, multiRolePoolEnvelope: Models.WorkerPoolResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkerPoolResource>): Promise<Models.AppServiceEnvironmentsUpdateMultiRolePoolResponse> {
+  updateMultiRolePool(resourceGroupName: string, name: string, multiRolePoolEnvelope: Models.WorkerPoolResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkerPoolResource>, callback?: msRest.ServiceCallback<Models.WorkerPoolResource>): Promise<Models.AppServiceEnvironmentsUpdateMultiRolePoolResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -539,7 +539,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listMultiRolePoolInstanceMetricDefinitions(resourceGroupName: string, name: string, instance: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): void;
-  listMultiRolePoolInstanceMetricDefinitions(resourceGroupName: string, name: string, instance: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsResponse> {
+  listMultiRolePoolInstanceMetricDefinitions(resourceGroupName: string, name: string, instance: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -576,7 +576,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listMultiRolePoolInstanceMetrics(resourceGroupName: string, name: string, instance: string, options: Models.AppServiceEnvironmentsListMultiRolePoolInstanceMetricsOptionalParams, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listMultiRolePoolInstanceMetrics(resourceGroupName: string, name: string, instance: string, options?: Models.AppServiceEnvironmentsListMultiRolePoolInstanceMetricsOptionalParams, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListMultiRolePoolInstanceMetricsResponse> {
+  listMultiRolePoolInstanceMetrics(resourceGroupName: string, name: string, instance: string, options?: Models.AppServiceEnvironmentsListMultiRolePoolInstanceMetricsOptionalParams | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListMultiRolePoolInstanceMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -610,7 +610,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listMultiRoleMetricDefinitions(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): void;
-  listMultiRoleMetricDefinitions(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.AppServiceEnvironmentsListMultiRoleMetricDefinitionsResponse> {
+  listMultiRoleMetricDefinitions(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.AppServiceEnvironmentsListMultiRoleMetricDefinitionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -643,7 +643,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listMultiRoleMetrics(resourceGroupName: string, name: string, options: Models.AppServiceEnvironmentsListMultiRoleMetricsOptionalParams, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listMultiRoleMetrics(resourceGroupName: string, name: string, options?: Models.AppServiceEnvironmentsListMultiRoleMetricsOptionalParams, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListMultiRoleMetricsResponse> {
+  listMultiRoleMetrics(resourceGroupName: string, name: string, options?: Models.AppServiceEnvironmentsListMultiRoleMetricsOptionalParams | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListMultiRoleMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -676,7 +676,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listMultiRolePoolSkus(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SkuInfoCollection>): void;
-  listMultiRolePoolSkus(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SkuInfoCollection>): Promise<Models.AppServiceEnvironmentsListMultiRolePoolSkusResponse> {
+  listMultiRolePoolSkus(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SkuInfoCollection>, callback?: msRest.ServiceCallback<Models.SkuInfoCollection>): Promise<Models.AppServiceEnvironmentsListMultiRolePoolSkusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -709,7 +709,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listMultiRoleUsages(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsageCollection>): void;
-  listMultiRoleUsages(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UsageCollection>): Promise<Models.AppServiceEnvironmentsListMultiRoleUsagesResponse> {
+  listMultiRoleUsages(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageCollection>, callback?: msRest.ServiceCallback<Models.UsageCollection>): Promise<Models.AppServiceEnvironmentsListMultiRoleUsagesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -742,7 +742,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listOperations(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Operation[]>): void;
-  listOperations(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Operation[]>): Promise<Models.AppServiceEnvironmentsListOperationsResponse> {
+  listOperations(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Operation[]>, callback?: msRest.ServiceCallback<Models.Operation[]>): Promise<Models.AppServiceEnvironmentsListOperationsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -775,7 +775,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   reboot(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  reboot(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  reboot(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -821,7 +821,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listAppServicePlans(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServicePlanCollection>): void;
-  listAppServicePlans(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AppServicePlanCollection>): Promise<Models.AppServiceEnvironmentsListAppServicePlansResponse> {
+  listAppServicePlans(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServicePlanCollection>, callback?: msRest.ServiceCallback<Models.AppServicePlanCollection>): Promise<Models.AppServiceEnvironmentsListAppServicePlansResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -854,7 +854,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listWebApps(resourceGroupName: string, name: string, options: Models.AppServiceEnvironmentsListWebAppsOptionalParams, callback: msRest.ServiceCallback<Models.WebAppCollection>): void;
-  listWebApps(resourceGroupName: string, name: string, options?: Models.AppServiceEnvironmentsListWebAppsOptionalParams, callback?: msRest.ServiceCallback<Models.WebAppCollection>): Promise<Models.AppServiceEnvironmentsListWebAppsResponse> {
+  listWebApps(resourceGroupName: string, name: string, options?: Models.AppServiceEnvironmentsListWebAppsOptionalParams | msRest.ServiceCallback<Models.WebAppCollection>, callback?: msRest.ServiceCallback<Models.WebAppCollection>): Promise<Models.AppServiceEnvironmentsListWebAppsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -900,7 +900,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listUsages(resourceGroupName: string, name: string, options: Models.AppServiceEnvironmentsListUsagesOptionalParams, callback: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): void;
-  listUsages(resourceGroupName: string, name: string, options?: Models.AppServiceEnvironmentsListUsagesOptionalParams, callback?: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): Promise<Models.AppServiceEnvironmentsListUsagesResponse> {
+  listUsages(resourceGroupName: string, name: string, options?: Models.AppServiceEnvironmentsListUsagesOptionalParams | msRest.ServiceCallback<Models.CsmUsageQuotaCollection>, callback?: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): Promise<Models.AppServiceEnvironmentsListUsagesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -933,7 +933,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listWorkerPools(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkerPoolCollection>): void;
-  listWorkerPools(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkerPoolCollection>): Promise<Models.AppServiceEnvironmentsListWorkerPoolsResponse> {
+  listWorkerPools(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkerPoolCollection>, callback?: msRest.ServiceCallback<Models.WorkerPoolCollection>): Promise<Models.AppServiceEnvironmentsListWorkerPoolsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -969,7 +969,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   getWorkerPool(resourceGroupName: string, name: string, workerPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkerPoolResource>): void;
-  getWorkerPool(resourceGroupName: string, name: string, workerPoolName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkerPoolResource>): Promise<Models.AppServiceEnvironmentsGetWorkerPoolResponse> {
+  getWorkerPool(resourceGroupName: string, name: string, workerPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkerPoolResource>, callback?: msRest.ServiceCallback<Models.WorkerPoolResource>): Promise<Models.AppServiceEnvironmentsGetWorkerPoolResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1024,7 +1024,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   updateWorkerPool(resourceGroupName: string, name: string, workerPoolName: string, workerPoolEnvelope: Models.WorkerPoolResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkerPoolResource>): void;
-  updateWorkerPool(resourceGroupName: string, name: string, workerPoolName: string, workerPoolEnvelope: Models.WorkerPoolResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkerPoolResource>): Promise<Models.AppServiceEnvironmentsUpdateWorkerPoolResponse> {
+  updateWorkerPool(resourceGroupName: string, name: string, workerPoolName: string, workerPoolEnvelope: Models.WorkerPoolResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkerPoolResource>, callback?: msRest.ServiceCallback<Models.WorkerPoolResource>): Promise<Models.AppServiceEnvironmentsUpdateWorkerPoolResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1066,7 +1066,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listWorkerPoolInstanceMetricDefinitions(resourceGroupName: string, name: string, workerPoolName: string, instance: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): void;
-  listWorkerPoolInstanceMetricDefinitions(resourceGroupName: string, name: string, workerPoolName: string, instance: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsResponse> {
+  listWorkerPoolInstanceMetricDefinitions(resourceGroupName: string, name: string, workerPoolName: string, instance: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1107,7 +1107,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listWorkerPoolInstanceMetrics(resourceGroupName: string, name: string, workerPoolName: string, instance: string, options: Models.AppServiceEnvironmentsListWorkerPoolInstanceMetricsOptionalParams, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listWorkerPoolInstanceMetrics(resourceGroupName: string, name: string, workerPoolName: string, instance: string, options?: Models.AppServiceEnvironmentsListWorkerPoolInstanceMetricsOptionalParams, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListWorkerPoolInstanceMetricsResponse> {
+  listWorkerPoolInstanceMetrics(resourceGroupName: string, name: string, workerPoolName: string, instance: string, options?: Models.AppServiceEnvironmentsListWorkerPoolInstanceMetricsOptionalParams | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListWorkerPoolInstanceMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1145,7 +1145,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listWebWorkerMetricDefinitions(resourceGroupName: string, name: string, workerPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): void;
-  listWebWorkerMetricDefinitions(resourceGroupName: string, name: string, workerPoolName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.AppServiceEnvironmentsListWebWorkerMetricDefinitionsResponse> {
+  listWebWorkerMetricDefinitions(resourceGroupName: string, name: string, workerPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.AppServiceEnvironmentsListWebWorkerMetricDefinitionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1182,7 +1182,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listWebWorkerMetrics(resourceGroupName: string, name: string, workerPoolName: string, options: Models.AppServiceEnvironmentsListWebWorkerMetricsOptionalParams, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listWebWorkerMetrics(resourceGroupName: string, name: string, workerPoolName: string, options?: Models.AppServiceEnvironmentsListWebWorkerMetricsOptionalParams, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListWebWorkerMetricsResponse> {
+  listWebWorkerMetrics(resourceGroupName: string, name: string, workerPoolName: string, options?: Models.AppServiceEnvironmentsListWebWorkerMetricsOptionalParams | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListWebWorkerMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1219,7 +1219,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listWorkerPoolSkus(resourceGroupName: string, name: string, workerPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SkuInfoCollection>): void;
-  listWorkerPoolSkus(resourceGroupName: string, name: string, workerPoolName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SkuInfoCollection>): Promise<Models.AppServiceEnvironmentsListWorkerPoolSkusResponse> {
+  listWorkerPoolSkus(resourceGroupName: string, name: string, workerPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SkuInfoCollection>, callback?: msRest.ServiceCallback<Models.SkuInfoCollection>): Promise<Models.AppServiceEnvironmentsListWorkerPoolSkusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1256,7 +1256,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listWebWorkerUsages(resourceGroupName: string, name: string, workerPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsageCollection>): void;
-  listWebWorkerUsages(resourceGroupName: string, name: string, workerPoolName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UsageCollection>): Promise<Models.AppServiceEnvironmentsListWebWorkerUsagesResponse> {
+  listWebWorkerUsages(resourceGroupName: string, name: string, workerPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageCollection>, callback?: msRest.ServiceCallback<Models.UsageCollection>): Promise<Models.AppServiceEnvironmentsListWebWorkerUsagesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1430,7 +1430,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServiceEnvironmentCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AppServiceEnvironmentCollection>): Promise<Models.AppServiceEnvironmentsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServiceEnvironmentCollection>, callback?: msRest.ServiceCallback<Models.AppServiceEnvironmentCollection>): Promise<Models.AppServiceEnvironmentsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1459,7 +1459,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServiceEnvironmentCollection>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AppServiceEnvironmentCollection>): Promise<Models.AppServiceEnvironmentsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServiceEnvironmentCollection>, callback?: msRest.ServiceCallback<Models.AppServiceEnvironmentCollection>): Promise<Models.AppServiceEnvironmentsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1488,7 +1488,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listCapacitiesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StampCapacityCollection>): void;
-  listCapacitiesNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StampCapacityCollection>): Promise<Models.AppServiceEnvironmentsListCapacitiesNextResponse> {
+  listCapacitiesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StampCapacityCollection>, callback?: msRest.ServiceCallback<Models.StampCapacityCollection>): Promise<Models.AppServiceEnvironmentsListCapacitiesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1529,7 +1529,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listMetricsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListMetricsNextResponse> {
+  listMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListMetricsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1558,7 +1558,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listMultiRolePoolsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkerPoolCollection>): void;
-  listMultiRolePoolsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkerPoolCollection>): Promise<Models.AppServiceEnvironmentsListMultiRolePoolsNextResponse> {
+  listMultiRolePoolsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkerPoolCollection>, callback?: msRest.ServiceCallback<Models.WorkerPoolCollection>): Promise<Models.AppServiceEnvironmentsListMultiRolePoolsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1590,7 +1590,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listMultiRolePoolInstanceMetricDefinitionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): void;
-  listMultiRolePoolInstanceMetricDefinitionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsNextResponse> {
+  listMultiRolePoolInstanceMetricDefinitionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1619,7 +1619,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listMultiRolePoolInstanceMetricsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listMultiRolePoolInstanceMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListMultiRolePoolInstanceMetricsNextResponse> {
+  listMultiRolePoolInstanceMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListMultiRolePoolInstanceMetricsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1648,7 +1648,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listMultiRoleMetricDefinitionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): void;
-  listMultiRoleMetricDefinitionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.AppServiceEnvironmentsListMultiRoleMetricDefinitionsNextResponse> {
+  listMultiRoleMetricDefinitionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.AppServiceEnvironmentsListMultiRoleMetricDefinitionsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1677,7 +1677,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listMultiRoleMetricsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listMultiRoleMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListMultiRoleMetricsNextResponse> {
+  listMultiRoleMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListMultiRoleMetricsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1706,7 +1706,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listMultiRolePoolSkusNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SkuInfoCollection>): void;
-  listMultiRolePoolSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SkuInfoCollection>): Promise<Models.AppServiceEnvironmentsListMultiRolePoolSkusNextResponse> {
+  listMultiRolePoolSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SkuInfoCollection>, callback?: msRest.ServiceCallback<Models.SkuInfoCollection>): Promise<Models.AppServiceEnvironmentsListMultiRolePoolSkusNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1735,7 +1735,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listMultiRoleUsagesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsageCollection>): void;
-  listMultiRoleUsagesNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UsageCollection>): Promise<Models.AppServiceEnvironmentsListMultiRoleUsagesNextResponse> {
+  listMultiRoleUsagesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageCollection>, callback?: msRest.ServiceCallback<Models.UsageCollection>): Promise<Models.AppServiceEnvironmentsListMultiRoleUsagesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1776,7 +1776,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listAppServicePlansNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServicePlanCollection>): void;
-  listAppServicePlansNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AppServicePlanCollection>): Promise<Models.AppServiceEnvironmentsListAppServicePlansNextResponse> {
+  listAppServicePlansNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServicePlanCollection>, callback?: msRest.ServiceCallback<Models.AppServicePlanCollection>): Promise<Models.AppServiceEnvironmentsListAppServicePlansNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1805,7 +1805,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listWebAppsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebAppCollection>): void;
-  listWebAppsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebAppCollection>): Promise<Models.AppServiceEnvironmentsListWebAppsNextResponse> {
+  listWebAppsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebAppCollection>, callback?: msRest.ServiceCallback<Models.WebAppCollection>): Promise<Models.AppServiceEnvironmentsListWebAppsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1846,7 +1846,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listUsagesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): void;
-  listUsagesNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): Promise<Models.AppServiceEnvironmentsListUsagesNextResponse> {
+  listUsagesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CsmUsageQuotaCollection>, callback?: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): Promise<Models.AppServiceEnvironmentsListUsagesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1875,7 +1875,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listWorkerPoolsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkerPoolCollection>): void;
-  listWorkerPoolsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkerPoolCollection>): Promise<Models.AppServiceEnvironmentsListWorkerPoolsNextResponse> {
+  listWorkerPoolsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkerPoolCollection>, callback?: msRest.ServiceCallback<Models.WorkerPoolCollection>): Promise<Models.AppServiceEnvironmentsListWorkerPoolsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1906,7 +1906,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listWorkerPoolInstanceMetricDefinitionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): void;
-  listWorkerPoolInstanceMetricDefinitionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsNextResponse> {
+  listWorkerPoolInstanceMetricDefinitionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1935,7 +1935,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listWorkerPoolInstanceMetricsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listWorkerPoolInstanceMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListWorkerPoolInstanceMetricsNextResponse> {
+  listWorkerPoolInstanceMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListWorkerPoolInstanceMetricsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1964,7 +1964,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listWebWorkerMetricDefinitionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): void;
-  listWebWorkerMetricDefinitionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.AppServiceEnvironmentsListWebWorkerMetricDefinitionsNextResponse> {
+  listWebWorkerMetricDefinitionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.AppServiceEnvironmentsListWebWorkerMetricDefinitionsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1993,7 +1993,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listWebWorkerMetricsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listWebWorkerMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListWebWorkerMetricsNextResponse> {
+  listWebWorkerMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListWebWorkerMetricsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -2022,7 +2022,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listWorkerPoolSkusNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SkuInfoCollection>): void;
-  listWorkerPoolSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SkuInfoCollection>): Promise<Models.AppServiceEnvironmentsListWorkerPoolSkusNextResponse> {
+  listWorkerPoolSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SkuInfoCollection>, callback?: msRest.ServiceCallback<Models.SkuInfoCollection>): Promise<Models.AppServiceEnvironmentsListWorkerPoolSkusNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -2051,7 +2051,7 @@ export class AppServiceEnvironments {
    * @param callback The callback
    */
   listWebWorkerUsagesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsageCollection>): void;
-  listWebWorkerUsagesNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UsageCollection>): Promise<Models.AppServiceEnvironmentsListWebWorkerUsagesNextResponse> {
+  listWebWorkerUsagesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageCollection>, callback?: msRest.ServiceCallback<Models.UsageCollection>): Promise<Models.AppServiceEnvironmentsListWebWorkerUsagesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

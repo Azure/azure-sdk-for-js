@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/virtualMachineScaleSetExtensionsMappers";
 import * as Parameters from "../models/parameters";
@@ -79,7 +79,7 @@ export class VirtualMachineScaleSetExtensions {
    * @param callback The callback
    */
   get(resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, options: Models.VirtualMachineScaleSetExtensionsGetOptionalParams, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetExtension>): void;
-  get(resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, options?: Models.VirtualMachineScaleSetExtensionsGetOptionalParams, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetExtension>): Promise<Models.VirtualMachineScaleSetExtensionsGetResponse> {
+  get(resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, options?: Models.VirtualMachineScaleSetExtensionsGetOptionalParams | msRest.ServiceCallback<Models.VirtualMachineScaleSetExtension>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetExtension>): Promise<Models.VirtualMachineScaleSetExtensionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class VirtualMachineScaleSetExtensions {
    * @param callback The callback
    */
   list(resourceGroupName: string, vmScaleSetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetExtensionListResult>): void;
-  list(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetExtensionListResult>): Promise<Models.VirtualMachineScaleSetExtensionsListResponse> {
+  list(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSetExtensionListResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetExtensionListResult>): Promise<Models.VirtualMachineScaleSetExtensionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -184,7 +184,7 @@ export class VirtualMachineScaleSetExtensions {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetExtensionListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetExtensionListResult>): Promise<Models.VirtualMachineScaleSetExtensionsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSetExtensionListResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetExtensionListResult>): Promise<Models.VirtualMachineScaleSetExtensionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

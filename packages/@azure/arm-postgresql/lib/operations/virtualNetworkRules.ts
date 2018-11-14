@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/virtualNetworkRulesMappers";
 import * as Parameters from "../models/parameters";
@@ -54,7 +54,7 @@ export class VirtualNetworkRules {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, virtualNetworkRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkRule>): void;
-  get(resourceGroupName: string, serverName: string, virtualNetworkRuleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetworkRule>): Promise<Models.VirtualNetworkRulesGetResponse> {
+  get(resourceGroupName: string, serverName: string, virtualNetworkRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkRule>, callback?: msRest.ServiceCallback<Models.VirtualNetworkRule>): Promise<Models.VirtualNetworkRulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -119,7 +119,7 @@ export class VirtualNetworkRules {
    * @param callback The callback
    */
   listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkRuleListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetworkRuleListResult>): Promise<Models.VirtualNetworkRulesListByServerResponse> {
+  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkRuleListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkRuleListResult>): Promise<Models.VirtualNetworkRulesListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -192,7 +192,7 @@ export class VirtualNetworkRules {
    * @param callback The callback
    */
   listByServerNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkRuleListResult>): void;
-  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetworkRuleListResult>): Promise<Models.VirtualNetworkRulesListByServerNextResponse> {
+  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkRuleListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkRuleListResult>): Promise<Models.VirtualNetworkRulesListByServerNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

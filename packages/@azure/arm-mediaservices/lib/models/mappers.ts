@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
@@ -1290,11 +1290,6 @@ export const ContentKeyPolicyPlayReadyLicense: msRest.CompositeMapper = {
         serializedName: "contentKeyLocation",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "@odata.type",
-            clientName: "odatatype"
-          },
-          uberParent: "ContentKeyPolicyPlayReadyContentKeyLocation",
           className: "ContentKeyPolicyPlayReadyContentKeyLocation"
         }
       },
@@ -1502,11 +1497,6 @@ export const ContentKeyPolicyTokenRestriction: msRest.CompositeMapper = {
         serializedName: "primaryVerificationKey",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "@odata.type",
-            clientName: "odatatype"
-          },
-          uberParent: "ContentKeyPolicyRestrictionTokenKey",
           className: "ContentKeyPolicyRestrictionTokenKey"
         }
       },
@@ -1517,11 +1507,6 @@ export const ContentKeyPolicyTokenRestriction: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "@odata.type",
-                clientName: "odatatype"
-              },
-              uberParent: "ContentKeyPolicyRestrictionTokenKey",
               className: "ContentKeyPolicyRestrictionTokenKey"
             }
           }
@@ -1718,11 +1703,6 @@ export const ContentKeyPolicyOption: msRest.CompositeMapper = {
         serializedName: "configuration",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "@odata.type",
-            clientName: "odatatype"
-          },
-          uberParent: "ContentKeyPolicyConfiguration",
           className: "ContentKeyPolicyConfiguration"
         }
       },
@@ -1731,11 +1711,6 @@ export const ContentKeyPolicyOption: msRest.CompositeMapper = {
         serializedName: "restriction",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "@odata.type",
-            clientName: "odatatype"
-          },
-          uberParent: "ContentKeyPolicyRestriction",
           className: "ContentKeyPolicyRestriction"
         }
       }
@@ -2305,11 +2280,6 @@ export const Filters: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "@odata.type",
-                clientName: "odatatype"
-              },
-              uberParent: "Overlay",
               className: "Overlay"
             }
           }
@@ -2496,8 +2466,6 @@ export const H264Video: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: Layer.type.polymorphicDiscriminator,
-              uberParent: "Layer",
               className: "H264Layer"
             }
           }
@@ -2542,8 +2510,6 @@ export const JpgImage: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: Layer.type.polymorphicDiscriminator,
-              uberParent: "Layer",
               className: "JpgLayer"
             }
           }
@@ -2641,8 +2607,6 @@ export const PngImage: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: Layer.type.polymorphicDiscriminator,
-              uberParent: "Layer",
               className: "PngLayer"
             }
           }
@@ -2705,11 +2669,6 @@ export const StandardEncoderPreset: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "@odata.type",
-                clientName: "odatatype"
-              },
-              uberParent: "Codec",
               className: "Codec"
             }
           }
@@ -2722,11 +2681,6 @@ export const StandardEncoderPreset: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "@odata.type",
-                clientName: "odatatype"
-              },
-              uberParent: "Format",
               className: "Format"
             }
           }
@@ -2838,11 +2792,6 @@ export const TransformOutput: msRest.CompositeMapper = {
         serializedName: "preset",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "@odata.type",
-            clientName: "odatatype"
-          },
-          uberParent: "Preset",
           className: "Preset"
         }
       }
@@ -2964,11 +2913,6 @@ export const JobInputs: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "@odata.type",
-                clientName: "odatatype"
-              },
-              uberParent: "JobInput",
               className: "JobInput"
             }
           }
@@ -3241,11 +3185,6 @@ export const Job: msRest.CompositeMapper = {
         serializedName: "properties.input",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "@odata.type",
-            clientName: "odatatype"
-          },
-          uberParent: "JobInput",
           className: "JobInput"
         }
       },
@@ -3265,11 +3204,6 @@ export const Job: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "@odata.type",
-                clientName: "odatatype"
-              },
-              uberParent: "JobOutput",
               className: "JobOutput"
             }
           }

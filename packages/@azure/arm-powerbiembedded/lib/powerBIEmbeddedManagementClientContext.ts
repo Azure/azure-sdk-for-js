@@ -9,23 +9,16 @@
  */
 
 import * as Models from "./models";
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-powerbiembedded";
-const packageVersion = "1.0.0";
+const packageVersion = "0.1.0";
 
 export class PowerBIEmbeddedManagementClientContext extends msRestAzure.AzureServiceClient {
-
   credentials: msRest.ServiceClientCredentials;
-
   subscriptionId: string;
-
-  apiVersion: string;
-
-  acceptLanguage: string;
-
-  longRunningOperationRetryTimeout: number;
+  apiVersion?: string;
 
   /**
    * Initializes a new instance of the PowerBIEmbeddedManagementClient class.
@@ -45,6 +38,11 @@ export class PowerBIEmbeddedManagementClientContext extends msRestAzure.AzureSer
     if (!options) {
       options = {};
     }
+    if(!options.userAgent) {
+      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
+      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
+    }
+
     super(credentials, options);
 
     this.apiVersion = '2016-01-29';
@@ -55,7 +53,6 @@ export class PowerBIEmbeddedManagementClientContext extends msRestAzure.AzureSer
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
 
-    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }

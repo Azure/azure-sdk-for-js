@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/configurationsMappers";
 import * as Parameters from "../models/parameters";
@@ -43,7 +43,7 @@ export class Configurations {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConfigurationListResult>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ConfigurationListResult>): Promise<Models.ConfigurationsListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConfigurationListResult>, callback?: msRest.ServiceCallback<Models.ConfigurationListResult>): Promise<Models.ConfigurationsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -72,7 +72,7 @@ export class Configurations {
    * @param callback The callback
    */
   createInSubscription(configContract: Models.ConfigData, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ARMErrorResponseBody>): void;
-  createInSubscription(configContract: Models.ConfigData, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ARMErrorResponseBody>): Promise<Models.ConfigurationsCreateInSubscriptionResponse> {
+  createInSubscription(configContract: Models.ConfigData, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ARMErrorResponseBody>, callback?: msRest.ServiceCallback<Models.ARMErrorResponseBody>): Promise<Models.ConfigurationsCreateInSubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         configContract,
@@ -100,7 +100,7 @@ export class Configurations {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroup: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConfigurationListResult>): void;
-  listByResourceGroup(resourceGroup: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ConfigurationListResult>): Promise<Models.ConfigurationsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroup: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConfigurationListResult>, callback?: msRest.ServiceCallback<Models.ConfigurationListResult>): Promise<Models.ConfigurationsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroup,
@@ -131,7 +131,7 @@ export class Configurations {
    * @param callback The callback
    */
   createInResourceGroup(configContract: Models.ConfigData, resourceGroup: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ARMErrorResponseBody>): void;
-  createInResourceGroup(configContract: Models.ConfigData, resourceGroup: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ARMErrorResponseBody>): Promise<Models.ConfigurationsCreateInResourceGroupResponse> {
+  createInResourceGroup(configContract: Models.ConfigData, resourceGroup: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ARMErrorResponseBody>, callback?: msRest.ServiceCallback<Models.ARMErrorResponseBody>): Promise<Models.ConfigurationsCreateInResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         configContract,
@@ -162,7 +162,7 @@ export class Configurations {
    * @param callback The callback
    */
   listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConfigurationListResult>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ConfigurationListResult>): Promise<Models.ConfigurationsListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConfigurationListResult>, callback?: msRest.ServiceCallback<Models.ConfigurationListResult>): Promise<Models.ConfigurationsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

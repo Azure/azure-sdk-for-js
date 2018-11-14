@@ -9,23 +9,16 @@
  */
 
 import * as Models from "./models";
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-machinelearningcompute";
-const packageVersion = "1.0.0-preview";
+const packageVersion = "0.1.0";
 
 export class MachineLearningComputeManagementClientContext extends msRestAzure.AzureServiceClient {
-
   credentials: msRest.ServiceClientCredentials;
-
   subscriptionId: string;
-
-  apiVersion: string;
-
-  acceptLanguage: string;
-
-  longRunningOperationRetryTimeout: number;
+  apiVersion?: string;
 
   /**
    * Initializes a new instance of the MachineLearningComputeManagementClient class.
@@ -44,6 +37,11 @@ export class MachineLearningComputeManagementClientContext extends msRestAzure.A
     if (!options) {
       options = {};
     }
+    if(!options.userAgent) {
+      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
+      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
+    }
+
     super(credentials, options);
 
     this.apiVersion = '2017-08-01-preview';
@@ -54,7 +52,6 @@ export class MachineLearningComputeManagementClientContext extends msRestAzure.A
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
 
-    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }

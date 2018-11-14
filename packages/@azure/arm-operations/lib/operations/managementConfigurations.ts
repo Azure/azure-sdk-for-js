@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/managementConfigurationsMappers";
 import * as Parameters from "../models/parameters";
@@ -42,7 +42,7 @@ export class ManagementConfigurations {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementConfigurationPropertiesList>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagementConfigurationPropertiesList>): Promise<Models.ManagementConfigurationsListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementConfigurationPropertiesList>, callback?: msRest.ServiceCallback<Models.ManagementConfigurationPropertiesList>): Promise<Models.ManagementConfigurationsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -76,7 +76,7 @@ export class ManagementConfigurations {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, managementConfigurationName: string, parameters: Models.ManagementConfiguration, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementConfiguration>): void;
-  createOrUpdate(resourceGroupName: string, managementConfigurationName: string, parameters: Models.ManagementConfiguration, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagementConfiguration>): Promise<Models.ManagementConfigurationsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, managementConfigurationName: string, parameters: Models.ManagementConfiguration, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementConfiguration>, callback?: msRest.ServiceCallback<Models.ManagementConfiguration>): Promise<Models.ManagementConfigurationsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -110,7 +110,7 @@ export class ManagementConfigurations {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, managementConfigurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, managementConfigurationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, managementConfigurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -143,7 +143,7 @@ export class ManagementConfigurations {
    * @param callback The callback
    */
   get(resourceGroupName: string, managementConfigurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementConfiguration>): void;
-  get(resourceGroupName: string, managementConfigurationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagementConfiguration>): Promise<Models.ManagementConfigurationsGetResponse> {
+  get(resourceGroupName: string, managementConfigurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementConfiguration>, callback?: msRest.ServiceCallback<Models.ManagementConfiguration>): Promise<Models.ManagementConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

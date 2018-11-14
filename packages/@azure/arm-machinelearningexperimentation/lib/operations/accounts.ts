@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/accountsMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class Accounts {
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Account>): void;
-  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Account>): Promise<Models.AccountsGetResponse> {
+  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Account>, callback?: msRest.ServiceCallback<Models.Account>): Promise<Models.AccountsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -88,7 +88,7 @@ export class Accounts {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, accountName: string, parameters: Models.Account, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Account>): void;
-  createOrUpdate(resourceGroupName: string, accountName: string, parameters: Models.Account, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Account>): Promise<Models.AccountsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, accountName: string, parameters: Models.Account, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Account>, callback?: msRest.ServiceCallback<Models.Account>): Promise<Models.AccountsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -124,7 +124,7 @@ export class Accounts {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -162,7 +162,7 @@ export class Accounts {
    * @param callback The callback
    */
   update(resourceGroupName: string, accountName: string, parameters: Models.AccountUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Account>): void;
-  update(resourceGroupName: string, accountName: string, parameters: Models.AccountUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Account>): Promise<Models.AccountsUpdateResponse> {
+  update(resourceGroupName: string, accountName: string, parameters: Models.AccountUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Account>, callback?: msRest.ServiceCallback<Models.Account>): Promise<Models.AccountsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -195,7 +195,7 @@ export class Accounts {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccountListResult>): Promise<Models.AccountsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountListResult>, callback?: msRest.ServiceCallback<Models.AccountListResult>): Promise<Models.AccountsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -220,7 +220,7 @@ export class Accounts {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccountListResult>): Promise<Models.AccountsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountListResult>, callback?: msRest.ServiceCallback<Models.AccountListResult>): Promise<Models.AccountsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -247,7 +247,7 @@ export class Accounts {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccountListResult>): Promise<Models.AccountsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountListResult>, callback?: msRest.ServiceCallback<Models.AccountListResult>): Promise<Models.AccountsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -275,7 +275,7 @@ export class Accounts {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccountListResult>): Promise<Models.AccountsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountListResult>, callback?: msRest.ServiceCallback<Models.AccountListResult>): Promise<Models.AccountsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

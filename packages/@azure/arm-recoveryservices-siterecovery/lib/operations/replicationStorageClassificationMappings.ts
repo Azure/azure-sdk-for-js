@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/replicationStorageClassificationMappingsMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class ReplicationStorageClassificationMappings {
    * @param callback The callback
    */
   listByReplicationStorageClassifications(fabricName: string, storageClassificationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>): void;
-  listByReplicationStorageClassifications(fabricName: string, storageClassificationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>): Promise<Models.ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsResponse> {
+  listByReplicationStorageClassifications(fabricName: string, storageClassificationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageClassificationMappingCollection>, callback?: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>): Promise<Models.ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -86,7 +86,7 @@ export class ReplicationStorageClassificationMappings {
    * @param callback The callback
    */
   get(fabricName: string, storageClassificationName: string, storageClassificationMappingName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageClassificationMapping>): void;
-  get(fabricName: string, storageClassificationName: string, storageClassificationMappingName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StorageClassificationMapping>): Promise<Models.ReplicationStorageClassificationMappingsGetResponse> {
+  get(fabricName: string, storageClassificationName: string, storageClassificationMappingName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageClassificationMapping>, callback?: msRest.ServiceCallback<Models.StorageClassificationMapping>): Promise<Models.ReplicationStorageClassificationMappingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -143,7 +143,7 @@ export class ReplicationStorageClassificationMappings {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>): Promise<Models.ReplicationStorageClassificationMappingsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageClassificationMappingCollection>, callback?: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>): Promise<Models.ReplicationStorageClassificationMappingsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -216,7 +216,7 @@ export class ReplicationStorageClassificationMappings {
    * @param callback The callback
    */
   listByReplicationStorageClassificationsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>): void;
-  listByReplicationStorageClassificationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>): Promise<Models.ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsNextResponse> {
+  listByReplicationStorageClassificationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageClassificationMappingCollection>, callback?: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>): Promise<Models.ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -245,7 +245,7 @@ export class ReplicationStorageClassificationMappings {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>): Promise<Models.ReplicationStorageClassificationMappingsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageClassificationMappingCollection>, callback?: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>): Promise<Models.ReplicationStorageClassificationMappingsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

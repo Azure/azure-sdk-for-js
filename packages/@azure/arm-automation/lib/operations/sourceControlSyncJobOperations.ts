@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/sourceControlSyncJobOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -56,7 +56,7 @@ export class SourceControlSyncJobOperations {
    * @param callback The callback
    */
   create(resourceGroupName: string, automationAccountName: string, sourceControlName: string, sourceControlSyncJobId: string, parameters: Models.SourceControlSyncJobCreateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SourceControlSyncJob>): void;
-  create(resourceGroupName: string, automationAccountName: string, sourceControlName: string, sourceControlSyncJobId: string, parameters: Models.SourceControlSyncJobCreateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SourceControlSyncJob>): Promise<Models.SourceControlSyncJobCreateResponse> {
+  create(resourceGroupName: string, automationAccountName: string, sourceControlName: string, sourceControlSyncJobId: string, parameters: Models.SourceControlSyncJobCreateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControlSyncJob>, callback?: msRest.ServiceCallback<Models.SourceControlSyncJob>): Promise<Models.SourceControlSyncJobCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -97,7 +97,7 @@ export class SourceControlSyncJobOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, automationAccountName: string, sourceControlName: string, sourceControlSyncJobId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SourceControlSyncJobById>): void;
-  get(resourceGroupName: string, automationAccountName: string, sourceControlName: string, sourceControlSyncJobId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SourceControlSyncJobById>): Promise<Models.SourceControlSyncJobGetResponse> {
+  get(resourceGroupName: string, automationAccountName: string, sourceControlName: string, sourceControlSyncJobId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControlSyncJobById>, callback?: msRest.ServiceCallback<Models.SourceControlSyncJobById>): Promise<Models.SourceControlSyncJobGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -134,7 +134,7 @@ export class SourceControlSyncJobOperations {
    * @param callback The callback
    */
   listByAutomationAccount(resourceGroupName: string, automationAccountName: string, sourceControlName: string, options: Models.SourceControlSyncJobListByAutomationAccountOptionalParams, callback: msRest.ServiceCallback<Models.SourceControlSyncJobListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, sourceControlName: string, options?: Models.SourceControlSyncJobListByAutomationAccountOptionalParams, callback?: msRest.ServiceCallback<Models.SourceControlSyncJobListResult>): Promise<Models.SourceControlSyncJobListByAutomationAccountResponse> {
+  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, sourceControlName: string, options?: Models.SourceControlSyncJobListByAutomationAccountOptionalParams | msRest.ServiceCallback<Models.SourceControlSyncJobListResult>, callback?: msRest.ServiceCallback<Models.SourceControlSyncJobListResult>): Promise<Models.SourceControlSyncJobListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -164,7 +164,7 @@ export class SourceControlSyncJobOperations {
    * @param callback The callback
    */
   listByAutomationAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SourceControlSyncJobListResult>): void;
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SourceControlSyncJobListResult>): Promise<Models.SourceControlSyncJobListByAutomationAccountNextResponse> {
+  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControlSyncJobListResult>, callback?: msRest.ServiceCallback<Models.SourceControlSyncJobListResult>): Promise<Models.SourceControlSyncJobListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

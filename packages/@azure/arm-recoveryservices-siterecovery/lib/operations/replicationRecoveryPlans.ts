@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/replicationRecoveryPlansMappers";
 import * as Parameters from "../models/parameters";
@@ -43,7 +43,7 @@ export class ReplicationRecoveryPlans {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoveryPlanCollection>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RecoveryPlanCollection>): Promise<Models.ReplicationRecoveryPlansListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPlanCollection>, callback?: msRest.ServiceCallback<Models.RecoveryPlanCollection>): Promise<Models.ReplicationRecoveryPlansListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -71,7 +71,7 @@ export class ReplicationRecoveryPlans {
    * @param callback The callback
    */
   get(recoveryPlanName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoveryPlan>): void;
-  get(recoveryPlanName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RecoveryPlan>): Promise<Models.ReplicationRecoveryPlansGetResponse> {
+  get(recoveryPlanName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPlan>, callback?: msRest.ServiceCallback<Models.RecoveryPlan>): Promise<Models.ReplicationRecoveryPlansGetResponse> {
     return this.client.sendOperationRequest(
       {
         recoveryPlanName,
@@ -379,7 +379,7 @@ export class ReplicationRecoveryPlans {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoveryPlanCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RecoveryPlanCollection>): Promise<Models.ReplicationRecoveryPlansListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPlanCollection>, callback?: msRest.ServiceCallback<Models.RecoveryPlanCollection>): Promise<Models.ReplicationRecoveryPlansListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
