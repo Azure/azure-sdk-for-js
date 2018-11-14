@@ -1680,6 +1680,24 @@ export const IssueContract: msRest.CompositeMapper = {
     className: "IssueContract",
     modelProperties: {
       ...Resource.type.modelProperties,
+      createdDate: {
+        serializedName: "properties.createdDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      state: {
+        serializedName: "properties.state",
+        type: {
+          name: "String"
+        }
+      },
+      apiId: {
+        serializedName: "properties.apiId",
+        type: {
+          name: "String"
+        }
+      },
       title: {
         required: true,
         serializedName: "properties.title",
@@ -1694,6 +1712,23 @@ export const IssueContract: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      userId: {
+        required: true,
+        serializedName: "properties.userId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IssueUpdateContract: msRest.CompositeMapper = {
+  serializedName: "IssueUpdateContract",
+  type: {
+    name: "Composite",
+    className: "IssueUpdateContract",
+    modelProperties: {
       createdDate: {
         serializedName: "properties.createdDate",
         type: {
@@ -1706,15 +1741,54 @@ export const IssueContract: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      apiId: {
+        serializedName: "properties.apiId",
+        type: {
+          name: "String"
+        }
+      },
+      title: {
+        serializedName: "properties.title",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
       userId: {
-        required: true,
         serializedName: "properties.userId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IssueContractBaseProperties: msRest.CompositeMapper = {
+  serializedName: "IssueContractBaseProperties",
+  type: {
+    name: "Composite",
+    className: "IssueContractBaseProperties",
+    modelProperties: {
+      createdDate: {
+        serializedName: "createdDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      state: {
+        serializedName: "state",
         type: {
           name: "String"
         }
       },
       apiId: {
-        serializedName: "properties.apiId",
+        serializedName: "apiId",
         type: {
           name: "String"
         }
