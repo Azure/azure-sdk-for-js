@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/fieldsMappers";
 import * as Parameters from "../models/parameters";
@@ -53,7 +53,7 @@ export class Fields {
    * @param callback The callback
    */
   listByType(resourceGroupName: string, automationAccountName: string, moduleName: string, typeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TypeFieldListResult>): void;
-  listByType(resourceGroupName: string, automationAccountName: string, moduleName: string, typeName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TypeFieldListResult>): Promise<Models.FieldsListByTypeResponse> {
+  listByType(resourceGroupName: string, automationAccountName: string, moduleName: string, typeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TypeFieldListResult>, callback?: msRest.ServiceCallback<Models.TypeFieldListResult>): Promise<Models.FieldsListByTypeResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/databaseAccountRegionMappers";
 import * as Parameters from "../models/parameters";
@@ -59,7 +59,7 @@ export class DatabaseAccountRegion {
    * @param callback The callback
    */
   listMetrics(resourceGroupName: string, accountName: string, region: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricListResult>): void;
-  listMetrics(resourceGroupName: string, accountName: string, region: string, filter: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricListResult>): Promise<Models.DatabaseAccountRegionListMetricsResponse> {
+  listMetrics(resourceGroupName: string, accountName: string, region: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricListResult>, callback?: msRest.ServiceCallback<Models.MetricListResult>): Promise<Models.DatabaseAccountRegionListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

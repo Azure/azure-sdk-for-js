@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/managementPoliciesMappers";
 import * as Parameters from "../models/parameters";
@@ -56,7 +56,7 @@ export class ManagementPolicies {
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageAccountManagementPolicies>): void;
-  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StorageAccountManagementPolicies>): Promise<Models.ManagementPoliciesGetResponse> {
+  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccountManagementPolicies>, callback?: msRest.ServiceCallback<Models.StorageAccountManagementPolicies>): Promise<Models.ManagementPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -97,7 +97,7 @@ export class ManagementPolicies {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, accountName: string, options: Models.ManagementPoliciesCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.StorageAccountManagementPolicies>): void;
-  createOrUpdate(resourceGroupName: string, accountName: string, options?: Models.ManagementPoliciesCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.StorageAccountManagementPolicies>): Promise<Models.ManagementPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, accountName: string, options?: Models.ManagementPoliciesCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.StorageAccountManagementPolicies>, callback?: msRest.ServiceCallback<Models.StorageAccountManagementPolicies>): Promise<Models.ManagementPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -138,7 +138,7 @@ export class ManagementPolicies {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

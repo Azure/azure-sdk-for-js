@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/eventSourcesMappers";
 import * as Parameters from "../models/parameters";
@@ -56,7 +56,7 @@ export class EventSources {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, environmentName: string, eventSourceName: string, parameters: Models.EventSourceCreateOrUpdateParametersUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSourceResourceUnion>): void;
-  createOrUpdate(resourceGroupName: string, environmentName: string, eventSourceName: string, parameters: Models.EventSourceCreateOrUpdateParametersUnion, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventSourceResourceUnion>): Promise<Models.EventSourcesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, environmentName: string, eventSourceName: string, parameters: Models.EventSourceCreateOrUpdateParametersUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSourceResourceUnion>, callback?: msRest.ServiceCallback<Models.EventSourceResourceUnion>): Promise<Models.EventSourcesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +99,7 @@ export class EventSources {
    * @param callback The callback
    */
   get(resourceGroupName: string, environmentName: string, eventSourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSourceResourceUnion>): void;
-  get(resourceGroupName: string, environmentName: string, eventSourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventSourceResourceUnion>): Promise<Models.EventSourcesGetResponse> {
+  get(resourceGroupName: string, environmentName: string, eventSourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSourceResourceUnion>, callback?: msRest.ServiceCallback<Models.EventSourceResourceUnion>): Promise<Models.EventSourcesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -148,7 +148,7 @@ export class EventSources {
    * @param callback The callback
    */
   update(resourceGroupName: string, environmentName: string, eventSourceName: string, eventSourceUpdateParameters: Models.EventSourceUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSourceResourceUnion>): void;
-  update(resourceGroupName: string, environmentName: string, eventSourceName: string, eventSourceUpdateParameters: Models.EventSourceUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventSourceResourceUnion>): Promise<Models.EventSourcesUpdateResponse> {
+  update(resourceGroupName: string, environmentName: string, eventSourceName: string, eventSourceUpdateParameters: Models.EventSourceUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSourceResourceUnion>, callback?: msRest.ServiceCallback<Models.EventSourceResourceUnion>): Promise<Models.EventSourcesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -192,7 +192,7 @@ export class EventSources {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, environmentName: string, eventSourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, environmentName: string, eventSourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, environmentName: string, eventSourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -229,7 +229,7 @@ export class EventSources {
    * @param callback The callback
    */
   listByEnvironment(resourceGroupName: string, environmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSourceListResponse>): void;
-  listByEnvironment(resourceGroupName: string, environmentName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventSourceListResponse>): Promise<Models.EventSourcesListByEnvironmentResponse> {
+  listByEnvironment(resourceGroupName: string, environmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSourceListResponse>, callback?: msRest.ServiceCallback<Models.EventSourceListResponse>): Promise<Models.EventSourcesListByEnvironmentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

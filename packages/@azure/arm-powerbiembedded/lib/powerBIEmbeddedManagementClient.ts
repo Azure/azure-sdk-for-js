@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
@@ -49,7 +49,7 @@ class PowerBIEmbeddedManagementClient extends PowerBIEmbeddedManagementClientCon
    * @param callback The callback
    */
   getAvailableOperations(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationList>): void;
-  getAvailableOperations(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationList>): Promise<Models.GetAvailableOperationsResponse> {
+  getAvailableOperations(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationList>, callback?: msRest.ServiceCallback<Models.OperationList>): Promise<Models.GetAvailableOperationsResponse> {
     return this.sendOperationRequest(
       {
         options

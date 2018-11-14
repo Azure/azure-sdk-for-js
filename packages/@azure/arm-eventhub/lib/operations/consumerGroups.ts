@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/consumerGroupsMappers";
 import * as Parameters from "../models/parameters";
@@ -56,7 +56,7 @@ export class ConsumerGroups {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, parameters: Models.ConsumerGroup, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConsumerGroup>): void;
-  createOrUpdate(resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, parameters: Models.ConsumerGroup, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ConsumerGroup>): Promise<Models.ConsumerGroupsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, parameters: Models.ConsumerGroup, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConsumerGroup>, callback?: msRest.ServiceCallback<Models.ConsumerGroup>): Promise<Models.ConsumerGroupsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -97,7 +97,7 @@ export class ConsumerGroups {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -137,7 +137,7 @@ export class ConsumerGroups {
    * @param callback The callback
    */
   get(resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConsumerGroup>): void;
-  get(resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ConsumerGroup>): Promise<Models.ConsumerGroupsGetResponse> {
+  get(resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConsumerGroup>, callback?: msRest.ServiceCallback<Models.ConsumerGroup>): Promise<Models.ConsumerGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -175,7 +175,7 @@ export class ConsumerGroups {
    * @param callback The callback
    */
   listByEventHub(resourceGroupName: string, namespaceName: string, eventHubName: string, options: Models.ConsumerGroupsListByEventHubOptionalParams, callback: msRest.ServiceCallback<Models.ConsumerGroupListResult>): void;
-  listByEventHub(resourceGroupName: string, namespaceName: string, eventHubName: string, options?: Models.ConsumerGroupsListByEventHubOptionalParams, callback?: msRest.ServiceCallback<Models.ConsumerGroupListResult>): Promise<Models.ConsumerGroupsListByEventHubResponse> {
+  listByEventHub(resourceGroupName: string, namespaceName: string, eventHubName: string, options?: Models.ConsumerGroupsListByEventHubOptionalParams | msRest.ServiceCallback<Models.ConsumerGroupListResult>, callback?: msRest.ServiceCallback<Models.ConsumerGroupListResult>): Promise<Models.ConsumerGroupsListByEventHubResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -206,7 +206,7 @@ export class ConsumerGroups {
    * @param callback The callback
    */
   listByEventHubNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConsumerGroupListResult>): void;
-  listByEventHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ConsumerGroupListResult>): Promise<Models.ConsumerGroupsListByEventHubNextResponse> {
+  listByEventHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConsumerGroupListResult>, callback?: msRest.ServiceCallback<Models.ConsumerGroupListResult>): Promise<Models.ConsumerGroupsListByEventHubNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

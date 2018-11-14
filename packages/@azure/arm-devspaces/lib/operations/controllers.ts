@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/controllersMappers";
 import * as Parameters from "../models/parameters";
@@ -49,7 +49,7 @@ export class Controllers {
    * @param callback The callback
    */
   get(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Controller>): void;
-  get(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Controller>): Promise<Models.ControllersGetResponse> {
+  get(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Controller>, callback?: msRest.ServiceCallback<Models.Controller>): Promise<Models.ControllersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -113,7 +113,7 @@ export class Controllers {
    * @param callback The callback
    */
   update(resourceGroupName: string, name: string, controllerUpdateParameters: Models.ControllerUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Controller>): void;
-  update(resourceGroupName: string, name: string, controllerUpdateParameters: Models.ControllerUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Controller>): Promise<Models.ControllersUpdateResponse> {
+  update(resourceGroupName: string, name: string, controllerUpdateParameters: Models.ControllerUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Controller>, callback?: msRest.ServiceCallback<Models.Controller>): Promise<Models.ControllersUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -145,7 +145,7 @@ export class Controllers {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ControllerList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ControllerList>): Promise<Models.ControllersListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ControllerList>, callback?: msRest.ServiceCallback<Models.ControllerList>): Promise<Models.ControllersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -171,7 +171,7 @@ export class Controllers {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ControllerList>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ControllerList>): Promise<Models.ControllersListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ControllerList>, callback?: msRest.ServiceCallback<Models.ControllerList>): Promise<Models.ControllersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -203,7 +203,7 @@ export class Controllers {
    * @param callback The callback
    */
   listConnectionDetails(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ControllerConnectionDetailsList>): void;
-  listConnectionDetails(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ControllerConnectionDetailsList>): Promise<Models.ControllersListConnectionDetailsResponse> {
+  listConnectionDetails(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ControllerConnectionDetailsList>, callback?: msRest.ServiceCallback<Models.ControllerConnectionDetailsList>): Promise<Models.ControllersListConnectionDetailsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -274,7 +274,7 @@ export class Controllers {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ControllerList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ControllerList>): Promise<Models.ControllersListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ControllerList>, callback?: msRest.ServiceCallback<Models.ControllerList>): Promise<Models.ControllersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -303,7 +303,7 @@ export class Controllers {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ControllerList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ControllerList>): Promise<Models.ControllersListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ControllerList>, callback?: msRest.ServiceCallback<Models.ControllerList>): Promise<Models.ControllersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
