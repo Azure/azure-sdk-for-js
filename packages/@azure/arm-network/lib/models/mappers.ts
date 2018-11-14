@@ -7198,7 +7198,7 @@ export const ContainerNetworkInterfaceConfiguration: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ContainerNetworkInterface"
+              className: "SubResource"
             }
           }
         }
