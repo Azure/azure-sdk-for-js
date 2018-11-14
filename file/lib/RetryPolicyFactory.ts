@@ -1,8 +1,4 @@
-import {
-  RequestPolicy,
-  RequestPolicyFactory,
-  RequestPolicyOptions
-} from "ms-rest-js";
+import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "ms-rest-js";
 
 import { RetryPolicy, RetryPolicyType } from "./policies/RetryPolicy";
 
@@ -32,7 +28,7 @@ export interface IRetryOptions {
   readonly maxTries?: number;
 
   /**
-   * Optional. Indicates the maximum time in seconds allowed for any single try of an HTTP request.
+   * Optional. Indicates the maximum time in ms allowed for any single try of an HTTP request.
    * A value of zero or undefined means that you accept our default timeout, 60s or 60 * 1000ms.
    *
    * NOTE: When transferring large amounts of data, the default TryTimeout will probably
@@ -43,7 +39,7 @@ export interface IRetryOptions {
    * @type {number}
    * @memberof IRetryOptions
    */
-  readonly tryTimeout?: number;
+  readonly tryTimeoutInMs?: number;
 
   /**
    * Optional. Specifies the amount of delay to use before retrying an operation (default is 4s or 4 * 1000ms).
