@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/replicationAlertSettingsMappers";
 import * as Parameters from "../models/parameters";
@@ -42,7 +42,7 @@ export class ReplicationAlertSettings {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertCollection>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AlertCollection>): Promise<Models.ReplicationAlertSettingsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertCollection>, callback?: msRest.ServiceCallback<Models.AlertCollection>): Promise<Models.ReplicationAlertSettingsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -70,7 +70,7 @@ export class ReplicationAlertSettings {
    * @param callback The callback
    */
   get(alertSettingName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Alert>): void;
-  get(alertSettingName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Alert>): Promise<Models.ReplicationAlertSettingsGetResponse> {
+  get(alertSettingName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Alert>, callback?: msRest.ServiceCallback<Models.Alert>): Promise<Models.ReplicationAlertSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         alertSettingName,
@@ -102,7 +102,7 @@ export class ReplicationAlertSettings {
    * @param callback The callback
    */
   create(alertSettingName: string, request: Models.ConfigureAlertRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Alert>): void;
-  create(alertSettingName: string, request: Models.ConfigureAlertRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Alert>): Promise<Models.ReplicationAlertSettingsCreateResponse> {
+  create(alertSettingName: string, request: Models.ConfigureAlertRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Alert>, callback?: msRest.ServiceCallback<Models.Alert>): Promise<Models.ReplicationAlertSettingsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         alertSettingName,
@@ -132,7 +132,7 @@ export class ReplicationAlertSettings {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AlertCollection>): Promise<Models.ReplicationAlertSettingsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertCollection>, callback?: msRest.ServiceCallback<Models.AlertCollection>): Promise<Models.ReplicationAlertSettingsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

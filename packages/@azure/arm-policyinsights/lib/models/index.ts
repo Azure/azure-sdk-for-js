@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -1583,18 +1583,10 @@ export interface RemediationListResult extends Array<Remediation> {
 /**
  * Defines values for PolicyStatesResource.
  * Possible values include: 'default', 'latest'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PolicyStatesResource =
- * <PolicyStatesResource>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PolicyStatesResource {
-  Default = 'default',
-  Latest = 'latest',
-}
+export type PolicyStatesResource = 'default' | 'latest';
 
 /**
  * Contains response data for the listQueryResultsForManagementGroup operation.

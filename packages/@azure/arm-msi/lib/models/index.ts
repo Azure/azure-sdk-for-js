@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -181,17 +181,10 @@ export interface UserAssignedIdentitiesListResult extends Array<Identity> {
 /**
  * Defines values for UserAssignedIdentities.
  * Possible values include: 'Microsoft.ManagedIdentity/userAssignedIdentities'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: UserAssignedIdentities =
- * <UserAssignedIdentities>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum UserAssignedIdentities {
-  MicrosoftManagedIdentityuserAssignedIdentities = 'Microsoft.ManagedIdentity/userAssignedIdentities',
-}
+export type UserAssignedIdentities = 'Microsoft.ManagedIdentity/userAssignedIdentities';
 
 /**
  * Contains response data for the list operation.

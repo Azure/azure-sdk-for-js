@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
@@ -637,6 +637,16 @@ export const virtualHubName: msRest.OperationURLParameter = {
     }
   }
 };
+export const virtualmachineIndex: msRest.OperationURLParameter = {
+  parameterPath: "virtualmachineIndex",
+  mapper: {
+    required: true,
+    serializedName: "virtualmachineIndex",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const virtualMachineScaleSetName: msRest.OperationURLParameter = {
   parameterPath: "virtualMachineScaleSetName",
   mapper: {
@@ -687,6 +697,16 @@ export const virtualNetworkPeeringName: msRest.OperationURLParameter = {
     }
   }
 };
+export const virtualWanName: msRest.OperationURLParameter = {
+  parameterPath: "virtualWanName",
+  mapper: {
+    required: true,
+    serializedName: "virtualWanName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const virtualWANName0: msRest.OperationURLParameter = {
   parameterPath: "virtualWANName",
   mapper: {
@@ -702,26 +722,6 @@ export const virtualWANName1: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "VirtualWANName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const virtualWanName: msRest.OperationURLParameter = {
-  parameterPath: "virtualWanName",
-  mapper: {
-    required: true,
-    serializedName: "virtualWanName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const virtualmachineIndex: msRest.OperationURLParameter = {
-  parameterPath: "virtualmachineIndex",
-  mapper: {
-    required: true,
-    serializedName: "virtualmachineIndex",
     type: {
       name: "String"
     }

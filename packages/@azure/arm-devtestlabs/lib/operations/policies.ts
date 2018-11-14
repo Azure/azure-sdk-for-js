@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/policiesMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class Policies {
    * @param callback The callback
    */
   list(resourceGroupName: string, labName: string, policySetName: string, options: Models.PoliciesListOptionalParams, callback: msRest.ServiceCallback<Models.PolicyList>): void;
-  list(resourceGroupName: string, labName: string, policySetName: string, options?: Models.PoliciesListOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyList>): Promise<Models.PoliciesListResponse> {
+  list(resourceGroupName: string, labName: string, policySetName: string, options?: Models.PoliciesListOptionalParams | msRest.ServiceCallback<Models.PolicyList>, callback?: msRest.ServiceCallback<Models.PolicyList>): Promise<Models.PoliciesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -89,7 +89,7 @@ export class Policies {
    * @param callback The callback
    */
   get(resourceGroupName: string, labName: string, policySetName: string, name: string, options: Models.PoliciesGetOptionalParams, callback: msRest.ServiceCallback<Models.Policy>): void;
-  get(resourceGroupName: string, labName: string, policySetName: string, name: string, options?: Models.PoliciesGetOptionalParams, callback?: msRest.ServiceCallback<Models.Policy>): Promise<Models.PoliciesGetResponse> {
+  get(resourceGroupName: string, labName: string, policySetName: string, name: string, options?: Models.PoliciesGetOptionalParams | msRest.ServiceCallback<Models.Policy>, callback?: msRest.ServiceCallback<Models.Policy>): Promise<Models.PoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -132,7 +132,7 @@ export class Policies {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, labName: string, policySetName: string, name: string, policy: Models.Policy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Policy>): void;
-  createOrUpdate(resourceGroupName: string, labName: string, policySetName: string, name: string, policy: Models.Policy, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Policy>): Promise<Models.PoliciesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, labName: string, policySetName: string, name: string, policy: Models.Policy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Policy>, callback?: msRest.ServiceCallback<Models.Policy>): Promise<Models.PoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -173,7 +173,7 @@ export class Policies {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, labName: string, policySetName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, labName: string, policySetName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, labName: string, policySetName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -216,7 +216,7 @@ export class Policies {
    * @param callback The callback
    */
   update(resourceGroupName: string, labName: string, policySetName: string, name: string, policy: Models.PolicyFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Policy>): void;
-  update(resourceGroupName: string, labName: string, policySetName: string, name: string, policy: Models.PolicyFragment, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Policy>): Promise<Models.PoliciesUpdateResponse> {
+  update(resourceGroupName: string, labName: string, policySetName: string, name: string, policy: Models.PolicyFragment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Policy>, callback?: msRest.ServiceCallback<Models.Policy>): Promise<Models.PoliciesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -248,7 +248,7 @@ export class Policies {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyList>): Promise<Models.PoliciesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyList>, callback?: msRest.ServiceCallback<Models.PolicyList>): Promise<Models.PoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

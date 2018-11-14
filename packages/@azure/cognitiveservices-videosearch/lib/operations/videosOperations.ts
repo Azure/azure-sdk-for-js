@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/videosOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -60,7 +60,7 @@ export class VideosOperations {
    * @param callback The callback
    */
   search(query: string, options: Models.VideosSearchOptionalParams, callback: msRest.ServiceCallback<Models.Videos>): void;
-  search(query: string, options?: Models.VideosSearchOptionalParams, callback?: msRest.ServiceCallback<Models.Videos>): Promise<Models.VideosSearchResponse> {
+  search(query: string, options?: Models.VideosSearchOptionalParams | msRest.ServiceCallback<Models.Videos>, callback?: msRest.ServiceCallback<Models.Videos>): Promise<Models.VideosSearchResponse> {
     return this.client.sendOperationRequest(
       {
         query,
@@ -104,7 +104,7 @@ export class VideosOperations {
    * @param callback The callback
    */
   details(query: string, options: Models.VideosDetailsOptionalParams, callback: msRest.ServiceCallback<Models.VideoDetails>): void;
-  details(query: string, options?: Models.VideosDetailsOptionalParams, callback?: msRest.ServiceCallback<Models.VideoDetails>): Promise<Models.VideosDetailsResponse> {
+  details(query: string, options?: Models.VideosDetailsOptionalParams | msRest.ServiceCallback<Models.VideoDetails>, callback?: msRest.ServiceCallback<Models.VideoDetails>): Promise<Models.VideosDetailsResponse> {
     return this.client.sendOperationRequest(
       {
         query,
@@ -133,7 +133,7 @@ export class VideosOperations {
    * @param callback The callback
    */
   trending(options: Models.VideosTrendingOptionalParams, callback: msRest.ServiceCallback<Models.TrendingVideos>): void;
-  trending(options?: Models.VideosTrendingOptionalParams, callback?: msRest.ServiceCallback<Models.TrendingVideos>): Promise<Models.VideosTrendingResponse> {
+  trending(options?: Models.VideosTrendingOptionalParams | msRest.ServiceCallback<Models.TrendingVideos>, callback?: msRest.ServiceCallback<Models.TrendingVideos>): Promise<Models.VideosTrendingResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -147,7 +147,10 @@ export class VideosOperations {
 const serializer = new msRest.Serializer(Mappers);
 const searchOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "bing/v7.0/videos/search",
+  path: "videos/search",
+  urlParameters: [
+    Parameters.endpoint
+  ],
   queryParameters: [
     Parameters.countryCode,
     Parameters.count,
@@ -185,7 +188,10 @@ const searchOperationSpec: msRest.OperationSpec = {
 
 const detailsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "bing/v7.0/videos/details",
+  path: "videos/details",
+  urlParameters: [
+    Parameters.endpoint
+  ],
   queryParameters: [
     Parameters.countryCode,
     Parameters.id,
@@ -219,7 +225,10 @@ const detailsOperationSpec: msRest.OperationSpec = {
 
 const trendingOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "bing/v7.0/videos/trending",
+  path: "videos/trending",
+  urlParameters: [
+    Parameters.endpoint
+  ],
   queryParameters: [
     Parameters.countryCode,
     Parameters.market,

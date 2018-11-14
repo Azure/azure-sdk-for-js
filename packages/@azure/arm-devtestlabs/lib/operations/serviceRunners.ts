@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/serviceRunnersMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class ServiceRunners {
    * @param callback The callback
    */
   list(resourceGroupName: string, labName: string, options: Models.ServiceRunnersListOptionalParams, callback: msRest.ServiceCallback<Models.ServiceRunnerList>): void;
-  list(resourceGroupName: string, labName: string, options?: Models.ServiceRunnersListOptionalParams, callback?: msRest.ServiceCallback<Models.ServiceRunnerList>): Promise<Models.ServiceRunnersListResponse> {
+  list(resourceGroupName: string, labName: string, options?: Models.ServiceRunnersListOptionalParams | msRest.ServiceCallback<Models.ServiceRunnerList>, callback?: msRest.ServiceCallback<Models.ServiceRunnerList>): Promise<Models.ServiceRunnersListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class ServiceRunners {
    * @param callback The callback
    */
   get(resourceGroupName: string, labName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceRunner>): void;
-  get(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceRunner>): Promise<Models.ServiceRunnersGetResponse> {
+  get(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceRunner>, callback?: msRest.ServiceCallback<Models.ServiceRunner>): Promise<Models.ServiceRunnersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -121,7 +121,7 @@ export class ServiceRunners {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, labName: string, name: string, serviceRunner: Models.ServiceRunner, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceRunner>): void;
-  createOrUpdate(resourceGroupName: string, labName: string, name: string, serviceRunner: Models.ServiceRunner, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceRunner>): Promise<Models.ServiceRunnersCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, labName: string, name: string, serviceRunner: Models.ServiceRunner, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceRunner>, callback?: msRest.ServiceCallback<Models.ServiceRunner>): Promise<Models.ServiceRunnersCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +158,7 @@ export class ServiceRunners {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, labName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -188,7 +188,7 @@ export class ServiceRunners {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceRunnerList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceRunnerList>): Promise<Models.ServiceRunnersListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceRunnerList>, callback?: msRest.ServiceCallback<Models.ServiceRunnerList>): Promise<Models.ServiceRunnersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

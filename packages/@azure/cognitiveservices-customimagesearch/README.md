@@ -1,26 +1,33 @@
-# An isomorphic javascript sdk for - CustomImageSearchAPIClient
-This project provides an isomorphic javascript package. Right now it supports:
-- node.js version 6.x.x or higher
-- browser javascript
+## An isomorphic javascript sdk for - CustomImageSearchAPIClient
 
-## How to Install
+This package contains an isomorphic SDK for CustomImageSearchAPIClient.
 
-- nodejs
+### Currently supported environments
+
+- Node.js version 6.x.x or higher
+- Browser JavaScript
+
+### How to Install
+
 ```
 npm install @azure/cognitiveservices-customimagesearch
 ```
-- browser
-```html
-<script type="text/javascript" src="@azure/cognitiveservices-customimagesearch/dist/cognitiveservices-customimagesearch.js"></script>
+
+### How to use
+
+#### nodejs - Authentication, client creation and imageSearch customInstance as an example written in TypeScript.
+
+##### Install ms-rest-nodeauth
+
+```
+npm install ms-rest-nodeauth
 ```
 
-## How to use
-
-### nodejs - Authentication, client creation and imageSearch customInstance as an example written in TypeScript.
+##### Sample code
 
 ```ts
-import * as msRest from "ms-rest-js";
-import * as msRestNodeAuth from "ms-rest-nodeauth";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { CustomImageSearchAPIClient, CustomImageSearchAPIModels, CustomImageSearchAPIMappers } from "@azure/cognitiveservices-customimagesearch";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
@@ -64,7 +71,17 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-### browser - Authentication, client creation and imageSearch customInstance as an example written in javascript.
+#### browser - Authentication, client creation and imageSearch customInstance as an example written in JavaScript.
+
+##### Install ms-rest-browserauth
+
+```
+npm install ms-rest-browserauth
+```
+
+##### Sample code
+
+See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
 ```html
@@ -72,7 +89,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 <html lang="en">
   <head>
     <title>@azure/cognitiveservices-customimagesearch sample</title>
-    <script src="node_modules/ms-rest-js/dist/msRest.browser.js"></script>
+    <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
     <script src="node_modules/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/cognitiveservices-customimagesearch/dist/cognitiveservices-customimagesearch.js"></script>
     <script type="text/javascript">
@@ -126,10 +143,10 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
       });
     </script>
   </head>
-  <body>
-  </body>
+  <body></body>
 </html>
 ```
 
-# Related projects
- - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
+## Related projects
+
+- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)

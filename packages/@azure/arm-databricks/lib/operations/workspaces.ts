@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/workspacesMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class Workspaces {
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Workspace>): void;
-  get(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Workspace>): Promise<Models.WorkspacesGetResponse> {
+  get(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workspace>, callback?: msRest.ServiceCallback<Models.Workspace>): Promise<Models.WorkspacesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -115,7 +115,7 @@ export class Workspaces {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkspaceListResult>): Promise<Models.WorkspacesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceListResult>, callback?: msRest.ServiceCallback<Models.WorkspaceListResult>): Promise<Models.WorkspacesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -140,7 +140,7 @@ export class Workspaces {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceListResult>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkspaceListResult>): Promise<Models.WorkspacesListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceListResult>, callback?: msRest.ServiceCallback<Models.WorkspaceListResult>): Promise<Models.WorkspacesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -225,7 +225,7 @@ export class Workspaces {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkspaceListResult>): Promise<Models.WorkspacesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceListResult>, callback?: msRest.ServiceCallback<Models.WorkspaceListResult>): Promise<Models.WorkspacesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -253,7 +253,7 @@ export class Workspaces {
    * @param callback The callback
    */
   listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceListResult>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkspaceListResult>): Promise<Models.WorkspacesListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceListResult>, callback?: msRest.ServiceCallback<Models.WorkspaceListResult>): Promise<Models.WorkspacesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
