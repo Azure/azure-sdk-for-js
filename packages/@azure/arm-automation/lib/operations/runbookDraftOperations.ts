@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/runbookDraftOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -51,7 +51,7 @@ export class RunbookDraftOperations {
    * @param callback The callback
    */
   getContent(resourceGroupName: string, automationAccountName: string, runbookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getContent(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.RunbookDraftGetContentResponse> {
+  getContent(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.RunbookDraftGetContentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -101,7 +101,7 @@ export class RunbookDraftOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, automationAccountName: string, runbookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RunbookDraft>): void;
-  get(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RunbookDraft>): Promise<Models.RunbookDraftGetResponse> {
+  get(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RunbookDraft>, callback?: msRest.ServiceCallback<Models.RunbookDraft>): Promise<Models.RunbookDraftGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -137,7 +137,7 @@ export class RunbookDraftOperations {
    * @param callback The callback
    */
   undoEdit(resourceGroupName: string, automationAccountName: string, runbookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RunbookDraftUndoEditResult>): void;
-  undoEdit(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RunbookDraftUndoEditResult>): Promise<Models.RunbookDraftUndoEditResponse> {
+  undoEdit(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RunbookDraftUndoEditResult>, callback?: msRest.ServiceCallback<Models.RunbookDraftUndoEditResult>): Promise<Models.RunbookDraftUndoEditResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 
 
 export const QueryContext: msRest.CompositeMapper = {
@@ -200,8 +200,6 @@ export const CreativeWork: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
-              uberParent: "ResponseBase",
               className: "Thing"
             }
           }
@@ -249,8 +247,6 @@ export const WebPage: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
-              uberParent: "ResponseBase",
               className: "WebPage"
             }
           }
@@ -358,8 +354,6 @@ export const WebWebAnswer: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
-              uberParent: "ResponseBase",
               className: "WebPage"
             }
           }
@@ -398,8 +392,6 @@ export const SearchResponse: msRest.CompositeMapper = {
         serializedName: "webPages",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
-          uberParent: "ResponseBase",
           className: "WebWebAnswer"
         }
       }

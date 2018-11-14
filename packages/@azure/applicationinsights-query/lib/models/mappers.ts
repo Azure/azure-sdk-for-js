@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 
 
 export const MetricsPostBodySchemaParameters: msRest.CompositeMapper = {
@@ -729,11 +729,6 @@ export const EventsResults: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "type",
-                clientName: "type"
-              },
-              uberParent: "EventsResultData",
               className: "EventsResultData"
             }
           }
@@ -765,11 +760,6 @@ export const EventsResult: msRest.CompositeMapper = {
         serializedName: "value",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "type",
-            clientName: "type"
-          },
-          uberParent: "EventsResultData",
           className: "EventsResultData"
         }
       }

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/permissionsMappers";
 import * as Parameters from "../models/parameters";
@@ -44,7 +44,7 @@ export class Permissions {
    * @param callback The callback
    */
   list(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserAccessList>): void;
-  list(appId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UserAccessList>): Promise<Models.PermissionsListResponse> {
+  list(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserAccessList>, callback?: msRest.ServiceCallback<Models.UserAccessList>): Promise<Models.PermissionsListResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -76,7 +76,7 @@ export class Permissions {
    * @param callback The callback
    */
   add(appId: string, userToAdd: Models.UserCollaborator, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  add(appId: string, userToAdd: Models.UserCollaborator, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.PermissionsAddResponse> {
+  add(appId: string, userToAdd: Models.UserCollaborator, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.PermissionsAddResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -109,7 +109,7 @@ export class Permissions {
    * @param callback The callback
    */
   deleteMethod(appId: string, userToDelete: Models.UserCollaborator, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteMethod(appId: string, userToDelete: Models.UserCollaborator, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.PermissionsDeleteMethodResponse> {
+  deleteMethod(appId: string, userToDelete: Models.UserCollaborator, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.PermissionsDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -142,7 +142,7 @@ export class Permissions {
    * @param callback The callback
    */
   update(appId: string, collaborators: Models.CollaboratorsArray, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  update(appId: string, collaborators: Models.CollaboratorsArray, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.PermissionsUpdateResponse> {
+  update(appId: string, collaborators: Models.CollaboratorsArray, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.PermissionsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         appId,

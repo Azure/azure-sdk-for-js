@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/backupScheduleGroupsMappers";
 import * as Parameters from "../models/parameters";
@@ -51,7 +51,7 @@ export class BackupScheduleGroups {
    * @param callback The callback
    */
   listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupScheduleGroupList>): void;
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupScheduleGroupList>): Promise<Models.BackupScheduleGroupsListByDeviceResponse> {
+  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupScheduleGroupList>, callback?: msRest.ServiceCallback<Models.BackupScheduleGroupList>): Promise<Models.BackupScheduleGroupsListByDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -90,7 +90,7 @@ export class BackupScheduleGroups {
    * @param callback The callback
    */
   get(deviceName: string, scheduleGroupName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupScheduleGroup>): void;
-  get(deviceName: string, scheduleGroupName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupScheduleGroup>): Promise<Models.BackupScheduleGroupsGetResponse> {
+  get(deviceName: string, scheduleGroupName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupScheduleGroup>, callback?: msRest.ServiceCallback<Models.BackupScheduleGroup>): Promise<Models.BackupScheduleGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,

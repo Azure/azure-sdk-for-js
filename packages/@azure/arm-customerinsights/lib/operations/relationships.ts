@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/relationshipsMappers";
 import * as Parameters from "../models/parameters";
@@ -65,7 +65,7 @@ export class Relationships {
    * @param callback The callback
    */
   get(resourceGroupName: string, hubName: string, relationshipName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RelationshipResourceFormat>): void;
-  get(resourceGroupName: string, hubName: string, relationshipName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RelationshipResourceFormat>): Promise<Models.RelationshipsGetResponse> {
+  get(resourceGroupName: string, hubName: string, relationshipName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RelationshipResourceFormat>, callback?: msRest.ServiceCallback<Models.RelationshipResourceFormat>): Promise<Models.RelationshipsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -111,7 +111,7 @@ export class Relationships {
    * @param callback The callback
    */
   listByHub(resourceGroupName: string, hubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RelationshipListResult>): void;
-  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RelationshipListResult>): Promise<Models.RelationshipsListByHubResponse> {
+  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RelationshipListResult>, callback?: msRest.ServiceCallback<Models.RelationshipListResult>): Promise<Models.RelationshipsListByHubResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -182,7 +182,7 @@ export class Relationships {
    * @param callback The callback
    */
   listByHubNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RelationshipListResult>): void;
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RelationshipListResult>): Promise<Models.RelationshipsListByHubNextResponse> {
+  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RelationshipListResult>, callback?: msRest.ServiceCallback<Models.RelationshipListResult>): Promise<Models.RelationshipsListByHubNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
