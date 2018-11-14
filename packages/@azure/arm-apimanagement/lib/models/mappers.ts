@@ -7151,6 +7151,22 @@ export const UserUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
+export const CurrentUserIdentity: msRest.CompositeMapper = {
+  serializedName: "CurrentUserIdentity",
+  type: {
+    name: "Composite",
+    className: "CurrentUserIdentity",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ApiVersionSetContract: msRest.CompositeMapper = {
   serializedName: "ApiVersionSetContract",
   type: {

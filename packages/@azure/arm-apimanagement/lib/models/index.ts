@@ -5113,6 +5113,17 @@ export interface UserUpdateParameters {
 
 /**
  * @interface
+ * An interface representing CurrentUserIdentity.
+ */
+export interface CurrentUserIdentity {
+  /**
+   * @member {string} [id] API Management service user id.
+   */
+  id?: string;
+}
+
+/**
+ * @interface
  * An interface representing ApiVersionSetContract.
  * Api Version Set Contract details.
  *
@@ -13662,6 +13673,25 @@ export type TenantConfigurationBeginValidateResponse = OperationResultContract &
        * The response body as parsed JSON or XML
        */
       parsedBody: OperationResultContract;
+    };
+};
+
+/**
+ * Contains response data for the getIdentity operation.
+ */
+export type UserGetIdentityResponse = CurrentUserIdentity & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CurrentUserIdentity;
     };
 };
 
