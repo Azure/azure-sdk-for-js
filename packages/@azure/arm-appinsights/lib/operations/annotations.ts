@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/annotationsMappers";
 import * as Parameters from "../models/parameters";
@@ -56,7 +56,7 @@ export class Annotations {
    * @param callback The callback
    */
   list(resourceGroupName: string, resourceName: string, start: string, end: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AnnotationsListResult>): void;
-  list(resourceGroupName: string, resourceName: string, start: string, end: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AnnotationsListResult>, callback?: msRest.ServiceCallback<Models.AnnotationsListResult>): Promise<Models.AnnotationsListResponse> {
+  list(resourceGroupName: string, resourceName: string, start: string, end: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AnnotationsListResult>): Promise<Models.AnnotationsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +96,7 @@ export class Annotations {
    * @param callback The callback
    */
   create(resourceGroupName: string, resourceName: string, annotationProperties: Models.Annotation, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Annotation[]>): void;
-  create(resourceGroupName: string, resourceName: string, annotationProperties: Models.Annotation, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Annotation[]>, callback?: msRest.ServiceCallback<Models.Annotation[]>): Promise<Models.AnnotationsCreateResponse> {
+  create(resourceGroupName: string, resourceName: string, annotationProperties: Models.Annotation, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Annotation[]>): Promise<Models.AnnotationsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -135,7 +135,7 @@ export class Annotations {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, resourceName: string, annotationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  deleteMethod(resourceGroupName: string, resourceName: string, annotationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AnnotationsDeleteMethodResponse> {
+  deleteMethod(resourceGroupName: string, resourceName: string, annotationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<any>): Promise<Models.AnnotationsDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -174,7 +174,7 @@ export class Annotations {
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, annotationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Annotation[]>): void;
-  get(resourceGroupName: string, resourceName: string, annotationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Annotation[]>, callback?: msRest.ServiceCallback<Models.Annotation[]>): Promise<Models.AnnotationsGetResponse> {
+  get(resourceGroupName: string, resourceName: string, annotationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Annotation[]>): Promise<Models.AnnotationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

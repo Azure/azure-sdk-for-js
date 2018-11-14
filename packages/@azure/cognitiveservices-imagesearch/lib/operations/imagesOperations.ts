@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/imagesOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -66,7 +66,7 @@ export class ImagesOperations {
    * @param callback The callback
    */
   search(query: string, options: Models.ImagesSearchOptionalParams, callback: msRest.ServiceCallback<Models.Images>): void;
-  search(query: string, options?: Models.ImagesSearchOptionalParams | msRest.ServiceCallback<Models.Images>, callback?: msRest.ServiceCallback<Models.Images>): Promise<Models.ImagesSearchResponse> {
+  search(query: string, options?: Models.ImagesSearchOptionalParams, callback?: msRest.ServiceCallback<Models.Images>): Promise<Models.ImagesSearchResponse> {
     return this.client.sendOperationRequest(
       {
         query,
@@ -117,7 +117,7 @@ export class ImagesOperations {
    * @param callback The callback
    */
   details(query: string, options: Models.ImagesDetailsOptionalParams, callback: msRest.ServiceCallback<Models.ImageInsights>): void;
-  details(query: string, options?: Models.ImagesDetailsOptionalParams | msRest.ServiceCallback<Models.ImageInsights>, callback?: msRest.ServiceCallback<Models.ImageInsights>): Promise<Models.ImagesDetailsResponse> {
+  details(query: string, options?: Models.ImagesDetailsOptionalParams, callback?: msRest.ServiceCallback<Models.ImageInsights>): Promise<Models.ImagesDetailsResponse> {
     return this.client.sendOperationRequest(
       {
         query,
@@ -146,7 +146,7 @@ export class ImagesOperations {
    * @param callback The callback
    */
   trending(options: Models.ImagesTrendingOptionalParams, callback: msRest.ServiceCallback<Models.TrendingImages>): void;
-  trending(options?: Models.ImagesTrendingOptionalParams | msRest.ServiceCallback<Models.TrendingImages>, callback?: msRest.ServiceCallback<Models.TrendingImages>): Promise<Models.ImagesTrendingResponse> {
+  trending(options?: Models.ImagesTrendingOptionalParams, callback?: msRest.ServiceCallback<Models.TrendingImages>): Promise<Models.ImagesTrendingResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -160,10 +160,7 @@ export class ImagesOperations {
 const serializer = new msRest.Serializer(Mappers);
 const searchOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "images/search",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  path: "bing/v7.0/images/search",
   queryParameters: [
     Parameters.aspect,
     Parameters.color,
@@ -210,10 +207,7 @@ const searchOperationSpec: msRest.OperationSpec = {
 
 const detailsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "images/details",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  path: "bing/v7.0/images/details",
   queryParameters: [
     Parameters.cropBottom,
     Parameters.cropLeft,
@@ -252,10 +246,7 @@ const detailsOperationSpec: msRest.OperationSpec = {
 
 const trendingOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "images/trending",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  path: "bing/v7.0/images/trending",
   queryParameters: [
     Parameters.countryCode,
     Parameters.market,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/settingsMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class Settings {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SettingsList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SettingsList>, callback?: msRest.ServiceCallback<Models.SettingsList>): Promise<Models.SettingsListResponse> {
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SettingsList>): Promise<Models.SettingsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -68,7 +68,7 @@ export class Settings {
    * @param callback The callback
    */
   get(settingName: Models.SettingName, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SettingUnion>): void;
-  get(settingName: Models.SettingName, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SettingUnion>, callback?: msRest.ServiceCallback<Models.SettingUnion>): Promise<Models.SettingsGetResponse> {
+  get(settingName: Models.SettingName, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SettingUnion>): Promise<Models.SettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         settingName,
@@ -99,7 +99,7 @@ export class Settings {
    * @param callback The callback
    */
   update(settingName: Models.SettingName1, setting: Models.SettingUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SettingUnion>): void;
-  update(settingName: Models.SettingName1, setting: Models.SettingUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SettingUnion>, callback?: msRest.ServiceCallback<Models.SettingUnion>): Promise<Models.SettingsUpdateResponse> {
+  update(settingName: Models.SettingName1, setting: Models.SettingUnion, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SettingUnion>): Promise<Models.SettingsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         settingName,
@@ -128,7 +128,7 @@ export class Settings {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SettingsList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SettingsList>, callback?: msRest.ServiceCallback<Models.SettingsList>): Promise<Models.SettingsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SettingsList>): Promise<Models.SettingsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

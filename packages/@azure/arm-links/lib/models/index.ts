@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -213,7 +213,9 @@ export interface ResourceLinkResult extends Array<ResourceLink> {
  * @readonly
  * @enum {string}
  */
-export type Filter = 'atScope()';
+export enum Filter {
+  AtScope = 'atScope()',
+}
 
 /**
  * Contains response data for the list operation.

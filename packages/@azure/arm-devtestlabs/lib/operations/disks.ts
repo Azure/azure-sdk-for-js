@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/disksMappers";
 import * as Parameters from "../models/parameters";
@@ -51,7 +51,7 @@ export class Disks {
    * @param callback The callback
    */
   list(resourceGroupName: string, labName: string, userName: string, options: Models.DisksListOptionalParams, callback: msRest.ServiceCallback<Models.DiskList>): void;
-  list(resourceGroupName: string, labName: string, userName: string, options?: Models.DisksListOptionalParams | msRest.ServiceCallback<Models.DiskList>, callback?: msRest.ServiceCallback<Models.DiskList>): Promise<Models.DisksListResponse> {
+  list(resourceGroupName: string, labName: string, userName: string, options?: Models.DisksListOptionalParams, callback?: msRest.ServiceCallback<Models.DiskList>): Promise<Models.DisksListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -90,7 +90,7 @@ export class Disks {
    * @param callback The callback
    */
   get(resourceGroupName: string, labName: string, userName: string, name: string, options: Models.DisksGetOptionalParams, callback: msRest.ServiceCallback<Models.Disk>): void;
-  get(resourceGroupName: string, labName: string, userName: string, name: string, options?: Models.DisksGetOptionalParams | msRest.ServiceCallback<Models.Disk>, callback?: msRest.ServiceCallback<Models.Disk>): Promise<Models.DisksGetResponse> {
+  get(resourceGroupName: string, labName: string, userName: string, name: string, options?: Models.DisksGetOptionalParams, callback?: msRest.ServiceCallback<Models.Disk>): Promise<Models.DisksGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -162,7 +162,7 @@ export class Disks {
    * @param callback The callback
    */
   update(resourceGroupName: string, labName: string, userName: string, name: string, disk: Models.DiskFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Disk>): void;
-  update(resourceGroupName: string, labName: string, userName: string, name: string, disk: Models.DiskFragment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Disk>, callback?: msRest.ServiceCallback<Models.Disk>): Promise<Models.DisksUpdateResponse> {
+  update(resourceGroupName: string, labName: string, userName: string, name: string, disk: Models.DiskFragment, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Disk>): Promise<Models.DisksUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -322,7 +322,7 @@ export class Disks {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiskList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskList>, callback?: msRest.ServiceCallback<Models.DiskList>): Promise<Models.DisksListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DiskList>): Promise<Models.DisksListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

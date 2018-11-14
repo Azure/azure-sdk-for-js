@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/liveEventsMappers";
 import * as Parameters from "../models/parameters";
@@ -49,7 +49,7 @@ export class LiveEvents {
    * @param callback The callback
    */
   list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LiveEventListResult>): void;
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LiveEventListResult>, callback?: msRest.ServiceCallback<Models.LiveEventListResult>): Promise<Models.LiveEventsListResponse> {
+  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LiveEventListResult>): Promise<Models.LiveEventsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -85,7 +85,7 @@ export class LiveEvents {
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, liveEventName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LiveEvent>): void;
-  get(resourceGroupName: string, accountName: string, liveEventName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LiveEvent>, callback?: msRest.ServiceCallback<Models.LiveEvent>): Promise<Models.LiveEventsGetResponse> {
+  get(resourceGroupName: string, accountName: string, liveEventName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LiveEvent>): Promise<Models.LiveEventsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -333,7 +333,7 @@ export class LiveEvents {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LiveEventListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LiveEventListResult>, callback?: msRest.ServiceCallback<Models.LiveEventListResult>): Promise<Models.LiveEventsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LiveEventListResult>): Promise<Models.LiveEventsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -587,18 +587,33 @@ export interface SearchServiceListResult extends Array<SearchService> {
 /**
  * Defines values for UnavailableNameReason.
  * Possible values include: 'Invalid', 'AlreadyExists'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: UnavailableNameReason =
+ * <UnavailableNameReason>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type UnavailableNameReason = 'Invalid' | 'AlreadyExists';
+export enum UnavailableNameReason {
+  Invalid = 'Invalid',
+  AlreadyExists = 'AlreadyExists',
+}
 
 /**
  * Defines values for SkuName.
- * Possible values include: 'free', 'basic', 'standard', 'standard2', 'standard3'
+ * Possible values include: 'free', 'basic', 'standard', 'standard2',
+ * 'standard3'
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'free' | 'basic' | 'standard' | 'standard2' | 'standard3';
+export enum SkuName {
+  Free = 'free',
+  Basic = 'basic',
+  Standard = 'standard',
+  Standard2 = 'standard2',
+  Standard3 = 'standard3',
+}
 
 /**
  * Defines values for HostingMode.
@@ -606,15 +621,26 @@ export type SkuName = 'free' | 'basic' | 'standard' | 'standard2' | 'standard3';
  * @readonly
  * @enum {string}
  */
-export type HostingMode = 'default' | 'highDensity';
+export enum HostingMode {
+  Default = 'default',
+  HighDensity = 'highDensity',
+}
 
 /**
  * Defines values for SearchServiceStatus.
- * Possible values include: 'running', 'provisioning', 'deleting', 'degraded', 'disabled', 'error'
+ * Possible values include: 'running', 'provisioning', 'deleting', 'degraded',
+ * 'disabled', 'error'
  * @readonly
  * @enum {string}
  */
-export type SearchServiceStatus = 'running' | 'provisioning' | 'deleting' | 'degraded' | 'disabled' | 'error';
+export enum SearchServiceStatus {
+  Running = 'running',
+  Provisioning = 'provisioning',
+  Deleting = 'deleting',
+  Degraded = 'degraded',
+  Disabled = 'disabled',
+  Error = 'error',
+}
 
 /**
  * Defines values for ProvisioningState.
@@ -622,7 +648,11 @@ export type SearchServiceStatus = 'running' | 'provisioning' | 'deleting' | 'deg
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'succeeded' | 'provisioning' | 'failed';
+export enum ProvisioningState {
+  Succeeded = 'succeeded',
+  Provisioning = 'provisioning',
+  Failed = 'failed',
+}
 
 /**
  * Defines values for AdminKeyKind.
@@ -630,7 +660,10 @@ export type ProvisioningState = 'succeeded' | 'provisioning' | 'failed';
  * @readonly
  * @enum {string}
  */
-export type AdminKeyKind = 'primary' | 'secondary';
+export enum AdminKeyKind {
+  Primary = 'primary',
+  Secondary = 'secondary',
+}
 
 /**
  * Contains response data for the list operation.

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/protectedItemOperationResultsMappers";
 import * as Parameters from "../models/parameters";
@@ -62,7 +62,7 @@ export class ProtectedItemOperationResults {
    * @param callback The callback
    */
   get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectedItemResource>): void;
-  get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectedItemResource>, callback?: msRest.ServiceCallback<Models.ProtectedItemResource>): Promise<Models.ProtectedItemOperationResultsGetResponse> {
+  get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProtectedItemResource>): Promise<Models.ProtectedItemOperationResultsGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,

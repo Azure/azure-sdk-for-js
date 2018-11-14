@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/availabilityStatusesMappers";
 import * as Parameters from "../models/parameters";
@@ -42,7 +42,7 @@ export class AvailabilityStatuses {
    * @param callback The callback
    */
   listBySubscriptionId(options: Models.AvailabilityStatusesListBySubscriptionIdOptionalParams, callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): void;
-  listBySubscriptionId(options?: Models.AvailabilityStatusesListBySubscriptionIdOptionalParams | msRest.ServiceCallback<Models.AvailabilityStatusListResult>, callback?: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): Promise<Models.AvailabilityStatusesListBySubscriptionIdResponse> {
+  listBySubscriptionId(options?: Models.AvailabilityStatusesListBySubscriptionIdOptionalParams, callback?: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): Promise<Models.AvailabilityStatusesListBySubscriptionIdResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -70,7 +70,7 @@ export class AvailabilityStatuses {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: Models.AvailabilityStatusesListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.AvailabilityStatusesListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.AvailabilityStatusListResult>, callback?: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): Promise<Models.AvailabilityStatusesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: Models.AvailabilityStatusesListByResourceGroupOptionalParams, callback?: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): Promise<Models.AvailabilityStatusesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -110,7 +110,7 @@ export class AvailabilityStatuses {
    * @param callback The callback
    */
   getByResource(resourceUri: string, options: Models.AvailabilityStatusesGetByResourceOptionalParams, callback: msRest.ServiceCallback<Models.AvailabilityStatus>): void;
-  getByResource(resourceUri: string, options?: Models.AvailabilityStatusesGetByResourceOptionalParams | msRest.ServiceCallback<Models.AvailabilityStatus>, callback?: msRest.ServiceCallback<Models.AvailabilityStatus>): Promise<Models.AvailabilityStatusesGetByResourceResponse> {
+  getByResource(resourceUri: string, options?: Models.AvailabilityStatusesGetByResourceOptionalParams, callback?: msRest.ServiceCallback<Models.AvailabilityStatus>): Promise<Models.AvailabilityStatusesGetByResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,
@@ -151,7 +151,7 @@ export class AvailabilityStatuses {
    * @param callback The callback
    */
   list(resourceUri: string, options: Models.AvailabilityStatusesListOptionalParams, callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): void;
-  list(resourceUri: string, options?: Models.AvailabilityStatusesListOptionalParams | msRest.ServiceCallback<Models.AvailabilityStatusListResult>, callback?: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): Promise<Models.AvailabilityStatusesListResponse> {
+  list(resourceUri: string, options?: Models.AvailabilityStatusesListOptionalParams, callback?: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): Promise<Models.AvailabilityStatusesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,
@@ -180,7 +180,7 @@ export class AvailabilityStatuses {
    * @param callback The callback
    */
   listBySubscriptionIdNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): void;
-  listBySubscriptionIdNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailabilityStatusListResult>, callback?: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): Promise<Models.AvailabilityStatusesListBySubscriptionIdNextResponse> {
+  listBySubscriptionIdNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): Promise<Models.AvailabilityStatusesListBySubscriptionIdNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -209,7 +209,7 @@ export class AvailabilityStatuses {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailabilityStatusListResult>, callback?: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): Promise<Models.AvailabilityStatusesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): Promise<Models.AvailabilityStatusesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -238,7 +238,7 @@ export class AvailabilityStatuses {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailabilityStatusListResult>, callback?: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): Promise<Models.AvailabilityStatusesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): Promise<Models.AvailabilityStatusesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

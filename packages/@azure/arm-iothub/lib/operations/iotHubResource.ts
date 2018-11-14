@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/iotHubResourceMappers";
 import * as Parameters from "../models/parameters";
@@ -49,7 +49,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotHubDescription>): void;
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotHubDescription>, callback?: msRest.ServiceCallback<Models.IotHubDescription>): Promise<Models.IotHubResourceGetResponse> {
+  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IotHubDescription>): Promise<Models.IotHubResourceGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -118,7 +118,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotHubDescriptionListResult>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotHubDescriptionListResult>, callback?: msRest.ServiceCallback<Models.IotHubDescriptionListResult>): Promise<Models.IotHubResourceListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IotHubDescriptionListResult>): Promise<Models.IotHubResourceListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -146,7 +146,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotHubDescriptionListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotHubDescriptionListResult>, callback?: msRest.ServiceCallback<Models.IotHubDescriptionListResult>): Promise<Models.IotHubResourceListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IotHubDescriptionListResult>): Promise<Models.IotHubResourceListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -178,7 +178,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   getStats(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegistryStatistics>): void;
-  getStats(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegistryStatistics>, callback?: msRest.ServiceCallback<Models.RegistryStatistics>): Promise<Models.IotHubResourceGetStatsResponse> {
+  getStats(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RegistryStatistics>): Promise<Models.IotHubResourceGetStatsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -211,7 +211,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   getValidSkus(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotHubSkuDescriptionListResult>): void;
-  getValidSkus(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotHubSkuDescriptionListResult>, callback?: msRest.ServiceCallback<Models.IotHubSkuDescriptionListResult>): Promise<Models.IotHubResourceGetValidSkusResponse> {
+  getValidSkus(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IotHubSkuDescriptionListResult>): Promise<Models.IotHubResourceGetValidSkusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -249,7 +249,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   listEventHubConsumerGroups(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventHubConsumerGroupsListResult>): void;
-  listEventHubConsumerGroups(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventHubConsumerGroupsListResult>, callback?: msRest.ServiceCallback<Models.EventHubConsumerGroupsListResult>): Promise<Models.IotHubResourceListEventHubConsumerGroupsResponse> {
+  listEventHubConsumerGroups(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventHubConsumerGroupsListResult>): Promise<Models.IotHubResourceListEventHubConsumerGroupsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -290,7 +290,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   getEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventHubConsumerGroupInfo>): void;
-  getEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventHubConsumerGroupInfo>, callback?: msRest.ServiceCallback<Models.EventHubConsumerGroupInfo>): Promise<Models.IotHubResourceGetEventHubConsumerGroupResponse> {
+  getEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventHubConsumerGroupInfo>): Promise<Models.IotHubResourceGetEventHubConsumerGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -331,7 +331,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   createEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventHubConsumerGroupInfo>): void;
-  createEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventHubConsumerGroupInfo>, callback?: msRest.ServiceCallback<Models.EventHubConsumerGroupInfo>): Promise<Models.IotHubResourceCreateEventHubConsumerGroupResponse> {
+  createEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventHubConsumerGroupInfo>): Promise<Models.IotHubResourceCreateEventHubConsumerGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -372,7 +372,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   deleteEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -409,7 +409,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   listJobs(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobResponseListResult>): void;
-  listJobs(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobResponseListResult>, callback?: msRest.ServiceCallback<Models.JobResponseListResult>): Promise<Models.IotHubResourceListJobsResponse> {
+  listJobs(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JobResponseListResult>): Promise<Models.IotHubResourceListJobsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -447,7 +447,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   getJob(resourceGroupName: string, resourceName: string, jobId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobResponse>): void;
-  getJob(resourceGroupName: string, resourceName: string, jobId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobResponse>, callback?: msRest.ServiceCallback<Models.JobResponse>): Promise<Models.IotHubResourceGetJobResponse> {
+  getJob(resourceGroupName: string, resourceName: string, jobId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JobResponse>): Promise<Models.IotHubResourceGetJobResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -481,7 +481,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   getQuotaMetrics(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotHubQuotaMetricInfoListResult>): void;
-  getQuotaMetrics(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotHubQuotaMetricInfoListResult>, callback?: msRest.ServiceCallback<Models.IotHubQuotaMetricInfoListResult>): Promise<Models.IotHubResourceGetQuotaMetricsResponse> {
+  getQuotaMetrics(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IotHubQuotaMetricInfoListResult>): Promise<Models.IotHubResourceGetQuotaMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -514,7 +514,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   getEndpointHealth(resourceGroupName: string, iotHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EndpointHealthDataListResult>): void;
-  getEndpointHealth(resourceGroupName: string, iotHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EndpointHealthDataListResult>, callback?: msRest.ServiceCallback<Models.EndpointHealthDataListResult>): Promise<Models.IotHubResourceGetEndpointHealthResponse> {
+  getEndpointHealth(resourceGroupName: string, iotHubName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EndpointHealthDataListResult>): Promise<Models.IotHubResourceGetEndpointHealthResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -544,7 +544,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   checkNameAvailability(name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotHubNameAvailabilityInfo>): void;
-  checkNameAvailability(name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotHubNameAvailabilityInfo>, callback?: msRest.ServiceCallback<Models.IotHubNameAvailabilityInfo>): Promise<Models.IotHubResourceCheckNameAvailabilityResponse> {
+  checkNameAvailability(name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IotHubNameAvailabilityInfo>): Promise<Models.IotHubResourceCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         name,
@@ -579,7 +579,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   testAllRoutes(input: Models.TestAllRoutesInput, iotHubName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TestAllRoutesResult>): void;
-  testAllRoutes(input: Models.TestAllRoutesInput, iotHubName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TestAllRoutesResult>, callback?: msRest.ServiceCallback<Models.TestAllRoutesResult>): Promise<Models.IotHubResourceTestAllRoutesResponse> {
+  testAllRoutes(input: Models.TestAllRoutesInput, iotHubName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TestAllRoutesResult>): Promise<Models.IotHubResourceTestAllRoutesResponse> {
     return this.client.sendOperationRequest(
       {
         input,
@@ -616,7 +616,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   testRoute(input: Models.TestRouteInput, iotHubName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TestRouteResult>): void;
-  testRoute(input: Models.TestRouteInput, iotHubName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TestRouteResult>, callback?: msRest.ServiceCallback<Models.TestRouteResult>): Promise<Models.IotHubResourceTestRouteResponse> {
+  testRoute(input: Models.TestRouteInput, iotHubName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TestRouteResult>): Promise<Models.IotHubResourceTestRouteResponse> {
     return this.client.sendOperationRequest(
       {
         input,
@@ -652,7 +652,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   listKeys(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>): void;
-  listKeys(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>): Promise<Models.IotHubResourceListKeysResponse> {
+  listKeys(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>): Promise<Models.IotHubResourceListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -690,7 +690,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   getKeysForKeyName(resourceGroupName: string, resourceName: string, keyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRule>): void;
-  getKeysForKeyName(resourceGroupName: string, resourceName: string, keyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRule>, callback?: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRule>): Promise<Models.IotHubResourceGetKeysForKeyNameResponse> {
+  getKeysForKeyName(resourceGroupName: string, resourceName: string, keyName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRule>): Promise<Models.IotHubResourceGetKeysForKeyNameResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -731,7 +731,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   exportDevices(resourceGroupName: string, resourceName: string, exportDevicesParameters: Models.ExportDevicesRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobResponse>): void;
-  exportDevices(resourceGroupName: string, resourceName: string, exportDevicesParameters: Models.ExportDevicesRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobResponse>, callback?: msRest.ServiceCallback<Models.JobResponse>): Promise<Models.IotHubResourceExportDevicesResponse> {
+  exportDevices(resourceGroupName: string, resourceName: string, exportDevicesParameters: Models.ExportDevicesRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JobResponse>): Promise<Models.IotHubResourceExportDevicesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -772,7 +772,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   importDevices(resourceGroupName: string, resourceName: string, importDevicesParameters: Models.ImportDevicesRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobResponse>): void;
-  importDevices(resourceGroupName: string, resourceName: string, importDevicesParameters: Models.ImportDevicesRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobResponse>, callback?: msRest.ServiceCallback<Models.JobResponse>): Promise<Models.IotHubResourceImportDevicesResponse> {
+  importDevices(resourceGroupName: string, resourceName: string, importDevicesParameters: Models.ImportDevicesRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JobResponse>): Promise<Models.IotHubResourceImportDevicesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -864,7 +864,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotHubDescriptionListResult>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotHubDescriptionListResult>, callback?: msRest.ServiceCallback<Models.IotHubDescriptionListResult>): Promise<Models.IotHubResourceListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IotHubDescriptionListResult>): Promise<Models.IotHubResourceListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -893,7 +893,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotHubDescriptionListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotHubDescriptionListResult>, callback?: msRest.ServiceCallback<Models.IotHubDescriptionListResult>): Promise<Models.IotHubResourceListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IotHubDescriptionListResult>): Promise<Models.IotHubResourceListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -922,7 +922,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   getValidSkusNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotHubSkuDescriptionListResult>): void;
-  getValidSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotHubSkuDescriptionListResult>, callback?: msRest.ServiceCallback<Models.IotHubSkuDescriptionListResult>): Promise<Models.IotHubResourceGetValidSkusNextResponse> {
+  getValidSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IotHubSkuDescriptionListResult>): Promise<Models.IotHubResourceGetValidSkusNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -953,7 +953,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   listEventHubConsumerGroupsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventHubConsumerGroupsListResult>): void;
-  listEventHubConsumerGroupsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventHubConsumerGroupsListResult>, callback?: msRest.ServiceCallback<Models.EventHubConsumerGroupsListResult>): Promise<Models.IotHubResourceListEventHubConsumerGroupsNextResponse> {
+  listEventHubConsumerGroupsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventHubConsumerGroupsListResult>): Promise<Models.IotHubResourceListEventHubConsumerGroupsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -984,7 +984,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   listJobsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobResponseListResult>): void;
-  listJobsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobResponseListResult>, callback?: msRest.ServiceCallback<Models.JobResponseListResult>): Promise<Models.IotHubResourceListJobsNextResponse> {
+  listJobsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JobResponseListResult>): Promise<Models.IotHubResourceListJobsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1013,7 +1013,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   getQuotaMetricsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotHubQuotaMetricInfoListResult>): void;
-  getQuotaMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotHubQuotaMetricInfoListResult>, callback?: msRest.ServiceCallback<Models.IotHubQuotaMetricInfoListResult>): Promise<Models.IotHubResourceGetQuotaMetricsNextResponse> {
+  getQuotaMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IotHubQuotaMetricInfoListResult>): Promise<Models.IotHubResourceGetQuotaMetricsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1042,7 +1042,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   getEndpointHealthNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EndpointHealthDataListResult>): void;
-  getEndpointHealthNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EndpointHealthDataListResult>, callback?: msRest.ServiceCallback<Models.EndpointHealthDataListResult>): Promise<Models.IotHubResourceGetEndpointHealthNextResponse> {
+  getEndpointHealthNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EndpointHealthDataListResult>): Promise<Models.IotHubResourceGetEndpointHealthNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1073,7 +1073,7 @@ export class IotHubResource {
    * @param callback The callback
    */
   listKeysNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>): void;
-  listKeysNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>): Promise<Models.IotHubResourceListKeysNextResponse> {
+  listKeysNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>): Promise<Models.IotHubResourceListKeysNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

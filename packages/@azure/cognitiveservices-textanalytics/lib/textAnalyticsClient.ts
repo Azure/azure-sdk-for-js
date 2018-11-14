@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
@@ -51,7 +51,7 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
    * @param callback The callback
    */
   keyPhrases(input: Models.MultiLanguageBatchInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KeyPhraseBatchResult>): void;
-  keyPhrases(input: Models.MultiLanguageBatchInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyPhraseBatchResult>, callback?: msRest.ServiceCallback<Models.KeyPhraseBatchResult>): Promise<Models.KeyPhrasesResponse> {
+  keyPhrases(input: Models.MultiLanguageBatchInput, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.KeyPhraseBatchResult>): Promise<Models.KeyPhrasesResponse> {
     return this.sendOperationRequest(
       {
         input,
@@ -81,7 +81,7 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
    * @param callback The callback
    */
   detectLanguage(input: Models.BatchInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LanguageBatchResult>): void;
-  detectLanguage(input: Models.BatchInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LanguageBatchResult>, callback?: msRest.ServiceCallback<Models.LanguageBatchResult>): Promise<Models.DetectLanguageResponse> {
+  detectLanguage(input: Models.BatchInput, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LanguageBatchResult>): Promise<Models.DetectLanguageResponse> {
     return this.sendOperationRequest(
       {
         input,
@@ -114,7 +114,7 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
    * @param callback The callback
    */
   sentiment(input: Models.MultiLanguageBatchInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SentimentBatchResult>): void;
-  sentiment(input: Models.MultiLanguageBatchInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SentimentBatchResult>, callback?: msRest.ServiceCallback<Models.SentimentBatchResult>): Promise<Models.SentimentResponse> {
+  sentiment(input: Models.MultiLanguageBatchInput, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SentimentBatchResult>): Promise<Models.SentimentResponse> {
     return this.sendOperationRequest(
       {
         input,
@@ -146,7 +146,7 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
    * @param callback The callback
    */
   entities(input: Models.MultiLanguageBatchInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntitiesBatchResult>): void;
-  entities(input: Models.MultiLanguageBatchInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntitiesBatchResult>, callback?: msRest.ServiceCallback<Models.EntitiesBatchResult>): Promise<Models.EntitiesResponse> {
+  entities(input: Models.MultiLanguageBatchInput, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntitiesBatchResult>): Promise<Models.EntitiesResponse> {
     return this.sendOperationRequest(
       {
         input,

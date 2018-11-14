@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/entitiesMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class Entities {
    * @param callback The callback
    */
   list(options: Models.EntitiesListOptionalParams, callback: msRest.ServiceCallback<Models.EntityListResult>): void;
-  list(options?: Models.EntitiesListOptionalParams | msRest.ServiceCallback<Models.EntityListResult>, callback?: msRest.ServiceCallback<Models.EntityListResult>): Promise<Models.EntitiesListResponse> {
+  list(options?: Models.EntitiesListOptionalParams, callback?: msRest.ServiceCallback<Models.EntityListResult>): Promise<Models.EntitiesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -68,7 +68,7 @@ export class Entities {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: Models.EntitiesListNextOptionalParams, callback: msRest.ServiceCallback<Models.EntityListResult>): void;
-  listNext(nextPageLink: string, options?: Models.EntitiesListNextOptionalParams | msRest.ServiceCallback<Models.EntityListResult>, callback?: msRest.ServiceCallback<Models.EntityListResult>): Promise<Models.EntitiesListNextResponse> {
+  listNext(nextPageLink: string, options?: Models.EntitiesListNextOptionalParams, callback?: msRest.ServiceCallback<Models.EntityListResult>): Promise<Models.EntitiesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

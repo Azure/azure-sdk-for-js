@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -14354,7 +14354,16 @@ export interface ComputeNodeListResult extends Array<ComputeNode> {
  * @readonly
  * @enum {string}
  */
-export type OSType = 'linux' | 'windows';
+export enum OSType {
+  /**
+   * The Linux operating system.
+   */
+  Linux = 'linux',
+  /**
+   * The Windows operating system.
+   */
+  Windows = 'windows',
+}
 
 /**
  * Defines values for AccessScope.
@@ -14362,7 +14371,12 @@ export type OSType = 'linux' | 'windows';
  * @readonly
  * @enum {string}
  */
-export type AccessScope = 'job';
+export enum AccessScope {
+  /**
+   * Grants access to perform all operations on the job containing the task.
+   */
+  Job = 'job',
+}
 
 /**
  * Defines values for CertificateState.
@@ -14370,7 +14384,28 @@ export type AccessScope = 'job';
  * @readonly
  * @enum {string}
  */
-export type CertificateState = 'active' | 'deleting' | 'deletefailed';
+export enum CertificateState {
+  /**
+   * The certificate is available for use in pools.
+   */
+  Active = 'active',
+  /**
+   * The user has requested that the certificate be deleted, but the delete
+   * operation has not yet completed. You may not reference the certificate
+   * when creating or updating pools.
+   */
+  Deleting = 'deleting',
+  /**
+   * The user requested that the certificate be deleted, but there are pools
+   * that still have references to the certificate, or it is still installed on
+   * one or more compute nodes. (The latter can occur if the certificate has
+   * been removed from the pool, but the node has not yet restarted. Nodes
+   * refresh their certificates only when they restart.) You may use the cancel
+   * certificate delete operation to cancel the delete, or the delete
+   * certificate operation to retry the delete.
+   */
+  DeleteFailed = 'deletefailed',
+}
 
 /**
  * Defines values for CertificateFormat.
@@ -14378,7 +14413,17 @@ export type CertificateState = 'active' | 'deleting' | 'deletefailed';
  * @readonly
  * @enum {string}
  */
-export type CertificateFormat = 'pfx' | 'cer';
+export enum CertificateFormat {
+  /**
+   * The certificate is a PFX (PKCS#12) formatted certificate or certificate
+   * chain.
+   */
+  Pfx = 'pfx',
+  /**
+   * The certificate is a base64-encoded X.509 certificate.
+   */
+  Cer = 'cer',
+}
 
 /**
  * Defines values for JobAction.
@@ -14386,7 +14431,22 @@ export type CertificateFormat = 'pfx' | 'cer';
  * @readonly
  * @enum {string}
  */
-export type JobAction = 'none' | 'disable' | 'terminate';
+export enum JobAction {
+  /**
+   * Take no action.
+   */
+  None = 'none',
+  /**
+   * Disable the job. This is equivalent to calling the disable job API, with a
+   * disableTasks value of requeue.
+   */
+  Disable = 'disable',
+  /**
+   * Terminate the job. The terminateReason in the job's executionInfo is set
+   * to "TaskFailed".
+   */
+  Terminate = 'terminate',
+}
 
 /**
  * Defines values for DependencyAction.
@@ -14394,7 +14454,16 @@ export type JobAction = 'none' | 'disable' | 'terminate';
  * @readonly
  * @enum {string}
  */
-export type DependencyAction = 'satisfy' | 'block';
+export enum DependencyAction {
+  /**
+   * Satisfy the task's dependencies.
+   */
+  Satisfy = 'satisfy',
+  /**
+   * Block the task's dependencies.
+   */
+  Block = 'block',
+}
 
 /**
  * Defines values for AutoUserScope.
@@ -14402,7 +14471,17 @@ export type DependencyAction = 'satisfy' | 'block';
  * @readonly
  * @enum {string}
  */
-export type AutoUserScope = 'task' | 'pool';
+export enum AutoUserScope {
+  /**
+   * Specifies that the service should create a new user for the task.
+   */
+  Task = 'task',
+  /**
+   * Specifies that the task runs as the common auto user account which is
+   * created on every node in a pool.
+   */
+  Pool = 'pool',
+}
 
 /**
  * Defines values for ElevationLevel.
@@ -14410,7 +14489,17 @@ export type AutoUserScope = 'task' | 'pool';
  * @readonly
  * @enum {string}
  */
-export type ElevationLevel = 'nonadmin' | 'admin';
+export enum ElevationLevel {
+  /**
+   * The user is a standard user without elevated access.
+   */
+  NonAdmin = 'nonadmin',
+  /**
+   * The user is a user with elevated access and operates with full
+   * Administrator permissions.
+   */
+  Admin = 'admin',
+}
 
 /**
  * Defines values for OutputFileUploadCondition.
@@ -14418,7 +14507,23 @@ export type ElevationLevel = 'nonadmin' | 'admin';
  * @readonly
  * @enum {string}
  */
-export type OutputFileUploadCondition = 'tasksuccess' | 'taskfailure' | 'taskcompletion';
+export enum OutputFileUploadCondition {
+  /**
+   * Upload the file(s) only after the task process exits with an exit code of
+   * 0.
+   */
+  TaskSuccess = 'tasksuccess',
+  /**
+   * Upload the file(s) only after the task process exits with a nonzero exit
+   * code.
+   */
+  TaskFailure = 'taskfailure',
+  /**
+   * Upload the file(s) after the task process exits, no matter what the exit
+   * code was.
+   */
+  TaskCompletion = 'taskcompletion',
+}
 
 /**
  * Defines values for ComputeNodeFillType.
@@ -14426,7 +14531,18 @@ export type OutputFileUploadCondition = 'tasksuccess' | 'taskfailure' | 'taskcom
  * @readonly
  * @enum {string}
  */
-export type ComputeNodeFillType = 'spread' | 'pack';
+export enum ComputeNodeFillType {
+  /**
+   * Tasks should be assigned evenly across all nodes in the pool.
+   */
+  Spread = 'spread',
+  /**
+   * As many tasks as possible (maxTasksPerNode) should be assigned to each
+   * node in the pool before any tasks are assigned to the next node in the
+   * pool.
+   */
+  Pack = 'pack',
+}
 
 /**
  * Defines values for CertificateStoreLocation.
@@ -14434,7 +14550,16 @@ export type ComputeNodeFillType = 'spread' | 'pack';
  * @readonly
  * @enum {string}
  */
-export type CertificateStoreLocation = 'currentuser' | 'localmachine';
+export enum CertificateStoreLocation {
+  /**
+   * Certificates should be installed to the CurrentUser certificate store.
+   */
+  CurrentUser = 'currentuser',
+  /**
+   * Certificates should be installed to the LocalMachine certificate store.
+   */
+  LocalMachine = 'localmachine',
+}
 
 /**
  * Defines values for CertificateVisibility.
@@ -14442,7 +14567,23 @@ export type CertificateStoreLocation = 'currentuser' | 'localmachine';
  * @readonly
  * @enum {string}
  */
-export type CertificateVisibility = 'starttask' | 'task' | 'remoteuser';
+export enum CertificateVisibility {
+  /**
+   * The certificate should be visible to the user account under which the
+   * start task is run.
+   */
+  StartTask = 'starttask',
+  /**
+   * The certificate should be visibile to the user accounts under which job
+   * tasks are run.
+   */
+  Task = 'task',
+  /**
+   * The certificate should be visibile to the user accounts under which users
+   * remotely access the node.
+   */
+  RemoteUser = 'remoteuser',
+}
 
 /**
  * Defines values for CachingType.
@@ -14450,7 +14591,20 @@ export type CertificateVisibility = 'starttask' | 'task' | 'remoteuser';
  * @readonly
  * @enum {string}
  */
-export type CachingType = 'none' | 'readonly' | 'readwrite';
+export enum CachingType {
+  /**
+   * The caching mode for the disk is not enabled.
+   */
+  None = 'none',
+  /**
+   * The caching mode for the disk is read only.
+   */
+  ReadOnly = 'readonly',
+  /**
+   * The caching mode for the disk is read and write.
+   */
+  ReadWrite = 'readwrite',
+}
 
 /**
  * Defines values for StorageAccountType.
@@ -14458,7 +14612,16 @@ export type CachingType = 'none' | 'readonly' | 'readwrite';
  * @readonly
  * @enum {string}
  */
-export type StorageAccountType = 'standard_lrs' | 'premium_lrs';
+export enum StorageAccountType {
+  /**
+   * The data disk should use standard locally redundant storage.
+   */
+  StandardLRS = 'standard_lrs',
+  /**
+   * The data disk should use premium locally redundant storage.
+   */
+  PremiumLRS = 'premium_lrs',
+}
 
 /**
  * Defines values for InboundEndpointProtocol.
@@ -14466,7 +14629,16 @@ export type StorageAccountType = 'standard_lrs' | 'premium_lrs';
  * @readonly
  * @enum {string}
  */
-export type InboundEndpointProtocol = 'tcp' | 'udp';
+export enum InboundEndpointProtocol {
+  /**
+   * Use TCP for the endpoint.
+   */
+  Tcp = 'tcp',
+  /**
+   * Use UDP for the endpoint.
+   */
+  Udp = 'udp',
+}
 
 /**
  * Defines values for NetworkSecurityGroupRuleAccess.
@@ -14474,7 +14646,16 @@ export type InboundEndpointProtocol = 'tcp' | 'udp';
  * @readonly
  * @enum {string}
  */
-export type NetworkSecurityGroupRuleAccess = 'allow' | 'deny';
+export enum NetworkSecurityGroupRuleAccess {
+  /**
+   * Allow access.
+   */
+  Allow = 'allow',
+  /**
+   * Deny access.
+   */
+  Deny = 'deny',
+}
 
 /**
  * Defines values for PoolLifetimeOption.
@@ -14482,7 +14663,21 @@ export type NetworkSecurityGroupRuleAccess = 'allow' | 'deny';
  * @readonly
  * @enum {string}
  */
-export type PoolLifetimeOption = 'jobschedule' | 'job';
+export enum PoolLifetimeOption {
+  /**
+   * The pool exists for the lifetime of the job schedule. The Batch Service
+   * creates the pool when it creates the first job on the schedule. You may
+   * apply this option only to job schedules, not to jobs.
+   */
+  JobSchedule = 'jobschedule',
+  /**
+   * The pool exists for the lifetime of the job to which it is dedicated. The
+   * Batch service creates the pool when it creates the job. If the 'job'
+   * option is applied to a job schedule, the Batch service creates a new auto
+   * pool for every job created on the schedule.
+   */
+  Job = 'job',
+}
 
 /**
  * Defines values for OnAllTasksComplete.
@@ -14490,7 +14685,17 @@ export type PoolLifetimeOption = 'jobschedule' | 'job';
  * @readonly
  * @enum {string}
  */
-export type OnAllTasksComplete = 'noaction' | 'terminatejob';
+export enum OnAllTasksComplete {
+  /**
+   * Do nothing. The job remains active unless terminated or disabled by some
+   * other means.
+   */
+  NoAction = 'noaction',
+  /**
+   * Terminate the job. The job's terminateReason is set to 'AllTasksComplete'.
+   */
+  TerminateJob = 'terminatejob',
+}
 
 /**
  * Defines values for OnTaskFailure.
@@ -14498,15 +14703,59 @@ export type OnAllTasksComplete = 'noaction' | 'terminatejob';
  * @readonly
  * @enum {string}
  */
-export type OnTaskFailure = 'noaction' | 'performexitoptionsjobaction';
+export enum OnTaskFailure {
+  /**
+   * Do nothing. The job remains active unless terminated or disabled by some
+   * other means.
+   */
+  NoAction = 'noaction',
+  /**
+   * Take the action associated with the task exit condition in the task's
+   * exitConditions collection. (This may still result in no action being
+   * taken, if that is what the task specifies.)
+   */
+  PerformExitOptionsJobAction = 'performexitoptionsjobaction',
+}
 
 /**
  * Defines values for JobScheduleState.
- * Possible values include: 'active', 'completed', 'disabled', 'terminating', 'deleting'
+ * Possible values include: 'active', 'completed', 'disabled', 'terminating',
+ * 'deleting'
  * @readonly
  * @enum {string}
  */
-export type JobScheduleState = 'active' | 'completed' | 'disabled' | 'terminating' | 'deleting';
+export enum JobScheduleState {
+  /**
+   * The job schedule is active and will create jobs as per its schedule.
+   */
+  Active = 'active',
+  /**
+   * The schedule has terminated, either by reaching its end time or by the
+   * user terminating it explicitly.
+   */
+  Completed = 'completed',
+  /**
+   * The user has disabled the schedule. The scheduler will not initiate any
+   * new jobs will on this schedule, but any existing active job will continue
+   * to run.
+   */
+  Disabled = 'disabled',
+  /**
+   * The schedule has no more work to do, or has been explicitly terminated by
+   * the user, but the termination operation is still in progress. The
+   * scheduler will not initiate any new jobs for this schedule, nor is any
+   * existing job active.
+   */
+  Terminating = 'terminating',
+  /**
+   * The user has requested that the schedule be deleted, but the delete
+   * operation is still in progress. The scheduler will not initiate any new
+   * jobs for this schedule, and will delete any existing jobs and tasks under
+   * the schedule, including any active job. The schedule will be deleted when
+   * all jobs and tasks under the schedule have been deleted.
+   */
+  Deleting = 'deleting',
+}
 
 /**
  * Defines values for ErrorCategory.
@@ -14514,16 +14763,63 @@ export type JobScheduleState = 'active' | 'completed' | 'disabled' | 'terminatin
  * @readonly
  * @enum {string}
  */
-export type ErrorCategory = 'usererror' | 'servererror';
+export enum ErrorCategory {
+  /**
+   * The error is due to a user issue, such as misconfiguration.
+   */
+  UserError = 'usererror',
+  /**
+   * The error is due to an internal server issue.
+   */
+  ServerError = 'servererror',
+}
 
 /**
  * Defines values for JobState.
- * Possible values include: 'active', 'disabling', 'disabled', 'enabling', 'terminating',
- * 'completed', 'deleting'
+ * Possible values include: 'active', 'disabling', 'disabled', 'enabling',
+ * 'terminating', 'completed', 'deleting'
  * @readonly
  * @enum {string}
  */
-export type JobState = 'active' | 'disabling' | 'disabled' | 'enabling' | 'terminating' | 'completed' | 'deleting';
+export enum JobState {
+  /**
+   * The job is available to have tasks scheduled.
+   */
+  Active = 'active',
+  /**
+   * A user has requested that the job be disabled, but the disable operation
+   * is still in progress (for example, waiting for tasks to terminate).
+   */
+  Disabling = 'disabling',
+  /**
+   * A user has disabled the job. No tasks are running, and no new tasks will
+   * be scheduled.
+   */
+  Disabled = 'disabled',
+  /**
+   * A user has requested that the job be enabled, but the enable operation is
+   * still in progress.
+   */
+  Enabling = 'enabling',
+  /**
+   * The job is about to complete, either because a Job Manager task has
+   * completed or because the user has terminated the job, but the terminate
+   * operation is still in progress (for example, because Job Release tasks are
+   * running).
+   */
+  Terminating = 'terminating',
+  /**
+   * All tasks have terminated, and the system will not accept any more tasks
+   * or any further changes to the job.
+   */
+  Completed = 'completed',
+  /**
+   * A user has requested that the job be deleted, but the delete operation is
+   * still in progress (for example, because the system is still terminating
+   * running tasks).
+   */
+  Deleting = 'deleting',
+}
 
 /**
  * Defines values for JobPreparationTaskState.
@@ -14531,7 +14827,18 @@ export type JobState = 'active' | 'disabling' | 'disabled' | 'enabling' | 'termi
  * @readonly
  * @enum {string}
  */
-export type JobPreparationTaskState = 'running' | 'completed';
+export enum JobPreparationTaskState {
+  /**
+   * The task is currently running (including retrying).
+   */
+  Running = 'running',
+  /**
+   * The task has exited with exit code 0, or the task has exhausted its retry
+   * limit, or the Batch service was unable to start the task due to task
+   * preparation errors (such as resource file download failures).
+   */
+  Completed = 'completed',
+}
 
 /**
  * Defines values for TaskExecutionResult.
@@ -14539,7 +14846,18 @@ export type JobPreparationTaskState = 'running' | 'completed';
  * @readonly
  * @enum {string}
  */
-export type TaskExecutionResult = 'success' | 'failure';
+export enum TaskExecutionResult {
+  /**
+   * The task ran successfully.
+   */
+  Success = 'success',
+  /**
+   * There was an error during processing of the task. The failure may have
+   * occurred before the task process was launched, while the task process was
+   * executing, or after the task process exited.
+   */
+  Failure = 'failure',
+}
 
 /**
  * Defines values for JobReleaseTaskState.
@@ -14547,7 +14865,18 @@ export type TaskExecutionResult = 'success' | 'failure';
  * @readonly
  * @enum {string}
  */
-export type JobReleaseTaskState = 'running' | 'completed';
+export enum JobReleaseTaskState {
+  /**
+   * The task is currently running (including retrying).
+   */
+  Running = 'running',
+  /**
+   * The task has exited with exit code 0, or the task has exhausted its retry
+   * limit, or the Batch service was unable to start the task due to task
+   * preparation errors (such as resource file download failures).
+   */
+  Completed = 'completed',
+}
 
 /**
  * Defines values for PoolState.
@@ -14555,7 +14884,26 @@ export type JobReleaseTaskState = 'running' | 'completed';
  * @readonly
  * @enum {string}
  */
-export type PoolState = 'active' | 'deleting' | 'upgrading';
+export enum PoolState {
+  /**
+   * The pool is available to run tasks subject to the availability of compute
+   * nodes.
+   */
+  Active = 'active',
+  /**
+   * The user has requested that the pool be deleted, but the delete operation
+   * has not yet completed.
+   */
+  Deleting = 'deleting',
+  /**
+   * The user has requested that the operating system of the pool's nodes be
+   * upgraded, but the upgrade operation has not yet completed (that is, some
+   * nodes in the pool have not yet been upgraded). While upgrading, the pool
+   * may be able to run tasks (with reduced capacity) but this is not
+   * guaranteed.
+   */
+  Upgrading = 'upgrading',
+}
 
 /**
  * Defines values for AllocationState.
@@ -14563,7 +14911,25 @@ export type PoolState = 'active' | 'deleting' | 'upgrading';
  * @readonly
  * @enum {string}
  */
-export type AllocationState = 'steady' | 'resizing' | 'stopping';
+export enum AllocationState {
+  /**
+   * The pool is not resizing. There are no changes to the number of nodes in
+   * the pool in progress. A pool enters this state when it is created and when
+   * no operations are being performed on the pool to change the number of
+   * nodes.
+   */
+  Steady = 'steady',
+  /**
+   * The pool is resizing; that is, compute nodes are being added to or removed
+   * from the pool.
+   */
+  Resizing = 'resizing',
+  /**
+   * The pool was resizing, but the user has requested that the resize be
+   * stopped, but the stop request has not yet been completed.
+   */
+  Stopping = 'stopping',
+}
 
 /**
  * Defines values for TaskState.
@@ -14571,7 +14937,37 @@ export type AllocationState = 'steady' | 'resizing' | 'stopping';
  * @readonly
  * @enum {string}
  */
-export type TaskState = 'active' | 'preparing' | 'running' | 'completed';
+export enum TaskState {
+  /**
+   * The task is queued and able to run, but is not currently assigned to a
+   * compute node. A task enters this state when it is created, when it is
+   * enabled after being disabled, or when it is awaiting a retry after a
+   * failed run.
+   */
+  Active = 'active',
+  /**
+   * The task has been assigned to a compute node, but is waiting for a
+   * required Job Preparation task to complete on the node. If the Job
+   * Preparation task succeeds, the task will move to running. If the Job
+   * Preparation task fails, the task will return to active and will be
+   * eligible to be assigned to a different node.
+   */
+  Preparing = 'preparing',
+  /**
+   * The task is running on a compute node. This includes task-level
+   * preparation such as downloading resource files or deploying application
+   * packages specified on the task - it does not necessarily mean that the
+   * task command line has started executing.
+   */
+  Running = 'running',
+  /**
+   * The task is no longer eligible to run, usually because the task has
+   * finished successfully, or the task has finished unsuccessfully and has
+   * exhausted its retry limit. A task is also marked as completed if an error
+   * occurred launching the task, or when the task has been terminated.
+   */
+  Completed = 'completed',
+}
 
 /**
  * Defines values for TaskAddStatus.
@@ -14579,7 +14975,22 @@ export type TaskState = 'active' | 'preparing' | 'running' | 'completed';
  * @readonly
  * @enum {string}
  */
-export type TaskAddStatus = 'success' | 'clienterror' | 'servererror';
+export enum TaskAddStatus {
+  /**
+   * The task was added successfully.
+   */
+  Success = 'success',
+  /**
+   * The task failed to add due to a client error and should not be retried
+   * without modifying the request as appropriate.
+   */
+  ClientError = 'clienterror',
+  /**
+   * Task failed to add due to a server error and can be retried without
+   * modification.
+   */
+  ServerError = 'servererror',
+}
 
 /**
  * Defines values for SubtaskState.
@@ -14587,7 +14998,30 @@ export type TaskAddStatus = 'success' | 'clienterror' | 'servererror';
  * @readonly
  * @enum {string}
  */
-export type SubtaskState = 'preparing' | 'running' | 'completed';
+export enum SubtaskState {
+  /**
+   * The task has been assigned to a compute node, but is waiting for a
+   * required Job Preparation task to complete on the node. If the Job
+   * Preparation task succeeds, the task will move to running. If the Job
+   * Preparation task fails, the task will return to active and will be
+   * eligible to be assigned to a different node.
+   */
+  Preparing = 'preparing',
+  /**
+   * The task is running on a compute node. This includes task-level
+   * preparation such as downloading resource files or deploying application
+   * packages specified on the task - it does not necessarily mean that the
+   * task command line has started executing.
+   */
+  Running = 'running',
+  /**
+   * The task is no longer eligible to run, usually because the task has
+   * finished successfully, or the task has finished unsuccessfully and has
+   * exhausted its retry limit. A task is also marked as completed if an error
+   * occurred launching the task, or when the task has been terminated.
+   */
+  Completed = 'completed',
+}
 
 /**
  * Defines values for StartTaskState.
@@ -14595,17 +15029,89 @@ export type SubtaskState = 'preparing' | 'running' | 'completed';
  * @readonly
  * @enum {string}
  */
-export type StartTaskState = 'running' | 'completed';
+export enum StartTaskState {
+  /**
+   * The start task is currently running.
+   */
+  Running = 'running',
+  /**
+   * The start task has exited with exit code 0, or the start task has failed
+   * and the retry limit has reached, or the start task process did not run due
+   * to task preparation errors (such as resource file download failures).
+   */
+  Completed = 'completed',
+}
 
 /**
  * Defines values for ComputeNodeState.
- * Possible values include: 'idle', 'rebooting', 'reimaging', 'running', 'unusable', 'creating',
- * 'starting', 'waitingForStartTask', 'startTaskFailed', 'unknown', 'leavingPool', 'offline',
- * 'preempted'
+ * Possible values include: 'idle', 'rebooting', 'reimaging', 'running',
+ * 'unusable', 'creating', 'starting', 'waitingForStartTask',
+ * 'startTaskFailed', 'unknown', 'leavingPool', 'offline', 'preempted'
  * @readonly
  * @enum {string}
  */
-export type ComputeNodeState = 'idle' | 'rebooting' | 'reimaging' | 'running' | 'unusable' | 'creating' | 'starting' | 'waitingforstarttask' | 'starttaskfailed' | 'unknown' | 'leavingpool' | 'offline' | 'preempted';
+export enum ComputeNodeState {
+  /**
+   * The node is not currently running a task.
+   */
+  Idle = 'idle',
+  /**
+   * The node is rebooting.
+   */
+  Rebooting = 'rebooting',
+  /**
+   * The node is reimaging.
+   */
+  Reimaging = 'reimaging',
+  /**
+   * The node is running one or more tasks (other than a start task).
+   */
+  Running = 'running',
+  /**
+   * The node cannot be used for task execution due to errors.
+   */
+  Unusable = 'unusable',
+  /**
+   * The Batch service has obtained the underlying virtual machine from Azure
+   * Compute, but it has not yet started to join the pool.
+   */
+  Creating = 'creating',
+  /**
+   * The Batch service is starting on the underlying virtual machine.
+   */
+  Starting = 'starting',
+  /**
+   * The start task has started running on the compute node, but waitForSuccess
+   * is set and the start task has not yet completed.
+   */
+  WaitingForStartTask = 'waitingforstarttask',
+  /**
+   * The start task has failed on the compute node (and exhausted all retries),
+   * and waitForSuccess is set. The node is not usable for running tasks.
+   */
+  StartTaskFailed = 'starttaskfailed',
+  /**
+   * The Batch service has lost contact with the node, and does not know its
+   * true state.
+   */
+  Unknown = 'unknown',
+  /**
+   * The node is leaving the pool, either because the user explicitly removed
+   * it or because the pool is resizing or autoscaling down.
+   */
+  LeavingPool = 'leavingpool',
+  /**
+   * The node is not currently running a task, and scheduling of new tasks to
+   * the node is disabled.
+   */
+  Offline = 'offline',
+  /**
+   * The low-priority node has been preempted. Tasks which were running on the
+   * node when it was pre-empted will be rescheduled when another node becomes
+   * available.
+   */
+  Preempted = 'preempted',
+}
 
 /**
  * Defines values for SchedulingState.
@@ -14613,7 +15119,17 @@ export type ComputeNodeState = 'idle' | 'rebooting' | 'reimaging' | 'running' | 
  * @readonly
  * @enum {string}
  */
-export type SchedulingState = 'enabled' | 'disabled';
+export enum SchedulingState {
+  /**
+   * Tasks can be scheduled on the node.
+   */
+  Enabled = 'enabled',
+  /**
+   * No new tasks will be scheduled on the node. Tasks already running on the
+   * node may still run to completion. All nodes start with scheduling enabled.
+   */
+  Disabled = 'disabled',
+}
 
 /**
  * Defines values for DisableJobOption.
@@ -14621,31 +15137,121 @@ export type SchedulingState = 'enabled' | 'disabled';
  * @readonly
  * @enum {string}
  */
-export type DisableJobOption = 'requeue' | 'terminate' | 'wait';
+export enum DisableJobOption {
+  /**
+   * Terminate running tasks and requeue them. The tasks will run again when
+   * the job is enabled.
+   */
+  Requeue = 'requeue',
+  /**
+   * Terminate running tasks. The tasks will be completed with failureInfo
+   * indicating that they were terminated, and will not run again.
+   */
+  Terminate = 'terminate',
+  /**
+   * Allow currently running tasks to complete.
+   */
+  Wait = 'wait',
+}
 
 /**
  * Defines values for ComputeNodeDeallocationOption.
- * Possible values include: 'requeue', 'terminate', 'taskCompletion', 'retainedData'
+ * Possible values include: 'requeue', 'terminate', 'taskCompletion',
+ * 'retainedData'
  * @readonly
  * @enum {string}
  */
-export type ComputeNodeDeallocationOption = 'requeue' | 'terminate' | 'taskcompletion' | 'retaineddata';
+export enum ComputeNodeDeallocationOption {
+  /**
+   * Terminate running task processes and requeue the tasks. The tasks will run
+   * again when a node is available. Remove nodes as soon as tasks have been
+   * terminated.
+   */
+  Requeue = 'requeue',
+  /**
+   * Terminate running tasks. The tasks will be completed with failureInfo
+   * indicating that they were terminated, and will not run again. Remove nodes
+   * as soon as tasks have been terminated.
+   */
+  Terminate = 'terminate',
+  /**
+   * Allow currently running tasks to complete. Schedule no new tasks while
+   * waiting. Remove nodes when all tasks have completed.
+   */
+  TaskCompletion = 'taskcompletion',
+  /**
+   * Allow currently running tasks to complete, then wait for all task data
+   * retention periods to expire. Schedule no new tasks while waiting. Remove
+   * nodes when all task retention periods have expired.
+   */
+  RetainedData = 'retaineddata',
+}
 
 /**
  * Defines values for ComputeNodeRebootOption.
- * Possible values include: 'requeue', 'terminate', 'taskCompletion', 'retainedData'
+ * Possible values include: 'requeue', 'terminate', 'taskCompletion',
+ * 'retainedData'
  * @readonly
  * @enum {string}
  */
-export type ComputeNodeRebootOption = 'requeue' | 'terminate' | 'taskcompletion' | 'retaineddata';
+export enum ComputeNodeRebootOption {
+  /**
+   * Terminate running task processes and requeue the tasks. The tasks will run
+   * again when a node is available. Restart the node as soon as tasks have
+   * been terminated.
+   */
+  Requeue = 'requeue',
+  /**
+   * Terminate running tasks. The tasks will be completed with failureInfo
+   * indicating that they were terminated, and will not run again. Restart the
+   * node as soon as tasks have been terminated.
+   */
+  Terminate = 'terminate',
+  /**
+   * Allow currently running tasks to complete. Schedule no new tasks while
+   * waiting. Restart the node when all tasks have completed.
+   */
+  TaskCompletion = 'taskcompletion',
+  /**
+   * Allow currently running tasks to complete, then wait for all task data
+   * retention periods to expire. Schedule no new tasks while waiting. Restart
+   * the node when all task retention periods have expired.
+   */
+  RetainedData = 'retaineddata',
+}
 
 /**
  * Defines values for ComputeNodeReimageOption.
- * Possible values include: 'requeue', 'terminate', 'taskCompletion', 'retainedData'
+ * Possible values include: 'requeue', 'terminate', 'taskCompletion',
+ * 'retainedData'
  * @readonly
  * @enum {string}
  */
-export type ComputeNodeReimageOption = 'requeue' | 'terminate' | 'taskcompletion' | 'retaineddata';
+export enum ComputeNodeReimageOption {
+  /**
+   * Terminate running task processes and requeue the tasks. The tasks will run
+   * again when a node is available. Reimage the node as soon as tasks have
+   * been terminated.
+   */
+  Requeue = 'requeue',
+  /**
+   * Terminate running tasks. The tasks will be completed with failureInfo
+   * indicating that they were terminated, and will not run again. Reimage the
+   * node as soon as tasks have been terminated.
+   */
+  Terminate = 'terminate',
+  /**
+   * Allow currently running tasks to complete. Schedule no new tasks while
+   * waiting. Reimage the node when all tasks have completed.
+   */
+  TaskCompletion = 'taskcompletion',
+  /**
+   * Allow currently running tasks to complete, then wait for all task data
+   * retention periods to expire. Schedule no new tasks while waiting. Reimage
+   * the node when all task retention periods have expired.
+   */
+  RetainedData = 'retaineddata',
+}
 
 /**
  * Defines values for DisableComputeNodeSchedulingOption.
@@ -14653,7 +15259,25 @@ export type ComputeNodeReimageOption = 'requeue' | 'terminate' | 'taskcompletion
  * @readonly
  * @enum {string}
  */
-export type DisableComputeNodeSchedulingOption = 'requeue' | 'terminate' | 'taskcompletion';
+export enum DisableComputeNodeSchedulingOption {
+  /**
+   * Terminate running task processes and requeue the tasks. The tasks may run
+   * again on other compute nodes, or when task scheduling is re-enabled on
+   * this node. Enter offline state as soon as tasks have been terminated.
+   */
+  Requeue = 'requeue',
+  /**
+   * Terminate running tasks. The tasks will be completed with failureInfo
+   * indicating that they were terminated, and will not run again. Enter
+   * offline state as soon as tasks have been terminated.
+   */
+  Terminate = 'terminate',
+  /**
+   * Allow currently running tasks to complete. Schedule no new tasks while
+   * waiting. Enter offline state when all tasks have completed.
+   */
+  TaskCompletion = 'taskcompletion',
+}
 
 /**
  * Contains response data for the list operation.

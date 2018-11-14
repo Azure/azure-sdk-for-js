@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/originsMappers";
 import * as Parameters from "../models/parameters";
@@ -51,7 +51,7 @@ export class Origins {
    * @param callback The callback
    */
   listByEndpoint(resourceGroupName: string, profileName: string, endpointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OriginListResult>): void;
-  listByEndpoint(resourceGroupName: string, profileName: string, endpointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OriginListResult>, callback?: msRest.ServiceCallback<Models.OriginListResult>): Promise<Models.OriginsListByEndpointResponse> {
+  listByEndpoint(resourceGroupName: string, profileName: string, endpointName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OriginListResult>): Promise<Models.OriginsListByEndpointResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -90,7 +90,7 @@ export class Origins {
    * @param callback The callback
    */
   get(resourceGroupName: string, profileName: string, endpointName: string, originName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Origin>): void;
-  get(resourceGroupName: string, profileName: string, endpointName: string, originName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Origin>, callback?: msRest.ServiceCallback<Models.Origin>): Promise<Models.OriginsGetResponse> {
+  get(resourceGroupName: string, profileName: string, endpointName: string, originName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Origin>): Promise<Models.OriginsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -160,7 +160,7 @@ export class Origins {
    * @param callback The callback
    */
   listByEndpointNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OriginListResult>): void;
-  listByEndpointNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OriginListResult>, callback?: msRest.ServiceCallback<Models.OriginListResult>): Promise<Models.OriginsListByEndpointNextResponse> {
+  listByEndpointNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OriginListResult>): Promise<Models.OriginsListByEndpointNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

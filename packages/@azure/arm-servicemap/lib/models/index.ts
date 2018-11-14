@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -2384,7 +2384,13 @@ export interface ClientGroupMembersCollection extends Array<ClientGroupMember> {
  * @readonly
  * @enum {string}
  */
-export type OperatingSystemFamily = 'unknown' | 'windows' | 'linux' | 'solaris' | 'aix';
+export enum OperatingSystemFamily {
+  Unknown = 'unknown',
+  Windows = 'windows',
+  Linux = 'linux',
+  Solaris = 'solaris',
+  Aix = 'aix',
+}
 
 /**
  * Defines values for MonitoringState.
@@ -2392,7 +2398,10 @@ export type OperatingSystemFamily = 'unknown' | 'windows' | 'linux' | 'solaris' 
  * @readonly
  * @enum {string}
  */
-export type MonitoringState = 'monitored' | 'discovered';
+export enum MonitoringState {
+  Monitored = 'monitored',
+  Discovered = 'discovered',
+}
 
 /**
  * Defines values for VirtualizationState.
@@ -2400,7 +2409,12 @@ export type MonitoringState = 'monitored' | 'discovered';
  * @readonly
  * @enum {string}
  */
-export type VirtualizationState = 'unknown' | 'physical' | 'virtual' | 'hypervisor';
+export enum VirtualizationState {
+  Unknown = 'unknown',
+  Physical = 'physical',
+  Virtual = 'virtual',
+  Hypervisor = 'hypervisor',
+}
 
 /**
  * Defines values for MachineRebootStatus.
@@ -2408,7 +2422,11 @@ export type VirtualizationState = 'unknown' | 'physical' | 'virtual' | 'hypervis
  * @readonly
  * @enum {string}
  */
-export type MachineRebootStatus = 'unknown' | 'rebooted' | 'notRebooted';
+export enum MachineRebootStatus {
+  Unknown = 'unknown',
+  Rebooted = 'rebooted',
+  NotRebooted = 'notRebooted',
+}
 
 /**
  * Defines values for Accuracy.
@@ -2416,7 +2434,10 @@ export type MachineRebootStatus = 'unknown' | 'rebooted' | 'notRebooted';
  * @readonly
  * @enum {string}
  */
-export type Accuracy = 'actual' | 'estimated';
+export enum Accuracy {
+  Actual = 'actual',
+  Estimated = 'estimated',
+}
 
 /**
  * Defines values for Bitness.
@@ -2424,15 +2445,27 @@ export type Accuracy = 'actual' | 'estimated';
  * @readonly
  * @enum {string}
  */
-export type Bitness = '32bit' | '64bit';
+export enum Bitness {
+  ThreeTwobit = '32bit',
+  SixFourbit = '64bit',
+}
 
 /**
  * Defines values for VirtualMachineType.
- * Possible values include: 'unknown', 'hyperv', 'ldom', 'lpar', 'vmware', 'virtualPc', 'xen'
+ * Possible values include: 'unknown', 'hyperv', 'ldom', 'lpar', 'vmware',
+ * 'virtualPc', 'xen'
  * @readonly
  * @enum {string}
  */
-export type VirtualMachineType = 'unknown' | 'hyperv' | 'ldom' | 'lpar' | 'vmware' | 'virtualPc' | 'xen';
+export enum VirtualMachineType {
+  Unknown = 'unknown',
+  Hyperv = 'hyperv',
+  Ldom = 'ldom',
+  Lpar = 'lpar',
+  Vmware = 'vmware',
+  VirtualPc = 'virtualPc',
+  Xen = 'xen',
+}
 
 /**
  * Defines values for HypervisorType.
@@ -2440,23 +2473,50 @@ export type VirtualMachineType = 'unknown' | 'hyperv' | 'ldom' | 'lpar' | 'vmwar
  * @readonly
  * @enum {string}
  */
-export type HypervisorType = 'unknown' | 'hyperv';
+export enum HypervisorType {
+  Unknown = 'unknown',
+  Hyperv = 'hyperv',
+}
 
 /**
  * Defines values for ProcessRole.
- * Possible values include: 'webServer', 'appServer', 'databaseServer', 'ldapServer', 'smbServer'
+ * Possible values include: 'webServer', 'appServer', 'databaseServer',
+ * 'ldapServer', 'smbServer'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ProcessRole =
+ * <ProcessRole>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ProcessRole = 'webServer' | 'appServer' | 'databaseServer' | 'ldapServer' | 'smbServer';
+export enum ProcessRole {
+  WebServer = 'webServer',
+  AppServer = 'appServer',
+  DatabaseServer = 'databaseServer',
+  LdapServer = 'ldapServer',
+  SmbServer = 'smbServer',
+}
 
 /**
  * Defines values for MachineGroupType.
- * Possible values include: 'unknown', 'azure-cs', 'azure-sf', 'azure-vmss', 'user-static'
+ * Possible values include: 'unknown', 'azure-cs', 'azure-sf', 'azure-vmss',
+ * 'user-static'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: MachineGroupType =
+ * <MachineGroupType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type MachineGroupType = 'unknown' | 'azure-cs' | 'azure-sf' | 'azure-vmss' | 'user-static';
+export enum MachineGroupType {
+  Unknown = 'unknown',
+  AzureCs = 'azure-cs',
+  AzureSf = 'azure-sf',
+  AzureVmss = 'azure-vmss',
+  UserStatic = 'user-static',
+}
 
 /**
  * Defines values for ConnectionFailureState.
@@ -2464,7 +2524,11 @@ export type MachineGroupType = 'unknown' | 'azure-cs' | 'azure-sf' | 'azure-vmss
  * @readonly
  * @enum {string}
  */
-export type ConnectionFailureState = 'ok' | 'failed' | 'mixed';
+export enum ConnectionFailureState {
+  Ok = 'ok',
+  Failed = 'failed',
+  Mixed = 'mixed',
+}
 
 /**
  * Defines values for AzureCloudServiceRoleType.
@@ -2472,23 +2536,39 @@ export type ConnectionFailureState = 'ok' | 'failed' | 'mixed';
  * @readonly
  * @enum {string}
  */
-export type AzureCloudServiceRoleType = 'unknown' | 'worker' | 'web';
+export enum AzureCloudServiceRoleType {
+  Unknown = 'unknown',
+  Worker = 'worker',
+  Web = 'web',
+}
 
 /**
  * Defines values for Provider.
  * Possible values include: 'azure'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Provider = <Provider>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type Provider = 'azure';
+export enum Provider {
+  Azure = 'azure',
+}
 
 /**
  * Defines values for Provider1.
  * Possible values include: 'azure'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Provider1 = <Provider1>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type Provider1 = 'azure';
+export enum Provider1 {
+  Azure = 'azure',
+}
 
 /**
  * Contains response data for the listByWorkspace operation.

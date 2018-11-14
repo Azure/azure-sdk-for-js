@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/softwareUpdateConfigurationMachineRunsMappers";
 import * as Parameters from "../models/parameters";
@@ -53,7 +53,7 @@ export class SoftwareUpdateConfigurationMachineRuns {
    * @param callback The callback
    */
   getById(resourceGroupName: string, automationAccountName: string, softwareUpdateConfigurationMachineRunId: string, options: Models.SoftwareUpdateConfigurationMachineRunsGetByIdOptionalParams, callback: msRest.ServiceCallback<Models.SoftwareUpdateConfigurationMachineRun>): void;
-  getById(resourceGroupName: string, automationAccountName: string, softwareUpdateConfigurationMachineRunId: string, options?: Models.SoftwareUpdateConfigurationMachineRunsGetByIdOptionalParams | msRest.ServiceCallback<Models.SoftwareUpdateConfigurationMachineRun>, callback?: msRest.ServiceCallback<Models.SoftwareUpdateConfigurationMachineRun>): Promise<Models.SoftwareUpdateConfigurationMachineRunsGetByIdResponse> {
+  getById(resourceGroupName: string, automationAccountName: string, softwareUpdateConfigurationMachineRunId: string, options?: Models.SoftwareUpdateConfigurationMachineRunsGetByIdOptionalParams, callback?: msRest.ServiceCallback<Models.SoftwareUpdateConfigurationMachineRun>): Promise<Models.SoftwareUpdateConfigurationMachineRunsGetByIdResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -86,7 +86,7 @@ export class SoftwareUpdateConfigurationMachineRuns {
    * @param callback The callback
    */
   list(resourceGroupName: string, automationAccountName: string, options: Models.SoftwareUpdateConfigurationMachineRunsListOptionalParams, callback: msRest.ServiceCallback<Models.SoftwareUpdateConfigurationMachineRunListResult>): void;
-  list(resourceGroupName: string, automationAccountName: string, options?: Models.SoftwareUpdateConfigurationMachineRunsListOptionalParams | msRest.ServiceCallback<Models.SoftwareUpdateConfigurationMachineRunListResult>, callback?: msRest.ServiceCallback<Models.SoftwareUpdateConfigurationMachineRunListResult>): Promise<Models.SoftwareUpdateConfigurationMachineRunsListResponse> {
+  list(resourceGroupName: string, automationAccountName: string, options?: Models.SoftwareUpdateConfigurationMachineRunsListOptionalParams, callback?: msRest.ServiceCallback<Models.SoftwareUpdateConfigurationMachineRunListResult>): Promise<Models.SoftwareUpdateConfigurationMachineRunsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/managementGroupsMappers";
 import * as Parameters from "../models/parameters";
@@ -42,7 +42,7 @@ export class ManagementGroups {
    * @param callback The callback
    */
   list(options: Models.ManagementGroupsListOptionalParams, callback: msRest.ServiceCallback<Models.ManagementGroupListResult>): void;
-  list(options?: Models.ManagementGroupsListOptionalParams | msRest.ServiceCallback<Models.ManagementGroupListResult>, callback?: msRest.ServiceCallback<Models.ManagementGroupListResult>): Promise<Models.ManagementGroupsListResponse> {
+  list(options?: Models.ManagementGroupsListOptionalParams, callback?: msRest.ServiceCallback<Models.ManagementGroupListResult>): Promise<Models.ManagementGroupsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -69,7 +69,7 @@ export class ManagementGroups {
    * @param callback The callback
    */
   get(groupId: string, options: Models.ManagementGroupsGetOptionalParams, callback: msRest.ServiceCallback<Models.ManagementGroup>): void;
-  get(groupId: string, options?: Models.ManagementGroupsGetOptionalParams | msRest.ServiceCallback<Models.ManagementGroup>, callback?: msRest.ServiceCallback<Models.ManagementGroup>): Promise<Models.ManagementGroupsGetResponse> {
+  get(groupId: string, options?: Models.ManagementGroupsGetOptionalParams, callback?: msRest.ServiceCallback<Models.ManagementGroup>): Promise<Models.ManagementGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         groupId,
@@ -114,7 +114,7 @@ export class ManagementGroups {
    * @param callback The callback
    */
   update(groupId: string, patchGroupRequest: Models.PatchManagementGroupRequest, options: Models.ManagementGroupsUpdateOptionalParams, callback: msRest.ServiceCallback<Models.ManagementGroup>): void;
-  update(groupId: string, patchGroupRequest: Models.PatchManagementGroupRequest, options?: Models.ManagementGroupsUpdateOptionalParams | msRest.ServiceCallback<Models.ManagementGroup>, callback?: msRest.ServiceCallback<Models.ManagementGroup>): Promise<Models.ManagementGroupsUpdateResponse> {
+  update(groupId: string, patchGroupRequest: Models.PatchManagementGroupRequest, options?: Models.ManagementGroupsUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.ManagementGroup>): Promise<Models.ManagementGroupsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         groupId,
@@ -190,7 +190,7 @@ export class ManagementGroups {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: Models.ManagementGroupsListNextOptionalParams, callback: msRest.ServiceCallback<Models.ManagementGroupListResult>): void;
-  listNext(nextPageLink: string, options?: Models.ManagementGroupsListNextOptionalParams | msRest.ServiceCallback<Models.ManagementGroupListResult>, callback?: msRest.ServiceCallback<Models.ManagementGroupListResult>): Promise<Models.ManagementGroupsListNextResponse> {
+  listNext(nextPageLink: string, options?: Models.ManagementGroupsListNextOptionalParams, callback?: msRest.ServiceCallback<Models.ManagementGroupListResult>): Promise<Models.ManagementGroupsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

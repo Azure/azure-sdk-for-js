@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/jobsMappers";
 import * as Parameters from "../models/parameters";
@@ -42,7 +42,7 @@ export class Jobs {
    * @param callback The callback
    */
   list(options: Models.JobsListOptionalParams, callback: msRest.ServiceCallback<Models.JobResourceList>): void;
-  list(options?: Models.JobsListOptionalParams | msRest.ServiceCallback<Models.JobResourceList>, callback?: msRest.ServiceCallback<Models.JobResourceList>): Promise<Models.JobsListResponse> {
+  list(options?: Models.JobsListOptionalParams, callback?: msRest.ServiceCallback<Models.JobResourceList>): Promise<Models.JobsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -69,7 +69,7 @@ export class Jobs {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: Models.JobsListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.JobResourceList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.JobsListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.JobResourceList>, callback?: msRest.ServiceCallback<Models.JobResourceList>): Promise<Models.JobsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: Models.JobsListByResourceGroupOptionalParams, callback?: msRest.ServiceCallback<Models.JobResourceList>): Promise<Models.JobsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -103,7 +103,7 @@ export class Jobs {
    * @param callback The callback
    */
   get(resourceGroupName: string, jobName: string, options: Models.JobsGetOptionalParams, callback: msRest.ServiceCallback<Models.JobResource>): void;
-  get(resourceGroupName: string, jobName: string, options?: Models.JobsGetOptionalParams | msRest.ServiceCallback<Models.JobResource>, callback?: msRest.ServiceCallback<Models.JobResource>): Promise<Models.JobsGetResponse> {
+  get(resourceGroupName: string, jobName: string, options?: Models.JobsGetOptionalParams, callback?: msRest.ServiceCallback<Models.JobResource>): Promise<Models.JobsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -183,7 +183,7 @@ export class Jobs {
    * @param callback The callback
    */
   bookShipmentPickUp(resourceGroupName: string, jobName: string, shipmentPickUpRequest: Models.ShipmentPickUpRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ShipmentPickUpResponse>): void;
-  bookShipmentPickUp(resourceGroupName: string, jobName: string, shipmentPickUpRequest: Models.ShipmentPickUpRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ShipmentPickUpResponse>, callback?: msRest.ServiceCallback<Models.ShipmentPickUpResponse>): Promise<Models.JobsBookShipmentPickUpResponse> {
+  bookShipmentPickUp(resourceGroupName: string, jobName: string, shipmentPickUpRequest: Models.ShipmentPickUpRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ShipmentPickUpResponse>): Promise<Models.JobsBookShipmentPickUpResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -222,7 +222,7 @@ export class Jobs {
    * @param callback The callback
    */
   cancel(resourceGroupName: string, jobName: string, reason: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  cancel(resourceGroupName: string, jobName: string, reason: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  cancel(resourceGroupName: string, jobName: string, reason: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -258,7 +258,7 @@ export class Jobs {
    * @param callback The callback
    */
   listCredentials(resourceGroupName: string, jobName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UnencryptedCredentialsList>): void;
-  listCredentials(resourceGroupName: string, jobName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UnencryptedCredentialsList>, callback?: msRest.ServiceCallback<Models.UnencryptedCredentialsList>): Promise<Models.JobsListCredentialsResponse> {
+  listCredentials(resourceGroupName: string, jobName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UnencryptedCredentialsList>): Promise<Models.JobsListCredentialsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -349,7 +349,7 @@ export class Jobs {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobResourceList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobResourceList>, callback?: msRest.ServiceCallback<Models.JobResourceList>): Promise<Models.JobsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JobResourceList>): Promise<Models.JobsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -377,7 +377,7 @@ export class Jobs {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobResourceList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobResourceList>, callback?: msRest.ServiceCallback<Models.JobResourceList>): Promise<Models.JobsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JobResourceList>): Promise<Models.JobsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/nodeReportsMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class NodeReports {
    * @param callback The callback
    */
   listByNode(resourceGroupName: string, automationAccountName: string, nodeId: string, options: Models.NodeReportsListByNodeOptionalParams, callback: msRest.ServiceCallback<Models.DscNodeReportListResult>): void;
-  listByNode(resourceGroupName: string, automationAccountName: string, nodeId: string, options?: Models.NodeReportsListByNodeOptionalParams | msRest.ServiceCallback<Models.DscNodeReportListResult>, callback?: msRest.ServiceCallback<Models.DscNodeReportListResult>): Promise<Models.NodeReportsListByNodeResponse> {
+  listByNode(resourceGroupName: string, automationAccountName: string, nodeId: string, options?: Models.NodeReportsListByNodeOptionalParams, callback?: msRest.ServiceCallback<Models.DscNodeReportListResult>): Promise<Models.NodeReportsListByNodeResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -89,7 +89,7 @@ export class NodeReports {
    * @param callback The callback
    */
   get(resourceGroupName: string, automationAccountName: string, nodeId: string, reportId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DscNodeReport>): void;
-  get(resourceGroupName: string, automationAccountName: string, nodeId: string, reportId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscNodeReport>, callback?: msRest.ServiceCallback<Models.DscNodeReport>): Promise<Models.NodeReportsGetResponse> {
+  get(resourceGroupName: string, automationAccountName: string, nodeId: string, reportId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DscNodeReport>): Promise<Models.NodeReportsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -129,7 +129,7 @@ export class NodeReports {
    * @param callback The callback
    */
   getContent(resourceGroupName: string, automationAccountName: string, nodeId: string, reportId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  getContent(resourceGroupName: string, automationAccountName: string, nodeId: string, reportId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.NodeReportsGetContentResponse> {
+  getContent(resourceGroupName: string, automationAccountName: string, nodeId: string, reportId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<any>): Promise<Models.NodeReportsGetContentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -160,7 +160,7 @@ export class NodeReports {
    * @param callback The callback
    */
   listByNodeNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DscNodeReportListResult>): void;
-  listByNodeNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscNodeReportListResult>, callback?: msRest.ServiceCallback<Models.DscNodeReportListResult>): Promise<Models.NodeReportsListByNodeNextResponse> {
+  listByNodeNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DscNodeReportListResult>): Promise<Models.NodeReportsListByNodeNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

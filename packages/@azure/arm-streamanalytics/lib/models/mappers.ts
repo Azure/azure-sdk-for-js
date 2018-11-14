@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
@@ -184,6 +184,11 @@ export const InputProperties: msRest.CompositeMapper = {
         serializedName: "serialization",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "Serialization",
           className: "Serialization"
         }
       },
@@ -254,6 +259,11 @@ export const Input: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "InputProperties",
           className: "InputProperties"
         }
       }
@@ -324,6 +334,11 @@ export const Output: msRest.CompositeMapper = {
         serializedName: "properties.datasource",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "OutputDataSource",
           className: "OutputDataSource"
         }
       },
@@ -331,6 +346,11 @@ export const Output: msRest.CompositeMapper = {
         serializedName: "properties.serialization",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "Serialization",
           className: "Serialization"
         }
       },
@@ -393,6 +413,11 @@ export const FunctionModel: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "FunctionProperties",
           className: "FunctionProperties"
         }
       }
@@ -860,6 +885,11 @@ export const ScalarFunctionProperties: msRest.CompositeMapper = {
         serializedName: "properties.binding",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "FunctionBinding",
           className: "FunctionBinding"
         }
       }
@@ -1657,6 +1687,11 @@ export const ReferenceInputProperties: msRest.CompositeMapper = {
         serializedName: "datasource",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "ReferenceInputDataSource",
           className: "ReferenceInputDataSource"
         }
       }
@@ -1840,6 +1875,11 @@ export const StreamInputProperties: msRest.CompositeMapper = {
         serializedName: "datasource",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "StreamInputDataSource",
           className: "StreamInputDataSource"
         }
       }

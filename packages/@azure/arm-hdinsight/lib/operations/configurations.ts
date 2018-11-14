@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/configurationsMappers";
 import * as Parameters from "../models/parameters";
@@ -65,7 +65,7 @@ export class Configurations {
    * @param callback The callback
    */
   get(resourceGroupName: string, clusterName: string, configurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<{ [propertyName: string]: string }>): void;
-  get(resourceGroupName: string, clusterName: string, configurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<{ [propertyName: string]: string }>, callback?: msRest.ServiceCallback<{ [propertyName: string]: string }>): Promise<Models.ConfigurationsGetResponse> {
+  get(resourceGroupName: string, clusterName: string, configurationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<{ [propertyName: string]: string }>): Promise<Models.ConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

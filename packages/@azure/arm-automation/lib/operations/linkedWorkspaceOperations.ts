@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/linkedWorkspaceOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class LinkedWorkspaceOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, automationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LinkedWorkspace>): void;
-  get(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LinkedWorkspace>, callback?: msRest.ServiceCallback<Models.LinkedWorkspace>): Promise<Models.LinkedWorkspaceGetResponse> {
+  get(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LinkedWorkspace>): Promise<Models.LinkedWorkspaceGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/queryMappers";
 import * as Parameters from "../models/parameters";
@@ -56,7 +56,7 @@ export class Query {
    * @param callback The callback
    */
   execute(workspaceId: string, body: Models.QueryBody, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.QueryResults>): void;
-  execute(workspaceId: string, body: Models.QueryBody, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.QueryResults>, callback?: msRest.ServiceCallback<Models.QueryResults>): Promise<Models.QueryExecuteResponse> {
+  execute(workspaceId: string, body: Models.QueryBody, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.QueryResults>): Promise<Models.QueryExecuteResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceId,

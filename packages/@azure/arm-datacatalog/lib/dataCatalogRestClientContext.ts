@@ -9,17 +9,25 @@
  */
 
 import * as Models from "./models";
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 
 const packageName = "@azure/arm-datacatalog";
-const packageVersion = "0.1.0";
+const packageVersion = "1.0.0";
 
 export class DataCatalogRestClientContext extends msRestAzure.AzureServiceClient {
+
   credentials: msRest.ServiceClientCredentials;
+
   subscriptionId: string;
-  apiVersion?: string;
+
+  apiVersion: string;
+
   catalogName: string;
+
+  acceptLanguage: string;
+
+  longRunningOperationRetryTimeout: number;
 
   /**
    * Initializes a new instance of the DataCatalogRestClient class.
@@ -43,11 +51,6 @@ export class DataCatalogRestClientContext extends msRestAzure.AzureServiceClient
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
-      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
-
     super(credentials, options);
 
     this.apiVersion = '2016-03-30';
@@ -59,6 +62,7 @@ export class DataCatalogRestClientContext extends msRestAzure.AzureServiceClient
     this.subscriptionId = subscriptionId;
     this.catalogName = catalogName;
 
+    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { ServiceClientOptions } from "@azure/ms-rest-js";
-import * as msRest from "@azure/ms-rest-js";
+import { ServiceClientOptions } from "ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 
 /**
@@ -2743,13 +2743,9 @@ export interface Hotel {
  */
 export interface EntitySearchAPIClientOptions extends ServiceClientOptions {
   /**
-   * @member {string} [endpoint] Supported Cognitive Services endpoints
-   * (protocol and hostname, for example:
-   * "https://westus.api.cognitive.microsoft.com",
-   * "https://api.cognitive.microsoft.com"). Default value:
-   * 'https://api.cognitive.microsoft.com' .
+   * @member {string} [baseUri]
    */
-  endpoint?: string;
+  baseUri?: string;
 }
 
 /**
@@ -2949,78 +2945,206 @@ export interface EntitiesSearchOptionalParams extends msRest.RequestOptionsBase 
 
 /**
  * Defines values for EntityQueryScenario.
- * Possible values include: 'DominantEntity', 'DominantEntityWithDisambiguation', 'Disambiguation',
- * 'List', 'ListWithPivot'
+ * Possible values include: 'DominantEntity',
+ * 'DominantEntityWithDisambiguation', 'Disambiguation', 'List',
+ * 'ListWithPivot'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: EntityQueryScenario =
+ * <EntityQueryScenario>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type EntityQueryScenario = 'DominantEntity' | 'DominantEntityWithDisambiguation' | 'Disambiguation' | 'List' | 'ListWithPivot';
+export enum EntityQueryScenario {
+  DominantEntity = 'DominantEntity',
+  DominantEntityWithDisambiguation = 'DominantEntityWithDisambiguation',
+  Disambiguation = 'Disambiguation',
+  List = 'List',
+  ListWithPivot = 'ListWithPivot',
+}
 
 /**
  * Defines values for EntityScenario.
  * Possible values include: 'DominantEntity', 'DisambiguationItem', 'ListItem'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: EntityScenario =
+ * <EntityScenario>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type EntityScenario = 'DominantEntity' | 'DisambiguationItem' | 'ListItem';
+export enum EntityScenario {
+  DominantEntity = 'DominantEntity',
+  DisambiguationItem = 'DisambiguationItem',
+  ListItem = 'ListItem',
+}
 
 /**
  * Defines values for EntityType.
- * Possible values include: 'Generic', 'Person', 'Place', 'Media', 'Organization', 'LocalBusiness',
- * 'Restaurant', 'Hotel', 'TouristAttraction', 'Travel', 'City', 'Country', 'Attraction', 'House',
- * 'State', 'RadioStation', 'StreetAddress', 'Neighborhood', 'Locality', 'PostalCode', 'Region',
- * 'SubRegion', 'MinorRegion', 'Continent', 'PointOfInterest', 'Other', 'Movie', 'Book',
- * 'TelevisionShow', 'TelevisionSeason', 'VideoGame', 'MusicAlbum', 'MusicRecording', 'MusicGroup',
- * 'Composition', 'TheaterPlay', 'Event', 'Actor', 'Artist', 'Attorney', 'Speciality',
- * 'CollegeOrUniversity', 'School', 'Food', 'Drug', 'Animal', 'SportsTeam', 'Product', 'Car'
+ * Possible values include: 'Generic', 'Person', 'Place', 'Media',
+ * 'Organization', 'LocalBusiness', 'Restaurant', 'Hotel', 'TouristAttraction',
+ * 'Travel', 'City', 'Country', 'Attraction', 'House', 'State', 'RadioStation',
+ * 'StreetAddress', 'Neighborhood', 'Locality', 'PostalCode', 'Region',
+ * 'SubRegion', 'MinorRegion', 'Continent', 'PointOfInterest', 'Other',
+ * 'Movie', 'Book', 'TelevisionShow', 'TelevisionSeason', 'VideoGame',
+ * 'MusicAlbum', 'MusicRecording', 'MusicGroup', 'Composition', 'TheaterPlay',
+ * 'Event', 'Actor', 'Artist', 'Attorney', 'Speciality', 'CollegeOrUniversity',
+ * 'School', 'Food', 'Drug', 'Animal', 'SportsTeam', 'Product', 'Car'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: EntityType = <EntityType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type EntityType = 'Generic' | 'Person' | 'Place' | 'Media' | 'Organization' | 'LocalBusiness' | 'Restaurant' | 'Hotel' | 'TouristAttraction' | 'Travel' | 'City' | 'Country' | 'Attraction' | 'House' | 'State' | 'RadioStation' | 'StreetAddress' | 'Neighborhood' | 'Locality' | 'PostalCode' | 'Region' | 'SubRegion' | 'MinorRegion' | 'Continent' | 'PointOfInterest' | 'Other' | 'Movie' | 'Book' | 'TelevisionShow' | 'TelevisionSeason' | 'VideoGame' | 'MusicAlbum' | 'MusicRecording' | 'MusicGroup' | 'Composition' | 'TheaterPlay' | 'Event' | 'Actor' | 'Artist' | 'Attorney' | 'Speciality' | 'CollegeOrUniversity' | 'School' | 'Food' | 'Drug' | 'Animal' | 'SportsTeam' | 'Product' | 'Car';
+export enum EntityType {
+  Generic = 'Generic',
+  Person = 'Person',
+  Place = 'Place',
+  Media = 'Media',
+  Organization = 'Organization',
+  LocalBusiness = 'LocalBusiness',
+  Restaurant = 'Restaurant',
+  Hotel = 'Hotel',
+  TouristAttraction = 'TouristAttraction',
+  Travel = 'Travel',
+  City = 'City',
+  Country = 'Country',
+  Attraction = 'Attraction',
+  House = 'House',
+  State = 'State',
+  RadioStation = 'RadioStation',
+  StreetAddress = 'StreetAddress',
+  Neighborhood = 'Neighborhood',
+  Locality = 'Locality',
+  PostalCode = 'PostalCode',
+  Region = 'Region',
+  SubRegion = 'SubRegion',
+  MinorRegion = 'MinorRegion',
+  Continent = 'Continent',
+  PointOfInterest = 'PointOfInterest',
+  Other = 'Other',
+  Movie = 'Movie',
+  Book = 'Book',
+  TelevisionShow = 'TelevisionShow',
+  TelevisionSeason = 'TelevisionSeason',
+  VideoGame = 'VideoGame',
+  MusicAlbum = 'MusicAlbum',
+  MusicRecording = 'MusicRecording',
+  MusicGroup = 'MusicGroup',
+  Composition = 'Composition',
+  TheaterPlay = 'TheaterPlay',
+  Event = 'Event',
+  Actor = 'Actor',
+  Artist = 'Artist',
+  Attorney = 'Attorney',
+  Speciality = 'Speciality',
+  CollegeOrUniversity = 'CollegeOrUniversity',
+  School = 'School',
+  Food = 'Food',
+  Drug = 'Drug',
+  Animal = 'Animal',
+  SportsTeam = 'SportsTeam',
+  Product = 'Product',
+  Car = 'Car',
+}
 
 /**
  * Defines values for ErrorCode.
- * Possible values include: 'None', 'ServerError', 'InvalidRequest', 'RateLimitExceeded',
- * 'InvalidAuthorization', 'InsufficientAuthorization'
+ * Possible values include: 'None', 'ServerError', 'InvalidRequest',
+ * 'RateLimitExceeded', 'InvalidAuthorization', 'InsufficientAuthorization'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ErrorCode = <ErrorCode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ErrorCode = 'None' | 'ServerError' | 'InvalidRequest' | 'RateLimitExceeded' | 'InvalidAuthorization' | 'InsufficientAuthorization';
+export enum ErrorCode {
+  None = 'None',
+  ServerError = 'ServerError',
+  InvalidRequest = 'InvalidRequest',
+  RateLimitExceeded = 'RateLimitExceeded',
+  InvalidAuthorization = 'InvalidAuthorization',
+  InsufficientAuthorization = 'InsufficientAuthorization',
+}
 
 /**
  * Defines values for ErrorSubCode.
- * Possible values include: 'UnexpectedError', 'ResourceError', 'NotImplemented',
- * 'ParameterMissing', 'ParameterInvalidValue', 'HttpNotAllowed', 'Blocked',
- * 'AuthorizationMissing', 'AuthorizationRedundancy', 'AuthorizationDisabled',
- * 'AuthorizationExpired'
+ * Possible values include: 'UnexpectedError', 'ResourceError',
+ * 'NotImplemented', 'ParameterMissing', 'ParameterInvalidValue',
+ * 'HttpNotAllowed', 'Blocked', 'AuthorizationMissing',
+ * 'AuthorizationRedundancy', 'AuthorizationDisabled', 'AuthorizationExpired'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ErrorSubCode =
+ * <ErrorSubCode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ErrorSubCode = 'UnexpectedError' | 'ResourceError' | 'NotImplemented' | 'ParameterMissing' | 'ParameterInvalidValue' | 'HttpNotAllowed' | 'Blocked' | 'AuthorizationMissing' | 'AuthorizationRedundancy' | 'AuthorizationDisabled' | 'AuthorizationExpired';
+export enum ErrorSubCode {
+  UnexpectedError = 'UnexpectedError',
+  ResourceError = 'ResourceError',
+  NotImplemented = 'NotImplemented',
+  ParameterMissing = 'ParameterMissing',
+  ParameterInvalidValue = 'ParameterInvalidValue',
+  HttpNotAllowed = 'HttpNotAllowed',
+  Blocked = 'Blocked',
+  AuthorizationMissing = 'AuthorizationMissing',
+  AuthorizationRedundancy = 'AuthorizationRedundancy',
+  AuthorizationDisabled = 'AuthorizationDisabled',
+  AuthorizationExpired = 'AuthorizationExpired',
+}
 
 /**
  * Defines values for AnswerType.
  * Possible values include: 'Entities', 'Places'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: AnswerType = <AnswerType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type AnswerType = 'Entities' | 'Places';
+export enum AnswerType {
+  Entities = 'Entities',
+  Places = 'Places',
+}
 
 /**
  * Defines values for ResponseFormat.
  * Possible values include: 'Json', 'JsonLd'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ResponseFormat =
+ * <ResponseFormat>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ResponseFormat = 'Json' | 'JsonLd';
+export enum ResponseFormat {
+  Json = 'Json',
+  JsonLd = 'JsonLd',
+}
 
 /**
  * Defines values for SafeSearch.
  * Possible values include: 'Off', 'Moderate', 'Strict'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SafeSearch = <SafeSearch>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SafeSearch = 'Off' | 'Moderate' | 'Strict';
+export enum SafeSearch {
+  Off = 'Off',
+  Moderate = 'Moderate',
+  Strict = 'Strict',
+}
 
 /**
  * Contains response data for the search operation.

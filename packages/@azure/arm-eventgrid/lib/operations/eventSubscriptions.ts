@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/eventSubscriptionsMappers";
 import * as Parameters from "../models/parameters";
@@ -70,7 +70,7 @@ export class EventSubscriptions {
    * @param callback The callback
    */
   get(scope: string, eventSubscriptionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscription>): void;
-  get(scope: string, eventSubscriptionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscription>, callback?: msRest.ServiceCallback<Models.EventSubscription>): Promise<Models.EventSubscriptionsGetResponse> {
+  get(scope: string, eventSubscriptionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventSubscription>): Promise<Models.EventSubscriptionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -190,7 +190,7 @@ export class EventSubscriptions {
    * @param callback The callback
    */
   getFullUrl(scope: string, eventSubscriptionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionFullUrl>): void;
-  getFullUrl(scope: string, eventSubscriptionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionFullUrl>, callback?: msRest.ServiceCallback<Models.EventSubscriptionFullUrl>): Promise<Models.EventSubscriptionsGetFullUrlResponse> {
+  getFullUrl(scope: string, eventSubscriptionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventSubscriptionFullUrl>): Promise<Models.EventSubscriptionsGetFullUrlResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -217,7 +217,7 @@ export class EventSubscriptions {
    * @param callback The callback
    */
   listGlobalBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
-  listGlobalBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListGlobalBySubscriptionResponse> {
+  listGlobalBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListGlobalBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -245,7 +245,7 @@ export class EventSubscriptions {
    * @param callback The callback
    */
   listGlobalBySubscriptionForTopicType(topicTypeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
-  listGlobalBySubscriptionForTopicType(topicTypeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListGlobalBySubscriptionForTopicTypeResponse> {
+  listGlobalBySubscriptionForTopicType(topicTypeName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListGlobalBySubscriptionForTopicTypeResponse> {
     return this.client.sendOperationRequest(
       {
         topicTypeName,
@@ -274,7 +274,7 @@ export class EventSubscriptions {
    * @param callback The callback
    */
   listGlobalByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
-  listGlobalByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListGlobalByResourceGroupResponse> {
+  listGlobalByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListGlobalByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -306,7 +306,7 @@ export class EventSubscriptions {
    * @param callback The callback
    */
   listGlobalByResourceGroupForTopicType(resourceGroupName: string, topicTypeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
-  listGlobalByResourceGroupForTopicType(resourceGroupName: string, topicTypeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListGlobalByResourceGroupForTopicTypeResponse> {
+  listGlobalByResourceGroupForTopicType(resourceGroupName: string, topicTypeName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListGlobalByResourceGroupForTopicTypeResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -336,7 +336,7 @@ export class EventSubscriptions {
    * @param callback The callback
    */
   listRegionalBySubscription(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
-  listRegionalBySubscription(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListRegionalBySubscriptionResponse> {
+  listRegionalBySubscription(location: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListRegionalBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -369,7 +369,7 @@ export class EventSubscriptions {
    * @param callback The callback
    */
   listRegionalByResourceGroup(resourceGroupName: string, location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
-  listRegionalByResourceGroup(resourceGroupName: string, location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListRegionalByResourceGroupResponse> {
+  listRegionalByResourceGroup(resourceGroupName: string, location: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListRegionalByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -403,7 +403,7 @@ export class EventSubscriptions {
    * @param callback The callback
    */
   listRegionalBySubscriptionForTopicType(location: string, topicTypeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
-  listRegionalBySubscriptionForTopicType(location: string, topicTypeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListRegionalBySubscriptionForTopicTypeResponse> {
+  listRegionalBySubscriptionForTopicType(location: string, topicTypeName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListRegionalBySubscriptionForTopicTypeResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -441,7 +441,7 @@ export class EventSubscriptions {
    * @param callback The callback
    */
   listRegionalByResourceGroupForTopicType(resourceGroupName: string, location: string, topicTypeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
-  listRegionalByResourceGroupForTopicType(resourceGroupName: string, location: string, topicTypeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListRegionalByResourceGroupForTopicTypeResponse> {
+  listRegionalByResourceGroupForTopicType(resourceGroupName: string, location: string, topicTypeName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListRegionalByResourceGroupForTopicTypeResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -481,7 +481,7 @@ export class EventSubscriptions {
    * @param callback The callback
    */
   listByResource(resourceGroupName: string, providerNamespace: string, resourceTypeName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
-  listByResource(resourceGroupName: string, providerNamespace: string, resourceTypeName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListByResourceResponse> {
+  listByResource(resourceGroupName: string, providerNamespace: string, resourceTypeName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListByResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -519,7 +519,7 @@ export class EventSubscriptions {
    * @param callback The callback
    */
   listByDomainTopic(resourceGroupName: string, domainName: string, topicName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
-  listByDomainTopic(resourceGroupName: string, domainName: string, topicName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListByDomainTopicResponse> {
+  listByDomainTopic(resourceGroupName: string, domainName: string, topicName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListByDomainTopicResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

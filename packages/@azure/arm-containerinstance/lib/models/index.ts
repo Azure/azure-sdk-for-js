@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -1068,83 +1068,160 @@ export interface ContainerGroupListResult extends Array<ContainerGroup> {
 /**
  * Defines values for ContainerNetworkProtocol.
  * Possible values include: 'TCP', 'UDP'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ContainerNetworkProtocol =
+ * <ContainerNetworkProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ContainerNetworkProtocol = 'TCP' | 'UDP';
+export enum ContainerNetworkProtocol {
+  TCP = 'TCP',
+  UDP = 'UDP',
+}
 
 /**
  * Defines values for GpuSku.
  * Possible values include: 'K80', 'P100', 'V100'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: GpuSku = <GpuSku>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type GpuSku = 'K80' | 'P100' | 'V100';
+export enum GpuSku {
+  K80 = 'K80',
+  P100 = 'P100',
+  V100 = 'V100',
+}
 
 /**
  * Defines values for ResourceIdentityType.
- * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
- * 'None'
+ * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,
+ * UserAssigned', 'None'
  * @readonly
  * @enum {string}
  */
-export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
+export enum ResourceIdentityType {
+  SystemAssigned = 'SystemAssigned',
+  UserAssigned = 'UserAssigned',
+  SystemAssignedUserAssigned = 'SystemAssigned, UserAssigned',
+  None = 'None',
+}
 
 /**
  * Defines values for ContainerGroupRestartPolicy.
  * Possible values include: 'Always', 'OnFailure', 'Never'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ContainerGroupRestartPolicy =
+ * <ContainerGroupRestartPolicy>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ContainerGroupRestartPolicy = 'Always' | 'OnFailure' | 'Never';
+export enum ContainerGroupRestartPolicy {
+  Always = 'Always',
+  OnFailure = 'OnFailure',
+  Never = 'Never',
+}
 
 /**
  * Defines values for ContainerGroupNetworkProtocol.
  * Possible values include: 'TCP', 'UDP'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ContainerGroupNetworkProtocol =
+ * <ContainerGroupNetworkProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ContainerGroupNetworkProtocol = 'TCP' | 'UDP';
+export enum ContainerGroupNetworkProtocol {
+  TCP = 'TCP',
+  UDP = 'UDP',
+}
 
 /**
  * Defines values for ContainerGroupIpAddressType.
  * Possible values include: 'Public', 'Private'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ContainerGroupIpAddressType =
+ * <ContainerGroupIpAddressType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ContainerGroupIpAddressType = 'Public' | 'Private';
+export enum ContainerGroupIpAddressType {
+  Public = 'Public',
+  Private = 'Private',
+}
 
 /**
  * Defines values for OperatingSystemTypes.
  * Possible values include: 'Windows', 'Linux'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: OperatingSystemTypes =
+ * <OperatingSystemTypes>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type OperatingSystemTypes = 'Windows' | 'Linux';
+export enum OperatingSystemTypes {
+  Windows = 'Windows',
+  Linux = 'Linux',
+}
 
 /**
  * Defines values for LogAnalyticsLogType.
  * Possible values include: 'ContainerInsights', 'ContainerInstanceLogs'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: LogAnalyticsLogType =
+ * <LogAnalyticsLogType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type LogAnalyticsLogType = 'ContainerInsights' | 'ContainerInstanceLogs';
+export enum LogAnalyticsLogType {
+  ContainerInsights = 'ContainerInsights',
+  ContainerInstanceLogs = 'ContainerInstanceLogs',
+}
 
 /**
  * Defines values for ContainerInstanceOperationsOrigin.
  * Possible values include: 'User', 'System'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ContainerInstanceOperationsOrigin =
+ * <ContainerInstanceOperationsOrigin>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ContainerInstanceOperationsOrigin = 'User' | 'System';
+export enum ContainerInstanceOperationsOrigin {
+  User = 'User',
+  System = 'System',
+}
 
 /**
  * Defines values for Scheme.
  * Possible values include: 'http', 'https'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Scheme = <Scheme>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type Scheme = 'http' | 'https';
+export enum Scheme {
+  Http = 'http',
+  Https = 'https',
+}
 
 /**
  * Contains response data for the list operation.

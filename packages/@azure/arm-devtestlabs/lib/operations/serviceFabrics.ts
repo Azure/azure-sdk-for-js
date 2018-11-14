@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/serviceFabricsMappers";
 import * as Parameters from "../models/parameters";
@@ -51,7 +51,7 @@ export class ServiceFabrics {
    * @param callback The callback
    */
   list(resourceGroupName: string, labName: string, userName: string, options: Models.ServiceFabricsListOptionalParams, callback: msRest.ServiceCallback<Models.ServiceFabricList>): void;
-  list(resourceGroupName: string, labName: string, userName: string, options?: Models.ServiceFabricsListOptionalParams | msRest.ServiceCallback<Models.ServiceFabricList>, callback?: msRest.ServiceCallback<Models.ServiceFabricList>): Promise<Models.ServiceFabricsListResponse> {
+  list(resourceGroupName: string, labName: string, userName: string, options?: Models.ServiceFabricsListOptionalParams, callback?: msRest.ServiceCallback<Models.ServiceFabricList>): Promise<Models.ServiceFabricsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -90,7 +90,7 @@ export class ServiceFabrics {
    * @param callback The callback
    */
   get(resourceGroupName: string, labName: string, userName: string, name: string, options: Models.ServiceFabricsGetOptionalParams, callback: msRest.ServiceCallback<Models.ServiceFabric>): void;
-  get(resourceGroupName: string, labName: string, userName: string, name: string, options?: Models.ServiceFabricsGetOptionalParams | msRest.ServiceCallback<Models.ServiceFabric>, callback?: msRest.ServiceCallback<Models.ServiceFabric>): Promise<Models.ServiceFabricsGetResponse> {
+  get(resourceGroupName: string, labName: string, userName: string, name: string, options?: Models.ServiceFabricsGetOptionalParams, callback?: msRest.ServiceCallback<Models.ServiceFabric>): Promise<Models.ServiceFabricsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -162,7 +162,7 @@ export class ServiceFabrics {
    * @param callback The callback
    */
   update(resourceGroupName: string, labName: string, userName: string, name: string, serviceFabric: Models.ServiceFabricFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceFabric>): void;
-  update(resourceGroupName: string, labName: string, userName: string, name: string, serviceFabric: Models.ServiceFabricFragment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceFabric>, callback?: msRest.ServiceCallback<Models.ServiceFabric>): Promise<Models.ServiceFabricsUpdateResponse> {
+  update(resourceGroupName: string, labName: string, userName: string, name: string, serviceFabric: Models.ServiceFabricFragment, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceFabric>): Promise<Models.ServiceFabricsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -203,7 +203,7 @@ export class ServiceFabrics {
    * @param callback The callback
    */
   listApplicableSchedules(resourceGroupName: string, labName: string, userName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicableSchedule>): void;
-  listApplicableSchedules(resourceGroupName: string, labName: string, userName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicableSchedule>, callback?: msRest.ServiceCallback<Models.ApplicableSchedule>): Promise<Models.ServiceFabricsListApplicableSchedulesResponse> {
+  listApplicableSchedules(resourceGroupName: string, labName: string, userName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicableSchedule>): Promise<Models.ServiceFabricsListApplicableSchedulesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -352,7 +352,7 @@ export class ServiceFabrics {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceFabricList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceFabricList>, callback?: msRest.ServiceCallback<Models.ServiceFabricList>): Promise<Models.ServiceFabricsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceFabricList>): Promise<Models.ServiceFabricsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

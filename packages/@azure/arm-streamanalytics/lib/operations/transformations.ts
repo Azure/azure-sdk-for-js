@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/transformationsMappers";
 import * as Parameters from "../models/parameters";
@@ -60,7 +60,7 @@ export class Transformations {
    * @param callback The callback
    */
   createOrReplace(transformation: Models.Transformation, resourceGroupName: string, jobName: string, transformationName: string, options: Models.TransformationsCreateOrReplaceOptionalParams, callback: msRest.ServiceCallback<Models.Transformation>): void;
-  createOrReplace(transformation: Models.Transformation, resourceGroupName: string, jobName: string, transformationName: string, options?: Models.TransformationsCreateOrReplaceOptionalParams | msRest.ServiceCallback<Models.Transformation>, callback?: msRest.ServiceCallback<Models.Transformation>): Promise<Models.TransformationsCreateOrReplaceResponse> {
+  createOrReplace(transformation: Models.Transformation, resourceGroupName: string, jobName: string, transformationName: string, options?: Models.TransformationsCreateOrReplaceOptionalParams, callback?: msRest.ServiceCallback<Models.Transformation>): Promise<Models.TransformationsCreateOrReplaceResponse> {
     return this.client.sendOperationRequest(
       {
         transformation,
@@ -114,7 +114,7 @@ export class Transformations {
    * @param callback The callback
    */
   update(transformation: Models.Transformation, resourceGroupName: string, jobName: string, transformationName: string, options: Models.TransformationsUpdateOptionalParams, callback: msRest.ServiceCallback<Models.Transformation>): void;
-  update(transformation: Models.Transformation, resourceGroupName: string, jobName: string, transformationName: string, options?: Models.TransformationsUpdateOptionalParams | msRest.ServiceCallback<Models.Transformation>, callback?: msRest.ServiceCallback<Models.Transformation>): Promise<Models.TransformationsUpdateResponse> {
+  update(transformation: Models.Transformation, resourceGroupName: string, jobName: string, transformationName: string, options?: Models.TransformationsUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.Transformation>): Promise<Models.TransformationsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         transformation,
@@ -154,7 +154,7 @@ export class Transformations {
    * @param callback The callback
    */
   get(resourceGroupName: string, jobName: string, transformationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Transformation>): void;
-  get(resourceGroupName: string, jobName: string, transformationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Transformation>, callback?: msRest.ServiceCallback<Models.Transformation>): Promise<Models.TransformationsGetResponse> {
+  get(resourceGroupName: string, jobName: string, transformationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Transformation>): Promise<Models.TransformationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

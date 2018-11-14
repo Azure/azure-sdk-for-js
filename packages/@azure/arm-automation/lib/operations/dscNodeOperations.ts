@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/dscNodeOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class DscNodeOperations {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, automationAccountName: string, nodeId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DscNode>): void;
-  deleteMethod(resourceGroupName: string, automationAccountName: string, nodeId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscNode>, callback?: msRest.ServiceCallback<Models.DscNode>): Promise<Models.DscNodeDeleteMethodResponse> {
+  deleteMethod(resourceGroupName: string, automationAccountName: string, nodeId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DscNode>): Promise<Models.DscNodeDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -86,7 +86,7 @@ export class DscNodeOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, automationAccountName: string, nodeId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DscNode>): void;
-  get(resourceGroupName: string, automationAccountName: string, nodeId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscNode>, callback?: msRest.ServiceCallback<Models.DscNode>): Promise<Models.DscNodeGetResponse> {
+  get(resourceGroupName: string, automationAccountName: string, nodeId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DscNode>): Promise<Models.DscNodeGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -125,7 +125,7 @@ export class DscNodeOperations {
    * @param callback The callback
    */
   update(resourceGroupName: string, automationAccountName: string, nodeId: string, dscNodeUpdateParameters: Models.DscNodeUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DscNode>): void;
-  update(resourceGroupName: string, automationAccountName: string, nodeId: string, dscNodeUpdateParameters: Models.DscNodeUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscNode>, callback?: msRest.ServiceCallback<Models.DscNode>): Promise<Models.DscNodeUpdateResponse> {
+  update(resourceGroupName: string, automationAccountName: string, nodeId: string, dscNodeUpdateParameters: Models.DscNodeUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DscNode>): Promise<Models.DscNodeUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -159,7 +159,7 @@ export class DscNodeOperations {
    * @param callback The callback
    */
   listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: Models.DscNodeListByAutomationAccountOptionalParams, callback: msRest.ServiceCallback<Models.DscNodeListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.DscNodeListByAutomationAccountOptionalParams | msRest.ServiceCallback<Models.DscNodeListResult>, callback?: msRest.ServiceCallback<Models.DscNodeListResult>): Promise<Models.DscNodeListByAutomationAccountResponse> {
+  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.DscNodeListByAutomationAccountOptionalParams, callback?: msRest.ServiceCallback<Models.DscNodeListResult>): Promise<Models.DscNodeListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -188,7 +188,7 @@ export class DscNodeOperations {
    * @param callback The callback
    */
   listByAutomationAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DscNodeListResult>): void;
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscNodeListResult>, callback?: msRest.ServiceCallback<Models.DscNodeListResult>): Promise<Models.DscNodeListByAutomationAccountNextResponse> {
+  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DscNodeListResult>): Promise<Models.DscNodeListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

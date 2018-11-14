@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/serversMappers";
 import * as Parameters from "../models/parameters";
@@ -54,7 +54,7 @@ export class Servers {
    * @param callback The callback
    */
   getDetails(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AnalysisServicesServer>): void;
-  getDetails(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AnalysisServicesServer>, callback?: msRest.ServiceCallback<Models.AnalysisServicesServer>): Promise<Models.ServersGetDetailsResponse> {
+  getDetails(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AnalysisServicesServer>): Promise<Models.ServersGetDetailsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -160,7 +160,7 @@ export class Servers {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AnalysisServicesServers>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AnalysisServicesServers>, callback?: msRest.ServiceCallback<Models.AnalysisServicesServers>): Promise<Models.ServersListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AnalysisServicesServers>): Promise<Models.ServersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -185,7 +185,7 @@ export class Servers {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AnalysisServicesServers>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AnalysisServicesServers>, callback?: msRest.ServiceCallback<Models.AnalysisServicesServers>): Promise<Models.ServersListResponse> {
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AnalysisServicesServers>): Promise<Models.ServersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -209,7 +209,7 @@ export class Servers {
    * @param callback The callback
    */
   listSkusForNew(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SkuEnumerationForNewResourceResult>): void;
-  listSkusForNew(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SkuEnumerationForNewResourceResult>, callback?: msRest.ServiceCallback<Models.SkuEnumerationForNewResourceResult>): Promise<Models.ServersListSkusForNewResponse> {
+  listSkusForNew(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SkuEnumerationForNewResourceResult>): Promise<Models.ServersListSkusForNewResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -245,7 +245,7 @@ export class Servers {
    * @param callback The callback
    */
   listSkusForExisting(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SkuEnumerationForExistingResourceResult>): void;
-  listSkusForExisting(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SkuEnumerationForExistingResourceResult>, callback?: msRest.ServiceCallback<Models.SkuEnumerationForExistingResourceResult>): Promise<Models.ServersListSkusForExistingResponse> {
+  listSkusForExisting(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SkuEnumerationForExistingResourceResult>): Promise<Models.ServersListSkusForExistingResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -280,7 +280,7 @@ export class Servers {
    * @param callback The callback
    */
   listGatewayStatus(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GatewayListStatusLive>): void;
-  listGatewayStatus(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GatewayListStatusLive>, callback?: msRest.ServiceCallback<Models.GatewayListStatusLive>): Promise<Models.ServersListGatewayStatusResponse> {
+  listGatewayStatus(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.GatewayListStatusLive>): Promise<Models.ServersListGatewayStatusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -318,7 +318,7 @@ export class Servers {
    * @param callback The callback
    */
   dissociateGateway(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  dissociateGateway(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  dissociateGateway(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -350,7 +350,7 @@ export class Servers {
    * @param callback The callback
    */
   checkNameAvailability(location: string, serverParameters: Models.CheckServerNameAvailabilityParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckServerNameAvailabilityResult>): void;
-  checkNameAvailability(location: string, serverParameters: Models.CheckServerNameAvailabilityParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckServerNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckServerNameAvailabilityResult>): Promise<Models.ServersCheckNameAvailabilityResponse> {
+  checkNameAvailability(location: string, serverParameters: Models.CheckServerNameAvailabilityParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CheckServerNameAvailabilityResult>): Promise<Models.ServersCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -382,7 +382,7 @@ export class Servers {
    * @param callback The callback
    */
   listOperationResults(location: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  listOperationResults(location: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  listOperationResults(location: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -414,7 +414,7 @@ export class Servers {
    * @param callback The callback
    */
   listOperationStatuses(location: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  listOperationStatuses(location: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ServersListOperationStatusesResponse> {
+  listOperationStatuses(location: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ServersListOperationStatusesResponse> {
     return this.client.sendOperationRequest(
       {
         location,

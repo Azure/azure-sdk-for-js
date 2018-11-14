@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
@@ -56,7 +56,7 @@ class AzureReservationAPI extends AzureReservationAPIContext {
    * @param callback The callback
    */
   getCatalog(subscriptionId: string, reservedResourceType: string, options: Models.AzureReservationAPIGetCatalogOptionalParams, callback: msRest.ServiceCallback<Models.Catalog[]>): void;
-  getCatalog(subscriptionId: string, reservedResourceType: string, options?: Models.AzureReservationAPIGetCatalogOptionalParams | msRest.ServiceCallback<Models.Catalog[]>, callback?: msRest.ServiceCallback<Models.Catalog[]>): Promise<Models.GetCatalogResponse> {
+  getCatalog(subscriptionId: string, reservedResourceType: string, options?: Models.AzureReservationAPIGetCatalogOptionalParams, callback?: msRest.ServiceCallback<Models.Catalog[]>): Promise<Models.GetCatalogResponse> {
     return this.sendOperationRequest(
       {
         subscriptionId,
@@ -86,7 +86,7 @@ class AzureReservationAPI extends AzureReservationAPIContext {
    * @param callback The callback
    */
   getAppliedReservationList(subscriptionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppliedReservations>): void;
-  getAppliedReservationList(subscriptionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppliedReservations>, callback?: msRest.ServiceCallback<Models.AppliedReservations>): Promise<Models.GetAppliedReservationListResponse> {
+  getAppliedReservationList(subscriptionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AppliedReservations>): Promise<Models.GetAppliedReservationListResponse> {
     return this.sendOperationRequest(
       {
         subscriptionId,

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -1060,10 +1060,18 @@ export interface NotificationHubListResult extends Array<NotificationHubResource
 /**
  * Defines values for SkuName.
  * Possible values include: 'Free', 'Basic', 'Standard'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SkuName = <SkuName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'Free' | 'Basic' | 'Standard';
+export enum SkuName {
+  Free = 'Free',
+  Basic = 'Basic',
+  Standard = 'Standard',
+}
 
 /**
  * Defines values for NamespaceType.
@@ -1071,7 +1079,10 @@ export type SkuName = 'Free' | 'Basic' | 'Standard';
  * @readonly
  * @enum {string}
  */
-export type NamespaceType = 'Messaging' | 'NotificationHub';
+export enum NamespaceType {
+  Messaging = 'Messaging',
+  NotificationHub = 'NotificationHub',
+}
 
 /**
  * Defines values for AccessRights.
@@ -1079,7 +1090,11 @@ export type NamespaceType = 'Messaging' | 'NotificationHub';
  * @readonly
  * @enum {string}
  */
-export type AccessRights = 'Manage' | 'Send' | 'Listen';
+export enum AccessRights {
+  Manage = 'Manage',
+  Send = 'Send',
+  Listen = 'Listen',
+}
 
 /**
  * Contains response data for the list operation.

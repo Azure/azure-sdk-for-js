@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/webMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class Web {
    * @param callback The callback
    */
   search(query: string, options: Models.WebSearchOptionalParams, callback: msRest.ServiceCallback<Models.SearchResponse>): void;
-  search(query: string, options?: Models.WebSearchOptionalParams | msRest.ServiceCallback<Models.SearchResponse>, callback?: msRest.ServiceCallback<Models.SearchResponse>): Promise<Models.WebSearchResponse> {
+  search(query: string, options?: Models.WebSearchOptionalParams, callback?: msRest.ServiceCallback<Models.SearchResponse>): Promise<Models.WebSearchResponse> {
     return this.client.sendOperationRequest(
       {
         query,
@@ -63,10 +63,7 @@ export class Web {
 const serializer = new msRest.Serializer(Mappers);
 const searchOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "search",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  path: "bing/v7.0/search",
   queryParameters: [
     Parameters.answerCount,
     Parameters.countryCode,

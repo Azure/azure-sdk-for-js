@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/alertRulesMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class AlertRules {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, ruleName: string, parameters: Models.AlertRuleResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertRuleResource>): void;
-  createOrUpdate(resourceGroupName: string, ruleName: string, parameters: Models.AlertRuleResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertRuleResource>, callback?: msRest.ServiceCallback<Models.AlertRuleResource>): Promise<Models.AlertRulesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, ruleName: string, parameters: Models.AlertRuleResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AlertRuleResource>): Promise<Models.AlertRulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +83,7 @@ export class AlertRules {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, ruleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, ruleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, ruleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -115,7 +115,7 @@ export class AlertRules {
    * @param callback The callback
    */
   get(resourceGroupName: string, ruleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertRuleResource>): void;
-  get(resourceGroupName: string, ruleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertRuleResource>, callback?: msRest.ServiceCallback<Models.AlertRuleResource>): Promise<Models.AlertRulesGetResponse> {
+  get(resourceGroupName: string, ruleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AlertRuleResource>): Promise<Models.AlertRulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -150,7 +150,7 @@ export class AlertRules {
    * @param callback The callback
    */
   update(resourceGroupName: string, ruleName: string, alertRulesResource: Models.AlertRuleResourcePatch, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertRuleResource>): void;
-  update(resourceGroupName: string, ruleName: string, alertRulesResource: Models.AlertRuleResourcePatch, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertRuleResource>, callback?: msRest.ServiceCallback<Models.AlertRuleResource>): Promise<Models.AlertRulesUpdateResponse> {
+  update(resourceGroupName: string, ruleName: string, alertRulesResource: Models.AlertRuleResourcePatch, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AlertRuleResource>): Promise<Models.AlertRulesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -180,7 +180,7 @@ export class AlertRules {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertRuleResourceCollection>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertRuleResourceCollection>, callback?: msRest.ServiceCallback<Models.AlertRuleResourceCollection>): Promise<Models.AlertRulesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AlertRuleResourceCollection>): Promise<Models.AlertRulesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -205,7 +205,7 @@ export class AlertRules {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertRuleResourceCollection>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertRuleResourceCollection>, callback?: msRest.ServiceCallback<Models.AlertRuleResourceCollection>): Promise<Models.AlertRulesListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AlertRuleResourceCollection>): Promise<Models.AlertRulesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options

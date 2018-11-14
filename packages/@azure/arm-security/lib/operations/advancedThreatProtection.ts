@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/advancedThreatProtectionMappers";
 import * as Parameters from "../models/parameters";
@@ -44,7 +44,7 @@ export class AdvancedThreatProtection {
    * @param callback The callback
    */
   get(resourceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AdvancedThreatProtectionSetting>): void;
-  get(resourceId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AdvancedThreatProtectionSetting>, callback?: msRest.ServiceCallback<Models.AdvancedThreatProtectionSetting>): Promise<Models.AdvancedThreatProtectionGetResponse> {
+  get(resourceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AdvancedThreatProtectionSetting>): Promise<Models.AdvancedThreatProtectionGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
@@ -75,7 +75,7 @@ export class AdvancedThreatProtection {
    * @param callback The callback
    */
   create(resourceId: string, advancedThreatProtectionSetting: Models.AdvancedThreatProtectionSetting, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AdvancedThreatProtectionSetting>): void;
-  create(resourceId: string, advancedThreatProtectionSetting: Models.AdvancedThreatProtectionSetting, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AdvancedThreatProtectionSetting>, callback?: msRest.ServiceCallback<Models.AdvancedThreatProtectionSetting>): Promise<Models.AdvancedThreatProtectionCreateResponse> {
+  create(resourceId: string, advancedThreatProtectionSetting: Models.AdvancedThreatProtectionSetting, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AdvancedThreatProtectionSetting>): Promise<Models.AdvancedThreatProtectionCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,

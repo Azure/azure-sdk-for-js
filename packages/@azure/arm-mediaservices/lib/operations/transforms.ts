@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/transformsMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class Transforms {
    * @param callback The callback
    */
   list(resourceGroupName: string, accountName: string, options: Models.TransformsListOptionalParams, callback: msRest.ServiceCallback<Models.TransformCollection>): void;
-  list(resourceGroupName: string, accountName: string, options?: Models.TransformsListOptionalParams | msRest.ServiceCallback<Models.TransformCollection>, callback?: msRest.ServiceCallback<Models.TransformCollection>): Promise<Models.TransformsListResponse> {
+  list(resourceGroupName: string, accountName: string, options?: Models.TransformsListOptionalParams, callback?: msRest.ServiceCallback<Models.TransformCollection>): Promise<Models.TransformsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -84,7 +84,7 @@ export class Transforms {
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, transformName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Transform>): void;
-  get(resourceGroupName: string, accountName: string, transformName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Transform>, callback?: msRest.ServiceCallback<Models.Transform>): Promise<Models.TransformsGetResponse> {
+  get(resourceGroupName: string, accountName: string, transformName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Transform>): Promise<Models.TransformsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -124,7 +124,7 @@ export class Transforms {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, accountName: string, transformName: string, parameters: Models.Transform, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Transform>): void;
-  createOrUpdate(resourceGroupName: string, accountName: string, transformName: string, parameters: Models.Transform, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Transform>, callback?: msRest.ServiceCallback<Models.Transform>): Promise<Models.TransformsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, accountName: string, transformName: string, parameters: Models.Transform, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Transform>): Promise<Models.TransformsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -162,7 +162,7 @@ export class Transforms {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, accountName: string, transformName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, transformName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, accountName: string, transformName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -202,7 +202,7 @@ export class Transforms {
    * @param callback The callback
    */
   update(resourceGroupName: string, accountName: string, transformName: string, parameters: Models.Transform, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Transform>): void;
-  update(resourceGroupName: string, accountName: string, transformName: string, parameters: Models.Transform, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Transform>, callback?: msRest.ServiceCallback<Models.Transform>): Promise<Models.TransformsUpdateResponse> {
+  update(resourceGroupName: string, accountName: string, transformName: string, parameters: Models.Transform, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Transform>): Promise<Models.TransformsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -234,7 +234,7 @@ export class Transforms {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TransformCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TransformCollection>, callback?: msRest.ServiceCallback<Models.TransformCollection>): Promise<Models.TransformsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TransformCollection>): Promise<Models.TransformsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

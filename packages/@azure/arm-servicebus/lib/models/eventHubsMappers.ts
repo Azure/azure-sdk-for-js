@@ -34,6 +34,8 @@ export {
   PremiumMessagingRegions,
   PremiumMessagingRegionsProperties,
   ArmDisasterRecovery,
-  MigrationConfigProperties
+  MigrationConfigProperties,
+  IpFilterRule,
+  VirtualNetworkRule
 } from "../models/mappers";
 

@@ -8,13 +8,10 @@
  * regenerated.
  */
 
-export * from "./operations";
-export * from "./secret";
-export * from "./secretValueOperations";
-export * from "./volume";
-export * from "./network";
-export * from "./gateway";
 export * from "./application";
 export * from "./service";
-export * from "./serviceReplica";
+export * from "./replica";
 export * from "./codePackage";
+export * from "./operations";
+export * from "./network";
+export * from "./volume";

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/appsMappers";
 import * as Parameters from "../models/parameters";
@@ -51,7 +51,7 @@ export class Apps {
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.App>): void;
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.App>, callback?: msRest.ServiceCallback<Models.App>): Promise<Models.AppsGetResponse> {
+  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.App>): Promise<Models.AppsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -120,7 +120,7 @@ export class Apps {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppListResult>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppListResult>, callback?: msRest.ServiceCallback<Models.AppListResult>): Promise<Models.AppsListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AppListResult>): Promise<Models.AppsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -150,7 +150,7 @@ export class Apps {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppListResult>, callback?: msRest.ServiceCallback<Models.AppListResult>): Promise<Models.AppsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AppListResult>): Promise<Models.AppsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -181,7 +181,7 @@ export class Apps {
    * @param callback The callback
    */
   checkNameAvailability(operationInputs: Models.OperationInputs, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppAvailabilityInfo>): void;
-  checkNameAvailability(operationInputs: Models.OperationInputs, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppAvailabilityInfo>, callback?: msRest.ServiceCallback<Models.AppAvailabilityInfo>): Promise<Models.AppsCheckNameAvailabilityResponse> {
+  checkNameAvailability(operationInputs: Models.OperationInputs, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AppAvailabilityInfo>): Promise<Models.AppsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         operationInputs,
@@ -212,7 +212,7 @@ export class Apps {
    * @param callback The callback
    */
   checkSubdomainAvailability(operationInputs: Models.OperationInputs, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppAvailabilityInfo>): void;
-  checkSubdomainAvailability(operationInputs: Models.OperationInputs, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppAvailabilityInfo>, callback?: msRest.ServiceCallback<Models.AppAvailabilityInfo>): Promise<Models.AppsCheckSubdomainAvailabilityResponse> {
+  checkSubdomainAvailability(operationInputs: Models.OperationInputs, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AppAvailabilityInfo>): Promise<Models.AppsCheckSubdomainAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         operationInputs,
@@ -303,7 +303,7 @@ export class Apps {
    * @param callback The callback
    */
   listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppListResult>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppListResult>, callback?: msRest.ServiceCallback<Models.AppListResult>): Promise<Models.AppsListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AppListResult>): Promise<Models.AppsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -331,7 +331,7 @@ export class Apps {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppListResult>, callback?: msRest.ServiceCallback<Models.AppListResult>): Promise<Models.AppsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AppListResult>): Promise<Models.AppsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

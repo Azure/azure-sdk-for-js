@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/frontendEndpointsMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class FrontendEndpoints {
    * @param callback The callback
    */
   listByFrontDoor(resourceGroupName: string, frontDoorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FrontendEndpointsListResult>): void;
-  listByFrontDoor(resourceGroupName: string, frontDoorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FrontendEndpointsListResult>, callback?: msRest.ServiceCallback<Models.FrontendEndpointsListResult>): Promise<Models.FrontendEndpointsListByFrontDoorResponse> {
+  listByFrontDoor(resourceGroupName: string, frontDoorName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FrontendEndpointsListResult>): Promise<Models.FrontendEndpointsListByFrontDoorResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +83,7 @@ export class FrontendEndpoints {
    * @param callback The callback
    */
   get(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FrontendEndpoint>): void;
-  get(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FrontendEndpoint>, callback?: msRest.ServiceCallback<Models.FrontendEndpoint>): Promise<Models.FrontendEndpointsGetResponse> {
+  get(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FrontendEndpoint>): Promise<Models.FrontendEndpointsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -251,7 +251,7 @@ export class FrontendEndpoints {
    * @param callback The callback
    */
   listByFrontDoorNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FrontendEndpointsListResult>): void;
-  listByFrontDoorNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FrontendEndpointsListResult>, callback?: msRest.ServiceCallback<Models.FrontendEndpointsListResult>): Promise<Models.FrontendEndpointsListByFrontDoorNextResponse> {
+  listByFrontDoorNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FrontendEndpointsListResult>): Promise<Models.FrontendEndpointsListByFrontDoorNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

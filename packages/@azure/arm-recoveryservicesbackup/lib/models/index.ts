@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -8321,54 +8321,129 @@ export interface ClientDiscoveryResponse extends Array<ClientDiscoveryValueForSi
 
 /**
  * Defines values for ProtectionState.
- * Possible values include: 'Invalid', 'IRPending', 'Protected', 'ProtectionError',
- * 'ProtectionStopped', 'ProtectionPaused'
+ * Possible values include: 'Invalid', 'IRPending', 'Protected',
+ * 'ProtectionError', 'ProtectionStopped', 'ProtectionPaused'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ProtectionState =
+ * <ProtectionState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ProtectionState = 'Invalid' | 'IRPending' | 'Protected' | 'ProtectionError' | 'ProtectionStopped' | 'ProtectionPaused';
+export enum ProtectionState {
+  Invalid = 'Invalid',
+  IRPending = 'IRPending',
+  Protected = 'Protected',
+  ProtectionError = 'ProtectionError',
+  ProtectionStopped = 'ProtectionStopped',
+  ProtectionPaused = 'ProtectionPaused',
+}
 
 /**
  * Defines values for HealthStatus.
- * Possible values include: 'Passed', 'ActionRequired', 'ActionSuggested', 'Invalid'
+ * Possible values include: 'Passed', 'ActionRequired', 'ActionSuggested',
+ * 'Invalid'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: HealthStatus =
+ * <HealthStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type HealthStatus = 'Passed' | 'ActionRequired' | 'ActionSuggested' | 'Invalid';
+export enum HealthStatus {
+  Passed = 'Passed',
+  ActionRequired = 'ActionRequired',
+  ActionSuggested = 'ActionSuggested',
+  Invalid = 'Invalid',
+}
 
 /**
  * Defines values for WorkloadType.
- * Possible values include: 'Invalid', 'VM', 'FileFolder', 'AzureSqlDb', 'SQLDB', 'Exchange',
- * 'Sharepoint', 'VMwareVM', 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
- * 'AzureFileShare', 'SAPHanaDatabase'
+ * Possible values include: 'Invalid', 'VM', 'FileFolder', 'AzureSqlDb',
+ * 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM', 'SystemState', 'Client',
+ * 'GenericDataSource', 'SQLDataBase', 'AzureFileShare', 'SAPHanaDatabase'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: WorkloadType =
+ * <WorkloadType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type WorkloadType = 'Invalid' | 'VM' | 'FileFolder' | 'AzureSqlDb' | 'SQLDB' | 'Exchange' | 'Sharepoint' | 'VMwareVM' | 'SystemState' | 'Client' | 'GenericDataSource' | 'SQLDataBase' | 'AzureFileShare' | 'SAPHanaDatabase';
+export enum WorkloadType {
+  Invalid = 'Invalid',
+  VM = 'VM',
+  FileFolder = 'FileFolder',
+  AzureSqlDb = 'AzureSqlDb',
+  SQLDB = 'SQLDB',
+  Exchange = 'Exchange',
+  Sharepoint = 'Sharepoint',
+  VMwareVM = 'VMwareVM',
+  SystemState = 'SystemState',
+  Client = 'Client',
+  GenericDataSource = 'GenericDataSource',
+  SQLDataBase = 'SQLDataBase',
+  AzureFileShare = 'AzureFileShare',
+  SAPHanaDatabase = 'SAPHanaDatabase',
+}
 
 /**
  * Defines values for RecoveryType.
- * Possible values include: 'Invalid', 'OriginalLocation', 'AlternateLocation', 'RestoreDisks'
+ * Possible values include: 'Invalid', 'OriginalLocation', 'AlternateLocation',
+ * 'RestoreDisks'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: RecoveryType =
+ * <RecoveryType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type RecoveryType = 'Invalid' | 'OriginalLocation' | 'AlternateLocation' | 'RestoreDisks';
+export enum RecoveryType {
+  Invalid = 'Invalid',
+  OriginalLocation = 'OriginalLocation',
+  AlternateLocation = 'AlternateLocation',
+  RestoreDisks = 'RestoreDisks',
+}
 
 /**
  * Defines values for CopyOptions.
- * Possible values include: 'Invalid', 'CreateCopy', 'Skip', 'Overwrite', 'FailOnConflict'
+ * Possible values include: 'Invalid', 'CreateCopy', 'Skip', 'Overwrite',
+ * 'FailOnConflict'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: CopyOptions =
+ * <CopyOptions>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type CopyOptions = 'Invalid' | 'CreateCopy' | 'Skip' | 'Overwrite' | 'FailOnConflict';
+export enum CopyOptions {
+  Invalid = 'Invalid',
+  CreateCopy = 'CreateCopy',
+  Skip = 'Skip',
+  Overwrite = 'Overwrite',
+  FailOnConflict = 'FailOnConflict',
+}
 
 /**
  * Defines values for RestoreRequestType.
  * Possible values include: 'Invalid', 'FullShareRestore', 'ItemLevelRestore'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: RestoreRequestType =
+ * <RestoreRequestType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type RestoreRequestType = 'Invalid' | 'FullShareRestore' | 'ItemLevelRestore';
+export enum RestoreRequestType {
+  Invalid = 'Invalid',
+  FullShareRestore = 'FullShareRestore',
+  ItemLevelRestore = 'ItemLevelRestore',
+}
 
 /**
  * Defines values for JobSupportedAction.
@@ -8376,330 +8451,790 @@ export type RestoreRequestType = 'Invalid' | 'FullShareRestore' | 'ItemLevelRest
  * @readonly
  * @enum {string}
  */
-export type JobSupportedAction = 'Invalid' | 'Cancellable' | 'Retriable';
+export enum JobSupportedAction {
+  Invalid = 'Invalid',
+  Cancellable = 'Cancellable',
+  Retriable = 'Retriable',
+}
 
 /**
  * Defines values for ProtectedItemState.
- * Possible values include: 'Invalid', 'IRPending', 'Protected', 'ProtectionError',
- * 'ProtectionStopped', 'ProtectionPaused'
+ * Possible values include: 'Invalid', 'IRPending', 'Protected',
+ * 'ProtectionError', 'ProtectionStopped', 'ProtectionPaused'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ProtectedItemState =
+ * <ProtectedItemState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ProtectedItemState = 'Invalid' | 'IRPending' | 'Protected' | 'ProtectionError' | 'ProtectionStopped' | 'ProtectionPaused';
+export enum ProtectedItemState {
+  Invalid = 'Invalid',
+  IRPending = 'IRPending',
+  Protected = 'Protected',
+  ProtectionError = 'ProtectionError',
+  ProtectionStopped = 'ProtectionStopped',
+  ProtectionPaused = 'ProtectionPaused',
+}
 
 /**
  * Defines values for SupportStatus.
- * Possible values include: 'Invalid', 'Supported', 'DefaultOFF', 'DefaultON', 'NotSupported'
+ * Possible values include: 'Invalid', 'Supported', 'DefaultOFF', 'DefaultON',
+ * 'NotSupported'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SupportStatus =
+ * <SupportStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SupportStatus = 'Invalid' | 'Supported' | 'DefaultOFF' | 'DefaultON' | 'NotSupported';
+export enum SupportStatus {
+  Invalid = 'Invalid',
+  Supported = 'Supported',
+  DefaultOFF = 'DefaultOFF',
+  DefaultON = 'DefaultON',
+  NotSupported = 'NotSupported',
+}
 
 /**
  * Defines values for LastBackupStatus.
  * Possible values include: 'Invalid', 'Healthy', 'Unhealthy', 'IRPending'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: LastBackupStatus =
+ * <LastBackupStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type LastBackupStatus = 'Invalid' | 'Healthy' | 'Unhealthy' | 'IRPending';
+export enum LastBackupStatus {
+  Invalid = 'Invalid',
+  Healthy = 'Healthy',
+  Unhealthy = 'Unhealthy',
+  IRPending = 'IRPending',
+}
 
 /**
  * Defines values for ProtectedItemHealthStatus.
- * Possible values include: 'Invalid', 'Healthy', 'Unhealthy', 'NotReachable', 'IRPending'
+ * Possible values include: 'Invalid', 'Healthy', 'Unhealthy', 'NotReachable',
+ * 'IRPending'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ProtectedItemHealthStatus =
+ * <ProtectedItemHealthStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ProtectedItemHealthStatus = 'Invalid' | 'Healthy' | 'Unhealthy' | 'NotReachable' | 'IRPending';
+export enum ProtectedItemHealthStatus {
+  Invalid = 'Invalid',
+  Healthy = 'Healthy',
+  Unhealthy = 'Unhealthy',
+  NotReachable = 'NotReachable',
+  IRPending = 'IRPending',
+}
 
 /**
  * Defines values for PolicyType.
- * Possible values include: 'Invalid', 'Full', 'Differential', 'Log', 'CopyOnlyFull'
+ * Possible values include: 'Invalid', 'Full', 'Differential', 'Log',
+ * 'CopyOnlyFull'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: PolicyType = <PolicyType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type PolicyType = 'Invalid' | 'Full' | 'Differential' | 'Log' | 'CopyOnlyFull';
+export enum PolicyType {
+  Invalid = 'Invalid',
+  Full = 'Full',
+  Differential = 'Differential',
+  Log = 'Log',
+  CopyOnlyFull = 'CopyOnlyFull',
+}
 
 /**
  * Defines values for OverwriteOptions.
  * Possible values include: 'Invalid', 'FailOnConflict', 'Overwrite'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: OverwriteOptions =
+ * <OverwriteOptions>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type OverwriteOptions = 'Invalid' | 'FailOnConflict' | 'Overwrite';
+export enum OverwriteOptions {
+  Invalid = 'Invalid',
+  FailOnConflict = 'FailOnConflict',
+  Overwrite = 'Overwrite',
+}
 
 /**
  * Defines values for WorkloadItemType.
- * Possible values include: 'Invalid', 'SQLInstance', 'SQLDataBase', 'SAPHanaSystem',
- * 'SAPHanaDatabase'
+ * Possible values include: 'Invalid', 'SQLInstance', 'SQLDataBase',
+ * 'SAPHanaSystem', 'SAPHanaDatabase'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: WorkloadItemType =
+ * <WorkloadItemType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type WorkloadItemType = 'Invalid' | 'SQLInstance' | 'SQLDataBase' | 'SAPHanaSystem' | 'SAPHanaDatabase';
+export enum WorkloadItemType {
+  Invalid = 'Invalid',
+  SQLInstance = 'SQLInstance',
+  SQLDataBase = 'SQLDataBase',
+  SAPHanaSystem = 'SAPHanaSystem',
+  SAPHanaDatabase = 'SAPHanaDatabase',
+}
 
 /**
  * Defines values for SQLDataDirectoryType.
  * Possible values include: 'Invalid', 'Data', 'Log'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SQLDataDirectoryType =
+ * <SQLDataDirectoryType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SQLDataDirectoryType = 'Invalid' | 'Data' | 'Log';
+export enum SQLDataDirectoryType {
+  Invalid = 'Invalid',
+  Data = 'Data',
+  Log = 'Log',
+}
 
 /**
  * Defines values for UsagesUnit.
- * Possible values include: 'Count', 'Bytes', 'Seconds', 'Percent', 'CountPerSecond',
- * 'BytesPerSecond'
+ * Possible values include: 'Count', 'Bytes', 'Seconds', 'Percent',
+ * 'CountPerSecond', 'BytesPerSecond'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: UsagesUnit = <UsagesUnit>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type UsagesUnit = 'Count' | 'Bytes' | 'Seconds' | 'Percent' | 'CountPerSecond' | 'BytesPerSecond';
+export enum UsagesUnit {
+  Count = 'Count',
+  Bytes = 'Bytes',
+  Seconds = 'Seconds',
+  Percent = 'Percent',
+  CountPerSecond = 'CountPerSecond',
+  BytesPerSecond = 'BytesPerSecond',
+}
 
 /**
  * Defines values for DataSourceType.
- * Possible values include: 'Invalid', 'VM', 'FileFolder', 'AzureSqlDb', 'SQLDB', 'Exchange',
- * 'Sharepoint', 'VMwareVM', 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
- * 'AzureFileShare', 'SAPHanaDatabase'
+ * Possible values include: 'Invalid', 'VM', 'FileFolder', 'AzureSqlDb',
+ * 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM', 'SystemState', 'Client',
+ * 'GenericDataSource', 'SQLDataBase', 'AzureFileShare', 'SAPHanaDatabase'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: DataSourceType =
+ * <DataSourceType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type DataSourceType = 'Invalid' | 'VM' | 'FileFolder' | 'AzureSqlDb' | 'SQLDB' | 'Exchange' | 'Sharepoint' | 'VMwareVM' | 'SystemState' | 'Client' | 'GenericDataSource' | 'SQLDataBase' | 'AzureFileShare' | 'SAPHanaDatabase';
+export enum DataSourceType {
+  Invalid = 'Invalid',
+  VM = 'VM',
+  FileFolder = 'FileFolder',
+  AzureSqlDb = 'AzureSqlDb',
+  SQLDB = 'SQLDB',
+  Exchange = 'Exchange',
+  Sharepoint = 'Sharepoint',
+  VMwareVM = 'VMwareVM',
+  SystemState = 'SystemState',
+  Client = 'Client',
+  GenericDataSource = 'GenericDataSource',
+  SQLDataBase = 'SQLDataBase',
+  AzureFileShare = 'AzureFileShare',
+  SAPHanaDatabase = 'SAPHanaDatabase',
+}
 
 /**
  * Defines values for ProtectionStatus.
- * Possible values include: 'Invalid', 'NotProtected', 'Protecting', 'Protected',
- * 'ProtectionFailed'
+ * Possible values include: 'Invalid', 'NotProtected', 'Protecting',
+ * 'Protected', 'ProtectionFailed'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ProtectionStatus =
+ * <ProtectionStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ProtectionStatus = 'Invalid' | 'NotProtected' | 'Protecting' | 'Protected' | 'ProtectionFailed';
+export enum ProtectionStatus {
+  Invalid = 'Invalid',
+  NotProtected = 'NotProtected',
+  Protecting = 'Protecting',
+  Protected = 'Protected',
+  ProtectionFailed = 'ProtectionFailed',
+}
 
 /**
  * Defines values for FabricName.
  * Possible values include: 'Invalid', 'Azure'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: FabricName = <FabricName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type FabricName = 'Invalid' | 'Azure';
+export enum FabricName {
+  Invalid = 'Invalid',
+  Azure = 'Azure',
+}
 
 /**
  * Defines values for Type.
  * Possible values include: 'Invalid', 'BackupProtectedItemCountSummary',
  * 'BackupProtectionContainerCountSummary'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Type = <Type>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type Type = 'Invalid' | 'BackupProtectedItemCountSummary' | 'BackupProtectionContainerCountSummary';
+export enum Type {
+  Invalid = 'Invalid',
+  BackupProtectedItemCountSummary = 'BackupProtectedItemCountSummary',
+  BackupProtectionContainerCountSummary = 'BackupProtectionContainerCountSummary',
+}
 
 /**
  * Defines values for RetentionDurationType.
  * Possible values include: 'Invalid', 'Days', 'Weeks', 'Months', 'Years'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: RetentionDurationType =
+ * <RetentionDurationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type RetentionDurationType = 'Invalid' | 'Days' | 'Weeks' | 'Months' | 'Years';
+export enum RetentionDurationType {
+  Invalid = 'Invalid',
+  Days = 'Days',
+  Weeks = 'Weeks',
+  Months = 'Months',
+  Years = 'Years',
+}
 
 /**
  * Defines values for BackupManagementType.
- * Possible values include: 'Invalid', 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer',
- * 'AzureSql', 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
+ * Possible values include: 'Invalid', 'AzureIaasVM', 'MAB', 'DPM',
+ * 'AzureBackupServer', 'AzureSql', 'AzureStorage', 'AzureWorkload',
+ * 'DefaultBackup'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: BackupManagementType =
+ * <BackupManagementType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type BackupManagementType = 'Invalid' | 'AzureIaasVM' | 'MAB' | 'DPM' | 'AzureBackupServer' | 'AzureSql' | 'AzureStorage' | 'AzureWorkload' | 'DefaultBackup';
+export enum BackupManagementType {
+  Invalid = 'Invalid',
+  AzureIaasVM = 'AzureIaasVM',
+  MAB = 'MAB',
+  DPM = 'DPM',
+  AzureBackupServer = 'AzureBackupServer',
+  AzureSql = 'AzureSql',
+  AzureStorage = 'AzureStorage',
+  AzureWorkload = 'AzureWorkload',
+  DefaultBackup = 'DefaultBackup',
+}
 
 /**
  * Defines values for JobStatus.
  * Possible values include: 'Invalid', 'InProgress', 'Completed', 'Failed',
  * 'CompletedWithWarnings', 'Cancelled', 'Cancelling'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: JobStatus = <JobStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type JobStatus = 'Invalid' | 'InProgress' | 'Completed' | 'Failed' | 'CompletedWithWarnings' | 'Cancelled' | 'Cancelling';
+export enum JobStatus {
+  Invalid = 'Invalid',
+  InProgress = 'InProgress',
+  Completed = 'Completed',
+  Failed = 'Failed',
+  CompletedWithWarnings = 'CompletedWithWarnings',
+  Cancelled = 'Cancelled',
+  Cancelling = 'Cancelling',
+}
 
 /**
  * Defines values for JobOperationType.
- * Possible values include: 'Invalid', 'Register', 'UnRegister', 'ConfigureBackup', 'Backup',
- * 'Restore', 'DisableBackup', 'DeleteBackupData'
+ * Possible values include: 'Invalid', 'Register', 'UnRegister',
+ * 'ConfigureBackup', 'Backup', 'Restore', 'DisableBackup', 'DeleteBackupData'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: JobOperationType =
+ * <JobOperationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type JobOperationType = 'Invalid' | 'Register' | 'UnRegister' | 'ConfigureBackup' | 'Backup' | 'Restore' | 'DisableBackup' | 'DeleteBackupData';
+export enum JobOperationType {
+  Invalid = 'Invalid',
+  Register = 'Register',
+  UnRegister = 'UnRegister',
+  ConfigureBackup = 'ConfigureBackup',
+  Backup = 'Backup',
+  Restore = 'Restore',
+  DisableBackup = 'DisableBackup',
+  DeleteBackupData = 'DeleteBackupData',
+}
 
 /**
  * Defines values for DayOfWeek.
- * Possible values include: 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
- * 'Saturday'
+ * Possible values include: 'Sunday', 'Monday', 'Tuesday', 'Wednesday',
+ * 'Thursday', 'Friday', 'Saturday'
  * @readonly
  * @enum {string}
  */
-export type DayOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
+export enum DayOfWeek {
+  Sunday = 'Sunday',
+  Monday = 'Monday',
+  Tuesday = 'Tuesday',
+  Wednesday = 'Wednesday',
+  Thursday = 'Thursday',
+  Friday = 'Friday',
+  Saturday = 'Saturday',
+}
 
 /**
  * Defines values for RetentionScheduleFormat.
  * Possible values include: 'Invalid', 'Daily', 'Weekly'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: RetentionScheduleFormat =
+ * <RetentionScheduleFormat>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type RetentionScheduleFormat = 'Invalid' | 'Daily' | 'Weekly';
+export enum RetentionScheduleFormat {
+  Invalid = 'Invalid',
+  Daily = 'Daily',
+  Weekly = 'Weekly',
+}
 
 /**
  * Defines values for WeekOfMonth.
- * Possible values include: 'First', 'Second', 'Third', 'Fourth', 'Last', 'Invalid'
+ * Possible values include: 'First', 'Second', 'Third', 'Fourth', 'Last',
+ * 'Invalid'
  * @readonly
  * @enum {string}
  */
-export type WeekOfMonth = 'First' | 'Second' | 'Third' | 'Fourth' | 'Last' | 'Invalid';
+export enum WeekOfMonth {
+  First = 'First',
+  Second = 'Second',
+  Third = 'Third',
+  Fourth = 'Fourth',
+  Last = 'Last',
+  Invalid = 'Invalid',
+}
 
 /**
  * Defines values for MonthOfYear.
- * Possible values include: 'Invalid', 'January', 'February', 'March', 'April', 'May', 'June',
- * 'July', 'August', 'September', 'October', 'November', 'December'
+ * Possible values include: 'Invalid', 'January', 'February', 'March', 'April',
+ * 'May', 'June', 'July', 'August', 'September', 'October', 'November',
+ * 'December'
  * @readonly
  * @enum {string}
  */
-export type MonthOfYear = 'Invalid' | 'January' | 'February' | 'March' | 'April' | 'May' | 'June' | 'July' | 'August' | 'September' | 'October' | 'November' | 'December';
+export enum MonthOfYear {
+  Invalid = 'Invalid',
+  January = 'January',
+  February = 'February',
+  March = 'March',
+  April = 'April',
+  May = 'May',
+  June = 'June',
+  July = 'July',
+  August = 'August',
+  September = 'September',
+  October = 'October',
+  November = 'November',
+  December = 'December',
+}
 
 /**
  * Defines values for MabServerType.
- * Possible values include: 'Invalid', 'Unknown', 'IaasVMContainer', 'IaasVMServiceContainer',
- * 'DPMContainer', 'AzureBackupServerContainer', 'MABContainer', 'Cluster', 'AzureSqlContainer',
- * 'Windows', 'VCenter', 'VMAppContainer', 'SQLAGWorkLoadContainer', 'StorageContainer',
+ * Possible values include: 'Invalid', 'Unknown', 'IaasVMContainer',
+ * 'IaasVMServiceContainer', 'DPMContainer', 'AzureBackupServerContainer',
+ * 'MABContainer', 'Cluster', 'AzureSqlContainer', 'Windows', 'VCenter',
+ * 'VMAppContainer', 'SQLAGWorkLoadContainer', 'StorageContainer',
  * 'GenericContainer'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: MabServerType =
+ * <MabServerType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type MabServerType = 'Invalid' | 'Unknown' | 'IaasVMContainer' | 'IaasVMServiceContainer' | 'DPMContainer' | 'AzureBackupServerContainer' | 'MABContainer' | 'Cluster' | 'AzureSqlContainer' | 'Windows' | 'VCenter' | 'VMAppContainer' | 'SQLAGWorkLoadContainer' | 'StorageContainer' | 'GenericContainer';
+export enum MabServerType {
+  Invalid = 'Invalid',
+  Unknown = 'Unknown',
+  IaasVMContainer = 'IaasVMContainer',
+  IaasVMServiceContainer = 'IaasVMServiceContainer',
+  DPMContainer = 'DPMContainer',
+  AzureBackupServerContainer = 'AzureBackupServerContainer',
+  MABContainer = 'MABContainer',
+  Cluster = 'Cluster',
+  AzureSqlContainer = 'AzureSqlContainer',
+  Windows = 'Windows',
+  VCenter = 'VCenter',
+  VMAppContainer = 'VMAppContainer',
+  SQLAGWorkLoadContainer = 'SQLAGWorkLoadContainer',
+  StorageContainer = 'StorageContainer',
+  GenericContainer = 'GenericContainer',
+}
 
 /**
  * Defines values for HttpStatusCode.
- * Possible values include: 'Continue', 'SwitchingProtocols', 'OK', 'Created', 'Accepted',
- * 'NonAuthoritativeInformation', 'NoContent', 'ResetContent', 'PartialContent', 'MultipleChoices',
- * 'Ambiguous', 'MovedPermanently', 'Moved', 'Found', 'Redirect', 'SeeOther', 'RedirectMethod',
- * 'NotModified', 'UseProxy', 'Unused', 'TemporaryRedirect', 'RedirectKeepVerb', 'BadRequest',
- * 'Unauthorized', 'PaymentRequired', 'Forbidden', 'NotFound', 'MethodNotAllowed', 'NotAcceptable',
- * 'ProxyAuthenticationRequired', 'RequestTimeout', 'Conflict', 'Gone', 'LengthRequired',
- * 'PreconditionFailed', 'RequestEntityTooLarge', 'RequestUriTooLong', 'UnsupportedMediaType',
- * 'RequestedRangeNotSatisfiable', 'ExpectationFailed', 'UpgradeRequired', 'InternalServerError',
- * 'NotImplemented', 'BadGateway', 'ServiceUnavailable', 'GatewayTimeout',
- * 'HttpVersionNotSupported'
+ * Possible values include: 'Continue', 'SwitchingProtocols', 'OK', 'Created',
+ * 'Accepted', 'NonAuthoritativeInformation', 'NoContent', 'ResetContent',
+ * 'PartialContent', 'MultipleChoices', 'Ambiguous', 'MovedPermanently',
+ * 'Moved', 'Found', 'Redirect', 'SeeOther', 'RedirectMethod', 'NotModified',
+ * 'UseProxy', 'Unused', 'TemporaryRedirect', 'RedirectKeepVerb', 'BadRequest',
+ * 'Unauthorized', 'PaymentRequired', 'Forbidden', 'NotFound',
+ * 'MethodNotAllowed', 'NotAcceptable', 'ProxyAuthenticationRequired',
+ * 'RequestTimeout', 'Conflict', 'Gone', 'LengthRequired',
+ * 'PreconditionFailed', 'RequestEntityTooLarge', 'RequestUriTooLong',
+ * 'UnsupportedMediaType', 'RequestedRangeNotSatisfiable', 'ExpectationFailed',
+ * 'UpgradeRequired', 'InternalServerError', 'NotImplemented', 'BadGateway',
+ * 'ServiceUnavailable', 'GatewayTimeout', 'HttpVersionNotSupported'
  * @readonly
  * @enum {string}
  */
-export type HttpStatusCode = 'Continue' | 'SwitchingProtocols' | 'OK' | 'Created' | 'Accepted' | 'NonAuthoritativeInformation' | 'NoContent' | 'ResetContent' | 'PartialContent' | 'MultipleChoices' | 'Ambiguous' | 'MovedPermanently' | 'Moved' | 'Found' | 'Redirect' | 'SeeOther' | 'RedirectMethod' | 'NotModified' | 'UseProxy' | 'Unused' | 'TemporaryRedirect' | 'RedirectKeepVerb' | 'BadRequest' | 'Unauthorized' | 'PaymentRequired' | 'Forbidden' | 'NotFound' | 'MethodNotAllowed' | 'NotAcceptable' | 'ProxyAuthenticationRequired' | 'RequestTimeout' | 'Conflict' | 'Gone' | 'LengthRequired' | 'PreconditionFailed' | 'RequestEntityTooLarge' | 'RequestUriTooLong' | 'UnsupportedMediaType' | 'RequestedRangeNotSatisfiable' | 'ExpectationFailed' | 'UpgradeRequired' | 'InternalServerError' | 'NotImplemented' | 'BadGateway' | 'ServiceUnavailable' | 'GatewayTimeout' | 'HttpVersionNotSupported';
+export enum HttpStatusCode {
+  Continue = 'Continue',
+  SwitchingProtocols = 'SwitchingProtocols',
+  OK = 'OK',
+  Created = 'Created',
+  Accepted = 'Accepted',
+  NonAuthoritativeInformation = 'NonAuthoritativeInformation',
+  NoContent = 'NoContent',
+  ResetContent = 'ResetContent',
+  PartialContent = 'PartialContent',
+  MultipleChoices = 'MultipleChoices',
+  Ambiguous = 'Ambiguous',
+  MovedPermanently = 'MovedPermanently',
+  Moved = 'Moved',
+  Found = 'Found',
+  Redirect = 'Redirect',
+  SeeOther = 'SeeOther',
+  RedirectMethod = 'RedirectMethod',
+  NotModified = 'NotModified',
+  UseProxy = 'UseProxy',
+  Unused = 'Unused',
+  TemporaryRedirect = 'TemporaryRedirect',
+  RedirectKeepVerb = 'RedirectKeepVerb',
+  BadRequest = 'BadRequest',
+  Unauthorized = 'Unauthorized',
+  PaymentRequired = 'PaymentRequired',
+  Forbidden = 'Forbidden',
+  NotFound = 'NotFound',
+  MethodNotAllowed = 'MethodNotAllowed',
+  NotAcceptable = 'NotAcceptable',
+  ProxyAuthenticationRequired = 'ProxyAuthenticationRequired',
+  RequestTimeout = 'RequestTimeout',
+  Conflict = 'Conflict',
+  Gone = 'Gone',
+  LengthRequired = 'LengthRequired',
+  PreconditionFailed = 'PreconditionFailed',
+  RequestEntityTooLarge = 'RequestEntityTooLarge',
+  RequestUriTooLong = 'RequestUriTooLong',
+  UnsupportedMediaType = 'UnsupportedMediaType',
+  RequestedRangeNotSatisfiable = 'RequestedRangeNotSatisfiable',
+  ExpectationFailed = 'ExpectationFailed',
+  UpgradeRequired = 'UpgradeRequired',
+  InternalServerError = 'InternalServerError',
+  NotImplemented = 'NotImplemented',
+  BadGateway = 'BadGateway',
+  ServiceUnavailable = 'ServiceUnavailable',
+  GatewayTimeout = 'GatewayTimeout',
+  HttpVersionNotSupported = 'HttpVersionNotSupported',
+}
 
 /**
  * Defines values for ValidationStatus.
  * Possible values include: 'Invalid', 'Succeeded', 'Failed'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ValidationStatus =
+ * <ValidationStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ValidationStatus = 'Invalid' | 'Succeeded' | 'Failed';
+export enum ValidationStatus {
+  Invalid = 'Invalid',
+  Succeeded = 'Succeeded',
+  Failed = 'Failed',
+}
 
 /**
  * Defines values for CreateMode.
  * Possible values include: 'Invalid', 'Default', 'Recover'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: CreateMode = <CreateMode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type CreateMode = 'Invalid' | 'Default' | 'Recover';
+export enum CreateMode {
+  Invalid = 'Invalid',
+  Default = 'Default',
+  Recover = 'Recover',
+}
 
 /**
  * Defines values for HealthState.
- * Possible values include: 'Passed', 'ActionRequired', 'ActionSuggested', 'Invalid'
+ * Possible values include: 'Passed', 'ActionRequired', 'ActionSuggested',
+ * 'Invalid'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: HealthState =
+ * <HealthState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type HealthState = 'Passed' | 'ActionRequired' | 'ActionSuggested' | 'Invalid';
+export enum HealthState {
+  Passed = 'Passed',
+  ActionRequired = 'ActionRequired',
+  ActionSuggested = 'ActionSuggested',
+  Invalid = 'Invalid',
+}
 
 /**
  * Defines values for IntentItemType.
- * Possible values include: 'Invalid', 'SQLInstance', 'SQLAvailabilityGroupContainer'
+ * Possible values include: 'Invalid', 'SQLInstance',
+ * 'SQLAvailabilityGroupContainer'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: IntentItemType =
+ * <IntentItemType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type IntentItemType = 'Invalid' | 'SQLInstance' | 'SQLAvailabilityGroupContainer';
+export enum IntentItemType {
+  Invalid = 'Invalid',
+  SQLInstance = 'SQLInstance',
+  SQLAvailabilityGroupContainer = 'SQLAvailabilityGroupContainer',
+}
 
 /**
  * Defines values for ScheduleRunType.
  * Possible values include: 'Invalid', 'Daily', 'Weekly'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ScheduleRunType =
+ * <ScheduleRunType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ScheduleRunType = 'Invalid' | 'Daily' | 'Weekly';
+export enum ScheduleRunType {
+  Invalid = 'Invalid',
+  Daily = 'Daily',
+  Weekly = 'Weekly',
+}
 
 /**
  * Defines values for AzureFileShareType.
  * Possible values include: 'Invalid', 'XSMB', 'XSync'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: AzureFileShareType =
+ * <AzureFileShareType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type AzureFileShareType = 'Invalid' | 'XSMB' | 'XSync';
+export enum AzureFileShareType {
+  Invalid = 'Invalid',
+  XSMB = 'XSMB',
+  XSync = 'XSync',
+}
 
 /**
  * Defines values for InquiryStatus.
  * Possible values include: 'Invalid', 'Success', 'Failed'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: InquiryStatus =
+ * <InquiryStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type InquiryStatus = 'Invalid' | 'Success' | 'Failed';
+export enum InquiryStatus {
+  Invalid = 'Invalid',
+  Success = 'Success',
+  Failed = 'Failed',
+}
 
 /**
  * Defines values for BackupType.
- * Possible values include: 'Invalid', 'Full', 'Differential', 'Log', 'CopyOnlyFull'
+ * Possible values include: 'Invalid', 'Full', 'Differential', 'Log',
+ * 'CopyOnlyFull'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: BackupType = <BackupType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type BackupType = 'Invalid' | 'Full' | 'Differential' | 'Log' | 'CopyOnlyFull';
+export enum BackupType {
+  Invalid = 'Invalid',
+  Full = 'Full',
+  Differential = 'Differential',
+  Log = 'Log',
+  CopyOnlyFull = 'CopyOnlyFull',
+}
 
 /**
  * Defines values for RestorePointType.
  * Possible values include: 'Invalid', 'Full', 'Log', 'Differential'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: RestorePointType =
+ * <RestorePointType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type RestorePointType = 'Invalid' | 'Full' | 'Log' | 'Differential';
+export enum RestorePointType {
+  Invalid = 'Invalid',
+  Full = 'Full',
+  Log = 'Log',
+  Differential = 'Differential',
+}
 
 /**
  * Defines values for StorageType.
  * Possible values include: 'Invalid', 'GeoRedundant', 'LocallyRedundant'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: StorageType =
+ * <StorageType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type StorageType = 'Invalid' | 'GeoRedundant' | 'LocallyRedundant';
+export enum StorageType {
+  Invalid = 'Invalid',
+  GeoRedundant = 'GeoRedundant',
+  LocallyRedundant = 'LocallyRedundant',
+}
 
 /**
  * Defines values for StorageTypeState.
  * Possible values include: 'Invalid', 'Locked', 'Unlocked'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: StorageTypeState =
+ * <StorageTypeState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type StorageTypeState = 'Invalid' | 'Locked' | 'Unlocked';
+export enum StorageTypeState {
+  Invalid = 'Invalid',
+  Locked = 'Locked',
+  Unlocked = 'Unlocked',
+}
 
 /**
  * Defines values for EnhancedSecurityState.
  * Possible values include: 'Invalid', 'Enabled', 'Disabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: EnhancedSecurityState =
+ * <EnhancedSecurityState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type EnhancedSecurityState = 'Invalid' | 'Enabled' | 'Disabled';
+export enum EnhancedSecurityState {
+  Invalid = 'Invalid',
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for ContainerType.
- * Possible values include: 'Invalid', 'Unknown', 'IaasVMContainer', 'IaasVMServiceContainer',
- * 'DPMContainer', 'AzureBackupServerContainer', 'MABContainer', 'Cluster', 'AzureSqlContainer',
- * 'Windows', 'VCenter', 'VMAppContainer', 'SQLAGWorkLoadContainer', 'StorageContainer',
+ * Possible values include: 'Invalid', 'Unknown', 'IaasVMContainer',
+ * 'IaasVMServiceContainer', 'DPMContainer', 'AzureBackupServerContainer',
+ * 'MABContainer', 'Cluster', 'AzureSqlContainer', 'Windows', 'VCenter',
+ * 'VMAppContainer', 'SQLAGWorkLoadContainer', 'StorageContainer',
  * 'GenericContainer'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ContainerType =
+ * <ContainerType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ContainerType = 'Invalid' | 'Unknown' | 'IaasVMContainer' | 'IaasVMServiceContainer' | 'DPMContainer' | 'AzureBackupServerContainer' | 'MABContainer' | 'Cluster' | 'AzureSqlContainer' | 'Windows' | 'VCenter' | 'VMAppContainer' | 'SQLAGWorkLoadContainer' | 'StorageContainer' | 'GenericContainer';
+export enum ContainerType {
+  Invalid = 'Invalid',
+  Unknown = 'Unknown',
+  IaasVMContainer = 'IaasVMContainer',
+  IaasVMServiceContainer = 'IaasVMServiceContainer',
+  DPMContainer = 'DPMContainer',
+  AzureBackupServerContainer = 'AzureBackupServerContainer',
+  MABContainer = 'MABContainer',
+  Cluster = 'Cluster',
+  AzureSqlContainer = 'AzureSqlContainer',
+  Windows = 'Windows',
+  VCenter = 'VCenter',
+  VMAppContainer = 'VMAppContainer',
+  SQLAGWorkLoadContainer = 'SQLAGWorkLoadContainer',
+  StorageContainer = 'StorageContainer',
+  GenericContainer = 'GenericContainer',
+}
 
 /**
  * Defines values for RestorePointQueryType.
- * Possible values include: 'Invalid', 'Full', 'Log', 'Differential', 'FullAndDifferential', 'All'
+ * Possible values include: 'Invalid', 'Full', 'Log', 'Differential',
+ * 'FullAndDifferential', 'All'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: RestorePointQueryType =
+ * <RestorePointQueryType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type RestorePointQueryType = 'Invalid' | 'Full' | 'Log' | 'Differential' | 'FullAndDifferential' | 'All';
+export enum RestorePointQueryType {
+  Invalid = 'Invalid',
+  Full = 'Full',
+  Log = 'Log',
+  Differential = 'Differential',
+  FullAndDifferential = 'FullAndDifferential',
+  All = 'All',
+}
 
 /**
  * Defines values for RecoveryPointTierType.
@@ -8707,7 +9242,11 @@ export type RestorePointQueryType = 'Invalid' | 'Full' | 'Log' | 'Differential' 
  * @readonly
  * @enum {string}
  */
-export type RecoveryPointTierType = 'Invalid' | 'InstantRP' | 'HardenedRP';
+export enum RecoveryPointTierType {
+  Invalid = 'Invalid',
+  InstantRP = 'InstantRP',
+  HardenedRP = 'HardenedRP',
+}
 
 /**
  * Defines values for RecoveryPointTierStatus.
@@ -8715,25 +9254,62 @@ export type RecoveryPointTierType = 'Invalid' | 'InstantRP' | 'HardenedRP';
  * @readonly
  * @enum {string}
  */
-export type RecoveryPointTierStatus = 'Invalid' | 'Valid' | 'Disabled' | 'Deleted';
+export enum RecoveryPointTierStatus {
+  Invalid = 'Invalid',
+  Valid = 'Valid',
+  Disabled = 'Disabled',
+  Deleted = 'Deleted',
+}
 
 /**
  * Defines values for BackupItemType.
- * Possible values include: 'Invalid', 'VM', 'FileFolder', 'AzureSqlDb', 'SQLDB', 'Exchange',
- * 'Sharepoint', 'VMwareVM', 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
- * 'AzureFileShare', 'SAPHanaDatabase'
+ * Possible values include: 'Invalid', 'VM', 'FileFolder', 'AzureSqlDb',
+ * 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM', 'SystemState', 'Client',
+ * 'GenericDataSource', 'SQLDataBase', 'AzureFileShare', 'SAPHanaDatabase'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: BackupItemType =
+ * <BackupItemType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type BackupItemType = 'Invalid' | 'VM' | 'FileFolder' | 'AzureSqlDb' | 'SQLDB' | 'Exchange' | 'Sharepoint' | 'VMwareVM' | 'SystemState' | 'Client' | 'GenericDataSource' | 'SQLDataBase' | 'AzureFileShare' | 'SAPHanaDatabase';
+export enum BackupItemType {
+  Invalid = 'Invalid',
+  VM = 'VM',
+  FileFolder = 'FileFolder',
+  AzureSqlDb = 'AzureSqlDb',
+  SQLDB = 'SQLDB',
+  Exchange = 'Exchange',
+  Sharepoint = 'Sharepoint',
+  VMwareVM = 'VMwareVM',
+  SystemState = 'SystemState',
+  Client = 'Client',
+  GenericDataSource = 'GenericDataSource',
+  SQLDataBase = 'SQLDataBase',
+  AzureFileShare = 'AzureFileShare',
+  SAPHanaDatabase = 'SAPHanaDatabase',
+}
 
 /**
  * Defines values for OperationStatusValues.
- * Possible values include: 'Invalid', 'InProgress', 'Succeeded', 'Failed', 'Canceled'
+ * Possible values include: 'Invalid', 'InProgress', 'Succeeded', 'Failed',
+ * 'Canceled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: OperationStatusValues =
+ * <OperationStatusValues>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type OperationStatusValues = 'Invalid' | 'InProgress' | 'Succeeded' | 'Failed' | 'Canceled';
+export enum OperationStatusValues {
+  Invalid = 'Invalid',
+  InProgress = 'InProgress',
+  Succeeded = 'Succeeded',
+  Failed = 'Failed',
+  Canceled = 'Canceled',
+}
 
 /**
  * Contains response data for the validate operation.

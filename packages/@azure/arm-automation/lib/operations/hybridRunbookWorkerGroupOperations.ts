@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/hybridRunbookWorkerGroupOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class HybridRunbookWorkerGroupOperations {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -86,7 +86,7 @@ export class HybridRunbookWorkerGroupOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridRunbookWorkerGroup>): void;
-  get(resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridRunbookWorkerGroup>, callback?: msRest.ServiceCallback<Models.HybridRunbookWorkerGroup>): Promise<Models.HybridRunbookWorkerGroupGetResponse> {
+  get(resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HybridRunbookWorkerGroup>): Promise<Models.HybridRunbookWorkerGroupGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -125,7 +125,7 @@ export class HybridRunbookWorkerGroupOperations {
    * @param callback The callback
    */
   update(resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, parameters: Models.HybridRunbookWorkerGroupUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridRunbookWorkerGroup>): void;
-  update(resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, parameters: Models.HybridRunbookWorkerGroupUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridRunbookWorkerGroup>, callback?: msRest.ServiceCallback<Models.HybridRunbookWorkerGroup>): Promise<Models.HybridRunbookWorkerGroupUpdateResponse> {
+  update(resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, parameters: Models.HybridRunbookWorkerGroupUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HybridRunbookWorkerGroup>): Promise<Models.HybridRunbookWorkerGroupUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -159,7 +159,7 @@ export class HybridRunbookWorkerGroupOperations {
    * @param callback The callback
    */
   listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: Models.HybridRunbookWorkerGroupListByAutomationAccountOptionalParams, callback: msRest.ServiceCallback<Models.HybridRunbookWorkerGroupsListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.HybridRunbookWorkerGroupListByAutomationAccountOptionalParams | msRest.ServiceCallback<Models.HybridRunbookWorkerGroupsListResult>, callback?: msRest.ServiceCallback<Models.HybridRunbookWorkerGroupsListResult>): Promise<Models.HybridRunbookWorkerGroupListByAutomationAccountResponse> {
+  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.HybridRunbookWorkerGroupListByAutomationAccountOptionalParams, callback?: msRest.ServiceCallback<Models.HybridRunbookWorkerGroupsListResult>): Promise<Models.HybridRunbookWorkerGroupListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -188,7 +188,7 @@ export class HybridRunbookWorkerGroupOperations {
    * @param callback The callback
    */
   listByAutomationAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridRunbookWorkerGroupsListResult>): void;
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridRunbookWorkerGroupsListResult>, callback?: msRest.ServiceCallback<Models.HybridRunbookWorkerGroupsListResult>): Promise<Models.HybridRunbookWorkerGroupListByAutomationAccountNextResponse> {
+  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HybridRunbookWorkerGroupsListResult>): Promise<Models.HybridRunbookWorkerGroupListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

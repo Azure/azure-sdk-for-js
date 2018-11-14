@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Mappers from "../models/jobCancellationsMappers";
 import * as Parameters from "../models/parameters";
 import { RecoveryServicesBackupClientContext } from "../recoveryServicesBackupClientContext";
@@ -53,7 +53,7 @@ export class JobCancellations {
    * @param callback The callback
    */
   trigger(vaultName: string, resourceGroupName: string, jobName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  trigger(vaultName: string, resourceGroupName: string, jobName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  trigger(vaultName: string, resourceGroupName: string, jobName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,

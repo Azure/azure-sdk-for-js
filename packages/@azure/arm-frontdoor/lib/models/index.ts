@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -1321,103 +1321,217 @@ export interface WebApplicationFirewallPolicyListResult extends Array<WebApplica
 
 /**
  * Defines values for FrontDoorResourceState.
- * Possible values include: 'Creating', 'Enabling', 'Enabled', 'Disabling', 'Disabled', 'Deleting'
+ * Possible values include: 'Creating', 'Enabling', 'Enabled', 'Disabling',
+ * 'Disabled', 'Deleting'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: FrontDoorResourceState =
+ * <FrontDoorResourceState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type FrontDoorResourceState = 'Creating' | 'Enabling' | 'Enabled' | 'Disabling' | 'Disabled' | 'Deleting';
+export enum FrontDoorResourceState {
+  Creating = 'Creating',
+  Enabling = 'Enabling',
+  Enabled = 'Enabled',
+  Disabling = 'Disabling',
+  Disabled = 'Disabled',
+  Deleting = 'Deleting',
+}
 
 /**
  * Defines values for CustomHttpsProvisioningState.
- * Possible values include: 'Enabling', 'Enabled', 'Disabling', 'Disabled', 'Failed'
+ * Possible values include: 'Enabling', 'Enabled', 'Disabling', 'Disabled',
+ * 'Failed'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: CustomHttpsProvisioningState =
+ * <CustomHttpsProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type CustomHttpsProvisioningState = 'Enabling' | 'Enabled' | 'Disabling' | 'Disabled' | 'Failed';
+export enum CustomHttpsProvisioningState {
+  Enabling = 'Enabling',
+  Enabled = 'Enabled',
+  Disabling = 'Disabling',
+  Disabled = 'Disabled',
+  Failed = 'Failed',
+}
 
 /**
  * Defines values for CustomHttpsProvisioningSubstate.
  * Possible values include: 'SubmittingDomainControlValidationRequest',
- * 'PendingDomainControlValidationREquestApproval', 'DomainControlValidationRequestApproved',
- * 'DomainControlValidationRequestRejected', 'DomainControlValidationRequestTimedOut',
- * 'IssuingCertificate', 'DeployingCertificate', 'CertificateDeployed', 'DeletingCertificate',
+ * 'PendingDomainControlValidationREquestApproval',
+ * 'DomainControlValidationRequestApproved',
+ * 'DomainControlValidationRequestRejected',
+ * 'DomainControlValidationRequestTimedOut', 'IssuingCertificate',
+ * 'DeployingCertificate', 'CertificateDeployed', 'DeletingCertificate',
  * 'CertificateDeleted'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: CustomHttpsProvisioningSubstate =
+ * <CustomHttpsProvisioningSubstate>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type CustomHttpsProvisioningSubstate = 'SubmittingDomainControlValidationRequest' | 'PendingDomainControlValidationREquestApproval' | 'DomainControlValidationRequestApproved' | 'DomainControlValidationRequestRejected' | 'DomainControlValidationRequestTimedOut' | 'IssuingCertificate' | 'DeployingCertificate' | 'CertificateDeployed' | 'DeletingCertificate' | 'CertificateDeleted';
+export enum CustomHttpsProvisioningSubstate {
+  SubmittingDomainControlValidationRequest = 'SubmittingDomainControlValidationRequest',
+  PendingDomainControlValidationREquestApproval = 'PendingDomainControlValidationREquestApproval',
+  DomainControlValidationRequestApproved = 'DomainControlValidationRequestApproved',
+  DomainControlValidationRequestRejected = 'DomainControlValidationRequestRejected',
+  DomainControlValidationRequestTimedOut = 'DomainControlValidationRequestTimedOut',
+  IssuingCertificate = 'IssuingCertificate',
+  DeployingCertificate = 'DeployingCertificate',
+  CertificateDeployed = 'CertificateDeployed',
+  DeletingCertificate = 'DeletingCertificate',
+  CertificateDeleted = 'CertificateDeleted',
+}
 
 /**
  * Defines values for FrontDoorCertificateSource.
  * Possible values include: 'AzureKeyVault', 'FrontDoor'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: FrontDoorCertificateSource =
+ * <FrontDoorCertificateSource>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type FrontDoorCertificateSource = 'AzureKeyVault' | 'FrontDoor';
+export enum FrontDoorCertificateSource {
+  AzureKeyVault = 'AzureKeyVault',
+  FrontDoor = 'FrontDoor',
+}
 
 /**
  * Defines values for FrontDoorTlsProtocolType.
  * Possible values include: 'ServerNameIndication'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: FrontDoorTlsProtocolType =
+ * <FrontDoorTlsProtocolType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type FrontDoorTlsProtocolType = 'ServerNameIndication';
+export enum FrontDoorTlsProtocolType {
+  ServerNameIndication = 'ServerNameIndication',
+}
 
 /**
  * Defines values for FrontDoorCertificateType.
  * Possible values include: 'Dedicated'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: FrontDoorCertificateType =
+ * <FrontDoorCertificateType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type FrontDoorCertificateType = 'Dedicated';
+export enum FrontDoorCertificateType {
+  Dedicated = 'Dedicated',
+}
 
 /**
  * Defines values for FrontDoorEnabledState.
  * Possible values include: 'Enabled', 'Disabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: FrontDoorEnabledState =
+ * <FrontDoorEnabledState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type FrontDoorEnabledState = 'Enabled' | 'Disabled';
+export enum FrontDoorEnabledState {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for FrontDoorProtocol.
  * Possible values include: 'Http', 'Https'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: FrontDoorProtocol =
+ * <FrontDoorProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type FrontDoorProtocol = 'Http' | 'Https';
+export enum FrontDoorProtocol {
+  Http = 'Http',
+  Https = 'Https',
+}
 
 /**
  * Defines values for FrontDoorForwardingProtocol.
  * Possible values include: 'HttpOnly', 'HttpsOnly', 'MatchRequest'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: FrontDoorForwardingProtocol =
+ * <FrontDoorForwardingProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type FrontDoorForwardingProtocol = 'HttpOnly' | 'HttpsOnly' | 'MatchRequest';
+export enum FrontDoorForwardingProtocol {
+  HttpOnly = 'HttpOnly',
+  HttpsOnly = 'HttpsOnly',
+  MatchRequest = 'MatchRequest',
+}
 
 /**
  * Defines values for FrontDoorQuery.
  * Possible values include: 'StripNone', 'StripAll'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: FrontDoorQuery =
+ * <FrontDoorQuery>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type FrontDoorQuery = 'StripNone' | 'StripAll';
+export enum FrontDoorQuery {
+  StripNone = 'StripNone',
+  StripAll = 'StripAll',
+}
 
 /**
  * Defines values for DynamicCompressionEnabled.
  * Possible values include: 'Enabled', 'Disabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: DynamicCompressionEnabled =
+ * <DynamicCompressionEnabled>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type DynamicCompressionEnabled = 'Enabled' | 'Disabled';
+export enum DynamicCompressionEnabled {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for SessionAffinityEnabledState.
  * Possible values include: 'Enabled', 'Disabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SessionAffinityEnabledState =
+ * <SessionAffinityEnabledState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SessionAffinityEnabledState = 'Enabled' | 'Disabled';
+export enum SessionAffinityEnabledState {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for ResourceType.
@@ -1426,98 +1540,211 @@ export type SessionAffinityEnabledState = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type ResourceType = 'Microsoft.Network/frontDoors' | 'Microsoft.Network/frontDoors/frontendEndpoints';
+export enum ResourceType {
+  MicrosoftNetworkfrontDoors = 'Microsoft.Network/frontDoors',
+  MicrosoftNetworkfrontDoorsfrontendEndpoints = 'Microsoft.Network/frontDoors/frontendEndpoints',
+}
 
 /**
  * Defines values for Availability.
  * Possible values include: 'Available', 'Unavailable'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Availability =
+ * <Availability>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type Availability = 'Available' | 'Unavailable';
+export enum Availability {
+  Available = 'Available',
+  Unavailable = 'Unavailable',
+}
 
 /**
  * Defines values for NetworkOperationStatus.
  * Possible values include: 'InProgress', 'Succeeded', 'Failed'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: NetworkOperationStatus =
+ * <NetworkOperationStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type NetworkOperationStatus = 'InProgress' | 'Succeeded' | 'Failed';
+export enum NetworkOperationStatus {
+  InProgress = 'InProgress',
+  Succeeded = 'Succeeded',
+  Failed = 'Failed',
+}
 
 /**
  * Defines values for EnabledState.
  * Possible values include: 'Disabled', 'Enabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: EnabledState =
+ * <EnabledState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type EnabledState = 'Disabled' | 'Enabled';
+export enum EnabledState {
+  Disabled = 'Disabled',
+  Enabled = 'Enabled',
+}
 
 /**
  * Defines values for Mode.
  * Possible values include: 'Prevention', 'Detection'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Mode = <Mode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type Mode = 'Prevention' | 'Detection';
+export enum Mode {
+  Prevention = 'Prevention',
+  Detection = 'Detection',
+}
 
 /**
  * Defines values for RuleType.
  * Possible values include: 'MatchRule', 'RateLimitRule'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: RuleType = <RuleType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type RuleType = 'MatchRule' | 'RateLimitRule';
+export enum RuleType {
+  MatchRule = 'MatchRule',
+  RateLimitRule = 'RateLimitRule',
+}
 
 /**
  * Defines values for MatchCondition.
- * Possible values include: 'RemoteAddr', 'RequestMethod', 'QueryString', 'PostArgs', 'RequestUri',
- * 'RequestHeader', 'RequestBody'
+ * Possible values include: 'RemoteAddr', 'RequestMethod', 'QueryString',
+ * 'PostArgs', 'RequestUri', 'RequestHeader', 'RequestBody'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: MatchCondition =
+ * <MatchCondition>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type MatchCondition = 'RemoteAddr' | 'RequestMethod' | 'QueryString' | 'PostArgs' | 'RequestUri' | 'RequestHeader' | 'RequestBody';
+export enum MatchCondition {
+  RemoteAddr = 'RemoteAddr',
+  RequestMethod = 'RequestMethod',
+  QueryString = 'QueryString',
+  PostArgs = 'PostArgs',
+  RequestUri = 'RequestUri',
+  RequestHeader = 'RequestHeader',
+  RequestBody = 'RequestBody',
+}
 
 /**
  * Defines values for Operator.
- * Possible values include: 'Any', 'IPMatch', 'GeoMatch', 'Equal', 'Contains', 'LessThan',
- * 'GreaterThan', 'LessThanOrEqual', 'GreaterThanOrEqual', 'BeginsWith', 'EndsWith'
+ * Possible values include: 'Any', 'IPMatch', 'GeoMatch', 'Equal', 'Contains',
+ * 'LessThan', 'GreaterThan', 'LessThanOrEqual', 'GreaterThanOrEqual',
+ * 'BeginsWith', 'EndsWith'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Operator = <Operator>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type Operator = 'Any' | 'IPMatch' | 'GeoMatch' | 'Equal' | 'Contains' | 'LessThan' | 'GreaterThan' | 'LessThanOrEqual' | 'GreaterThanOrEqual' | 'BeginsWith' | 'EndsWith';
+export enum Operator {
+  Any = 'Any',
+  IPMatch = 'IPMatch',
+  GeoMatch = 'GeoMatch',
+  Equal = 'Equal',
+  Contains = 'Contains',
+  LessThan = 'LessThan',
+  GreaterThan = 'GreaterThan',
+  LessThanOrEqual = 'LessThanOrEqual',
+  GreaterThanOrEqual = 'GreaterThanOrEqual',
+  BeginsWith = 'BeginsWith',
+  EndsWith = 'EndsWith',
+}
 
 /**
  * Defines values for Action.
  * Possible values include: 'Allow', 'Block', 'Log'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Action = <Action>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type Action = 'Allow' | 'Block' | 'Log';
+export enum Action {
+  Allow = 'Allow',
+  Block = 'Block',
+  Log = 'Log',
+}
 
 /**
  * Defines values for Transform.
- * Possible values include: 'Lowercase', 'Uppercase', 'Trim', 'UrlDecode', 'UrlEncode',
- * 'RemoveNulls', 'HtmlEntityDecode'
+ * Possible values include: 'Lowercase', 'Uppercase', 'Trim', 'UrlDecode',
+ * 'UrlEncode', 'RemoveNulls', 'HtmlEntityDecode'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Transform = <Transform>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type Transform = 'Lowercase' | 'Uppercase' | 'Trim' | 'UrlDecode' | 'UrlEncode' | 'RemoveNulls' | 'HtmlEntityDecode';
+export enum Transform {
+  Lowercase = 'Lowercase',
+  Uppercase = 'Uppercase',
+  Trim = 'Trim',
+  UrlDecode = 'UrlDecode',
+  UrlEncode = 'UrlEncode',
+  RemoveNulls = 'RemoveNulls',
+  HtmlEntityDecode = 'HtmlEntityDecode',
+}
 
 /**
  * Defines values for WebApplicationFirewallPolicy.
- * Possible values include: 'Creating', 'Enabling', 'Enabled', 'Disabling', 'Disabled', 'Deleting'
+ * Possible values include: 'Creating', 'Enabling', 'Enabled', 'Disabling',
+ * 'Disabled', 'Deleting'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: WebApplicationFirewallPolicy =
+ * <WebApplicationFirewallPolicy>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type WebApplicationFirewallPolicy = 'Creating' | 'Enabling' | 'Enabled' | 'Disabling' | 'Disabled' | 'Deleting';
+export enum WebApplicationFirewallPolicy {
+  Creating = 'Creating',
+  Enabling = 'Enabling',
+  Enabled = 'Enabled',
+  Disabling = 'Disabling',
+  Disabled = 'Disabled',
+  Deleting = 'Deleting',
+}
 
 /**
  * Defines values for RuleGroupOverride.
  * Possible values include: 'SqlInjection', 'XSS'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: RuleGroupOverride =
+ * <RuleGroupOverride>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type RuleGroupOverride = 'SqlInjection' | 'XSS';
+export enum RuleGroupOverride {
+  SqlInjection = 'SqlInjection',
+  XSS = 'XSS',
+}
 
 /**
  * Contains response data for the checkFrontDoorNameAvailability operation.

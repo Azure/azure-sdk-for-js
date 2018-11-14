@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/connectionOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class ConnectionOperations {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, automationAccountName: string, connectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Connection>): void;
-  deleteMethod(resourceGroupName: string, automationAccountName: string, connectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Connection>, callback?: msRest.ServiceCallback<Models.Connection>): Promise<Models.ConnectionDeleteMethodResponse> {
+  deleteMethod(resourceGroupName: string, automationAccountName: string, connectionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Connection>): Promise<Models.ConnectionDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -86,7 +86,7 @@ export class ConnectionOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, automationAccountName: string, connectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Connection>): void;
-  get(resourceGroupName: string, automationAccountName: string, connectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Connection>, callback?: msRest.ServiceCallback<Models.Connection>): Promise<Models.ConnectionGetResponse> {
+  get(resourceGroupName: string, automationAccountName: string, connectionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Connection>): Promise<Models.ConnectionGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -125,7 +125,7 @@ export class ConnectionOperations {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, automationAccountName: string, connectionName: string, parameters: Models.ConnectionCreateOrUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Connection>): void;
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, connectionName: string, parameters: Models.ConnectionCreateOrUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Connection>, callback?: msRest.ServiceCallback<Models.Connection>): Promise<Models.ConnectionCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, automationAccountName: string, connectionName: string, parameters: Models.ConnectionCreateOrUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Connection>): Promise<Models.ConnectionCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -165,7 +165,7 @@ export class ConnectionOperations {
    * @param callback The callback
    */
   update(resourceGroupName: string, automationAccountName: string, connectionName: string, parameters: Models.ConnectionUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Connection>): void;
-  update(resourceGroupName: string, automationAccountName: string, connectionName: string, parameters: Models.ConnectionUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Connection>, callback?: msRest.ServiceCallback<Models.Connection>): Promise<Models.ConnectionUpdateResponse> {
+  update(resourceGroupName: string, automationAccountName: string, connectionName: string, parameters: Models.ConnectionUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Connection>): Promise<Models.ConnectionUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -199,7 +199,7 @@ export class ConnectionOperations {
    * @param callback The callback
    */
   listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectionListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionListResult>, callback?: msRest.ServiceCallback<Models.ConnectionListResult>): Promise<Models.ConnectionListByAutomationAccountResponse> {
+  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ConnectionListResult>): Promise<Models.ConnectionListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -228,7 +228,7 @@ export class ConnectionOperations {
    * @param callback The callback
    */
   listByAutomationAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectionListResult>): void;
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionListResult>, callback?: msRest.ServiceCallback<Models.ConnectionListResult>): Promise<Models.ConnectionListByAutomationAccountNextResponse> {
+  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ConnectionListResult>): Promise<Models.ConnectionListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

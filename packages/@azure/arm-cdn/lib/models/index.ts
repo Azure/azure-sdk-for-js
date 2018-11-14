@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -1211,45 +1211,98 @@ export interface EdgenodeResult extends Array<EdgeNode> {
 
 /**
  * Defines values for SkuName.
- * Possible values include: 'Standard_Verizon', 'Premium_Verizon', 'Custom_Verizon',
- * 'Standard_Akamai', 'Standard_ChinaCdn', 'Standard_Microsoft'
+ * Possible values include: 'Standard_Verizon', 'Premium_Verizon',
+ * 'Custom_Verizon', 'Standard_Akamai', 'Standard_ChinaCdn',
+ * 'Standard_Microsoft'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SkuName = <SkuName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'Standard_Verizon' | 'Premium_Verizon' | 'Custom_Verizon' | 'Standard_Akamai' | 'Standard_ChinaCdn' | 'Standard_Microsoft';
+export enum SkuName {
+  StandardVerizon = 'Standard_Verizon',
+  PremiumVerizon = 'Premium_Verizon',
+  CustomVerizon = 'Custom_Verizon',
+  StandardAkamai = 'Standard_Akamai',
+  StandardChinaCdn = 'Standard_ChinaCdn',
+  StandardMicrosoft = 'Standard_Microsoft',
+}
 
 /**
  * Defines values for ProfileResourceState.
  * Possible values include: 'Creating', 'Active', 'Deleting', 'Disabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ProfileResourceState =
+ * <ProfileResourceState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ProfileResourceState = 'Creating' | 'Active' | 'Deleting' | 'Disabled';
+export enum ProfileResourceState {
+  Creating = 'Creating',
+  Active = 'Active',
+  Deleting = 'Deleting',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for OptimizationType.
  * Possible values include: 'GeneralWebDelivery', 'GeneralMediaStreaming',
- * 'VideoOnDemandMediaStreaming', 'LargeFileDownload', 'DynamicSiteAcceleration'
+ * 'VideoOnDemandMediaStreaming', 'LargeFileDownload',
+ * 'DynamicSiteAcceleration'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: OptimizationType =
+ * <OptimizationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type OptimizationType = 'GeneralWebDelivery' | 'GeneralMediaStreaming' | 'VideoOnDemandMediaStreaming' | 'LargeFileDownload' | 'DynamicSiteAcceleration';
+export enum OptimizationType {
+  GeneralWebDelivery = 'GeneralWebDelivery',
+  GeneralMediaStreaming = 'GeneralMediaStreaming',
+  VideoOnDemandMediaStreaming = 'VideoOnDemandMediaStreaming',
+  LargeFileDownload = 'LargeFileDownload',
+  DynamicSiteAcceleration = 'DynamicSiteAcceleration',
+}
 
 /**
  * Defines values for EndpointResourceState.
- * Possible values include: 'Creating', 'Deleting', 'Running', 'Starting', 'Stopped', 'Stopping'
+ * Possible values include: 'Creating', 'Deleting', 'Running', 'Starting',
+ * 'Stopped', 'Stopping'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: EndpointResourceState =
+ * <EndpointResourceState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type EndpointResourceState = 'Creating' | 'Deleting' | 'Running' | 'Starting' | 'Stopped' | 'Stopping';
+export enum EndpointResourceState {
+  Creating = 'Creating',
+  Deleting = 'Deleting',
+  Running = 'Running',
+  Starting = 'Starting',
+  Stopped = 'Stopped',
+  Stopping = 'Stopping',
+}
 
 /**
  * Defines values for QueryStringCachingBehavior.
- * Possible values include: 'IgnoreQueryString', 'BypassCaching', 'UseQueryString', 'NotSet'
+ * Possible values include: 'IgnoreQueryString', 'BypassCaching',
+ * 'UseQueryString', 'NotSet'
  * @readonly
  * @enum {string}
  */
-export type QueryStringCachingBehavior = 'IgnoreQueryString' | 'BypassCaching' | 'UseQueryString' | 'NotSet';
+export enum QueryStringCachingBehavior {
+  IgnoreQueryString = 'IgnoreQueryString',
+  BypassCaching = 'BypassCaching',
+  UseQueryString = 'UseQueryString',
+  NotSet = 'NotSet',
+}
 
 /**
  * Defines values for GeoFilterActions.
@@ -1257,43 +1310,94 @@ export type QueryStringCachingBehavior = 'IgnoreQueryString' | 'BypassCaching' |
  * @readonly
  * @enum {string}
  */
-export type GeoFilterActions = 'Block' | 'Allow';
+export enum GeoFilterActions {
+  Block = 'Block',
+  Allow = 'Allow',
+}
 
 /**
  * Defines values for OriginResourceState.
  * Possible values include: 'Creating', 'Active', 'Deleting'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: OriginResourceState =
+ * <OriginResourceState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type OriginResourceState = 'Creating' | 'Active' | 'Deleting';
+export enum OriginResourceState {
+  Creating = 'Creating',
+  Active = 'Active',
+  Deleting = 'Deleting',
+}
 
 /**
  * Defines values for CustomDomainResourceState.
  * Possible values include: 'Creating', 'Active', 'Deleting'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: CustomDomainResourceState =
+ * <CustomDomainResourceState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type CustomDomainResourceState = 'Creating' | 'Active' | 'Deleting';
+export enum CustomDomainResourceState {
+  Creating = 'Creating',
+  Active = 'Active',
+  Deleting = 'Deleting',
+}
 
 /**
  * Defines values for CustomHttpsProvisioningState.
- * Possible values include: 'Enabling', 'Enabled', 'Disabling', 'Disabled', 'Failed'
+ * Possible values include: 'Enabling', 'Enabled', 'Disabling', 'Disabled',
+ * 'Failed'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: CustomHttpsProvisioningState =
+ * <CustomHttpsProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type CustomHttpsProvisioningState = 'Enabling' | 'Enabled' | 'Disabling' | 'Disabled' | 'Failed';
+export enum CustomHttpsProvisioningState {
+  Enabling = 'Enabling',
+  Enabled = 'Enabled',
+  Disabling = 'Disabling',
+  Disabled = 'Disabled',
+  Failed = 'Failed',
+}
 
 /**
  * Defines values for CustomHttpsProvisioningSubstate.
  * Possible values include: 'SubmittingDomainControlValidationRequest',
- * 'PendingDomainControlValidationREquestApproval', 'DomainControlValidationRequestApproved',
- * 'DomainControlValidationRequestRejected', 'DomainControlValidationRequestTimedOut',
- * 'IssuingCertificate', 'DeployingCertificate', 'CertificateDeployed', 'DeletingCertificate',
+ * 'PendingDomainControlValidationREquestApproval',
+ * 'DomainControlValidationRequestApproved',
+ * 'DomainControlValidationRequestRejected',
+ * 'DomainControlValidationRequestTimedOut', 'IssuingCertificate',
+ * 'DeployingCertificate', 'CertificateDeployed', 'DeletingCertificate',
  * 'CertificateDeleted'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: CustomHttpsProvisioningSubstate =
+ * <CustomHttpsProvisioningSubstate>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type CustomHttpsProvisioningSubstate = 'SubmittingDomainControlValidationRequest' | 'PendingDomainControlValidationREquestApproval' | 'DomainControlValidationRequestApproved' | 'DomainControlValidationRequestRejected' | 'DomainControlValidationRequestTimedOut' | 'IssuingCertificate' | 'DeployingCertificate' | 'CertificateDeployed' | 'DeletingCertificate' | 'CertificateDeleted';
+export enum CustomHttpsProvisioningSubstate {
+  SubmittingDomainControlValidationRequest = 'SubmittingDomainControlValidationRequest',
+  PendingDomainControlValidationREquestApproval = 'PendingDomainControlValidationREquestApproval',
+  DomainControlValidationRequestApproved = 'DomainControlValidationRequestApproved',
+  DomainControlValidationRequestRejected = 'DomainControlValidationRequestRejected',
+  DomainControlValidationRequestTimedOut = 'DomainControlValidationRequestTimedOut',
+  IssuingCertificate = 'IssuingCertificate',
+  DeployingCertificate = 'DeployingCertificate',
+  CertificateDeployed = 'CertificateDeployed',
+  DeletingCertificate = 'DeletingCertificate',
+  CertificateDeleted = 'CertificateDeleted',
+}
 
 /**
  * Defines values for ResourceType.
@@ -1301,23 +1405,41 @@ export type CustomHttpsProvisioningSubstate = 'SubmittingDomainControlValidation
  * @readonly
  * @enum {string}
  */
-export type ResourceType = 'Microsoft.Cdn/Profiles/Endpoints';
+export enum ResourceType {
+  MicrosoftCdnProfilesEndpoints = 'Microsoft.Cdn/Profiles/Endpoints',
+}
 
 /**
  * Defines values for MatchType.
  * Possible values include: 'Literal', 'Wildcard'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: MatchType = <MatchType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type MatchType = 'Literal' | 'Wildcard';
+export enum MatchType {
+  Literal = 'Literal',
+  Wildcard = 'Wildcard',
+}
 
 /**
  * Defines values for CacheBehavior.
  * Possible values include: 'BypassCache', 'Override', 'SetIfMissing'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: CacheBehavior =
+ * <CacheBehavior>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type CacheBehavior = 'BypassCache' | 'Override' | 'SetIfMissing';
+export enum CacheBehavior {
+  BypassCache = 'BypassCache',
+  Override = 'Override',
+  SetIfMissing = 'SetIfMissing',
+}
 
 /**
  * Contains response data for the list operation.

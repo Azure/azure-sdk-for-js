@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/appServicePlansMappers";
 import * as Parameters from "../models/parameters";
@@ -43,7 +43,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   list(options: Models.AppServicePlansListOptionalParams, callback: msRest.ServiceCallback<Models.AppServicePlanCollection>): void;
-  list(options?: Models.AppServicePlansListOptionalParams | msRest.ServiceCallback<Models.AppServicePlanCollection>, callback?: msRest.ServiceCallback<Models.AppServicePlanCollection>): Promise<Models.AppServicePlansListResponse> {
+  list(options?: Models.AppServicePlansListOptionalParams, callback?: msRest.ServiceCallback<Models.AppServicePlanCollection>): Promise<Models.AppServicePlansListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -71,7 +71,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServicePlanCollection>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServicePlanCollection>, callback?: msRest.ServiceCallback<Models.AppServicePlanCollection>): Promise<Models.AppServicePlansListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AppServicePlanCollection>): Promise<Models.AppServicePlansListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -103,7 +103,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   get(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServicePlan>): void;
-  get(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServicePlan>, callback?: msRest.ServiceCallback<Models.AppServicePlan>): Promise<Models.AppServicePlansGetResponse> {
+  get(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AppServicePlan>): Promise<Models.AppServicePlansGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -150,7 +150,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -186,7 +186,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   update(resourceGroupName: string, name: string, appServicePlan: Models.AppServicePlanPatchResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServicePlan>): void;
-  update(resourceGroupName: string, name: string, appServicePlan: Models.AppServicePlanPatchResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServicePlan>, callback?: msRest.ServiceCallback<Models.AppServicePlan>): Promise<Models.AppServicePlansUpdateResponse> {
+  update(resourceGroupName: string, name: string, appServicePlan: Models.AppServicePlanPatchResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AppServicePlan>): Promise<Models.AppServicePlansUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -220,7 +220,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   listCapabilities(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Capability[]>): void;
-  listCapabilities(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Capability[]>, callback?: msRest.ServiceCallback<Models.Capability[]>): Promise<Models.AppServicePlansListCapabilitiesResponse> {
+  listCapabilities(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Capability[]>): Promise<Models.AppServicePlansListCapabilitiesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -259,7 +259,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   getHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnection>): void;
-  getHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnection>, callback?: msRest.ServiceCallback<Models.HybridConnection>): Promise<Models.AppServicePlansGetHybridConnectionResponse> {
+  getHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HybridConnection>): Promise<Models.AppServicePlansGetHybridConnectionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -300,7 +300,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   deleteHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -341,7 +341,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   listHybridConnectionKeys(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnectionKey>): void;
-  listHybridConnectionKeys(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnectionKey>, callback?: msRest.ServiceCallback<Models.HybridConnectionKey>): Promise<Models.AppServicePlansListHybridConnectionKeysResponse> {
+  listHybridConnectionKeys(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HybridConnectionKey>): Promise<Models.AppServicePlansListHybridConnectionKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -382,7 +382,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   listWebAppsByHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceCollection>): void;
-  listWebAppsByHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceCollection>, callback?: msRest.ServiceCallback<Models.ResourceCollection>): Promise<Models.AppServicePlansListWebAppsByHybridConnectionResponse> {
+  listWebAppsByHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceCollection>): Promise<Models.AppServicePlansListWebAppsByHybridConnectionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -417,7 +417,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   getHybridConnectionPlanLimit(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnectionLimits>): void;
-  getHybridConnectionPlanLimit(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnectionLimits>, callback?: msRest.ServiceCallback<Models.HybridConnectionLimits>): Promise<Models.AppServicePlansGetHybridConnectionPlanLimitResponse> {
+  getHybridConnectionPlanLimit(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HybridConnectionLimits>): Promise<Models.AppServicePlansGetHybridConnectionPlanLimitResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -450,7 +450,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   listHybridConnections(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnectionCollection>): void;
-  listHybridConnections(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnectionCollection>, callback?: msRest.ServiceCallback<Models.HybridConnectionCollection>): Promise<Models.AppServicePlansListHybridConnectionsResponse> {
+  listHybridConnections(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HybridConnectionCollection>): Promise<Models.AppServicePlansListHybridConnectionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -483,7 +483,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   listMetricDefintions(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): void;
-  listMetricDefintions(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.AppServicePlansListMetricDefintionsResponse> {
+  listMetricDefintions(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.AppServicePlansListMetricDefintionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -516,7 +516,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   listMetrics(resourceGroupName: string, name: string, options: Models.AppServicePlansListMetricsOptionalParams, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listMetrics(resourceGroupName: string, name: string, options?: Models.AppServicePlansListMetricsOptionalParams | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServicePlansListMetricsResponse> {
+  listMetrics(resourceGroupName: string, name: string, options?: Models.AppServicePlansListMetricsOptionalParams, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServicePlansListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -549,7 +549,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   restartWebApps(resourceGroupName: string, name: string, options: Models.AppServicePlansRestartWebAppsOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  restartWebApps(resourceGroupName: string, name: string, options?: Models.AppServicePlansRestartWebAppsOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  restartWebApps(resourceGroupName: string, name: string, options?: Models.AppServicePlansRestartWebAppsOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -582,7 +582,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   listWebApps(resourceGroupName: string, name: string, options: Models.AppServicePlansListWebAppsOptionalParams, callback: msRest.ServiceCallback<Models.WebAppCollection>): void;
-  listWebApps(resourceGroupName: string, name: string, options?: Models.AppServicePlansListWebAppsOptionalParams | msRest.ServiceCallback<Models.WebAppCollection>, callback?: msRest.ServiceCallback<Models.WebAppCollection>): Promise<Models.AppServicePlansListWebAppsResponse> {
+  listWebApps(resourceGroupName: string, name: string, options?: Models.AppServicePlansListWebAppsOptionalParams, callback?: msRest.ServiceCallback<Models.WebAppCollection>): Promise<Models.AppServicePlansListWebAppsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -615,7 +615,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   getServerFarmSkus(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  getServerFarmSkus(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppServicePlansGetServerFarmSkusResponse> {
+  getServerFarmSkus(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<any>): Promise<Models.AppServicePlansGetServerFarmSkusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -648,7 +648,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   listUsages(resourceGroupName: string, name: string, options: Models.AppServicePlansListUsagesOptionalParams, callback: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): void;
-  listUsages(resourceGroupName: string, name: string, options?: Models.AppServicePlansListUsagesOptionalParams | msRest.ServiceCallback<Models.CsmUsageQuotaCollection>, callback?: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): Promise<Models.AppServicePlansListUsagesResponse> {
+  listUsages(resourceGroupName: string, name: string, options?: Models.AppServicePlansListUsagesOptionalParams, callback?: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): Promise<Models.AppServicePlansListUsagesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -681,7 +681,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   listVnets(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetInfo[]>): void;
-  listVnets(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetInfo[]>, callback?: msRest.ServiceCallback<Models.VnetInfo[]>): Promise<Models.AppServicePlansListVnetsResponse> {
+  listVnets(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VnetInfo[]>): Promise<Models.AppServicePlansListVnetsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -717,7 +717,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   getVnetFromServerFarm(resourceGroupName: string, name: string, vnetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetInfo>): void;
-  getVnetFromServerFarm(resourceGroupName: string, name: string, vnetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetInfo>, callback?: msRest.ServiceCallback<Models.VnetInfo>): Promise<Models.AppServicePlansGetVnetFromServerFarmResponse> {
+  getVnetFromServerFarm(resourceGroupName: string, name: string, vnetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VnetInfo>): Promise<Models.AppServicePlansGetVnetFromServerFarmResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -757,7 +757,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   getVnetGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetGateway>): void;
-  getVnetGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetGateway>, callback?: msRest.ServiceCallback<Models.VnetGateway>): Promise<Models.AppServicePlansGetVnetGatewayResponse> {
+  getVnetGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VnetGateway>): Promise<Models.AppServicePlansGetVnetGatewayResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -801,7 +801,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   updateVnetGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: Models.VnetGateway, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetGateway>): void;
-  updateVnetGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: Models.VnetGateway, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetGateway>, callback?: msRest.ServiceCallback<Models.VnetGateway>): Promise<Models.AppServicePlansUpdateVnetGatewayResponse> {
+  updateVnetGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: Models.VnetGateway, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VnetGateway>): Promise<Models.AppServicePlansUpdateVnetGatewayResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -840,7 +840,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   listRoutesForVnet(resourceGroupName: string, name: string, vnetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetRoute[]>): void;
-  listRoutesForVnet(resourceGroupName: string, name: string, vnetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetRoute[]>, callback?: msRest.ServiceCallback<Models.VnetRoute[]>): Promise<Models.AppServicePlansListRoutesForVnetResponse> {
+  listRoutesForVnet(resourceGroupName: string, name: string, vnetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VnetRoute[]>): Promise<Models.AppServicePlansListRoutesForVnetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -880,7 +880,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   getRouteForVnet(resourceGroupName: string, name: string, vnetName: string, routeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetRoute[]>): void;
-  getRouteForVnet(resourceGroupName: string, name: string, vnetName: string, routeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetRoute[]>, callback?: msRest.ServiceCallback<Models.VnetRoute[]>): Promise<Models.AppServicePlansGetRouteForVnetResponse> {
+  getRouteForVnet(resourceGroupName: string, name: string, vnetName: string, routeName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VnetRoute[]>): Promise<Models.AppServicePlansGetRouteForVnetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -924,7 +924,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   createOrUpdateVnetRoute(resourceGroupName: string, name: string, vnetName: string, routeName: string, route: Models.VnetRoute, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetRoute>): void;
-  createOrUpdateVnetRoute(resourceGroupName: string, name: string, vnetName: string, routeName: string, route: Models.VnetRoute, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetRoute>, callback?: msRest.ServiceCallback<Models.VnetRoute>): Promise<Models.AppServicePlansCreateOrUpdateVnetRouteResponse> {
+  createOrUpdateVnetRoute(resourceGroupName: string, name: string, vnetName: string, routeName: string, route: Models.VnetRoute, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VnetRoute>): Promise<Models.AppServicePlansCreateOrUpdateVnetRouteResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -966,7 +966,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   deleteVnetRoute(resourceGroupName: string, name: string, vnetName: string, routeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteVnetRoute(resourceGroupName: string, name: string, vnetName: string, routeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteVnetRoute(resourceGroupName: string, name: string, vnetName: string, routeName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1010,7 +1010,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   updateVnetRoute(resourceGroupName: string, name: string, vnetName: string, routeName: string, route: Models.VnetRoute, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetRoute>): void;
-  updateVnetRoute(resourceGroupName: string, name: string, vnetName: string, routeName: string, route: Models.VnetRoute, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetRoute>, callback?: msRest.ServiceCallback<Models.VnetRoute>): Promise<Models.AppServicePlansUpdateVnetRouteResponse> {
+  updateVnetRoute(resourceGroupName: string, name: string, vnetName: string, routeName: string, route: Models.VnetRoute, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VnetRoute>): Promise<Models.AppServicePlansUpdateVnetRouteResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1049,7 +1049,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   rebootWorker(resourceGroupName: string, name: string, workerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  rebootWorker(resourceGroupName: string, name: string, workerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  rebootWorker(resourceGroupName: string, name: string, workerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1101,7 +1101,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServicePlanCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServicePlanCollection>, callback?: msRest.ServiceCallback<Models.AppServicePlanCollection>): Promise<Models.AppServicePlansListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AppServicePlanCollection>): Promise<Models.AppServicePlansListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1130,7 +1130,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServicePlanCollection>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServicePlanCollection>, callback?: msRest.ServiceCallback<Models.AppServicePlanCollection>): Promise<Models.AppServicePlansListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AppServicePlanCollection>): Promise<Models.AppServicePlansListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1159,7 +1159,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   listWebAppsByHybridConnectionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceCollection>): void;
-  listWebAppsByHybridConnectionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceCollection>, callback?: msRest.ServiceCallback<Models.ResourceCollection>): Promise<Models.AppServicePlansListWebAppsByHybridConnectionNextResponse> {
+  listWebAppsByHybridConnectionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceCollection>): Promise<Models.AppServicePlansListWebAppsByHybridConnectionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1188,7 +1188,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   listHybridConnectionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnectionCollection>): void;
-  listHybridConnectionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnectionCollection>, callback?: msRest.ServiceCallback<Models.HybridConnectionCollection>): Promise<Models.AppServicePlansListHybridConnectionsNextResponse> {
+  listHybridConnectionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HybridConnectionCollection>): Promise<Models.AppServicePlansListHybridConnectionsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1217,7 +1217,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   listMetricDefintionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): void;
-  listMetricDefintionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.AppServicePlansListMetricDefintionsNextResponse> {
+  listMetricDefintionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.AppServicePlansListMetricDefintionsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1246,7 +1246,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   listMetricsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServicePlansListMetricsNextResponse> {
+  listMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServicePlansListMetricsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1275,7 +1275,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   listWebAppsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebAppCollection>): void;
-  listWebAppsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebAppCollection>, callback?: msRest.ServiceCallback<Models.WebAppCollection>): Promise<Models.AppServicePlansListWebAppsNextResponse> {
+  listWebAppsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebAppCollection>): Promise<Models.AppServicePlansListWebAppsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1304,7 +1304,7 @@ export class AppServicePlans {
    * @param callback The callback
    */
   listUsagesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): void;
-  listUsagesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CsmUsageQuotaCollection>, callback?: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): Promise<Models.AppServicePlansListUsagesNextResponse> {
+  listUsagesNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): Promise<Models.AppServicePlansListUsagesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
@@ -256,6 +256,11 @@ export const ArtifactSource: msRest.CompositeMapper = {
         serializedName: "properties.authentication",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "Authentication",
           className: "Authentication"
         }
       }
@@ -309,6 +314,11 @@ export const ArtifactSourcePropertiesModel: msRest.CompositeMapper = {
         serializedName: "authentication",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "Authentication",
           className: "Authentication"
         }
       }
@@ -1093,6 +1103,11 @@ export const StepResource: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "stepType",
+            clientName: "stepType"
+          },
+          uberParent: "StepProperties",
           className: "StepProperties"
         }
       }

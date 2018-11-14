@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/jobStreamOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -53,7 +53,7 @@ export class JobStreamOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, automationAccountName: string, jobName: string, jobStreamId: string, options: Models.JobStreamGetOptionalParams, callback: msRest.ServiceCallback<Models.JobStream>): void;
-  get(resourceGroupName: string, automationAccountName: string, jobName: string, jobStreamId: string, options?: Models.JobStreamGetOptionalParams | msRest.ServiceCallback<Models.JobStream>, callback?: msRest.ServiceCallback<Models.JobStream>): Promise<Models.JobStreamGetResponse> {
+  get(resourceGroupName: string, automationAccountName: string, jobName: string, jobStreamId: string, options?: Models.JobStreamGetOptionalParams, callback?: msRest.ServiceCallback<Models.JobStream>): Promise<Models.JobStreamGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -90,7 +90,7 @@ export class JobStreamOperations {
    * @param callback The callback
    */
   listByJob(resourceGroupName: string, automationAccountName: string, jobName: string, options: Models.JobStreamListByJobOptionalParams, callback: msRest.ServiceCallback<Models.JobStreamListResult>): void;
-  listByJob(resourceGroupName: string, automationAccountName: string, jobName: string, options?: Models.JobStreamListByJobOptionalParams | msRest.ServiceCallback<Models.JobStreamListResult>, callback?: msRest.ServiceCallback<Models.JobStreamListResult>): Promise<Models.JobStreamListByJobResponse> {
+  listByJob(resourceGroupName: string, automationAccountName: string, jobName: string, options?: Models.JobStreamListByJobOptionalParams, callback?: msRest.ServiceCallback<Models.JobStreamListResult>): Promise<Models.JobStreamListByJobResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -120,7 +120,7 @@ export class JobStreamOperations {
    * @param callback The callback
    */
   listByJobNext(nextPageLink: string, options: Models.JobStreamListByJobNextOptionalParams, callback: msRest.ServiceCallback<Models.JobStreamListResult>): void;
-  listByJobNext(nextPageLink: string, options?: Models.JobStreamListByJobNextOptionalParams | msRest.ServiceCallback<Models.JobStreamListResult>, callback?: msRest.ServiceCallback<Models.JobStreamListResult>): Promise<Models.JobStreamListByJobNextResponse> {
+  listByJobNext(nextPageLink: string, options?: Models.JobStreamListByJobNextOptionalParams, callback?: msRest.ServiceCallback<Models.JobStreamListResult>): Promise<Models.JobStreamListByJobNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

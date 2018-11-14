@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/backupJobsMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class BackupJobs {
    * @param callback The callback
    */
   list(vaultName: string, resourceGroupName: string, options: Models.BackupJobsListOptionalParams, callback: msRest.ServiceCallback<Models.JobResourceList>): void;
-  list(vaultName: string, resourceGroupName: string, options?: Models.BackupJobsListOptionalParams | msRest.ServiceCallback<Models.JobResourceList>, callback?: msRest.ServiceCallback<Models.JobResourceList>): Promise<Models.BackupJobsListResponse> {
+  list(vaultName: string, resourceGroupName: string, options?: Models.BackupJobsListOptionalParams, callback?: msRest.ServiceCallback<Models.JobResourceList>): Promise<Models.BackupJobsListResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -79,7 +79,7 @@ export class BackupJobs {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobResourceList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobResourceList>, callback?: msRest.ServiceCallback<Models.JobResourceList>): Promise<Models.BackupJobsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JobResourceList>): Promise<Models.BackupJobsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

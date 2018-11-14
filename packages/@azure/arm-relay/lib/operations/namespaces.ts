@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/namespacesMappers";
 import * as Parameters from "../models/parameters";
@@ -45,7 +45,7 @@ export class Namespaces {
    * @param callback The callback
    */
   checkNameAvailabilityMethod(parameters: Models.CheckNameAvailability, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
-  checkNameAvailabilityMethod(parameters: Models.CheckNameAvailability, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.NamespacesCheckNameAvailabilityMethodResponse> {
+  checkNameAvailabilityMethod(parameters: Models.CheckNameAvailability, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.NamespacesCheckNameAvailabilityMethodResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
@@ -70,7 +70,7 @@ export class Namespaces {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RelayNamespaceListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RelayNamespaceListResult>, callback?: msRest.ServiceCallback<Models.RelayNamespaceListResult>): Promise<Models.NamespacesListResponse> {
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RelayNamespaceListResult>): Promise<Models.NamespacesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -97,7 +97,7 @@ export class Namespaces {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RelayNamespaceListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RelayNamespaceListResult>, callback?: msRest.ServiceCallback<Models.RelayNamespaceListResult>): Promise<Models.NamespacesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RelayNamespaceListResult>): Promise<Models.NamespacesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -154,7 +154,7 @@ export class Namespaces {
    * @param callback The callback
    */
   get(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RelayNamespace>): void;
-  get(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RelayNamespace>, callback?: msRest.ServiceCallback<Models.RelayNamespace>): Promise<Models.NamespacesGetResponse> {
+  get(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RelayNamespace>): Promise<Models.NamespacesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -190,7 +190,7 @@ export class Namespaces {
    * @param callback The callback
    */
   update(resourceGroupName: string, namespaceName: string, parameters: Models.RelayUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RelayNamespace>): void;
-  update(resourceGroupName: string, namespaceName: string, parameters: Models.RelayUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RelayNamespace>, callback?: msRest.ServiceCallback<Models.RelayNamespace>): Promise<Models.NamespacesUpdateResponse> {
+  update(resourceGroupName: string, namespaceName: string, parameters: Models.RelayUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RelayNamespace>): Promise<Models.NamespacesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -223,7 +223,7 @@ export class Namespaces {
    * @param callback The callback
    */
   listAuthorizationRules(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): void;
-  listAuthorizationRules(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): Promise<Models.NamespacesListAuthorizationRulesResponse> {
+  listAuthorizationRules(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): Promise<Models.NamespacesListAuthorizationRulesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -261,7 +261,7 @@ export class Namespaces {
    * @param callback The callback
    */
   createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: Models.AuthorizationRule, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRule>): void;
-  createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: Models.AuthorizationRule, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRule>, callback?: msRest.ServiceCallback<Models.AuthorizationRule>): Promise<Models.NamespacesCreateOrUpdateAuthorizationRuleResponse> {
+  createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: Models.AuthorizationRule, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AuthorizationRule>): Promise<Models.NamespacesCreateOrUpdateAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -298,7 +298,7 @@ export class Namespaces {
    * @param callback The callback
    */
   deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -334,7 +334,7 @@ export class Namespaces {
    * @param callback The callback
    */
   getAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRule>): void;
-  getAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRule>, callback?: msRest.ServiceCallback<Models.AuthorizationRule>): Promise<Models.NamespacesGetAuthorizationRuleResponse> {
+  getAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AuthorizationRule>): Promise<Models.NamespacesGetAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -370,7 +370,7 @@ export class Namespaces {
    * @param callback The callback
    */
   listKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessKeys>): void;
-  listKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessKeys>, callback?: msRest.ServiceCallback<Models.AccessKeys>): Promise<Models.NamespacesListKeysResponse> {
+  listKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccessKeys>): Promise<Models.NamespacesListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -409,7 +409,7 @@ export class Namespaces {
    * @param callback The callback
    */
   regenerateKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: Models.RegenerateAccessKeyParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessKeys>): void;
-  regenerateKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: Models.RegenerateAccessKeyParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessKeys>, callback?: msRest.ServiceCallback<Models.AccessKeys>): Promise<Models.NamespacesRegenerateKeysResponse> {
+  regenerateKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: Models.RegenerateAccessKeyParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccessKeys>): Promise<Models.NamespacesRegenerateKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -479,7 +479,7 @@ export class Namespaces {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RelayNamespaceListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RelayNamespaceListResult>, callback?: msRest.ServiceCallback<Models.RelayNamespaceListResult>): Promise<Models.NamespacesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RelayNamespaceListResult>): Promise<Models.NamespacesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -507,7 +507,7 @@ export class Namespaces {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RelayNamespaceListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RelayNamespaceListResult>, callback?: msRest.ServiceCallback<Models.RelayNamespaceListResult>): Promise<Models.NamespacesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RelayNamespaceListResult>): Promise<Models.NamespacesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -535,7 +535,7 @@ export class Namespaces {
    * @param callback The callback
    */
   listAuthorizationRulesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): void;
-  listAuthorizationRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): Promise<Models.NamespacesListAuthorizationRulesNextResponse> {
+  listAuthorizationRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): Promise<Models.NamespacesListAuthorizationRulesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

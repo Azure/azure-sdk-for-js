@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -427,66 +427,127 @@ export interface DomainServiceListResult extends Array<DomainService> {
 /**
  * Defines values for Ldaps.
  * Possible values include: 'Enabled', 'Disabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Ldaps = <Ldaps>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type Ldaps = 'Enabled' | 'Disabled';
+export enum Ldaps {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for ExternalAccess.
  * Possible values include: 'Enabled', 'Disabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ExternalAccess =
+ * <ExternalAccess>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ExternalAccess = 'Enabled' | 'Disabled';
+export enum ExternalAccess {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for NotifyGlobalAdmins.
  * Possible values include: 'Enabled', 'Disabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: NotifyGlobalAdmins =
+ * <NotifyGlobalAdmins>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type NotifyGlobalAdmins = 'Enabled' | 'Disabled';
+export enum NotifyGlobalAdmins {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for NotifyDcAdmins.
  * Possible values include: 'Enabled', 'Disabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: NotifyDcAdmins =
+ * <NotifyDcAdmins>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type NotifyDcAdmins = 'Enabled' | 'Disabled';
+export enum NotifyDcAdmins {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for NtlmV1.
  * Possible values include: 'Enabled', 'Disabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: NtlmV1 = <NtlmV1>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type NtlmV1 = 'Enabled' | 'Disabled';
+export enum NtlmV1 {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for TlsV1.
  * Possible values include: 'Enabled', 'Disabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: TlsV1 = <TlsV1>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type TlsV1 = 'Enabled' | 'Disabled';
+export enum TlsV1 {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for SyncNtlmPasswords.
  * Possible values include: 'Enabled', 'Disabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SyncNtlmPasswords =
+ * <SyncNtlmPasswords>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SyncNtlmPasswords = 'Enabled' | 'Disabled';
+export enum SyncNtlmPasswords {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
 
 /**
  * Defines values for FilteredSync.
  * Possible values include: 'Enabled', 'Disabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: FilteredSync =
+ * <FilteredSync>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type FilteredSync = 'Enabled' | 'Disabled';
+export enum FilteredSync {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
 
 /**
  * Contains response data for the list operation.

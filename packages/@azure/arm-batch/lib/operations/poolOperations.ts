@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/poolOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class PoolOperations {
    * @param callback The callback
    */
   listByBatchAccount(resourceGroupName: string, accountName: string, options: Models.PoolListByBatchAccountOptionalParams, callback: msRest.ServiceCallback<Models.ListPoolsResult>): void;
-  listByBatchAccount(resourceGroupName: string, accountName: string, options?: Models.PoolListByBatchAccountOptionalParams | msRest.ServiceCallback<Models.ListPoolsResult>, callback?: msRest.ServiceCallback<Models.ListPoolsResult>): Promise<Models.PoolListByBatchAccountResponse> {
+  listByBatchAccount(resourceGroupName: string, accountName: string, options?: Models.PoolListByBatchAccountOptionalParams, callback?: msRest.ServiceCallback<Models.ListPoolsResult>): Promise<Models.PoolListByBatchAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -103,7 +103,7 @@ export class PoolOperations {
    * @param callback The callback
    */
   update(resourceGroupName: string, accountName: string, poolName: string, parameters: Models.Pool, options: Models.PoolUpdateOptionalParams, callback: msRest.ServiceCallback<Models.Pool>): void;
-  update(resourceGroupName: string, accountName: string, poolName: string, parameters: Models.Pool, options?: Models.PoolUpdateOptionalParams | msRest.ServiceCallback<Models.Pool>, callback?: msRest.ServiceCallback<Models.Pool>): Promise<Models.PoolUpdateResponse> {
+  update(resourceGroupName: string, accountName: string, poolName: string, parameters: Models.Pool, options?: Models.PoolUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.Pool>): Promise<Models.PoolUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -153,7 +153,7 @@ export class PoolOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, poolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Pool>): void;
-  get(resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Pool>, callback?: msRest.ServiceCallback<Models.Pool>): Promise<Models.PoolGetResponse> {
+  get(resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Pool>): Promise<Models.PoolGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -189,7 +189,7 @@ export class PoolOperations {
    * @param callback The callback
    */
   disableAutoScale(resourceGroupName: string, accountName: string, poolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Pool>): void;
-  disableAutoScale(resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Pool>, callback?: msRest.ServiceCallback<Models.Pool>): Promise<Models.PoolDisableAutoScaleResponse> {
+  disableAutoScale(resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Pool>): Promise<Models.PoolDisableAutoScaleResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -231,7 +231,7 @@ export class PoolOperations {
    * @param callback The callback
    */
   stopResize(resourceGroupName: string, accountName: string, poolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Pool>): void;
-  stopResize(resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Pool>, callback?: msRest.ServiceCallback<Models.Pool>): Promise<Models.PoolStopResizeResponse> {
+  stopResize(resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Pool>): Promise<Models.PoolStopResizeResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -303,7 +303,7 @@ export class PoolOperations {
    * @param callback The callback
    */
   listByBatchAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListPoolsResult>): void;
-  listByBatchAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListPoolsResult>, callback?: msRest.ServiceCallback<Models.ListPoolsResult>): Promise<Models.PoolListByBatchAccountNextResponse> {
+  listByBatchAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListPoolsResult>): Promise<Models.PoolListByBatchAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

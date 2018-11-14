@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/outputsMappers";
 import * as Parameters from "../models/parameters";
@@ -60,7 +60,7 @@ export class Outputs {
    * @param callback The callback
    */
   createOrReplace(output: Models.Output, resourceGroupName: string, jobName: string, outputName: string, options: Models.OutputsCreateOrReplaceOptionalParams, callback: msRest.ServiceCallback<Models.Output>): void;
-  createOrReplace(output: Models.Output, resourceGroupName: string, jobName: string, outputName: string, options?: Models.OutputsCreateOrReplaceOptionalParams | msRest.ServiceCallback<Models.Output>, callback?: msRest.ServiceCallback<Models.Output>): Promise<Models.OutputsCreateOrReplaceResponse> {
+  createOrReplace(output: Models.Output, resourceGroupName: string, jobName: string, outputName: string, options?: Models.OutputsCreateOrReplaceOptionalParams, callback?: msRest.ServiceCallback<Models.Output>): Promise<Models.OutputsCreateOrReplaceResponse> {
     return this.client.sendOperationRequest(
       {
         output,
@@ -114,7 +114,7 @@ export class Outputs {
    * @param callback The callback
    */
   update(output: Models.Output, resourceGroupName: string, jobName: string, outputName: string, options: Models.OutputsUpdateOptionalParams, callback: msRest.ServiceCallback<Models.Output>): void;
-  update(output: Models.Output, resourceGroupName: string, jobName: string, outputName: string, options?: Models.OutputsUpdateOptionalParams | msRest.ServiceCallback<Models.Output>, callback?: msRest.ServiceCallback<Models.Output>): Promise<Models.OutputsUpdateResponse> {
+  update(output: Models.Output, resourceGroupName: string, jobName: string, outputName: string, options?: Models.OutputsUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.Output>): Promise<Models.OutputsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         output,
@@ -154,7 +154,7 @@ export class Outputs {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, jobName: string, outputName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, jobName: string, outputName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, jobName: string, outputName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -193,7 +193,7 @@ export class Outputs {
    * @param callback The callback
    */
   get(resourceGroupName: string, jobName: string, outputName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Output>): void;
-  get(resourceGroupName: string, jobName: string, outputName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Output>, callback?: msRest.ServiceCallback<Models.Output>): Promise<Models.OutputsGetResponse> {
+  get(resourceGroupName: string, jobName: string, outputName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Output>): Promise<Models.OutputsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -229,7 +229,7 @@ export class Outputs {
    * @param callback The callback
    */
   listByStreamingJob(resourceGroupName: string, jobName: string, options: Models.OutputsListByStreamingJobOptionalParams, callback: msRest.ServiceCallback<Models.OutputListResult>): void;
-  listByStreamingJob(resourceGroupName: string, jobName: string, options?: Models.OutputsListByStreamingJobOptionalParams | msRest.ServiceCallback<Models.OutputListResult>, callback?: msRest.ServiceCallback<Models.OutputListResult>): Promise<Models.OutputsListByStreamingJobResponse> {
+  listByStreamingJob(resourceGroupName: string, jobName: string, options?: Models.OutputsListByStreamingJobOptionalParams, callback?: msRest.ServiceCallback<Models.OutputListResult>): Promise<Models.OutputsListByStreamingJobResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -295,7 +295,7 @@ export class Outputs {
    * @param callback The callback
    */
   listByStreamingJobNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OutputListResult>): void;
-  listByStreamingJobNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OutputListResult>, callback?: msRest.ServiceCallback<Models.OutputListResult>): Promise<Models.OutputsListByStreamingJobNextResponse> {
+  listByStreamingJobNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OutputListResult>): Promise<Models.OutputsListByStreamingJobNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

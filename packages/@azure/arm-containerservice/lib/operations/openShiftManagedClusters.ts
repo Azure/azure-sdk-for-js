@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/openShiftManagedClustersMappers";
 import * as Parameters from "../models/parameters";
@@ -49,7 +49,7 @@ export class OpenShiftManagedClusters {
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OpenShiftManagedCluster>): void;
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OpenShiftManagedCluster>, callback?: msRest.ServiceCallback<Models.OpenShiftManagedCluster>): Promise<Models.OpenShiftManagedClustersGetResponse> {
+  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OpenShiftManagedCluster>): Promise<Models.OpenShiftManagedClustersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

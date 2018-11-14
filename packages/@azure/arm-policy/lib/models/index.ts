@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -404,23 +404,42 @@ export interface PolicySetDefinitionListResult extends Array<PolicySetDefinition
  * @readonly
  * @enum {string}
  */
-export type ResourceIdentityType = 'SystemAssigned' | 'None';
+export enum ResourceIdentityType {
+  SystemAssigned = 'SystemAssigned',
+  None = 'None',
+}
 
 /**
  * Defines values for PolicyType.
  * Possible values include: 'NotSpecified', 'BuiltIn', 'Custom'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: PolicyType = <PolicyType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type PolicyType = 'NotSpecified' | 'BuiltIn' | 'Custom';
+export enum PolicyType {
+  NotSpecified = 'NotSpecified',
+  BuiltIn = 'BuiltIn',
+  Custom = 'Custom',
+}
 
 /**
  * Defines values for PolicyMode.
  * Possible values include: 'NotSpecified', 'Indexed', 'All'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: PolicyMode = <PolicyMode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type PolicyMode = 'NotSpecified' | 'Indexed' | 'All';
+export enum PolicyMode {
+  NotSpecified = 'NotSpecified',
+  Indexed = 'Indexed',
+  All = 'All',
+}
 
 /**
  * Contains response data for the deleteMethod operation.

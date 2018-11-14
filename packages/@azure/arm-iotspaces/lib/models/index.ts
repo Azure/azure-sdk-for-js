@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -331,19 +331,41 @@ export interface OperationListResult extends Array<Operation> {
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Provisioning', 'Deleting', 'Succeeded', 'Failed', 'Canceled'
+ * Possible values include: 'Provisioning', 'Deleting', 'Succeeded', 'Failed',
+ * 'Canceled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ProvisioningState =
+ * <ProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Provisioning' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled';
+export enum ProvisioningState {
+  Provisioning = 'Provisioning',
+  Deleting = 'Deleting',
+  Succeeded = 'Succeeded',
+  Failed = 'Failed',
+  Canceled = 'Canceled',
+}
 
 /**
  * Defines values for IoTSpacesSku.
  * Possible values include: 'F1', 'S1', 'S2', 'S3'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: IoTSpacesSku =
+ * <IoTSpacesSku>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type IoTSpacesSku = 'F1' | 'S1' | 'S2' | 'S3';
+export enum IoTSpacesSku {
+  F1 = 'F1',
+  S1 = 'S1',
+  S2 = 'S2',
+  S3 = 'S3',
+}
 
 /**
  * Defines values for IoTSpacesNameUnavailabilityReason.
@@ -351,7 +373,10 @@ export type IoTSpacesSku = 'F1' | 'S1' | 'S2' | 'S3';
  * @readonly
  * @enum {string}
  */
-export type IoTSpacesNameUnavailabilityReason = 'Invalid' | 'AlreadyExists';
+export enum IoTSpacesNameUnavailabilityReason {
+  Invalid = 'Invalid',
+  AlreadyExists = 'AlreadyExists',
+}
 
 /**
  * Contains response data for the get operation.

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/domainServicesMappers";
 import * as Parameters from "../models/parameters";
@@ -44,7 +44,7 @@ export class DomainServices {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainServiceListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainServiceListResult>, callback?: msRest.ServiceCallback<Models.DomainServiceListResult>): Promise<Models.DomainServicesListResponse> {
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DomainServiceListResult>): Promise<Models.DomainServicesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -76,7 +76,7 @@ export class DomainServices {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainServiceListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainServiceListResult>, callback?: msRest.ServiceCallback<Models.DomainServiceListResult>): Promise<Models.DomainServicesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DomainServiceListResult>): Promise<Models.DomainServicesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -128,7 +128,7 @@ export class DomainServices {
    * @param callback The callback
    */
   get(resourceGroupName: string, domainServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainService>): void;
-  get(resourceGroupName: string, domainServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainService>, callback?: msRest.ServiceCallback<Models.DomainService>): Promise<Models.DomainServicesGetResponse> {
+  get(resourceGroupName: string, domainServiceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DomainService>): Promise<Models.DomainServicesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -256,7 +256,7 @@ export class DomainServices {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainServiceListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainServiceListResult>, callback?: msRest.ServiceCallback<Models.DomainServiceListResult>): Promise<Models.DomainServicesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DomainServiceListResult>): Promise<Models.DomainServicesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -286,7 +286,7 @@ export class DomainServices {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainServiceListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainServiceListResult>, callback?: msRest.ServiceCallback<Models.DomainServiceListResult>): Promise<Models.DomainServicesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DomainServiceListResult>): Promise<Models.DomainServicesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

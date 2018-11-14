@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/userAssignedIdentitiesMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class UserAssignedIdentities {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserAssignedIdentitiesListResult>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserAssignedIdentitiesListResult>, callback?: msRest.ServiceCallback<Models.UserAssignedIdentitiesListResult>): Promise<Models.UserAssignedIdentitiesListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UserAssignedIdentitiesListResult>): Promise<Models.UserAssignedIdentitiesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -68,7 +68,7 @@ export class UserAssignedIdentities {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserAssignedIdentitiesListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserAssignedIdentitiesListResult>, callback?: msRest.ServiceCallback<Models.UserAssignedIdentitiesListResult>): Promise<Models.UserAssignedIdentitiesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UserAssignedIdentitiesListResult>): Promise<Models.UserAssignedIdentitiesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -102,7 +102,7 @@ export class UserAssignedIdentities {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, resourceName: string, parameters: Models.Identity, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Identity>): void;
-  createOrUpdate(resourceGroupName: string, resourceName: string, parameters: Models.Identity, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Identity>, callback?: msRest.ServiceCallback<Models.Identity>): Promise<Models.UserAssignedIdentitiesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, resourceName: string, parameters: Models.Identity, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Identity>): Promise<Models.UserAssignedIdentitiesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -138,7 +138,7 @@ export class UserAssignedIdentities {
    * @param callback The callback
    */
   update(resourceGroupName: string, resourceName: string, parameters: Models.Identity, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Identity>): void;
-  update(resourceGroupName: string, resourceName: string, parameters: Models.Identity, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Identity>, callback?: msRest.ServiceCallback<Models.Identity>): Promise<Models.UserAssignedIdentitiesUpdateResponse> {
+  update(resourceGroupName: string, resourceName: string, parameters: Models.Identity, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Identity>): Promise<Models.UserAssignedIdentitiesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -171,7 +171,7 @@ export class UserAssignedIdentities {
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Identity>): void;
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Identity>, callback?: msRest.ServiceCallback<Models.Identity>): Promise<Models.UserAssignedIdentitiesGetResponse> {
+  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Identity>): Promise<Models.UserAssignedIdentitiesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -203,7 +203,7 @@ export class UserAssignedIdentities {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -232,7 +232,7 @@ export class UserAssignedIdentities {
    * @param callback The callback
    */
   listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserAssignedIdentitiesListResult>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserAssignedIdentitiesListResult>, callback?: msRest.ServiceCallback<Models.UserAssignedIdentitiesListResult>): Promise<Models.UserAssignedIdentitiesListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UserAssignedIdentitiesListResult>): Promise<Models.UserAssignedIdentitiesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -260,7 +260,7 @@ export class UserAssignedIdentities {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserAssignedIdentitiesListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserAssignedIdentitiesListResult>, callback?: msRest.ServiceCallback<Models.UserAssignedIdentitiesListResult>): Promise<Models.UserAssignedIdentitiesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UserAssignedIdentitiesListResult>): Promise<Models.UserAssignedIdentitiesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/certificateRegistrationProviderMappers";
 import * as Parameters from "../models/parameters";
@@ -44,7 +44,7 @@ export class CertificateRegistrationProvider {
    * @param callback The callback
    */
   listOperations(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CsmOperationCollection>): void;
-  listOperations(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CsmOperationCollection>, callback?: msRest.ServiceCallback<Models.CsmOperationCollection>): Promise<Models.CertificateRegistrationProviderListOperationsResponse> {
+  listOperations(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CsmOperationCollection>): Promise<Models.CertificateRegistrationProviderListOperationsResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -74,7 +74,7 @@ export class CertificateRegistrationProvider {
    * @param callback The callback
    */
   listOperationsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CsmOperationCollection>): void;
-  listOperationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CsmOperationCollection>, callback?: msRest.ServiceCallback<Models.CsmOperationCollection>): Promise<Models.CertificateRegistrationProviderListOperationsNextResponse> {
+  listOperationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CsmOperationCollection>): Promise<Models.CertificateRegistrationProviderListOperationsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

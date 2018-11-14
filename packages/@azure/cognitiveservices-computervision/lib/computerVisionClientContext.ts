@@ -8,10 +8,10 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 const packageName = "@azure/cognitiveservices-computervision";
-const packageVersion = "0.1.0";
+const packageVersion = "1.0.0";
 
 export class ComputerVisionClientContext extends msRest.ServiceClient {
   endpoint: string;
@@ -34,10 +34,6 @@ export class ComputerVisionClientContext extends msRest.ServiceClient {
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
-      const defaultUserAgent = msRest.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
 
     super(credentials, options);
 
@@ -46,5 +42,6 @@ export class ComputerVisionClientContext extends msRest.ServiceClient {
     this.endpoint = endpoint;
     this.credentials = credentials;
 
+    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
   }
 }

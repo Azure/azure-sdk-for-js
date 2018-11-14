@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/fileSharesMappers";
 import * as Parameters from "../models/parameters";
@@ -54,7 +54,7 @@ export class FileShares {
    * @param callback The callback
    */
   listByFileServer(deviceName: string, fileServerName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileShareList>): void;
-  listByFileServer(deviceName: string, fileServerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileShareList>, callback?: msRest.ServiceCallback<Models.FileShareList>): Promise<Models.FileSharesListByFileServerResponse> {
+  listByFileServer(deviceName: string, fileServerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FileShareList>): Promise<Models.FileSharesListByFileServerResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -97,7 +97,7 @@ export class FileShares {
    * @param callback The callback
    */
   get(deviceName: string, fileServerName: string, shareName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileShare>): void;
-  get(deviceName: string, fileServerName: string, shareName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileShare>, callback?: msRest.ServiceCallback<Models.FileShare>): Promise<Models.FileSharesGetResponse> {
+  get(deviceName: string, fileServerName: string, shareName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FileShare>): Promise<Models.FileSharesGetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -172,7 +172,7 @@ export class FileShares {
    * @param callback The callback
    */
   listMetrics(deviceName: string, fileServerName: string, shareName: string, resourceGroupName: string, managerName: string, options: Models.FileSharesListMetricsOptionalParams, callback: msRest.ServiceCallback<Models.MetricList>): void;
-  listMetrics(deviceName: string, fileServerName: string, shareName: string, resourceGroupName: string, managerName: string, options?: Models.FileSharesListMetricsOptionalParams | msRest.ServiceCallback<Models.MetricList>, callback?: msRest.ServiceCallback<Models.MetricList>): Promise<Models.FileSharesListMetricsResponse> {
+  listMetrics(deviceName: string, fileServerName: string, shareName: string, resourceGroupName: string, managerName: string, options?: Models.FileSharesListMetricsOptionalParams, callback?: msRest.ServiceCallback<Models.MetricList>): Promise<Models.FileSharesListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -216,7 +216,7 @@ export class FileShares {
    * @param callback The callback
    */
   listMetricDefinition(deviceName: string, fileServerName: string, shareName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricDefinitionList>): void;
-  listMetricDefinition(deviceName: string, fileServerName: string, shareName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionList>, callback?: msRest.ServiceCallback<Models.MetricDefinitionList>): Promise<Models.FileSharesListMetricDefinitionResponse> {
+  listMetricDefinition(deviceName: string, fileServerName: string, shareName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricDefinitionList>): Promise<Models.FileSharesListMetricDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -254,7 +254,7 @@ export class FileShares {
    * @param callback The callback
    */
   listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileShareList>): void;
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileShareList>, callback?: msRest.ServiceCallback<Models.FileShareList>): Promise<Models.FileSharesListByDeviceResponse> {
+  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FileShareList>): Promise<Models.FileSharesListByDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -606,70 +606,188 @@ export interface OperationList extends Array<OperationResponse> {
 
 /**
  * Defines values for ReservationStatusCode.
- * Possible values include: 'None', 'Pending', 'Active', 'PurchaseError', 'PaymentInstrumentError',
- * 'Split', 'Merged', 'Expired', 'Succeeded'
+ * Possible values include: 'None', 'Pending', 'Active', 'PurchaseError',
+ * 'PaymentInstrumentError', 'Split', 'Merged', 'Expired', 'Succeeded'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ReservationStatusCode =
+ * <ReservationStatusCode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ReservationStatusCode = 'None' | 'Pending' | 'Active' | 'PurchaseError' | 'PaymentInstrumentError' | 'Split' | 'Merged' | 'Expired' | 'Succeeded';
+export enum ReservationStatusCode {
+  None = 'None',
+  Pending = 'Pending',
+  Active = 'Active',
+  PurchaseError = 'PurchaseError',
+  PaymentInstrumentError = 'PaymentInstrumentError',
+  Split = 'Split',
+  Merged = 'Merged',
+  Expired = 'Expired',
+  Succeeded = 'Succeeded',
+}
 
 /**
  * Defines values for ErrorResponseCode.
- * Possible values include: 'NotSpecified', 'InternalServerError', 'ServerTimeout',
- * 'AuthorizationFailed', 'BadRequest', 'ClientCertificateThumbprintNotSet',
- * 'InvalidRequestContent', 'OperationFailed', 'HttpMethodNotSupported', 'InvalidRequestUri',
- * 'MissingTenantId', 'InvalidTenantId', 'InvalidReservationOrderId', 'InvalidReservationId',
- * 'ReservationIdNotInReservationOrder', 'ReservationOrderNotFound', 'InvalidSubscriptionId',
- * 'InvalidAccessToken', 'InvalidLocationId', 'UnauthenticatedRequestsThrottled',
+ * Possible values include: 'NotSpecified', 'InternalServerError',
+ * 'ServerTimeout', 'AuthorizationFailed', 'BadRequest',
+ * 'ClientCertificateThumbprintNotSet', 'InvalidRequestContent',
+ * 'OperationFailed', 'HttpMethodNotSupported', 'InvalidRequestUri',
+ * 'MissingTenantId', 'InvalidTenantId', 'InvalidReservationOrderId',
+ * 'InvalidReservationId', 'ReservationIdNotInReservationOrder',
+ * 'ReservationOrderNotFound', 'InvalidSubscriptionId', 'InvalidAccessToken',
+ * 'InvalidLocationId', 'UnauthenticatedRequestsThrottled',
  * 'InvalidHealthCheckType', 'Forbidden', 'BillingScopeIdCannotBeChanged',
- * 'AppliedScopesNotAssociatedWithCommerceAccount', 'PatchValuesSameAsExisting',
- * 'RoleAssignmentCreationFailed', 'ReservationOrderCreationFailed', 'ReservationOrderNotEnabled',
- * 'CapacityUpdateScopesFailed', 'UnsupportedReservationTerm', 'ReservationOrderIdAlreadyExists',
- * 'RiskCheckFailed', 'CreateQuoteFailed', 'ActivateQuoteFailed', 'NonsupportedAccountId',
- * 'PaymentInstrumentNotFound', 'MissingAppliedScopesForSingle', 'NoValidReservationsToReRate',
+ * 'AppliedScopesNotAssociatedWithCommerceAccount',
+ * 'PatchValuesSameAsExisting', 'RoleAssignmentCreationFailed',
+ * 'ReservationOrderCreationFailed', 'ReservationOrderNotEnabled',
+ * 'CapacityUpdateScopesFailed', 'UnsupportedReservationTerm',
+ * 'ReservationOrderIdAlreadyExists', 'RiskCheckFailed', 'CreateQuoteFailed',
+ * 'ActivateQuoteFailed', 'NonsupportedAccountId', 'PaymentInstrumentNotFound',
+ * 'MissingAppliedScopesForSingle', 'NoValidReservationsToReRate',
  * 'ReRateOnlyAllowedForEA', 'OperationCannotBePerformedInCurrentState',
- * 'InvalidSingleAppliedScopesCount', 'InvalidFulfillmentRequestParameters', 'NotSupportedCountry',
- * 'InvalidRefundQuantity', 'PurchaseError', 'BillingCustomerInputError',
- * 'BillingPaymentInstrumentSoftError', 'BillingPaymentInstrumentHardError',
- * 'BillingTransientError', 'BillingError', 'FulfillmentConfigurationError',
- * 'FulfillmentOutOfStockError', 'FulfillmentTransientError', 'FulfillmentError',
- * 'CalculatePriceFailed'
+ * 'InvalidSingleAppliedScopesCount', 'InvalidFulfillmentRequestParameters',
+ * 'NotSupportedCountry', 'InvalidRefundQuantity', 'PurchaseError',
+ * 'BillingCustomerInputError', 'BillingPaymentInstrumentSoftError',
+ * 'BillingPaymentInstrumentHardError', 'BillingTransientError',
+ * 'BillingError', 'FulfillmentConfigurationError',
+ * 'FulfillmentOutOfStockError', 'FulfillmentTransientError',
+ * 'FulfillmentError', 'CalculatePriceFailed'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ErrorResponseCode =
+ * <ErrorResponseCode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ErrorResponseCode = 'NotSpecified' | 'InternalServerError' | 'ServerTimeout' | 'AuthorizationFailed' | 'BadRequest' | 'ClientCertificateThumbprintNotSet' | 'InvalidRequestContent' | 'OperationFailed' | 'HttpMethodNotSupported' | 'InvalidRequestUri' | 'MissingTenantId' | 'InvalidTenantId' | 'InvalidReservationOrderId' | 'InvalidReservationId' | 'ReservationIdNotInReservationOrder' | 'ReservationOrderNotFound' | 'InvalidSubscriptionId' | 'InvalidAccessToken' | 'InvalidLocationId' | 'UnauthenticatedRequestsThrottled' | 'InvalidHealthCheckType' | 'Forbidden' | 'BillingScopeIdCannotBeChanged' | 'AppliedScopesNotAssociatedWithCommerceAccount' | 'PatchValuesSameAsExisting' | 'RoleAssignmentCreationFailed' | 'ReservationOrderCreationFailed' | 'ReservationOrderNotEnabled' | 'CapacityUpdateScopesFailed' | 'UnsupportedReservationTerm' | 'ReservationOrderIdAlreadyExists' | 'RiskCheckFailed' | 'CreateQuoteFailed' | 'ActivateQuoteFailed' | 'NonsupportedAccountId' | 'PaymentInstrumentNotFound' | 'MissingAppliedScopesForSingle' | 'NoValidReservationsToReRate' | 'ReRateOnlyAllowedForEA' | 'OperationCannotBePerformedInCurrentState' | 'InvalidSingleAppliedScopesCount' | 'InvalidFulfillmentRequestParameters' | 'NotSupportedCountry' | 'InvalidRefundQuantity' | 'PurchaseError' | 'BillingCustomerInputError' | 'BillingPaymentInstrumentSoftError' | 'BillingPaymentInstrumentHardError' | 'BillingTransientError' | 'BillingError' | 'FulfillmentConfigurationError' | 'FulfillmentOutOfStockError' | 'FulfillmentTransientError' | 'FulfillmentError' | 'CalculatePriceFailed';
+export enum ErrorResponseCode {
+  NotSpecified = 'NotSpecified',
+  InternalServerError = 'InternalServerError',
+  ServerTimeout = 'ServerTimeout',
+  AuthorizationFailed = 'AuthorizationFailed',
+  BadRequest = 'BadRequest',
+  ClientCertificateThumbprintNotSet = 'ClientCertificateThumbprintNotSet',
+  InvalidRequestContent = 'InvalidRequestContent',
+  OperationFailed = 'OperationFailed',
+  HttpMethodNotSupported = 'HttpMethodNotSupported',
+  InvalidRequestUri = 'InvalidRequestUri',
+  MissingTenantId = 'MissingTenantId',
+  InvalidTenantId = 'InvalidTenantId',
+  InvalidReservationOrderId = 'InvalidReservationOrderId',
+  InvalidReservationId = 'InvalidReservationId',
+  ReservationIdNotInReservationOrder = 'ReservationIdNotInReservationOrder',
+  ReservationOrderNotFound = 'ReservationOrderNotFound',
+  InvalidSubscriptionId = 'InvalidSubscriptionId',
+  InvalidAccessToken = 'InvalidAccessToken',
+  InvalidLocationId = 'InvalidLocationId',
+  UnauthenticatedRequestsThrottled = 'UnauthenticatedRequestsThrottled',
+  InvalidHealthCheckType = 'InvalidHealthCheckType',
+  Forbidden = 'Forbidden',
+  BillingScopeIdCannotBeChanged = 'BillingScopeIdCannotBeChanged',
+  AppliedScopesNotAssociatedWithCommerceAccount = 'AppliedScopesNotAssociatedWithCommerceAccount',
+  PatchValuesSameAsExisting = 'PatchValuesSameAsExisting',
+  RoleAssignmentCreationFailed = 'RoleAssignmentCreationFailed',
+  ReservationOrderCreationFailed = 'ReservationOrderCreationFailed',
+  ReservationOrderNotEnabled = 'ReservationOrderNotEnabled',
+  CapacityUpdateScopesFailed = 'CapacityUpdateScopesFailed',
+  UnsupportedReservationTerm = 'UnsupportedReservationTerm',
+  ReservationOrderIdAlreadyExists = 'ReservationOrderIdAlreadyExists',
+  RiskCheckFailed = 'RiskCheckFailed',
+  CreateQuoteFailed = 'CreateQuoteFailed',
+  ActivateQuoteFailed = 'ActivateQuoteFailed',
+  NonsupportedAccountId = 'NonsupportedAccountId',
+  PaymentInstrumentNotFound = 'PaymentInstrumentNotFound',
+  MissingAppliedScopesForSingle = 'MissingAppliedScopesForSingle',
+  NoValidReservationsToReRate = 'NoValidReservationsToReRate',
+  ReRateOnlyAllowedForEA = 'ReRateOnlyAllowedForEA',
+  OperationCannotBePerformedInCurrentState = 'OperationCannotBePerformedInCurrentState',
+  InvalidSingleAppliedScopesCount = 'InvalidSingleAppliedScopesCount',
+  InvalidFulfillmentRequestParameters = 'InvalidFulfillmentRequestParameters',
+  NotSupportedCountry = 'NotSupportedCountry',
+  InvalidRefundQuantity = 'InvalidRefundQuantity',
+  PurchaseError = 'PurchaseError',
+  BillingCustomerInputError = 'BillingCustomerInputError',
+  BillingPaymentInstrumentSoftError = 'BillingPaymentInstrumentSoftError',
+  BillingPaymentInstrumentHardError = 'BillingPaymentInstrumentHardError',
+  BillingTransientError = 'BillingTransientError',
+  BillingError = 'BillingError',
+  FulfillmentConfigurationError = 'FulfillmentConfigurationError',
+  FulfillmentOutOfStockError = 'FulfillmentOutOfStockError',
+  FulfillmentTransientError = 'FulfillmentTransientError',
+  FulfillmentError = 'FulfillmentError',
+  CalculatePriceFailed = 'CalculatePriceFailed',
+}
 
 /**
  * Defines values for ReservationTerm.
  * Possible values include: 'P1Y', 'P3Y'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ReservationTerm =
+ * <ReservationTerm>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ReservationTerm = 'P1Y' | 'P3Y';
+export enum ReservationTerm {
+  P1Y = 'P1Y',
+  P3Y = 'P3Y',
+}
 
 /**
  * Defines values for ReservedResourceType.
- * Possible values include: 'VirtualMachines', 'SqlDatabases', 'SuseLinux', 'CosmosDb', 'RedHat'
+ * Possible values include: 'VirtualMachines', 'SqlDatabases', 'SuseLinux',
+ * 'CosmosDb', 'RedHat'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ReservedResourceType =
+ * <ReservedResourceType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ReservedResourceType = 'VirtualMachines' | 'SqlDatabases' | 'SuseLinux' | 'CosmosDb' | 'RedHat';
+export enum ReservedResourceType {
+  VirtualMachines = 'VirtualMachines',
+  SqlDatabases = 'SqlDatabases',
+  SuseLinux = 'SuseLinux',
+  CosmosDb = 'CosmosDb',
+  RedHat = 'RedHat',
+}
 
 /**
  * Defines values for InstanceFlexibility.
  * Possible values include: 'On', 'Off', 'NotSupported'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: InstanceFlexibility =
+ * <InstanceFlexibility>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type InstanceFlexibility = 'On' | 'Off' | 'NotSupported';
+export enum InstanceFlexibility {
+  On = 'On',
+  Off = 'Off',
+  NotSupported = 'NotSupported',
+}
 
 /**
  * Defines values for AppliedScopeType.
  * Possible values include: 'Single', 'Shared'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: AppliedScopeType =
+ * <AppliedScopeType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type AppliedScopeType = 'Single' | 'Shared';
+export enum AppliedScopeType {
+  Single = 'Single',
+  Shared = 'Shared',
+}
 
 /**
  * Contains response data for the getCatalog operation.

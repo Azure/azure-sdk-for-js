@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/streamingLocatorsMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class StreamingLocators {
    * @param callback The callback
    */
   list(resourceGroupName: string, accountName: string, options: Models.StreamingLocatorsListOptionalParams, callback: msRest.ServiceCallback<Models.StreamingLocatorCollection>): void;
-  list(resourceGroupName: string, accountName: string, options?: Models.StreamingLocatorsListOptionalParams | msRest.ServiceCallback<Models.StreamingLocatorCollection>, callback?: msRest.ServiceCallback<Models.StreamingLocatorCollection>): Promise<Models.StreamingLocatorsListResponse> {
+  list(resourceGroupName: string, accountName: string, options?: Models.StreamingLocatorsListOptionalParams, callback?: msRest.ServiceCallback<Models.StreamingLocatorCollection>): Promise<Models.StreamingLocatorsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -84,7 +84,7 @@ export class StreamingLocators {
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, streamingLocatorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StreamingLocator>): void;
-  get(resourceGroupName: string, accountName: string, streamingLocatorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingLocator>, callback?: msRest.ServiceCallback<Models.StreamingLocator>): Promise<Models.StreamingLocatorsGetResponse> {
+  get(resourceGroupName: string, accountName: string, streamingLocatorName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StreamingLocator>): Promise<Models.StreamingLocatorsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -124,7 +124,7 @@ export class StreamingLocators {
    * @param callback The callback
    */
   create(resourceGroupName: string, accountName: string, streamingLocatorName: string, parameters: Models.StreamingLocator, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StreamingLocator>): void;
-  create(resourceGroupName: string, accountName: string, streamingLocatorName: string, parameters: Models.StreamingLocator, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingLocator>, callback?: msRest.ServiceCallback<Models.StreamingLocator>): Promise<Models.StreamingLocatorsCreateResponse> {
+  create(resourceGroupName: string, accountName: string, streamingLocatorName: string, parameters: Models.StreamingLocator, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StreamingLocator>): Promise<Models.StreamingLocatorsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -162,7 +162,7 @@ export class StreamingLocators {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, accountName: string, streamingLocatorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, streamingLocatorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, accountName: string, streamingLocatorName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -199,7 +199,7 @@ export class StreamingLocators {
    * @param callback The callback
    */
   listContentKeys(resourceGroupName: string, accountName: string, streamingLocatorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListContentKeysResponse>): void;
-  listContentKeys(resourceGroupName: string, accountName: string, streamingLocatorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListContentKeysResponse>, callback?: msRest.ServiceCallback<Models.ListContentKeysResponse>): Promise<Models.StreamingLocatorsListContentKeysResponse> {
+  listContentKeys(resourceGroupName: string, accountName: string, streamingLocatorName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListContentKeysResponse>): Promise<Models.StreamingLocatorsListContentKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -236,7 +236,7 @@ export class StreamingLocators {
    * @param callback The callback
    */
   listPaths(resourceGroupName: string, accountName: string, streamingLocatorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListPathsResponse>): void;
-  listPaths(resourceGroupName: string, accountName: string, streamingLocatorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListPathsResponse>, callback?: msRest.ServiceCallback<Models.ListPathsResponse>): Promise<Models.StreamingLocatorsListPathsResponse> {
+  listPaths(resourceGroupName: string, accountName: string, streamingLocatorName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListPathsResponse>): Promise<Models.StreamingLocatorsListPathsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -267,7 +267,7 @@ export class StreamingLocators {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StreamingLocatorCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingLocatorCollection>, callback?: msRest.ServiceCallback<Models.StreamingLocatorCollection>): Promise<Models.StreamingLocatorsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StreamingLocatorCollection>): Promise<Models.StreamingLocatorsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

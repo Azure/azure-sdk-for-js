@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/storageAccountsMappers";
 import * as Parameters from "../models/parameters";
@@ -45,7 +45,7 @@ export class StorageAccounts {
    * @param callback The callback
    */
   checkNameAvailability(name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
-  checkNameAvailability(name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.StorageAccountsCheckNameAvailabilityResponse> {
+  checkNameAvailability(name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.StorageAccountsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         name,
@@ -104,7 +104,7 @@ export class StorageAccounts {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -147,7 +147,7 @@ export class StorageAccounts {
    * @param callback The callback
    */
   getProperties(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageAccount>): void;
-  getProperties(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccount>, callback?: msRest.ServiceCallback<Models.StorageAccount>): Promise<Models.StorageAccountsGetPropertiesResponse> {
+  getProperties(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StorageAccount>): Promise<Models.StorageAccountsGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -198,7 +198,7 @@ export class StorageAccounts {
    * @param callback The callback
    */
   update(resourceGroupName: string, accountName: string, parameters: Models.StorageAccountUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageAccount>): void;
-  update(resourceGroupName: string, accountName: string, parameters: Models.StorageAccountUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccount>, callback?: msRest.ServiceCallback<Models.StorageAccount>): Promise<Models.StorageAccountsUpdateResponse> {
+  update(resourceGroupName: string, accountName: string, parameters: Models.StorageAccountUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StorageAccount>): Promise<Models.StorageAccountsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -226,7 +226,7 @@ export class StorageAccounts {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageAccountListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccountListResult>, callback?: msRest.ServiceCallback<Models.StorageAccountListResult>): Promise<Models.StorageAccountsListResponse> {
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StorageAccountListResult>): Promise<Models.StorageAccountsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -257,7 +257,7 @@ export class StorageAccounts {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageAccountListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccountListResult>, callback?: msRest.ServiceCallback<Models.StorageAccountListResult>): Promise<Models.StorageAccountsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StorageAccountListResult>): Promise<Models.StorageAccountsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -297,7 +297,7 @@ export class StorageAccounts {
    * @param callback The callback
    */
   listKeys(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageAccountListKeysResult>): void;
-  listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccountListKeysResult>, callback?: msRest.ServiceCallback<Models.StorageAccountListKeysResult>): Promise<Models.StorageAccountsListKeysResponse> {
+  listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StorageAccountListKeysResult>): Promise<Models.StorageAccountsListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -344,7 +344,7 @@ export class StorageAccounts {
    * @param callback The callback
    */
   regenerateKey(resourceGroupName: string, accountName: string, keyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageAccountListKeysResult>): void;
-  regenerateKey(resourceGroupName: string, accountName: string, keyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccountListKeysResult>, callback?: msRest.ServiceCallback<Models.StorageAccountListKeysResult>): Promise<Models.StorageAccountsRegenerateKeyResponse> {
+  regenerateKey(resourceGroupName: string, accountName: string, keyName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StorageAccountListKeysResult>): Promise<Models.StorageAccountsRegenerateKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -389,7 +389,7 @@ export class StorageAccounts {
    * @param callback The callback
    */
   listAccountSAS(resourceGroupName: string, accountName: string, parameters: Models.AccountSasParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListAccountSasResponse>): void;
-  listAccountSAS(resourceGroupName: string, accountName: string, parameters: Models.AccountSasParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListAccountSasResponse>, callback?: msRest.ServiceCallback<Models.ListAccountSasResponse>): Promise<Models.StorageAccountsListAccountSASResponse> {
+  listAccountSAS(resourceGroupName: string, accountName: string, parameters: Models.AccountSasParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListAccountSasResponse>): Promise<Models.StorageAccountsListAccountSASResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -434,7 +434,7 @@ export class StorageAccounts {
    * @param callback The callback
    */
   listServiceSAS(resourceGroupName: string, accountName: string, parameters: Models.ServiceSasParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListServiceSasResponse>): void;
-  listServiceSAS(resourceGroupName: string, accountName: string, parameters: Models.ServiceSasParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListServiceSasResponse>, callback?: msRest.ServiceCallback<Models.ListServiceSasResponse>): Promise<Models.StorageAccountsListServiceSASResponse> {
+  listServiceSAS(resourceGroupName: string, accountName: string, parameters: Models.ServiceSasParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListServiceSasResponse>): Promise<Models.StorageAccountsListServiceSASResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -444,23 +444,6 @@ export class StorageAccounts {
       },
       listServiceSASOperationSpec,
       callback) as Promise<Models.StorageAccountsListServiceSASResponse>;
-  }
-
-  /**
-   * Failover request can be triggered for a storage account in case of availability issues. The
-   * failover occurs from the storage account's primary cluster to secondary cluster for RA-GRS
-   * accounts. The secondary cluster will become primary after failover.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name
-   * is case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   * account names must be between 3 and 24 characters in length and use numbers and lower-case
-   * letters only.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  failover(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginFailover(resourceGroupName,accountName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -486,29 +469,6 @@ export class StorageAccounts {
         options
       },
       beginCreateOperationSpec,
-      options);
-  }
-
-  /**
-   * Failover request can be triggered for a storage account in case of availability issues. The
-   * failover occurs from the storage account's primary cluster to secondary cluster for RA-GRS
-   * accounts. The secondary cluster will become primary after failover.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name
-   * is case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   * account names must be between 3 and 24 characters in length and use numbers and lower-case
-   * letters only.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginFailover(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        resourceGroupName,
-        accountName,
-        options
-      },
-      beginFailoverOperationSpec,
       options);
   }
 }
@@ -823,30 +783,6 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.StorageAccount
     },
-    202: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const beginFailoverOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/failover",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
     202: {},
     default: {
       bodyMapper: Mappers.CloudError

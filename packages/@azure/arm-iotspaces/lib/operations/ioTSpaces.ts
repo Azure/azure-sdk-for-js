@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/ioTSpacesMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class IoTSpaces {
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IoTSpacesDescription>): void;
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IoTSpacesDescription>, callback?: msRest.ServiceCallback<Models.IoTSpacesDescription>): Promise<Models.IoTSpacesGetResponse> {
+  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IoTSpacesDescription>): Promise<Models.IoTSpacesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -114,7 +114,7 @@ export class IoTSpaces {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>, callback?: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>): Promise<Models.IoTSpacesListResponse> {
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>): Promise<Models.IoTSpacesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -141,7 +141,7 @@ export class IoTSpaces {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>, callback?: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>): Promise<Models.IoTSpacesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>): Promise<Models.IoTSpacesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -172,7 +172,7 @@ export class IoTSpaces {
    * @param callback The callback
    */
   checkNameAvailability(operationInputs: Models.OperationInputs, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IoTSpacesNameAvailabilityInfo>): void;
-  checkNameAvailability(operationInputs: Models.OperationInputs, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IoTSpacesNameAvailabilityInfo>, callback?: msRest.ServiceCallback<Models.IoTSpacesNameAvailabilityInfo>): Promise<Models.IoTSpacesCheckNameAvailabilityResponse> {
+  checkNameAvailability(operationInputs: Models.OperationInputs, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IoTSpacesNameAvailabilityInfo>): Promise<Models.IoTSpacesCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         operationInputs,
@@ -260,7 +260,7 @@ export class IoTSpaces {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>, callback?: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>): Promise<Models.IoTSpacesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>): Promise<Models.IoTSpacesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -288,7 +288,7 @@ export class IoTSpaces {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>, callback?: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>): Promise<Models.IoTSpacesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>): Promise<Models.IoTSpacesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
