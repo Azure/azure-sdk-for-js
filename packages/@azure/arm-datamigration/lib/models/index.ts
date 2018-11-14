@@ -569,6 +569,11 @@ export interface ProjectTaskProperties {
    * the server.**
    */
   readonly commands?: CommandPropertiesUnion[];
+  /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
 }
 
 /**
@@ -603,6 +608,11 @@ export interface GetTdeCertificatesSqlTaskProperties {
    * the server.**
    */
   readonly commands?: CommandPropertiesUnion[];
+  /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
   /**
    * @member {GetTdeCertificatesSqlTaskInput} [input] Task input
    */
@@ -956,6 +966,11 @@ export interface ValidateMongoDbTaskProperties {
    */
   readonly commands?: CommandPropertiesUnion[];
   /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
+  /**
    * @member {MongoDbMigrationSettings} [input]
    */
   input?: MongoDbMigrationSettings;
@@ -1213,6 +1228,11 @@ export interface ValidateMigrationInputSqlServerSqlMITaskProperties {
    */
   readonly commands?: CommandPropertiesUnion[];
   /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
+  /**
    * @member {ValidateMigrationInputSqlServerSqlMITaskInput} [input] Task input
    */
   input?: ValidateMigrationInputSqlServerSqlMITaskInput;
@@ -1356,6 +1376,11 @@ export interface ValidateMigrationInputSqlServerSqlDbSyncTaskProperties {
    * the server.**
    */
   readonly commands?: CommandPropertiesUnion[];
+  /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
   /**
    * @member {ValidateSyncMigrationInputSqlServerTaskInput} [input] Task input
    */
@@ -1813,6 +1838,11 @@ export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties {
    */
   readonly commands?: CommandPropertiesUnion[];
   /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
+  /**
    * @member {MigratePostgreSqlAzureDbForPostgreSqlSyncTaskInput} [input] Task
    * input
    */
@@ -2242,6 +2272,11 @@ export interface MigrateMySqlAzureDbForMySqlSyncTaskProperties {
    * the server.**
    */
   readonly commands?: CommandPropertiesUnion[];
+  /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
   /**
    * @member {MigrateMySqlAzureDbForMySqlSyncTaskInput} [input] Task input
    */
@@ -2701,6 +2736,11 @@ export interface MigrateSqlServerSqlDbSyncTaskProperties {
    * the server.**
    */
   readonly commands?: CommandPropertiesUnion[];
+  /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
   /**
    * @member {MigrateSqlServerSqlDbSyncTaskInput} [input] Task input
    */
@@ -3618,6 +3658,11 @@ export interface MigrateSqlServerSqlDbTaskProperties {
    */
   readonly commands?: CommandPropertiesUnion[];
   /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
+  /**
    * @member {MigrateSqlServerSqlDbTaskInput} [input] Task input
    */
   input?: MigrateSqlServerSqlDbTaskInput;
@@ -4098,6 +4143,11 @@ export interface MigrateSqlServerSqlMITaskProperties {
    */
   readonly commands?: CommandPropertiesUnion[];
   /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
+  /**
    * @member {MigrateSqlServerSqlMITaskInput} [input] Task input
    */
   input?: MigrateSqlServerSqlMITaskInput;
@@ -4142,6 +4192,11 @@ export interface MigrateMongoDbTaskProperties {
    * the server.**
    */
   readonly commands?: CommandPropertiesUnion[];
+  /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
   /**
    * @member {MongoDbMigrationSettings} [input]
    */
@@ -4247,6 +4302,11 @@ export interface ConnectToTargetAzureDbForMySqlTaskProperties {
    * the server.**
    */
   readonly commands?: CommandPropertiesUnion[];
+  /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
   /**
    * @member {ConnectToTargetAzureDbForMySqlTaskInput} [input] Task input
    */
@@ -4354,6 +4414,11 @@ export interface ConnectToTargetSqlMITaskProperties {
    * the server.**
    */
   readonly commands?: CommandPropertiesUnion[];
+  /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
   /**
    * @member {ConnectToTargetSqlMITaskInput} [input] Task input
    */
@@ -4489,6 +4554,11 @@ export interface GetUserTablesSqlSyncTaskProperties {
    */
   readonly commands?: CommandPropertiesUnion[];
   /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
+  /**
    * @member {GetUserTablesSqlSyncTaskInput} [input] Task input
    */
   input?: GetUserTablesSqlSyncTaskInput;
@@ -4581,6 +4651,11 @@ export interface GetUserTablesSqlTaskProperties {
    * the server.**
    */
   readonly commands?: CommandPropertiesUnion[];
+  /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
   /**
    * @member {GetUserTablesSqlTaskInput} [input] Task input
    */
@@ -4683,6 +4758,11 @@ export interface ConnectToTargetSqlSqlDbSyncTaskProperties {
    */
   readonly commands?: CommandPropertiesUnion[];
   /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
+  /**
    * @member {ConnectToTargetSqlSqlDbSyncTaskInput} [input] Task input
    */
   input?: ConnectToTargetSqlSqlDbSyncTaskInput;
@@ -4743,6 +4823,11 @@ export interface ConnectToTargetSqlDbTaskProperties {
    * the server.**
    */
   readonly commands?: CommandPropertiesUnion[];
+  /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
   /**
    * @member {ConnectToTargetSqlDbTaskInput} [input] Task input
    */
@@ -5153,6 +5238,11 @@ export interface ConnectToSourceSqlServerSyncTaskProperties {
    */
   readonly commands?: CommandPropertiesUnion[];
   /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
+  /**
    * @member {ConnectToSourceSqlServerTaskInput} [input] Task input
    */
   input?: ConnectToSourceSqlServerTaskInput;
@@ -5198,6 +5288,11 @@ export interface ConnectToSourceSqlServerTaskProperties {
    * the server.**
    */
   readonly commands?: CommandPropertiesUnion[];
+  /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
   /**
    * @member {ConnectToSourceSqlServerTaskInput} [input] Task input
    */
@@ -5390,6 +5485,11 @@ export interface ConnectToMongoDbTaskProperties {
    * the server.**
    */
   readonly commands?: CommandPropertiesUnion[];
+  /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
   /**
    * @member {MongoDbConnectionInfo} [input]
    */
@@ -6179,6 +6279,11 @@ export interface ConnectToSourceMySqlTaskProperties {
    */
   readonly commands?: CommandPropertiesUnion[];
   /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
+  /**
    * @member {ConnectToSourceMySqlTaskInput} [input] Task input
    */
   input?: ConnectToSourceMySqlTaskInput;
@@ -6307,6 +6412,11 @@ export interface MigrateSchemaSqlServerSqlDbTaskProperties {
    * the server.**
    */
   readonly commands?: CommandPropertiesUnion[];
+  /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
   /**
    * @member {MigrateSchemaSqlServerSqlDbTaskInput} [input] Task input
    */

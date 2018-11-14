@@ -684,6 +684,17 @@ export const ProjectTaskProperties: msRest.CompositeMapper = {
           }
         }
       },
+      clientData: {
+        serializedName: "clientData",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       taskType: {
         required: true,
         serializedName: "taskType",
