@@ -41,7 +41,7 @@ export class Skus {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageSkuListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StorageSkuListResult>): Promise<Models.SkusListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageSkuListResult>, callback?: msRest.ServiceCallback<Models.StorageSkuListResult>): Promise<Models.SkusListResponse> {
     return this.client.sendOperationRequest(
       {
         options
