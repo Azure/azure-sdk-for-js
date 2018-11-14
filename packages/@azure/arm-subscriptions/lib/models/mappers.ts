@@ -71,6 +71,12 @@ export const SubscriptionCreationParameters: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      costCenter: {
+        serializedName: "costCenter",
+        type: {
+          name: "String"
+        }
+      },
       owner: {
         serializedName: "owner",
         type: {
