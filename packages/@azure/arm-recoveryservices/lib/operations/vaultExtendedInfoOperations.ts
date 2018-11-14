@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/vaultExtendedInfoOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class VaultExtendedInfoOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, vaultName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VaultExtendedInfoResource>): void;
-  get(resourceGroupName: string, vaultName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VaultExtendedInfoResource>): Promise<Models.VaultExtendedInfoGetResponse> {
+  get(resourceGroupName: string, vaultName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultExtendedInfoResource>, callback?: msRest.ServiceCallback<Models.VaultExtendedInfoResource>): Promise<Models.VaultExtendedInfoGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -88,7 +88,7 @@ export class VaultExtendedInfoOperations {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, vaultName: string, resourceResourceExtendedInfoDetails: Models.VaultExtendedInfoResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VaultExtendedInfoResource>): void;
-  createOrUpdate(resourceGroupName: string, vaultName: string, resourceResourceExtendedInfoDetails: Models.VaultExtendedInfoResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VaultExtendedInfoResource>): Promise<Models.VaultExtendedInfoCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, vaultName: string, resourceResourceExtendedInfoDetails: Models.VaultExtendedInfoResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultExtendedInfoResource>, callback?: msRest.ServiceCallback<Models.VaultExtendedInfoResource>): Promise<Models.VaultExtendedInfoCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -127,7 +127,7 @@ export class VaultExtendedInfoOperations {
    * @param callback The callback
    */
   update(resourceGroupName: string, vaultName: string, resourceResourceExtendedInfoDetails: Models.VaultExtendedInfoResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VaultExtendedInfoResource>): void;
-  update(resourceGroupName: string, vaultName: string, resourceResourceExtendedInfoDetails: Models.VaultExtendedInfoResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VaultExtendedInfoResource>): Promise<Models.VaultExtendedInfoUpdateResponse> {
+  update(resourceGroupName: string, vaultName: string, resourceResourceExtendedInfoDetails: Models.VaultExtendedInfoResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultExtendedInfoResource>, callback?: msRest.ServiceCallback<Models.VaultExtendedInfoResource>): Promise<Models.VaultExtendedInfoUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

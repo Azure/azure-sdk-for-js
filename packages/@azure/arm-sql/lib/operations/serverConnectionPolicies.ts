@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/serverConnectionPoliciesMappers";
 import * as Parameters from "../models/parameters";
@@ -53,7 +53,7 @@ export class ServerConnectionPolicies {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serverName: string, parameters: Models.ServerConnectionPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerConnectionPolicy>): void;
-  createOrUpdate(resourceGroupName: string, serverName: string, parameters: Models.ServerConnectionPolicy, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServerConnectionPolicy>): Promise<Models.ServerConnectionPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serverName: string, parameters: Models.ServerConnectionPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerConnectionPolicy>, callback?: msRest.ServiceCallback<Models.ServerConnectionPolicy>): Promise<Models.ServerConnectionPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -89,7 +89,7 @@ export class ServerConnectionPolicies {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerConnectionPolicy>): void;
-  get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServerConnectionPolicy>): Promise<Models.ServerConnectionPoliciesGetResponse> {
+  get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerConnectionPolicy>, callback?: msRest.ServiceCallback<Models.ServerConnectionPolicy>): Promise<Models.ServerConnectionPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

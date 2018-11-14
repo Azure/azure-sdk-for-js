@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/serverAzureADAdministratorsMappers";
 import * as Parameters from "../models/parameters";
@@ -80,7 +80,7 @@ export class ServerAzureADAdministrators {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerAzureADAdministrator>): void;
-  get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServerAzureADAdministrator>): Promise<Models.ServerAzureADAdministratorsGetResponse> {
+  get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerAzureADAdministrator>, callback?: msRest.ServiceCallback<Models.ServerAzureADAdministrator>): Promise<Models.ServerAzureADAdministratorsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -115,7 +115,7 @@ export class ServerAzureADAdministrators {
    * @param callback The callback
    */
   listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerAdministratorListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServerAdministratorListResult>): Promise<Models.ServerAzureADAdministratorsListByServerResponse> {
+  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerAdministratorListResult>, callback?: msRest.ServiceCallback<Models.ServerAdministratorListResult>): Promise<Models.ServerAzureADAdministratorsListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

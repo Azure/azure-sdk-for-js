@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/apiDiagnosticMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class ApiDiagnostic {
    * @param callback The callback
    */
   listByService(resourceGroupName: string, serviceName: string, apiId: string, options: Models.ApiDiagnosticListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.DiagnosticCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiDiagnosticListByServiceOptionalParams, callback?: msRest.ServiceCallback<Models.DiagnosticCollection>): Promise<Models.ApiDiagnosticListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiDiagnosticListByServiceOptionalParams | msRest.ServiceCallback<Models.DiagnosticCollection>, callback?: msRest.ServiceCallback<Models.DiagnosticCollection>): Promise<Models.ApiDiagnosticListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -92,7 +92,7 @@ export class ApiDiagnostic {
    * @param callback The callback
    */
   getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiDiagnosticGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiDiagnosticGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -135,7 +135,7 @@ export class ApiDiagnostic {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticContract>): void;
-  get(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DiagnosticContract>): Promise<Models.ApiDiagnosticGetResponse> {
+  get(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticContract>, callback?: msRest.ServiceCallback<Models.DiagnosticContract>): Promise<Models.ApiDiagnosticGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -181,7 +181,7 @@ export class ApiDiagnostic {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, options: Models.ApiDiagnosticCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.DiagnosticContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, options?: Models.ApiDiagnosticCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.DiagnosticContract>): Promise<Models.ApiDiagnosticCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, options?: Models.ApiDiagnosticCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.DiagnosticContract>, callback?: msRest.ServiceCallback<Models.DiagnosticContract>): Promise<Models.ApiDiagnosticCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -234,7 +234,7 @@ export class ApiDiagnostic {
    * @param callback The callback
    */
   update(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -285,7 +285,7 @@ export class ApiDiagnostic {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -317,7 +317,7 @@ export class ApiDiagnostic {
    * @param callback The callback
    */
   listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DiagnosticCollection>): Promise<Models.ApiDiagnosticListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticCollection>, callback?: msRest.ServiceCallback<Models.DiagnosticCollection>): Promise<Models.ApiDiagnosticListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

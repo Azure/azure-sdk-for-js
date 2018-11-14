@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/signUpSettingsMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class SignUpSettings {
    * @param callback The callback
    */
   getEntityTag(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.SignUpSettingsGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.SignUpSettingsGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -79,7 +79,7 @@ export class SignUpSettings {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PortalSignupSettings>): void;
-  get(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PortalSignupSettings>): Promise<Models.SignUpSettingsGetResponse> {
+  get(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PortalSignupSettings>, callback?: msRest.ServiceCallback<Models.PortalSignupSettings>): Promise<Models.SignUpSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -120,7 +120,7 @@ export class SignUpSettings {
    * @param callback The callback
    */
   update(resourceGroupName: string, serviceName: string, parameters: Models.PortalSignupSettings, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, parameters: Models.PortalSignupSettings, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, parameters: Models.PortalSignupSettings, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -157,7 +157,7 @@ export class SignUpSettings {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalSignupSettings, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PortalSignupSettings>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalSignupSettings, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PortalSignupSettings>): Promise<Models.SignUpSettingsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalSignupSettings, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PortalSignupSettings>, callback?: msRest.ServiceCallback<Models.PortalSignupSettings>): Promise<Models.SignUpSettingsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/databaseThreatDetectionPoliciesMappers";
 import * as Parameters from "../models/parameters";
@@ -56,7 +56,7 @@ export class DatabaseThreatDetectionPolicies {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseSecurityAlertPolicy>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DatabaseSecurityAlertPolicy>): Promise<Models.DatabaseThreatDetectionPoliciesGetResponse> {
+  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseSecurityAlertPolicy>, callback?: msRest.ServiceCallback<Models.DatabaseSecurityAlertPolicy>): Promise<Models.DatabaseThreatDetectionPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -101,7 +101,7 @@ export class DatabaseThreatDetectionPolicies {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DatabaseSecurityAlertPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseSecurityAlertPolicy>): void;
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DatabaseSecurityAlertPolicy, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DatabaseSecurityAlertPolicy>): Promise<Models.DatabaseThreatDetectionPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DatabaseSecurityAlertPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseSecurityAlertPolicy>, callback?: msRest.ServiceCallback<Models.DatabaseSecurityAlertPolicy>): Promise<Models.DatabaseThreatDetectionPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

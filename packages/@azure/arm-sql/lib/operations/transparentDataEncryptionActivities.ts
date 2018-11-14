@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/transparentDataEncryptionActivitiesMappers";
 import * as Parameters from "../models/parameters";
@@ -53,7 +53,7 @@ export class TransparentDataEncryptionActivities {
    * @param callback The callback
    */
   listByConfiguration(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TransparentDataEncryptionActivityListResult>): void;
-  listByConfiguration(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TransparentDataEncryptionActivityListResult>): Promise<Models.TransparentDataEncryptionActivitiesListByConfigurationResponse> {
+  listByConfiguration(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TransparentDataEncryptionActivityListResult>, callback?: msRest.ServiceCallback<Models.TransparentDataEncryptionActivityListResult>): Promise<Models.TransparentDataEncryptionActivitiesListByConfigurationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/productMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class Product {
    * @param callback The callback
    */
   listByService(resourceGroupName: string, serviceName: string, options: Models.ProductListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.ProductCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.ProductListByServiceOptionalParams, callback?: msRest.ServiceCallback<Models.ProductCollection>): Promise<Models.ProductListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.ProductListByServiceOptionalParams | msRest.ServiceCallback<Models.ProductCollection>, callback?: msRest.ServiceCallback<Models.ProductCollection>): Promise<Models.ProductListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -85,7 +85,7 @@ export class Product {
    * @param callback The callback
    */
   getEntityTag(resourceGroupName: string, serviceName: string, productId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, productId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.ProductGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, productId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ProductGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -124,7 +124,7 @@ export class Product {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, productId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProductContract>): void;
-  get(resourceGroupName: string, serviceName: string, productId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProductContract>): Promise<Models.ProductGetResponse> {
+  get(resourceGroupName: string, serviceName: string, productId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProductContract>, callback?: msRest.ServiceCallback<Models.ProductContract>): Promise<Models.ProductGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -166,7 +166,7 @@ export class Product {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, productId: string, parameters: Models.ProductContract, options: Models.ProductCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.ProductContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, productId: string, parameters: Models.ProductContract, options?: Models.ProductCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.ProductContract>): Promise<Models.ProductCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, productId: string, parameters: Models.ProductContract, options?: Models.ProductCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.ProductContract>, callback?: msRest.ServiceCallback<Models.ProductContract>): Promise<Models.ProductCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -215,7 +215,7 @@ export class Product {
    * @param callback The callback
    */
   update(resourceGroupName: string, serviceName: string, productId: string, parameters: Models.ProductUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, productId: string, parameters: Models.ProductUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, productId: string, parameters: Models.ProductUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -262,7 +262,7 @@ export class Product {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, productId: string, ifMatch: string, options: Models.ProductDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, productId: string, ifMatch: string, options?: Models.ProductDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, productId: string, ifMatch: string, options?: Models.ProductDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -293,7 +293,7 @@ export class Product {
    * @param callback The callback
    */
   listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProductCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProductCollection>): Promise<Models.ProductListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProductCollection>, callback?: msRest.ServiceCallback<Models.ProductCollection>): Promise<Models.ProductListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/authorizationServerMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class AuthorizationServer {
    * @param callback The callback
    */
   listByService(resourceGroupName: string, serviceName: string, options: Models.AuthorizationServerListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.AuthorizationServerCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.AuthorizationServerListByServiceOptionalParams, callback?: msRest.ServiceCallback<Models.AuthorizationServerCollection>): Promise<Models.AuthorizationServerListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.AuthorizationServerListByServiceOptionalParams | msRest.ServiceCallback<Models.AuthorizationServerCollection>, callback?: msRest.ServiceCallback<Models.AuthorizationServerCollection>): Promise<Models.AuthorizationServerListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class AuthorizationServer {
    * @param callback The callback
    */
   getEntityTag(resourceGroupName: string, serviceName: string, authsid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, authsid: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.AuthorizationServerGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, authsid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.AuthorizationServerGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -118,7 +118,7 @@ export class AuthorizationServer {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, authsid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationServerContract>): void;
-  get(resourceGroupName: string, serviceName: string, authsid: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AuthorizationServerContract>): Promise<Models.AuthorizationServerGetResponse> {
+  get(resourceGroupName: string, serviceName: string, authsid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationServerContract>, callback?: msRest.ServiceCallback<Models.AuthorizationServerContract>): Promise<Models.AuthorizationServerGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -157,7 +157,7 @@ export class AuthorizationServer {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, authsid: string, parameters: Models.AuthorizationServerContract, options: Models.AuthorizationServerCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.AuthorizationServerContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, authsid: string, parameters: Models.AuthorizationServerContract, options?: Models.AuthorizationServerCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.AuthorizationServerContract>): Promise<Models.AuthorizationServerCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, authsid: string, parameters: Models.AuthorizationServerContract, options?: Models.AuthorizationServerCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.AuthorizationServerContract>, callback?: msRest.ServiceCallback<Models.AuthorizationServerContract>): Promise<Models.AuthorizationServerCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -203,7 +203,7 @@ export class AuthorizationServer {
    * @param callback The callback
    */
   update(resourceGroupName: string, serviceName: string, authsid: string, parameters: Models.AuthorizationServerUpdateContract, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, authsid: string, parameters: Models.AuthorizationServerUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, authsid: string, parameters: Models.AuthorizationServerUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -247,7 +247,7 @@ export class AuthorizationServer {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, authsid: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, authsid: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, authsid: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -278,7 +278,7 @@ export class AuthorizationServer {
    * @param callback The callback
    */
   listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationServerCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AuthorizationServerCollection>): Promise<Models.AuthorizationServerListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationServerCollection>, callback?: msRest.ServiceCallback<Models.AuthorizationServerCollection>): Promise<Models.AuthorizationServerListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/networkStatusMappers";
 import * as Parameters from "../models/parameters";
@@ -49,7 +49,7 @@ export class NetworkStatus {
    * @param callback The callback
    */
   listByService(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkStatusContractByLocation[]>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkStatusContractByLocation[]>): Promise<Models.NetworkStatusListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkStatusContractByLocation[]>, callback?: msRest.ServiceCallback<Models.NetworkStatusContractByLocation[]>): Promise<Models.NetworkStatusListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -89,7 +89,7 @@ export class NetworkStatus {
    * @param callback The callback
    */
   listByLocation(resourceGroupName: string, serviceName: string, locationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkStatusContract>): void;
-  listByLocation(resourceGroupName: string, serviceName: string, locationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkStatusContract>): Promise<Models.NetworkStatusListByLocationResponse> {
+  listByLocation(resourceGroupName: string, serviceName: string, locationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkStatusContract>, callback?: msRest.ServiceCallback<Models.NetworkStatusContract>): Promise<Models.NetworkStatusListByLocationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

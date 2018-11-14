@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/tenantAccessGitMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class TenantAccessGit {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessInformationContract>): void;
-  get(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccessInformationContract>): Promise<Models.TenantAccessGitGetResponse> {
+  get(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessInformationContract>, callback?: msRest.ServiceCallback<Models.AccessInformationContract>): Promise<Models.TenantAccessGitGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -79,7 +79,7 @@ export class TenantAccessGit {
    * @param callback The callback
    */
   regeneratePrimaryKey(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  regeneratePrimaryKey(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  regeneratePrimaryKey(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -111,7 +111,7 @@ export class TenantAccessGit {
    * @param callback The callback
    */
   regenerateSecondaryKey(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  regenerateSecondaryKey(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  regenerateSecondaryKey(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

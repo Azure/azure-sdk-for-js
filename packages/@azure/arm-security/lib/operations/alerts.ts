@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/alertsMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class Alerts {
    * @param callback The callback
    */
   list(options: Models.AlertsListOptionalParams, callback: msRest.ServiceCallback<Models.AlertList>): void;
-  list(options?: Models.AlertsListOptionalParams, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListResponse> {
+  list(options?: Models.AlertsListOptionalParams | msRest.ServiceCallback<Models.AlertList>, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -71,7 +71,7 @@ export class Alerts {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: Models.AlertsListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.AlertList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.AlertsListByResourceGroupOptionalParams, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: Models.AlertsListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.AlertList>, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -97,7 +97,7 @@ export class Alerts {
    * @param callback The callback
    */
   listSubscriptionLevelAlertsByRegion(options: Models.AlertsListSubscriptionLevelAlertsByRegionOptionalParams, callback: msRest.ServiceCallback<Models.AlertList>): void;
-  listSubscriptionLevelAlertsByRegion(options?: Models.AlertsListSubscriptionLevelAlertsByRegionOptionalParams, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListSubscriptionLevelAlertsByRegionResponse> {
+  listSubscriptionLevelAlertsByRegion(options?: Models.AlertsListSubscriptionLevelAlertsByRegionOptionalParams | msRest.ServiceCallback<Models.AlertList>, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListSubscriptionLevelAlertsByRegionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -128,7 +128,7 @@ export class Alerts {
    * @param callback The callback
    */
   listResourceGroupLevelAlertsByRegion(resourceGroupName: string, options: Models.AlertsListResourceGroupLevelAlertsByRegionOptionalParams, callback: msRest.ServiceCallback<Models.AlertList>): void;
-  listResourceGroupLevelAlertsByRegion(resourceGroupName: string, options?: Models.AlertsListResourceGroupLevelAlertsByRegionOptionalParams, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListResourceGroupLevelAlertsByRegionResponse> {
+  listResourceGroupLevelAlertsByRegion(resourceGroupName: string, options?: Models.AlertsListResourceGroupLevelAlertsByRegionOptionalParams | msRest.ServiceCallback<Models.AlertList>, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListResourceGroupLevelAlertsByRegionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -156,7 +156,7 @@ export class Alerts {
    * @param callback The callback
    */
   getSubscriptionLevelAlert(alertName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Alert>): void;
-  getSubscriptionLevelAlert(alertName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Alert>): Promise<Models.AlertsGetSubscriptionLevelAlertResponse> {
+  getSubscriptionLevelAlert(alertName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Alert>, callback?: msRest.ServiceCallback<Models.Alert>): Promise<Models.AlertsGetSubscriptionLevelAlertResponse> {
     return this.client.sendOperationRequest(
       {
         alertName,
@@ -190,7 +190,7 @@ export class Alerts {
    * @param callback The callback
    */
   getResourceGroupLevelAlerts(alertName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Alert>): void;
-  getResourceGroupLevelAlerts(alertName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Alert>): Promise<Models.AlertsGetResourceGroupLevelAlertsResponse> {
+  getResourceGroupLevelAlerts(alertName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Alert>, callback?: msRest.ServiceCallback<Models.Alert>): Promise<Models.AlertsGetResourceGroupLevelAlertsResponse> {
     return this.client.sendOperationRequest(
       {
         alertName,
@@ -225,7 +225,7 @@ export class Alerts {
    * @param callback The callback
    */
   updateSubscriptionLevelAlertState(alertName: string, alertUpdateActionType: Models.AlertUpdateActionType, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  updateSubscriptionLevelAlertState(alertName: string, alertUpdateActionType: Models.AlertUpdateActionType, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  updateSubscriptionLevelAlertState(alertName: string, alertUpdateActionType: Models.AlertUpdateActionType, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         alertName,
@@ -266,7 +266,7 @@ export class Alerts {
    * @param callback The callback
    */
   updateResourceGroupLevelAlertState(alertName: string, alertUpdateActionType: Models.AlertUpdateActionType1, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  updateResourceGroupLevelAlertState(alertName: string, alertUpdateActionType: Models.AlertUpdateActionType1, resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  updateResourceGroupLevelAlertState(alertName: string, alertUpdateActionType: Models.AlertUpdateActionType1, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         alertName,
@@ -296,7 +296,7 @@ export class Alerts {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertList>, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -324,7 +324,7 @@ export class Alerts {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertList>, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -353,7 +353,7 @@ export class Alerts {
    * @param callback The callback
    */
   listSubscriptionLevelAlertsByRegionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertList>): void;
-  listSubscriptionLevelAlertsByRegionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListSubscriptionLevelAlertsByRegionNextResponse> {
+  listSubscriptionLevelAlertsByRegionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertList>, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListSubscriptionLevelAlertsByRegionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -382,7 +382,7 @@ export class Alerts {
    * @param callback The callback
    */
   listResourceGroupLevelAlertsByRegionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertList>): void;
-  listResourceGroupLevelAlertsByRegionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListResourceGroupLevelAlertsByRegionNextResponse> {
+  listResourceGroupLevelAlertsByRegionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertList>, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListResourceGroupLevelAlertsByRegionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

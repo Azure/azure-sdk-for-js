@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/serverKeysMappers";
 import * as Parameters from "../models/parameters";
@@ -51,7 +51,7 @@ export class ServerKeys {
    * @param callback The callback
    */
   listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerKeyListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServerKeyListResult>): Promise<Models.ServerKeysListByServerResponse> {
+  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerKeyListResult>, callback?: msRest.ServiceCallback<Models.ServerKeyListResult>): Promise<Models.ServerKeysListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -89,7 +89,7 @@ export class ServerKeys {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, keyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerKey>): void;
-  get(resourceGroupName: string, serverName: string, keyName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServerKey>): Promise<Models.ServerKeysGetResponse> {
+  get(resourceGroupName: string, serverName: string, keyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerKey>, callback?: msRest.ServiceCallback<Models.ServerKey>): Promise<Models.ServerKeysGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -200,7 +200,7 @@ export class ServerKeys {
    * @param callback The callback
    */
   listByServerNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerKeyListResult>): void;
-  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServerKeyListResult>): Promise<Models.ServerKeysListByServerNextResponse> {
+  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerKeyListResult>, callback?: msRest.ServiceCallback<Models.ServerKeyListResult>): Promise<Models.ServerKeysListByServerNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

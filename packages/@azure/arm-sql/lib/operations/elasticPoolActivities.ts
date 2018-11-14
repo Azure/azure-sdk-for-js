@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/elasticPoolActivitiesMappers";
 import * as Parameters from "../models/parameters";
@@ -53,7 +53,7 @@ export class ElasticPoolActivities {
    * @param callback The callback
    */
   listByElasticPool(resourceGroupName: string, serverName: string, elasticPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ElasticPoolActivityListResult>): void;
-  listByElasticPool(resourceGroupName: string, serverName: string, elasticPoolName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ElasticPoolActivityListResult>): Promise<Models.ElasticPoolActivitiesListByElasticPoolResponse> {
+  listByElasticPool(resourceGroupName: string, serverName: string, elasticPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ElasticPoolActivityListResult>, callback?: msRest.ServiceCallback<Models.ElasticPoolActivityListResult>): Promise<Models.ElasticPoolActivitiesListByElasticPoolResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

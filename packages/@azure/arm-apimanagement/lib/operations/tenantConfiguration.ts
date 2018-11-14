@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/tenantConfigurationMappers";
 import * as Parameters from "../models/parameters";
@@ -91,7 +91,7 @@ export class TenantConfiguration {
    * @param callback The callback
    */
   getSyncState(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TenantConfigurationSyncStateContract>): void;
-  getSyncState(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TenantConfigurationSyncStateContract>): Promise<Models.TenantConfigurationGetSyncStateResponse> {
+  getSyncState(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TenantConfigurationSyncStateContract>, callback?: msRest.ServiceCallback<Models.TenantConfigurationSyncStateContract>): Promise<Models.TenantConfigurationGetSyncStateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

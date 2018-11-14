@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -693,28 +693,11 @@ export interface OperationEntityListResult extends Array<OperationEntity> {
 
 /**
  * Defines values for SkuName.
- * Possible values include: 'F0', 'P0', 'P1', 'P2', 'S0', 'S1', 'S2', 'S3',
- * 'S4', 'S5', 'S6'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SkuName = <SkuName>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'F0', 'P0', 'P1', 'P2', 'S0', 'S1', 'S2', 'S3', 'S4', 'S5', 'S6'
  * @readonly
  * @enum {string}
  */
-export enum SkuName {
-  F0 = 'F0',
-  P0 = 'P0',
-  P1 = 'P1',
-  P2 = 'P2',
-  S0 = 'S0',
-  S1 = 'S1',
-  S2 = 'S2',
-  S3 = 'S3',
-  S4 = 'S4',
-  S5 = 'S5',
-  S6 = 'S6',
-}
+export type SkuName = 'F0' | 'P0' | 'P1' | 'P2' | 'S0' | 'S1' | 'S2' | 'S3' | 'S4' | 'S5' | 'S6';
 
 /**
  * Defines values for SkuTier.
@@ -722,69 +705,26 @@ export enum SkuName {
  * @readonly
  * @enum {string}
  */
-export enum SkuTier {
-  Free = 'Free',
-  Standard = 'Standard',
-  Premium = 'Premium',
-}
+export type SkuTier = 'Free' | 'Standard' | 'Premium';
 
 /**
  * Defines values for Kind.
- * Possible values include: 'Bing.Autosuggest.v7', 'Bing.CustomSearch',
- * 'Bing.Search.v7', 'Bing.Speech', 'Bing.SpellCheck.v7', 'ComputerVision',
- * 'ContentModerator', 'CustomSpeech', 'CustomVision.Prediction',
- * 'CustomVision.Training', 'Emotion', 'Face', 'LUIS', 'QnAMaker',
- * 'SpeakerRecognition', 'SpeechTranslation', 'TextAnalytics',
- * 'TextTranslation', 'WebLM'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Kind = <Kind>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Bing.Autosuggest.v7', 'Bing.CustomSearch', 'Bing.Search.v7',
+ * 'Bing.Speech', 'Bing.SpellCheck.v7', 'ComputerVision', 'ContentModerator', 'CustomSpeech',
+ * 'CustomVision.Prediction', 'CustomVision.Training', 'Emotion', 'Face', 'LUIS', 'QnAMaker',
+ * 'SpeakerRecognition', 'SpeechTranslation', 'TextAnalytics', 'TextTranslation', 'WebLM'
  * @readonly
  * @enum {string}
  */
-export enum Kind {
-  BingAutosuggestv7 = 'Bing.Autosuggest.v7',
-  BingCustomSearch = 'Bing.CustomSearch',
-  BingSearchv7 = 'Bing.Search.v7',
-  BingSpeech = 'Bing.Speech',
-  BingSpellCheckv7 = 'Bing.SpellCheck.v7',
-  ComputerVision = 'ComputerVision',
-  ContentModerator = 'ContentModerator',
-  CustomSpeech = 'CustomSpeech',
-  CustomVisionPrediction = 'CustomVision.Prediction',
-  CustomVisionTraining = 'CustomVision.Training',
-  Emotion = 'Emotion',
-  Face = 'Face',
-  LUIS = 'LUIS',
-  QnAMaker = 'QnAMaker',
-  SpeakerRecognition = 'SpeakerRecognition',
-  SpeechTranslation = 'SpeechTranslation',
-  TextAnalytics = 'TextAnalytics',
-  TextTranslation = 'TextTranslation',
-  WebLM = 'WebLM',
-}
+export type Kind = 'Bing.Autosuggest.v7' | 'Bing.CustomSearch' | 'Bing.Search.v7' | 'Bing.Speech' | 'Bing.SpellCheck.v7' | 'ComputerVision' | 'ContentModerator' | 'CustomSpeech' | 'CustomVision.Prediction' | 'CustomVision.Training' | 'Emotion' | 'Face' | 'LUIS' | 'QnAMaker' | 'SpeakerRecognition' | 'SpeechTranslation' | 'TextAnalytics' | 'TextTranslation' | 'WebLM';
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Creating', 'ResolvingDNS', 'Moving', 'Deleting',
- * 'Succeeded', 'Failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ProvisioningState =
- * <ProvisioningState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Creating', 'ResolvingDNS', 'Moving', 'Deleting', 'Succeeded', 'Failed'
  * @readonly
  * @enum {string}
  */
-export enum ProvisioningState {
-  Creating = 'Creating',
-  ResolvingDNS = 'ResolvingDNS',
-  Moving = 'Moving',
-  Deleting = 'Deleting',
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-}
+export type ProvisioningState = 'Creating' | 'ResolvingDNS' | 'Moving' | 'Deleting' | 'Succeeded' | 'Failed';
 
 /**
  * Defines values for KeyName.
@@ -792,49 +732,24 @@ export enum ProvisioningState {
  * @readonly
  * @enum {string}
  */
-export enum KeyName {
-  Key1 = 'Key1',
-  Key2 = 'Key2',
-}
+export type KeyName = 'Key1' | 'Key2';
 
 /**
  * Defines values for UnitType.
- * Possible values include: 'Count', 'Bytes', 'Seconds', 'Percent',
- * 'CountPerSecond', 'BytesPerSecond', 'Milliseconds'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: UnitType = <UnitType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Count', 'Bytes', 'Seconds', 'Percent', 'CountPerSecond',
+ * 'BytesPerSecond', 'Milliseconds'
  * @readonly
  * @enum {string}
  */
-export enum UnitType {
-  Count = 'Count',
-  Bytes = 'Bytes',
-  Seconds = 'Seconds',
-  Percent = 'Percent',
-  CountPerSecond = 'CountPerSecond',
-  BytesPerSecond = 'BytesPerSecond',
-  Milliseconds = 'Milliseconds',
-}
+export type UnitType = 'Count' | 'Bytes' | 'Seconds' | 'Percent' | 'CountPerSecond' | 'BytesPerSecond' | 'Milliseconds';
 
 /**
  * Defines values for QuotaUsageStatus.
  * Possible values include: 'Included', 'Blocked', 'InOverage', 'Unknown'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: QuotaUsageStatus =
- * <QuotaUsageStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum QuotaUsageStatus {
-  Included = 'Included',
-  Blocked = 'Blocked',
-  InOverage = 'InOverage',
-  Unknown = 'Unknown',
-}
+export type QuotaUsageStatus = 'Included' | 'Blocked' | 'InOverage' | 'Unknown';
 
 /**
  * Defines values for ResourceSkuRestrictionsType.
@@ -842,26 +757,15 @@ export enum QuotaUsageStatus {
  * @readonly
  * @enum {string}
  */
-export enum ResourceSkuRestrictionsType {
-  Location = 'Location',
-  Zone = 'Zone',
-}
+export type ResourceSkuRestrictionsType = 'Location' | 'Zone';
 
 /**
  * Defines values for ResourceSkuRestrictionsReasonCode.
  * Possible values include: 'QuotaId', 'NotAvailableForSubscription'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ResourceSkuRestrictionsReasonCode =
- * <ResourceSkuRestrictionsReasonCode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ResourceSkuRestrictionsReasonCode {
-  QuotaId = 'QuotaId',
-  NotAvailableForSubscription = 'NotAvailableForSubscription',
-}
+export type ResourceSkuRestrictionsReasonCode = 'QuotaId' | 'NotAvailableForSubscription';
 
 /**
  * Contains response data for the create operation.

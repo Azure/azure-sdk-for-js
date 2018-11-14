@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/managedDatabasesMappers";
 import * as Parameters from "../models/parameters";
@@ -64,7 +64,7 @@ export class ManagedDatabases {
    * @param callback The callback
    */
   listByInstance(resourceGroupName: string, managedInstanceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedDatabaseListResult>): void;
-  listByInstance(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagedDatabaseListResult>): Promise<Models.ManagedDatabasesListByInstanceResponse> {
+  listByInstance(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedDatabaseListResult>, callback?: msRest.ServiceCallback<Models.ManagedDatabaseListResult>): Promise<Models.ManagedDatabasesListByInstanceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -102,7 +102,7 @@ export class ManagedDatabases {
    * @param callback The callback
    */
   get(resourceGroupName: string, managedInstanceName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedDatabase>): void;
-  get(resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagedDatabase>): Promise<Models.ManagedDatabasesGetResponse> {
+  get(resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedDatabase>, callback?: msRest.ServiceCallback<Models.ManagedDatabase>): Promise<Models.ManagedDatabasesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -263,7 +263,7 @@ export class ManagedDatabases {
    * @param callback The callback
    */
   listByInstanceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedDatabaseListResult>): void;
-  listByInstanceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagedDatabaseListResult>): Promise<Models.ManagedDatabasesListByInstanceNextResponse> {
+  listByInstanceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedDatabaseListResult>, callback?: msRest.ServiceCallback<Models.ManagedDatabaseListResult>): Promise<Models.ManagedDatabasesListByInstanceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/subscriptionUsagesMappers";
 import * as Parameters from "../models/parameters";
@@ -44,7 +44,7 @@ export class SubscriptionUsages {
    * @param callback The callback
    */
   listByLocation(locationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionUsageListResult>): void;
-  listByLocation(locationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SubscriptionUsageListResult>): Promise<Models.SubscriptionUsagesListByLocationResponse> {
+  listByLocation(locationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionUsageListResult>, callback?: msRest.ServiceCallback<Models.SubscriptionUsageListResult>): Promise<Models.SubscriptionUsagesListByLocationResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
@@ -75,7 +75,7 @@ export class SubscriptionUsages {
    * @param callback The callback
    */
   get(locationName: string, usageName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionUsage>): void;
-  get(locationName: string, usageName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SubscriptionUsage>): Promise<Models.SubscriptionUsagesGetResponse> {
+  get(locationName: string, usageName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionUsage>, callback?: msRest.ServiceCallback<Models.SubscriptionUsage>): Promise<Models.SubscriptionUsagesGetResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
@@ -104,7 +104,7 @@ export class SubscriptionUsages {
    * @param callback The callback
    */
   listByLocationNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionUsageListResult>): void;
-  listByLocationNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SubscriptionUsageListResult>): Promise<Models.SubscriptionUsagesListByLocationNextResponse> {
+  listByLocationNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionUsageListResult>, callback?: msRest.ServiceCallback<Models.SubscriptionUsageListResult>): Promise<Models.SubscriptionUsagesListByLocationNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/workflowTriggersMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class WorkflowTriggers {
    * @param callback The callback
    */
   list(resourceGroupName: string, workflowName: string, options: Models.WorkflowTriggersListOptionalParams, callback: msRest.ServiceCallback<Models.WorkflowTriggerListResult>): void;
-  list(resourceGroupName: string, workflowName: string, options?: Models.WorkflowTriggersListOptionalParams, callback?: msRest.ServiceCallback<Models.WorkflowTriggerListResult>): Promise<Models.WorkflowTriggersListResponse> {
+  list(resourceGroupName: string, workflowName: string, options?: Models.WorkflowTriggersListOptionalParams | msRest.ServiceCallback<Models.WorkflowTriggerListResult>, callback?: msRest.ServiceCallback<Models.WorkflowTriggerListResult>): Promise<Models.WorkflowTriggersListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class WorkflowTriggers {
    * @param callback The callback
    */
   get(resourceGroupName: string, workflowName: string, triggerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkflowTrigger>): void;
-  get(resourceGroupName: string, workflowName: string, triggerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkflowTrigger>): Promise<Models.WorkflowTriggersGetResponse> {
+  get(resourceGroupName: string, workflowName: string, triggerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowTrigger>, callback?: msRest.ServiceCallback<Models.WorkflowTrigger>): Promise<Models.WorkflowTriggersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -118,7 +118,7 @@ export class WorkflowTriggers {
    * @param callback The callback
    */
   reset(resourceGroupName: string, workflowName: string, triggerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  reset(resourceGroupName: string, workflowName: string, triggerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  reset(resourceGroupName: string, workflowName: string, triggerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -154,7 +154,7 @@ export class WorkflowTriggers {
    * @param callback The callback
    */
   run(resourceGroupName: string, workflowName: string, triggerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  run(resourceGroupName: string, workflowName: string, triggerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<any>): Promise<Models.WorkflowTriggersRunResponse> {
+  run(resourceGroupName: string, workflowName: string, triggerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.WorkflowTriggersRunResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -190,7 +190,7 @@ export class WorkflowTriggers {
    * @param callback The callback
    */
   getSchemaJson(resourceGroupName: string, workflowName: string, triggerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JsonSchema>): void;
-  getSchemaJson(resourceGroupName: string, workflowName: string, triggerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JsonSchema>): Promise<Models.WorkflowTriggersGetSchemaJsonResponse> {
+  getSchemaJson(resourceGroupName: string, workflowName: string, triggerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JsonSchema>, callback?: msRest.ServiceCallback<Models.JsonSchema>): Promise<Models.WorkflowTriggersGetSchemaJsonResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -229,7 +229,7 @@ export class WorkflowTriggers {
    * @param callback The callback
    */
   setState(resourceGroupName: string, workflowName: string, triggerName: string, setStateParameter: Models.SetTriggerStateActionDefinition, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  setState(resourceGroupName: string, workflowName: string, triggerName: string, setStateParameter: Models.SetTriggerStateActionDefinition, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  setState(resourceGroupName: string, workflowName: string, triggerName: string, setStateParameter: Models.SetTriggerStateActionDefinition, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -266,7 +266,7 @@ export class WorkflowTriggers {
    * @param callback The callback
    */
   listCallbackUrl(resourceGroupName: string, workflowName: string, triggerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): void;
-  listCallbackUrl(resourceGroupName: string, workflowName: string, triggerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): Promise<Models.WorkflowTriggersListCallbackUrlResponse> {
+  listCallbackUrl(resourceGroupName: string, workflowName: string, triggerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>, callback?: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): Promise<Models.WorkflowTriggersListCallbackUrlResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -296,7 +296,7 @@ export class WorkflowTriggers {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkflowTriggerListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkflowTriggerListResult>): Promise<Models.WorkflowTriggersListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowTriggerListResult>, callback?: msRest.ServiceCallback<Models.WorkflowTriggerListResult>): Promise<Models.WorkflowTriggersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

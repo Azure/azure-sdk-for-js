@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/managedInstanceKeysMappers";
 import * as Parameters from "../models/parameters";
@@ -51,7 +51,7 @@ export class ManagedInstanceKeys {
    * @param callback The callback
    */
   listByInstance(resourceGroupName: string, managedInstanceName: string, options: Models.ManagedInstanceKeysListByInstanceOptionalParams, callback: msRest.ServiceCallback<Models.ManagedInstanceKeyListResult>): void;
-  listByInstance(resourceGroupName: string, managedInstanceName: string, options?: Models.ManagedInstanceKeysListByInstanceOptionalParams, callback?: msRest.ServiceCallback<Models.ManagedInstanceKeyListResult>): Promise<Models.ManagedInstanceKeysListByInstanceResponse> {
+  listByInstance(resourceGroupName: string, managedInstanceName: string, options?: Models.ManagedInstanceKeysListByInstanceOptionalParams | msRest.ServiceCallback<Models.ManagedInstanceKeyListResult>, callback?: msRest.ServiceCallback<Models.ManagedInstanceKeyListResult>): Promise<Models.ManagedInstanceKeysListByInstanceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -89,7 +89,7 @@ export class ManagedInstanceKeys {
    * @param callback The callback
    */
   get(resourceGroupName: string, managedInstanceName: string, keyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedInstanceKey>): void;
-  get(resourceGroupName: string, managedInstanceName: string, keyName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagedInstanceKey>): Promise<Models.ManagedInstanceKeysGetResponse> {
+  get(resourceGroupName: string, managedInstanceName: string, keyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceKey>, callback?: msRest.ServiceCallback<Models.ManagedInstanceKey>): Promise<Models.ManagedInstanceKeysGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -192,7 +192,7 @@ export class ManagedInstanceKeys {
    * @param callback The callback
    */
   listByInstanceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedInstanceKeyListResult>): void;
-  listByInstanceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagedInstanceKeyListResult>): Promise<Models.ManagedInstanceKeysListByInstanceNextResponse> {
+  listByInstanceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceKeyListResult>, callback?: msRest.ServiceCallback<Models.ManagedInstanceKeyListResult>): Promise<Models.ManagedInstanceKeysListByInstanceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

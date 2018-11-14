@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/checkSkuAvailabilityMappers";
 import * as Parameters from "../models/parameters";
@@ -65,7 +65,7 @@ export class CheckSkuAvailability {
    * @param callback The callback
    */
   list(location: string, skus: Models.SkuName[], kind: Models.Kind, type: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>): void;
-  list(location: string, skus: Models.SkuName[], kind: Models.Kind, type: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>): Promise<Models.CheckSkuAvailabilityListResponse> {
+  list(location: string, skus: Models.SkuName[], kind: Models.Kind, type: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>, callback?: msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>): Promise<Models.CheckSkuAvailabilityListResponse> {
     return this.client.sendOperationRequest(
       {
         location,

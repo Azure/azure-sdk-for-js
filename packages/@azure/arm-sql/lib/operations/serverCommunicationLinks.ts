@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/serverCommunicationLinksMappers";
 import * as Parameters from "../models/parameters";
@@ -54,7 +54,7 @@ export class ServerCommunicationLinks {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serverName: string, communicationLinkName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serverName: string, communicationLinkName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serverName: string, communicationLinkName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -93,7 +93,7 @@ export class ServerCommunicationLinks {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, communicationLinkName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerCommunicationLink>): void;
-  get(resourceGroupName: string, serverName: string, communicationLinkName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServerCommunicationLink>): Promise<Models.ServerCommunicationLinksGetResponse> {
+  get(resourceGroupName: string, serverName: string, communicationLinkName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerCommunicationLink>, callback?: msRest.ServiceCallback<Models.ServerCommunicationLink>): Promise<Models.ServerCommunicationLinksGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -144,7 +144,7 @@ export class ServerCommunicationLinks {
    * @param callback The callback
    */
   listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerCommunicationLinkListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServerCommunicationLinkListResult>): Promise<Models.ServerCommunicationLinksListByServerResponse> {
+  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerCommunicationLinkListResult>, callback?: msRest.ServiceCallback<Models.ServerCommunicationLinkListResult>): Promise<Models.ServerCommunicationLinksListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

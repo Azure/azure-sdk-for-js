@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/cloudEndpointsMappers";
 import * as Parameters from "../models/parameters";
@@ -69,7 +69,7 @@ export class CloudEndpoints {
    * @param callback The callback
    */
   get(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CloudEndpoint>): void;
-  get(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CloudEndpoint>): Promise<Models.CloudEndpointsGetResponse> {
+  get(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudEndpoint>, callback?: msRest.ServiceCallback<Models.CloudEndpoint>): Promise<Models.CloudEndpointsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -120,7 +120,7 @@ export class CloudEndpoints {
    * @param callback The callback
    */
   listBySyncGroup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CloudEndpointArray>): void;
-  listBySyncGroup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CloudEndpointArray>): Promise<Models.CloudEndpointsListBySyncGroupResponse> {
+  listBySyncGroup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudEndpointArray>, callback?: msRest.ServiceCallback<Models.CloudEndpointArray>): Promise<Models.CloudEndpointsListBySyncGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -204,7 +204,7 @@ export class CloudEndpoints {
    * @param callback The callback
    */
   restoreheartbeat(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  restoreheartbeat(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.CloudEndpointsRestoreheartbeatResponse> {
+  restoreheartbeat(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.CloudEndpointsRestoreheartbeatResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

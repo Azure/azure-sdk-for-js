@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/linkedServicesMappers";
 import * as Parameters from "../models/parameters";
@@ -56,7 +56,7 @@ export class LinkedServices {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, workspaceName: string, linkedServiceName: string, parameters: Models.LinkedService, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LinkedService>): void;
-  createOrUpdate(resourceGroupName: string, workspaceName: string, linkedServiceName: string, parameters: Models.LinkedService, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LinkedService>): Promise<Models.LinkedServicesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, workspaceName: string, linkedServiceName: string, parameters: Models.LinkedService, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LinkedService>, callback?: msRest.ServiceCallback<Models.LinkedService>): Promise<Models.LinkedServicesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +96,7 @@ export class LinkedServices {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, workspaceName: string, linkedServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, workspaceName: string, linkedServiceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, workspaceName: string, linkedServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -135,7 +135,7 @@ export class LinkedServices {
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, linkedServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LinkedService>): void;
-  get(resourceGroupName: string, workspaceName: string, linkedServiceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LinkedService>): Promise<Models.LinkedServicesGetResponse> {
+  get(resourceGroupName: string, workspaceName: string, linkedServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LinkedService>, callback?: msRest.ServiceCallback<Models.LinkedService>): Promise<Models.LinkedServicesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -168,7 +168,7 @@ export class LinkedServices {
    * @param callback The callback
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LinkedServiceListResult>): void;
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LinkedServiceListResult>): Promise<Models.LinkedServicesListByWorkspaceResponse> {
+  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LinkedServiceListResult>, callback?: msRest.ServiceCallback<Models.LinkedServiceListResult>): Promise<Models.LinkedServicesListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

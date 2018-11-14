@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/userMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class User {
    * @param callback The callback
    */
   listByService(resourceGroupName: string, serviceName: string, options: Models.UserListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.UserCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.UserListByServiceOptionalParams, callback?: msRest.ServiceCallback<Models.UserCollection>): Promise<Models.UserListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.UserListByServiceOptionalParams | msRest.ServiceCallback<Models.UserCollection>, callback?: msRest.ServiceCallback<Models.UserCollection>): Promise<Models.UserListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class User {
    * @param callback The callback
    */
   getEntityTag(resourceGroupName: string, serviceName: string, uid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, uid: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.UserGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, uid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.UserGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -118,7 +118,7 @@ export class User {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, uid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserContract>): void;
-  get(resourceGroupName: string, serviceName: string, uid: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UserContract>): Promise<Models.UserGetResponse> {
+  get(resourceGroupName: string, serviceName: string, uid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserContract>, callback?: msRest.ServiceCallback<Models.UserContract>): Promise<Models.UserGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -157,7 +157,7 @@ export class User {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, uid: string, parameters: Models.UserCreateParameters, options: Models.UserCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.UserContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, uid: string, parameters: Models.UserCreateParameters, options?: Models.UserCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.UserContract>): Promise<Models.UserCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, uid: string, parameters: Models.UserCreateParameters, options?: Models.UserCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.UserContract>, callback?: msRest.ServiceCallback<Models.UserContract>): Promise<Models.UserCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -203,7 +203,7 @@ export class User {
    * @param callback The callback
    */
   update(resourceGroupName: string, serviceName: string, uid: string, parameters: Models.UserUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, uid: string, parameters: Models.UserUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, uid: string, parameters: Models.UserUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -247,7 +247,7 @@ export class User {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, uid: string, ifMatch: string, options: Models.UserDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, uid: string, ifMatch: string, options?: Models.UserDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, uid: string, ifMatch: string, options?: Models.UserDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -285,7 +285,7 @@ export class User {
    * @param callback The callback
    */
   generateSsoUrl(resourceGroupName: string, serviceName: string, uid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GenerateSsoUrlResult>): void;
-  generateSsoUrl(resourceGroupName: string, serviceName: string, uid: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.GenerateSsoUrlResult>): Promise<Models.UserGenerateSsoUrlResponse> {
+  generateSsoUrl(resourceGroupName: string, serviceName: string, uid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GenerateSsoUrlResult>, callback?: msRest.ServiceCallback<Models.GenerateSsoUrlResult>): Promise<Models.UserGenerateSsoUrlResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -324,7 +324,7 @@ export class User {
    * @param callback The callback
    */
   getSharedAccessToken(resourceGroupName: string, serviceName: string, uid: string, parameters: Models.UserTokenParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserTokenResult>): void;
-  getSharedAccessToken(resourceGroupName: string, serviceName: string, uid: string, parameters: Models.UserTokenParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UserTokenResult>): Promise<Models.UserGetSharedAccessTokenResponse> {
+  getSharedAccessToken(resourceGroupName: string, serviceName: string, uid: string, parameters: Models.UserTokenParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserTokenResult>, callback?: msRest.ServiceCallback<Models.UserTokenResult>): Promise<Models.UserGetSharedAccessTokenResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -355,7 +355,7 @@ export class User {
    * @param callback The callback
    */
   listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UserCollection>): Promise<Models.UserListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserCollection>, callback?: msRest.ServiceCallback<Models.UserCollection>): Promise<Models.UserListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

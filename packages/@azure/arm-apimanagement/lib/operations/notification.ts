@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/notificationMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class Notification {
    * @param callback The callback
    */
   listByService(resourceGroupName: string, serviceName: string, options: Models.NotificationListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.NotificationCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.NotificationListByServiceOptionalParams, callback?: msRest.ServiceCallback<Models.NotificationCollection>): Promise<Models.NotificationListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.NotificationListByServiceOptionalParams | msRest.ServiceCallback<Models.NotificationCollection>, callback?: msRest.ServiceCallback<Models.NotificationCollection>): Promise<Models.NotificationListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +91,7 @@ export class Notification {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NotificationContract>): void;
-  get(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NotificationContract>): Promise<Models.NotificationGetResponse> {
+  get(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotificationContract>, callback?: msRest.ServiceCallback<Models.NotificationContract>): Promise<Models.NotificationGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -136,7 +136,7 @@ export class Notification {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options: Models.NotificationCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.NotificationContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options?: Models.NotificationCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.NotificationContract>): Promise<Models.NotificationCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options?: Models.NotificationCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.NotificationContract>, callback?: msRest.ServiceCallback<Models.NotificationContract>): Promise<Models.NotificationCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -166,7 +166,7 @@ export class Notification {
    * @param callback The callback
    */
   listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NotificationCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NotificationCollection>): Promise<Models.NotificationListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotificationCollection>, callback?: msRest.ServiceCallback<Models.NotificationCollection>): Promise<Models.NotificationListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

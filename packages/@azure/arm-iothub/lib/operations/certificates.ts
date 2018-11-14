@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/certificatesMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class Certificates {
    * @param callback The callback
    */
   listByIotHub(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateListDescription>): void;
-  listByIotHub(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CertificateListDescription>): Promise<Models.CertificatesListByIotHubResponse> {
+  listByIotHub(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateListDescription>, callback?: msRest.ServiceCallback<Models.CertificateListDescription>): Promise<Models.CertificatesListByIotHubResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -84,7 +84,7 @@ export class Certificates {
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, certificateName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateDescription>): void;
-  get(resourceGroupName: string, resourceName: string, certificateName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CertificateDescription>): Promise<Models.CertificatesGetResponse> {
+  get(resourceGroupName: string, resourceName: string, certificateName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateDescription>, callback?: msRest.ServiceCallback<Models.CertificateDescription>): Promise<Models.CertificatesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -121,7 +121,7 @@ export class Certificates {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, resourceName: string, certificateName: string, options: Models.CertificatesCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.CertificateDescription>): void;
-  createOrUpdate(resourceGroupName: string, resourceName: string, certificateName: string, options?: Models.CertificatesCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.CertificateDescription>): Promise<Models.CertificatesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, resourceName: string, certificateName: string, options?: Models.CertificatesCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.CertificateDescription>, callback?: msRest.ServiceCallback<Models.CertificateDescription>): Promise<Models.CertificatesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -161,7 +161,7 @@ export class Certificates {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -203,7 +203,7 @@ export class Certificates {
    * @param callback The callback
    */
   generateVerificationCode(resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateWithNonceDescription>): void;
-  generateVerificationCode(resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CertificateWithNonceDescription>): Promise<Models.CertificatesGenerateVerificationCodeResponse> {
+  generateVerificationCode(resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateWithNonceDescription>, callback?: msRest.ServiceCallback<Models.CertificateWithNonceDescription>): Promise<Models.CertificatesGenerateVerificationCodeResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -245,7 +245,7 @@ export class Certificates {
    * @param callback The callback
    */
   verify(resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, options: Models.CertificatesVerifyOptionalParams, callback: msRest.ServiceCallback<Models.CertificateDescription>): void;
-  verify(resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, options?: Models.CertificatesVerifyOptionalParams, callback?: msRest.ServiceCallback<Models.CertificateDescription>): Promise<Models.CertificatesVerifyResponse> {
+  verify(resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, options?: Models.CertificatesVerifyOptionalParams | msRest.ServiceCallback<Models.CertificateDescription>, callback?: msRest.ServiceCallback<Models.CertificateDescription>): Promise<Models.CertificatesVerifyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

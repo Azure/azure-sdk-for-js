@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -361,8 +361,10 @@ export interface NetworkInterfaceDnsSettings {
 export interface NetworkInterface extends Resource {
   /**
    * @member {SubResource} [virtualMachine] The reference of a virtual machine.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  virtualMachine?: SubResource;
+  readonly virtualMachine?: SubResource;
   /**
    * @member {NetworkSecurityGroup} [networkSecurityGroup] The reference of the
    * NetworkSecurityGroup resource.

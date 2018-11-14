@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/openIdConnectProviderMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class OpenIdConnectProvider {
    * @param callback The callback
    */
   listByService(resourceGroupName: string, serviceName: string, options: Models.OpenIdConnectProviderListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.OpenIdConnectProviderCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.OpenIdConnectProviderListByServiceOptionalParams, callback?: msRest.ServiceCallback<Models.OpenIdConnectProviderCollection>): Promise<Models.OpenIdConnectProviderListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.OpenIdConnectProviderListByServiceOptionalParams | msRest.ServiceCallback<Models.OpenIdConnectProviderCollection>, callback?: msRest.ServiceCallback<Models.OpenIdConnectProviderCollection>): Promise<Models.OpenIdConnectProviderListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class OpenIdConnectProvider {
    * @param callback The callback
    */
   getEntityTag(resourceGroupName: string, serviceName: string, opid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, opid: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.OpenIdConnectProviderGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, opid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.OpenIdConnectProviderGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -118,7 +118,7 @@ export class OpenIdConnectProvider {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, opid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OpenidConnectProviderContract>): void;
-  get(resourceGroupName: string, serviceName: string, opid: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OpenidConnectProviderContract>): Promise<Models.OpenIdConnectProviderGetResponse> {
+  get(resourceGroupName: string, serviceName: string, opid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OpenidConnectProviderContract>, callback?: msRest.ServiceCallback<Models.OpenidConnectProviderContract>): Promise<Models.OpenIdConnectProviderGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -157,7 +157,7 @@ export class OpenIdConnectProvider {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, opid: string, parameters: Models.OpenidConnectProviderContract, options: Models.OpenIdConnectProviderCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.OpenidConnectProviderContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, opid: string, parameters: Models.OpenidConnectProviderContract, options?: Models.OpenIdConnectProviderCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.OpenidConnectProviderContract>): Promise<Models.OpenIdConnectProviderCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, opid: string, parameters: Models.OpenidConnectProviderContract, options?: Models.OpenIdConnectProviderCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.OpenidConnectProviderContract>, callback?: msRest.ServiceCallback<Models.OpenidConnectProviderContract>): Promise<Models.OpenIdConnectProviderCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -203,7 +203,7 @@ export class OpenIdConnectProvider {
    * @param callback The callback
    */
   update(resourceGroupName: string, serviceName: string, opid: string, parameters: Models.OpenidConnectProviderUpdateContract, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, opid: string, parameters: Models.OpenidConnectProviderUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, opid: string, parameters: Models.OpenidConnectProviderUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -247,7 +247,7 @@ export class OpenIdConnectProvider {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, opid: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, opid: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, opid: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -278,7 +278,7 @@ export class OpenIdConnectProvider {
    * @param callback The callback
    */
   listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OpenIdConnectProviderCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OpenIdConnectProviderCollection>): Promise<Models.OpenIdConnectProviderListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OpenIdConnectProviderCollection>, callback?: msRest.ServiceCallback<Models.OpenIdConnectProviderCollection>): Promise<Models.OpenIdConnectProviderListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

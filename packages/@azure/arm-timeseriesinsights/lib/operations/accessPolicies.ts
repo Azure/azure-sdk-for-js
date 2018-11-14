@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/accessPoliciesMappers";
 import * as Parameters from "../models/parameters";
@@ -56,7 +56,7 @@ export class AccessPolicies {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, environmentName: string, accessPolicyName: string, parameters: Models.AccessPolicyCreateOrUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessPolicyResource>): void;
-  createOrUpdate(resourceGroupName: string, environmentName: string, accessPolicyName: string, parameters: Models.AccessPolicyCreateOrUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccessPolicyResource>): Promise<Models.AccessPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, environmentName: string, accessPolicyName: string, parameters: Models.AccessPolicyCreateOrUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessPolicyResource>, callback?: msRest.ServiceCallback<Models.AccessPolicyResource>): Promise<Models.AccessPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +99,7 @@ export class AccessPolicies {
    * @param callback The callback
    */
   get(resourceGroupName: string, environmentName: string, accessPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessPolicyResource>): void;
-  get(resourceGroupName: string, environmentName: string, accessPolicyName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccessPolicyResource>): Promise<Models.AccessPoliciesGetResponse> {
+  get(resourceGroupName: string, environmentName: string, accessPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessPolicyResource>, callback?: msRest.ServiceCallback<Models.AccessPolicyResource>): Promise<Models.AccessPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -148,7 +148,7 @@ export class AccessPolicies {
    * @param callback The callback
    */
   update(resourceGroupName: string, environmentName: string, accessPolicyName: string, accessPolicyUpdateParameters: Models.AccessPolicyUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessPolicyResource>): void;
-  update(resourceGroupName: string, environmentName: string, accessPolicyName: string, accessPolicyUpdateParameters: Models.AccessPolicyUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccessPolicyResource>): Promise<Models.AccessPoliciesUpdateResponse> {
+  update(resourceGroupName: string, environmentName: string, accessPolicyName: string, accessPolicyUpdateParameters: Models.AccessPolicyUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessPolicyResource>, callback?: msRest.ServiceCallback<Models.AccessPolicyResource>): Promise<Models.AccessPoliciesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -192,7 +192,7 @@ export class AccessPolicies {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, environmentName: string, accessPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, environmentName: string, accessPolicyName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, environmentName: string, accessPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -228,7 +228,7 @@ export class AccessPolicies {
    * @param callback The callback
    */
   listByEnvironment(resourceGroupName: string, environmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessPolicyListResponse>): void;
-  listByEnvironment(resourceGroupName: string, environmentName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccessPolicyListResponse>): Promise<Models.AccessPoliciesListByEnvironmentResponse> {
+  listByEnvironment(resourceGroupName: string, environmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessPolicyListResponse>, callback?: msRest.ServiceCallback<Models.AccessPolicyListResponse>): Promise<Models.AccessPoliciesListByEnvironmentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/serverDnsAliasesMappers";
 import * as Parameters from "../models/parameters";
@@ -54,7 +54,7 @@ export class ServerDnsAliases {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, dnsAliasName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerDnsAlias>): void;
-  get(resourceGroupName: string, serverName: string, dnsAliasName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServerDnsAlias>): Promise<Models.ServerDnsAliasesGetResponse> {
+  get(resourceGroupName: string, serverName: string, dnsAliasName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerDnsAlias>, callback?: msRest.ServiceCallback<Models.ServerDnsAlias>): Promise<Models.ServerDnsAliasesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -118,7 +118,7 @@ export class ServerDnsAliases {
    * @param callback The callback
    */
   listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerDnsAliasListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServerDnsAliasListResult>): Promise<Models.ServerDnsAliasesListByServerResponse> {
+  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerDnsAliasListResult>, callback?: msRest.ServiceCallback<Models.ServerDnsAliasListResult>): Promise<Models.ServerDnsAliasesListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -227,7 +227,7 @@ export class ServerDnsAliases {
    * @param callback The callback
    */
   listByServerNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerDnsAliasListResult>): void;
-  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServerDnsAliasListResult>): Promise<Models.ServerDnsAliasesListByServerNextResponse> {
+  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerDnsAliasListResult>, callback?: msRest.ServiceCallback<Models.ServerDnsAliasListResult>): Promise<Models.ServerDnsAliasesListByServerNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

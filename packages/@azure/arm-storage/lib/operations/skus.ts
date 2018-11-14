@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/skusMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class Skus {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageSkuListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StorageSkuListResult>): Promise<Models.SkusListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageSkuListResult>, callback?: msRest.ServiceCallback<Models.StorageSkuListResult>): Promise<Models.SkusListResponse> {
     return this.client.sendOperationRequest(
       {
         options

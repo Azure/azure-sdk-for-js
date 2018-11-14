@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/servicePrincipalsMappers";
 import * as Parameters from "../models/parameters";
@@ -44,7 +44,7 @@ export class ServicePrincipals {
    * @param callback The callback
    */
   create(parameters: Models.ServicePrincipalCreateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServicePrincipal>): void;
-  create(parameters: Models.ServicePrincipalCreateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServicePrincipal>): Promise<Models.ServicePrincipalsCreateResponse> {
+  create(parameters: Models.ServicePrincipalCreateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServicePrincipal>, callback?: msRest.ServiceCallback<Models.ServicePrincipal>): Promise<Models.ServicePrincipalsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
@@ -69,7 +69,7 @@ export class ServicePrincipals {
    * @param callback The callback
    */
   list(options: Models.ServicePrincipalsListOptionalParams, callback: msRest.ServiceCallback<Models.ServicePrincipalListResult>): void;
-  list(options?: Models.ServicePrincipalsListOptionalParams, callback?: msRest.ServiceCallback<Models.ServicePrincipalListResult>): Promise<Models.ServicePrincipalsListResponse> {
+  list(options?: Models.ServicePrincipalsListOptionalParams | msRest.ServiceCallback<Models.ServicePrincipalListResult>, callback?: msRest.ServiceCallback<Models.ServicePrincipalListResult>): Promise<Models.ServicePrincipalsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -99,7 +99,7 @@ export class ServicePrincipals {
    * @param callback The callback
    */
   update(objectId: string, parameters: Models.ServicePrincipalUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(objectId: string, parameters: Models.ServicePrincipalUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(objectId: string, parameters: Models.ServicePrincipalUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         objectId,
@@ -128,7 +128,7 @@ export class ServicePrincipals {
    * @param callback The callback
    */
   deleteMethod(objectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(objectId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(objectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         objectId,
@@ -157,7 +157,7 @@ export class ServicePrincipals {
    * @param callback The callback
    */
   get(objectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServicePrincipal>): void;
-  get(objectId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServicePrincipal>): Promise<Models.ServicePrincipalsGetResponse> {
+  get(objectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServicePrincipal>, callback?: msRest.ServiceCallback<Models.ServicePrincipal>): Promise<Models.ServicePrincipalsGetResponse> {
     return this.client.sendOperationRequest(
       {
         objectId,
@@ -186,7 +186,7 @@ export class ServicePrincipals {
    * @param callback The callback
    */
   listOwners(objectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>): void;
-  listOwners(objectId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>): Promise<Models.ServicePrincipalsListOwnersResponse> {
+  listOwners(objectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DirectoryObjectListResult>, callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>): Promise<Models.ServicePrincipalsListOwnersResponse> {
     return this.client.sendOperationRequest(
       {
         objectId,
@@ -214,7 +214,7 @@ export class ServicePrincipals {
    * @param callback The callback
    */
   listKeyCredentials(objectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KeyCredentialListResult>): void;
-  listKeyCredentials(objectId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.KeyCredentialListResult>): Promise<Models.ServicePrincipalsListKeyCredentialsResponse> {
+  listKeyCredentials(objectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyCredentialListResult>, callback?: msRest.ServiceCallback<Models.KeyCredentialListResult>): Promise<Models.ServicePrincipalsListKeyCredentialsResponse> {
     return this.client.sendOperationRequest(
       {
         objectId,
@@ -245,7 +245,7 @@ export class ServicePrincipals {
    * @param callback The callback
    */
   updateKeyCredentials(objectId: string, value: Models.KeyCredential[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  updateKeyCredentials(objectId: string, value: Models.KeyCredential[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  updateKeyCredentials(objectId: string, value: Models.KeyCredential[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         objectId,
@@ -274,7 +274,7 @@ export class ServicePrincipals {
    * @param callback The callback
    */
   listPasswordCredentials(objectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PasswordCredentialListResult>): void;
-  listPasswordCredentials(objectId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PasswordCredentialListResult>): Promise<Models.ServicePrincipalsListPasswordCredentialsResponse> {
+  listPasswordCredentials(objectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PasswordCredentialListResult>, callback?: msRest.ServiceCallback<Models.PasswordCredentialListResult>): Promise<Models.ServicePrincipalsListPasswordCredentialsResponse> {
     return this.client.sendOperationRequest(
       {
         objectId,
@@ -305,7 +305,7 @@ export class ServicePrincipals {
    * @param callback The callback
    */
   updatePasswordCredentials(objectId: string, value: Models.PasswordCredential[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  updatePasswordCredentials(objectId: string, value: Models.PasswordCredential[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  updatePasswordCredentials(objectId: string, value: Models.PasswordCredential[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         objectId,
@@ -334,7 +334,7 @@ export class ServicePrincipals {
    * @param callback The callback
    */
   listNext(nextLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServicePrincipalListResult>): void;
-  listNext(nextLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServicePrincipalListResult>): Promise<Models.ServicePrincipalsListNextResponse> {
+  listNext(nextLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServicePrincipalListResult>, callback?: msRest.ServiceCallback<Models.ServicePrincipalListResult>): Promise<Models.ServicePrincipalsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextLink,
@@ -363,7 +363,7 @@ export class ServicePrincipals {
    * @param callback The callback
    */
   listOwnersNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>): void;
-  listOwnersNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>): Promise<Models.ServicePrincipalsListOwnersNextResponse> {
+  listOwnersNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DirectoryObjectListResult>, callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>): Promise<Models.ServicePrincipalsListOwnersNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/armTemplatesMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class ArmTemplates {
    * @param callback The callback
    */
   list(resourceGroupName: string, labName: string, artifactSourceName: string, options: Models.ArmTemplatesListOptionalParams, callback: msRest.ServiceCallback<Models.ArmTemplateList>): void;
-  list(resourceGroupName: string, labName: string, artifactSourceName: string, options?: Models.ArmTemplatesListOptionalParams, callback?: msRest.ServiceCallback<Models.ArmTemplateList>): Promise<Models.ArmTemplatesListResponse> {
+  list(resourceGroupName: string, labName: string, artifactSourceName: string, options?: Models.ArmTemplatesListOptionalParams | msRest.ServiceCallback<Models.ArmTemplateList>, callback?: msRest.ServiceCallback<Models.ArmTemplateList>): Promise<Models.ArmTemplatesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -89,7 +89,7 @@ export class ArmTemplates {
    * @param callback The callback
    */
   get(resourceGroupName: string, labName: string, artifactSourceName: string, name: string, options: Models.ArmTemplatesGetOptionalParams, callback: msRest.ServiceCallback<Models.ArmTemplate>): void;
-  get(resourceGroupName: string, labName: string, artifactSourceName: string, name: string, options?: Models.ArmTemplatesGetOptionalParams, callback?: msRest.ServiceCallback<Models.ArmTemplate>): Promise<Models.ArmTemplatesGetResponse> {
+  get(resourceGroupName: string, labName: string, artifactSourceName: string, name: string, options?: Models.ArmTemplatesGetOptionalParams | msRest.ServiceCallback<Models.ArmTemplate>, callback?: msRest.ServiceCallback<Models.ArmTemplate>): Promise<Models.ArmTemplatesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -120,7 +120,7 @@ export class ArmTemplates {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ArmTemplateList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ArmTemplateList>): Promise<Models.ArmTemplatesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArmTemplateList>, callback?: msRest.ServiceCallback<Models.ArmTemplateList>): Promise<Models.ArmTemplatesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
