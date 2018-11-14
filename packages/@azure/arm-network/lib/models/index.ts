@@ -2379,8 +2379,10 @@ export interface ApplicationGatewayRewriteRuleSet extends SubResource {
   /**
    * @member {string} [etag] A unique read-only string that changes whenever
    * the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /**

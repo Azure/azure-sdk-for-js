@@ -3099,6 +3099,7 @@ export const ApplicationGatewayRewriteRuleSet: msRest.CompositeMapper = {
         }
       },
       etag: {
+        readOnly: true,
         serializedName: "etag",
         type: {
           name: "String"
