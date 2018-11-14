@@ -2154,6 +2154,11 @@ export interface ApplicationGatewayPathRule extends SubResource {
    */
   redirectConfiguration?: SubResource;
   /**
+   * @member {SubResource} [rewriteRuleSet] Rewrite rule set resource of URL
+   * path map path rule.
+   */
+  rewriteRuleSet?: SubResource;
+  /**
    * @member {string} [provisioningState] Path rule of URL path map resource.
    * Possible values are: 'Updating', 'Deleting', and 'Failed'.
    */
@@ -2306,6 +2311,11 @@ export interface ApplicationGatewayRequestRoutingRule extends SubResource {
    */
   urlPathMap?: SubResource;
   /**
+   * @member {SubResource} [rewriteRuleSet] Rewrite Rule Set resource in Basic
+   * rule of the application gateway.
+   */
+  rewriteRuleSet?: SubResource;
+  /**
    * @member {SubResource} [redirectConfiguration] Redirect configuration
    * resource of the application gateway.
    */
@@ -2330,6 +2340,96 @@ export interface ApplicationGatewayRequestRoutingRule extends SubResource {
    * @member {string} [type] Type of the resource.
    */
   type?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationGatewayHeaderConfiguration.
+ * Header configuration of the Actions set in Application Gateway.
+ *
+ */
+export interface ApplicationGatewayHeaderConfiguration {
+  /**
+   * @member {string} [headerName] Header name of the header configuration
+   */
+  headerName?: string;
+  /**
+   * @member {string} [headerValue] Header value of the header configuration
+   */
+  headerValue?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationGatewayRewriteRuleActionSet.
+ * Set of actions in the Rewrite Rule in Application Gateway.
+ *
+ */
+export interface ApplicationGatewayRewriteRuleActionSet {
+  /**
+   * @member {ApplicationGatewayHeaderConfiguration}
+   * [requestHeaderConfigurations] Request Header Actions in the Action Set
+   */
+  requestHeaderConfigurations?: ApplicationGatewayHeaderConfiguration;
+  /**
+   * @member {ApplicationGatewayHeaderConfiguration}
+   * [responseHeaderConfigurations] Response Header Actions in the Action Set
+   */
+  responseHeaderConfigurations?: ApplicationGatewayHeaderConfiguration;
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationGatewayRewriteRule.
+ * Rewrite rule of an application gateway.
+ *
+ */
+export interface ApplicationGatewayRewriteRule {
+  /**
+   * @member {string} [name] Name of the rewrite rule that is unique within an
+   * Application Gateway.
+   */
+  name?: string;
+  /**
+   * @member {ApplicationGatewayRewriteRuleActionSet} [actionSet] Set of
+   * actions to be done as part of the rewrite Rule.
+   */
+  actionSet?: ApplicationGatewayRewriteRuleActionSet;
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationGatewayRewriteRuleSet.
+ * Rewrite rule set of an application gateway.
+ *
+ * @extends SubResource
+ */
+export interface ApplicationGatewayRewriteRuleSet extends SubResource {
+  /**
+   * @member {ApplicationGatewayRewriteRule[]} [rewriteRules] Rewrite rules in
+   * the rewrite rule set.
+   */
+  rewriteRules?: ApplicationGatewayRewriteRule[];
+  /**
+   * @member {string} [provisioningState] Provisioning state of the rewrite
+   * rule set resource. Possible values are: 'Updating', 'Deleting', and
+   * 'Failed'.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {string} [name] Name of the rewrite rule set that is unique within
+   * an Application Gateway.
+   */
+  name?: string;
+  /**
+   * @member {string} [etag] A unique read-only string that changes whenever
+   * the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly etag?: string;
 }
 
 /**
@@ -2414,6 +2514,11 @@ export interface ApplicationGatewayUrlPathMap extends SubResource {
    * settings resource of URL path map.
    */
   defaultBackendHttpSettings?: SubResource;
+  /**
+   * @member {SubResource} [defaultRewriteRuleSet] Default Rewrite rule set
+   * resource of URL path map.
+   */
+  defaultRewriteRuleSet?: SubResource;
   /**
    * @member {SubResource} [defaultRedirectConfiguration] Default redirect
    * configuration resource of URL path map.
@@ -2651,6 +2756,11 @@ export interface ApplicationGateway extends Resource {
    * Request routing rules of the application gateway resource.
    */
   requestRoutingRules?: ApplicationGatewayRequestRoutingRule[];
+  /**
+   * @member {ApplicationGatewayRewriteRuleSet[]} [rewriteRuleSets] Rewrite
+   * rules for the application gateway resource.
+   */
+  rewriteRuleSets?: ApplicationGatewayRewriteRuleSet[];
   /**
    * @member {ApplicationGatewayRedirectConfiguration[]}
    * [redirectConfigurations] Redirect configurations of the application
@@ -5432,11 +5542,11 @@ export interface ContainerNetworkInterfaceConfiguration extends SubResource {
    */
   ipConfigurations?: IPConfigurationProfile[];
   /**
-   * @member {ContainerNetworkInterface[]} [containerNetworkInterfaces] A list
-   * of container network interfaces created from this container network
-   * interface configuration.
+   * @member {SubResource[]} [containerNetworkInterfaces] A list of container
+   * network interfaces created from this container network interface
+   * configuration.
    */
-  containerNetworkInterfaces?: ContainerNetworkInterface[];
+  containerNetworkInterfaces?: SubResource[];
   /**
    * @member {string} [provisioningState] The provisioning state of the
    * resource.
