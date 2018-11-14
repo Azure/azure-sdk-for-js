@@ -1,115 +1,105 @@
-import { HttpResponse, TransferProgressEvent } from "ms-rest-js";
+import { TransferProgressEvent } from "ms-rest-js";
 
-import * as Models from "./generated/models";
-import { IBlobAccessConditions } from "./models";
+import { IFileHTTPHeaders, IMetadata } from "./models";
 
 /**
- * Option interface for uploadFileToBlockBlob and uploadSeekableStreamToBlockBlob.
+ * Option interface for uploadFileToAzureFile and uploadSeekableStreamToAzureFile.
  *
  * @export
- * @interface IUploadToBlockBlobOptions
+ * @interface IUploadToAzureFileOptions
  */
-export interface IUploadToBlockBlobOptions {
+export interface IUploadToAzureFileOptions {
   /**
-   * Destination block blob size.
+   * RangeSize specifies the range size to use in each parallel upload,
+   * the default (and maximum size) is FILE_RANGE_MAX_SIZE_BYTES.
    *
    * @type {number}
-   * @memberof IUploadToBlockBlobOptions
+   * @memberof IUploadToAzureFileOptions
    */
-  blockSize?: number;
+  rangeSize?: number;
 
   /**
    * Progress updater.
    *
-   * @memberof IUploadToBlockBlobOptions
+   * @memberof IUploadToAzureFileOptions
    */
   progress?: (progress: TransferProgressEvent) => void;
 
   /**
-   * Blob HTTP Headers.
+   * File HTTP Headers.
    *
-   * @type {IBlobHTTPHeaders}
-   * @memberof IUploadToBlockBlobOptions
+   * @type {IFileHTTPHeaders}
+   * @memberof IUploadToAzureFileOptions
    */
-  blobHTTPHeaders?: Models.BlobHTTPHeaders;
+  fileHTTPHeaders?: IFileHTTPHeaders;
 
   /**
-   * Metadata of block blob.
+   * Metadata of an Azure file.
    *
-   * @type {{ [propertyName: string]: string }}
-   * @memberof IUploadToBlockBlobOptions
+   * @type {IMetadata}
+   * @memberof IUploadToAzureFileOptions
    */
-  metadata?: { [propertyName: string]: string };
+  metadata?: IMetadata;
 
   /**
-   * Access conditions headers.
-   *
-   * @type {IBlobAccessConditions}
-   * @memberof IUploadToBlockBlobOptions
-   */
-  blobAccessConditions?: IBlobAccessConditions;
-
-  /**
-   * Concurrency of parallel uploading. Must be >= 0.
+   * Parallelism indicates the maximum number of ranges to upload in parallel.
+   * If not provided, 5 parallelism will be used by default.
    *
    * @type {number}
-   * @memberof IUploadToBlockBlobOptions
+   * @memberof IUploadToAzureFileOptions
    */
   parallelism?: number;
 }
 
 /**
- * Type for uploadFileToBlockBlob, uploadStreamToBlockBlob and uploadBrowserDateToBlockBlob.
+ * Option interface for DownloadAzurefileToBuffer.
  *
  * @export
+ * @interface IDownloadFromAzureFileOptions
  */
-export type BlobUploadCommonResponse = Models.BlockBlobUploadHeaders & {
+export interface IDownloadFromAzureFileOptions {
   /**
-   * The underlying HTTP response.
-   *
-   * @type {HttpResponse}
-   * @memberof IBlobUploadCommonResponse
-   */
-  _response: HttpResponse;
-};
-
-/**
- * Option interface for DownloadBlockBlobToBuffer.
- *
- * @export
- * @interface IDownloadFromBlobOptions
- */
-export interface IDownloadFromBlobOptions {
-  /**
-   * blockSize is the data every request trying to download.
-   * Must be >= 0, if set to 0 or undefined, blockSize will automatically calculated according
-   * to the blob size.
+   * When downloading Azure files, download method will try to split large file into small ranges.
+   * Every small range will be downloaded via a separte request.
+   * This option defines size data every small request trying to download.
+   * Must be > 0, will use the default value if undefined,
    *
    * @type {number}
-   * @memberof IDownloadFromBlobOptions
+   * @memberof IDownloadFromAzureFileOptions
    */
-  blockSize?: number;
+  rangeSize?: number;
+
+  /**
+   * Optional. ONLY AVAILABLE IN NODE.JS.
+   *
+   * How many retries will perform when original range download stream unexpected ends.
+   * Above kind of ends will not trigger retry policy defined in a pipeline,
+   * because they doesn't emit network errors.
+   *
+   * With this option, every additional retry means an additional FileURL.download() request will be made
+   * from the broken point, until the requested range has been successfully downloaded or
+   * maxRetryRequestsPerRange is reached.
+   *
+   * Default value is 5, please set a larger value when in poor network.
+   *
+   * @type {number}
+   * @memberof IDownloadFromAzureFileOptions
+   */
+  maxRetryRequestsPerRange?: number;
 
   /**
    * Progress updater.
    *
-   * @memberof IDownloadFromBlobOptions
+   * @memberof IDownloadFromAzureFileOptions
    */
   progress?: (progress: TransferProgressEvent) => void;
 
   /**
-   * Access conditions headers.
-   *
-   * @type {IBlobAccessConditions}
-   * @memberof IDownloadFromBlobOptions
-   */
-  blobAccessConditions?: IBlobAccessConditions;
-
-  /**
-   * Concurrency of parallel download.
+   * Parallelism indicates the maximum number of ranges to download in parallel.
+   * If not provided, 5 parallelism will be used by default.
    *
    * @type {number}
-   * @memberof IDownloadFromBlobOptions
+   * @memberof IDownloadFromAzureFileOptions
    */
   parallelism?: number;
 }

@@ -18,13 +18,13 @@ export interface IDirectoryCreateOptions {
   metadata?: IMetadata;
 }
 
-export interface IDirectoryListBlobsSegmentOptions {
+export interface IDirectoryListFilesAndDirectoriesSegmentOptions {
   /**
    * Filters the results to return only entries whose
    * name begins with the specified prefix.
    *
    * @type {string}
-   * @memberof IDirectoryListBlobsSegmentOptions
+   * @memberof IDirectoryListFilesAndDirectoriesSegmentOptions
    */
   prefix?: string;
 
@@ -34,7 +34,7 @@ export interface IDirectoryListBlobsSegmentOptions {
    * greater than 5,000, the server will return up to 5,000 items.
    *
    * @type {number}
-   * @memberof IDirectoryListBlobsSegmentOptions
+   * @memberof IDirectoryListFilesAndDirectoriesSegmentOptions
    */
   maxresults?: number;
 }
@@ -201,14 +201,14 @@ export class DirectoryURL extends StorageURL {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} [marker]
-   * @param {IDirectoryListBlobsSegmentOptions} [options]
+   * @param {IDirectoryListFilesAndDirectoriesSegmentOptions} [options]
    * @returns {Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse>}
    * @memberof DirectoryURL
    */
   public async listFilesAndDirectoriesSegment(
     aborter: Aborter,
     marker?: string,
-    options: IDirectoryListBlobsSegmentOptions = {}
+    options: IDirectoryListFilesAndDirectoriesSegmentOptions = {}
   ): Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse> {
     return this.context.listFilesAndDirectoriesSegment({
       abortSignal: aborter,

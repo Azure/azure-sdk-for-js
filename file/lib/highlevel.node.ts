@@ -1,53 +1,37 @@
 import * as fs from "fs";
-import { generateUuid, TransferProgressEvent } from "ms-rest-js";
+import { TransferProgressEvent } from "ms-rest-js";
 import { Readable } from "stream";
 
 import { Aborter } from "./Aborter";
-import { BlobURL } from "./BlobURL";
-import { BlockBlobURL } from "./BlockBlobURL";
-import { BlobHTTPHeaders } from "./generated/models";
-import {
-  BlobUploadCommonResponse,
-  IDownloadFromBlobOptions,
-  IUploadToBlockBlobOptions
-} from "./highlevel.common";
-import { IBlobAccessConditions } from "./models";
+import { FileURL } from "./FileURL";
+import { IDownloadFromAzureFileOptions, IUploadToAzureFileOptions } from "./highlevel.common";
+import { IFileHTTPHeaders, IMetadata } from "./models";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
-import {
-  BLOB_DEFAULT_DOWNLOAD_BLOCK_BYTES,
-  BLOCK_BLOB_MAX_BLOCKS,
-  BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
-  BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES
-} from "./utils/constants";
-import { generateBlockID } from "./utils/utils.common";
+import { FILE_RANGE_MAX_SIZE_BYTES, HIGH_LEVEL_DEFAULT_PARALLELISM } from "./utils/constants";
 import { streamToBuffer } from "./utils/utils.node";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
- * Uploads a local file in blocks to a block blob.
- *
- * When file size <= 256MB, this method will use 1 upload call to finish the upload.
- * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
- * to commit the block list.
+ * Uploads a local file to an Azure file.
  *
  * @export
  * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
  *                          goto documents of Aborter for more examples about request cancellation
  * @param {string} filePath Full path of local file
- * @param {BlockBlobURL} blockBlobURL BlockBlobURL
- * @param {IUploadToBlockBlobOptions} [options] IUploadToBlockBlobOptions
- * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
+ * @param {FileURL} fileURL FileURL
+ * @param {IUploadToAzureFileOptions} [options]
+ * @returns {(Promise<void>)}
  */
-export async function uploadFileToBlockBlob(
+export async function uploadFileToAzureFile(
   aborter: Aborter,
   filePath: string,
-  blockBlobURL: BlockBlobURL,
-  options?: IUploadToBlockBlobOptions
-): Promise<BlobUploadCommonResponse> {
+  fileURL: FileURL,
+  options?: IUploadToAzureFileOptions
+): Promise<void> {
   const size = fs.statSync(filePath).size;
-  return uploadResetableStreamToBlockBlob(
+  return uploadResetableStreamToAzureFile(
     aborter,
     (offset, count) =>
       fs.createReadStream(filePath, {
@@ -56,7 +40,7 @@ export async function uploadFileToBlockBlob(
         start: offset
       }),
     size,
-    blockBlobURL,
+    fileURL,
     options
   );
 }
@@ -64,94 +48,62 @@ export async function uploadFileToBlockBlob(
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
- * Accepts a Node.js Readable stream factory, and uploads in blocks to a block blob.
+ * Accepts a Node.js Readable stream factory, and uploads in blocks to an Azure File.
  * The Readable stream factory must returns a Node.js Readable stream starting from the offset defined. The offset
- * is the offset in the block blob to be uploaded.
- *
- * When buffer length <= 256MB, this method will use 1 upload call to finish the upload.
- * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
- * to commit the block list.
+ * is the offset in the Azure file to be uploaded.
  *
  * @export
  * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
  *                          goto documents of Aborter for more examples about request cancellation
  * @param {(offset: number) => NodeJS.ReadableStream} streamFactory Returns a Node.js Readable stream starting
  *                                                                  from the offset defined
- * @param {number} size Size of the block blob
- * @param {BlockBlobURL} blockBlobURL BlockBlobURL
- * @param {IUploadToBlockBlobOptions} [options] IUploadToBlockBlobOptions
- * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
+ * @param {number} size Size of the Azure file
+ * @param {FileURL} fileURL FileURL
+ * @param {IUploadToAzureFileOptions} [options]
+ * @returns {(Promise<void>)}
  */
-async function uploadResetableStreamToBlockBlob(
+async function uploadResetableStreamToAzureFile(
   aborter: Aborter,
   streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream,
   size: number,
-  blockBlobURL: BlockBlobURL,
-  options: IUploadToBlockBlobOptions = {}
-): Promise<BlobUploadCommonResponse> {
-  if (!options.blockSize) {
-    options.blockSize = 0;
+  fileURL: FileURL,
+  options: IUploadToAzureFileOptions = {}
+): Promise<void> {
+  if (!options.rangeSize) {
+    options.rangeSize = FILE_RANGE_MAX_SIZE_BYTES;
   }
-  if (
-    options.blockSize < 0 ||
-    options.blockSize > BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES
-  ) {
+  if (options.rangeSize < 0 || options.rangeSize > FILE_RANGE_MAX_SIZE_BYTES) {
     throw new RangeError(
-      `blockSize option must be >= 0 and <= ${BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES}`
-    );
-  }
-  if (options.blockSize === 0) {
-    if (size > BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES * BLOCK_BLOB_MAX_BLOCKS) {
-      throw new RangeError(`${size} is too larger to upload to a block blob.`);
-    }
-    if (size > BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES) {
-      options.blockSize = Math.ceil(size / BLOCK_BLOB_MAX_BLOCKS);
-      if (options.blockSize < BLOB_DEFAULT_DOWNLOAD_BLOCK_BYTES) {
-        options.blockSize = BLOB_DEFAULT_DOWNLOAD_BLOCK_BYTES;
-      }
-    }
-  }
-  if (!options.blobHTTPHeaders) {
-    options.blobHTTPHeaders = {};
-  }
-  if (!options.blobAccessConditions) {
-    options.blobAccessConditions = {};
-  }
-
-  if (size <= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES) {
-    return blockBlobURL.upload(aborter, () => streamFactory(0), size, options);
-  }
-
-  const numBlocks: number = Math.floor((size - 1) / options.blockSize) + 1;
-  if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
-    throw new RangeError(
-      `The buffer's size is too big or the BlockSize is too small;` +
-        `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+      `options.rangeSize must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES}`
     );
   }
 
-  const blockList: string[] = [];
-  const blockIDPrefix = generateUuid();
+  if (!options.fileHTTPHeaders) {
+    options.fileHTTPHeaders = {};
+  }
+
+  if (!options.parallelism) {
+    options.parallelism = HIGH_LEVEL_DEFAULT_PARALLELISM;
+  }
+  if (options.parallelism < 0) {
+    throw new RangeError(`options.parallelism cannot less than 0.`);
+  }
+
+  const numBlocks: number = Math.floor((size - 1) / options.rangeSize) + 1;
   let transferProgress: number = 0;
-
   const batch = new Batch(options.parallelism);
+
   for (let i = 0; i < numBlocks; i++) {
     batch.addOperation(
       async (): Promise<any> => {
-        const blockID = generateBlockID(blockIDPrefix, i);
-        const start = options.blockSize! * i;
-        const end = i === numBlocks - 1 ? size : start + options.blockSize!;
+        const start = options.rangeSize! * i;
+        const end = i === numBlocks - 1 ? size : start + options.rangeSize!;
         const contentLength = end - start;
-        blockList.push(blockID);
-        await blockBlobURL.stageBlock(
+        await fileURL.uploadRange(
           aborter,
-          blockID,
           () => streamFactory(start, contentLength),
-          contentLength,
-          {
-            leaseAccessConditions: options.blobAccessConditions!
-              .leaseAccessConditions
-          }
+          transferProgress,
+          contentLength
         );
         // Update progress after block is successfully uploaded to server, in case of block trying
         transferProgress += contentLength;
@@ -161,43 +113,38 @@ async function uploadResetableStreamToBlockBlob(
       }
     );
   }
-  await batch.do();
-
-  return blockBlobURL.commitBlockList(aborter, blockList, options);
+  return batch.do();
 }
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
- * Downloads an Azure Blob in parallel to a buffer.
- * Offset and count are optional, pass 0 for both to download the entire blob.
+ * Downloads an Azure file in parallel to a buffer.
+ * Offset and count are optional, pass 0 for both to download the entire file.
  *
  * @export
  * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
  *                          goto documents of Aborter for more examples about request cancellation
  * @param {Buffer} buffer Buffer to be fill, must have length larger than count
- * @param {BlobURL} blobURL A BlobURL object
- * @param {number} offset From which position of the block blob to download
+ * @param {FileURL} fileURL A FileURL object
+ * @param {number} offset From which position of the Azure File to download
  * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
- * @param {IDownloadFromBlobOptions} [options] IDownloadFromBlobOptions
+ * @param {IDownloadFromAzureFileOptions} [options]
  * @returns {Promise<void>}
  */
-export async function downloadBlobToBuffer(
+export async function downloadAzureFileToBuffer(
   aborter: Aborter,
   buffer: Buffer,
-  blobURL: BlobURL,
+  fileURL: FileURL,
   offset: number,
   count?: number,
-  options: IDownloadFromBlobOptions = {}
+  options: IDownloadFromAzureFileOptions = {}
 ): Promise<void> {
-  if (!options.blockSize) {
-    options.blockSize = 0;
+  if (!options.rangeSize) {
+    options.rangeSize = FILE_RANGE_MAX_SIZE_BYTES;
   }
-  if (options.blockSize < 0) {
-    throw new RangeError("blockSize option must be >= 0");
-  }
-  if (options.blockSize === 0) {
-    options.blockSize = BLOB_DEFAULT_DOWNLOAD_BLOCK_BYTES;
+  if (options.rangeSize < 0) {
+    throw new RangeError("rangeSize option must be > 0");
   }
 
   if (offset < 0) {
@@ -208,17 +155,20 @@ export async function downloadBlobToBuffer(
     throw new RangeError("count option must be > 0");
   }
 
-  if (!options.blobAccessConditions) {
-    options.blobAccessConditions = {};
+  if (!options.parallelism) {
+    options.parallelism = HIGH_LEVEL_DEFAULT_PARALLELISM;
+  }
+  if (options.parallelism < 0) {
+    throw new RangeError(`options.parallelism cannot less than 0.`);
   }
 
   // Customer doesn't specify length, get it
   if (!count) {
-    const response = await blobURL.getProperties(aborter, options);
+    const response = await fileURL.getProperties(aborter);
     count = response.contentLength! - offset;
     if (count < 0) {
       throw new RangeError(
-        `offset ${offset} shouldn't be larger than blob size ${response.contentLength!}`
+        `offset ${offset} shouldn't be larger than file size ${response.contentLength!}`
       );
     }
   }
@@ -231,16 +181,16 @@ export async function downloadBlobToBuffer(
 
   let transferProgress: number = 0;
   const batch = new Batch(options.parallelism);
-  for (let off = offset; off < offset + count; off = off + options.blockSize) {
+  for (let off = offset; off < offset + count; off = off + options.rangeSize) {
     batch.addOperation(async () => {
       const chunkEnd =
-        off + options.blockSize! < count! ? off + options.blockSize! : count!;
-      const response = await blobURL.download(
+        off + options.rangeSize! < count! ? off + options.rangeSize! : count!;
+      const response = await fileURL.download(
         aborter,
         off,
         chunkEnd - off + 1,
         {
-          blobAccessConditions: options.blobAccessConditions
+          maxRetryRequests: options.maxRetryRequestsPerRange
         }
       );
       const stream = response.readableStreamBody!;
@@ -258,40 +208,32 @@ export async function downloadBlobToBuffer(
 }
 
 /**
- * Option interface for uploadStreamToBlockBlob.
+ * Option interface for uploadStreamToAzureFile.
  *
  * @export
- * @interface IUploadStreamToBlockBlobOptions
+ * @interface IUploadStreamToAzureFileOptions
  */
-export interface IUploadStreamToBlockBlobOptions {
+export interface IUploadStreamToAzureFileOptions {
   /**
-   * Blob HTTP Headers.
+   * Azure File HTTP Headers.
    *
-   * @type {BlobHTTPHeaders}
-   * @memberof IUploadStreamToBlockBlobOptions
+   * @type {IFileHTTPHeaders}
+   * @memberof IUploadStreamToAzureFileOptions
    */
-  blobHTTPHeaders?: BlobHTTPHeaders;
+  fileHTTPHeaders?: IFileHTTPHeaders;
 
   /**
-   * Metadata of block blob.
+   * Metadata of the Azure file.
    *
-   * @type {{ [propertyName: string]: string }}
-   * @memberof IUploadStreamToBlockBlobOptions
+   * @type {IMetadata}
+   * @memberof IUploadStreamToAzureFileOptions
    */
-  metadata?: { [propertyName: string]: string };
-
-  /**
-   * Access conditions headers.
-   *
-   * @type {IBlobAccessConditions}
-   * @memberof IUploadStreamToBlockBlobOptions
-   */
-  accessConditions?: IBlobAccessConditions;
+  metadata?: IMetadata;
 
   /**
    * Progress updater.
    *
-   * @memberof IUploadStreamToBlockBlobOptions
+   * @memberof IUploadStreamToAzureFileOptions
    */
   progress?: (progress: TransferProgressEvent) => void;
 }
@@ -299,55 +241,77 @@ export interface IUploadStreamToBlockBlobOptions {
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
- * Uploads a Node.js Readable stream into block blob.
+ * Uploads a Node.js Readable stream into an Azure file.
+ * This method will try to create an Azure, then starts uploading chunk by chunk.
+ * Size of chunk is defined by `bufferSize` parameter.
+ * Please make sure potential size of stream doesn't exceed file size.
  *
  * PERFORMANCE IMPROVEMENT TIPS:
  * * Input stream highWaterMark is better to set a same value with bufferSize
- *    parameter, which will avoid Buffer.concat() operations.
+ *   parameter, which will avoid Buffer.concat() operations.
  *
  * @export
  * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
  *                          goto documents of Aborter for more examples about request cancellation
- * @param {Readable} stream Node.js Readable stream
- * @param {BlockBlobURL} blockBlobURL A BlockBlobURL instance
- * @param {number} bufferSize Size of every buffer allocated, also the block size in the uploaded block blob
+ * @param {Readable} stream Node.js Readable stream. Must be less or equal than file size.
+ * @param {number} size Size of file to be created. Maxium size allowed is 1TB.
+ *                      If this value is larger than stream size, there will be empty bytes in file tail.
+ * @param {FileURL} fileURL A FileURL instance
+ * @param {number} bufferSize Size of every buffer allocated in bytes, also the chunk/range size during
+ *                            the uploaded file. Size must be > 0 and <= 4 * 1024 * 1024 (4MB)
  * @param {number} maxBuffers Max buffers will allocate during uploading, positive correlation
  *                            with max uploading concurrency
- * @param {IUploadStreamToBlockBlobOptions} [options]
- * @returns {Promise<BlobUploadCommonResponse>}
+ * @param {IUploadStreamToAzureFileOptions} [options]
+ * @returns {Promise<void>}
  */
-export async function uploadStreamToBlockBlob(
+export async function uploadStreamToAzureFile(
   aborter: Aborter,
   stream: Readable,
-  blockBlobURL: BlockBlobURL,
+  size: number,
+  fileURL: FileURL,
   bufferSize: number,
   maxBuffers: number,
-  options: IUploadStreamToBlockBlobOptions = {}
-): Promise<BlobUploadCommonResponse> {
-  if (!options.blobHTTPHeaders) {
-    options.blobHTTPHeaders = {};
-  }
-  if (!options.accessConditions) {
-    options.accessConditions = {};
+  options: IUploadStreamToAzureFileOptions = {}
+): Promise<void> {
+  if (!options.fileHTTPHeaders) {
+    options.fileHTTPHeaders = {};
   }
 
-  let blockNum = 0;
-  const blockIDPrefix = generateUuid();
+  if (bufferSize <= 0 || bufferSize > FILE_RANGE_MAX_SIZE_BYTES) {
+    throw new RangeError(
+      `bufferSize must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES}`
+    );
+  }
+
+  if (maxBuffers < 0) {
+    throw new RangeError(`maxBuffers must be > 0.`);
+  }
+
+  // Create the file
+  await fileURL.create(aborter, size, {
+    fileHTTPHeaders: options.fileHTTPHeaders,
+    metadata: options.metadata
+  });
+
   let transferProgress: number = 0;
-  const blockList: string[] = [];
-
   const scheduler = new BufferScheduler(
     stream,
     bufferSize,
     maxBuffers,
     async (buffer: Buffer) => {
-      const blockID = generateBlockID(blockIDPrefix, blockNum);
-      blockList.push(blockID);
-      blockNum++;
+      if (transferProgress + buffer.length > size) {
+        throw new RangeError(
+          `Stream size is larger than file size ${size} bytes, uploading failed. ` +
+            `Please make sure stream length is less or equal than file size.`
+        );
+      }
 
-      await blockBlobURL.stageBlock(aborter, blockID, buffer, buffer.length, {
-        leaseAccessConditions: options.accessConditions!.leaseAccessConditions
-      });
+      await fileURL.uploadRange(
+        aborter,
+        buffer,
+        transferProgress,
+        buffer.length
+      );
 
       // Update progress after block is successfully uploaded to server, in case of block trying
       transferProgress += buffer.length;
@@ -361,7 +325,5 @@ export async function uploadStreamToBlockBlob(
     // Outgoing queue shouldn't be empty.
     Math.ceil((maxBuffers / 4) * 3)
   );
-  await scheduler.do();
-
-  return blockBlobURL.commitBlockList(aborter, blockList, options);
+  return scheduler.do();
 }

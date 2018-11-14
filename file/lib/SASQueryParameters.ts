@@ -66,7 +66,7 @@ export class SASQueryParameters {
 
   /**
    * Optional only when identifier is provided.
-   * Please refer to {@link AccountSASPermission}, {@link BlobSASPermission}, or {@link ContainerSASPermission} for
+   * Please refer to {@link AccountSASPermission}, {@link FileSASPermission}, or {@link ShareSASPermission} for
    * more details.
    *
    * @type {string}
@@ -103,7 +103,7 @@ export class SASQueryParameters {
   public readonly identifier?: string;
 
   /**
-   * Optional. The storage container or blob (only for {@link ServiceSASSignatureValues}).
+   * Optional. The storage share or file path (only for {@link ServiceSASSignatureValues}).
    *
    * @type {string}
    * @memberof SASQueryParameters
