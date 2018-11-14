@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/billingPeriodsMappers";
 import * as Parameters from "../models/parameters";
@@ -43,7 +43,7 @@ export class BillingPeriods {
    * @param callback The callback
    */
   list(options: Models.BillingPeriodsListOptionalParams, callback: msRest.ServiceCallback<Models.BillingPeriodsListResult>): void;
-  list(options?: Models.BillingPeriodsListOptionalParams, callback?: msRest.ServiceCallback<Models.BillingPeriodsListResult>): Promise<Models.BillingPeriodsListResponse> {
+  list(options?: Models.BillingPeriodsListOptionalParams | msRest.ServiceCallback<Models.BillingPeriodsListResult>, callback?: msRest.ServiceCallback<Models.BillingPeriodsListResult>): Promise<Models.BillingPeriodsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -72,7 +72,7 @@ export class BillingPeriods {
    * @param callback The callback
    */
   get(billingPeriodName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BillingPeriod>): void;
-  get(billingPeriodName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BillingPeriod>): Promise<Models.BillingPeriodsGetResponse> {
+  get(billingPeriodName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BillingPeriod>, callback?: msRest.ServiceCallback<Models.BillingPeriod>): Promise<Models.BillingPeriodsGetResponse> {
     return this.client.sendOperationRequest(
       {
         billingPeriodName,
@@ -102,7 +102,7 @@ export class BillingPeriods {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BillingPeriodsListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BillingPeriodsListResult>): Promise<Models.BillingPeriodsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BillingPeriodsListResult>, callback?: msRest.ServiceCallback<Models.BillingPeriodsListResult>): Promise<Models.BillingPeriodsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

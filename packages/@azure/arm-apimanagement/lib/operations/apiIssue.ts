@@ -187,50 +187,6 @@ export class ApiIssue {
   }
 
   /**
-   * Updates an existing issue for an API.
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API identifier. Must be unique in the current API Management service instance.
-   * @param issueId Issue identifier. Must be unique in the current API Management service instance.
-   * @param parameters Update parameters.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  update(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueUpdateContract, options?: Models.ApiIssueUpdateOptionalParams): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API identifier. Must be unique in the current API Management service instance.
-   * @param issueId Issue identifier. Must be unique in the current API Management service instance.
-   * @param parameters Update parameters.
-   * @param callback The callback
-   */
-  update(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueUpdateContract, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API identifier. Must be unique in the current API Management service instance.
-   * @param issueId Issue identifier. Must be unique in the current API Management service instance.
-   * @param parameters Update parameters.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  update(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueUpdateContract, options: Models.ApiIssueUpdateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueUpdateContract, options?: Models.ApiIssueUpdateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        apiId,
-        issueId,
-        parameters,
-        options
-      },
-      updateOperationSpec,
-      callback);
-  }
-
-  /**
    * Deletes the specified Issue from an API.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -423,39 +379,6 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.IssueContract
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const updateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.apiId1,
-    Parameters.issueId,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.IssueUpdateContract,
-      required: true
-    }
-  },
-  responses: {
-    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

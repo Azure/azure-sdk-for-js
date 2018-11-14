@@ -27,38 +27,6 @@ export class User {
   }
 
   /**
-   * Returns calling user identity information.
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.UserGetIdentityResponse>
-   */
-  getIdentity(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.UserGetIdentityResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param callback The callback
-   */
-  getIdentity(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.CurrentUserIdentity>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getIdentity(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CurrentUserIdentity>): void;
-  getIdentity(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CurrentUserIdentity>, callback?: msRest.ServiceCallback<Models.CurrentUserIdentity>): Promise<Models.UserGetIdentityResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        options
-      },
-      getIdentityOperationSpec,
-      callback) as Promise<Models.UserGetIdentityResponse>;
-  }
-
-  /**
    * Lists a collection of registered users in the specified service instance.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -400,31 +368,6 @@ export class User {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const getIdentityOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identity",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.CurrentUserIdentity
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
 const listByServiceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users",

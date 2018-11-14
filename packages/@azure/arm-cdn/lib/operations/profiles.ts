@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/profilesMappers";
 import * as Parameters from "../models/parameters";
@@ -42,7 +42,7 @@ export class Profiles {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProfileListResult>, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -69,7 +69,7 @@ export class Profiles {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProfileListResult>, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -101,7 +101,7 @@ export class Profiles {
    * @param callback The callback
    */
   get(resourceGroupName: string, profileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Profile>): void;
-  get(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Profile>): Promise<Models.ProfilesGetResponse> {
+  get(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Profile>, callback?: msRest.ServiceCallback<Models.Profile>): Promise<Models.ProfilesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -177,7 +177,7 @@ export class Profiles {
    * @param callback The callback
    */
   generateSsoUri(resourceGroupName: string, profileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SsoUri>): void;
-  generateSsoUri(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SsoUri>): Promise<Models.ProfilesGenerateSsoUriResponse> {
+  generateSsoUri(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SsoUri>, callback?: msRest.ServiceCallback<Models.SsoUri>): Promise<Models.ProfilesGenerateSsoUriResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -210,7 +210,7 @@ export class Profiles {
    * @param callback The callback
    */
   listSupportedOptimizationTypes(resourceGroupName: string, profileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SupportedOptimizationTypesListResult>): void;
-  listSupportedOptimizationTypes(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SupportedOptimizationTypesListResult>): Promise<Models.ProfilesListSupportedOptimizationTypesResponse> {
+  listSupportedOptimizationTypes(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SupportedOptimizationTypesListResult>, callback?: msRest.ServiceCallback<Models.SupportedOptimizationTypesListResult>): Promise<Models.ProfilesListSupportedOptimizationTypesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -242,7 +242,7 @@ export class Profiles {
    * @param callback The callback
    */
   listResourceUsage(resourceGroupName: string, profileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceUsageListResult>): void;
-  listResourceUsage(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceUsageListResult>): Promise<Models.ProfilesListResourceUsageResponse> {
+  listResourceUsage(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceUsageListResult>, callback?: msRest.ServiceCallback<Models.ResourceUsageListResult>): Promise<Models.ProfilesListResourceUsageResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -330,7 +330,7 @@ export class Profiles {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProfileListResult>, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -358,7 +358,7 @@ export class Profiles {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProfileListResult>, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -386,7 +386,7 @@ export class Profiles {
    * @param callback The callback
    */
   listResourceUsageNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceUsageListResult>): void;
-  listResourceUsageNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceUsageListResult>): Promise<Models.ProfilesListResourceUsageNextResponse> {
+  listResourceUsageNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceUsageListResult>, callback?: msRest.ServiceCallback<Models.ResourceUsageListResult>): Promise<Models.ProfilesListResourceUsageNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

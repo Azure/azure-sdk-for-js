@@ -37,8 +37,6 @@ export {
   CaptureDescription,
   Destination,
   ArmDisasterRecovery,
-  MigrationConfigProperties,
-  IpFilterRule,
-  VirtualNetworkRule
+  MigrationConfigProperties
 } from "../models/mappers";
 

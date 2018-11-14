@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/authorizationPoliciesMappers";
 import * as Parameters from "../models/parameters";
@@ -53,7 +53,7 @@ export class AuthorizationPolicies {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, hubName: string, authorizationPolicyName: string, parameters: Models.AuthorizationPolicyResourceFormat, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationPolicyResourceFormat>): void;
-  createOrUpdate(resourceGroupName: string, hubName: string, authorizationPolicyName: string, parameters: Models.AuthorizationPolicyResourceFormat, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AuthorizationPolicyResourceFormat>): Promise<Models.AuthorizationPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, hubName: string, authorizationPolicyName: string, parameters: Models.AuthorizationPolicyResourceFormat, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationPolicyResourceFormat>, callback?: msRest.ServiceCallback<Models.AuthorizationPolicyResourceFormat>): Promise<Models.AuthorizationPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -90,7 +90,7 @@ export class AuthorizationPolicies {
    * @param callback The callback
    */
   get(resourceGroupName: string, hubName: string, authorizationPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationPolicyResourceFormat>): void;
-  get(resourceGroupName: string, hubName: string, authorizationPolicyName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AuthorizationPolicyResourceFormat>): Promise<Models.AuthorizationPoliciesGetResponse> {
+  get(resourceGroupName: string, hubName: string, authorizationPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationPolicyResourceFormat>, callback?: msRest.ServiceCallback<Models.AuthorizationPolicyResourceFormat>): Promise<Models.AuthorizationPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -123,7 +123,7 @@ export class AuthorizationPolicies {
    * @param callback The callback
    */
   listByHub(resourceGroupName: string, hubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationPolicyListResult>): void;
-  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AuthorizationPolicyListResult>): Promise<Models.AuthorizationPoliciesListByHubResponse> {
+  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationPolicyListResult>, callback?: msRest.ServiceCallback<Models.AuthorizationPolicyListResult>): Promise<Models.AuthorizationPoliciesListByHubResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +158,7 @@ export class AuthorizationPolicies {
    * @param callback The callback
    */
   regeneratePrimaryKey(resourceGroupName: string, hubName: string, authorizationPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationPolicy>): void;
-  regeneratePrimaryKey(resourceGroupName: string, hubName: string, authorizationPolicyName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AuthorizationPolicy>): Promise<Models.AuthorizationPoliciesRegeneratePrimaryKeyResponse> {
+  regeneratePrimaryKey(resourceGroupName: string, hubName: string, authorizationPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationPolicy>, callback?: msRest.ServiceCallback<Models.AuthorizationPolicy>): Promise<Models.AuthorizationPoliciesRegeneratePrimaryKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -194,7 +194,7 @@ export class AuthorizationPolicies {
    * @param callback The callback
    */
   regenerateSecondaryKey(resourceGroupName: string, hubName: string, authorizationPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationPolicy>): void;
-  regenerateSecondaryKey(resourceGroupName: string, hubName: string, authorizationPolicyName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AuthorizationPolicy>): Promise<Models.AuthorizationPoliciesRegenerateSecondaryKeyResponse> {
+  regenerateSecondaryKey(resourceGroupName: string, hubName: string, authorizationPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationPolicy>, callback?: msRest.ServiceCallback<Models.AuthorizationPolicy>): Promise<Models.AuthorizationPoliciesRegenerateSecondaryKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -224,7 +224,7 @@ export class AuthorizationPolicies {
    * @param callback The callback
    */
   listByHubNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationPolicyListResult>): void;
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AuthorizationPolicyListResult>): Promise<Models.AuthorizationPoliciesListByHubNextResponse> {
+  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationPolicyListResult>, callback?: msRest.ServiceCallback<Models.AuthorizationPolicyListResult>): Promise<Models.AuthorizationPoliciesListByHubNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

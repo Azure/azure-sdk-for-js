@@ -1162,20 +1162,6 @@ export interface SchemaContract extends Resource {
  */
 export interface IssueContract extends Resource {
   /**
-   * @member {Date} [createdDate] Date and time when the issue was created.
-   */
-  createdDate?: Date;
-  /**
-   * @member {State} [state] Status of the issue. Possible values include:
-   * 'proposed', 'open', 'removed', 'resolved', 'closed'
-   */
-  state?: State;
-  /**
-   * @member {string} [apiId] A resource identifier for the API the issue was
-   * created for.
-   */
-  apiId?: string;
-  /**
    * @member {string} title The issue title.
    */
   title: string;
@@ -1184,64 +1170,19 @@ export interface IssueContract extends Resource {
    */
   description: string;
   /**
+   * @member {Date} [createdDate] Date and time when the issue was created.
+   */
+  createdDate?: Date;
+  /**
+   * @member {State} [state] Status of the issue. Possible values include:
+   * 'proposed', 'open', 'removed', 'resolved', 'closed'
+   */
+  state?: State;
+  /**
    * @member {string} userId A resource identifier for the user created the
    * issue.
    */
   userId: string;
-}
-
-/**
- * @interface
- * An interface representing IssueUpdateContract.
- * Issue update Parameters.
- *
- */
-export interface IssueUpdateContract {
-  /**
-   * @member {Date} [createdDate] Date and time when the issue was created.
-   */
-  createdDate?: Date;
-  /**
-   * @member {State} [state] Status of the issue. Possible values include:
-   * 'proposed', 'open', 'removed', 'resolved', 'closed'
-   */
-  state?: State;
-  /**
-   * @member {string} [apiId] A resource identifier for the API the issue was
-   * created for.
-   */
-  apiId?: string;
-  /**
-   * @member {string} [title] The issue title.
-   */
-  title?: string;
-  /**
-   * @member {string} [description] Text describing the issue.
-   */
-  description?: string;
-  /**
-   * @member {string} [userId] A resource identifier for the user created the
-   * issue.
-   */
-  userId?: string;
-}
-
-/**
- * @interface
- * An interface representing IssueContractBaseProperties.
- * Issue contract Base Properties.
- *
- */
-export interface IssueContractBaseProperties {
-  /**
-   * @member {Date} [createdDate] Date and time when the issue was created.
-   */
-  createdDate?: Date;
-  /**
-   * @member {State} [state] Status of the issue. Possible values include:
-   * 'proposed', 'open', 'removed', 'resolved', 'closed'
-   */
-  state?: State;
   /**
    * @member {string} [apiId] A resource identifier for the API the issue was
    * created for.
@@ -5113,17 +5054,6 @@ export interface UserUpdateParameters {
 
 /**
  * @interface
- * An interface representing CurrentUserIdentity.
- */
-export interface CurrentUserIdentity {
-  /**
-   * @member {string} [id] API Management service user id.
-   */
-  id?: string;
-}
-
-/**
- * @interface
  * An interface representing ApiVersionSetContract.
  * Api Version Set Contract details.
  *
@@ -5629,22 +5559,6 @@ export interface ApiIssueListByServiceOptionalParams extends msRest.RequestOptio
  * @extends RequestOptionsBase
  */
 export interface ApiIssueCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [ifMatch] ETag of the Issue Entity. ETag should match the
-   * current entity state from the header response of the GET request or it
-   * should be * for unconditional update.
-   */
-  ifMatch?: string;
-}
-
-/**
- * @interface
- * An interface representing ApiIssueUpdateOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface ApiIssueUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [ifMatch] ETag of the Issue Entity. ETag should match the
    * current entity state from the header response of the GET request or it
@@ -13673,25 +13587,6 @@ export type TenantConfigurationBeginValidateResponse = OperationResultContract &
        * The response body as parsed JSON or XML
        */
       parsedBody: OperationResultContract;
-    };
-};
-
-/**
- * Contains response data for the getIdentity operation.
- */
-export type UserGetIdentityResponse = CurrentUserIdentity & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CurrentUserIdentity;
     };
 };
 

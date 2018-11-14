@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/recoveryPointsMappers";
 import * as Parameters from "../models/parameters";
@@ -59,7 +59,7 @@ export class RecoveryPoints {
    * @param callback The callback
    */
   list(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, options: Models.RecoveryPointsListOptionalParams, callback: msRest.ServiceCallback<Models.RecoveryPointResourceList>): void;
-  list(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, options?: Models.RecoveryPointsListOptionalParams, callback?: msRest.ServiceCallback<Models.RecoveryPointResourceList>): Promise<Models.RecoveryPointsListResponse> {
+  list(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, options?: Models.RecoveryPointsListOptionalParams | msRest.ServiceCallback<Models.RecoveryPointResourceList>, callback?: msRest.ServiceCallback<Models.RecoveryPointResourceList>): Promise<Models.RecoveryPointsListResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -111,7 +111,7 @@ export class RecoveryPoints {
    * @param callback The callback
    */
   get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoveryPointResource>): void;
-  get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RecoveryPointResource>): Promise<Models.RecoveryPointsGetResponse> {
+  get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPointResource>, callback?: msRest.ServiceCallback<Models.RecoveryPointResource>): Promise<Models.RecoveryPointsGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -144,7 +144,7 @@ export class RecoveryPoints {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoveryPointResourceList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RecoveryPointResourceList>): Promise<Models.RecoveryPointsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPointResourceList>, callback?: msRest.ServiceCallback<Models.RecoveryPointResourceList>): Promise<Models.RecoveryPointsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
