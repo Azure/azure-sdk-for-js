@@ -1,6 +1,7 @@
 import { HttpRequestBody, isNode, TransferProgressEvent } from "ms-rest-js";
+
 import { Aborter } from "./Aborter";
-import { ContainerURL } from "./ContainerURL";
+import { DirectoryURL } from "./DirectoryURL";
 import { FileDownloadResponse } from "./FileDownloadResponse";
 import * as Models from "./generated/models";
 import { File } from "./generated/operations";
@@ -8,7 +9,7 @@ import { IRange, rangeToString } from "./IRange";
 import { IFileHTTPHeaders, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { StorageURL } from "./StorageURL";
-import { FILE_RANGE_MAX_SIZE_BYTES } from "./utils/constants";
+import { FILE_MAX_SIZE_BYTES, FILE_RANGE_MAX_SIZE_BYTES, MAX_DOWNLOAD_RETRY_REQUESTS } from "./utils/constants";
 import { appendToURLPath } from "./utils/utils.common";
 
 export interface IFileCreateOptions {
@@ -35,9 +36,8 @@ export interface IFileDownloadOptions {
    * Optional. ONLY AVAILABLE IN NODE.JS.
    *
    * How many retries will perform when original body download stream unexpected ends.
-   * Above kind of end will not trigger retry policy defined in a pipeline,
+   * Above kind of ends will not trigger retry policy defined in a pipeline,
    * because they doesn't emit network errors.
-   *
    *
    * With this option, every additional retry means an additional FileURL.download() request will be made
    * from the broken point, until the requested range has been successfully downloaded or maxRetryRequests is reached.
@@ -137,7 +137,7 @@ export class FileURL extends StorageURL {
    * @returns
    * @memberof FileURL
    */
-  public static fromDirectoryURL(directoryURL: ContainerURL, fileName: string) {
+  public static fromDirectoryURL(directoryURL: DirectoryURL, fileName: string) {
     return new FileURL(
       appendToURLPath(directoryURL.url, fileName),
       directoryURL.pipeline
@@ -148,7 +148,7 @@ export class FileURL extends StorageURL {
    * context provided by protocol layer.
    *
    * @private
-   * @type {Blobs}
+   * @type {File}
    * @memberof FileURL
    */
   private context: File;
@@ -197,6 +197,10 @@ export class FileURL extends StorageURL {
     size: number,
     options: IFileCreateOptions = {}
   ): Promise<Models.FileCreateResponse> {
+    if (size < 0 || size > FILE_MAX_SIZE_BYTES) {
+      throw new RangeError(`File size must >= 0 and < ${FILE_MAX_SIZE_BYTES}.`);
+    }
+
     options.fileHTTPHeaders = options.fileHTTPHeaders || {};
     return this.context.create(size, {
       abortSignal: aborter,
@@ -252,7 +256,7 @@ export class FileURL extends StorageURL {
     // In this case, "FileDownloadResponse.browser.ts" will be used as a shim of "FileDownloadResponse.ts"
     // The config is in package.json "browser" field
     if (!options.maxRetryRequests) {
-      options.maxRetryRequests = 5; // TODO: Default value or make it a required parameter?
+      options.maxRetryRequests = MAX_DOWNLOAD_RETRY_REQUESTS; // TODO: Default value or make it a required parameter?
     }
 
     if (!res.contentLength) {

@@ -12,7 +12,7 @@
  */
 export class FileSASPermissions {
   /**
-   * Creates a {@link BlobSASPermission} from the specified permissions string. This method will throw an
+   * Creates a FileSASPermissions from the specified permissions string. This method will throw an
    * Error if it encounters a character that does not correspond to a valid permission.
    *
    * @static

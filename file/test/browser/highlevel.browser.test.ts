@@ -1,10 +1,7 @@
 import * as assert from "assert";
 
 import { Aborter } from "../../lib/Aborter";
-import { BlobURL } from "../../lib/BlobURL";
-import { BlockBlobURL } from "../../lib/BlockBlobURL";
-import { ContainerURL } from "../../lib/ContainerURL";
-import { uploadBrowserDataToBlockBlob } from "../../lib/highlevel.browser";
+import { uploadBrowserDataToAzureFile } from "../../lib/highlevel.browser";
 import {
   arrayBufferEqual,
   blobToArrayBuffer,
@@ -13,7 +10,7 @@ import {
   getBrowserFile,
   getBSU,
   getUniqueName,
-  isIE
+  isIE,
 } from "../utils/index.browser";
 
 // tslint:disable:no-empty
@@ -53,8 +50,8 @@ describe("Highelvel", () => {
     const aborter = Aborter.timeout(1);
 
     try {
-      await uploadBrowserDataToBlockBlob(aborter, tempFile1, blockBlobURL, {
-        blockSize: 4 * 1024 * 1024,
+      await uploadBrowserDataToAzureFile(aborter, tempFile1, blockBlobURL, {
+        rangeSize: 4 * 1024 * 1024,
         parallelism: 2
       });
       assert.fail();
@@ -67,8 +64,8 @@ describe("Highelvel", () => {
     const aborter = Aborter.timeout(1);
 
     try {
-      await uploadBrowserDataToBlockBlob(aborter, tempFile2, blockBlobURL, {
-        blockSize: 4 * 1024 * 1024,
+      await uploadBrowserDataToAzureFile(aborter, tempFile2, blockBlobURL, {
+        rangeSize: 4 * 1024 * 1024,
         parallelism: 2
       });
       assert.fail();
@@ -82,8 +79,8 @@ describe("Highelvel", () => {
     const aborter = Aborter.none;
 
     try {
-      await uploadBrowserDataToBlockBlob(aborter, tempFile1, blockBlobURL, {
-        blockSize: 4 * 1024 * 1024,
+      await uploadBrowserDataToAzureFile(aborter, tempFile1, blockBlobURL, {
+        rangeSize: 4 * 1024 * 1024,
         parallelism: 2,
         progress: ev => {
           assert.ok(ev.loadedBytes);
@@ -100,8 +97,8 @@ describe("Highelvel", () => {
     const aborter = Aborter.none;
 
     try {
-      await uploadBrowserDataToBlockBlob(aborter, tempFile2, blockBlobURL, {
-        blockSize: 4 * 1024 * 1024,
+      await uploadBrowserDataToAzureFile(aborter, tempFile2, blockBlobURL, {
+        rangeSize: 4 * 1024 * 1024,
         parallelism: 2,
         progress: ev => {
           assert.ok(ev.loadedBytes);
@@ -114,8 +111,8 @@ describe("Highelvel", () => {
   });
 
   it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    await uploadBrowserDataToBlockBlob(Aborter.none, tempFile2, blockBlobURL, {
-      blockSize: 4 * 1024 * 1024,
+    await uploadBrowserDataToAzureFile(Aborter.none, tempFile2, blockBlobURL, {
+      rangeSize: 4 * 1024 * 1024,
       parallelism: 2
     });
 
@@ -135,8 +132,8 @@ describe("Highelvel", () => {
       return;
     }
 
-    await uploadBrowserDataToBlockBlob(Aborter.none, tempFile1, blockBlobURL, {
-      blockSize: 4 * 1024 * 1024,
+    await uploadBrowserDataToAzureFile(Aborter.none, tempFile1, blockBlobURL, {
+      rangeSize: 4 * 1024 * 1024,
       parallelism: 2
     });
 

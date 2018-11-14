@@ -9,7 +9,7 @@ import { truncatedISO8061Date } from "./utils/utils.common";
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
- * IFileSASSignatureValues is used to help generating File service SAS tokens for shares or blobs.
+ * IFileSASSignatureValues is used to help generating File service SAS tokens for shares or files.
  *
  * @export
  * @class IFileSASSignatureValues
