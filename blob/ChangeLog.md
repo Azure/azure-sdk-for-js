@@ -10,6 +10,7 @@
 * Removed `File` from `uploadBrowserDataToBlockBlob` parameter type list, because `File` extends `Blob` which is already in the list.
 * Fixed typos in `IRange` comments.
 * Removed useless `marker` filed from option of `ServiceURL.listContainersSegment` method.
+* Fixed a bug that `timeout` parameter should use second as unit instead of milli second.
 
 2018.09 10.1.0-preview
 
