@@ -447,6 +447,23 @@ export class StorageAccounts {
   }
 
   /**
+   * Failover request can be triggered for a storage account in case of availability issues. The
+   * failover occurs from the storage account's primary cluster to secondary cluster for RA-GRS
+   * accounts. The secondary cluster will become primary after failover.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  failover(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginFailover(resourceGroupName,accountName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Asynchronously creates a new storage account with the specified parameters. If an account is
    * already created and a subsequent create request is issued with different properties, the account
    * properties will be updated. If an account is already created and a subsequent create or update
@@ -469,6 +486,29 @@ export class StorageAccounts {
         options
       },
       beginCreateOperationSpec,
+      options);
+  }
+
+  /**
+   * Failover request can be triggered for a storage account in case of availability issues. The
+   * failover occurs from the storage account's primary cluster to secondary cluster for RA-GRS
+   * accounts. The secondary cluster will become primary after failover.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginFailover(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        options
+      },
+      beginFailoverOperationSpec,
       options);
   }
 }
@@ -784,6 +824,30 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.StorageAccount
     },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginFailoverOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/failover",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
     202: {},
     default: {
       bodyMapper: Mappers.CloudError

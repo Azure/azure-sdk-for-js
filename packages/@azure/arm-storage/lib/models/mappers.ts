@@ -1127,6 +1127,13 @@ export const StorageAccount: msRest.CompositeMapper = {
           name: "Composite",
           className: "GeoReplicationStats"
         }
+      },
+      failoverInProgress: {
+        readOnly: true,
+        serializedName: "properties.failoverInProgress",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }

@@ -884,6 +884,13 @@ export interface StorageAccount extends TrackedResource {
    * the server.**
    */
   readonly geoReplicationStats?: GeoReplicationStats;
+  /**
+   * @member {boolean} [failoverInProgress] If the failover is in progress, the
+   * value will be true, otherwise, it will be null.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly failoverInProgress?: boolean;
 }
 
 /**
