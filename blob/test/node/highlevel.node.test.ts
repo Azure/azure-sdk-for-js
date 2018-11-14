@@ -1,20 +1,11 @@
 import * as assert from "assert";
 import * as fs from "fs";
 import * as path from "path";
-import { Aborter } from "../../lib/Aborter";
-import {
-  downloadBlobToBuffer,
-  uploadFileToBlockBlob,
-  uploadStreamToBlockBlob
-} from "../../lib/highlevel.node";
-import {
-  createRandomLocalFile,
-  getBSU,
-  getUniqueName,
-  readStreamToLocalFile
-} from "../utils/index";
 
 import { BlobURL, BlockBlobURL, ContainerURL } from "../../lib";
+import { Aborter } from "../../lib/Aborter";
+import { downloadBlobToBuffer, uploadFileToBlockBlob, uploadStreamToBlockBlob } from "../../lib/highlevel.node";
+import { createRandomLocalFile, getBSU, getUniqueName, readStreamToLocalFile } from "../utils";
 
 // tslint:disable:no-empty
 describe("Highlevel", () => {
@@ -252,6 +243,7 @@ describe("Highlevel", () => {
     const buf = Buffer.alloc(tempFileLargeLength);
     await downloadBlobToBuffer(Aborter.none, buf, blockBlobURL, 0, undefined, {
       blockSize: 4 * 1024 * 1024,
+      maxRetryRequestsPerBlock: 5,
       parallelism: 20
     });
 
@@ -279,6 +271,7 @@ describe("Highlevel", () => {
         undefined,
         {
           blockSize: 4 * 1024 * 1024,
+          maxRetryRequestsPerBlock: 5,
           parallelism: 20
         }
       );
@@ -304,6 +297,7 @@ describe("Highlevel", () => {
     try {
       await downloadBlobToBuffer(aborter, buf, blockBlobURL, 0, undefined, {
         blockSize: 1 * 1024,
+        maxRetryRequestsPerBlock: 5,
         parallelism: 1,
         progress: () => {
           eventTriggered = true;

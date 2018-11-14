@@ -91,6 +91,24 @@ export interface IDownloadFromBlobOptions {
   blockSize?: number;
 
   /**
+   * Optional. ONLY AVAILABLE IN NODE.JS.
+   *
+   * How many retries will perform when original block download stream unexpected ends.
+   * Above kind of ends will not trigger retry policy defined in a pipeline,
+   * because they doesn't emit network errors.
+   *
+   * With this option, every additional retry means an additional FileURL.download() request will be made
+   * from the broken point, until the requested block has been successfully downloaded or
+   * maxRetryRequestsPerBlock is reached.
+   *
+   * Default value is 5, please set a larger value when in poor network.
+   *
+   * @type {number}
+   * @memberof IDownloadFromAzureFileOptions
+   */
+  maxRetryRequestsPerBlock?: number;
+
+  /**
    * Progress updater.
    *
    * @memberof IDownloadFromBlobOptions

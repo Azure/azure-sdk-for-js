@@ -1,5 +1,7 @@
 # Changelog
 
+* Added stream retry when `BlobURL.download` response stream unexcepted ends.
+
 2018.09 10.1.0-preview
 
 * Fixed sharedkey authentication error when blob names have spaces.

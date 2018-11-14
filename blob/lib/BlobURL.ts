@@ -1,14 +1,15 @@
-import { TransferProgressEvent } from "ms-rest-js";
+import { isNode, TransferProgressEvent } from "ms-rest-js";
 
 import * as Models from "../lib/generated/models";
 import { Aborter } from "./Aborter";
+import { BlobDownloadResponse } from "./BlobDownloadResponse";
 import { ContainerURL } from "./ContainerURL";
 import { Blob } from "./generated/operations";
 import { rangeToString } from "./IRange";
 import { IBlobAccessConditions, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { StorageURL } from "./StorageURL";
-import { URLConstants } from "./utils/constants";
+import { MAX_DOWNLOAD_RETRY_REQUESTS, URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
 
 export interface IBlobDownloadOptions {
@@ -16,6 +17,23 @@ export interface IBlobDownloadOptions {
   rangeGetContentMD5?: boolean;
   blobAccessConditions?: IBlobAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * Optional. ONLY AVAILABLE IN NODE.JS.
+   *
+   * How many retries will perform when original body download stream unexpected ends.
+   * Above kind of ends will not trigger retry policy defined in a pipeline,
+   * because they doesn't emit network errors.
+   *
+   * With this option, every additional retry means an additional FileURL.download() request will be made
+   * from the broken point, until the requested range has been successfully downloaded or maxRetryRequests is reached.
+   *
+   * Default value is 5, please set a larger value when loading large files in poor network.
+   *
+   * @type {number}
+   * @memberof IBlobDownloadOptions
+   */
+  maxRetryRequests?: number;
 }
 
 export interface IBlobGetPropertiesOptions {
@@ -197,18 +215,47 @@ export class BlobURL extends StorageURL {
       snapshot: options.snapshot
     });
 
-    // Default axios based HTTP client cannot abort download stream, manually pause/abort it
-    // Currently, no error will be triggered when network error or abort during reading from response stream
-    // TODO: Now need to manually validate the date length when stream ends, add download retry in the future
-    if (res.readableStreamBody) {
-      aborter.addEventListener("abort", () => {
-        if (res.readableStreamBody) {
-          res.readableStreamBody.pause();
-        }
-      });
+    // Return browser response immediately
+    if (!isNode) {
+      return res;
     }
 
-    return res;
+    // We support retrying when download stream unexpected ends in Node.js runtime
+    // Following code shouldn't be bundled into browser build, however some
+    // bundlers may try to bundle following code and "FileReadResponse.ts".
+    // In this case, "FileDownloadResponse.browser.ts" will be used as a shim of "FileDownloadResponse.ts"
+    // The config is in package.json "browser" field
+    if (!options.maxRetryRequests) {
+      options.maxRetryRequests = MAX_DOWNLOAD_RETRY_REQUESTS; // TODO: Default value or make it a required parameter?
+    }
+
+    if (!res.contentLength) {
+      throw new RangeError(
+        `File download response doesn't contain valid content length header`
+      );
+    }
+
+    return new BlobDownloadResponse(
+      aborter,
+      res,
+      async (start: number): Promise<NodeJS.ReadableStream> => {
+        const updatedOptions: Models.BlobDownloadOptionalParams = {
+          range: rangeToString({
+            count: offset + res.contentLength! - start,
+            offset: start
+          })
+        };
+
+        return (await this.blobContext.download({
+          abortSignal: aborter,
+          ...updatedOptions
+        })).readableStreamBody!;
+      },
+      offset,
+      offset + res.contentLength! - 1,
+      options.maxRetryRequests,
+      options.progress
+    );
   }
 
   /**
