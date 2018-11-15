@@ -171,7 +171,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RequestHistoryListResult
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -200,7 +200,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RequestHistory
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -221,7 +221,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RequestHistoryListResult
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

@@ -4174,48 +4174,6 @@ export interface RequestHistory extends Resource {
 
 /**
  * @interface
- * An interface representing ApiErrorBody.
- * An error response from the Logic App service.
- *
- */
-export interface ApiErrorBody {
-  /**
-   * @member {string} [code] An identifier for the error. Codes are invariant
-   * and are intended to be consumed programmatically.
-   */
-  code?: string;
-  /**
-   * @member {string} [message] A message describing the error, intended to be
-   * suitable for display in a user interface.
-   */
-  message?: string;
-  /**
-   * @member {string} [target] The target of the particular error. For example,
-   * the name of the property in error.
-   */
-  target?: string;
-  /**
-   * @member {ApiErrorBody[]} [details] A list of additional details about the
-   * error.
-   */
-  details?: ApiErrorBody[];
-}
-
-/**
- * @interface
- * An interface representing ApiError.
- * An error response from the Logic App service.
- *
- */
-export interface ApiError {
-  /**
-   * @member {ApiErrorBody} [error]
-   */
-  error?: ApiErrorBody;
-}
-
-/**
- * @interface
  * An interface representing WorkflowsListBySubscriptionOptionalParams.
  * Optional Parameters.
  *

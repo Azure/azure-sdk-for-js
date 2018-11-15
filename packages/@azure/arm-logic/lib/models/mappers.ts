@@ -5679,63 +5679,6 @@ export const RequestHistory: msRest.CompositeMapper = {
   }
 };
 
-export const ApiErrorBody: msRest.CompositeMapper = {
-  serializedName: "ApiErrorBody",
-  type: {
-    name: "Composite",
-    className: "ApiErrorBody",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "target",
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        serializedName: "details",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ApiErrorBody"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ApiError: msRest.CompositeMapper = {
-  serializedName: "ApiError",
-  type: {
-    name: "Composite",
-    className: "ApiError",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ApiErrorBody"
-        }
-      }
-    }
-  }
-};
-
 export const WorkflowListResult: msRest.CompositeMapper = {
   serializedName: "WorkflowListResult",
   type: {
