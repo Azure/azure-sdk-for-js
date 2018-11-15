@@ -940,24 +940,6 @@ export const DdoSSettings: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
-      },
-      domainNameLabel: {
-        serializedName: "domainNameLabel",
-        type: {
-          name: "String"
-        }
-      },
-      fqdn: {
-        serializedName: "fqdn",
-        type: {
-          name: "String"
-        }
-      },
-      reverseFqdn: {
-        serializedName: "reverseFqdn",
-        type: {
-          name: "String"
-        }
       }
     }
   }
