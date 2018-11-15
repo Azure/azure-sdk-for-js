@@ -2,7 +2,7 @@
   "name": "@azure/arm-authorization",
   "author": "Microsoft Corporation",
   "description": "AuthorizationManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^1.1.0",
     "@azure/ms-rest-js": "^1.1.0",
