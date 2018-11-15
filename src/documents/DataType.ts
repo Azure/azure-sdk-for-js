@@ -9,5 +9,7 @@ export enum DataType {
   /** Represents a line string data type. */
   LineString = "LineString",
   /** Represents a polygon data type. */
-  Polygon = "Polygon"
+  Polygon = "Polygon",
+  /** Represents a multi-polygon data type. */
+  MultiPolygon = "MultiPolygon"
 }
