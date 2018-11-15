@@ -9,12 +9,12 @@
  */
 
 export {
-  CloudError,
-  ServerCommunicationLink,
+  SensitivityLabelListResult,
+  SensitivityLabel,
   ProxyResource,
   Resource,
   BaseResource,
-  ServerCommunicationLinkListResult,
+  CloudError,
   RecoverableDatabase,
   RestorableDroppedDatabase,
   TrackedResource,
@@ -29,6 +29,7 @@ export {
   RecommendedElasticPoolMetric,
   ReplicationLink,
   ServerAzureADAdministrator,
+  ServerCommunicationLink,
   ServiceObjective,
   ElasticPoolActivity,
   ElasticPoolDatabaseActivity,
@@ -84,7 +85,6 @@ export {
   BackupLongTermRetentionPolicy,
   ManagedBackupShortTermRetentionPolicy,
   ManagedDatabase,
-  SensitivityLabel,
   ServerAutomaticTuning,
   AutomaticTuningServerOptions,
   ServerDnsAlias,

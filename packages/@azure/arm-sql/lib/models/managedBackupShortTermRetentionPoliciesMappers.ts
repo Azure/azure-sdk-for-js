@@ -9,12 +9,12 @@
  */
 
 export {
-  CloudError,
-  ServerCommunicationLink,
+  ManagedBackupShortTermRetentionPolicy,
   ProxyResource,
   Resource,
   BaseResource,
-  ServerCommunicationLinkListResult,
+  CloudError,
+  ManagedBackupShortTermRetentionPolicyListResult,
   RecoverableDatabase,
   RestorableDroppedDatabase,
   TrackedResource,
@@ -29,6 +29,7 @@ export {
   RecommendedElasticPoolMetric,
   ReplicationLink,
   ServerAzureADAdministrator,
+  ServerCommunicationLink,
   ServiceObjective,
   ElasticPoolActivity,
   ElasticPoolDatabaseActivity,
@@ -82,7 +83,6 @@ export {
   JobVersion,
   LongTermRetentionBackup,
   BackupLongTermRetentionPolicy,
-  ManagedBackupShortTermRetentionPolicy,
   ManagedDatabase,
   SensitivityLabel,
   ServerAutomaticTuning,

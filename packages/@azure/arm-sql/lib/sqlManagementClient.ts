@@ -68,7 +68,9 @@ class SqlManagementClient extends SqlManagementClientContext {
   jobVersions: operations.JobVersions;
   longTermRetentionBackups: operations.LongTermRetentionBackups;
   backupLongTermRetentionPolicies: operations.BackupLongTermRetentionPolicies;
+  managedBackupShortTermRetentionPolicies: operations.ManagedBackupShortTermRetentionPolicies;
   managedDatabases: operations.ManagedDatabases;
+  sensitivityLabels: operations.SensitivityLabels;
   serverAutomaticTuning: operations.ServerAutomaticTuningOperations;
   serverDnsAliases: operations.ServerDnsAliases;
   serverSecurityAlertPolicies: operations.ServerSecurityAlertPolicies;
@@ -86,6 +88,8 @@ class SqlManagementClient extends SqlManagementClientContext {
   managedInstanceTdeCertificates: operations.ManagedInstanceTdeCertificates;
   managedInstanceKeys: operations.ManagedInstanceKeys;
   managedInstanceEncryptionProtectors: operations.ManagedInstanceEncryptionProtectors;
+  managedInstanceVulnerabilityAssessments: operations.ManagedInstanceVulnerabilityAssessments;
+  serverVulnerabilityAssessments: operations.ServerVulnerabilityAssessments;
 
   /**
    * Initializes a new instance of the SqlManagementClient class.
@@ -146,7 +150,9 @@ class SqlManagementClient extends SqlManagementClientContext {
     this.jobVersions = new operations.JobVersions(this);
     this.longTermRetentionBackups = new operations.LongTermRetentionBackups(this);
     this.backupLongTermRetentionPolicies = new operations.BackupLongTermRetentionPolicies(this);
+    this.managedBackupShortTermRetentionPolicies = new operations.ManagedBackupShortTermRetentionPolicies(this);
     this.managedDatabases = new operations.ManagedDatabases(this);
+    this.sensitivityLabels = new operations.SensitivityLabels(this);
     this.serverAutomaticTuning = new operations.ServerAutomaticTuningOperations(this);
     this.serverDnsAliases = new operations.ServerDnsAliases(this);
     this.serverSecurityAlertPolicies = new operations.ServerSecurityAlertPolicies(this);
@@ -164,6 +170,8 @@ class SqlManagementClient extends SqlManagementClientContext {
     this.managedInstanceTdeCertificates = new operations.ManagedInstanceTdeCertificates(this);
     this.managedInstanceKeys = new operations.ManagedInstanceKeys(this);
     this.managedInstanceEncryptionProtectors = new operations.ManagedInstanceEncryptionProtectors(this);
+    this.managedInstanceVulnerabilityAssessments = new operations.ManagedInstanceVulnerabilityAssessments(this);
+    this.serverVulnerabilityAssessments = new operations.ServerVulnerabilityAssessments(this);
   }
 }
 
