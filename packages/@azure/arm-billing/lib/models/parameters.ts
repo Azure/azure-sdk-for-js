@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
@@ -25,6 +25,16 @@ export const apiVersion: msRest.OperationQueryParameter = {
   mapper: {
     required: true,
     serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const billingAccountId: msRest.OperationURLParameter = {
+  parameterPath: "billingAccountId",
+  mapper: {
+    required: true,
+    serializedName: "billingAccountId",
     type: {
       name: "String"
     }

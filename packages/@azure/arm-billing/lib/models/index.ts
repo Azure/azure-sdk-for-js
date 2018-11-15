@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -91,8 +91,7 @@ export interface BillingPeriod extends Resource {
 /**
  * @interface
  * An interface representing DownloadUrl.
- * A secure URL that can be used to download a PDF invoice until the URL
- * expires.
+ * A secure URL that can be used to download a an entity until the URL expires.
  *
  */
 export interface DownloadUrl {
@@ -313,6 +312,35 @@ export interface BillingManagementClientOptions extends AzureServiceClientOption
    * @member {string} [baseUri]
    */
   baseUri?: string;
+}
+
+/**
+ * @interface
+ * An interface representing InvoicePricesheetDownloadHeaders.
+ * Defines headers for Download operation.
+ *
+ */
+export interface InvoicePricesheetDownloadHeaders {
+  /**
+   * @member {string} [location] GET this URL to retrieve the status of the
+   * asynchronous operation.
+   */
+  location: string;
+  /**
+   * @member {string} [retryAfter] The amount of delay to use while the status
+   * of the operation is checked. The value is expressed in seconds.
+   */
+  retryAfter: string;
+  /**
+   * @member {string} [azureAsyncOperation] To get the progress of the
+   * operation, call GET operation on the URL in Azure-AsyncOperation header
+   * field.
+   */
+  azureAsyncOperation: string;
+  /**
+   * @member {string} [oDataEntityId] The operation entity Id GUID.
+   */
+  oDataEntityId: string;
 }
 
 
@@ -571,6 +599,29 @@ export type InvoicesListNextResponse = InvoicesListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: InvoicesListResult;
+    };
+};
+
+/**
+ * Contains response data for the download operation.
+ */
+export type InvoicePricesheetDownloadResponse = DownloadUrl & InvoicePricesheetDownloadHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: InvoicePricesheetDownloadHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DownloadUrl;
     };
 };
 
