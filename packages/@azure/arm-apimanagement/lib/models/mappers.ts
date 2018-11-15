@@ -3303,9 +3303,9 @@ export const ResourceSkuCapacity: msRest.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: [
-            "Automatic",
-            "Manual",
-            "None"
+            "automatic",
+            "manual",
+            "none"
           ]
         }
       }

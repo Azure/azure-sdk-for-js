@@ -2297,8 +2297,8 @@ export interface ResourceSkuCapacity {
   readonly default?: number;
   /**
    * @member {ResourceSkuCapacityScaleType} [scaleType] The scale type
-   * applicable to the sku. Possible values include: 'Automatic', 'Manual',
-   * 'None'
+   * applicable to the sku. Possible values include: 'automatic', 'manual',
+   * 'none'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -8933,11 +8933,11 @@ export type SkuType = 'Developer' | 'Standard' | 'Premium' | 'Basic';
 
 /**
  * Defines values for ResourceSkuCapacityScaleType.
- * Possible values include: 'Automatic', 'Manual', 'None'
+ * Possible values include: 'automatic', 'manual', 'none'
  * @readonly
  * @enum {string}
  */
-export type ResourceSkuCapacityScaleType = 'Automatic' | 'Manual' | 'None';
+export type ResourceSkuCapacityScaleType = 'automatic' | 'manual' | 'none';
 
 /**
  * Defines values for HostnameType.
