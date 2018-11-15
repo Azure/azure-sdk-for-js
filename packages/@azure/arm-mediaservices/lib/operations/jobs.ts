@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/jobsMappers";
 import * as Parameters from "../models/parameters";
@@ -191,7 +191,9 @@ export class Jobs {
   }
 
   /**
-   * Updates a Job.
+   * Update is only supported for description and priority. Updating Priority will take effect when
+   * the Job state is Queued or Scheduled and depending on the timing the priority update may be
+   * ignored.
    * @summary Update Job
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -320,8 +322,7 @@ const listOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
-    Parameters.top,
-    Parameters.skip
+    Parameters.orderby
   ],
   headerParameters: [
     Parameters.acceptLanguage
