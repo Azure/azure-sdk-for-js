@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -65,7 +65,9 @@ export interface Identity extends BaseResource {
   readonly clientId?: string;
   /**
    * @member {string} [clientSecretUrl] The ManagedServiceIdentity DataPlane
-   * URL that can be queried to obtain the identity credentials.
+   * URL that can be queried to obtain the identity credentials. If identity is
+   * user assigned identity, the value of clientSecretUrl is null. If identity
+   * is system assigned or proxy resource, the clientSecretUrl is not null.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
