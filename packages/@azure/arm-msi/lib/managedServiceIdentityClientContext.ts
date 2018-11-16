@@ -9,8 +9,8 @@
  */
 
 import * as Models from "./models";
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 
 const packageName = "@azure/arm-msi";
 const packageVersion = "0.1.0";
@@ -44,7 +44,7 @@ export class ManagedServiceIdentityClientContext extends msRestAzure.AzureServic
 
     super(credentials, options);
 
-    this.apiVersion = '2015-08-31-preview';
+    this.apiVersion = '2018-11-30';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
