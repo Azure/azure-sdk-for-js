@@ -65,7 +65,7 @@ export class Configurations {
    * @param callback The callback
    */
   get(resourceGroupName: string, clusterName: string, configurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<{ [propertyName: string]: string }>): void;
-  get(resourceGroupName: string, clusterName: string, configurationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<{ [propertyName: string]: string }>): Promise<Models.ConfigurationsGetResponse> {
+  get(resourceGroupName: string, clusterName: string, configurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<{ [propertyName: string]: string }>, callback?: msRest.ServiceCallback<{ [propertyName: string]: string }>): Promise<Models.ConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

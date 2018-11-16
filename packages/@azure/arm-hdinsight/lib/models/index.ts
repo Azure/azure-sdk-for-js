@@ -339,6 +339,41 @@ export interface StorageProfile {
 
 /**
  * @interface
+ * An interface representing DiskEncryptionProperties.
+ * The disk encryption properties
+ *
+ */
+export interface DiskEncryptionProperties {
+  /**
+   * @member {string} [vaultUri] Base key vault URI where the customers key is
+   * located eg. https://myvault.vault.azure.net
+   */
+  vaultUri?: string;
+  /**
+   * @member {string} [keyName] Key name that is used for enabling disk
+   * encryption.
+   */
+  keyName?: string;
+  /**
+   * @member {string} [keyVersion] Specific key version that is used for
+   * enabling disk encryption.
+   */
+  keyVersion?: string;
+  /**
+   * @member {JsonWebKeyEncryptionAlgorithm} [encryptionAlgorithm] Algorithm
+   * identifier for encryption, default RSA-OAEP. Possible values include:
+   * 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'
+   */
+  encryptionAlgorithm?: JsonWebKeyEncryptionAlgorithm;
+  /**
+   * @member {string} [msiResourceId] Resource ID of Managed Identity that is
+   * used to access the key vault.
+   */
+  msiResourceId?: string;
+}
+
+/**
+ * @interface
  * An interface representing ClusterCreateProperties.
  * The cluster create parameters.
  *
@@ -374,6 +409,11 @@ export interface ClusterCreateProperties {
    * @member {StorageProfile} [storageProfile] The storage profile.
    */
   storageProfile?: StorageProfile;
+  /**
+   * @member {DiskEncryptionProperties} [diskEncryptionProperties] The disk
+   * encryption properties.
+   */
+  diskEncryptionProperties?: DiskEncryptionProperties;
 }
 
 /**
@@ -589,6 +629,11 @@ export interface ClusterGetProperties {
    * connectivity endpoints.
    */
   connectivityEndpoints?: ConnectivityEndpoint[];
+  /**
+   * @member {DiskEncryptionProperties} [diskEncryptionProperties] The disk
+   * encryption properties.
+   */
+  diskEncryptionProperties?: DiskEncryptionProperties;
 }
 
 /**
@@ -848,6 +893,30 @@ export interface ClusterResizeParameters {
 
 /**
  * @interface
+ * An interface representing ClusterDiskEncryptionParameters.
+ * The Disk Encryption Cluster request parameters.
+ *
+ */
+export interface ClusterDiskEncryptionParameters {
+  /**
+   * @member {string} [vaultUri] Base key vault URI where the customers key is
+   * located eg. https://myvault.vault.azure.net
+   */
+  vaultUri?: string;
+  /**
+   * @member {string} [keyName] Key name that is used for enabling disk
+   * encryption.
+   */
+  keyName?: string;
+  /**
+   * @member {string} [keyVersion] Specific key version that is used for
+   * enabling disk encryption.
+   */
+  keyVersion?: string;
+}
+
+/**
+ * @interface
  * An interface representing OperationResource.
  * The azure async operation response.
  *
@@ -917,12 +986,6 @@ export interface ApplicationGetHttpsEndpoint {
    * @member {number} [publicPort] The public port to connect to.
    */
   publicPort?: number;
-  /**
-   * @property Describes unknown properties. The value of an unknown property
-   * MUST be of type "string". Due to valid TS constraints we have modeled this
-   * as a union of `string | any`.
-   */
-  [property: string]: string | any;
 }
 
 /**
@@ -1011,11 +1074,6 @@ export interface ApplicationProperties {
    * the server.**
    */
   readonly marketplaceIdentifier?: string;
-  /**
-   * @member {string} [additionalProperties] The additional properties for
-   * application.
-   */
-  additionalProperties?: string;
 }
 
 /**
@@ -1328,9 +1386,7 @@ export interface OperationListResult extends Array<Operation> {
  * @readonly
  * @enum {string}
  */
-export enum DirectoryType {
-  ActiveDirectory = 'ActiveDirectory',
-}
+export type DirectoryType = 'ActiveDirectory';
 
 /**
  * Defines values for OSType.
@@ -1338,10 +1394,7 @@ export enum DirectoryType {
  * @readonly
  * @enum {string}
  */
-export enum OSType {
-  Windows = 'Windows',
-  Linux = 'Linux',
-}
+export type OSType = 'Windows' | 'Linux';
 
 /**
  * Defines values for Tier.
@@ -1349,39 +1402,32 @@ export enum OSType {
  * @readonly
  * @enum {string}
  */
-export enum Tier {
-  Standard = 'Standard',
-  Premium = 'Premium',
-}
+export type Tier = 'Standard' | 'Premium';
+
+/**
+ * Defines values for JsonWebKeyEncryptionAlgorithm.
+ * Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'
+ * @readonly
+ * @enum {string}
+ */
+export type JsonWebKeyEncryptionAlgorithm = 'RSA-OAEP' | 'RSA-OAEP-256' | 'RSA1_5';
 
 /**
  * Defines values for ResourceIdentityType.
- * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,
- * UserAssigned', 'None'
+ * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
+ * 'None'
  * @readonly
  * @enum {string}
  */
-export enum ResourceIdentityType {
-  SystemAssigned = 'SystemAssigned',
-  UserAssigned = 'UserAssigned',
-  SystemAssignedUserAssigned = 'SystemAssigned, UserAssigned',
-  None = 'None',
-}
+export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
 
 /**
  * Defines values for HDInsightClusterProvisioningState.
- * Possible values include: 'InProgress', 'Failed', 'Succeeded', 'Canceled',
- * 'Deleting'
+ * Possible values include: 'InProgress', 'Failed', 'Succeeded', 'Canceled', 'Deleting'
  * @readonly
  * @enum {string}
  */
-export enum HDInsightClusterProvisioningState {
-  InProgress = 'InProgress',
-  Failed = 'Failed',
-  Succeeded = 'Succeeded',
-  Canceled = 'Canceled',
-  Deleting = 'Deleting',
-}
+export type HDInsightClusterProvisioningState = 'InProgress' | 'Failed' | 'Succeeded' | 'Canceled' | 'Deleting';
 
 /**
  * Defines values for AsyncOperationState.
@@ -1389,11 +1435,7 @@ export enum HDInsightClusterProvisioningState {
  * @readonly
  * @enum {string}
  */
-export enum AsyncOperationState {
-  InProgress = 'InProgress',
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-}
+export type AsyncOperationState = 'InProgress' | 'Succeeded' | 'Failed';
 
 /**
  * Contains response data for the create operation.
