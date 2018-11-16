@@ -86,7 +86,6 @@ export const ResourceReference: msRest.CompositeMapper = {
     className: "ResourceReference",
     modelProperties: {
       id: {
-        readOnly: true,
         serializedName: "id",
         type: {
           name: "String"

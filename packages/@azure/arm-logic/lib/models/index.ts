@@ -75,10 +75,8 @@ export interface SubResource extends BaseResource {
 export interface ResourceReference {
   /**
    * @member {string} [id] The resource id.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly id?: string;
+  id?: string;
   /**
    * @member {string} [name] Gets the resource name.
    * **NOTE: This property will not be serialized. It can only be populated by
