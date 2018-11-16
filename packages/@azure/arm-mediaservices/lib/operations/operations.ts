@@ -8,27 +8,26 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/operationsMappers";
 import * as Parameters from "../models/parameters";
-import { AzureMediaServicesContext } from "../azureMediaServicesContext";
+import { MediaServicesManagementClientContext } from "../mediaServicesManagementClientContext";
 
 /** Class representing a Operations. */
 export class Operations {
-  private readonly client: AzureMediaServicesContext;
+  private readonly client: MediaServicesManagementClientContext;
 
   /**
    * Create a Operations.
-   * @param {AzureMediaServicesContext} client Reference to the service client.
+   * @param {MediaServicesManagementClientContext} client Reference to the service client.
    */
-  constructor(client: AzureMediaServicesContext) {
+  constructor(client: MediaServicesManagementClientContext) {
     this.client = client;
   }
 
   /**
-   * Lists all the Media Services operations.
-   * @summary List Operations
+   * Lists all of the available Media Services REST API operations.
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationsListResponse>
    */
@@ -36,48 +35,19 @@ export class Operations {
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.OperationCollection>): void;
+  list(callback: msRest.ServiceCallback<Models.OperationListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationCollection>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationCollection>, callback?: msRest.ServiceCallback<Models.OperationCollection>): Promise<Models.OperationsListResponse> {
+  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationListResult>, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.OperationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
       callback) as Promise<Models.OperationsListResponse>;
-  }
-
-  /**
-   * Lists all the Media Services operations.
-   * @summary List Operations
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.OperationsListNextResponse>
-   */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.OperationsListNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.OperationCollection>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationCollection>, callback?: msRest.ServiceCallback<Models.OperationCollection>): Promise<Models.OperationsListNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listNextOperationSpec,
-      callback) as Promise<Models.OperationsListNextResponse>;
   }
 }
 
@@ -94,31 +64,10 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.OperationCollection
+      bodyMapper: Mappers.OperationListResult
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
-  },
-  serializer
-};
-
-const listNextOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.OperationCollection
-    },
-    default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

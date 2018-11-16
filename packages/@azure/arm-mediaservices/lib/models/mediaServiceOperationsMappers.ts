@@ -9,9 +9,18 @@
  */
 
 export {
-  OperationListResult,
-  Operation,
-  OperationDisplay,
-  CloudError
+  CheckNameAvailabilityInput,
+  CheckNameAvailabilityOutput,
+  ApiError,
+  MediaServiceCollection,
+  MediaService,
+  Resource,
+  BaseResource,
+  ApiEndpoint,
+  StorageAccount,
+  RegenerateKeyInput,
+  RegenerateKeyOutput,
+  ServiceKeys,
+  SyncStorageKeysInput
 } from "../models/mappers";
 

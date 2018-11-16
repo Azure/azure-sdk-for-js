@@ -1,42 +1,30 @@
-## Azure AzureMediaServices SDK for JavaScript
+# Azure MediaServicesManagementClient SDK for JavaScript
+This package contains an isomorphic SDK for MediaServicesManagementClient.
 
-This package contains an isomorphic SDK for AzureMediaServices.
-
-### Currently supported environments
-
+## Currently supported environments
 - Node.js version 6.x.x or higher
 - Browser JavaScript
 
-### How to Install
-
+## How to Install
 ```
 npm install @azure/arm-mediaservices
 ```
 
-### How to use
 
-#### nodejs - Authentication, client creation and list accountFilters as an example written in TypeScript.
+## How to use
 
-##### Install @azure/ms-rest-nodeauth
-
-```
-npm install @azure/ms-rest-nodeauth
-```
-
-##### Sample code
+### nodejs - Authentication, client creation and list operations as an example written in TypeScript.
 
 ```ts
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { AzureMediaServices, AzureMediaServicesModels, AzureMediaServicesMappers } from "@azure/arm-mediaservices";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
+import * as msRestNodeAuth from "ms-rest-nodeauth";
+import { MediaServicesManagementClient, MediaServicesManagementModels, MediaServicesManagementMappers } from "@azure/arm-mediaservices";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new AzureMediaServices(creds, subscriptionId);
-  const resourceGroupName = "testresourceGroupName";
-  const accountName = "testaccountName";
-  client.accountFilters.list(resourceGroupName, accountName).then((result) => {
+  const client = new MediaServicesManagementClient(creds, subscriptionId);
+  client.operations.list().then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -45,16 +33,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and list accountFilters as an example written in JavaScript.
-
-##### Install @azure/ms-rest-browserauth
-
-```
-npm install @azure/ms-rest-browserauth
-```
-
-##### Sample code
-
+### browser - Authentication, client creation and list operations as an example written in JavaScript.
 See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
@@ -63,11 +42,11 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 <html lang="en">
   <head>
     <title>@azure/arm-mediaservices sample</title>
-    <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
-    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
+    <script src="node_modules/ms-rest-js/dist/msRest.browser.js"></script>
+    <script src="node_modules/ms-rest-azure-js/dist/msRestAzure.js"></script>
+    <script src="node_modules/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/arm-mediaservices/dist/arm-mediaservices.js"></script>
-    <script type="text/javascript">
+    <script>
       const subscriptionId = "<Subscription_Id>";
       const authManager = new msAuth.AuthManager({
         clientId: "<client id for your Azure AD app>",
@@ -78,10 +57,8 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmMediaservices.AzureMediaServices(res.creds, subscriptionId);
-        const resourceGroupName = "testresourceGroupName";
-        const accountName = "testaccountName";
-        client.accountFilters.list(resourceGroupName, accountName).then((result) => {
+        const client = new Azure.ArmMediaservices.MediaServicesManagementClient(res.creds, subscriptionId);
+        client.operations.list().then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -91,10 +68,10 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
       });
     </script>
   </head>
-  <body></body>
+  <body>
+  </body>
 </html>
 ```
 
-## Related projects
-
-- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
+# Related projects
+ - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
