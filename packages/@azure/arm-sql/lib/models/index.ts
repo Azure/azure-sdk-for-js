@@ -4541,9 +4541,17 @@ export interface SensitivityLabel extends ProxyResource {
    */
   labelName?: string;
   /**
+   * @member {string} [labelId] The label ID.
+   */
+  labelId?: string;
+  /**
    * @member {string} [informationType] The information type.
    */
   informationType?: string;
+  /**
+   * @member {string} [informationTypeId] The information type ID.
+   */
+  informationTypeId?: string;
 }
 
 /**

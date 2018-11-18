@@ -5080,8 +5080,20 @@ export const SensitivityLabel: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      labelId: {
+        serializedName: "properties.labelId",
+        type: {
+          name: "String"
+        }
+      },
       informationType: {
         serializedName: "properties.informationType",
+        type: {
+          name: "String"
+        }
+      },
+      informationTypeId: {
+        serializedName: "properties.informationTypeId",
         type: {
           name: "String"
         }
