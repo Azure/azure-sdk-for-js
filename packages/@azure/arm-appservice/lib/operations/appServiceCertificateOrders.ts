@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/appServiceCertificateOrdersMappers";
 import * as Parameters from "../models/parameters";
@@ -148,7 +148,7 @@ export class AppServiceCertificateOrders {
    * @summary Create or update a certificate purchase order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
-   * @param certificateDistinguishedName Distinguished name to to use for the certificate order.
+   * @param certificateDistinguishedName Distinguished name to use for the certificate order.
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServiceCertificateOrdersCreateOrUpdateResponse>
    */
@@ -195,7 +195,7 @@ export class AppServiceCertificateOrders {
    * @summary Create or update a certificate purchase order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
-   * @param certificateDistinguishedName Distinguished name to to use for the certificate order.
+   * @param certificateDistinguishedName Distinguished name to use for the certificate order.
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServiceCertificateOrdersUpdateResponse>
    */
@@ -203,14 +203,14 @@ export class AppServiceCertificateOrders {
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
-   * @param certificateDistinguishedName Distinguished name to to use for the certificate order.
+   * @param certificateDistinguishedName Distinguished name to use for the certificate order.
    * @param callback The callback
    */
   update(resourceGroupName: string, certificateOrderName: string, certificateDistinguishedName: Models.AppServiceCertificateOrderPatchResource, callback: msRest.ServiceCallback<Models.AppServiceCertificateOrder>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
-   * @param certificateDistinguishedName Distinguished name to to use for the certificate order.
+   * @param certificateDistinguishedName Distinguished name to use for the certificate order.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -671,7 +671,7 @@ export class AppServiceCertificateOrders {
    * @summary Create or update a certificate purchase order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
-   * @param certificateDistinguishedName Distinguished name to to use for the certificate order.
+   * @param certificateDistinguishedName Distinguished name to use for the certificate order.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
