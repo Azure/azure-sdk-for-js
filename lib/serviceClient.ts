@@ -26,6 +26,7 @@ import { stringifyXML } from "./util/xml";
 import { RequestOptionsBase, RequestPrepareOptions, WebResource } from "./webResource";
 import { OperationResponse } from "./operationResponse";
 import { ServiceCallback } from "./util/utils";
+import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 
 /**
  * Options to be provided while creating the client.
@@ -365,6 +366,7 @@ function createDefaultRequestPolicyFactories(credentials: ServiceClientCredentia
   if (!options.noRetryPolicy) {
     factories.push(exponentialRetryPolicy());
     factories.push(systemErrorRetryPolicy());
+    factories.push(throttlingRetryPolicy());
   }
 
   factories.push(deserializationPolicy(options.deserializationContentTypes));

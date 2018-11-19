@@ -306,10 +306,23 @@ export class WebResource {
       this.timeout,
       this.onUploadProgress,
       this.onDownloadProgress);
-    result.formData = this.formData;
-    result.operationSpec = this.operationSpec;
-    result.shouldDeserialize = this.shouldDeserialize;
-    result.operationResponseGetter = this.operationResponseGetter;
+
+    if (this.formData) {
+      result.formData = this.formData;
+    }
+
+    if (this.operationSpec) {
+      result.operationSpec = this.operationSpec;
+    }
+
+    if (this.shouldDeserialize) {
+      result.shouldDeserialize = this.shouldDeserialize;
+    }
+
+    if (this.operationResponseGetter) {
+      result.operationResponseGetter = this.operationResponseGetter;
+    }
+
     return result;
   }
 }

@@ -58,6 +58,10 @@ export const Constants = {
       HEAD: "HEAD",
       PATCH: "PATCH"
     },
+
+    StatusCodes: {
+      TooManyRequests: 429
+    }
   },
 
   /**
@@ -73,6 +77,16 @@ export const Constants = {
     AUTHORIZATION: "authorization",
 
     AUTHORIZATION_SCHEME: "Bearer",
+
+    /**
+     * The Retry-After response-header field can be used with a 503 (Service
+     * Unavailable) or 349 (Too Many Requests) responses to indicate how long
+     * the service is expected to be unavailable to the requesting client.
+     *
+     * @const
+     * @type {string}
+     */
+    RETRY_AFTER: "Retry-After",
 
     /**
      * The UserAgent header.
