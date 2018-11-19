@@ -17,6 +17,12 @@ export function throttlingRetryPolicy(): RequestPolicyFactory {
   };
 }
 
+/**
+ * To learn more, please refer to
+ * https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-request-limits,
+ * https://docs.microsoft.com/en-us/azure/azure-subscription-service-limits and
+ * https://docs.microsoft.com/en-us/azure/virtual-machines/troubleshooting/troubleshooting-throttling-errors
+ */
 export class ThrottlingRetryPolicy extends BaseRequestPolicy {
   private _handleResponse: ResponseHandler;
 
