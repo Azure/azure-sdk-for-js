@@ -3028,15 +3028,25 @@ export const ApplicationGatewayRewriteRuleActionSet: msRest.CompositeMapper = {
       requestHeaderConfigurations: {
         serializedName: "requestHeaderConfigurations",
         type: {
-          name: "Composite",
-          className: "ApplicationGatewayHeaderConfiguration"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ApplicationGatewayHeaderConfiguration"
+            }
+          }
         }
       },
       responseHeaderConfigurations: {
         serializedName: "responseHeaderConfigurations",
         type: {
-          name: "Composite",
-          className: "ApplicationGatewayHeaderConfiguration"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ApplicationGatewayHeaderConfiguration"
+            }
+          }
         }
       }
     }

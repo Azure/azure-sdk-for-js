@@ -2320,15 +2320,15 @@ export interface ApplicationGatewayHeaderConfiguration {
  */
 export interface ApplicationGatewayRewriteRuleActionSet {
   /**
-   * @member {ApplicationGatewayHeaderConfiguration}
+   * @member {ApplicationGatewayHeaderConfiguration[]}
    * [requestHeaderConfigurations] Request Header Actions in the Action Set
    */
-  requestHeaderConfigurations?: ApplicationGatewayHeaderConfiguration;
+  requestHeaderConfigurations?: ApplicationGatewayHeaderConfiguration[];
   /**
-   * @member {ApplicationGatewayHeaderConfiguration}
+   * @member {ApplicationGatewayHeaderConfiguration[]}
    * [responseHeaderConfigurations] Response Header Actions in the Action Set
    */
-  responseHeaderConfigurations?: ApplicationGatewayHeaderConfiguration;
+  responseHeaderConfigurations?: ApplicationGatewayHeaderConfiguration[];
 }
 
 /**
