@@ -158,6 +158,7 @@ const createPackages = (type: CreatePackageType = "pack") => {
                 // This happens if the package doesn't exist in NPM.
               }
 
+              console.log(`Package name: ${packageName}\nLocal package version: ${localPackageVersion}\nNPM package version: ${npmPackageVersion}`);
               if (localPackageVersion === npmPackageVersion) {
                 upToDatePackages++;
               }
