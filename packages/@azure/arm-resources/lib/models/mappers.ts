@@ -728,6 +728,13 @@ export const DeploymentExtended: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
       location: {
         serializedName: "location",
         type: {
@@ -1037,6 +1044,13 @@ export const ResourceGroup: msRest.CompositeMapper = {
       name: {
         readOnly: true,
         serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
         type: {
           name: "String"
         }

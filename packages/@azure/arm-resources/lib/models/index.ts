@@ -542,6 +542,12 @@ export interface DeploymentExtended extends BaseResource {
    */
   readonly name?: string;
   /**
+   * @member {string} [type] The type of the deployment.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
    * @member {string} [location] the location of the deployment.
    */
   location?: string;
@@ -773,6 +779,12 @@ export interface ResourceGroup extends BaseResource {
    * the server.**
    */
   readonly name?: string;
+  /**
+   * @member {string} [type] The type of the resource group.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
   /**
    * @member {ResourceGroupProperties} [properties]
    */
