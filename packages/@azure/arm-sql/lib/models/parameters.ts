@@ -128,16 +128,6 @@ export const blobAuditingPolicyName: msRest.OperationURLParameter = {
     }
   }
 };
-export const columnName: msRest.OperationURLParameter = {
-  parameterPath: "columnName",
-  mapper: {
-    required: true,
-    serializedName: "columnName",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const communicationLinkName: msRest.OperationURLParameter = {
   parameterPath: "communicationLinkName",
   mapper: {
@@ -611,16 +601,6 @@ export const scanId: msRest.OperationURLParameter = {
     }
   }
 };
-export const schemaName: msRest.OperationURLParameter = {
-  parameterPath: "schemaName",
-  mapper: {
-    required: true,
-    serializedName: "schemaName",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const securityAlertPolicyName0: msRest.OperationURLParameter = {
   parameterPath: "securityAlertPolicyName",
   mapper: {
@@ -640,32 +620,6 @@ export const securityAlertPolicyName1: msRest.OperationURLParameter = {
     isConstant: true,
     serializedName: "securityAlertPolicyName",
     defaultValue: 'Default',
-    type: {
-      name: "String"
-    }
-  }
-};
-export const sensitivityLabelSource0: msRest.OperationURLParameter = {
-  parameterPath: "sensitivityLabelSource",
-  mapper: {
-    required: true,
-    serializedName: "sensitivityLabelSource",
-    type: {
-      name: "Enum",
-      allowedValues: [
-        "current",
-        "recommended"
-      ]
-    }
-  }
-};
-export const sensitivityLabelSource1: msRest.OperationURLParameter = {
-  parameterPath: "sensitivityLabelSource",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "sensitivityLabelSource",
-    defaultValue: 'current',
     type: {
       name: "String"
     }
@@ -768,16 +722,6 @@ export const syncMemberName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "syncMemberName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const tableName: msRest.OperationURLParameter = {
-  parameterPath: "tableName",
-  mapper: {
-    required: true,
-    serializedName: "tableName",
     type: {
       name: "String"
     }

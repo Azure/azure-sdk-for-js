@@ -61,7 +61,6 @@ export * from "./longTermRetentionBackups";
 export * from "./backupLongTermRetentionPolicies";
 export * from "./managedBackupShortTermRetentionPolicies";
 export * from "./managedDatabases";
-export * from "./sensitivityLabels";
 export * from "./serverAutomaticTuningOperations";
 export * from "./serverDnsAliases";
 export * from "./serverSecurityAlertPolicies";

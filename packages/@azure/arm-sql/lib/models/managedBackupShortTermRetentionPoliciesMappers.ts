@@ -84,7 +84,6 @@ export {
   LongTermRetentionBackup,
   BackupLongTermRetentionPolicy,
   ManagedDatabase,
-  SensitivityLabel,
   ServerAutomaticTuning,
   AutomaticTuningServerOptions,
   ServerDnsAlias,
