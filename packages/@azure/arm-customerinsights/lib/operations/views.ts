@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/viewsMappers";
 import * as Parameters from "../models/parameters";
@@ -30,7 +30,7 @@ export class Views {
    * Gets all available views for given user in the specified hub.
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
-   * @param userId The user ID. Use * to retreive hub level views.
+   * @param userId The user ID. Use * to retrieve hub level views.
    * @param [options] The optional parameters
    * @returns Promise<Models.ViewsListByHubResponse>
    */
@@ -38,14 +38,14 @@ export class Views {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
-   * @param userId The user ID. Use * to retreive hub level views.
+   * @param userId The user ID. Use * to retrieve hub level views.
    * @param callback The callback
    */
   listByHub(resourceGroupName: string, hubName: string, userId: string, callback: msRest.ServiceCallback<Models.ViewListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
-   * @param userId The user ID. Use * to retreive hub level views.
+   * @param userId The user ID. Use * to retrieve hub level views.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -63,7 +63,7 @@ export class Views {
   }
 
   /**
-   * Creates a view or updates an exisiting view in the hub.
+   * Creates a view or updates an existing view in the hub.
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param viewName The name of the view.
@@ -107,7 +107,7 @@ export class Views {
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param viewName The name of the view.
-   * @param userId The user ID. Use * to retreive hub level view.
+   * @param userId The user ID. Use * to retrieve hub level view.
    * @param [options] The optional parameters
    * @returns Promise<Models.ViewsGetResponse>
    */
@@ -116,7 +116,7 @@ export class Views {
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param viewName The name of the view.
-   * @param userId The user ID. Use * to retreive hub level view.
+   * @param userId The user ID. Use * to retrieve hub level view.
    * @param callback The callback
    */
   get(resourceGroupName: string, hubName: string, viewName: string, userId: string, callback: msRest.ServiceCallback<Models.ViewResourceFormat>): void;
@@ -124,7 +124,7 @@ export class Views {
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param viewName The name of the view.
-   * @param userId The user ID. Use * to retreive hub level view.
+   * @param userId The user ID. Use * to retrieve hub level view.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -147,7 +147,7 @@ export class Views {
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param viewName The name of the view.
-   * @param userId The user ID. Use * to retreive hub level view.
+   * @param userId The user ID. Use * to retrieve hub level view.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -156,7 +156,7 @@ export class Views {
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param viewName The name of the view.
-   * @param userId The user ID. Use * to retreive hub level view.
+   * @param userId The user ID. Use * to retrieve hub level view.
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, hubName: string, viewName: string, userId: string, callback: msRest.ServiceCallback<void>): void;
@@ -164,7 +164,7 @@ export class Views {
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param viewName The name of the view.
-   * @param userId The user ID. Use * to retreive hub level view.
+   * @param userId The user ID. Use * to retrieve hub level view.
    * @param options The optional parameters
    * @param callback The callback
    */
