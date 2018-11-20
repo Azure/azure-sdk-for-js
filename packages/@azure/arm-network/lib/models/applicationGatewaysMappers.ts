@@ -70,6 +70,8 @@ export {
   ApplicationGatewayFirewallDisabledRuleGroup,
   ApplicationGatewayFirewallExclusion,
   ApplicationGatewayAutoscaleConfiguration,
+  ManagedServiceIdentity,
+  ManagedServiceIdentityUserAssignedIdentitiesValue,
   TagsObject,
   ApplicationGatewayListResult,
   ApplicationGatewayBackendHealth,
