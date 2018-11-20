@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/collectionMappers";
 import * as Parameters from "../models/parameters";
@@ -118,7 +118,7 @@ export class Collection {
   }
 
   /**
-   * Retrieves metric defintions for the given collection.
+   * Retrieves metric definitions for the given collection.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Cosmos DB database account name.
    * @param databaseRid Cosmos DB database rid.
