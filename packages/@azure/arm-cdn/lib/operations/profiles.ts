@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/profilesMappers";
 import * as Parameters from "../models/parameters";
@@ -153,7 +153,7 @@ export class Profiles {
   }
 
   /**
-   * Generates a dynamic SSO URI used to sign in to the CDN supplemental portal. Supplemnetal portal
+   * Generates a dynamic SSO URI used to sign in to the CDN supplemental portal. Supplemental portal
    * is used to configure advanced feature capabilities that are not yet available in the Azure
    * portal, such as core reports in a standard profile; rules engine, advanced HTTP reports, and
    * real-time stats and alerts in a premium profile. The SSO URI changes approximately every 10
