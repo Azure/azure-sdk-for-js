@@ -14,12 +14,11 @@ import { getDataFromPullRequest } from "./.scripts/github";
 import { generateAllMissingSdks, generateMissingSdk, generateSdk, generateTsReadme, regenerate } from "./.scripts/gulp";
 import { Logger } from "./.scripts/logger";
 import { findMissingSdks, findWrongPackages } from "./.scripts/packages";
-import { findReadmeTypeScriptMdFilePaths, getAbsolutePackageFolderPathFromReadmeFileContents, getPackageFolderPathFromPackageArgument } from "./.scripts/readme";
+import { getPackageFolderPathFromPackageArgument } from './.scripts/readme';
 
 const args: CommandLineOptions = getCommandLineOptions();
 const _logger: Logger = Logger.get();
 const azureSDKForJSRepoRoot: string = args["azure-sdk-for-js-repo-root"] || __dirname;
-const azureRestAPISpecsRoot: string = args["azure-rest-api-specs-root"] || path.resolve(azureSDKForJSRepoRoot, '..', 'azure-rest-api-specs');
 
 gulp.task('default', () => {
   _logger.log('gulp build --package <package-name>');
@@ -103,86 +102,76 @@ gulp.task('codegen', async () => {
 type CreatePackageType = "pack" | "publish"
 
 const createPackages = (type: CreatePackageType = "pack") => {
-  const typeScriptReadmeFilePaths: string[] = findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot);
-
   let errorPackages = 0;
   let upToDatePackages = 0;
   let publishedPackages = 0;
   let publishedPackagesSkipped = 0;
 
+  // `./drop/` folder
   const dropPath = path.join(azureSDKForJSRepoRoot, "drop");
   if (!fs.existsSync(dropPath)) {
     fs.mkdirSync(dropPath);
   }
-  for (const typeScriptReadmeFilePath of typeScriptReadmeFilePaths) {
-    _logger.logTrace(`INFO: Processing ${typeScriptReadmeFilePath}`);
 
-    const typeScriptReadmeFileContents: string = fs.readFileSync(typeScriptReadmeFilePath, 'utf8');
-    const packageFolderPath: string | undefined = getAbsolutePackageFolderPathFromReadmeFileContents(
-      azureSDKForJSRepoRoot,
-      typeScriptReadmeFileContents
-    );
-    if (!packageFolderPath) {
-      _logger.log(`ERROR: No output-path property specified in ${typeScriptReadmeFileContents}.`);
-      errorPackages++;
-    } else {
-      if (!fs.existsSync(packageFolderPath)) {
-        _logger.log(`ERROR: Package folder ${packageFolderPath} has not been generated.`);
+  const getAllPackageFolders = function *(p: string): IterableIterator<string> {
+    for (const dir of fs.readdirSync(p)) {
+      const dirPath = path.join(p, dir)
+      const packageJsonPath = path.join(dirPath, "package.json")
+      if (fs.existsSync(packageJsonPath)) {
+        yield dirPath
+      } else {
+        yield *getAllPackageFolders(dirPath)
+      }
+    }
+  }
+
+  for (const packageFolderPath of getAllPackageFolders(path.resolve("packages"))) {
+    _logger.logTrace(`INFO: Processing ${packageFolderPath}`);
+
+    const packageJsonFilePath: string = path.join(packageFolderPath, "package.json");
+    const packageJson: { [propertyName: string]: any } = require(packageJsonFilePath);
+    const packageName: string = packageJson.name;
+
+    if (!args.package || args.package === packageName || endsWith(packageName, `-${args.package}`)) {
+      const localPackageVersion: string = packageJson.version;
+      if (!localPackageVersion) {
+        _logger.log(`ERROR: "${packageJsonFilePath}" doesn't have a version specified.`);
         errorPackages++;
       }
       else {
-        const packageJsonFilePath: string = `${packageFolderPath}/package.json`;
-        if (!fs.existsSync(packageJsonFilePath)) {
-          _logger.log(`ERROR: Package folder ${packageFolderPath} is missing its package.json file.`);
-          errorPackages++;
+        let npmPackageVersion: string | undefined;
+        try {
+          const npmViewResult: { [propertyName: string]: any } = JSON.parse(
+            execSync(`npm view ${packageName} --json`, { stdio: ['pipe', 'pipe', 'ignore'] }).toString()
+          );
+          npmPackageVersion = npmViewResult['dist-tags']['latest'];
+        }
+        catch (error) {
+          // This happens if the package doesn't exist in NPM.
+        }
+
+        if (localPackageVersion === npmPackageVersion) {
+          upToDatePackages++;
         }
         else {
-          const packageJson: { [propertyName: string]: any } = require(packageJsonFilePath);
-          const packageName: string = packageJson.name;
-
-          if (!args.package || args.package === packageName || endsWith(packageName, `-${args.package}`)) {
-            const localPackageVersion: string = packageJson.version;
-            if (!localPackageVersion) {
-              _logger.log(`ERROR: "${packageJsonFilePath}" doesn't have a version specified.`);
+          _logger.log(`Packing package "${packageName}" with version "${localPackageVersion}"...${args.whatif ? " (SKIPPED)" : ""}`);
+          if (!args.whatif) {
+            try {
+              npmInstall(packageFolderPath);
+              // TODO: `npm install` should be removed after we regenerate all packages.
+              execSync("npm install", { cwd: packageFolderPath });
+              execSync(`npm ${type}`, { cwd: packageFolderPath });
+              const packFileName = `${packageName.replace("/", "-").replace("@", "")}-${localPackageVersion}.tgz`
+              const packFilePath = path.join(packageFolderPath, packFileName);
+              fs.renameSync(packFilePath, path.join(dropPath, packFileName));
+              console.log(`Filename: ${packFileName}`);
+              publishedPackages++;
+            }
+            catch (error) {
               errorPackages++;
             }
-            else {
-              let npmPackageVersion: string | undefined;
-              try {
-                const npmViewResult: { [propertyName: string]: any } = JSON.parse(
-                  execSync(`npm view ${packageName} --json`, { stdio: ['pipe', 'pipe', 'ignore'] }).toString()
-                );
-                npmPackageVersion = npmViewResult['dist-tags']['latest'];
-              }
-              catch (error) {
-                // This happens if the package doesn't exist in NPM.
-              }
-
-              if (localPackageVersion === npmPackageVersion) {
-                upToDatePackages++;
-              }
-              else {
-                _logger.log(`Packing package "${packageName}" with version "${localPackageVersion}"...${args.whatif ? " (SKIPPED)" : ""}`);
-                if (!args.whatif) {
-                  try {
-                    npmInstall(packageFolderPath);
-                    // TODO: `npm install` should be removed after we regenerate all packages.
-                    execSync("npm install", { cwd: packageFolderPath });
-                    execSync(`npm ${type}`, { cwd: packageFolderPath });
-                    const packFileName = `${packageName.replace("/", "-").replace("@", "")}-${localPackageVersion}.tgz`
-                    const packFilePath = path.join(packageFolderPath, packFileName);
-                    fs.renameSync(packFilePath, path.join(dropPath, packFileName));
-                    console.log(`Filename: ${packFileName}`);
-                    publishedPackages++;
-                  }
-                  catch (error) {
-                    errorPackages++;
-                  }
-                } else {
-                  publishedPackagesSkipped++;
-                }
-              }
-            }
+          } else {
+            publishedPackagesSkipped++;
           }
         }
       }
