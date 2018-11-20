@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -1223,11 +1223,6 @@ export interface Run extends ProxyResource {
    */
   sourceTrigger?: SourceTriggerDescriptor;
   /**
-   * @member {boolean} [isArchiveEnabled] The value that indicates whether
-   * archiving is enabled or not. Default value: false .
-   */
-  isArchiveEnabled?: boolean;
-  /**
    * @member {PlatformProperties} [platform] The platform properties against
    * which the run will happen.
    */
@@ -1243,6 +1238,11 @@ export interface Run extends ProxyResource {
    * 'Succeeded', 'Failed', 'Canceled'
    */
   provisioningState?: ProvisioningState;
+  /**
+   * @member {boolean} [isArchiveEnabled] The value that indicates whether
+   * archiving is enabled or not. Default value: false .
+   */
+  isArchiveEnabled?: boolean;
 }
 
 /**
@@ -1541,7 +1541,7 @@ export interface TriggerProperties {
  * @interface
  * An interface representing Task.
  * The task that has the ARM resource and task properties.
- * The  task will have all information to schedule a run against it.
+ * The task will have all information to schedule a run against it.
  *
  * @extends Resource
  */
