@@ -14,7 +14,7 @@ import { getDataFromPullRequest } from "./.scripts/github";
 import { generateAllMissingSdks, generateMissingSdk, generateSdk, generateTsReadme, regenerate } from "./.scripts/gulp";
 import { Logger } from "./.scripts/logger";
 import { findMissingSdks, findWrongPackages } from "./.scripts/packages";
-import { getPackageFolderPathFromPackageArgument } from './.scripts/readme';
+import { getPackageFolderPathFromPackageArgument } from "./.scripts/readme";
 
 const args: CommandLineOptions = getCommandLineOptions();
 const _logger: Logger = Logger.get();
