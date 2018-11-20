@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -634,7 +634,7 @@ export interface Usage {
  */
 export interface PartitionUsage extends Usage {
   /**
-   * @member {string} [partitionId] The parition id (GUID identifier) of the
+   * @member {string} [partitionId] The partition id (GUID identifier) of the
    * usages.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -915,7 +915,7 @@ export interface PercentileMetric {
  */
 export interface PartitionMetric extends Metric {
   /**
-   * @member {string} [partitionId] The parition id (GUID identifier) of the
+   * @member {string} [partitionId] The partition id (GUID identifier) of the
    * metric values.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
