@@ -114,13 +114,15 @@ const createPackages = (type: CreatePackageType = "pack") => {
   }
 
   const getAllPackageFolders = function *(p: string): IterableIterator<string> {
-    for (const dir of fs.readdirSync(p)) {
-      const dirPath = path.join(p, dir)
-      const packageJsonPath = path.join(dirPath, "package.json")
-      if (fs.existsSync(packageJsonPath)) {
-        yield dirPath
-      } else {
-        yield *getAllPackageFolders(dirPath)
+    for (const dir of fs.readdirSync(p, { withFileTypes: true })) {
+      if (dir.isDirectory()) {
+        const dirPath = path.join(p, dir.name)
+        const packageJsonPath = path.join(dirPath, "package.json")
+        if (fs.existsSync(packageJsonPath)) {
+          yield dirPath
+        } else {
+          yield *getAllPackageFolders(dirPath)
+        }
       }
     }
   }
