@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/customDomainsMappers";
 import * as Parameters from "../models/parameters";
@@ -64,7 +64,7 @@ export class CustomDomains {
   }
 
   /**
-   * Gets an exisitng custom domain within an endpoint.
+   * Gets an existing custom domain within an endpoint.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
