@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -133,6 +133,10 @@ export interface PasswordCredential {
    * @member {string} [value] Key value.
    */
   value?: string;
+  /**
+   * @member {Uint8Array} [customKeyIdentifier] Custom Key Identifier
+   */
+  customKeyIdentifier?: Uint8Array;
   /**
    * @property Describes unknown properties. The value of an unknown property
    * can be of "any" type.

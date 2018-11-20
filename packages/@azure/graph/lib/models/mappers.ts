@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
@@ -162,6 +162,12 @@ export const PasswordCredential: msRest.CompositeMapper = {
         serializedName: "value",
         type: {
           name: "String"
+        }
+      },
+      customKeyIdentifier: {
+        serializedName: "customKeyIdentifier",
+        type: {
+          name: "ByteArray"
         }
       }
     },
@@ -1698,6 +1704,11 @@ export const DirectoryObjectListResult: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "objectType",
+                clientName: "objectType"
+              },
+              uberParent: "DirectoryObject",
               className: "DirectoryObject",
               additionalProperties: {
                 type: {
@@ -1731,6 +1742,8 @@ export const ApplicationListResult: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: DirectoryObject.type.polymorphicDiscriminator,
+              uberParent: "DirectoryObject",
               className: "Application",
               additionalProperties: DirectoryObject.type.additionalProperties
             }
@@ -1814,6 +1827,8 @@ export const GroupListResult: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: DirectoryObject.type.polymorphicDiscriminator,
+              uberParent: "DirectoryObject",
               className: "ADGroup",
               additionalProperties: DirectoryObject.type.additionalProperties
             }
@@ -1864,6 +1879,8 @@ export const ServicePrincipalListResult: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: DirectoryObject.type.polymorphicDiscriminator,
+              uberParent: "DirectoryObject",
               className: "ServicePrincipal",
               additionalProperties: DirectoryObject.type.additionalProperties
             }
@@ -1893,6 +1910,8 @@ export const UserListResult: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: DirectoryObject.type.polymorphicDiscriminator,
+              uberParent: "DirectoryObject",
               className: "User",
               additionalProperties: DirectoryObject.type.additionalProperties
             }
