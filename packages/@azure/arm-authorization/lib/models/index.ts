@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -186,6 +186,13 @@ export interface RoleAssignment {
    * @member {string} [principalId] The principal ID.
    */
   principalId?: string;
+  /**
+   * @member {PrincipalType} [principalType] The principal type of the assigned
+   * principal ID. Possible values include: 'User', 'Group',
+   * 'ServicePrincipal', 'Unknown', 'DirectoryRoleTemplate', 'ForeignGroup',
+   * 'Application', 'MSI', 'DirectoryObjectOrGroup', 'Everyone'
+   */
+  principalType?: PrincipalType;
   /**
    * @member {boolean} [canDelegate] The Delegation flag for the roleassignment
    */
