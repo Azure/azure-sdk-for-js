@@ -8,8 +8,9 @@
  * regenerated.
  */
 
-export * from "./operations";
-export * from "./subscriptionOperationOperations";
-export * from "./subscriptionFactory";
-export * from "./subscriptions";
-export * from "./tenants";
+export {
+  SubscriptionCreationResult,
+  SubscriptionOperationGetHeaders,
+  CloudError
+} from "../models/mappers";
+
