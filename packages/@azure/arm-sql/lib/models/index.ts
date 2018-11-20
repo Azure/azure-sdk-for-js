@@ -2301,10 +2301,8 @@ export interface ManagedInstance extends TrackedResource {
   storageSizeInGB?: number;
   /**
    * @member {string} [collation] Collation of the managed instance.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly collation?: string;
+  collation?: string;
   /**
    * @member {string} [dnsZone] The Dns Zone that the managed instance is in.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -2372,10 +2370,8 @@ export interface ManagedInstanceUpdate {
   storageSizeInGB?: number;
   /**
    * @member {string} [collation] Collation of the managed instance.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly collation?: string;
+  collation?: string;
   /**
    * @member {string} [dnsZone] The Dns Zone that the managed instance is in.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -4324,6 +4320,21 @@ export interface BackupLongTermRetentionPolicy extends ProxyResource {
 
 /**
  * @interface
+ * An interface representing ManagedBackupShortTermRetentionPolicy.
+ * A short term retention policy.
+ *
+ * @extends ProxyResource
+ */
+export interface ManagedBackupShortTermRetentionPolicy extends ProxyResource {
+  /**
+   * @member {number} [retentionDays] The backup retention period in days. This
+   * is how many days Point-in-Time Restore will be supported.
+   */
+  retentionDays?: number;
+}
+
+/**
+ * @interface
  * An interface representing CompleteDatabaseRestoreDefinition.
  * Contains the information necessary to perform a complete database restore
  * operation.
@@ -4656,6 +4667,13 @@ export interface ServerSecurityAlertPolicy extends ProxyResource {
    * the Threat Detection audit logs.
    */
   retentionDays?: number;
+  /**
+   * @member {Date} [creationTime] Specifies the UTC creation time of the
+   * policy.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationTime?: Date;
 }
 
 /**
@@ -4713,6 +4731,116 @@ export interface CreateDatabaseRestorePointDefinition {
    * @member {string} restorePointLabel The restore point label to apply
    */
   restorePointLabel: string;
+}
+
+/**
+ * @interface
+ * An interface representing ManagedDatabaseSecurityAlertPolicy.
+ * A managed database security alert policy.
+ *
+ * @extends ProxyResource
+ */
+export interface ManagedDatabaseSecurityAlertPolicy extends ProxyResource {
+  /**
+   * @member {SecurityAlertPolicyState} state Specifies the state of the
+   * policy, whether it is enabled or disabled. Possible values include: 'New',
+   * 'Enabled', 'Disabled'
+   */
+  state: SecurityAlertPolicyState;
+  /**
+   * @member {string[]} [disabledAlerts] Specifies an array of alerts that are
+   * disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability,
+   * Access_Anomaly, Data_Exfiltration, Unsafe_Action
+   */
+  disabledAlerts?: string[];
+  /**
+   * @member {string[]} [emailAddresses] Specifies an array of e-mail addresses
+   * to which the alert is sent.
+   */
+  emailAddresses?: string[];
+  /**
+   * @member {boolean} [emailAccountAdmins] Specifies that the alert is sent to
+   * the account administrators.
+   */
+  emailAccountAdmins?: boolean;
+  /**
+   * @member {string} [storageEndpoint] Specifies the blob storage endpoint
+   * (e.g. https://MyAccount.blob.core.windows.net). This blob storage will
+   * hold all Threat Detection audit logs.
+   */
+  storageEndpoint?: string;
+  /**
+   * @member {string} [storageAccountAccessKey] Specifies the identifier key of
+   * the Threat Detection audit storage account.
+   */
+  storageAccountAccessKey?: string;
+  /**
+   * @member {number} [retentionDays] Specifies the number of days to keep in
+   * the Threat Detection audit logs.
+   */
+  retentionDays?: number;
+  /**
+   * @member {Date} [creationTime] Specifies the UTC creation time of the
+   * policy.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationTime?: Date;
+}
+
+/**
+ * @interface
+ * An interface representing ManagedServerSecurityAlertPolicy.
+ * A managed server security alert policy.
+ *
+ * @extends ProxyResource
+ */
+export interface ManagedServerSecurityAlertPolicy extends ProxyResource {
+  /**
+   * @member {SecurityAlertPolicyState} state Specifies the state of the
+   * policy, whether it is enabled or disabled. Possible values include: 'New',
+   * 'Enabled', 'Disabled'
+   */
+  state: SecurityAlertPolicyState;
+  /**
+   * @member {string[]} [disabledAlerts] Specifies an array of alerts that are
+   * disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability,
+   * Access_Anomaly, Data_Exfiltration, Unsafe_Action
+   */
+  disabledAlerts?: string[];
+  /**
+   * @member {string[]} [emailAddresses] Specifies an array of e-mail addresses
+   * to which the alert is sent.
+   */
+  emailAddresses?: string[];
+  /**
+   * @member {boolean} [emailAccountAdmins] Specifies that the alert is sent to
+   * the account administrators.
+   */
+  emailAccountAdmins?: boolean;
+  /**
+   * @member {string} [storageEndpoint] Specifies the blob storage endpoint
+   * (e.g. https://MyAccount.blob.core.windows.net). This blob storage will
+   * hold all Threat Detection audit logs.
+   */
+  storageEndpoint?: string;
+  /**
+   * @member {string} [storageAccountAccessKey] Specifies the identifier key of
+   * the Threat Detection audit storage account.
+   */
+  storageAccountAccessKey?: string;
+  /**
+   * @member {number} [retentionDays] Specifies the number of days to keep in
+   * the Threat Detection audit logs.
+   */
+  retentionDays?: number;
+  /**
+   * @member {Date} [creationTime] Specifies the UTC creation time of the
+   * policy.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationTime?: Date;
 }
 
 /**
@@ -6494,6 +6622,76 @@ export interface ManagedInstanceEncryptionProtector extends ProxyResource {
 
 /**
  * @interface
+ * An interface representing ManagedInstanceVulnerabilityAssessment.
+ * A managed instance vulnerability assessment.
+ *
+ * @extends ProxyResource
+ */
+export interface ManagedInstanceVulnerabilityAssessment extends ProxyResource {
+  /**
+   * @member {string} storageContainerPath A blob storage container path to
+   * hold the scan results (e.g.
+   * https://myStorage.blob.core.windows.net/VaScans/).
+   */
+  storageContainerPath: string;
+  /**
+   * @member {string} [storageContainerSasKey] A shared access signature (SAS
+   * Key) that has write access to the blob container specified in
+   * 'storageContainerPath' parameter. If 'storageAccountAccessKey' isn't
+   * specified, StorageContainerSasKey is required.
+   */
+  storageContainerSasKey?: string;
+  /**
+   * @member {string} [storageAccountAccessKey] Specifies the identifier key of
+   * the storage account for vulnerability assessment scan results. If
+   * 'StorageContainerSasKey' isn't specified, storageAccountAccessKey is
+   * required.
+   */
+  storageAccountAccessKey?: string;
+  /**
+   * @member {VulnerabilityAssessmentRecurringScansProperties} [recurringScans]
+   * The recurring scans settings
+   */
+  recurringScans?: VulnerabilityAssessmentRecurringScansProperties;
+}
+
+/**
+ * @interface
+ * An interface representing ServerVulnerabilityAssessment.
+ * A server vulnerability assessment.
+ *
+ * @extends ProxyResource
+ */
+export interface ServerVulnerabilityAssessment extends ProxyResource {
+  /**
+   * @member {string} storageContainerPath A blob storage container path to
+   * hold the scan results (e.g.
+   * https://myStorage.blob.core.windows.net/VaScans/).
+   */
+  storageContainerPath: string;
+  /**
+   * @member {string} [storageContainerSasKey] A shared access signature (SAS
+   * Key) that has write access to the blob container specified in
+   * 'storageContainerPath' parameter. If 'storageAccountAccessKey' isn't
+   * specified, StorageContainerSasKey is required.
+   */
+  storageContainerSasKey?: string;
+  /**
+   * @member {string} [storageAccountAccessKey] Specifies the identifier key of
+   * the storage account for vulnerability assessment scan results. If
+   * 'StorageContainerSasKey' isn't specified, storageAccountAccessKey is
+   * required.
+   */
+  storageAccountAccessKey?: string;
+  /**
+   * @member {VulnerabilityAssessmentRecurringScansProperties} [recurringScans]
+   * The recurring scans settings
+   */
+  recurringScans?: VulnerabilityAssessmentRecurringScansProperties;
+}
+
+/**
+ * @interface
  * An interface representing ElasticPoolsListByServerOptionalParams.
  * Optional Parameters.
  *
@@ -7458,6 +7656,22 @@ export interface LongTermRetentionBackupListResult extends Array<LongTermRetenti
 
 /**
  * @interface
+ * An interface representing the ManagedBackupShortTermRetentionPolicyListResult.
+ * A list of short term retention policies.
+ *
+ * @extends Array<ManagedBackupShortTermRetentionPolicy>
+ */
+export interface ManagedBackupShortTermRetentionPolicyListResult extends Array<ManagedBackupShortTermRetentionPolicy> {
+  /**
+   * @member {string} [nextLink] Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the ManagedDatabaseListResult.
  * A list of managed databases.
  *
@@ -7608,6 +7822,38 @@ export interface ManagedInstanceKeyListResult extends Array<ManagedInstanceKey> 
  * @extends Array<ManagedInstanceEncryptionProtector>
  */
 export interface ManagedInstanceEncryptionProtectorListResult extends Array<ManagedInstanceEncryptionProtector> {
+  /**
+   * @member {string} [nextLink] Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the ManagedInstanceVulnerabilityAssessmentListResult.
+ * A list of the ManagedInstance's vulnerability assessments.
+ *
+ * @extends Array<ManagedInstanceVulnerabilityAssessment>
+ */
+export interface ManagedInstanceVulnerabilityAssessmentListResult extends Array<ManagedInstanceVulnerabilityAssessment> {
+  /**
+   * @member {string} [nextLink] Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the ServerVulnerabilityAssessmentListResult.
+ * A list of the server's vulnerability assessments.
+ *
+ * @extends Array<ServerVulnerabilityAssessment>
+ */
+export interface ServerVulnerabilityAssessmentListResult extends Array<ServerVulnerabilityAssessment> {
   /**
    * @member {string} [nextLink] Link to retrieve next page of results.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -12608,6 +12854,139 @@ export type BackupLongTermRetentionPoliciesBeginCreateOrUpdateResponse = BackupL
 };
 
 /**
+ * Contains response data for the get operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesGetResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesCreateOrUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabase operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesListByDatabaseResponse = ManagedBackupShortTermRetentionPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicyListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesBeginCreateOrUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesBeginUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabaseNext operation.
+ */
+export type ManagedBackupShortTermRetentionPoliciesListByDatabaseNextResponse = ManagedBackupShortTermRetentionPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicyListResult;
+    };
+};
+
+/**
  * Contains response data for the listByInstance operation.
  */
 export type ManagedDatabasesListByInstanceResponse = ManagedDatabaseListResult & {
@@ -13003,6 +13382,101 @@ export type RestorePointsBeginCreateResponse = RestorePoint & {
        * The response body as parsed JSON or XML
        */
       parsedBody: RestorePoint;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ManagedDatabaseSecurityAlertPoliciesGetResponse = ManagedDatabaseSecurityAlertPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedDatabaseSecurityAlertPolicy;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedDatabaseSecurityAlertPoliciesCreateOrUpdateResponse = ManagedDatabaseSecurityAlertPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedDatabaseSecurityAlertPolicy;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ManagedServerSecurityAlertPoliciesGetResponse = ManagedServerSecurityAlertPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedServerSecurityAlertPolicy;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedServerSecurityAlertPoliciesCreateOrUpdateResponse = ManagedServerSecurityAlertPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedServerSecurityAlertPolicy;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type ManagedServerSecurityAlertPoliciesBeginCreateOrUpdateResponse = ManagedServerSecurityAlertPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedServerSecurityAlertPolicy;
     };
 };
 
@@ -13858,5 +14332,157 @@ export type ManagedInstanceEncryptionProtectorsListByInstanceNextResponse = Mana
        * The response body as parsed JSON or XML
        */
       parsedBody: ManagedInstanceEncryptionProtectorListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ManagedInstanceVulnerabilityAssessmentsGetResponse = ManagedInstanceVulnerabilityAssessment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceVulnerabilityAssessment;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedInstanceVulnerabilityAssessmentsCreateOrUpdateResponse = ManagedInstanceVulnerabilityAssessment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceVulnerabilityAssessment;
+    };
+};
+
+/**
+ * Contains response data for the listByInstance operation.
+ */
+export type ManagedInstanceVulnerabilityAssessmentsListByInstanceResponse = ManagedInstanceVulnerabilityAssessmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceVulnerabilityAssessmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByInstanceNext operation.
+ */
+export type ManagedInstanceVulnerabilityAssessmentsListByInstanceNextResponse = ManagedInstanceVulnerabilityAssessmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceVulnerabilityAssessmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ServerVulnerabilityAssessmentsGetResponse = ServerVulnerabilityAssessment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerVulnerabilityAssessment;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ServerVulnerabilityAssessmentsCreateOrUpdateResponse = ServerVulnerabilityAssessment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerVulnerabilityAssessment;
+    };
+};
+
+/**
+ * Contains response data for the listByServer operation.
+ */
+export type ServerVulnerabilityAssessmentsListByServerResponse = ServerVulnerabilityAssessmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerVulnerabilityAssessmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByServerNext operation.
+ */
+export type ServerVulnerabilityAssessmentsListByServerNextResponse = ServerVulnerabilityAssessmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerVulnerabilityAssessmentListResult;
     };
 };

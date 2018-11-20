@@ -82,11 +82,14 @@ export {
   JobVersion,
   LongTermRetentionBackup,
   BackupLongTermRetentionPolicy,
+  ManagedBackupShortTermRetentionPolicy,
   ManagedDatabase,
   ServerAutomaticTuning,
   AutomaticTuningServerOptions,
   ServerDnsAlias,
   RestorePoint,
+  ManagedDatabaseSecurityAlertPolicy,
+  ManagedServerSecurityAlertPolicy,
   DatabaseOperation,
   ElasticPoolOperation,
   Database,
@@ -103,6 +106,8 @@ export {
   BackupShortTermRetentionPolicy,
   TdeCertificate,
   ManagedInstanceKey,
-  ManagedInstanceEncryptionProtector
+  ManagedInstanceEncryptionProtector,
+  ManagedInstanceVulnerabilityAssessment,
+  ServerVulnerabilityAssessment
 } from "../models/mappers";
 

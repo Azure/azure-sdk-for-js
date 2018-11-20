@@ -9,8 +9,7 @@
  */
 
 export {
-  EncryptionProtectorListResult,
-  EncryptionProtector,
+  ManagedDatabaseSecurityAlertPolicy,
   ProxyResource,
   Resource,
   BaseResource,
@@ -41,6 +40,7 @@ export {
   TransparentDataEncryptionActivity,
   DatabaseAutomaticTuning,
   AutomaticTuningOptions,
+  EncryptionProtector,
   FailoverGroup,
   FailoverGroupReadWriteEndpoint,
   FailoverGroupReadOnlyEndpoint,
@@ -89,7 +89,6 @@ export {
   ServerDnsAlias,
   ServerSecurityAlertPolicy,
   RestorePoint,
-  ManagedDatabaseSecurityAlertPolicy,
   ManagedServerSecurityAlertPolicy,
   DatabaseOperation,
   ElasticPoolOperation,
