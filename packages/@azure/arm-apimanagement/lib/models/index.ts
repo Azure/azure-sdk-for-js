@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -1955,7 +1955,7 @@ export interface BackendServiceFabricClusterProperties {
   clientCertificatethumbprint: string;
   /**
    * @member {number} [maxPartitionResolutionRetries] Maximum number of retries
-   * while attempting resolve the parition.
+   * while attempting resolve the partition.
    */
   maxPartitionResolutionRetries?: number;
   /**
