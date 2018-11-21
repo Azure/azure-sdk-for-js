@@ -1167,8 +1167,8 @@ class ServiceFabricClient extends ServiceFabricClientContext {
   /**
    * Gets the information about a specific service type that is supported by a provisioned
    * application type in a Service Fabric cluster. The provided application type must exist.
-   * Otherwise, a 404 status is returned. A 204 response is returned if the specificed service type
-   * is not found in the cluster.
+   * Otherwise, a 404 status is returned. A 204 response is returned if the specified service type is
+   * not found in the cluster.
    * @summary Gets the information about a specific service type that is supported by a provisioned
    * application type in a Service Fabric cluster.
    * @param applicationTypeName The name of the application type.
@@ -7730,7 +7730,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
   /**
    * Gets the information about all replicas of a given service of an application. The information
    * includes the runtime properties of the replica instance.
-   * @summary Gets replicas of a given service in an applciation resource.
+   * @summary Gets replicas of a given service in an application resource.
    * @param applicationResourceName Service Fabric application resource name.
    * @param serviceResourceName Service Fabric service resource name.
    * @param [options] The optional parameters
