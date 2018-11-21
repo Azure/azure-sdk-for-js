@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/expressRouteCircuitConnectionsMappers";
 import * as Parameters from "../models/parameters";
@@ -88,7 +88,7 @@ export class ExpressRouteCircuitConnections {
    * @param peeringName The name of the peering.
    * @param connectionName The name of the express route circuit connection.
    * @param expressRouteCircuitConnectionParameters Parameters supplied to the create or update
-   * express route circuit circuit connection operation.
+   * express route circuit connection operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCircuitConnectionsCreateOrUpdateResponse>
    */
@@ -126,7 +126,7 @@ export class ExpressRouteCircuitConnections {
    * @param peeringName The name of the peering.
    * @param connectionName The name of the express route circuit connection.
    * @param expressRouteCircuitConnectionParameters Parameters supplied to the create or update
-   * express route circuit circuit connection operation.
+   * express route circuit connection operation.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -3410,7 +3410,7 @@ export interface ExpressRouteCircuitPeeringConfig {
   advertisedPublicPrefixes?: string[];
   /**
    * @member {string[]} [advertisedCommunities] The communities of bgp peering.
-   * Spepcified for microsoft peering
+   * Specified for microsoft peering
    */
   advertisedCommunities?: string[];
   /**
@@ -3559,7 +3559,7 @@ export interface ExpressRouteCircuitConnection extends SubResource {
   readonly circuitConnectionStatus?: CircuitConnectionStatus;
   /**
    * @member {string} [provisioningState] Provisioning state of the circuit
-   * connection resource. Possible values are: 'Succeded', 'Updating',
+   * connection resource. Possible values are: 'Succeeded', 'Updating',
    * 'Deleting', and 'Failed'.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
