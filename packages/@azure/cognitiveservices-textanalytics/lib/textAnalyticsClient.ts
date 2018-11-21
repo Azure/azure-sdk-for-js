@@ -125,8 +125,18 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
   }
 
   /**
-   * To get even more information on each recognized entity we recommend using the Bing Entity Search
-   * API by querying for the recognized entities names. See the <a
+   * The API returns a list of recognized entities in a given document. To get even more information
+   * on each recognized entity we recommend using the Bing Entity Search API by querying for the
+   * recognized entities names. See the <a
+   * href="https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/text-analytics-supported-languages">Supported
+   * languages in Text Analytics API</a> for the list of enabled languages.The API returns a list of
+   * known entities and general named entities ("Person", "Location", "Organization" etc) in a given
+   * document. Known entities are returned with Wikipedia Id and Wikipedia link, and also Bing Id
+   * which can be used in Bing Entity Search API. General named entities are returned with entity
+   * types. If a general named entity is also a known entity, then all information regarding it
+   * (Wikipedia Id, Bing Id, entity type etc) will be returned. See the <a
+   * href="https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-entity-linking#supported-types-for-named-entity-recognition">Supported
+   * Entity Types in Text Analytics API</a> for the list of supported Entity Types. See the <a
    * href="https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/text-analytics-supported-languages">Supported
    * languages in Text Analytics API</a> for the list of enabled languages.
    * @summary The API returns a list of recognized entities in a given document.
@@ -139,14 +149,14 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
    * @param input Collection of documents to analyze.
    * @param callback The callback
    */
-  entities(input: Models.MultiLanguageBatchInput, callback: msRest.ServiceCallback<Models.EntitiesBatchResult>): void;
+  entities(input: Models.MultiLanguageBatchInput, callback: msRest.ServiceCallback<Models.EntitiesBatchResultV2dot1>): void;
   /**
    * @param input Collection of documents to analyze.
    * @param options The optional parameters
    * @param callback The callback
    */
-  entities(input: Models.MultiLanguageBatchInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntitiesBatchResult>): void;
-  entities(input: Models.MultiLanguageBatchInput, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntitiesBatchResult>): Promise<Models.EntitiesResponse> {
+  entities(input: Models.MultiLanguageBatchInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntitiesBatchResultV2dot1>): void;
+  entities(input: Models.MultiLanguageBatchInput, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntitiesBatchResultV2dot1>): Promise<Models.EntitiesResponse> {
     return this.sendOperationRequest(
       {
         input,
@@ -246,7 +256,7 @@ const entitiesOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.EntitiesBatchResult
+      bodyMapper: Mappers.EntitiesBatchResultV2dot1
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

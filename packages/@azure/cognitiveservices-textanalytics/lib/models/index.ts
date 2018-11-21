@@ -264,9 +264,9 @@ export interface SentimentBatchResult {
 
 /**
  * @interface
- * An interface representing MatchRecord.
+ * An interface representing MatchRecordV2dot1.
  */
-export interface MatchRecord {
+export interface MatchRecordV2dot1 {
   /**
    * @member {string} [text] Entity text as appears in the request.
    */
@@ -285,20 +285,18 @@ export interface MatchRecord {
 
 /**
  * @interface
- * An interface representing EntityRecord.
+ * An interface representing EntityRecordV2dot1.
  */
-export interface EntityRecord {
+export interface EntityRecordV2dot1 {
   /**
    * @member {string} [name] Entity formal name.
    */
   name?: string;
   /**
-   * @member {MatchRecord[]} [matches] List of instances this entity appears in
-   * the text.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {MatchRecordV2dot1[]} [matches] List of instances this entity
+   * appears in the text.
    */
-  readonly matches?: MatchRecord[];
+  matches?: MatchRecordV2dot1[];
   /**
    * @member {string} [wikipediaLanguage] Wikipedia language for which the
    * WikipediaId and WikipediaUrl refers to.
@@ -322,13 +320,22 @@ export interface EntityRecord {
    * relevant information.
    */
   bingId?: string;
+  /**
+   * @member {string} [type] Entity type from Named Entity Recognition model
+   */
+  type?: string;
+  /**
+   * @member {string} [subType] Entity sub type from Named Entity Recognition
+   * model
+   */
+  subType?: string;
 }
 
 /**
  * @interface
- * An interface representing EntitiesBatchResultItem.
+ * An interface representing EntitiesBatchResultItemV2dot1.
  */
-export interface EntitiesBatchResultItem {
+export interface EntitiesBatchResultItemV2dot1 {
   /**
    * @member {string} [id] Unique document identifier.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -336,23 +343,24 @@ export interface EntitiesBatchResultItem {
    */
   readonly id?: string;
   /**
-   * @member {EntityRecord[]} [entities] Recognized entities in the document.
+   * @member {EntityRecordV2dot1[]} [entities] Recognized entities in the
+   * document.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly entities?: EntityRecord[];
+  readonly entities?: EntityRecordV2dot1[];
 }
 
 /**
  * @interface
- * An interface representing EntitiesBatchResult.
+ * An interface representing EntitiesBatchResultV2dot1.
  */
-export interface EntitiesBatchResult {
+export interface EntitiesBatchResultV2dot1 {
   /**
-   * @member {EntitiesBatchResultItem[]} [documents] **NOTE: This property will
-   * not be serialized. It can only be populated by the server.**
+   * @member {EntitiesBatchResultItemV2dot1[]} [documents] **NOTE: This
+   * property will not be serialized. It can only be populated by the server.**
    */
-  readonly documents?: EntitiesBatchResultItem[];
+  readonly documents?: EntitiesBatchResultItemV2dot1[];
   /**
    * @member {ErrorRecord[]} [errors] **NOTE: This property will not be
    * serialized. It can only be populated by the server.**
@@ -420,7 +428,7 @@ export type SentimentResponse = SentimentBatchResult & {
 /**
  * Contains response data for the entities operation.
  */
-export type EntitiesResponse = EntitiesBatchResult & {
+export type EntitiesResponse = EntitiesBatchResultV2dot1 & {
   /**
    * The underlying HTTP response.
    */
@@ -432,6 +440,6 @@ export type EntitiesResponse = EntitiesBatchResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EntitiesBatchResult;
+      parsedBody: EntitiesBatchResultV2dot1;
     };
 };
