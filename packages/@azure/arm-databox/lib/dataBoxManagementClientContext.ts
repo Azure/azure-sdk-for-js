@@ -16,16 +16,9 @@ const packageName = "@azure/arm-databox";
 const packageVersion = "0.0.1";
 
 export class DataBoxManagementClientContext extends msRestAzure.AzureServiceClient {
-
   credentials: msRest.ServiceClientCredentials;
-
-  apiVersion: string;
-
+  apiVersion?: string;
   subscriptionId: string;
-
-  acceptLanguage: string;
-
-  longRunningOperationRetryTimeout: number;
 
   /**
    * Initializes a new instance of the DataBoxManagementClient class.

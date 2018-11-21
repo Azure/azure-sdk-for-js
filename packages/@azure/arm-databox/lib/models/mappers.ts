@@ -37,7 +37,8 @@ export const ShareCredentialDetails: msRest.CompositeMapper = {
             "HCS",
             "BlockBlob",
             "PageBlob",
-            "AzureFile"
+            "AzureFile",
+            "ManagedDisk"
           ]
         }
       },
@@ -512,7 +513,8 @@ export const SkuInformation: msRest.CompositeMapper = {
             "Country",
             "Region",
             "Feature",
-            "OfferType"
+            "OfferType",
+            "NoSubscriptionInfo"
           ]
         }
       },
@@ -698,6 +700,20 @@ export const CopyProgress: msRest.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      filesProcessed: {
+        readOnly: true,
+        serializedName: "filesProcessed",
+        type: {
+          name: "Number"
+        }
+      },
+      totalFilesToProcess: {
+        readOnly: true,
+        serializedName: "totalFilesToProcess",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -880,6 +896,11 @@ export const JobDetails: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "dataDestinationType",
+                clientName: "dataDestinationType"
+              },
+              uberParent: "DestinationAccountDetails",
               className: "DestinationAccountDetails"
             }
           }
@@ -1342,11 +1363,69 @@ export const DestinationAccountDetails: msRest.CompositeMapper = {
   serializedName: "DestinationAccountDetails",
   type: {
     name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "dataDestinationType",
+      clientName: "dataDestinationType"
+    },
+    uberParent: "DestinationAccountDetails",
     className: "DestinationAccountDetails",
     modelProperties: {
       accountId: {
-        required: true,
         serializedName: "accountId",
+        type: {
+          name: "String"
+        }
+      },
+      dataDestinationType: {
+        required: true,
+        serializedName: "dataDestinationType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DestinationManagedDiskDetails: msRest.CompositeMapper = {
+  serializedName: "ManagedDisk",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DestinationAccountDetails.type.polymorphicDiscriminator,
+    uberParent: "DestinationAccountDetails",
+    className: "DestinationManagedDiskDetails",
+    modelProperties: {
+      ...DestinationAccountDetails.type.modelProperties,
+      resourceGroupId: {
+        required: true,
+        serializedName: "resourceGroupId",
+        type: {
+          name: "String"
+        }
+      },
+      stagingStorageAccountId: {
+        required: true,
+        serializedName: "stagingStorageAccountId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DestinationStorageAccountDetails: msRest.CompositeMapper = {
+  serializedName: "StorageAccount",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DestinationAccountDetails.type.polymorphicDiscriminator,
+    uberParent: "DestinationAccountDetails",
+    className: "DestinationStorageAccountDetails",
+    modelProperties: {
+      ...DestinationAccountDetails.type.modelProperties,
+      storageAccountId: {
+        required: true,
+        serializedName: "storageAccountId",
         type: {
           name: "String"
         }
@@ -1740,6 +1819,11 @@ export const JobResourceUpdateParameter: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "dataDestinationType",
+                clientName: "dataDestinationType"
+              },
+              uberParent: "DestinationAccountDetails",
               className: "DestinationAccountDetails"
             }
           }
@@ -2067,6 +2151,9 @@ export const discriminators = {
   'JobSecrets.DataBoxHeavy' : DataBoxHeavyJobSecrets,
   'JobDetails.DataBox' : DataBoxJobDetails,
   'JobSecrets.DataBox' : DataboxJobSecrets,
+  'DestinationAccountDetails' : DestinationAccountDetails,
+  'DestinationAccountDetails.ManagedDisk' : DestinationManagedDiskDetails,
+  'DestinationAccountDetails.StorageAccount' : DestinationStorageAccountDetails,
   'JobDetails' : JobDetails,
   'JobSecrets' : JobSecrets
 };
