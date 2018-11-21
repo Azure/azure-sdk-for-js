@@ -410,11 +410,11 @@ export const SentimentBatchResult: msRest.CompositeMapper = {
   }
 };
 
-export const MatchRecord: msRest.CompositeMapper = {
-  serializedName: "MatchRecord",
+export const MatchRecordV2dot1: msRest.CompositeMapper = {
+  serializedName: "MatchRecordV2dot1",
   type: {
     name: "Composite",
-    className: "MatchRecord",
+    className: "MatchRecordV2dot1",
     modelProperties: {
       text: {
         serializedName: "text",
@@ -438,11 +438,11 @@ export const MatchRecord: msRest.CompositeMapper = {
   }
 };
 
-export const EntityRecord: msRest.CompositeMapper = {
-  serializedName: "EntityRecord",
+export const EntityRecordV2dot1: msRest.CompositeMapper = {
+  serializedName: "EntityRecordV2dot1",
   type: {
     name: "Composite",
-    className: "EntityRecord",
+    className: "EntityRecordV2dot1",
     modelProperties: {
       name: {
         serializedName: "name",
@@ -451,14 +451,13 @@ export const EntityRecord: msRest.CompositeMapper = {
         }
       },
       matches: {
-        readOnly: true,
         serializedName: "matches",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "MatchRecord"
+              className: "MatchRecordV2dot1"
             }
           }
         }
@@ -487,16 +486,28 @@ export const EntityRecord: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      subType: {
+        serializedName: "subType",
+        type: {
+          name: "String"
+        }
       }
     }
   }
 };
 
-export const EntitiesBatchResultItem: msRest.CompositeMapper = {
-  serializedName: "EntitiesBatchResultItem",
+export const EntitiesBatchResultItemV2dot1: msRest.CompositeMapper = {
+  serializedName: "EntitiesBatchResultItemV2dot1",
   type: {
     name: "Composite",
-    className: "EntitiesBatchResultItem",
+    className: "EntitiesBatchResultItemV2dot1",
     modelProperties: {
       id: {
         readOnly: true,
@@ -513,7 +524,7 @@ export const EntitiesBatchResultItem: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "EntityRecord"
+              className: "EntityRecordV2dot1"
             }
           }
         }
@@ -522,11 +533,11 @@ export const EntitiesBatchResultItem: msRest.CompositeMapper = {
   }
 };
 
-export const EntitiesBatchResult: msRest.CompositeMapper = {
-  serializedName: "EntitiesBatchResult",
+export const EntitiesBatchResultV2dot1: msRest.CompositeMapper = {
+  serializedName: "EntitiesBatchResultV2dot1",
   type: {
     name: "Composite",
-    className: "EntitiesBatchResult",
+    className: "EntitiesBatchResultV2dot1",
     modelProperties: {
       documents: {
         readOnly: true,
@@ -536,7 +547,7 @@ export const EntitiesBatchResult: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "EntitiesBatchResultItem"
+              className: "EntitiesBatchResultItemV2dot1"
             }
           }
         }
