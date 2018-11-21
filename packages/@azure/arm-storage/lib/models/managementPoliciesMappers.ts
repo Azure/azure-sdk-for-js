@@ -41,6 +41,7 @@ export {
   KeyVaultProperties,
   NetworkRuleSet,
   VirtualNetworkRule,
-  IPRule
+  IPRule,
+  GeoReplicationStats
 } from "../models/mappers";
 

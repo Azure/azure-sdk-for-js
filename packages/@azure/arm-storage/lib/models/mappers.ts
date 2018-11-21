@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
@@ -869,6 +869,37 @@ export const Endpoints: msRest.CompositeMapper = {
   }
 };
 
+export const GeoReplicationStats: msRest.CompositeMapper = {
+  serializedName: "GeoReplicationStats",
+  type: {
+    name: "Composite",
+    className: "GeoReplicationStats",
+    modelProperties: {
+      status: {
+        readOnly: true,
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      lastSyncTime: {
+        readOnly: true,
+        serializedName: "lastSyncTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      canFailover: {
+        readOnly: true,
+        serializedName: "canFailover",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
@@ -1094,6 +1125,14 @@ export const StorageAccount: msRest.CompositeMapper = {
         serializedName: "properties.isHnsEnabled",
         type: {
           name: "Boolean"
+        }
+      },
+      geoReplicationStats: {
+        readOnly: true,
+        serializedName: "properties.geoReplicationStats",
+        type: {
+          name: "Composite",
+          className: "GeoReplicationStats"
         }
       },
       failoverInProgress: {

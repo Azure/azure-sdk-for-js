@@ -30,6 +30,7 @@ export {
   Resource,
   BaseResource,
   Endpoints,
+  GeoReplicationStats,
   StorageAccountUpdateParameters,
   StorageAccountListResult,
   StorageAccountListKeysResult,

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -659,6 +659,46 @@ export interface Endpoints {
 
 /**
  * @interface
+ * An interface representing GeoReplicationStats.
+ * Statistics related to replication for storage account's Blob, Table, Queue
+ * and File services. It is only available when geo-redundant replication is
+ * enabled for the storage account.
+ *
+ */
+export interface GeoReplicationStats {
+  /**
+   * @member {GeoReplicationStatus} [status] The status of the secondary
+   * location. Possible values are: - Live: Indicates that the secondary
+   * location is active and operational. - Bootstrap: Indicates initial
+   * synchronization from the primary location to the secondary location is in
+   * progress.This typically occurs when replication is first enabled. -
+   * Unavailable: Indicates that the secondary location is temporarily
+   * unavailable. Possible values include: 'Live', 'Bootstrap', 'Unavailable'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: GeoReplicationStatus;
+  /**
+   * @member {Date} [lastSyncTime] All primary writes preceding this UTC
+   * date/time value are guaranteed to be available for read operations.
+   * Primary writes following this point in time may or may not be available
+   * for reads. Element may be default value if value of LastSyncTime is not
+   * available, this can happen if secondary is offline or we are in bootstrap.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastSyncTime?: Date;
+  /**
+   * @member {boolean} [canFailover] A boolean flag which indicates whether or
+   * not account failover is supported for the account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly canFailover?: boolean;
+}
+
+/**
+ * @interface
  * An interface representing Resource.
  * @extends BaseResource
  */
@@ -845,6 +885,12 @@ export interface StorageAccount extends TrackedResource {
    * sets to true.
    */
   isHnsEnabled?: boolean;
+  /**
+   * @member {GeoReplicationStats} [geoReplicationStats] Geo Replication Stats
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly geoReplicationStats?: GeoReplicationStats;
   /**
    * @member {boolean} [failoverInProgress] If the failover is in progress, the
    * value will be true, otherwise, it will be null.
@@ -1775,6 +1821,23 @@ export interface ManagementPoliciesRulesSetParameter {
 
 /**
  * @interface
+ * An interface representing StorageAccountsGetPropertiesOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface StorageAccountsGetPropertiesOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {StorageAccountExpand} [expand] May be used to expand the
+   * properties within account's properties. By default, data is not included
+   * when fecthing properties. Currently we only support geoReplicationStats.
+   * Possible values include: 'geoReplicationStats'
+   */
+  expand?: StorageAccountExpand;
+}
+
+/**
+ * @interface
  * An interface representing BlobContainersCreateOptionalParams.
  * Optional Parameters.
  *
@@ -2091,6 +2154,14 @@ export type DefaultAction = 'Allow' | 'Deny';
 export type AccessTier = 'Hot' | 'Cool';
 
 /**
+ * Defines values for GeoReplicationStatus.
+ * Possible values include: 'Live', 'Bootstrap', 'Unavailable'
+ * @readonly
+ * @enum {string}
+ */
+export type GeoReplicationStatus = 'Live' | 'Bootstrap' | 'Unavailable';
+
+/**
  * Defines values for ProvisioningState.
  * Possible values include: 'Creating', 'ResolvingDNS', 'Succeeded'
  * @readonly
@@ -2210,6 +2281,14 @@ export type ImmutabilityPolicyState = 'Locked' | 'Unlocked';
  * @enum {string}
  */
 export type ImmutabilityPolicyUpdateType = 'put' | 'lock' | 'extend';
+
+/**
+ * Defines values for StorageAccountExpand.
+ * Possible values include: 'geoReplicationStats'
+ * @readonly
+ * @enum {string}
+ */
+export type StorageAccountExpand = 'geoReplicationStats';
 
 /**
  * Contains response data for the list operation.
