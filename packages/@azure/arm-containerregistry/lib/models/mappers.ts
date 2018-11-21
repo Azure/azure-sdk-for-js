@@ -413,7 +413,7 @@ export const NetworkRuleSet: msRest.CompositeMapper = {
     modelProperties: {
       defaultAction: {
         serializedName: "defaultAction",
-        defaultValue: '0',
+        defaultValue: 'Allow',
         type: {
           name: "String"
         }

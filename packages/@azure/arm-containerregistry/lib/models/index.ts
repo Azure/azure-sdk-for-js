@@ -320,7 +320,7 @@ export interface NetworkRuleSet {
   /**
    * @member {DefaultAction} [defaultAction] The default action of allow or
    * deny when no other rules match. Possible values include: 'Allow', 'Deny'.
-   * Default value: '0' .
+   * Default value: 'Allow' .
    */
   defaultAction?: DefaultAction;
   /**
