@@ -2549,7 +2549,7 @@ export interface PredictionModelStatus {
    */
   readonly trainingAccuracy?: number;
   /**
-   * @member {number} [signalsUsed] The singnals used.
+   * @member {number} [signalsUsed] The signals used.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
