@@ -112,17 +112,15 @@ export class ReplicationMigrationItems {
   }
 
   /**
-   * The operation to purge an ASR migration item. This operation will force delete the migration
-   * item. Use the remove operation on migration item to perform a clean disable migration for the
-   * item.
-   * @summary Purges migration.
+   * The operation to delete an ASR migration item.
+   * @summary Delete the migration item.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param migrationItemName Migration item name.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(fabricName: string, protectionContainerName: string, migrationItemName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(fabricName: string, protectionContainerName: string, migrationItemName: string, options?: Models.ReplicationMigrationItemsDeleteMethodOptionalParams): Promise<msRest.RestResponse> {
     return this.beginDeleteMethod(fabricName,protectionContainerName,migrationItemName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -143,20 +141,6 @@ export class ReplicationMigrationItems {
   }
 
   /**
-   * The operation to initiate complete migration of the item.
-   * @summary Complete migration.
-   * @param fabricName Fabric name.
-   * @param protectionContainerName Protection container name.
-   * @param migrationItemName Migration item name.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ReplicationMigrationItemsCompleteResponse>
-   */
-  complete(fabricName: string, protectionContainerName: string, migrationItemName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationMigrationItemsCompleteResponse> {
-    return this.beginComplete(fabricName,protectionContainerName,migrationItemName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationMigrationItemsCompleteResponse>;
-  }
-
-  /**
    * The operation to initiate migration of the item.
    * @summary Migrate item.
    * @param fabricName Fabric name.
@@ -169,20 +153,6 @@ export class ReplicationMigrationItems {
   migrate(fabricName: string, protectionContainerName: string, migrationItemName: string, migrateInput: Models.MigrateInput, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationMigrationItemsMigrateResponse> {
     return this.beginMigrate(fabricName,protectionContainerName,migrationItemName,migrateInput,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationMigrationItemsMigrateResponse>;
-  }
-
-  /**
-   * The operation to disable an ASR migration item.
-   * @summary Disables migration.
-   * @param fabricName Fabric name.
-   * @param protectionContainerName Protection container name.
-   * @param migrationItemName Migration item name.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  remove(fabricName: string, protectionContainerName: string, migrationItemName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginRemove(fabricName,protectionContainerName,migrationItemName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -263,17 +233,15 @@ export class ReplicationMigrationItems {
   }
 
   /**
-   * The operation to purge an ASR migration item. This operation will force delete the migration
-   * item. Use the remove operation on migration item to perform a clean disable migration for the
-   * item.
-   * @summary Purges migration.
+   * The operation to delete an ASR migration item.
+   * @summary Delete the migration item.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param migrationItemName Migration item name.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(fabricName: string, protectionContainerName: string, migrationItemName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(fabricName: string, protectionContainerName: string, migrationItemName: string, options?: Models.ReplicationMigrationItemsBeginDeleteMethodOptionalParams): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
@@ -309,27 +277,6 @@ export class ReplicationMigrationItems {
   }
 
   /**
-   * The operation to initiate complete migration of the item.
-   * @summary Complete migration.
-   * @param fabricName Fabric name.
-   * @param protectionContainerName Protection container name.
-   * @param migrationItemName Migration item name.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginComplete(fabricName: string, protectionContainerName: string, migrationItemName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        fabricName,
-        protectionContainerName,
-        migrationItemName,
-        options
-      },
-      beginCompleteOperationSpec,
-      options);
-  }
-
-  /**
    * The operation to initiate migration of the item.
    * @summary Migrate item.
    * @param fabricName Fabric name.
@@ -349,27 +296,6 @@ export class ReplicationMigrationItems {
         options
       },
       beginMigrateOperationSpec,
-      options);
-  }
-
-  /**
-   * The operation to disable an ASR migration item.
-   * @summary Disables migration.
-   * @param fabricName Fabric name.
-   * @param protectionContainerName Protection container name.
-   * @param migrationItemName Migration item name.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginRemove(fabricName: string, protectionContainerName: string, migrationItemName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        fabricName,
-        protectionContainerName,
-        migrationItemName,
-        options
-      },
-      beginRemoveOperationSpec,
       options);
   }
 
@@ -610,7 +536,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.migrationItemName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.deleteOption
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -661,35 +588,6 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCompleteOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/complete",
-  urlParameters: [
-    Parameters.resourceName,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.fabricName,
-    Parameters.protectionContainerName,
-    Parameters.migrationItemName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.MigrationItem
-    },
-    202: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
 const beginMigrateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/migrate",
@@ -719,33 +617,6 @@ const beginMigrateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.MigrationItem
     },
     202: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const beginRemoveOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/remove",
-  urlParameters: [
-    Parameters.resourceName,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.fabricName,
-    Parameters.protectionContainerName,
-    Parameters.migrationItemName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    202: {},
-    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

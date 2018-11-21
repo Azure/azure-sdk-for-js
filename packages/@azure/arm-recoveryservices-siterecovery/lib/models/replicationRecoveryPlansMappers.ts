@@ -69,6 +69,7 @@ export {
   ManualActionTaskDetails,
   MigrationItem,
   MigrationItemProperties,
+  CurrentJobDetails,
   MigrationProviderSpecificSettings,
   MigrationRecoveryPoint,
   MigrationRecoveryPointProperties,

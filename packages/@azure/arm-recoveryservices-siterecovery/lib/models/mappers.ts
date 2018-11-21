@@ -3267,6 +3267,34 @@ export const CreateRecoveryPlanInput: msRest.CompositeMapper = {
   }
 };
 
+export const CurrentJobDetails: msRest.CompositeMapper = {
+  serializedName: "CurrentJobDetails",
+  type: {
+    name: "Composite",
+    className: "CurrentJobDetails",
+    modelProperties: {
+      jobName: {
+        serializedName: "jobName",
+        type: {
+          name: "String"
+        }
+      },
+      jobId: {
+        serializedName: "jobId",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const CurrentScenarioDetails: msRest.CompositeMapper = {
   serializedName: "CurrentScenarioDetails",
   type: {
@@ -8311,73 +8339,71 @@ export const MigrationItemProperties: msRest.CompositeMapper = {
     name: "Composite",
     className: "MigrationItemProperties",
     modelProperties: {
-      friendlyName: {
-        serializedName: "friendlyName",
+      machineName: {
+        readOnly: true,
+        serializedName: "machineName",
         type: {
           name: "String"
         }
       },
       policyId: {
+        readOnly: true,
         serializedName: "policyId",
         type: {
           name: "String"
         }
       },
       policyFriendlyName: {
+        readOnly: true,
         serializedName: "policyFriendlyName",
         type: {
           name: "String"
         }
       },
       recoveryServicesProviderId: {
+        readOnly: true,
         serializedName: "recoveryServicesProviderId",
         type: {
           name: "String"
         }
       },
       migrationState: {
+        readOnly: true,
         serializedName: "migrationState",
         type: {
           name: "String"
         }
       },
       migrationStateDescription: {
+        readOnly: true,
         serializedName: "migrationStateDescription",
         type: {
           name: "String"
         }
       },
-      lastSuccessfulMigrateTime: {
-        serializedName: "lastSuccessfulMigrateTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastSuccessfulTestMigrateTime: {
-        serializedName: "lastSuccessfulTestMigrateTime",
-        type: {
-          name: "DateTime"
-        }
-      },
       testMigrateState: {
+        readOnly: true,
         serializedName: "testMigrateState",
         type: {
           name: "String"
         }
       },
       testMigrateStateDescription: {
+        readOnly: true,
         serializedName: "testMigrateStateDescription",
         type: {
           name: "String"
         }
       },
       health: {
+        readOnly: true,
         serializedName: "health",
         type: {
           name: "String"
         }
       },
       healthErrors: {
+        readOnly: true,
         serializedName: "healthErrors",
         type: {
           name: "Sequence",
@@ -8390,6 +8416,7 @@ export const MigrationItemProperties: msRest.CompositeMapper = {
         }
       },
       allowedOperations: {
+        readOnly: true,
         serializedName: "allowedOperations",
         type: {
           name: "Sequence",
@@ -8400,11 +8427,12 @@ export const MigrationItemProperties: msRest.CompositeMapper = {
           }
         }
       },
-      currentScenario: {
-        serializedName: "currentScenario",
+      currentJob: {
+        readOnly: true,
+        serializedName: "currentJob",
         type: {
           name: "Composite",
-          className: "CurrentScenarioDetails"
+          className: "CurrentJobDetails"
         }
       },
       providerSpecificDetails: {
@@ -8470,12 +8498,14 @@ export const MigrationRecoveryPointProperties: msRest.CompositeMapper = {
     className: "MigrationRecoveryPointProperties",
     modelProperties: {
       recoveryPointTime: {
+        readOnly: true,
         serializedName: "recoveryPointTime",
         type: {
           name: "DateTime"
         }
       },
       recoveryPointType: {
+        readOnly: true,
         serializedName: "recoveryPointType",
         type: {
           name: "String"
@@ -12377,54 +12407,63 @@ export const VMwareCbtProtectedDiskDetails: msRest.CompositeMapper = {
     className: "VMwareCbtProtectedDiskDetails",
     modelProperties: {
       diskId: {
+        readOnly: true,
         serializedName: "diskId",
         type: {
           name: "String"
         }
       },
       diskName: {
+        readOnly: true,
         serializedName: "diskName",
         type: {
           name: "String"
         }
       },
       diskPath: {
+        readOnly: true,
         serializedName: "diskPath",
         type: {
           name: "String"
         }
       },
       isOSDisk: {
+        readOnly: true,
         serializedName: "isOSDisk",
         type: {
           name: "String"
         }
       },
       capacityInBytes: {
+        readOnly: true,
         serializedName: "capacityInBytes",
         type: {
           name: "Number"
         }
       },
       logStorageAccountId: {
+        readOnly: true,
         serializedName: "logStorageAccountId",
         type: {
           name: "String"
         }
       },
       logStorageAccountSasSecretName: {
+        readOnly: true,
         serializedName: "logStorageAccountSasSecretName",
         type: {
           name: "String"
         }
       },
       seedManagedDiskId: {
+        readOnly: true,
         serializedName: "seedManagedDiskId",
         type: {
           name: "String"
         }
       },
       targetManagedDiskId: {
+        readOnly: true,
         serializedName: "targetManagedDiskId",
         type: {
           name: "String"
@@ -12447,6 +12486,7 @@ export const VMwareCbtNicDetails: msRest.CompositeMapper = {
     className: "VMwareCbtNicDetails",
     modelProperties: {
       nicId: {
+        readOnly: true,
         serializedName: "nicId",
         type: {
           name: "String"
@@ -12459,18 +12499,21 @@ export const VMwareCbtNicDetails: msRest.CompositeMapper = {
         }
       },
       sourceIPAddress: {
+        readOnly: true,
         serializedName: "sourceIPAddress",
         type: {
           name: "String"
         }
       },
       sourceIPAddressType: {
+        readOnly: true,
         serializedName: "sourceIPAddressType",
         type: {
           name: "String"
         }
       },
       sourceNetworkId: {
+        readOnly: true,
         serializedName: "sourceNetworkId",
         type: {
           name: "String"
@@ -12514,12 +12557,14 @@ export const VMwareCbtMigrationDetails: msRest.CompositeMapper = {
     modelProperties: {
       ...MigrationProviderSpecificSettings.type.modelProperties,
       vmwareMachineId: {
+        readOnly: true,
         serializedName: "vmwareMachineId",
         type: {
           name: "String"
         }
       },
       osType: {
+        readOnly: true,
         serializedName: "osType",
         type: {
           name: "String"
@@ -12532,12 +12577,14 @@ export const VMwareCbtMigrationDetails: msRest.CompositeMapper = {
         }
       },
       dataMoverRunAsAccountId: {
+        readOnly: true,
         serializedName: "dataMoverRunAsAccountId",
         type: {
           name: "String"
         }
       },
       snapshotRunAsAccountId: {
+        readOnly: true,
         serializedName: "snapshotRunAsAccountId",
         type: {
           name: "String"
@@ -12556,6 +12603,7 @@ export const VMwareCbtMigrationDetails: msRest.CompositeMapper = {
         }
       },
       targetLocation: {
+        readOnly: true,
         serializedName: "targetLocation",
         type: {
           name: "String"
@@ -12610,12 +12658,14 @@ export const VMwareCbtMigrationDetails: msRest.CompositeMapper = {
         }
       },
       migrationRecoveryPointId: {
+        readOnly: true,
         serializedName: "migrationRecoveryPointId",
         type: {
           name: "String"
         }
       },
       lastRecoveryPointReceived: {
+        readOnly: true,
         serializedName: "lastRecoveryPointReceived",
         type: {
           name: "DateTime"
@@ -12739,36 +12789,42 @@ export const VMwareCbtProtectionContainerMappingDetails: msRest.CompositeMapper 
     modelProperties: {
       ...ProtectionContainerMappingProviderSpecificDetails.type.modelProperties,
       keyVaultId: {
+        readOnly: true,
         serializedName: "keyVaultId",
         type: {
           name: "String"
         }
       },
       keyVaultUri: {
+        readOnly: true,
         serializedName: "keyVaultUri",
         type: {
           name: "String"
         }
       },
       storageAccountId: {
+        readOnly: true,
         serializedName: "storageAccountId",
         type: {
           name: "String"
         }
       },
       storageAccountSasSecretName: {
+        readOnly: true,
         serializedName: "storageAccountSasSecretName",
         type: {
           name: "String"
         }
       },
       serviceBusConnectionStringSecretName: {
+        readOnly: true,
         serializedName: "serviceBusConnectionStringSecretName",
         type: {
           name: "String"
         }
       },
       targetLocation: {
+        readOnly: true,
         serializedName: "targetLocation",
         type: {
           name: "String"
@@ -13113,6 +13169,7 @@ export const VMwareV2FabricCreationInput: msRest.CompositeMapper = {
         }
       },
       migrationSolutionId: {
+        required: true,
         serializedName: "migrationSolutionId",
         type: {
           name: "String"
@@ -13132,19 +13189,22 @@ export const VMwareV2FabricSpecificDetails: msRest.CompositeMapper = {
     modelProperties: {
       ...FabricSpecificDetails.type.modelProperties,
       vmwareSiteId: {
+        readOnly: true,
         serializedName: "vmwareSiteId",
         type: {
           name: "String"
         }
       },
       migrationSolutionId: {
+        readOnly: true,
         serializedName: "migrationSolutionId",
         type: {
           name: "String"
         }
       },
-      srsServiceEndpoint: {
-        serializedName: "srsServiceEndpoint",
+      serviceEndpoint: {
+        readOnly: true,
+        serializedName: "serviceEndpoint",
         type: {
           name: "String"
         }

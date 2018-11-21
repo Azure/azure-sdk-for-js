@@ -2490,6 +2490,27 @@ export interface CreateRecoveryPlanInput {
 
 /**
  * @interface
+ * An interface representing CurrentJobDetails.
+ * Current job details of the migraton item.
+ *
+ */
+export interface CurrentJobDetails {
+  /**
+   * @member {string} [jobName] The job name.
+   */
+  jobName?: string;
+  /**
+   * @member {string} [jobId] The ARM Id of the job being executed.
+   */
+  jobId?: string;
+  /**
+   * @member {Date} [startTime] The start time of the job.
+   */
+  startTime?: Date;
+}
+
+/**
+ * @interface
  * An interface representing CurrentScenarioDetails.
  * Current scenario details of the protected entity.
  *
@@ -6339,68 +6360,91 @@ export interface MigrationProviderSpecificSettings {
  */
 export interface MigrationItemProperties {
   /**
-   * @member {string} [friendlyName] The name.
+   * @member {string} [machineName] The on-premise virtual machine name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  friendlyName?: string;
+  readonly machineName?: string;
   /**
    * @member {string} [policyId] The ARM Id of policy governing this item.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  policyId?: string;
+  readonly policyId?: string;
   /**
    * @member {string} [policyFriendlyName] The name of policy governing this
    * item.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  policyFriendlyName?: string;
+  readonly policyFriendlyName?: string;
   /**
    * @member {string} [recoveryServicesProviderId] The recovery services
    * provider ARM Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  recoveryServicesProviderId?: string;
+  readonly recoveryServicesProviderId?: string;
   /**
-   * @member {string} [migrationState] The migration status.
+   * @member {MigrationState} [migrationState] The migration status. Possible
+   * values include: 'None', 'EnableMigrationInProgress',
+   * 'EnableMigrationFailed', 'DisableMigrationInProgress',
+   * 'DisableMigrationFailed', 'InitialSeedingInProgress',
+   * 'InitialSeedingFailed', 'Replicating', 'MigrationInProgress',
+   * 'MigrationSucceeded', 'MigrationFailed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  migrationState?: string;
+  readonly migrationState?: MigrationState;
   /**
    * @member {string} [migrationStateDescription] The migration state
    * description.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  migrationStateDescription?: string;
+  readonly migrationStateDescription?: string;
   /**
-   * @member {Date} [lastSuccessfulMigrateTime] The last successful migrate
-   * time.
+   * @member {TestMigrationState} [testMigrateState] The test migrate state.
+   * Possible values include: 'None', 'TestMigrationInProgress',
+   * 'TestMigrationSucceeded', 'TestMigrationFailed',
+   * 'TestMigrationCleanupInProgress'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  lastSuccessfulMigrateTime?: Date;
-  /**
-   * @member {Date} [lastSuccessfulTestMigrateTime] The last successful test
-   * migrate time.
-   */
-  lastSuccessfulTestMigrateTime?: Date;
-  /**
-   * @member {string} [testMigrateState] The test migrate state.
-   */
-  testMigrateState?: string;
+  readonly testMigrateState?: TestMigrationState;
   /**
    * @member {string} [testMigrateStateDescription] The test migrate state
    * description.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  testMigrateStateDescription?: string;
+  readonly testMigrateStateDescription?: string;
   /**
    * @member {string} [health] The consolidated health.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  health?: string;
+  readonly health?: string;
   /**
    * @member {HealthError[]} [healthErrors] The list of health errors.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  healthErrors?: HealthError[];
+  readonly healthErrors?: HealthError[];
   /**
    * @member {MigrationItemOperation[]} [allowedOperations] The allowed
-   * operations on the migration item.
+   * operations on the migration item, based on the current migration state of
+   * the item.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  allowedOperations?: MigrationItemOperation[];
+  readonly allowedOperations?: MigrationItemOperation[];
   /**
-   * @member {CurrentScenarioDetails} [currentScenario] The current scenario.
+   * @member {CurrentJobDetails} [currentJob] The current job details.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  currentScenario?: CurrentScenarioDetails;
+  readonly currentJob?: CurrentJobDetails;
   /**
    * @member {MigrationProviderSpecificSettingsUnion} [providerSpecificDetails]
    * The migration provider custom settings.
@@ -6449,14 +6493,18 @@ export interface MigrationItemsQueryParameter {
 export interface MigrationRecoveryPointProperties {
   /**
    * @member {Date} [recoveryPointTime] The recovery point time.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  recoveryPointTime?: Date;
+  readonly recoveryPointTime?: Date;
   /**
    * @member {MigrationRecoveryPointType} [recoveryPointType] The recovery
    * point type. Possible values include: 'NotSpecified',
    * 'ApplicationConsistent', 'CrashConsistent'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  recoveryPointType?: MigrationRecoveryPointType;
+  readonly recoveryPointType?: MigrationRecoveryPointType;
 }
 
 /**
@@ -9427,47 +9475,66 @@ export interface VMwareCbtMigrateInput {
 export interface VMwareCbtProtectedDiskDetails {
   /**
    * @member {string} [diskId] The disk id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  diskId?: string;
+  readonly diskId?: string;
   /**
    * @member {string} [diskName] The disk name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  diskName?: string;
+  readonly diskName?: string;
   /**
    * @member {string} [diskPath] The disk path.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  diskPath?: string;
+  readonly diskPath?: string;
   /**
    * @member {string} [isOSDisk] A value indicating whether the disk is the OS
    * disk.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  isOSDisk?: string;
+  readonly isOSDisk?: string;
   /**
    * @member {number} [capacityInBytes] The disk capacity in bytes.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  capacityInBytes?: number;
+  readonly capacityInBytes?: number;
   /**
    * @member {string} [logStorageAccountId] The log storage account ARM Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  logStorageAccountId?: string;
+  readonly logStorageAccountId?: string;
   /**
    * @member {string} [logStorageAccountSasSecretName] The key vault secret
    * name of the log storage account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  logStorageAccountSasSecretName?: string;
+  readonly logStorageAccountSasSecretName?: string;
   /**
    * @member {string} [seedManagedDiskId] The ARM Id of the seed managed disk.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  seedManagedDiskId?: string;
+  readonly seedManagedDiskId?: string;
   /**
    * @member {string} [targetManagedDiskId] The ARM Id of the target managed
    * disk.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  targetManagedDiskId?: string;
+  readonly targetManagedDiskId?: string;
   /**
-   * @member {string} [diskType] The disk type.
+   * @member {DiskType} [diskType] The disk type. Possible values include:
+   * 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS'
    */
-  diskType?: string;
+  diskType?: DiskType;
 }
 
 /**
@@ -9479,8 +9546,10 @@ export interface VMwareCbtProtectedDiskDetails {
 export interface VMwareCbtNicDetails {
   /**
    * @member {string} [nicId] The NIC Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  nicId?: string;
+  readonly nicId?: string;
   /**
    * @member {string} [isPrimaryNic] A value indicating whether this is the
    * primary NIC.
@@ -9488,17 +9557,23 @@ export interface VMwareCbtNicDetails {
   isPrimaryNic?: string;
   /**
    * @member {string} [sourceIPAddress] The source IP address.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  sourceIPAddress?: string;
+  readonly sourceIPAddress?: string;
   /**
    * @member {EthernetAddressType} [sourceIPAddressType] The source IP address
    * type. Possible values include: 'Dynamic', 'Static'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  sourceIPAddressType?: EthernetAddressType;
+  readonly sourceIPAddressType?: EthernetAddressType;
   /**
    * @member {string} [sourceNetworkId] Source network Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  sourceNetworkId?: string;
+  readonly sourceNetworkId?: string;
   /**
    * @member {string} [targetIPAddress] The target IP address.
    */
@@ -9533,12 +9608,16 @@ export interface VMwareCbtMigrationDetails {
   /**
    * @member {string} [vmwareMachineId] The ARM Id of the VM discovered in
    * VMware.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  vmwareMachineId?: string;
+  readonly vmwareMachineId?: string;
   /**
    * @member {string} [osType] The type of the OS on the VM.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  osType?: string;
+  readonly osType?: string;
   /**
    * @member {string} [licenseType] License Type of the VM to be used.
    */
@@ -9546,12 +9625,16 @@ export interface VMwareCbtMigrationDetails {
   /**
    * @member {string} [dataMoverRunAsAccountId] The data mover runas account
    * Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  dataMoverRunAsAccountId?: string;
+  readonly dataMoverRunAsAccountId?: string;
   /**
    * @member {string} [snapshotRunAsAccountId] The snapshot runas account Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  snapshotRunAsAccountId?: string;
+  readonly snapshotRunAsAccountId?: string;
   /**
    * @member {string} [targetVmName] Target VM name.
    */
@@ -9562,8 +9645,10 @@ export interface VMwareCbtMigrationDetails {
   targetVmSize?: string;
   /**
    * @member {string} [targetLocation] The target location.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  targetLocation?: string;
+  readonly targetLocation?: string;
   /**
    * @member {string} [targetResourceGroupId] The target resource group Id.
    */
@@ -9593,13 +9678,17 @@ export interface VMwareCbtMigrationDetails {
   /**
    * @member {string} [migrationRecoveryPointId] The recovery point Id to which
    * the VM was migrated.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  migrationRecoveryPointId?: string;
+  readonly migrationRecoveryPointId?: string;
   /**
    * @member {Date} [lastRecoveryPointReceived] The last recovery point
    * received time.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  lastRecoveryPointReceived?: Date;
+  readonly lastRecoveryPointReceived?: Date;
 }
 
 /**
@@ -9702,30 +9791,42 @@ export interface VMwareCbtProtectionContainerMappingDetails {
   instanceType: "VMwareCbt";
   /**
    * @member {string} [keyVaultId] The target key vault ARM Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  keyVaultId?: string;
+  readonly keyVaultId?: string;
   /**
    * @member {string} [keyVaultUri] The target key vault URI.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  keyVaultUri?: string;
+  readonly keyVaultUri?: string;
   /**
    * @member {string} [storageAccountId] The storage account ARM Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  storageAccountId?: string;
+  readonly storageAccountId?: string;
   /**
    * @member {string} [storageAccountSasSecretName] The secret name of the
    * storage account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  storageAccountSasSecretName?: string;
+  readonly storageAccountSasSecretName?: string;
   /**
    * @member {string} [serviceBusConnectionStringSecretName] The secret name of
    * the service bus connection string.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  serviceBusConnectionStringSecretName?: string;
+  readonly serviceBusConnectionStringSecretName?: string;
   /**
    * @member {string} [targetLocation] The target location.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  targetLocation?: string;
+  readonly targetLocation?: string;
 }
 
 /**
@@ -9960,10 +10061,9 @@ export interface VMwareV2FabricCreationInput {
    */
   vmwareSiteId: string;
   /**
-   * @member {string} [migrationSolutionId] The ARM Id of the migration
-   * solution.
+   * @member {string} migrationSolutionId The ARM Id of the migration solution.
    */
-  migrationSolutionId?: string;
+  migrationSolutionId: string;
 }
 
 /**
@@ -9979,16 +10079,22 @@ export interface VMwareV2FabricSpecificDetails {
   instanceType: "VMwareV2";
   /**
    * @member {string} [vmwareSiteId] The ARM Id of the VMware site.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  vmwareSiteId?: string;
+  readonly vmwareSiteId?: string;
   /**
    * @member {string} [migrationSolutionId] The Migration solution ARM Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  migrationSolutionId?: string;
+  readonly migrationSolutionId?: string;
   /**
-   * @member {string} [srsServiceEndpoint] The SRS service endpoint.
+   * @member {string} [serviceEndpoint] The service endpoint.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  srsServiceEndpoint?: string;
+  readonly serviceEndpoint?: string;
 }
 
 /**
@@ -10065,6 +10171,20 @@ export interface ReplicationEventsListOptionalParams extends msRest.RequestOptio
 
 /**
  * @interface
+ * An interface representing ReplicationMigrationItemsDeleteMethodOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ReplicationMigrationItemsDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [deleteOption] The delete option.
+   */
+  deleteOption?: string;
+}
+
+/**
+ * @interface
  * An interface representing ReplicationMigrationItemsListOptionalParams.
  * Optional Parameters.
  *
@@ -10079,6 +10199,20 @@ export interface ReplicationMigrationItemsListOptionalParams extends msRest.Requ
    * @member {string} [filter] OData filter options.
    */
   filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ReplicationMigrationItemsBeginDeleteMethodOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ReplicationMigrationItemsBeginDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [deleteOption] The delete option.
+   */
+  deleteOption?: string;
 }
 
 /**
@@ -10570,13 +10704,32 @@ export type AgentVersionStatus = 'Supported' | 'NotSupported' | 'Deprecated' | '
 export type RecoveryPointType = 'LatestTime' | 'LatestTag' | 'Custom';
 
 /**
- * Defines values for MigrationItemOperation.
- * Possible values include: 'DisableMigration', 'TestMigrate', 'TestMigrateCleanup', 'Migrate',
- * 'CompleteMigration'
+ * Defines values for MigrationState.
+ * Possible values include: 'None', 'EnableMigrationInProgress', 'EnableMigrationFailed',
+ * 'DisableMigrationInProgress', 'DisableMigrationFailed', 'InitialSeedingInProgress',
+ * 'InitialSeedingFailed', 'Replicating', 'MigrationInProgress', 'MigrationSucceeded',
+ * 'MigrationFailed'
  * @readonly
  * @enum {string}
  */
-export type MigrationItemOperation = 'DisableMigration' | 'TestMigrate' | 'TestMigrateCleanup' | 'Migrate' | 'CompleteMigration';
+export type MigrationState = 'None' | 'EnableMigrationInProgress' | 'EnableMigrationFailed' | 'DisableMigrationInProgress' | 'DisableMigrationFailed' | 'InitialSeedingInProgress' | 'InitialSeedingFailed' | 'Replicating' | 'MigrationInProgress' | 'MigrationSucceeded' | 'MigrationFailed';
+
+/**
+ * Defines values for TestMigrationState.
+ * Possible values include: 'None', 'TestMigrationInProgress', 'TestMigrationSucceeded',
+ * 'TestMigrationFailed', 'TestMigrationCleanupInProgress'
+ * @readonly
+ * @enum {string}
+ */
+export type TestMigrationState = 'None' | 'TestMigrationInProgress' | 'TestMigrationSucceeded' | 'TestMigrationFailed' | 'TestMigrationCleanupInProgress';
+
+/**
+ * Defines values for MigrationItemOperation.
+ * Possible values include: 'DisableMigration', 'TestMigrate', 'TestMigrateCleanup', 'Migrate'
+ * @readonly
+ * @enum {string}
+ */
+export type MigrationItemOperation = 'DisableMigration' | 'TestMigrate' | 'TestMigrateCleanup' | 'Migrate';
 
 /**
  * Defines values for MigrationRecoveryPointType.
@@ -10683,6 +10836,14 @@ export type LicenseType = 'NotSpecified' | 'NoLicenseType' | 'WindowsServer';
  * @enum {string}
  */
 export type DiskAccountType = 'Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS';
+
+/**
+ * Defines values for DiskType.
+ * Possible values include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS'
+ * @readonly
+ * @enum {string}
+ */
+export type DiskType = 'Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS';
 
 /**
  * Defines values for EthernetAddressType.
@@ -11681,25 +11842,6 @@ export type ReplicationMigrationItemsUpdateResponse = MigrationItem & {
 };
 
 /**
- * Contains response data for the complete operation.
- */
-export type ReplicationMigrationItemsCompleteResponse = MigrationItem & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MigrationItem;
-    };
-};
-
-/**
  * Contains response data for the migrate operation.
  */
 export type ReplicationMigrationItemsMigrateResponse = MigrationItem & {
@@ -11798,25 +11940,6 @@ export type ReplicationMigrationItemsBeginCreateResponse = MigrationItem & {
  * Contains response data for the beginUpdate operation.
  */
 export type ReplicationMigrationItemsBeginUpdateResponse = MigrationItem & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MigrationItem;
-    };
-};
-
-/**
- * Contains response data for the beginComplete operation.
- */
-export type ReplicationMigrationItemsBeginCompleteResponse = MigrationItem & {
   /**
    * The underlying HTTP response.
    */

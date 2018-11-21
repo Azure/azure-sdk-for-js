@@ -40,6 +40,18 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const deleteOption: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "deleteOption"
+  ],
+  mapper: {
+    serializedName: "deleteOption",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const eventName: msRest.OperationURLParameter = {
   parameterPath: "eventName",
   mapper: {
