@@ -8692,7 +8692,7 @@ export interface AppServiceEnvironmentResource extends Resource {
 /**
  * @interface
  * An interface representing AppServiceEnvironmentPatchResource.
- * ARM resource for a app service enviroment.
+ * ARM resource for a app service environment.
  *
  * @extends ProxyOnlyResource
  */
