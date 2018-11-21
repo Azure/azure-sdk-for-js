@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -274,7 +274,7 @@ export interface PropertyDefinition {
   isName?: boolean;
   /**
    * @member {boolean} [isRequired] Whether property value is required on
-   * instances, IsRequired field only for Intercation. Profile Instance will
+   * instances, IsRequired field only for Interaction. Profile Instance will
    * not check for required field.
    */
   isRequired?: boolean;
@@ -317,7 +317,7 @@ export interface PropertyDefinition {
 export interface EntityTypeDefinition extends MetadataDefinitionBase {
   /**
    * @member {string} [apiEntitySetName] The api entity set name. This becomes
-   * the odata entity set name for the entity Type being refered in this
+   * the odata entity set name for the entity Type being referred in this
    * object.
    */
   apiEntitySetName?: string;
@@ -390,11 +390,11 @@ export interface AuthorizationPolicy {
    */
   permissions: PermissionTypes[];
   /**
-   * @member {string} [primaryKey] Primary key assiciated with the policy.
+   * @member {string} [primaryKey] Primary key associated with the policy.
    */
   primaryKey?: string;
   /**
-   * @member {string} [secondaryKey] Secondary key assiciated with the policy.
+   * @member {string} [secondaryKey] Secondary key associated with the policy.
    */
   secondaryKey?: string;
 }
@@ -526,7 +526,7 @@ export interface CrmConnectorProperties {
 /**
  * @interface
  * An interface representing ConnectorMappingErrorManagement.
- * The error mangement.
+ * The error management.
  *
  */
 export interface ConnectorMappingErrorManagement {
@@ -1137,7 +1137,7 @@ export interface ProfileResourceFormat extends ProxyResource {
   largeImage?: string;
   /**
    * @member {string} [apiEntitySetName] The api entity set name. This becomes
-   * the odata entity set name for the entity Type being refered in this
+   * the odata entity set name for the entity Type being referred in this
    * object.
    */
   apiEntitySetName?: string;
@@ -1240,7 +1240,7 @@ export interface InteractionResourceFormat extends ProxyResource {
   largeImage?: string;
   /**
    * @member {string} [apiEntitySetName] The api entity set name. This becomes
-   * the odata entity set name for the entity Type being refered in this
+   * the odata entity set name for the entity Type being referred in this
    * object.
    */
   apiEntitySetName?: string;
@@ -1518,7 +1518,7 @@ export interface ConnectorResourceFormat extends ProxyResource {
    */
   readonly created?: Date;
   /**
-   * @member {Date} [lastModified] The last monified time.
+   * @member {Date} [lastModified] The last modified time.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -1545,7 +1545,7 @@ export interface ConnectorResourceFormat extends ProxyResource {
 /**
  * @interface
  * An interface representing ConnectorMappingResourceFormat.
- * The c onnector mapping resource format.
+ * The connector mapping resource format.
  *
  * @extends ProxyResource
  */
@@ -1569,7 +1569,7 @@ export interface ConnectorMappingResourceFormat extends ProxyResource {
    */
   readonly created?: Date;
   /**
-   * @member {Date} [lastModified] The last monified time.
+   * @member {Date} [lastModified] The last modified time.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -1658,11 +1658,11 @@ export interface AuthorizationPolicyResourceFormat extends ProxyResource {
    */
   permissions: PermissionTypes[];
   /**
-   * @member {string} [primaryKey] Primary key assiciated with the policy.
+   * @member {string} [primaryKey] Primary key associated with the policy.
    */
   primaryKey?: string;
   /**
-   * @member {string} [secondaryKey] Secondary key assiciated with the policy.
+   * @member {string} [secondaryKey] Secondary key associated with the policy.
    */
   secondaryKey?: string;
 }
@@ -1735,7 +1735,7 @@ export interface LinkResourceFormat extends ProxyResource {
   readonly provisioningState?: ProvisioningStates;
   /**
    * @member {boolean} [referenceOnly] Indicating whether the link is reference
-   * only link. This flag is ingored if the Mappings are defined. If the
+   * only link. This flag is ignored if the Mappings are defined. If the
    * mappings are not defined and it is set to true, links processing will not
    * create or update profiles.
    */
@@ -2549,7 +2549,7 @@ export interface PredictionModelStatus {
    */
   readonly trainingAccuracy?: number;
   /**
-   * @member {number} [signalsUsed] The singnas used.
+   * @member {number} [signalsUsed] The signals used.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
