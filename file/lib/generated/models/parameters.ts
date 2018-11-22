@@ -515,7 +515,9 @@ export const version: msRest.OperationParameter = {
   parameterPath: "version",
   mapper: {
     required: true,
+    isConstant: true,
     serializedName: "x-ms-version",
+    defaultValue: '2018-03-28',
     type: {
       name: "String"
     }

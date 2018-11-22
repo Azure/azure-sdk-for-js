@@ -8,7 +8,6 @@ import { IHttpClient, IHttpPipelineLogger, Pipeline } from "./Pipeline";
 import { IRetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
 import { ITelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
-import { SERVICE_VERSION } from "./utils/constants";
 
 export { deserializationPolicy };
 
@@ -107,7 +106,6 @@ export abstract class StorageURL {
     this.url = url;
     this.pipeline = pipeline;
     this.storageClientContext = new StorageClientContext(
-      SERVICE_VERSION,
       url,
       pipeline.toServiceClientOptions()
     );
