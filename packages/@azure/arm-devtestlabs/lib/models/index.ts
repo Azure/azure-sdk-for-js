@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -83,7 +83,7 @@ export interface NotificationSettings {
   webhookUrl?: string;
   /**
    * @member {string} [emailRecipient] The email recipient to send
-   * notifications to (can be a list of semi-colon seperated email addresses).
+   * notifications to (can be a list of semi-colon separated email addresses).
    */
   emailRecipient?: string;
   /**
@@ -290,7 +290,7 @@ export interface NotificationSettingsFragment {
   webhookUrl?: string;
   /**
    * @member {string} [emailRecipient] The email recipient to send
-   * notifications to (can be a list of semi-colon seperated email addresses).
+   * notifications to (can be a list of semi-colon separated email addresses).
    */
   emailRecipient?: string;
   /**
@@ -2948,7 +2948,7 @@ export interface GenerateUploadUriParameter {
 /**
  * @interface
  * An interface representing GenerateUploadUriResponse.
- * Reponse body for generating an upload URI.
+ * Response body for generating an upload URI.
  *
  */
 export interface GenerateUploadUriResponse {
@@ -3877,7 +3877,7 @@ export interface NotificationChannel extends Resource {
   webHookUrl?: string;
   /**
    * @member {string} [emailRecipient] The email recipient to send
-   * notifications to (can be a list of semi-colon seperated email addresses).
+   * notifications to (can be a list of semi-colon separated email addresses).
    */
   emailRecipient?: string;
   /**
@@ -3931,7 +3931,7 @@ export interface NotificationChannelFragment extends UpdateResource {
   webHookUrl?: string;
   /**
    * @member {string} [emailRecipient] The email recipient to send
-   * notifications to (can be a list of semi-colon seperated email addresses).
+   * notifications to (can be a list of semi-colon separated email addresses).
    */
   emailRecipient?: string;
   /**
