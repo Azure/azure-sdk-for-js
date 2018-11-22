@@ -31,8 +31,8 @@ export function getGenericBSU(
     // Enable logger when debugging
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
-  const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.blob.core.windows.net${accountSAS}`;
-  return new ServiceURL(blobPrimaryURL, pipeline);
+  const filePrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net${accountSAS}`;
+  return new ServiceURL(filePrimaryURL, pipeline);
 }
 
 export function getBSU(): ServiceURL {

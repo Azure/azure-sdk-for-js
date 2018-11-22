@@ -1,5 +1,7 @@
 import multi from "rollup-plugin-multi-entry";
+
 import baseConfig from "./rollup.config";
+
 const [node, browser] = baseConfig;
 
 node.input = ["dist-esm/test/*.js", "dist-esm/test/node/*.js"];

@@ -1,41 +1,39 @@
 import { Aborter } from "../../lib/Aborter";
-import { BlockBlobURL } from "../../lib/BlockBlobURL";
-import { ContainerURL } from "../../lib/ContainerURL";
-import { getBSU, getUniqueName } from "../utils/index";
+import { DirectoryURL } from "../../lib/DirectoryURL";
+import { FileURL } from "../../lib/FileURL";
+import { ShareURL } from "../../lib/ShareURL";
+import { getBSU, getUniqueName } from "../utils";
 
 describe("SharedKeyCredentialPolicy Node.js only", () => {
   const serviceURL = getBSU();
-  const containerName: string = getUniqueName("1container-with-dash");
-  const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+  const shareName: string = getUniqueName("1share-with-dash");
+  const shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
 
   before(async () => {
-    await containerURL.create(Aborter.none);
+    await shareURL.create(Aborter.none);
   });
 
   after(async () => {
-    await containerURL.delete(Aborter.none);
+    await shareURL.delete(Aborter.none);
   });
 
-  it("SharedKeyCredentialPolicy should work with special container and blob names with spaces", async () => {
-    const blobName: string = getUniqueName("blob empty");
-    const blockBlobURL = BlockBlobURL.fromContainerURL(containerURL, blobName);
+  it("SharedKeyCredentialPolicy should work with special share and file names with spaces", async () => {
+    const dirName = getUniqueName("dir empty");
+    const dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
+    await dirURL.create(Aborter.none);
 
-    await blockBlobURL.upload(Aborter.none, "A", 1);
+    const fileName: string = getUniqueName("file empty");
+    const fileURL = FileURL.fromDirectoryURL(dirURL, fileName);
+    await fileURL.create(Aborter.none, 0);
   });
 
-  it("SharedKeyCredentialPolicy should work with special container and blob names with /", async () => {
-    const blobName: string = getUniqueName("////blob/empty /another");
-    const blockBlobURL = BlockBlobURL.fromContainerURL(containerURL, blobName);
+  it("SharedKeyCredentialPolicy should work with special share and file names uppercase", async () => {
+    const dirName = getUniqueName("Dir empty");
+    const dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
+    await dirURL.create(Aborter.none);
 
-    await blockBlobURL.upload(Aborter.none, "A", 1);
-    await blockBlobURL.getProperties(Aborter.none);
-  });
-
-  it("SharedKeyCredentialPolicy should work with special container and blob names uppercase", async () => {
-    const blobName: string = getUniqueName("////Upper/blob/empty /another");
-    const blockBlobURL = BlockBlobURL.fromContainerURL(containerURL, blobName);
-
-    await blockBlobURL.upload(Aborter.none, "A", 1);
-    await blockBlobURL.getProperties(Aborter.none);
+    const fileName: string = getUniqueName("Upper_another");
+    const fileURL = FileURL.fromDirectoryURL(dirURL, fileName);
+    await fileURL.create(Aborter.none, 0);
   });
 });

@@ -76,6 +76,12 @@ async function UploadSeekableBlobToAzureFile(
     throw new RangeError(`options.parallelism cannot less than 0.`);
   }
 
+  // Create the file
+  await fileURL.create(aborter, size, {
+    fileHTTPHeaders: options.fileHTTPHeaders,
+    metadata: options.metadata
+  });
+
   const numBlocks: number = Math.floor((size - 1) / options.rangeSize) + 1;
   let transferProgress: number = 0;
 
@@ -89,7 +95,7 @@ async function UploadSeekableBlobToAzureFile(
         await fileURL.uploadRange(
           aborter,
           blobFactory(start, contentLength),
-          transferProgress,
+          start,
           contentLength
         );
         // Update progress after block is successfully uploaded to server, in case of block trying

@@ -89,6 +89,12 @@ async function uploadResetableStreamToAzureFile(
     throw new RangeError(`options.parallelism cannot less than 0.`);
   }
 
+  // Create the file
+  await fileURL.create(aborter, size, {
+    fileHTTPHeaders: options.fileHTTPHeaders,
+    metadata: options.metadata
+  });
+
   const numBlocks: number = Math.floor((size - 1) / options.rangeSize) + 1;
   let transferProgress: number = 0;
   const batch = new Batch(options.parallelism);
@@ -102,7 +108,7 @@ async function uploadResetableStreamToAzureFile(
         await fileURL.uploadRange(
           aborter,
           () => streamFactory(start, contentLength),
-          transferProgress,
+          start,
           contentLength
         );
         // Update progress after block is successfully uploaded to server, in case of block trying
@@ -298,7 +304,7 @@ export async function uploadStreamToAzureFile(
     stream,
     bufferSize,
     maxBuffers,
-    async (buffer: Buffer) => {
+    async (buffer: Buffer, offset?: number) => {
       if (transferProgress + buffer.length > size) {
         throw new RangeError(
           `Stream size is larger than file size ${size} bytes, uploading failed. ` +
@@ -306,12 +312,7 @@ export async function uploadStreamToAzureFile(
         );
       }
 
-      await fileURL.uploadRange(
-        aborter,
-        buffer,
-        transferProgress,
-        buffer.length
-      );
+      await fileURL.uploadRange(aborter, buffer, offset!, buffer.length);
 
       // Update progress after block is successfully uploaded to server, in case of block trying
       transferProgress += buffer.length;

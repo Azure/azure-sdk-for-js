@@ -9,17 +9,16 @@
  */
 
 export {
-  discriminators,
   DirectoryCreateHeaders,
   StorageError,
   DirectoryGetPropertiesHeaders,
   DirectoryDeleteHeaders,
   DirectorySetMetadataHeaders,
   ListFilesAndDirectoriesSegmentResponse,
-  Entry,
-  DirectoryListFilesAndDirectoriesSegmentHeaders,
+  FilesAndDirectoriesListSegment,
   DirectoryItem,
   FileItem,
-  FileProperty
+  FileProperty,
+  DirectoryListFilesAndDirectoriesSegmentHeaders
 } from "../models/mappers";
 

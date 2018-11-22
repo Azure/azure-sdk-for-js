@@ -9,7 +9,6 @@
  */
 
 export {
-  discriminators,
   ShareCreateHeaders,
   StorageError,
   ShareGetPropertiesHeaders,

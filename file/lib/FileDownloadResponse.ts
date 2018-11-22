@@ -3,10 +3,7 @@ import { HttpResponse, isNode, TransferProgressEvent } from "ms-rest-js";
 import { Aborter } from "./Aborter";
 import * as Models from "./generated/models";
 import { IMetadata } from "./models";
-import {
-  ReadableStreamGetter,
-  RetriableReadableStream
-} from "./utils/RetriableReadableStream";
+import { ReadableStreamGetter, RetriableReadableStream } from "./utils/RetriableReadableStream";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -19,7 +16,7 @@ import {
  * Readable stream.
  *
  * @export
- * @class PathReadResponse
+ * @class FileDownloadResponse
  * @implements {Models.FileDownloadResponse}
  */
 export class FileDownloadResponse implements Models.FileDownloadResponse {

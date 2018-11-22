@@ -6,10 +6,7 @@ import { StorageClientContext } from "./generated/storageClientContext";
 import { LoggingPolicyFactory } from "./LoggingPolicyFactory";
 import { IHttpClient, IHttpPipelineLogger, Pipeline } from "./Pipeline";
 import { IRetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
-import {
-  ITelemetryOptions,
-  TelemetryPolicyFactory
-} from "./TelemetryPolicyFactory";
+import { ITelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 import { SERVICE_VERSION } from "./utils/constants";
 
@@ -110,8 +107,8 @@ export abstract class StorageURL {
     this.url = url;
     this.pipeline = pipeline;
     this.storageClientContext = new StorageClientContext(
-      url,
       SERVICE_VERSION,
+      url,
       pipeline.toServiceClientOptions()
     );
   }

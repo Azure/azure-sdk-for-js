@@ -14,18 +14,18 @@ import { AbortSignalLike, isNode } from "ms-rest-js";
  *
  * @example
  * // Abort without timeout
- * await blockBlobURL.upload(Aborter.none, buf, buf.length);
+ * await fileURL.uploadRange(Aborter.none, buf, 0, buf.length);
  *
  * @example
  * // Abort container create in 1000ms
- * await blockBlobURL.upload(Aborter.timeout(1000), buf, buf.length);
+ * await fileURL.uploadRange(Aborter.timeout(1000), buf, 0, buf.length);
  *
  * @example
  * // Share aborter cross multiple operations in 30s
  * // Upload the same data to 2 different data centers at the same time, abort another when any of them is finished
  * const aborter = Aborter.timeout(30 * 1000);
- * blockBlobURL1.upload(aborter, buf, buf.length).then(aborter.abort);
- * blockBlobURL2.upload(aborter, buf, buf.length).then(aborter.abort);
+ * fileURL1.uploadRange(aborter, buf, 0, buf.length).then(aborter.abort);
+ * fileURL2.uploadRange(aborter, buf, 0, buf.length).then(aborter.abort);
  *
  * @example
  * // Cascaded aborting
@@ -33,8 +33,8 @@ import { AbortSignalLike, isNode } from "ms-rest-js";
  * const aborter = Aborter.timeout(30 * 1000);
  *
  * // Following 2 operations can't take more than 25 seconds
- * await blockBlobURL.upload(aborter.withTimeout(25 * 1000), buf, buf.length);
- * await blockBlobURL.upload(aborter.withTimeout(25 * 1000), buf, buf.length);
+ * await fileURL.uploadRange(aborter.withTimeout(25 * 1000), buf, 0, buf.length);
+ * await fileURL.uploadRange(aborter.withTimeout(25 * 1000), buf, 0, buf.length);
  *
  * @export
  * @class Aborter

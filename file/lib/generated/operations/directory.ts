@@ -247,7 +247,7 @@ const setMetadataOperationSpec: msRest.OperationSpec = {
     Parameters.version
   ],
   responses: {
-    202: {
+    200: {
       headersMapper: Mappers.DirectorySetMetadataHeaders
     },
     default: {
