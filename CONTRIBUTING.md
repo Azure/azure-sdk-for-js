@@ -40,7 +40,7 @@ For example, you can create following CORS settings for debugging. But please cu
 
 ### Building
 
-This project is based on TypeScript. For Node.js, generate commonJS module formats and browser bundles, build with:
+This project is based on TypeScript. Build with:
 
 ```bash
 npm install
