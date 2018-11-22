@@ -1,7 +1,7 @@
 # Azure Storage SDK V10 for JavaScript - File
 
-- [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-file.svg)](https://badge.fury.io/js/%40azure%2Fstorage-file)
-- [API Reference documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/storage-file/index?view=azure-node-preview)
+* [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-file.svg)](https://badge.fury.io/js/%40azure%2Fstorage-file)
+* [API Reference documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/storage-file/index?view=azure-node-preview)
 
 ## Introduction
 
@@ -11,15 +11,15 @@ Please note that this version of the SDK is a compete overhaul of the current [A
 
 ### Features
 
-- File Storage
-  - Get/Set File Service Properties
-  - Create/List/Delete File Shares
-  - Create/List/Delete File Directories
-  - Create/Read/List/Update/Delete Files
-- Features new
-  - Asynchronous I/O for all operations using the async methods
-  - HttpPipeline which enables a high degree of per-request configurability
-  - 1-to-1 correlation with the Storage REST API for clarity and simplicity
+* File Storage
+  * Get/Set File Service Properties
+  * Create/List/Delete File Shares
+  * Create/List/Delete File Directories
+  * Create/Read/List/Update/Delete Files
+* Features new
+  * Asynchronous I/O for all operations using the async methods
+  * HttpPipeline which enables a high degree of per-request configurability
+  * 1-to-1 correlation with the Storage REST API for clarity and simplicity
 
 ### Compatibility
 
@@ -31,11 +31,11 @@ You need polyfills to make this library work with IE11. The easiest way is to us
 Or you can load separate polyfills for missed ES feature(s).
 This library depends on following ES6 features which need external polyfills loaded.
 
-- `Promise`
-- `String.prototype.startsWith`
-- `String.prototype.endsWith`
-- `String.prototype.repeat`
-- `String.prototype.includes`
+* `Promise`
+* `String.prototype.startsWith`
+* `String.prototype.endsWith`
+* `String.prototype.repeat`
+* `String.prototype.includes`
 
 #### Differences between Node.js and browsers
 
@@ -43,20 +43,20 @@ There are differences between Node.js and browsers runtime. When getting start w
 
 ##### Following features, interfaces, classes or functions are only available in Node.js
 
-- Shared Key Authorization based on account name and account key
-  - `SharedKeyCredential`
-- Shared Access Signature(SAS) generation
-  - `generateAccountSASQueryParameters()`
-  - `generateFileSASQueryParameters()`
-- Parallel uploading and downloading
-  - `uploadFileToBlockFile()`
-  - `uploadStreamToBlockFile()`
-  - `downloadFileToBuffer()`
+* Shared Key Authorization based on account name and account key
+  * `SharedKeyCredential`
+* Shared Access Signature(SAS) generation
+  * `generateAccountSASQueryParameters()`
+  * `generateFileSASQueryParameters()`
+* Parallel uploading and downloading
+  * `uploadFileToAzureFile()`
+  * `uploadStreamToAzureFile()`
+  * `downloadAzureFileToBuffer()`
 
 ##### Following features, interfaces, classes or functions are only available in browsers
 
-- Parallel uploading and downloading
-  - `uploadBrowserDataToFile()`
+* Parallel uploading and downloading
+  * `uploadBrowserDataToAzureFile()`
 
 ## Getting Started
 
@@ -121,13 +121,143 @@ The Azure Storage SDK for JavaScript provides low-level and high-level APIs.
 ## Code Samples
 
 ```javascript
-// TODO:
+const {
+  Aborter,
+  StorageURL,
+  ServiceURL,
+  ShareURL,
+  DirectoryURL,
+  FileURL,
+  SharedKeyCredential,
+  AnonymousCredential,
+  TokenCredential
+} = require("@azure/storage-file");
+
+async function main() {
+  // Enter your storage account name and shared key
+  const account = "";
+  const accountKey = "";
+
+  // Use SharedKeyCredential with storage account and account key
+  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
+
+  // Use TokenCredential with OAuth token
+  const tokenCredential = new TokenCredential("token");
+  tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential object
+
+  // Use AnonymousCredential when url already includes a SAS signature
+  const anonymousCredential = new AnonymousCredential();
+
+  // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
+  const pipeline = StorageURL.newPipeline(sharedKeyCredential);
+
+  // List shares
+  const serviceURL = new ServiceURL(
+    // When using AnonymousCredential, following url should include a valid SAS
+    `https://${account}.file.core.windows.net`,
+    pipeline
+  );
+
+  console.log(`List shares`);
+  let marker;
+  do {
+    const listSharesResponse = await serviceURL.listSharesSegment(
+      Aborter.none,
+      marker
+    );
+
+    marker = listSharesResponse.nextMarker;
+    for (const share of listSharesResponse.shareItems) {
+      console.log(`\tShare: ${share.name}`);
+    }
+  } while (marker);
+
+  // Create a share
+  const shareName = `newshare${new Date().getTime()}`;
+  const shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
+  await shareURL.create(Aborter.none);
+  console.log(`Create share ${shareName} successfully`);
+
+  // Create a directory
+  const directoryName = `newdirectory${new Date().getTime()}`;
+  const directoryURL = DirectoryURL.fromShareURL(shareURL, directoryName);
+  await directoryURL.create(Aborter.none);
+  console.log(`Create directory ${directoryName} successfully`);
+
+  // Create a file
+  const content = "Hello World!";
+  const fileName = "newfile" + new Date().getTime();
+  const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
+  await fileURL.create(Aborter.none, content.length);
+  console.log(`Create file ${fileName} successfully`);
+
+  // Upload file range
+  await fileURL.uploadRange(Aborter.none, content, 0, content.length);
+  console.log(`Upload file range "${content}" to ${fileName} successfully`);
+
+  // List directories and files
+  console.log(`List directories and files under directory ${directoryName}`);
+  marker = undefined;
+  do {
+    const listFilesAndDirectoriesResponse = await directoryURL.listFilesAndDirectoriesSegment(
+      Aborter.none,
+      marker
+    );
+
+    marker = listFilesAndDirectoriesResponse.nextMarker;
+    for (const file of listFilesAndDirectoriesResponse.segment.fileItems) {
+      console.log(`\tFile: ${file.name}`);
+    }
+    for (const directory of listFilesAndDirectoriesResponse.segment
+      .directoryItems) {
+      console.log(`\tDirectory: ${directory.name}`);
+    }
+  } while (marker);
+
+  // Get file content from position 0 to the end
+  // In Node.js, get downloaded data by accessing downloadFileResponse.readableStreamBody
+  // In browsers, get downloaded data by accessing downloadFileResponse.blobBody
+  const downloadFileResponse = await fileURL.download(Aborter.none, 0);
+  console.log(
+    `Downloaded file content${await streamToString(
+      downloadFileResponse.readableStreamBody
+    )}`
+  );
+
+  // Delete share
+  await shareURL.delete(Aborter.none);
+  console.log(`deleted share ${shareName}`);
+}
+
+// A helper method used to read a Node.js readable stream into string
+async function streamToString(readableStream) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    readableStream.on("data", data => {
+      chunks.push(data.toString());
+    });
+    readableStream.on("end", () => {
+      resolve(chunks.join(""));
+    });
+    readableStream.on("error", reject);
+  });
+}
+
+// An async method returns a Promise object, which is compatible with then().catch() coding style.
+main()
+  .then(() => {
+    console.log("Successfully executed sample.");
+  })
+  .catch(err => {
+    console.log(err.message);
+  });
 ```
 
 ## More Code Samples
 
-- [File Storage Examples](https://github.com/azure/azure-storage-js/tree/master/file/samples)
-- [File Storage Examples - Test Cases](https://github.com/azure/azure-storage-js/tree/master/file/test/)
+* [File Storage Examples](https://github.com/azure/azure-storage-js/tree/master/file/samples)
+* [File Storage Examples - Test Cases](https://github.com/azure/azure-storage-js/tree/master/file/test/)
 
 ## License
 

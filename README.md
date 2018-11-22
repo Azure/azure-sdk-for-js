@@ -1,6 +1,7 @@
 # Azure Storage SDK V10 for JavaScript
 
 * @azure/storage-blob [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-blob.svg)](https://badge.fury.io/js/%40azure%2Fstorage-blob)
+* @azure/storage-file [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-file.svg)](https://badge.fury.io/js/%40azure%2Fstorage-file)
 * [API Reference documentation](https://docs.microsoft.com/en-us/javascript/api/overview/azure/storage/client?view=azure-node-preview)
 
 ## Introduction
@@ -17,6 +18,11 @@ Please note that this version of the SDK is a compete overhaul of the current [A
   * Create/Read/List/Update/Delete Block Blobs
   * Create/Read/List/Update/Delete Page Blobs
   * Create/Read/List/Update/Delete Append Blobs
+* File Storage
+  * Get/Set File Service Properties
+  * Create/List/Delete File Shares
+  * Create/List/Delete File Directories
+  * Create/Read/List/Update/Delete Files
 * Features new
   * Asynchronous I/O for all operations using the async methods
   * HttpPipeline which enables a high degree of per-request configurability
@@ -49,21 +55,28 @@ There are differences between Node.js and browsers runtime. When getting start w
 * Shared Access Signature(SAS) generation
   * `generateAccountSASQueryParameters()`
   * `generateBlobSASQueryParameters()`
+  * `generateFileSASQueryParameters()`
 * Parallel uploading and downloading
   * `uploadFileToBlockBlob()`
   * `uploadStreamToBlockBlob()`
   * `downloadBlobToBuffer()`
+  * `uploadFileToAzureFile()`
+  * `uploadStreamToAzureFile()`
+  * `downloadAzureFileToBuffer()`
 
 ##### Following features, interfaces, classes or functions are only available in browsers
 
 * Parallel uploading and downloading
   * `uploadBrowserDataToBlockBlob()`
+  * `uploadBrowserDataToAzureFile()`
 
 ## Getting Started
 
 ### NPM
 
-The preferred way to install the Azure Storage SDK for JavaScript is to use the npm package manager. Simply type the following into a terminal window:
+The preferred way to install the Azure Storage SDK for JavaScript is to use the npm package manager. Take "@azure/storage-blob" for example.
+
+Simply type the following into a terminal window: 
 
 ```bash
 npm install @azure/storage-blob
@@ -87,17 +100,20 @@ To use the SDK with JS bundle in the browsers, simply add a script tag to your H
 
 ```html
 <script src="https://mydomain/azure-storage.blob.min.js"></script>
+<script src="https://mydomain/azure-storage.file.min.js"></script>
 ```
 
 The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) standard, if no module system found, following global variable(s) will be exported:
 
 * `azblob`
+* `azfile`
 
 #### Download
 
 Download latest released JS bundles from links in the [GitHub release page](https://github.com/Azure/azure-storage-js/releases). Or from following links directly:
 
 * Blob [https://aka.ms/downloadazurestoragejsblob](https://aka.ms/downloadazurestoragejsblob)
+* File [https://aka.ms/downloadazurestoragejsfile](https://aka.ms/downloadazurestoragejsfile)
 
 ### CORS
 
@@ -254,6 +270,8 @@ main()
 
 * [Blob Storage Examples](https://github.com/azure/azure-storage-js/tree/master/blob/samples)
 * [Blob Storage Examples - Test Cases](https://github.com/azure/azure-storage-js/tree/master/blob/test/)
+* [File Storage Examples](https://github.com/azure/azure-storage-js/tree/master/file/samples)
+* [File Storage Examples - Test Cases](https://github.com/azure/azure-storage-js/tree/master/file/test/)
 
 ## License
 

@@ -5,101 +5,108 @@
 const fs = require("fs");
 const {
   AnonymousCredential,
-  uploadBrowserDataToBlockBlob,
-  downloadBlobToBuffer,
-  uploadFileToBlockBlob,
-  uploadStreamToBlockBlob,
+  uploadBrowserDataToAzureFile,
+  downloadAzureFileToBuffer,
+  uploadFileToAzureFile,
+  uploadStreamToAzureFile,
   Aborter,
-  BlobURL,
-  BlockBlobURL,
-  ContainerURL,
+  FileURL,
+  DirectoryURL,
+  ShareURL,
   ServiceURL,
   StorageURL
 } = require(".."); // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Fill in following settings before running this sample
-  const account = "account";
-  const accountSas = "accountSas";
-  const localFilePath = "localFilePath";
+  const account = "";
+  const accountSas = "";
+  const localFilePath = "";
 
   const pipeline = StorageURL.newPipeline(new AnonymousCredential(), {
-    // httpClient: MyHTTPClient, // A customized HTTP client implementing IHTTPClient interface
-    // logger: MyLogger, // A customized logger implementing IHTTPPipelineLogger interface
+    // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
+    // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
     retryOptions: { maxTries: 4 }, // Retry options
     telemetry: { value: "HighLevelSample V1.0.0" } // Customized telemetry string
   });
 
   const serviceURL = new ServiceURL(
-    `https://${account}.blob.core.windows.net${accountSas}`,
+    `https://${account}.file.core.windows.net${accountSas}`,
     pipeline
   );
 
-  // Create a container
-  const containerName = `newcontainer${new Date().getTime()}`;
-  const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-  await containerURL.create(Aborter.none);
+  // Create a share
+  const shareName = `newshare${new Date().getTime()}`;
+  const shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
+  await shareURL.create(Aborter.none);
+  console.log(`Create share ${shareName} successfully`);
 
-  // Create a blob
-  const blobName = "newblob" + new Date().getTime();
-  const blobURL = BlobURL.fromContainerURL(containerURL, blobName);
-  const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
+  // Create a directory
+  const directoryName = `newdirectory${new Date().getTime()}`;
+  const directoryURL = DirectoryURL.fromShareURL(shareURL, directoryName);
+  await directoryURL.create(Aborter.none);
+  console.log(`Create directory ${directoryName} successfully`);
 
-  // Parallel uploading with uploadFileToBlockBlob in Node.js runtime
-  // uploadFileToBlockBlob is only available in Node.js
-  await uploadFileToBlockBlob(Aborter.none, localFilePath, blockBlobURL, {
-    blockSize: 4 * 1024 * 1024, // 4MB block size
+  // Upload local file to Azure file parallelly
+  const fileName = "newfile" + new Date().getTime();
+  const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
+  const fileSize = fs.statSync(localFilePath).size;
+
+  // Parallel uploading with uploadFileToAzureFile in Node.js runtime
+  // uploadFileToAzureFile is only available in Node.js
+  await uploadFileToAzureFile(Aborter.none, localFilePath, fileURL, {
+    rangeSize: 4 * 1024 * 1024, // 4MB range size
     parallelism: 20, // 20 concurrency
     progress: ev => console.log(ev)
   });
-  console.log("uploadFileToBlockBlob success");
+  console.log("uploadFileToAzureFile success");
 
-  // Parallel uploading a Readable stream with uploadStreamToBlockBlob in Node.js runtime
-  // uploadStreamToBlockBlob is only available in Node.js
-  await uploadStreamToBlockBlob(
+  // Parallel uploading a Readable stream with uploadStreamToAzureFile in Node.js runtime
+  // uploadStreamToAzureFile is only available in Node.js
+  await uploadStreamToAzureFile(
     Aborter.timeout(30 * 60 * 60 * 1000), // Abort uploading with timeout in 30mins
     fs.createReadStream(localFilePath),
-    blockBlobURL,
+    fileSize,
+    fileURL,
     4 * 1024 * 1024,
     20,
     {
       progress: ev => console.log(ev)
     }
   );
-  console.log("uploadStreamToBlockBlob success");
+  console.log("uploadStreamToAzureFile success");
 
-  // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with uploadBrowserDataToBlockBlob
-  // Uncomment following code in browsers because uploadBrowserDataToBlockBlob is only available in browsers
+  // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with uploadBrowserDataToAzureFile
+  // Uncomment following code in browsers because uploadBrowserDataToAzureFile is only available in browsers
   /*
   const browserFile = document.getElementById("fileinput").files[0];
-  await uploadBrowserDataToBlockBlob(Aborter.none, browserFile, blockBlobURL, {
-    blockSize: 4 * 1024 * 1024, // 4MB block size
+  await uploadBrowserDataToAzureFile(Aborter.none, browserFile, fileURL, {
+    rangeSize: 4 * 1024 * 1024, // 4MB range size
     parallelism: 20, // 20 concurrency
     progress: ev => console.log(ev)
   });
   */
 
-  // Parallel downloading a block blob into Node.js buffer
-  // downloadBlobToBuffer is only available in Node.js
-  const fileSize = fs.statSync(localFilePath).size;
+  // Parallel downloading an Azure file into Node.js buffer
+  // downloadAzureFileToBuffer is only available in Node.js
   const buffer = Buffer.alloc(fileSize);
-  await downloadBlobToBuffer(
+  await downloadAzureFileToBuffer(
     Aborter.timeout(30 * 60 * 60 * 1000),
     buffer,
-    blockBlobURL,
+    fileURL,
     0,
     undefined,
     {
-      blockSize: 4 * 1024 * 1024, // 4MB block size
+      rangeSize: 4 * 1024 * 1024, // 4MB range size
       parallelism: 20, // 20 concurrency
       progress: ev => console.log(ev)
     }
   );
-  console.log("downloadBlobToBuffer success");
+  console.log("downloadAzureFileToBuffer success");
 
-  // Delete container
-  await containerURL.delete(Aborter.none);
-  console.log("deleted container");
+  // Delete share
+  await shareURL.delete(Aborter.none);
+  console.log("deleted share");
 }
 
 // An async method returns a Promise object, which is compatible with then().catch() coding style.

@@ -4,105 +4,125 @@
 
 const {
   Aborter,
-  BlobURL,
-  BlockBlobURL,
-  ContainerURL,
-  ServiceURL,
   StorageURL,
+  ServiceURL,
+  ShareURL,
+  DirectoryURL,
+  FileURL,
   SharedKeyCredential,
   AnonymousCredential,
   TokenCredential
-} = require(".."); // Change to "@azure/storage-blob" in your package
+} = require(".."); // Change to "@azure/storage-file" in your package
 
 async function main() {
   // Enter your storage account name and shared key
-  const account = "account";
-  const accountKey = "accountkey";
+  const account = "";
+  const accountKey = "";
 
   // Use SharedKeyCredential with storage account and account key
+  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
   // Use TokenCredential with OAuth token
   const tokenCredential = new TokenCredential("token");
-  tokenCredential.token = "renewedToken"; // Renew the token by updating token filed of token credential
+  tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential object
 
   // Use AnonymousCredential when url already includes a SAS signature
   const anonymousCredential = new AnonymousCredential();
 
-  // Use sharedKeyCredential, tokenCredential or AnonymousCredential to create a pipeline
+  // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
   const pipeline = StorageURL.newPipeline(sharedKeyCredential);
 
-  // List containers
+  // List shares
   const serviceURL = new ServiceURL(
-    // When using AnonymousCredential, following url should include a valid SAS or support public access
-    `https://${account}.blob.core.windows.net`,
+    // When using AnonymousCredential, following url should include a valid SAS
+    `https://${account}.file.core.windows.net`,
     pipeline
   );
 
+  console.log(`List shares`);
   let marker;
   do {
-    const listContainersResponse = await serviceURL.listContainersSegment(
+    const listSharesResponse = await serviceURL.listSharesSegment(
       Aborter.none,
       marker
     );
 
-    marker = listContainersResponse.marker;
-    for (const container of listContainersResponse.containerItems) {
-      console.log(`Container: ${container.name}`);
+    marker = listSharesResponse.nextMarker;
+    for (const share of listSharesResponse.shareItems) {
+      console.log(`\tShare: ${share.name}`);
     }
   } while (marker);
 
-  // Create a container
-  const containerName = `newcontainer${new Date().getTime()}`;
-  const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+  // Create a share
+  const shareName = `newshare${new Date().getTime()}`;
+  const shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
+  await shareURL.create(Aborter.none);
+  console.log(`Create share ${shareName} successfully`);
 
-  const createContainerResponse = await containerURL.create(Aborter.none);
-  console.log(
-    `Create container ${containerName} successfully`,
-    createContainerResponse.requestId
-  );
+  // Create a directory
+  const directoryName = `newdirectory${new Date().getTime()}`;
+  const directoryURL = DirectoryURL.fromShareURL(shareURL, directoryName);
+  await directoryURL.create(Aborter.none);
+  console.log(`Create directory ${directoryName} successfully`);
 
-  // Create a blob
-  const content = "hello";
-  const blobName = "newblob" + new Date().getTime();
-  const blobURL = BlobURL.fromContainerURL(containerURL, blobName);
-  const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
-  const uploadBlobResponse = await blockBlobURL.upload(
-    Aborter.none,
-    content,
-    content.length
-  );
-  console.log(
-    `Upload block blob ${blobName} successfully`,
-    uploadBlobResponse.requestId
-  );
+  // Create a file
+  const content = "Hello World!";
+  const fileName = "newfile" + new Date().getTime();
+  const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
+  await fileURL.create(Aborter.none, content.length);
+  console.log(`Create file ${fileName} successfully`);
 
-  // List blobs
+  // Upload file range
+  await fileURL.uploadRange(Aborter.none, content, 0, content.length);
+  console.log(`Upload file range "${content}" to ${fileName} successfully`);
+
+  // List directories and files
+  console.log(`List directories and files under directory ${directoryName}`);
+  marker = undefined;
   do {
-    const listBlobsResponse = await containerURL.listBlobFlatSegment(
+    const listFilesAndDirectoriesResponse = await directoryURL.listFilesAndDirectoriesSegment(
       Aborter.none,
       marker
     );
 
-    marker = listBlobsResponse.marker;
-    for (const blob of listBlobsResponse.segment.blobItems) {
-      console.log(`Blob: ${blob.name}`);
+    marker = listFilesAndDirectoriesResponse.nextMarker;
+    for (const file of listFilesAndDirectoriesResponse.segment.fileItems) {
+      console.log(`\tFile: ${file.name}`);
+    }
+    for (const directory of listFilesAndDirectoriesResponse.segment
+      .directoryItems) {
+      console.log(`\tDirectory: ${directory.name}`);
     }
   } while (marker);
 
-  // Get blob content from position 0 to the end
-  // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
-  // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
-  const downloadBlockBlobResponse = await blobURL.download(Aborter.none, 0);
+  // Get file content from position 0 to the end
+  // In Node.js, get downloaded data by accessing downloadFileResponse.readableStreamBody
+  // In browsers, get downloaded data by accessing downloadFileResponse.blobBody
+  const downloadFileResponse = await fileURL.download(Aborter.none, 0);
   console.log(
-    "Downloaded blob content",
-    downloadBlockBlobResponse.readableStreamBody.read(content.length).toString()
+    `Downloaded file content${await streamToString(
+      downloadFileResponse.readableStreamBody
+    )}`
   );
 
-  // Delete container
-  await containerURL.delete(Aborter.none);
+  // Delete share
+  await shareURL.delete(Aborter.none);
+  console.log(`deleted share ${shareName}`);
+}
 
-  console.log("deleted container");
+// A helper method used to read a Node.js readable stream into string
+async function streamToString(readableStream) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    readableStream.on("data", data => {
+      chunks.push(data.toString());
+    });
+    readableStream.on("end", () => {
+      resolve(chunks.join(""));
+    });
+    readableStream.on("error", reject);
+  });
 }
 
 // An async method returns a Promise object, which is compatible with then().catch() coding style.
