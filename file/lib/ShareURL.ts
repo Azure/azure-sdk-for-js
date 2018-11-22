@@ -3,6 +3,7 @@ import { HttpResponse } from "ms-rest-js";
 import { Aborter } from "./Aborter";
 import * as Models from "./generated/models";
 import { Share } from "./generated/operations";
+import { IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { ServiceURL } from "./ServiceURL";
 import { StorageURL } from "./StorageURL";
@@ -38,16 +39,6 @@ export interface IShareDeleteMethodOptions {
    * @memberof IShareDeleteMethodOptions
    */
   deleteSnapshots?: Models.DeleteSnapshotsOptionType;
-}
-
-export interface IShareSetMetadataOptions {
-  /**
-   * A name-value pair to associate with a file storage object.
-   *
-   * @type {{ [propertyName: string]: string }}
-   * @memberof IShareCreateOptions
-   */
-  metadata?: { [propertyName: string]: string };
 }
 
 export interface ISignedIdentifier {
@@ -256,17 +247,17 @@ export class ShareURL extends StorageURL {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IShareSetMetadataOptions} [options]
+   * @param {IMetadata} [metadata] If no metadata provided, all existing directory metadata will be removed
    * @returns {Promise<Models.ShareSetMetadataResponse>}
    * @memberof ShareURL
    */
   public async setMetadata(
     aborter: Aborter,
-    options: IShareSetMetadataOptions = {}
+    metadata?: IMetadata
   ): Promise<Models.ShareSetMetadataResponse> {
     return this.context.setMetadata({
       abortSignal: aborter,
-      ...options
+      metadata
     });
   }
 

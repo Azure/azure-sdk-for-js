@@ -95,16 +95,12 @@ export const CorsRule: msRest.CompositeMapper = {
   }
 };
 
-export const Entry: msRest.CompositeMapper = {
-  serializedName: "Entry",
+export const DirectoryItem: msRest.CompositeMapper = {
+  xmlName: "Directory",
+  serializedName: "DirectoryItem",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: {
-      serializedName: "EntryType",
-      clientName: "entryType"
-    },
-    uberParent: "Entry",
-    className: "Entry",
+    className: "DirectoryItem",
     modelProperties: {
       name: {
         xmlName: "Name",
@@ -113,26 +109,7 @@ export const Entry: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
-      },
-      entryType: {
-        xmlName: "entryType",
-        required: true,
-        serializedName: "EntryType",
-        type: {
-          name: "String"
-        }
       }
-    }
-  }
-};
-
-export const DirectoryItem: msRest.CompositeMapper = {
-  serializedName: "Directory",
-  type: {
-    name: "Composite",
-    className: "DirectoryItem",
-    modelProperties: {
-      ...Entry.type.modelProperties
     }
   }
 };
@@ -156,12 +133,20 @@ export const FileProperty: msRest.CompositeMapper = {
 };
 
 export const FileItem: msRest.CompositeMapper = {
-  serializedName: "File",
+  xmlName: "File",
+  serializedName: "FileItem",
   type: {
     name: "Composite",
     className: "FileItem",
     modelProperties: {
-      ...Entry.type.modelProperties,
+      name: {
+        xmlName: "Name",
+        required: true,
+        serializedName: "Name",
+        type: {
+          name: "String"
+        }
+      },
       properties: {
         xmlName: "Properties",
         required: true,
@@ -169,6 +154,47 @@ export const FileItem: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "FileProperty"
+        }
+      }
+    }
+  }
+};
+
+export const FilesAndDirectoriesListSegment: msRest.CompositeMapper = {
+  xmlName: "Entries",
+  serializedName: "FilesAndDirectoriesListSegment",
+  type: {
+    name: "Composite",
+    className: "FilesAndDirectoriesListSegment",
+    modelProperties: {
+      directoryItems: {
+        xmlName: "DirectoryItems",
+        xmlElementName: "Directory",
+        required: true,
+        serializedName: "DirectoryItems",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DirectoryItem"
+            }
+          }
+        }
+      },
+      fileItems: {
+        xmlName: "FileItems",
+        xmlElementName: "File",
+        required: true,
+        serializedName: "FileItems",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FileItem"
+            }
+          }
         }
       }
     }
@@ -239,24 +265,13 @@ export const ListFilesAndDirectoriesSegmentResponse: msRest.CompositeMapper = {
           name: "Number"
         }
       },
-      entries: {
-        xmlIsWrapped: true,
+      segment: {
         xmlName: "Entries",
-        xmlElementName: "Entry",
-        serializedName: "Entries",
+        required: true,
+        serializedName: "Segment",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "EntryType",
-                clientName: "entryType"
-              },
-              uberParent: "Entry",
-              className: "Entry"
-            }
-          }
+          name: "Composite",
+          className: "FilesAndDirectoriesListSegment"
         }
       },
       nextMarker: {
@@ -2070,10 +2085,4 @@ export const FileAbortCopyHeaders: msRest.CompositeMapper = {
       }
     }
   }
-};
-
-export const discriminators = {
-  'Entry' : Entry,
-  'Entry.Directory' : DirectoryItem,
-  'Entry.File' : FileItem
 };

@@ -21,6 +21,7 @@ export * from "./LoggingPolicyFactory";
 export * from "./TelemetryPolicyFactory";
 export * from "./policies/TokenCredentialPolicy";
 export * from "./UniqueRequestIDPolicyFactory";
+export * from "./BrowserPolicyFactory";
 export * from "./SASQueryParameters";
 export * from "./ServiceURL";
 export * from "./StorageURL";

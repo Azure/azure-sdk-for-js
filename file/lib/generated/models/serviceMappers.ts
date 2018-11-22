@@ -9,7 +9,6 @@
  */
 
 export {
-  discriminators,
   StorageServiceProperties,
   Metrics,
   RetentionPolicy,

@@ -1117,7 +1117,7 @@
                     }
                 ],
                 "responses": {
-                    "202": {
+                    "200": {
                         "description": "Success (Accepted).",
                         "headers": {
                             "ETag": {
@@ -1986,7 +1986,7 @@
                     }
                 ],
                 "responses": {
-                    "202": {
+                    "200": {
                         "description": "Success (Accepted).",
                         "headers": {
                             "ETag": {
@@ -2455,22 +2455,27 @@
                 }
             }
         },
-        "Entry": {
-            "description": "Abstract for entries that can be listed from Directory.",
+        "FilesAndDirectoriesListSegment": {
+            "xml": {
+                "name": "Entries"
+            },
             "type": "object",
             "required": [
-                "EntryType",
-                "Name"
+                "DirectoryItems",
+                "FileItems"
             ],
-            "discriminator": "EntryType",
-            "x-ms-discriminator-value": "Entry",
             "properties": {
-                "EntryType": {
-                    "type": "string"
+                "DirectoryItems": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/DirectoryItem"
+                    }
                 },
-                "Name": {
-                    "description": "Name of the entry.",
-                    "type": "string"
+                "FileItems": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FileItem"
+                    }
                 }
             }
         },
@@ -2478,33 +2483,35 @@
             "xml": {
                 "name": "Directory"
             },
-            "x-ms-discriminator-value": "Directory",
             "description": "A listed directory item.",
-            "allOf": [{
-                "$ref": "#/definitions/Entry"
-            }]
+            "type": "object",
+            "required": [
+                "Name"
+            ],
+            "properties": {
+                "Name": {
+                    "type": "string"
+                }
+            }
         },
         "FileItem": {
             "xml": {
                 "name": "File"
             },
-            "x-ms-discriminator-value": "File",
             "description": "A listed file item.",
-            "allOf": [{
-                    "$ref": "#/definitions/Entry"
+            "type": "object",
+            "required": [
+                "Name",
+                "Properties"
+            ],
+            "properties": {
+                "Name": {
+                    "type": "string"
                 },
-                {
-                    "type": "object",
-                    "required": [
-                        "Properties"
-                    ],
-                    "properties": {
-                        "Properties": {
-                            "$ref": "#/definitions/FileProperty"
-                        }
-                    }
+                "Properties": {
+                    "$ref": "#/definitions/FileProperty"
                 }
-            ]
+            }
         },
         "FileProperty": {
             "description": "File properties.",
@@ -2531,7 +2538,8 @@
                 "ShareName",
                 "DirectoryPath",
                 "Prefix",
-                "NextMarker"
+                "NextMarker",
+                "Segment"
             ],
             "properties": {
                 "ServiceEndpoint": {
@@ -2567,14 +2575,8 @@
                 "MaxResults": {
                     "type": "integer"
                 },
-                "Entries": {
-                    "xml": {
-                        "wrapped": true
-                    },
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Entry"
-                    }
+                "Segment": {
+                    "$ref": "#/definitions/FilesAndDirectoriesListSegment"
                 },
                 "NextMarker": {
                     "type": "string"
@@ -2653,6 +2655,9 @@
             }
         },
         "Range": {
+            "xml": {
+                "name": "Range"
+            },
             "description": "An Azure Storage file range.",
             "type": "object",
             "required": [
@@ -2771,6 +2776,9 @@
             }
         },
         "SignedIdentifier": {
+            "xml": {
+                "name": "SignedIdentifier"
+            },
             "description": "Signed identifier.",
             "type": "object",
             "required": [

@@ -82,28 +82,6 @@ export interface CorsRule {
 }
 
 /**
- * Contains the possible cases for Entry.
- */
-export type EntryUnion = Entry | DirectoryItem | FileItem;
-
-/**
- * @interface
- * An interface representing Entry.
- * Abstract for entries that can be listed from Directory.
- *
- */
-export interface Entry {
-  /**
-   * @member {string} entryType Polymorphic Discriminator
-   */
-  entryType: "Entry";
-  /**
-   * @member {string} name Name of the entry.
-   */
-  name: string;
-}
-
-/**
  * @interface
  * An interface representing DirectoryItem.
  * A listed directory item.
@@ -111,11 +89,7 @@ export interface Entry {
  */
 export interface DirectoryItem {
   /**
-   * @member {string} entryType Polymorphic Discriminator
-   */
-  entryType: "Directory";
-  /**
-   * @member {string} name Name of the entry.
+   * @member {string} name
    */
   name: string;
 }
@@ -145,17 +119,28 @@ export interface FileProperty {
  */
 export interface FileItem {
   /**
-   * @member {string} entryType Polymorphic Discriminator
-   */
-  entryType: "File";
-  /**
-   * @member {string} name Name of the entry.
+   * @member {string} name
    */
   name: string;
   /**
    * @member {FileProperty} properties
    */
   properties: FileProperty;
+}
+
+/**
+ * @interface
+ * An interface representing FilesAndDirectoriesListSegment.
+ */
+export interface FilesAndDirectoriesListSegment {
+  /**
+   * @member {DirectoryItem[]} directoryItems
+   */
+  directoryItems: DirectoryItem[];
+  /**
+   * @member {FileItem[]} fileItems
+   */
+  fileItems: FileItem[];
 }
 
 /**
@@ -194,9 +179,9 @@ export interface ListFilesAndDirectoriesSegmentResponse {
    */
   maxResults?: number;
   /**
-   * @member {EntryUnion[]} [entries]
+   * @member {FilesAndDirectoriesListSegment} segment
    */
-  entries?: EntryUnion[];
+  segment: FilesAndDirectoriesListSegment;
   /**
    * @member {string} nextMarker
    */

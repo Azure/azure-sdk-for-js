@@ -477,7 +477,7 @@ const setMetadataOperationSpec: msRest.OperationSpec = {
     Parameters.version
   ],
   responses: {
-    202: {
+    200: {
       headersMapper: Mappers.FileSetMetadataHeaders
     },
     default: {
@@ -548,7 +548,7 @@ const getRangeListOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: {
-        xmlElementName: "Ranges",
+        xmlElementName: "Range",
         serializedName: "parsedResponse",
         type: {
           name: "Sequence",

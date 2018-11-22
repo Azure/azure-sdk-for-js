@@ -1,7 +1,10 @@
 import * as assert from "assert";
 
 import { Aborter } from "../../lib/Aborter";
+import { DirectoryURL } from "../../lib/DirectoryURL";
+import { FileURL } from "../../lib/FileURL";
 import { uploadBrowserDataToAzureFile } from "../../lib/highlevel.browser";
+import { ShareURL } from "../../lib/ShareURL";
 import {
   arrayBufferEqual,
   blobToArrayBuffer,
@@ -10,33 +13,35 @@ import {
   getBrowserFile,
   getBSU,
   getUniqueName,
-  isIE,
 } from "../utils/index.browser";
 
 // tslint:disable:no-empty
 describe("Highelvel", () => {
   const serviceURL = getBSU();
-  let containerName = getUniqueName("container");
-  let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-  let blobName = getUniqueName("blob");
-  let blobURL = BlobURL.fromContainerURL(containerURL, blobName);
-  let blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
+  let shareName = getUniqueName("share");
+  let shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
+  let dirName = getUniqueName("dir");
+  let dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
+  let fileName = getUniqueName("file");
+  let fileURL = FileURL.fromDirectoryURL(dirURL, fileName);
   let tempFile1: File;
-  const tempFile1Length: number = 257 * 1024 * 1024 - 1;
+  const tempFile1Length: number = 128 * 1024 * 1024 - 1;
   let tempFile2: File;
   const tempFile2Length: number = 1 * 1024 * 1024 - 1;
 
   beforeEach(async () => {
-    containerName = getUniqueName("container");
-    containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-    await containerURL.create(Aborter.none);
-    blobName = getUniqueName("blob");
-    blobURL = BlobURL.fromContainerURL(containerURL, blobName);
-    blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
+    shareName = getUniqueName("share");
+    shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
+    await shareURL.create(Aborter.none);
+    dirName = getUniqueName("dir");
+    dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
+    await dirURL.create(Aborter.none);
+    fileName = getUniqueName("file");
+    fileURL = FileURL.fromDirectoryURL(dirURL, fileName);
   });
 
   afterEach(async () => {
-    await containerURL.delete(Aborter.none);
+    await shareURL.delete(Aborter.none);
   });
 
   before(async () => {
@@ -46,13 +51,13 @@ describe("Highelvel", () => {
 
   after(async () => {});
 
-  it("uploadBrowserDataToBlockBlob should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+  it("uploadBrowserDataToAzureFile should abort for large file", async () => {
     const aborter = Aborter.timeout(1);
 
     try {
-      await uploadBrowserDataToAzureFile(aborter, tempFile1, blockBlobURL, {
-        rangeSize: 4 * 1024 * 1024,
-        parallelism: 2
+      await uploadBrowserDataToAzureFile(aborter, tempFile1, fileURL, {
+        parallelism: 2,
+        rangeSize: 4 * 1024 * 1024
       });
       assert.fail();
     } catch (err) {
@@ -60,13 +65,13 @@ describe("Highelvel", () => {
     }
   });
 
-  it("uploadBrowserDataToBlockBlob should abort when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+  it("uploadBrowserDataToAzureFile should abort for small file", async () => {
     const aborter = Aborter.timeout(1);
 
     try {
-      await uploadBrowserDataToAzureFile(aborter, tempFile2, blockBlobURL, {
-        rangeSize: 4 * 1024 * 1024,
-        parallelism: 2
+      await uploadBrowserDataToAzureFile(aborter, tempFile2, fileURL, {
+        parallelism: 2,
+        rangeSize: 4 * 1024 * 1024
       });
       assert.fail();
     } catch (err) {
@@ -74,70 +79,70 @@ describe("Highelvel", () => {
     }
   });
 
-  it("uploadBrowserDataToBlockBlob should update progress when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+  it("uploadBrowserDataToAzureFile should update progress for large file", async () => {
     let eventTriggered = false;
     const aborter = Aborter.none;
 
     try {
-      await uploadBrowserDataToAzureFile(aborter, tempFile1, blockBlobURL, {
-        rangeSize: 4 * 1024 * 1024,
+      await uploadBrowserDataToAzureFile(aborter, tempFile1, fileURL, {
         parallelism: 2,
         progress: ev => {
           assert.ok(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
-        }
+        },
+        rangeSize: 4 * 1024 * 1024
       });
     } catch (err) {}
     assert.ok(eventTriggered);
   });
 
-  it("uploadBrowserDataToBlockBlob should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+  it("uploadBrowserDataToAzureFile should update progress for small file", async () => {
     let eventTriggered = false;
     const aborter = Aborter.none;
 
     try {
-      await uploadBrowserDataToAzureFile(aborter, tempFile2, blockBlobURL, {
-        rangeSize: 4 * 1024 * 1024,
+      await uploadBrowserDataToAzureFile(aborter, tempFile2, fileURL, {
         parallelism: 2,
         progress: ev => {
           assert.ok(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
-        }
+        },
+        rangeSize: 4 * 1024 * 1024
       });
     } catch (err) {}
     assert.ok(eventTriggered);
   });
 
-  it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    await uploadBrowserDataToAzureFile(Aborter.none, tempFile2, blockBlobURL, {
-      rangeSize: 4 * 1024 * 1024,
-      parallelism: 2
+  it("uploadBrowserDataToAzureFile should success for small file", async () => {
+    await uploadBrowserDataToAzureFile(Aborter.none, tempFile2, fileURL, {
+      parallelism: 2,
+      rangeSize: 4 * 1024 * 1024
     });
 
-    const downloadResponse = await blockBlobURL.download(Aborter.none, 0);
+    const downloadResponse = await fileURL.download(Aborter.none, 0);
     const downloadedString = await bodyToString(downloadResponse);
     const uploadedString = await blobToString(tempFile2);
 
     assert.equal(uploadedString, downloadedString);
   });
 
-  it("uploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    if (isIE()) {
-      assert.ok(
-        true,
-        "Skip this case in IE11 which doesn't have enough memory for downloading validation"
-      );
-      return;
-    }
+  it("uploadBrowserDataToAzureFile should success for large file", async () => {
+    // if (isIE()) {
+    //   assert.ok(
+    //     true,
+    //     "Skip this case in IE11 which doesn't have enough memory for downloading validation"
+    //   );
+    //   return;
+    // }
 
-    await uploadBrowserDataToAzureFile(Aborter.none, tempFile1, blockBlobURL, {
-      rangeSize: 4 * 1024 * 1024,
-      parallelism: 2
+    await uploadBrowserDataToAzureFile(Aborter.none, tempFile1, fileURL, {
+      parallelism: 2,
+      rangeSize: 4 * 1024 * 1024
     });
 
-    const downloadResponse = await blockBlobURL.download(Aborter.none, 0);
+    const downloadResponse = await fileURL.download(Aborter.none, 0);
     const buf1 = await blobToArrayBuffer(await downloadResponse.blobBody!);
     const buf2 = await blobToArrayBuffer(tempFile1);
 

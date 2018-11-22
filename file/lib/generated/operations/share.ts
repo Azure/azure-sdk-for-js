@@ -427,7 +427,7 @@ const getAccessPolicyOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: {
-        xmlElementName: "SignedIdentifiers",
+        xmlElementName: "SignedIdentifier",
         serializedName: "parsedResponse",
         type: {
           name: "Sequence",
@@ -470,7 +470,7 @@ const setAccessPolicyOperationSpec: msRest.OperationSpec = {
     ],
     mapper: {
       xmlName: "SignedIdentifiers",
-      xmlElementName: "SignedIdentifiers",
+      xmlElementName: "SignedIdentifier",
       serializedName: "shareAcl",
       type: {
         name: "Sequence",

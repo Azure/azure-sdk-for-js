@@ -1,4 +1,4 @@
-import { HttpRequestBody, isNode, TransferProgressEvent } from "ms-rest-js";
+import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "ms-rest-js";
 
 import { Aborter } from "./Aborter";
 import { DirectoryURL } from "./DirectoryURL";
@@ -67,16 +67,6 @@ export interface IFileDownloadOptions {
   progress?: (progress: TransferProgressEvent) => void;
 }
 
-export interface IFileSetHTTPHeadersOptions {
-  /**
-   * File HTTP headers like Content-Type.
-   *
-   * @type {IFileHTTPHeaders}
-   * @memberof IFileCreateOptions
-   */
-  fileHTTPHeaders?: IFileHTTPHeaders;
-}
-
 export interface IFileUploadRangeOptions {
   /**
    * An MD5 hash of the content. This hash is
@@ -108,6 +98,36 @@ export interface IFileGetRangeListOptions {
    */
   range?: IRange;
 }
+
+/**
+ * Contains response data for the getRangeList operation.
+ */
+export type FileGetRangeListResponse = Models.FileGetRangeListHeaders & {
+  /**
+   * Range list for an Azure file.
+   *
+   * @type {Models.Range[]}
+   */
+  rangeList: Models.Range[];
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: Models.FileGetRangeListHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models.Range[];
+  };
+};
 
 export interface IFileStartCopyOptions {
   /**
@@ -340,18 +360,18 @@ export class FileURL extends StorageURL {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IFileSetHTTPHeadersOptions} [options]
+   * @param {fileHTTPHeaders} [IFileHTTPHeaders] File HTTP headers like Content-Type.
+   *                                             Provide undefined will remove existing HTTP headers.
    * @returns {Promise<Models.FileSetHTTPHeadersResponse>}
    * @memberof FileURL
    */
   public async setHTTPHeaders(
     aborter: Aborter,
-    options: IFileSetHTTPHeadersOptions = {}
+    fileHTTPHeaders: IFileHTTPHeaders = {}
   ): Promise<Models.FileSetHTTPHeadersResponse> {
-    options.fileHTTPHeaders = options.fileHTTPHeaders || {};
     return this.context.setHTTPHeaders({
       abortSignal: aborter,
-      ...options
+      ...fileHTTPHeaders
     });
   }
 
@@ -483,17 +503,30 @@ export class FileURL extends StorageURL {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IFileGetRangeListOptions} [options]
-   * @returns {Promise<Models.FileGetRangeListResponse>}
+   * @returns {Promise<FileGetRangeListResponse>}
    * @memberof FileURL
    */
   public async getRangeList(
     aborter: Aborter,
     options: IFileGetRangeListOptions = {}
-  ): Promise<Models.FileGetRangeListResponse> {
-    return this.context.getRangeList({
+  ): Promise<FileGetRangeListResponse> {
+    const originalResponse = await this.context.getRangeList({
       abortSignal: aborter,
       range: options.range ? rangeToString(options.range) : undefined
     });
+    return {
+      _response: originalResponse._response,
+      date: originalResponse.date,
+      eTag: originalResponse.eTag,
+      errorCode: originalResponse.errorCode,
+      fileContentLength: originalResponse.fileContentLength,
+      lastModified: originalResponse.lastModified,
+      rangeList: originalResponse.filter(() => {
+        return true;
+      }),
+      requestId: originalResponse.requestId,
+      version: originalResponse.version
+    };
   }
 
   /**

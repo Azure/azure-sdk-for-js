@@ -1,8 +1,8 @@
-import nodeResolve from "rollup-plugin-node-resolve";
-import { uglify } from "rollup-plugin-uglify";
-import replace from "rollup-plugin-replace";
 import commonjs from "rollup-plugin-commonjs";
+import nodeResolve from "rollup-plugin-node-resolve";
+import replace from "rollup-plugin-replace";
 import shim from "rollup-plugin-shim";
+import { uglify } from "rollup-plugin-uglify";
 import visualizer from "rollup-plugin-visualizer";
 
 const version = require("./package.json").version;
@@ -15,7 +15,7 @@ const banner = [
 
 const nodeRollupConfigFactory = () => {
   return {
-    external: ["ms-rest-js", "crypto", "fs", "events", "os"],
+    external: ["ms-rest-js", "crypto", "fs", "events", "os", "stream"],
     input: "dist-esm/lib/index.js",
     output: {
       file: "dist/index.js",
@@ -61,7 +61,16 @@ const browserRollupConfigFactory = isProduction => {
       commonjs({
         namedExports: {
           events: ["EventEmitter"],
-          assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual"]
+          assert: [
+            "ok",
+            "deepEqual",
+            "equal",
+            "fail",
+            "deepStrictEqual",
+            "notEqual",
+            "notDeepEqual",
+            "notDeepStrictEqual"
+          ]
         }
       })
     ]
@@ -87,6 +96,6 @@ const browserRollupConfigFactory = isProduction => {
 
 export default [
   nodeRollupConfigFactory(),
-  browserRollupConfigFactory(true),
-  browserRollupConfigFactory(false)
+  browserRollupConfigFactory(false),
+  browserRollupConfigFactory(true)
 ];
