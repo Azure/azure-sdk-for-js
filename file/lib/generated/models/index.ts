@@ -131,6 +131,8 @@ export interface FileItem {
 /**
  * @interface
  * An interface representing FilesAndDirectoriesListSegment.
+ * Abstract for entries that can be listed from Directory.
+ *
  */
 export interface FilesAndDirectoriesListSegment {
   /**

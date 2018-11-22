@@ -36,8 +36,8 @@ class StorageClient extends StorageClientContext {
    * @param {boolean} [options.noRetryPolicy] - If set to true, turn off default retry policy
    *
    */
-  constructor(version: string, url: string, options?: msRest.ServiceClientOptions) {
-    super(version, url, options);
+  constructor(url: string, options?: msRest.ServiceClientOptions) {
+    super(url, options);
     this.service = new operations.Service(this);
     this.share = new operations.Share(this);
     this.directory = new operations.Directory(this);
