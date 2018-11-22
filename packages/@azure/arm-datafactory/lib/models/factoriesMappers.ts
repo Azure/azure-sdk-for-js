@@ -21,6 +21,8 @@ export {
   FactoryUpdateParameters,
   GitHubAccessTokenRequest,
   GitHubAccessTokenResponse,
+  UserAccessPolicy,
+  AccessPolicyResponse,
   SubResource,
   IntegrationRuntimeResource,
   IntegrationRuntime,

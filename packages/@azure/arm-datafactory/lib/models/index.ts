@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -1018,6 +1018,63 @@ export interface GitHubAccessTokenResponse {
    * @member {string} [gitHubAccessToken] GitHub access token.
    */
   gitHubAccessToken?: string;
+}
+
+/**
+ * @interface
+ * An interface representing UserAccessPolicy.
+ * Get Data Plane read only token request definition.
+ *
+ */
+export interface UserAccessPolicy {
+  /**
+   * @member {string} [permissions] The string with permissions for Data Plane
+   * access. Currently only 'r' is supported which grants read only access.
+   */
+  permissions?: string;
+  /**
+   * @member {string} [accessResourcePath] The resource path to get access
+   * relative to factory. Currently only empty string is supported which
+   * corresponds to the factory resource.
+   */
+  accessResourcePath?: string;
+  /**
+   * @member {string} [profileName] The name of the profile. Currently only the
+   * default is supported. The default value is DefaultProfile.
+   */
+  profileName?: string;
+  /**
+   * @member {string} [startTime] Start time for the token. If not specified
+   * the current time will be used.
+   */
+  startTime?: string;
+  /**
+   * @member {string} [expireTime] Expiration time for the token. Maximum
+   * duration for the token is eight hours and by default the token will expire
+   * in eight hours.
+   */
+  expireTime?: string;
+}
+
+/**
+ * @interface
+ * An interface representing AccessPolicyResponse.
+ * Get Data Plane read only token response definition.
+ *
+ */
+export interface AccessPolicyResponse {
+  /**
+   * @member {UserAccessPolicy} [policy] The user access policy.
+   */
+  policy?: UserAccessPolicy;
+  /**
+   * @member {string} [accessToken] Data Plane read only access token.
+   */
+  accessToken?: string;
+  /**
+   * @member {string} [dataPlaneUrl] Data Plane service base URL.
+   */
+  dataPlaneUrl?: string;
 }
 
 /**
@@ -2930,7 +2987,7 @@ export interface ZohoLinkedService {
 /**
  * @interface
  * An interface representing XeroLinkedService.
- * Xero Serivce linked service.
+ * Xero Service linked service.
  *
  */
 export interface XeroLinkedService {
@@ -3001,7 +3058,7 @@ export interface XeroLinkedService {
 /**
  * @interface
  * An interface representing SquareLinkedService.
- * Square Serivce linked service.
+ * Square Service linked service.
  *
  */
 export interface SquareLinkedService {
@@ -3185,7 +3242,7 @@ export interface SparkLinkedService {
 /**
  * @interface
  * An interface representing ShopifyLinkedService.
- * Shopify Serivce linked service.
+ * Shopify Service linked service.
  *
  */
 export interface ShopifyLinkedService {
@@ -3615,7 +3672,7 @@ export interface PhoenixLinkedService {
 /**
  * @interface
  * An interface representing PaypalLinkedService.
- * Paypal Serivce linked service.
+ * Paypal Service linked service.
  *
  */
 export interface PaypalLinkedService {
@@ -3866,7 +3923,7 @@ export interface MagentoLinkedService {
 /**
  * @interface
  * An interface representing JiraLinkedService.
- * Jira Serivce linked service.
+ * Jira Service linked service.
  *
  */
 export interface JiraLinkedService {
@@ -4034,7 +4091,7 @@ export interface ImpalaLinkedService {
 /**
  * @interface
  * An interface representing HubspotLinkedService.
- * Hubspot Serivce linked service.
+ * Hubspot Service linked service.
  *
  */
 export interface HubspotLinkedService {
@@ -4638,7 +4695,7 @@ export interface CouchbaseLinkedService {
 /**
  * @interface
  * An interface representing ConcurLinkedService.
- * Concur Serivce linked service.
+ * Concur Service linked service.
  *
  */
 export interface ConcurLinkedService {
@@ -4790,7 +4847,7 @@ export interface AmazonMWSLinkedService {
   endpoint: any;
   /**
    * @member {any} marketplaceID The Amazon Marketplace ID you want to retrieve
-   * data from. To retrive data from multiple Marketplace IDs, seperate them
+   * data from. To retrieve data from multiple Marketplace IDs, separate them
    * with a comma (,). (i.e. A2EUQ1WTGCTBG2)
    */
   marketplaceID: any;
@@ -16572,6 +16629,25 @@ export type FactoriesGetGitHubAccessTokenResponse = GitHubAccessTokenResponse & 
        * The response body as parsed JSON or XML
        */
       parsedBody: GitHubAccessTokenResponse;
+    };
+};
+
+/**
+ * Contains response data for the getDataPlaneAccess operation.
+ */
+export type FactoriesGetDataPlaneAccessResponse = AccessPolicyResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccessPolicyResponse;
     };
 };
 
