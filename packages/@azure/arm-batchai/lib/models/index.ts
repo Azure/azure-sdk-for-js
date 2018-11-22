@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -294,7 +294,7 @@ export interface FileServer extends ProxyResource {
 export interface KeyVaultSecretReference {
   /**
    * @member {ResourceId} sourceVault Key Vault resource identifier. Fully
-   * qualified resource indentifier of the Key Vault.
+   * qualified resource identifier of the Key Vault.
    */
   sourceVault: ResourceId;
   /**
@@ -684,7 +684,7 @@ export interface FileServerReference {
 /**
  * @interface
  * An interface representing UnmanagedFileSystemReference.
- * Unmananged file system mounting configuration.
+ * Unmanaged file system mounting configuration.
  *
  */
 export interface UnmanagedFileSystemReference {
@@ -1483,7 +1483,7 @@ export interface InputDirectory {
 export interface OutputDirectory {
   /**
    * @member {string} id ID. The ID of the output directory. The job can use
-   * AZ_BATCHAI_OUTPUT_<id> environment variale to find the directory path,
+   * AZ_BATCHAI_OUTPUT_<id> environment variable to find the directory path,
    * where <id> is the value of id attribute.
    */
   id: string;
@@ -1540,7 +1540,7 @@ export interface JobCreateParameters {
   /**
    * @member {MountVolumes} [mountVolumes] Mount volumes. Information on mount
    * volumes to be used by the job. These volumes will be mounted before the
-   * job execution and will be unmouted after the job completion. The volumes
+   * job execution and will be unmounted after the job completion. The volumes
    * will be mounted at location specified by $AZ_BATCHAI_JOB_MOUNT_ROOT
    * environment variable.
    */
@@ -1719,7 +1719,7 @@ export interface Job extends ProxyResource {
   /**
    * @member {MountVolumes} [mountVolumes] Mount volumes. Collection of mount
    * volumes available to the job during execution. These volumes are mounted
-   * before the job execution and unmouted after the job completion. The
+   * before the job execution and unmounted after the job completion. The
    * volumes are mounted at location specified by $AZ_BATCHAI_JOB_MOUNT_ROOT
    * environment variable.
    */
@@ -1870,8 +1870,8 @@ export interface Job extends ProxyResource {
    * files or set up container specified on the job - it does not necessarily
    * mean that the job command line has started executing. terminating - The
    * job is terminated by the user, the terminate operation is in progress.
-   * succeeded - The job has completed running succesfully and exited with exit
-   * code 0. failed - The job has finished unsuccessfully (failed with a
+   * succeeded - The job has completed running successfully and exited with
+   * exit code 0. failed - The job has finished unsuccessfully (failed with a
    * non-zero exit code) and has exhausted its retry limit. A job is also
    * marked as failed if an error occurred launching the job. Possible values
    * include: 'queued', 'running', 'terminating', 'succeeded', 'failed'
