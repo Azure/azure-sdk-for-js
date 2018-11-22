@@ -112,14 +112,19 @@ export class SubscriptionClient extends Client {
   /**
    * Receives a batch of Message objects from a ServiceBus Subscription for a given count and a
    * given max wait time in seconds, whichever happens first.
-   * @param maxMessageCount - The maximum message count. Must be a value greater than 0.
-   * @param [maxWaitTimeInSeconds] - The maximum wait time in seconds for which the Receiver
+   * @param maxMessageCount      The maximum message count. Must be a value greater than 0.
+   * @param maxWaitTimeInSeconds The maximum wait time in seconds for which the Receiver
    * should wait to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
-   * @param [options] - Options for how you'd like to connect.
-   *
-   * @returns Promise<ServiceBusMessage[]> - A promise that resolves with an array of Message objects.
+   * @param maxMessageWaitTimeoutInSeconds The maximum amount of idle time the Receiver
+   * will wait after creating the link or after receiving a new message. If no messages are received
+   * in that time frame then the batch receive operation ends. It is advised to keep this value at
+   * 10% of the lockDuration value.
+   * - **Default**: `2` seconds.
+   * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    */
-  async receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ServiceBusMessage[]> {
+  async receiveBatch(maxMessageCount: number,
+    maxWaitTimeInSeconds?: number,
+    maxMessageWaitTimeoutInSeconds?: number): Promise<ServiceBusMessage[]> {
     if (!this._context.batchingReceiver ||
       (this._context.batchingReceiver && !this._context.batchingReceiver.isOpen()) ||
       (this._context.batchingReceiver && !this._context.batchingReceiver.isReceivingMessages)) {
@@ -130,7 +135,8 @@ export class SubscriptionClient extends Client {
       const bReceiver: BatchingReceiver = BatchingReceiver.create(this._context, options);
       this._context.batchingReceiver = bReceiver;
       try {
-        return await bReceiver.receive(maxMessageCount, maxWaitTimeInSeconds);
+        return await bReceiver.receive(maxMessageCount, maxWaitTimeInSeconds,
+          maxMessageWaitTimeoutInSeconds);
       } catch (err) {
         log.error("[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
           "max time:\n %O", this._context.namespace.connectionId, bReceiver.name, maxMessageCount,

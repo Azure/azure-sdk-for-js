@@ -775,14 +775,14 @@ export class ServiceBusMessage implements ReceivedMessage {
    */
   readonly deadLetterSource?: string;
   /**
+   * The associated delivery of the received message.
+   */
+  readonly delivery: Delivery;
+  /**
    * @property {AmqpMessage} _amqpMessage The underlying raw amqp message.
    * @readonly
    */
   readonly _amqpMessage: AmqpMessage;
-  /**
-   * The associated delivery of the received message.
-   */
-  private readonly _delivery: Delivery;
   /**
    * @property {ClientEntityContext} _context The client entity context.
    * @readonly
@@ -796,7 +796,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       this.body = this._context.namespace.dataTransformer.decode(msg.body);
     }
     this._amqpMessage = msg;
-    this._delivery = delivery;
+    this.delivery = delivery;
   }
 
   /**
@@ -810,11 +810,11 @@ export class ServiceBusMessage implements ReceivedMessage {
       return this._context.managementClient!.updateDispositionStatus([this.lockToken!],
         DispositionStatus.completed);
     }
-    const receiver = this._context.getReceiver(this._delivery.link.name);
+    const receiver = this._context.getReceiver(this.delivery.link.name);
     if (receiver) {
-      return receiver.settleMessage(this._delivery, DispositionType.complete);
+      return receiver.settleMessage(this, DispositionType.complete);
     } else {
-      throw new Error(`Cannot find the receiver with name '${this._delivery.link.name}'.`);
+      throw new Error(`Cannot find the receiver with name '${this.delivery.link.name}'.`);
     }
   }
   /**
@@ -832,12 +832,12 @@ export class ServiceBusMessage implements ReceivedMessage {
       return this._context.managementClient!.updateDispositionStatus([this.lockToken!],
         DispositionStatus.abandoned, { propertiesToModify: propertiesToModify });
     }
-    const receiver = this._context.getReceiver(this._delivery.link.name);
+    const receiver = this._context.getReceiver(this.delivery.link.name);
     if (receiver) {
-      return receiver.settleMessage(this._delivery, DispositionType.abandon,
+      return receiver.settleMessage(this, DispositionType.abandon,
         { propertiesToModify: propertiesToModify });
     } else {
-      throw new Error(`Cannot find the receiver with name '${this._delivery.link.name}'.`);
+      throw new Error(`Cannot find the receiver with name '${this.delivery.link.name}'.`);
     }
   }
 
@@ -857,12 +857,12 @@ export class ServiceBusMessage implements ReceivedMessage {
       return this._context.managementClient!.updateDispositionStatus([this.lockToken!],
         DispositionStatus.defered, { propertiesToModify: propertiesToModify });
     }
-    const receiver = this._context.getReceiver(this._delivery.link.name);
+    const receiver = this._context.getReceiver(this.delivery.link.name);
     if (receiver) {
-      return receiver.settleMessage(this._delivery, DispositionType.defer,
+      return receiver.settleMessage(this, DispositionType.defer,
         { propertiesToModify: propertiesToModify });
     } else {
-      throw new Error(`Cannot find the receiver with name '${this._delivery.link.name}'.`);
+      throw new Error(`Cannot find the receiver with name '${this.delivery.link.name}'.`);
     }
   }
 
@@ -889,12 +889,12 @@ export class ServiceBusMessage implements ReceivedMessage {
           deadLetterDescription: error.description
         });
     }
-    const receiver = this._context.getReceiver(this._delivery.link.name);
+    const receiver = this._context.getReceiver(this.delivery.link.name);
     if (receiver) {
-      return receiver.settleMessage(this._delivery, DispositionType.deadletter,
+      return receiver.settleMessage(this, DispositionType.deadletter,
         { error: error });
     } else {
-      throw new Error(`Cannot find the receiver with name '${this._delivery.link.name}'.`);
+      throw new Error(`Cannot find the receiver with name '${this.delivery.link.name}'.`);
     }
   }
 }

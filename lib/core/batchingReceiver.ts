@@ -42,10 +42,17 @@ export class BatchingReceiver extends MessageReceiver {
    *
    * @param {number} maxMessageCount The maximum message count. Must be a value greater than 0.
    * @param {number} [maxWaitTimeInSeconds] The maximum wait time in seconds for which the Receiver
-   * should wait to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
+   * should wait to receive the said amount of messages. If not provided, it defaults to 60 seconds.
+   * @param {number} [maxMessageWaitTimeoutInSeconds] The maximum amount of idle time the Receiver
+   * will wait after creating the link or after receiving a new message. If no messages are received
+   * in that time frame then the batch receive operation ends. It is advised to keep this value at
+   * 10% of the lockDuration value.
+   * - **Default**: `2` seconds.
    * @returns {Promise<ServiceBusMessage[]>} A promise that resolves with an array of Message objects.
    */
-  receive(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ServiceBusMessage[]> {
+  receive(maxMessageCount: number,
+    maxWaitTimeInSeconds?: number,
+    maxMessageWaitTimeoutInSeconds?: number): Promise<ServiceBusMessage[]> {
     if (!maxMessageCount || (maxMessageCount && typeof maxMessageCount !== 'number')) {
       throw new Error("'maxMessageCount' is a required parameter of type number with a value " +
         "greater than 0.");
@@ -53,6 +60,10 @@ export class BatchingReceiver extends MessageReceiver {
 
     if (maxWaitTimeInSeconds == undefined) {
       maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
+    }
+
+    if (maxMessageWaitTimeoutInSeconds == undefined) {
+      maxMessageWaitTimeoutInSeconds = 2;
     }
 
     const brokeredMessages: ServiceBusMessage[] = [];
@@ -66,6 +77,7 @@ export class BatchingReceiver extends MessageReceiver {
       let onSessionError: OnAmqpEvent;
       let onSettled: OnAmqpEvent;
       let waitTimer: any;
+      let maxMessageWaitTimer: any;
       let actionAfterWaitTimeout: Func<void, void>;
       const resetCreditWindow = () => {
         this._receiver!.setCreditWindow(0);
@@ -73,6 +85,9 @@ export class BatchingReceiver extends MessageReceiver {
       };
       // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
       const finalAction = (timeOver: boolean, data?: ServiceBusMessage) => {
+        if (maxMessageWaitTimer) {
+          clearTimeout(maxMessageWaitTimer);
+        }
         // Resetting the mode. Now anyone can call start() or receive() again.
         if (this._receiver) {
           this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
@@ -86,7 +101,19 @@ export class BatchingReceiver extends MessageReceiver {
         }
         resetCreditWindow();
         this.isReceivingMessages = false;
+        log.batching("[%s] Resolving the promise with received list of messages: %O.",
+          this._context.namespace.connectionId, brokeredMessages);
         resolve(brokeredMessages);
+      };
+
+      const resetTimerOnNewMessageReceived = () => {
+        if (maxMessageWaitTimer) clearTimeout(maxMessageWaitTimer);
+        maxMessageWaitTimer = setTimeout(() => {
+          const msg = `BatchingReceiver '${this.name}' did not receive any messages in the last ` +
+            `${maxMessageWaitTimeoutInSeconds} seconds. Hence ending this batch receive operation.`;
+          log.error("[%s] %s", this._context.namespace.connectionId, msg);
+          finalAction(true);
+        }, maxMessageWaitTimeoutInSeconds! * 1000);
       };
 
       // Action to be performed after the max wait time is over.
@@ -99,6 +126,7 @@ export class BatchingReceiver extends MessageReceiver {
 
       // Action to be performed on the "message" event.
       onReceiveMessage = async (context: EventContext) => {
+        resetTimerOnNewMessageReceived();
         const data: ServiceBusMessage = new ServiceBusMessage(this._context,
           context.message!, context.delivery!);
         if (brokeredMessages.length <= maxMessageCount) {
@@ -126,6 +154,9 @@ export class BatchingReceiver extends MessageReceiver {
         }
         if (waitTimer) {
           clearTimeout(waitTimer);
+        }
+        if (maxMessageWaitTimer) {
+          clearTimeout(maxMessageWaitTimer);
         }
         reject(error);
       };
@@ -163,6 +194,9 @@ export class BatchingReceiver extends MessageReceiver {
         }
         if (waitTimer) {
           clearTimeout(waitTimer);
+        }
+        if (maxMessageWaitTimer) {
+          clearTimeout(maxMessageWaitTimer);
         }
         reject(error);
       };
@@ -206,6 +240,17 @@ export class BatchingReceiver extends MessageReceiver {
         if (reuse) msg += " Receiver link already present, hence reusing it.";
         log.batching(msg, this._context.namespace.connectionId, maxWaitTimeInSeconds, this.name);
         waitTimer = setTimeout(actionAfterWaitTimeout, (maxWaitTimeInSeconds as number) * 1000);
+        // TODO: Disabling this for now. We would want to give the user a decent chance to receive
+        // the first message and only timeout faster if successive messages from there onwards are
+        // not received quickly. However, it may be possible that there are no pending messages
+        // currently on the queue. In that case waiting for maxWaitTimeInSeconds would be
+        // unnecessary.
+        // There is a management plane API to get runtimeInfo of the Queue which provides
+        // information about active messages on the Queue and it's sub Queues. However, this adds
+        // a little complexity. If the first message was delayed due to network latency then there
+        // are bright chances that the management plane api would receive the same fate.
+        // It would be better to weigh all the options before making a decision.
+        // resetTimerOnNewMessageReceived();
       };
 
       if (!this.isOpen()) {
