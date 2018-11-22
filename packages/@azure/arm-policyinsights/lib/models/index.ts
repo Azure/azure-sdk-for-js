@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -531,7 +531,7 @@ export interface PolicyEvent {
    */
   policySetDefinitionParameters?: string;
   /**
-   * @member {string} [managementGroupIds] Comma seperated list of management
+   * @member {string} [managementGroupIds] Comma separated list of management
    * group IDs, which represent the hierarchy of the management groups the
    * resource is under.
    */
@@ -700,7 +700,7 @@ export interface PolicyState {
    */
   policySetDefinitionParameters?: string;
   /**
-   * @member {string} [managementGroupIds] Comma seperated list of management
+   * @member {string} [managementGroupIds] Comma separated list of management
    * group IDs, which represent the hierarchy of the management groups the
    * resource is under.
    */
