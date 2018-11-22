@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -3389,7 +3389,7 @@ export interface EnvelopeEncryption {
   contentKeys?: StreamingPolicyContentKeys;
   /**
    * @member {string} [customKeyAcquisitionUrlTemplate]
-   * KeyAcquistionUrlTemplate is used to point to user specified service to
+   * KeyAcquisitionUrlTemplate is used to point to user specified service to
    * delivery content keys
    */
   customKeyAcquisitionUrlTemplate?: string;
@@ -3520,7 +3520,7 @@ export interface StreamingLocatorContentKey {
    */
   labelReferenceInStreamingPolicy?: string;
   /**
-   * @member {string} [value] Value of  of Content Key
+   * @member {string} [value] Value of Content Key
    */
   value?: string;
   /**
@@ -4296,7 +4296,7 @@ export interface StreamingPoliciesListOptionalParams extends msRest.RequestOptio
    */
   top?: number;
   /**
-   * @member {string} [orderby] Specifies the the key by which the result
+   * @member {string} [orderby] Specifies the key by which the result
    * collection should be ordered.
    */
   orderby?: string;
@@ -4321,7 +4321,7 @@ export interface StreamingLocatorsListOptionalParams extends msRest.RequestOptio
    */
   top?: number;
   /**
-   * @member {string} [orderby] Specifies the the key by which the result
+   * @member {string} [orderby] Specifies the key by which the result
    * collection should be ordered.
    */
   orderby?: string;
