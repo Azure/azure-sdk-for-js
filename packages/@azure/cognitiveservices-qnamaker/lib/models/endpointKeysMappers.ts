@@ -8,7 +8,11 @@
  * regenerated.
  */
 
-export * from "./endpointKeys";
-export * from "./alterations";
-export * from "./knowledgebase";
-export * from "./operations";
+export {
+  EndpointKeysDTO,
+  ErrorResponse,
+  ErrorResponseError,
+  ErrorModel,
+  InnerErrorModel
+} from "../models/mappers";
+
