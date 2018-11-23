@@ -29,7 +29,7 @@ async function main() {
   // Use AnonymousCredential when url already includes a SAS signature
   const anonymousCredential = new AnonymousCredential();
 
-  // Use sharedKeyCredential, tokenCredential or AnonymousCredential to create a pipeline
+  // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
   const pipeline = StorageURL.newPipeline(sharedKeyCredential);
 
   // List containers
