@@ -129,18 +129,9 @@ export function getURLQueries(url: string): { [key: string]: string } {
  * Rounds a date off to seconds.
  *
  * @export
- * @param {Date} date Input date
- *
- * @returns {string} Date string in ISO8061 format, with or without 7 milliseconds component
- */
-
-/**
- * Rounds a date off to seconds.
- *
- * @export
  * @param {Date} date
- * @param {boolean} [withMilliseconds=true] If true, YYYY-MM-DDThh:mm:ss.fffffffTZD will be returned;
- *                                          If false, YYYY-MM-DDThh:mmTZD will be returned.
+ * @param {boolean} [withMilliseconds=true] If true, YYYY-MM-DDThh:mm:ss.fffffffZ will be returned;
+ *                                          If false, YYYY-MM-DDThh:mm:ssZ will be returned.
  * @returns {string} Date string in ISO8061 format, with or without 7 milliseconds component
  */
 export function truncatedISO8061Date(

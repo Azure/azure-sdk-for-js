@@ -10,9 +10,9 @@ The Azure Storage development team uses Visual Studio Code. However, any preferr
 
 ### Install
 
-- Node.js valid LTS versions (>=6.5.0)
-- Browsers like Chrome, Edge or Firefox
-- Clone the source code from GitHub
+* Node.js valid LTS versions (>=6.5.0)
+* Browsers like Chrome, Edge or Firefox
+* Clone the source code from GitHub
 
 ## Tests
 
@@ -32,11 +32,11 @@ You need to set up CORS rules for your storage account if you need to develop fo
 
 For example, you can create following CORS settings for debugging. But please customize the settings carefully according to your requirements in production environment.
 
-- Allowed origins: *
-- Allowed verbs: DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT
-- Allowed headers: *
-- Exposed headers: *
-- Maximum age (seconds): 86400
+* Allowed origins: *
+* Allowed verbs: DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT
+* Allowed headers: *
+* Exposed headers: *
+* Maximum age (seconds): 86400
 
 ### Building
 
@@ -65,6 +65,8 @@ npm run build
 npm test:browser
 ```
 
+Browser testing is based on Karma, you can change default testing browser by modifying karma.conf.js file.
+
 ### Testing Features
 
 As you develop a feature, you'll need to write tests to ensure quality. You should also run existing tests related to your change to address any unexpected breaks in both Node.js and Browsers.
@@ -75,16 +77,16 @@ As you develop a feature, you'll need to write tests to ensure quality. You shou
 
 The following are the minimum requirements for any pull request that must be met before contributions can be accepted.
 
-- Make sure you've signed the CLA before you start working on any change.
-- Discuss any proposed contribution with the team via a GitHub issue **before** starting development.
-- Code must be professional quality
-  - No style issues
-  - You should strive to mimic the style with which we have written the library
-  - Clean, well-commented, well-designed code
-  - Try to limit the number of commits for a feature to 1-2. If you end up having too many we may ask you to squash your changes into fewer commits.
+* Make sure you've signed the CLA before you start working on any change.
+* Discuss any proposed contribution with the team via a GitHub issue **before** starting development.
+* Code must be professional quality
+  * No style issues
+  * You should strive to mimic the style with which we have written the library
+  * Clean, well-commented, well-designed code
+  * Try to limit the number of commits for a feature to 1-2. If you end up having too many we may ask you to squash your changes into fewer commits.
 
-- ChangeLog.md needs to be updated describing the new change
-- Thoroughly test your feature
+* ChangeLog.md needs to be updated describing the new change
+* Thoroughly test your feature
 
 ### Branching Policy
 

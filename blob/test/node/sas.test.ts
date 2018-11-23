@@ -11,15 +11,11 @@ import {
   generateBlobSASQueryParameters,
   ServiceURL,
   SharedKeyCredential,
-  StorageURL
+  StorageURL,
 } from "../../lib";
 import { Aborter } from "../../lib/Aborter";
-import {
-  ContainerURL,
-  PageBlobURL,
-  SASProtocol
-} from "../../lib/index.browser";
-import { getBSU, getUniqueName } from "../utils/index";
+import { ContainerURL, PageBlobURL, SASProtocol } from "../../lib/index.browser";
+import { getBSU, getUniqueName } from "../utils";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   const serviceURL = getBSU();
@@ -50,12 +46,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${serviceURL.url}?${sas}`;
-    const serviceURLwithSAS = new ServiceURL(
+    const serviceURLWithSAS = new ServiceURL(
       sasURL,
       StorageURL.newPipeline(new AnonymousCredential())
     );
 
-    await serviceURLwithSAS.getAccountInfo(Aborter.none);
+    await serviceURLWithSAS.getAccountInfo(Aborter.none);
   });
 
   it("generateAccountSASQueryParameters should not work with invalid permission", async () => {
@@ -77,14 +73,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${serviceURL.url}?${sas}`;
-    const serviceURLwithSAS = new ServiceURL(
+    const serviceURLWithSAS = new ServiceURL(
       sasURL,
       StorageURL.newPipeline(new AnonymousCredential())
     );
 
     let error;
     try {
-      await serviceURLwithSAS.getProperties(Aborter.none);
+      await serviceURLWithSAS.getProperties(Aborter.none);
     } catch (err) {
       error = err;
     }
@@ -111,14 +107,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${serviceURL.url}?${sas}`;
-    const serviceURLwithSAS = new ServiceURL(
+    const serviceURLWithSAS = new ServiceURL(
       sasURL,
       StorageURL.newPipeline(new AnonymousCredential())
     );
 
     let error;
     try {
-      await serviceURLwithSAS.getProperties(Aborter.none);
+      await serviceURLWithSAS.getProperties(Aborter.none);
     } catch (err) {
       error = err;
     }
@@ -148,14 +144,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${serviceURL.url}?${sas}`;
-    const serviceURLwithSAS = new ServiceURL(
+    const serviceURLWithSAS = new ServiceURL(
       sasURL,
       StorageURL.newPipeline(new AnonymousCredential())
     );
 
     let error;
     try {
-      await serviceURLwithSAS.getProperties(Aborter.none);
+      await serviceURLWithSAS.getProperties(Aborter.none);
     } catch (err) {
       error = err;
     }
