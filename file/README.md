@@ -90,13 +90,13 @@ To use the SDK with JS bundle in the browsers, simply add a script tag to your H
 
 The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) standard, if no module system found, following global variable(s) will be exported:
 
-- `azfile`
+* `azfile`
 
 #### Download
 
 Download latest released JS bundles from links in the [GitHub release page](https://github.com/Azure/azure-storage-js/releases). Or from following links directly:
 
-- File [https://aka.ms/downloadazurestoragejsfile](https://aka.ms/downloadazurestoragejsfile)
+* File [https://aka.ms/downloadazurestoragejsfile](https://aka.ms/downloadazurestoragejsfile)
 
 ### CORS
 
@@ -104,19 +104,19 @@ You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft
 
 For example, you can create following CORS settings for debugging. But please customize the settings carefully according to your requirements in production environment.
 
-- Allowed origins: \*
-- Allowed verbs: DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT
-- Allowed headers: \*
-- Exposed headers: \*
-- Maximum age (seconds): 86400
+* Allowed origins: \*
+* Allowed verbs: DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT
+* Allowed headers: \*
+* Exposed headers: \*
+* Maximum age (seconds): 86400
 
 ## SDK Architecture
 
 The Azure Storage SDK for JavaScript provides low-level and high-level APIs.
 
-- ServiceURL, ShareURL, DirectoryURL and FileURL objects provide the low-level API functionality and map one-to-one to the [Azure Storage File REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/file-service-rest-api).
+* ServiceURL, ShareURL, DirectoryURL and FileURL objects provide the low-level API functionality and map one-to-one to the [Azure Storage File REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/file-service-rest-api).
 
-- The high-level APIs provide convenience abstractions such as uploading a large stream to a file (using multiple PutBlock requests).
+* The high-level APIs provide convenience abstractions such as uploading a large stream to a file (using multiple PutBlock requests).
 
 ## Code Samples
 
