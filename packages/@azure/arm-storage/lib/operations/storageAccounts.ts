@@ -315,7 +315,7 @@ export class StorageAccounts {
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
-   * @param keyName The name of storage keys that want to be regenerated, possible vaules are key1,
+   * @param keyName The name of storage keys that want to be regenerated, possible values are key1,
    * key2.
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageAccountsRegenerateKeyResponse>
@@ -327,7 +327,7 @@ export class StorageAccounts {
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
-   * @param keyName The name of storage keys that want to be regenerated, possible vaules are key1,
+   * @param keyName The name of storage keys that want to be regenerated, possible values are key1,
    * key2.
    * @param callback The callback
    */
@@ -338,7 +338,7 @@ export class StorageAccounts {
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
-   * @param keyName The name of storage keys that want to be regenerated, possible vaules are key1,
+   * @param keyName The name of storage keys that want to be regenerated, possible values are key1,
    * key2.
    * @param options The optional parameters
    * @param callback The callback
