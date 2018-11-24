@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/disasterRecoveryConfigsMappers";
 import * as Parameters from "../models/parameters";
@@ -244,7 +244,7 @@ export class DisasterRecoveryConfigs {
   }
 
   /**
-   * envokes GEO DR failover and reconfigure the alias to point to the secondary namespace
+   * Invokes GEO DR failover and reconfigure the alias to point to the secondary namespace
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param alias The Disaster Recovery configuration name
