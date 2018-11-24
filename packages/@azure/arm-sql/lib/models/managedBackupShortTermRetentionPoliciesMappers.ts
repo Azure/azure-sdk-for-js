@@ -9,12 +9,12 @@
  */
 
 export {
-  EncryptionProtectorListResult,
-  EncryptionProtector,
+  ManagedBackupShortTermRetentionPolicy,
   ProxyResource,
   Resource,
   BaseResource,
   CloudError,
+  ManagedBackupShortTermRetentionPolicyListResult,
   RecoverableDatabase,
   RestorableDroppedDatabase,
   TrackedResource,
@@ -41,6 +41,7 @@ export {
   TransparentDataEncryptionActivity,
   DatabaseAutomaticTuning,
   AutomaticTuningOptions,
+  EncryptionProtector,
   FailoverGroup,
   FailoverGroupReadWriteEndpoint,
   FailoverGroupReadOnlyEndpoint,
@@ -82,7 +83,6 @@ export {
   JobVersion,
   LongTermRetentionBackup,
   BackupLongTermRetentionPolicy,
-  ManagedBackupShortTermRetentionPolicy,
   ManagedDatabase,
   ServerAutomaticTuning,
   AutomaticTuningServerOptions,

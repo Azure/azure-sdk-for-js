@@ -9,8 +9,8 @@
  */
 
 export {
-  EncryptionProtectorListResult,
-  EncryptionProtector,
+  SensitivityLabelListResult,
+  SensitivityLabel,
   ProxyResource,
   Resource,
   BaseResource,
@@ -41,6 +41,7 @@ export {
   TransparentDataEncryptionActivity,
   DatabaseAutomaticTuning,
   AutomaticTuningOptions,
+  EncryptionProtector,
   FailoverGroup,
   FailoverGroupReadWriteEndpoint,
   FailoverGroupReadOnlyEndpoint,
