@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -409,7 +409,7 @@ export interface ApplicationInsightsComponentExportConfiguration {
 /**
  * @interface
  * An interface representing ApplicationInsightsComponentDataVolumeCap.
- * An Application Insights component daily data volumne cap
+ * An Application Insights component daily data volume cap
  *
  */
 export interface ApplicationInsightsComponentDataVolumeCap {
@@ -455,7 +455,7 @@ export interface ApplicationInsightsComponentDataVolumeCap {
 export interface ApplicationInsightsComponentBillingFeatures {
   /**
    * @member {ApplicationInsightsComponentDataVolumeCap} [dataVolumeCap] An
-   * Application Insights component daily data volumne cap
+   * Application Insights component daily data volume cap
    */
   dataVolumeCap?: ApplicationInsightsComponentDataVolumeCap;
   /**
@@ -579,7 +579,7 @@ export interface ApplicationInsightsComponentFeatureCapabilities {
    */
   readonly apiAccessLevel?: string;
   /**
-   * @member {string} [trackingType] The applciation insights component used
+   * @member {string} [trackingType] The application insights component used
    * tracking type.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -625,7 +625,7 @@ export interface ApplicationInsightsComponentFeatureCapability {
    */
   readonly description?: string;
   /**
-   * @member {string} [value] The vaule of the capability.
+   * @member {string} [value] The value of the capability.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -670,8 +670,8 @@ export interface ApplicationInsightsComponentFeature {
    */
   readonly meterId?: string;
   /**
-   * @member {string} [meterRateFrequency] The meter meter rate for the
-   * feature's meter.
+   * @member {string} [meterRateFrequency] The meter rate for the feature's
+   * meter.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -690,13 +690,13 @@ export interface ApplicationInsightsComponentFeature {
   readonly isHidden?: boolean;
   /**
    * @member {ApplicationInsightsComponentFeatureCapability[]} [capabilities] A
-   * list of Application Insigths component feature capability.
+   * list of Application Insights component feature capability.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly capabilities?: ApplicationInsightsComponentFeatureCapability[];
   /**
-   * @member {string} [title] Desplay name of the feature.
+   * @member {string} [title] Display name of the feature.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -726,7 +726,7 @@ export interface ApplicationInsightsComponentFeature {
 export interface ApplicationInsightsComponentAvailableFeatures {
   /**
    * @member {ApplicationInsightsComponentFeature[]} [result] A list of
-   * Application Insigths component feature.
+   * Application Insights component feature.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
