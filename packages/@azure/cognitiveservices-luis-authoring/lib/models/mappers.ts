@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 
 export const EntityLabelObject: msRest.CompositeMapper = {
@@ -3311,6 +3311,37 @@ export const AppVersionSettingObject: msRest.CompositeMapper = {
       },
       value: {
         serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureAccountInfoObject: msRest.CompositeMapper = {
+  serializedName: "AzureAccountInfoObject",
+  type: {
+    name: "Composite",
+    className: "AzureAccountInfoObject",
+    modelProperties: {
+      azureSubscriptionId: {
+        required: true,
+        serializedName: "azureSubscriptionId",
+        type: {
+          name: "String"
+        }
+      },
+      resourceGroup: {
+        required: true,
+        serializedName: "resourceGroup",
+        type: {
+          name: "String"
+        }
+      },
+      accountName: {
+        required: true,
+        serializedName: "accountName",
         type: {
           name: "String"
         }

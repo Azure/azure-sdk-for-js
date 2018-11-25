@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 
 /**
@@ -2301,6 +2301,27 @@ export interface AppVersionSettingObject {
 
 /**
  * @interface
+ * An interface representing AzureAccountInfoObject.
+ * Defines the azure account information object.
+ *
+ */
+export interface AzureAccountInfoObject {
+  /**
+   * @member {string} azureSubscriptionId The id for the azure subscription.
+   */
+  azureSubscriptionId: string;
+  /**
+   * @member {string} resourceGroup The azure resource group name.
+   */
+  resourceGroup: string;
+  /**
+   * @member {string} accountName The azure account name.
+   */
+  accountName: string;
+}
+
+/**
+ * @interface
  * An interface representing HierarchicalChildModelUpdateObject.
  */
 export interface HierarchicalChildModelUpdateObject {
@@ -2778,6 +2799,36 @@ export interface PatternGetIntentPatternsOptionalParams extends msRest.RequestOp
    * is 500. Default is 100. Default value: 100 .
    */
   take?: number;
+}
+
+/**
+ * @interface
+ * An interface representing LUISAuthoringClient5be32228e8473de116325515OptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface LUISAuthoringClient5be32228e8473de116325515OptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {AzureAccountInfoObject} [azureAccountInfoObject] The azure
+   * account information object.
+   */
+  azureAccountInfoObject?: AzureAccountInfoObject;
+}
+
+/**
+ * @interface
+ * An interface representing LUISAuthoringClient5be32554f8591db3a86232e1OptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface LUISAuthoringClient5be32554f8591db3a86232e1OptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {AzureAccountInfoObject} [azureAccountInfoObject] The azure
+   * account information object.
+   */
+  azureAccountInfoObject?: AzureAccountInfoObject;
 }
 
 /**
@@ -6077,5 +6128,97 @@ export type SettingsUpdateResponse = OperationStatus & {
        * The response body as parsed JSON or XML
        */
       parsedBody: OperationStatus;
+    };
+};
+
+/**
+ * Contains response data for the 5be32228e8473de116325515 operation.
+ */
+export type 5be32228e8473de116325515Response = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
+    };
+};
+
+/**
+ * Contains response data for the 5be32028a1d48f88cfd57e20 operation.
+ */
+export type 5be32028a1d48f88cfd57e20Response = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
+    };
+};
+
+/**
+ * Contains response data for the 5be32554f8591db3a86232e1 operation.
+ */
+export type 5be32554f8591db3a86232e1Response = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
+    };
+};
+
+/**
+ * Contains response data for the 5be313cec181ae720aa2b26c operation.
+ */
+export type 5be313cec181ae720aa2b26cResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
     };
 };
