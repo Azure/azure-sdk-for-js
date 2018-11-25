@@ -122,7 +122,7 @@ export const KeyCredential: msRest.CompositeMapper = {
       customKeyIdentifier: {
         serializedName: "customKeyIdentifier",
         type: {
-          name: "ByteArray"
+          name: "String"
         }
       }
     },

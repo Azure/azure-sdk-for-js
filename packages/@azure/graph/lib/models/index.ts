@@ -100,9 +100,9 @@ export interface KeyCredential {
    */
   type?: string;
   /**
-   * @member {Uint8Array} [customKeyIdentifier] Custom Key Identifier
+   * @member {string} [customKeyIdentifier] Custom Key Identifier
    */
-  customKeyIdentifier?: Uint8Array;
+  customKeyIdentifier?: string;
   /**
    * @property Describes unknown properties. The value of an unknown property
    * can be of "any" type.
