@@ -648,6 +648,40 @@ export const Application: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      keyCredentials: {
+        serializedName: "keyCredentials",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "KeyCredential",
+              additionalProperties: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
+        }
+      },
+      passwordCredentials: {
+        serializedName: "passwordCredentials",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PasswordCredential",
+              additionalProperties: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
+        }
       }
     },
     additionalProperties: DirectoryObject.type.additionalProperties

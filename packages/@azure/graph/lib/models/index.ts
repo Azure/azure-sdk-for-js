@@ -448,6 +448,16 @@ export interface Application {
    * consent experience.
    */
   requiredResourceAccess?: RequiredResourceAccess[];
+  /**
+   * @member {KeyCredential[]} [keyCredentials] A collection of KeyCredential
+   * objects.
+   */
+  keyCredentials?: KeyCredential[];
+  /**
+   * @member {PasswordCredential[]} [passwordCredentials] A collection of
+   * PasswordCredential objects
+   */
+  passwordCredentials?: PasswordCredential[];
 }
 
 /**
