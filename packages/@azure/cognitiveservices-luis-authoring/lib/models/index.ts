@@ -1722,6 +1722,10 @@ export interface EndpointInfo {
    */
   endpointRegion?: string;
   /**
+   * @member {string} [failedRegions] Regions where publishing failed.
+   */
+  failedRegions?: string;
+  /**
    * @member {string} [publishedDateTime] Timestamp when was last published.
    */
   publishedDateTime?: string;
@@ -5490,7 +5494,11 @@ export type AppsDeleteMethodResponse = OperationStatus & {
 /**
  * Contains response data for the publish operation.
  */
-export type AppsPublishResponse = ProductionOrStagingEndpointInfo & {
+export type AppsPublishResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5502,7 +5510,7 @@ export type AppsPublishResponse = ProductionOrStagingEndpointInfo & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ProductionOrStagingEndpointInfo;
+      parsedBody: any;
     };
 };
 

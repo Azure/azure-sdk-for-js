@@ -2506,6 +2506,12 @@ export const EndpointInfo: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      failedRegions: {
+        serializedName: "failedRegions",
+        type: {
+          name: "String"
+        }
+      },
       publishedDateTime: {
         serializedName: "publishedDateTime",
         type: {
