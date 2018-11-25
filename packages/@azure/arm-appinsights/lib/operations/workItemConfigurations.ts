@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/workItemConfigurationsMappers";
 import * as Parameters from "../models/parameters";
@@ -130,7 +130,7 @@ export class WorkItemConfigurations {
   }
 
   /**
-   * Delete an workitem configuration of an Application Insights component.
+   * Delete a work item configuration of an Application Insights component.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param workItemConfigId The unique work item configuration Id. This can be either friendly name
