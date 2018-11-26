@@ -2579,7 +2579,7 @@ export interface VideoAnalyzerPreset {
   /**
    * @member {InsightsType} [insightsToExtract] The type of insights to be
    * extracted. If not set then based on the content the type will selected.
-   * If the content is audi only then only audio insights are extraced and if
+   * If the content is audio only then only audio insights are extracted and if
    * it is video only. Possible values include: 'AudioInsightsOnly',
    * 'VideoInsightsOnly', 'AllInsights'
    */
@@ -2810,7 +2810,7 @@ export interface JobInputClip {
 /**
  * @interface
  * An interface representing JobInputs.
- * Describes a list of of inputs to a Job.
+ * Describes a list of inputs to a Job.
  *
  */
 export interface JobInputs {
