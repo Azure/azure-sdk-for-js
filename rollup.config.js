@@ -1,3 +1,4 @@
+import alias from "rollup-plugin-alias";
 import nodeResolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import visualizer from "rollup-plugin-visualizer";
@@ -53,6 +54,10 @@ const browserConfig = {
     banner
   },
   plugins: [
+    alias({
+      "./defaultHttpClient": "./defaultHttpClient.browser",
+      "./msRestUserAgentPolicy": "./msRestUserAgentPolicy.browser"
+    }),
     nodeResolve({ module: true, browser: true }),
     commonjs(),
     sourcemaps(),
