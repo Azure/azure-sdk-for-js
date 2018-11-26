@@ -43,7 +43,7 @@ export interface OperationDisplay {
 /**
  * @interface
  * An interface representing Dimension.
- * Dimension of blobs, possiblly be blob type or access tier.
+ * Dimension of blobs, possibly be blob type or access tier.
  *
  */
 export interface Dimension {
@@ -150,7 +150,7 @@ export interface Operation {
 /**
  * @interface
  * An interface representing StorageAccountCheckNameAvailabilityParameters.
- * The parameters used to check the availabity of the storage account name.
+ * The parameters used to check the availability of the storage account name.
  *
  */
 export interface StorageAccountCheckNameAvailabilityParameters {
@@ -163,14 +163,14 @@ export interface StorageAccountCheckNameAvailabilityParameters {
 /**
  * @interface
  * An interface representing SKUCapability.
- * The capability information in the specified sku, including file encryption,
- * network acls, change notification, etc.
+ * The capability information in the specified SKU, including file encryption,
+ * network ACLs, change notification, etc.
  *
  */
 export interface SKUCapability {
   /**
    * @member {string} [name] The name of capability, The capability information
-   * in the specified sku, including file encryption, network acls, change
+   * in the specified SKU, including file encryption, network ACLs, change
    * notification, etc.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -226,15 +226,15 @@ export interface Restriction {
  */
 export interface Sku {
   /**
-   * @member {SkuName} name Gets or sets the sku name. Required for account
-   * creation; optional for update. Note that in older versions, sku name was
+   * @member {SkuName} name Gets or sets the SKU name. Required for account
+   * creation; optional for update. Note that in older versions, SKU name was
    * called accountType. Possible values include: 'Standard_LRS',
    * 'Standard_GRS', 'Standard_RAGRS', 'Standard_ZRS', 'Premium_LRS',
    * 'Premium_ZRS'
    */
   name: SkuName;
   /**
-   * @member {SkuTier} [tier] Gets the sku tier. This is based on the SKU name.
+   * @member {SkuTier} [tier] Gets the SKU tier. This is based on the SKU name.
    * Possible values include: 'Standard', 'Premium'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -265,7 +265,7 @@ export interface Sku {
   readonly locations?: string[];
   /**
    * @member {SKUCapability[]} [capabilities] The capability information in the
-   * specified sku, including file encryption, network acls, change
+   * specified SKU, including file encryption, network ACLs, change
    * notification, etc.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -541,7 +541,7 @@ export interface Identity {
  */
 export interface StorageAccountCreateParameters {
   /**
-   * @member {Sku} sku Required. Gets or sets the sku name.
+   * @member {Sku} sku Required. Gets or sets the SKU name.
    */
   sku: Sku;
   /**
@@ -953,7 +953,7 @@ export interface StorageAccountListKeysResult {
 export interface StorageAccountRegenerateKeyParameters {
   /**
    * @member {string} keyName The name of storage keys that want to be
-   * regenerated, possible vaules are key1, key2.
+   * regenerated, possible values are key1, key2.
    */
   keyName: string;
 }
@@ -969,7 +969,7 @@ export interface StorageAccountUpdateParameters {
   /**
    * @member {Sku} [sku] Gets or sets the SKU name. Note that the SKU name
    * cannot be updated to Standard_ZRS, Premium_LRS or Premium_ZRS, nor can
-   * accounts of those sku names be updated to any other value.
+   * accounts of those SKU names be updated to any other value.
    */
   sku?: Sku;
   /**
@@ -1159,7 +1159,7 @@ export interface ListAccountSasResponse {
 /**
  * @interface
  * An interface representing ServiceSasParameters.
- * The parameters to list service SAS credentials of a speicific resource.
+ * The parameters to list service SAS credentials of a specific resource.
  *
  */
 export interface ServiceSasParameters {
@@ -1263,7 +1263,7 @@ export interface ServiceSasParameters {
 export interface ListServiceSasResponse {
   /**
    * @member {string} [serviceSasToken] List service SAS credentials of
-   * speicific resource.
+   * specific resource.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -1830,7 +1830,7 @@ export interface StorageAccountsGetPropertiesOptionalParams extends msRest.Reque
   /**
    * @member {StorageAccountExpand} [expand] May be used to expand the
    * properties within account's properties. By default, data is not included
-   * when fecthing properties. Currently we only support geoReplicationStats.
+   * when fetching properties. Currently we only support geoReplicationStats.
    * Possible values include: 'geoReplicationStats'
    */
   expand?: StorageAccountExpand;
