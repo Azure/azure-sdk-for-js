@@ -34,9 +34,7 @@ describe("ContainerURL", () => {
       keya: "vala",
       keyb: "valb"
     };
-    await containerURL.setMetadata(Aborter.none, {
-      metadata
-    });
+    await containerURL.setMetadata(Aborter.none, metadata);
 
     const result = await containerURL.getProperties(Aborter.none);
     assert.deepEqual(result.metadata, metadata);

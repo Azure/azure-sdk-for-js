@@ -6,6 +6,7 @@ export * from "./Aborter";
 export * from "./AppendBlobURL";
 export * from "./BlobURL";
 export * from "./BlockBlobURL";
+export * from "./BrowserPolicyFactory";
 export * from "./ContainerURL";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
