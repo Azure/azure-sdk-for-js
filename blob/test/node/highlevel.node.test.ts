@@ -1,9 +1,9 @@
 import * as assert from "assert";
 import * as fs from "fs";
 import * as path from "path";
+import { PassThrough } from "stream";
 
 import { BlobURL, BlockBlobURL, ContainerURL } from "../../lib";
-import { PassThrough } from "stream";
 import { Aborter } from "../../lib/Aborter";
 import {
   downloadBlobToBuffer,
