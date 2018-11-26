@@ -932,7 +932,8 @@ export const DdoSSettings: msRest.CompositeMapper = {
       ddosCustomPolicy: {
         serializedName: "ddosCustomPolicy",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "SubResource"
         }
       },
       protectionCoverage: {
@@ -2455,8 +2456,8 @@ export const ApplicationGatewayTrustedRootCertificate: msRest.CompositeMapper = 
           name: "String"
         }
       },
-      keyvaultSecretId: {
-        serializedName: "properties.keyvaultSecretId",
+      keyVaultSecretId: {
+        serializedName: "properties.keyVaultSecretId",
         type: {
           name: "String"
         }
@@ -2510,6 +2511,12 @@ export const ApplicationGatewaySslCertificate: msRest.CompositeMapper = {
       },
       publicCertData: {
         serializedName: "properties.publicCertData",
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultSecretId: {
+        serializedName: "properties.keyVaultSecretId",
         type: {
           name: "String"
         }
@@ -3057,15 +3064,25 @@ export const ApplicationGatewayRewriteRuleActionSet: msRest.CompositeMapper = {
       requestHeaderConfigurations: {
         serializedName: "requestHeaderConfigurations",
         type: {
-          name: "Composite",
-          className: "ApplicationGatewayHeaderConfiguration"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ApplicationGatewayHeaderConfiguration"
+            }
+          }
         }
       },
       responseHeaderConfigurations: {
         serializedName: "responseHeaderConfigurations",
         type: {
-          name: "Composite",
-          className: "ApplicationGatewayHeaderConfiguration"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ApplicationGatewayHeaderConfiguration"
+            }
+          }
         }
       }
     }
@@ -3486,6 +3503,78 @@ export const ApplicationGatewayAutoscaleConfiguration: msRest.CompositeMapper = 
   }
 };
 
+export const ManagedServiceIdentityUserAssignedIdentitiesValue: msRest.CompositeMapper = {
+  serializedName: "ManagedServiceIdentity_userAssignedIdentitiesValue",
+  type: {
+    name: "Composite",
+    className: "ManagedServiceIdentityUserAssignedIdentitiesValue",
+    modelProperties: {
+      principalId: {
+        readOnly: true,
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      clientId: {
+        readOnly: true,
+        serializedName: "clientId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedServiceIdentity: msRest.CompositeMapper = {
+  serializedName: "ManagedServiceIdentity",
+  type: {
+    name: "Composite",
+    className: "ManagedServiceIdentity",
+    modelProperties: {
+      principalId: {
+        readOnly: true,
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        readOnly: true,
+        serializedName: "tenantId",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "SystemAssigned",
+            "UserAssigned",
+            "SystemAssigned, UserAssigned",
+            "None"
+          ]
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "ManagedServiceIdentityUserAssignedIdentitiesValue"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ApplicationGateway: msRest.CompositeMapper = {
   serializedName: "ApplicationGateway",
   type: {
@@ -3747,6 +3836,13 @@ export const ApplicationGateway: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity"
         }
       }
     }

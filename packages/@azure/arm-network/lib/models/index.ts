@@ -721,14 +721,14 @@ export interface PublicIPAddressDnsSettings {
  */
 export interface DdoSSettings {
   /**
-   * @member {string} [ddosCustomPolicy] The DDoS custom policy associated with
-   * the public IP.
+   * @member {SubResource} [ddosCustomPolicy] The DDoS custom policy associated
+   * with the public IP.
    */
-  ddosCustomPolicy?: string;
+  ddosCustomPolicy?: SubResource;
   /**
-   * @member {ProtectionCoverage} [protectionCoverage] The type of the DDoS
-   * protection plan associated with the public IP. Possible values include:
-   * 'Basic', 'Standard'
+   * @member {ProtectionCoverage} [protectionCoverage] The DDoS protection
+   * policy customizability of the public IP. Only standard coverage will have
+   * the ability to be customized. Possible values include: 'Basic', 'Standard'
    */
   protectionCoverage?: ProtectionCoverage;
 }
@@ -1868,9 +1868,10 @@ export interface ApplicationGatewayTrustedRootCertificate extends SubResource {
    */
   data?: string;
   /**
-   * @member {string} [keyvaultSecretId] KeyVault Secret Id for certificate.
+   * @member {string} [keyVaultSecretId] Secret Id of (base-64 encoded
+   * unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault.
    */
-  keyvaultSecretId?: string;
+  keyVaultSecretId?: string;
   /**
    * @member {string} [provisioningState] Provisioning state of the trusted
    * root certificate resource. Possible values are: 'Updating', 'Deleting',
@@ -1916,6 +1917,11 @@ export interface ApplicationGatewaySslCertificate extends SubResource {
    * corresponding to pfx specified in data. Only applicable in GET request.
    */
   publicCertData?: string;
+  /**
+   * @member {string} [keyVaultSecretId] Secret Id of (base-64 encoded
+   * unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault.
+   */
+  keyVaultSecretId?: string;
   /**
    * @member {string} [provisioningState] Provisioning state of the SSL
    * certificate resource Possible values are: 'Updating', 'Deleting', and
@@ -2345,15 +2351,15 @@ export interface ApplicationGatewayHeaderConfiguration {
  */
 export interface ApplicationGatewayRewriteRuleActionSet {
   /**
-   * @member {ApplicationGatewayHeaderConfiguration}
+   * @member {ApplicationGatewayHeaderConfiguration[]}
    * [requestHeaderConfigurations] Request Header Actions in the Action Set
    */
-  requestHeaderConfigurations?: ApplicationGatewayHeaderConfiguration;
+  requestHeaderConfigurations?: ApplicationGatewayHeaderConfiguration[];
   /**
-   * @member {ApplicationGatewayHeaderConfiguration}
+   * @member {ApplicationGatewayHeaderConfiguration[]}
    * [responseHeaderConfigurations] Response Header Actions in the Action Set
    */
-  responseHeaderConfigurations?: ApplicationGatewayHeaderConfiguration;
+  responseHeaderConfigurations?: ApplicationGatewayHeaderConfiguration[];
 }
 
 /**
@@ -2646,6 +2652,67 @@ export interface ApplicationGatewayAutoscaleConfiguration {
 
 /**
  * @interface
+ * An interface representing ManagedServiceIdentityUserAssignedIdentitiesValue.
+ */
+export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
+  /**
+   * @member {string} [principalId] The principal id of user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * @member {string} [clientId] The client id of user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly clientId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ManagedServiceIdentity.
+ * Identity for the resource.
+ *
+ */
+export interface ManagedServiceIdentity {
+  /**
+   * @member {string} [principalId] The principal id of the system assigned
+   * identity. This property will only be provided for a system assigned
+   * identity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * @member {string} [tenantId] The tenant id of the system assigned identity.
+   * This property will only be provided for a system assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * @member {ResourceIdentityType} [type] The type of identity used for the
+   * resource. The type 'SystemAssigned, UserAssigned' includes both an
+   * implicitly created identity and a set of user assigned identities. The
+   * type 'None' will remove any identities from the virtual machine. Possible
+   * values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,
+   * UserAssigned', 'None'
+   */
+  type?: ResourceIdentityType;
+  /**
+   * @member {{ [propertyName: string]:
+   * ManagedServiceIdentityUserAssignedIdentitiesValue }}
+   * [userAssignedIdentities] The list of user identities associated with
+   * resource. The user identity dictionary key references will be ARM resource
+   * ids in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+   */
+  userAssignedIdentities?: { [propertyName: string]: ManagedServiceIdentityUserAssignedIdentitiesValue };
+}
+
+/**
+ * @interface
  * An interface representing ApplicationGateway.
  * Application gateway resource
  *
@@ -2792,6 +2859,11 @@ export interface ApplicationGateway extends Resource {
    * resource needs to come from.
    */
   zones?: string[];
+  /**
+   * @member {ManagedServiceIdentity} [identity] The identity of the
+   * application gateway, if configured.
+   */
+  identity?: ManagedServiceIdentity;
 }
 
 /**
@@ -11678,6 +11750,20 @@ export enum ApplicationGatewayOperationalState {
 export enum ApplicationGatewayFirewallMode {
   Detection = 'Detection',
   Prevention = 'Prevention',
+}
+
+/**
+ * Defines values for ResourceIdentityType.
+ * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,
+ * UserAssigned', 'None'
+ * @readonly
+ * @enum {string}
+ */
+export enum ResourceIdentityType {
+  SystemAssigned = 'SystemAssigned',
+  UserAssigned = 'UserAssigned',
+  SystemAssignedUserAssigned = 'SystemAssigned, UserAssigned',
+  None = 'None',
 }
 
 /**

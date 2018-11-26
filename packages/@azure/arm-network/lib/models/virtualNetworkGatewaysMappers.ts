@@ -93,6 +93,8 @@ export {
   ApplicationGatewayFirewallDisabledRuleGroup,
   ApplicationGatewayFirewallExclusion,
   ApplicationGatewayAutoscaleConfiguration,
+  ManagedServiceIdentity,
+  ManagedServiceIdentityUserAssignedIdentitiesValue,
   ApplicationGatewayFirewallRuleSet,
   ApplicationGatewayFirewallRuleGroup,
   ApplicationGatewayFirewallRule,
