@@ -479,8 +479,8 @@ export const TriggerRolloverRequest: msRest.CompositeMapper = {
     name: "Composite",
     className: "TriggerRolloverRequest",
     modelProperties: {
-      serverCertificate: {
-        serializedName: "serverCertificate",
+      certificateData: {
+        serializedName: "certificateData",
         type: {
           name: "String"
         }
