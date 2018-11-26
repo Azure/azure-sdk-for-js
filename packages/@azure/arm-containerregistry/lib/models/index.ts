@@ -325,7 +325,7 @@ export interface NetworkRuleSet {
   defaultAction: DefaultAction;
   /**
    * @member {VirtualNetworkRule[]} [virtualNetworkRules] The virtual network
-   * rules
+   * rules.
    */
   virtualNetworkRules?: VirtualNetworkRule[];
 }
