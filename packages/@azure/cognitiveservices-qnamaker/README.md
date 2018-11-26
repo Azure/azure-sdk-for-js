@@ -16,7 +16,7 @@ npm install @azure/cognitiveservices-qnamaker
 
 ## How to use
 
-### nodejs - Authentication, client creation and getKeys endpoint as an example written in TypeScript.
+### nodejs - Authentication, client creation and getKeys endpointKeys as an example written in TypeScript.
 
 ```ts
 import * as msRest from "ms-rest-js";
@@ -26,7 +26,7 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new QnAMakerClient(creds, subscriptionId);
-  client.endpoint.getKeys().then((result) => {
+  client.endpointKeys.getKeys().then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -35,7 +35,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-### browser - Authentication, client creation and getKeys endpoint as an example written in javascript.
+### browser - Authentication, client creation and getKeys endpointKeys as an example written in javascript.
 
 - index.html
 ```html
@@ -58,7 +58,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
           authManager.login();
         }
         const client = new Azure.CognitiveservicesQnamaker.QnAMakerClient(res.creds, subscriptionId);
-        client.endpoint.getKeys().then((result) => {
+        client.endpointKeys.getKeys().then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {

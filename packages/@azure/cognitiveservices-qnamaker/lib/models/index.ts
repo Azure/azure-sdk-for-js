@@ -642,7 +642,7 @@ export type EnvironmentType = 'Prod' | 'Test';
 /**
  * Contains response data for the getKeys operation.
  */
-export type EndpointGetKeysResponse = EndpointKeysDTO & {
+export type EndpointKeysGetKeysResponse = EndpointKeysDTO & {
   /**
    * The underlying HTTP response.
    */
@@ -661,7 +661,7 @@ export type EndpointGetKeysResponse = EndpointKeysDTO & {
 /**
  * Contains response data for the refreshKeys operation.
  */
-export type EndpointRefreshKeysResponse = EndpointKeysDTO & {
+export type EndpointKeysRefreshKeysResponse = EndpointKeysDTO & {
   /**
    * The underlying HTTP response.
    */
