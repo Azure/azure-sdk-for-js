@@ -396,6 +396,7 @@ export const VirtualNetworkRule: msRest.CompositeMapper = {
     className: "VirtualNetworkRule",
     modelProperties: {
       id: {
+        required: true,
         serializedName: "id",
         type: {
           name: "String"
@@ -412,6 +413,7 @@ export const NetworkRuleSet: msRest.CompositeMapper = {
     className: "NetworkRuleSet",
     modelProperties: {
       defaultAction: {
+        required: true,
         serializedName: "defaultAction",
         defaultValue: 'Allow',
         type: {
@@ -1665,6 +1667,13 @@ export const Run: msRest.CompositeMapper = {
           className: "SourceTriggerDescriptor"
         }
       },
+      isArchiveEnabled: {
+        serializedName: "properties.isArchiveEnabled",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      },
       platform: {
         serializedName: "properties.platform",
         type: {
@@ -1683,13 +1692,6 @@ export const Run: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "String"
-        }
-      },
-      isArchiveEnabled: {
-        serializedName: "properties.isArchiveEnabled",
-        defaultValue: false,
-        type: {
-          name: "Boolean"
         }
       }
     }

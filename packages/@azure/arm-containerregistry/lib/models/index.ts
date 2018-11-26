@@ -304,10 +304,10 @@ export interface StorageAccountProperties {
  */
 export interface VirtualNetworkRule {
   /**
-   * @member {string} [id] Resource ID of a subnet, for example:
+   * @member {string} id Resource ID of a subnet, for example:
    * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
    */
-  id?: string;
+  id: string;
 }
 
 /**
@@ -318,11 +318,11 @@ export interface VirtualNetworkRule {
  */
 export interface NetworkRuleSet {
   /**
-   * @member {DefaultAction} [defaultAction] The default action of allow or
-   * deny when no other rules match. Possible values include: 'Allow', 'Deny'.
+   * @member {DefaultAction} defaultAction The default action of allow or deny
+   * when no other rules match. Possible values include: 'Allow', 'Deny'.
    * Default value: 'Allow' .
    */
-  defaultAction?: DefaultAction;
+  defaultAction: DefaultAction;
   /**
    * @member {VirtualNetworkRule[]} [virtualNetworkRules] The virtual network
    * rules
@@ -1267,6 +1267,11 @@ export interface Run extends ProxyResource {
    */
   sourceTrigger?: SourceTriggerDescriptor;
   /**
+   * @member {boolean} [isArchiveEnabled] The value that indicates whether
+   * archiving is enabled or not. Default value: false .
+   */
+  isArchiveEnabled?: boolean;
+  /**
    * @member {PlatformProperties} [platform] The platform properties against
    * which the run will happen.
    */
@@ -1282,11 +1287,6 @@ export interface Run extends ProxyResource {
    * 'Succeeded', 'Failed', 'Canceled'
    */
   provisioningState?: ProvisioningState;
-  /**
-   * @member {boolean} [isArchiveEnabled] The value that indicates whether
-   * archiving is enabled or not. Default value: false .
-   */
-  isArchiveEnabled?: boolean;
 }
 
 /**
