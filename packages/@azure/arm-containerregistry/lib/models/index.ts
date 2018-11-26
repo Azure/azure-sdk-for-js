@@ -305,7 +305,7 @@ export interface StorageAccountProperties {
 export interface VirtualNetworkRule {
   /**
    * @member {string} [id] Resource ID of a subnet, for example:
-   * /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
    */
   id?: string;
 }
