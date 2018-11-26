@@ -104,7 +104,7 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
+  baseUrl: "https://azure.microsoft.com",
   path: "{nextLink}",
   urlParameters: [
     Parameters.nextPageLink
