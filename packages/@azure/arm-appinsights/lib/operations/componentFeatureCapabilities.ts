@@ -27,7 +27,7 @@ export class ComponentFeatureCapabilities {
   }
 
   /**
-   * Returns feature capabilites of the application insights component.
+   * Returns feature capabilities of the application insights component.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param [options] The optional parameters
