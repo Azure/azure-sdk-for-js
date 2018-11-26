@@ -76,6 +76,7 @@
     "mocha-chrome": "^1.1.0",
     "npm-run-all": "^4.1.2",
     "rollup": "^0.66.4",
+    "rollup-plugin-alias": "^1.4.0",
     "rollup-plugin-commonjs": "^9.1.8",
     "rollup-plugin-json": "^3.1.0",
     "rollup-plugin-node-resolve": "^3.4.0",
