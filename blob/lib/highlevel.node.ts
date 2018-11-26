@@ -6,15 +6,19 @@ import { Aborter } from "./Aborter";
 import { BlobURL } from "./BlobURL";
 import { BlockBlobURL } from "./BlockBlobURL";
 import { BlobHTTPHeaders } from "./generated/models";
-import { BlobUploadCommonResponse, IDownloadFromBlobOptions, IUploadToBlockBlobOptions } from "./highlevel.common";
+import {
+  BlobUploadCommonResponse,
+  IDownloadFromBlobOptions,
+  IUploadToBlockBlobOptions
+} from "./highlevel.common";
 import { IBlobAccessConditions } from "./models";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
 import {
-  BLOB_DEFAULT_DOWNLOAD_BLOCK_BYTES,
   BLOCK_BLOB_MAX_BLOCKS,
   BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
   BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
+  DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES
 } from "./utils/constants";
 import { generateBlockID } from "./utils/utils.common";
 import { streamToBuffer } from "./utils/utils.node";
@@ -102,8 +106,8 @@ async function uploadResetableStreamToBlockBlob(
     }
     if (size > BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES) {
       options.blockSize = Math.ceil(size / BLOCK_BLOB_MAX_BLOCKS);
-      if (options.blockSize < BLOB_DEFAULT_DOWNLOAD_BLOCK_BYTES) {
-        options.blockSize = BLOB_DEFAULT_DOWNLOAD_BLOCK_BYTES;
+      if (options.blockSize < DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES) {
+        options.blockSize = DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES;
       }
     }
   }
@@ -193,7 +197,7 @@ export async function downloadBlobToBuffer(
     throw new RangeError("blockSize option must be >= 0");
   }
   if (options.blockSize === 0) {
-    options.blockSize = BLOB_DEFAULT_DOWNLOAD_BLOCK_BYTES;
+    options.blockSize = DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES;
   }
 
   if (offset < 0) {

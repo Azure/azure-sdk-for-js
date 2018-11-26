@@ -33,9 +33,18 @@ describe("BlockBlobURL Node.js only", () => {
 
     await blockBlobURL.upload(Aborter.none, bodyBuffer, body.length);
     const result = await blobURL.download(Aborter.none, 0);
-    assert.deepStrictEqual(
-      result.readableStreamBody!.read(body.length)!.toString(),
-      body
-    );
+
+    const downloadedBody = await new Promise((resolve, reject) => {
+      const buffer: string[] = [];
+      result.readableStreamBody!.on("data", (data: Buffer) => {
+        buffer.push(data.toString());
+      });
+      result.readableStreamBody!.on("end", () => {
+        resolve(buffer.join(""));
+      });
+      result.readableStreamBody!.on("error", reject);
+    });
+
+    assert.deepStrictEqual(downloadedBody, body);
   });
 });
