@@ -1,0 +1,83 @@
+{
+    "name": "@azure/storage-queue",
+    "version": "10.0.0-preview",
+    "description": "Microsoft Azure Storage SDK for JavaScript - Queue",
+    "main": "./dist/index.js",
+    "module": "./dist-esm/lib/index.js",
+    "browser": {
+        "./dist/index.js": "./browser/azure-storage.queue.min.js",
+        "./dist-esm/lib/index.js": "./dist-esm/lib/index.browser.js",
+        "./dist-esm/test/utils/index.js": "./dist-esm/test/utils/index.browser.js",
+        "os": false,
+        "process": false
+    },
+    "types": "./typings/lib/index.d.ts",
+    "engines": {
+        "node": ">=6.5.0"
+    },
+    "dependencies": {
+        "events": "3.0.0",
+        "ms-rest-js": "^0.22.425",
+        "tslib": "^1.9.3"
+    },
+    "devDependencies": {
+        "@types/mocha": "^5.2.5",
+        "@types/node": "^10.12.3",
+        "assert": "^1.4.1",
+        "es6-promise": "^4.2.4",
+        "gulp": "^4.0.0",
+        "gulp-zip": "^4.2.0",
+        "karma": "^3.0.0",
+        "karma-chrome-launcher": "^2.2.0",
+        "karma-edge-launcher": "^0.4.2",
+        "karma-env-preprocessor": "^0.1.1",
+        "karma-firefox-launcher": "^1.1.0",
+        "karma-ie-launcher": "^1.0.0",
+        "karma-mocha": "^1.3.0",
+        "karma-mocha-reporter": "^2.2.5",
+        "mocha": "^5.2.0",
+        "rimraf": "^2.6.2",
+        "rollup": "^0.65.2",
+        "rollup-plugin-commonjs": "^9.1.8",
+        "rollup-plugin-multi-entry": "^2.0.2",
+        "rollup-plugin-node-resolve": "^3.4.0",
+        "rollup-plugin-replace": "^2.0.0",
+        "rollup-plugin-shim": "^1.0.0",
+        "rollup-plugin-uglify": "^5.0.2",
+        "rollup-plugin-visualizer": "^0.9.0",
+        "ts-node": "^7.0.1",
+        "typescript": "^3.1.6"
+    },
+    "scripts": {
+        "test": "npm run test:node && npm run test:browser",
+        "test:node": "mocha --no-timeouts dist-test/index.js",
+        "test:browser": "karma start --single-run",
+        "build": "npm run build:es6 && npm run build:nodebrowser && npm run build:browserzip && npm run build:test",
+        "build:test": "rollup -c rollup.test.config.js",
+        "build:nodebrowser": "rollup -c",
+        "build:es6": "tsc -p tsconfig.json",
+        "build:autorest": "autorest ./swagger/README.md --typescript --use=@microsoft.azure/autorest.typescript@2.0.476",
+        "build:browserzip": "gulp zip",
+        "clean": "rimraf dist dist-esm dist-test typings temp browser/*.js* browser/*.zip statistics.html"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Azure/azure-storage-js.git"
+    },
+    "keywords": [
+        "Azure",
+        "Storage",
+        "Queue",
+        "Node.js",
+        "TypeScript",
+        "JavaScript",
+        "Browser"
+    ],
+    "author": "Microsoft Corporation",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Azure/azure-storage-js/issues"
+    },
+    "homepage": "https://github.com/Azure/azure-storage-js#readme",
+    "sideEffects": false
+}
