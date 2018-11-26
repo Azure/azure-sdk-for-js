@@ -1,0 +1,50 @@
+# browser #
+browser/azure-storage.queue.js
+
+# dist-esm #
+!dist-esm/lib/**/*.js
+dist-esm/test
+dist-esm/samples
+
+# dist-test #
+dist-test/
+
+# Node #
+node_modules/
+
+# Samples #
+samples/
+
+# Swagger #
+swagger/
+
+# typings #
+!typings/lib/**/*.d.ts
+typings/test
+typings/samples
+
+# git #
+.git*
+
+# Test #
+test/
+
+# Others #
+.vscode/
+.idea/
+.travis.yml
+.gitignore
+gulpfile.js
+.git
+.DS_Store
+tsconfig.json
+tslint.json
+*.js.map
+*.zip
+package-lock.json
+karma.conf.js
+temp
+gulpfile.js
+rollup.config.js
+rollup.test.config.js
+*.html
