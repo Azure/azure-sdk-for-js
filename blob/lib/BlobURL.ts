@@ -50,11 +50,9 @@ export interface IBlobDeleteOptions {
 
 export interface IBlobSetHTTPHeadersOptions {
   blobAccessConditions?: IBlobAccessConditions;
-  blobHTTPHeaders?: Models.BlobHTTPHeaders;
 }
 
 export interface IBlobSetMetadataOptions {
-  metadata?: IMetadata;
   blobAccessConditions?: IBlobAccessConditions;
 }
 
@@ -369,24 +367,28 @@ export class BlobURL extends StorageURL {
   /**
    * Sets system properties on the blob.
    *
-   * If no option provided, or no value provided for the blob HTTP headers in the options,
+   * If no value provided, or no value provided for the specificed blob HTTP headers,
    * these blob HTTP headers without a value will be cleared.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-properties
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
+   * @param {Models.BlobHTTPHeaders} [blobHTTPHeaders] If no value provided, or no value provided for
+   *                                                   the specificed blob HTTP headers, these blob HTTP
+   *                                                   headers without a value will be cleared.
    * @param {IBlobSetHTTPHeadersOptions} [options]
    * @returns {Promise<Models.BlobSetHTTPHeadersResponse>}
    * @memberof BlobURL
    */
   public async setHTTPHeaders(
     aborter: Aborter,
+    blobHTTPHeaders?: Models.BlobHTTPHeaders,
     options: IBlobSetHTTPHeadersOptions = {}
   ): Promise<Models.BlobSetHTTPHeadersResponse> {
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.setHTTPHeaders({
       abortSignal: aborter,
-      blobHTTPHeaders: options.blobHTTPHeaders,
+      blobHTTPHeaders,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       modifiedAccessConditions:
         options.blobAccessConditions.modifiedAccessConditions
@@ -396,25 +398,28 @@ export class BlobURL extends StorageURL {
   /**
    * Sets user-defined metadata for the specified blob as one or more name-value pairs.
    *
-   * If no option provided, or no metadata defined in the option parameter, the blob
+   * If no option provided, or no metadata defined in the parameter, the blob
    * metadata will be removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-metadata
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
+   * @param {IMetadata} [metadata] Replace existing metadata with this value.
+   *                               If no value provided the existing metadata will be removed.
    * @param {IBlobSetMetadataOptions} [options]
    * @returns {Promise<Models.BlobSetMetadataResponse>}
    * @memberof BlobURL
    */
   public async setMetadata(
     aborter: Aborter,
+    metadata?: IMetadata,
     options: IBlobSetMetadataOptions = {}
   ): Promise<Models.BlobSetMetadataResponse> {
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.setMetadata({
       abortSignal: aborter,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
-      metadata: options.metadata,
+      metadata,
       modifiedAccessConditions:
         options.blobAccessConditions.modifiedAccessConditions
     });

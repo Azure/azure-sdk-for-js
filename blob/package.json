@@ -1,6 +1,6 @@
 {
   "name": "@azure/storage-blob",
-  "version": "10.1.0-preview",
+  "version": "10.2.0-preview",
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob",
   "main": "./dist/index.js",
   "module": "./dist-esm/lib/index.js",
@@ -51,9 +51,9 @@
   },
   "scripts": {
     "test": "npm run test:node && npm run test:browser",
-    "test:node": "npm run build:test && mocha --no-timeouts dist-test/index.js",
-    "test:browser": "npm run build:test && karma start --single-run",
-    "build": "npm run build:es6 && npm run build:nodebrowser && npm run build:browserzip",
+    "test:node": "mocha --no-timeouts dist-test/index.js",
+    "test:browser": "karma start --single-run",
+    "build": "npm run build:es6 && npm run build:nodebrowser && npm run build:browserzip && npm run build:test",
     "build:test": "rollup -c rollup.test.config.js",
     "build:nodebrowser": "rollup -c",
     "build:es6": "tsc -p tsconfig.json",

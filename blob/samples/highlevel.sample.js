@@ -24,8 +24,8 @@ async function main() {
   const localFilePath = "localFilePath";
 
   const pipeline = StorageURL.newPipeline(new AnonymousCredential(), {
-    // httpClient: MyHTTPClient, // A customized HTTP client implementing IHTTPClient interface
-    // logger: MyLogger, // A customized logger implementing IHTTPPipelineLogger interface
+    // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
+    // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
     retryOptions: { maxTries: 4 }, // Retry options
     telemetry: { value: "HighLevelSample V1.0.0" } // Customized telemetry string
   });

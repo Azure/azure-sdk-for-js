@@ -55,7 +55,7 @@ describe("BlobURL", () => {
       a: "a",
       b: "b"
     };
-    await blobURL.setMetadata(Aborter.none, { metadata });
+    await blobURL.setMetadata(Aborter.none, metadata);
     const result = await blobURL.getProperties(Aborter.none);
     assert.deepStrictEqual(result.metadata, metadata);
   });
@@ -65,7 +65,7 @@ describe("BlobURL", () => {
       a: "a",
       b: "b"
     };
-    await blobURL.setMetadata(Aborter.none, { metadata });
+    await blobURL.setMetadata(Aborter.none, metadata);
     const result = await blobURL.getProperties(Aborter.none);
     assert.deepStrictEqual(result.metadata, metadata);
 
@@ -100,10 +100,9 @@ describe("BlobURL", () => {
         : new Uint8Array([1, 2, 3, 4]),
       blobContentType: "blobContentType"
     };
-    await blobURL.setHTTPHeaders(Aborter.none, {
-      blobHTTPHeaders: headers
-    });
+    await blobURL.setHTTPHeaders(Aborter.none, headers);
     const result = await blobURL.getProperties(Aborter.none);
+    assert.ok(result.date);
     assert.deepStrictEqual(result.blobType, BlobType.BlockBlob);
     assert.ok(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});

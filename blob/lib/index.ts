@@ -12,6 +12,7 @@ export * from "./BlobSASPermissions";
 export * from "./IBlobSASSignatureValues";
 export * from "./BlobURL";
 export * from "./BlockBlobURL";
+export * from "./BrowserPolicyFactory";
 export * from "./ContainerSASPermissions";
 export * from "./ContainerURL";
 export * from "./credentials/AnonymousCredential";
