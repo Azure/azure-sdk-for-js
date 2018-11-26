@@ -1,9 +1,13 @@
-import { HttpResponse, isNode, TransferProgressEvent } from "ms-rest-js";
+import { HttpResponse, isNode } from "ms-rest-js";
 
 import { Aborter } from "./Aborter";
 import * as Models from "./generated/models";
 import { IMetadata } from "./models";
-import { ReadableStreamGetter, RetriableReadableStream } from "./utils/RetriableReadableStream";
+import { IRetriableReadableStreamOptions } from "./utils/RetriableReadableStream";
+import {
+  ReadableStreamGetter,
+  RetriableReadableStream
+} from "./utils/RetriableReadableStream";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -33,7 +37,7 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
   }
 
   /**
-   * Returned if it was previously specified
+   * Returns if it was previously specified
    * for the file.
    *
    * @readonly
@@ -417,7 +421,7 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
    * @memberof BlobDownloadResponse
    */
   public get readableStreamBody(): NodeJS.ReadableStream | undefined {
-    return isNode ? this.pathReadStream : undefined;
+    return isNode ? this.blobDownloadStream : undefined;
   }
 
   public get _response(): HttpResponse & {
@@ -427,7 +431,7 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
   }
 
   private originalResponse: Models.BlobDownloadResponse;
-  private pathReadStream?: RetriableReadableStream;
+  private blobDownloadStream?: RetriableReadableStream;
 
   /**
    * Creates an instance of BlobDownloadResponse.
@@ -435,30 +439,27 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
    * @param {Aborter} aborter
    * @param {Models.BlobDownloadResponse} originalResponse
    * @param {ReadableStreamGetter} getter
-   * @param {number} start
-   * @param {number} end
-   * @param {number} [maxRetryRequests]
-   * @param {(progress: TransferProgressEvent) => void} [progress]
+   * @param {number} offset
+   * @param {number} count
+   * @param {IRetriableReadableStreamOptions} [options={}]
    * @memberof BlobDownloadResponse
    */
   public constructor(
     aborter: Aborter,
     originalResponse: Models.BlobDownloadResponse,
     getter: ReadableStreamGetter,
-    start: number,
-    end: number,
-    maxRetryRequests?: number,
-    progress?: (progress: TransferProgressEvent) => void
+    offset: number,
+    count: number,
+    options: IRetriableReadableStreamOptions = {}
   ) {
     this.originalResponse = originalResponse;
-    this.pathReadStream = new RetriableReadableStream(
+    this.blobDownloadStream = new RetriableReadableStream(
       aborter,
-      getter,
       this.originalResponse.readableStreamBody!,
-      start,
-      end,
-      maxRetryRequests,
-      progress
+      getter,
+      offset,
+      count,
+      options
     );
   }
 }

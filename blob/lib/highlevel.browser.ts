@@ -8,10 +8,10 @@ import {
 } from "./highlevel.common";
 import { Batch } from "./utils/Batch";
 import {
-  BLOB_DEFAULT_DOWNLOAD_BLOCK_BYTES,
   BLOCK_BLOB_MAX_BLOCKS,
   BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
-  BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES
+  BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
+  DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES
 } from "./utils/constants";
 import { generateBlockID } from "./utils/utils.common";
 
@@ -92,8 +92,8 @@ async function UploadSeekableBlobToBlockBlob(
     }
     if (size > BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES) {
       options.blockSize = Math.ceil(size / BLOCK_BLOB_MAX_BLOCKS);
-      if (options.blockSize < BLOB_DEFAULT_DOWNLOAD_BLOCK_BYTES) {
-        options.blockSize = BLOB_DEFAULT_DOWNLOAD_BLOCK_BYTES;
+      if (options.blockSize < DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES) {
+        options.blockSize = DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES;
       }
     }
   }

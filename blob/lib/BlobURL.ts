@@ -9,7 +9,10 @@ import { rangeToString } from "./IRange";
 import { IBlobAccessConditions, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { StorageURL } from "./StorageURL";
-import { MAX_DOWNLOAD_RETRY_REQUESTS, URLConstants } from "./utils/constants";
+import {
+  DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
+  URLConstants
+} from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
 
 export interface IBlobDownloadOptions {
@@ -202,13 +205,15 @@ export class BlobURL extends StorageURL {
     options: IBlobDownloadOptions = {}
   ): Promise<Models.BlobDownloadResponse> {
     options.blobAccessConditions = options.blobAccessConditions || {};
+    options.blobAccessConditions.modifiedAccessConditions =
+      options.blobAccessConditions.modifiedAccessConditions || {};
 
     const res = await this.blobContext.download({
       abortSignal: aborter,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       modifiedAccessConditions:
         options.blobAccessConditions.modifiedAccessConditions,
-      onDownloadProgress: options.progress,
+      onDownloadProgress: isNode ? undefined : options.progress,
       range:
         offset === 0 && !count ? undefined : rangeToString({ offset, count }),
       rangeGetContentMD5: options.rangeGetContentMD5,
@@ -225,13 +230,23 @@ export class BlobURL extends StorageURL {
     // bundlers may try to bundle following code and "FileReadResponse.ts".
     // In this case, "FileDownloadResponse.browser.ts" will be used as a shim of "FileDownloadResponse.ts"
     // The config is in package.json "browser" field
-    if (!options.maxRetryRequests) {
-      options.maxRetryRequests = MAX_DOWNLOAD_RETRY_REQUESTS; // TODO: Default value or make it a required parameter?
+    if (
+      options.maxRetryRequests === undefined ||
+      options.maxRetryRequests < 0
+    ) {
+      // TODO: Default value or make it a required parameter?
+      options.maxRetryRequests = DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS;
     }
 
-    if (!res.contentLength) {
+    if (res.contentLength === undefined) {
       throw new RangeError(
         `File download response doesn't contain valid content length header`
+      );
+    }
+
+    if (!res.eTag) {
+      throw new RangeError(
+        `File download response doesn't contain valid etag header`
       );
     }
 
@@ -240,11 +255,32 @@ export class BlobURL extends StorageURL {
       res,
       async (start: number): Promise<NodeJS.ReadableStream> => {
         const updatedOptions: Models.BlobDownloadOptionalParams = {
+          leaseAccessConditions: options.blobAccessConditions!
+            .leaseAccessConditions,
+          modifiedAccessConditions: {
+            ifMatch:
+              options.blobAccessConditions!.modifiedAccessConditions!.ifMatch ||
+              res.eTag,
+            ifModifiedSince: options.blobAccessConditions!
+              .modifiedAccessConditions!.ifModifiedSince,
+            ifNoneMatch: options.blobAccessConditions!.modifiedAccessConditions!
+              .ifNoneMatch,
+            ifUnmodifiedSince: options.blobAccessConditions!
+              .modifiedAccessConditions!.ifUnmodifiedSince
+          },
           range: rangeToString({
             count: offset + res.contentLength! - start,
             offset: start
-          })
+          }),
+          snapshot: options.snapshot
         };
+
+        // Debug purpose only
+        // console.log(
+        //   `Read from internal stream, range: ${
+        //     updatedOptions.range
+        //   }, options: ${JSON.stringify(updatedOptions)}`
+        // );
 
         return (await this.blobContext.download({
           abortSignal: aborter,
@@ -252,9 +288,11 @@ export class BlobURL extends StorageURL {
         })).readableStreamBody!;
       },
       offset,
-      offset + res.contentLength! - 1,
-      options.maxRetryRequests,
-      options.progress
+      res.contentLength!,
+      {
+        maxRetryRequests: options.maxRetryRequests,
+        progress: options.progress
+      }
     );
   }
 
