@@ -66,8 +66,8 @@ export interface Identity extends BaseResource {
   /**
    * @member {string} [clientSecretUrl] The ManagedServiceIdentity DataPlane
    * URL that can be queried to obtain the identity credentials. If identity is
-   * user assigned, the clientSecretUrl is null, otherwise the clientSecretUrl
-   * is not null
+   * user assigned, then the clientSecretUrl will not be present in the
+   * response, otherwise it will be present.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
