@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/expressRouteCircuitConnectionsMappers";
 import * as Parameters from "../models/parameters";
@@ -98,6 +98,42 @@ export class ExpressRouteCircuitConnections {
   }
 
   /**
+   * Gets all global reach connections associated with a private peering in an express route circuit.
+   * @param resourceGroupName The name of the resource group.
+   * @param circuitName The name of the circuit.
+   * @param peeringName The name of the peering.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ExpressRouteCircuitConnectionsListResponse>
+   */
+  list(resourceGroupName: string, circuitName: string, peeringName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCircuitConnectionsListResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param circuitName The name of the circuit.
+   * @param peeringName The name of the peering.
+   * @param callback The callback
+   */
+  list(resourceGroupName: string, circuitName: string, peeringName: string, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitConnectionListResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param circuitName The name of the circuit.
+   * @param peeringName The name of the peering.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  list(resourceGroupName: string, circuitName: string, peeringName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitConnectionListResult>): void;
+  list(resourceGroupName: string, circuitName: string, peeringName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuitConnectionListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitConnectionListResult>): Promise<Models.ExpressRouteCircuitConnectionsListResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        circuitName,
+        peeringName,
+        options
+      },
+      listOperationSpec,
+      callback) as Promise<Models.ExpressRouteCircuitConnectionsListResponse>;
+  }
+
+  /**
    * Deletes the specified Express Route Circuit Connection from the specified express route circuit.
    * @param resourceGroupName The name of the resource group.
    * @param circuitName The name of the express route circuit.
@@ -143,6 +179,34 @@ export class ExpressRouteCircuitConnections {
       beginCreateOrUpdateOperationSpec,
       options);
   }
+
+  /**
+   * Gets all global reach connections associated with a private peering in an express route circuit.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ExpressRouteCircuitConnectionsListNextResponse>
+   */
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCircuitConnectionsListNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitConnectionListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitConnectionListResult>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuitConnectionListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitConnectionListResult>): Promise<Models.ExpressRouteCircuitConnectionsListNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listNextOperationSpec,
+      callback) as Promise<Models.ExpressRouteCircuitConnectionsListNextResponse>;
+  }
 }
 
 // Operation Specifications
@@ -166,6 +230,32 @@ const getOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRouteCircuitConnection
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.circuitName,
+    Parameters.peeringName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ExpressRouteCircuitConnectionListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -230,6 +320,27 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     },
     201: {
       bodyMapper: Mappers.ExpressRouteCircuitConnection
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ExpressRouteCircuitConnectionListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
