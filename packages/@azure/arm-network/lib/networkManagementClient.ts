@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
@@ -72,10 +72,10 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   virtualNetworks: operations.VirtualNetworks;
   subnets: operations.Subnets;
   virtualNetworkPeerings: operations.VirtualNetworkPeerings;
-  virtualNetworkTaps: operations.VirtualNetworkTaps;
   virtualNetworkGateways: operations.VirtualNetworkGateways;
   virtualNetworkGatewayConnections: operations.VirtualNetworkGatewayConnections;
   localNetworkGateways: operations.LocalNetworkGateways;
+  virtualNetworkTaps: operations.VirtualNetworkTaps;
   virtualWans: operations.VirtualWans;
   vpnSites: operations.VpnSites;
   vpnSitesConfiguration: operations.VpnSitesConfiguration;
@@ -149,10 +149,10 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.virtualNetworks = new operations.VirtualNetworks(this);
     this.subnets = new operations.Subnets(this);
     this.virtualNetworkPeerings = new operations.VirtualNetworkPeerings(this);
-    this.virtualNetworkTaps = new operations.VirtualNetworkTaps(this);
     this.virtualNetworkGateways = new operations.VirtualNetworkGateways(this);
     this.virtualNetworkGatewayConnections = new operations.VirtualNetworkGatewayConnections(this);
     this.localNetworkGateways = new operations.LocalNetworkGateways(this);
+    this.virtualNetworkTaps = new operations.VirtualNetworkTaps(this);
     this.virtualWans = new operations.VirtualWans(this);
     this.vpnSites = new operations.VpnSites(this);
     this.vpnSitesConfiguration = new operations.VpnSitesConfiguration(this);
