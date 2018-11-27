@@ -25,6 +25,8 @@ export {
   AppRole,
   RequiredResourceAccess,
   ResourceAccess,
+  KeyCredential,
+  PasswordCredential,
   ADGroup,
   ServicePrincipal
 } from "../models/mappers";

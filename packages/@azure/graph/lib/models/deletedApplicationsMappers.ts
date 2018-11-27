@@ -15,6 +15,8 @@ export {
   AppRole,
   RequiredResourceAccess,
   ResourceAccess,
+  KeyCredential,
+  PasswordCredential,
   GraphError,
   ApplicationListResult,
   ADGroup,
