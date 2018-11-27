@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/trainMappers";
 import * as Parameters from "../models/parameters";
@@ -43,15 +43,15 @@ export class Train {
    * @param versionId The version ID.
    * @param callback The callback
    */
-  trainVersion(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.EnqueueTrainingResponse>): void;
+  trainVersion(appId: string, versionId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  trainVersion(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EnqueueTrainingResponse>): void;
-  trainVersion(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnqueueTrainingResponse>, callback?: msRest.ServiceCallback<Models.EnqueueTrainingResponse>): Promise<Models.TrainTrainVersionResponse> {
+  trainVersion(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  trainVersion(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.TrainTrainVersionResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -78,15 +78,15 @@ export class Train {
    * @param versionId The version ID.
    * @param callback The callback
    */
-  getStatus(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.ModelTrainingInfo[]>): void;
+  getStatus(appId: string, versionId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStatus(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ModelTrainingInfo[]>): void;
-  getStatus(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ModelTrainingInfo[]>, callback?: msRest.ServiceCallback<Models.ModelTrainingInfo[]>): Promise<Models.TrainGetStatusResponse> {
+  getStatus(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getStatus(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.TrainGetStatusResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -108,13 +108,29 @@ const trainVersionOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     202: {
       bodyMapper: Mappers.EnqueueTrainingResponse
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    409: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -126,6 +142,9 @@ const getStatusOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {
@@ -142,9 +161,19 @@ const getStatusOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/examplesMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class Examples {
    * @param exampleLabelObject An example label with the expected intent and entities.
    * @param callback The callback
    */
-  add(appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, callback: msRest.ServiceCallback<Models.LabelExampleResponse>): void;
+  add(appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -49,8 +49,8 @@ export class Examples {
    * @param options The optional parameters
    * @param callback The callback
    */
-  add(appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LabelExampleResponse>): void;
-  add(appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LabelExampleResponse>, callback?: msRest.ServiceCallback<Models.LabelExampleResponse>): Promise<Models.ExamplesAddResponse> {
+  add(appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  add(appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ExamplesAddResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -77,7 +77,7 @@ export class Examples {
    * @param exampleLabelObjectArray Array of examples.
    * @param callback The callback
    */
-  batch(appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], callback: msRest.ServiceCallback<Models.BatchLabelExample[]>): void;
+  batch(appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -85,8 +85,8 @@ export class Examples {
    * @param options The optional parameters
    * @param callback The callback
    */
-  batch(appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchLabelExample[]>): void;
-  batch(appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchLabelExample[]>, callback?: msRest.ServiceCallback<Models.BatchLabelExample[]>): Promise<Models.ExamplesBatchResponse> {
+  batch(appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  batch(appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ExamplesBatchResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -111,15 +111,15 @@ export class Examples {
    * @param versionId The version ID.
    * @param callback The callback
    */
-  list(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.LabeledUtterance[]>): void;
+  list(appId: string, versionId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(appId: string, versionId: string, options: Models.ExamplesListOptionalParams, callback: msRest.ServiceCallback<Models.LabeledUtterance[]>): void;
-  list(appId: string, versionId: string, options?: Models.ExamplesListOptionalParams | msRest.ServiceCallback<Models.LabeledUtterance[]>, callback?: msRest.ServiceCallback<Models.LabeledUtterance[]>): Promise<Models.ExamplesListResponse> {
+  list(appId: string, versionId: string, options: Models.ExamplesListOptionalParams, callback: msRest.ServiceCallback<any>): void;
+  list(appId: string, versionId: string, options?: Models.ExamplesListOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ExamplesListResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -145,7 +145,7 @@ export class Examples {
    * @param exampleId The example ID.
    * @param callback The callback
    */
-  deleteMethod(appId: string, versionId: string, exampleId: number, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteMethod(appId: string, versionId: string, exampleId: number, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -153,8 +153,8 @@ export class Examples {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(appId: string, versionId: string, exampleId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteMethod(appId: string, versionId: string, exampleId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ExamplesDeleteMethodResponse> {
+  deleteMethod(appId: string, versionId: string, exampleId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  deleteMethod(appId: string, versionId: string, exampleId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ExamplesDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -177,6 +177,9 @@ const addOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "exampleLabelObject",
     mapper: {
@@ -188,9 +191,19 @@ const addOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.LabelExampleResponse
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -202,6 +215,9 @@ const batchOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "exampleLabelObjectArray",
@@ -248,9 +264,22 @@ const batchOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    409: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -267,6 +296,9 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.skip,
     Parameters.take
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -282,9 +314,19 @@ const listOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -298,13 +340,26 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.exampleId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };

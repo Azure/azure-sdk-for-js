@@ -10,9 +10,9 @@
 
 export {
   ModelCreateObject,
+  ErrorResponse,
   IntentClassifier,
   ModelInfo,
-  ErrorResponse,
   EntityExtractor,
   EntityRole,
   HierarchicalEntityModel,

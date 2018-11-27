@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/modelMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class Model {
    * @param intentCreateObject A model object containing the name of the new intent classifier.
    * @param callback The callback
    */
-  addIntent(appId: string, versionId: string, intentCreateObject: Models.ModelCreateObject, callback: msRest.ServiceCallback<string>): void;
+  addIntent(appId: string, versionId: string, intentCreateObject: Models.ModelCreateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -49,8 +49,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addIntent(appId: string, versionId: string, intentCreateObject: Models.ModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addIntent(appId: string, versionId: string, intentCreateObject: Models.ModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddIntentResponse> {
+  addIntent(appId: string, versionId: string, intentCreateObject: Models.ModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  addIntent(appId: string, versionId: string, intentCreateObject: Models.ModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelAddIntentResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -75,15 +75,15 @@ export class Model {
    * @param versionId The version ID.
    * @param callback The callback
    */
-  listIntents(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.IntentClassifier[]>): void;
+  listIntents(appId: string, versionId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listIntents(appId: string, versionId: string, options: Models.ModelListIntentsOptionalParams, callback: msRest.ServiceCallback<Models.IntentClassifier[]>): void;
-  listIntents(appId: string, versionId: string, options?: Models.ModelListIntentsOptionalParams | msRest.ServiceCallback<Models.IntentClassifier[]>, callback?: msRest.ServiceCallback<Models.IntentClassifier[]>): Promise<Models.ModelListIntentsResponse> {
+  listIntents(appId: string, versionId: string, options: Models.ModelListIntentsOptionalParams, callback: msRest.ServiceCallback<any>): void;
+  listIntents(appId: string, versionId: string, options?: Models.ModelListIntentsOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelListIntentsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -109,7 +109,7 @@ export class Model {
    * @param modelCreateObject A model object containing the name for the new entity extractor.
    * @param callback The callback
    */
-  addEntity(appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, callback: msRest.ServiceCallback<string>): void;
+  addEntity(appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -117,8 +117,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addEntity(appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addEntity(appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddEntityResponse> {
+  addEntity(appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  addEntity(appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelAddEntityResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -143,15 +143,15 @@ export class Model {
    * @param versionId The version ID.
    * @param callback The callback
    */
-  listEntities(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.EntityExtractor[]>): void;
+  listEntities(appId: string, versionId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listEntities(appId: string, versionId: string, options: Models.ModelListEntitiesOptionalParams, callback: msRest.ServiceCallback<Models.EntityExtractor[]>): void;
-  listEntities(appId: string, versionId: string, options?: Models.ModelListEntitiesOptionalParams | msRest.ServiceCallback<Models.EntityExtractor[]>, callback?: msRest.ServiceCallback<Models.EntityExtractor[]>): Promise<Models.ModelListEntitiesResponse> {
+  listEntities(appId: string, versionId: string, options: Models.ModelListEntitiesOptionalParams, callback: msRest.ServiceCallback<any>): void;
+  listEntities(appId: string, versionId: string, options?: Models.ModelListEntitiesOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelListEntitiesResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -179,7 +179,7 @@ export class Model {
    * extractor.
    * @param callback The callback
    */
-  addHierarchicalEntity(appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, callback: msRest.ServiceCallback<string>): void;
+  addHierarchicalEntity(appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -188,8 +188,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addHierarchicalEntity(appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addHierarchicalEntity(appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddHierarchicalEntityResponse> {
+  addHierarchicalEntity(appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  addHierarchicalEntity(appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelAddHierarchicalEntityResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -214,15 +214,15 @@ export class Model {
    * @param versionId The version ID.
    * @param callback The callback
    */
-  listHierarchicalEntities(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.HierarchicalEntityExtractor[]>): void;
+  listHierarchicalEntities(appId: string, versionId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listHierarchicalEntities(appId: string, versionId: string, options: Models.ModelListHierarchicalEntitiesOptionalParams, callback: msRest.ServiceCallback<Models.HierarchicalEntityExtractor[]>): void;
-  listHierarchicalEntities(appId: string, versionId: string, options?: Models.ModelListHierarchicalEntitiesOptionalParams | msRest.ServiceCallback<Models.HierarchicalEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.HierarchicalEntityExtractor[]>): Promise<Models.ModelListHierarchicalEntitiesResponse> {
+  listHierarchicalEntities(appId: string, versionId: string, options: Models.ModelListHierarchicalEntitiesOptionalParams, callback: msRest.ServiceCallback<any>): void;
+  listHierarchicalEntities(appId: string, versionId: string, options?: Models.ModelListHierarchicalEntitiesOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelListHierarchicalEntitiesResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -250,7 +250,7 @@ export class Model {
    * extractor.
    * @param callback The callback
    */
-  addCompositeEntity(appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, callback: msRest.ServiceCallback<string>): void;
+  addCompositeEntity(appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -259,8 +259,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addCompositeEntity(appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addCompositeEntity(appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddCompositeEntityResponse> {
+  addCompositeEntity(appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  addCompositeEntity(appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelAddCompositeEntityResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -285,15 +285,15 @@ export class Model {
    * @param versionId The version ID.
    * @param callback The callback
    */
-  listCompositeEntities(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.CompositeEntityExtractor[]>): void;
+  listCompositeEntities(appId: string, versionId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCompositeEntities(appId: string, versionId: string, options: Models.ModelListCompositeEntitiesOptionalParams, callback: msRest.ServiceCallback<Models.CompositeEntityExtractor[]>): void;
-  listCompositeEntities(appId: string, versionId: string, options?: Models.ModelListCompositeEntitiesOptionalParams | msRest.ServiceCallback<Models.CompositeEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.CompositeEntityExtractor[]>): Promise<Models.ModelListCompositeEntitiesResponse> {
+  listCompositeEntities(appId: string, versionId: string, options: Models.ModelListCompositeEntitiesOptionalParams, callback: msRest.ServiceCallback<any>): void;
+  listCompositeEntities(appId: string, versionId: string, options?: Models.ModelListCompositeEntitiesOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelListCompositeEntitiesResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -317,15 +317,15 @@ export class Model {
    * @param versionId The version ID.
    * @param callback The callback
    */
-  listClosedLists(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.ClosedListEntityExtractor[]>): void;
+  listClosedLists(appId: string, versionId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listClosedLists(appId: string, versionId: string, options: Models.ModelListClosedListsOptionalParams, callback: msRest.ServiceCallback<Models.ClosedListEntityExtractor[]>): void;
-  listClosedLists(appId: string, versionId: string, options?: Models.ModelListClosedListsOptionalParams | msRest.ServiceCallback<Models.ClosedListEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.ClosedListEntityExtractor[]>): Promise<Models.ModelListClosedListsResponse> {
+  listClosedLists(appId: string, versionId: string, options: Models.ModelListClosedListsOptionalParams, callback: msRest.ServiceCallback<any>): void;
+  listClosedLists(appId: string, versionId: string, options?: Models.ModelListClosedListsOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelListClosedListsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -353,7 +353,7 @@ export class Model {
    * entity extractor.
    * @param callback The callback
    */
-  addClosedList(appId: string, versionId: string, closedListModelCreateObject: Models.ClosedListModelCreateObject, callback: msRest.ServiceCallback<string>): void;
+  addClosedList(appId: string, versionId: string, closedListModelCreateObject: Models.ClosedListModelCreateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -362,8 +362,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addClosedList(appId: string, versionId: string, closedListModelCreateObject: Models.ClosedListModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addClosedList(appId: string, versionId: string, closedListModelCreateObject: Models.ClosedListModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddClosedListResponse> {
+  addClosedList(appId: string, versionId: string, closedListModelCreateObject: Models.ClosedListModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  addClosedList(appId: string, versionId: string, closedListModelCreateObject: Models.ClosedListModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelAddClosedListResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -390,7 +390,7 @@ export class Model {
    * @param prebuiltExtractorNames An array of prebuilt entity extractor names.
    * @param callback The callback
    */
-  addPrebuilt(appId: string, versionId: string, prebuiltExtractorNames: string[], callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): void;
+  addPrebuilt(appId: string, versionId: string, prebuiltExtractorNames: string[], callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -398,8 +398,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addPrebuilt(appId: string, versionId: string, prebuiltExtractorNames: string[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): void;
-  addPrebuilt(appId: string, versionId: string, prebuiltExtractorNames: string[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): Promise<Models.ModelAddPrebuiltResponse> {
+  addPrebuilt(appId: string, versionId: string, prebuiltExtractorNames: string[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  addPrebuilt(appId: string, versionId: string, prebuiltExtractorNames: string[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelAddPrebuiltResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -424,15 +424,15 @@ export class Model {
    * @param versionId The version ID.
    * @param callback The callback
    */
-  listPrebuilts(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): void;
+  listPrebuilts(appId: string, versionId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listPrebuilts(appId: string, versionId: string, options: Models.ModelListPrebuiltsOptionalParams, callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): void;
-  listPrebuilts(appId: string, versionId: string, options?: Models.ModelListPrebuiltsOptionalParams | msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): Promise<Models.ModelListPrebuiltsResponse> {
+  listPrebuilts(appId: string, versionId: string, options: Models.ModelListPrebuiltsOptionalParams, callback: msRest.ServiceCallback<any>): void;
+  listPrebuilts(appId: string, versionId: string, options?: Models.ModelListPrebuiltsOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelListPrebuiltsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -456,15 +456,15 @@ export class Model {
    * @param versionId The version ID.
    * @param callback The callback
    */
-  listPrebuiltEntities(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.AvailablePrebuiltEntityModel[]>): void;
+  listPrebuiltEntities(appId: string, versionId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listPrebuiltEntities(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailablePrebuiltEntityModel[]>): void;
-  listPrebuiltEntities(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailablePrebuiltEntityModel[]>, callback?: msRest.ServiceCallback<Models.AvailablePrebuiltEntityModel[]>): Promise<Models.ModelListPrebuiltEntitiesResponse> {
+  listPrebuiltEntities(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  listPrebuiltEntities(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelListPrebuiltEntitiesResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -488,15 +488,15 @@ export class Model {
    * @param versionId The version ID.
    * @param callback The callback
    */
-  listModels(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.ModelInfoResponse[]>): void;
+  listModels(appId: string, versionId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listModels(appId: string, versionId: string, options: Models.ModelListModelsOptionalParams, callback: msRest.ServiceCallback<Models.ModelInfoResponse[]>): void;
-  listModels(appId: string, versionId: string, options?: Models.ModelListModelsOptionalParams | msRest.ServiceCallback<Models.ModelInfoResponse[]>, callback?: msRest.ServiceCallback<Models.ModelInfoResponse[]>): Promise<Models.ModelListModelsResponse> {
+  listModels(appId: string, versionId: string, options: Models.ModelListModelsOptionalParams, callback: msRest.ServiceCallback<any>): void;
+  listModels(appId: string, versionId: string, options?: Models.ModelListModelsOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelListModelsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -522,7 +522,7 @@ export class Model {
    * @param modelId The ID (GUID) of the model.
    * @param callback The callback
    */
-  examplesMethod(appId: string, versionId: string, modelId: string, callback: msRest.ServiceCallback<Models.LabelTextObject[]>): void;
+  examplesMethod(appId: string, versionId: string, modelId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -530,8 +530,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  examplesMethod(appId: string, versionId: string, modelId: string, options: Models.ModelExamplesMethodOptionalParams, callback: msRest.ServiceCallback<Models.LabelTextObject[]>): void;
-  examplesMethod(appId: string, versionId: string, modelId: string, options?: Models.ModelExamplesMethodOptionalParams | msRest.ServiceCallback<Models.LabelTextObject[]>, callback?: msRest.ServiceCallback<Models.LabelTextObject[]>): Promise<Models.ModelExamplesMethodResponse> {
+  examplesMethod(appId: string, versionId: string, modelId: string, options: Models.ModelExamplesMethodOptionalParams, callback: msRest.ServiceCallback<any>): void;
+  examplesMethod(appId: string, versionId: string, modelId: string, options?: Models.ModelExamplesMethodOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelExamplesMethodResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -558,7 +558,7 @@ export class Model {
    * @param intentId The intent classifier ID.
    * @param callback The callback
    */
-  getIntent(appId: string, versionId: string, intentId: string, callback: msRest.ServiceCallback<Models.IntentClassifier>): void;
+  getIntent(appId: string, versionId: string, intentId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -566,8 +566,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getIntent(appId: string, versionId: string, intentId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntentClassifier>): void;
-  getIntent(appId: string, versionId: string, intentId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntentClassifier>, callback?: msRest.ServiceCallback<Models.IntentClassifier>): Promise<Models.ModelGetIntentResponse> {
+  getIntent(appId: string, versionId: string, intentId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getIntent(appId: string, versionId: string, intentId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetIntentResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -596,7 +596,7 @@ export class Model {
    * @param modelUpdateObject A model object containing the new intent classifier name.
    * @param callback The callback
    */
-  updateIntent(appId: string, versionId: string, intentId: string, modelUpdateObject: Models.ModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateIntent(appId: string, versionId: string, intentId: string, modelUpdateObject: Models.ModelUpdateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -605,8 +605,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateIntent(appId: string, versionId: string, intentId: string, modelUpdateObject: Models.ModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateIntent(appId: string, versionId: string, intentId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateIntentResponse> {
+  updateIntent(appId: string, versionId: string, intentId: string, modelUpdateObject: Models.ModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  updateIntent(appId: string, versionId: string, intentId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelUpdateIntentResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -634,7 +634,7 @@ export class Model {
    * @param intentId The intent classifier ID.
    * @param callback The callback
    */
-  deleteIntent(appId: string, versionId: string, intentId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteIntent(appId: string, versionId: string, intentId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -642,8 +642,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteIntent(appId: string, versionId: string, intentId: string, options: Models.ModelDeleteIntentOptionalParams, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteIntent(appId: string, versionId: string, intentId: string, options?: Models.ModelDeleteIntentOptionalParams | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteIntentResponse> {
+  deleteIntent(appId: string, versionId: string, intentId: string, options: Models.ModelDeleteIntentOptionalParams, callback: msRest.ServiceCallback<any>): void;
+  deleteIntent(appId: string, versionId: string, intentId: string, options?: Models.ModelDeleteIntentOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelDeleteIntentResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -670,7 +670,7 @@ export class Model {
    * @param entityId The entity extractor ID.
    * @param callback The callback
    */
-  getEntity(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityExtractor>): void;
+  getEntity(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -678,8 +678,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntity(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityExtractor>): void;
-  getEntity(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityExtractor>, callback?: msRest.ServiceCallback<Models.EntityExtractor>): Promise<Models.ModelGetEntityResponse> {
+  getEntity(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getEntity(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetEntityResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -708,7 +708,7 @@ export class Model {
    * @param modelUpdateObject A model object containing the new entity extractor name.
    * @param callback The callback
    */
-  updateEntity(appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateEntity(appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -717,8 +717,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateEntity(appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateEntity(appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateEntityResponse> {
+  updateEntity(appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  updateEntity(appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelUpdateEntityResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -746,7 +746,7 @@ export class Model {
    * @param entityId The entity extractor ID.
    * @param callback The callback
    */
-  deleteEntity(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteEntity(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -754,8 +754,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteEntity(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteEntity(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteEntityResponse> {
+  deleteEntity(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  deleteEntity(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelDeleteEntityResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -782,7 +782,7 @@ export class Model {
    * @param hEntityId The hierarchical entity extractor ID.
    * @param callback The callback
    */
-  getHierarchicalEntity(appId: string, versionId: string, hEntityId: string, callback: msRest.ServiceCallback<Models.HierarchicalEntityExtractor>): void;
+  getHierarchicalEntity(appId: string, versionId: string, hEntityId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -790,8 +790,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getHierarchicalEntity(appId: string, versionId: string, hEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HierarchicalEntityExtractor>): void;
-  getHierarchicalEntity(appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HierarchicalEntityExtractor>, callback?: msRest.ServiceCallback<Models.HierarchicalEntityExtractor>): Promise<Models.ModelGetHierarchicalEntityResponse> {
+  getHierarchicalEntity(appId: string, versionId: string, hEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getHierarchicalEntity(appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetHierarchicalEntityResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -822,7 +822,7 @@ export class Model {
    * entity.
    * @param callback The callback
    */
-  updateHierarchicalEntity(appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateHierarchicalEntity(appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -832,8 +832,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateHierarchicalEntity(appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateHierarchicalEntity(appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateHierarchicalEntityResponse> {
+  updateHierarchicalEntity(appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  updateHierarchicalEntity(appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelUpdateHierarchicalEntityResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -861,7 +861,7 @@ export class Model {
    * @param hEntityId The hierarchical entity extractor ID.
    * @param callback The callback
    */
-  deleteHierarchicalEntity(appId: string, versionId: string, hEntityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteHierarchicalEntity(appId: string, versionId: string, hEntityId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -869,8 +869,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteHierarchicalEntity(appId: string, versionId: string, hEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteHierarchicalEntity(appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteHierarchicalEntityResponse> {
+  deleteHierarchicalEntity(appId: string, versionId: string, hEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  deleteHierarchicalEntity(appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelDeleteHierarchicalEntityResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -897,7 +897,7 @@ export class Model {
    * @param cEntityId The composite entity extractor ID.
    * @param callback The callback
    */
-  getCompositeEntity(appId: string, versionId: string, cEntityId: string, callback: msRest.ServiceCallback<Models.CompositeEntityExtractor>): void;
+  getCompositeEntity(appId: string, versionId: string, cEntityId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -905,8 +905,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCompositeEntity(appId: string, versionId: string, cEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CompositeEntityExtractor>): void;
-  getCompositeEntity(appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CompositeEntityExtractor>, callback?: msRest.ServiceCallback<Models.CompositeEntityExtractor>): Promise<Models.ModelGetCompositeEntityResponse> {
+  getCompositeEntity(appId: string, versionId: string, cEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getCompositeEntity(appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetCompositeEntityResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -937,7 +937,7 @@ export class Model {
    * children.
    * @param callback The callback
    */
-  updateCompositeEntity(appId: string, versionId: string, cEntityId: string, compositeModelUpdateObject: Models.CompositeEntityModel, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateCompositeEntity(appId: string, versionId: string, cEntityId: string, compositeModelUpdateObject: Models.CompositeEntityModel, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -947,8 +947,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateCompositeEntity(appId: string, versionId: string, cEntityId: string, compositeModelUpdateObject: Models.CompositeEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateCompositeEntity(appId: string, versionId: string, cEntityId: string, compositeModelUpdateObject: Models.CompositeEntityModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateCompositeEntityResponse> {
+  updateCompositeEntity(appId: string, versionId: string, cEntityId: string, compositeModelUpdateObject: Models.CompositeEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  updateCompositeEntity(appId: string, versionId: string, cEntityId: string, compositeModelUpdateObject: Models.CompositeEntityModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelUpdateCompositeEntityResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -976,7 +976,7 @@ export class Model {
    * @param cEntityId The composite entity extractor ID.
    * @param callback The callback
    */
-  deleteCompositeEntity(appId: string, versionId: string, cEntityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteCompositeEntity(appId: string, versionId: string, cEntityId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -984,8 +984,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteCompositeEntity(appId: string, versionId: string, cEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteCompositeEntity(appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteCompositeEntityResponse> {
+  deleteCompositeEntity(appId: string, versionId: string, cEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  deleteCompositeEntity(appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelDeleteCompositeEntityResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1012,7 +1012,7 @@ export class Model {
    * @param clEntityId The closed list model ID.
    * @param callback The callback
    */
-  getClosedList(appId: string, versionId: string, clEntityId: string, callback: msRest.ServiceCallback<Models.ClosedListEntityExtractor>): void;
+  getClosedList(appId: string, versionId: string, clEntityId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -1020,8 +1020,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getClosedList(appId: string, versionId: string, clEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClosedListEntityExtractor>): void;
-  getClosedList(appId: string, versionId: string, clEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClosedListEntityExtractor>, callback?: msRest.ServiceCallback<Models.ClosedListEntityExtractor>): Promise<Models.ModelGetClosedListResponse> {
+  getClosedList(appId: string, versionId: string, clEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getClosedList(appId: string, versionId: string, clEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetClosedListResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1050,7 +1050,7 @@ export class Model {
    * @param closedListModelUpdateObject The new entity name and words list.
    * @param callback The callback
    */
-  updateClosedList(appId: string, versionId: string, clEntityId: string, closedListModelUpdateObject: Models.ClosedListModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateClosedList(appId: string, versionId: string, clEntityId: string, closedListModelUpdateObject: Models.ClosedListModelUpdateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -1059,8 +1059,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateClosedList(appId: string, versionId: string, clEntityId: string, closedListModelUpdateObject: Models.ClosedListModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateClosedList(appId: string, versionId: string, clEntityId: string, closedListModelUpdateObject: Models.ClosedListModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateClosedListResponse> {
+  updateClosedList(appId: string, versionId: string, clEntityId: string, closedListModelUpdateObject: Models.ClosedListModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  updateClosedList(appId: string, versionId: string, clEntityId: string, closedListModelUpdateObject: Models.ClosedListModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelUpdateClosedListResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1090,7 +1090,7 @@ export class Model {
    * @param closedListModelPatchObject A words list batch.
    * @param callback The callback
    */
-  patchClosedList(appId: string, versionId: string, clEntityId: string, closedListModelPatchObject: Models.ClosedListModelPatchObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  patchClosedList(appId: string, versionId: string, clEntityId: string, closedListModelPatchObject: Models.ClosedListModelPatchObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -1099,8 +1099,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  patchClosedList(appId: string, versionId: string, clEntityId: string, closedListModelPatchObject: Models.ClosedListModelPatchObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  patchClosedList(appId: string, versionId: string, clEntityId: string, closedListModelPatchObject: Models.ClosedListModelPatchObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelPatchClosedListResponse> {
+  patchClosedList(appId: string, versionId: string, clEntityId: string, closedListModelPatchObject: Models.ClosedListModelPatchObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  patchClosedList(appId: string, versionId: string, clEntityId: string, closedListModelPatchObject: Models.ClosedListModelPatchObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelPatchClosedListResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1128,7 +1128,7 @@ export class Model {
    * @param clEntityId The closed list model ID.
    * @param callback The callback
    */
-  deleteClosedList(appId: string, versionId: string, clEntityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteClosedList(appId: string, versionId: string, clEntityId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -1136,8 +1136,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteClosedList(appId: string, versionId: string, clEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteClosedList(appId: string, versionId: string, clEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteClosedListResponse> {
+  deleteClosedList(appId: string, versionId: string, clEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  deleteClosedList(appId: string, versionId: string, clEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelDeleteClosedListResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1164,7 +1164,7 @@ export class Model {
    * @param prebuiltId The prebuilt entity extractor ID.
    * @param callback The callback
    */
-  getPrebuilt(appId: string, versionId: string, prebuiltId: string, callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor>): void;
+  getPrebuilt(appId: string, versionId: string, prebuiltId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -1172,8 +1172,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPrebuilt(appId: string, versionId: string, prebuiltId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor>): void;
-  getPrebuilt(appId: string, versionId: string, prebuiltId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrebuiltEntityExtractor>, callback?: msRest.ServiceCallback<Models.PrebuiltEntityExtractor>): Promise<Models.ModelGetPrebuiltResponse> {
+  getPrebuilt(appId: string, versionId: string, prebuiltId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getPrebuilt(appId: string, versionId: string, prebuiltId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetPrebuiltResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1200,7 +1200,7 @@ export class Model {
    * @param prebuiltId The prebuilt entity extractor ID.
    * @param callback The callback
    */
-  deletePrebuilt(appId: string, versionId: string, prebuiltId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deletePrebuilt(appId: string, versionId: string, prebuiltId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -1208,8 +1208,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deletePrebuilt(appId: string, versionId: string, prebuiltId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePrebuilt(appId: string, versionId: string, prebuiltId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeletePrebuiltResponse> {
+  deletePrebuilt(appId: string, versionId: string, prebuiltId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  deletePrebuilt(appId: string, versionId: string, prebuiltId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelDeletePrebuiltResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1238,7 +1238,7 @@ export class Model {
    * @param subListId The sublist ID.
    * @param callback The callback
    */
-  deleteSubList(appId: string, versionId: string, clEntityId: string, subListId: number, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteSubList(appId: string, versionId: string, clEntityId: string, subListId: number, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -1247,8 +1247,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteSubList(appId: string, versionId: string, clEntityId: string, subListId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteSubList(appId: string, versionId: string, clEntityId: string, subListId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteSubListResponse> {
+  deleteSubList(appId: string, versionId: string, clEntityId: string, subListId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  deleteSubList(appId: string, versionId: string, clEntityId: string, subListId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelDeleteSubListResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1282,7 +1282,7 @@ export class Model {
    * the list of words.
    * @param callback The callback
    */
-  updateSubList(appId: string, versionId: string, clEntityId: string, subListId: number, wordListBaseUpdateObject: Models.WordListBaseUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateSubList(appId: string, versionId: string, clEntityId: string, subListId: number, wordListBaseUpdateObject: Models.WordListBaseUpdateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -1293,8 +1293,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateSubList(appId: string, versionId: string, clEntityId: string, subListId: number, wordListBaseUpdateObject: Models.WordListBaseUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateSubList(appId: string, versionId: string, clEntityId: string, subListId: number, wordListBaseUpdateObject: Models.WordListBaseUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateSubListResponse> {
+  updateSubList(appId: string, versionId: string, clEntityId: string, subListId: number, wordListBaseUpdateObject: Models.WordListBaseUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  updateSubList(appId: string, versionId: string, clEntityId: string, subListId: number, wordListBaseUpdateObject: Models.WordListBaseUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelUpdateSubListResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1323,7 +1323,7 @@ export class Model {
    * @param intentId The intent classifier ID.
    * @param callback The callback
    */
-  getIntentSuggestions(appId: string, versionId: string, intentId: string, callback: msRest.ServiceCallback<Models.IntentsSuggestionExample[]>): void;
+  getIntentSuggestions(appId: string, versionId: string, intentId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -1331,8 +1331,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getIntentSuggestions(appId: string, versionId: string, intentId: string, options: Models.ModelGetIntentSuggestionsOptionalParams, callback: msRest.ServiceCallback<Models.IntentsSuggestionExample[]>): void;
-  getIntentSuggestions(appId: string, versionId: string, intentId: string, options?: Models.ModelGetIntentSuggestionsOptionalParams | msRest.ServiceCallback<Models.IntentsSuggestionExample[]>, callback?: msRest.ServiceCallback<Models.IntentsSuggestionExample[]>): Promise<Models.ModelGetIntentSuggestionsResponse> {
+  getIntentSuggestions(appId: string, versionId: string, intentId: string, options: Models.ModelGetIntentSuggestionsOptionalParams, callback: msRest.ServiceCallback<any>): void;
+  getIntentSuggestions(appId: string, versionId: string, intentId: string, options?: Models.ModelGetIntentSuggestionsOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetIntentSuggestionsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1359,7 +1359,7 @@ export class Model {
    * @param entityId The target entity extractor model to enhance.
    * @param callback The callback
    */
-  getEntitySuggestions(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>): void;
+  getEntitySuggestions(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -1367,8 +1367,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntitySuggestions(appId: string, versionId: string, entityId: string, options: Models.ModelGetEntitySuggestionsOptionalParams, callback: msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>): void;
-  getEntitySuggestions(appId: string, versionId: string, entityId: string, options?: Models.ModelGetEntitySuggestionsOptionalParams | msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>, callback?: msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>): Promise<Models.ModelGetEntitySuggestionsResponse> {
+  getEntitySuggestions(appId: string, versionId: string, entityId: string, options: Models.ModelGetEntitySuggestionsOptionalParams, callback: msRest.ServiceCallback<any>): void;
+  getEntitySuggestions(appId: string, versionId: string, entityId: string, options?: Models.ModelGetEntitySuggestionsOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetEntitySuggestionsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1397,7 +1397,7 @@ export class Model {
    * @param wordListCreateObject Words list.
    * @param callback The callback
    */
-  addSubList(appId: string, versionId: string, clEntityId: string, wordListCreateObject: Models.WordListObject, callback: msRest.ServiceCallback<number>): void;
+  addSubList(appId: string, versionId: string, clEntityId: string, wordListCreateObject: Models.WordListObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -1406,8 +1406,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addSubList(appId: string, versionId: string, clEntityId: string, wordListCreateObject: Models.WordListObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<number>): void;
-  addSubList(appId: string, versionId: string, clEntityId: string, wordListCreateObject: Models.WordListObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<number>, callback?: msRest.ServiceCallback<number>): Promise<Models.ModelAddSubListResponse> {
+  addSubList(appId: string, versionId: string, clEntityId: string, wordListCreateObject: Models.WordListObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  addSubList(appId: string, versionId: string, clEntityId: string, wordListCreateObject: Models.WordListObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelAddSubListResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1435,7 +1435,7 @@ export class Model {
    * @param prebuiltDomainObject A prebuilt domain create object containing the name of the domain.
    * @param callback The callback
    */
-  addCustomPrebuiltDomain(appId: string, versionId: string, prebuiltDomainObject: Models.PrebuiltDomainCreateBaseObject, callback: msRest.ServiceCallback<string[]>): void;
+  addCustomPrebuiltDomain(appId: string, versionId: string, prebuiltDomainObject: Models.PrebuiltDomainCreateBaseObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -1443,8 +1443,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addCustomPrebuiltDomain(appId: string, versionId: string, prebuiltDomainObject: Models.PrebuiltDomainCreateBaseObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string[]>): void;
-  addCustomPrebuiltDomain(appId: string, versionId: string, prebuiltDomainObject: Models.PrebuiltDomainCreateBaseObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string[]>, callback?: msRest.ServiceCallback<string[]>): Promise<Models.ModelAddCustomPrebuiltDomainResponse> {
+  addCustomPrebuiltDomain(appId: string, versionId: string, prebuiltDomainObject: Models.PrebuiltDomainCreateBaseObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  addCustomPrebuiltDomain(appId: string, versionId: string, prebuiltDomainObject: Models.PrebuiltDomainCreateBaseObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelAddCustomPrebuiltDomainResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1473,7 +1473,7 @@ export class Model {
    * intent and the name of the domain to which this model belongs.
    * @param callback The callback
    */
-  addCustomPrebuiltIntent(appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, callback: msRest.ServiceCallback<string>): void;
+  addCustomPrebuiltIntent(appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -1482,8 +1482,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addCustomPrebuiltIntent(appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addCustomPrebuiltIntent(appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddCustomPrebuiltIntentResponse> {
+  addCustomPrebuiltIntent(appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  addCustomPrebuiltIntent(appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelAddCustomPrebuiltIntentResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1508,15 +1508,15 @@ export class Model {
    * @param versionId The version ID.
    * @param callback The callback
    */
-  listCustomPrebuiltIntents(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.IntentClassifier[]>): void;
+  listCustomPrebuiltIntents(appId: string, versionId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCustomPrebuiltIntents(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntentClassifier[]>): void;
-  listCustomPrebuiltIntents(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntentClassifier[]>, callback?: msRest.ServiceCallback<Models.IntentClassifier[]>): Promise<Models.ModelListCustomPrebuiltIntentsResponse> {
+  listCustomPrebuiltIntents(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  listCustomPrebuiltIntents(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelListCustomPrebuiltIntentsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1544,7 +1544,7 @@ export class Model {
    * entity and the name of the domain to which this model belongs.
    * @param callback The callback
    */
-  addCustomPrebuiltEntity(appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, callback: msRest.ServiceCallback<string>): void;
+  addCustomPrebuiltEntity(appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -1553,8 +1553,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addCustomPrebuiltEntity(appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addCustomPrebuiltEntity(appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddCustomPrebuiltEntityResponse> {
+  addCustomPrebuiltEntity(appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  addCustomPrebuiltEntity(appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelAddCustomPrebuiltEntityResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1579,15 +1579,15 @@ export class Model {
    * @param versionId The version ID.
    * @param callback The callback
    */
-  listCustomPrebuiltEntities(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.EntityExtractor[]>): void;
+  listCustomPrebuiltEntities(appId: string, versionId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCustomPrebuiltEntities(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityExtractor[]>): void;
-  listCustomPrebuiltEntities(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityExtractor[]>, callback?: msRest.ServiceCallback<Models.EntityExtractor[]>): Promise<Models.ModelListCustomPrebuiltEntitiesResponse> {
+  listCustomPrebuiltEntities(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  listCustomPrebuiltEntities(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelListCustomPrebuiltEntitiesResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1611,15 +1611,15 @@ export class Model {
    * @param versionId The version ID.
    * @param callback The callback
    */
-  listCustomPrebuiltModels(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.CustomPrebuiltModel[]>): void;
+  listCustomPrebuiltModels(appId: string, versionId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCustomPrebuiltModels(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CustomPrebuiltModel[]>): void;
-  listCustomPrebuiltModels(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomPrebuiltModel[]>, callback?: msRest.ServiceCallback<Models.CustomPrebuiltModel[]>): Promise<Models.ModelListCustomPrebuiltModelsResponse> {
+  listCustomPrebuiltModels(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  listCustomPrebuiltModels(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelListCustomPrebuiltModelsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1645,7 +1645,7 @@ export class Model {
    * @param domainName Domain name.
    * @param callback The callback
    */
-  deleteCustomPrebuiltDomain(appId: string, versionId: string, domainName: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteCustomPrebuiltDomain(appId: string, versionId: string, domainName: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -1653,8 +1653,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteCustomPrebuiltDomain(appId: string, versionId: string, domainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteCustomPrebuiltDomain(appId: string, versionId: string, domainName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteCustomPrebuiltDomainResponse> {
+  deleteCustomPrebuiltDomain(appId: string, versionId: string, domainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  deleteCustomPrebuiltDomain(appId: string, versionId: string, domainName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelDeleteCustomPrebuiltDomainResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1683,7 +1683,7 @@ export class Model {
    * @param hChildId The hierarchical entity extractor child ID.
    * @param callback The callback
    */
-  getHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, callback: msRest.ServiceCallback<Models.HierarchicalChildEntity>): void;
+  getHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -1692,8 +1692,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HierarchicalChildEntity>): void;
-  getHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HierarchicalChildEntity>, callback?: msRest.ServiceCallback<Models.HierarchicalChildEntity>): Promise<Models.ModelGetHierarchicalEntityChildResponse> {
+  getHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetHierarchicalEntityChildResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1727,7 +1727,7 @@ export class Model {
    * entity child.
    * @param callback The callback
    */
-  updateHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, hierarchicalChildModelUpdateObject: Models.HierarchicalChildModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, hierarchicalChildModelUpdateObject: Models.HierarchicalChildModelUpdateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -1738,8 +1738,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, hierarchicalChildModelUpdateObject: Models.HierarchicalChildModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, hierarchicalChildModelUpdateObject: Models.HierarchicalChildModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateHierarchicalEntityChildResponse> {
+  updateHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, hierarchicalChildModelUpdateObject: Models.HierarchicalChildModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  updateHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, hierarchicalChildModelUpdateObject: Models.HierarchicalChildModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelUpdateHierarchicalEntityChildResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1770,7 +1770,7 @@ export class Model {
    * @param hChildId The hierarchical entity extractor child ID.
    * @param callback The callback
    */
-  deleteHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -1779,8 +1779,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteHierarchicalEntityChildResponse> {
+  deleteHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  deleteHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelDeleteHierarchicalEntityChildResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1812,7 +1812,7 @@ export class Model {
    * hierarchical child model.
    * @param callback The callback
    */
-  addHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, callback: msRest.ServiceCallback<string>): void;
+  addHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -1822,8 +1822,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddHierarchicalEntityChildResponse> {
+  addHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  addHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelAddHierarchicalEntityChildResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1855,7 +1855,7 @@ export class Model {
    * child model.
    * @param callback The callback
    */
-  addCompositeEntityChild(appId: string, versionId: string, cEntityId: string, compositeChildModelCreateObject: Models.CompositeChildModelCreateObject, callback: msRest.ServiceCallback<string>): void;
+  addCompositeEntityChild(appId: string, versionId: string, cEntityId: string, compositeChildModelCreateObject: Models.CompositeChildModelCreateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -1865,8 +1865,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addCompositeEntityChild(appId: string, versionId: string, cEntityId: string, compositeChildModelCreateObject: Models.CompositeChildModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addCompositeEntityChild(appId: string, versionId: string, cEntityId: string, compositeChildModelCreateObject: Models.CompositeChildModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddCompositeEntityChildResponse> {
+  addCompositeEntityChild(appId: string, versionId: string, cEntityId: string, compositeChildModelCreateObject: Models.CompositeChildModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  addCompositeEntityChild(appId: string, versionId: string, cEntityId: string, compositeChildModelCreateObject: Models.CompositeChildModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelAddCompositeEntityChildResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1896,7 +1896,7 @@ export class Model {
    * @param cChildId The hierarchical entity extractor child ID.
    * @param callback The callback
    */
-  deleteCompositeEntityChild(appId: string, versionId: string, cEntityId: string, cChildId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteCompositeEntityChild(appId: string, versionId: string, cEntityId: string, cChildId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -1905,8 +1905,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteCompositeEntityChild(appId: string, versionId: string, cEntityId: string, cChildId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteCompositeEntityChild(appId: string, versionId: string, cEntityId: string, cChildId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteCompositeEntityChildResponse> {
+  deleteCompositeEntityChild(appId: string, versionId: string, cEntityId: string, cChildId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  deleteCompositeEntityChild(appId: string, versionId: string, cEntityId: string, cChildId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelDeleteCompositeEntityChildResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1932,15 +1932,15 @@ export class Model {
    * @param versionId The version ID.
    * @param callback The callback
    */
-  getRegexEntityInfos(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.RegexEntityExtractor[]>): void;
+  getRegexEntityInfos(appId: string, versionId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getRegexEntityInfos(appId: string, versionId: string, options: Models.ModelGetRegexEntityInfosOptionalParams, callback: msRest.ServiceCallback<Models.RegexEntityExtractor[]>): void;
-  getRegexEntityInfos(appId: string, versionId: string, options?: Models.ModelGetRegexEntityInfosOptionalParams | msRest.ServiceCallback<Models.RegexEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.RegexEntityExtractor[]>): Promise<Models.ModelGetRegexEntityInfosResponse> {
+  getRegexEntityInfos(appId: string, versionId: string, options: Models.ModelGetRegexEntityInfosOptionalParams, callback: msRest.ServiceCallback<any>): void;
+  getRegexEntityInfos(appId: string, versionId: string, options?: Models.ModelGetRegexEntityInfosOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetRegexEntityInfosResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1968,7 +1968,7 @@ export class Model {
    * the new regex entity extractor.
    * @param callback The callback
    */
-  createRegexEntityModel(appId: string, versionId: string, regexEntityExtractorCreateObj: Models.RegexModelCreateObject, callback: msRest.ServiceCallback<string>): void;
+  createRegexEntityModel(appId: string, versionId: string, regexEntityExtractorCreateObj: Models.RegexModelCreateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -1977,8 +1977,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createRegexEntityModel(appId: string, versionId: string, regexEntityExtractorCreateObj: Models.RegexModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createRegexEntityModel(appId: string, versionId: string, regexEntityExtractorCreateObj: Models.RegexModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateRegexEntityModelResponse> {
+  createRegexEntityModel(appId: string, versionId: string, regexEntityExtractorCreateObj: Models.RegexModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  createRegexEntityModel(appId: string, versionId: string, regexEntityExtractorCreateObj: Models.RegexModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelCreateRegexEntityModelResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2003,15 +2003,15 @@ export class Model {
    * @param versionId The version ID.
    * @param callback The callback
    */
-  getPatternAnyEntityInfos(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>): void;
+  getPatternAnyEntityInfos(appId: string, versionId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPatternAnyEntityInfos(appId: string, versionId: string, options: Models.ModelGetPatternAnyEntityInfosOptionalParams, callback: msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>): void;
-  getPatternAnyEntityInfos(appId: string, versionId: string, options?: Models.ModelGetPatternAnyEntityInfosOptionalParams | msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>): Promise<Models.ModelGetPatternAnyEntityInfosResponse> {
+  getPatternAnyEntityInfos(appId: string, versionId: string, options: Models.ModelGetPatternAnyEntityInfosOptionalParams, callback: msRest.ServiceCallback<any>): void;
+  getPatternAnyEntityInfos(appId: string, versionId: string, options?: Models.ModelGetPatternAnyEntityInfosOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetPatternAnyEntityInfosResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2039,7 +2039,7 @@ export class Model {
    * Pattern.Any entity extractor.
    * @param callback The callback
    */
-  createPatternAnyEntityModel(appId: string, versionId: string, extractorCreateObject: Models.PatternAnyModelCreateObject, callback: msRest.ServiceCallback<string>): void;
+  createPatternAnyEntityModel(appId: string, versionId: string, extractorCreateObject: Models.PatternAnyModelCreateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2048,8 +2048,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createPatternAnyEntityModel(appId: string, versionId: string, extractorCreateObject: Models.PatternAnyModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createPatternAnyEntityModel(appId: string, versionId: string, extractorCreateObject: Models.PatternAnyModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreatePatternAnyEntityModelResponse> {
+  createPatternAnyEntityModel(appId: string, versionId: string, extractorCreateObject: Models.PatternAnyModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  createPatternAnyEntityModel(appId: string, versionId: string, extractorCreateObject: Models.PatternAnyModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelCreatePatternAnyEntityModelResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2076,7 +2076,7 @@ export class Model {
    * @param entityId entity Id
    * @param callback The callback
    */
-  getEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  getEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2084,8 +2084,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetEntityRolesResponse> {
+  getEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2114,7 +2114,7 @@ export class Model {
    * @param entityRoleCreateObject An entity role object containing the name of role.
    * @param callback The callback
    */
-  createEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
+  createEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2123,8 +2123,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateEntityRoleResponse> {
+  createEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  createEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelCreateEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2152,7 +2152,7 @@ export class Model {
    * @param entityId entity Id
    * @param callback The callback
    */
-  getPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  getPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2160,8 +2160,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetPrebuiltEntityRolesResponse> {
+  getPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetPrebuiltEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2190,7 +2190,7 @@ export class Model {
    * @param entityRoleCreateObject An entity role object containing the name of role.
    * @param callback The callback
    */
-  createPrebuiltEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
+  createPrebuiltEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2199,8 +2199,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createPrebuiltEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createPrebuiltEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreatePrebuiltEntityRoleResponse> {
+  createPrebuiltEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  createPrebuiltEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelCreatePrebuiltEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2228,7 +2228,7 @@ export class Model {
    * @param entityId entity Id
    * @param callback The callback
    */
-  getClosedListEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  getClosedListEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2236,8 +2236,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getClosedListEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getClosedListEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetClosedListEntityRolesResponse> {
+  getClosedListEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getClosedListEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetClosedListEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2266,7 +2266,7 @@ export class Model {
    * @param entityRoleCreateObject An entity role object containing the name of role.
    * @param callback The callback
    */
-  createClosedListEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
+  createClosedListEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2275,8 +2275,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createClosedListEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createClosedListEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateClosedListEntityRoleResponse> {
+  createClosedListEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  createClosedListEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelCreateClosedListEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2304,7 +2304,7 @@ export class Model {
    * @param entityId entity Id
    * @param callback The callback
    */
-  getRegexEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  getRegexEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2312,8 +2312,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getRegexEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getRegexEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetRegexEntityRolesResponse> {
+  getRegexEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getRegexEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetRegexEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2342,7 +2342,7 @@ export class Model {
    * @param entityRoleCreateObject An entity role object containing the name of role.
    * @param callback The callback
    */
-  createRegexEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
+  createRegexEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2351,8 +2351,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createRegexEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createRegexEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateRegexEntityRoleResponse> {
+  createRegexEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  createRegexEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelCreateRegexEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2380,7 +2380,7 @@ export class Model {
    * @param cEntityId The composite entity extractor ID.
    * @param callback The callback
    */
-  getCompositeEntityRoles(appId: string, versionId: string, cEntityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  getCompositeEntityRoles(appId: string, versionId: string, cEntityId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2388,8 +2388,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCompositeEntityRoles(appId: string, versionId: string, cEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getCompositeEntityRoles(appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetCompositeEntityRolesResponse> {
+  getCompositeEntityRoles(appId: string, versionId: string, cEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getCompositeEntityRoles(appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetCompositeEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2418,7 +2418,7 @@ export class Model {
    * @param entityRoleCreateObject An entity role object containing the name of role.
    * @param callback The callback
    */
-  createCompositeEntityRole(appId: string, versionId: string, cEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
+  createCompositeEntityRole(appId: string, versionId: string, cEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2427,8 +2427,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createCompositeEntityRole(appId: string, versionId: string, cEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createCompositeEntityRole(appId: string, versionId: string, cEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateCompositeEntityRoleResponse> {
+  createCompositeEntityRole(appId: string, versionId: string, cEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  createCompositeEntityRole(appId: string, versionId: string, cEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelCreateCompositeEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2456,7 +2456,7 @@ export class Model {
    * @param entityId entity Id
    * @param callback The callback
    */
-  getPatternAnyEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  getPatternAnyEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2464,8 +2464,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPatternAnyEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getPatternAnyEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetPatternAnyEntityRolesResponse> {
+  getPatternAnyEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getPatternAnyEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetPatternAnyEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2494,7 +2494,7 @@ export class Model {
    * @param entityRoleCreateObject An entity role object containing the name of role.
    * @param callback The callback
    */
-  createPatternAnyEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
+  createPatternAnyEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2503,8 +2503,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createPatternAnyEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createPatternAnyEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreatePatternAnyEntityRoleResponse> {
+  createPatternAnyEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  createPatternAnyEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelCreatePatternAnyEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2532,7 +2532,7 @@ export class Model {
    * @param hEntityId The hierarchical entity extractor ID.
    * @param callback The callback
    */
-  getHierarchicalEntityRoles(appId: string, versionId: string, hEntityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  getHierarchicalEntityRoles(appId: string, versionId: string, hEntityId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2540,8 +2540,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getHierarchicalEntityRoles(appId: string, versionId: string, hEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getHierarchicalEntityRoles(appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetHierarchicalEntityRolesResponse> {
+  getHierarchicalEntityRoles(appId: string, versionId: string, hEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getHierarchicalEntityRoles(appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetHierarchicalEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2570,7 +2570,7 @@ export class Model {
    * @param entityRoleCreateObject An entity role object containing the name of role.
    * @param callback The callback
    */
-  createHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
+  createHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2579,8 +2579,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateHierarchicalEntityRoleResponse> {
+  createHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  createHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelCreateHierarchicalEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2608,7 +2608,7 @@ export class Model {
    * @param entityId entity Id
    * @param callback The callback
    */
-  getCustomPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  getCustomPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2616,8 +2616,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCustomPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getCustomPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetCustomPrebuiltEntityRolesResponse> {
+  getCustomPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getCustomPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetCustomPrebuiltEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2646,7 +2646,7 @@ export class Model {
    * @param entityRoleCreateObject An entity role object containing the name of role.
    * @param callback The callback
    */
-  createCustomPrebuiltEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
+  createCustomPrebuiltEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2655,8 +2655,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createCustomPrebuiltEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createCustomPrebuiltEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateCustomPrebuiltEntityRoleResponse> {
+  createCustomPrebuiltEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  createCustomPrebuiltEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelCreateCustomPrebuiltEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2684,7 +2684,7 @@ export class Model {
    * @param entityId The Pattern.Any entity id.
    * @param callback The callback
    */
-  getExplicitList(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.ExplicitListItem[]>): void;
+  getExplicitList(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2692,8 +2692,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getExplicitList(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExplicitListItem[]>): void;
-  getExplicitList(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExplicitListItem[]>, callback?: msRest.ServiceCallback<Models.ExplicitListItem[]>): Promise<Models.ModelGetExplicitListResponse> {
+  getExplicitList(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getExplicitList(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetExplicitListResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2722,7 +2722,7 @@ export class Model {
    * @param item The new explicit list item.
    * @param callback The callback
    */
-  addExplicitListItem(appId: string, versionId: string, entityId: string, item: Models.ExplicitListItemCreateObject, callback: msRest.ServiceCallback<number>): void;
+  addExplicitListItem(appId: string, versionId: string, entityId: string, item: Models.ExplicitListItemCreateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2731,8 +2731,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addExplicitListItem(appId: string, versionId: string, entityId: string, item: Models.ExplicitListItemCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<number>): void;
-  addExplicitListItem(appId: string, versionId: string, entityId: string, item: Models.ExplicitListItemCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<number>, callback?: msRest.ServiceCallback<number>): Promise<Models.ModelAddExplicitListItemResponse> {
+  addExplicitListItem(appId: string, versionId: string, entityId: string, item: Models.ExplicitListItemCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  addExplicitListItem(appId: string, versionId: string, entityId: string, item: Models.ExplicitListItemCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelAddExplicitListItemResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2760,7 +2760,7 @@ export class Model {
    * @param regexEntityId The regex entity model ID.
    * @param callback The callback
    */
-  getRegexEntityEntityInfo(appId: string, versionId: string, regexEntityId: string, callback: msRest.ServiceCallback<Models.RegexEntityExtractor>): void;
+  getRegexEntityEntityInfo(appId: string, versionId: string, regexEntityId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2768,8 +2768,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getRegexEntityEntityInfo(appId: string, versionId: string, regexEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegexEntityExtractor>): void;
-  getRegexEntityEntityInfo(appId: string, versionId: string, regexEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegexEntityExtractor>, callback?: msRest.ServiceCallback<Models.RegexEntityExtractor>): Promise<Models.ModelGetRegexEntityEntityInfoResponse> {
+  getRegexEntityEntityInfo(appId: string, versionId: string, regexEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getRegexEntityEntityInfo(appId: string, versionId: string, regexEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetRegexEntityEntityInfoResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2782,7 +2782,7 @@ export class Model {
   }
 
   /**
-   * @summary Updates the regex entity model .
+   * @summary Updates the regex entity model.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param regexEntityId The regex entity extractor ID.
@@ -2798,7 +2798,7 @@ export class Model {
    * @param regexEntityUpdateObject An object containing the new entity name and regex pattern.
    * @param callback The callback
    */
-  updateRegexEntityModel(appId: string, versionId: string, regexEntityId: string, regexEntityUpdateObject: Models.RegexModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateRegexEntityModel(appId: string, versionId: string, regexEntityId: string, regexEntityUpdateObject: Models.RegexModelUpdateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2807,8 +2807,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateRegexEntityModel(appId: string, versionId: string, regexEntityId: string, regexEntityUpdateObject: Models.RegexModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateRegexEntityModel(appId: string, versionId: string, regexEntityId: string, regexEntityUpdateObject: Models.RegexModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateRegexEntityModelResponse> {
+  updateRegexEntityModel(appId: string, versionId: string, regexEntityId: string, regexEntityUpdateObject: Models.RegexModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  updateRegexEntityModel(appId: string, versionId: string, regexEntityId: string, regexEntityUpdateObject: Models.RegexModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelUpdateRegexEntityModelResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2836,7 +2836,7 @@ export class Model {
    * @param regexEntityId The regex entity extractor ID.
    * @param callback The callback
    */
-  deleteRegexEntityModel(appId: string, versionId: string, regexEntityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteRegexEntityModel(appId: string, versionId: string, regexEntityId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2844,8 +2844,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteRegexEntityModel(appId: string, versionId: string, regexEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteRegexEntityModel(appId: string, versionId: string, regexEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteRegexEntityModelResponse> {
+  deleteRegexEntityModel(appId: string, versionId: string, regexEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  deleteRegexEntityModel(appId: string, versionId: string, regexEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelDeleteRegexEntityModelResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2872,7 +2872,7 @@ export class Model {
    * @param entityId The entity extractor ID.
    * @param callback The callback
    */
-  getPatternAnyEntityInfo(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.PatternAnyEntityExtractor>): void;
+  getPatternAnyEntityInfo(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2880,8 +2880,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPatternAnyEntityInfo(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternAnyEntityExtractor>): void;
-  getPatternAnyEntityInfo(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PatternAnyEntityExtractor>, callback?: msRest.ServiceCallback<Models.PatternAnyEntityExtractor>): Promise<Models.ModelGetPatternAnyEntityInfoResponse> {
+  getPatternAnyEntityInfo(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getPatternAnyEntityInfo(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetPatternAnyEntityInfoResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2910,7 +2910,7 @@ export class Model {
    * @param patternAnyUpdateObject An object containing the explicit list of the Pattern.Any entity.
    * @param callback The callback
    */
-  updatePatternAnyEntityModel(appId: string, versionId: string, entityId: string, patternAnyUpdateObject: Models.PatternAnyModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updatePatternAnyEntityModel(appId: string, versionId: string, entityId: string, patternAnyUpdateObject: Models.PatternAnyModelUpdateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2919,8 +2919,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updatePatternAnyEntityModel(appId: string, versionId: string, entityId: string, patternAnyUpdateObject: Models.PatternAnyModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updatePatternAnyEntityModel(appId: string, versionId: string, entityId: string, patternAnyUpdateObject: Models.PatternAnyModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdatePatternAnyEntityModelResponse> {
+  updatePatternAnyEntityModel(appId: string, versionId: string, entityId: string, patternAnyUpdateObject: Models.PatternAnyModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  updatePatternAnyEntityModel(appId: string, versionId: string, entityId: string, patternAnyUpdateObject: Models.PatternAnyModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelUpdatePatternAnyEntityModelResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2948,7 +2948,7 @@ export class Model {
    * @param entityId The Pattern.Any entity extractor ID.
    * @param callback The callback
    */
-  deletePatternAnyEntityModel(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deletePatternAnyEntityModel(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2956,8 +2956,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deletePatternAnyEntityModel(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePatternAnyEntityModel(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeletePatternAnyEntityModelResponse> {
+  deletePatternAnyEntityModel(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  deletePatternAnyEntityModel(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelDeletePatternAnyEntityModelResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2986,7 +2986,7 @@ export class Model {
    * @param roleId entity role ID.
    * @param callback The callback
    */
-  getEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
+  getEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2995,8 +2995,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
-  getEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetEntityRoleResponse> {
+  getEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -3028,7 +3028,7 @@ export class Model {
    * @param entityRoleUpdateObject The new entity role.
    * @param callback The callback
    */
-  updateEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -3038,8 +3038,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateEntityRoleResponse> {
+  updateEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  updateEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelUpdateEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -3070,7 +3070,7 @@ export class Model {
    * @param roleId The entity role Id.
    * @param callback The callback
    */
-  deleteEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -3079,8 +3079,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteEntityRoleResponse> {
+  deleteEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  deleteEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelDeleteEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -3110,7 +3110,7 @@ export class Model {
    * @param roleId entity role ID.
    * @param callback The callback
    */
-  getPrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
+  getPrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -3119,8 +3119,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
-  getPrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetPrebuiltEntityRoleResponse> {
+  getPrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getPrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetPrebuiltEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -3152,7 +3152,7 @@ export class Model {
    * @param entityRoleUpdateObject The new entity role.
    * @param callback The callback
    */
-  updatePrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updatePrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -3162,8 +3162,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updatePrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updatePrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdatePrebuiltEntityRoleResponse> {
+  updatePrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  updatePrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelUpdatePrebuiltEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -3194,7 +3194,7 @@ export class Model {
    * @param roleId The entity role Id.
    * @param callback The callback
    */
-  deletePrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deletePrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -3203,8 +3203,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deletePrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeletePrebuiltEntityRoleResponse> {
+  deletePrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  deletePrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelDeletePrebuiltEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -3234,7 +3234,7 @@ export class Model {
    * @param roleId entity role ID.
    * @param callback The callback
    */
-  getClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
+  getClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -3243,8 +3243,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
-  getClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetClosedListEntityRoleResponse> {
+  getClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetClosedListEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -3276,7 +3276,7 @@ export class Model {
    * @param entityRoleUpdateObject The new entity role.
    * @param callback The callback
    */
-  updateClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -3286,8 +3286,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateClosedListEntityRoleResponse> {
+  updateClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  updateClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelUpdateClosedListEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -3318,7 +3318,7 @@ export class Model {
    * @param roleId The entity role Id.
    * @param callback The callback
    */
-  deleteClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -3327,8 +3327,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteClosedListEntityRoleResponse> {
+  deleteClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  deleteClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelDeleteClosedListEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -3358,7 +3358,7 @@ export class Model {
    * @param roleId entity role ID.
    * @param callback The callback
    */
-  getRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
+  getRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -3367,8 +3367,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
-  getRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetRegexEntityRoleResponse> {
+  getRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetRegexEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -3400,7 +3400,7 @@ export class Model {
    * @param entityRoleUpdateObject The new entity role.
    * @param callback The callback
    */
-  updateRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -3410,8 +3410,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateRegexEntityRoleResponse> {
+  updateRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  updateRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelUpdateRegexEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -3442,7 +3442,7 @@ export class Model {
    * @param roleId The entity role Id.
    * @param callback The callback
    */
-  deleteRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -3451,8 +3451,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteRegexEntityRoleResponse> {
+  deleteRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  deleteRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelDeleteRegexEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -3482,7 +3482,7 @@ export class Model {
    * @param roleId entity role ID.
    * @param callback The callback
    */
-  getCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
+  getCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -3491,8 +3491,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
-  getCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetCompositeEntityRoleResponse> {
+  getCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetCompositeEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -3524,7 +3524,7 @@ export class Model {
    * @param entityRoleUpdateObject The new entity role.
    * @param callback The callback
    */
-  updateCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -3534,8 +3534,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateCompositeEntityRoleResponse> {
+  updateCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  updateCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelUpdateCompositeEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -3566,7 +3566,7 @@ export class Model {
    * @param roleId The entity role Id.
    * @param callback The callback
    */
-  deleteCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -3575,8 +3575,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteCompositeEntityRoleResponse> {
+  deleteCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  deleteCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelDeleteCompositeEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -3606,7 +3606,7 @@ export class Model {
    * @param roleId entity role ID.
    * @param callback The callback
    */
-  getPatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
+  getPatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -3615,8 +3615,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
-  getPatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetPatternAnyEntityRoleResponse> {
+  getPatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getPatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetPatternAnyEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -3648,7 +3648,7 @@ export class Model {
    * @param entityRoleUpdateObject The new entity role.
    * @param callback The callback
    */
-  updatePatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updatePatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -3658,8 +3658,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updatePatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updatePatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdatePatternAnyEntityRoleResponse> {
+  updatePatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  updatePatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelUpdatePatternAnyEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -3690,7 +3690,7 @@ export class Model {
    * @param roleId The entity role Id.
    * @param callback The callback
    */
-  deletePatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deletePatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -3699,8 +3699,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deletePatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeletePatternAnyEntityRoleResponse> {
+  deletePatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  deletePatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelDeletePatternAnyEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -3730,7 +3730,7 @@ export class Model {
    * @param roleId entity role ID.
    * @param callback The callback
    */
-  getHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
+  getHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -3739,8 +3739,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
-  getHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetHierarchicalEntityRoleResponse> {
+  getHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetHierarchicalEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -3772,7 +3772,7 @@ export class Model {
    * @param entityRoleUpdateObject The new entity role.
    * @param callback The callback
    */
-  updateHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -3782,8 +3782,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateHierarchicalEntityRoleResponse> {
+  updateHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  updateHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelUpdateHierarchicalEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -3814,7 +3814,7 @@ export class Model {
    * @param roleId The entity role Id.
    * @param callback The callback
    */
-  deleteHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -3823,8 +3823,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteHierarchicalEntityRoleResponse> {
+  deleteHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  deleteHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelDeleteHierarchicalEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -3854,7 +3854,7 @@ export class Model {
    * @param roleId entity role ID.
    * @param callback The callback
    */
-  getCustomEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
+  getCustomEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -3863,8 +3863,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCustomEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
-  getCustomEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetCustomEntityRoleResponse> {
+  getCustomEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getCustomEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetCustomEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -3896,7 +3896,7 @@ export class Model {
    * @param entityRoleUpdateObject The new entity role.
    * @param callback The callback
    */
-  updateCustomPrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateCustomPrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -3906,8 +3906,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateCustomPrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateCustomPrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateCustomPrebuiltEntityRoleResponse> {
+  updateCustomPrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  updateCustomPrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelUpdateCustomPrebuiltEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -3938,7 +3938,7 @@ export class Model {
    * @param roleId The entity role Id.
    * @param callback The callback
    */
-  deleteCustomEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteCustomEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -3947,8 +3947,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteCustomEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteCustomEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteCustomEntityRoleResponse> {
+  deleteCustomEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  deleteCustomEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelDeleteCustomEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -3978,7 +3978,7 @@ export class Model {
    * @param itemId The explicit list item Id.
    * @param callback The callback
    */
-  getExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, callback: msRest.ServiceCallback<Models.ExplicitListItem>): void;
+  getExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -3987,8 +3987,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExplicitListItem>): void;
-  getExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExplicitListItem>, callback?: msRest.ServiceCallback<Models.ExplicitListItem>): Promise<Models.ModelGetExplicitListItemResponse> {
+  getExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelGetExplicitListItemResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -4020,7 +4020,7 @@ export class Model {
    * @param item The new explicit list item.
    * @param callback The callback
    */
-  updateExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, item: Models.ExplicitListItemUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, item: Models.ExplicitListItemUpdateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -4030,8 +4030,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, item: Models.ExplicitListItemUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, item: Models.ExplicitListItemUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateExplicitListItemResponse> {
+  updateExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, item: Models.ExplicitListItemUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  updateExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, item: Models.ExplicitListItemUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelUpdateExplicitListItemResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -4062,7 +4062,7 @@ export class Model {
    * @param itemId The explicit list item which will be deleted.
    * @param callback The callback
    */
-  deleteExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -4071,8 +4071,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteExplicitListItemResponse> {
+  deleteExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  deleteExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ModelDeleteExplicitListItemResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -4096,6 +4096,9 @@ const addIntentOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "intentCreateObject",
     mapper: {
@@ -4111,6 +4114,18 @@ const addIntentOperationSpec: msRest.OperationSpec = {
           name: "Uuid"
         }
       }
+    },
+    400: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
     },
     default: {}
   },
@@ -4129,6 +4144,9 @@ const listIntentsOperationSpec: msRest.OperationSpec = {
     Parameters.skip,
     Parameters.take
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -4144,9 +4162,19 @@ const listIntentsOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4158,6 +4186,9 @@ const addEntityOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "modelCreateObject",
@@ -4175,9 +4206,19 @@ const addEntityOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4194,6 +4235,9 @@ const listEntitiesOperationSpec: msRest.OperationSpec = {
     Parameters.skip,
     Parameters.take
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -4209,9 +4253,19 @@ const listEntitiesOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4223,6 +4277,9 @@ const addHierarchicalEntityOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "hierarchicalModelCreateObject",
@@ -4240,9 +4297,19 @@ const addHierarchicalEntityOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4259,6 +4326,9 @@ const listHierarchicalEntitiesOperationSpec: msRest.OperationSpec = {
     Parameters.skip,
     Parameters.take
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -4274,9 +4344,19 @@ const listHierarchicalEntitiesOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4288,6 +4368,9 @@ const addCompositeEntityOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "compositeModelCreateObject",
@@ -4305,9 +4388,19 @@ const addCompositeEntityOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4324,6 +4417,9 @@ const listCompositeEntitiesOperationSpec: msRest.OperationSpec = {
     Parameters.skip,
     Parameters.take
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -4339,9 +4435,19 @@ const listCompositeEntitiesOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4358,6 +4464,9 @@ const listClosedListsOperationSpec: msRest.OperationSpec = {
     Parameters.skip,
     Parameters.take
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -4373,9 +4482,19 @@ const listClosedListsOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4387,6 +4506,9 @@ const addClosedListOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "closedListModelCreateObject",
@@ -4404,9 +4526,19 @@ const addClosedListOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4418,6 +4550,9 @@ const addPrebuiltOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "prebuiltExtractorNames",
@@ -4449,9 +4584,19 @@ const addPrebuiltOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4468,6 +4613,9 @@ const listPrebuiltsOperationSpec: msRest.OperationSpec = {
     Parameters.skip,
     Parameters.take
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -4483,9 +4631,19 @@ const listPrebuiltsOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4497,6 +4655,9 @@ const listPrebuiltEntitiesOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {
@@ -4513,9 +4674,19 @@ const listPrebuiltEntitiesOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4532,6 +4703,9 @@ const listModelsOperationSpec: msRest.OperationSpec = {
     Parameters.skip,
     Parameters.take
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -4547,9 +4721,19 @@ const listModelsOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4567,6 +4751,9 @@ const examplesMethodOperationSpec: msRest.OperationSpec = {
     Parameters.skip,
     Parameters.take
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -4582,9 +4769,19 @@ const examplesMethodOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4598,13 +4795,26 @@ const getIntentOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.intentId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.IntentClassifier
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4618,6 +4828,9 @@ const updateIntentOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.intentId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "modelUpdateObject",
     mapper: {
@@ -4629,9 +4842,19 @@ const updateIntentOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4648,13 +4871,26 @@ const deleteIntentOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.deleteUtterances
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4668,13 +4904,26 @@ const getEntityOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.EntityExtractor
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4688,6 +4937,9 @@ const updateEntityOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "modelUpdateObject",
     mapper: {
@@ -4699,9 +4951,19 @@ const updateEntityOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4715,13 +4977,26 @@ const deleteEntityOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4735,13 +5010,26 @@ const getHierarchicalEntityOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.hEntityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.HierarchicalEntityExtractor
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4755,6 +5043,9 @@ const updateHierarchicalEntityOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.hEntityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "hierarchicalModelUpdateObject",
     mapper: {
@@ -4766,9 +5057,19 @@ const updateHierarchicalEntityOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4782,13 +5083,26 @@ const deleteHierarchicalEntityOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.hEntityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4802,13 +5116,26 @@ const getCompositeEntityOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.cEntityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CompositeEntityExtractor
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4822,6 +5149,9 @@ const updateCompositeEntityOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.cEntityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "compositeModelUpdateObject",
     mapper: {
@@ -4833,9 +5163,19 @@ const updateCompositeEntityOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4849,13 +5189,26 @@ const deleteCompositeEntityOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.cEntityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4869,13 +5222,26 @@ const getClosedListOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.clEntityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.ClosedListEntityExtractor
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4889,6 +5255,9 @@ const updateClosedListOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.clEntityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "closedListModelUpdateObject",
     mapper: {
@@ -4900,9 +5269,19 @@ const updateClosedListOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4916,6 +5295,9 @@ const patchClosedListOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.clEntityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "closedListModelPatchObject",
     mapper: {
@@ -4927,9 +5309,19 @@ const patchClosedListOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4943,13 +5335,26 @@ const deleteClosedListOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.clEntityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4963,13 +5368,26 @@ const getPrebuiltOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.prebuiltId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.PrebuiltEntityExtractor
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -4983,13 +5401,26 @@ const deletePrebuiltOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.prebuiltId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5004,13 +5435,26 @@ const deleteSubListOperationSpec: msRest.OperationSpec = {
     Parameters.clEntityId,
     Parameters.subListId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5025,6 +5469,9 @@ const updateSubListOperationSpec: msRest.OperationSpec = {
     Parameters.clEntityId,
     Parameters.subListId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "wordListBaseUpdateObject",
     mapper: {
@@ -5036,9 +5483,19 @@ const updateSubListOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5055,6 +5512,9 @@ const getIntentSuggestionsOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.take
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -5070,9 +5530,19 @@ const getIntentSuggestionsOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5089,6 +5559,9 @@ const getEntitySuggestionsOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.take
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -5104,9 +5577,19 @@ const getEntitySuggestionsOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5119,6 +5602,9 @@ const addSubListOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.clEntityId
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "wordListCreateObject",
@@ -5136,9 +5622,19 @@ const addSubListOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5150,6 +5646,9 @@ const addCustomPrebuiltDomainOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "prebuiltDomainObject",
@@ -5172,9 +5671,19 @@ const addCustomPrebuiltDomainOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5186,6 +5695,9 @@ const addCustomPrebuiltIntentOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "prebuiltDomainModelCreateObject",
@@ -5203,9 +5715,19 @@ const addCustomPrebuiltIntentOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5217,6 +5739,9 @@ const listCustomPrebuiltIntentsOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {
@@ -5233,9 +5758,19 @@ const listCustomPrebuiltIntentsOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5247,6 +5782,9 @@ const addCustomPrebuiltEntityOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "prebuiltDomainModelCreateObject",
@@ -5264,9 +5802,19 @@ const addCustomPrebuiltEntityOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5278,6 +5826,9 @@ const listCustomPrebuiltEntitiesOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {
@@ -5294,9 +5845,19 @@ const listCustomPrebuiltEntitiesOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5308,6 +5869,9 @@ const listCustomPrebuiltModelsOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {
@@ -5324,9 +5888,19 @@ const listCustomPrebuiltModelsOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5340,13 +5914,26 @@ const deleteCustomPrebuiltDomainOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.domainName
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5361,13 +5948,26 @@ const getHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
     Parameters.hEntityId,
     Parameters.hChildId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.HierarchicalChildEntity
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5382,6 +5982,9 @@ const updateHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
     Parameters.hEntityId,
     Parameters.hChildId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "hierarchicalChildModelUpdateObject",
     mapper: {
@@ -5393,9 +5996,19 @@ const updateHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5410,13 +6023,26 @@ const deleteHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
     Parameters.hEntityId,
     Parameters.hChildId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5429,6 +6055,9 @@ const addHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.hEntityId
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "hierarchicalChildModelCreateObject",
@@ -5446,9 +6075,19 @@ const addHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5461,6 +6100,9 @@ const addCompositeEntityChildOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.cEntityId
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "compositeChildModelCreateObject",
@@ -5478,9 +6120,19 @@ const addCompositeEntityChildOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5495,13 +6147,26 @@ const deleteCompositeEntityChildOperationSpec: msRest.OperationSpec = {
     Parameters.cEntityId,
     Parameters.cChildId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5518,6 +6183,9 @@ const getRegexEntityInfosOperationSpec: msRest.OperationSpec = {
     Parameters.skip,
     Parameters.take
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -5533,9 +6201,19 @@ const getRegexEntityInfosOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5547,6 +6225,9 @@ const createRegexEntityModelOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "regexEntityExtractorCreateObj",
@@ -5564,9 +6245,19 @@ const createRegexEntityModelOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5583,6 +6274,9 @@ const getPatternAnyEntityInfosOperationSpec: msRest.OperationSpec = {
     Parameters.skip,
     Parameters.take
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -5598,9 +6292,19 @@ const getPatternAnyEntityInfosOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5612,6 +6316,9 @@ const createPatternAnyEntityModelOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "extractorCreateObject",
@@ -5629,9 +6336,19 @@ const createPatternAnyEntityModelOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5645,6 +6362,9 @@ const getEntityRolesOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -5660,9 +6380,19 @@ const getEntityRolesOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5676,6 +6406,9 @@ const createEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "entityRoleCreateObject",
     mapper: {
@@ -5692,9 +6425,19 @@ const createEntityRoleOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5708,6 +6451,9 @@ const getPrebuiltEntityRolesOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -5723,9 +6469,19 @@ const getPrebuiltEntityRolesOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5739,6 +6495,9 @@ const createPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "entityRoleCreateObject",
     mapper: {
@@ -5755,9 +6514,19 @@ const createPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5771,6 +6540,9 @@ const getClosedListEntityRolesOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -5786,9 +6558,19 @@ const getClosedListEntityRolesOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5802,6 +6584,9 @@ const createClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "entityRoleCreateObject",
     mapper: {
@@ -5818,9 +6603,19 @@ const createClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5834,6 +6629,9 @@ const getRegexEntityRolesOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -5849,9 +6647,19 @@ const getRegexEntityRolesOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5865,6 +6673,9 @@ const createRegexEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "entityRoleCreateObject",
     mapper: {
@@ -5881,9 +6692,19 @@ const createRegexEntityRoleOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5897,6 +6718,9 @@ const getCompositeEntityRolesOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.cEntityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -5912,9 +6736,19 @@ const getCompositeEntityRolesOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5928,6 +6762,9 @@ const createCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.cEntityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "entityRoleCreateObject",
     mapper: {
@@ -5944,9 +6781,19 @@ const createCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5960,6 +6807,9 @@ const getPatternAnyEntityRolesOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -5975,9 +6825,19 @@ const getPatternAnyEntityRolesOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -5991,6 +6851,9 @@ const createPatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "entityRoleCreateObject",
     mapper: {
@@ -6007,9 +6870,19 @@ const createPatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6023,6 +6896,9 @@ const getHierarchicalEntityRolesOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.hEntityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -6038,9 +6914,19 @@ const getHierarchicalEntityRolesOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6054,6 +6940,9 @@ const createHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.hEntityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "entityRoleCreateObject",
     mapper: {
@@ -6070,9 +6959,19 @@ const createHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6085,6 +6984,9 @@ const getCustomPrebuiltEntityRolesOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {
@@ -6101,9 +7003,19 @@ const getCustomPrebuiltEntityRolesOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6116,6 +7028,9 @@ const createCustomPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "entityRoleCreateObject",
@@ -6133,9 +7048,19 @@ const createCustomPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6148,6 +7073,9 @@ const getExplicitListOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {
@@ -6164,9 +7092,19 @@ const getExplicitListOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6179,6 +7117,9 @@ const addExplicitListItemOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "item",
@@ -6196,9 +7137,19 @@ const addExplicitListItemOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6212,13 +7163,26 @@ const getRegexEntityEntityInfoOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.regexEntityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.RegexEntityExtractor
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6232,6 +7196,9 @@ const updateRegexEntityModelOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.regexEntityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "regexEntityUpdateObject",
     mapper: {
@@ -6243,9 +7210,19 @@ const updateRegexEntityModelOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6259,13 +7236,26 @@ const deleteRegexEntityModelOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.regexEntityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6279,13 +7269,26 @@ const getPatternAnyEntityInfoOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.PatternAnyEntityExtractor
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6299,6 +7302,9 @@ const updatePatternAnyEntityModelOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "patternAnyUpdateObject",
     mapper: {
@@ -6310,9 +7316,19 @@ const updatePatternAnyEntityModelOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6326,13 +7342,26 @@ const deletePatternAnyEntityModelOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6347,13 +7376,26 @@ const getEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.EntityRole
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6368,6 +7410,9 @@ const updateEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "entityRoleUpdateObject",
     mapper: {
@@ -6379,9 +7424,19 @@ const updateEntityRoleOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6396,13 +7451,26 @@ const deleteEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6417,13 +7485,26 @@ const getPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.EntityRole
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6438,6 +7519,9 @@ const updatePrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "entityRoleUpdateObject",
     mapper: {
@@ -6449,9 +7533,19 @@ const updatePrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6466,13 +7560,26 @@ const deletePrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6487,13 +7594,26 @@ const getClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.EntityRole
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6508,6 +7628,9 @@ const updateClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "entityRoleUpdateObject",
     mapper: {
@@ -6519,9 +7642,19 @@ const updateClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6536,13 +7669,26 @@ const deleteClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6557,13 +7703,26 @@ const getRegexEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.EntityRole
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6578,6 +7737,9 @@ const updateRegexEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "entityRoleUpdateObject",
     mapper: {
@@ -6589,9 +7751,19 @@ const updateRegexEntityRoleOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6606,13 +7778,26 @@ const deleteRegexEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6627,13 +7812,26 @@ const getCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.cEntityId,
     Parameters.roleId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.EntityRole
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6648,6 +7846,9 @@ const updateCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.cEntityId,
     Parameters.roleId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "entityRoleUpdateObject",
     mapper: {
@@ -6659,9 +7860,19 @@ const updateCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6676,13 +7887,26 @@ const deleteCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.cEntityId,
     Parameters.roleId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6697,13 +7921,26 @@ const getPatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.EntityRole
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6718,6 +7955,9 @@ const updatePatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "entityRoleUpdateObject",
     mapper: {
@@ -6729,9 +7969,19 @@ const updatePatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6746,13 +7996,26 @@ const deletePatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6767,13 +8030,26 @@ const getHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.hEntityId,
     Parameters.roleId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.EntityRole
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6788,6 +8064,9 @@ const updateHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.hEntityId,
     Parameters.roleId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "entityRoleUpdateObject",
     mapper: {
@@ -6799,9 +8078,19 @@ const updateHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6816,13 +8105,26 @@ const deleteHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.hEntityId,
     Parameters.roleId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6837,13 +8139,26 @@ const getCustomEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.EntityRole
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6858,6 +8173,9 @@ const updateCustomPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "entityRoleUpdateObject",
     mapper: {
@@ -6869,9 +8187,19 @@ const updateCustomPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6886,13 +8214,26 @@ const deleteCustomEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6907,13 +8248,26 @@ const getExplicitListItemOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.itemId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.ExplicitListItem
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6928,6 +8282,9 @@ const updateExplicitListItemOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.itemId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "item",
     mapper: {
@@ -6939,9 +8296,19 @@ const updateExplicitListItemOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -6956,13 +8323,26 @@ const deleteExplicitListItemOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.itemId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };

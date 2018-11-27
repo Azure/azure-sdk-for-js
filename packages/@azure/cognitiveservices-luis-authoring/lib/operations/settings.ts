@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/settingsMappers";
 import * as Parameters from "../models/parameters";
@@ -39,15 +39,15 @@ export class Settings {
    * @param versionId The version ID.
    * @param callback The callback
    */
-  list(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.AppVersionSettingObject[]>): void;
+  list(appId: string, versionId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppVersionSettingObject[]>): void;
-  list(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppVersionSettingObject[]>, callback?: msRest.ServiceCallback<Models.AppVersionSettingObject[]>): Promise<Models.SettingsListResponse> {
+  list(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  list(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.SettingsListResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -73,7 +73,7 @@ export class Settings {
    * @param listOfAppVersionSettingObject A list of the updated application version settings.
    * @param callback The callback
    */
-  update(appId: string, versionId: string, listOfAppVersionSettingObject: Models.AppVersionSettingObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  update(appId: string, versionId: string, listOfAppVersionSettingObject: Models.AppVersionSettingObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -81,8 +81,8 @@ export class Settings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(appId: string, versionId: string, listOfAppVersionSettingObject: Models.AppVersionSettingObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  update(appId: string, versionId: string, listOfAppVersionSettingObject: Models.AppVersionSettingObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.SettingsUpdateResponse> {
+  update(appId: string, versionId: string, listOfAppVersionSettingObject: Models.AppVersionSettingObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  update(appId: string, versionId: string, listOfAppVersionSettingObject: Models.AppVersionSettingObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.SettingsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -105,6 +105,9 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -120,9 +123,19 @@ const listOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -135,6 +148,9 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "listOfAppVersionSettingObject",
     mapper: {
@@ -146,9 +162,19 @@ const updateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };

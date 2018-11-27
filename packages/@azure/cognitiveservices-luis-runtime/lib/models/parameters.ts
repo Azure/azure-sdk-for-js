@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 export const appId: msRest.OperationURLParameter = {
   parameterPath: "appId",
@@ -53,6 +53,16 @@ export const log: msRest.OperationQueryParameter = {
     serializedName: "log",
     type: {
       name: "Boolean"
+    }
+  }
+};
+export const ocpApimSubscriptionKey: msRest.OperationParameter = {
+  parameterPath: "ocpApimSubscriptionKey",
+  mapper: {
+    required: true,
+    serializedName: "Ocp-Apim-Subscription-Key",
+    type: {
+      name: "String"
     }
   }
 };

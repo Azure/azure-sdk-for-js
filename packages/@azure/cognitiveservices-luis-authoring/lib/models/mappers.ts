@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 
 export const EntityLabelObject: msRest.CompositeMapper = {
@@ -2798,16 +2798,17 @@ export const ErrorResponse: msRest.CompositeMapper = {
     name: "Composite",
     className: "ErrorResponse",
     modelProperties: {
-      errorType: {
-        serializedName: "errorType",
+      statusCode: {
+        serializedName: "statusCode",
+        type: {
+          name: "Number"
+        }
+      },
+      message: {
+        serializedName: "message",
         type: {
           name: "String"
         }
-      }
-    },
-    additionalProperties: {
-      type: {
-        name: "Object"
       }
     }
   }

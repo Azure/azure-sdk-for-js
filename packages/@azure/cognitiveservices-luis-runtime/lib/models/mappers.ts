@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 
 export const IntentModel: msRest.CompositeMapper = {
@@ -240,6 +240,28 @@ export const LuisResult: msRest.CompositeMapper = {
   }
 };
 
+export const APIError: msRest.CompositeMapper = {
+  serializedName: "APIError",
+  type: {
+    name: "Composite",
+    className: "APIError",
+    modelProperties: {
+      statusCode: {
+        serializedName: "statusCode",
+        type: {
+          name: "Number"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const EntityWithScore: msRest.CompositeMapper = {
   serializedName: "EntityWithScore",
   type: {
@@ -279,27 +301,5 @@ export const EntityWithResolution: msRest.CompositeMapper = {
       }
     },
     additionalProperties: EntityModel.type.additionalProperties
-  }
-};
-
-export const APIError: msRest.CompositeMapper = {
-  serializedName: "APIError",
-  type: {
-    name: "Composite",
-    className: "APIError",
-    modelProperties: {
-      statusCode: {
-        serializedName: "statusCode",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      }
-    }
   }
 };

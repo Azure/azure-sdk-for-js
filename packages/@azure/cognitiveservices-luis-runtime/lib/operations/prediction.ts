@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/predictionMappers";
 import * as Parameters from "../models/parameters";
@@ -40,15 +40,15 @@ export class Prediction {
    * @param query The utterance to predict.
    * @param callback The callback
    */
-  resolve(appId: string, query: string, callback: msRest.ServiceCallback<Models.LuisResult>): void;
+  resolve(appId: string, query: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The LUIS application ID (Guid).
    * @param query The utterance to predict.
    * @param options The optional parameters
    * @param callback The callback
    */
-  resolve(appId: string, query: string, options: Models.PredictionResolveOptionalParams, callback: msRest.ServiceCallback<Models.LuisResult>): void;
-  resolve(appId: string, query: string, options?: Models.PredictionResolveOptionalParams | msRest.ServiceCallback<Models.LuisResult>, callback?: msRest.ServiceCallback<Models.LuisResult>): Promise<Models.PredictionResolveResponse> {
+  resolve(appId: string, query: string, options: Models.PredictionResolveOptionalParams, callback: msRest.ServiceCallback<any>): void;
+  resolve(appId: string, query: string, options?: Models.PredictionResolveOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.PredictionResolveResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -77,6 +77,9 @@ const resolveOperationSpec: msRest.OperationSpec = {
     Parameters.bingSpellCheckSubscriptionKey,
     Parameters.log
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "query",
     mapper: {
@@ -94,9 +97,34 @@ const resolveOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.LuisResult
     },
-    default: {
+    400: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    401: {
       bodyMapper: Mappers.APIError
-    }
+    },
+    403: {
+      bodyMapper: Mappers.APIError
+    },
+    409: {},
+    410: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    414: {},
+    429: {
+      bodyMapper: Mappers.APIError
+    },
+    default: {}
   },
   serializer
 };

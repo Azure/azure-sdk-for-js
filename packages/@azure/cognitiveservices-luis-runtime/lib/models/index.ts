@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 
 /**
@@ -161,6 +161,23 @@ export interface LuisResult {
 
 /**
  * @interface
+ * An interface representing APIError.
+ * Error information returned by the API
+ *
+ */
+export interface APIError {
+  /**
+   * @member {number} [statusCode] HTTP Status code
+   */
+  statusCode?: number;
+  /**
+   * @member {string} [message] Cause of the error.
+   */
+  message?: string;
+}
+
+/**
+ * @interface
  * An interface representing EntityWithScore.
  * @extends EntityModel
  */
@@ -181,23 +198,6 @@ export interface EntityWithResolution extends EntityModel {
    * @member {any} resolution Resolution values for pre-built LUIS entities.
    */
   resolution: any;
-}
-
-/**
- * @interface
- * An interface representing APIError.
- * Error information returned by the API
- *
- */
-export interface APIError {
-  /**
-   * @member {string} [statusCode] HTTP Status code
-   */
-  statusCode?: string;
-  /**
-   * @member {string} [message] Cause of the error.
-   */
-  message?: string;
 }
 
 /**
@@ -240,7 +240,11 @@ export interface PredictionResolveOptionalParams extends msRest.RequestOptionsBa
 /**
  * Contains response data for the resolve operation.
  */
-export type PredictionResolveResponse = LuisResult & {
+export type PredictionResolveResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -252,6 +256,6 @@ export type PredictionResolveResponse = LuisResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: LuisResult;
+      parsedBody: any;
     };
 };

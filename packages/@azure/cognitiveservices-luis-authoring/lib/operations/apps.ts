@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/appsMappers";
 import * as Parameters from "../models/parameters";
@@ -43,7 +43,7 @@ export class Apps {
    * created.
    * @param callback The callback
    */
-  add(applicationCreateObject: Models.ApplicationCreateObject, callback: msRest.ServiceCallback<string>): void;
+  add(applicationCreateObject: Models.ApplicationCreateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param applicationCreateObject A model containing Name, Description (optional), Culture, Usage
    * Scenario (optional), Domain (optional) and initial version ID (optional) of the application.
@@ -52,8 +52,8 @@ export class Apps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  add(applicationCreateObject: Models.ApplicationCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  add(applicationCreateObject: Models.ApplicationCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.AppsAddResponse> {
+  add(applicationCreateObject: Models.ApplicationCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  add(applicationCreateObject: Models.ApplicationCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppsAddResponse> {
     return this.client.sendOperationRequest(
       {
         applicationCreateObject,
@@ -72,13 +72,13 @@ export class Apps {
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.ApplicationInfoResponse[]>): void;
+  list(callback: msRest.ServiceCallback<any>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.AppsListOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationInfoResponse[]>): void;
-  list(options?: Models.AppsListOptionalParams | msRest.ServiceCallback<Models.ApplicationInfoResponse[]>, callback?: msRest.ServiceCallback<Models.ApplicationInfoResponse[]>): Promise<Models.AppsListResponse> {
+  list(options: Models.AppsListOptionalParams, callback: msRest.ServiceCallback<any>): void;
+  list(options?: Models.AppsListOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -99,14 +99,14 @@ export class Apps {
    * @param luisApp A LUIS application structure.
    * @param callback The callback
    */
-  importMethod(luisApp: Models.LuisApp, callback: msRest.ServiceCallback<string>): void;
+  importMethod(luisApp: Models.LuisApp, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param luisApp A LUIS application structure.
    * @param options The optional parameters
    * @param callback The callback
    */
-  importMethod(luisApp: Models.LuisApp, options: Models.AppsImportMethodOptionalParams, callback: msRest.ServiceCallback<string>): void;
-  importMethod(luisApp: Models.LuisApp, options?: Models.AppsImportMethodOptionalParams | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.AppsImportMethodResponse> {
+  importMethod(luisApp: Models.LuisApp, options: Models.AppsImportMethodOptionalParams, callback: msRest.ServiceCallback<any>): void;
+  importMethod(luisApp: Models.LuisApp, options?: Models.AppsImportMethodOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppsImportMethodResponse> {
     return this.client.sendOperationRequest(
       {
         luisApp,
@@ -125,13 +125,13 @@ export class Apps {
   /**
    * @param callback The callback
    */
-  listCortanaEndpoints(callback: msRest.ServiceCallback<Models.PersonalAssistantsResponse>): void;
+  listCortanaEndpoints(callback: msRest.ServiceCallback<any>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCortanaEndpoints(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PersonalAssistantsResponse>): void;
-  listCortanaEndpoints(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PersonalAssistantsResponse>, callback?: msRest.ServiceCallback<Models.PersonalAssistantsResponse>): Promise<Models.AppsListCortanaEndpointsResponse> {
+  listCortanaEndpoints(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  listCortanaEndpoints(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppsListCortanaEndpointsResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -149,13 +149,13 @@ export class Apps {
   /**
    * @param callback The callback
    */
-  listDomains(callback: msRest.ServiceCallback<string[]>): void;
+  listDomains(callback: msRest.ServiceCallback<any>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listDomains(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string[]>): void;
-  listDomains(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string[]>, callback?: msRest.ServiceCallback<string[]>): Promise<Models.AppsListDomainsResponse> {
+  listDomains(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  listDomains(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppsListDomainsResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -173,13 +173,13 @@ export class Apps {
   /**
    * @param callback The callback
    */
-  listUsageScenarios(callback: msRest.ServiceCallback<string[]>): void;
+  listUsageScenarios(callback: msRest.ServiceCallback<any>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listUsageScenarios(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string[]>): void;
-  listUsageScenarios(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string[]>, callback?: msRest.ServiceCallback<string[]>): Promise<Models.AppsListUsageScenariosResponse> {
+  listUsageScenarios(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  listUsageScenarios(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppsListUsageScenariosResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -197,13 +197,13 @@ export class Apps {
   /**
    * @param callback The callback
    */
-  listSupportedCultures(callback: msRest.ServiceCallback<Models.AvailableCulture[]>): void;
+  listSupportedCultures(callback: msRest.ServiceCallback<any>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSupportedCultures(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableCulture[]>): void;
-  listSupportedCultures(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableCulture[]>, callback?: msRest.ServiceCallback<Models.AvailableCulture[]>): Promise<Models.AppsListSupportedCulturesResponse> {
+  listSupportedCultures(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  listSupportedCultures(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppsListSupportedCulturesResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -223,14 +223,14 @@ export class Apps {
    * @param appId The application ID.
    * @param callback The callback
    */
-  downloadQueryLogs(appId: string, callback: msRest.ServiceCallback<void>): void;
+  downloadQueryLogs(appId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  downloadQueryLogs(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  downloadQueryLogs(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.AppsDownloadQueryLogsResponse> {
+  downloadQueryLogs(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  downloadQueryLogs(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppsDownloadQueryLogsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -251,14 +251,14 @@ export class Apps {
    * @param appId The application ID.
    * @param callback The callback
    */
-  get(appId: string, callback: msRest.ServiceCallback<Models.ApplicationInfoResponse>): void;
+  get(appId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInfoResponse>): void;
-  get(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInfoResponse>, callback?: msRest.ServiceCallback<Models.ApplicationInfoResponse>): Promise<Models.AppsGetResponse> {
+  get(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  get(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppsGetResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -281,15 +281,15 @@ export class Apps {
    * @param applicationUpdateObject A model containing Name and Description of the application.
    * @param callback The callback
    */
-  update(appId: string, applicationUpdateObject: Models.ApplicationUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  update(appId: string, applicationUpdateObject: Models.ApplicationUpdateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param applicationUpdateObject A model containing Name and Description of the application.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(appId: string, applicationUpdateObject: Models.ApplicationUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  update(appId: string, applicationUpdateObject: Models.ApplicationUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AppsUpdateResponse> {
+  update(appId: string, applicationUpdateObject: Models.ApplicationUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  update(appId: string, applicationUpdateObject: Models.ApplicationUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -311,14 +311,14 @@ export class Apps {
    * @param appId The application ID.
    * @param callback The callback
    */
-  deleteMethod(appId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteMethod(appId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteMethod(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AppsDeleteMethodResponse> {
+  deleteMethod(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  deleteMethod(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppsDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -343,7 +343,7 @@ export class Apps {
    * that the application is published to.
    * @param callback The callback
    */
-  publish(appId: string, applicationPublishObject: Models.ApplicationPublishObject, callback: msRest.ServiceCallback<Models.ProductionOrStagingEndpointInfo>): void;
+  publish(appId: string, applicationPublishObject: Models.ApplicationPublishObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param applicationPublishObject The application publish object. The region is the target region
@@ -351,8 +351,8 @@ export class Apps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  publish(appId: string, applicationPublishObject: Models.ApplicationPublishObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProductionOrStagingEndpointInfo>): void;
-  publish(appId: string, applicationPublishObject: Models.ApplicationPublishObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProductionOrStagingEndpointInfo>, callback?: msRest.ServiceCallback<Models.ProductionOrStagingEndpointInfo>): Promise<Models.AppsPublishResponse> {
+  publish(appId: string, applicationPublishObject: Models.ApplicationPublishObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  publish(appId: string, applicationPublishObject: Models.ApplicationPublishObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppsPublishResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -374,14 +374,14 @@ export class Apps {
    * @param appId The application ID.
    * @param callback The callback
    */
-  getSettings(appId: string, callback: msRest.ServiceCallback<Models.ApplicationSettings>): void;
+  getSettings(appId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSettings(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationSettings>): void;
-  getSettings(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationSettings>, callback?: msRest.ServiceCallback<Models.ApplicationSettings>): Promise<Models.AppsGetSettingsResponse> {
+  getSettings(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getSettings(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppsGetSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -404,15 +404,15 @@ export class Apps {
    * @param applicationSettingUpdateObject An object containing the new application settings.
    * @param callback The callback
    */
-  updateSettings(appId: string, applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateSettings(appId: string, applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param applicationSettingUpdateObject An object containing the new application settings.
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateSettings(appId: string, applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateSettings(appId: string, applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AppsUpdateSettingsResponse> {
+  updateSettings(appId: string, applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  updateSettings(appId: string, applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppsUpdateSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -434,14 +434,14 @@ export class Apps {
    * @param appId The application ID.
    * @param callback The callback
    */
-  getPublishSettings(appId: string, callback: msRest.ServiceCallback<Models.PublishSettings>): void;
+  getPublishSettings(appId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPublishSettings(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublishSettings>): void;
-  getPublishSettings(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublishSettings>, callback?: msRest.ServiceCallback<Models.PublishSettings>): Promise<Models.AppsGetPublishSettingsResponse> {
+  getPublishSettings(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getPublishSettings(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppsGetPublishSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -464,15 +464,15 @@ export class Apps {
    * @param publishSettingUpdateObject An object containing the new publish application settings.
    * @param callback The callback
    */
-  updatePublishSettings(appId: string, publishSettingUpdateObject: Models.PublishSettingUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updatePublishSettings(appId: string, publishSettingUpdateObject: Models.PublishSettingUpdateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param publishSettingUpdateObject An object containing the new publish application settings.
    * @param options The optional parameters
    * @param callback The callback
    */
-  updatePublishSettings(appId: string, publishSettingUpdateObject: Models.PublishSettingUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updatePublishSettings(appId: string, publishSettingUpdateObject: Models.PublishSettingUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AppsUpdatePublishSettingsResponse> {
+  updatePublishSettings(appId: string, publishSettingUpdateObject: Models.PublishSettingUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  updatePublishSettings(appId: string, publishSettingUpdateObject: Models.PublishSettingUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppsUpdatePublishSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -494,14 +494,14 @@ export class Apps {
    * @param appId The application ID.
    * @param callback The callback
    */
-  listEndpoints(appId: string, callback: msRest.ServiceCallback<{ [propertyName: string]: string }>): void;
+  listEndpoints(appId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listEndpoints(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<{ [propertyName: string]: string }>): void;
-  listEndpoints(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<{ [propertyName: string]: string }>, callback?: msRest.ServiceCallback<{ [propertyName: string]: string }>): Promise<Models.AppsListEndpointsResponse> {
+  listEndpoints(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  listEndpoints(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppsListEndpointsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -520,13 +520,13 @@ export class Apps {
   /**
    * @param callback The callback
    */
-  listAvailableCustomPrebuiltDomains(callback: msRest.ServiceCallback<Models.PrebuiltDomain[]>): void;
+  listAvailableCustomPrebuiltDomains(callback: msRest.ServiceCallback<any>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAvailableCustomPrebuiltDomains(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrebuiltDomain[]>): void;
-  listAvailableCustomPrebuiltDomains(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrebuiltDomain[]>, callback?: msRest.ServiceCallback<Models.PrebuiltDomain[]>): Promise<Models.AppsListAvailableCustomPrebuiltDomainsResponse> {
+  listAvailableCustomPrebuiltDomains(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  listAvailableCustomPrebuiltDomains(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppsListAvailableCustomPrebuiltDomainsResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -548,15 +548,15 @@ export class Apps {
    * culture of the domain.
    * @param callback The callback
    */
-  addCustomPrebuiltDomain(prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject, callback: msRest.ServiceCallback<string>): void;
+  addCustomPrebuiltDomain(prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param prebuiltDomainCreateObject A prebuilt domain create object containing the name and
    * culture of the domain.
    * @param options The optional parameters
    * @param callback The callback
    */
-  addCustomPrebuiltDomain(prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addCustomPrebuiltDomain(prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.AppsAddCustomPrebuiltDomainResponse> {
+  addCustomPrebuiltDomain(prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  addCustomPrebuiltDomain(prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppsAddCustomPrebuiltDomainResponse> {
     return this.client.sendOperationRequest(
       {
         prebuiltDomainCreateObject,
@@ -577,14 +577,14 @@ export class Apps {
    * @param culture Culture.
    * @param callback The callback
    */
-  listAvailableCustomPrebuiltDomainsForCulture(culture: string, callback: msRest.ServiceCallback<Models.PrebuiltDomain[]>): void;
+  listAvailableCustomPrebuiltDomainsForCulture(culture: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param culture Culture.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAvailableCustomPrebuiltDomainsForCulture(culture: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrebuiltDomain[]>): void;
-  listAvailableCustomPrebuiltDomainsForCulture(culture: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrebuiltDomain[]>, callback?: msRest.ServiceCallback<Models.PrebuiltDomain[]>): Promise<Models.AppsListAvailableCustomPrebuiltDomainsForCultureResponse> {
+  listAvailableCustomPrebuiltDomainsForCulture(culture: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  listAvailableCustomPrebuiltDomainsForCulture(culture: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppsListAvailableCustomPrebuiltDomainsForCultureResponse> {
     return this.client.sendOperationRequest(
       {
         culture,
@@ -603,6 +603,9 @@ const addOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "applicationCreateObject",
     mapper: {
@@ -619,9 +622,19 @@ const addOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -635,6 +648,9 @@ const listOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.skip,
     Parameters.take
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {
@@ -651,9 +667,19 @@ const listOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -666,6 +692,9 @@ const importMethodOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.appName
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "luisApp",
@@ -683,9 +712,19 @@ const importMethodOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -696,13 +735,23 @@ const listCortanaEndpointsOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.PersonalAssistantsResponse
     },
-    default: {
+    401: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -713,32 +762,8 @@ const listDomainsOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint
   ],
-  responses: {
-    200: {
-      bodyMapper: {
-        serializedName: "parsedResponse",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const listUsageScenariosOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "apps/usagescenarios",
-  urlParameters: [
-    Parameters.endpoint
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {
@@ -754,9 +779,53 @@ const listUsageScenariosOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    401: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
+  },
+  serializer
+};
+
+const listUsageScenariosOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "apps/usagescenarios",
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -766,6 +835,9 @@ const listSupportedCulturesOperationSpec: msRest.OperationSpec = {
   path: "apps/cultures",
   urlParameters: [
     Parameters.endpoint
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {
@@ -782,9 +854,16 @@ const listSupportedCulturesOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    401: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -796,6 +875,9 @@ const downloadQueryLogsOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -804,6 +886,18 @@ const downloadQueryLogsOperationSpec: msRest.OperationSpec = {
           name: "Stream"
         }
       }
+    },
+    400: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
     },
     default: {}
   },
@@ -817,13 +911,26 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationInfoResponse
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -834,6 +941,9 @@ const updateOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint,
     Parameters.appId
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "applicationUpdateObject",
@@ -846,9 +956,19 @@ const updateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -860,13 +980,26 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -877,6 +1010,9 @@ const publishOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint,
     Parameters.appId
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "applicationPublishObject",
@@ -889,9 +1025,19 @@ const publishOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.ProductionOrStagingEndpointInfo
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -903,13 +1049,26 @@ const getSettingsOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationSettings
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -920,6 +1079,9 @@ const updateSettingsOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint,
     Parameters.appId
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "applicationSettingUpdateObject",
@@ -932,9 +1094,19 @@ const updateSettingsOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -946,13 +1118,26 @@ const getPublishSettingsOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.PublishSettings
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -963,6 +1148,9 @@ const updatePublishSettingsOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint,
     Parameters.appId
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "publishSettingUpdateObject",
@@ -975,9 +1163,19 @@ const updatePublishSettingsOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -988,6 +1186,9 @@ const listEndpointsOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint,
     Parameters.appId
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {
@@ -1003,9 +1204,19 @@ const listEndpointsOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -1015,6 +1226,9 @@ const listAvailableCustomPrebuiltDomainsOperationSpec: msRest.OperationSpec = {
   path: "apps/customprebuiltdomains",
   urlParameters: [
     Parameters.endpoint
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {
@@ -1031,9 +1245,16 @@ const listAvailableCustomPrebuiltDomainsOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    401: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -1043,6 +1264,9 @@ const addCustomPrebuiltDomainOperationSpec: msRest.OperationSpec = {
   path: "apps/customprebuiltdomains",
   urlParameters: [
     Parameters.endpoint
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "prebuiltDomainCreateObject",
@@ -1060,9 +1284,19 @@ const addCustomPrebuiltDomainOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -1073,6 +1307,9 @@ const listAvailableCustomPrebuiltDomainsForCultureOperationSpec: msRest.Operatio
   urlParameters: [
     Parameters.endpoint,
     Parameters.culture
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {
@@ -1089,9 +1326,19 @@ const listAvailableCustomPrebuiltDomainsForCultureOperationSpec: msRest.Operatio
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/versionsMappers";
 import * as Parameters from "../models/parameters";
@@ -39,15 +39,15 @@ export class Versions {
    * @param versionId The version ID.
    * @param callback The callback
    */
-  clone(appId: string, versionId: string, callback: msRest.ServiceCallback<string>): void;
+  clone(appId: string, versionId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  clone(appId: string, versionId: string, options: Models.VersionsCloneOptionalParams, callback: msRest.ServiceCallback<string>): void;
-  clone(appId: string, versionId: string, options?: Models.VersionsCloneOptionalParams | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.VersionsCloneResponse> {
+  clone(appId: string, versionId: string, options: Models.VersionsCloneOptionalParams, callback: msRest.ServiceCallback<any>): void;
+  clone(appId: string, versionId: string, options?: Models.VersionsCloneOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.VersionsCloneResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -69,14 +69,14 @@ export class Versions {
    * @param appId The application ID.
    * @param callback The callback
    */
-  list(appId: string, callback: msRest.ServiceCallback<Models.VersionInfo[]>): void;
+  list(appId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(appId: string, options: Models.VersionsListOptionalParams, callback: msRest.ServiceCallback<Models.VersionInfo[]>): void;
-  list(appId: string, options?: Models.VersionsListOptionalParams | msRest.ServiceCallback<Models.VersionInfo[]>, callback?: msRest.ServiceCallback<Models.VersionInfo[]>): Promise<Models.VersionsListResponse> {
+  list(appId: string, options: Models.VersionsListOptionalParams, callback: msRest.ServiceCallback<any>): void;
+  list(appId: string, options?: Models.VersionsListOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.VersionsListResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -99,15 +99,15 @@ export class Versions {
    * @param versionId The version ID.
    * @param callback The callback
    */
-  get(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.VersionInfo>): void;
+  get(appId: string, versionId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VersionInfo>): void;
-  get(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VersionInfo>, callback?: msRest.ServiceCallback<Models.VersionInfo>): Promise<Models.VersionsGetResponse> {
+  get(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  get(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.VersionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -133,7 +133,7 @@ export class Versions {
    * @param versionUpdateObject A model containing Name and Description of the application.
    * @param callback The callback
    */
-  update(appId: string, versionId: string, versionUpdateObject: Models.TaskUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  update(appId: string, versionId: string, versionUpdateObject: Models.TaskUpdateObject, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -141,8 +141,8 @@ export class Versions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(appId: string, versionId: string, versionUpdateObject: Models.TaskUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  update(appId: string, versionId: string, versionUpdateObject: Models.TaskUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.VersionsUpdateResponse> {
+  update(appId: string, versionId: string, versionUpdateObject: Models.TaskUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  update(appId: string, versionId: string, versionUpdateObject: Models.TaskUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.VersionsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -167,15 +167,15 @@ export class Versions {
    * @param versionId The version ID.
    * @param callback The callback
    */
-  deleteMethod(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteMethod(appId: string, versionId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteMethod(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.VersionsDeleteMethodResponse> {
+  deleteMethod(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  deleteMethod(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.VersionsDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -199,15 +199,15 @@ export class Versions {
    * @param versionId The version ID.
    * @param callback The callback
    */
-  exportMethod(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.LuisApp>): void;
+  exportMethod(appId: string, versionId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  exportMethod(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LuisApp>): void;
-  exportMethod(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LuisApp>, callback?: msRest.ServiceCallback<Models.LuisApp>): Promise<Models.VersionsExportMethodResponse> {
+  exportMethod(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  exportMethod(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.VersionsExportMethodResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -231,15 +231,15 @@ export class Versions {
    * @param luisApp A LUIS application structure.
    * @param callback The callback
    */
-  importMethod(appId: string, luisApp: Models.LuisApp, callback: msRest.ServiceCallback<string>): void;
+  importMethod(appId: string, luisApp: Models.LuisApp, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param luisApp A LUIS application structure.
    * @param options The optional parameters
    * @param callback The callback
    */
-  importMethod(appId: string, luisApp: Models.LuisApp, options: Models.VersionsImportMethodOptionalParams, callback: msRest.ServiceCallback<string>): void;
-  importMethod(appId: string, luisApp: Models.LuisApp, options?: Models.VersionsImportMethodOptionalParams | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.VersionsImportMethodResponse> {
+  importMethod(appId: string, luisApp: Models.LuisApp, options: Models.VersionsImportMethodOptionalParams, callback: msRest.ServiceCallback<any>): void;
+  importMethod(appId: string, luisApp: Models.LuisApp, options?: Models.VersionsImportMethodOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.VersionsImportMethodResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -265,7 +265,7 @@ export class Versions {
    * @param utterance The utterance text to delete.
    * @param callback The callback
    */
-  deleteUnlabelledUtterance(appId: string, versionId: string, utterance: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteUnlabelledUtterance(appId: string, versionId: string, utterance: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -273,8 +273,8 @@ export class Versions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteUnlabelledUtterance(appId: string, versionId: string, utterance: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteUnlabelledUtterance(appId: string, versionId: string, utterance: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.VersionsDeleteUnlabelledUtteranceResponse> {
+  deleteUnlabelledUtterance(appId: string, versionId: string, utterance: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  deleteUnlabelledUtterance(appId: string, versionId: string, utterance: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.VersionsDeleteUnlabelledUtteranceResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -297,6 +297,9 @@ const cloneOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: [
       "options",
@@ -313,9 +316,19 @@ const cloneOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -330,6 +343,9 @@ const listOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.skip,
     Parameters.take
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {
@@ -346,9 +362,19 @@ const listOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -361,13 +387,26 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.VersionInfo
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -380,6 +419,9 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   requestBody: {
     parameterPath: "versionUpdateObject",
     mapper: {
@@ -391,9 +433,19 @@ const updateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -406,13 +458,26 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -425,13 +490,26 @@ const exportMethodOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0
   ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.LuisApp
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -445,6 +523,9 @@ const importMethodOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.versionId1
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "luisApp",
@@ -462,9 +543,19 @@ const importMethodOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -476,6 +567,9 @@ const deleteUnlabelledUtteranceOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "utterance",
@@ -491,9 +585,19 @@ const deleteUnlabelledUtteranceOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };

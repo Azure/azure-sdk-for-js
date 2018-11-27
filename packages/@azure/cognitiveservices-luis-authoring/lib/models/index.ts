@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 
 /**
@@ -260,9 +260,9 @@ export interface PhraselistCreateObject {
    */
   name?: string;
   /**
-   * @member {boolean} [isExchangeable] An exchangeable phrase list feature are
-   * serves as single feature to the LUIS underlying training algorithm. It is
-   * used as a lexicon lookup feature where its value is 1 if the lexicon
+   * @member {boolean} [isExchangeable] An exchangeable phrase list feature
+   * serves as a single feature to the LUIS underlying training algorithm. It
+   * is used as a lexicon lookup feature where its value is 1 if the lexicon
    * contains a given word or 0 if it doesn’t. Think of an exchangeable as a
    * synonyms list. A non-exchangeable phrase list feature has all the phrases
    * in the list serve as separate features to the underlying training
@@ -1928,19 +1928,18 @@ export interface CollaboratorsArray {
 /**
  * @interface
  * An interface representing ErrorResponse.
- * Error response when invoking an operation on the API.
+ * Error information returned by the API
  *
  */
 export interface ErrorResponse {
   /**
-   * @member {string} [errorType]
+   * @member {number} [statusCode] HTTP Status code
    */
-  errorType?: string;
+  statusCode?: number;
   /**
-   * @property Describes unknown properties. The value of an unknown property
-   * can be of "any" type.
+   * @member {string} [message] Cause of the error.
    */
-  [property: string]: any;
+  message?: string;
 }
 
 /**
@@ -2929,7 +2928,7 @@ export type FeaturesAddPhraseListResponse = {
   /**
    * The parsed response body.
    */
-  body: number;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -2941,14 +2940,18 @@ export type FeaturesAddPhraseListResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: number;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the listPhraseLists operation.
  */
-export type FeaturesListPhraseListsResponse = Array<PhraseListFeatureInfo> & {
+export type FeaturesListPhraseListsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -2960,14 +2963,18 @@ export type FeaturesListPhraseListsResponse = Array<PhraseListFeatureInfo> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PhraseListFeatureInfo[];
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type FeaturesListResponse = FeaturesResponseObject & {
+export type FeaturesListResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -2979,14 +2986,18 @@ export type FeaturesListResponse = FeaturesResponseObject & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: FeaturesResponseObject;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getPhraseList operation.
  */
-export type FeaturesGetPhraseListResponse = PhraseListFeatureInfo & {
+export type FeaturesGetPhraseListResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -2998,14 +3009,18 @@ export type FeaturesGetPhraseListResponse = PhraseListFeatureInfo & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PhraseListFeatureInfo;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the updatePhraseList operation.
  */
-export type FeaturesUpdatePhraseListResponse = OperationStatus & {
+export type FeaturesUpdatePhraseListResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3017,14 +3032,18 @@ export type FeaturesUpdatePhraseListResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deletePhraseList operation.
  */
-export type FeaturesDeletePhraseListResponse = OperationStatus & {
+export type FeaturesDeletePhraseListResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3036,14 +3055,18 @@ export type FeaturesDeletePhraseListResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the add operation.
  */
-export type ExamplesAddResponse = LabelExampleResponse & {
+export type ExamplesAddResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3055,14 +3078,18 @@ export type ExamplesAddResponse = LabelExampleResponse & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: LabelExampleResponse;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the batch operation.
  */
-export type ExamplesBatchResponse = Array<BatchLabelExample> & {
+export type ExamplesBatchResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3074,14 +3101,18 @@ export type ExamplesBatchResponse = Array<BatchLabelExample> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: BatchLabelExample[];
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type ExamplesListResponse = Array<LabeledUtterance> & {
+export type ExamplesListResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3093,14 +3124,18 @@ export type ExamplesListResponse = Array<LabeledUtterance> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: LabeledUtterance[];
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deleteMethod operation.
  */
-export type ExamplesDeleteMethodResponse = OperationStatus & {
+export type ExamplesDeleteMethodResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3112,7 +3147,7 @@ export type ExamplesDeleteMethodResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
@@ -3123,7 +3158,7 @@ export type ModelAddIntentResponse = {
   /**
    * The parsed response body.
    */
-  body: string;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3135,14 +3170,18 @@ export type ModelAddIntentResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the listIntents operation.
  */
-export type ModelListIntentsResponse = Array<IntentClassifier> & {
+export type ModelListIntentsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3154,7 +3193,7 @@ export type ModelListIntentsResponse = Array<IntentClassifier> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: IntentClassifier[];
+      parsedBody: any;
     };
 };
 
@@ -3165,7 +3204,7 @@ export type ModelAddEntityResponse = {
   /**
    * The parsed response body.
    */
-  body: string;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3177,14 +3216,18 @@ export type ModelAddEntityResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the listEntities operation.
  */
-export type ModelListEntitiesResponse = Array<EntityExtractor> & {
+export type ModelListEntitiesResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3196,7 +3239,7 @@ export type ModelListEntitiesResponse = Array<EntityExtractor> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EntityExtractor[];
+      parsedBody: any;
     };
 };
 
@@ -3207,7 +3250,7 @@ export type ModelAddHierarchicalEntityResponse = {
   /**
    * The parsed response body.
    */
-  body: string;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3219,14 +3262,18 @@ export type ModelAddHierarchicalEntityResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the listHierarchicalEntities operation.
  */
-export type ModelListHierarchicalEntitiesResponse = Array<HierarchicalEntityExtractor> & {
+export type ModelListHierarchicalEntitiesResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3238,7 +3285,7 @@ export type ModelListHierarchicalEntitiesResponse = Array<HierarchicalEntityExtr
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: HierarchicalEntityExtractor[];
+      parsedBody: any;
     };
 };
 
@@ -3249,7 +3296,7 @@ export type ModelAddCompositeEntityResponse = {
   /**
    * The parsed response body.
    */
-  body: string;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3261,14 +3308,18 @@ export type ModelAddCompositeEntityResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the listCompositeEntities operation.
  */
-export type ModelListCompositeEntitiesResponse = Array<CompositeEntityExtractor> & {
+export type ModelListCompositeEntitiesResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3280,14 +3331,18 @@ export type ModelListCompositeEntitiesResponse = Array<CompositeEntityExtractor>
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: CompositeEntityExtractor[];
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the listClosedLists operation.
  */
-export type ModelListClosedListsResponse = Array<ClosedListEntityExtractor> & {
+export type ModelListClosedListsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3299,7 +3354,7 @@ export type ModelListClosedListsResponse = Array<ClosedListEntityExtractor> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ClosedListEntityExtractor[];
+      parsedBody: any;
     };
 };
 
@@ -3310,7 +3365,7 @@ export type ModelAddClosedListResponse = {
   /**
    * The parsed response body.
    */
-  body: string;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3322,14 +3377,18 @@ export type ModelAddClosedListResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the addPrebuilt operation.
  */
-export type ModelAddPrebuiltResponse = Array<PrebuiltEntityExtractor> & {
+export type ModelAddPrebuiltResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3341,14 +3400,18 @@ export type ModelAddPrebuiltResponse = Array<PrebuiltEntityExtractor> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PrebuiltEntityExtractor[];
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the listPrebuilts operation.
  */
-export type ModelListPrebuiltsResponse = Array<PrebuiltEntityExtractor> & {
+export type ModelListPrebuiltsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3360,14 +3423,18 @@ export type ModelListPrebuiltsResponse = Array<PrebuiltEntityExtractor> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PrebuiltEntityExtractor[];
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the listPrebuiltEntities operation.
  */
-export type ModelListPrebuiltEntitiesResponse = Array<AvailablePrebuiltEntityModel> & {
+export type ModelListPrebuiltEntitiesResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3379,14 +3446,18 @@ export type ModelListPrebuiltEntitiesResponse = Array<AvailablePrebuiltEntityMod
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: AvailablePrebuiltEntityModel[];
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the listModels operation.
  */
-export type ModelListModelsResponse = Array<ModelInfoResponse> & {
+export type ModelListModelsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3398,14 +3469,18 @@ export type ModelListModelsResponse = Array<ModelInfoResponse> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ModelInfoResponse[];
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the examplesMethod operation.
  */
-export type ModelExamplesMethodResponse = Array<LabelTextObject> & {
+export type ModelExamplesMethodResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3417,14 +3492,18 @@ export type ModelExamplesMethodResponse = Array<LabelTextObject> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: LabelTextObject[];
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getIntent operation.
  */
-export type ModelGetIntentResponse = IntentClassifier & {
+export type ModelGetIntentResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3436,14 +3515,18 @@ export type ModelGetIntentResponse = IntentClassifier & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: IntentClassifier;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the updateIntent operation.
  */
-export type ModelUpdateIntentResponse = OperationStatus & {
+export type ModelUpdateIntentResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3455,14 +3538,18 @@ export type ModelUpdateIntentResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deleteIntent operation.
  */
-export type ModelDeleteIntentResponse = OperationStatus & {
+export type ModelDeleteIntentResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3474,14 +3561,18 @@ export type ModelDeleteIntentResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getEntity operation.
  */
-export type ModelGetEntityResponse = EntityExtractor & {
+export type ModelGetEntityResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3493,14 +3584,18 @@ export type ModelGetEntityResponse = EntityExtractor & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EntityExtractor;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the updateEntity operation.
  */
-export type ModelUpdateEntityResponse = OperationStatus & {
+export type ModelUpdateEntityResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3512,14 +3607,18 @@ export type ModelUpdateEntityResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deleteEntity operation.
  */
-export type ModelDeleteEntityResponse = OperationStatus & {
+export type ModelDeleteEntityResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3531,14 +3630,18 @@ export type ModelDeleteEntityResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getHierarchicalEntity operation.
  */
-export type ModelGetHierarchicalEntityResponse = HierarchicalEntityExtractor & {
+export type ModelGetHierarchicalEntityResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3550,14 +3653,18 @@ export type ModelGetHierarchicalEntityResponse = HierarchicalEntityExtractor & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: HierarchicalEntityExtractor;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the updateHierarchicalEntity operation.
  */
-export type ModelUpdateHierarchicalEntityResponse = OperationStatus & {
+export type ModelUpdateHierarchicalEntityResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3569,14 +3676,18 @@ export type ModelUpdateHierarchicalEntityResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deleteHierarchicalEntity operation.
  */
-export type ModelDeleteHierarchicalEntityResponse = OperationStatus & {
+export type ModelDeleteHierarchicalEntityResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3588,14 +3699,18 @@ export type ModelDeleteHierarchicalEntityResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getCompositeEntity operation.
  */
-export type ModelGetCompositeEntityResponse = CompositeEntityExtractor & {
+export type ModelGetCompositeEntityResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3607,14 +3722,18 @@ export type ModelGetCompositeEntityResponse = CompositeEntityExtractor & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: CompositeEntityExtractor;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the updateCompositeEntity operation.
  */
-export type ModelUpdateCompositeEntityResponse = OperationStatus & {
+export type ModelUpdateCompositeEntityResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3626,14 +3745,18 @@ export type ModelUpdateCompositeEntityResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deleteCompositeEntity operation.
  */
-export type ModelDeleteCompositeEntityResponse = OperationStatus & {
+export type ModelDeleteCompositeEntityResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3645,14 +3768,18 @@ export type ModelDeleteCompositeEntityResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getClosedList operation.
  */
-export type ModelGetClosedListResponse = ClosedListEntityExtractor & {
+export type ModelGetClosedListResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3664,14 +3791,18 @@ export type ModelGetClosedListResponse = ClosedListEntityExtractor & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ClosedListEntityExtractor;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the updateClosedList operation.
  */
-export type ModelUpdateClosedListResponse = OperationStatus & {
+export type ModelUpdateClosedListResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3683,14 +3814,18 @@ export type ModelUpdateClosedListResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the patchClosedList operation.
  */
-export type ModelPatchClosedListResponse = OperationStatus & {
+export type ModelPatchClosedListResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3702,14 +3837,18 @@ export type ModelPatchClosedListResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deleteClosedList operation.
  */
-export type ModelDeleteClosedListResponse = OperationStatus & {
+export type ModelDeleteClosedListResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3721,14 +3860,18 @@ export type ModelDeleteClosedListResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getPrebuilt operation.
  */
-export type ModelGetPrebuiltResponse = PrebuiltEntityExtractor & {
+export type ModelGetPrebuiltResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3740,14 +3883,18 @@ export type ModelGetPrebuiltResponse = PrebuiltEntityExtractor & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PrebuiltEntityExtractor;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deletePrebuilt operation.
  */
-export type ModelDeletePrebuiltResponse = OperationStatus & {
+export type ModelDeletePrebuiltResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3759,14 +3906,18 @@ export type ModelDeletePrebuiltResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deleteSubList operation.
  */
-export type ModelDeleteSubListResponse = OperationStatus & {
+export type ModelDeleteSubListResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3778,14 +3929,18 @@ export type ModelDeleteSubListResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the updateSubList operation.
  */
-export type ModelUpdateSubListResponse = OperationStatus & {
+export type ModelUpdateSubListResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3797,14 +3952,18 @@ export type ModelUpdateSubListResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getIntentSuggestions operation.
  */
-export type ModelGetIntentSuggestionsResponse = Array<IntentsSuggestionExample> & {
+export type ModelGetIntentSuggestionsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3816,14 +3975,18 @@ export type ModelGetIntentSuggestionsResponse = Array<IntentsSuggestionExample> 
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: IntentsSuggestionExample[];
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getEntitySuggestions operation.
  */
-export type ModelGetEntitySuggestionsResponse = Array<EntitiesSuggestionExample> & {
+export type ModelGetEntitySuggestionsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3835,7 +3998,7 @@ export type ModelGetEntitySuggestionsResponse = Array<EntitiesSuggestionExample>
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EntitiesSuggestionExample[];
+      parsedBody: any;
     };
 };
 
@@ -3846,7 +4009,7 @@ export type ModelAddSubListResponse = {
   /**
    * The parsed response body.
    */
-  body: number;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3858,14 +4021,18 @@ export type ModelAddSubListResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: number;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the addCustomPrebuiltDomain operation.
  */
-export type ModelAddCustomPrebuiltDomainResponse = Array<string> & {
+export type ModelAddCustomPrebuiltDomainResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3877,7 +4044,7 @@ export type ModelAddCustomPrebuiltDomainResponse = Array<string> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string[];
+      parsedBody: any;
     };
 };
 
@@ -3888,7 +4055,7 @@ export type ModelAddCustomPrebuiltIntentResponse = {
   /**
    * The parsed response body.
    */
-  body: string;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3900,14 +4067,18 @@ export type ModelAddCustomPrebuiltIntentResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the listCustomPrebuiltIntents operation.
  */
-export type ModelListCustomPrebuiltIntentsResponse = Array<IntentClassifier> & {
+export type ModelListCustomPrebuiltIntentsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3919,7 +4090,7 @@ export type ModelListCustomPrebuiltIntentsResponse = Array<IntentClassifier> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: IntentClassifier[];
+      parsedBody: any;
     };
 };
 
@@ -3930,7 +4101,7 @@ export type ModelAddCustomPrebuiltEntityResponse = {
   /**
    * The parsed response body.
    */
-  body: string;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3942,14 +4113,18 @@ export type ModelAddCustomPrebuiltEntityResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the listCustomPrebuiltEntities operation.
  */
-export type ModelListCustomPrebuiltEntitiesResponse = Array<EntityExtractor> & {
+export type ModelListCustomPrebuiltEntitiesResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3961,14 +4136,18 @@ export type ModelListCustomPrebuiltEntitiesResponse = Array<EntityExtractor> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EntityExtractor[];
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the listCustomPrebuiltModels operation.
  */
-export type ModelListCustomPrebuiltModelsResponse = Array<CustomPrebuiltModel> & {
+export type ModelListCustomPrebuiltModelsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3980,14 +4159,18 @@ export type ModelListCustomPrebuiltModelsResponse = Array<CustomPrebuiltModel> &
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: CustomPrebuiltModel[];
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deleteCustomPrebuiltDomain operation.
  */
-export type ModelDeleteCustomPrebuiltDomainResponse = OperationStatus & {
+export type ModelDeleteCustomPrebuiltDomainResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -3999,14 +4182,18 @@ export type ModelDeleteCustomPrebuiltDomainResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getHierarchicalEntityChild operation.
  */
-export type ModelGetHierarchicalEntityChildResponse = HierarchicalChildEntity & {
+export type ModelGetHierarchicalEntityChildResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4018,14 +4205,18 @@ export type ModelGetHierarchicalEntityChildResponse = HierarchicalChildEntity & 
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: HierarchicalChildEntity;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the updateHierarchicalEntityChild operation.
  */
-export type ModelUpdateHierarchicalEntityChildResponse = OperationStatus & {
+export type ModelUpdateHierarchicalEntityChildResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4037,14 +4228,18 @@ export type ModelUpdateHierarchicalEntityChildResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deleteHierarchicalEntityChild operation.
  */
-export type ModelDeleteHierarchicalEntityChildResponse = OperationStatus & {
+export type ModelDeleteHierarchicalEntityChildResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4056,7 +4251,7 @@ export type ModelDeleteHierarchicalEntityChildResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
@@ -4067,7 +4262,7 @@ export type ModelAddHierarchicalEntityChildResponse = {
   /**
    * The parsed response body.
    */
-  body: string;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4079,7 +4274,7 @@ export type ModelAddHierarchicalEntityChildResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string;
+      parsedBody: any;
     };
 };
 
@@ -4090,7 +4285,7 @@ export type ModelAddCompositeEntityChildResponse = {
   /**
    * The parsed response body.
    */
-  body: string;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4102,14 +4297,18 @@ export type ModelAddCompositeEntityChildResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deleteCompositeEntityChild operation.
  */
-export type ModelDeleteCompositeEntityChildResponse = OperationStatus & {
+export type ModelDeleteCompositeEntityChildResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4121,14 +4320,18 @@ export type ModelDeleteCompositeEntityChildResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getRegexEntityInfos operation.
  */
-export type ModelGetRegexEntityInfosResponse = Array<RegexEntityExtractor> & {
+export type ModelGetRegexEntityInfosResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4140,7 +4343,7 @@ export type ModelGetRegexEntityInfosResponse = Array<RegexEntityExtractor> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: RegexEntityExtractor[];
+      parsedBody: any;
     };
 };
 
@@ -4151,7 +4354,7 @@ export type ModelCreateRegexEntityModelResponse = {
   /**
    * The parsed response body.
    */
-  body: string;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4163,14 +4366,18 @@ export type ModelCreateRegexEntityModelResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getPatternAnyEntityInfos operation.
  */
-export type ModelGetPatternAnyEntityInfosResponse = Array<PatternAnyEntityExtractor> & {
+export type ModelGetPatternAnyEntityInfosResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4182,7 +4389,7 @@ export type ModelGetPatternAnyEntityInfosResponse = Array<PatternAnyEntityExtrac
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PatternAnyEntityExtractor[];
+      parsedBody: any;
     };
 };
 
@@ -4193,7 +4400,7 @@ export type ModelCreatePatternAnyEntityModelResponse = {
   /**
    * The parsed response body.
    */
-  body: string;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4205,14 +4412,18 @@ export type ModelCreatePatternAnyEntityModelResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getEntityRoles operation.
  */
-export type ModelGetEntityRolesResponse = Array<EntityRole> & {
+export type ModelGetEntityRolesResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4224,7 +4435,7 @@ export type ModelGetEntityRolesResponse = Array<EntityRole> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EntityRole[];
+      parsedBody: any;
     };
 };
 
@@ -4235,7 +4446,7 @@ export type ModelCreateEntityRoleResponse = {
   /**
    * The parsed response body.
    */
-  body: string;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4247,14 +4458,18 @@ export type ModelCreateEntityRoleResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getPrebuiltEntityRoles operation.
  */
-export type ModelGetPrebuiltEntityRolesResponse = Array<EntityRole> & {
+export type ModelGetPrebuiltEntityRolesResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4266,7 +4481,7 @@ export type ModelGetPrebuiltEntityRolesResponse = Array<EntityRole> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EntityRole[];
+      parsedBody: any;
     };
 };
 
@@ -4277,7 +4492,7 @@ export type ModelCreatePrebuiltEntityRoleResponse = {
   /**
    * The parsed response body.
    */
-  body: string;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4289,14 +4504,18 @@ export type ModelCreatePrebuiltEntityRoleResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getClosedListEntityRoles operation.
  */
-export type ModelGetClosedListEntityRolesResponse = Array<EntityRole> & {
+export type ModelGetClosedListEntityRolesResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4308,7 +4527,7 @@ export type ModelGetClosedListEntityRolesResponse = Array<EntityRole> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EntityRole[];
+      parsedBody: any;
     };
 };
 
@@ -4319,7 +4538,7 @@ export type ModelCreateClosedListEntityRoleResponse = {
   /**
    * The parsed response body.
    */
-  body: string;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4331,14 +4550,18 @@ export type ModelCreateClosedListEntityRoleResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getRegexEntityRoles operation.
  */
-export type ModelGetRegexEntityRolesResponse = Array<EntityRole> & {
+export type ModelGetRegexEntityRolesResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4350,7 +4573,7 @@ export type ModelGetRegexEntityRolesResponse = Array<EntityRole> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EntityRole[];
+      parsedBody: any;
     };
 };
 
@@ -4361,7 +4584,7 @@ export type ModelCreateRegexEntityRoleResponse = {
   /**
    * The parsed response body.
    */
-  body: string;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4373,14 +4596,18 @@ export type ModelCreateRegexEntityRoleResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getCompositeEntityRoles operation.
  */
-export type ModelGetCompositeEntityRolesResponse = Array<EntityRole> & {
+export type ModelGetCompositeEntityRolesResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4392,7 +4619,7 @@ export type ModelGetCompositeEntityRolesResponse = Array<EntityRole> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EntityRole[];
+      parsedBody: any;
     };
 };
 
@@ -4403,7 +4630,7 @@ export type ModelCreateCompositeEntityRoleResponse = {
   /**
    * The parsed response body.
    */
-  body: string;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4415,14 +4642,18 @@ export type ModelCreateCompositeEntityRoleResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getPatternAnyEntityRoles operation.
  */
-export type ModelGetPatternAnyEntityRolesResponse = Array<EntityRole> & {
+export type ModelGetPatternAnyEntityRolesResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4434,7 +4665,7 @@ export type ModelGetPatternAnyEntityRolesResponse = Array<EntityRole> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EntityRole[];
+      parsedBody: any;
     };
 };
 
@@ -4445,7 +4676,7 @@ export type ModelCreatePatternAnyEntityRoleResponse = {
   /**
    * The parsed response body.
    */
-  body: string;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4457,14 +4688,18 @@ export type ModelCreatePatternAnyEntityRoleResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getHierarchicalEntityRoles operation.
  */
-export type ModelGetHierarchicalEntityRolesResponse = Array<EntityRole> & {
+export type ModelGetHierarchicalEntityRolesResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4476,7 +4711,7 @@ export type ModelGetHierarchicalEntityRolesResponse = Array<EntityRole> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EntityRole[];
+      parsedBody: any;
     };
 };
 
@@ -4487,7 +4722,7 @@ export type ModelCreateHierarchicalEntityRoleResponse = {
   /**
    * The parsed response body.
    */
-  body: string;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4499,14 +4734,18 @@ export type ModelCreateHierarchicalEntityRoleResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getCustomPrebuiltEntityRoles operation.
  */
-export type ModelGetCustomPrebuiltEntityRolesResponse = Array<EntityRole> & {
+export type ModelGetCustomPrebuiltEntityRolesResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4518,7 +4757,7 @@ export type ModelGetCustomPrebuiltEntityRolesResponse = Array<EntityRole> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EntityRole[];
+      parsedBody: any;
     };
 };
 
@@ -4529,7 +4768,7 @@ export type ModelCreateCustomPrebuiltEntityRoleResponse = {
   /**
    * The parsed response body.
    */
-  body: string;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4541,14 +4780,18 @@ export type ModelCreateCustomPrebuiltEntityRoleResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getExplicitList operation.
  */
-export type ModelGetExplicitListResponse = Array<ExplicitListItem> & {
+export type ModelGetExplicitListResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4560,7 +4803,7 @@ export type ModelGetExplicitListResponse = Array<ExplicitListItem> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ExplicitListItem[];
+      parsedBody: any;
     };
 };
 
@@ -4571,7 +4814,7 @@ export type ModelAddExplicitListItemResponse = {
   /**
    * The parsed response body.
    */
-  body: number;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4583,14 +4826,18 @@ export type ModelAddExplicitListItemResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: number;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getRegexEntityEntityInfo operation.
  */
-export type ModelGetRegexEntityEntityInfoResponse = RegexEntityExtractor & {
+export type ModelGetRegexEntityEntityInfoResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4602,14 +4849,18 @@ export type ModelGetRegexEntityEntityInfoResponse = RegexEntityExtractor & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: RegexEntityExtractor;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the updateRegexEntityModel operation.
  */
-export type ModelUpdateRegexEntityModelResponse = OperationStatus & {
+export type ModelUpdateRegexEntityModelResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4621,14 +4872,18 @@ export type ModelUpdateRegexEntityModelResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deleteRegexEntityModel operation.
  */
-export type ModelDeleteRegexEntityModelResponse = OperationStatus & {
+export type ModelDeleteRegexEntityModelResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4640,14 +4895,18 @@ export type ModelDeleteRegexEntityModelResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getPatternAnyEntityInfo operation.
  */
-export type ModelGetPatternAnyEntityInfoResponse = PatternAnyEntityExtractor & {
+export type ModelGetPatternAnyEntityInfoResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4659,14 +4918,18 @@ export type ModelGetPatternAnyEntityInfoResponse = PatternAnyEntityExtractor & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PatternAnyEntityExtractor;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the updatePatternAnyEntityModel operation.
  */
-export type ModelUpdatePatternAnyEntityModelResponse = OperationStatus & {
+export type ModelUpdatePatternAnyEntityModelResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4678,14 +4941,18 @@ export type ModelUpdatePatternAnyEntityModelResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deletePatternAnyEntityModel operation.
  */
-export type ModelDeletePatternAnyEntityModelResponse = OperationStatus & {
+export type ModelDeletePatternAnyEntityModelResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4697,14 +4964,18 @@ export type ModelDeletePatternAnyEntityModelResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getEntityRole operation.
  */
-export type ModelGetEntityRoleResponse = EntityRole & {
+export type ModelGetEntityRoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4716,14 +4987,18 @@ export type ModelGetEntityRoleResponse = EntityRole & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EntityRole;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the updateEntityRole operation.
  */
-export type ModelUpdateEntityRoleResponse = OperationStatus & {
+export type ModelUpdateEntityRoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4735,14 +5010,18 @@ export type ModelUpdateEntityRoleResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deleteEntityRole operation.
  */
-export type ModelDeleteEntityRoleResponse = OperationStatus & {
+export type ModelDeleteEntityRoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4754,14 +5033,18 @@ export type ModelDeleteEntityRoleResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getPrebuiltEntityRole operation.
  */
-export type ModelGetPrebuiltEntityRoleResponse = EntityRole & {
+export type ModelGetPrebuiltEntityRoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4773,14 +5056,18 @@ export type ModelGetPrebuiltEntityRoleResponse = EntityRole & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EntityRole;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the updatePrebuiltEntityRole operation.
  */
-export type ModelUpdatePrebuiltEntityRoleResponse = OperationStatus & {
+export type ModelUpdatePrebuiltEntityRoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4792,14 +5079,18 @@ export type ModelUpdatePrebuiltEntityRoleResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deletePrebuiltEntityRole operation.
  */
-export type ModelDeletePrebuiltEntityRoleResponse = OperationStatus & {
+export type ModelDeletePrebuiltEntityRoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4811,14 +5102,18 @@ export type ModelDeletePrebuiltEntityRoleResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getClosedListEntityRole operation.
  */
-export type ModelGetClosedListEntityRoleResponse = EntityRole & {
+export type ModelGetClosedListEntityRoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4830,14 +5125,18 @@ export type ModelGetClosedListEntityRoleResponse = EntityRole & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EntityRole;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the updateClosedListEntityRole operation.
  */
-export type ModelUpdateClosedListEntityRoleResponse = OperationStatus & {
+export type ModelUpdateClosedListEntityRoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4849,14 +5148,18 @@ export type ModelUpdateClosedListEntityRoleResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deleteClosedListEntityRole operation.
  */
-export type ModelDeleteClosedListEntityRoleResponse = OperationStatus & {
+export type ModelDeleteClosedListEntityRoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4868,14 +5171,18 @@ export type ModelDeleteClosedListEntityRoleResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getRegexEntityRole operation.
  */
-export type ModelGetRegexEntityRoleResponse = EntityRole & {
+export type ModelGetRegexEntityRoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4887,14 +5194,18 @@ export type ModelGetRegexEntityRoleResponse = EntityRole & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EntityRole;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the updateRegexEntityRole operation.
  */
-export type ModelUpdateRegexEntityRoleResponse = OperationStatus & {
+export type ModelUpdateRegexEntityRoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4906,14 +5217,18 @@ export type ModelUpdateRegexEntityRoleResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deleteRegexEntityRole operation.
  */
-export type ModelDeleteRegexEntityRoleResponse = OperationStatus & {
+export type ModelDeleteRegexEntityRoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4925,14 +5240,18 @@ export type ModelDeleteRegexEntityRoleResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getCompositeEntityRole operation.
  */
-export type ModelGetCompositeEntityRoleResponse = EntityRole & {
+export type ModelGetCompositeEntityRoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4944,14 +5263,18 @@ export type ModelGetCompositeEntityRoleResponse = EntityRole & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EntityRole;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the updateCompositeEntityRole operation.
  */
-export type ModelUpdateCompositeEntityRoleResponse = OperationStatus & {
+export type ModelUpdateCompositeEntityRoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4963,14 +5286,18 @@ export type ModelUpdateCompositeEntityRoleResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deleteCompositeEntityRole operation.
  */
-export type ModelDeleteCompositeEntityRoleResponse = OperationStatus & {
+export type ModelDeleteCompositeEntityRoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -4982,14 +5309,18 @@ export type ModelDeleteCompositeEntityRoleResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getPatternAnyEntityRole operation.
  */
-export type ModelGetPatternAnyEntityRoleResponse = EntityRole & {
+export type ModelGetPatternAnyEntityRoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5001,14 +5332,18 @@ export type ModelGetPatternAnyEntityRoleResponse = EntityRole & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EntityRole;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the updatePatternAnyEntityRole operation.
  */
-export type ModelUpdatePatternAnyEntityRoleResponse = OperationStatus & {
+export type ModelUpdatePatternAnyEntityRoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5020,14 +5355,18 @@ export type ModelUpdatePatternAnyEntityRoleResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deletePatternAnyEntityRole operation.
  */
-export type ModelDeletePatternAnyEntityRoleResponse = OperationStatus & {
+export type ModelDeletePatternAnyEntityRoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5039,14 +5378,18 @@ export type ModelDeletePatternAnyEntityRoleResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getHierarchicalEntityRole operation.
  */
-export type ModelGetHierarchicalEntityRoleResponse = EntityRole & {
+export type ModelGetHierarchicalEntityRoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5058,14 +5401,18 @@ export type ModelGetHierarchicalEntityRoleResponse = EntityRole & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EntityRole;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the updateHierarchicalEntityRole operation.
  */
-export type ModelUpdateHierarchicalEntityRoleResponse = OperationStatus & {
+export type ModelUpdateHierarchicalEntityRoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5077,14 +5424,18 @@ export type ModelUpdateHierarchicalEntityRoleResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deleteHierarchicalEntityRole operation.
  */
-export type ModelDeleteHierarchicalEntityRoleResponse = OperationStatus & {
+export type ModelDeleteHierarchicalEntityRoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5096,14 +5447,18 @@ export type ModelDeleteHierarchicalEntityRoleResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getCustomEntityRole operation.
  */
-export type ModelGetCustomEntityRoleResponse = EntityRole & {
+export type ModelGetCustomEntityRoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5115,14 +5470,18 @@ export type ModelGetCustomEntityRoleResponse = EntityRole & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EntityRole;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the updateCustomPrebuiltEntityRole operation.
  */
-export type ModelUpdateCustomPrebuiltEntityRoleResponse = OperationStatus & {
+export type ModelUpdateCustomPrebuiltEntityRoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5134,14 +5493,18 @@ export type ModelUpdateCustomPrebuiltEntityRoleResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deleteCustomEntityRole operation.
  */
-export type ModelDeleteCustomEntityRoleResponse = OperationStatus & {
+export type ModelDeleteCustomEntityRoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5153,14 +5516,18 @@ export type ModelDeleteCustomEntityRoleResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getExplicitListItem operation.
  */
-export type ModelGetExplicitListItemResponse = ExplicitListItem & {
+export type ModelGetExplicitListItemResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5172,14 +5539,18 @@ export type ModelGetExplicitListItemResponse = ExplicitListItem & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ExplicitListItem;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the updateExplicitListItem operation.
  */
-export type ModelUpdateExplicitListItemResponse = OperationStatus & {
+export type ModelUpdateExplicitListItemResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5191,14 +5562,18 @@ export type ModelUpdateExplicitListItemResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deleteExplicitListItem operation.
  */
-export type ModelDeleteExplicitListItemResponse = OperationStatus & {
+export type ModelDeleteExplicitListItemResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5210,7 +5585,7 @@ export type ModelDeleteExplicitListItemResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
@@ -5221,7 +5596,7 @@ export type AppsAddResponse = {
   /**
    * The parsed response body.
    */
-  body: string;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5233,14 +5608,18 @@ export type AppsAddResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type AppsListResponse = Array<ApplicationInfoResponse> & {
+export type AppsListResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5252,7 +5631,7 @@ export type AppsListResponse = Array<ApplicationInfoResponse> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplicationInfoResponse[];
+      parsedBody: any;
     };
 };
 
@@ -5263,7 +5642,7 @@ export type AppsImportMethodResponse = {
   /**
    * The parsed response body.
    */
-  body: string;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5275,14 +5654,18 @@ export type AppsImportMethodResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the listCortanaEndpoints operation.
  */
-export type AppsListCortanaEndpointsResponse = PersonalAssistantsResponse & {
+export type AppsListCortanaEndpointsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5294,14 +5677,18 @@ export type AppsListCortanaEndpointsResponse = PersonalAssistantsResponse & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PersonalAssistantsResponse;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the listDomains operation.
  */
-export type AppsListDomainsResponse = Array<string> & {
+export type AppsListDomainsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5313,14 +5700,18 @@ export type AppsListDomainsResponse = Array<string> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string[];
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the listUsageScenarios operation.
  */
-export type AppsListUsageScenariosResponse = Array<string> & {
+export type AppsListUsageScenariosResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5332,14 +5723,18 @@ export type AppsListUsageScenariosResponse = Array<string> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string[];
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the listSupportedCultures operation.
  */
-export type AppsListSupportedCulturesResponse = Array<AvailableCulture> & {
+export type AppsListSupportedCulturesResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5351,7 +5746,7 @@ export type AppsListSupportedCulturesResponse = Array<AvailableCulture> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: AvailableCulture[];
+      parsedBody: any;
     };
 };
 
@@ -5382,7 +5777,11 @@ export type AppsDownloadQueryLogsResponse = {
 /**
  * Contains response data for the get operation.
  */
-export type AppsGetResponse = ApplicationInfoResponse & {
+export type AppsGetResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5394,14 +5793,18 @@ export type AppsGetResponse = ApplicationInfoResponse & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplicationInfoResponse;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the update operation.
  */
-export type AppsUpdateResponse = OperationStatus & {
+export type AppsUpdateResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5413,14 +5816,18 @@ export type AppsUpdateResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deleteMethod operation.
  */
-export type AppsDeleteMethodResponse = OperationStatus & {
+export type AppsDeleteMethodResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5432,14 +5839,18 @@ export type AppsDeleteMethodResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the publish operation.
  */
-export type AppsPublishResponse = ProductionOrStagingEndpointInfo & {
+export type AppsPublishResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5451,14 +5862,18 @@ export type AppsPublishResponse = ProductionOrStagingEndpointInfo & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ProductionOrStagingEndpointInfo;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getSettings operation.
  */
-export type AppsGetSettingsResponse = ApplicationSettings & {
+export type AppsGetSettingsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5470,14 +5885,18 @@ export type AppsGetSettingsResponse = ApplicationSettings & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplicationSettings;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the updateSettings operation.
  */
-export type AppsUpdateSettingsResponse = OperationStatus & {
+export type AppsUpdateSettingsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5489,14 +5908,18 @@ export type AppsUpdateSettingsResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getPublishSettings operation.
  */
-export type AppsGetPublishSettingsResponse = PublishSettings & {
+export type AppsGetPublishSettingsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5508,14 +5931,18 @@ export type AppsGetPublishSettingsResponse = PublishSettings & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PublishSettings;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the updatePublishSettings operation.
  */
-export type AppsUpdatePublishSettingsResponse = OperationStatus & {
+export type AppsUpdatePublishSettingsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5527,7 +5954,7 @@ export type AppsUpdatePublishSettingsResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
@@ -5536,10 +5963,9 @@ export type AppsUpdatePublishSettingsResponse = OperationStatus & {
  */
 export type AppsListEndpointsResponse = {
   /**
-   * The response body properties.
+   * The parsed response body.
    */
-  [propertyName: string]: string;
-} & {
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5551,14 +5977,18 @@ export type AppsListEndpointsResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: { [propertyName: string]: string };
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the listAvailableCustomPrebuiltDomains operation.
  */
-export type AppsListAvailableCustomPrebuiltDomainsResponse = Array<PrebuiltDomain> & {
+export type AppsListAvailableCustomPrebuiltDomainsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5570,7 +6000,7 @@ export type AppsListAvailableCustomPrebuiltDomainsResponse = Array<PrebuiltDomai
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PrebuiltDomain[];
+      parsedBody: any;
     };
 };
 
@@ -5581,7 +6011,7 @@ export type AppsAddCustomPrebuiltDomainResponse = {
   /**
    * The parsed response body.
    */
-  body: string;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5593,14 +6023,18 @@ export type AppsAddCustomPrebuiltDomainResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the listAvailableCustomPrebuiltDomainsForCulture operation.
  */
-export type AppsListAvailableCustomPrebuiltDomainsForCultureResponse = Array<PrebuiltDomain> & {
+export type AppsListAvailableCustomPrebuiltDomainsForCultureResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5612,7 +6046,7 @@ export type AppsListAvailableCustomPrebuiltDomainsForCultureResponse = Array<Pre
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PrebuiltDomain[];
+      parsedBody: any;
     };
 };
 
@@ -5623,7 +6057,7 @@ export type VersionsCloneResponse = {
   /**
    * The parsed response body.
    */
-  body: string;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5635,14 +6069,18 @@ export type VersionsCloneResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type VersionsListResponse = Array<VersionInfo> & {
+export type VersionsListResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5654,14 +6092,18 @@ export type VersionsListResponse = Array<VersionInfo> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: VersionInfo[];
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type VersionsGetResponse = VersionInfo & {
+export type VersionsGetResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5673,14 +6115,18 @@ export type VersionsGetResponse = VersionInfo & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: VersionInfo;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the update operation.
  */
-export type VersionsUpdateResponse = OperationStatus & {
+export type VersionsUpdateResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5692,14 +6138,18 @@ export type VersionsUpdateResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deleteMethod operation.
  */
-export type VersionsDeleteMethodResponse = OperationStatus & {
+export type VersionsDeleteMethodResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5711,14 +6161,18 @@ export type VersionsDeleteMethodResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the exportMethod operation.
  */
-export type VersionsExportMethodResponse = LuisApp & {
+export type VersionsExportMethodResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5730,7 +6184,7 @@ export type VersionsExportMethodResponse = LuisApp & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: LuisApp;
+      parsedBody: any;
     };
 };
 
@@ -5741,7 +6195,7 @@ export type VersionsImportMethodResponse = {
   /**
    * The parsed response body.
    */
-  body: string;
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5753,14 +6207,18 @@ export type VersionsImportMethodResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: string;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deleteUnlabelledUtterance operation.
  */
-export type VersionsDeleteUnlabelledUtteranceResponse = OperationStatus & {
+export type VersionsDeleteUnlabelledUtteranceResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5772,14 +6230,18 @@ export type VersionsDeleteUnlabelledUtteranceResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the trainVersion operation.
  */
-export type TrainTrainVersionResponse = EnqueueTrainingResponse & {
+export type TrainTrainVersionResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5791,14 +6253,18 @@ export type TrainTrainVersionResponse = EnqueueTrainingResponse & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EnqueueTrainingResponse;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getStatus operation.
  */
-export type TrainGetStatusResponse = Array<ModelTrainingInfo> & {
+export type TrainGetStatusResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5810,14 +6276,18 @@ export type TrainGetStatusResponse = Array<ModelTrainingInfo> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ModelTrainingInfo[];
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type PermissionsListResponse = UserAccessList & {
+export type PermissionsListResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5829,14 +6299,18 @@ export type PermissionsListResponse = UserAccessList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: UserAccessList;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the add operation.
  */
-export type PermissionsAddResponse = OperationStatus & {
+export type PermissionsAddResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5848,14 +6322,18 @@ export type PermissionsAddResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deleteMethod operation.
  */
-export type PermissionsDeleteMethodResponse = OperationStatus & {
+export type PermissionsDeleteMethodResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5867,14 +6345,18 @@ export type PermissionsDeleteMethodResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the update operation.
  */
-export type PermissionsUpdateResponse = OperationStatus & {
+export type PermissionsUpdateResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5886,14 +6368,18 @@ export type PermissionsUpdateResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the addPattern operation.
  */
-export type PatternAddPatternResponse = PatternRuleInfo & {
+export type PatternAddPatternResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5905,14 +6391,18 @@ export type PatternAddPatternResponse = PatternRuleInfo & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PatternRuleInfo;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getPatterns operation.
  */
-export type PatternGetPatternsResponse = Array<PatternRuleInfo> & {
+export type PatternGetPatternsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5924,14 +6414,18 @@ export type PatternGetPatternsResponse = Array<PatternRuleInfo> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PatternRuleInfo[];
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the updatePatterns operation.
  */
-export type PatternUpdatePatternsResponse = Array<PatternRuleInfo> & {
+export type PatternUpdatePatternsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5943,14 +6437,18 @@ export type PatternUpdatePatternsResponse = Array<PatternRuleInfo> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PatternRuleInfo[];
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the batchAddPatterns operation.
  */
-export type PatternBatchAddPatternsResponse = Array<PatternRuleInfo> & {
+export type PatternBatchAddPatternsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5962,14 +6460,18 @@ export type PatternBatchAddPatternsResponse = Array<PatternRuleInfo> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PatternRuleInfo[];
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deletePatterns operation.
  */
-export type PatternDeletePatternsResponse = OperationStatus & {
+export type PatternDeletePatternsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5981,14 +6483,18 @@ export type PatternDeletePatternsResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the updatePattern operation.
  */
-export type PatternUpdatePatternResponse = PatternRuleInfo & {
+export type PatternUpdatePatternResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -6000,14 +6506,18 @@ export type PatternUpdatePatternResponse = PatternRuleInfo & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PatternRuleInfo;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the deletePattern operation.
  */
-export type PatternDeletePatternResponse = OperationStatus & {
+export type PatternDeletePatternResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -6019,14 +6529,18 @@ export type PatternDeletePatternResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the getIntentPatterns operation.
  */
-export type PatternGetIntentPatternsResponse = Array<PatternRuleInfo> & {
+export type PatternGetIntentPatternsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -6038,14 +6552,18 @@ export type PatternGetIntentPatternsResponse = Array<PatternRuleInfo> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PatternRuleInfo[];
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type SettingsListResponse = Array<AppVersionSettingObject> & {
+export type SettingsListResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -6057,14 +6575,18 @@ export type SettingsListResponse = Array<AppVersionSettingObject> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: AppVersionSettingObject[];
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the update operation.
  */
-export type SettingsUpdateResponse = OperationStatus & {
+export type SettingsUpdateResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -6076,6 +6598,6 @@ export type SettingsUpdateResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
