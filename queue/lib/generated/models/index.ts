@@ -204,6 +204,17 @@ export interface Logging {
 
 /**
  * @interface
+ * An interface representing StorageError.
+ */
+export interface StorageError {
+  /**
+   * @member {string} [message]
+   */
+  message?: string;
+}
+
+/**
+ * @interface
  * An interface representing Metrics.
  */
 export interface Metrics {
@@ -394,13 +405,6 @@ export interface StorageServiceProperties {
    * @member {CorsRule[]} [cors] The set of CORS rules.
    */
   cors?: CorsRule[];
-  /**
-   * @member {string} [defaultServiceVersion] The default version to use for
-   * requests to the Queue service if an incoming request's version is not
-   * specified. Possible values include version 2008-10-27 and all more recent
-   * versions
-   */
-  defaultServiceVersion?: string;
 }
 
 /**
@@ -415,17 +419,6 @@ export interface StorageServiceStats {
    * the Secondary Storage Service
    */
   geoReplication?: GeoReplication;
-}
-
-/**
- * @interface
- * An interface representing StorageError.
- */
-export interface StorageError {
-  /**
-   * @member {string} [message]
-   */
-  message?: string;
 }
 
 /**
@@ -1361,6 +1354,86 @@ export interface MessageIDDeleteHeaders {
    * @member {string} [errorCode]
    */
   errorCode?: string;
+}
+
+/**
+ * Defines values for StorageErrorCode.
+ * Possible values include: 'AccountAlreadyExists', 'AccountBeingCreated',
+ * 'AccountIsDisabled', 'AuthenticationFailed', 'ConditionHeadersNotSupported',
+ * 'ConditionNotMet', 'EmptyMetadataKey', 'InsufficientAccountPermissions',
+ * 'InternalError', 'InvalidAuthenticationInfo', 'InvalidHeaderValue',
+ * 'InvalidHttpVerb', 'InvalidInput', 'InvalidMd5', 'InvalidMetadata',
+ * 'InvalidQueryParameterValue', 'InvalidRange', 'InvalidResourceName',
+ * 'InvalidUri', 'InvalidXmlDocument', 'InvalidXmlNodeValue', 'Md5Mismatch',
+ * 'MetadataTooLarge', 'MissingContentLengthHeader',
+ * 'MissingRequiredQueryParameter', 'MissingRequiredHeader',
+ * 'MissingRequiredXmlNode', 'MultipleConditionHeadersNotSupported',
+ * 'OperationTimedOut', 'OutOfRangeInput', 'OutOfRangeQueryParameterValue',
+ * 'RequestBodyTooLarge', 'ResourceTypeMismatch', 'RequestUrlFailedToParse',
+ * 'ResourceAlreadyExists', 'ResourceNotFound', 'ServerBusy',
+ * 'UnsupportedHeader', 'UnsupportedXmlNode', 'UnsupportedQueryParameter',
+ * 'UnsupportedHttpVerb', 'InvalidMarker', 'MessageNotFound',
+ * 'MessageTooLarge', 'PopReceiptMismatch', 'QueueAlreadyExists',
+ * 'QueueBeingDeleted', 'QueueDisabled', 'QueueNotEmpty', 'QueueNotFound'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: StorageErrorCode =
+ * <StorageErrorCode>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum StorageErrorCode {
+  AccountAlreadyExists = 'AccountAlreadyExists',
+  AccountBeingCreated = 'AccountBeingCreated',
+  AccountIsDisabled = 'AccountIsDisabled',
+  AuthenticationFailed = 'AuthenticationFailed',
+  ConditionHeadersNotSupported = 'ConditionHeadersNotSupported',
+  ConditionNotMet = 'ConditionNotMet',
+  EmptyMetadataKey = 'EmptyMetadataKey',
+  InsufficientAccountPermissions = 'InsufficientAccountPermissions',
+  InternalError = 'InternalError',
+  InvalidAuthenticationInfo = 'InvalidAuthenticationInfo',
+  InvalidHeaderValue = 'InvalidHeaderValue',
+  InvalidHttpVerb = 'InvalidHttpVerb',
+  InvalidInput = 'InvalidInput',
+  InvalidMd5 = 'InvalidMd5',
+  InvalidMetadata = 'InvalidMetadata',
+  InvalidQueryParameterValue = 'InvalidQueryParameterValue',
+  InvalidRange = 'InvalidRange',
+  InvalidResourceName = 'InvalidResourceName',
+  InvalidUri = 'InvalidUri',
+  InvalidXmlDocument = 'InvalidXmlDocument',
+  InvalidXmlNodeValue = 'InvalidXmlNodeValue',
+  Md5Mismatch = 'Md5Mismatch',
+  MetadataTooLarge = 'MetadataTooLarge',
+  MissingContentLengthHeader = 'MissingContentLengthHeader',
+  MissingRequiredQueryParameter = 'MissingRequiredQueryParameter',
+  MissingRequiredHeader = 'MissingRequiredHeader',
+  MissingRequiredXmlNode = 'MissingRequiredXmlNode',
+  MultipleConditionHeadersNotSupported = 'MultipleConditionHeadersNotSupported',
+  OperationTimedOut = 'OperationTimedOut',
+  OutOfRangeInput = 'OutOfRangeInput',
+  OutOfRangeQueryParameterValue = 'OutOfRangeQueryParameterValue',
+  RequestBodyTooLarge = 'RequestBodyTooLarge',
+  ResourceTypeMismatch = 'ResourceTypeMismatch',
+  RequestUrlFailedToParse = 'RequestUrlFailedToParse',
+  ResourceAlreadyExists = 'ResourceAlreadyExists',
+  ResourceNotFound = 'ResourceNotFound',
+  ServerBusy = 'ServerBusy',
+  UnsupportedHeader = 'UnsupportedHeader',
+  UnsupportedXmlNode = 'UnsupportedXmlNode',
+  UnsupportedQueryParameter = 'UnsupportedQueryParameter',
+  UnsupportedHttpVerb = 'UnsupportedHttpVerb',
+  InvalidMarker = 'InvalidMarker',
+  MessageNotFound = 'MessageNotFound',
+  MessageTooLarge = 'MessageTooLarge',
+  PopReceiptMismatch = 'PopReceiptMismatch',
+  QueueAlreadyExists = 'QueueAlreadyExists',
+  QueueBeingDeleted = 'QueueBeingDeleted',
+  QueueDisabled = 'QueueDisabled',
+  QueueNotEmpty = 'QueueNotEmpty',
+  QueueNotFound = 'QueueNotFound',
 }
 
 /**

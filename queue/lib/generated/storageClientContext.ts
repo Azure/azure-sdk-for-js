@@ -24,8 +24,6 @@ export class StorageClientContext extends msRest.ServiceClient {
    *
    * @param {string} url - The URL of the service account, queue or message that is the targe of the desired operation.
    *
-   * @param {string} version - Specifies the version of the operation to use for this request.
-   *
    * @param {object} [options] - The parameter options
    *
    * @param {Array} [options.filters] - Filters to be added to the request pipeline
@@ -36,12 +34,9 @@ export class StorageClientContext extends msRest.ServiceClient {
    * @param {boolean} [options.noRetryPolicy] - If set to true, turn off default retry policy
    *
    */
-  constructor(url: string, version: string, options?: msRest.ServiceClientOptions) {
+  constructor(url: string, options?: msRest.ServiceClientOptions) {
     if (url === null || url === undefined) {
       throw new Error('\'url\' cannot be null.');
-    }
-    if (version === null || version === undefined) {
-      throw new Error('\'version\' cannot be null.');
     }
 
     if (!options) {
@@ -50,10 +45,10 @@ export class StorageClientContext extends msRest.ServiceClient {
 
     super(undefined, options);
 
+    this.version = '2018-03-28';
     this.baseUri = "{url}";
     this.requestContentType = "application/json; charset=utf-8";
     this.url = url;
-    this.version = version;
 
     this.addUserAgentInfo(`${packageName}/${packageVersion}`);
   }
