@@ -228,7 +228,7 @@ export interface FactoryRepoConfiguration {
    */
   accountName: string;
   /**
-   * @member {string} repositoryName Rrepository name.
+   * @member {string} repositoryName Repository name.
    */
   repositoryName: string;
   /**
@@ -697,11 +697,11 @@ export interface ActivityDependency {
  */
 export interface UserProperty {
   /**
-   * @member {string} name User proprety name.
+   * @member {string} name User property name.
    */
   name: string;
   /**
-   * @member {any} value User proprety value. Type: string (or Expression with
+   * @member {any} value User property value. Type: string (or Expression with
    * resultType string).
    */
   value: any;
@@ -905,7 +905,7 @@ export interface FactoryVSTSConfiguration {
    */
   accountName: string;
   /**
-   * @member {string} repositoryName Rrepository name.
+   * @member {string} repositoryName Repository name.
    */
   repositoryName: string;
   /**
@@ -946,7 +946,7 @@ export interface FactoryGitHubConfiguration {
    */
   accountName: string;
   /**
-   * @member {string} repositoryName Rrepository name.
+   * @member {string} repositoryName Repository name.
    */
   repositoryName: string;
   /**
@@ -2064,7 +2064,7 @@ export interface MultiplePipelineTrigger {
 /**
  * @interface
  * An interface representing BlobEventsTrigger.
- * Trigger that runs everytime a Blob event occurs.
+ * Trigger that runs every time a Blob event occurs.
  *
  */
 export interface BlobEventsTrigger {
@@ -2118,7 +2118,7 @@ export interface BlobEventsTrigger {
 /**
  * @interface
  * An interface representing BlobTrigger.
- * Trigger that runs everytime the selected Blob container changes.
+ * Trigger that runs every time the selected Blob container changes.
  *
  */
 export interface BlobTrigger {
@@ -2163,7 +2163,7 @@ export interface BlobTrigger {
 /**
  * @interface
  * An interface representing RecurrenceScheduleOccurrence.
- * The recurrence schedule occurence.
+ * The recurrence schedule occurrence.
  *
  */
 export interface RecurrenceScheduleOccurrence {
@@ -7606,7 +7606,7 @@ export interface ZohoObjectDataset {
 /**
  * @interface
  * An interface representing XeroObjectDataset.
- * Xero Serivce dataset.
+ * Xero Service dataset.
  *
  */
 export interface XeroObjectDataset {
@@ -7654,7 +7654,7 @@ export interface XeroObjectDataset {
 /**
  * @interface
  * An interface representing SquareObjectDataset.
- * Square Serivce dataset.
+ * Square Service dataset.
  *
  */
 export interface SquareObjectDataset {
@@ -7750,7 +7750,7 @@ export interface SparkObjectDataset {
 /**
  * @interface
  * An interface representing ShopifyObjectDataset.
- * Shopify Serivce dataset.
+ * Shopify Service dataset.
  *
  */
 export interface ShopifyObjectDataset {
@@ -7990,7 +7990,7 @@ export interface PhoenixObjectDataset {
 /**
  * @interface
  * An interface representing PaypalObjectDataset.
- * Paypal Serivce dataset.
+ * Paypal Service dataset.
  *
  */
 export interface PaypalObjectDataset {
@@ -8182,7 +8182,7 @@ export interface MagentoObjectDataset {
 /**
  * @interface
  * An interface representing JiraObjectDataset.
- * Jira Serivce dataset.
+ * Jira Service dataset.
  *
  */
 export interface JiraObjectDataset {
@@ -8278,7 +8278,7 @@ export interface ImpalaObjectDataset {
 /**
  * @interface
  * An interface representing HubspotObjectDataset.
- * Hubspot Serivce dataset.
+ * Hubspot Service dataset.
  *
  */
 export interface HubspotObjectDataset {
@@ -8662,7 +8662,7 @@ export interface CouchbaseTableDataset {
 /**
  * @interface
  * An interface representing ConcurObjectDataset.
- * Concur Serivce dataset.
+ * Concur Service dataset.
  *
  */
 export interface ConcurObjectDataset {
@@ -11212,7 +11212,7 @@ export interface ZohoSource {
 /**
  * @interface
  * An interface representing XeroSource.
- * A copy activity Xero Serivce source.
+ * A copy activity Xero Service source.
  *
  */
 export interface XeroSource {
@@ -11241,7 +11241,7 @@ export interface XeroSource {
 /**
  * @interface
  * An interface representing SquareSource.
- * A copy activity Square Serivce source.
+ * A copy activity Square Service source.
  *
  */
 export interface SquareSource {
@@ -11299,7 +11299,7 @@ export interface SparkSource {
 /**
  * @interface
  * An interface representing ShopifySource.
- * A copy activity Shopify Serivce source.
+ * A copy activity Shopify Service source.
  *
  */
 export interface ShopifySource {
@@ -11444,7 +11444,7 @@ export interface PhoenixSource {
 /**
  * @interface
  * An interface representing PaypalSource.
- * A copy activity Paypal Serivce source.
+ * A copy activity Paypal Service source.
  *
  */
 export interface PaypalSource {
@@ -11560,7 +11560,7 @@ export interface MagentoSource {
 /**
  * @interface
  * An interface representing JiraSource.
- * A copy activity Jira Serivce source.
+ * A copy activity Jira Service source.
  *
  */
 export interface JiraSource {
@@ -11618,7 +11618,7 @@ export interface ImpalaSource {
 /**
  * @interface
  * An interface representing HubspotSource.
- * A copy activity Hubspot Serivce source.
+ * A copy activity Hubspot Service source.
  *
  */
 export interface HubspotSource {
@@ -11850,7 +11850,7 @@ export interface CouchbaseSource {
 /**
  * @interface
  * An interface representing ConcurSource.
- * A copy activity Concur Serivce source.
+ * A copy activity Concur Service source.
  *
  */
 export interface ConcurSource {
@@ -14236,7 +14236,7 @@ export interface CopyActivity {
   sink: CopySinkUnion;
   /**
    * @member {CopyTranslatorUnion} [translator] Copy activity translator. If
-   * not specificed, tabular translator is used.
+   * not specified, tabular translator is used.
    */
   translator?: CopyTranslatorUnion;
   /**
@@ -15786,8 +15786,8 @@ export interface PipelinesGetOptionalParams extends msRest.RequestOptionsBase {
 export interface PipelinesCreateRunOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [referencePipelineRunId] The pipeline run identifier. If
-   * run ID is specified the parameters of the the specified run will be used
-   * to create a new run.
+   * run ID is specified the parameters of the specified run will be used to
+   * create a new run.
    */
   referencePipelineRunId?: string;
   /**
