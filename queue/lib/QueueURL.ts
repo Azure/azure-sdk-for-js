@@ -12,10 +12,6 @@ export interface IQueueCreateOptions {
   metadata?: IMetadata;
 }
 
-export interface IQueueSetMetadataOptions {
-    metadata?: IMetadata;
-}
-
 export interface ISignedIdentifier {
   /**
    * @member {string} id a unique id
@@ -26,11 +22,11 @@ export interface ISignedIdentifier {
    */
   accessPolicy: {
     /**
-     * @member {Date} start the date-time the policy is active. A validate ISO string format, or Date
+     * @member {Date} start the date-time the policy is active.
      */
     start: Date;
     /**
-     * @member {string} expiry the date-time the policy expires. A validate ISO string format, or Date
+     * @member {string} expiry the date-time the policy expires.
      */
     expiry: Date;
     /**
@@ -136,8 +132,6 @@ export class QueueURL extends StorageURL {
     aborter: Aborter,
     options: IQueueCreateOptions = {}
   ): Promise<Models.QueueCreateResponse> {
-    // Spread operator in destructuring assignments,
-    // this will filter out unwanted properties from the response object into result object
     return this.queueContext.create({
       ...options,
       abortSignal: aborter
@@ -145,7 +139,7 @@ export class QueueURL extends StorageURL {
   }
 
   /**
-   * Returns all user-defined metadata and system properties for the specified
+   * Gets all user-defined metadata and system properties for the specified
    * queue. Metadata is associated with the queue as name-values pairs.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata
    *
@@ -188,17 +182,17 @@ export class QueueURL extends StorageURL {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IQueueSetMetadataOptions} [options]
+   * @param {IMetadata} [metadata] If no metadata provided, all existing metadata will be removed.
    * @returns {Promise<Models.QueueSetMetadataResponse>}
    * @memberof QueueURL
    */
   public async setMetadata(
     aborter: Aborter,
-    options: IQueueSetMetadataOptions = {}
+    metadata?: IMetadata
   ): Promise<Models.QueueSetMetadataResponse> {
     return this.queueContext.setMetadata({
       abortSignal: aborter,
-      ...options
+      metadata
     });
   }
 

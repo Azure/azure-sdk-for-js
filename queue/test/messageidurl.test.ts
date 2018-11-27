@@ -22,20 +22,20 @@ describe("MessageIDURL", () => {
         await queueURL.delete(Aborter.none);
     });
 
-    it("update and delete message with all parameters", async () => {
+    it("update and delete message with default/all parameters", async () => {
         let messagesURL = MessagesURL.fromQueueURL(queueURL);
         let eResult = await messagesURL.enqueue(Aborter.none, messageContent);
         assert.ok(eResult.date);
         assert.ok(eResult.expirationTime);
         assert.ok(eResult.insertionTime);
-        assert.ok(eResult.messageId);
+        assert.ok(eResult.messageID);
         assert.ok(eResult.popReceipt);
         assert.ok(eResult.requestId);
         assert.ok(eResult.timeNextVisible);
         assert.ok(eResult.version);
 
         let newMessage = "New Message";
-        let messageIDURL = MessageIDURL.fromMessagesURL(messagesURL, eResult.messageId);
+        let messageIDURL = MessageIDURL.fromMessagesURL(messagesURL, eResult.messageID);
         let uResult = await messageIDURL.update(Aborter.none, eResult.popReceipt, 0, newMessage);
         assert.ok(uResult.version);
         assert.ok(uResult.timeNextVisible);

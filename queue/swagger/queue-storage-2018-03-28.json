@@ -1388,7 +1388,7 @@
       "description": "The object returned in the QueueMessageList array when calling Get Messages on a Queue.",
       "type": "object",
       "required": [
-        "MessageId",
+        "MessageID",
         "InsertionTime",
         "ExpirationTime",
         "PopReceipt",
@@ -1397,9 +1397,12 @@
         "MessageText"
       ],
       "properties": {
-        "MessageId": {
+        "MessageID": {
           "type": "string",
-          "description": "The Id of the Message."
+          "description": "The Id of the Message.",
+		  "xml": {
+			"name": "MessageId"
+		  }
         },
         "InsertionTime": {
           "type": "string",
@@ -1439,16 +1442,19 @@
       "description": "The object returned in the QueueMessageList array when calling Peek Messages on a Queue",
       "type": "object",
       "required": [
-        "MessageId",
+        "MessageID",
         "InsertionTime",
         "ExpirationTime",
         "DequeueCount",
         "MessageText"
       ],
       "properties": {
-        "MessageId": {
+        "MessageID": {
           "type": "string",
-          "description": "The Id of the Message"
+          "description": "The Id of the Message",
+		  "xml": {
+			"name": "MessageId"
+		  }
         },
         "InsertionTime": {
           "type": "string",
@@ -1479,16 +1485,19 @@
       "description": "The object returned in the QueueMessageList array when calling Put Message on a Queue",
       "type": "object",
       "required": [
-        "MessageId",
+        "MessageID",
         "InsertionTime",
         "ExpirationTime",
         "PopReceipt",
         "TimeNextVisible"
       ],
       "properties": {
-        "MessageId": {
+        "MessageID": {
           "type": "string",
-          "description": "The Id of the Message"
+          "description": "The Id of the Message",
+		  "xml": {
+			"name": "MessageId"
+		  }
         },
         "InsertionTime": {
           "type": "string",

@@ -25,9 +25,7 @@ describe("QueueURL", () => {
       keya: "vala",
       keyb: "valb"
     };
-    await queueURL.setMetadata(Aborter.none, {
-      metadata
-    });
+    await queueURL.setMetadata(Aborter.none, metadata);
 
     const result = await queueURL.getProperties(Aborter.none);
     assert.deepEqual(result.metadata, metadata);

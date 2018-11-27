@@ -11,7 +11,6 @@ import {
   TelemetryPolicyFactory
 } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
-import { SERVICE_VERSION } from "./utils/constants";
 
 export { deserializationPolicy };
 
@@ -111,7 +110,6 @@ export abstract class StorageURL {
     this.pipeline = pipeline;
     this.storageClientContext = new StorageClientContext(
       url,
-      SERVICE_VERSION,
       pipeline.toServiceClientOptions()
     );
   }
