@@ -140,6 +140,45 @@ export interface ErrorResponse {
 
 /**
  * @interface
+ * An interface representing EntitiesErrorRecord.
+ */
+export interface EntitiesErrorRecord {
+  /**
+   * @member {string} [id] Input document unique identifier the error refers
+   * to.
+   */
+  id?: string;
+  /**
+   * @member {string} [message] Error message.
+   */
+  message?: string;
+}
+
+/**
+ * @interface
+ * An interface representing EntitiesErrorResponse.
+ */
+export interface EntitiesErrorResponse {
+  /**
+   * @member {string} [code]
+   */
+  code?: string;
+  /**
+   * @member {string} [message]
+   */
+  message?: string;
+  /**
+   * @member {string} [target]
+   */
+  target?: string;
+  /**
+   * @member {InternalError} [innerError]
+   */
+  innerError?: InternalError;
+}
+
+/**
+ * @interface
  * An interface representing Input.
  */
 export interface Input {
@@ -264,9 +303,9 @@ export interface SentimentBatchResult {
 
 /**
  * @interface
- * An interface representing MatchRecordV2dot1.
+ * An interface representing MatchRecord.
  */
-export interface MatchRecordV2dot1 {
+export interface MatchRecord {
   /**
    * @member {string} [text] Entity text as appears in the request.
    */
@@ -285,18 +324,18 @@ export interface MatchRecordV2dot1 {
 
 /**
  * @interface
- * An interface representing EntityRecordV2dot1.
+ * An interface representing EntityRecord.
  */
-export interface EntityRecordV2dot1 {
+export interface EntityRecord {
   /**
    * @member {string} [name] Entity formal name.
    */
   name?: string;
   /**
-   * @member {MatchRecordV2dot1[]} [matches] List of instances this entity
-   * appears in the text.
+   * @member {MatchRecord[]} [matches] List of instances this entity appears in
+   * the text.
    */
-  matches?: MatchRecordV2dot1[];
+  matches?: MatchRecord[];
   /**
    * @member {string} [wikipediaLanguage] Wikipedia language for which the
    * WikipediaId and WikipediaUrl refers to.
@@ -333,9 +372,9 @@ export interface EntityRecordV2dot1 {
 
 /**
  * @interface
- * An interface representing EntitiesBatchResultItemV2dot1.
+ * An interface representing EntitiesBatchResultItem.
  */
-export interface EntitiesBatchResultItemV2dot1 {
+export interface EntitiesBatchResultItem {
   /**
    * @member {string} [id] Unique document identifier.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -343,29 +382,28 @@ export interface EntitiesBatchResultItemV2dot1 {
    */
   readonly id?: string;
   /**
-   * @member {EntityRecordV2dot1[]} [entities] Recognized entities in the
-   * document.
+   * @member {EntityRecord[]} [entities] Recognized entities in the document.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly entities?: EntityRecordV2dot1[];
+  readonly entities?: EntityRecord[];
 }
 
 /**
  * @interface
- * An interface representing EntitiesBatchResultV2dot1.
+ * An interface representing EntitiesBatchResult.
  */
-export interface EntitiesBatchResultV2dot1 {
+export interface EntitiesBatchResult {
   /**
-   * @member {EntitiesBatchResultItemV2dot1[]} [documents] **NOTE: This
-   * property will not be serialized. It can only be populated by the server.**
+   * @member {EntitiesBatchResultItem[]} [documents] **NOTE: This property will
+   * not be serialized. It can only be populated by the server.**
    */
-  readonly documents?: EntitiesBatchResultItemV2dot1[];
+  readonly documents?: EntitiesBatchResultItem[];
   /**
-   * @member {ErrorRecord[]} [errors] **NOTE: This property will not be
+   * @member {EntitiesErrorRecord[]} [errors] **NOTE: This property will not be
    * serialized. It can only be populated by the server.**
    */
-  readonly errors?: ErrorRecord[];
+  readonly errors?: EntitiesErrorRecord[];
 }
 
 /**
@@ -428,7 +466,7 @@ export type SentimentResponse = SentimentBatchResult & {
 /**
  * Contains response data for the entities operation.
  */
-export type EntitiesResponse = EntitiesBatchResultV2dot1 & {
+export type EntitiesResponse = EntitiesBatchResult & {
   /**
    * The underlying HTTP response.
    */
@@ -440,6 +478,6 @@ export type EntitiesResponse = EntitiesBatchResultV2dot1 & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EntitiesBatchResultV2dot1;
+      parsedBody: EntitiesBatchResult;
     };
 };

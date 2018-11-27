@@ -149,14 +149,14 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
    * @param input Collection of documents to analyze.
    * @param callback The callback
    */
-  entities(input: Models.MultiLanguageBatchInput, callback: msRest.ServiceCallback<Models.EntitiesBatchResultV2dot1>): void;
+  entities(input: Models.MultiLanguageBatchInput, callback: msRest.ServiceCallback<Models.EntitiesBatchResult>): void;
   /**
    * @param input Collection of documents to analyze.
    * @param options The optional parameters
    * @param callback The callback
    */
-  entities(input: Models.MultiLanguageBatchInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntitiesBatchResultV2dot1>): void;
-  entities(input: Models.MultiLanguageBatchInput, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntitiesBatchResultV2dot1>): Promise<Models.EntitiesResponse> {
+  entities(input: Models.MultiLanguageBatchInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntitiesBatchResult>): void;
+  entities(input: Models.MultiLanguageBatchInput, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntitiesBatchResult>): Promise<Models.EntitiesResponse> {
     return this.sendOperationRequest(
       {
         input,
@@ -256,10 +256,10 @@ const entitiesOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.EntitiesBatchResultV2dot1
+      bodyMapper: Mappers.EntitiesBatchResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.EntitiesErrorResponse
     }
   },
   serializer

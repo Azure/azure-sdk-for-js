@@ -212,6 +212,63 @@ export const ErrorResponse: msRest.CompositeMapper = {
   }
 };
 
+export const EntitiesErrorRecord: msRest.CompositeMapper = {
+  serializedName: "EntitiesErrorRecord",
+  type: {
+    name: "Composite",
+    className: "EntitiesErrorRecord",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EntitiesErrorResponse: msRest.CompositeMapper = {
+  serializedName: "EntitiesErrorResponse",
+  type: {
+    name: "Composite",
+    className: "EntitiesErrorResponse",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      innerError: {
+        serializedName: "innerError",
+        type: {
+          name: "Composite",
+          className: "InternalError"
+        }
+      }
+    }
+  }
+};
+
 export const Input: msRest.CompositeMapper = {
   serializedName: "Input",
   type: {
@@ -410,26 +467,26 @@ export const SentimentBatchResult: msRest.CompositeMapper = {
   }
 };
 
-export const MatchRecordV2dot1: msRest.CompositeMapper = {
-  serializedName: "MatchRecordV2dot1",
+export const MatchRecord: msRest.CompositeMapper = {
+  serializedName: "MatchRecord",
   type: {
     name: "Composite",
-    className: "MatchRecordV2dot1",
+    className: "MatchRecord",
     modelProperties: {
       text: {
-        serializedName: "text",
+        serializedName: "Text",
         type: {
           name: "String"
         }
       },
       offset: {
-        serializedName: "offset",
+        serializedName: "Offset",
         type: {
           name: "Number"
         }
       },
       length: {
-        serializedName: "length",
+        serializedName: "Length",
         type: {
           name: "Number"
         }
@@ -438,63 +495,63 @@ export const MatchRecordV2dot1: msRest.CompositeMapper = {
   }
 };
 
-export const EntityRecordV2dot1: msRest.CompositeMapper = {
-  serializedName: "EntityRecordV2dot1",
+export const EntityRecord: msRest.CompositeMapper = {
+  serializedName: "EntityRecord",
   type: {
     name: "Composite",
-    className: "EntityRecordV2dot1",
+    className: "EntityRecord",
     modelProperties: {
       name: {
-        serializedName: "name",
+        serializedName: "Name",
         type: {
           name: "String"
         }
       },
       matches: {
-        serializedName: "matches",
+        serializedName: "Matches",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "MatchRecordV2dot1"
+              className: "MatchRecord"
             }
           }
         }
       },
       wikipediaLanguage: {
-        serializedName: "wikipediaLanguage",
+        serializedName: "WikipediaLanguage",
         type: {
           name: "String"
         }
       },
       wikipediaId: {
-        serializedName: "wikipediaId",
+        serializedName: "WikipediaId",
         type: {
           name: "String"
         }
       },
       wikipediaUrl: {
         readOnly: true,
-        serializedName: "wikipediaUrl",
+        serializedName: "WikipediaUrl",
         type: {
           name: "String"
         }
       },
       bingId: {
-        serializedName: "bingId",
+        serializedName: "BingId",
         type: {
           name: "String"
         }
       },
       type: {
-        serializedName: "type",
+        serializedName: "Type",
         type: {
           name: "String"
         }
       },
       subType: {
-        serializedName: "subType",
+        serializedName: "SubType",
         type: {
           name: "String"
         }
@@ -503,28 +560,28 @@ export const EntityRecordV2dot1: msRest.CompositeMapper = {
   }
 };
 
-export const EntitiesBatchResultItemV2dot1: msRest.CompositeMapper = {
-  serializedName: "EntitiesBatchResultItemV2dot1",
+export const EntitiesBatchResultItem: msRest.CompositeMapper = {
+  serializedName: "EntitiesBatchResultItem",
   type: {
     name: "Composite",
-    className: "EntitiesBatchResultItemV2dot1",
+    className: "EntitiesBatchResultItem",
     modelProperties: {
       id: {
         readOnly: true,
-        serializedName: "id",
+        serializedName: "Id",
         type: {
           name: "String"
         }
       },
       entities: {
         readOnly: true,
-        serializedName: "entities",
+        serializedName: "Entities",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "EntityRecordV2dot1"
+              className: "EntityRecord"
             }
           }
         }
@@ -533,34 +590,34 @@ export const EntitiesBatchResultItemV2dot1: msRest.CompositeMapper = {
   }
 };
 
-export const EntitiesBatchResultV2dot1: msRest.CompositeMapper = {
-  serializedName: "EntitiesBatchResultV2dot1",
+export const EntitiesBatchResult: msRest.CompositeMapper = {
+  serializedName: "EntitiesBatchResult",
   type: {
     name: "Composite",
-    className: "EntitiesBatchResultV2dot1",
+    className: "EntitiesBatchResult",
     modelProperties: {
       documents: {
         readOnly: true,
-        serializedName: "documents",
+        serializedName: "Documents",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "EntitiesBatchResultItemV2dot1"
+              className: "EntitiesBatchResultItem"
             }
           }
         }
       },
       errors: {
         readOnly: true,
-        serializedName: "errors",
+        serializedName: "Errors",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "ErrorRecord"
+              className: "EntitiesErrorRecord"
             }
           }
         }
