@@ -148,7 +148,7 @@ export class ContainerURL extends StorageURL {
   }
 
   /**
-   * containersContext provided by protocol layer.
+   * containerContext provided by protocol layer.
    *
    * @private
    * @type {Containers}
