@@ -59,5 +59,5 @@ app.put("/expect-empty", function (req, res) {
 });
 
 app.listen(port, function() {
-    console.log(`ms-rest-js testserver listening on port ${port}...`);
+    console.log(`ms-rest-js testserver (${process.pid}) listening on port ${port}...`);
 });

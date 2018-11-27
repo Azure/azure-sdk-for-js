@@ -7,8 +7,8 @@ import { RestError } from "../../lib/restError";
 import { isNode } from "../../lib/util/utils";
 import { WebResource, HttpRequestBody } from "../../lib/webResource";
 import { baseURL } from "../testUtils";
-import { createReadStream } from 'fs';
-import { join } from 'path';
+import { createReadStream } from "fs";
+import { join } from "path";
 
 function getAbortController(): AbortController {
   let controller: AbortController;
@@ -21,8 +21,8 @@ function getAbortController(): AbortController {
   return controller;
 }
 
-describe("defaultHttpClient", () => {
-  it("should send HTTP requests", async () => {
+describe("defaultHttpClient", function () {
+  it("should send HTTP requests", async function () {
     const request = new WebResource(`${baseURL}/example-index.html`, "GET");
     const httpClient = new DefaultHttpClient();
 
@@ -91,7 +91,7 @@ describe("defaultHttpClient", () => {
       expectedResponseBody.replace(/\r\n/g, "\n"));
   });
 
-  it("should return a response instead of throwing for awaited 404", async () => {
+  it("should return a response instead of throwing for awaited 404", async function () {
     const request = new WebResource(`${baseURL}/nonexistent`, "GET");
     const httpClient = new DefaultHttpClient();
 
@@ -181,7 +181,7 @@ describe("defaultHttpClient", () => {
     assert(downloadNotified);
   });
 
-  it("should report upload and download progress for blob or stream bodies", async function() {
+  it("should report upload and download progress for blob or stream bodies", async function () {
     let uploadNotified = false;
     let downloadNotified = false;
 
@@ -213,7 +213,7 @@ describe("defaultHttpClient", () => {
     if (response.blobBody) {
       await response.blobBody;
     } else if (streamBody) {
-      streamBody.on("data", () => {});
+      streamBody.on("data", () => { });
       await new Promise((resolve, reject) => {
         streamBody.on("end", resolve);
         streamBody.on("error", reject);
@@ -234,7 +234,7 @@ describe("defaultHttpClient", () => {
     }
   });
 
-  it("should give a graceful error for nonexistent hosts", async function() {
+  it("should give a graceful error for nonexistent hosts", async function () {
     const request = new WebResource(`http://foo.notawebsite/`);
     const client = new DefaultHttpClient();
     try {

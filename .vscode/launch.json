@@ -15,6 +15,16 @@
                 "--colors"
             ],
             "internalConsoleOptions": "openOnSessionStart"
-        }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Unit Tests",
+            "args": ["${workspaceFolder}/.scripts/unit.ts"],
+            "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
+            "sourceMaps": true,
+            "cwd": "${workspaceFolder}",
+            "protocol": "inspector"
+          }
     ]
 }
