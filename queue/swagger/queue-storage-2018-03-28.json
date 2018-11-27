@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Azure Queue Storage",
-    "version": "2017-07-29",
+    "version": "2018-03-28",
     "x-ms-code-generation-settings": {
       "header": "MIT",
       "strictSpecAdherence": false
@@ -960,7 +960,6 @@
       ]
     },
     "/{queueName}/messages/{messageid}?popreceipt={popReceipt}&visibilitytimeout={visibilityTimeout}": {
-
       "put": {
         "tags": [
           "messageID"
@@ -1036,13 +1035,11 @@
       "parameters": []
     },
     "/{queueName}/messages/{messageid}?popreceipt={popReceipt}": {
-
       "delete": {
         "tags": [
           "messageID"
         ],
         "operationId": "MessageID_Delete",
-
         "description": "The Delete operation deletes the specified message.",
         "parameters": [
           {
@@ -1199,6 +1196,66 @@
         }
       }
     },
+    "ErrorCode": {
+      "description": "Error codes returned by the service",
+      "type": "string",
+      "enum": [
+        "AccountAlreadyExists",
+        "AccountBeingCreated",
+        "AccountIsDisabled",
+        "AuthenticationFailed",
+        "ConditionHeadersNotSupported",
+        "ConditionNotMet",
+        "EmptyMetadataKey",
+        "InsufficientAccountPermissions",
+        "InternalError",
+        "InvalidAuthenticationInfo",
+        "InvalidHeaderValue",
+        "InvalidHttpVerb",
+        "InvalidInput",
+        "InvalidMd5",
+        "InvalidMetadata",
+        "InvalidQueryParameterValue",
+        "InvalidRange",
+        "InvalidResourceName",
+        "InvalidUri",
+        "InvalidXmlDocument",
+        "InvalidXmlNodeValue",
+        "Md5Mismatch",
+        "MetadataTooLarge",
+        "MissingContentLengthHeader",
+        "MissingRequiredQueryParameter",
+        "MissingRequiredHeader",
+        "MissingRequiredXmlNode",
+        "MultipleConditionHeadersNotSupported",
+        "OperationTimedOut",
+        "OutOfRangeInput",
+        "OutOfRangeQueryParameterValue",
+        "RequestBodyTooLarge",
+        "ResourceTypeMismatch",
+        "RequestUrlFailedToParse",
+        "ResourceAlreadyExists",
+        "ResourceNotFound",
+        "ServerBusy",
+        "UnsupportedHeader",
+        "UnsupportedXmlNode",
+        "UnsupportedQueryParameter",
+        "UnsupportedHttpVerb",
+        "InvalidMarker",
+        "MessageNotFound",
+        "MessageTooLarge",
+        "PopReceiptMismatch",
+        "QueueAlreadyExists",
+        "QueueBeingDeleted",
+        "QueueDisabled",
+        "QueueNotEmpty",
+        "QueueNotFound"
+      ],
+      "x-ms-enum": {
+        "name": "StorageErrorCode",
+        "modelAsString": true
+      }
+    },
     "GeoReplication": {
       "type": "object",
       "required": [
@@ -1262,6 +1319,14 @@
       "type": "object",
       "additionalProperties": {
         "type": "string"
+      }
+    },
+    "StorageError": {
+      "type": "object",
+      "properties": {
+        "Message": {
+          "type": "string"
+        }
       }
     },
     "Metrics": {
@@ -1570,10 +1635,6 @@
           "xml": {
             "wrapped": true
           }
-        },
-        "DefaultServiceVersion": {
-          "description": "The default version to use for requests to the Queue service if an incoming request's version is not specified. Possible values include version 2008-10-27 and all more recent versions",
-          "type": "string"
         }
       }
     },
@@ -1584,14 +1645,6 @@
         "GeoReplication": {
           "description": "Geo-Replication information for the Secondary Storage Service",
           "$ref": "#/definitions/GeoReplication"
-        }
-      }
-    },
-	"StorageError": {
-      "type": "object",
-      "properties": {
-        "Message": {
-          "type": "string"
         }
       }
     }
@@ -1611,6 +1664,9 @@
       "in": "header",
       "required": true,
       "type": "string",
+      "enum": [
+        "2018-03-28"
+      ],
       "description": "Specifies the version of the operation to use for this request."
     },
     "Body": {
@@ -1652,7 +1708,7 @@
       "description": "The length of the request."
     },
     "ListQueuesInclude": {
-	  "name": "include", 
+      "name": "include", 
       "in": "query", 
       "required": false, 
       "type": "string", 

@@ -10,7 +10,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../lib/generated
-input-file: ./queue-storage-2017-07-29.json
+input-file: ./queue-storage-2018-03-28.json
 model-date-time-as-string: true
 optional-response-headers: true
 ```

@@ -300,6 +300,23 @@ export const Logging: msRest.CompositeMapper = {
   }
 };
 
+export const StorageError: msRest.CompositeMapper = {
+  serializedName: "StorageError",
+  type: {
+    name: "Composite",
+    className: "StorageError",
+    modelProperties: {
+      message: {
+        xmlName: "Message",
+        serializedName: "Message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Metrics: msRest.CompositeMapper = {
   serializedName: "Metrics",
   type: {
@@ -598,13 +615,6 @@ export const StorageServiceProperties: msRest.CompositeMapper = {
             }
           }
         }
-      },
-      defaultServiceVersion: {
-        xmlName: "DefaultServiceVersion",
-        serializedName: "DefaultServiceVersion",
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -622,23 +632,6 @@ export const StorageServiceStats: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "GeoReplication"
-        }
-      }
-    }
-  }
-};
-
-export const StorageError: msRest.CompositeMapper = {
-  serializedName: "StorageError",
-  type: {
-    name: "Composite",
-    className: "StorageError",
-    modelProperties: {
-      message: {
-        xmlName: "Message",
-        serializedName: "Message",
-        type: {
-          name: "String"
         }
       }
     }
