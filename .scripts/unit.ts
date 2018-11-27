@@ -102,6 +102,6 @@ startTestServer()
   .catch((error: Error) => {
     console.log(`Error: ${error}`);
   })
-  .finally(() => {
+  .then(() => {
     process.exit(exitCode);
   });
