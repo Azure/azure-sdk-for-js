@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/serversMappers";
 import * as Parameters from "../models/parameters";
@@ -112,7 +112,7 @@ export class Servers {
   }
 
   /**
-   * Supends operation of the specified Analysis Services server instance.
+   * Suspends operation of the specified Analysis Services server instance.
    * @param resourceGroupName The name of the Azure Resource group of which a given Analysis Services
    * server is part. This name must be at least 1 character in length, and no more than 90.
    * @param serverName The name of the Analysis Services server. It must be at least 3 characters in
@@ -492,7 +492,7 @@ export class Servers {
   }
 
   /**
-   * Supends operation of the specified Analysis Services server instance.
+   * Suspends operation of the specified Analysis Services server instance.
    * @param resourceGroupName The name of the Azure Resource group of which a given Analysis Services
    * server is part. This name must be at least 1 character in length, and no more than 90.
    * @param serverName The name of the Analysis Services server. It must be at least 3 characters in

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -268,7 +268,7 @@ export interface IPv4FirewallSettings {
    */
   firewallRules?: IPv4FirewallRule[];
   /**
-   * @member {string} [enablePowerBIService] The indicator of enableing PBI
+   * @member {string} [enablePowerBIService] The indicator of enabling PBI
    * service.
    */
   enablePowerBIService?: string;
@@ -387,7 +387,7 @@ export interface CheckServerNameAvailabilityParameters {
 /**
  * @interface
  * An interface representing CheckServerNameAvailabilityResult.
- * The checking result of server name availibility.
+ * The checking result of server name availability.
  *
  */
 export interface CheckServerNameAvailabilityResult {
