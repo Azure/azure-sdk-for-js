@@ -293,7 +293,6 @@ export class ContainerURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IMetadata} [metadata] Replace existing metadata with this value.
    *                               If no value provided the existing metadata will be removed.
-   * metadata will be removed.
    * @param {IContainerSetMetadataOptions} [options]
    * @returns {Promise<Models.ContainerSetMetadataResponse>}
    * @memberof ContainerURL
