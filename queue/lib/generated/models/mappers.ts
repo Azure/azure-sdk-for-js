@@ -382,10 +382,10 @@ export const DequeuedMessageItem: msRest.CompositeMapper = {
     name: "Composite",
     className: "DequeuedMessageItem",
     modelProperties: {
-      messageId: {
+      messageID: {
         xmlName: "MessageId",
         required: true,
-        serializedName: "MessageId",
+        serializedName: "MessageID",
         type: {
           name: "String"
         }
@@ -449,10 +449,10 @@ export const PeekedMessageItem: msRest.CompositeMapper = {
     name: "Composite",
     className: "PeekedMessageItem",
     modelProperties: {
-      messageId: {
+      messageID: {
         xmlName: "MessageId",
         required: true,
-        serializedName: "MessageId",
+        serializedName: "MessageID",
         type: {
           name: "String"
         }
@@ -500,10 +500,10 @@ export const EnqueuedMessage: msRest.CompositeMapper = {
     name: "Composite",
     className: "EnqueuedMessage",
     modelProperties: {
-      messageId: {
+      messageID: {
         xmlName: "MessageId",
         required: true,
-        serializedName: "MessageId",
+        serializedName: "MessageID",
         type: {
           name: "String"
         }

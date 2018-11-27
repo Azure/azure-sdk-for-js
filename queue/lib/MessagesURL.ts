@@ -9,21 +9,22 @@ import { appendToURLPath } from "./utils/utils.common";
 
 export declare type MessagesEnqueueResponse = {
     /**
-    * @member {string} messageId The Id of the enqueued Message
+    * @member {string} messageID The ID of the enqueued Message.
     */
-    messageId: string;
+    messageID: string;
     /**
-       * @member {string} popReceipt Service-assigned popReceipt for the enqueued message.
-       * You could use this to create a MessageIDURL object.
-       */
+    * @member {string} popReceipt This value is required to delete the Message.
+    * If deletion fails using this popreceipt then the message has been dequeued
+    * by another client.
+    */
     popReceipt: string;
     /**
-     * @member {Date} insertionTime The time the Message was inserted into the
-     * Queue
+     * @member {Date} insertionTime The time that the message was inserted into the
+     * Queue.
      */
     insertionTime: Date;
     /**
-     * @member {Date} expirationTime The time that the Message will expire and be
+     * @member {Date} expirationTime The time that the message will expire and be
      * automatically deleted.
      */
     expirationTime: Date;
@@ -166,8 +167,6 @@ export class MessagesURL extends StorageURL {
     public async clear(
         aborter: Aborter,
     ): Promise<Models.MessagesClearResponse> {
-        // Spread operator in destructuring assignments,
-        // this will filter out unwanted properties from the response object into result object
         return this.messagesContext.clear({
             abortSignal: aborter
         });
@@ -191,8 +190,6 @@ export class MessagesURL extends StorageURL {
         messageText: string,
         options: Models.MessagesEnqueueOptionalParams = {}
     ): Promise<MessagesEnqueueResponse> {
-        // Spread operator in destructuring assignments,
-        // this will filter out unwanted properties from the response object into result object
         const response = await this.messagesContext.enqueue(
             {
                 messageText: messageText
@@ -208,7 +205,7 @@ export class MessagesURL extends StorageURL {
             requestId: response.requestId,
             version: response.version,
             errorCode: response.errorCode,
-            messageId: item.messageId,
+            messageID: item.messageID,
             popReceipt: item.popReceipt,
             timeNextVisible: item.timeNextVisible,
             insertionTime: item.insertionTime,

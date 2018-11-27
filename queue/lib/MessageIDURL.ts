@@ -15,28 +15,28 @@ import { appendToURLPath } from "./utils/utils.common";
  */
 export class MessageIDURL extends StorageURL {
     /**
-     * Creates a MessageIDURL object from MessageURL
+     * Creates a MessageIDURL object from MessagesURL
      * @param messagesURL
-     * @param messageId
+     * @param messageID
      */
     public static fromMessagesURL(
         messagesURL: MessagesURL,
-        messageId: string
+        messageID: string
     ): MessageIDURL {
         return new MessageIDURL(
-            appendToURLPath(messagesURL.url, messageId),
+            appendToURLPath(messagesURL.url, messageID),
             messagesURL.pipeline
         );
     }
 
     /**
-     * messageIdContext provided by protocol layer.
+     * messageIDContext provided by protocol layer.
      *
      * @private
      * @type {MessageID}
      * @memberof MessageIDURL
      */
-    private messageIdContext: MessageID;
+    private messageIDContext: MessageID;
 
     /**
      * Creates an instance of MessageIDURL.
@@ -50,7 +50,7 @@ export class MessageIDURL extends StorageURL {
      */
     constructor(url: string, pipeline: Pipeline) {
         super(url, pipeline);
-        this.messageIdContext = new MessageID(this.storageClientContext);
+        this.messageIDContext = new MessageID(this.storageClientContext);
     }
 
     /**
@@ -71,7 +71,7 @@ export class MessageIDURL extends StorageURL {
      *
      * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
      *                          goto documents of Aborter for more examples about request cancellation
-     * @param {string} popReceipt
+     * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the dequeue messages or update message operation.
      * @returns {Promise<Models.MessageIDDeleteResponse>}
      * @memberof MessageIDURL
      */
@@ -79,9 +79,7 @@ export class MessageIDURL extends StorageURL {
         aborter: Aborter,
         popReceipt: string,
     ): Promise<Models.MessageIDDeleteResponse> {
-        // Spread operator in destructuring assignments,
-        // this will filter out unwanted properties from the response object into result object
-        return this.messageIdContext.deleteMethod(
+        return this.messageIDContext.deleteMethod(
             popReceipt,
             {
                 abortSignal: aborter 
@@ -95,13 +93,13 @@ export class MessageIDURL extends StorageURL {
     *
     * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
     *                          goto documents of Aborter for more examples about request cancellation
-    * @param {string} popReceipt
+    * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the dequeue messages or update message operation.
     * @param {number} visibilityTimeout Specifies the new visibility timeout value, in seconds, 
     *                                   relative to server time. The new value must be larger than or equal to 0, 
     *                                   and cannot be larger than 7 days. The visibility timeout of a message cannot 
     *                                   be set to a value later than the expiry time. 
     *                                   A message can be updated until it has been deleted or has expired.
-    * @param {string} message
+    * @param {string} message Message to update.
     * @returns {Promise<Models.MessageIDUpdateResponse>}
     * @memberof MessageIDURL
     */
@@ -111,9 +109,7 @@ export class MessageIDURL extends StorageURL {
         visibilityTimeout: number,
         message: string
     ): Promise<Models.MessageIDUpdateResponse> {
-        // Spread operator in destructuring assignments,
-        // this will filter out unwanted properties from the response object into result object
-        return this.messageIdContext.update(
+        return this.messageIDContext.update(
             {
                 messageText: message
             },

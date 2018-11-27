@@ -242,7 +242,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let pResult = await messagesURL.peek(Aborter.none);
     assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
 
-    const messageIDURL = MessageIDURL.fromMessagesURL(messagesURL, enqueueResult.messageId);
+    const messageIDURL = MessageIDURL.fromMessagesURL(messagesURL, enqueueResult.messageID);
     const sasURLForMessageID = `${messageIDURL.url}?${queueSAS}`;
     const messageIDURLWithSAS = new MessageIDURL(
         sasURLForMessageID,
@@ -303,7 +303,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const messageContent = "hello"
 
     const eResult = await messagesURLwithSAS.enqueue(Aborter.none, messageContent);
-    assert.ok(eResult.messageId);
+    assert.ok(eResult.messageID);
     const pResult = await messagesURLwithSAS.peek(Aborter.none);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
     const dResult = await messagesURLwithSAS.dequeue(Aborter.none, {visibilitytimeout:1});
@@ -311,7 +311,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     await sleep(2*1000);
 
-    const messageIDURL = MessageIDURL.fromMessagesURL(messagesURL, dResult.dequeuedMessageItems[0].messageId);
+    const messageIDURL = MessageIDURL.fromMessagesURL(messagesURL, dResult.dequeuedMessageItems[0].messageID);
 
     const sasURLForMessage = `${messageIDURL.url}?${queueSAS}`;
     const messageIDURLwithSAS = new MessageIDURL(
