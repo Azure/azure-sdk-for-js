@@ -1,8 +1,9 @@
 import { ClientRequest, ClientResponse } from "http"; // TYPES ONLY
-import * as httpsTypes from "https"; // TYPES ONLY
+import * as https from "https"; // TYPES ONLY
 import { Socket } from "net";
 import { Stream } from "stream";
 import * as url from "url";
+
 import { Constants, Helper } from "../common";
 import { ConnectionPolicy, MediaReadMode } from "../documents";
 import { IHeaders } from "../queryExecutionContext";
@@ -15,16 +16,6 @@ import { FeedOptions, MediaOptions, RequestOptions } from ".";
 import { AuthHandler, AuthOptions } from "../auth";
 import { Response } from "./Response";
 export { Response }; // Should refactor this out
-
-/** @hidden */
-const isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
-
-// TODO: :This feels hacky... Maybe just do this in the webpack.config.json?
-// Alternatively, we can move to superagent which will handle this for us...
-// tslint:disable:no-var-requires
-/** @hidden */
-const https = isBrowser && false ? require("stream-http") : require("https");
-// tslint:enable:no-var-requires
 
 // ----------------------------------------------------------------------------
 // Utility methods
@@ -64,7 +55,7 @@ export function parse(urlString: string) {
 /** @hidden */
 export function createRequestObject(
   connectionPolicy: ConnectionPolicy,
-  requestOptions: httpsTypes.RequestOptions,
+  requestOptions: https.RequestOptions,
   body: Body
 ): Promise<Response<any>> {
   return new Promise<Response<any>>((resolve, reject) => {
