@@ -10463,7 +10463,7 @@ export interface WebSiteManagementClientOptions extends AzureServiceClientOption
 /**
  * @interface
  * An interface representing the AppServiceCertificateOrderCollection.
- * Collection of certitificate orders.
+ * Collection of certificate orders.
  *
  * @extends Array<AppServiceCertificateOrder>
  */
