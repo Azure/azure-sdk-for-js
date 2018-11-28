@@ -32,7 +32,7 @@
     "publish-all": "gulp publish"
   },
   "devDependencies": {
-    "@octokit/rest": "15.18.0",
+    "@octokit/rest": "15.17.0",
     "@types/glob": "^7.1.1",
     "@types/gulp": "^4.0.5",
     "@types/js-yaml": "^3.11.2",
