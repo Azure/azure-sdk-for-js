@@ -18,14 +18,14 @@ steps:
 - task: Npm@1
   displayName: 'npm install'
   inputs:
-    verbose: true
+    verbose: false
 
 - task: Npm@1
-  displayName: 'npm run build -- --logging-level=all'
+  displayName: 'npm run build'
   inputs:
     command: custom
-    verbose: true
-    customCommand: run build -- --logging-level=all
+    verbose: false
+    customCommand: run build
 
 - task: PublishBuildArtifacts@1
   inputs:

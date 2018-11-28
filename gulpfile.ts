@@ -113,7 +113,7 @@ function createPackages(type: CreatePackageType): void {
     fs.mkdirSync(dropPath);
   }
 
-  const folderNamesToIgnore: string[] = [ "node_modules" ];
+  const folderNamesToIgnore: string[] = [ "node_modules", "keyvault" ];
 
   function getAllPackageFolders(folderPath: string, result?: string[]): string[] {
     if (result == undefined) {
