@@ -317,74 +317,6 @@ export const ExampleLabelObject: msRest.CompositeMapper = {
   }
 };
 
-export const DispatchConnectedServiceDeleteObject: msRest.CompositeMapper = {
-  serializedName: "DispatchConnectedServiceDeleteObject",
-  type: {
-    name: "Composite",
-    className: "DispatchConnectedServiceDeleteObject",
-    modelProperties: {
-      intentName: {
-        serializedName: "intentName",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DispatchConnectedServiceObject: msRest.CompositeMapper = {
-  serializedName: "DispatchConnectedServiceObject",
-  type: {
-    name: "Composite",
-    className: "DispatchConnectedServiceObject",
-    modelProperties: {
-      intentName: {
-        serializedName: "intentName",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      appId: {
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      version: {
-        serializedName: "version",
-        type: {
-          name: "String"
-        }
-      },
-      region: {
-        serializedName: "region",
-        type: {
-          name: "String"
-        }
-      },
-      kbId: {
-        serializedName: "kbId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
-  }
-};
-
 export const PhraselistCreateObject: msRest.CompositeMapper = {
   serializedName: "PhraselistCreateObject",
   type: {
@@ -2574,6 +2506,12 @@ export const EndpointInfo: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      failedRegions: {
+        serializedName: "failedRegions",
+        type: {
+          name: "String"
+        }
+      },
       publishedDateTime: {
         serializedName: "publishedDateTime",
         type: {
@@ -3379,6 +3317,37 @@ export const AppVersionSettingObject: msRest.CompositeMapper = {
       },
       value: {
         serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureAccountInfoObject: msRest.CompositeMapper = {
+  serializedName: "AzureAccountInfoObject",
+  type: {
+    name: "Composite",
+    className: "AzureAccountInfoObject",
+    modelProperties: {
+      azureSubscriptionId: {
+        required: true,
+        serializedName: "azureSubscriptionId",
+        type: {
+          name: "String"
+        }
+      },
+      resourceGroup: {
+        required: true,
+        serializedName: "resourceGroup",
+        type: {
+          name: "String"
+        }
+      },
+      accountName: {
+        required: true,
+        serializedName: "accountName",
         type: {
           name: "String"
         }

@@ -11,6 +11,7 @@
 import * as msRest from "ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
+import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { LUISAuthoringClientContext } from "./lUISAuthoringClientContext";
 
@@ -25,7 +26,6 @@ class LUISAuthoringClient extends LUISAuthoringClientContext {
   permissions: operations.Permissions;
   pattern: operations.Pattern;
   settings: operations.Settings;
-  dispatch: operations.Dispatch;
 
   /**
    * Initializes a new instance of the LUISAuthoringClient class.
@@ -45,11 +45,269 @@ class LUISAuthoringClient extends LUISAuthoringClientContext {
     this.permissions = new operations.Permissions(this);
     this.pattern = new operations.Pattern(this);
     this.settings = new operations.Settings(this);
-    this.dispatch = new operations.Dispatch(this);
+  }
+
+  /**
+   * Assigns an azure account to the application.
+   * @summary apps - Assign a LUIS azure accounts to an application
+   * @param appId The application ID.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.5be32228e8473de116325515Response>
+   */
+  5be32228e8473de116325515(appId: string, options?: Models.LUISAuthoringClient5be32228e8473de116325515OptionalParams): Promise<Models.5be32228e8473de116325515Response>;
+  /**
+   * @param appId The application ID.
+   * @param callback The callback
+   */
+  5be32228e8473de116325515(appId: string, callback: msRest.ServiceCallback<any>): void;
+  /**
+   * @param appId The application ID.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  5be32228e8473de116325515(appId: string, options: Models.LUISAuthoringClient5be32228e8473de116325515OptionalParams, callback: msRest.ServiceCallback<any>): void;
+  5be32228e8473de116325515(appId: string, options?: Models.LUISAuthoringClient5be32228e8473de116325515OptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.5be32228e8473de116325515Response> {
+    return this.sendOperationRequest(
+      {
+        appId,
+        options
+      },
+      5be32228e8473de116325515OperationSpec,
+      callback) as Promise<Models.5be32228e8473de116325515Response>;
+  }
+
+  /**
+   * Gets the LUIS azure accounts assigned to the application for the user using his ARM token.
+   * @summary apps - Get LUIS azure accounts assigned to the application
+   * @param appId The application ID.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.5be32028a1d48f88cfd57e20Response>
+   */
+  5be32028a1d48f88cfd57e20(appId: string, options?: msRest.RequestOptionsBase): Promise<Models.5be32028a1d48f88cfd57e20Response>;
+  /**
+   * @param appId The application ID.
+   * @param callback The callback
+   */
+  5be32028a1d48f88cfd57e20(appId: string, callback: msRest.ServiceCallback<any>): void;
+  /**
+   * @param appId The application ID.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  5be32028a1d48f88cfd57e20(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  5be32028a1d48f88cfd57e20(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.5be32028a1d48f88cfd57e20Response> {
+    return this.sendOperationRequest(
+      {
+        appId,
+        options
+      },
+      5be32028a1d48f88cfd57e20OperationSpec,
+      callback) as Promise<Models.5be32028a1d48f88cfd57e20Response>;
+  }
+
+  /**
+   * Removes assigned azure account from the application.
+   * @summary apps - Removes an assigned LUIS azure account from an application
+   * @param appId The application ID.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.5be32554f8591db3a86232e1Response>
+   */
+  5be32554f8591db3a86232e1(appId: string, options?: Models.LUISAuthoringClient5be32554f8591db3a86232e1OptionalParams): Promise<Models.5be32554f8591db3a86232e1Response>;
+  /**
+   * @param appId The application ID.
+   * @param callback The callback
+   */
+  5be32554f8591db3a86232e1(appId: string, callback: msRest.ServiceCallback<any>): void;
+  /**
+   * @param appId The application ID.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  5be32554f8591db3a86232e1(appId: string, options: Models.LUISAuthoringClient5be32554f8591db3a86232e1OptionalParams, callback: msRest.ServiceCallback<any>): void;
+  5be32554f8591db3a86232e1(appId: string, options?: Models.LUISAuthoringClient5be32554f8591db3a86232e1OptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.5be32554f8591db3a86232e1Response> {
+    return this.sendOperationRequest(
+      {
+        appId,
+        options
+      },
+      5be32554f8591db3a86232e1OperationSpec,
+      callback) as Promise<Models.5be32554f8591db3a86232e1Response>;
+  }
+
+  /**
+   * Gets the LUIS azure accounts for the user using his ARM token.
+   * @summary user - Get LUIS azure accounts
+   * @param [options] The optional parameters
+   * @returns Promise<Models.5be313cec181ae720aa2b26cResponse>
+   */
+  5be313cec181ae720aa2b26c(options?: msRest.RequestOptionsBase): Promise<Models.5be313cec181ae720aa2b26cResponse>;
+  /**
+   * @param callback The callback
+   */
+  5be313cec181ae720aa2b26c(callback: msRest.ServiceCallback<any>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  5be313cec181ae720aa2b26c(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  5be313cec181ae720aa2b26c(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.5be313cec181ae720aa2b26cResponse> {
+    return this.sendOperationRequest(
+      {
+        options
+      },
+      5be313cec181ae720aa2b26cOperationSpec,
+      callback) as Promise<Models.5be313cec181ae720aa2b26cResponse>;
   }
 }
 
 // Operation Specifications
+const serializer = new msRest.Serializer(Mappers);
+const 5be32228e8473de116325515OperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "apps/{appId}/azureaccounts",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId
+  ],
+  requestBody: {
+    parameterPath: [
+      "options",
+      "azureAccountInfoObject"
+    ],
+    mapper: Mappers.AzureAccountInfoObject
+  },
+  responses: {
+    201: {
+      bodyMapper: Mappers.OperationStatus
+    },
+    400: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
+  },
+  serializer
+};
+
+const 5be32028a1d48f88cfd57e20OperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "apps/{appId}/azureaccounts",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AzureAccountInfoObject"
+            }
+          }
+        }
+      }
+    },
+    400: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
+  },
+  serializer
+};
+
+const 5be32554f8591db3a86232e1OperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "apps/{appId}/azureaccounts",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId
+  ],
+  requestBody: {
+    parameterPath: [
+      "options",
+      "azureAccountInfoObject"
+    ],
+    mapper: Mappers.AzureAccountInfoObject
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationStatus
+    },
+    400: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
+  },
+  serializer
+};
+
+const 5be313cec181ae720aa2b26cOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "azureaccounts",
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AzureAccountInfoObject"
+            }
+          }
+        }
+      }
+    },
+    400: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
+  },
+  serializer
+};
 
 export {
   LUISAuthoringClient,

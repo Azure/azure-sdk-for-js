@@ -245,63 +245,6 @@ export interface ExampleLabelObject {
 
 /**
  * @interface
- * An interface representing DispatchConnectedServiceDeleteObject.
- * An intent to delete its disptch connected service.
- *
- */
-export interface DispatchConnectedServiceDeleteObject {
-  /**
-   * @member {string} [intentName] The name of the intent connected to the
-   * dispatch
-   */
-  intentName?: string;
-}
-
-/**
- * @interface
- * An interface representing DispatchConnectedServiceObject.
- * A disptch connected service.
- *
- */
-export interface DispatchConnectedServiceObject {
-  /**
-   * @member {string} [intentName] The name of the intent connected to the
-   * dispatch
-   */
-  intentName?: string;
-  /**
-   * @member {string} [type] The type of the connected service [luis/qna]
-   */
-  type?: string;
-  /**
-   * @member {string} [name] The name of the connected LUIS app (only if type
-   * is luis)
-   */
-  name?: string;
-  /**
-   * @member {string} [appId] The ID of the connected LUIS app (only if type is
-   * luis)
-   */
-  appId?: string;
-  /**
-   * @member {string} [version] The version ID of the connected LUIS app (only
-   * if type is luis)
-   */
-  version?: string;
-  /**
-   * @member {string} [region] The region of the connected LUIS app (only if
-   * type is luis)
-   */
-  region?: string;
-  /**
-   * @member {string} [kbId] The ID of the connected QnA app (only if type is
-   * qna)
-   */
-  kbId?: string;
-}
-
-/**
- * @interface
  * An interface representing PhraselistCreateObject.
  * Object model for creating a phraselist model.
  *
@@ -1779,6 +1722,10 @@ export interface EndpointInfo {
    */
   endpointRegion?: string;
   /**
+   * @member {string} [failedRegions] Regions where publishing failed.
+   */
+  failedRegions?: string;
+  /**
    * @member {string} [publishedDateTime] Timestamp when was last published.
    */
   publishedDateTime?: string;
@@ -2358,6 +2305,27 @@ export interface AppVersionSettingObject {
 
 /**
  * @interface
+ * An interface representing AzureAccountInfoObject.
+ * Defines the azure account information object.
+ *
+ */
+export interface AzureAccountInfoObject {
+  /**
+   * @member {string} azureSubscriptionId The id for the azure subscription.
+   */
+  azureSubscriptionId: string;
+  /**
+   * @member {string} resourceGroup The azure resource group name.
+   */
+  resourceGroup: string;
+  /**
+   * @member {string} accountName The azure account name.
+   */
+  accountName: string;
+}
+
+/**
+ * @interface
  * An interface representing HierarchicalChildModelUpdateObject.
  */
 export interface HierarchicalChildModelUpdateObject {
@@ -2835,6 +2803,36 @@ export interface PatternGetIntentPatternsOptionalParams extends msRest.RequestOp
    * is 500. Default is 100. Default value: 100 .
    */
   take?: number;
+}
+
+/**
+ * @interface
+ * An interface representing LUISAuthoringClient5be32228e8473de116325515OptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface LUISAuthoringClient5be32228e8473de116325515OptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {AzureAccountInfoObject} [azureAccountInfoObject] The azure
+   * account information object.
+   */
+  azureAccountInfoObject?: AzureAccountInfoObject;
+}
+
+/**
+ * @interface
+ * An interface representing LUISAuthoringClient5be32554f8591db3a86232e1OptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface LUISAuthoringClient5be32554f8591db3a86232e1OptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {AzureAccountInfoObject} [azureAccountInfoObject] The azure
+   * account information object.
+   */
+  azureAccountInfoObject?: AzureAccountInfoObject;
 }
 
 /**
@@ -5496,7 +5494,11 @@ export type AppsDeleteMethodResponse = OperationStatus & {
 /**
  * Contains response data for the publish operation.
  */
-export type AppsPublishResponse = ProductionOrStagingEndpointInfo & {
+export type AppsPublishResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -5508,7 +5510,7 @@ export type AppsPublishResponse = ProductionOrStagingEndpointInfo & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ProductionOrStagingEndpointInfo;
+      parsedBody: any;
     };
 };
 
@@ -6138,9 +6140,13 @@ export type SettingsUpdateResponse = OperationStatus & {
 };
 
 /**
- * Contains response data for the batchUpdateConnectedServices operation.
+ * Contains response data for the 5be32228e8473de116325515 operation.
  */
-export type DispatchBatchUpdateConnectedServicesResponse = OperationStatus & {
+export type 5be32228e8473de116325515Response = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -6152,14 +6158,18 @@ export type DispatchBatchUpdateConnectedServicesResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
- * Contains response data for the batchAddConnectedServices operation.
+ * Contains response data for the 5be32028a1d48f88cfd57e20 operation.
  */
-export type DispatchBatchAddConnectedServicesResponse = OperationStatus & {
+export type 5be32028a1d48f88cfd57e20Response = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -6171,14 +6181,18 @@ export type DispatchBatchAddConnectedServicesResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
     };
 };
 
 /**
- * Contains response data for the deleteConnectedServices operation.
+ * Contains response data for the 5be32554f8591db3a86232e1 operation.
  */
-export type DispatchDeleteConnectedServicesResponse = OperationStatus & {
+export type 5be32554f8591db3a86232e1Response = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
   /**
    * The underlying HTTP response.
    */
@@ -6190,6 +6204,29 @@ export type DispatchDeleteConnectedServicesResponse = OperationStatus & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationStatus;
+      parsedBody: any;
+    };
+};
+
+/**
+ * Contains response data for the 5be313cec181ae720aa2b26c operation.
+ */
+export type 5be313cec181ae720aa2b26cResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
     };
 };
