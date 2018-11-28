@@ -1,4 +1,4 @@
-import { HttpPipelineLogLevel, IHTTPPipelineLogger } from "../../lib/Pipeline";
+import { HttpPipelineLogLevel, IHttpPipelineLogger } from "../../lib/Pipeline";
 import { padStart } from "../../lib/utils/utils.common";
 
 export function isBrowser(): boolean {
@@ -29,7 +29,7 @@ export function base64decode(encodedString: string): string {
     : Buffer.from(encodedString, "base64").toString();
 }
 
-export class ConsoleHttpPipelineLogger implements IHTTPPipelineLogger {
+export class ConsoleHttpPipelineLogger implements IHttpPipelineLogger {
   constructor(public minimumLogLevel: HttpPipelineLogLevel) {}
   public log(logLevel: HttpPipelineLogLevel, message: string): void {
     const logMessage = `${new Date().toISOString()} ${

@@ -1,11 +1,13 @@
 import {
   BaseRequestPolicy,
-  HttpClient as IHTTPClient,
+  HttpClient as IHttpClient,
   HttpHeaders,
   HttpOperationResponse,
-  HttpPipelineLogger as IHTTPPipelineLogger,
+  HttpPipelineLogger as IHttpPipelineLogger,
   HttpPipelineLogLevel,
+  RequestPolicy,
   RequestPolicyFactory,
+  RequestPolicyOptions,
   ServiceClientOptions,
   WebResource
 } from "ms-rest-js";
@@ -13,13 +15,16 @@ import {
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
 export {
-  IHTTPClient,
-  IHTTPPipelineLogger,
+  IHttpClient,
+  IHttpPipelineLogger,
   HttpHeaders,
   HttpPipelineLogLevel,
   HttpOperationResponse,
   WebResource,
-  BaseRequestPolicy
+  BaseRequestPolicy,
+  RequestPolicyFactory,
+  RequestPolicy,
+  RequestPolicyOptions
 };
 
 /**
@@ -29,8 +34,8 @@ export {
  * @interface IPipelineOptions
  */
 export interface IPipelineOptions {
-  logger?: IHTTPPipelineLogger;
-  HTTPClient?: IHTTPClient;
+  logger?: IHttpPipelineLogger;
+  HTTPClient?: IHttpClient;
 }
 
 /**
@@ -48,7 +53,7 @@ export class Pipeline {
   public readonly options: IPipelineOptions;
 
   /**
-   * Creates an instance of Pipeline. Customize HTTPClient by implementing IHTTPClient interface.
+   * Creates an instance of Pipeline. Customize HTTPClient by implementing IHttpClient interface.
    *
    * @param {RequestPolicyFactory[]} factories
    * @param {IPipelineOptions} [options={}]

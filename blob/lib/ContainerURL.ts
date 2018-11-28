@@ -23,7 +23,6 @@ export interface IContainerDeleteMethodOptions {
 }
 
 export interface IContainerSetMetadataOptions {
-  metadata?: IMetadata;
   containerAccessConditions?: IContainerAccessConditions;
 }
 
@@ -149,7 +148,7 @@ export class ContainerURL extends StorageURL {
   }
 
   /**
-   * containersContext provided by protocol layer.
+   * containerContext provided by protocol layer.
    *
    * @private
    * @type {Containers}
@@ -285,18 +284,22 @@ export class ContainerURL extends StorageURL {
   /**
    * Sets one or more user-defined name-value pairs for the specified container.
    *
-   * If no option provided, or no metadata defined in the option parameter, the container
+   * If no option provided, or no metadata defined in the parameter, the container
    * metadata will be removed.
+   *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-metadata
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
+   * @param {IMetadata} [metadata] Replace existing metadata with this value.
+   *                               If no value provided the existing metadata will be removed.
    * @param {IContainerSetMetadataOptions} [options]
    * @returns {Promise<Models.ContainerSetMetadataResponse>}
    * @memberof ContainerURL
    */
   public async setMetadata(
     aborter: Aborter,
+    metadata?: IMetadata,
     options: IContainerSetMetadataOptions = {}
   ): Promise<Models.ContainerSetMetadataResponse> {
     if (!options.containerAccessConditions) {
@@ -331,7 +334,7 @@ export class ContainerURL extends StorageURL {
       abortSignal: aborter,
       leaseAccessConditions:
         options.containerAccessConditions.leaseAccessConditions,
-      metadata: options.metadata,
+      metadata,
       modifiedAccessConditions:
         options.containerAccessConditions.modifiedAccessConditions
     });

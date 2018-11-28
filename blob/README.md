@@ -1,6 +1,7 @@
 # Azure Storage SDK V10 for JavaScript - Blob
 
-[![npm version](https://badge.fury.io/js/%40azure%2Fstorage-blob.svg)](https://badge.fury.io/js/%40azure%2Fstorage-blob)
+* [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-blob.svg)](https://badge.fury.io/js/%40azure%2Fstorage-blob)
+* [API Reference documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/storage-blob/index?view=azure-node-preview)
 
 ## Introduction
 
@@ -39,7 +40,7 @@ This library depends on following ES6 features which need external polyfills loa
 
 #### Differences between Node.js and browsers
 
-There are differences between Node.js and browsers runtime. When getting start with this SDK, pay attention to APIs or classes marked with *"ONLY AVAILABLE IN NODE.JS RUNTIME"* or *"ONLY AVAILABLE IN BROWSERS"*.
+There are differences between Node.js and browsers runtime. When getting start with this SDK, pay attention to APIs or classes marked with _"ONLY AVAILABLE IN NODE.JS RUNTIME"_ or _"ONLY AVAILABLE IN BROWSERS"_.
 
 ##### Following features, interfaces, classes or functions are only available in Node.js
 
@@ -104,10 +105,10 @@ You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft
 
 For example, you can create following CORS settings for debugging. But please customize the settings carefully according to your requirements in production environment.
 
-* Allowed origins: *
+* Allowed origins: \*
 * Allowed verbs: DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT
-* Allowed headers: *
-* Exposed headers: *
+* Allowed headers: \*
+* Exposed headers: \*
 * Maximum age (seconds): 86400
 
 ## SDK Architecture
@@ -143,12 +144,12 @@ async function main() {
 
   // Use TokenCredential with OAuth token
   const tokenCredential = new TokenCredential("token");
-  tokenCredential.token = "renewedToken";
+  tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential
 
   // Use AnonymousCredential when url already includes a SAS signature
   const anonymousCredential = new AnonymousCredential();
 
-  // Use sharedKeyCredential, tokenCredential or tokenCredential to create a pipeline
+  // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
   const pipeline = StorageURL.newPipeline(sharedKeyCredential);
 
   // List containers
@@ -165,7 +166,7 @@ async function main() {
       marker
     );
 
-    marker = listContainersResponse.marker;
+    marker = listContainersResponse.nextMarker;
     for (const container of listContainersResponse.containerItems) {
       console.log(`Container: ${container.name}`);
     }
@@ -197,13 +198,14 @@ async function main() {
   );
 
   // List blobs
+  marker = undefined;
   do {
     const listBlobsResponse = await containerURL.listBlobFlatSegment(
       Aborter.none,
       marker
     );
 
-    marker = listBlobsResponse.marker;
+    marker = listBlobsResponse.nextMarker;
     for (const blob of listBlobsResponse.segment.blobItems) {
       console.log(`Blob: ${blob.name}`);
     }
@@ -215,13 +217,27 @@ async function main() {
   const downloadBlockBlobResponse = await blobURL.download(Aborter.none, 0);
   console.log(
     "Downloaded blob content",
-    downloadBlockBlobResponse.readableStreamBody.read(content.length).toString()
+    await streamToString(downloadBlockBlobResponse.readableStreamBody)
   );
 
   // Delete container
   await containerURL.delete(Aborter.none);
 
   console.log("deleted container");
+}
+
+// A helper method used to read a Node.js readable stream into string
+async function streamToString(readableStream) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    readableStream.on("data", data => {
+      chunks.push(data.toString());
+    });
+    readableStream.on("end", () => {
+      resolve(chunks.join(""));
+    });
+    readableStream.on("error", reject);
+  });
 }
 
 // An async method returns a Promise object, which is compatible with then().catch() coding style.
