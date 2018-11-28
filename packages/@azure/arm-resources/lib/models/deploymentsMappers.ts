@@ -34,6 +34,7 @@ export {
   ResourceGroupProperties,
   TagValue,
   TagCount,
+  TagDetails,
   Resource,
   SubResource,
   GenericResource,

@@ -918,8 +918,9 @@ export interface TagValue extends BaseResource {
  * An interface representing TagDetails.
  * Tag details.
  *
+ * @extends BaseResource
  */
-export interface TagDetails {
+export interface TagDetails extends BaseResource {
   /**
    * @member {string} [id] The tag ID.
    * **NOTE: This property will not be serialized. It can only be populated by
