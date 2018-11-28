@@ -1,5 +1,9 @@
-import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "ms-rest-js";
-
+import {
+  HttpRequestBody,
+  HttpResponse,
+  isNode,
+  TransferProgressEvent
+} from "ms-rest-js";
 import { Aborter } from "./Aborter";
 import { DirectoryURL } from "./DirectoryURL";
 import { FileDownloadResponse } from "./FileDownloadResponse";
@@ -9,7 +13,11 @@ import { IRange, rangeToString } from "./IRange";
 import { IFileHTTPHeaders, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { StorageURL } from "./StorageURL";
-import { FILE_MAX_SIZE_BYTES, FILE_RANGE_MAX_SIZE_BYTES, MAX_DOWNLOAD_RETRY_REQUESTS } from "./utils/constants";
+import {
+  DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
+  FILE_MAX_SIZE_BYTES,
+  FILE_RANGE_MAX_SIZE_BYTES
+} from "./utils/constants";
 import { appendToURLPath } from "./utils/utils.common";
 
 export interface IFileCreateOptions {
@@ -253,15 +261,15 @@ export class FileURL extends StorageURL {
   ): Promise<Models.FileDownloadResponse> {
     if (options.rangeGetContentMD5 && offset === 0 && count === undefined) {
       throw new RangeError(
-        `rangeGetContentMD5 only work with partial data downloading`
+        `rangeGetContentMD5 only works with partial data downloading`
       );
     }
 
+    const downloadFullFile = offset === 0 && !count;
     const res = await this.context.download({
       abortSignal: aborter,
       onDownloadProgress: !isNode ? options.progress : undefined,
-      range:
-        offset === 0 && !count ? undefined : rangeToString({ offset, count }),
+      range: downloadFullFile ? undefined : rangeToString({ offset, count }),
       rangeGetContentMD5: options.rangeGetContentMD5
     });
 
@@ -275,11 +283,15 @@ export class FileURL extends StorageURL {
     // bundlers may try to bundle following code and "FileReadResponse.ts".
     // In this case, "FileDownloadResponse.browser.ts" will be used as a shim of "FileDownloadResponse.ts"
     // The config is in package.json "browser" field
-    if (!options.maxRetryRequests) {
-      options.maxRetryRequests = MAX_DOWNLOAD_RETRY_REQUESTS; // TODO: Default value or make it a required parameter?
+    if (
+      options.maxRetryRequests === undefined ||
+      options.maxRetryRequests < 0
+    ) {
+      // TODO: Default value or make it a required parameter?
+      options.maxRetryRequests = DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS;
     }
 
-    if (!res.contentLength) {
+    if (res.contentLength === undefined) {
       throw new RangeError(
         `File download response doesn't contain valid content length header`
       );
@@ -296,15 +308,24 @@ export class FileURL extends StorageURL {
           })
         };
 
+        // Debug purpose only
+        // console.log(
+        //   `Read from internal stream, range: ${
+        //     updatedOptions.range
+        //   }, options: ${JSON.stringify(updatedOptions)}`
+        // );
+
         return (await this.context.download({
           abortSignal: aborter,
           ...updatedOptions
         })).readableStreamBody!;
       },
       offset,
-      offset + res.contentLength! - 1,
-      options.maxRetryRequests,
-      options.progress
+      res.contentLength!,
+      {
+        maxRetryRequests: options.maxRetryRequests,
+        progress: options.progress
+      }
     );
   }
 

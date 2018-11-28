@@ -6,6 +6,37 @@ export type ReadableStreamGetter = (
   offset: number
 ) => Promise<NodeJS.ReadableStream>;
 
+export interface IRetriableReadableStreamOptions {
+  /**
+   * Max retry count (>=0), undefined or invalid value means no retry
+   *
+   * @type {number}
+   * @memberof IRetriableReadableStreamOptions
+   */
+  maxRetryRequests?: number;
+
+  /**
+   * Read progress event handler
+   *
+   * @memberof IRetriableReadableStreamOptions
+   */
+  progress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * Debug purpose only. Used to inject an unexpected end to existing internal stream,
+   * to test stream retry works well or not.
+   *
+   * When assign it to true, for next incoming "data" event of internal stream,
+   * RetriableReadableStream will try to emit an "end" event to existing internal
+   * stream to force it end and start retry from the breaking point.
+   * The value will then update to "undefined", once the injection works.
+   *
+   * @type {boolean}
+   * @memberof IRetriableReadableStreamOptions
+   */
+  doInjectErrorOnce?: boolean;
+}
+
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
@@ -24,40 +55,42 @@ export class RetriableReadableStream extends Readable {
   private retries: number = 0;
   private maxRetryRequests: number;
   private progress?: (progress: TransferProgressEvent) => void;
+  private options: IRetriableReadableStreamOptions;
 
   /**
    * Creates an instance of RetriableReadableStream.
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
+   * @param {NodeJS.ReadableStream} source The current ReadableStream returned from getter
    * @param {ReadableStreamGetter} getter A method calling downloading request returning
    *                                      a new ReadableStream from specified offset
-   * @param {NodeJS.ReadableStream} source The current ReadableStream returned from getter
-   * @param {number} startInPath Offset position in original data source to read (included)
-   * @param {number} endInPath End offset position in original data source to read (included)
-   * @param {number} [maxRetryRequests] Max retry count (>=0), undefined or invalid value means no retry
-   * @param {(progress: TransferProgressEvent) => void} [progress] Read progress event handler
+   * @param {number} offset Offset position in original data source to read
+   * @param {number} count How much data in original data source to read
+   * @param {IRetriableReadableStreamOptions} [options={}]
    * @memberof RetriableReadableStream
    */
   public constructor(
     aborter: Aborter,
-    getter: ReadableStreamGetter,
     source: NodeJS.ReadableStream,
-    startInPath: number,
-    endInPath: number,
-    maxRetryRequests?: number,
-    progress?: (progress: TransferProgressEvent) => void
+    getter: ReadableStreamGetter,
+    offset: number,
+    count: number,
+    options: IRetriableReadableStreamOptions = {}
   ) {
     super();
     this.aborter = aborter;
     this.getter = getter;
     this.source = source;
-    this.start = startInPath;
-    this.offset = startInPath;
-    this.end = endInPath;
+    this.start = offset;
+    this.offset = offset;
+    this.end = offset + count - 1;
     this.maxRetryRequests =
-      maxRetryRequests && maxRetryRequests >= 0 ? maxRetryRequests : 0;
-    this.progress = progress;
+      options.maxRetryRequests && options.maxRetryRequests >= 0
+        ? options.maxRetryRequests
+        : 0;
+    this.progress = options.progress;
+    this.options = options;
 
     aborter.addEventListener("abort", () => {
       this.source.pause();
@@ -83,6 +116,14 @@ export class RetriableReadableStream extends Readable {
 
   private setSourceDataHandler() {
     this.source.on("data", (data: Buffer) => {
+      if (this.options.doInjectErrorOnce) {
+        this.options.doInjectErrorOnce = undefined;
+        this.source.pause();
+        this.source.removeAllListeners("data");
+        this.source.emit("end");
+        return;
+      }
+
       // console.log(
       //   `Offset: ${this.offset}, Received ${data.length} from internal stream`
       // );
@@ -124,18 +165,23 @@ export class RetriableReadableStream extends Readable {
         } else {
           this.emit(
             "error",
-            `Data corruption failure: received less data than required and reached maxRetires limitation.\
-             Received data offset: ${this.offset - 1}, data needed offset: ${
-              this.end
-            }, retries: ${this.retries}, max retries: ${this.maxRetryRequests}`
+            new Error(
+              // tslint:disable-next-line:max-line-length
+              `Data corruption failure: received less data than required and reached maxRetires limitation. Received data offset: ${this
+                .offset - 1}, data needed offset: ${this.end}, retries: ${
+                this.retries
+              }, max retries: ${this.maxRetryRequests}`
+            )
           );
         }
       } else {
         this.emit(
           "error",
-          `Data corruption failure: Received more data than original request, data needed offset is ${
-            this.end
-          }, received offset: ${this.offset - 1}`
+          new Error(
+            `Data corruption failure: Received more data than original request, data needed offset is ${
+              this.end
+            }, received offset: ${this.offset - 1}`
+          )
         );
       }
     });

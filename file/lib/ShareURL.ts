@@ -8,7 +8,11 @@ import { Pipeline } from "./Pipeline";
 import { ServiceURL } from "./ServiceURL";
 import { StorageURL } from "./StorageURL";
 import { URLConstants } from "./utils/constants";
-import { appendToURLPath, setURLParameter, truncatedISO8061Date } from "./utils/utils.common";
+import {
+  appendToURLPath,
+  setURLParameter,
+  truncatedISO8061Date
+} from "./utils/utils.common";
 
 export interface IShareCreateOptions {
   /**
@@ -286,7 +290,6 @@ export class ShareURL extends StorageURL {
       _response: response._response,
       date: response.date,
       eTag: response.eTag,
-      errorCode: response.errorCode,
       lastModified: response.lastModified,
       requestId: response.requestId,
       signedIdentifiers: [],
