@@ -113,7 +113,7 @@ function createPackages(type: CreatePackageType): void {
     fs.mkdirSync(dropPath);
   }
 
-  const folderNamesToIgnore: string[] = [ "node_modules", "keyvault" ];
+  const folderNamesToIgnore: string[] = [ "node_modules" ];
 
   function getAllPackageFolders(folderPath: string, result?: string[]): string[] {
     if (result == undefined) {
@@ -136,6 +136,8 @@ function createPackages(type: CreatePackageType): void {
     return result;
   }
 
+  const packagesToSkip: string[] = ["@azure/keyvault"];
+
   for (const packageFolderPath of getAllPackageFolders(path.resolve(__dirname, "packages"))) {
     _logger.logTrace(`INFO: Processing ${packageFolderPath}`);
 
@@ -143,7 +145,10 @@ function createPackages(type: CreatePackageType): void {
     const packageJson: { [propertyName: string]: any } = require(packageJsonFilePath);
     const packageName: string = packageJson.name;
 
-    if (!args.package || args.package === packageName || endsWith(packageName, `-${args.package}`)) {
+    if (packagesToSkip.indexOf(packageName) !== -1) {
+      _logger.log(`INFO: Skipping package ${packageName}`);
+      ++publishedPackagesSkipped;
+    } else if (!args.package || args.package === packageName || endsWith(packageName, `-${args.package}`)) {
       const localPackageVersion: string = packageJson.version;
       if (!localPackageVersion) {
         _logger.log(`ERROR: "${packageJsonFilePath}" doesn't have a version specified.`);
@@ -189,11 +194,19 @@ function createPackages(type: CreatePackageType): void {
     }
   }
 
+  function padLeft(value: number, minimumWidth: number, padCharacter: string = " "): string {
+    let result: string = value.toString();
+    while (result.length < minimumWidth) {
+      result = padCharacter + result;
+    }
+    return result;
+  }
+  const minimumWidth: number = Math.max(errorPackages, upToDatePackages, publishedPackages, publishedPackagesSkipped).toString().length;
   _logger.log();
-  _logger.log(`Error packages:      ${errorPackages}`);
-  _logger.log(`Up to date packages: ${upToDatePackages}`);
-  _logger.log(`Packed packages:     ${publishedPackages}`);
-  _logger.log(`Skipped packages:    ${publishedPackagesSkipped}`);
+  _logger.log(`Error packages:      ${padLeft(errorPackages, minimumWidth)}`);
+  _logger.log(`Up to date packages: ${padLeft(upToDatePackages, minimumWidth)}`);
+  _logger.log(`Packed packages:     ${padLeft(publishedPackages, minimumWidth)}`);
+  _logger.log(`Skipped packages:    ${padLeft(publishedPackagesSkipped, minimumWidth)}`);
 }
 
 gulp.task('pack', () => createPackages("pack"));
