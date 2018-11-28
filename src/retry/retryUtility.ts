@@ -1,5 +1,4 @@
 ﻿import { RequestOptions } from "https";
-import { Stream } from "stream";
 import * as url from "url";
 import { EndpointDiscoveryRetryPolicy, ResourceThrottleRetryPolicy, SessionRetryPolicy } from ".";
 import { Constants, Helper, StatusCodes, SubStatusCodes } from "../common";
@@ -13,16 +12,10 @@ import { IRetryPolicy } from "./IRetryPolicy";
 import { RetryContext } from "./RetryContext";
 
 /** @hidden */
-export interface Body {
-  buffer?: Buffer;
-  stream?: Stream;
-}
-
-/** @hidden */
 export type CreateRequestObjectStubFunction = (
   connectionPolicy: ConnectionPolicy,
   requestOptions: RequestOptions,
-  body: Body
+  body: Buffer
 ) => Promise<Response<any>>; // TODO: any response
 
 /** @hidden */
@@ -30,8 +23,7 @@ export class RetryUtility {
   /**
    * Executes the retry policy for the created request object.
    * @param {object} globalEndpointManager - an instance of GlobalEndpointManager class.
-   * @param {object} body - a dictionary containing 'buffer' and 'stream' keys to hold corresponding buffer or\
-   *  stream body, null otherwise.
+   * @param {object} body - request body. A buffer or a string.
    * @param {function} createRequestObjectStub - stub function that creates the request object.
    * @param {object} connectionPolicy - an instance of ConnectionPolicy that has the connection configs.
    * @param {RequestOptions} requestOptions - The request options.
@@ -39,7 +31,7 @@ export class RetryUtility {
    */
   public static async execute(
     globalEndpointManager: GlobalEndpointManager,
-    body: Body,
+    body: Buffer,
     createRequestObjectFunc: CreateRequestObjectStubFunction,
     connectionPolicy: ConnectionPolicy,
     requestOptions: RequestOptions,
@@ -74,8 +66,7 @@ export class RetryUtility {
 
   /**
    * Applies the retry policy for the created request object.
-   * @param {object} body - a dictionary containing 'buffer' and 'stream' keys to hold corresponding buffer or \
-   * stream body, null otherwise.
+   * @param {object} body - request body. A buffer or a string.
    * @param {function} createRequestObjectFunc - function that creates the request object.
    * @param {object} connectionPolicy - an instance of ConnectionPolicy that has the connection configs.
    * @param {RequestOptions} requestOptions - The request options.
@@ -85,7 +76,7 @@ export class RetryUtility {
    * @param {function} callback - the callback that will be called when the response is retrieved and processed.
    */
   public static async apply(
-    body: Body,
+    body: Buffer,
     createRequestObjectFunc: CreateRequestObjectStubFunction,
     connectionPolicy: ConnectionPolicy,
     requestOptions: RequestOptions,

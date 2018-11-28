@@ -1,11 +1,10 @@
 import { Agent, OutgoingHttpHeaders } from "http";
 import { RequestOptions } from "https"; // TYPES ONLY
 import * as querystring from "querystring";
-import { Stream } from "stream";
 import { Constants, IHeaders } from "..";
 import { ConnectionPolicy } from "../documents";
 import { GlobalEndpointManager } from "../globalEndpointManager";
-import { Body, RetryUtility } from "../retry";
+import { RetryUtility } from "../retry";
 import { bodyFromData, createRequestObject, parse, Response } from "./request";
 import { RequestContext } from "./RequestContext";
 
@@ -19,7 +18,7 @@ export class RequestHandler {
   public static async createRequestObjectStub(
     connectionPolicy: ConnectionPolicy,
     requestOptions: RequestOptions,
-    body: Body
+    body: Buffer
   ) {
     return createRequestObject(connectionPolicy, requestOptions, body);
   }
@@ -32,7 +31,7 @@ export class RequestHandler {
    * @param {string} method - the http request method ( 'get', 'post', 'put', .. etc ).
    * @param {String} hostname - The base url for the endpoint.
    * @param {string} path - the path of the requesed resource.
-   * @param {Object} data - the request body. It can be either string, buffer, stream or undefined.
+   * @param {Object} data - the request body. It can be either string, buffer, or undefined.
    * @param {Object} queryParams - query parameters for the request.
    * @param {Object} headers - specific headers for the request.
    * @param {function} callback - the callback that will be called when the response is retrieved and processed.
@@ -44,7 +43,7 @@ export class RequestHandler {
     method: string,
     hostname: string,
     request: RequestContext,
-    data: string | Buffer | Stream,
+    data: string | Buffer,
     queryParams: any, // TODO: any query params types
     headers: IHeaders
   ): Promise<Response<any>> {
@@ -57,7 +56,7 @@ export class RequestHandler {
       if (!body) {
         return {
           result: {
-            message: "parameter data must be a javascript object, string, Buffer, or stream"
+            message: "parameter data must be a javascript object, string, or Buffer"
           },
           headers: undefined
         };
@@ -65,19 +64,15 @@ export class RequestHandler {
     }
 
     let buffer;
-    let stream: Stream;
     if (body) {
       if (Buffer.isBuffer(body)) {
         buffer = body;
-      } else if ((body as Stream).pipe) {
-        // it is a stream
-        stream = body;
       } else if (typeof body === "string") {
         buffer = Buffer.from(body, "utf8");
       } else {
         return {
           result: {
-            message: "body must be string, Buffer, or stream"
+            message: "body must be string or Buffer"
           },
           headers: undefined
         };
@@ -103,16 +98,7 @@ export class RequestHandler {
       requestOptions.headers[Constants.HttpHeaders.ContentLength] = buffer.length;
       return RetryUtility.execute(
         globalEndpointManager,
-        { buffer, stream: null },
-        this.createRequestObjectStub,
-        connectionPolicy,
-        requestOptions,
-        request
-      );
-    } else if (stream) {
-      return RetryUtility.execute(
-        globalEndpointManager,
-        { buffer: null, stream },
+        buffer,
         this.createRequestObjectStub,
         connectionPolicy,
         requestOptions,
@@ -121,7 +107,7 @@ export class RequestHandler {
     } else {
       return RetryUtility.execute(
         globalEndpointManager,
-        { buffer: null, stream: null },
+        null,
         this.createRequestObjectStub,
         connectionPolicy,
         requestOptions,
