@@ -12,16 +12,6 @@ export interface IServiceListContainersSegmentOptions {
    */
   prefix?: string;
   /**
-   * @member {string} [marker] A string value that identifies the portion of
-   * the list of containers to be returned with the next listing operation. The
-   * operation returns the NextMarker value within the response body if the
-   * listing operation did not return all containers remaining to be listed
-   * with the current page. The NextMarker value can be used as the value for
-   * the marker parameter in a subsequent call to request the next page of list
-   * items. The marker value is opaque to the client.
-   */
-  marker?: string;
-  /**
    * @member {number} [maxresults] Specifies the maximum number of containers
    * to return. If the request does not specify maxresults, or specifies a
    * value greater than 5000, the server will return up to 5000 items. Note
@@ -166,7 +156,13 @@ export class ServiceURL extends StorageURL {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {string} [marker]
+   * @param {string} [marker] A string value that identifies the portion of
+   *                          the list of containers to be returned with the next listing operation. The
+   *                          operation returns the NextMarker value within the response body if the
+   *                          listing operation did not return all containers remaining to be listed
+   *                          with the current page. The NextMarker value can be used as the value for
+   *                          the marker parameter in a subsequent call to request the next page of list
+   *                          items. The marker value is opaque to the client.
    * @param {IServiceListContainersSegmentOptions} [options]
    * @returns {Promise<Models.ServiceListContainersSegmentResponse>}
    * @memberof ServiceURL

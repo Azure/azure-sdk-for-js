@@ -11,7 +11,7 @@ export interface IRange {
    * StartByte, larger than or equal 0.
    *
    * @type {string}
-   * @memberof IPRange
+   * @memberof IRange
    */
   offset: number;
   /**
@@ -19,7 +19,7 @@ export interface IRange {
    * If not provided, will return bytes from offset to the end.
    *
    * @type {string}
-   * @memberof IPRange
+   * @memberof IRange
    */
   count?: number;
 }
@@ -30,19 +30,19 @@ export interface IRange {
  * "bytes=255-" or "bytes=0-511"
  *
  * @export
- * @param {IRange} ipRange
+ * @param {IRange} iRange
  * @returns {string}
  */
-export function rangeToString(ipRange: IRange): string {
-  if (ipRange.offset < 0) {
-    throw new RangeError(`IPRange.offset cannot be smaller than 0.`);
+export function rangeToString(iRange: IRange): string {
+  if (iRange.offset < 0) {
+    throw new RangeError(`IRange.offset cannot be smaller than 0.`);
   }
-  if (ipRange.count && ipRange.count <= 0) {
+  if (iRange.count && iRange.count <= 0) {
     throw new RangeError(
-      `IPRange.count must be larger than 0. Leave it undefined if you want a range from offset to the end.`
+      `IRange.count must be larger than 0. Leave it undefined if you want a range from offset to the end.`
     );
   }
-  return ipRange.count
-    ? `bytes=${ipRange.offset}-${ipRange.offset + ipRange.count - 1}`
-    : `bytes=${ipRange.offset}-`;
+  return iRange.count
+    ? `bytes=${iRange.offset}-${iRange.offset + iRange.count - 1}`
+    : `bytes=${iRange.offset}-`;
 }

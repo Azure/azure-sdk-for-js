@@ -1,14 +1,18 @@
-import { TransferProgressEvent } from "ms-rest-js";
+import { isNode, TransferProgressEvent } from "ms-rest-js";
 
 import * as Models from "../lib/generated/models";
 import { Aborter } from "./Aborter";
+import { BlobDownloadResponse } from "./BlobDownloadResponse";
 import { ContainerURL } from "./ContainerURL";
 import { Blob } from "./generated/operations";
 import { rangeToString } from "./IRange";
 import { IBlobAccessConditions, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { StorageURL } from "./StorageURL";
-import { URLConstants } from "./utils/constants";
+import {
+  DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
+  URLConstants
+} from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
 
 export interface IBlobDownloadOptions {
@@ -16,6 +20,23 @@ export interface IBlobDownloadOptions {
   rangeGetContentMD5?: boolean;
   blobAccessConditions?: IBlobAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * Optional. ONLY AVAILABLE IN NODE.JS.
+   *
+   * How many retries will perform when original body download stream unexpected ends.
+   * Above kind of ends will not trigger retry policy defined in a pipeline,
+   * because they doesn't emit network errors.
+   *
+   * With this option, every additional retry means an additional FileURL.download() request will be made
+   * from the broken point, until the requested range has been successfully downloaded or maxRetryRequests is reached.
+   *
+   * Default value is 5, please set a larger value when loading large files in poor network.
+   *
+   * @type {number}
+   * @memberof IBlobDownloadOptions
+   */
+  maxRetryRequests?: number;
 }
 
 export interface IBlobGetPropertiesOptions {
@@ -29,11 +50,9 @@ export interface IBlobDeleteOptions {
 
 export interface IBlobSetHTTPHeadersOptions {
   blobAccessConditions?: IBlobAccessConditions;
-  blobHTTPHeaders?: Models.BlobHTTPHeaders;
 }
 
 export interface IBlobSetMetadataOptions {
-  metadata?: IMetadata;
   blobAccessConditions?: IBlobAccessConditions;
 }
 
@@ -184,31 +203,95 @@ export class BlobURL extends StorageURL {
     options: IBlobDownloadOptions = {}
   ): Promise<Models.BlobDownloadResponse> {
     options.blobAccessConditions = options.blobAccessConditions || {};
+    options.blobAccessConditions.modifiedAccessConditions =
+      options.blobAccessConditions.modifiedAccessConditions || {};
 
     const res = await this.blobContext.download({
       abortSignal: aborter,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       modifiedAccessConditions:
         options.blobAccessConditions.modifiedAccessConditions,
-      onDownloadProgress: options.progress,
+      onDownloadProgress: isNode ? undefined : options.progress,
       range:
         offset === 0 && !count ? undefined : rangeToString({ offset, count }),
       rangeGetContentMD5: options.rangeGetContentMD5,
       snapshot: options.snapshot
     });
 
-    // Default axios based HTTP client cannot abort download stream, manually pause/abort it
-    // Currently, no error will be triggered when network error or abort during reading from response stream
-    // TODO: Now need to manually validate the date length when stream ends, add download retry in the future
-    if (res.readableStreamBody) {
-      aborter.addEventListener("abort", () => {
-        if (res.readableStreamBody) {
-          res.readableStreamBody.pause();
-        }
-      });
+    // Return browser response immediately
+    if (!isNode) {
+      return res;
     }
 
-    return res;
+    // We support retrying when download stream unexpected ends in Node.js runtime
+    // Following code shouldn't be bundled into browser build, however some
+    // bundlers may try to bundle following code and "FileReadResponse.ts".
+    // In this case, "FileDownloadResponse.browser.ts" will be used as a shim of "FileDownloadResponse.ts"
+    // The config is in package.json "browser" field
+    if (
+      options.maxRetryRequests === undefined ||
+      options.maxRetryRequests < 0
+    ) {
+      // TODO: Default value or make it a required parameter?
+      options.maxRetryRequests = DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS;
+    }
+
+    if (res.contentLength === undefined) {
+      throw new RangeError(
+        `File download response doesn't contain valid content length header`
+      );
+    }
+
+    if (!res.eTag) {
+      throw new RangeError(
+        `File download response doesn't contain valid etag header`
+      );
+    }
+
+    return new BlobDownloadResponse(
+      aborter,
+      res,
+      async (start: number): Promise<NodeJS.ReadableStream> => {
+        const updatedOptions: Models.BlobDownloadOptionalParams = {
+          leaseAccessConditions: options.blobAccessConditions!
+            .leaseAccessConditions,
+          modifiedAccessConditions: {
+            ifMatch:
+              options.blobAccessConditions!.modifiedAccessConditions!.ifMatch ||
+              res.eTag,
+            ifModifiedSince: options.blobAccessConditions!
+              .modifiedAccessConditions!.ifModifiedSince,
+            ifNoneMatch: options.blobAccessConditions!.modifiedAccessConditions!
+              .ifNoneMatch,
+            ifUnmodifiedSince: options.blobAccessConditions!
+              .modifiedAccessConditions!.ifUnmodifiedSince
+          },
+          range: rangeToString({
+            count: offset + res.contentLength! - start,
+            offset: start
+          }),
+          snapshot: options.snapshot
+        };
+
+        // Debug purpose only
+        // console.log(
+        //   `Read from internal stream, range: ${
+        //     updatedOptions.range
+        //   }, options: ${JSON.stringify(updatedOptions)}`
+        // );
+
+        return (await this.blobContext.download({
+          abortSignal: aborter,
+          ...updatedOptions
+        })).readableStreamBody!;
+      },
+      offset,
+      res.contentLength!,
+      {
+        maxRetryRequests: options.maxRetryRequests,
+        progress: options.progress
+      }
+    );
   }
 
   /**
@@ -284,24 +367,28 @@ export class BlobURL extends StorageURL {
   /**
    * Sets system properties on the blob.
    *
-   * If no option provided, or no value provided for the blob HTTP headers in the options,
+   * If no value provided, or no value provided for the specificed blob HTTP headers,
    * these blob HTTP headers without a value will be cleared.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-properties
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
+   * @param {Models.BlobHTTPHeaders} [blobHTTPHeaders] If no value provided, or no value provided for
+   *                                                   the specificed blob HTTP headers, these blob HTTP
+   *                                                   headers without a value will be cleared.
    * @param {IBlobSetHTTPHeadersOptions} [options]
    * @returns {Promise<Models.BlobSetHTTPHeadersResponse>}
    * @memberof BlobURL
    */
   public async setHTTPHeaders(
     aborter: Aborter,
+    blobHTTPHeaders?: Models.BlobHTTPHeaders,
     options: IBlobSetHTTPHeadersOptions = {}
   ): Promise<Models.BlobSetHTTPHeadersResponse> {
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.setHTTPHeaders({
       abortSignal: aborter,
-      blobHTTPHeaders: options.blobHTTPHeaders,
+      blobHTTPHeaders,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       modifiedAccessConditions:
         options.blobAccessConditions.modifiedAccessConditions
@@ -311,25 +398,28 @@ export class BlobURL extends StorageURL {
   /**
    * Sets user-defined metadata for the specified blob as one or more name-value pairs.
    *
-   * If no option provided, or no metadata defined in the option parameter, the blob
+   * If no option provided, or no metadata defined in the parameter, the blob
    * metadata will be removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-metadata
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
+   * @param {IMetadata} [metadata] Replace existing metadata with this value.
+   *                               If no value provided the existing metadata will be removed.
    * @param {IBlobSetMetadataOptions} [options]
    * @returns {Promise<Models.BlobSetMetadataResponse>}
    * @memberof BlobURL
    */
   public async setMetadata(
     aborter: Aborter,
+    metadata?: IMetadata,
     options: IBlobSetMetadataOptions = {}
   ): Promise<Models.BlobSetMetadataResponse> {
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.setMetadata({
       abortSignal: aborter,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
-      metadata: options.metadata,
+      metadata,
       modifiedAccessConditions:
         options.blobAccessConditions.modifiedAccessConditions
     });

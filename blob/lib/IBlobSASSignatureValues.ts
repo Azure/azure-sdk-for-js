@@ -188,10 +188,10 @@ export function generateBlobSASQueryParameters(
   const stringToSign = [
     verifiedPermissions ? verifiedPermissions : "",
     blobSASSignatureValues.startTime
-      ? truncatedISO8061Date(blobSASSignatureValues.startTime)
+      ? truncatedISO8061Date(blobSASSignatureValues.startTime, false)
       : "",
     blobSASSignatureValues.expiryTime
-      ? truncatedISO8061Date(blobSASSignatureValues.expiryTime)
+      ? truncatedISO8061Date(blobSASSignatureValues.expiryTime, false)
       : "",
     getCanonicalName(
       sharedKeyCredential.accountName,
@@ -232,7 +232,12 @@ export function generateBlobSASQueryParameters(
     blobSASSignatureValues.expiryTime,
     blobSASSignatureValues.ipRange,
     blobSASSignatureValues.identifier,
-    resource
+    resource,
+    blobSASSignatureValues.cacheControl,
+    blobSASSignatureValues.contentDisposition,
+    blobSASSignatureValues.contentEncoding,
+    blobSASSignatureValues.contentLanguage,
+    blobSASSignatureValues.contentType
   );
 }
 

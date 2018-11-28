@@ -24,12 +24,12 @@ async function main() {
 
   // Use TokenCredential with OAuth token
   const tokenCredential = new TokenCredential("token");
-  tokenCredential.token = "renewedToken";
+  tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential
 
   // Use AnonymousCredential when url already includes a SAS signature
-  const tokenCredential = new AnonymousCredential();
+  const anonymousCredential = new AnonymousCredential();
 
-  // Use sharedKeyCredential, tokenCredential or tokenCredential to create a pipeline
+  // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
   const pipeline = StorageURL.newPipeline(sharedKeyCredential);
 
   // List containers
@@ -46,7 +46,7 @@ async function main() {
       marker
     );
 
-    marker = listContainersResponse.marker;
+    marker = listContainersResponse.nextMarker;
     for (const container of listContainersResponse.containerItems) {
       console.log(`Container: ${container.name}`);
     }
@@ -78,13 +78,14 @@ async function main() {
   );
 
   // List blobs
+  marker = undefined;
   do {
     const listBlobsResponse = await containerURL.listBlobFlatSegment(
       Aborter.none,
       marker
     );
 
-    marker = listBlobsResponse.marker;
+    marker = listBlobsResponse.nextMarker;
     for (const blob of listBlobsResponse.segment.blobItems) {
       console.log(`Blob: ${blob.name}`);
     }
@@ -96,13 +97,27 @@ async function main() {
   const downloadBlockBlobResponse = await blobURL.download(Aborter.none, 0);
   console.log(
     "Downloaded blob content",
-    downloadBlockBlobResponse.readableStreamBody.read(content.length).toString()
+    await streamToString(downloadBlockBlobResponse.readableStreamBody)
   );
 
   // Delete container
   await containerURL.delete(Aborter.none);
 
   console.log("deleted container");
+}
+
+// A helper method used to read a Node.js readable stream into string
+async function streamToString(readableStream) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    readableStream.on("data", data => {
+      chunks.push(data.toString());
+    });
+    readableStream.on("end", () => {
+      resolve(chunks.join(""));
+    });
+    readableStream.on("error", reject);
+  });
 }
 
 // An async method returns a Promise object, which is compatible with then().catch() coding style.

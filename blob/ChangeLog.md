@@ -1,5 +1,19 @@
 # Changelog
 
+2018.11 10.2.0-preview
+
+* [Breaking] Updated names of exported interfaces `IHTTPPipelineLogger` & `IHTTPClient` to `IHttpPipelineLogger` & `IHttpClient`.
+* [Breaking] For `setMetadata()` and `setHTTPHeaders()`, `metadata` and `blobHTTPHeaders` are moved from `options` into top level parameter list.
+* Fixed bugs and typos in samples.
+* Fixed a bug during generateAccountSASQueryParameters() that generated signature is not valid.
+* Fixed a bug during generateBlobSASQueryParameters() that cache-control, content-type, content-disposition, content-encoding and content-language are not supported.
+* Fixed a bug in SAS generation that start and expiry time format is not correct.
+* Removed `File` from `uploadBrowserDataToBlockBlob` parameter type list, because `File` extends `Blob` which is already in the list.
+* Fixed typos in `IRange` comments.
+* Removed useless `marker` field from option of `ServiceURL.listContainersSegment` method.
+* Fixed a bug that `timeout` parameter should use second as unit instead of millisecond.
+* Added stream retry when `BlobURL.download` response stream unexcepted ends.
+
 2018.09 10.1.0-preview
 
 * Fixed sharedkey authentication error when blob names have spaces.

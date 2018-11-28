@@ -8,10 +8,10 @@ import {
 } from "./highlevel.common";
 import { Batch } from "./utils/Batch";
 import {
-  BLOB_DEFAULT_DOWNLOAD_BLOCK_BYTES,
   BLOCK_BLOB_MAX_BLOCKS,
   BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
-  BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES
+  BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
+  DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES
 } from "./utils/constants";
 import { generateBlockID } from "./utils/utils.common";
 
@@ -27,14 +27,14 @@ import { generateBlockID } from "./utils/utils.common";
  * @export
  * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
  *                          goto documents of Aborter for more examples about request cancellation
- * @param {Blob | File | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
+ * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
  * @param {BlockBlobURL} blockBlobURL
  * @param {IUploadToBlockBlobOptions} [options]
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 export async function uploadBrowserDataToBlockBlob(
   aborter: Aborter,
-  browserData: Blob | File | ArrayBuffer | ArrayBufferView,
+  browserData: Blob | ArrayBuffer | ArrayBufferView,
   blockBlobURL: BlockBlobURL,
   options?: IUploadToBlockBlobOptions
 ): Promise<BlobUploadCommonResponse> {
@@ -92,8 +92,8 @@ async function UploadSeekableBlobToBlockBlob(
     }
     if (size > BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES) {
       options.blockSize = Math.ceil(size / BLOCK_BLOB_MAX_BLOCKS);
-      if (options.blockSize < BLOB_DEFAULT_DOWNLOAD_BLOCK_BYTES) {
-        options.blockSize = BLOB_DEFAULT_DOWNLOAD_BLOCK_BYTES;
+      if (options.blockSize < DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES) {
+        options.blockSize = DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES;
       }
     }
   }

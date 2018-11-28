@@ -4,7 +4,7 @@ import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
 import { Credential } from "./credentials/Credential";
 import { StorageClientContext } from "./generated/storageClientContext";
 import { LoggingPolicyFactory } from "./LoggingPolicyFactory";
-import { IHTTPClient, IHTTPPipelineLogger, Pipeline } from "./Pipeline";
+import { IHttpClient, IHttpPipelineLogger, Pipeline } from "./Pipeline";
 import { IRetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
 import {
   ITelemetryOptions,
@@ -31,8 +31,8 @@ export interface INewPipelineOptions {
   telemetry?: ITelemetryOptions;
   retryOptions?: IRetryOptions;
 
-  logger?: IHTTPPipelineLogger;
-  httpClient?: IHTTPClient;
+  logger?: IHttpPipelineLogger;
+  httpClient?: IHttpClient;
 }
 
 /**

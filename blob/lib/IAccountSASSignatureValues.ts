@@ -130,9 +130,9 @@ export function generateAccountSASQueryParameters(
     parsedServices,
     parsedResourceTypes,
     accountSASSignatureValues.startTime
-      ? truncatedISO8061Date(accountSASSignatureValues.startTime)
+      ? truncatedISO8061Date(accountSASSignatureValues.startTime, false)
       : "",
-    truncatedISO8061Date(accountSASSignatureValues.expiryTime),
+    truncatedISO8061Date(accountSASSignatureValues.expiryTime, false),
     accountSASSignatureValues.ipRange
       ? ipRangeToString(accountSASSignatureValues.ipRange)
       : "",
@@ -147,8 +147,8 @@ export function generateAccountSASQueryParameters(
 
   return new SASQueryParameters(
     version,
-    parsedPermissions,
     signature,
+    parsedPermissions,
     parsedServices,
     parsedResourceTypes,
     accountSASSignatureValues.protocol,
