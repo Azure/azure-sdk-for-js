@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -139,7 +139,17 @@ export interface OpenShiftManagedClusterMasterPoolProfile {
   count: number;
   /**
    * @member {OpenShiftContainerServiceVMSize} vmSize Size of agent VMs.
-   * Possible values include: 'Standard_D2s_v3', 'Standard_D4s_v3'
+   * Possible values include: 'Standard_D2s_v3', 'Standard_D4s_v3',
+   * 'Standard_D8s_v3', 'Standard_D16s_v3', 'Standard_D32s_v3',
+   * 'Standard_D64s_v3', 'Standard_DS4_v2', 'Standard_DS5_v2',
+   * 'Standard_F8s_v2', 'Standard_F16s_v2', 'Standard_F32s_v2',
+   * 'Standard_F64s_v2', 'Standard_F72s_v2', 'Standard_F8s', 'Standard_F16s',
+   * 'Standard_E4s_v3', 'Standard_E8s_v3', 'Standard_E16s_v3',
+   * 'Standard_E20s_v3', 'Standard_E32s_v3', 'Standard_E64s_v3',
+   * 'Standard_GS2', 'Standard_GS3', 'Standard_GS4', 'Standard_GS5',
+   * 'Standard_DS12_v2', 'Standard_DS13_v2', 'Standard_DS14_v2',
+   * 'Standard_DS15_v2', 'Standard_L4s', 'Standard_L8s', 'Standard_L16s',
+   * 'Standard_L32s'
    */
   vmSize: OpenShiftContainerServiceVMSize;
   /**
@@ -174,7 +184,17 @@ export interface OpenShiftManagedClusterAgentPoolProfile {
   count: number;
   /**
    * @member {OpenShiftContainerServiceVMSize} vmSize Size of agent VMs.
-   * Possible values include: 'Standard_D2s_v3', 'Standard_D4s_v3'
+   * Possible values include: 'Standard_D2s_v3', 'Standard_D4s_v3',
+   * 'Standard_D8s_v3', 'Standard_D16s_v3', 'Standard_D32s_v3',
+   * 'Standard_D64s_v3', 'Standard_DS4_v2', 'Standard_DS5_v2',
+   * 'Standard_F8s_v2', 'Standard_F16s_v2', 'Standard_F32s_v2',
+   * 'Standard_F64s_v2', 'Standard_F72s_v2', 'Standard_F8s', 'Standard_F16s',
+   * 'Standard_E4s_v3', 'Standard_E8s_v3', 'Standard_E16s_v3',
+   * 'Standard_E20s_v3', 'Standard_E32s_v3', 'Standard_E64s_v3',
+   * 'Standard_GS2', 'Standard_GS3', 'Standard_GS4', 'Standard_GS5',
+   * 'Standard_DS12_v2', 'Standard_DS13_v2', 'Standard_DS14_v2',
+   * 'Standard_DS15_v2', 'Standard_L4s', 'Standard_L8s', 'Standard_L16s',
+   * 'Standard_L32s'
    */
   vmSize: OpenShiftContainerServiceVMSize;
   /**
@@ -1384,6 +1404,23 @@ export interface ContainerServiceClientOptions extends AzureServiceClientOptions
 
 /**
  * @interface
+ * An interface representing the OpenShiftManagedClusterListResult.
+ * The response from the List OpenShift Managed Clusters operation.
+ *
+ * @extends Array<OpenShiftManagedCluster>
+ */
+export interface OpenShiftManagedClusterListResult extends Array<OpenShiftManagedCluster> {
+  /**
+   * @member {string} [nextLink] The URL to get the next set of OpenShift
+   * managed cluster results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the ContainerServiceListResult.
  * The response from the List Container Services operation.
  *
@@ -1436,11 +1473,18 @@ export type OSType = 'Linux' | 'Windows';
 
 /**
  * Defines values for OpenShiftContainerServiceVMSize.
- * Possible values include: 'Standard_D2s_v3', 'Standard_D4s_v3'
+ * Possible values include: 'Standard_D2s_v3', 'Standard_D4s_v3', 'Standard_D8s_v3',
+ * 'Standard_D16s_v3', 'Standard_D32s_v3', 'Standard_D64s_v3', 'Standard_DS4_v2',
+ * 'Standard_DS5_v2', 'Standard_F8s_v2', 'Standard_F16s_v2', 'Standard_F32s_v2',
+ * 'Standard_F64s_v2', 'Standard_F72s_v2', 'Standard_F8s', 'Standard_F16s', 'Standard_E4s_v3',
+ * 'Standard_E8s_v3', 'Standard_E16s_v3', 'Standard_E20s_v3', 'Standard_E32s_v3',
+ * 'Standard_E64s_v3', 'Standard_GS2', 'Standard_GS3', 'Standard_GS4', 'Standard_GS5',
+ * 'Standard_DS12_v2', 'Standard_DS13_v2', 'Standard_DS14_v2', 'Standard_DS15_v2', 'Standard_L4s',
+ * 'Standard_L8s', 'Standard_L16s', 'Standard_L32s'
  * @readonly
  * @enum {string}
  */
-export type OpenShiftContainerServiceVMSize = 'Standard_D2s_v3' | 'Standard_D4s_v3';
+export type OpenShiftContainerServiceVMSize = 'Standard_D2s_v3' | 'Standard_D4s_v3' | 'Standard_D8s_v3' | 'Standard_D16s_v3' | 'Standard_D32s_v3' | 'Standard_D64s_v3' | 'Standard_DS4_v2' | 'Standard_DS5_v2' | 'Standard_F8s_v2' | 'Standard_F16s_v2' | 'Standard_F32s_v2' | 'Standard_F64s_v2' | 'Standard_F72s_v2' | 'Standard_F8s' | 'Standard_F16s' | 'Standard_E4s_v3' | 'Standard_E8s_v3' | 'Standard_E16s_v3' | 'Standard_E20s_v3' | 'Standard_E32s_v3' | 'Standard_E64s_v3' | 'Standard_GS2' | 'Standard_GS3' | 'Standard_GS4' | 'Standard_GS5' | 'Standard_DS12_v2' | 'Standard_DS13_v2' | 'Standard_DS14_v2' | 'Standard_DS15_v2' | 'Standard_L4s' | 'Standard_L8s' | 'Standard_L16s' | 'Standard_L32s';
 
 /**
  * Defines values for OpenShiftAgentPoolProfileRole.
@@ -1536,6 +1580,44 @@ export type NetworkPlugin = 'azure' | 'kubenet';
 export type NetworkPolicy = 'calico';
 
 /**
+ * Contains response data for the list operation.
+ */
+export type OpenShiftManagedClustersListResponse = OpenShiftManagedClusterListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OpenShiftManagedClusterListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type OpenShiftManagedClustersListByResourceGroupResponse = OpenShiftManagedClusterListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OpenShiftManagedClusterListResult;
+    };
+};
+
+/**
  * Contains response data for the get operation.
  */
 export type OpenShiftManagedClustersGetResponse = OpenShiftManagedCluster & {
@@ -1627,6 +1709,44 @@ export type OpenShiftManagedClustersBeginUpdateTagsResponse = OpenShiftManagedCl
        * The response body as parsed JSON or XML
        */
       parsedBody: OpenShiftManagedCluster;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type OpenShiftManagedClustersListNextResponse = OpenShiftManagedClusterListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OpenShiftManagedClusterListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type OpenShiftManagedClustersListByResourceGroupNextResponse = OpenShiftManagedClusterListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OpenShiftManagedClusterListResult;
     };
 };
 

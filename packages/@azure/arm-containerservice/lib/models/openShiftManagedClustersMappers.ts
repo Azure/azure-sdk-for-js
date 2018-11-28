@@ -10,6 +10,7 @@
 
 export {
   discriminators,
+  OpenShiftManagedClusterListResult,
   OpenShiftManagedCluster,
   Resource,
   BaseResource,
