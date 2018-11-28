@@ -44,8 +44,9 @@ export class Logger {
     }
 
     log(text?: string): void {
+        text = text || "";
         console.log(text);
-        this._capture(text || "");
+        this._capture(text);
     }
 
     clearCapturedText(): void {

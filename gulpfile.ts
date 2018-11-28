@@ -101,7 +101,7 @@ gulp.task('codegen', async () => {
 
 type CreatePackageType = "pack" | "publish"
 
-const createPackages = (type: CreatePackageType = "pack") => {
+function createPackages(type: CreatePackageType): void {
   let errorPackages = 0;
   let upToDatePackages = 0;
   let publishedPackages = 0;
@@ -113,28 +113,42 @@ const createPackages = (type: CreatePackageType = "pack") => {
     fs.mkdirSync(dropPath);
   }
 
-  const getAllPackageFolders = function *(p: string): IterableIterator<string> {
-    for (const dir of fs.readdirSync(p, { withFileTypes: true })) {
-      if (dir.isDirectory()) {
-        const dirPath = path.join(p, dir.name)
-        const packageJsonPath = path.join(dirPath, "package.json")
-        if (fs.existsSync(packageJsonPath)) {
-          yield dirPath
-        } else {
-          yield *getAllPackageFolders(dirPath)
-        }
+  const folderNamesToIgnore: string[] = [ "node_modules" ];
+
+  function getAllPackageFolders(folderPath: string, result?: string[]): string[] {
+    if (result == undefined) {
+      result = [];
+    }
+
+    const folderName: string = path.basename(folderPath);
+    if (folderNamesToIgnore.indexOf(folderName) === -1 && fs.existsSync(folderPath) && fs.lstatSync(folderPath).isDirectory()) {
+      const packageJsonFilePath: string = path.join(folderPath, "package.json");
+      if (fs.existsSync(packageJsonFilePath) && fs.lstatSync(packageJsonFilePath).isFile()) {
+        result.push(folderPath);
+      }
+
+      for (const folderEntryName of fs.readdirSync(folderPath)) {
+        const folderEntryPath: string = path.join(folderPath, folderEntryName);
+        getAllPackageFolders(folderEntryPath, result);
       }
     }
+
+    return result;
   }
 
-  for (const packageFolderPath of getAllPackageFolders(path.resolve("packages"))) {
+  const packagesToSkip: string[] = ["@azure/keyvault"];
+
+  for (const packageFolderPath of getAllPackageFolders(path.resolve(__dirname, "packages"))) {
     _logger.logTrace(`INFO: Processing ${packageFolderPath}`);
 
     const packageJsonFilePath: string = path.join(packageFolderPath, "package.json");
     const packageJson: { [propertyName: string]: any } = require(packageJsonFilePath);
     const packageName: string = packageJson.name;
 
-    if (!args.package || args.package === packageName || endsWith(packageName, `-${args.package}`)) {
+    if (packagesToSkip.indexOf(packageName) !== -1) {
+      _logger.log(`INFO: Skipping package ${packageName}`);
+      ++publishedPackagesSkipped;
+    } else if (!args.package || args.package === packageName || endsWith(packageName, `-${args.package}`)) {
       const localPackageVersion: string = packageJson.version;
       if (!localPackageVersion) {
         _logger.log(`ERROR: "${packageJsonFilePath}" doesn't have a version specified.`);
@@ -180,14 +194,22 @@ const createPackages = (type: CreatePackageType = "pack") => {
     }
   }
 
+  function padLeft(value: number, minimumWidth: number, padCharacter: string = " "): string {
+    let result: string = value.toString();
+    while (result.length < minimumWidth) {
+      result = padCharacter + result;
+    }
+    return result;
+  }
+  const minimumWidth: number = Math.max(errorPackages, upToDatePackages, publishedPackages, publishedPackagesSkipped).toString().length;
   _logger.log();
-  _logger.log(`Error packages:             ${errorPackages}`);
-  _logger.log(`Up to date packages:        ${upToDatePackages}`);
-  _logger.log(`Packed packages:         ${publishedPackages}`);
-  _logger.log(`Skipped packages: ${publishedPackagesSkipped}`);
+  _logger.log(`Error packages:      ${padLeft(errorPackages, minimumWidth)}`);
+  _logger.log(`Up to date packages: ${padLeft(upToDatePackages, minimumWidth)}`);
+  _logger.log(`Packed packages:     ${padLeft(publishedPackages, minimumWidth)}`);
+  _logger.log(`Skipped packages:    ${padLeft(publishedPackagesSkipped, minimumWidth)}`);
 }
 
-gulp.task('pack', () => createPackages());
+gulp.task('pack', () => createPackages("pack"));
 
 gulp.task('publish', () => createPackages("publish"));
 
