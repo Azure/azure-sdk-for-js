@@ -2553,7 +2553,7 @@ describe("AzureServiceClient", () => {
   describe("sendRequest", () => {
     it ("adds custom user agent if specified", async () => {
       const client = new AzureServiceClient(new TokenCredentials("fake-token"), { userAgent: "custom-ua" });
-      const request = new WebResource("https://example.com");
+      const request = new WebResource("https://microsoft.com");
       await client.sendRequest(request);
 
       const telemetry = request.headers.get("user-agent")!;
@@ -2562,7 +2562,7 @@ describe("AzureServiceClient", () => {
 
     it ("adds user agent header that looks similar to \"ms-rest-azure-js/0.1.0 ms-rest-js/0.1.0 Node/v10.11.0 OS/(x64-Windows_NT-10.0.18267)\"", async () => {
       const client = new AzureServiceClient(new TokenCredentials("my-fake-token"));
-      const request = new WebResource("https://example.com");
+      const request = new WebResource("https://microsoft.com");
       await client.sendRequest(request);
 
       const telemetry = request.headers.get("user-agent")!;
