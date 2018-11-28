@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/reportsMappers";
 import * as Parameters from "../models/parameters";
@@ -171,7 +171,7 @@ export class Reports {
   }
 
   /**
-   * Lists report records by GeoGraphy.
+   * Lists report records by geography.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param [options] The optional parameters
@@ -241,7 +241,7 @@ export class Reports {
    * @param interval By time interval. Interval must be multiple of 15 minutes and may not be zero.
    * The value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This
    * code can be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new
-   * TimeSpan(hours, minutes, secconds))
+   * TimeSpan(hours, minutes, seconds))
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsListByTimeResponse>
    */
@@ -252,7 +252,7 @@ export class Reports {
    * @param interval By time interval. Interval must be multiple of 15 minutes and may not be zero.
    * The value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This
    * code can be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new
-   * TimeSpan(hours, minutes, secconds))
+   * TimeSpan(hours, minutes, seconds))
    * @param callback The callback
    */
   listByTime(resourceGroupName: string, serviceName: string, interval: string, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
@@ -262,7 +262,7 @@ export class Reports {
    * @param interval By time interval. Interval must be multiple of 15 minutes and may not be zero.
    * The value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This
    * code can be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new
-   * TimeSpan(hours, minutes, secconds))
+   * TimeSpan(hours, minutes, seconds))
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -428,7 +428,7 @@ export class Reports {
   }
 
   /**
-   * Lists report records by GeoGraphy.
+   * Lists report records by geography.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsListByGeoNextResponse>

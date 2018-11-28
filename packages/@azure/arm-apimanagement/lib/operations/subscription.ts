@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/subscriptionMappers";
 import * as Parameters from "../models/parameters";
@@ -181,7 +181,7 @@ export class Subscription {
   }
 
   /**
-   * Updates the details of a subscription specificied by its identifier.
+   * Updates the details of a subscription specified by its identifier.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param sid Subscription entity Identifier. The entity represents the association between a user

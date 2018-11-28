@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/propertyMappers";
 import * as Parameters from "../models/parameters";
@@ -218,7 +218,7 @@ export class Property {
   }
 
   /**
-   * Deletes specific property from the the API Management service instance.
+   * Deletes specific property from the API Management service instance.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param propId Identifier of the property.

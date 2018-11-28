@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/apiIssueMappers";
 import * as Parameters from "../models/parameters";
@@ -27,7 +27,7 @@ export class ApiIssue {
   }
 
   /**
-   * Lists all issues assosiated with the specified API.
+   * Lists all issues associated with the specified API.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
@@ -278,7 +278,7 @@ export class ApiIssue {
   }
 
   /**
-   * Lists all issues assosiated with the specified API.
+   * Lists all issues associated with the specified API.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiIssueListByServiceNextResponse>

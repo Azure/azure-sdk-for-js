@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/diagnosticLoggerMappers";
 import * as Parameters from "../models/parameters";
@@ -27,7 +27,7 @@ export class DiagnosticLogger {
   }
 
   /**
-   * Lists all loggers assosiated with the specified Diagnostic of the API Management service
+   * Lists all loggers associated with the specified Diagnostic of the API Management service
    * instance.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -110,7 +110,7 @@ export class DiagnosticLogger {
   }
 
   /**
-   * Attaches a logger to a dignostic.
+   * Attaches a logger to a diagnostic.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param diagnosticId Diagnostic identifier. Must be unique in the current API Management service
@@ -196,7 +196,7 @@ export class DiagnosticLogger {
   }
 
   /**
-   * Lists all loggers assosiated with the specified Diagnostic of the API Management service
+   * Lists all loggers associated with the specified Diagnostic of the API Management service
    * instance.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
