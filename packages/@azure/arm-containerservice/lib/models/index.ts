@@ -134,7 +134,7 @@ export interface OpenShiftManagedClusterMasterPoolProfile {
   name?: string;
   /**
    * @member {number} count Number of masters (VMs) to host docker containers.
-   * The default value is 3. Default value: 3 .
+   * The default value is 3.
    */
   count: number;
   /**
@@ -179,7 +179,7 @@ export interface OpenShiftManagedClusterAgentPoolProfile {
   /**
    * @member {number} count Number of agents (VMs) to host docker containers.
    * Allowed values must be in the range of 1 to 5 (inclusive). The default
-   * value is 2. . Default value: 2 .
+   * value is 2.
    */
   count: number;
   /**

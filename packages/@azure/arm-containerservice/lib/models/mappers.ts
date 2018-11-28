@@ -164,11 +164,6 @@ export const OpenShiftManagedClusterMasterPoolProfile: msRest.CompositeMapper = 
       count: {
         required: true,
         serializedName: "count",
-        defaultValue: 3,
-        constraints: {
-          InclusiveMaximum: 10,
-          InclusiveMinimum: 1
-        },
         type: {
           name: "Number"
         }
@@ -213,11 +208,6 @@ export const OpenShiftManagedClusterAgentPoolProfile: msRest.CompositeMapper = {
       count: {
         required: true,
         serializedName: "count",
-        defaultValue: 2,
-        constraints: {
-          InclusiveMaximum: 5,
-          InclusiveMinimum: 1
-        },
         type: {
           name: "Number"
         }
