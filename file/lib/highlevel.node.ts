@@ -1,14 +1,19 @@
 import * as fs from "fs";
 import { TransferProgressEvent } from "ms-rest-js";
 import { Readable } from "stream";
-
 import { Aborter } from "./Aborter";
 import { FileURL } from "./FileURL";
-import { IDownloadFromAzureFileOptions, IUploadToAzureFileOptions } from "./highlevel.common";
+import {
+  IDownloadFromAzureFileOptions,
+  IUploadToAzureFileOptions
+} from "./highlevel.common";
 import { IFileHTTPHeaders, IMetadata } from "./models";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
-import { FILE_RANGE_MAX_SIZE_BYTES, HIGH_LEVEL_DEFAULT_PARALLELISM } from "./utils/constants";
+import {
+  DEFAULT_HIGH_LEVEL_PARALLELISM,
+  FILE_RANGE_MAX_SIZE_BYTES
+} from "./utils/constants";
 import { streamToBuffer } from "./utils/utils.node";
 
 /**
@@ -83,7 +88,7 @@ async function uploadResetableStreamToAzureFile(
   }
 
   if (!options.parallelism) {
-    options.parallelism = HIGH_LEVEL_DEFAULT_PARALLELISM;
+    options.parallelism = DEFAULT_HIGH_LEVEL_PARALLELISM;
   }
   if (options.parallelism < 0) {
     throw new RangeError(`options.parallelism cannot less than 0.`);
@@ -162,7 +167,7 @@ export async function downloadAzureFileToBuffer(
   }
 
   if (!options.parallelism) {
-    options.parallelism = HIGH_LEVEL_DEFAULT_PARALLELISM;
+    options.parallelism = DEFAULT_HIGH_LEVEL_PARALLELISM;
   }
   if (options.parallelism < 0) {
     throw new RangeError(`options.parallelism cannot less than 0.`);

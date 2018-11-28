@@ -7,12 +7,12 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptions,
   RestError,
-  WebResource,
+  WebResource
 } from "ms-rest-js";
 
 import { IRetryOptions } from "../RetryPolicyFactory";
 import { URLConstants } from "../utils/constants";
-import { setURLHost, setURLParameter } from "../utils/utils.common";
+import { setURLParameter } from "../utils/utils.common";
 
 /**
  * A factory method used to generated a RetryPolicy factory.
@@ -57,7 +57,6 @@ const DEFAULT_RETRY_OPTIONS: IRetryOptions = {
   maxTries: 4,
   retryDelayInMs: 4 * 1000,
   retryPolicyType: RetryPolicyType.EXPONENTIAL,
-  secondaryHost: "",
   tryTimeoutInMs: 60 * 1000
 };
 
@@ -121,11 +120,7 @@ export class RetryPolicy extends BaseRequestPolicy {
       maxRetryDelayInMs:
         retryOptions.maxRetryDelayInMs && retryOptions.maxRetryDelayInMs >= 0
           ? retryOptions.maxRetryDelayInMs
-          : DEFAULT_RETRY_OPTIONS.maxRetryDelayInMs,
-
-      secondaryHost: retryOptions.secondaryHost
-        ? retryOptions.secondaryHost
-        : DEFAULT_RETRY_OPTIONS.secondaryHost
+          : DEFAULT_RETRY_OPTIONS.maxRetryDelayInMs
     };
   }
 
@@ -163,22 +158,7 @@ export class RetryPolicy extends BaseRequestPolicy {
   ): Promise<HttpOperationResponse> {
     const newRequest: WebResource = request.clone();
 
-    const isPrimaryRetry =
-      secondaryHas404 ||
-      !this.retryOptions.secondaryHost ||
-      !(
-        request.method === "GET" ||
-        request.method === "HEAD" ||
-        request.method === "OPTIONS"
-      ) ||
-      attempt % 2 === 1;
-
-    if (!isPrimaryRetry) {
-      newRequest.url = setURLHost(
-        newRequest.url,
-        this.retryOptions.secondaryHost!
-      );
-    }
+    const isPrimaryRetry = true; // File doesn't suport secondary endpoint
 
     // Set the server-side timeout query parameter "timeout=[seconds]"
     newRequest.url = setURLParameter(

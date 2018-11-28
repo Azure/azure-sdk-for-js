@@ -119,6 +119,5 @@ export async function readStreamToLocalFile(
     rs.on("error", reject);
     ws.on("error", reject);
     ws.on("finish", resolve);
-    rs.on("end", resolve);
   });
 }

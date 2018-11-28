@@ -1,4 +1,8 @@
-import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "ms-rest-js";
+import {
+  RequestPolicy,
+  RequestPolicyFactory,
+  RequestPolicyOptions
+} from "ms-rest-js";
 
 import { RetryPolicy, RetryPolicyType } from "./policies/RetryPolicy";
 
@@ -59,19 +63,6 @@ export interface IRetryOptions {
    * @memberof IRetryOptions
    */
   readonly maxRetryDelayInMs?: number;
-
-  /**
-   * If a secondaryHost is specified, retries will be tried against this host. If secondaryHost is undefined
-   * (the default) then operations are not retried against another host.
-   *
-   * NOTE: Before setting this field, make sure you understand the issues around
-   * reading stale and potentially-inconsistent data at
-   * {@link https://docs.microsoft.com/en-us/azure/storage/common/storage-designing-ha-apps-with-ragrs}
-   *
-   * @type {string}
-   * @memberof IRetryOptions
-   */
-  readonly secondaryHost?: string;
 }
 
 /**

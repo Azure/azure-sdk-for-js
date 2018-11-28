@@ -6,7 +6,10 @@ import { StorageClientContext } from "./generated/storageClientContext";
 import { LoggingPolicyFactory } from "./LoggingPolicyFactory";
 import { IHttpClient, IHttpPipelineLogger, Pipeline } from "./Pipeline";
 import { IRetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
-import { ITelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
+import {
+  ITelemetryOptions,
+  TelemetryPolicyFactory
+} from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 
 export { deserializationPolicy };
@@ -42,7 +45,7 @@ export abstract class StorageURL {
    * A static method used to create a new Pipeline object with Credential provided.
    *
    * @static
-   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential.
    * @param {INewPipelineOptions} [pipelineOptions] Optional. Options.
    * @returns {Pipeline} A new Pipeline object.
    * @memberof Pipeline

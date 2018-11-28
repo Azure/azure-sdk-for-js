@@ -7,16 +7,17 @@ import { getBSU, getUniqueName } from "./utils";
 // tslint:disable:no-empty
 describe("Aborter", () => {
   const serviceURL = getBSU();
-  let containerName: string = getUniqueName("share");
-  let shareURL = ShareURL.fromServiceURL(serviceURL, containerName);
+  let shareName: string = getUniqueName("share");
+  let shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
 
   beforeEach(async () => {
-    containerName = getUniqueName("share");
-    shareURL = ShareURL.fromServiceURL(serviceURL, containerName);
+    shareName = getUniqueName("share");
+    shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
   });
 
   it("Should not abort after calling abort()", async () => {
     await shareURL.create(Aborter.none);
+    await shareURL.delete(Aborter.none);
   });
 
   it("Should abort when calling abort() before request finishes", async () => {
@@ -42,7 +43,7 @@ describe("Aborter", () => {
     } catch (err) {}
   });
 
-  it("Should abort after father aborter calls abort()", async () => {
+  it("Should abort after parent aborter calls abort()", async () => {
     try {
       const aborter = Aborter.none;
       const response = shareURL.create(aborter.withTimeout(10 * 60 * 1000));
@@ -52,7 +53,7 @@ describe("Aborter", () => {
     } catch (err) {}
   });
 
-  it("Should abort after father aborter timeout", async () => {
+  it("Should abort after parent aborter timeout", async () => {
     try {
       const aborter = Aborter.timeout(1);
       const response = shareURL.create(aborter.withTimeout(10 * 60 * 1000));

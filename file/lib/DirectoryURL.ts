@@ -40,7 +40,7 @@ export interface IDirectoryListFilesAndDirectoriesSegmentOptions {
 }
 
 /**
- * A DirectoryURL represents a URL to the Azure Storage directory allowing you to manipulate its files.
+ * A DirectoryURL represents a URL to the Azure Storage directory allowing you to manipulate its files and directories.
  *
  * @export
  * @class DirectoryURL

@@ -2,7 +2,10 @@ import { Aborter } from "./Aborter";
 import { FileURL } from "./FileURL";
 import { IUploadToAzureFileOptions } from "./highlevel.common";
 import { Batch } from "./utils/Batch";
-import { FILE_RANGE_MAX_SIZE_BYTES, HIGH_LEVEL_DEFAULT_PARALLELISM } from "./utils/constants";
+import {
+  FILE_RANGE_MAX_SIZE_BYTES,
+  DEFAULT_HIGH_LEVEL_PARALLELISM
+} from "./utils/constants";
 
 /**
  * ONLY AVAILABLE IN BROWSERS.
@@ -70,7 +73,7 @@ async function UploadSeekableBlobToAzureFile(
   }
 
   if (!options.parallelism) {
-    options.parallelism = HIGH_LEVEL_DEFAULT_PARALLELISM;
+    options.parallelism = DEFAULT_HIGH_LEVEL_PARALLELISM;
   }
   if (options.parallelism < 0) {
     throw new RangeError(`options.parallelism cannot less than 0.`);
