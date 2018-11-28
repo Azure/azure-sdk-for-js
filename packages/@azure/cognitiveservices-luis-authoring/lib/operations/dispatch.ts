@@ -41,7 +41,7 @@ export class Dispatch {
    * @param connectedServices A JSON array of service connections.
    * @param callback The callback
    */
-  batchUpdateConnectedServices(appId: string, versionId: string, connectedServices: Models.DispatchConnectedServiceObject[], callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  batchUpdateConnectedServices(appId: string, versionId: string, connectedServices: Models.DispatchConnectedServiceObject[], callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -49,8 +49,8 @@ export class Dispatch {
    * @param options The optional parameters
    * @param callback The callback
    */
-  batchUpdateConnectedServices(appId: string, versionId: string, connectedServices: Models.DispatchConnectedServiceObject[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  batchUpdateConnectedServices(appId: string, versionId: string, connectedServices: Models.DispatchConnectedServiceObject[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.DispatchBatchUpdateConnectedServicesResponse> {
+  batchUpdateConnectedServices(appId: string, versionId: string, connectedServices: Models.DispatchConnectedServiceObject[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  batchUpdateConnectedServices(appId: string, versionId: string, connectedServices: Models.DispatchConnectedServiceObject[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.DispatchBatchUpdateConnectedServicesResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -77,7 +77,7 @@ export class Dispatch {
    * @param connectedServices A JSON array of service connections.
    * @param callback The callback
    */
-  batchAddConnectedServices(appId: string, versionId: string, connectedServices: Models.DispatchConnectedServiceObject[], callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  batchAddConnectedServices(appId: string, versionId: string, connectedServices: Models.DispatchConnectedServiceObject[], callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -85,8 +85,8 @@ export class Dispatch {
    * @param options The optional parameters
    * @param callback The callback
    */
-  batchAddConnectedServices(appId: string, versionId: string, connectedServices: Models.DispatchConnectedServiceObject[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  batchAddConnectedServices(appId: string, versionId: string, connectedServices: Models.DispatchConnectedServiceObject[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.DispatchBatchAddConnectedServicesResponse> {
+  batchAddConnectedServices(appId: string, versionId: string, connectedServices: Models.DispatchConnectedServiceObject[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  batchAddConnectedServices(appId: string, versionId: string, connectedServices: Models.DispatchConnectedServiceObject[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.DispatchBatchAddConnectedServicesResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -113,7 +113,7 @@ export class Dispatch {
    * @param intentNames The intent names.
    * @param callback The callback
    */
-  deleteConnectedServices(appId: string, versionId: string, intentNames: Models.DispatchConnectedServiceDeleteObject[], callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteConnectedServices(appId: string, versionId: string, intentNames: Models.DispatchConnectedServiceDeleteObject[], callback: msRest.ServiceCallback<any>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -121,8 +121,8 @@ export class Dispatch {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteConnectedServices(appId: string, versionId: string, intentNames: Models.DispatchConnectedServiceDeleteObject[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteConnectedServices(appId: string, versionId: string, intentNames: Models.DispatchConnectedServiceDeleteObject[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.DispatchDeleteConnectedServicesResponse> {
+  deleteConnectedServices(appId: string, versionId: string, intentNames: Models.DispatchConnectedServiceDeleteObject[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  deleteConnectedServices(appId: string, versionId: string, intentNames: Models.DispatchConnectedServiceDeleteObject[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.DispatchDeleteConnectedServicesResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -165,9 +165,19 @@ const batchUpdateConnectedServicesOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -200,9 +210,19 @@ const batchAddConnectedServicesOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };
@@ -235,9 +255,19 @@ const deleteConnectedServicesOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    default: {
+    400: {
       bodyMapper: Mappers.ErrorResponse
-    }
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };

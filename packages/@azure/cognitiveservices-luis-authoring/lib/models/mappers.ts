@@ -317,6 +317,74 @@ export const ExampleLabelObject: msRest.CompositeMapper = {
   }
 };
 
+export const DispatchConnectedServiceDeleteObject: msRest.CompositeMapper = {
+  serializedName: "DispatchConnectedServiceDeleteObject",
+  type: {
+    name: "Composite",
+    className: "DispatchConnectedServiceDeleteObject",
+    modelProperties: {
+      intentName: {
+        serializedName: "intentName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DispatchConnectedServiceObject: msRest.CompositeMapper = {
+  serializedName: "DispatchConnectedServiceObject",
+  type: {
+    name: "Composite",
+    className: "DispatchConnectedServiceObject",
+    modelProperties: {
+      intentName: {
+        serializedName: "intentName",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      appId: {
+        serializedName: "appId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      },
+      region: {
+        serializedName: "region",
+        type: {
+          name: "String"
+        }
+      },
+      kbId: {
+        serializedName: "kbId",
+        type: {
+          name: "Uuid"
+        }
+      }
+    }
+  }
+};
+
 export const PhraselistCreateObject: msRest.CompositeMapper = {
   serializedName: "PhraselistCreateObject",
   type: {
