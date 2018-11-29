@@ -35,6 +35,7 @@ export {
   ResourceGroupProperties,
   TagValue,
   TagCount,
+  TagDetails,
   SubResource
 } from "../models/mappers";
 
