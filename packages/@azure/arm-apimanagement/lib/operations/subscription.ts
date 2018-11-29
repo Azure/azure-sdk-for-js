@@ -181,7 +181,7 @@ export class Subscription {
   }
 
   /**
-   * Updates the details of a subscription specificied by its identifier.
+   * Updates the details of a subscription specified by its identifier.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param sid Subscription entity Identifier. The entity represents the association between a user
