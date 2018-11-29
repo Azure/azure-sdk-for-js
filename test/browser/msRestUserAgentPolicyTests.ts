@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import { should } from "chai";
 import { HttpOperationResponse } from "../../lib/httpOperationResponse";
 import { RequestPolicy, RequestPolicyOptions } from "../../lib/policies/requestPolicy";
 import { WebResource } from "../../lib/webResource";
@@ -10,7 +11,7 @@ const userAgentHeaderKey = "x-ms-command-name";
 
 const emptyRequestPolicy: RequestPolicy = {
   sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    request.should.be.ok;
+    should().exist(request);
     return Promise.resolve({ request: request, status: 200, headers: request.headers });
   }
 };

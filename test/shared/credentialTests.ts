@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import should from "should";
+import { should } from "chai";
 import * as msRest from "../../lib/msRest";
 import * as base64 from "../../lib/util/base64";
 const TokenCredentials = msRest.TokenCredentials;
@@ -19,8 +19,8 @@ describe("Token credentials", () => {
       const request = new msRest.WebResource();
 
       creds.signRequest(request).then((signedRequest: msRest.WebResource) => {
-        should.exist(signedRequest.headers.get("authorization"));
-        should(signedRequest.headers.get("authorization")).match(new RegExp("^Bearer\\s+" + dummyToken + "$"));
+        should().exist(signedRequest.headers.get("authorization"));
+        signedRequest.headers.get("authorization")!.should.match(new RegExp("^Bearer\\s+" + dummyToken + "$"));
         done();
       });
     });
@@ -29,8 +29,8 @@ describe("Token credentials", () => {
       const creds = new TokenCredentials(dummyToken, fakeScheme);
       const request = new msRest.WebResource();
       creds.signRequest(request).then((signedRequest: msRest.WebResource) => {
-        should.exist(signedRequest.headers.get("authorization"));
-        should(signedRequest.headers.get("authorization")).match(new RegExp("^" + fakeScheme + "\\s+" + dummyToken + "$"));
+        signedRequest.headers.get("authorization")!.should.exist;
+        signedRequest.headers.get("authorization")!.should.match(new RegExp("^" + fakeScheme + "\\s+" + dummyToken + "$"));
         done();
       });
     });
@@ -65,8 +65,8 @@ describe("Basic Authentication credentials", () => {
       const creds = new BasicAuthenticationCredentials(dummyuserName, dummyPassword);
       const request = new msRest.WebResource();
       creds.signRequest(request).then((signedRequest: msRest.WebResource) => {
-        should.exist(signedRequest.headers.get("authorization"));
-        should(signedRequest.headers.get("authorization")).match(new RegExp("^Basic\\s+" + encodedCredentials + "$"));
+        signedRequest.headers.get("authorization")!.should.exist;
+        signedRequest.headers.get("authorization")!.should.match(new RegExp("^Basic\\s+" + encodedCredentials + "$"));
         done();
       });
     });
@@ -76,32 +76,19 @@ describe("Basic Authentication credentials", () => {
       const request = new msRest.WebResource();
 
       creds.signRequest(request).then((signedRequest: msRest.WebResource) => {
-        should.exist(signedRequest.headers.get("authorization"));
-        should(signedRequest.headers.get("authorization")).match(new RegExp("^" + fakeScheme + "\\s+" + encodedCredentials + "$"));
+        signedRequest.headers.get("authorization")!.should.exist;
+        signedRequest.headers.get("authorization")!.should.match(new RegExp("^" + fakeScheme + "\\s+" + encodedCredentials + "$"));
         done();
       });
     });
   });
 
   describe("construction", () => {
-
     it("should succeed with userName and password", () => {
       (() => {
         new BasicAuthenticationCredentials(dummyuserName, dummyPassword);
       }).should.not.throw();
     });
-
-    // it("should fail without credentials", () => {
-    //   (() => {
-    //     new BasicAuthenticationCredentials(null, null);
-    //   }).should.throw();
-    // });
-
-    // it("should fail without userName and password", () => {
-    //   (() => {
-    //     new BasicAuthenticationCredentials(null, null, fakeScheme);
-    //   }).should.throw();
-    // });
   });
 
 describe("ApiKey credentials", () => {
@@ -113,10 +100,10 @@ describe("ApiKey credentials", () => {
 
       await creds.signRequest(request);
 
-      should.exist(request.headers.get("key1"));
-      should.exist(request.headers.get("key2"));
-      should(request.headers.get("key1")).match(new RegExp("^value1$"));
-      should(request.headers.get("key2")).match(new RegExp("^value2$"));
+      request.headers.get("key1")!.should.exist;
+      request.headers.get("key2")!.should.exist;
+      request.headers.get("key1")!.should.match(new RegExp("^value1$"));
+      request.headers.get("key2")!.should.match(new RegExp("^value2$"));
     });
 
     it("should set query parameters properly in the request url without any query parameters", async function () {

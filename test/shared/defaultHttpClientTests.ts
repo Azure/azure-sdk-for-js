@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 import assert from "assert";
-import should from "should";
+import { should } from "chai";
 import { DefaultHttpClient } from "../../lib/defaultHttpClient";
 import { RestError } from "../../lib/restError";
 import { isNode } from "../../lib/util/utils";
@@ -96,7 +96,7 @@ describe("defaultHttpClient", function () {
     const httpClient = new DefaultHttpClient();
 
     const response = await httpClient.sendRequest(request);
-    assert(response);
+    should().exist(response);
   });
 
   it("should allow canceling requests", async function () {
@@ -109,7 +109,7 @@ describe("defaultHttpClient", function () {
       await promise;
       assert.fail("");
     } catch (err) {
-      should(err).not.be.instanceof(assert.AssertionError);
+      err.should.not.be.instanceof(assert.AssertionError);
     }
   });
 
@@ -126,11 +126,11 @@ describe("defaultHttpClient", function () {
 
     const request2 = new WebResource(`${baseURL}/cookie`);
     const response2 = await client.sendRequest(request2);
-    should(response2.headers.get("Cookie")).equal("data=123456");
+    response2.headers.get("Cookie")!.should.equal("data=123456");
 
     const request3 = new WebResource(`${baseURL}/cookie`, "GET", undefined, undefined, { Cookie: "data=abcdefg" });
     const response3 = await client.sendRequest(request3);
-    should(response3.headers.get("Cookie")).equal("data=abcdefg");
+    response3.headers.get("Cookie")!.should.equal("data=abcdefg");
   });
 
   it("should allow canceling multiple requests with one token", async function () {
@@ -149,7 +149,7 @@ describe("defaultHttpClient", function () {
         await promise;
         assert.fail("");
       } catch (err) {
-        should(err).not.be.instanceof(assert.AssertionError);
+        err.should.not.be.instanceof(assert.AssertionError);
       }
     }
   });
@@ -165,14 +165,14 @@ describe("defaultHttpClient", function () {
         if (typeof ProgressEvent !== "undefined") {
           ev.should.not.be.instanceof(ProgressEvent);
         }
-        ev.loadedBytes.should.be.a.Number;
+        ev.loadedBytes.should.be.a("Number");
       },
       ev => {
         downloadNotified = true;
         if (typeof ProgressEvent !== "undefined") {
           ev.should.not.be.instanceof(ProgressEvent);
         }
-        ev.loadedBytes.should.be.a.Number;
+        ev.loadedBytes.should.be.a("Number");
       });
 
     const client = new DefaultHttpClient();
@@ -197,14 +197,14 @@ describe("defaultHttpClient", function () {
         if (typeof ProgressEvent !== "undefined") {
           ev.should.not.be.instanceof(ProgressEvent);
         }
-        ev.loadedBytes.should.be.a.Number;
+        ev.loadedBytes.should.be.a("Number");
       },
       ev => {
         downloadNotified = true;
         if (typeof ProgressEvent !== "undefined") {
           ev.should.not.be.instanceof(ProgressEvent);
         }
-        ev.loadedBytes.should.be.a.Number;
+        ev.loadedBytes.should.be.a("Number");
       });
 
     const client = new DefaultHttpClient();

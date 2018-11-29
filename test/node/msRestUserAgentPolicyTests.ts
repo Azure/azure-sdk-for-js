@@ -6,12 +6,13 @@ import { RequestPolicy, RequestPolicyOptions } from "../../lib/policies/requestP
 import { Constants } from "../../lib/util/constants";
 import { WebResource } from "../../lib/webResource";
 import { userAgentPolicy } from "../../lib/policies/userAgentPolicy";
+import { should } from "chai";
 
 const userAgentHeaderKey = Constants.HeaderConstants.USER_AGENT;
 
 const emptyRequestPolicy: RequestPolicy = {
   sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    request.should.be.ok;
+    should().exist(request);
     return Promise.resolve({ request: request, status: 200, headers: request.headers });
   }
 };
