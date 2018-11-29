@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -821,7 +821,7 @@ export interface DscConfigurationParameter {
   type?: string;
   /**
    * @member {boolean} [isMandatory] Gets or sets a Boolean value to indicate
-   * whether the parameter is madatory or not.
+   * whether the parameter is mandatory or not.
    */
   isMandatory?: boolean;
   /**
@@ -982,7 +982,7 @@ export interface DscConfigurationUpdateParameters {
 /**
  * @interface
  * An interface representing RunAsCredentialAssociationProperty.
- * Definition of runas credential to use for hybrid worker.
+ * Definition of RunAs credential to use for hybrid worker.
  *
  */
 export interface RunAsCredentialAssociationProperty {
@@ -1811,7 +1811,7 @@ export interface VariableCreateOrUpdateParameters {
 /**
  * @interface
  * An interface representing Variable.
- * Definition of the varible.
+ * Definition of the variable.
  *
  * @extends ProxyResource
  */
@@ -2192,7 +2192,7 @@ export interface TargetProperties {
 /**
  * @interface
  * An interface representing UpdateConfiguration.
- * Update specifc properties of the software update configuration.
+ * Update specific properties of the software update configuration.
  *
  */
 export interface UpdateConfiguration {
@@ -2574,7 +2574,7 @@ export interface SoftwareUpdateConfigurationRun {
    */
   readonly failedCount?: number;
   /**
-   * @member {Date} [creationTime] Creation time of theresource, which only
+   * @member {Date} [creationTime] Creation time of the resource, which only
    * appears in the response.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -2735,7 +2735,7 @@ export interface SoftwareUpdateConfigurationMachineRun {
    */
   job?: JobNavigation;
   /**
-   * @member {Date} [creationTime] Creation time of theresource, which only
+   * @member {Date} [creationTime] Creation time of the resource, which only
    * appears in the response.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -2763,7 +2763,7 @@ export interface SoftwareUpdateConfigurationMachineRun {
    */
   readonly lastModifiedBy?: string;
   /**
-   * @member {ErrorResponse} [error] detailes of provisioning error
+   * @member {ErrorResponse} [error] Details of provisioning error
    */
   error?: ErrorResponse;
 }
@@ -3059,8 +3059,8 @@ export interface SourceControlSyncJobById {
    */
   syncType?: SyncType;
   /**
-   * @member {string} [exception] The exceptions that occured while running the
-   * sync job.
+   * @member {string} [exception] The exceptions that occurred while running
+   * the sync job.
    */
   exception?: string;
 }
@@ -3611,7 +3611,7 @@ export interface AgentRegistrationKeys {
 /**
  * @interface
  * An interface representing AgentRegistration.
- * Definition of the agent registration infomration type.
+ * Definition of the agent registration information type.
  *
  */
 export interface AgentRegistration {
@@ -3679,8 +3679,8 @@ export interface DscNode extends ProxyResource {
    */
   accountId?: string;
   /**
-   * @member {string} [dscNodeName] Gets or sets the name of the dsc
-   * nodeconfiguration.
+   * @member {string} [dscNodeName] Gets or sets the name of the dsc node
+   * configuration.
    */
   dscNodeName?: string;
   /**
@@ -3728,8 +3728,8 @@ export interface AgentRegistrationRegenerateKeyParameter {
  */
 export interface DscNodeUpdateParametersProperties {
   /**
-   * @member {string} [name] Gets or sets the name of the dsc
-   * nodeconfiguration.
+   * @member {string} [name] Gets or sets the name of the dsc node
+   * configuration.
    */
   name?: string;
 }
@@ -3919,7 +3919,7 @@ export interface DscNodeConfiguration extends ProxyResource {
    */
   source?: string;
   /**
-   * @member {number} [nodeCount] Number of nodes with this nodeconfiguration
+   * @member {number} [nodeCount] Number of nodes with this node configuration
    * assigned
    */
   nodeCount?: number;
@@ -4022,7 +4022,7 @@ export interface RunbookParameter {
   type?: string;
   /**
    * @member {boolean} [isMandatory] Gets or sets a Boolean value to indicate
-   * whether the parameter is madatory or not.
+   * whether the parameter is mandatory or not.
    */
   isMandatory?: boolean;
   /**
@@ -4250,7 +4250,7 @@ export interface RunbookUpdateParameters {
 /**
  * @interface
  * An interface representing RunbookDraftUndoEditResult.
- * The response model for the undoedit runbook operation.
+ * The response model for the undo edit runbook operation.
  *
  */
 export interface RunbookDraftUndoEditResult {
@@ -4359,7 +4359,7 @@ export interface TestJob {
 /**
  * @interface
  * An interface representing RunbookCreateOrUpdateDraftProperties.
- * The parameters supplied to the create or update dratft runbook properties.
+ * The parameters supplied to the create or update draft runbook properties.
  *
  */
 export interface RunbookCreateOrUpdateDraftProperties {
