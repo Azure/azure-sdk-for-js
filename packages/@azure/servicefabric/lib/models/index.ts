@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { ServiceClientOptions } from "@azure/ms-rest-js";
-import * as msRest from "@azure/ms-rest-js";
+import { ServiceClientOptions } from "ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 
 /**
@@ -397,7 +397,7 @@ export interface ServiceTypeHealthPolicy {
    */
   maxPercentUnhealthyReplicasPerPartition?: number;
   /**
-   * @member {number} [maxPercentUnhealthyServices] The maximum maximum allowed
+   * @member {number} [maxPercentUnhealthyServices] The maximum allowed
    * percentage of unhealthy services. Allowed values are Byte values from zero
    * to 100.
    *
