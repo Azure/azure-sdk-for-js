@@ -41,7 +41,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@azure/ms-rest-js": "^1.1.1",
+    "@azure/ms-rest-js": "^1.1.2",
     "tslib": "^1.9.2"
   },
   "devDependencies": {
@@ -101,7 +101,6 @@
     "prepack": "npm install && npm run build",
     "publish-preview": "npm test && shx rm -rf dist/test && node ./.scripts/publish",
     "local": "ts-node ./.scripts/local.ts",
-    "preview": "ts-node ./.scripts/preview.ts",
     "latest": "ts-node ./.scripts/latest.ts"
   },
   "sideEffects": false
