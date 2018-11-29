@@ -106,3 +106,9 @@ export const operations = {
   removeRule: "com.microsoft:remove-rule",
   enumerateRules: "com.microsoft:enumerate-rules"
 };
+export const descriptorCodes = {
+  ruleDescriptionList: 1335734829060,
+  sqlFilterList: 83483426822,
+  correlationFilterList: 83483426825,
+  sqlRuleActionList: 1335734829062
+}
