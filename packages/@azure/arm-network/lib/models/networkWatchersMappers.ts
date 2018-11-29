@@ -94,6 +94,7 @@ export {
   PublicIPAddress,
   PublicIPAddressSku,
   PublicIPAddressDnsSettings,
+  DdoSSettings,
   IpTag,
   IPConfigurationProfile,
   ResourceNavigationLink,

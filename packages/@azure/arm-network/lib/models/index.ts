@@ -715,6 +715,26 @@ export interface PublicIPAddressDnsSettings {
 
 /**
  * @interface
+ * An interface representing DdoSSettings.
+ * Contains the DDoS protection settings of the public IP.
+ *
+ */
+export interface DdoSSettings {
+  /**
+   * @member {SubResource} [ddosCustomPolicy] The DDoS custom policy associated
+   * with the public IP.
+   */
+  ddosCustomPolicy?: SubResource;
+  /**
+   * @member {ProtectionCoverage} [protectionCoverage] The DDoS protection
+   * policy customizability of the public IP. Only standard coverage will have
+   * the ability to be customized. Possible values include: 'Basic', 'Standard'
+   */
+  protectionCoverage?: ProtectionCoverage;
+}
+
+/**
+ * @interface
  * An interface representing IpTag.
  * Contains the IpTag associated with the object
  *
@@ -768,6 +788,11 @@ export interface PublicIPAddress extends Resource {
    * record associated with the public IP address.
    */
   dnsSettings?: PublicIPAddressDnsSettings;
+  /**
+   * @member {DdoSSettings} [ddosSettings] The DDoS protection custom policy
+   * associated with the public IP address.
+   */
+  ddosSettings?: DdoSSettings;
   /**
    * @member {IpTag[]} [ipTags] The list of tags associated with the public IP
    * address.
@@ -12079,6 +12104,14 @@ export type TunnelConnectionStatus = 'Unknown' | 'Connecting' | 'Connected' | 'N
  * @enum {string}
  */
 export type HubVirtualNetworkConnectionStatus = 'Unknown' | 'Connecting' | 'Connected' | 'NotConnected';
+
+/**
+ * Defines values for ProtectionCoverage.
+ * Possible values include: 'Basic', 'Standard'
+ * @readonly
+ * @enum {string}
+ */
+export type ProtectionCoverage = 'Basic' | 'Standard';
 
 /**
  * Defines values for Protocol1.

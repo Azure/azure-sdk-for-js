@@ -33,6 +33,7 @@ export {
   PublicIPAddressSku,
   IPConfiguration,
   PublicIPAddressDnsSettings,
+  DdoSSettings,
   IpTag,
   ApplicationGatewayBackendAddressPool,
   ApplicationGatewayBackendAddress,
