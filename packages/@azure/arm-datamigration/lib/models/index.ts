@@ -174,11 +174,12 @@ export interface ReportableException {
 
 /**
  * @interface
- * An interface representing MigrateSyncCompleteCommandOutput.
- * Output for command that completes sync migration for a database.
+ * An interface representing MigrateMISyncCompleteCommandOutput.
+ * Output for command that completes sync migration for a managed instance
+ * database.
  *
  */
-export interface MigrateSyncCompleteCommandOutput {
+export interface MigrateMISyncCompleteCommandOutput {
   /**
    * @member {ReportableException[]} [errors] List of errors that happened
    * during the command execution
@@ -188,25 +189,22 @@ export interface MigrateSyncCompleteCommandOutput {
 
 /**
  * @interface
- * An interface representing MigrateSyncCompleteCommandInput.
- * Input for command that completes sync migration for a database.
+ * An interface representing MigrateMISyncCompleteCommandInput.
+ * Input for command that completes sync migration for a managed instance
+ * database.
  *
  */
-export interface MigrateSyncCompleteCommandInput {
+export interface MigrateMISyncCompleteCommandInput {
   /**
-   * @member {string} databaseName Name of database
+   * @member {string} sourceDatabaseName Name of managed instance database
    */
-  databaseName: string;
-  /**
-   * @member {Date} [commitTimeStamp] Time stamp to complete
-   */
-  commitTimeStamp?: Date;
+  sourceDatabaseName: string;
 }
 
 /**
  * Contains the possible cases for CommandProperties.
  */
-export type CommandPropertiesUnion = CommandProperties | MigrateSyncCompleteCommandProperties | MongoDbCancelCommand | MongoDbFinishCommand | MongoDbRestartCommand;
+export type CommandPropertiesUnion = CommandProperties | MigrateMISyncCompleteCommandProperties | MigrateSyncCompleteCommandProperties | MongoDbCancelCommand | MongoDbFinishCommand | MongoDbRestartCommand;
 
 /**
  * @interface
@@ -235,6 +233,85 @@ export interface CommandProperties {
    * the server.**
    */
   readonly state?: CommandState;
+}
+
+/**
+ * @interface
+ * An interface representing MigrateMISyncCompleteCommandProperties.
+ * Properties for the command that completes sync migration for a managed
+ * instance database.
+ *
+ */
+export interface MigrateMISyncCompleteCommandProperties {
+  /**
+   * @member {string} commandType Polymorphic Discriminator
+   */
+  commandType: "Migrate.SqlServer.AzureDbSqlMi.Complete";
+  /**
+   * @member {ODataError[]} [errors] Array of errors. This is ignored if
+   * submitted.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errors?: ODataError[];
+  /**
+   * @member {CommandState} [state] The state of the command. This is ignored
+   * if submitted. Possible values include: 'Unknown', 'Accepted', 'Running',
+   * 'Succeeded', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: CommandState;
+  /**
+   * @member {MigrateMISyncCompleteCommandInput} [input] Command input
+   */
+  input?: MigrateMISyncCompleteCommandInput;
+  /**
+   * @member {MigrateMISyncCompleteCommandOutput} [output] Command output. This
+   * is ignored if submitted.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly output?: MigrateMISyncCompleteCommandOutput;
+}
+
+/**
+ * @interface
+ * An interface representing MigrateSyncCompleteCommandOutput.
+ * Output for command that completes sync migration for a database.
+ *
+ */
+export interface MigrateSyncCompleteCommandOutput {
+  /**
+   * @member {string} [id] Result identifier
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {ReportableException[]} [errors] List of errors that happened
+   * during the command execution
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errors?: ReportableException[];
+}
+
+/**
+ * @interface
+ * An interface representing MigrateSyncCompleteCommandInput.
+ * Input for command that completes sync migration for a database.
+ *
+ */
+export interface MigrateSyncCompleteCommandInput {
+  /**
+   * @member {string} databaseName Name of database
+   */
+  databaseName: string;
+  /**
+   * @member {Date} [commitTimeStamp] Time stamp to complete
+   */
+  commitTimeStamp?: Date;
 }
 
 /**
@@ -342,7 +419,7 @@ export interface FileShare {
 /**
  * Contains the possible cases for ConnectionInfo.
  */
-export type ConnectionInfoUnion = ConnectionInfo | PostgreSqlConnectionInfo | MySqlConnectionInfo | MongoDbConnectionInfo | SqlConnectionInfo;
+export type ConnectionInfoUnion = ConnectionInfo | MiSqlConnectionInfo | PostgreSqlConnectionInfo | MySqlConnectionInfo | MongoDbConnectionInfo | SqlConnectionInfo;
 
 /**
  * @interface
@@ -363,6 +440,33 @@ export interface ConnectionInfo {
    * @member {string} [password] Password credential.
    */
   password?: string;
+}
+
+/**
+ * @interface
+ * An interface representing MiSqlConnectionInfo.
+ * Properties required to create a connection to Azure SQL database Managed
+ * instance
+ *
+ */
+export interface MiSqlConnectionInfo {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "MiSqlConnectionInfo";
+  /**
+   * @member {string} [userName] User name
+   */
+  userName?: string;
+  /**
+   * @member {string} [password] Password credential.
+   */
+  password?: string;
+  /**
+   * @member {string} managedInstanceResourceId Resource id for Azure SQL
+   * database Managed instance
+   */
+  managedInstanceResourceId: string;
 }
 
 /**
@@ -534,7 +638,7 @@ export interface GetTdeCertificatesSqlTaskInput {
 /**
  * Contains the possible cases for ProjectTaskProperties.
  */
-export type ProjectTaskPropertiesUnion = ProjectTaskProperties | GetTdeCertificatesSqlTaskProperties | ValidateMongoDbTaskProperties | ValidateMigrationInputSqlServerSqlMITaskProperties | ValidateMigrationInputSqlServerSqlDbSyncTaskProperties | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties | MigrateMySqlAzureDbForMySqlSyncTaskProperties | MigrateSqlServerSqlDbSyncTaskProperties | MigrateSqlServerSqlDbTaskProperties | MigrateSqlServerSqlMITaskProperties | MigrateMongoDbTaskProperties | ConnectToTargetAzureDbForMySqlTaskProperties | ConnectToTargetSqlMITaskProperties | GetUserTablesSqlSyncTaskProperties | GetUserTablesSqlTaskProperties | ConnectToTargetSqlSqlDbSyncTaskProperties | ConnectToTargetSqlDbTaskProperties | ConnectToSourceSqlServerSyncTaskProperties | ConnectToSourceSqlServerTaskProperties | ConnectToMongoDbTaskProperties | ConnectToSourceMySqlTaskProperties | MigrateSchemaSqlServerSqlDbTaskProperties;
+export type ProjectTaskPropertiesUnion = ProjectTaskProperties | GetTdeCertificatesSqlTaskProperties | ValidateMongoDbTaskProperties | ValidateMigrationInputSqlServerSqlMISyncTaskProperties | ValidateMigrationInputSqlServerSqlMITaskProperties | ValidateMigrationInputSqlServerSqlDbSyncTaskProperties | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties | MigrateMySqlAzureDbForMySqlSyncTaskProperties | MigrateSqlServerSqlDbSyncTaskProperties | MigrateSqlServerSqlDbTaskProperties | MigrateSqlServerSqlMISyncTaskProperties | MigrateSqlServerSqlMITaskProperties | MigrateMongoDbTaskProperties | ConnectToTargetAzureDbForMySqlTaskProperties | ConnectToTargetSqlMISyncTaskProperties | ConnectToTargetSqlMITaskProperties | GetUserTablesSqlSyncTaskProperties | GetUserTablesSqlTaskProperties | ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties | ConnectToTargetSqlSqlDbSyncTaskProperties | ConnectToTargetSqlDbTaskProperties | ConnectToSourcePostgreSqlSyncTaskProperties | ConnectToSourceSqlServerSyncTaskProperties | ConnectToSourceSqlServerTaskProperties | ConnectToMongoDbTaskProperties | ConnectToSourceMySqlTaskProperties | MigrateSchemaSqlServerSqlDbTaskProperties;
 
 /**
  * @interface
@@ -985,6 +1089,189 @@ export interface ValidateMongoDbTaskProperties {
 
 /**
  * @interface
+ * An interface representing ValidateMigrationInputSqlServerSqlMISyncTaskOutput.
+ * Output for task that validates migration input for Azure SQL Database
+ * Managed Instance online migration
+ *
+ */
+export interface ValidateMigrationInputSqlServerSqlMISyncTaskOutput {
+  /**
+   * @member {string} [id] Database identifier
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [name] Name of database
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {ReportableException[]} [validationErrors] Errors associated with
+   * a selected database object
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly validationErrors?: ReportableException[];
+}
+
+/**
+ * @interface
+ * An interface representing AzureActiveDirectoryApp.
+ * Azure Active Directory Application
+ *
+ */
+export interface AzureActiveDirectoryApp {
+  /**
+   * @member {string} applicationId Application ID of the Azure Active
+   * Directory Application
+   */
+  applicationId: string;
+  /**
+   * @member {string} appKey Key used to authenticate to the Azure Active
+   * Directory Application
+   */
+  appKey: string;
+  /**
+   * @member {string} tenantId Tenant id of the customer
+   */
+  tenantId: string;
+}
+
+/**
+ * @interface
+ * An interface representing MigrateSqlServerSqlMIDatabaseInput.
+ * Database specific information for SQL to Azure SQL DB Managed Instance
+ * migration task inputs
+ *
+ */
+export interface MigrateSqlServerSqlMIDatabaseInput {
+  /**
+   * @member {string} name Name of the database
+   */
+  name: string;
+  /**
+   * @member {string} restoreDatabaseName Name of the database at destination
+   */
+  restoreDatabaseName: string;
+  /**
+   * @member {FileShare} [backupFileShare] Backup file share information for
+   * backing up this database.
+   */
+  backupFileShare?: FileShare;
+  /**
+   * @member {string[]} [backupFilePaths] The list of backup files to be used
+   * in case of existing backups.
+   */
+  backupFilePaths?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing SqlServerSqlMISyncTaskInput.
+ * Input for task that migrates SQL Server databases to Azure SQL Database
+ * Managed Instance online scenario.
+ *
+ */
+export interface SqlServerSqlMISyncTaskInput {
+  /**
+   * @member {MigrateSqlServerSqlMIDatabaseInput[]} selectedDatabases Databases
+   * to migrate
+   */
+  selectedDatabases: MigrateSqlServerSqlMIDatabaseInput[];
+  /**
+   * @member {FileShare} [backupFileShare] Backup file share information for
+   * all selected databases.
+   */
+  backupFileShare?: FileShare;
+  /**
+   * @member {string} storageResourceId Fully qualified resourceId of storage
+   */
+  storageResourceId: string;
+  /**
+   * @member {SqlConnectionInfo} sourceConnectionInfo Connection information
+   * for source SQL Server
+   */
+  sourceConnectionInfo: SqlConnectionInfo;
+  /**
+   * @member {MiSqlConnectionInfo} targetConnectionInfo Connection information
+   * for Azure SQL Database Managed Instance
+   */
+  targetConnectionInfo: MiSqlConnectionInfo;
+  /**
+   * @member {AzureActiveDirectoryApp} azureApp Azure Active Directory
+   * Application the DMS instance will use to connect to the target instance of
+   * Azure SQL Database Managed Instance and the Azure Storage Account
+   */
+  azureApp: AzureActiveDirectoryApp;
+}
+
+/**
+ * @interface
+ * An interface representing ValidateMigrationInputSqlServerSqlMISyncTaskInput.
+ * Input for task that migrates SQL Server databases to Azure SQL Database
+ * Managed Instance online scenario.
+ *
+ * @extends SqlServerSqlMISyncTaskInput
+ */
+export interface ValidateMigrationInputSqlServerSqlMISyncTaskInput extends SqlServerSqlMISyncTaskInput {
+}
+
+/**
+ * @interface
+ * An interface representing ValidateMigrationInputSqlServerSqlMISyncTaskProperties.
+ * Properties for task that validates migration input for SQL to Azure SQL
+ * Database Managed Instance sync scenario
+ *
+ */
+export interface ValidateMigrationInputSqlServerSqlMISyncTaskProperties {
+  /**
+   * @member {string} taskType Polymorphic Discriminator
+   */
+  taskType: "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS";
+  /**
+   * @member {ODataError[]} [errors] Array of errors. This is ignored if
+   * submitted.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errors?: ODataError[];
+  /**
+   * @member {TaskState} [state] The state of the task. This is ignored if
+   * submitted. Possible values include: 'Unknown', 'Queued', 'Running',
+   * 'Canceled', 'Succeeded', 'Failed', 'FailedInputValidation', 'Faulted'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: TaskState;
+  /**
+   * @member {CommandPropertiesUnion[]} [commands] Array of command properties.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly commands?: CommandPropertiesUnion[];
+  /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
+  /**
+   * @member {ValidateMigrationInputSqlServerSqlMISyncTaskInput} [input] Task
+   * input
+   */
+  input?: ValidateMigrationInputSqlServerSqlMISyncTaskInput;
+  /**
+   * @member {ValidateMigrationInputSqlServerSqlMISyncTaskOutput[]} [output]
+   * Task output. This is ignored if submitted.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly output?: ValidateMigrationInputSqlServerSqlMISyncTaskOutput[];
+}
+
+/**
+ * @interface
  * An interface representing DatabaseBackupInfo.
  * Information about backup files when existing backup mode is used.
  *
@@ -1119,34 +1406,6 @@ export interface BlobShare {
    * @member {string} sasUri SAS URI of Azure Storage Account Container.
    */
   sasUri: string;
-}
-
-/**
- * @interface
- * An interface representing MigrateSqlServerSqlMIDatabaseInput.
- * Database specific information for SQL to Azure SQL DB Managed Instance
- * migration task inputs
- *
- */
-export interface MigrateSqlServerSqlMIDatabaseInput {
-  /**
-   * @member {string} name Name of the database
-   */
-  name: string;
-  /**
-   * @member {string} restoreDatabaseName Name of the database at destination
-   */
-  restoreDatabaseName: string;
-  /**
-   * @member {FileShare} [backupFileShare] Backup file share information for
-   * backing up this database.
-   */
-  backupFileShare?: FileShare;
-  /**
-   * @member {string[]} [backupFilePaths] The list of backup files to be used
-   * in case of existing backups.
-   */
-  backupFilePaths?: string[];
 }
 
 /**
@@ -1777,6 +2036,21 @@ export interface MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseInput {
    * Target database will be truncated before starting migration.
    */
   targetDatabaseName?: string;
+  /**
+   * @member {{ [propertyName: string]: string }} [migrationSetting] Migration
+   * settings which tune the migration behavior
+   */
+  migrationSetting?: { [propertyName: string]: string };
+  /**
+   * @member {{ [propertyName: string]: string }} [sourceSetting] Source
+   * settings to tune source endpoint migration behavior
+   */
+  sourceSetting?: { [propertyName: string]: string };
+  /**
+   * @member {{ [propertyName: string]: string }} [targetSetting] Target
+   * settings to tune target endpoint migration behavior
+   */
+  targetSetting?: { [propertyName: string]: string };
 }
 
 /**
@@ -2212,6 +2486,21 @@ export interface MigrateMySqlAzureDbForMySqlSyncDatabaseInput {
    * Target database will be truncated before starting migration.
    */
   targetDatabaseName?: string;
+  /**
+   * @member {{ [propertyName: string]: string }} [migrationSetting] Migration
+   * settings which tune the migration behavior
+   */
+  migrationSetting?: { [propertyName: string]: string };
+  /**
+   * @member {{ [propertyName: string]: string }} [sourceSetting] Source
+   * settings to tune source endpoint migration behavior
+   */
+  sourceSetting?: { [propertyName: string]: string };
+  /**
+   * @member {{ [propertyName: string]: string }} [targetSetting] Target
+   * settings to tune target endpoint migration behavior
+   */
+  targetSetting?: { [propertyName: string]: string };
 }
 
 /**
@@ -3676,6 +3965,377 @@ export interface MigrateSqlServerSqlDbTaskProperties {
 }
 
 /**
+ * Contains the possible cases for MigrateSqlServerSqlMISyncTaskOutput.
+ */
+export type MigrateSqlServerSqlMISyncTaskOutputUnion = MigrateSqlServerSqlMISyncTaskOutput | MigrateSqlServerSqlMISyncTaskOutputError | MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel | MigrateSqlServerSqlMISyncTaskOutputMigrationLevel;
+
+/**
+ * @interface
+ * An interface representing MigrateSqlServerSqlMISyncTaskOutput.
+ * Output for task that migrates SQL Server databases to Azure SQL Database
+ * Managed Instance using Log Replay Service.
+ *
+ */
+export interface MigrateSqlServerSqlMISyncTaskOutput {
+  /**
+   * @member {string} resultType Polymorphic Discriminator
+   */
+  resultType: "MigrateSqlServerSqlMISyncTaskOutput";
+  /**
+   * @member {string} [id] Result identifier
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+}
+
+/**
+ * @interface
+ * An interface representing MigrateSqlServerSqlMISyncTaskOutputError.
+ */
+export interface MigrateSqlServerSqlMISyncTaskOutputError {
+  /**
+   * @member {string} resultType Polymorphic Discriminator
+   */
+  resultType: "ErrorOutput";
+  /**
+   * @member {string} [id] Result identifier
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {ReportableException} [error] Migration error
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly error?: ReportableException;
+}
+
+/**
+ * @interface
+ * An interface representing BackupFileInfo.
+ * Information of the backup file
+ *
+ */
+export interface BackupFileInfo {
+  /**
+   * @member {string} [fileLocation] Location of the backup file in shared
+   * folder
+   */
+  fileLocation?: string;
+  /**
+   * @member {number} [familySequenceNumber] Sequence number of the backup file
+   * in the backup set
+   */
+  familySequenceNumber?: number;
+  /**
+   * @member {BackupFileStatus} [status] Status of the backup file during
+   * migration. Possible values include: 'Arrived', 'Queued', 'Uploading',
+   * 'Uploaded', 'Restoring', 'Restored', 'Cancelled'
+   */
+  status?: BackupFileStatus;
+}
+
+/**
+ * @interface
+ * An interface representing BackupSetInfo.
+ * Information of backup set
+ *
+ */
+export interface BackupSetInfo {
+  /**
+   * @member {string} [backupSetId] Id for the set of backup files
+   */
+  backupSetId?: string;
+  /**
+   * @member {string} [firstLsn] First log sequence number of the backup file
+   */
+  firstLsn?: string;
+  /**
+   * @member {string} [lastLsn] Last log sequence number of the backup file
+   */
+  lastLsn?: string;
+  /**
+   * @member {Date} [lastModifiedTime] Last modified time of the backup file in
+   * share location
+   */
+  lastModifiedTime?: Date;
+  /**
+   * @member {BackupType} [backupType] Enum of the different backup types.
+   * Possible values include: 'Database', 'TransactionLog', 'File',
+   * 'DifferentialDatabase', 'DifferentialFile', 'Partial',
+   * 'DifferentialPartial'
+   */
+  backupType?: BackupType;
+  /**
+   * @member {BackupFileInfo[]} [listOfBackupFiles] List of files in the backup
+   * set
+   */
+  listOfBackupFiles?: BackupFileInfo[];
+  /**
+   * @member {string} [databaseName] Name of the database to which the backup
+   * set belongs
+   */
+  databaseName?: string;
+  /**
+   * @member {Date} [backupStartDate] Date and time that the backup operation
+   * began
+   */
+  backupStartDate?: Date;
+  /**
+   * @member {Date} [backupFinishedDate] Date and time that the backup
+   * operation finished
+   */
+  backupFinishedDate?: Date;
+  /**
+   * @member {boolean} [isBackupRestored] Whether the backup set is restored or
+   * not
+   */
+  isBackupRestored?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel.
+ */
+export interface MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel {
+  /**
+   * @member {string} resultType Polymorphic Discriminator
+   */
+  resultType: "DatabaseLevelOutput";
+  /**
+   * @member {string} [id] Result identifier
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [sourceDatabaseName] Name of the database
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly sourceDatabaseName?: string;
+  /**
+   * @member {DatabaseMigrationState} [migrationState] Current state of
+   * database. Possible values include: 'UNDEFINED', 'INITIAL',
+   * 'FULL_BACKUP_UPLOAD_START', 'LOG_SHIPPING_START',
+   * 'UPLOAD_LOG_FILES_START', 'CUTOVER_START', 'POST_CUTOVER_COMPLETE',
+   * 'COMPLETED', 'CANCELLED', 'FAILED'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly migrationState?: DatabaseMigrationState;
+  /**
+   * @member {Date} [startedOn] Database migration start time
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly startedOn?: Date;
+  /**
+   * @member {Date} [endedOn] Database migration end time
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly endedOn?: Date;
+  /**
+   * @member {BackupSetInfo} [fullBackupSetInfo] Details of full backup set
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly fullBackupSetInfo?: BackupSetInfo;
+  /**
+   * @member {BackupSetInfo} [lastRestoredBackupSetInfo] Last applied backup
+   * set information
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastRestoredBackupSetInfo?: BackupSetInfo;
+  /**
+   * @member {BackupSetInfo[]} [activeBackupSets] Backup sets that are
+   * currently active (Either being uploaded or getting restored)
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly activeBackupSets?: BackupSetInfo[];
+  /**
+   * @member {string} [containerName] Name of container created in the Azure
+   * Storage account where backups are copied to
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly containerName?: string;
+  /**
+   * @member {string} [errorPrefix] prefix string to use for querying errors
+   * for this database
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errorPrefix?: string;
+  /**
+   * @member {boolean} [isFullBackupRestored] Whether full backup has been
+   * applied to the target database or not
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isFullBackupRestored?: boolean;
+  /**
+   * @member {ReportableException[]} [exceptionsAndWarnings] Migration
+   * exceptions and warnings
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly exceptionsAndWarnings?: ReportableException[];
+}
+
+/**
+ * @interface
+ * An interface representing MigrateSqlServerSqlMISyncTaskOutputMigrationLevel.
+ */
+export interface MigrateSqlServerSqlMISyncTaskOutputMigrationLevel {
+  /**
+   * @member {string} resultType Polymorphic Discriminator
+   */
+  resultType: "MigrationLevelOutput";
+  /**
+   * @member {string} [id] Result identifier
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {number} [databaseCount] Count of databases
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly databaseCount?: number;
+  /**
+   * @member {MigrationState} [state] Current state of migration. Possible
+   * values include: 'None', 'InProgress', 'Failed', 'Warning', 'Completed',
+   * 'Skipped', 'Stopped'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: MigrationState;
+  /**
+   * @member {Date} [startedOn] Migration start time
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly startedOn?: Date;
+  /**
+   * @member {Date} [endedOn] Migration end time
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly endedOn?: Date;
+  /**
+   * @member {string} [sourceServerName] Source server name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly sourceServerName?: string;
+  /**
+   * @member {string} [sourceServerVersion] Source server version
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly sourceServerVersion?: string;
+  /**
+   * @member {string} [sourceServerBrandVersion] Source server brand version
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly sourceServerBrandVersion?: string;
+  /**
+   * @member {string} [targetServerName] Target server name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly targetServerName?: string;
+  /**
+   * @member {string} [targetServerVersion] Target server version
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly targetServerVersion?: string;
+  /**
+   * @member {string} [targetServerBrandVersion] Target server brand version
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly targetServerBrandVersion?: string;
+  /**
+   * @member {number} [databaseErrorCount] Number of database level errors
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly databaseErrorCount?: number;
+}
+
+/**
+ * @interface
+ * An interface representing MigrateSqlServerSqlMISyncTaskInput.
+ * Input for task that migrates SQL Server databases to Azure SQL Database
+ * Managed Instance online scenario.
+ *
+ * @extends SqlServerSqlMISyncTaskInput
+ */
+export interface MigrateSqlServerSqlMISyncTaskInput extends SqlServerSqlMISyncTaskInput {
+}
+
+/**
+ * @interface
+ * An interface representing MigrateSqlServerSqlMISyncTaskProperties.
+ * Properties for task that migrates SQL Server databases to Azure SQL Database
+ * Managed Instance sync scenario
+ *
+ */
+export interface MigrateSqlServerSqlMISyncTaskProperties {
+  /**
+   * @member {string} taskType Polymorphic Discriminator
+   */
+  taskType: "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS";
+  /**
+   * @member {ODataError[]} [errors] Array of errors. This is ignored if
+   * submitted.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errors?: ODataError[];
+  /**
+   * @member {TaskState} [state] The state of the task. This is ignored if
+   * submitted. Possible values include: 'Unknown', 'Queued', 'Running',
+   * 'Canceled', 'Succeeded', 'Failed', 'FailedInputValidation', 'Faulted'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: TaskState;
+  /**
+   * @member {CommandPropertiesUnion[]} [commands] Array of command properties.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly commands?: CommandPropertiesUnion[];
+  /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
+  /**
+   * @member {MigrateSqlServerSqlMISyncTaskInput} [input] Task input
+   */
+  input?: MigrateSqlServerSqlMISyncTaskInput;
+  /**
+   * @member {MigrateSqlServerSqlMISyncTaskOutputUnion[]} [output] Task output.
+   * This is ignored if submitted.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly output?: MigrateSqlServerSqlMISyncTaskOutputUnion[];
+}
+
+/**
  * Contains the possible cases for MigrateSqlServerSqlMITaskOutput.
  */
 export type MigrateSqlServerSqlMITaskOutputUnion = MigrateSqlServerSqlMITaskOutput | MigrateSqlServerSqlMITaskOutputError | MigrateSqlServerSqlMITaskOutputLoginLevel | MigrateSqlServerSqlMITaskOutputAgentJobLevel | MigrateSqlServerSqlMITaskOutputDatabaseLevel | MigrateSqlServerSqlMITaskOutputMigrationLevel;
@@ -4322,6 +4982,106 @@ export interface ConnectToTargetAzureDbForMySqlTaskProperties {
 
 /**
  * @interface
+ * An interface representing ConnectToTargetSqlMISyncTaskOutput.
+ * Output for the task that validates connection to Azure SQL Database Managed
+ * Instance.
+ *
+ */
+export interface ConnectToTargetSqlMISyncTaskOutput {
+  /**
+   * @member {string} [targetServerVersion] Target server version
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly targetServerVersion?: string;
+  /**
+   * @member {string} [targetServerBrandVersion] Target server brand version
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly targetServerBrandVersion?: string;
+  /**
+   * @member {ReportableException[]} [validationErrors] Validation errors
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly validationErrors?: ReportableException[];
+}
+
+/**
+ * @interface
+ * An interface representing ConnectToTargetSqlMISyncTaskInput.
+ * Input for the task that validates connection to Azure SQL Database Managed
+ * Instance online scenario.
+ *
+ */
+export interface ConnectToTargetSqlMISyncTaskInput {
+  /**
+   * @member {MiSqlConnectionInfo} targetConnectionInfo Connection information
+   * for Azure SQL Database Managed Instance
+   */
+  targetConnectionInfo: MiSqlConnectionInfo;
+  /**
+   * @member {AzureActiveDirectoryApp} azureApp Azure Active Directory
+   * Application the DMS instance will use to connect to the target instance of
+   * Azure SQL Database Managed Instance and the Azure Storage Account
+   */
+  azureApp: AzureActiveDirectoryApp;
+}
+
+/**
+ * @interface
+ * An interface representing ConnectToTargetSqlMISyncTaskProperties.
+ * Properties for the task that validates connection to Azure SQL Database
+ * Managed Instance
+ *
+ */
+export interface ConnectToTargetSqlMISyncTaskProperties {
+  /**
+   * @member {string} taskType Polymorphic Discriminator
+   */
+  taskType: "ConnectToTarget.AzureSqlDbMI.Sync.LRS";
+  /**
+   * @member {ODataError[]} [errors] Array of errors. This is ignored if
+   * submitted.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errors?: ODataError[];
+  /**
+   * @member {TaskState} [state] The state of the task. This is ignored if
+   * submitted. Possible values include: 'Unknown', 'Queued', 'Running',
+   * 'Canceled', 'Succeeded', 'Failed', 'FailedInputValidation', 'Faulted'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: TaskState;
+  /**
+   * @member {CommandPropertiesUnion[]} [commands] Array of command properties.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly commands?: CommandPropertiesUnion[];
+  /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
+  /**
+   * @member {ConnectToTargetSqlMISyncTaskInput} [input] Task input
+   */
+  input?: ConnectToTargetSqlMISyncTaskInput;
+  /**
+   * @member {ConnectToTargetSqlMISyncTaskOutput[]} [output] Task output. This
+   * is ignored if submitted.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly output?: ConnectToTargetSqlMISyncTaskOutput[];
+}
+
+/**
+ * @interface
  * An interface representing ConnectToTargetSqlMITaskOutput.
  * Output for the task that validates connection to Azure SQL Database Managed
  * Instance.
@@ -4671,6 +5431,119 @@ export interface GetUserTablesSqlTaskProperties {
 
 /**
  * @interface
+ * An interface representing ConnectToTargetAzureDbForPostgreSqlSyncTaskOutput.
+ * Output for the task that validates connection to Azure Database for
+ * PostgreSQL and target server requirements
+ *
+ */
+export interface ConnectToTargetAzureDbForPostgreSqlSyncTaskOutput {
+  /**
+   * @member {string} [id] Result identifier
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [targetServerVersion] Version of the target server
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly targetServerVersion?: string;
+  /**
+   * @member {string[]} [databases] List of databases on target server
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly databases?: string[];
+  /**
+   * @member {string} [targetServerBrandVersion] Target server brand version
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly targetServerBrandVersion?: string;
+  /**
+   * @member {ReportableException[]} [validationErrors] Validation errors
+   * associated with the task
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly validationErrors?: ReportableException[];
+}
+
+/**
+ * @interface
+ * An interface representing ConnectToTargetAzureDbForPostgreSqlSyncTaskInput.
+ * Input for the task that validates connection to Azure Database for
+ * PostgreSQL and target server requirements
+ *
+ */
+export interface ConnectToTargetAzureDbForPostgreSqlSyncTaskInput {
+  /**
+   * @member {PostgreSqlConnectionInfo} sourceConnectionInfo Connection
+   * information for source PostgreSQL server
+   */
+  sourceConnectionInfo: PostgreSqlConnectionInfo;
+  /**
+   * @member {PostgreSqlConnectionInfo} targetConnectionInfo Connection
+   * information for target Azure Database for PostgreSQL server
+   */
+  targetConnectionInfo: PostgreSqlConnectionInfo;
+}
+
+/**
+ * @interface
+ * An interface representing ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties.
+ * Properties for the task that validates connection to Azure Db For PostgreSql
+ * server and target server requirements for online migration
+ *
+ */
+export interface ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties {
+  /**
+   * @member {string} taskType Polymorphic Discriminator
+   */
+  taskType: "ConnectToTarget.AzureDbForPostgreSql.Sync";
+  /**
+   * @member {ODataError[]} [errors] Array of errors. This is ignored if
+   * submitted.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errors?: ODataError[];
+  /**
+   * @member {TaskState} [state] The state of the task. This is ignored if
+   * submitted. Possible values include: 'Unknown', 'Queued', 'Running',
+   * 'Canceled', 'Succeeded', 'Failed', 'FailedInputValidation', 'Faulted'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: TaskState;
+  /**
+   * @member {CommandPropertiesUnion[]} [commands] Array of command properties.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly commands?: CommandPropertiesUnion[];
+  /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
+  /**
+   * @member {ConnectToTargetAzureDbForPostgreSqlSyncTaskInput} [input] Task
+   * input
+   */
+  input?: ConnectToTargetAzureDbForPostgreSqlSyncTaskInput;
+  /**
+   * @member {ConnectToTargetAzureDbForPostgreSqlSyncTaskOutput[]} [output]
+   * Task output. This is ignored if submitted.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly output?: ConnectToTargetAzureDbForPostgreSqlSyncTaskOutput[];
+}
+
+/**
+ * @interface
  * An interface representing ConnectToTargetSqlDbTaskOutput.
  * Output for the task that validates connection to SQL DB and target server
  * requirements
@@ -4839,6 +5712,113 @@ export interface ConnectToTargetSqlDbTaskProperties {
    * the server.**
    */
   readonly output?: ConnectToTargetSqlDbTaskOutput[];
+}
+
+/**
+ * @interface
+ * An interface representing ConnectToSourcePostgreSqlSyncTaskOutput.
+ * Output for the task that validates connection to PostgreSQL and source
+ * server requirements
+ *
+ */
+export interface ConnectToSourcePostgreSqlSyncTaskOutput {
+  /**
+   * @member {string} [id] Result identifier
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [sourceServerVersion] Version of the source server
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly sourceServerVersion?: string;
+  /**
+   * @member {string[]} [databases] List of databases on source server
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly databases?: string[];
+  /**
+   * @member {string} [sourceServerBrandVersion] Source server brand version
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly sourceServerBrandVersion?: string;
+  /**
+   * @member {ReportableException[]} [validationErrors] Validation errors
+   * associated with the task
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly validationErrors?: ReportableException[];
+}
+
+/**
+ * @interface
+ * An interface representing ConnectToSourcePostgreSqlSyncTaskInput.
+ * Input for the task that validates connection to PostgreSQL and source server
+ * requirements
+ *
+ */
+export interface ConnectToSourcePostgreSqlSyncTaskInput {
+  /**
+   * @member {PostgreSqlConnectionInfo} sourceConnectionInfo Connection
+   * information for source PostgreSQL server
+   */
+  sourceConnectionInfo: PostgreSqlConnectionInfo;
+}
+
+/**
+ * @interface
+ * An interface representing ConnectToSourcePostgreSqlSyncTaskProperties.
+ * Properties for the task that validates connection to PostgreSql server and
+ * source server requirements for online migration
+ *
+ */
+export interface ConnectToSourcePostgreSqlSyncTaskProperties {
+  /**
+   * @member {string} taskType Polymorphic Discriminator
+   */
+  taskType: "ConnectToSource.PostgreSql.Sync";
+  /**
+   * @member {ODataError[]} [errors] Array of errors. This is ignored if
+   * submitted.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errors?: ODataError[];
+  /**
+   * @member {TaskState} [state] The state of the task. This is ignored if
+   * submitted. Possible values include: 'Unknown', 'Queued', 'Running',
+   * 'Canceled', 'Succeeded', 'Failed', 'FailedInputValidation', 'Faulted'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: TaskState;
+  /**
+   * @member {CommandPropertiesUnion[]} [commands] Array of command properties.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly commands?: CommandPropertiesUnion[];
+  /**
+   * @member {{ [propertyName: string]: string }} [clientData] Key value pairs
+   * of client data to attach meta data information to task
+   */
+  clientData?: { [propertyName: string]: string };
+  /**
+   * @member {ConnectToSourcePostgreSqlSyncTaskInput} [input] Task input
+   */
+  input?: ConnectToSourcePostgreSqlSyncTaskInput;
+  /**
+   * @member {ConnectToSourcePostgreSqlSyncTaskOutput[]} [output] Task output.
+   * This is ignored if submitted.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly output?: ConnectToSourcePostgreSqlSyncTaskOutput[];
 }
 
 /**
@@ -6148,7 +7128,7 @@ export interface ConnectToSourceMySqlTaskInput {
   sourceConnectionInfo: MySqlConnectionInfo;
   /**
    * @member {MySqlTargetPlatformType} [targetPlatform] Target Platform for the
-   * migration. Possible values include: 'AzureDbForMySQL'
+   * migration. Possible values include: 'SqlServer', 'AzureDbForMySQL'
    */
   targetPlatform?: MySqlTargetPlatformType;
   /**
@@ -7580,6 +8560,25 @@ export type DatabaseMigrationStage = 'None' | 'Initialize' | 'Backup' | 'FileCop
 export type MigrationStatus = 'Default' | 'Connecting' | 'SourceAndTargetSelected' | 'SelectLogins' | 'Configured' | 'Running' | 'Error' | 'Stopped' | 'Completed' | 'CompletedWithWarnings';
 
 /**
+ * Defines values for BackupFileStatus.
+ * Possible values include: 'Arrived', 'Queued', 'Uploading', 'Uploaded', 'Restoring', 'Restored',
+ * 'Cancelled'
+ * @readonly
+ * @enum {string}
+ */
+export type BackupFileStatus = 'Arrived' | 'Queued' | 'Uploading' | 'Uploaded' | 'Restoring' | 'Restored' | 'Cancelled';
+
+/**
+ * Defines values for DatabaseMigrationState.
+ * Possible values include: 'UNDEFINED', 'INITIAL', 'FULL_BACKUP_UPLOAD_START',
+ * 'LOG_SHIPPING_START', 'UPLOAD_LOG_FILES_START', 'CUTOVER_START', 'POST_CUTOVER_COMPLETE',
+ * 'COMPLETED', 'CANCELLED', 'FAILED'
+ * @readonly
+ * @enum {string}
+ */
+export type DatabaseMigrationState = 'UNDEFINED' | 'INITIAL' | 'FULL_BACKUP_UPLOAD_START' | 'LOG_SHIPPING_START' | 'UPLOAD_LOG_FILES_START' | 'CUTOVER_START' | 'POST_CUTOVER_COMPLETE' | 'COMPLETED' | 'CANCELLED' | 'FAILED';
+
+/**
  * Defines values for LoginMigrationStage.
  * Possible values include: 'None', 'Initialize', 'LoginMigration', 'EstablishUserMapping',
  * 'AssignRoleMembership', 'AssignRoleOwnership', 'EstablishServerPermissions',
@@ -7726,11 +8725,11 @@ export type ResourceSkuCapacityScaleType = 'Automatic' | 'Manual' | 'None';
 
 /**
  * Defines values for MySqlTargetPlatformType.
- * Possible values include: 'AzureDbForMySQL'
+ * Possible values include: 'SqlServer', 'AzureDbForMySQL'
  * @readonly
  * @enum {string}
  */
-export type MySqlTargetPlatformType = 'AzureDbForMySQL';
+export type MySqlTargetPlatformType = 'SqlServer' | 'AzureDbForMySQL';
 
 /**
  * Defines values for SchemaMigrationOption.

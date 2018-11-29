@@ -220,11 +220,11 @@ export const ReportableException: msRest.CompositeMapper = {
   }
 };
 
-export const MigrateSyncCompleteCommandOutput: msRest.CompositeMapper = {
-  serializedName: "MigrateSyncCompleteCommandOutput",
+export const MigrateMISyncCompleteCommandOutput: msRest.CompositeMapper = {
+  serializedName: "MigrateMISyncCompleteCommandOutput",
   type: {
     name: "Composite",
-    className: "MigrateSyncCompleteCommandOutput",
+    className: "MigrateMISyncCompleteCommandOutput",
     modelProperties: {
       errors: {
         serializedName: "errors",
@@ -242,23 +242,17 @@ export const MigrateSyncCompleteCommandOutput: msRest.CompositeMapper = {
   }
 };
 
-export const MigrateSyncCompleteCommandInput: msRest.CompositeMapper = {
-  serializedName: "MigrateSyncCompleteCommandInput",
+export const MigrateMISyncCompleteCommandInput: msRest.CompositeMapper = {
+  serializedName: "MigrateMISyncCompleteCommandInput",
   type: {
     name: "Composite",
-    className: "MigrateSyncCompleteCommandInput",
+    className: "MigrateMISyncCompleteCommandInput",
     modelProperties: {
-      databaseName: {
+      sourceDatabaseName: {
         required: true,
-        serializedName: "databaseName",
+        serializedName: "sourceDatabaseName",
         type: {
           name: "String"
-        }
-      },
-      commitTimeStamp: {
-        serializedName: "commitTimeStamp",
-        type: {
-          name: "DateTime"
         }
       }
     }
@@ -301,6 +295,87 @@ export const CommandProperties: msRest.CompositeMapper = {
         serializedName: "commandType",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MigrateMISyncCompleteCommandProperties: msRest.CompositeMapper = {
+  serializedName: "Migrate.SqlServer.AzureDbSqlMi.Complete",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: CommandProperties.type.polymorphicDiscriminator,
+    uberParent: "CommandProperties",
+    className: "MigrateMISyncCompleteCommandProperties",
+    modelProperties: {
+      ...CommandProperties.type.modelProperties,
+      input: {
+        serializedName: "input",
+        type: {
+          name: "Composite",
+          className: "MigrateMISyncCompleteCommandInput"
+        }
+      },
+      output: {
+        readOnly: true,
+        serializedName: "output",
+        type: {
+          name: "Composite",
+          className: "MigrateMISyncCompleteCommandOutput"
+        }
+      }
+    }
+  }
+};
+
+export const MigrateSyncCompleteCommandOutput: msRest.CompositeMapper = {
+  serializedName: "MigrateSyncCompleteCommandOutput",
+  type: {
+    name: "Composite",
+    className: "MigrateSyncCompleteCommandOutput",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      errors: {
+        readOnly: true,
+        serializedName: "errors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ReportableException"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MigrateSyncCompleteCommandInput: msRest.CompositeMapper = {
+  serializedName: "MigrateSyncCompleteCommandInput",
+  type: {
+    name: "Composite",
+    className: "MigrateSyncCompleteCommandInput",
+    modelProperties: {
+      databaseName: {
+        required: true,
+        serializedName: "databaseName",
+        type: {
+          name: "String"
+        }
+      },
+      commitTimeStamp: {
+        serializedName: "commitTimeStamp",
+        type: {
+          name: "DateTime"
         }
       }
     }
@@ -454,6 +529,26 @@ export const ConnectionInfo: msRest.CompositeMapper = {
       type: {
         required: true,
         serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MiSqlConnectionInfo: msRest.CompositeMapper = {
+  serializedName: "MiSqlConnectionInfo",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
+    uberParent: "ConnectionInfo",
+    className: "MiSqlConnectionInfo",
+    modelProperties: {
+      ...ConnectionInfo.type.modelProperties,
+      managedInstanceResourceId: {
+        required: true,
+        serializedName: "managedInstanceResourceId",
         type: {
           name: "String"
         }
@@ -1175,6 +1270,225 @@ export const ValidateMongoDbTaskProperties: msRest.CompositeMapper = {
   }
 };
 
+export const ValidateMigrationInputSqlServerSqlMISyncTaskOutput: msRest.CompositeMapper = {
+  serializedName: "ValidateMigrationInputSqlServerSqlMISyncTaskOutput",
+  type: {
+    name: "Composite",
+    className: "ValidateMigrationInputSqlServerSqlMISyncTaskOutput",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      validationErrors: {
+        readOnly: true,
+        serializedName: "validationErrors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ReportableException"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AzureActiveDirectoryApp: msRest.CompositeMapper = {
+  serializedName: "AzureActiveDirectoryApp",
+  type: {
+    name: "Composite",
+    className: "AzureActiveDirectoryApp",
+    modelProperties: {
+      applicationId: {
+        required: true,
+        serializedName: "applicationId",
+        type: {
+          name: "String"
+        }
+      },
+      appKey: {
+        required: true,
+        serializedName: "appKey",
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        required: true,
+        serializedName: "tenantId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MigrateSqlServerSqlMIDatabaseInput: msRest.CompositeMapper = {
+  serializedName: "MigrateSqlServerSqlMIDatabaseInput",
+  type: {
+    name: "Composite",
+    className: "MigrateSqlServerSqlMIDatabaseInput",
+    modelProperties: {
+      name: {
+        required: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      restoreDatabaseName: {
+        required: true,
+        serializedName: "restoreDatabaseName",
+        type: {
+          name: "String"
+        }
+      },
+      backupFileShare: {
+        serializedName: "backupFileShare",
+        type: {
+          name: "Composite",
+          className: "FileShare"
+        }
+      },
+      backupFilePaths: {
+        serializedName: "backupFilePaths",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SqlServerSqlMISyncTaskInput: msRest.CompositeMapper = {
+  serializedName: "SqlServerSqlMISyncTaskInput",
+  type: {
+    name: "Composite",
+    className: "SqlServerSqlMISyncTaskInput",
+    modelProperties: {
+      selectedDatabases: {
+        required: true,
+        serializedName: "selectedDatabases",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MigrateSqlServerSqlMIDatabaseInput"
+            }
+          }
+        }
+      },
+      backupFileShare: {
+        serializedName: "backupFileShare",
+        type: {
+          name: "Composite",
+          className: "FileShare"
+        }
+      },
+      storageResourceId: {
+        required: true,
+        serializedName: "storageResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      sourceConnectionInfo: {
+        required: true,
+        serializedName: "sourceConnectionInfo",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
+          uberParent: "ConnectionInfo",
+          className: "SqlConnectionInfo"
+        }
+      },
+      targetConnectionInfo: {
+        required: true,
+        serializedName: "targetConnectionInfo",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
+          uberParent: "ConnectionInfo",
+          className: "MiSqlConnectionInfo"
+        }
+      },
+      azureApp: {
+        required: true,
+        serializedName: "azureApp",
+        type: {
+          name: "Composite",
+          className: "AzureActiveDirectoryApp"
+        }
+      }
+    }
+  }
+};
+
+export const ValidateMigrationInputSqlServerSqlMISyncTaskInput: msRest.CompositeMapper = {
+  serializedName: "ValidateMigrationInputSqlServerSqlMISyncTaskInput",
+  type: {
+    name: "Composite",
+    className: "ValidateMigrationInputSqlServerSqlMISyncTaskInput",
+    modelProperties: {
+      ...SqlServerSqlMISyncTaskInput.type.modelProperties
+    }
+  }
+};
+
+export const ValidateMigrationInputSqlServerSqlMISyncTaskProperties: msRest.CompositeMapper = {
+  serializedName: "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ProjectTaskProperties.type.polymorphicDiscriminator,
+    uberParent: "ProjectTaskProperties",
+    className: "ValidateMigrationInputSqlServerSqlMISyncTaskProperties",
+    modelProperties: {
+      ...ProjectTaskProperties.type.modelProperties,
+      input: {
+        serializedName: "input",
+        type: {
+          name: "Composite",
+          className: "ValidateMigrationInputSqlServerSqlMISyncTaskInput"
+        }
+      },
+      output: {
+        readOnly: true,
+        serializedName: "output",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ValidateMigrationInputSqlServerSqlMISyncTaskOutput"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const DatabaseBackupInfo: msRest.CompositeMapper = {
   serializedName: "DatabaseBackupInfo",
   type: {
@@ -1353,48 +1667,6 @@ export const BlobShare: msRest.CompositeMapper = {
         serializedName: "sasUri",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MigrateSqlServerSqlMIDatabaseInput: msRest.CompositeMapper = {
-  serializedName: "MigrateSqlServerSqlMIDatabaseInput",
-  type: {
-    name: "Composite",
-    className: "MigrateSqlServerSqlMIDatabaseInput",
-    modelProperties: {
-      name: {
-        required: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      restoreDatabaseName: {
-        required: true,
-        serializedName: "restoreDatabaseName",
-        type: {
-          name: "String"
-        }
-      },
-      backupFileShare: {
-        serializedName: "backupFileShare",
-        type: {
-          name: "Composite",
-          className: "FileShare"
-        }
-      },
-      backupFilePaths: {
-        serializedName: "backupFilePaths",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
         }
       }
     }
@@ -2106,6 +2378,39 @@ export const MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseInput: msRest.Comp
         type: {
           name: "String"
         }
+      },
+      migrationSetting: {
+        serializedName: "migrationSetting",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      sourceSetting: {
+        serializedName: "sourceSetting",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      targetSetting: {
+        serializedName: "targetSetting",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -2566,6 +2871,39 @@ export const MigrateMySqlAzureDbForMySqlSyncDatabaseInput: msRest.CompositeMappe
         serializedName: "targetDatabaseName",
         type: {
           name: "String"
+        }
+      },
+      migrationSetting: {
+        serializedName: "migrationSetting",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      sourceSetting: {
+        serializedName: "sourceSetting",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      targetSetting: {
+        serializedName: "targetSetting",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -4205,6 +4543,403 @@ export const MigrateSqlServerSqlDbTaskProperties: msRest.CompositeMapper = {
   }
 };
 
+export const MigrateSqlServerSqlMISyncTaskOutput: msRest.CompositeMapper = {
+  serializedName: "MigrateSqlServerSqlMISyncTaskOutput",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "resultType",
+      clientName: "resultType"
+    },
+    uberParent: "MigrateSqlServerSqlMISyncTaskOutput",
+    className: "MigrateSqlServerSqlMISyncTaskOutput",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      resultType: {
+        required: true,
+        serializedName: "resultType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MigrateSqlServerSqlMISyncTaskOutputError: msRest.CompositeMapper = {
+  serializedName: "ErrorOutput",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: MigrateSqlServerSqlMISyncTaskOutput.type.polymorphicDiscriminator,
+    uberParent: "MigrateSqlServerSqlMISyncTaskOutput",
+    className: "MigrateSqlServerSqlMISyncTaskOutputError",
+    modelProperties: {
+      ...MigrateSqlServerSqlMISyncTaskOutput.type.modelProperties,
+      error: {
+        readOnly: true,
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ReportableException"
+        }
+      }
+    }
+  }
+};
+
+export const BackupFileInfo: msRest.CompositeMapper = {
+  serializedName: "BackupFileInfo",
+  type: {
+    name: "Composite",
+    className: "BackupFileInfo",
+    modelProperties: {
+      fileLocation: {
+        serializedName: "fileLocation",
+        type: {
+          name: "String"
+        }
+      },
+      familySequenceNumber: {
+        serializedName: "familySequenceNumber",
+        type: {
+          name: "Number"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BackupSetInfo: msRest.CompositeMapper = {
+  serializedName: "BackupSetInfo",
+  type: {
+    name: "Composite",
+    className: "BackupSetInfo",
+    modelProperties: {
+      backupSetId: {
+        serializedName: "backupSetId",
+        type: {
+          name: "String"
+        }
+      },
+      firstLsn: {
+        serializedName: "firstLsn",
+        type: {
+          name: "String"
+        }
+      },
+      lastLsn: {
+        serializedName: "lastLsn",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedTime: {
+        serializedName: "lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      backupType: {
+        serializedName: "backupType",
+        type: {
+          name: "String"
+        }
+      },
+      listOfBackupFiles: {
+        serializedName: "listOfBackupFiles",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "BackupFileInfo"
+            }
+          }
+        }
+      },
+      databaseName: {
+        serializedName: "databaseName",
+        type: {
+          name: "String"
+        }
+      },
+      backupStartDate: {
+        serializedName: "backupStartDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      backupFinishedDate: {
+        serializedName: "backupFinishedDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      isBackupRestored: {
+        serializedName: "isBackupRestored",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel: msRest.CompositeMapper = {
+  serializedName: "DatabaseLevelOutput",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: MigrateSqlServerSqlMISyncTaskOutput.type.polymorphicDiscriminator,
+    uberParent: "MigrateSqlServerSqlMISyncTaskOutput",
+    className: "MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel",
+    modelProperties: {
+      ...MigrateSqlServerSqlMISyncTaskOutput.type.modelProperties,
+      sourceDatabaseName: {
+        readOnly: true,
+        serializedName: "sourceDatabaseName",
+        type: {
+          name: "String"
+        }
+      },
+      migrationState: {
+        readOnly: true,
+        serializedName: "migrationState",
+        type: {
+          name: "String"
+        }
+      },
+      startedOn: {
+        readOnly: true,
+        serializedName: "startedOn",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endedOn: {
+        readOnly: true,
+        serializedName: "endedOn",
+        type: {
+          name: "DateTime"
+        }
+      },
+      fullBackupSetInfo: {
+        readOnly: true,
+        serializedName: "fullBackupSetInfo",
+        type: {
+          name: "Composite",
+          className: "BackupSetInfo"
+        }
+      },
+      lastRestoredBackupSetInfo: {
+        readOnly: true,
+        serializedName: "lastRestoredBackupSetInfo",
+        type: {
+          name: "Composite",
+          className: "BackupSetInfo"
+        }
+      },
+      activeBackupSets: {
+        readOnly: true,
+        serializedName: "activeBackupSets",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "BackupSetInfo"
+            }
+          }
+        }
+      },
+      containerName: {
+        readOnly: true,
+        serializedName: "containerName",
+        type: {
+          name: "String"
+        }
+      },
+      errorPrefix: {
+        readOnly: true,
+        serializedName: "errorPrefix",
+        type: {
+          name: "String"
+        }
+      },
+      isFullBackupRestored: {
+        readOnly: true,
+        serializedName: "isFullBackupRestored",
+        type: {
+          name: "Boolean"
+        }
+      },
+      exceptionsAndWarnings: {
+        readOnly: true,
+        serializedName: "exceptionsAndWarnings",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ReportableException"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MigrateSqlServerSqlMISyncTaskOutputMigrationLevel: msRest.CompositeMapper = {
+  serializedName: "MigrationLevelOutput",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: MigrateSqlServerSqlMISyncTaskOutput.type.polymorphicDiscriminator,
+    uberParent: "MigrateSqlServerSqlMISyncTaskOutput",
+    className: "MigrateSqlServerSqlMISyncTaskOutputMigrationLevel",
+    modelProperties: {
+      ...MigrateSqlServerSqlMISyncTaskOutput.type.modelProperties,
+      databaseCount: {
+        readOnly: true,
+        serializedName: "databaseCount",
+        type: {
+          name: "Number"
+        }
+      },
+      state: {
+        readOnly: true,
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      },
+      startedOn: {
+        readOnly: true,
+        serializedName: "startedOn",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endedOn: {
+        readOnly: true,
+        serializedName: "endedOn",
+        type: {
+          name: "DateTime"
+        }
+      },
+      sourceServerName: {
+        readOnly: true,
+        serializedName: "sourceServerName",
+        type: {
+          name: "String"
+        }
+      },
+      sourceServerVersion: {
+        readOnly: true,
+        serializedName: "sourceServerVersion",
+        type: {
+          name: "String"
+        }
+      },
+      sourceServerBrandVersion: {
+        readOnly: true,
+        serializedName: "sourceServerBrandVersion",
+        type: {
+          name: "String"
+        }
+      },
+      targetServerName: {
+        readOnly: true,
+        serializedName: "targetServerName",
+        type: {
+          name: "String"
+        }
+      },
+      targetServerVersion: {
+        readOnly: true,
+        serializedName: "targetServerVersion",
+        type: {
+          name: "String"
+        }
+      },
+      targetServerBrandVersion: {
+        readOnly: true,
+        serializedName: "targetServerBrandVersion",
+        type: {
+          name: "String"
+        }
+      },
+      databaseErrorCount: {
+        readOnly: true,
+        serializedName: "databaseErrorCount",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const MigrateSqlServerSqlMISyncTaskInput: msRest.CompositeMapper = {
+  serializedName: "MigrateSqlServerSqlMISyncTaskInput",
+  type: {
+    name: "Composite",
+    className: "MigrateSqlServerSqlMISyncTaskInput",
+    modelProperties: {
+      ...SqlServerSqlMISyncTaskInput.type.modelProperties
+    }
+  }
+};
+
+export const MigrateSqlServerSqlMISyncTaskProperties: msRest.CompositeMapper = {
+  serializedName: "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ProjectTaskProperties.type.polymorphicDiscriminator,
+    uberParent: "ProjectTaskProperties",
+    className: "MigrateSqlServerSqlMISyncTaskProperties",
+    modelProperties: {
+      ...ProjectTaskProperties.type.modelProperties,
+      input: {
+        serializedName: "input",
+        type: {
+          name: "Composite",
+          className: "MigrateSqlServerSqlMISyncTaskInput"
+        }
+      },
+      output: {
+        readOnly: true,
+        serializedName: "output",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "resultType",
+                clientName: "resultType"
+              },
+              uberParent: "MigrateSqlServerSqlMISyncTaskOutput",
+              className: "MigrateSqlServerSqlMISyncTaskOutput"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const MigrateSqlServerSqlMITaskOutput: msRest.CompositeMapper = {
   serializedName: "MigrateSqlServerSqlMITaskOutput",
   type: {
@@ -4910,6 +5645,104 @@ export const ConnectToTargetAzureDbForMySqlTaskProperties: msRest.CompositeMappe
   }
 };
 
+export const ConnectToTargetSqlMISyncTaskOutput: msRest.CompositeMapper = {
+  serializedName: "ConnectToTargetSqlMISyncTaskOutput",
+  type: {
+    name: "Composite",
+    className: "ConnectToTargetSqlMISyncTaskOutput",
+    modelProperties: {
+      targetServerVersion: {
+        readOnly: true,
+        serializedName: "targetServerVersion",
+        type: {
+          name: "String"
+        }
+      },
+      targetServerBrandVersion: {
+        readOnly: true,
+        serializedName: "targetServerBrandVersion",
+        type: {
+          name: "String"
+        }
+      },
+      validationErrors: {
+        readOnly: true,
+        serializedName: "validationErrors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ReportableException"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ConnectToTargetSqlMISyncTaskInput: msRest.CompositeMapper = {
+  serializedName: "ConnectToTargetSqlMISyncTaskInput",
+  type: {
+    name: "Composite",
+    className: "ConnectToTargetSqlMISyncTaskInput",
+    modelProperties: {
+      targetConnectionInfo: {
+        required: true,
+        serializedName: "targetConnectionInfo",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
+          uberParent: "ConnectionInfo",
+          className: "MiSqlConnectionInfo"
+        }
+      },
+      azureApp: {
+        required: true,
+        serializedName: "azureApp",
+        type: {
+          name: "Composite",
+          className: "AzureActiveDirectoryApp"
+        }
+      }
+    }
+  }
+};
+
+export const ConnectToTargetSqlMISyncTaskProperties: msRest.CompositeMapper = {
+  serializedName: "ConnectToTarget.AzureSqlDbMI.Sync.LRS",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ProjectTaskProperties.type.polymorphicDiscriminator,
+    uberParent: "ProjectTaskProperties",
+    className: "ConnectToTargetSqlMISyncTaskProperties",
+    modelProperties: {
+      ...ProjectTaskProperties.type.modelProperties,
+      input: {
+        serializedName: "input",
+        type: {
+          name: "Composite",
+          className: "ConnectToTargetSqlMISyncTaskInput"
+        }
+      },
+      output: {
+        readOnly: true,
+        serializedName: "output",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ConnectToTargetSqlMISyncTaskOutput"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ConnectToTargetSqlMITaskOutput: msRest.CompositeMapper = {
   serializedName: "ConnectToTargetSqlMITaskOutput",
   type: {
@@ -5331,6 +6164,125 @@ export const GetUserTablesSqlTaskProperties: msRest.CompositeMapper = {
   }
 };
 
+export const ConnectToTargetAzureDbForPostgreSqlSyncTaskOutput: msRest.CompositeMapper = {
+  serializedName: "ConnectToTargetAzureDbForPostgreSqlSyncTaskOutput",
+  type: {
+    name: "Composite",
+    className: "ConnectToTargetAzureDbForPostgreSqlSyncTaskOutput",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      targetServerVersion: {
+        readOnly: true,
+        serializedName: "targetServerVersion",
+        type: {
+          name: "String"
+        }
+      },
+      databases: {
+        readOnly: true,
+        serializedName: "databases",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      targetServerBrandVersion: {
+        readOnly: true,
+        serializedName: "targetServerBrandVersion",
+        type: {
+          name: "String"
+        }
+      },
+      validationErrors: {
+        readOnly: true,
+        serializedName: "validationErrors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ReportableException"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ConnectToTargetAzureDbForPostgreSqlSyncTaskInput: msRest.CompositeMapper = {
+  serializedName: "ConnectToTargetAzureDbForPostgreSqlSyncTaskInput",
+  type: {
+    name: "Composite",
+    className: "ConnectToTargetAzureDbForPostgreSqlSyncTaskInput",
+    modelProperties: {
+      sourceConnectionInfo: {
+        required: true,
+        serializedName: "sourceConnectionInfo",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
+          uberParent: "ConnectionInfo",
+          className: "PostgreSqlConnectionInfo"
+        }
+      },
+      targetConnectionInfo: {
+        required: true,
+        serializedName: "targetConnectionInfo",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
+          uberParent: "ConnectionInfo",
+          className: "PostgreSqlConnectionInfo"
+        }
+      }
+    }
+  }
+};
+
+export const ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties: msRest.CompositeMapper = {
+  serializedName: "ConnectToTarget.AzureDbForPostgreSql.Sync",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ProjectTaskProperties.type.polymorphicDiscriminator,
+    uberParent: "ProjectTaskProperties",
+    className: "ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties",
+    modelProperties: {
+      ...ProjectTaskProperties.type.modelProperties,
+      input: {
+        serializedName: "input",
+        type: {
+          name: "Composite",
+          className: "ConnectToTargetAzureDbForPostgreSqlSyncTaskInput"
+        }
+      },
+      output: {
+        readOnly: true,
+        serializedName: "output",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ConnectToTargetAzureDbForPostgreSqlSyncTaskOutput"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ConnectToTargetSqlDbTaskOutput: msRest.CompositeMapper = {
   serializedName: "ConnectToTargetSqlDbTaskOutput",
   type: {
@@ -5482,6 +6434,115 @@ export const ConnectToTargetSqlDbTaskProperties: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "ConnectToTargetSqlDbTaskOutput"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ConnectToSourcePostgreSqlSyncTaskOutput: msRest.CompositeMapper = {
+  serializedName: "ConnectToSourcePostgreSqlSyncTaskOutput",
+  type: {
+    name: "Composite",
+    className: "ConnectToSourcePostgreSqlSyncTaskOutput",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      sourceServerVersion: {
+        readOnly: true,
+        serializedName: "sourceServerVersion",
+        type: {
+          name: "String"
+        }
+      },
+      databases: {
+        readOnly: true,
+        serializedName: "databases",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      sourceServerBrandVersion: {
+        readOnly: true,
+        serializedName: "sourceServerBrandVersion",
+        type: {
+          name: "String"
+        }
+      },
+      validationErrors: {
+        readOnly: true,
+        serializedName: "validationErrors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ReportableException"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ConnectToSourcePostgreSqlSyncTaskInput: msRest.CompositeMapper = {
+  serializedName: "ConnectToSourcePostgreSqlSyncTaskInput",
+  type: {
+    name: "Composite",
+    className: "ConnectToSourcePostgreSqlSyncTaskInput",
+    modelProperties: {
+      sourceConnectionInfo: {
+        required: true,
+        serializedName: "sourceConnectionInfo",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: ConnectionInfo.type.polymorphicDiscriminator,
+          uberParent: "ConnectionInfo",
+          className: "PostgreSqlConnectionInfo"
+        }
+      }
+    }
+  }
+};
+
+export const ConnectToSourcePostgreSqlSyncTaskProperties: msRest.CompositeMapper = {
+  serializedName: "ConnectToSource.PostgreSql.Sync",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ProjectTaskProperties.type.polymorphicDiscriminator,
+    uberParent: "ProjectTaskProperties",
+    className: "ConnectToSourcePostgreSqlSyncTaskProperties",
+    modelProperties: {
+      ...ProjectTaskProperties.type.modelProperties,
+      input: {
+        serializedName: "input",
+        type: {
+          name: "Composite",
+          className: "ConnectToSourcePostgreSqlSyncTaskInput"
+        }
+      },
+      output: {
+        readOnly: true,
+        serializedName: "output",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ConnectToSourcePostgreSqlSyncTaskOutput"
             }
           }
         }
@@ -5879,7 +6940,13 @@ export const ConnectToSourceSqlServerTaskInput: msRest.CompositeMapper = {
       checkPermissionsGroup: {
         serializedName: "checkPermissionsGroup",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "Default",
+            "MigrationFromSqlServerToAzureDB",
+            "MigrationFromSqlServerToAzureMI",
+            "MigrationFromMySQLToAzureDBForMySQL"
+          ]
         }
       },
       collectLogins: {
@@ -7066,7 +8133,13 @@ export const ConnectToSourceMySqlTaskInput: msRest.CompositeMapper = {
       checkPermissionsGroup: {
         serializedName: "checkPermissionsGroup",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "Default",
+            "MigrationFromSqlServerToAzureDB",
+            "MigrationFromSqlServerToAzureMI",
+            "MigrationFromMySQLToAzureDBForMySQL"
+          ]
         }
       }
     }
@@ -8449,8 +9522,10 @@ export const FileList: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
+  'CommandProperties.Migrate.SqlServer.AzureDbSqlMi.Complete' : MigrateMISyncCompleteCommandProperties,
   'CommandProperties.Migrate.Sync.Complete.Database' : MigrateSyncCompleteCommandProperties,
   'Unknown' : CommandProperties,
+  'ConnectionInfo.MiSqlConnectionInfo' : MiSqlConnectionInfo,
   'ConnectionInfo.PostgreSqlConnectionInfo' : PostgreSqlConnectionInfo,
   'ConnectionInfo.MySqlConnectionInfo' : MySqlConnectionInfo,
   'ConnectionInfo.MongoDbConnectionInfo' : MongoDbConnectionInfo,
@@ -8458,6 +9533,7 @@ export const discriminators = {
   'ConnectionInfo.SqlConnectionInfo' : SqlConnectionInfo,
   'ProjectTaskProperties.GetTDECertificates.Sql' : GetTdeCertificatesSqlTaskProperties,
   'ProjectTaskProperties.Validate.MongoDb' : ValidateMongoDbTaskProperties,
+  'ProjectTaskProperties.ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS' : ValidateMigrationInputSqlServerSqlMISyncTaskProperties,
   'ProjectTaskProperties.ValidateMigrationInput.SqlServer.AzureSqlDbMI' : ValidateMigrationInputSqlServerSqlMITaskProperties,
   'ProjectTaskProperties.ValidateMigrationInput.SqlServer.SqlDb.Sync' : ValidateMigrationInputSqlServerSqlDbSyncTaskProperties,
   'MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.DatabaseLevelErrorOutput' : MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError,
@@ -8487,6 +9563,11 @@ export const discriminators = {
   'MigrateSqlServerSqlDbTaskOutput.MigrationLevelOutput' : MigrateSqlServerSqlDbTaskOutputMigrationLevel,
   'MigrateSqlServerSqlDbTaskOutput' : MigrateSqlServerSqlDbTaskOutput,
   'ProjectTaskProperties.Migrate.SqlServer.SqlDb' : MigrateSqlServerSqlDbTaskProperties,
+  'MigrateSqlServerSqlMISyncTaskOutput.ErrorOutput' : MigrateSqlServerSqlMISyncTaskOutputError,
+  'MigrateSqlServerSqlMISyncTaskOutput.DatabaseLevelOutput' : MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel,
+  'MigrateSqlServerSqlMISyncTaskOutput.MigrationLevelOutput' : MigrateSqlServerSqlMISyncTaskOutputMigrationLevel,
+  'MigrateSqlServerSqlMISyncTaskOutput' : MigrateSqlServerSqlMISyncTaskOutput,
+  'ProjectTaskProperties.Migrate.SqlServer.AzureSqlDbMI.Sync.LRS' : MigrateSqlServerSqlMISyncTaskProperties,
   'MigrateSqlServerSqlMITaskOutput.ErrorOutput' : MigrateSqlServerSqlMITaskOutputError,
   'MigrateSqlServerSqlMITaskOutput.LoginLevelOutput' : MigrateSqlServerSqlMITaskOutputLoginLevel,
   'MigrateSqlServerSqlMITaskOutput.AgentJobLevelOutput' : MigrateSqlServerSqlMITaskOutputAgentJobLevel,
@@ -8496,11 +9577,14 @@ export const discriminators = {
   'ProjectTaskProperties.Migrate.SqlServer.AzureSqlDbMI' : MigrateSqlServerSqlMITaskProperties,
   'ProjectTaskProperties.Migrate.MongoDb' : MigrateMongoDbTaskProperties,
   'ProjectTaskProperties.ConnectToTarget.AzureDbForMySql' : ConnectToTargetAzureDbForMySqlTaskProperties,
+  'ProjectTaskProperties.ConnectToTarget.AzureSqlDbMI.Sync.LRS' : ConnectToTargetSqlMISyncTaskProperties,
   'ProjectTaskProperties.ConnectToTarget.AzureSqlDbMI' : ConnectToTargetSqlMITaskProperties,
   'ProjectTaskProperties.GetUserTables.AzureSqlDb.Sync' : GetUserTablesSqlSyncTaskProperties,
   'ProjectTaskProperties.GetUserTables.Sql' : GetUserTablesSqlTaskProperties,
+  'ProjectTaskProperties.ConnectToTarget.AzureDbForPostgreSql.Sync' : ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties,
   'ProjectTaskProperties.ConnectToTarget.SqlDb.Sync' : ConnectToTargetSqlSqlDbSyncTaskProperties,
   'ProjectTaskProperties.ConnectToTarget.SqlDb' : ConnectToTargetSqlDbTaskProperties,
+  'ProjectTaskProperties.ConnectToSource.PostgreSql.Sync' : ConnectToSourcePostgreSqlSyncTaskProperties,
   'ConnectToSourceSqlServerTaskOutput.AgentJobLevelOutput' : ConnectToSourceSqlServerTaskOutputAgentJobLevel,
   'ConnectToSourceSqlServerTaskOutput.LoginLevelOutput' : ConnectToSourceSqlServerTaskOutputLoginLevel,
   'ConnectToSourceSqlServerTaskOutput.DatabaseLevelOutput' : ConnectToSourceSqlServerTaskOutputDatabaseLevel,
