@@ -21,42 +21,36 @@ export const PresentationTimeRange: msRest.CompositeMapper = {
     className: "PresentationTimeRange",
     modelProperties: {
       startTimestamp: {
-        required: true,
         serializedName: "startTimestamp",
         type: {
           name: "Number"
         }
       },
       endTimestamp: {
-        required: true,
         serializedName: "endTimestamp",
         type: {
           name: "Number"
         }
       },
       presentationWindowDuration: {
-        required: true,
         serializedName: "presentationWindowDuration",
         type: {
           name: "Number"
         }
       },
       liveBackoffDuration: {
-        required: true,
         serializedName: "liveBackoffDuration",
         type: {
           name: "Number"
         }
       },
       timescale: {
-        required: true,
         serializedName: "timescale",
         type: {
           name: "Number"
         }
       },
       forceEndTimestamp: {
-        required: true,
         serializedName: "forceEndTimestamp",
         type: {
           name: "Boolean"
@@ -76,15 +70,7 @@ export const FilterTrackPropertyCondition: msRest.CompositeMapper = {
         required: true,
         serializedName: "property",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Unknown",
-            "Type",
-            "Name",
-            "Language",
-            "FourCC",
-            "Bitrate"
-          ]
+          name: "String"
         }
       },
       value: {
@@ -98,11 +84,7 @@ export const FilterTrackPropertyCondition: msRest.CompositeMapper = {
         required: true,
         serializedName: "operation",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Equal",
-            "NotEqual"
-          ]
+          name: "String"
         }
       }
     }
@@ -428,12 +410,7 @@ export const Metric: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "unit",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Bytes",
-            "Count",
-            "Milliseconds"
-          ]
+          name: "String"
         }
       },
       aggregationType: {
@@ -441,12 +418,7 @@ export const Metric: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "aggregationType",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Average",
-            "Count",
-            "Total"
-          ]
+          name: "String"
         }
       },
       dimensions: {
@@ -606,11 +578,7 @@ export const StorageAccount: msRest.CompositeMapper = {
         required: true,
         serializedName: "type",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Primary",
-            "Secondary"
-          ]
+          name: "String"
         }
       }
     }
@@ -948,11 +916,7 @@ export const Asset: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "properties.storageEncryptionFormat",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "None",
-            "MediaStorageClientEncryption"
-          ]
+          name: "String"
         }
       }
     }
@@ -1005,12 +969,7 @@ export const ListContainerSasInput: msRest.CompositeMapper = {
       permissions: {
         serializedName: "permissions",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Read",
-            "ReadWrite",
-            "ReadWriteDelete"
-          ]
+          name: "String"
         }
       },
       expiryTime: {
@@ -1158,13 +1117,7 @@ export const ContentKeyPolicyPlayReadyPlayRight: msRest.CompositeMapper = {
         required: true,
         serializedName: "allowPassingVideoContentToUnknownOutput",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Unknown",
-            "NotAllowed",
-            "Allowed",
-            "AllowedWithVideoConstriction"
-          ]
+          name: "String"
         }
       },
       uncompressedDigitalVideoOpl: {
@@ -1277,12 +1230,7 @@ export const ContentKeyPolicyPlayReadyLicense: msRest.CompositeMapper = {
         required: true,
         serializedName: "licenseType",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Unknown",
-            "NonPersistent",
-            "Persistent"
-          ]
+          name: "String"
         }
       },
       contentKeyLocation: {
@@ -1302,13 +1250,7 @@ export const ContentKeyPolicyPlayReadyLicense: msRest.CompositeMapper = {
         required: true,
         serializedName: "contentType",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Unknown",
-            "Unspecified",
-            "UltraVioletDownload",
-            "UltraVioletStreaming"
-          ]
+          name: "String"
         }
       }
     }
@@ -1543,12 +1485,7 @@ export const ContentKeyPolicyTokenRestriction: msRest.CompositeMapper = {
         required: true,
         serializedName: "restrictionTokenType",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Unknown",
-            "Swt",
-            "Jwt"
-          ]
+          name: "String"
         }
       },
       openIdConnectDiscoveryDocument: {
@@ -1673,13 +1610,7 @@ export const ContentKeyPolicyFairPlayConfiguration: msRest.CompositeMapper = {
         required: true,
         serializedName: "rentalAndLeaseKeyType",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Unknown",
-            "Undefined",
-            "PersistentUnlimited",
-            "PersistentLimited"
-          ]
+          name: "String"
         }
       },
       rentalDuration: {
@@ -1943,12 +1874,7 @@ export const AacAudio: msRest.CompositeMapper = {
       profile: {
         serializedName: "profile",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "AacLc",
-            "HeAacV1",
-            "HeAacV2"
-          ]
+          name: "String"
         }
       }
     }
@@ -2076,12 +2002,7 @@ export const Video: msRest.CompositeMapper = {
       stretchMode: {
         serializedName: "stretchMode",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "None",
-            "AutoSize",
-            "AutoFit"
-          ]
+          name: "String"
         }
       }
     }
@@ -2208,22 +2129,13 @@ export const Deinterlace: msRest.CompositeMapper = {
       parity: {
         serializedName: "parity",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Auto",
-            "TopFieldFirst",
-            "BottomFieldFirst"
-          ]
+          name: "String"
         }
       },
       mode: {
         serializedName: "mode",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Off",
-            "AutoPixelAdaptive"
-          ]
+          name: "String"
         }
       }
     }
@@ -2280,15 +2192,7 @@ export const Filters: msRest.CompositeMapper = {
       rotation: {
         serializedName: "rotation",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Auto",
-            "None",
-            "Rotate0",
-            "Rotate90",
-            "Rotate180",
-            "Rotate270"
-          ]
+          name: "String"
         }
       },
       crop: {
@@ -2420,15 +2324,7 @@ export const H264Layer: msRest.CompositeMapper = {
       profile: {
         serializedName: "profile",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Auto",
-            "Baseline",
-            "Main",
-            "High",
-            "High422",
-            "High444"
-          ]
+          name: "String"
         }
       },
       level: {
@@ -2452,11 +2348,7 @@ export const H264Layer: msRest.CompositeMapper = {
       entropyMode: {
         serializedName: "entropyMode",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Cabac",
-            "Cavlc"
-          ]
+          name: "String"
         }
       }
     }
@@ -2481,12 +2373,7 @@ export const H264Video: msRest.CompositeMapper = {
       complexity: {
         serializedName: "complexity",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Speed",
-            "Balanced",
-            "Quality"
-          ]
+          name: "String"
         }
       },
       layers: {
@@ -2665,17 +2552,7 @@ export const BuiltInStandardEncoderPreset: msRest.CompositeMapper = {
         required: true,
         serializedName: "presetName",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "H264SingleBitrateSD",
-            "H264SingleBitrate720p",
-            "H264SingleBitrate1080p",
-            "AdaptiveStreaming",
-            "AACGoodQualityAudio",
-            "H264MultipleBitrate1080p",
-            "H264MultipleBitrate720p",
-            "H264MultipleBitrateSD"
-          ]
+          name: "String"
         }
       }
     }
@@ -2748,12 +2625,7 @@ export const VideoAnalyzerPreset: msRest.CompositeMapper = {
       insightsToExtract: {
         serializedName: "insightsToExtract",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "AudioInsightsOnly",
-            "VideoInsightsOnly",
-            "AllInsights"
-          ]
+          name: "String"
         }
       }
     }
@@ -2815,22 +2687,13 @@ export const TransformOutput: msRest.CompositeMapper = {
       onError: {
         serializedName: "onError",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "StopProcessingJob",
-            "ContinueJob"
-          ]
+          name: "String"
         }
       },
       relativePriority: {
         serializedName: "relativePriority",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Low",
-            "Normal",
-            "High"
-          ]
+          name: "String"
         }
       },
       preset: {
@@ -3052,18 +2915,7 @@ export const JobError: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "code",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "ServiceError",
-            "ServiceTransientError",
-            "DownloadNotAccessible",
-            "DownloadTransientError",
-            "UploadNotAccessible",
-            "UploadTransientError",
-            "ConfigurationUnsupported",
-            "ContentMalformed",
-            "ContentUnsupported"
-          ]
+          name: "String"
         }
       },
       message: {
@@ -3078,14 +2930,7 @@ export const JobError: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "category",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Service",
-            "Download",
-            "Upload",
-            "Configuration",
-            "Content"
-          ]
+          name: "String"
         }
       },
       retry: {
@@ -3093,11 +2938,7 @@ export const JobError: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "retry",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "DoNotRetry",
-            "MayRetry"
-          ]
+          name: "String"
         }
       },
       details: {
@@ -3141,16 +2982,7 @@ export const JobOutput: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "state",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Canceled",
-            "Canceling",
-            "Error",
-            "Finished",
-            "Processing",
-            "Queued",
-            "Scheduled"
-          ]
+          name: "String"
         }
       },
       progress: {
@@ -3218,16 +3050,7 @@ export const Job: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "properties.state",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Canceled",
-            "Canceling",
-            "Error",
-            "Finished",
-            "Processing",
-            "Queued",
-            "Scheduled"
-          ]
+          name: "String"
         }
       },
       description: {
@@ -3278,12 +3101,7 @@ export const Job: msRest.CompositeMapper = {
       priority: {
         serializedName: "properties.priority",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Low",
-            "Normal",
-            "High"
-          ]
+          name: "String"
         }
       },
       correlationData: {
@@ -3311,22 +3129,14 @@ export const TrackPropertyCondition: msRest.CompositeMapper = {
         required: true,
         serializedName: "property",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Unknown",
-            "FourCC"
-          ]
+          name: "String"
         }
       },
       operation: {
         required: true,
         serializedName: "operation",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Unknown",
-            "Equal"
-          ]
+          name: "String"
         }
       },
       value: {
@@ -3816,12 +3626,7 @@ export const StreamingLocatorContentKey: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "type",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "CommonEncryptionCenc",
-            "CommonEncryptionCbcs",
-            "EnvelopeEncryption"
-          ]
+          name: "String"
         }
       },
       labelReferenceInStreamingPolicy: {
@@ -3870,26 +3675,14 @@ export const StreamingPath: msRest.CompositeMapper = {
         required: true,
         serializedName: "streamingProtocol",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Hls",
-            "Dash",
-            "SmoothStreaming",
-            "Download"
-          ]
+          name: "String"
         }
       },
       encryptionScheme: {
         required: true,
         serializedName: "encryptionScheme",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NoEncryption",
-            "EnvelopeEncryption",
-            "CommonEncryptionCenc",
-            "CommonEncryptionCbcs"
-          ]
+          name: "String"
         }
       },
       paths: {
@@ -4353,7 +4146,8 @@ export const LiveEventEncoding: msRest.CompositeMapper = {
           name: "Enum",
           allowedValues: [
             "None",
-            "Basic"
+            "Basic",
+            "Standard"
           ]
         }
       },

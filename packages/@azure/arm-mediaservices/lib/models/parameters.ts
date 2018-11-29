@@ -177,18 +177,6 @@ export const resourceGroupName: msRest.OperationURLParameter = {
     }
   }
 };
-export const skip: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "skip"
-  ],
-  mapper: {
-    serializedName: "$skip",
-    type: {
-      name: "Number"
-    }
-  }
-};
 export const streamingEndpointName: msRest.OperationURLParameter = {
   parameterPath: "streamingEndpointName",
   mapper: {
