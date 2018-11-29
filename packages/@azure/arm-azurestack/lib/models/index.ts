@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -41,8 +41,8 @@ export interface Resource extends BaseResource {
    */
   readonly type?: string;
   /**
-   * @member {string} [etag] The entity tag used for optimistic concurency when
-   * modifying the resource.
+   * @member {string} [etag] The entity tag used for optimistic concurrency
+   * when modifying the resource.
    */
   etag?: string;
 }
@@ -79,8 +79,8 @@ export interface TrackedResource extends BaseResource {
    */
   tags?: { [propertyName: string]: string };
   /**
-   * @member {string} [etag] The entity tag used for optimistic concurency when
-   * modifying the resource.
+   * @member {string} [etag] The entity tag used for optimistic concurrency
+   * when modifying the resource.
    */
   etag?: string;
 }
@@ -249,7 +249,7 @@ export interface ExtendedProduct {
   readonly productKind?: string;
   /**
    * @member {ComputeRole} [computeRole] Specifies kind of compute role
-   * inclided in the package. Possible values include: 'None', 'IaaS', 'PaaS'
+   * included in the package. Possible values include: 'None', 'IaaS', 'PaaS'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -317,7 +317,7 @@ export interface ExtendedProduct {
 export interface VirtualMachineExtensionProductProperties {
   /**
    * @member {ComputeRole} [computeRole] Specifies kind of compute role
-   * inclided in the package. Possible values include: 'None', 'IaaS', 'PaaS'
+   * included in the package. Possible values include: 'None', 'IaaS', 'PaaS'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -594,7 +594,7 @@ export interface RegistrationParameter {
 /**
  * @interface
  * An interface representing CustomerSubscription.
- * Customer subcription.
+ * Customer subscription.
  *
  * @extends Resource
  */
