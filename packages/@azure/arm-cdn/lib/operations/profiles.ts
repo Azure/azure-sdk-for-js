@@ -30,25 +30,25 @@ export class Profiles {
   /**
    * Lists all of the CDN profiles within an Azure subscription.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ProfilesListResponse>
+   * @returns Promise<Models.ProfilesArrayMethodResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.ProfilesListResponse>;
+  arrayMethod(options?: msRest.RequestOptionsBase): Promise<Models.ProfilesArrayMethodResponse>;
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
+  arrayMethod(callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProfileListResult>, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListResponse> {
+  arrayMethod(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
+  arrayMethod(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProfileListResult>, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesArrayMethodResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      listOperationSpec,
-      callback) as Promise<Models.ProfilesListResponse>;
+      arrayMethodOperationSpec,
+      callback) as Promise<Models.ProfilesArrayMethodResponse>;
   }
 
   /**
@@ -316,28 +316,28 @@ export class Profiles {
    * Lists all of the CDN profiles within an Azure subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ProfilesListNextResponse>
+   * @returns Promise<Models.ProfilesArrayMethodNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ProfilesListNextResponse>;
+  arrayMethodNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ProfilesArrayMethodNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
+  arrayMethodNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProfileListResult>, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListNextResponse> {
+  arrayMethodNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
+  arrayMethodNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProfileListResult>, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesArrayMethodNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
-      listNextOperationSpec,
-      callback) as Promise<Models.ProfilesListNextResponse>;
+      arrayMethodNextOperationSpec,
+      callback) as Promise<Models.ProfilesArrayMethodNextResponse>;
   }
 
   /**
@@ -399,7 +399,7 @@ export class Profiles {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
+const arrayMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Cdn/profiles",
   urlParameters: [
@@ -648,7 +648,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const arrayMethodNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
