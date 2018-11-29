@@ -2579,7 +2579,7 @@ export interface VideoAnalyzerPreset {
   /**
    * @member {InsightsType} [insightsToExtract] The type of insights to be
    * extracted. If not set then based on the content the type will selected.
-   * If the content is audi only then only audio insights are extraced and if
+   * If the content is audio only then only audio insights are extracted and if
    * it is video only. Possible values include: 'AudioInsightsOnly',
    * 'VideoInsightsOnly', 'AllInsights'
    */
@@ -2810,7 +2810,7 @@ export interface JobInputClip {
 /**
  * @interface
  * An interface representing JobInputs.
- * Describes a list of of inputs to a Job.
+ * Describes a list of inputs to a Job.
  *
  */
 export interface JobInputs {
@@ -3389,7 +3389,7 @@ export interface EnvelopeEncryption {
   contentKeys?: StreamingPolicyContentKeys;
   /**
    * @member {string} [customKeyAcquisitionUrlTemplate]
-   * KeyAcquistionUrlTemplate is used to point to user specified service to
+   * KeyAcquisitionUrlTemplate is used to point to user specified service to
    * delivery content keys
    */
   customKeyAcquisitionUrlTemplate?: string;
@@ -3520,7 +3520,7 @@ export interface StreamingLocatorContentKey {
    */
   labelReferenceInStreamingPolicy?: string;
   /**
-   * @member {string} [value] Value of  of Content Key
+   * @member {string} [value] Value of Content Key
    */
   value?: string;
   /**
@@ -4282,7 +4282,7 @@ export interface StreamingPoliciesListOptionalParams extends msRest.RequestOptio
    */
   top?: number;
   /**
-   * @member {string} [orderby] Specifies the the key by which the result
+   * @member {string} [orderby] Specifies the key by which the result
    * collection should be ordered.
    */
   orderby?: string;
@@ -4307,7 +4307,7 @@ export interface StreamingLocatorsListOptionalParams extends msRest.RequestOptio
    */
   top?: number;
   /**
-   * @member {string} [orderby] Specifies the the key by which the result
+   * @member {string} [orderby] Specifies the key by which the result
    * collection should be ordered.
    */
   orderby?: string;
