@@ -338,14 +338,6 @@ export function getLocalDependencyVersion(dependencyName: string): string {
   return `file:${getLocalRepositoryPath(dependencyName)}`;
 }
 
-export function getPreviewDependencyVersion(dependencyName: string): string | undefined {
-  let version: string | undefined = addCaretPrefix(getNpmPackageVersion(dependencyName, "preview"));
-  if (!version) {
-    version = getLatestDependencyVersion(dependencyName);
-  }
-  return version;
-}
-
 export function getLatestDependencyVersion(dependencyName: string): string | undefined {
   return addCaretPrefix(getNpmPackageVersion(dependencyName, "latest"));
 }
