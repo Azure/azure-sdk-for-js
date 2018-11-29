@@ -32,7 +32,6 @@ export {
   OnErrorDeploymentExtended,
   TagValue,
   TagCount,
-  TagDetails,
   Resource,
   SubResource,
   GenericResource,
