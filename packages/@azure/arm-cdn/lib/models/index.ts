@@ -1320,9 +1320,9 @@ export type MatchType = 'Literal' | 'Wildcard';
 export type CacheBehavior = 'BypassCache' | 'Override' | 'SetIfMissing';
 
 /**
- * Contains response data for the list operation.
+ * Contains response data for the arrayMethod operation.
  */
-export type ProfilesListResponse = ProfileListResult & {
+export type ProfilesArrayMethodResponse = ProfileListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -1510,9 +1510,9 @@ export type ProfilesBeginUpdateResponse = Profile & {
 };
 
 /**
- * Contains response data for the listNext operation.
+ * Contains response data for the arrayMethodNext operation.
  */
-export type ProfilesListNextResponse = ProfileListResult & {
+export type ProfilesArrayMethodNextResponse = ProfileListResult & {
   /**
    * The underlying HTTP response.
    */

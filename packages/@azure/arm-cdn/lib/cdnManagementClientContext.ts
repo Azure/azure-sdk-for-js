@@ -13,7 +13,7 @@ import * as msRest from "ms-rest-js";
 import * as msRestAzure from "ms-rest-azure-js";
 
 const packageName = "@azure/arm-cdn";
-const packageVersion = "0.1.0";
+const packageVersion = "0.2.0";
 
 export class CdnManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
