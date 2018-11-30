@@ -113,5 +113,11 @@ export abstract class StorageURL {
       url,
       pipeline.toServiceClientOptions()
     );
+
+    // Remove the default content-type in generated code of StorageClientContext
+    const storageClientContext = this.storageClientContext as any;
+    if (storageClientContext.requestContentType) {
+      storageClientContext.requestContentType = undefined;
+    }
   }
 }
