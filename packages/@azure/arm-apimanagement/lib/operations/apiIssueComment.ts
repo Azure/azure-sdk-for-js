@@ -27,7 +27,7 @@ export class ApiIssueComment {
   }
 
   /**
-   * Lists all comments for the Issue assosiated with the specified API.
+   * Lists all comments for the Issue associated with the specified API.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
@@ -255,7 +255,7 @@ export class ApiIssueComment {
   }
 
   /**
-   * Lists all comments for the Issue assosiated with the specified API.
+   * Lists all comments for the Issue associated with the specified API.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiIssueCommentListByServiceNextResponse>
