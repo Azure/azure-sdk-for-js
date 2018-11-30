@@ -2209,7 +2209,7 @@ export interface BackendUpdateParameters {
 export interface BackendReconnectContract extends Resource {
   /**
    * @member {string} [after] Duration in ISO8601 format after which reconnect
-   * will be initiated. Minimum duration of the Reconect is PT2M.
+   * will be initiated. Minimum duration of the Reconnect is PT2M.
    */
   after?: string;
 }
@@ -2297,7 +2297,7 @@ export interface CertificateConfiguration {
   certificatePassword?: string;
   /**
    * @member {StoreName} storeName The
-   * System.Security.Cryptography.x509certificates.Storename certificate store
+   * System.Security.Cryptography.x509certificates.StoreName certificate store
    * location. Only Root and CertificateAuthority are valid locations. Possible
    * values include: 'CertificateAuthority', 'Root'
    */
@@ -2608,7 +2608,7 @@ export interface ApiManagementServiceBaseProperties {
   certificates?: CertificateConfiguration[];
   /**
    * @member {VirtualNetworkType} [virtualNetworkType] The type of VPN in which
-   * API Managemet service needs to be configured in. None (Default Value)
+   * API Management service needs to be configured in. None (Default Value)
    * means the API Management service is not part of any Virtual Network,
    * External means the API Management deployment is set up inside a Virtual
    * Network having an Internet Facing Endpoint, and Internal means that API
@@ -2795,7 +2795,7 @@ export interface ApiManagementServiceResource extends ApimResource {
   certificates?: CertificateConfiguration[];
   /**
    * @member {VirtualNetworkType} [virtualNetworkType] The type of VPN in which
-   * API Managemet service needs to be configured in. None (Default Value)
+   * API Management service needs to be configured in. None (Default Value)
    * means the API Management service is not part of any Virtual Network,
    * External means the API Management deployment is set up inside a Virtual
    * Network having an Internet Facing Endpoint, and Internal means that API
@@ -2956,7 +2956,7 @@ export interface ApiManagementServiceUpdateParameters extends ApimResource {
   certificates?: CertificateConfiguration[];
   /**
    * @member {VirtualNetworkType} [virtualNetworkType] The type of VPN in which
-   * API Managemet service needs to be configured in. None (Default Value)
+   * API Management service needs to be configured in. None (Default Value)
    * means the API Management service is not part of any Virtual Network,
    * External means the API Management deployment is set up inside a Virtual
    * Network having an Internet Facing Endpoint, and Internal means that API
@@ -4378,8 +4378,8 @@ export interface ReportRecordContract {
    */
   timestamp?: Date;
   /**
-   * @member {string} [interval] Length of agregation period.  Interval must be
-   * multiple of 15 minutes and may not be zero. The value should be in ISO
+   * @member {string} [interval] Length of aggregation period.  Interval must
+   * be multiple of 15 minutes and may not be zero. The value should be in ISO
    * 8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).
    */
   interval?: string;
@@ -4428,14 +4428,14 @@ export interface ReportRecordContract {
    */
   subscriptionId?: string;
   /**
-   * @member {number} [callCountSuccess] Number of succesful calls. This
+   * @member {number} [callCountSuccess] Number of successful calls. This
    * includes calls returning HttpStatusCode <= 301 and
    * HttpStatusCode.NotModified and HttpStatusCode.TemporaryRedirect
    */
   callCountSuccess?: number;
   /**
    * @member {number} [callCountBlocked] Number of calls blocked due to invalid
-   * credentials. This includes calls returning HttpStatusCode.Unauthorize and
+   * credentials. This includes calls returning HttpStatusCode.Unauthorized and
    * HttpStatusCode.Forbidden and HttpStatusCode.TooManyRequests
    */
   callCountBlocked?: number;
@@ -4563,7 +4563,7 @@ export interface RequestReportRecordContract {
    * @member {string} [cache] Specifies if response cache was involved in
    * generating the response. If the value is none, the cache was not used. If
    * the value is hit, cached response was returned. If the value is miss, the
-   * cache was used but lookup resulted in a miss and request was fullfilled by
+   * cache was used but lookup resulted in a miss and request was fulfilled by
    * the backend.
    */
   cache?: string;
@@ -4610,7 +4610,7 @@ export interface SubscriptionCreateParameters {
   userId: string;
   /**
    * @member {string} productId Product (product id path) for which
-   * subscription is being created in form /products/{productid}
+   * subscription is being created in form /products/{productId}
    */
   productId: string;
   /**
