@@ -33,7 +33,8 @@
     "build-prod": "npm run clean && npm run check-format && npm run lint && npm run compile-prod && npm run docs && npm run webpack-prod",
     "test": "mocha -r ./src/test/common/setup.ts ./lib/test/ --recursive --timeout 100000 -i -g .*ignore.js",
     "test-ts": "mocha -r ts-node/register -r ./src/test/common/setup.ts ./src/test/**/*.spec.ts --recursive --timeout 100000 -i -g .*ignore.js",
-    "test-browser": "karma start ./karma.config.js --single-run"
+    "test-browser": "karma start ./karma.config.js --single-run",
+    "ci": "npm run build && npm run test && node ts-test.js"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.5",
@@ -43,6 +44,7 @@
     "@types/sinon": "^4.3.3",
     "@types/tunnel": "^0.0.0",
     "@types/underscore": "^1.8.8",
+    "execa": "1.0.0",
     "karma": "^3.0.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-cli": "^1.0.1",
