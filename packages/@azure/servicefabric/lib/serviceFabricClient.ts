@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
@@ -1167,8 +1167,8 @@ class ServiceFabricClient extends ServiceFabricClientContext {
   /**
    * Gets the information about a specific service type that is supported by a provisioned
    * application type in a Service Fabric cluster. The provided application type must exist.
-   * Otherwise, a 404 status is returned. A 204 response is returned if the specificed service type
-   * is not found in the cluster.
+   * Otherwise, a 404 status is returned. A 204 response is returned if the specified service type is
+   * not found in the cluster.
    * @summary Gets the information about a specific service type that is supported by a provisioned
    * application type in a Service Fabric cluster.
    * @param applicationTypeName The name of the application type.
@@ -7730,7 +7730,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
   /**
    * Gets the information about all replicas of a given service of an application. The information
    * includes the runtime properties of the replica instance.
-   * @summary Gets replicas of a given service in an applciation resource.
+   * @summary Gets replicas of a given service in an application resource.
    * @param applicationResourceName Service Fabric application resource name.
    * @param serviceResourceName Service Fabric service resource name.
    * @param [options] The optional parameters
@@ -10182,6 +10182,11 @@ const getDeployedServiceReplicaInfoListOperationSpec: msRest.OperationSpec = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "ServiceKind",
+                clientName: "serviceKind"
+              },
+              uberParent: "DeployedServiceReplicaInfo",
               className: "DeployedServiceReplicaInfo"
             }
           }
@@ -12183,6 +12188,8 @@ const getClusterEventListOperationSpec: msRest.OperationSpec = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: FabricEvent.type.polymorphicDiscriminator,
+              uberParent: "FabricEvent",
               className: "ClusterEvent"
             }
           }
@@ -12217,6 +12224,8 @@ const getContainersEventListOperationSpec: msRest.OperationSpec = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: FabricEvent.type.polymorphicDiscriminator,
+              uberParent: "FabricEvent",
               className: "ContainerInstanceEvent"
             }
           }
@@ -12254,6 +12263,8 @@ const getNodeEventListOperationSpec: msRest.OperationSpec = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: FabricEvent.type.polymorphicDiscriminator,
+              uberParent: "FabricEvent",
               className: "NodeEvent"
             }
           }
@@ -12288,6 +12299,8 @@ const getNodesEventListOperationSpec: msRest.OperationSpec = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: FabricEvent.type.polymorphicDiscriminator,
+              uberParent: "FabricEvent",
               className: "NodeEvent"
             }
           }
@@ -12325,6 +12338,8 @@ const getApplicationEventListOperationSpec: msRest.OperationSpec = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: FabricEvent.type.polymorphicDiscriminator,
+              uberParent: "FabricEvent",
               className: "ApplicationEvent"
             }
           }
@@ -12359,6 +12374,8 @@ const getApplicationsEventListOperationSpec: msRest.OperationSpec = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: FabricEvent.type.polymorphicDiscriminator,
+              uberParent: "FabricEvent",
               className: "ApplicationEvent"
             }
           }
@@ -12396,6 +12413,8 @@ const getServiceEventListOperationSpec: msRest.OperationSpec = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: FabricEvent.type.polymorphicDiscriminator,
+              uberParent: "FabricEvent",
               className: "ServiceEvent"
             }
           }
@@ -12430,6 +12449,8 @@ const getServicesEventListOperationSpec: msRest.OperationSpec = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: FabricEvent.type.polymorphicDiscriminator,
+              uberParent: "FabricEvent",
               className: "ServiceEvent"
             }
           }
@@ -12467,6 +12488,8 @@ const getPartitionEventListOperationSpec: msRest.OperationSpec = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: FabricEvent.type.polymorphicDiscriminator,
+              uberParent: "FabricEvent",
               className: "PartitionEvent"
             }
           }
@@ -12501,6 +12524,8 @@ const getPartitionsEventListOperationSpec: msRest.OperationSpec = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: FabricEvent.type.polymorphicDiscriminator,
+              uberParent: "FabricEvent",
               className: "PartitionEvent"
             }
           }
@@ -12539,6 +12564,8 @@ const getPartitionReplicaEventListOperationSpec: msRest.OperationSpec = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: FabricEvent.type.polymorphicDiscriminator,
+              uberParent: "FabricEvent",
               className: "ReplicaEvent"
             }
           }
@@ -12576,6 +12603,8 @@ const getPartitionReplicasEventListOperationSpec: msRest.OperationSpec = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: FabricEvent.type.polymorphicDiscriminator,
+              uberParent: "FabricEvent",
               className: "ReplicaEvent"
             }
           }
@@ -12608,6 +12637,11 @@ const getCorrelatedEventListOperationSpec: msRest.OperationSpec = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "Kind",
+                clientName: "kind"
+              },
+              uberParent: "FabricEvent",
               className: "FabricEvent"
             }
           }

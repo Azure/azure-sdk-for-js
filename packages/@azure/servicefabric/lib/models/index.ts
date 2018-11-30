@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { ServiceClientOptions } from "@azure/ms-rest-js";
-import * as msRest from "@azure/ms-rest-js";
+import { ServiceClientOptions } from "ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 
 /**
@@ -397,7 +397,7 @@ export interface ServiceTypeHealthPolicy {
    */
   maxPercentUnhealthyReplicasPerPartition?: number;
   /**
-   * @member {number} [maxPercentUnhealthyServices] The maximum maximum allowed
+   * @member {number} [maxPercentUnhealthyServices] The maximum allowed
    * percentage of unhealthy services. Allowed values are Byte values from zero
    * to 100.
    *
@@ -3414,7 +3414,7 @@ export interface Epoch {
    */
   configurationVersion?: string;
   /**
-   * @member {string} [dataLossVersion] The current dataloss number of this
+   * @member {string} [dataLossVersion] The current data loss number of this
    * Epoch. The data loss number property is an increasing value which is
    * updated whenever data loss is suspected, as when loss of a quorum of
    * replicas in the replica set that includes the Primary replica.
@@ -3440,7 +3440,7 @@ export interface BackupEpoch {
    */
   configurationNumber?: string;
   /**
-   * @member {string} [dataLossNumber] The current dataloss number of this
+   * @member {string} [dataLossNumber] The current data loss number of this
    * Epoch. The data loss number property is an increasing value which is
    * updated whenever data loss is suspected, as when loss of a quorum of
    * replicas in the replica set that includes the Primary replica.
@@ -3610,7 +3610,7 @@ export interface FabricErrorError {
    * - "FABRIC_E_SINGLE_INSTANCE_APPLICATION_ALREADY_EXISTS"
    * - "FABRIC_E_SINGLE_INSTANCE_APPLICATION_NOT_FOUND"
    * - "FABRIC_E_VOLUME_ALREADY_EXISTS"
-   * - "ABRIC_E_VOLUME_NOT_FOUND"
+   * - "FABRIC_E_VOLUME_NOT_FOUND"
    * - "SerializationError"
    *
    * - Possible values of the error code for HTTP status code 503 (Service
