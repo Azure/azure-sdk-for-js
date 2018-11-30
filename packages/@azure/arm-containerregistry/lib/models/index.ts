@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -298,6 +298,40 @@ export interface StorageAccountProperties {
 
 /**
  * @interface
+ * An interface representing VirtualNetworkRule.
+ * The virtual network rule for a container registry.
+ *
+ */
+export interface VirtualNetworkRule {
+  /**
+   * @member {string} id Resource ID of a subnet, for example:
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
+   */
+  id: string;
+}
+
+/**
+ * @interface
+ * An interface representing NetworkRuleSet.
+ * The network rule set for a container registry.
+ *
+ */
+export interface NetworkRuleSet {
+  /**
+   * @member {DefaultAction} defaultAction The default action of allow or deny
+   * when no other rules match. Possible values include: 'Allow', 'Deny'.
+   * Default value: 'Allow' .
+   */
+  defaultAction: DefaultAction;
+  /**
+   * @member {VirtualNetworkRule[]} [virtualNetworkRules] The virtual network
+   * rules.
+   */
+  virtualNetworkRules?: VirtualNetworkRule[];
+}
+
+/**
+ * @interface
  * An interface representing Resource.
  * An Azure resource.
  *
@@ -387,6 +421,11 @@ export interface Registry extends Resource {
    * SKU.
    */
   storageAccount?: StorageAccountProperties;
+  /**
+   * @member {NetworkRuleSet} [networkRuleSet] The network rule set for a
+   * container registry.
+   */
+  networkRuleSet?: NetworkRuleSet;
 }
 
 /**
@@ -417,6 +456,11 @@ export interface RegistryUpdateParameters {
    * location as the container registry.
    */
   storageAccount?: StorageAccountProperties;
+  /**
+   * @member {NetworkRuleSet} [networkRuleSet] The network rule set for a
+   * container registry.
+   */
+  networkRuleSet?: NetworkRuleSet;
 }
 
 /**
@@ -1541,7 +1585,7 @@ export interface TriggerProperties {
  * @interface
  * An interface representing Task.
  * The task that has the ARM resource and task properties.
- * The  task will have all information to schedule a run against it.
+ * The task will have all information to schedule a run against it.
  *
  * @extends Resource
  */
@@ -2503,6 +2547,14 @@ export type SkuTier = 'Classic' | 'Basic' | 'Standard' | 'Premium';
  * @enum {string}
  */
 export type ProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled';
+
+/**
+ * Defines values for DefaultAction.
+ * Possible values include: 'Allow', 'Deny'
+ * @readonly
+ * @enum {string}
+ */
+export type DefaultAction = 'Allow' | 'Deny';
 
 /**
  * Defines values for PasswordName.
