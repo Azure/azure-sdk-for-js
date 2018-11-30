@@ -1,5 +1,5 @@
 {
-  "name": "@azure/arm-LabServices",
+  "name": "@azure/arm-labservices",
   "author": "Microsoft Corporation",
   "description": "ManagedLabsClient Library with typescript type definitions for node.js and browser.",
   "version": "1.0.0",
@@ -16,7 +16,7 @@
     "isomorphic"
   ],
   "license": "MIT",
-  "main": "./dist/arm-LabServices.js",
+  "main": "./dist/arm-labservices.js",
   "module": "./esm/managedLabsClient.js",
   "types": "./esm/managedLabsClient.d.ts",
   "devDependencies": {
@@ -48,7 +48,7 @@
   ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-LabServices.js.map'\" -o ./dist/arm-LabServices.min.js ./dist/arm-LabServices.js",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-labservices.js.map'\" -o ./dist/arm-labservices.min.js ./dist/arm-labservices.js",
     "prepack": "npm install && npm run build"
   },
   "sideEffects": false

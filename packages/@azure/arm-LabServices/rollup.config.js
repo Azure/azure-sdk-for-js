@@ -6,9 +6,9 @@ const config = {
   input: './esm/managedLabsClient.js',
   external: ["ms-rest-js", "ms-rest-azure-js"],
   output: {
-    file: "./dist/arm-LabServices.js",
+    file: "./dist/arm-labservices.js",
     format: "umd",
-    name: "Azure.ArmLabServices",
+    name: "Azure.ArmLabservices",
     sourcemap: true,
     globals: {
       "ms-rest-js": "msRest",

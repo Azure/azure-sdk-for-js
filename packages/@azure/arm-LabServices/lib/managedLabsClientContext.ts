@@ -12,7 +12,7 @@ import * as Models from "./models";
 import * as msRest from "ms-rest-js";
 import * as msRestAzure from "ms-rest-azure-js";
 
-const packageName = "@azure/arm-LabServices";
+const packageName = "@azure/arm-labservices";
 const packageVersion = "1.0.0";
 
 export class ManagedLabsClientContext extends msRestAzure.AzureServiceClient {

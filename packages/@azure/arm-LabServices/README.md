@@ -7,7 +7,7 @@ This package contains an isomorphic SDK for ManagedLabsClient.
 
 ## How to Install
 ```
-npm install @azure/arm-LabServices
+npm install @azure/arm-labservices
 ```
 
 
@@ -19,7 +19,7 @@ npm install @azure/arm-LabServices
 import * as msRest from "ms-rest-js";
 import * as msRestAzure from "ms-rest-azure-js";
 import * as msRestNodeAuth from "ms-rest-nodeauth";
-import { ManagedLabsClient, ManagedLabsModels, ManagedLabsMappers } from "@azure/arm-LabServices";
+import { ManagedLabsClient, ManagedLabsModels, ManagedLabsMappers } from "@azure/arm-labservices";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
@@ -41,11 +41,11 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>@azure/arm-LabServices sample</title>
+    <title>@azure/arm-labservices sample</title>
     <script src="node_modules/ms-rest-js/dist/msRest.browser.js"></script>
     <script src="node_modules/ms-rest-azure-js/dist/msRestAzure.js"></script>
     <script src="node_modules/ms-rest-browserauth/dist/msAuth.js"></script>
-    <script src="node_modules/@azure/arm-LabServices/dist/arm-LabServices.js"></script>
+    <script src="node_modules/@azure/arm-labservices/dist/arm-labservices.js"></script>
     <script>
       const subscriptionId = "<Subscription_Id>";
       const authManager = new msAuth.AuthManager({
@@ -57,7 +57,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmLabServices.ManagedLabsClient(res.creds, subscriptionId);
+        const client = new Azure.ArmLabservices.ManagedLabsClient(res.creds, subscriptionId);
         client.providerOperations.list().then((result) => {
           console.log("The result is:");
           console.log(result);
