@@ -339,6 +339,41 @@ export interface StorageProfile {
 
 /**
  * @interface
+ * An interface representing DiskEncryptionProperties.
+ * The disk encryption properties
+ *
+ */
+export interface DiskEncryptionProperties {
+  /**
+   * @member {string} [vaultUri] Base key vault URI where the customers key is
+   * located eg. https://myvault.vault.azure.net
+   */
+  vaultUri?: string;
+  /**
+   * @member {string} [keyName] Key name that is used for enabling disk
+   * encryption.
+   */
+  keyName?: string;
+  /**
+   * @member {string} [keyVersion] Specific key version that is used for
+   * enabling disk encryption.
+   */
+  keyVersion?: string;
+  /**
+   * @member {JsonWebKeyEncryptionAlgorithm} [encryptionAlgorithm] Algorithm
+   * identifier for encryption, default RSA-OAEP. Possible values include:
+   * 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'
+   */
+  encryptionAlgorithm?: JsonWebKeyEncryptionAlgorithm;
+  /**
+   * @member {string} [msiResourceId] Resource ID of Managed Identity that is
+   * used to access the key vault.
+   */
+  msiResourceId?: string;
+}
+
+/**
+ * @interface
  * An interface representing ClusterCreateProperties.
  * The cluster create parameters.
  *
@@ -374,6 +409,11 @@ export interface ClusterCreateProperties {
    * @member {StorageProfile} [storageProfile] The storage profile.
    */
   storageProfile?: StorageProfile;
+  /**
+   * @member {DiskEncryptionProperties} [diskEncryptionProperties] The disk
+   * encryption properties.
+   */
+  diskEncryptionProperties?: DiskEncryptionProperties;
 }
 
 /**
@@ -589,6 +629,11 @@ export interface ClusterGetProperties {
    * connectivity endpoints.
    */
   connectivityEndpoints?: ConnectivityEndpoint[];
+  /**
+   * @member {DiskEncryptionProperties} [diskEncryptionProperties] The disk
+   * encryption properties.
+   */
+  diskEncryptionProperties?: DiskEncryptionProperties;
 }
 
 /**
@@ -844,6 +889,30 @@ export interface ClusterResizeParameters {
    * operation.
    */
   targetInstanceCount?: number;
+}
+
+/**
+ * @interface
+ * An interface representing ClusterDiskEncryptionParameters.
+ * The Disk Encryption Cluster request parameters.
+ *
+ */
+export interface ClusterDiskEncryptionParameters {
+  /**
+   * @member {string} [vaultUri] Base key vault URI where the customers key is
+   * located eg. https://myvault.vault.azure.net
+   */
+  vaultUri?: string;
+  /**
+   * @member {string} [keyName] Key name that is used for enabling disk
+   * encryption.
+   */
+  keyName?: string;
+  /**
+   * @member {string} [keyVersion] Specific key version that is used for
+   * enabling disk encryption.
+   */
+  keyVersion?: string;
 }
 
 /**
@@ -1334,6 +1403,14 @@ export type OSType = 'Windows' | 'Linux';
  * @enum {string}
  */
 export type Tier = 'Standard' | 'Premium';
+
+/**
+ * Defines values for JsonWebKeyEncryptionAlgorithm.
+ * Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'
+ * @readonly
+ * @enum {string}
+ */
+export type JsonWebKeyEncryptionAlgorithm = 'RSA-OAEP' | 'RSA-OAEP-256' | 'RSA1_5';
 
 /**
  * Defines values for ResourceIdentityType.

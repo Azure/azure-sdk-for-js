@@ -186,6 +186,19 @@ export class Clusters {
   }
 
   /**
+   * Rotate disk encryption key of the specified HDInsight cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param parameters The parameters for the disk encryption operation.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  rotateDiskEncryptionKey(resourceGroupName: string, clusterName: string, parameters: Models.ClusterDiskEncryptionParameters, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginRotateDiskEncryptionKey(resourceGroupName,clusterName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Executes script actions on the specified HDInsight cluster.
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
@@ -253,6 +266,26 @@ export class Clusters {
         options
       },
       beginResizeOperationSpec,
+      options);
+  }
+
+  /**
+   * Rotate disk encryption key of the specified HDInsight cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param parameters The parameters for the disk encryption operation.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginRotateDiskEncryptionKey(resourceGroupName: string, clusterName: string, parameters: Models.ClusterDiskEncryptionParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        clusterName,
+        parameters,
+        options
+      },
+      beginRotateDiskEncryptionKeyOperationSpec,
       options);
   }
 
@@ -514,6 +547,37 @@ const beginResizeOperationSpec: msRest.OperationSpec = {
     parameterPath: "parameters",
     mapper: {
       ...Mappers.ClusterResizeParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginRotateDiskEncryptionKeyOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/rotatediskencryptionkey",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.ClusterDiskEncryptionParameters,
       required: true
     }
   },
