@@ -15,7 +15,7 @@ const {
   ShareURL,
   ServiceURL,
   StorageURL
-} = require(".."); // Change to "@azure/storage-blob" in your package
+} = require(".."); // Change to "@azure/storage-file" in your package
 
 async function main() {
   // Fill in following settings before running this sample
