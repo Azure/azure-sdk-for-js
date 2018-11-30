@@ -117,7 +117,6 @@
     "test:server": "ts-node -T testserver",
     "publish-preview": "mocha --no-colors && shx rm -rf dist/test && node ./.scripts/publish",
     "local": "ts-node ./.scripts/local.ts",
-    "preview": "ts-node ./.scripts/preview.ts",
     "latest": "ts-node ./.scripts/latest.ts",
     "prepack": "npm i && npm run build"
   },

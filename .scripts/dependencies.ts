@@ -5,6 +5,7 @@ import { execSync } from "child_process";
 export interface PackageFolder {
   folderPath: string;
   extraFilePaths?: string[];
+  isLernaPackage?: boolean;
 }
 
 function log(filePath: string, message: string): void {
@@ -35,7 +36,11 @@ export function resolvePath(...paths: string[]): string {
   return path.resolve(...paths).split("\\").join("/");
 }
 
-function exists(path: string): boolean {
+function exists(path: string | undefined): boolean {
+  if (!path) {
+    return false;
+  }
+
   return fs.existsSync(path);
 }
 
@@ -109,13 +114,33 @@ function getPackageJsonFilePath(packageFolder: string): string {
   return resolvePath(packageFolder, "package.json");
 }
 
+function getPackageNameFromPackageJson(packageJsonFilePath: string): string {
+  const packageJson: { name: string } = getPackageJson(packageJsonFilePath);
+  return packageJson.name;
+}
+
 /**
  * Get the absolute path to the local clone of the repository with the provided name.
  * @param {string} repoName The name of the repository.
  * @returns {string} The absolute path to the local clone of the repository.
  */
-export function getLocalRepositoryPath(repoName: string): string {
-  return resolvePath(getThisRepositoryFolderPath(), "..", repoName);
+export function getLocalRepositoryPath(repoName: string): string | undefined {
+  const repositoriesRoot: string = resolvePath(getThisRepositoryFolderPath(), "..");
+  const repositoryPaths: string[] = fs.readdirSync(repositoriesRoot).map(childDir => resolvePath(repositoriesRoot, childDir));
+
+  for (const repositoryPath of repositoryPaths) {
+    const packageJsonPath = getPackageJsonFilePath(repositoryPath);
+    if (!fs.existsSync(packageJsonPath)) {
+      continue;
+    }
+
+    const packageName = getPackageNameFromPackageJson(packageJsonPath);
+    if (packageName === repoName) {
+      return repositoryPath;
+    }
+  }
+
+  return undefined;
 }
 
 /**
@@ -158,7 +183,11 @@ function getClonedRepositories(dependencies?: { [packageName: string]: string })
  * @returns {void}
  */
 export function runLocalRepositoryNPMScript(repoName: string, scriptName: string): void {
-  const repoFolderPath: string = getLocalRepositoryPath(repoName);
+  const repoFolderPath: string | undefined = getLocalRepositoryPath(repoName);
+  if (!repoFolderPath) {
+    return;
+  }
+
   const packageJsonFilePath: string = getPackageJsonFilePath(repoFolderPath);
   const packageJson: any = getPackageJson(packageJsonFilePath);
   const repoScripts: any = packageJson.scripts;
@@ -236,13 +265,11 @@ function regularExpressionReplace(filePath: string, fileContents: string, depend
   return newFileContents;
 }
 
-export function updateLocalDependencies(packageFolders: PackageFolder[], localDependencyNPMScript: string, getNewDependencyVersion: (dependencyName: string) => string | undefined): void {
+export function updateLocalDependencies(packageFolders: PackageFolder[], localDependencyNPMScript: string, getNewDependencyVersion: (dependencyName: string) => (string | undefined)): void {
   const forceRefresh: boolean = shouldForceRefresh(process.argv);
 
   for (const packageFolder of packageFolders) {
     const packageFolderPath: string = packageFolder.folderPath;
-
-    let refreshPackageFolder: boolean = forceRefresh;
 
     const packageJson: any = getPackageJson(resolvePath(packageFolderPath, "package.json"));
 
@@ -255,31 +282,36 @@ export function updateLocalDependencies(packageFolders: PackageFolder[], localDe
       runLocalRepositoryNPMScript(localDependency, localDependencyNPMScript);
     }
 
+    const dependenciesToRefresh: string[] = [];
     for (const localDependency of allLocalDependencies) {
       if (updateLocalDependency(packageFolder, localDependency, getNewDependencyVersion)) {
-        refreshPackageFolder = true;
+        dependenciesToRefresh.push(localDependency);
       }
     }
 
-    if (refreshPackageFolder) {
-      const packageLockFilePath = resolvePath(packageFolderPath, "package-lock.json");
-      if (exists(packageLockFilePath)) {
-        log(packageLockFilePath, `Deleting...`);
-        deleteFile(packageLockFilePath);
-      }
+    if (forceRefresh || dependenciesToRefresh.length > 0) {
+      if (packageFolder.isLernaPackage) {
+        log(packageFolderPath, `Not refreshing dependencies since this is a lerna package.`);
+      } else {
+        const packageLockFilePath = resolvePath(packageFolderPath, "package-lock.json");
+        if (exists(packageLockFilePath)) {
+          log(packageLockFilePath, `Deleting...`);
+          deleteFile(packageLockFilePath);
+        }
 
-      const nodeModulesFolderPath = resolvePath(packageFolderPath, "node_modules");
-      if (exists(nodeModulesFolderPath)) {
-        log(nodeModulesFolderPath, `Deleting...`);
-        deleteFolder(nodeModulesFolderPath);
-      }
+        const nodeModulesFolderPath = resolvePath(packageFolderPath, "node_modules");
+        if (exists(nodeModulesFolderPath)) {
+          log(nodeModulesFolderPath, `Deleting...`);
+          deleteFolder(nodeModulesFolderPath);
+        }
 
-      execute("npm install", packageFolderPath);
+        execute("npm install", packageFolderPath);
+      }
     }
   }
 }
 
-function updateLocalDependency(packageFolder: PackageFolder, dependencyName: string, getNewDependencyVersion: (dependencyName: string) => string | undefined): boolean {
+function updateLocalDependency(packageFolder: PackageFolder, dependencyName: string, getNewDependencyVersion: (dependencyName: string) => (string | undefined)): boolean {
   const newDependencyVersion: string = getNewDependencyVersion(dependencyName) || "";
 
   const packageFolderPath: string = packageFolder.folderPath;
@@ -308,14 +340,6 @@ function updateLocalDependency(packageFolder: PackageFolder, dependencyName: str
 
 export function getLocalDependencyVersion(dependencyName: string): string {
   return `file:${getLocalRepositoryPath(dependencyName)}`;
-}
-
-export function getPreviewDependencyVersion(dependencyName: string): string | undefined {
-  let version: string | undefined = addCaretPrefix(getNpmPackageVersion(dependencyName, "preview"));
-  if (!version) {
-    version = getLatestDependencyVersion(dependencyName);
-  }
-  return version;
 }
 
 export function getLatestDependencyVersion(dependencyName: string): string | undefined {
