@@ -267,7 +267,7 @@ export interface Endpoint extends TrackedResource {
   deliveryPolicy?: EndpointPropertiesUpdateParametersDeliveryPolicy;
   /**
    * @member {string} [hostName] The host name of the endpoint structured as
-   * {endpointName}.{DNSZone}, e.g. consoto.azureedge.net
+   * {endpointName}.{DNSZone}, e.g. contoso.azureedge.net
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -699,7 +699,7 @@ export interface ProxyResource extends Resource {
  * @interface
  * An interface representing CustomDomain.
  * Friendly domain name mapping to the endpoint hostname that the customer
- * provides for branding purposes, e.g. www.consoto.com.
+ * provides for branding purposes, e.g. www.contoso.com.
  *
  * @extends ProxyResource
  */
@@ -987,7 +987,7 @@ export interface Operation {
  */
 export interface CidrIpAddress {
   /**
-   * @member {string} [baseIpAddress] Ip adress itself.
+   * @member {string} [baseIpAddress] Ip address itself.
    */
   baseIpAddress?: string;
   /**
