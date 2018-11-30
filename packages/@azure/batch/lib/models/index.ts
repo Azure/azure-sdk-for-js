@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -827,7 +827,7 @@ export interface ExitOptions {
    * the task, if the task completes with the given exit condition and the
    * job's onTaskFailed property is 'performExitOptionsJobAction'. The default
    * is none for exit code 0 and terminate for all other exit conditions. If
-   * the job's onTaskFailed property is noaction, then specifying this property
+   * the job's onTaskFailed property is noAction, then specifying this property
    * returns an error and the add task request fails with an invalid property
    * value error; if you are calling the REST API directly, the HTTP status
    * code is 400 (Bad Request). Possible values include: 'none', 'disable',
@@ -927,7 +927,7 @@ export interface ExitConditions {
    * code not listed in the exitCodes or exitCodeRanges collection, with a
    * pre-processing error if the preProcessingError property is not present, or
    * with a file upload error if the fileUploadError property is not present.
-   * If you want non-default behaviour on exit code 0, you must list it
+   * If you want non-default behavior on exit code 0, you must list it
    * explicitly using the exitCodes or exitCodeRanges collection.
    */
   default?: ExitOptions;
@@ -1451,7 +1451,7 @@ export interface JobPreparationTask {
   /**
    * @member {UserIdentity} [userIdentity] The user identity under which the
    * Job Preparation task runs. If omitted, the task runs as a
-   * non-administrative user unique to the task on Windows nodes, or a a
+   * non-administrative user unique to the task on Windows nodes, or a
    * non-administrative user unique to the pool on Linux nodes.
    */
   userIdentity?: UserIdentity;

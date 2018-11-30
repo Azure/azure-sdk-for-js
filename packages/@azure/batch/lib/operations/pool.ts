@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/poolMappers";
 import * as Parameters from "../models/parameters";
@@ -452,7 +452,7 @@ export class Pool {
   }
 
   /**
-   * This fully replaces all the updateable properties of the pool. For example, if the pool has a
+   * This fully replaces all the updatable properties of the pool. For example, if the pool has a
    * start task associated with it and if start task is not specified with this request, then the
    * Batch service will remove the existing start task.
    * @summary Updates the properties of the specified pool.

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/computeNodeOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -101,7 +101,7 @@ export class ComputeNodeOperations {
   }
 
   /**
-   * This operation replaces of all the updateable properties of the account. For example, if the
+   * This operation replaces of all the updatable properties of the account. For example, if the
    * expiryTime element is not specified, the current value is replaced with the default value, not
    * left unmodified. You can update a user account on a node only when it is in the idle or running
    * state.
