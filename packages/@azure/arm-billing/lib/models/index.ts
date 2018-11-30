@@ -182,8 +182,8 @@ export interface Invoice extends Resource {
    */
   readonly invoicePeriodEndDate?: Date;
   /**
-   * @member {string[]} [billingPeriodIds] Array of billing perdiod ids that
-   * the invoice is attributed to.
+   * @member {string[]} [billingPeriodIds] Array of billing period ids that the
+   * invoice is attributed to.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
