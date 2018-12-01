@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -642,12 +642,13 @@ export interface Usage {
 /**
  * @interface
  * An interface representing VirtualMachineReimageParameters.
- * Paramaters for Reimaging Virtual Machine. Default value for OSDisk : true.
+ * Paramaters for Reimaging Virtual Machine. NOTE: Virtual Machine OS disk will
+ * always be reimaged
  *
  */
 export interface VirtualMachineReimageParameters {
   /**
-   * @member {boolean} [tempDisk] Specified whether to reimage temp disk.
+   * @member {boolean} [tempDisk] Specifies whether to reimage temp disk.
    * Default value: false.
    */
   tempDisk?: boolean;
@@ -926,15 +927,15 @@ export interface VirtualHardDisk {
 /**
  * @interface
  * An interface representing DiffDiskSettings.
- * Describes the parameters of differencing disk settings that can be be
- * specified for operating system disk. <br><br> NOTE: The differencing disk
- * settings can only be specified for managed disk.
+ * Describes the parameters of ephemeral disk settings that can be be specified
+ * for operating system disk. <br><br> NOTE: The ephemeral disk settings can
+ * only be specified for managed disk.
  *
  */
 export interface DiffDiskSettings {
   /**
-   * @member {DiffDiskOptions} [option] Specifies the differencing disk
-   * settings for operating system disk. Possible values include: 'Local'
+   * @member {DiffDiskOptions} [option] Specifies the ephemeral disk settings
+   * for operating system disk. Possible values include: 'Local'
    */
   option?: DiffDiskOptions;
 }
@@ -1009,8 +1010,8 @@ export interface OSDisk {
    */
   writeAcceleratorEnabled?: boolean;
   /**
-   * @member {DiffDiskSettings} [diffDiskSettings] Specifies the differencing
-   * Disk Settings for the operating system disk used by the virtual machine.
+   * @member {DiffDiskSettings} [diffDiskSettings] Specifies the ephemeral Disk
+   * Settings for the operating system disk used by the virtual machine.
    */
   diffDiskSettings?: DiffDiskSettings;
   /**
@@ -2536,9 +2537,9 @@ export interface VirtualMachineScaleSetOSDisk {
    */
   createOption: DiskCreateOptionTypes;
   /**
-   * @member {DiffDiskSettings} [diffDiskSettings] Specifies the differencing
-   * Disk Settings for the operating system disk used by the virtual machine
-   * scale set.
+   * @member {DiffDiskSettings} [diffDiskSettings] Specifies the ephemeral disk
+   * Settings for the operating system disk used by the virtual machine scale
+   * set.
    */
   diffDiskSettings?: DiffDiskSettings;
   /**
