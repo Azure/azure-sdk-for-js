@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
@@ -1381,6 +1381,170 @@ export const ContainerExecResponse: msRest.CompositeMapper = {
       },
       password: {
         serializedName: "password",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CachedImages: msRest.CompositeMapper = {
+  serializedName: "cachedImages",
+  type: {
+    name: "Composite",
+    className: "CachedImages",
+    modelProperties: {
+      osType: {
+        required: true,
+        serializedName: "osType",
+        type: {
+          name: "String"
+        }
+      },
+      image: {
+        required: true,
+        serializedName: "image",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CachedImagesListResult: msRest.CompositeMapper = {
+  serializedName: "CachedImagesListResult",
+  type: {
+    name: "Composite",
+    className: "CachedImagesListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CachedImages"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CapabilitiesCapabilities: msRest.CompositeMapper = {
+  serializedName: "Capabilities_capabilities",
+  type: {
+    name: "Composite",
+    className: "CapabilitiesCapabilities",
+    modelProperties: {
+      maxMemoryInGB: {
+        readOnly: true,
+        serializedName: "maxMemoryInGB",
+        type: {
+          name: "Number"
+        }
+      },
+      maxCpu: {
+        readOnly: true,
+        serializedName: "maxCpu",
+        type: {
+          name: "Number"
+        }
+      },
+      maxGpuCount: {
+        readOnly: true,
+        serializedName: "maxGpuCount",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const Capabilities: msRest.CompositeMapper = {
+  serializedName: "Capabilities",
+  type: {
+    name: "Composite",
+    className: "Capabilities",
+    modelProperties: {
+      resourceType: {
+        readOnly: true,
+        serializedName: "resourceType",
+        type: {
+          name: "String"
+        }
+      },
+      osType: {
+        readOnly: true,
+        serializedName: "osType",
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        readOnly: true,
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      ipAddressType: {
+        readOnly: true,
+        serializedName: "ipAddressType",
+        type: {
+          name: "String"
+        }
+      },
+      gpu: {
+        readOnly: true,
+        serializedName: "gpu",
+        type: {
+          name: "String"
+        }
+      },
+      capabilities: {
+        readOnly: true,
+        serializedName: "capabilities",
+        type: {
+          name: "Composite",
+          className: "CapabilitiesCapabilities"
+        }
+      }
+    }
+  }
+};
+
+export const CapabilitiesListResult: msRest.CompositeMapper = {
+  serializedName: "CapabilitiesListResult",
+  type: {
+    name: "Composite",
+    className: "CapabilitiesListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Capabilities"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String"
         }

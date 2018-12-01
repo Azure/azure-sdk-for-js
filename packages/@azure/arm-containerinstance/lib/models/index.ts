@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -1022,6 +1022,134 @@ export interface ContainerExecResponse {
 
 /**
  * @interface
+ * An interface representing CachedImages.
+ * The cached image and OS type.
+ *
+ */
+export interface CachedImages {
+  /**
+   * @member {string} osType The OS type of the cached image.
+   */
+  osType: string;
+  /**
+   * @member {string} image The cached image name.
+   */
+  image: string;
+}
+
+/**
+ * @interface
+ * An interface representing CachedImagesListResult.
+ * The response containing cached images.
+ *
+ */
+export interface CachedImagesListResult {
+  /**
+   * @member {CachedImages[]} [value] The list of cached images.
+   */
+  value?: CachedImages[];
+  /**
+   * @member {string} [nextLink] The URI to fetch the next page of cached
+   * images.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing CapabilitiesCapabilities.
+ * The supported capabilities.
+ *
+ */
+export interface CapabilitiesCapabilities {
+  /**
+   * @member {number} [maxMemoryInGB] The maximum allowed memory request in GB.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly maxMemoryInGB?: number;
+  /**
+   * @member {number} [maxCpu] The maximum allowed CPU request in cores.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly maxCpu?: number;
+  /**
+   * @member {number} [maxGpuCount] The maximum allowed GPU count.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly maxGpuCount?: number;
+}
+
+/**
+ * @interface
+ * An interface representing Capabilities.
+ * The regional capabilities.
+ *
+ */
+export interface Capabilities {
+  /**
+   * @member {string} [resourceType] The resource type that this capability
+   * describes.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resourceType?: string;
+  /**
+   * @member {string} [osType] The OS type that this capability describes.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly osType?: string;
+  /**
+   * @member {string} [location] The resource location.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly location?: string;
+  /**
+   * @member {string} [ipAddressType] The ip address type that this capability
+   * describes.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly ipAddressType?: string;
+  /**
+   * @member {string} [gpu] The GPU sku that this capability describes.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly gpu?: string;
+  /**
+   * @member {CapabilitiesCapabilities} [capabilities] The supported
+   * capabilities.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly capabilities?: CapabilitiesCapabilities;
+}
+
+/**
+ * @interface
+ * An interface representing CapabilitiesListResult.
+ * The response containing list of capabilities.
+ *
+ */
+export interface CapabilitiesListResult {
+  /**
+   * @member {Capabilities[]} [value] The list of cached images.
+   */
+  value?: Capabilities[];
+  /**
+   * @member {string} [nextLink] The URI to fetch the next page of cached
+   * images.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing ContainerListLogsOptionalParams.
  * Optional Parameters.
  *
@@ -1390,5 +1518,43 @@ export type ContainerExecuteCommandResponse = ContainerExecResponse & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ContainerExecResponse;
+    };
+};
+
+/**
+ * Contains response data for the getCachedImages operation.
+ */
+export type GetCachedImagesResponse = CachedImagesListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CachedImagesListResult;
+    };
+};
+
+/**
+ * Contains response data for the getCapabilities operation.
+ */
+export type GetCapabilitiesResponse = CapabilitiesListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CapabilitiesListResult;
     };
 };
