@@ -863,6 +863,10 @@ export interface Operation {
    */
   display: OperationDisplay;
   /**
+   * @member {any} [properties] The additional properties.
+   */
+  properties?: any;
+  /**
    * @member {ContainerInstanceOperationsOrigin} [origin] The intended executor
    * of the operation. Possible values include: 'User', 'System'
    */
@@ -1138,12 +1142,12 @@ export interface Capabilities {
  */
 export interface CapabilitiesListResult {
   /**
-   * @member {Capabilities[]} [value] The list of cached images.
+   * @member {Capabilities[]} [value] The list of capabilities.
    */
   value?: Capabilities[];
   /**
-   * @member {string} [nextLink] The URI to fetch the next page of cached
-   * images.
+   * @member {string} [nextLink] The URI to fetch the next page of
+   * capabilities.
    */
   nextLink?: string;
 }
@@ -1522,9 +1526,9 @@ export type ContainerExecuteCommandResponse = ContainerExecResponse & {
 };
 
 /**
- * Contains response data for the getCachedImages operation.
+ * Contains response data for the listCachedImages operation.
  */
-export type GetCachedImagesResponse = CachedImagesListResult & {
+export type ListCachedImagesResponse = CachedImagesListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -1541,9 +1545,9 @@ export type GetCachedImagesResponse = CachedImagesListResult & {
 };
 
 /**
- * Contains response data for the getCapabilities operation.
+ * Contains response data for the listCapabilities operation.
  */
-export type GetCapabilitiesResponse = CapabilitiesListResult & {
+export type ListCapabilitiesResponse = CapabilitiesListResult & {
   /**
    * The underlying HTTP response.
    */

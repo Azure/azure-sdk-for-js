@@ -1182,6 +1182,12 @@ export const Operation: msRest.CompositeMapper = {
           className: "OperationDisplay"
         }
       },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Object"
+        }
+      },
       origin: {
         serializedName: "origin",
         type: {

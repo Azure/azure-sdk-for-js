@@ -45,28 +45,28 @@ class ContainerInstanceManagementClient extends ContainerInstanceManagementClien
    * @summary Get the list of cached images.
    * @param location The identifier for the physical azure location.
    * @param [options] The optional parameters
-   * @returns Promise<Models.GetCachedImagesResponse>
+   * @returns Promise<Models.ListCachedImagesResponse>
    */
-  getCachedImages(location: string, options?: msRest.RequestOptionsBase): Promise<Models.GetCachedImagesResponse>;
+  listCachedImages(location: string, options?: msRest.RequestOptionsBase): Promise<Models.ListCachedImagesResponse>;
   /**
    * @param location The identifier for the physical azure location.
    * @param callback The callback
    */
-  getCachedImages(location: string, callback: msRest.ServiceCallback<Models.CachedImagesListResult>): void;
+  listCachedImages(location: string, callback: msRest.ServiceCallback<Models.CachedImagesListResult>): void;
   /**
    * @param location The identifier for the physical azure location.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCachedImages(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CachedImagesListResult>): void;
-  getCachedImages(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CachedImagesListResult>, callback?: msRest.ServiceCallback<Models.CachedImagesListResult>): Promise<Models.GetCachedImagesResponse> {
+  listCachedImages(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CachedImagesListResult>): void;
+  listCachedImages(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CachedImagesListResult>, callback?: msRest.ServiceCallback<Models.CachedImagesListResult>): Promise<Models.ListCachedImagesResponse> {
     return this.sendOperationRequest(
       {
         location,
         options
       },
-      getCachedImagesOperationSpec,
-      callback) as Promise<Models.GetCachedImagesResponse>;
+      listCachedImagesOperationSpec,
+      callback) as Promise<Models.ListCachedImagesResponse>;
   }
 
   /**
@@ -74,34 +74,34 @@ class ContainerInstanceManagementClient extends ContainerInstanceManagementClien
    * @summary Get the list of capabilities of the location.
    * @param location The identifier for the physical azure location.
    * @param [options] The optional parameters
-   * @returns Promise<Models.GetCapabilitiesResponse>
+   * @returns Promise<Models.ListCapabilitiesResponse>
    */
-  getCapabilities(location: string, options?: msRest.RequestOptionsBase): Promise<Models.GetCapabilitiesResponse>;
+  listCapabilities(location: string, options?: msRest.RequestOptionsBase): Promise<Models.ListCapabilitiesResponse>;
   /**
    * @param location The identifier for the physical azure location.
    * @param callback The callback
    */
-  getCapabilities(location: string, callback: msRest.ServiceCallback<Models.CapabilitiesListResult>): void;
+  listCapabilities(location: string, callback: msRest.ServiceCallback<Models.CapabilitiesListResult>): void;
   /**
    * @param location The identifier for the physical azure location.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCapabilities(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CapabilitiesListResult>): void;
-  getCapabilities(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CapabilitiesListResult>, callback?: msRest.ServiceCallback<Models.CapabilitiesListResult>): Promise<Models.GetCapabilitiesResponse> {
+  listCapabilities(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CapabilitiesListResult>): void;
+  listCapabilities(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CapabilitiesListResult>, callback?: msRest.ServiceCallback<Models.CapabilitiesListResult>): Promise<Models.ListCapabilitiesResponse> {
     return this.sendOperationRequest(
       {
         location,
         options
       },
-      getCapabilitiesOperationSpec,
-      callback) as Promise<Models.GetCapabilitiesResponse>;
+      listCapabilitiesOperationSpec,
+      callback) as Promise<Models.ListCapabilitiesResponse>;
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const getCachedImagesOperationSpec: msRest.OperationSpec = {
+const listCachedImagesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/cachedImages",
   urlParameters: [
@@ -125,7 +125,7 @@ const getCachedImagesOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getCapabilitiesOperationSpec: msRest.OperationSpec = {
+const listCapabilitiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/capabilities",
   urlParameters: [
