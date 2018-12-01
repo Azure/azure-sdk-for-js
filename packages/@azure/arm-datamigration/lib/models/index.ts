@@ -85,7 +85,7 @@ export interface ProjectFileProperties {
    */
   readonly lastModified?: Date;
   /**
-   * @member {string} [mediaType] File content type. This propery can be
+   * @member {string} [mediaType] File content type. This property can be
    * modified to reflect the file content type.
    */
   mediaType?: string;
@@ -301,7 +301,7 @@ export interface GetTdeCertificatesSqlTaskOutput {
 /**
  * @interface
  * An interface representing SelectedCertificateInput.
- * Info for ertificate to be exported for TDE enabled databases.
+ * Info for certificate to be exported for TDE enabled databases.
  *
  */
 export interface SelectedCertificateInput {
@@ -4946,7 +4946,7 @@ export interface ConnectToSourceSqlServerTaskOutputAgentJobLevel {
   readonly validationErrors?: ReportableException[];
   /**
    * @member {MigrationEligibilityInfo} [migrationEligibility] Information
-   * about eligiblity of agent job for migration.
+   * about eligibility of agent job for migration.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -4999,7 +4999,7 @@ export interface ConnectToSourceSqlServerTaskOutputLoginLevel {
   readonly isEnabled?: boolean;
   /**
    * @member {MigrationEligibilityInfo} [migrationEligibility] Information
-   * about eligiblity of login for migration.
+   * about eligibility of login for migration.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -5966,7 +5966,7 @@ export interface ResourceSkuRestrictions {
 /**
  * @interface
  * An interface representing ResourceSkuCapabilities.
- * Describes The SKU capabilites object.
+ * Describes The SKU capabilities object.
  *
  */
 export interface ResourceSkuCapabilities {
