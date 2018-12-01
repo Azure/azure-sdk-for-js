@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 
 /**
@@ -126,7 +126,7 @@ export interface Sentiment {
  */
 export interface LuisResult {
   /**
-   * @member {string} [query] The input utterance that was analized.
+   * @member {string} [query] The input utterance that was analyzed.
    */
   query?: string;
   /**

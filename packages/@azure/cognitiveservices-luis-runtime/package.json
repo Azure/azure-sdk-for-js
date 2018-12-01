@@ -4,7 +4,7 @@
   "description": "LUISRuntimeClient Library with typescript type definitions for node.js and browser.",
   "version": "0.1.0",
   "dependencies": {
-    "@azure/ms-rest-js": "^1.1.0",
+    "ms-rest-js": "^1.0.460",
     "tslib": "^1.9.3"
   },
   "keywords": [
