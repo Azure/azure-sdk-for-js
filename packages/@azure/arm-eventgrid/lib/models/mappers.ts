@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
@@ -127,6 +127,11 @@ export const Domain: msRest.CompositeMapper = {
         serializedName: "properties.inputSchemaMapping",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "inputSchemaMappingType",
+            clientName: "inputSchemaMappingType"
+          },
+          uberParent: "InputSchemaMapping",
           className: "InputSchemaMapping"
         }
       }
@@ -298,6 +303,11 @@ export const EventSubscriptionFilter: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "operatorType",
+                clientName: "operatorType"
+              },
+              uberParent: "AdvancedFilter",
               className: "AdvancedFilter"
             }
           }
@@ -753,6 +763,11 @@ export const EventSubscription: msRest.CompositeMapper = {
         serializedName: "properties.destination",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "endpointType",
+            clientName: "endpointType"
+          },
+          uberParent: "EventSubscriptionDestination",
           className: "EventSubscriptionDestination"
         }
       },
@@ -797,6 +812,11 @@ export const EventSubscription: msRest.CompositeMapper = {
         serializedName: "properties.deadLetterDestination",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "endpointType",
+            clientName: "endpointType"
+          },
+          uberParent: "DeadLetterDestination",
           className: "DeadLetterDestination"
         }
       }
@@ -814,6 +834,11 @@ export const EventSubscriptionUpdateParameters: msRest.CompositeMapper = {
         serializedName: "destination",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "endpointType",
+            clientName: "endpointType"
+          },
+          uberParent: "EventSubscriptionDestination",
           className: "EventSubscriptionDestination"
         }
       },
@@ -858,6 +883,11 @@ export const EventSubscriptionUpdateParameters: msRest.CompositeMapper = {
         serializedName: "deadLetterDestination",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "endpointType",
+            clientName: "endpointType"
+          },
+          uberParent: "DeadLetterDestination",
           className: "DeadLetterDestination"
         }
       }
@@ -1075,6 +1105,11 @@ export const Topic: msRest.CompositeMapper = {
         serializedName: "properties.inputSchemaMapping",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "inputSchemaMappingType",
+            clientName: "inputSchemaMappingType"
+          },
+          uberParent: "InputSchemaMapping",
           className: "InputSchemaMapping"
         }
       }
