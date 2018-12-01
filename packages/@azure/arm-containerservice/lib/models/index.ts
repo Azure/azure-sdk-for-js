@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -90,7 +90,7 @@ export interface OpenShiftRouterProfile {
    */
   name?: string;
   /**
-   * @member {string} [publicSubdomain] DNS subdomain for openshift router.
+   * @member {string} [publicSubdomain] DNS subdomain for OpenShift router.
    */
   publicSubdomain?: string;
   /**
@@ -510,7 +510,7 @@ export interface ContainerServiceMasterProfile {
    */
   osDiskSizeGB?: number;
   /**
-   * @member {string} [vnetSubnetID] VNet SubnetID specifies the vnet's subnet
+   * @member {string} [vnetSubnetID] VNet SubnetID specifies the VNet's subnet
    * identifier.
    */
   vnetSubnetID?: string;
@@ -528,7 +528,7 @@ export interface ContainerServiceMasterProfile {
    */
   storageProfile?: ContainerServiceStorageProfileTypes;
   /**
-   * @member {string} [fqdn] FDQN for the master pool.
+   * @member {string} [fqdn] FQDN for the master pool.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -621,7 +621,7 @@ export interface ContainerServiceAgentPoolProfile {
    */
   dnsPrefix?: string;
   /**
-   * @member {string} [fqdn] FDQN for the agent pool.
+   * @member {string} [fqdn] FQDN for the agent pool.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -641,7 +641,7 @@ export interface ContainerServiceAgentPoolProfile {
    */
   storageProfile?: ContainerServiceStorageProfileTypes;
   /**
-   * @member {string} [vnetSubnetID] VNet SubnetID specifies the vnet's subnet
+   * @member {string} [vnetSubnetID] VNet SubnetID specifies the VNet's subnet
    * identifier.
    */
   vnetSubnetID?: string;
@@ -961,7 +961,7 @@ export interface ManagedClusterAgentPoolProfile {
    */
   osDiskSizeGB?: number;
   /**
-   * @member {string} [vnetSubnetID] VNet SubnetID specifies the vnet's subnet
+   * @member {string} [vnetSubnetID] VNet SubnetID specifies the VNet's subnet
    * identifier.
    */
   vnetSubnetID?: string;
@@ -988,8 +988,8 @@ export interface ManagedClusterAgentPoolProfile {
    */
   enableAutoScaling?: boolean;
   /**
-   * @member {AgentPoolType} [type] AgentPoolType represents types of
-   * agentpool. Possible values include: 'VirtualMachineScaleSets',
+   * @member {AgentPoolType} [type] AgentPoolType represents types of an agent
+   * pool. Possible values include: 'VirtualMachineScaleSets',
    * 'AvailabilitySet'
    */
   type?: AgentPoolType;
@@ -1108,7 +1108,7 @@ export interface ManagedCluster extends Resource {
    */
   dnsPrefix?: string;
   /**
-   * @member {string} [fqdn] FDQN for the master pool.
+   * @member {string} [fqdn] FQDN for the master pool.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */

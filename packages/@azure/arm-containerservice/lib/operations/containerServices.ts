@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/containerServicesMappers";
 import * as Parameters from "../models/parameters";
@@ -158,7 +158,7 @@ export class ContainerServices {
 
   /**
    * Gets a list of supported orchestrators in the specified subscription. The operation returns
-   * properties of each orchestrator including verison and available upgrades.
+   * properties of each orchestrator including version and available upgrades.
    * @summary Gets a list of supported orchestrators in the specified subscription.
    * @param location The name of a supported Azure region.
    * @param [options] The optional parameters

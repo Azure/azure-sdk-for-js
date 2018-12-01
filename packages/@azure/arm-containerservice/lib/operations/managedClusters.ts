@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/managedClustersMappers";
 import * as Parameters from "../models/parameters";
@@ -156,8 +156,8 @@ export class ManagedClusters {
   }
 
   /**
-   * Gets clusteradmin credential of the managed cluster with a specified resource group and name.
-   * @summary Gets clusteradmin credential of a managed cluster.
+   * Gets cluster admin credential of the managed cluster with a specified resource group and name.
+   * @summary Gets cluster admin credential of a managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param [options] The optional parameters
@@ -189,8 +189,8 @@ export class ManagedClusters {
   }
 
   /**
-   * Gets clusteruser credential of the managed cluster with a specified resource group and name.
-   * @summary Gets clusteruser credential of a managed cluster.
+   * Gets cluster user credential of the managed cluster with a specified resource group and name.
+   * @summary Gets cluster user credential of a managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param [options] The optional parameters
