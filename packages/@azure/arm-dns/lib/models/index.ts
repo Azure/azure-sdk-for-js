@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -491,7 +491,7 @@ export interface RecordSetsUpdateOptionalParams extends msRest.RequestOptionsBas
   /**
    * @member {string} [ifMatch] The etag of the record set. Omit this value to
    * always overwrite the current record set. Specify the last-seen etag value
-   * to prevent accidentally overwritting concurrent changes.
+   * to prevent accidentally overwriting concurrent changes.
    */
   ifMatch?: string;
 }
@@ -507,7 +507,7 @@ export interface RecordSetsCreateOrUpdateOptionalParams extends msRest.RequestOp
   /**
    * @member {string} [ifMatch] The etag of the record set. Omit this value to
    * always overwrite the current record set. Specify the last-seen etag value
-   * to prevent accidentally overwritting any concurrent changes.
+   * to prevent accidentally overwriting any concurrent changes.
    */
   ifMatch?: string;
   /**
@@ -611,7 +611,7 @@ export interface ZonesCreateOrUpdateOptionalParams extends msRest.RequestOptions
   /**
    * @member {string} [ifMatch] The etag of the DNS zone. Omit this value to
    * always overwrite the current zone. Specify the last-seen etag value to
-   * prevent accidentally overwritting any concurrent changes.
+   * prevent accidentally overwriting any concurrent changes.
    */
   ifMatch?: string;
   /**
@@ -649,7 +649,7 @@ export interface ZonesUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [ifMatch] The etag of the DNS zone. Omit this value to
    * always overwrite the current zone. Specify the last-seen etag value to
-   * prevent accidentally overwritting any concurrent changes.
+   * prevent accidentally overwriting any concurrent changes.
    */
   ifMatch?: string;
 }
