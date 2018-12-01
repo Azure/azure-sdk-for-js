@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
@@ -384,7 +384,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * protection with an asymmetric key can be performed using public portion of the key. This
    * operation is supported for asymmetric keys as a convenience for callers that have a
    * key-reference but do not have access to the public key material. This operation requires the
-   * keys/encypt permission.
+   * keys/encrypt permission.
    * @summary Encrypts an arbitrary sequence of bytes using an encryption key that is stored in a key
    * vault.
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
