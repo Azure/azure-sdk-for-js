@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 
 export const ResponseBase: msRest.CompositeMapper = {
@@ -101,6 +101,8 @@ export const Thing: msRest.CompositeMapper = {
         serializedName: "image",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+          uberParent: "ResponseBase",
           className: "ImageObject"
         }
       },
@@ -153,6 +155,8 @@ export const CreativeWork: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+              uberParent: "ResponseBase",
               className: "Thing"
             }
           }
@@ -170,6 +174,8 @@ export const CreativeWork: msRest.CompositeMapper = {
         serializedName: "video",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+          uberParent: "ResponseBase",
           className: "VideoObject"
         }
       }
@@ -228,6 +234,8 @@ export const NewsArticle: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+              uberParent: "ResponseBase",
               className: "NewsArticle"
             }
           }
@@ -300,6 +308,8 @@ export const News: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+              uberParent: "ResponseBase",
               className: "NewsArticle"
             }
           }
@@ -364,6 +374,8 @@ export const ImageObject: msRest.CompositeMapper = {
         serializedName: "thumbnail",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+          uberParent: "ResponseBase",
           className: "ImageObject"
         }
       }
@@ -410,6 +422,8 @@ export const Query: msRest.CompositeMapper = {
         serializedName: "thumbnail",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+          uberParent: "ResponseBase",
           className: "ImageObject"
         }
       }
@@ -469,6 +483,8 @@ export const TrendingTopics: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+              uberParent: "ResponseBase",
               className: "NewsTopic"
             }
           }
@@ -527,6 +543,8 @@ export const VideoObject: msRest.CompositeMapper = {
         serializedName: "thumbnail",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+          uberParent: "ResponseBase",
           className: "ImageObject"
         }
       },
