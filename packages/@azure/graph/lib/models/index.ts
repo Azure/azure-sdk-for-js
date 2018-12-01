@@ -178,7 +178,7 @@ export interface ResourceAccess {
  * OAuth 2.0 permission scopes may be requested by client applications (through
  * the requiredResourceAccess collection) when calling a resource application.
  * The requiredResourceAccess property of the Application entity is a
- * collection of ReqiredResourceAccess.
+ * collection of RequiredResourceAccess.
  *
  */
 export interface RequiredResourceAccess {
@@ -1326,7 +1326,7 @@ export interface OAuth2GetOptionalParams extends msRest.RequestOptionsBase {
 export interface OAuth2GrantOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {Permissions} [body] The relevant app Service Principal Object Id
-   * and the Service Principal Objecit Id you want to grant.
+   * and the Service Principal Object Id you want to grant.
    */
   body?: Permissions;
 }
