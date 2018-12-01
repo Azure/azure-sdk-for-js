@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -167,7 +167,7 @@ export interface CertificateBodyDescription {
 /**
  * @interface
  * An interface representing IotDpsSkuInfo.
- * List of possible provisoning service SKUs.
+ * List of possible provisioning service SKUs.
  *
  */
 export interface IotDpsSkuInfo {
@@ -250,7 +250,7 @@ export interface SharedAccessSignatureAuthorizationRuleAccessRightsDescription {
 /**
  * @interface
  * An interface representing IotDpsPropertiesDescription.
- * the service specific properties of a provisoning service, including keys,
+ * the service specific properties of a provisioning service, including keys,
  * linked iot hubs, current state, and system generated properties such as
  * hostname and idScope
  *
@@ -270,7 +270,7 @@ export interface IotDpsPropertiesDescription {
   provisioningState?: string;
   /**
    * @member {IotHubDefinitionDescription[]} [iotHubs] List of IoT hubs
-   * assosciated with this provisioning service.
+   * associated with this provisioning service.
    */
   iotHubs?: IotHubDefinitionDescription[];
   /**
@@ -452,7 +452,7 @@ export interface ErrorDetails {
 /**
  * @interface
  * An interface representing IotDpsSkuDefinition.
- * Available Sku's of tier and units.
+ * Available SKUs of tier and units.
  *
  */
 export interface IotDpsSkuDefinition {
@@ -492,7 +492,7 @@ export interface NameAvailabilityInfo {
    */
   reason?: NameUnavailabilityReason;
   /**
-   * @member {string} [message] message containing a etailed reason name is
+   * @member {string} [message] message containing a detailed reason name is
    * unavailable
    */
   message?: string;

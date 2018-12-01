@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/dpsCertificateMappers";
 import * as Parameters from "../models/parameters";
@@ -107,7 +107,7 @@ export class DpsCertificate {
   }
 
   /**
-   * Deletes the specified certificate assosciated with the Provisioning Service
+   * Deletes the specified certificate associated with the Provisioning Service
    * @summary Delete the Provisioning Service Certificate.
    * @param resourceGroupName Resource group identifier.
    * @param ifMatch ETag of the certificate
