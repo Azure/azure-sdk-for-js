@@ -44,7 +44,7 @@ export interface PresentationTimeRange {
    */
   timescale?: number;
   /**
-   * @member {boolean} [forceEndTimestamp] The indicator of forcing exsiting of
+   * @member {boolean} [forceEndTimestamp] The indicator of forcing existing of
    * end time stamp.
    */
   forceEndTimestamp?: boolean;
@@ -64,7 +64,7 @@ export interface FilterTrackPropertyCondition {
    */
   property: FilterTrackPropertyType;
   /**
-   * @member {string} value The track proprty value.
+   * @member {string} value The track property value.
    */
   value: string;
   /**
@@ -3419,7 +3419,7 @@ export interface CommonEncryptionCenc {
    */
   contentKeys?: StreamingPolicyContentKeys;
   /**
-   * @member {CencDrmConfiguration} [drm] Configuration of DRMs for
+   * @member {CencDrmConfiguration} [drm] Configuration of DRM for
    * CommonEncryptionCenc encryption scheme
    */
   drm?: CencDrmConfiguration;
@@ -3449,7 +3449,7 @@ export interface CommonEncryptionCbcs {
    */
   contentKeys?: StreamingPolicyContentKeys;
   /**
-   * @member {CbcsDrmConfiguration} [drm] Configuration of DRMs for current
+   * @member {CbcsDrmConfiguration} [drm] Configuration of DRM for current
    * encryption scheme
    */
   drm?: CbcsDrmConfiguration;
@@ -4194,7 +4194,7 @@ export interface AssetsListOptionalParams extends msRest.RequestOptionsBase {
    */
   top?: number;
   /**
-   * @member {string} [orderby] Specifies the the key by which the result
+   * @member {string} [orderby] Specifies the key by which the result
    * collection should be ordered.
    */
   orderby?: string;
@@ -4219,7 +4219,7 @@ export interface ContentKeyPoliciesListOptionalParams extends msRest.RequestOpti
    */
   top?: number;
   /**
-   * @member {string} [orderby] Specifies the the key by which the result
+   * @member {string} [orderby] Specifies the key by which the result
    * collection should be ordered.
    */
   orderby?: string;
@@ -4238,7 +4238,7 @@ export interface TransformsListOptionalParams extends msRest.RequestOptionsBase 
    */
   filter?: string;
   /**
-   * @member {string} [orderby] Specifies the the key by which the result
+   * @member {string} [orderby] Specifies the key by which the result
    * collection should be ordered.
    */
   orderby?: string;
@@ -4257,7 +4257,7 @@ export interface JobsListOptionalParams extends msRest.RequestOptionsBase {
    */
   filter?: string;
   /**
-   * @member {string} [orderby] Specifies the the key by which the result
+   * @member {string} [orderby] Specifies the key by which the result
    * collection should be ordered.
    */
   orderby?: string;
