@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/assessedMachinesMappers";
 import * as Parameters from "../models/parameters";
@@ -74,7 +74,7 @@ export class AssessedMachines {
   }
 
   /**
-   * Get an assessed machine with its size & cost estimnate that was evaluated in the specified
+   * Get an assessed machine with its size & cost estimate that was evaluated in the specified
    * assessment.
    * @summary Get an assessed machine.
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
