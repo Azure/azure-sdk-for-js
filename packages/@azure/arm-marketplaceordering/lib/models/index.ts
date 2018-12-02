@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -115,8 +115,9 @@ export interface ErrorResponseError {
 /**
  * @interface
  * An interface representing ErrorResponse.
- * Error reponse indicates Microsoft.MarketplaceOrdering service is not able to
- * process the incoming request. The reason is provided in the error message.
+ * Error response indicates Microsoft.MarketplaceOrdering service is not able
+ * to process the incoming request. The reason is provided in the error
+ * message.
  *
  */
 export interface ErrorResponse {
