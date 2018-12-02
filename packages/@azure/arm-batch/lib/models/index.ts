@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -287,20 +287,62 @@ export interface ActivateApplicationPackageParameters {
 
 /**
  * @interface
- * An interface representing ApplicationCreateParameters.
- * Parameters for adding an Application.
+ * An interface representing ProxyResource.
+ * A definition of an Azure resource.
  *
+ * @extends BaseResource
  */
-export interface ApplicationCreateParameters {
+export interface ProxyResource extends BaseResource {
+  /**
+   * @member {string} [id] The ID of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [name] The name of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [type] The type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [etag] The ETag of the resource, used for concurrency
+   * statements.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
+ * @interface
+ * An interface representing Application.
+ * Contains information about an application in a Batch account.
+ *
+ * @extends ProxyResource
+ */
+export interface Application extends ProxyResource {
+  /**
+   * @member {string} [displayName] The display name for the application.
+   */
+  displayName?: string;
   /**
    * @member {boolean} [allowUpdates] A value indicating whether packages
    * within the application may be overwritten using the same version string.
    */
   allowUpdates?: boolean;
   /**
-   * @member {string} [displayName] The display name for the application.
+   * @member {string} [defaultVersion] The package to use if a client requests
+   * the application but does not specify a version. This property can only be
+   * set to the name of an existing package.
    */
-  displayName?: string;
+  defaultVersion?: string;
 }
 
 /**
@@ -309,23 +351,12 @@ export interface ApplicationCreateParameters {
  * An application package which represents a particular version of an
  * application.
  *
+ * @extends ProxyResource
  */
-export interface ApplicationPackage {
-  /**
-   * @member {string} [id] The ID of the application.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [version] The version of the application package.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly version?: string;
+export interface ApplicationPackage extends ProxyResource {
   /**
    * @member {PackageState} [state] The current state of the application
-   * package. Possible values include: 'Pending', 'Active', 'Unmapped'
+   * package. Possible values include: 'Pending', 'Active'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -362,62 +393,6 @@ export interface ApplicationPackage {
 
 /**
  * @interface
- * An interface representing Application.
- * Contains information about an application in a Batch account.
- *
- */
-export interface Application {
-  /**
-   * @member {string} [id] A string that uniquely identifies the application
-   * within the account.
-   */
-  id?: string;
-  /**
-   * @member {string} [displayName] The display name for the application.
-   */
-  displayName?: string;
-  /**
-   * @member {ApplicationPackage[]} [packages] The list of packages under this
-   * application.
-   */
-  packages?: ApplicationPackage[];
-  /**
-   * @member {boolean} [allowUpdates] A value indicating whether packages
-   * within the application may be overwritten using the same version string.
-   */
-  allowUpdates?: boolean;
-  /**
-   * @member {string} [defaultVersion] The package to use if a client requests
-   * the application but does not specify a version.
-   */
-  defaultVersion?: string;
-}
-
-/**
- * @interface
- * An interface representing ApplicationUpdateParameters.
- * Parameters for an update application request.
- *
- */
-export interface ApplicationUpdateParameters {
-  /**
-   * @member {boolean} [allowUpdates] A value indicating whether packages
-   * within the application may be overwritten using the same version string.
-   */
-  allowUpdates?: boolean;
-  /**
-   * @member {string} [defaultVersion] The package to use if a client requests
-   * the application but does not specify a version.
-   */
-  defaultVersion?: string;
-  /**
-   * @member {string} [displayName] The display name for the application.
-   */
-  displayName?: string;
-}
-
-/**
- * @interface
  * An interface representing BatchLocationQuota.
  * Quotas associated with a Batch region for a particular subscription.
  *
@@ -430,41 +405,6 @@ export interface BatchLocationQuota {
    * the server.**
    */
   readonly accountQuota?: number;
-}
-
-/**
- * @interface
- * An interface representing ProxyResource.
- * A definition of an Azure resource.
- *
- * @extends BaseResource
- */
-export interface ProxyResource extends BaseResource {
-  /**
-   * @member {string} [id] The ID of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [name] The name of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {string} [type] The type of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
-  /**
-   * @member {string} [etag] The ETag of the resource, used for concurrency
-   * statements.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly etag?: string;
 }
 
 /**
@@ -547,20 +487,8 @@ export interface Certificate extends ProxyResource {
   format?: CertificateFormat;
   /**
    * @member {CertificateProvisioningState} [provisioningState] The provisioned
-   * state of the resource. Values are:
-   *
-   * Succeeded - The certificate is available for use in pools.
-   * Deleting - The user has requested that the certificate be deleted, but the
-   * delete operation has not yet completed. You may not reference the
-   * certificate when creating or updating pools.
-   * Failed - The user requested that the certificate be deleted, but there are
-   * pools that still have references to the certificate, or it is still
-   * installed on one or more compute nodes. (The latter can occur if the
-   * certificate has been removed from the pool, but the node has not yet
-   * restarted. Nodes refresh their certificates only when they restart.) You
-   * may use the cancel certificate delete operation to cancel the delete, or
-   * the delete certificate operation to retry the delete. Possible values
-   * include: 'Succeeded', 'Deleting', 'Failed'
+   * state of the resource. Possible values include: 'Succeeded', 'Deleting',
+   * 'Failed'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -658,22 +586,11 @@ export interface CloudServiceConfiguration {
    */
   osFamily: string;
   /**
-   * @member {string} [targetOSVersion] The Azure Guest OS version to be
-   * installed on the virtual machines in the pool. The default value is *
-   * which specifies the latest operating system version for the specified OS
-   * family.
+   * @member {string} [osVersion] The Azure Guest OS version to be installed on
+   * the virtual machines in the pool. The default value is * which specifies
+   * the latest operating system version for the specified OS family.
    */
-  targetOSVersion?: string;
-  /**
-   * @member {string} [currentOSVersion] The Azure Guest OS Version currently
-   * installed on the virtual machines in the pool. This may differ from
-   * targetOSVersion if the pool state is Upgrading. In this case some virtual
-   * machines may be on the targetOSVersion and some may be on the
-   * currentOSVersion during the upgrade process. Once all virtual machines
-   * have upgraded, currentOSVersion is updated to be the same as
-   * targetOSVersion.
-   */
-  currentOSVersion?: string;
+  osVersion?: string;
 }
 
 /**
@@ -720,23 +637,6 @@ export interface ImageReference {
    * .
    */
   id?: string;
-}
-
-/**
- * @interface
- * An interface representing OSDisk.
- * @summary Settings for the operating system disk of the virtual machine.
- *
- */
-export interface OSDisk {
-  /**
-   * @member {CachingType} [caching] The type of caching to be enabled for the
-   * data disks. none - The caching mode for the disk is not enabled. readOnly
-   * - The caching mode for the disk is read only. readWrite - The caching mode
-   * for the disk is read and write. Default value is none. Possible values
-   * include: 'None', 'ReadOnly', 'ReadWrite'
-   */
-  caching?: CachingType;
 }
 
 /**
@@ -801,6 +701,51 @@ export interface DataDisk {
 
 /**
  * @interface
+ * An interface representing ContainerRegistry.
+ * @summary A private container registry.
+ *
+ */
+export interface ContainerRegistry {
+  /**
+   * @member {string} [registryServer] The registry URL. If omitted, the
+   * default is "docker.io".
+   */
+  registryServer?: string;
+  /**
+   * @member {string} userName The user name to log into the registry server.
+   */
+  userName: string;
+  /**
+   * @member {string} password The password to log into the registry server.
+   */
+  password: string;
+}
+
+/**
+ * @interface
+ * An interface representing ContainerConfiguration.
+ * @summary The configuration for container-enabled pools.
+ *
+ */
+export interface ContainerConfiguration {
+  /**
+   * @member {string[]} [containerImageNames] The collection of container image
+   * names. This is the full image reference, as would be specified to "docker
+   * pull". An image will be sourced from the default Docker registry unless
+   * the image is fully qualified with an alternative registry.
+   */
+  containerImageNames?: string[];
+  /**
+   * @member {ContainerRegistry[]} [containerRegistries] Additional private
+   * registries from which containers can be pulled. If any images must be
+   * downloaded from a private registry which requires credentials, then those
+   * credentials must be provided here.
+   */
+  containerRegistries?: ContainerRegistry[];
+}
+
+/**
+ * @interface
  * An interface representing VirtualMachineConfiguration.
  * @summary The configuration for compute nodes in a pool based on the Azure
  * Virtual Machines infrastructure.
@@ -812,11 +757,6 @@ export interface VirtualMachineConfiguration {
    * Machines Marketplace Image or the custom Virtual Machine Image to use.
    */
   imageReference: ImageReference;
-  /**
-   * @member {OSDisk} [osDisk] Settings for the operating system disk of the
-   * Virtual Machine.
-   */
-  osDisk?: OSDisk;
   /**
    * @member {string} nodeAgentSkuId The SKU of the Batch node agent to be
    * provisioned on compute nodes in the pool. The Batch node agent is a
@@ -852,6 +792,14 @@ export interface VirtualMachineConfiguration {
    * Windows_Client - The on-premises license is for Windows Client.
    */
   licenseType?: string;
+  /**
+   * @member {ContainerConfiguration} [containerConfiguration] The container
+   * configuration for the pool. If specified, setup is performed on each node
+   * in the pool to allow tasks to run in containers. All regular tasks and job
+   * manager tasks run on this pool must specify the containerSettings
+   * property, and all other tasks may specify it.
+   */
+  containerConfiguration?: ContainerConfiguration;
 }
 
 /**
@@ -888,8 +836,7 @@ export interface DeploymentConfiguration {
 export interface FixedScaleSettings {
   /**
    * @member {string} [resizeTimeout] The timeout for allocation of compute
-   * nodes to the pool. The default value is 15 minutes. Timeout values use ISO
-   * 8601 format. For example, use PT10M for 10 minutes. The minimum value is 5
+   * nodes to the pool. The default value is 15 minutes. The minimum value is 5
    * minutes. If you specify a value less than 5 minutes, the Batch service
    * rejects the request with an error; if you are calling the REST API
    * directly, the HTTP status code is 400 (Bad Request).
@@ -1216,6 +1163,22 @@ export interface LinuxUserConfiguration {
 
 /**
  * @interface
+ * An interface representing WindowsUserConfiguration.
+ * @summary Properties used to create a user account on a Windows node.
+ *
+ */
+export interface WindowsUserConfiguration {
+  /**
+   * @member {LoginMode} [loginMode] Login mode for user. Specifies login mode
+   * for the user. The default value for VirtualMachineConfiguration pools is
+   * interactive mode and for CloudServiceConfiguration pools is batch mode.
+   * Possible values include: 'Batch', 'Interactive'
+   */
+  loginMode?: LoginMode;
+}
+
+/**
+ * @interface
  * An interface representing UserAccount.
  * @summary Properties used to create a user on an Azure Batch node.
  *
@@ -1244,6 +1207,13 @@ export interface UserAccount {
    * created with the default options.
    */
   linuxUserConfiguration?: LinuxUserConfiguration;
+  /**
+   * @member {WindowsUserConfiguration} [windowsUserConfiguration] The
+   * Windows-specific user configuration for the user account. This property
+   * can only be specified if the user is on a Windows pool. If not specified
+   * and on a Windows pool, the user is created with the default options.
+   */
+  windowsUserConfiguration?: WindowsUserConfiguration;
 }
 
 /**
@@ -1269,24 +1239,63 @@ export interface MetadataItem {
 /**
  * @interface
  * An interface representing ResourceFile.
- * @summary A file to be downloaded from Azure blob storage to a compute node.
+ * @summary A single file or multiple files to be downloaded to a compute node.
  *
  */
 export interface ResourceFile {
   /**
-   * @member {string} blobSource The URL of the file within Azure Blob Storage.
-   * This URL must be readable using anonymous access; that is, the Batch
-   * service does not present any credentials when downloading the blob. There
-   * are two ways to get such a URL for a blob in Azure storage: include a
-   * Shared Access Signature (SAS) granting read permissions on the blob, or
+   * @member {string} [autoStorageContainerName] The storage container name in
+   * the auto storage account. The autoStorageContainerName,
+   * storageContainerUrl and httpUrl properties are mutually exclusive and one
+   * of them must be specified.
+   */
+  autoStorageContainerName?: string;
+  /**
+   * @member {string} [storageContainerUrl] The URL of the blob container
+   * within Azure Blob Storage. The autoStorageContainerName,
+   * storageContainerUrl and httpUrl properties are mutually exclusive and one
+   * of them must be specified. This URL must be readable and listable using
+   * anonymous access; that is, the Batch service does not present any
+   * credentials when downloading the blob. There are two ways to get such a
+   * URL for a blob in Azure storage: include a Shared Access Signature (SAS)
+   * granting read permissions on the blob, or set the ACL for the blob or its
+   * container to allow public access.
+   */
+  storageContainerUrl?: string;
+  /**
+   * @member {string} [httpUrl] The URL of the file to download. The
+   * autoStorageContainerName, storageContainerUrl and httpUrl properties are
+   * mutually exclusive and one of them must be specified. If the URL is Azure
+   * Blob Storage, it must be readable using anonymous access; that is, the
+   * Batch service does not present any credentials when downloading the blob.
+   * There are two ways to get such a URL for a blob in Azure storage: include
+   * a Shared Access Signature (SAS) granting read permissions on the blob, or
    * set the ACL for the blob or its container to allow public access.
    */
-  blobSource: string;
+  httpUrl?: string;
   /**
-   * @member {string} filePath The location on the compute node to which to
-   * download the file, relative to the task's working directory.
+   * @member {string} [blobPrefix] The blob prefix to use when downloading
+   * blobs from an Azure Storage container. Only the blobs whose names begin
+   * with the specified prefix will be downloaded. The property is valid only
+   * when autoStorageContainerName or storageContainerUrl is used. This prefix
+   * can be a partial filename or a subdirectory. If a prefix is not specified,
+   * all the files in the container will be downloaded.
    */
-  filePath: string;
+  blobPrefix?: string;
+  /**
+   * @member {string} [filePath] The location on the compute node to which to
+   * download the file, relative to the task's working directory. If the
+   * httpUrl property is specified, the filePath is required and describes the
+   * path which the file will be downloaded to, including the filename.
+   * Otherwise, if the autoStorageContainerName or storageContainerUrl property
+   * is specified, filePath is optional and is the directory to download the
+   * files to. In the case where filePath is used as a directory, any directory
+   * structure already associated with the input data will be retained in full
+   * and appended to the specified filePath directory. The specified relative
+   * path cannot break out of the task's working directory (for example by
+   * using '..').
+   */
+  filePath?: string;
   /**
    * @member {string} [fileMode] The file permission mode attribute in octal
    * format. This property applies only to files being downloaded to Linux
@@ -1324,11 +1333,8 @@ export interface EnvironmentSetting {
  */
 export interface AutoUserSpecification {
   /**
-   * @member {AutoUserScope} [scope] The scope for the auto user. pool -
-   * specifies that the task runs as the common auto user account which is
-   * created on every node in a pool. task - specifies that the service should
-   * create a new user for the task. The default value is task. Possible values
-   * include: 'Task', 'Pool'
+   * @member {AutoUserScope} [scope] The scope for the auto user. The default
+   * value is task. Possible values include: 'Task', 'Pool'
    */
   scope?: AutoUserScope;
   /**
@@ -1362,6 +1368,35 @@ export interface UserIdentity {
    * you must specify one but not both.
    */
   autoUser?: AutoUserSpecification;
+}
+
+/**
+ * @interface
+ * An interface representing TaskContainerSettings.
+ * @summary The container settings for a task.
+ *
+ */
+export interface TaskContainerSettings {
+  /**
+   * @member {string} [containerRunOptions] Additional options to the container
+   * create command. These additional options are supplied as arguments to the
+   * "docker create" command, in addition to those controlled by the Batch
+   * Service.
+   */
+  containerRunOptions?: string;
+  /**
+   * @member {string} imageName The image to use to create the container in
+   * which the task will run. This is the full image reference, as would be
+   * specified to "docker pull". If no tag is provided as part of the image
+   * name, the tag ":latest" is used as a default.
+   */
+  imageName: string;
+  /**
+   * @member {ContainerRegistry} [registry] The private registry which contains
+   * the container image. This setting can be omitted if was already provided
+   * at pool creation.
+   */
+  registry?: ContainerRegistry;
 }
 
 /**
@@ -1424,6 +1459,15 @@ export interface StartTask {
    * tasks will continue to be scheduled on the node. The default is false.
    */
   waitForSuccess?: boolean;
+  /**
+   * @member {TaskContainerSettings} [containerSettings] The settings for the
+   * container under which the start task runs. When this is specified, all
+   * directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of
+   * Azure Batch directories on the node) are mapped into the container, all
+   * task environment variables are mapped into the container, and the task
+   * command line is executed in the container.
+   */
+  containerSettings?: TaskContainerSettings;
 }
 
 /**
@@ -1467,14 +1511,6 @@ export interface CertificateReference {
   /**
    * @member {CertificateVisibility[]} [visibility] Which user accounts on the
    * compute node should have access to the private data of the certificate.
-   * Values are:
-   *
-   * starttask - The user account under which the start task is run.
-   * task - The accounts under which job tasks are run.
-   * remoteuser - The accounts under which users remotely access the node.
-   *
-   * You can specify more than one visibility in this collection. The default
-   * is all accounts.
    */
   visibility?: CertificateVisibility[];
 }
@@ -1605,13 +1641,7 @@ export interface Pool extends ProxyResource {
   readonly creationTime?: Date;
   /**
    * @member {PoolProvisioningState} [provisioningState] The current state of
-   * the pool. Values are:
-   *
-   * Succeeded - The pool is available to run tasks subject to the availability
-   * of compute nodes.
-   * Deleting - The user has requested that the pool be deleted, but the delete
-   * operation has not yet completed. Possible values include: 'Succeeded',
-   * 'Deleting'
+   * the pool. Possible values include: 'Succeeded', 'Deleting'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -1624,16 +1654,6 @@ export interface Pool extends ProxyResource {
   readonly provisioningStateTransitionTime?: Date;
   /**
    * @member {AllocationState} [allocationState] Whether the pool is resizing.
-   * Values are:
-   *
-   * Steady - The pool is not resizing. There are no changes to the number of
-   * nodes in the pool in progress. A pool enters this state when it is created
-   * and when no operations are being performed on the pool to change the
-   * number of dedicated nodes.
-   * Resizing - The pool is resizing; that is, compute nodes are being added to
-   * or removed from the pool.
-   * Stopping - The pool was resizing, but the user has requested that the
-   * resize be stopped, but the stop request has not yet been completed.
    * Possible values include: 'Steady', 'Resizing', 'Stopping'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -1875,6 +1895,21 @@ export interface CheckNameAvailabilityResult {
 
 /**
  * @interface
+ * An interface representing ApplicationPackageListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ApplicationPackageListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {number} [maxresults] The maximum number of items to return in the
+   * response.
+   */
+  maxresults?: number;
+}
+
+/**
+ * @interface
  * An interface representing ApplicationCreateOptionalParams.
  * Optional Parameters.
  *
@@ -1882,10 +1917,9 @@ export interface CheckNameAvailabilityResult {
  */
 export interface ApplicationCreateOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {ApplicationCreateParameters} [parameters] The parameters for the
-   * request.
+   * @member {Application} [parameters] The parameters for the request.
    */
-  parameters?: ApplicationCreateParameters;
+  parameters?: Application;
 }
 
 /**
@@ -2343,6 +2377,20 @@ export interface BatchAccountListResult extends Array<BatchAccount> {
 
 /**
  * @interface
+ * An interface representing the ListApplicationPackagesResult.
+ * The result of performing list application packages.
+ *
+ * @extends Array<ApplicationPackage>
+ */
+export interface ListApplicationPackagesResult extends Array<ApplicationPackage> {
+  /**
+   * @member {string} [nextLink] The URL to get the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the ListApplicationsResult.
  * The result of performing list applications.
  *
@@ -2424,11 +2472,11 @@ export type AccountKeyType = 'Primary' | 'Secondary';
 
 /**
  * Defines values for PackageState.
- * Possible values include: 'Pending', 'Active', 'Unmapped'
+ * Possible values include: 'Pending', 'Active'
  * @readonly
  * @enum {string}
  */
-export type PackageState = 'Pending' | 'Active' | 'Unmapped';
+export type PackageState = 'Pending' | 'Active';
 
 /**
  * Defines values for CertificateFormat.
@@ -2525,6 +2573,14 @@ export type ComputeNodeFillType = 'Spread' | 'Pack';
  * @enum {string}
  */
 export type ElevationLevel = 'NonAdmin' | 'Admin';
+
+/**
+ * Defines values for LoginMode.
+ * Possible values include: 'Batch', 'Interactive'
+ * @readonly
+ * @enum {string}
+ */
+export type LoginMode = 'Batch' | 'Interactive';
 
 /**
  * Defines values for AutoUserScope.
@@ -2749,6 +2805,25 @@ export type BatchAccountListByResourceGroupNextResponse = BatchAccountListResult
 };
 
 /**
+ * Contains response data for the activate operation.
+ */
+export type ApplicationPackageActivateResponse = ApplicationPackage & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApplicationPackage;
+    };
+};
+
+/**
  * Contains response data for the create operation.
  */
 export type ApplicationPackageCreateResponse = ApplicationPackage & {
@@ -2787,6 +2862,44 @@ export type ApplicationPackageGetResponse = ApplicationPackage & {
 };
 
 /**
+ * Contains response data for the list operation.
+ */
+export type ApplicationPackageListResponse = ListApplicationPackagesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListApplicationPackagesResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ApplicationPackageListNextResponse = ListApplicationPackagesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListApplicationPackagesResult;
+    };
+};
+
+/**
  * Contains response data for the create operation.
  */
 export type ApplicationCreateResponse = Application & {
@@ -2809,6 +2922,25 @@ export type ApplicationCreateResponse = Application & {
  * Contains response data for the get operation.
  */
 export type ApplicationGetResponse = Application & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Application;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ApplicationUpdateResponse = Application & {
   /**
    * The underlying HTTP response.
    */

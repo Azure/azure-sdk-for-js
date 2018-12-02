@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/applicationOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -30,32 +30,32 @@ export class ApplicationOperations {
    * Adds an application to the specified Batch account.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
-   * @param applicationId The ID of the application.
+   * @param applicationName The name of the application. This must be unique within the account.
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationCreateResponse>
    */
-  create(resourceGroupName: string, accountName: string, applicationId: string, options?: Models.ApplicationCreateOptionalParams): Promise<Models.ApplicationCreateResponse>;
+  create(resourceGroupName: string, accountName: string, applicationName: string, options?: Models.ApplicationCreateOptionalParams): Promise<Models.ApplicationCreateResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
-   * @param applicationId The ID of the application.
+   * @param applicationName The name of the application. This must be unique within the account.
    * @param callback The callback
    */
-  create(resourceGroupName: string, accountName: string, applicationId: string, callback: msRest.ServiceCallback<Models.Application>): void;
+  create(resourceGroupName: string, accountName: string, applicationName: string, callback: msRest.ServiceCallback<Models.Application>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
-   * @param applicationId The ID of the application.
+   * @param applicationName The name of the application. This must be unique within the account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, accountName: string, applicationId: string, options: Models.ApplicationCreateOptionalParams, callback: msRest.ServiceCallback<Models.Application>): void;
-  create(resourceGroupName: string, accountName: string, applicationId: string, options?: Models.ApplicationCreateOptionalParams | msRest.ServiceCallback<Models.Application>, callback?: msRest.ServiceCallback<Models.Application>): Promise<Models.ApplicationCreateResponse> {
+  create(resourceGroupName: string, accountName: string, applicationName: string, options: Models.ApplicationCreateOptionalParams, callback: msRest.ServiceCallback<Models.Application>): void;
+  create(resourceGroupName: string, accountName: string, applicationName: string, options?: Models.ApplicationCreateOptionalParams | msRest.ServiceCallback<Models.Application>, callback?: msRest.ServiceCallback<Models.Application>): Promise<Models.ApplicationCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         accountName,
-        applicationId,
+        applicationName,
         options
       },
       createOperationSpec,
@@ -66,32 +66,32 @@ export class ApplicationOperations {
    * Deletes an application.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
-   * @param applicationId The ID of the application.
+   * @param applicationName The name of the application. This must be unique within the account.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, applicationId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, accountName: string, applicationName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
-   * @param applicationId The ID of the application.
+   * @param applicationName The name of the application. This must be unique within the account.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, applicationId: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, accountName: string, applicationName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
-   * @param applicationId The ID of the application.
+   * @param applicationName The name of the application. This must be unique within the account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, applicationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, applicationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, accountName: string, applicationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, accountName: string, applicationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         accountName,
-        applicationId,
+        applicationName,
         options
       },
       deleteMethodOperationSpec,
@@ -102,32 +102,32 @@ export class ApplicationOperations {
    * Gets information about the specified application.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
-   * @param applicationId The ID of the application.
+   * @param applicationName The name of the application. This must be unique within the account.
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, applicationId: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationGetResponse>;
+  get(resourceGroupName: string, accountName: string, applicationName: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
-   * @param applicationId The ID of the application.
+   * @param applicationName The name of the application. This must be unique within the account.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, applicationId: string, callback: msRest.ServiceCallback<Models.Application>): void;
+  get(resourceGroupName: string, accountName: string, applicationName: string, callback: msRest.ServiceCallback<Models.Application>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
-   * @param applicationId The ID of the application.
+   * @param applicationName The name of the application. This must be unique within the account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, applicationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Application>): void;
-  get(resourceGroupName: string, accountName: string, applicationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Application>, callback?: msRest.ServiceCallback<Models.Application>): Promise<Models.ApplicationGetResponse> {
+  get(resourceGroupName: string, accountName: string, applicationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Application>): void;
+  get(resourceGroupName: string, accountName: string, applicationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Application>, callback?: msRest.ServiceCallback<Models.Application>): Promise<Models.ApplicationGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         accountName,
-        applicationId,
+        applicationName,
         options
       },
       getOperationSpec,
@@ -138,40 +138,40 @@ export class ApplicationOperations {
    * Updates settings for the specified application.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
-   * @param applicationId The ID of the application.
+   * @param applicationName The name of the application. This must be unique within the account.
    * @param parameters The parameters for the request.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<Models.ApplicationUpdateResponse>
    */
-  update(resourceGroupName: string, accountName: string, applicationId: string, parameters: Models.ApplicationUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(resourceGroupName: string, accountName: string, applicationName: string, parameters: Models.Application, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
-   * @param applicationId The ID of the application.
+   * @param applicationName The name of the application. This must be unique within the account.
    * @param parameters The parameters for the request.
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, applicationId: string, parameters: Models.ApplicationUpdateParameters, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, accountName: string, applicationName: string, parameters: Models.Application, callback: msRest.ServiceCallback<Models.Application>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
-   * @param applicationId The ID of the application.
+   * @param applicationName The name of the application. This must be unique within the account.
    * @param parameters The parameters for the request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, applicationId: string, parameters: Models.ApplicationUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, accountName: string, applicationId: string, parameters: Models.ApplicationUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, accountName: string, applicationName: string, parameters: Models.Application, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Application>): void;
+  update(resourceGroupName: string, accountName: string, applicationName: string, parameters: Models.Application, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Application>, callback?: msRest.ServiceCallback<Models.Application>): Promise<Models.ApplicationUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         accountName,
-        applicationId,
+        applicationName,
         parameters,
         options
       },
       updateOperationSpec,
-      callback);
+      callback) as Promise<Models.ApplicationUpdateResponse>;
   }
 
   /**
@@ -239,11 +239,11 @@ export class ApplicationOperations {
 const serializer = new msRest.Serializer(Mappers);
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.applicationId,
+    Parameters.applicationName,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -257,10 +257,10 @@ const createOperationSpec: msRest.OperationSpec = {
       "options",
       "parameters"
     ],
-    mapper: Mappers.ApplicationCreateParameters
+    mapper: Mappers.Application
   },
   responses: {
-    201: {
+    200: {
       bodyMapper: Mappers.Application
     },
     default: {
@@ -272,11 +272,11 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.applicationId,
+    Parameters.applicationName,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -286,6 +286,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
+    200: {},
     204: {},
     default: {
       bodyMapper: Mappers.CloudError
@@ -296,11 +297,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.applicationId,
+    Parameters.applicationName,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -322,11 +323,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.applicationId,
+    Parameters.applicationName,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -338,12 +339,14 @@ const updateOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "parameters",
     mapper: {
-      ...Mappers.ApplicationUpdateParameters,
+      ...Mappers.Application,
       required: true
     }
   },
   responses: {
-    204: {},
+    200: {
+      bodyMapper: Mappers.Application
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
