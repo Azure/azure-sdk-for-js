@@ -720,7 +720,7 @@ export interface VnetGateway extends ProxyOnlyResource {
 /**
  * @interface
  * An interface representing User.
- * User crendentials used for publishing activity.
+ * User credentials used for publishing activity.
  *
  * @extends ProxyOnlyResource
  */
@@ -1041,7 +1041,7 @@ export interface ManagedServiceIdentity {
 /**
  * @interface
  * An interface representing SlotSwapStatus.
- * The status of the last successfull slot swap operation.
+ * The status of the last successful slot swap operation.
  *
  */
 export interface SlotSwapStatus {
@@ -1430,16 +1430,16 @@ export interface RampUpRule {
   reroutePercentage?: number;
   /**
    * @member {number} [changeStep] In auto ramp up scenario this is the step to
-   * to add/remove from <code>ReroutePercentage</code> until it reaches
+   * add/remove from <code>ReroutePercentage</code> until it reaches
    * <code>MinReroutePercentage</code> or <code>MaxReroutePercentage</code>.
-   * Site metrics are checked every N minutes specificed in
+   * Site metrics are checked every N minutes specified in
    * <code>ChangeIntervalInMinutes</code>.
    * Custom decision algorithm can be provided in TiPCallback site extension
    * which URL can be specified in <code>ChangeDecisionCallbackUrl</code>.
    */
   changeStep?: number;
   /**
-   * @member {number} [changeIntervalInMinutes] Specifies interval in mimuntes
+   * @member {number} [changeIntervalInMinutes] Specifies interval in minutes
    * to reevaluate ReroutePercentage.
    */
   changeIntervalInMinutes?: number;
@@ -1814,7 +1814,7 @@ export interface SiteConfig {
    */
   loadBalancing?: SiteLoadBalancing;
   /**
-   * @member {Experiments} [experiments] This is work around for polymophic
+   * @member {Experiments} [experiments] This is work around for polymorphic
    * types.
    */
   experiments?: Experiments;
@@ -3291,7 +3291,7 @@ export interface Certificate extends Resource {
    */
   readonly issueDate?: Date;
   /**
-   * @member {Date} [expirationDate] Certificate expriration date.
+   * @member {Date} [expirationDate] Certificate expiration date.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -3412,7 +3412,7 @@ export interface CertificatePatchResource extends ProxyOnlyResource {
    */
   readonly issueDate?: Date;
   /**
-   * @member {Date} [expirationDate] Certificate expriration date.
+   * @member {Date} [expirationDate] Certificate expiration date.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -3922,7 +3922,7 @@ export interface LocalizableString {
  */
 export interface CsmUsageQuota {
   /**
-   * @member {string} [unit] Units of measurement for the quota resourse.
+   * @member {string} [unit] Units of measurement for the quota resource.
    */
   unit?: string;
   /**
@@ -4220,11 +4220,11 @@ export interface Solution {
  */
 export interface DetectorAbnormalTimePeriod {
   /**
-   * @member {Date} [startTime] Start time of the corelated event
+   * @member {Date} [startTime] Start time of the correlated event
    */
   startTime?: Date;
   /**
-   * @member {Date} [endTime] End time of the corelated event
+   * @member {Date} [endTime] End time of the correlated event
    */
   endTime?: Date;
   /**
@@ -4404,7 +4404,7 @@ export interface DiagnosticMetricSet {
  */
 export interface DataSource {
   /**
-   * @member {string[]} [instructions] Instrunctions if any for the data source
+   * @member {string[]} [instructions] Instructions if any for the data source
    */
   instructions?: string[];
   /**
@@ -4656,7 +4656,7 @@ export interface DiagnosticCategory extends ProxyOnlyResource {
 /**
  * @interface
  * An interface representing DiagnosticDetectorResponse.
- * Class representing Reponse from Diagnostic Detectors
+ * Class representing Response from Diagnostic Detectors
  *
  * @extends ProxyOnlyResource
  */
@@ -4852,7 +4852,7 @@ export interface Recommendation extends ProxyOnlyResource {
   enabled?: number;
   /**
    * @member {string[]} [states] The list of states of this recommendation. If
-   * it's null then it shoud be considered "Active".
+   * it's null then it should be considered "Active".
    */
   states?: string[];
   /**
@@ -5194,7 +5194,7 @@ export interface PremierAddOnOffer extends ProxyOnlyResource {
 /**
  * @interface
  * An interface representing ResourceNameAvailability.
- * Information regarding availbility of a resource name.
+ * Information regarding availability of a resource name.
  *
  */
 export interface ResourceNameAvailability {
@@ -5332,7 +5332,7 @@ export interface ValidateRequest {
   isSpot?: boolean;
   /**
    * @member {number} [capacity] Target capacity of the App Service plan
-   * (number of VM's).
+   * (number of VMs).
    */
   capacity?: number;
   /**
@@ -5947,7 +5947,7 @@ export interface CustomHostnameAnalysisResult extends ProxyOnlyResource {
   readonly hasConflictOnScaleUnit?: boolean;
   /**
    * @member {boolean} [hasConflictAcrossSubscription] <code>true</code> if
-   * htere is a conflict across subscriptions; otherwise, <code>false</code>.
+   * there is a conflict across subscriptions; otherwise, <code>false</code>.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -6021,7 +6021,7 @@ export interface DeletedAppRestoreRequest extends ProxyOnlyResource {
 /**
  * @interface
  * An interface representing Deployment.
- * User crendentials used for publishing activity.
+ * User credentials used for publishing activity.
  *
  * @extends ProxyOnlyResource
  */
@@ -7509,7 +7509,7 @@ export interface SiteConfigResource extends ProxyOnlyResource {
    */
   loadBalancing?: SiteLoadBalancing;
   /**
-   * @member {Experiments} [experiments] This is work around for polymophic
+   * @member {Experiments} [experiments] This is work around for polymorphic
    * types.
    */
   experiments?: Experiments;
@@ -8692,7 +8692,7 @@ export interface AppServiceEnvironmentResource extends Resource {
 /**
  * @interface
  * An interface representing AppServiceEnvironmentPatchResource.
- * ARM resource for a app service enviroment.
+ * ARM resource for a app service environment.
  *
  * @extends ProxyOnlyResource
  */
@@ -9597,7 +9597,7 @@ export interface RecommendationsGetRuleDetailsByWebAppOptionalParams extends msR
    */
   updateSeen?: boolean;
   /**
-   * @member {string} [recommendationId] The GUID of the recommedation object
+   * @member {string} [recommendationId] The GUID of the recommendation object
    * if you query an expired one. You don't need to specify it to query an
    * active entry.
    */
@@ -10397,7 +10397,7 @@ export interface AppServicePlansListMetricsOptionalParams extends msRest.Request
  */
 export interface AppServicePlansRestartWebAppsOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {boolean} [softRestart] Specify <code>true</code> to performa a
+   * @member {boolean} [softRestart] Specify <code>true</code> to perform a
    * soft restart, applies the configuration settings and restarts the apps if
    * necessary. The default is <code>false</code>, which always restarts and
    * reprovisions the apps
@@ -10463,7 +10463,7 @@ export interface WebSiteManagementClientOptions extends AzureServiceClientOption
 /**
  * @interface
  * An interface representing the AppServiceCertificateOrderCollection.
- * Collection of certitificate orders.
+ * Collection of certificate orders.
  *
  * @extends Array<AppServiceCertificateOrder>
  */

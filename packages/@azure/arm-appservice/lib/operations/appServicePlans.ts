@@ -28,8 +28,8 @@ export class AppServicePlans {
   }
 
   /**
-   * Get all App Service plans for a subcription.
-   * @summary Get all App Service plans for a subcription.
+   * Get all App Service plans for a subscription.
+   * @summary Get all App Service plans for a subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansListResponse>
    */
@@ -495,8 +495,8 @@ export class AppServicePlans {
   }
 
   /**
-   * Get metrics for an App Serice plan.
-   * @summary Get metrics for an App Serice plan.
+   * Get metrics for an App Service plan.
+   * @summary Get metrics for an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param [options] The optional parameters
@@ -594,8 +594,8 @@ export class AppServicePlans {
   }
 
   /**
-   * Gets all selectable sku's for a given App Service Plan
-   * @summary Gets all selectable sku's for a given App Service Plan
+   * Gets all selectable SKUs for a given App Service Plan
+   * @summary Gets all selectable SKUs for a given App Service Plan
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of App Service Plan
    * @param [options] The optional parameters
@@ -1083,8 +1083,8 @@ export class AppServicePlans {
   }
 
   /**
-   * Get all App Service plans for a subcription.
-   * @summary Get all App Service plans for a subcription.
+   * Get all App Service plans for a subscription.
+   * @summary Get all App Service plans for a subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansListNextResponse>
@@ -1228,8 +1228,8 @@ export class AppServicePlans {
   }
 
   /**
-   * Get metrics for an App Serice plan.
-   * @summary Get metrics for an App Serice plan.
+   * Get metrics for an App Service plan.
+   * @summary Get metrics for an App Service plan.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansListMetricsNextResponse>
