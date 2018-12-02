@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -963,9 +963,9 @@ export interface EntitiesListOptionalParams extends msRest.RequestOptionsBase {
   search?: Search;
   /**
    * @member {string} [filter] The filter parameter allows you to filter on the
-   * the name or display name fields. You can check for equality on the name
-   * field (e.g. name eq '{entityName}')  and you can check for substrings on
-   * either the name or display name fields(e.g. contains(name,
+   * name or display name fields. You can check for equality on the name field
+   * (e.g. name eq '{entityName}')  and you can check for substrings on either
+   * the name or display name fields(e.g. contains(name,
    * '{substringToSearch}'), contains(displayName, '{substringToSearch')). Note
    * that the '{entityName}' and '{substringToSearch}' fields are checked case
    * insensitively.
