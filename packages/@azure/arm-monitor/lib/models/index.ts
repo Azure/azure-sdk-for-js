@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -192,14 +192,14 @@ export interface ScaleRule {
 export interface TimeWindow {
   /**
    * @member {string} [timeZone] the timezone of the start and end times for
-   * the profile. Some examples of valid timezones are: Dateline Standard Time,
-   * UTC-11, Hawaiian Standard Time, Alaskan Standard Time, Pacific Standard
-   * Time (Mexico), Pacific Standard Time, US Mountain Standard Time, Mountain
-   * Standard Time (Mexico), Mountain Standard Time, Central America Standard
-   * Time, Central Standard Time, Central Standard Time (Mexico), Canada
-   * Central Standard Time, SA Pacific Standard Time, Eastern Standard Time, US
-   * Eastern Standard Time, Venezuela Standard Time, Paraguay Standard Time,
-   * Atlantic Standard Time, Central Brazilian Standard Time, SA Western
+   * the profile. Some examples of valid time zones are: Dateline Standard
+   * Time, UTC-11, Hawaiian Standard Time, Alaskan Standard Time, Pacific
+   * Standard Time (Mexico), Pacific Standard Time, US Mountain Standard Time,
+   * Mountain Standard Time (Mexico), Mountain Standard Time, Central America
+   * Standard Time, Central Standard Time, Central Standard Time (Mexico),
+   * Canada Central Standard Time, SA Pacific Standard Time, Eastern Standard
+   * Time, US Eastern Standard Time, Venezuela Standard Time, Paraguay Standard
+   * Time, Atlantic Standard Time, Central Brazilian Standard Time, SA Western
    * Standard Time, Pacific SA Standard Time, Newfoundland Standard Time, E.
    * South America Standard Time, Argentina Standard Time, SA Eastern Standard
    * Time, Greenland Standard Time, Montevideo Standard Time, Bahia Standard
@@ -250,7 +250,7 @@ export interface TimeWindow {
 export interface RecurrentSchedule {
   /**
    * @member {string} timeZone the timezone for the hours of the profile. Some
-   * examples of valid timezones are: Dateline Standard Time, UTC-11, Hawaiian
+   * examples of valid time zones are: Dateline Standard Time, UTC-11, Hawaiian
    * Standard Time, Alaskan Standard Time, Pacific Standard Time (Mexico),
    * Pacific Standard Time, US Mountain Standard Time, Mountain Standard Time
    * (Mexico), Mountain Standard Time, Central America Standard Time, Central
@@ -2098,7 +2098,7 @@ export interface MetricDefinition {
    */
   resourceId?: string;
   /**
-   * @member {string} [namespace] the namespace the metric blongs to.
+   * @member {string} [namespace] the namespace the metric belongs to.
    */
   namespace?: string;
   /**
@@ -2260,7 +2260,7 @@ export interface Response {
   cost?: number;
   /**
    * @member {string} timespan The timespan for which the data was retrieved.
-   * Its value consists of two datatimes concatenated, separated by '/'.  This
+   * Its value consists of two datetimes concatenated, separated by '/'.  This
    * may be adjusted in the future and returned back from what was originally
    * requested.
    */
@@ -2354,7 +2354,7 @@ export interface BaselineResponse {
   readonly name?: LocalizableString;
   /**
    * @member {string} [timespan] The timespan for which the data was retrieved.
-   * Its value consists of two datatimes concatenated, separated by '/'.  This
+   * Its value consists of two datetimes concatenated, separated by '/'.  This
    * may be adjusted in the future and returned back from what was originally
    * requested.
    */
@@ -2411,7 +2411,7 @@ export interface TimeSeriesInformation {
 /**
  * @interface
  * An interface representing CalculateBaselineResponse.
- * The response to a calcualte baseline call.
+ * The response to a calculate baseline call.
  *
  */
 export interface CalculateBaselineResponse {
@@ -2793,7 +2793,7 @@ export interface MetricAlertSingleResourceMultipleMetricCriteria {
 /**
  * @interface
  * An interface representing MetricAlertMultipleResourceMultipleMetricCriteria.
- * Speficies the metric alert criteria for multiple resource that has multiple
+ * Specifies the metric alert criteria for multiple resource that has multiple
  * metric criteria.
  *
  */
@@ -2903,7 +2903,7 @@ export interface LogSearchRuleResource extends Resource {
   readonly lastUpdatedTime?: Date;
   /**
    * @member {ProvisioningState} [provisioningState] Provisioning state of the
-   * scheduledquery rule. Possible values include: 'Succeeded', 'Deploying',
+   * scheduled query rule. Possible values include: 'Succeeded', 'Deploying',
    * 'Canceled', 'Failed'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -2914,7 +2914,7 @@ export interface LogSearchRuleResource extends Resource {
    */
   source: Source;
   /**
-   * @member {Schedule} [schedule] Schedule (Frequnecy, Time Window) for rule.
+   * @member {Schedule} [schedule] Schedule (Frequency, Time Window) for rule.
    * Required for action type - AlertingAction
    */
   schedule?: Schedule;
@@ -3015,7 +3015,7 @@ export interface AzNsActionGroup {
   emailSubject?: string;
   /**
    * @member {string} [customWebhookPayload] Custom payload to be sent for all
-   * webook URI in Azure action group
+   * webhook URI in Azure action group
    */
   customWebhookPayload?: string;
 }
@@ -3023,7 +3023,7 @@ export interface AzNsActionGroup {
 /**
  * @interface
  * An interface representing AlertingAction.
- * Specifiy action need to be taken when rule type is Alert
+ * Specify action need to be taken when rule type is Alert
  *
  */
 export interface AlertingAction {
@@ -3089,7 +3089,7 @@ export interface Criteria {
 /**
  * @interface
  * An interface representing LogToMetricAction.
- * Specifiy action need to be taken when rule type is converting log to metric
+ * Specify action need to be taken when rule type is converting log to metric
  *
  */
 export interface LogToMetricAction {
