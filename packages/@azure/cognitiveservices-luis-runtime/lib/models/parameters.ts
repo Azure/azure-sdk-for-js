@@ -66,6 +66,19 @@ export const ocpApimSubscriptionKey: msRest.OperationParameter = {
     }
   }
 };
+export const query: msRest.OperationQueryParameter = {
+  parameterPath: "query",
+  mapper: {
+    required: true,
+    serializedName: "q",
+    constraints: {
+      MaxLength: 500
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
 export const spellCheck: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",

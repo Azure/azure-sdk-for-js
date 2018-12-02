@@ -1326,9 +1326,6 @@ const listAvailableCustomPrebuiltDomainsForCultureOperationSpec: msRest.Operatio
         }
       }
     },
-    400: {
-      bodyMapper: Mappers.ErrorResponse
-    },
     401: {
       bodyMapper: Mappers.ErrorResponse
     },

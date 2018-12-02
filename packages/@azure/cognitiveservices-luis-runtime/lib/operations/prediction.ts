@@ -29,40 +29,128 @@ export class Prediction {
   /**
    * Gets predictions for a given utterance, in the form of intents and entities. The current maximum
    * query size is 500 characters.
-   * @param appId The LUIS application ID (Guid).
+   * @param appId The LUIS application ID (guid).
    * @param query The utterance to predict.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PredictionResolveResponse>
+   * @returns Promise<Models.PredictionGETResponse>
    */
-  resolve(appId: string, query: string, options?: Models.PredictionResolveOptionalParams): Promise<Models.PredictionResolveResponse>;
+  gET(appId: string, query: string, options?: Models.PredictionGETOptionalParams): Promise<Models.PredictionGETResponse>;
   /**
-   * @param appId The LUIS application ID (Guid).
+   * @param appId The LUIS application ID (guid).
    * @param query The utterance to predict.
    * @param callback The callback
    */
-  resolve(appId: string, query: string, callback: msRest.ServiceCallback<any>): void;
+  gET(appId: string, query: string, callback: msRest.ServiceCallback<any>): void;
   /**
-   * @param appId The LUIS application ID (Guid).
+   * @param appId The LUIS application ID (guid).
    * @param query The utterance to predict.
    * @param options The optional parameters
    * @param callback The callback
    */
-  resolve(appId: string, query: string, options: Models.PredictionResolveOptionalParams, callback: msRest.ServiceCallback<any>): void;
-  resolve(appId: string, query: string, options?: Models.PredictionResolveOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.PredictionResolveResponse> {
+  gET(appId: string, query: string, options: Models.PredictionGETOptionalParams, callback: msRest.ServiceCallback<any>): void;
+  gET(appId: string, query: string, options?: Models.PredictionGETOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.PredictionGETResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
         query,
         options
       },
-      resolveOperationSpec,
-      callback) as Promise<Models.PredictionResolveResponse>;
+      gETOperationSpec,
+      callback) as Promise<Models.PredictionGETResponse>;
+  }
+
+  /**
+   * Gets predictions for a given utterance, in the form of intents and entities. The current maximum
+   * query size is 500 characters.
+   * @param appId The LUIS application ID (Guid).
+   * @param query The utterance to predict.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PredictionPOSTResponse>
+   */
+  pOST(appId: string, query: string, options?: Models.PredictionPOSTOptionalParams): Promise<Models.PredictionPOSTResponse>;
+  /**
+   * @param appId The LUIS application ID (Guid).
+   * @param query The utterance to predict.
+   * @param callback The callback
+   */
+  pOST(appId: string, query: string, callback: msRest.ServiceCallback<any>): void;
+  /**
+   * @param appId The LUIS application ID (Guid).
+   * @param query The utterance to predict.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  pOST(appId: string, query: string, options: Models.PredictionPOSTOptionalParams, callback: msRest.ServiceCallback<any>): void;
+  pOST(appId: string, query: string, options?: Models.PredictionPOSTOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.PredictionPOSTResponse> {
+    return this.client.sendOperationRequest(
+      {
+        appId,
+        query,
+        options
+      },
+      pOSTOperationSpec,
+      callback) as Promise<Models.PredictionPOSTResponse>;
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const resolveOperationSpec: msRest.OperationSpec = {
+const gETOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "apps/{appId}",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId
+  ],
+  queryParameters: [
+    Parameters.query,
+    Parameters.timezoneOffset,
+    Parameters.verbose,
+    Parameters.staging,
+    Parameters.spellCheck,
+    Parameters.bingSpellCheckSubscriptionKey,
+    Parameters.log
+  ],
+  headerParameters: [
+    Parameters.ocpApimSubscriptionKey
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.LuisResult
+    },
+    400: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    401: {
+      bodyMapper: Mappers.APIError
+    },
+    403: {
+      bodyMapper: Mappers.APIError
+    },
+    409: {},
+    410: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    414: {},
+    429: {
+      bodyMapper: Mappers.APIError
+    },
+    default: {}
+  },
+  serializer
+};
+
+const pOSTOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}",
   urlParameters: [

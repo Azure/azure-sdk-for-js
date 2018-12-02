@@ -202,12 +202,12 @@ export interface EntityWithResolution extends EntityModel {
 
 /**
  * @interface
- * An interface representing PredictionResolveOptionalParams.
+ * An interface representing PredictionGETOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface PredictionResolveOptionalParams extends msRest.RequestOptionsBase {
+export interface PredictionGETOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {number} [timezoneOffset] The timezone offset for the location of
    * the request.
@@ -238,9 +238,69 @@ export interface PredictionResolveOptionalParams extends msRest.RequestOptionsBa
 }
 
 /**
- * Contains response data for the resolve operation.
+ * @interface
+ * An interface representing PredictionPOSTOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
  */
-export type PredictionResolveResponse = {
+export interface PredictionPOSTOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {number} [timezoneOffset] The timezone offset for the location of
+   * the request.
+   */
+  timezoneOffset?: number;
+  /**
+   * @member {boolean} [verbose] If true, return all intents instead of just
+   * the top scoring intent.
+   */
+  verbose?: boolean;
+  /**
+   * @member {boolean} [staging] Use the staging endpoint slot.
+   */
+  staging?: boolean;
+  /**
+   * @member {boolean} [spellCheck] Enable spell checking.
+   */
+  spellCheck?: boolean;
+  /**
+   * @member {string} [bingSpellCheckSubscriptionKey] The subscription key to
+   * use when enabling bing spell check
+   */
+  bingSpellCheckSubscriptionKey?: string;
+  /**
+   * @member {boolean} [log] Log query (default is true)
+   */
+  log?: boolean;
+}
+
+/**
+ * Contains response data for the gET operation.
+ */
+export type PredictionGETResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
+    };
+};
+
+/**
+ * Contains response data for the pOST operation.
+ */
+export type PredictionPOSTResponse = {
   /**
    * The parsed response body.
    */

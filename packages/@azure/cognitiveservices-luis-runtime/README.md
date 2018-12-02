@@ -16,7 +16,7 @@ npm install @azure/cognitiveservices-luis-runtime
 
 ## How to use
 
-### nodejs - Authentication, client creation and resolve prediction as an example written in TypeScript.
+### nodejs - Authentication, client creation and gET prediction as an example written in TypeScript.
 
 ```ts
 import * as msRest from "ms-rest-js";
@@ -34,7 +34,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
   const spellCheck = true;
   const bingSpellCheckSubscriptionKey = "testbingSpellCheckSubscriptionKey";
   const log = true;
-  client.prediction.resolve(appId, query, timezoneOffset, verbose, staging, spellCheck, bingSpellCheckSubscriptionKey, log).then((result) => {
+  client.prediction.gET(appId, query, timezoneOffset, verbose, staging, spellCheck, bingSpellCheckSubscriptionKey, log).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -43,7 +43,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-### browser - Authentication, client creation and resolve prediction as an example written in javascript.
+### browser - Authentication, client creation and gET prediction as an example written in javascript.
 
 - index.html
 ```html
@@ -74,7 +74,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
         const spellCheck = true;
         const bingSpellCheckSubscriptionKey = "testbingSpellCheckSubscriptionKey";
         const log = true;
-        client.prediction.resolve(appId, query, timezoneOffset, verbose, staging, spellCheck, bingSpellCheckSubscriptionKey, log).then((result) => {
+        client.prediction.gET(appId, query, timezoneOffset, verbose, staging, spellCheck, bingSpellCheckSubscriptionKey, log).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
