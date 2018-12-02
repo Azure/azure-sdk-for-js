@@ -245,63 +245,6 @@ export interface ExampleLabelObject {
 
 /**
  * @interface
- * An interface representing DispatchConnectedServiceDeleteObject.
- * An intent to delete its disptch connected service.
- *
- */
-export interface DispatchConnectedServiceDeleteObject {
-  /**
-   * @member {string} [intentName] The name of the intent connected to the
-   * dispatch
-   */
-  intentName?: string;
-}
-
-/**
- * @interface
- * An interface representing DispatchConnectedServiceObject.
- * A disptch connected service.
- *
- */
-export interface DispatchConnectedServiceObject {
-  /**
-   * @member {string} [intentName] The name of the intent connected to the
-   * dispatch
-   */
-  intentName?: string;
-  /**
-   * @member {string} [type] The type of the connected service [luis/qna]
-   */
-  type?: string;
-  /**
-   * @member {string} [name] The name of the connected LUIS app (only if type
-   * is luis)
-   */
-  name?: string;
-  /**
-   * @member {string} [appId] The ID of the connected LUIS app (only if type is
-   * luis)
-   */
-  appId?: string;
-  /**
-   * @member {string} [version] The version ID of the connected LUIS app (only
-   * if type is luis)
-   */
-  version?: string;
-  /**
-   * @member {string} [region] The region of the connected LUIS app (only if
-   * type is luis)
-   */
-  region?: string;
-  /**
-   * @member {string} [kbId] The ID of the connected QnA app (only if type is
-   * qna)
-   */
-  kbId?: string;
-}
-
-/**
- * @interface
  * An interface representing PhraselistCreateObject.
  * Object model for creating a phraselist model.
  *
@@ -6269,75 +6212,6 @@ export type 5be32554f8591db3a86232e1Response = {
  * Contains response data for the 5be313cec181ae720aa2b26c operation.
  */
 export type 5be313cec181ae720aa2b26cResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: any;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
-};
-
-/**
- * Contains response data for the batchUpdateConnectedServices operation.
- */
-export type DispatchBatchUpdateConnectedServicesResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: any;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
-};
-
-/**
- * Contains response data for the batchAddConnectedServices operation.
- */
-export type DispatchBatchAddConnectedServicesResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: any;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
-};
-
-/**
- * Contains response data for the deleteConnectedServices operation.
- */
-export type DispatchDeleteConnectedServicesResponse = {
   /**
    * The parsed response body.
    */
