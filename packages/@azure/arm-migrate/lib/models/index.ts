@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -362,9 +362,9 @@ export interface Assessment extends BaseResource {
    */
   readonly monthlyStorageCost?: number;
   /**
-   * @member {AssessmentStatus} [status] Wheter the assessment has been created
-   * and is valid. Possible values include: 'Created', 'Updated', 'Running',
-   * 'Completed', 'Invalid'
+   * @member {AssessmentStatus} [status] Whether the assessment has been
+   * created and is valid. Possible values include: 'Created', 'Updated',
+   * 'Running', 'Completed', 'Invalid'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */

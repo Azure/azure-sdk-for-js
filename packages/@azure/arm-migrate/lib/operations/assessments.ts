@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/assessmentsMappers";
 import * as Parameters from "../models/parameters";
@@ -144,7 +144,7 @@ export class Assessments {
 
   /**
    * Create a new assessment with the given name and the specified settings. Since name of an
-   * assessment in a project is a unique identiefier, if an assessment with the name provided already
+   * assessment in a project is a unique identifier, if an assessment with the name provided already
    * exists, then the existing assessment is updated.
    *
    * Any PUT operation, resulting in either create or update on an assessment, will cause the
