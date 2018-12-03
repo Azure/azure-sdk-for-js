@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/managementAssociationsMappers";
 import * as Parameters from "../models/parameters";
@@ -27,8 +27,8 @@ export class ManagementAssociations {
   }
 
   /**
-   * Retrieves the ManagementAssociatons list.
-   * @summary Retrieves the ManagementAssociatons list for the subscription
+   * Retrieves the ManagementAssociations list.
+   * @summary Retrieves the ManagementAssociations list for the subscription
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementAssociationsListBySubscriptionResponse>
    */
