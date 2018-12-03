@@ -631,7 +631,7 @@ export interface JobDetails {
   jobDetailsType: "JobDetails";
   /**
    * @member {number} [expectedDataSizeInTeraBytes] The expected size of the
-   * data, which needs to be transfered in this job, in tera bytes.
+   * data, which needs to be transferred in this job, in terabytes.
    */
   expectedDataSizeInTeraBytes?: number;
   /**
@@ -715,7 +715,7 @@ export interface DataBoxDiskJobDetails {
   jobDetailsType: "DataBoxDisk";
   /**
    * @member {number} [expectedDataSizeInTeraBytes] The expected size of the
-   * data, which needs to be transfered in this job, in tera bytes.
+   * data, which needs to be transferred in this job, in terabytes.
    */
   expectedDataSizeInTeraBytes?: number;
   /**
@@ -887,7 +887,7 @@ export interface DataBoxDiskJobSecrets {
 /**
  * @interface
  * An interface representing DataBoxHeavyAccountCopyLogDetails.
- * Copy log details for a storage account for Databox heavy
+ * Copy log details for a storage account for DataBoxHeavy
  *
  */
 export interface DataBoxHeavyAccountCopyLogDetails {
@@ -912,7 +912,7 @@ export interface DataBoxHeavyAccountCopyLogDetails {
 /**
  * @interface
  * An interface representing DataBoxHeavyJobDetails.
- * Databox Heavy Device Job Details
+ * DataBoxHeavy Device Job Details
  *
  */
 export interface DataBoxHeavyJobDetails {
@@ -922,7 +922,7 @@ export interface DataBoxHeavyJobDetails {
   jobDetailsType: "DataBoxHeavy";
   /**
    * @member {number} [expectedDataSizeInTeraBytes] The expected size of the
-   * data, which needs to be transfered in this job, in tera bytes.
+   * data, which needs to be transferred in this job, in terabytes.
    */
   expectedDataSizeInTeraBytes?: number;
   /**
@@ -1002,7 +1002,7 @@ export interface DataBoxHeavyJobDetails {
 /**
  * @interface
  * An interface representing DataBoxHeavySecret.
- * The secrets related to a databox heavy.
+ * The secrets related to a DataBoxHeavy.
  *
  */
 export interface DataBoxHeavySecret {
@@ -1046,7 +1046,7 @@ export interface DataBoxHeavySecret {
 /**
  * @interface
  * An interface representing DataBoxHeavyJobSecrets.
- * The secrets related to a databox heavy job.
+ * The secrets related to a DataBoxHeavy job.
  *
  */
 export interface DataBoxHeavyJobSecrets {
@@ -1056,7 +1056,7 @@ export interface DataBoxHeavyJobSecrets {
   jobSecretsType: "DataBoxHeavy";
   /**
    * @member {DataBoxHeavySecret[]} [cabinetPodSecrets] Contains the list of
-   * secret objects for a databox heavy job.
+   * secret objects for a DataBoxHeavy job.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -1066,7 +1066,7 @@ export interface DataBoxHeavyJobSecrets {
 /**
  * @interface
  * An interface representing DataBoxJobDetails.
- * Databox Job Details
+ * DataBox Job Details
  *
  */
 export interface DataBoxJobDetails {
@@ -1076,7 +1076,7 @@ export interface DataBoxJobDetails {
   jobDetailsType: "DataBox";
   /**
    * @member {number} [expectedDataSizeInTeraBytes] The expected size of the
-   * data, which needs to be transfered in this job, in tera bytes.
+   * data, which needs to be transferred in this job, in terabytes.
    */
   expectedDataSizeInTeraBytes?: number;
   /**
@@ -1200,7 +1200,7 @@ export interface DataBoxSecret {
 /**
  * @interface
  * An interface representing DataboxJobSecrets.
- * The secrets related to a databox job.
+ * The secrets related to a DataBox job.
  *
  */
 export interface DataboxJobSecrets {
@@ -1898,7 +1898,7 @@ export enum ShareDestinationFormatType {
    */
   UnknownType = 'UnknownType',
   /**
-   * Storsimple data format.
+   * StorSimple data format.
    */
   HCS = 'HCS',
   /**
@@ -1987,15 +1987,15 @@ export enum AddressType {
  */
 export enum SkuName {
   /**
-   * Databox.
+   * DataBox.
    */
   DataBox = 'DataBox',
   /**
-   * DataboxDisk.
+   * DataBoxDisk.
    */
   DataBoxDisk = 'DataBoxDisk',
   /**
-   * DataboxHeavy.
+   * DataBoxHeavy.
    */
   DataBoxHeavy = 'DataBoxHeavy',
 }
@@ -2078,7 +2078,7 @@ export enum NotificationStageName {
  */
 export enum CopyStatus {
   /**
-   * Data copy hasnt started yet.
+   * Data copy hasn't started yet.
    */
   NotStarted = 'NotStarted',
   /**
