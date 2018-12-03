@@ -47,7 +47,7 @@ describe("Session Token", function() {
     await removeAllDatabases();
   });
 
-  it("validate session tokens for sequence of opearations", async function() {
+  it("validate session tokens for sequence of operations", async function() {
     const database = await getTestDatabase("session test", client);
 
     const { body: createdContainerDef } = await database.containers.create(containerDefinition, containerOptions);
@@ -267,13 +267,14 @@ describe("Session Token", function() {
   });
 
   it("validate 'lsn not caught up' error for higher lsn and clearing session token", async function() {
+    this.retries(2);
     const database = await getTestDatabase("session test", client);
 
     const containerLink = "dbs/" + database.id + "/colls/" + containerId;
     const increaseLSN = function(oldTokens: Map<string, Map<string, VectorSessionToken>>) {
       for (const [coll, tokens] of oldTokens.entries()) {
         for (const [pk, token] of tokens.entries()) {
-          (token as any).globalLsn = (token as any).version + 200;
+          (token as any).globalLsn = (token as any).globalLsn + 200;
           const newToken = token.merge(token);
           return `0:${newToken.toString()}`;
         }

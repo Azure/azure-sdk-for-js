@@ -78,6 +78,7 @@ export const Constants = {
     // Our custom Azure Cosmos DB headers
     Continuation: "x-ms-continuation",
     PageSize: "x-ms-max-item-count",
+    ItemCount: "x-ms-item-count",
 
     // Request sender generated. Simply echoed by backend.
     ActivityId: "x-ms-activity-id",

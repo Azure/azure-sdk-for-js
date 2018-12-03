@@ -2,7 +2,7 @@ import { PartitionKey } from "../..";
 import { ClientContext } from "../../ClientContext";
 import { Helper, UriFactory } from "../../common";
 import { PartitionKeyDefinition } from "../../documents";
-import { CosmosResponse, RequestOptions } from "../../request";
+import { CosmosResponse, FeedOptions, RequestOptions } from "../../request";
 import { Conflict, Conflicts } from "../Conflict";
 import { Database } from "../Database";
 import { Item, Items } from "../Item";
@@ -205,6 +205,11 @@ export class Container {
       headers,
       ref: this
     };
+  }
+
+  public readPartitionKeyRanges(feedOptions?: FeedOptions) {
+    feedOptions = feedOptions || {};
+    return this.clientContext.queryPartitionKeyRanges(this.url, undefined, feedOptions);
   }
 
   // TODO: The ParitionKey type is REALLY weird. Now that it's being exported, we should clean it up.

@@ -48,6 +48,9 @@ describe("NodeJS CRUD Tests", function() {
         const { result: results } = await database.containers.query(querySpec).toArray();
         assert(results.length > 0, "number of results for the query should be > 0");
 
+        const { result: ranges } = await container.readPartitionKeyRanges().toArray();
+        assert(ranges.length > 0, "container should have at least 1 partition");
+
         // Replacing indexing policy is allowed.
         containerDef.indexingPolicy.indexingMode = IndexingMode.lazy;
         const { body: replacedContainer } = await container.replace(containerDef);

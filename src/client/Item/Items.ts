@@ -1,3 +1,5 @@
+import { ChangeFeedIterator } from "../../ChangeFeedIterator";
+import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
 import { Helper } from "../../common";
 import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
@@ -8,6 +10,13 @@ import { Resource } from "../Resource";
 import { Item } from "./Item";
 import { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
+
+import assert from "assert";
+import { isBoolean, isNumber, isString } from "util";
+
+function isChangeFeedOptions(options: unknown): options is ChangeFeedOptions {
+  return options && !(isString(options) || isBoolean(options) || isNumber(options));
+}
 
 /**
  * Operations for creating new items, and reading/querying all items
@@ -70,6 +79,77 @@ export class Items {
     };
 
     return new QueryIterator(this.clientContext, query, options, fetchFunction, this.container.url);
+  }
+
+  /**
+   * Create a `ChangeFeedIterator` to iterate over pages of changes
+   *
+   * @param partitionKey
+   * @param changeFeedOptions
+   *
+   * @example Read from the beginning of the change feed.
+   * ```javascript
+   * const iterator = items.readChangeFeed({ startFromBeginning: true });
+   * const firstPage = await iterator.executeNext();
+   * const firstPageResults = firstPage.result
+   * const secondPage = await iterator.executeNext();
+   * ```
+   */
+  public readChangeFeed(
+    partitionKey: string | number | boolean,
+    changeFeedOptions: ChangeFeedOptions
+  ): ChangeFeedIterator<any>;
+  /**
+   * Create a `ChangeFeedIterator` to iterate over pages of changes
+   *
+   * @param changeFeedOptions
+   */
+  public readChangeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
+  /**
+   * Create a `ChangeFeedIterator` to iterate over pages of changes
+   *
+   * @param partitionKey
+   * @param changeFeedOptions
+   */
+  public readChangeFeed<T>(
+    partitionKey: string | number | boolean,
+    changeFeedOptions: ChangeFeedOptions
+  ): ChangeFeedIterator<T>;
+  /**
+   * Create a `ChangeFeedIterator` to iterate over pages of changes
+   *
+   * @param changeFeedOptions
+   */
+  public readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
+  public readChangeFeed<T>(
+    partitionKeyOrChangeFeedOptions?: string | number | boolean | ChangeFeedOptions,
+    changeFeedOptions?: ChangeFeedOptions
+  ): ChangeFeedIterator<T> {
+    let partitionKey: string | number | boolean;
+    if (!changeFeedOptions && isChangeFeedOptions(partitionKeyOrChangeFeedOptions)) {
+      partitionKey = undefined;
+      changeFeedOptions = partitionKeyOrChangeFeedOptions;
+    } else if (partitionKeyOrChangeFeedOptions !== undefined && !isChangeFeedOptions(partitionKeyOrChangeFeedOptions)) {
+      partitionKey = partitionKeyOrChangeFeedOptions;
+    }
+
+    if (!changeFeedOptions) {
+      throw new Error("changeFeedOptions must be a valid object");
+    }
+
+    const path = Helper.getPathFromLink(this.container.url, "docs");
+    const id = Helper.getIdFromLink(this.container.url);
+    return new ChangeFeedIterator<T>(
+      this.clientContext,
+      id,
+      path,
+      partitionKey,
+      async () => {
+        const bodyWillBeTruthyIfPartitioned = (await this.container.getPartitionKeyDefinition()).body;
+        return !!bodyWillBeTruthyIfPartitioned;
+      },
+      changeFeedOptions
+    );
   }
 
   /**

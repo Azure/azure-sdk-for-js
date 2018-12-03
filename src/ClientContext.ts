@@ -1,4 +1,5 @@
 import { Constants, CosmosClientOptions, IHeaders, QueryIterator, RequestOptions, Response, SqlQuerySpec } from ".";
+import { PartitionKeyRange } from "./client/Container/PartitionKeyRange";
 import { Resource } from "./client/Resource";
 import { Helper, StatusCodes, SubStatusCodes } from "./common";
 import { ConnectionPolicy, ConsistencyLevel, DatabaseAccount, QueryCompatibilityMode } from "./documents";
@@ -155,7 +156,7 @@ export class ClientContext {
     const cb: FetchFunctionCallback = innerOptions => {
       return this.queryFeed(path, "pkranges", id, result => result.PartitionKeyRanges, query, innerOptions);
     };
-    return new QueryIterator(this, query, options, cb);
+    return new QueryIterator<PartitionKeyRange>(this, query, options, cb);
   }
 
   public async delete<T>(
