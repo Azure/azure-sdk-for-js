@@ -68,7 +68,7 @@ export class Tasks {
   /**
    * The tasks resource is a nested, proxy-only resource representing work performed by a DMS
    * instance. The PUT method creates a new task or updates an existing one, although since tasks
-   * have no mutable custom properties, there is little reason to update an exising one.
+   * have no mutable custom properties, there is little reason to update an existing one.
    * @summary Create or update task
    * @param parameters Information about the task
    * @param groupName Name of the resource group
