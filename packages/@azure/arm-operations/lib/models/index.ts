@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -242,7 +242,7 @@ export interface Solution extends BaseResource {
  */
 export interface SolutionPropertiesList {
   /**
-   * @member {Solution[]} [value] List of solution properites within the
+   * @member {Solution[]} [value] List of solution properties within the
    * subscription.
    */
   value?: Solution[];
@@ -295,7 +295,7 @@ export interface ManagementAssociation extends BaseResource {
 export interface ManagementAssociationPropertiesList {
   /**
    * @member {ManagementAssociation[]} [value] List of Management Association
-   * properites within the subscription.
+   * properties within the subscription.
    */
   value?: ManagementAssociation[];
 }
@@ -347,7 +347,7 @@ export interface ManagementConfiguration extends BaseResource {
 export interface ManagementConfigurationPropertiesList {
   /**
    * @member {ManagementConfiguration[]} [value] List of Management
-   * Configuration properites within the subscription.
+   * Configuration properties within the subscription.
    */
   value?: ManagementConfiguration[];
 }
