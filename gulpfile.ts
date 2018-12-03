@@ -158,9 +158,6 @@ function pack(): void {
         _logger.log(`Packing package "${packageName}" with version "${localPackageVersion}"...${args.whatif ? " (SKIPPED)" : ""}`);
         if (!args.whatif) {
           try {
-            npmInstall(packageFolderPath);
-            // TODO: `npm install` should be removed after we regenerate all packages.
-            execSync("npm install", { cwd: packageFolderPath });
             execSync(`npm pack`, { cwd: packageFolderPath });
             const packFileName = `${packageName.replace("/", "-").replace("@", "")}-${localPackageVersion}.tgz`
             const packFilePath = path.join(packageFolderPath, packFileName);
