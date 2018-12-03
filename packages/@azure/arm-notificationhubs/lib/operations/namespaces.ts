@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/namespacesMappers";
 import * as Parameters from "../models/parameters";
@@ -178,7 +178,7 @@ export class Namespaces {
    * Creates an authorization rule for a namespace
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
-   * @param authorizationRuleName Aauthorization Rule Name.
+   * @param authorizationRuleName Authorization Rule Name.
    * @param parameters The shared access authorization rule.
    * @param [options] The optional parameters
    * @returns Promise<Models.NamespacesCreateOrUpdateAuthorizationRuleResponse>
@@ -187,7 +187,7 @@ export class Namespaces {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
-   * @param authorizationRuleName Aauthorization Rule Name.
+   * @param authorizationRuleName Authorization Rule Name.
    * @param parameters The shared access authorization rule.
    * @param callback The callback
    */
@@ -195,7 +195,7 @@ export class Namespaces {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
-   * @param authorizationRuleName Aauthorization Rule Name.
+   * @param authorizationRuleName Authorization Rule Name.
    * @param parameters The shared access authorization rule.
    * @param options The optional parameters
    * @param callback The callback
