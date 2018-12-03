@@ -19,7 +19,6 @@ import { getPackageFolderPathFromPackageArgument } from "./.scripts/readme";
 const args: CommandLineOptions = getCommandLineOptions();
 const _logger: Logger = Logger.get();
 const azureSDKForJSRepoRoot: string = args["azure-sdk-for-js-repo-root"] || __dirname;
-const ignoreVersion: boolean = args["ignore-version"];
 
 gulp.task('default', () => {
   _logger.log('gulp build --package <package-name>');
@@ -43,8 +42,6 @@ gulp.task('default', () => {
   _logger.log('    The name of the package to publish. If no package is specified, then all packages will be published.');
   _logger.log('  --whatif');
   _logger.log('    Don\'t actually publish packages, but just indicate which packages would be published.');
-  _logger.log('  --ignore-version');
-  _logger.log('    If this is not specified, then only packages with versions newer than what is found in NPM will be packed.');
 });
 
 gulp.task("install", async () => {
@@ -102,9 +99,7 @@ gulp.task('codegen', async () => {
   await generateSdk(argv.azureRestAPISpecsRoot, argv.azureSDKForJSRepoRoot, argv.package, argv.use, argv.debugger);
 });
 
-type CreatePackageType = "pack" | "publish"
-
-function createPackages(type: CreatePackageType): void {
+function pack(): void {
   let errorPackages = 0;
   let upToDatePackages = 0;
   let publishedPackages = 0;
@@ -160,44 +155,24 @@ function createPackages(type: CreatePackageType): void {
         errorPackages++;
       }
       else {
-        let npmPackageVersion: string | undefined;
-        if (!ignoreVersion) {
+        _logger.log(`Packing package "${packageName}" with version "${localPackageVersion}"...${args.whatif ? " (SKIPPED)" : ""}`);
+        if (!args.whatif) {
           try {
-            _logger.logTrace(`Getting version number for ${packageName} from NPM`);
-            const npmViewResult: { [propertyName: string]: any } = JSON.parse(
-              execSync(`npm view ${packageName} --json`, { stdio: ['pipe', 'pipe', 'ignore'] }).toString()
-            );
-            npmPackageVersion = npmViewResult['dist-tags']['latest'];
+            npmInstall(packageFolderPath);
+            // TODO: `npm install` should be removed after we regenerate all packages.
+            execSync("npm install", { cwd: packageFolderPath });
+            execSync(`npm pack`, { cwd: packageFolderPath });
+            const packFileName = `${packageName.replace("/", "-").replace("@", "")}-${localPackageVersion}.tgz`
+            const packFilePath = path.join(packageFolderPath, packFileName);
+            fs.renameSync(packFilePath, path.join(dropPath, packFileName));
+            console.log(`Filename: ${packFileName}`);
+            publishedPackages++;
           }
           catch (error) {
-            // This happens if the package doesn't exist in NPM.
+            errorPackages++;
           }
-        }
-
-        if (!ignoreVersion && localPackageVersion === npmPackageVersion) {
-          _logger.logTrace(`Package ${packageName} has the same version number (${localPackageVersion}) as NPM (${npmPackageVersion})`);
-          upToDatePackages++;
-        }
-        else {
-          _logger.log(`Packing package "${packageName}" with version "${localPackageVersion}"...${args.whatif ? " (SKIPPED)" : ""}`);
-          if (!args.whatif) {
-            try {
-              npmInstall(packageFolderPath);
-              // TODO: `npm install` should be removed after we regenerate all packages.
-              execSync("npm install", { cwd: packageFolderPath });
-              execSync(`npm ${type}`, { cwd: packageFolderPath });
-              const packFileName = `${packageName.replace("/", "-").replace("@", "")}-${localPackageVersion}.tgz`
-              const packFilePath = path.join(packageFolderPath, packFileName);
-              fs.renameSync(packFilePath, path.join(dropPath, packFileName));
-              console.log(`Filename: ${packFileName}`);
-              publishedPackages++;
-            }
-            catch (error) {
-              errorPackages++;
-            }
-          } else {
-            publishedPackagesSkipped++;
-          }
+        } else {
+          publishedPackagesSkipped++;
         }
       }
     }
@@ -218,9 +193,7 @@ function createPackages(type: CreatePackageType): void {
   _logger.log(`Skipped packages:    ${padLeft(publishedPackagesSkipped, minimumWidth)}`);
 }
 
-gulp.task('pack', () => createPackages("pack"));
-
-gulp.task('publish', () => createPackages("publish"));
+gulp.task('pack', () => pack());
 
 gulp.task("find-missing-sdks", async () => {
   try {
