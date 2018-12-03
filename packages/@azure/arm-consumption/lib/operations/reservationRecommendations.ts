@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/reservationRecommendationsMappers";
 import * as Parameters from "../models/parameters";
@@ -27,7 +27,7 @@ export class ReservationRecommendations {
   }
 
   /**
-   * List of recomendations for purchasing reserved instances.
+   * List of recommendations for purchasing reserved instances.
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationRecommendationsListResponse>
    */
@@ -51,7 +51,7 @@ export class ReservationRecommendations {
   }
 
   /**
-   * List of recomendations for purchasing reserved instances.
+   * List of recommendations for purchasing reserved instances.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationRecommendationsListNextResponse>

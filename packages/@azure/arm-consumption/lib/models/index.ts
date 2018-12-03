@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -641,7 +641,7 @@ export interface ReservationSummary extends Resource {
   readonly reservationId?: string;
   /**
    * @member {string} [skuName] This is the ARM Sku name. It can be used to
-   * join with the servicetype field in additoinalinfo in usage records.
+   * join with the serviceType field in additional info in usage records.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -723,7 +723,7 @@ export interface ReservationDetail extends Resource {
   readonly reservationId?: string;
   /**
    * @member {string} [skuName] This is the ARM Sku name. It can be used to
-   * join with the servicetype field in additoinalinfo in usage records.
+   * join with the serviceType field in additional info in usage records.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -757,7 +757,7 @@ export interface ReservationDetail extends Resource {
   readonly instanceId?: string;
   /**
    * @member {number} [totalReservedQuantity] This is the total count of
-   * instances that are reserved for the reservationid.
+   * instances that are reserved for the reservationId.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -834,7 +834,7 @@ export interface ReservationRecommendation {
    */
   readonly costWithNoReservedInstances?: number;
   /**
-   * @member {number} [recommendedQuantity] Recomended quality for reserved
+   * @member {number} [recommendedQuantity] Recommended quality for reserved
    * instances.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -909,7 +909,7 @@ export interface ProxyResource extends BaseResource {
   readonly type?: string;
   /**
    * @member {string} [eTag] eTag of the resource. To handle concurrent update
-   * scenarion, this field will be used to determine whether the user is
+   * scenario, this field will be used to determine whether the user is
    * updating the latest version or not.
    */
   eTag?: string;
@@ -1064,7 +1064,7 @@ export interface Budget extends ProxyResource {
    * budget. The start date must be first of the month and should be less than
    * the end date. Budget start date must be on or after June 1, 2017. Future
    * start date should not be more than three months. Past start date should
-   * be selected within the timegrain preiod. There are no restrictions on the
+   * be selected within the timegrain period. There are no restrictions on the
    * end date.
    */
   timePeriod: BudgetTimePeriod;
