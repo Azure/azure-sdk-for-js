@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 
 /**
@@ -543,7 +543,7 @@ export interface Evaluate {
    */
   isImageAdultClassified?: boolean;
   /**
-   * @member {number} [racyClassificationScore] The racy classication score.
+   * @member {number} [racyClassificationScore] The racy classification score.
    */
   racyClassificationScore?: number;
   /**
