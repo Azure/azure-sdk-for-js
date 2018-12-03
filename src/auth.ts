@@ -18,6 +18,8 @@ export interface ITokenProvider {
 }
 
 export interface AuthOptions {
+  /** Account master key or read only key */
+  key?: string;
   /** The authorization master key to use to create the client. */
   masterKey?: string;
   /** An object that contains resources tokens.
@@ -52,9 +54,10 @@ export class AuthHandler {
       }
     }
 
-    if (authOptions.masterKey) {
+    if (authOptions.masterKey || authOptions.key) {
+      const key = authOptions.masterKey || authOptions.key;
       return encodeURIComponent(
-        AuthHandler.getAuthorizationTokenUsingMasterKey(verb, resourceId, resourceType, headers, authOptions.masterKey)
+        AuthHandler.getAuthorizationTokenUsingMasterKey(verb, resourceId, resourceType, headers, key)
       );
     } else if (authOptions.resourceTokens) {
       return encodeURIComponent(

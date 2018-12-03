@@ -264,7 +264,7 @@ export async function getHeaders(
     headers[Constants.HttpHeaders.PartitionKey] = Helper.jsonStringifyAndEscapeNonASCII(partitionKey);
   }
 
-  if (authOptions.masterKey || authOptions.tokenProvider) {
+  if (authOptions.masterKey || authOptions.key || authOptions.tokenProvider) {
     headers[Constants.HttpHeaders.XDate] = new Date().toUTCString();
   }
 
@@ -293,7 +293,13 @@ export async function getHeaders(
   if (opts.disableRUPerMinuteUsage) {
     headers[Constants.HttpHeaders.DisableRUPerMinuteUsage] = true;
   }
-  if (authOptions.masterKey || authOptions.resourceTokens || authOptions.tokenProvider || authOptions.permissionFeed) {
+  if (
+    authOptions.masterKey ||
+    authOptions.key ||
+    authOptions.resourceTokens ||
+    authOptions.tokenProvider ||
+    authOptions.permissionFeed
+  ) {
     const token = await AuthHandler.getAuthorizationHeader(authOptions, verb, path, resourceId, resourceType, headers);
     headers[Constants.HttpHeaders.Authorization] = token;
   }

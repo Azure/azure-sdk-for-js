@@ -14,8 +14,10 @@ interface Agent {
 export interface CosmosClientOptions {
   /** The service endpoint to use to create the client. */
   endpoint: string;
+  /** The account master or readonly key (alias of auth.key) */
+  key?: string;
   /** An object that is used for authenticating requests and must contains one of the options */
-  auth: AuthOptions;
+  auth?: AuthOptions;
   /** An instance of {@link ConnectionPolicy} class.
    * This parameter is optional and the default connectionPolicy will be used if omitted.
    */

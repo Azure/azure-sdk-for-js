@@ -1,7 +1,7 @@
 import assert from "assert";
 import { CosmosClient, DocumentBase } from "../..";
 import { PermissionDefinition } from "../../client";
-import { endpoint } from "../common/_testConfig";
+import { endpoint, masterKey } from "../common/_testConfig";
 import { createOrUpsertPermission, getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
 describe("NodeJS CRUD Tests", function() {
@@ -11,6 +11,26 @@ describe("NodeJS CRUD Tests", function() {
   });
 
   describe("Validate Authorization", function() {
+    it("should handle all the key options", async function() {
+      const clientOptionsKey = new CosmosClient({ endpoint, key: masterKey });
+      assert(
+        undefined !== (await clientOptionsKey.databases.readAll().toArray()),
+        "Should be able to fetch list of databases"
+      );
+
+      const clientOptionsAuthKey = new CosmosClient({ endpoint, auth: { key: masterKey } });
+      assert(
+        undefined !== (await clientOptionsAuthKey.databases.readAll().toArray()),
+        "Should be able to fetch list of databases"
+      );
+
+      const clientOptionsAuthMasterKey = new CosmosClient({ endpoint, auth: { masterKey } });
+      assert(
+        undefined !== (await clientOptionsAuthMasterKey.databases.readAll().toArray()),
+        "Should be able to fetch list of databases"
+      );
+    });
+
     const setupEntities = async function(isUpsertTest: boolean) {
       // create database
       const database = await getTestDatabase("Validate Authorization database");
