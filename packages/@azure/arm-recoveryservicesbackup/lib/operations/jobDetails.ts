@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/jobDetailsMappers";
 import * as Parameters from "../models/parameters";
@@ -27,7 +27,7 @@ export class JobDetails {
   }
 
   /**
-   * Gets exteded information associated with the job.
+   * Gets extended information associated with the job.
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.

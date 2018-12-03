@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -87,7 +87,7 @@ export interface ProtectedItem {
   protectedItemType: "ProtectedItem";
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the backed up item. Possible values include: 'Invalid',
+   * management for the backed up item. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -145,7 +145,7 @@ export interface AzureFileshareProtectedItem {
   protectedItemType: "AzureFileShareProtectedItem";
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the backed up item. Possible values include: 'Invalid',
+   * management for the backed up item. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -448,7 +448,7 @@ export interface AzureIaaSVMProtectedItem {
   protectedItemType: "AzureIaaSVMProtectedItem";
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the backed up item. Possible values include: 'Invalid',
+   * management for the backed up item. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -555,7 +555,7 @@ export interface AzureIaaSClassicComputeVMProtectedItem {
   protectedItemType: "Microsoft.ClassicCompute/virtualMachines";
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the backed up item. Possible values include: 'Invalid',
+   * management for the backed up item. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -663,7 +663,7 @@ export interface AzureIaaSComputeVMProtectedItem {
   protectedItemType: "Microsoft.Compute/virtualMachines";
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the backed up item. Possible values include: 'Invalid',
+   * management for the backed up item. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -847,7 +847,7 @@ export interface AzureIaaSVMJobTaskDetails {
   /**
    * @member {string} [taskExecutionDetails] Details about execution of the
    * task.
-   * eg: number of bytes transfered etc
+   * eg: number of bytes transferred etc
    */
   taskExecutionDetails?: string;
 }
@@ -943,7 +943,7 @@ export interface Job {
 /**
  * @interface
  * An interface representing AzureIaaSVMJob.
- * Azure IaaS VM workload-specifc job object.
+ * Azure IaaS VM workload-specific job object.
  *
  */
 export interface AzureIaaSVMJob {
@@ -1089,7 +1089,7 @@ export interface ProtectionIntent {
   protectionIntentItemType: "ProtectionIntent";
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the backed up item. Possible values include: 'Invalid',
+   * management for the backed up item. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -1135,7 +1135,7 @@ export interface AzureRecoveryServiceVaultProtectionIntent {
   protectionIntentItemType: "RecoveryServiceVaultItem";
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the backed up item. Possible values include: 'Invalid',
+   * management for the backed up item. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -1176,7 +1176,7 @@ export interface AzureResourceProtectionIntent {
   protectionIntentItemType: "AzureResourceItem";
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the backed up item. Possible values include: 'Invalid',
+   * management for the backed up item. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -1246,7 +1246,7 @@ export interface AzureSqlProtectedItem {
   protectedItemType: "Microsoft.Sql/servers/databases";
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the backed up item. Possible values include: 'Invalid',
+   * management for the backed up item. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -1565,7 +1565,7 @@ export interface AzureVmWorkloadProtectedItem {
   protectedItemType: "AzureVmWorkloadProtectedItem";
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the backed up item. Possible values include: 'Invalid',
+   * management for the backed up item. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -1767,7 +1767,7 @@ export interface AzureVmWorkloadSAPHanaDatabaseProtectedItem {
   protectedItemType: "AzureVmWorkloadSAPHanaDatabase";
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the backed up item. Possible values include: 'Invalid',
+   * management for the backed up item. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -1886,7 +1886,7 @@ export interface AzureVmWorkloadSQLDatabaseProtectedItem {
   protectedItemType: "AzureVmWorkloadSQLDatabase";
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the backed up item. Possible values include: 'Invalid',
+   * management for the backed up item. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -2009,7 +2009,7 @@ export interface AzureWorkloadAutoProtectionIntent {
   protectionIntentItemType: "AzureWorkloadAutoProtectionIntent";
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the backed up item. Possible values include: 'Invalid',
+   * management for the backed up item. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -2325,7 +2325,7 @@ export interface AzureWorkloadSQLAutoProtectionIntent {
   protectionIntentItemType: "AzureWorkloadSQLAutoProtectionIntent";
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the backed up item. Possible values include: 'Invalid',
+   * management for the backed up item. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -2774,7 +2774,7 @@ export interface DpmJobExtendedInfo {
 /**
  * @interface
  * An interface representing DpmJob.
- * DPM workload-specifc job object.
+ * DPM workload-specific job object.
  *
  */
 export interface DpmJob {
@@ -2938,7 +2938,7 @@ export interface DPMProtectedItem {
   protectedItemType: "DPMProtectedItem";
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the backed up item. Possible values include: 'Invalid',
+   * management for the backed up item. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -2992,7 +2992,7 @@ export interface DPMProtectedItem {
   backupEngineName?: string;
   /**
    * @member {ProtectedItemState} [protectionState] Protection state of the
-   * backupengine. Possible values include: 'Invalid', 'IRPending',
+   * backup engine. Possible values include: 'Invalid', 'IRPending',
    * 'Protected', 'ProtectionError', 'ProtectionStopped', 'ProtectionPaused'
    */
   protectionState?: ProtectedItemState;
@@ -3093,7 +3093,7 @@ export interface GenericProtectedItem {
   protectedItemType: "GenericProtectedItem";
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the backed up item. Possible values include: 'Invalid',
+   * management for the backed up item. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -3308,9 +3308,9 @@ export interface JobQueryObject {
   status?: JobStatus;
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managmenent for the job. Possible values include: 'Invalid',
-   * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
-   * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
+   * management for the job. Possible values include: 'Invalid', 'AzureIaasVM',
+   * 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql', 'AzureStorage',
+   * 'AzureWorkload', 'DefaultBackup'
    */
   backupManagementType?: BackupManagementType;
   /**
@@ -3622,7 +3622,7 @@ export interface MabFileFolderProtectedItem {
   protectedItemType: "MabFileFolderProtectedItem";
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the backed up item. Possible values include: 'Invalid',
+   * management for the backed up item. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -4334,7 +4334,7 @@ export interface ProtectionContainer {
   friendlyName?: string;
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the container. Possible values include: 'Invalid',
+   * management for the container. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -4367,7 +4367,7 @@ export interface AzureBackupServerContainer {
   friendlyName?: string;
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the container. Possible values include: 'Invalid',
+   * management for the container. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -4490,7 +4490,7 @@ export interface BackupEngineBase {
   isDpmUpgradeAvailable?: boolean;
   /**
    * @member {BackupEngineExtendedInfo} [extendedInfo] Extended info of the
-   * backupengine
+   * backup engine
    */
   extendedInfo?: BackupEngineExtendedInfo;
 }
@@ -4560,7 +4560,7 @@ export interface AzureBackupServerEngine {
   isDpmUpgradeAvailable?: boolean;
   /**
    * @member {BackupEngineExtendedInfo} [extendedInfo] Extended info of the
-   * backupengine
+   * backup engine
    */
   extendedInfo?: BackupEngineExtendedInfo;
 }
@@ -4620,7 +4620,7 @@ export interface WorkloadProtectableItem {
    */
   protectableItemType: "WorkloadProtectableItem";
   /**
-   * @member {string} [backupManagementType] Type of backup managemenent to
+   * @member {string} [backupManagementType] Type of backup management to
    * backup an item.
    */
   backupManagementType?: string;
@@ -4652,7 +4652,7 @@ export interface AzureFileShareProtectableItem {
    */
   protectableItemType: "AzureFileShare";
   /**
-   * @member {string} [backupManagementType] Type of backup managemenent to
+   * @member {string} [backupManagementType] Type of backup management to
    * backup an item.
    */
   backupManagementType?: string;
@@ -4756,7 +4756,7 @@ export interface IaaSVMContainer {
   friendlyName?: string;
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the container. Possible values include: 'Invalid',
+   * management for the container. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -4805,7 +4805,7 @@ export interface AzureIaaSClassicComputeVMContainer {
   friendlyName?: string;
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the container. Possible values include: 'Invalid',
+   * management for the container. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -4853,7 +4853,7 @@ export interface IaaSVMProtectableItem {
    */
   protectableItemType: "IaaSVMProtectableItem";
   /**
-   * @member {string} [backupManagementType] Type of backup managemenent to
+   * @member {string} [backupManagementType] Type of backup management to
    * backup an item.
    */
   backupManagementType?: string;
@@ -4890,7 +4890,7 @@ export interface AzureIaaSClassicComputeVMProtectableItem {
    */
   protectableItemType: "Microsoft.ClassicCompute/virtualMachines";
   /**
-   * @member {string} [backupManagementType] Type of backup managemenent to
+   * @member {string} [backupManagementType] Type of backup management to
    * backup an item.
    */
   backupManagementType?: string;
@@ -4933,7 +4933,7 @@ export interface AzureIaaSComputeVMContainer {
   friendlyName?: string;
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the container. Possible values include: 'Invalid',
+   * management for the container. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -4977,7 +4977,7 @@ export interface AzureIaaSComputeVMProtectableItem {
    */
   protectableItemType: "Microsoft.Compute/virtualMachines";
   /**
-   * @member {string} [backupManagementType] Type of backup managemenent to
+   * @member {string} [backupManagementType] Type of backup management to
    * backup an item.
    */
   backupManagementType?: string;
@@ -5024,7 +5024,7 @@ export interface AzureWorkloadContainer {
   friendlyName?: string;
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the container. Possible values include: 'Invalid',
+   * management for the container. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -5080,7 +5080,7 @@ export interface AzureSQLAGWorkloadContainerProtectionContainer {
   friendlyName?: string;
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the container. Possible values include: 'Invalid',
+   * management for the container. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -5136,7 +5136,7 @@ export interface AzureSqlContainer {
   friendlyName?: string;
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the container. Possible values include: 'Invalid',
+   * management for the container. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -5169,7 +5169,7 @@ export interface AzureStorageContainer {
   friendlyName?: string;
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the container. Possible values include: 'Invalid',
+   * management for the container. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -5225,7 +5225,7 @@ export interface ProtectableContainer {
   friendlyName?: string;
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the container. Possible values include: 'Invalid',
+   * management for the container. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -5257,7 +5257,7 @@ export interface AzureStorageProtectableContainer {
   friendlyName?: string;
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the container. Possible values include: 'Invalid',
+   * management for the container. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -5289,7 +5289,7 @@ export interface AzureVMAppContainerProtectableContainer {
   friendlyName?: string;
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the container. Possible values include: 'Invalid',
+   * management for the container. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -5321,7 +5321,7 @@ export interface AzureVMAppContainerProtectionContainer {
   friendlyName?: string;
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the container. Possible values include: 'Invalid',
+   * management for the container. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -5378,7 +5378,7 @@ export interface WorkloadItem {
    */
   workloadItemType: "WorkloadItem";
   /**
-   * @member {string} [backupManagementType] Type of backup managemenent to
+   * @member {string} [backupManagementType] Type of backup management to
    * backup an item.
    */
   backupManagementType?: string;
@@ -5415,7 +5415,7 @@ export interface AzureVmWorkloadItem {
    */
   workloadItemType: "AzureVmWorkloadItem";
   /**
-   * @member {string} [backupManagementType] Type of backup managemenent to
+   * @member {string} [backupManagementType] Type of backup management to
    * backup an item.
    */
   backupManagementType?: string;
@@ -5448,12 +5448,12 @@ export interface AzureVmWorkloadItem {
   isAutoProtectable?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subWorkloadItemCount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subWorkloadItemCount?: number;
 }
@@ -5499,7 +5499,7 @@ export interface AzureVmWorkloadProtectableItem {
    */
   protectableItemType: "AzureVmWorkloadProtectableItem";
   /**
-   * @member {string} [backupManagementType] Type of backup managemenent to
+   * @member {string} [backupManagementType] Type of backup management to
    * backup an item.
    */
   backupManagementType?: string;
@@ -5544,12 +5544,12 @@ export interface AzureVmWorkloadProtectableItem {
   isAutoProtected?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subprotectableitemcount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subprotectableitemcount?: number;
   /**
@@ -5571,7 +5571,7 @@ export interface AzureVmWorkloadSAPHanaDatabaseProtectableItem {
    */
   protectableItemType: "SAPHanaDatabase";
   /**
-   * @member {string} [backupManagementType] Type of backup managemenent to
+   * @member {string} [backupManagementType] Type of backup management to
    * backup an item.
    */
   backupManagementType?: string;
@@ -5616,12 +5616,12 @@ export interface AzureVmWorkloadSAPHanaDatabaseProtectableItem {
   isAutoProtected?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subprotectableitemcount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subprotectableitemcount?: number;
   /**
@@ -5643,7 +5643,7 @@ export interface AzureVmWorkloadSAPHanaDatabaseWorkloadItem {
    */
   workloadItemType: "SAPHanaDatabase";
   /**
-   * @member {string} [backupManagementType] Type of backup managemenent to
+   * @member {string} [backupManagementType] Type of backup management to
    * backup an item.
    */
   backupManagementType?: string;
@@ -5676,12 +5676,12 @@ export interface AzureVmWorkloadSAPHanaDatabaseWorkloadItem {
   isAutoProtectable?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subWorkloadItemCount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subWorkloadItemCount?: number;
 }
@@ -5698,7 +5698,7 @@ export interface AzureVmWorkloadSAPHanaSystemProtectableItem {
    */
   protectableItemType: "SAPHanaSystem";
   /**
-   * @member {string} [backupManagementType] Type of backup managemenent to
+   * @member {string} [backupManagementType] Type of backup management to
    * backup an item.
    */
   backupManagementType?: string;
@@ -5743,12 +5743,12 @@ export interface AzureVmWorkloadSAPHanaSystemProtectableItem {
   isAutoProtected?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subprotectableitemcount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subprotectableitemcount?: number;
   /**
@@ -5770,7 +5770,7 @@ export interface AzureVmWorkloadSAPHanaSystemWorkloadItem {
    */
   workloadItemType: "SAPHanaSystem";
   /**
-   * @member {string} [backupManagementType] Type of backup managemenent to
+   * @member {string} [backupManagementType] Type of backup management to
    * backup an item.
    */
   backupManagementType?: string;
@@ -5803,12 +5803,12 @@ export interface AzureVmWorkloadSAPHanaSystemWorkloadItem {
   isAutoProtectable?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subWorkloadItemCount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subWorkloadItemCount?: number;
 }
@@ -5826,7 +5826,7 @@ export interface AzureVmWorkloadSQLAvailabilityGroupProtectableItem {
    */
   protectableItemType: "SQLAvailabilityGroupContainer";
   /**
-   * @member {string} [backupManagementType] Type of backup managemenent to
+   * @member {string} [backupManagementType] Type of backup management to
    * backup an item.
    */
   backupManagementType?: string;
@@ -5871,12 +5871,12 @@ export interface AzureVmWorkloadSQLAvailabilityGroupProtectableItem {
   isAutoProtected?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subprotectableitemcount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subprotectableitemcount?: number;
   /**
@@ -5898,7 +5898,7 @@ export interface AzureVmWorkloadSQLDatabaseProtectableItem {
    */
   protectableItemType: "SQLDataBase";
   /**
-   * @member {string} [backupManagementType] Type of backup managemenent to
+   * @member {string} [backupManagementType] Type of backup management to
    * backup an item.
    */
   backupManagementType?: string;
@@ -5943,12 +5943,12 @@ export interface AzureVmWorkloadSQLDatabaseProtectableItem {
   isAutoProtected?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subprotectableitemcount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subprotectableitemcount?: number;
   /**
@@ -5970,7 +5970,7 @@ export interface AzureVmWorkloadSQLDatabaseWorkloadItem {
    */
   workloadItemType: "SQLDataBase";
   /**
-   * @member {string} [backupManagementType] Type of backup managemenent to
+   * @member {string} [backupManagementType] Type of backup management to
    * backup an item.
    */
   backupManagementType?: string;
@@ -6003,12 +6003,12 @@ export interface AzureVmWorkloadSQLDatabaseWorkloadItem {
   isAutoProtectable?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subWorkloadItemCount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subWorkloadItemCount?: number;
 }
@@ -6025,7 +6025,7 @@ export interface AzureVmWorkloadSQLInstanceProtectableItem {
    */
   protectableItemType: "SQLInstance";
   /**
-   * @member {string} [backupManagementType] Type of backup managemenent to
+   * @member {string} [backupManagementType] Type of backup management to
    * backup an item.
    */
   backupManagementType?: string;
@@ -6070,12 +6070,12 @@ export interface AzureVmWorkloadSQLInstanceProtectableItem {
   isAutoProtected?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subprotectableitemcount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subprotectableitemcount?: number;
   /**
@@ -6119,7 +6119,7 @@ export interface AzureVmWorkloadSQLInstanceWorkloadItem {
    */
   workloadItemType: "SQLInstance";
   /**
-   * @member {string} [backupManagementType] Type of backup managemenent to
+   * @member {string} [backupManagementType] Type of backup management to
    * backup an item.
    */
   backupManagementType?: string;
@@ -6152,12 +6152,12 @@ export interface AzureVmWorkloadSQLInstanceWorkloadItem {
   isAutoProtectable?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subWorkloadItemCount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subWorkloadItemCount?: number;
   /**
@@ -6316,8 +6316,8 @@ export type AzureWorkloadRecoveryPointUnion = AzureWorkloadRecoveryPoint | Azure
 /**
  * @interface
  * An interface representing AzureWorkloadRecoveryPoint.
- * Workload specific recoverypoint, specifcally encaspulates full/diff
- * recoverypoint
+ * Workload specific recovery point, specifically encapsulates full/diff
+ * recovery point
  *
  */
 export interface AzureWorkloadRecoveryPoint {
@@ -6326,7 +6326,7 @@ export interface AzureWorkloadRecoveryPoint {
    */
   objectType: "AzureWorkloadRecoveryPoint";
   /**
-   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recoverypoint
+   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recovery point
    * was created
    */
   recoveryPointTimeInUTC?: Date;
@@ -6362,8 +6362,8 @@ export type AzureWorkloadSAPHanaRecoveryPointUnion = AzureWorkloadSAPHanaRecover
 /**
  * @interface
  * An interface representing AzureWorkloadSAPHanaRecoveryPoint.
- * SAPHana specific recoverypoint, specifcally encaspulates full/diff
- * recoverypoints
+ * SAPHana specific recovery point, specifically encapsulates full/diff
+ * recovery points
  *
  */
 export interface AzureWorkloadSAPHanaRecoveryPoint {
@@ -6372,7 +6372,7 @@ export interface AzureWorkloadSAPHanaRecoveryPoint {
    */
   objectType: "AzureWorkloadSAPHanaRecoveryPoint";
   /**
-   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recoverypoint
+   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recovery point
    * was created
    */
   recoveryPointTimeInUTC?: Date;
@@ -6395,7 +6395,7 @@ export interface AzureWorkloadSAPHanaPointInTimeRecoveryPoint {
    */
   objectType: "AzureWorkloadSAPHanaPointInTimeRecoveryPoint";
   /**
-   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recoverypoint
+   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recovery point
    * was created
    */
   recoveryPointTimeInUTC?: Date;
@@ -6418,8 +6418,8 @@ export type AzureWorkloadSQLRecoveryPointUnion = AzureWorkloadSQLRecoveryPoint |
 /**
  * @interface
  * An interface representing AzureWorkloadSQLRecoveryPoint.
- * SQL specific recoverypoint, specifcally encaspulates full/diff recoverypoint
- * alongwith extended info
+ * SQL specific recovery point, specifically encapsulates full/diff recovery
+ * point along with extended info
  *
  */
 export interface AzureWorkloadSQLRecoveryPoint {
@@ -6428,7 +6428,7 @@ export interface AzureWorkloadSQLRecoveryPoint {
    */
   objectType: "AzureWorkloadSQLRecoveryPoint";
   /**
-   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recoverypoint
+   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recovery point
    * was created
    */
   recoveryPointTimeInUTC?: Date;
@@ -6460,7 +6460,7 @@ export interface AzureWorkloadSQLPointInTimeRecoveryPoint {
    */
   objectType: "AzureWorkloadSQLPointInTimeRecoveryPoint";
   /**
-   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recoverypoint
+   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recovery point
    * was created
    */
   recoveryPointTimeInUTC?: Date;
@@ -6529,12 +6529,12 @@ export interface BackupEngineExtendedInfo {
    */
   diskCount?: number;
   /**
-   * @member {number} [usedDiskSpace] Diskspace used in the backup engine.
+   * @member {number} [usedDiskSpace] Disk space used in the backup engine.
    */
   usedDiskSpace?: number;
   /**
-   * @member {number} [availableDiskSpace] Diskspace currently available in the
-   * backup engine.
+   * @member {number} [availableDiskSpace] Disk space currently available in
+   * the backup engine.
    */
   availableDiskSpace?: number;
   /**
@@ -6667,7 +6667,7 @@ export interface BackupResourceVaultConfigResource extends Resource {
 /**
  * @interface
  * An interface representing BEKDetails.
- * BEK is bitlocker encrpytion key.
+ * BEK is bitlocker encryption key.
  *
  */
 export interface BEKDetails {
@@ -7029,7 +7029,7 @@ export interface DpmBackupEngine {
   isDpmUpgradeAvailable?: boolean;
   /**
    * @member {BackupEngineExtendedInfo} [extendedInfo] Extended info of the
-   * backupengine
+   * backup engine
    */
   extendedInfo?: BackupEngineExtendedInfo;
 }
@@ -7051,7 +7051,7 @@ export interface DpmContainer {
   friendlyName?: string;
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the container. Possible values include: 'Invalid',
+   * management for the container. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -7143,7 +7143,7 @@ export interface GenericContainer {
   friendlyName?: string;
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the container. Possible values include: 'Invalid',
+   * management for the container. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
@@ -7307,11 +7307,11 @@ export interface KEKDetails {
  * An interface representing KeyAndSecretDetails.
  * BEK is bitlocker key.
  * KEK is encryption key for BEK
- * If the VM was encrypted then we will store follwing details :
+ * If the VM was encrypted then we will store following details :
  * 1. Secret(BEK) - Url + Backup Data + vaultId.
  * 2. Key(KEK) - Url + Backup Data + vaultId.
  * 3. EncryptionMechanism
- * BEK and KEK can potentiallty have different vault ids.
+ * BEK and KEK can potentially have different vault ids.
  *
  */
 export interface KeyAndSecretDetails {
@@ -7320,7 +7320,7 @@ export interface KeyAndSecretDetails {
    */
   kekDetails?: KEKDetails;
   /**
-   * @member {BEKDetails} [bekDetails] BEK is bitlocker encrpytion key.
+   * @member {BEKDetails} [bekDetails] BEK is bitlocker encryption key.
    */
   bekDetails?: BEKDetails;
   /**
@@ -7526,7 +7526,7 @@ export interface MabContainer {
   friendlyName?: string;
   /**
    * @member {BackupManagementType} [backupManagementType] Type of backup
-   * managemenent for the container. Possible values include: 'Invalid',
+   * management for the container. Possible values include: 'Invalid',
    * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
    * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
    */
