@@ -2479,6 +2479,22 @@ export const Operation: msRest.CompositeMapper = {
   }
 };
 
+export const GetSsisObjectMetadataRequest: msRest.CompositeMapper = {
+  serializedName: "GetSsisObjectMetadataRequest",
+  type: {
+    name: "Composite",
+    className: "GetSsisObjectMetadataRequest",
+    modelProperties: {
+      metadataPath: {
+        serializedName: "metadataPath",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DependencyReference: msRest.CompositeMapper = {
   serializedName: "DependencyReference",
   type: {
@@ -13896,6 +13912,79 @@ export const IntegrationRuntimeNodeIpAddress: msRest.CompositeMapper = {
   }
 };
 
+export const SsisObjectMetadata: msRest.CompositeMapper = {
+  serializedName: "SsisObjectMetadata",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type"
+    },
+    uberParent: "SsisObjectMetadata",
+    className: "SsisObjectMetadata",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "Number"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        required: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SsisObjectMetadataListResponse: msRest.CompositeMapper = {
+  serializedName: "SsisObjectMetadataListResponse",
+  type: {
+    name: "Composite",
+    className: "SsisObjectMetadataListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "type",
+                clientName: "type"
+              },
+              uberParent: "SsisObjectMetadata",
+              className: "SsisObjectMetadata"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const IntegrationRuntimeNodeMonitoringData: msRest.CompositeMapper = {
   serializedName: "IntegrationRuntimeNodeMonitoringData",
   type: {
@@ -14603,5 +14692,6 @@ export const discriminators = {
   'LinkedIntegrationRuntimeType.Key' : LinkedIntegrationRuntimeKeyAuthorization,
   'LinkedIntegrationRuntimeType' : LinkedIntegrationRuntimeType,
   'IntegrationRuntime.SelfHosted' : SelfHostedIntegrationRuntime,
-  'IntegrationRuntime.Managed' : ManagedIntegrationRuntime
+  'IntegrationRuntime.Managed' : ManagedIntegrationRuntime,
+  'SsisObjectMetadata' : SsisObjectMetadata
 };
