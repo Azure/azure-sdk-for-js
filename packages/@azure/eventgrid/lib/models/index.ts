@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError } from "@azure/ms-rest-azure-js";
+import { BaseResource, CloudError } from "ms-rest-azure-js";
 
 export { BaseResource, CloudError };
 
@@ -1916,7 +1916,7 @@ export interface MediaLiveEventIncomingVideoStreamsOutOfSyncEventData {
 /**
  * @interface
  * An interface representing MediaLiveEventIncomingDataChunkDroppedEventData.
- * Ingest fragment dropped event event data.
+ * Ingest fragment dropped event data.
  *
  */
 export interface MediaLiveEventIncomingDataChunkDroppedEventData {
@@ -1963,7 +1963,7 @@ export interface MediaLiveEventIncomingDataChunkDroppedEventData {
 /**
  * @interface
  * An interface representing MediaLiveEventIngestHeartbeatEventData.
- * Ingest fragment dropped event event data.
+ * Ingest fragment dropped event data.
  *
  */
 export interface MediaLiveEventIngestHeartbeatEventData {
