@@ -61,20 +61,20 @@ export class NetworkProfiles {
   /**
    * Gets the specified network profile in a specified resource group.
    * @param resourceGroupName The name of the resource group.
-   * @param networkProfileName The name of the PublicIPPrefx.
+   * @param networkProfileName The name of the Public IP Prefix.
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkProfilesGetResponse>
    */
   get(resourceGroupName: string, networkProfileName: string, options?: Models.NetworkProfilesGetOptionalParams): Promise<Models.NetworkProfilesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
-   * @param networkProfileName The name of the PublicIPPrefx.
+   * @param networkProfileName The name of the Public IP Prefix.
    * @param callback The callback
    */
   get(resourceGroupName: string, networkProfileName: string, callback: msRest.ServiceCallback<Models.NetworkProfile>): void;
   /**
    * @param resourceGroupName The name of the resource group.
-   * @param networkProfileName The name of the PublicIPPrefx.
+   * @param networkProfileName The name of the Public IP Prefix.
    * @param options The optional parameters
    * @param callback The callback
    */

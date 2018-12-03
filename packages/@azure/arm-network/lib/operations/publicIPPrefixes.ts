@@ -42,20 +42,20 @@ export class PublicIPPrefixes {
   /**
    * Gets the specified public IP prefix in a specified resource group.
    * @param resourceGroupName The name of the resource group.
-   * @param publicIpPrefixName The name of the PublicIPPrefx.
+   * @param publicIpPrefixName The name of the Public IP Prefix.
    * @param [options] The optional parameters
    * @returns Promise<Models.PublicIPPrefixesGetResponse>
    */
   get(resourceGroupName: string, publicIpPrefixName: string, options?: Models.PublicIPPrefixesGetOptionalParams): Promise<Models.PublicIPPrefixesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
-   * @param publicIpPrefixName The name of the PublicIPPrefx.
+   * @param publicIpPrefixName The name of the Public IP Prefix.
    * @param callback The callback
    */
   get(resourceGroupName: string, publicIpPrefixName: string, callback: msRest.ServiceCallback<Models.PublicIPPrefix>): void;
   /**
    * @param resourceGroupName The name of the resource group.
-   * @param publicIpPrefixName The name of the PublicIPPrefx.
+   * @param publicIpPrefixName The name of the Public IP Prefix.
    * @param options The optional parameters
    * @param callback The callback
    */
