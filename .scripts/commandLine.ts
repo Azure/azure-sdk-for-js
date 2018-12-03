@@ -114,12 +114,13 @@ export interface CommandLineOptions extends minimist.ParsedArgs {
     use: boolean;
     verbose: boolean;
     whatif: boolean;
+    "ignore-version": boolean;
     getSdkType(): SdkType;
 }
 
 export const commandLineConfiguration: minimist.Opts = {
     string: ["azure-sdk-for-js-repo-root", "azure-rest-api-specs-root", "logging-level", "package", "type"],
-    boolean: ["debugger", "use", "skip-sdk", "skip-spec", "verbose", "whatif"],
+    boolean: ["debugger", "use", "skip-sdk", "skip-spec", "verbose", "whatif", "ignore-version"],
     alias: {
         l: "logging-level",
         log: "logging-level",
@@ -129,7 +130,8 @@ export const commandLineConfiguration: minimist.Opts = {
     },
     default: {
         "logging-level": "info",
-        type: "arm"
+        type: "arm",
+        "ignore-version": false
     }
 };
 

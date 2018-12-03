@@ -19,6 +19,7 @@ import { getPackageFolderPathFromPackageArgument } from "./.scripts/readme";
 const args: CommandLineOptions = getCommandLineOptions();
 const _logger: Logger = Logger.get();
 const azureSDKForJSRepoRoot: string = args["azure-sdk-for-js-repo-root"] || __dirname;
+const ignoreVersion: boolean = args["ignore-version"];
 
 gulp.task('default', () => {
   _logger.log('gulp build --package <package-name>');
@@ -42,6 +43,8 @@ gulp.task('default', () => {
   _logger.log('    The name of the package to publish. If no package is specified, then all packages will be published.');
   _logger.log('  --whatif');
   _logger.log('    Don\'t actually publish packages, but just indicate which packages would be published.');
+  _logger.log('  --ignore-version');
+  _logger.log('    If this is not specified, then only packages with versions newer than what is found in NPM will be packed.');
 });
 
 gulp.task("install", async () => {
@@ -113,7 +116,7 @@ function createPackages(type: CreatePackageType): void {
     fs.mkdirSync(dropPath);
   }
 
-  const folderNamesToIgnore: string[] = [ "node_modules" ];
+  const folderNamesToIgnore: string[] = ["node_modules"];
 
   function getAllPackageFolders(folderPath: string, result?: string[]): string[] {
     if (result == undefined) {
@@ -138,7 +141,9 @@ function createPackages(type: CreatePackageType): void {
 
   const packagesToSkip: string[] = ["@azure/keyvault"];
 
-  for (const packageFolderPath of getAllPackageFolders(path.resolve(__dirname, "packages"))) {
+  const packageFolderRoot: string = path.resolve(__dirname, "packages");
+  _logger.logTrace(`INFO: Searching for package folders in ${packageFolderRoot}`);;
+  for (const packageFolderPath of getAllPackageFolders(packageFolderRoot)) {
     _logger.logTrace(`INFO: Processing ${packageFolderPath}`);
 
     const packageJsonFilePath: string = path.join(packageFolderPath, "package.json");
@@ -156,17 +161,21 @@ function createPackages(type: CreatePackageType): void {
       }
       else {
         let npmPackageVersion: string | undefined;
-        try {
-          const npmViewResult: { [propertyName: string]: any } = JSON.parse(
-            execSync(`npm view ${packageName} --json`, { stdio: ['pipe', 'pipe', 'ignore'] }).toString()
-          );
-          npmPackageVersion = npmViewResult['dist-tags']['latest'];
-        }
-        catch (error) {
-          // This happens if the package doesn't exist in NPM.
+        if (!ignoreVersion) {
+          try {
+            _logger.logTrace(`Getting version number for ${packageName} from NPM`);
+            const npmViewResult: { [propertyName: string]: any } = JSON.parse(
+              execSync(`npm view ${packageName} --json`, { stdio: ['pipe', 'pipe', 'ignore'] }).toString()
+            );
+            npmPackageVersion = npmViewResult['dist-tags']['latest'];
+          }
+          catch (error) {
+            // This happens if the package doesn't exist in NPM.
+          }
         }
 
-        if (localPackageVersion === npmPackageVersion) {
+        if (!ignoreVersion && localPackageVersion === npmPackageVersion) {
+          _logger.logTrace(`Package ${packageName} has the same version number (${localPackageVersion}) as NPM (${npmPackageVersion})`);
           upToDatePackages++;
         }
         else {
