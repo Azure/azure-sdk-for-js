@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 
 export const QueryContext: msRest.CompositeMapper = {
@@ -115,6 +115,11 @@ export const Response: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "_type",
+                clientName: "_type"
+              },
+              uberParent: "ContractualRulesContractualRule",
               className: "ContractualRulesContractualRule"
             }
           }
@@ -159,6 +164,8 @@ export const Thing: msRest.CompositeMapper = {
         serializedName: "image",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+          uberParent: "ResponseBase",
           className: "ImageObject"
         }
       },
@@ -212,6 +219,8 @@ export const CreativeWork: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+              uberParent: "ResponseBase",
               className: "Thing"
             }
           }
@@ -283,6 +292,8 @@ export const ImageObject: msRest.CompositeMapper = {
         serializedName: "thumbnail",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+          uberParent: "ResponseBase",
           className: "ImageObject"
         }
       }
@@ -386,6 +397,8 @@ export const Entities: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+              uberParent: "ResponseBase",
               className: "Thing"
             }
           }
@@ -412,6 +425,8 @@ export const Places: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+              uberParent: "ResponseBase",
               className: "Thing"
             }
           }
@@ -443,6 +458,8 @@ export const SearchResponse: msRest.CompositeMapper = {
         serializedName: "entities",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+          uberParent: "ResponseBase",
           className: "Entities"
         }
       },
@@ -451,6 +468,8 @@ export const SearchResponse: msRest.CompositeMapper = {
         serializedName: "places",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+          uberParent: "ResponseBase",
           className: "Places"
         }
       }
@@ -696,6 +715,8 @@ export const Place: msRest.CompositeMapper = {
         serializedName: "address",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+          uberParent: "ResponseBase",
           className: "PostalAddress"
         }
       },
@@ -747,6 +768,8 @@ export const LocalBusiness: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+              uberParent: "ResponseBase",
               className: "ImageObject"
             }
           }
@@ -903,6 +926,8 @@ export const ContractualRulesLicenseAttribution: msRest.CompositeMapper = {
         serializedName: "license",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+          uberParent: "ResponseBase",
           className: "License"
         }
       },

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { ServiceClientOptions } from "@azure/ms-rest-js";
-import * as msRest from "@azure/ms-rest-js";
+import { ServiceClientOptions } from "ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 
 /**
@@ -1203,7 +1203,7 @@ export interface PostalAddress {
    */
   readonly addressCountry?: string;
   /**
-   * @member {string} [countryIso] The two letter ISO code of this countr. For
+   * @member {string} [countryIso] The two letter ISO code of this country. For
    * example, US.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
