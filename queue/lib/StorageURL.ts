@@ -57,14 +57,15 @@ export abstract class StorageURL {
     // Order is important. Closer to the API at the top & closer to the network at the bottom.
     // The credential's policy factory must appear close to the wire so it can sign any
     // changes made by other factories (like UniqueRequestIDPolicyFactory)
-    const factories: RequestPolicyFactory[] = [];
-    factories.push(new TelemetryPolicyFactory(pipelineOptions.telemetry));
-    factories.push(new UniqueRequestIDPolicyFactory());
-    factories.push(new BrowserPolicyFactory());
-    factories.push(deserializationPolicy()); // Default deserializationPolicy is provided by protocol layer
-    factories.push(new RetryPolicyFactory(pipelineOptions.retryOptions));
-    factories.push(new LoggingPolicyFactory());
-    factories.push(credential);
+    const factories: RequestPolicyFactory[] = [
+      new TelemetryPolicyFactory(pipelineOptions.telemetry),
+      new UniqueRequestIDPolicyFactory(),
+      new BrowserPolicyFactory(),
+      deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
+      new RetryPolicyFactory(pipelineOptions.retryOptions),
+      new LoggingPolicyFactory(),
+      credential
+    ];
 
     return new Pipeline(factories, {
       HTTPClient: pipelineOptions.httpClient,

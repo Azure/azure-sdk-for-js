@@ -10,16 +10,16 @@
 
 import * as msRest from "ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/messageIDMappers";
+import * as Mappers from "../models/messageIdMappers";
 import * as Parameters from "../models/parameters";
 import { StorageClientContext } from "../storageClientContext";
 
-/** Class representing a MessageID. */
-export class MessageID {
+/** Class representing a MessageId. */
+export class MessageId {
   private readonly client: StorageClientContext;
 
   /**
-   * Create a MessageID.
+   * Create a MessageId.
    * @param {StorageClientContext} client Reference to the service client.
    */
   constructor(client: StorageClientContext) {
@@ -43,7 +43,7 @@ export class MessageID {
    * REST protocol versions prior to version 2011-08-18. The visibility timeout of a message can be
    * set to a value later than the expiry time.
    *
-   * @param {MessageIDUpdateOptionalParams} [options] Optional Parameters.
+   * @param {MessageIdUpdateOptionalParams} [options] Optional Parameters.
    *
    * @returns {Promise} A promise is returned
    *
@@ -51,11 +51,11 @@ export class MessageID {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  update(queueMessage: Models.QueueMessage, popReceipt: string, visibilitytimeout: number): Promise<Models.MessageIDUpdateResponse>;
-  update(queueMessage: Models.QueueMessage, popReceipt: string, visibilitytimeout: number, options: Models.MessageIDUpdateOptionalParams): Promise<Models.MessageIDUpdateResponse>;
+  update(queueMessage: Models.QueueMessage, popReceipt: string, visibilitytimeout: number): Promise<Models.MessageIdUpdateResponse>;
+  update(queueMessage: Models.QueueMessage, popReceipt: string, visibilitytimeout: number, options: Models.MessageIdUpdateOptionalParams): Promise<Models.MessageIdUpdateResponse>;
   update(queueMessage: Models.QueueMessage, popReceipt: string, visibilitytimeout: number, callback: msRest.ServiceCallback<void>): void;
-  update(queueMessage: Models.QueueMessage, popReceipt: string, visibilitytimeout: number, options: Models.MessageIDUpdateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  update(queueMessage: Models.QueueMessage, popReceipt: string, visibilitytimeout: number, options?: Models.MessageIDUpdateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.MessageIDUpdateResponse> {
+  update(queueMessage: Models.QueueMessage, popReceipt: string, visibilitytimeout: number, options: Models.MessageIdUpdateOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  update(queueMessage: Models.QueueMessage, popReceipt: string, visibilitytimeout: number, options?: Models.MessageIdUpdateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.MessageIdUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         queueMessage,
@@ -64,7 +64,7 @@ export class MessageID {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.MessageIDUpdateResponse>;
+      callback) as Promise<Models.MessageIdUpdateResponse>;
   }
 
   /**
@@ -73,7 +73,7 @@ export class MessageID {
    * @param {string} popReceipt Required. Specifies the valid pop receipt value returned from an
    * earlier call to the Get Messages or Update Message operation.
    *
-   * @param {MessageIDDeleteMethodOptionalParams} [options] Optional Parameters.
+   * @param {MessageIdDeleteMethodOptionalParams} [options] Optional Parameters.
    *
    * @returns {Promise} A promise is returned
    *
@@ -81,18 +81,18 @@ export class MessageID {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  deleteMethod(popReceipt: string): Promise<Models.MessageIDDeleteResponse>;
-  deleteMethod(popReceipt: string, options: Models.MessageIDDeleteMethodOptionalParams): Promise<Models.MessageIDDeleteResponse>;
+  deleteMethod(popReceipt: string): Promise<Models.MessageIdDeleteResponse>;
+  deleteMethod(popReceipt: string, options: Models.MessageIdDeleteMethodOptionalParams): Promise<Models.MessageIdDeleteResponse>;
   deleteMethod(popReceipt: string, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(popReceipt: string, options: Models.MessageIDDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(popReceipt: string, options?: Models.MessageIDDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.MessageIDDeleteResponse> {
+  deleteMethod(popReceipt: string, options: Models.MessageIdDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(popReceipt: string, options?: Models.MessageIdDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.MessageIdDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         popReceipt,
         options
       },
       deleteMethodOperationSpec,
-      callback) as Promise<Models.MessageIDDeleteResponse>;
+      callback) as Promise<Models.MessageIdDeleteResponse>;
   }
 
 }
@@ -124,7 +124,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   contentType: "application/xml; charset=utf-8",
   responses: {
     204: {
-      headersMapper: Mappers.MessageIDUpdateHeaders
+      headersMapper: Mappers.MessageIdUpdateHeaders
     },
     default: {
       bodyMapper: Mappers.StorageError
@@ -150,7 +150,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     204: {
-      headersMapper: Mappers.MessageIDDeleteHeaders
+      headersMapper: Mappers.MessageIdDeleteHeaders
     },
     default: {
       bodyMapper: Mappers.StorageError

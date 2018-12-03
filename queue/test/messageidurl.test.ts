@@ -3,10 +3,10 @@ import * as assert from "assert";
 import {Aborter} from "../lib/Aborter"
 import {QueueURL} from "../lib/QueueURL"
 import {MessagesURL} from "../lib/MessagesURL"
-import {MessageIDURL} from "../lib/MessageIDURL"
+import {MessageIdURL} from "../lib/MessageIdURL"
 import {getQSU, getUniqueName} from "./utils"
 
-describe("MessageIDURL", () => {
+describe("MessageIdURL", () => {
     const serviceURL = getQSU();
     let queueName = getUniqueName("queue");
     let queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
@@ -28,15 +28,15 @@ describe("MessageIDURL", () => {
         assert.ok(eResult.date);
         assert.ok(eResult.expirationTime);
         assert.ok(eResult.insertionTime);
-        assert.ok(eResult.messageID);
+        assert.ok(eResult.messageId);
         assert.ok(eResult.popReceipt);
         assert.ok(eResult.requestId);
         assert.ok(eResult.timeNextVisible);
         assert.ok(eResult.version);
 
         let newMessage = "New Message";
-        let messageIDURL = MessageIDURL.fromMessagesURL(messagesURL, eResult.messageID);
-        let uResult = await messageIDURL.update(Aborter.none, eResult.popReceipt, 0, newMessage);
+        let messageIdURL = MessageIdURL.fromMessagesURL(messagesURL, eResult.messageId);
+        let uResult = await messageIdURL.update(Aborter.none, eResult.popReceipt, 0, newMessage);
         assert.ok(uResult.version);
         assert.ok(uResult.timeNextVisible);
         assert.ok(uResult.date);
@@ -47,7 +47,7 @@ describe("MessageIDURL", () => {
         assert.equal(pResult.peekedMessageItems.length, 1);
         assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, newMessage);
 
-        let dResult = await messageIDURL.delete(Aborter.none, uResult.popReceipt!);
+        let dResult = await messageIdURL.delete(Aborter.none, uResult.popReceipt!);
         assert.ok(dResult.date);
         assert.ok(dResult.requestId);
         assert.ok(dResult.version);

@@ -27,7 +27,7 @@ describe("MessagesURL", () => {
         assert.ok(eResult.date);
         assert.ok(eResult.expirationTime);
         assert.ok(eResult.insertionTime);
-        assert.ok(eResult.messageID);
+        assert.ok(eResult.messageId);
         assert.ok(eResult.popReceipt);
         assert.ok(eResult.requestId);
         assert.ok(eResult.timeNextVisible);
@@ -41,7 +41,7 @@ describe("MessagesURL", () => {
         assert.ok(pResult.version);
         assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
         assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
-        assert.deepStrictEqual(pResult.peekedMessageItems[0].messageID, eResult.messageID);
+        assert.deepStrictEqual(pResult.peekedMessageItems[0].messageId, eResult.messageId);
 
         let dqResult = await messagesURL.dequeue(Aborter.none);
         assert.ok(dqResult.date);
@@ -50,7 +50,7 @@ describe("MessagesURL", () => {
         assert.deepStrictEqual(dqResult.dequeuedMessageItems.length, 1);
         assert.ok(dqResult.dequeuedMessageItems[0].popReceipt);
         assert.deepStrictEqual(dqResult.dequeuedMessageItems[0].messageText, messageContent);
-        assert.deepStrictEqual(dqResult.dequeuedMessageItems[0].messageID, eResult.messageID);
+        assert.deepStrictEqual(dqResult.dequeuedMessageItems[0].messageId, eResult.messageId);
 
         let cResult = await messagesURL.clear(Aborter.none);
         assert.ok(cResult.date);
@@ -70,7 +70,7 @@ describe("MessagesURL", () => {
         assert.ok(eResult.date);
         assert.ok(eResult.expirationTime);
         assert.ok(eResult.insertionTime);
-        assert.ok(eResult.messageID);
+        assert.ok(eResult.messageId);
         assert.ok(eResult.popReceipt);
         assert.ok(eResult.requestId);
         assert.ok(eResult.timeNextVisible);
@@ -87,13 +87,13 @@ describe("MessagesURL", () => {
         assert.deepStrictEqual(pResult.peekedMessageItems.length, 2);
         assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
         assert.deepStrictEqual(pResult.peekedMessageItems[0].dequeueCount, 0);
-        assert.deepStrictEqual(pResult.peekedMessageItems[0].messageID, eResult.messageID);
+        assert.deepStrictEqual(pResult.peekedMessageItems[0].messageId, eResult.messageId);
         assert.deepStrictEqual(pResult.peekedMessageItems[0].insertionTime, eResult.insertionTime);
         assert.deepStrictEqual(pResult.peekedMessageItems[0].expirationTime, eResult.expirationTime);
 
         assert.deepStrictEqual(pResult.peekedMessageItems[1].messageText, messageContent);
         assert.deepStrictEqual(pResult.peekedMessageItems[1].dequeueCount, 0);
-        assert.deepStrictEqual(pResult.peekedMessageItems[1].messageID, eResult2.messageID);
+        assert.deepStrictEqual(pResult.peekedMessageItems[1].messageId, eResult2.messageId);
         assert.deepStrictEqual(pResult.peekedMessageItems[1].insertionTime, eResult2.insertionTime);
         assert.deepStrictEqual(pResult.peekedMessageItems[1].expirationTime, eResult2.expirationTime);
 
@@ -104,7 +104,7 @@ describe("MessagesURL", () => {
         assert.deepStrictEqual(dResult.dequeuedMessageItems.length, 2);
         assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageText, messageContent);
         assert.deepStrictEqual(dResult.dequeuedMessageItems[0].dequeueCount, 1);
-        assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageID, eResult.messageID);
+        assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageId, eResult.messageId);
         assert.deepStrictEqual(dResult.dequeuedMessageItems[0].insertionTime, eResult.insertionTime);
         assert.deepStrictEqual(dResult.dequeuedMessageItems[0].expirationTime, eResult.expirationTime);
         assert.ok(dResult.dequeuedMessageItems[0].popReceipt);
@@ -124,7 +124,7 @@ describe("MessagesURL", () => {
         assert.ok(eResult.date);
         assert.ok(eResult.expirationTime);
         assert.ok(eResult.insertionTime);
-        assert.ok(eResult.messageID);
+        assert.ok(eResult.messageId);
         assert.ok(eResult.popReceipt);
         assert.ok(eResult.requestId);
         assert.ok(eResult.timeNextVisible);
@@ -155,7 +155,7 @@ describe("MessagesURL", () => {
         assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
         assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
         assert.deepStrictEqual(pResult.peekedMessageItems[0].dequeueCount, 0);
-        assert.deepStrictEqual(pResult.peekedMessageItems[0].messageID, eResult.messageID);
+        assert.deepStrictEqual(pResult.peekedMessageItems[0].messageId, eResult.messageId);
         assert.deepStrictEqual(pResult.peekedMessageItems[0].insertionTime, eResult.insertionTime);
         assert.deepStrictEqual(pResult.peekedMessageItems[0].expirationTime, eResult.expirationTime);
 

@@ -16,7 +16,6 @@
         "node": ">=6.5.0"
     },
     "dependencies": {
-        "events": "3.0.0",
         "ms-rest-js": "^0.22.425",
         "tslib": "^1.9.3"
     },

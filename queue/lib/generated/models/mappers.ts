@@ -382,10 +382,10 @@ export const DequeuedMessageItem: msRest.CompositeMapper = {
     name: "Composite",
     className: "DequeuedMessageItem",
     modelProperties: {
-      messageID: {
+      messageId: {
         xmlName: "MessageId",
         required: true,
-        serializedName: "MessageID",
+        serializedName: "MessageId",
         type: {
           name: "String"
         }
@@ -449,10 +449,10 @@ export const PeekedMessageItem: msRest.CompositeMapper = {
     name: "Composite",
     className: "PeekedMessageItem",
     modelProperties: {
-      messageID: {
+      messageId: {
         xmlName: "MessageId",
         required: true,
-        serializedName: "MessageID",
+        serializedName: "MessageId",
         type: {
           name: "String"
         }
@@ -500,10 +500,10 @@ export const EnqueuedMessage: msRest.CompositeMapper = {
     name: "Composite",
     className: "EnqueuedMessage",
     modelProperties: {
-      messageID: {
+      messageId: {
         xmlName: "MessageId",
         required: true,
-        serializedName: "MessageID",
+        serializedName: "MessageId",
         type: {
           name: "String"
         }
@@ -1120,11 +1120,11 @@ export const MessagesPeekHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const MessageIDUpdateHeaders: msRest.CompositeMapper = {
+export const MessageIdUpdateHeaders: msRest.CompositeMapper = {
   serializedName: "messageid-update-headers",
   type: {
     name: "Composite",
-    className: "MessageIDUpdateHeaders",
+    className: "MessageIdUpdateHeaders",
     modelProperties: {
       requestId: {
         serializedName: "x-ms-request-id",
@@ -1166,11 +1166,11 @@ export const MessageIDUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const MessageIDDeleteHeaders: msRest.CompositeMapper = {
+export const MessageIdDeleteHeaders: msRest.CompositeMapper = {
   serializedName: "messageid-delete-headers",
   type: {
     name: "Composite",
-    className: "MessageIDDeleteHeaders",
+    className: "MessageIdDeleteHeaders",
     modelProperties: {
       requestId: {
         serializedName: "x-ms-request-id",

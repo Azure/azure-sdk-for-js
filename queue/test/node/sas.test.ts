@@ -16,7 +16,7 @@ import { Aborter } from "../../lib/Aborter";
 import {
   QueueURL,
   MessagesURL,
-  MessageIDURL,
+  MessageIdURL,
   SASProtocol
 } from "../../lib/index.browser";
 import { getQSU, getUniqueName, sleep } from "../utils/index";
@@ -242,14 +242,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let pResult = await messagesURL.peek(Aborter.none);
     assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
 
-    const messageIDURL = MessageIDURL.fromMessagesURL(messagesURL, enqueueResult.messageID);
-    const sasURLForMessageID = `${messageIDURL.url}?${queueSAS}`;
-    const messageIDURLWithSAS = new MessageIDURL(
-        sasURLForMessageID,
+    const messageIdURL = MessageIdURL.fromMessagesURL(messagesURL, enqueueResult.messageId);
+    const sasURLForMessageId = `${messageIdURL.url}?${queueSAS}`;
+    const messageIdURLWithSAS = new MessageIdURL(
+        sasURLForMessageId,
         StorageURL.newPipeline(new AnonymousCredential())
     )
 
-    await messageIDURLWithSAS.delete(Aborter.none, enqueueResult.popReceipt);
+    await messageIdURLWithSAS.delete(Aborter.none, enqueueResult.popReceipt);
 
     pResult = await messagesURL.peek(Aborter.none);
     assert.deepStrictEqual(pResult.peekedMessageItems.length, 0);
@@ -303,7 +303,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const messageContent = "hello"
 
     const eResult = await messagesURLwithSAS.enqueue(Aborter.none, messageContent);
-    assert.ok(eResult.messageID);
+    assert.ok(eResult.messageId);
     const pResult = await messagesURLwithSAS.peek(Aborter.none);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
     const dResult = await messagesURLwithSAS.dequeue(Aborter.none, {visibilitytimeout:1});
@@ -311,14 +311,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     await sleep(2*1000);
 
-    const messageIDURL = MessageIDURL.fromMessagesURL(messagesURL, dResult.dequeuedMessageItems[0].messageID);
+    const messageIdURL = MessageIdURL.fromMessagesURL(messagesURL, dResult.dequeuedMessageItems[0].messageId);
 
-    const sasURLForMessage = `${messageIDURL.url}?${queueSAS}`;
-    const messageIDURLwithSAS = new MessageIDURL(
+    const sasURLForMessage = `${messageIdURL.url}?${queueSAS}`;
+    const messageIdURLwithSAS = new MessageIdURL(
       sasURLForMessage,
       StorageURL.newPipeline(new AnonymousCredential())
     );
-    const deleteResult = await messageIDURLwithSAS.delete(Aborter.none, dResult.dequeuedMessageItems[0].popReceipt);
+    const deleteResult = await messageIdURLwithSAS.delete(Aborter.none, dResult.dequeuedMessageItems[0].popReceipt);
     assert.ok(deleteResult.requestId);
 
     //const cResult = await messagesURLwithSAS.clear(Aborter.none); //This request is not authorized to perform this operation. As testing, this is service's current behavior.

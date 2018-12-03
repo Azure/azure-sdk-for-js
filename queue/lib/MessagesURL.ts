@@ -9,9 +9,9 @@ import { appendToURLPath } from "./utils/utils.common";
 
 export declare type MessagesEnqueueResponse = {
     /**
-    * @member {string} messageID The ID of the enqueued Message.
+    * @member {string} messageId The ID of the enqueued Message.
     */
-    messageID: string;
+    messageId: string;
     /**
     * @member {string} popReceipt This value is required to delete the Message.
     * If deletion fails using this popreceipt then the message has been dequeued
@@ -205,7 +205,7 @@ export class MessagesURL extends StorageURL {
             requestId: response.requestId,
             version: response.version,
             errorCode: response.errorCode,
-            messageID: item.messageID,
+            messageId: item.messageId,
             popReceipt: item.popReceipt,
             timeNextVisible: item.timeNextVisible,
             insertionTime: item.insertionTime,

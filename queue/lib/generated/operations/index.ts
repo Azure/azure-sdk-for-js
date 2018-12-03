@@ -11,4 +11,4 @@
 export * from "./service";
 export * from "./queue";
 export * from "./messages";
-export * from "./messageID";
+export * from "./messageId";

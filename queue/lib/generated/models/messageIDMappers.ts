@@ -10,8 +10,8 @@
 
 export {
   QueueMessage,
-  MessageIDUpdateHeaders,
+  MessageIdUpdateHeaders,
   StorageError,
-  MessageIDDeleteHeaders
+  MessageIdDeleteHeaders
 } from "../models/mappers";
 
