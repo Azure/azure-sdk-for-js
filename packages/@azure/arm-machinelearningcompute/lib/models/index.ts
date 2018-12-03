@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -360,7 +360,7 @@ export interface AutoScaleConfiguration {
  */
 export interface GlobalServiceConfiguration {
   /**
-   * @member {string} [etag] The configuartion ETag for updates.
+   * @member {string} [etag] The configuration ETag for updates.
    */
   etag?: string;
   /**
