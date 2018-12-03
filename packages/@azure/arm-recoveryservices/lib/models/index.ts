@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -69,7 +69,7 @@ export interface ResourceCertificateDetails {
    */
   certificate?: Uint8Array;
   /**
-   * @member {string} [friendlyName] Certificate friendlyname.
+   * @member {string} [friendlyName] Certificate friendly name.
    */
   friendlyName?: string;
   /**
@@ -115,7 +115,7 @@ export interface ResourceCertificateAndAadDetails {
    */
   certificate?: Uint8Array;
   /**
-   * @member {string} [friendlyName] Certificate friendlyname.
+   * @member {string} [friendlyName] Certificate friendly name.
    */
   friendlyName?: string;
   /**
@@ -182,7 +182,7 @@ export interface ResourceCertificateAndAcsDetails {
    */
   certificate?: Uint8Array;
   /**
-   * @member {string} [friendlyName] Certificate friendlyname.
+   * @member {string} [friendlyName] Certificate friendly name.
    */
   friendlyName?: string;
   /**
@@ -595,7 +595,7 @@ export interface UpgradeDetails {
    */
   readonly message?: string;
   /**
-   * @member {TriggerType} [triggerType] The way the vault upgradation was
+   * @member {TriggerType} [triggerType] The way the vault upgrade was
    * triggered. Possible values include: 'UserTriggered', 'ForcedUpgrade'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
