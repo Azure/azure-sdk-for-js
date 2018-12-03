@@ -169,8 +169,8 @@ export interface UpdateMetadataDTO {
    */
   deleteProperty?: MetadataDTO[];
   /**
-   * @member {MetadataDTO[]} [add] List of Metadat associated with answer to be
-   * added
+   * @member {MetadataDTO[]} [add] List of metadata associated with answer to
+   * be added
    */
   add?: MetadataDTO[];
 }
