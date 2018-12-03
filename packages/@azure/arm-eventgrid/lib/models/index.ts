@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -209,7 +209,7 @@ export interface AdvancedFilter {
   operatorType: "AdvancedFilter";
   /**
    * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
+   * up to two levels of nesting.
    */
   key?: string;
 }
@@ -308,7 +308,7 @@ export interface NumberInAdvancedFilter {
   operatorType: "NumberIn";
   /**
    * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
+   * up to two levels of nesting.
    */
   key?: string;
   /**
@@ -353,7 +353,7 @@ export interface NumberNotInAdvancedFilter {
   operatorType: "NumberNotIn";
   /**
    * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
+   * up to two levels of nesting.
    */
   key?: string;
   /**
@@ -375,7 +375,7 @@ export interface NumberLessThanAdvancedFilter {
   operatorType: "NumberLessThan";
   /**
    * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
+   * up to two levels of nesting.
    */
   key?: string;
   /**
@@ -397,7 +397,7 @@ export interface NumberGreaterThanAdvancedFilter {
   operatorType: "NumberGreaterThan";
   /**
    * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
+   * up to two levels of nesting.
    */
   key?: string;
   /**
@@ -419,7 +419,7 @@ export interface NumberLessThanOrEqualsAdvancedFilter {
   operatorType: "NumberLessThanOrEquals";
   /**
    * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
+   * up to two levels of nesting.
    */
   key?: string;
   /**
@@ -441,7 +441,7 @@ export interface NumberGreaterThanOrEqualsAdvancedFilter {
   operatorType: "NumberGreaterThanOrEquals";
   /**
    * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
+   * up to two levels of nesting.
    */
   key?: string;
   /**
@@ -463,7 +463,7 @@ export interface BoolEqualsAdvancedFilter {
   operatorType: "BoolEquals";
   /**
    * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
+   * up to two levels of nesting.
    */
   key?: string;
   /**
@@ -485,7 +485,7 @@ export interface StringInAdvancedFilter {
   operatorType: "StringIn";
   /**
    * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
+   * up to two levels of nesting.
    */
   key?: string;
   /**
@@ -507,7 +507,7 @@ export interface StringNotInAdvancedFilter {
   operatorType: "StringNotIn";
   /**
    * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
+   * up to two levels of nesting.
    */
   key?: string;
   /**
@@ -529,7 +529,7 @@ export interface StringBeginsWithAdvancedFilter {
   operatorType: "StringBeginsWith";
   /**
    * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
+   * up to two levels of nesting.
    */
   key?: string;
   /**
@@ -551,7 +551,7 @@ export interface StringEndsWithAdvancedFilter {
   operatorType: "StringEndsWith";
   /**
    * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
+   * up to two levels of nesting.
    */
   key?: string;
   /**
@@ -573,7 +573,7 @@ export interface StringContainsAdvancedFilter {
   operatorType: "StringContains";
   /**
    * @member {string} [key] The filter key. Represents an event property with
-   * upto two levels of nesting.
+   * up to two levels of nesting.
    */
   key?: string;
   /**
@@ -844,7 +844,7 @@ export interface Operation {
  * An interface representing JsonField.
  * This is used to express the source of an input schema mapping for a single
  * target field in the Event Grid Event schema. This is currently used in the
- * mappings for the 'id','topic' and 'eventtime' properties. This represents a
+ * mappings for the 'id','topic' and 'eventTime' properties. This represents a
  * field in the input event schema.
  *
  */
@@ -861,7 +861,7 @@ export interface JsonField {
  * An interface representing JsonFieldWithDefault.
  * This is used to express the source of an input schema mapping for a single
  * target field in the Event Grid Event schema. This is currently used in the
- * mappings for the 'subject','eventtype' and 'dataversion' properties. This
+ * mappings for the 'subject','eventType' and 'dataVersion' properties. This
  * represents a field in the input event schema along with a default value to
  * be used, and at least one of these two properties should be provided.
  *
