@@ -9,8 +9,8 @@
  */
 
 import * as Models from "./models";
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 
 const packageName = "@azure/arm-datacatalog";
 const packageVersion = "0.1.0";
@@ -26,7 +26,8 @@ export class DataCatalogRestClientContext extends msRestAzure.AzureServiceClient
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param subscriptionId Gets subscription credentials which uniquely identify the Microsoft Azure
    * subscription. The subscription ID forms part of the URI for every service call.
-   * @param catalogName The name of the data catlog in the specified subscription and resource group.
+   * @param catalogName The name of the data catalog in the specified subscription and resource
+   * group.
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, catalogName: string, options?: Models.DataCatalogRestClientOptions) {
