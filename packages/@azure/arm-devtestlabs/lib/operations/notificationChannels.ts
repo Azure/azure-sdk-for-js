@@ -27,7 +27,7 @@ export class NotificationChannels {
   }
 
   /**
-   * List notificationchannels in a given lab.
+   * List notification channels in a given lab.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param [options] The optional parameters
@@ -59,7 +59,7 @@ export class NotificationChannels {
   }
 
   /**
-   * Get notificationchannel.
+   * Get notification channel.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the notificationChannel.
@@ -135,7 +135,7 @@ export class NotificationChannels {
   }
 
   /**
-   * Delete notificationchannel.
+   * Delete notification channel.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the notificationChannel.
@@ -171,7 +171,7 @@ export class NotificationChannels {
   }
 
   /**
-   * Modify properties of notificationchannels.
+   * Modify properties of notification channels.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the notificationChannel.
@@ -251,7 +251,7 @@ export class NotificationChannels {
   }
 
   /**
-   * List notificationchannels in a given lab.
+   * List notification channels in a given lab.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.NotificationChannelsListNextResponse>
