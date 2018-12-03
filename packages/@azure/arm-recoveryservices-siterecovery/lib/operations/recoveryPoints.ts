@@ -51,7 +51,7 @@ export class RecoveryPoints {
    * @param callback The callback
    */
   listByReplicationProtectedItems(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoveryPointCollection>): void;
-  listByReplicationProtectedItems(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RecoveryPointCollection>): Promise<Models.RecoveryPointsListByReplicationProtectedItemsResponse> {
+  listByReplicationProtectedItems(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPointCollection>, callback?: msRest.ServiceCallback<Models.RecoveryPointCollection>): Promise<Models.RecoveryPointsListByReplicationProtectedItemsResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -91,7 +91,7 @@ export class RecoveryPoints {
    * @param callback The callback
    */
   get(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, recoveryPointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoveryPoint>): void;
-  get(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, recoveryPointName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RecoveryPoint>): Promise<Models.RecoveryPointsGetResponse> {
+  get(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, recoveryPointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPoint>, callback?: msRest.ServiceCallback<Models.RecoveryPoint>): Promise<Models.RecoveryPointsGetResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -123,7 +123,7 @@ export class RecoveryPoints {
    * @param callback The callback
    */
   listByReplicationProtectedItemsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoveryPointCollection>): void;
-  listByReplicationProtectedItemsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RecoveryPointCollection>): Promise<Models.RecoveryPointsListByReplicationProtectedItemsNextResponse> {
+  listByReplicationProtectedItemsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPointCollection>, callback?: msRest.ServiceCallback<Models.RecoveryPointCollection>): Promise<Models.RecoveryPointsListByReplicationProtectedItemsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

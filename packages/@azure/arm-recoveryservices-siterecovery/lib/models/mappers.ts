@@ -1751,6 +1751,102 @@ export const A2AUpdateReplicationProtectedItemInput: msRest.CompositeMapper = {
   }
 };
 
+export const IdentityProviderInput: msRest.CompositeMapper = {
+  serializedName: "IdentityProviderInput",
+  type: {
+    name: "Composite",
+    className: "IdentityProviderInput",
+    modelProperties: {
+      tenantId: {
+        required: true,
+        serializedName: "tenantId",
+        type: {
+          name: "String"
+        }
+      },
+      applicationId: {
+        required: true,
+        serializedName: "applicationId",
+        type: {
+          name: "String"
+        }
+      },
+      objectId: {
+        required: true,
+        serializedName: "objectId",
+        type: {
+          name: "String"
+        }
+      },
+      audience: {
+        required: true,
+        serializedName: "audience",
+        type: {
+          name: "String"
+        }
+      },
+      aadAuthority: {
+        required: true,
+        serializedName: "aadAuthority",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AddRecoveryServicesProviderInputProperties: msRest.CompositeMapper = {
+  serializedName: "AddRecoveryServicesProviderInputProperties",
+  type: {
+    name: "Composite",
+    className: "AddRecoveryServicesProviderInputProperties",
+    modelProperties: {
+      machineName: {
+        required: true,
+        serializedName: "machineName",
+        type: {
+          name: "String"
+        }
+      },
+      authenticationIdentityInput: {
+        required: true,
+        serializedName: "authenticationIdentityInput",
+        type: {
+          name: "Composite",
+          className: "IdentityProviderInput"
+        }
+      },
+      resourceAccessIdentityInput: {
+        required: true,
+        serializedName: "resourceAccessIdentityInput",
+        type: {
+          name: "Composite",
+          className: "IdentityProviderInput"
+        }
+      }
+    }
+  }
+};
+
+export const AddRecoveryServicesProviderInput: msRest.CompositeMapper = {
+  serializedName: "AddRecoveryServicesProviderInput",
+  type: {
+    name: "Composite",
+    className: "AddRecoveryServicesProviderInput",
+    modelProperties: {
+      properties: {
+        required: true,
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "AddRecoveryServicesProviderInputProperties"
+        }
+      }
+    }
+  }
+};
+
 export const AddVCenterRequestProperties: msRest.CompositeMapper = {
   serializedName: "AddVCenterRequestProperties",
   type: {
@@ -3171,6 +3267,34 @@ export const CreateRecoveryPlanInput: msRest.CompositeMapper = {
   }
 };
 
+export const CurrentJobDetails: msRest.CompositeMapper = {
+  serializedName: "CurrentJobDetails",
+  type: {
+    name: "Composite",
+    className: "CurrentJobDetails",
+    modelProperties: {
+      jobName: {
+        serializedName: "jobName",
+        type: {
+          name: "String"
+        }
+      },
+      jobId: {
+        serializedName: "jobId",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const CurrentScenarioDetails: msRest.CompositeMapper = {
   serializedName: "CurrentScenarioDetails",
   type: {
@@ -3435,6 +3559,76 @@ export const Display: msRest.CompositeMapper = {
         serializedName: "description",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EnableMigrationProviderSpecificInput: msRest.CompositeMapper = {
+  serializedName: "EnableMigrationProviderSpecificInput",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "instanceType",
+      clientName: "instanceType"
+    },
+    uberParent: "EnableMigrationProviderSpecificInput",
+    className: "EnableMigrationProviderSpecificInput",
+    modelProperties: {
+      instanceType: {
+        required: true,
+        serializedName: "instanceType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EnableMigrationInputProperties: msRest.CompositeMapper = {
+  serializedName: "EnableMigrationInputProperties",
+  type: {
+    name: "Composite",
+    className: "EnableMigrationInputProperties",
+    modelProperties: {
+      policyId: {
+        required: true,
+        serializedName: "policyId",
+        type: {
+          name: "String"
+        }
+      },
+      providerSpecificDetails: {
+        required: true,
+        serializedName: "providerSpecificDetails",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "instanceType",
+            clientName: "instanceType"
+          },
+          uberParent: "EnableMigrationProviderSpecificInput",
+          className: "EnableMigrationProviderSpecificInput"
+        }
+      }
+    }
+  }
+};
+
+export const EnableMigrationInput: msRest.CompositeMapper = {
+  serializedName: "EnableMigrationInput",
+  type: {
+    name: "Composite",
+    className: "EnableMigrationInput",
+    modelProperties: {
+      properties: {
+        required: true,
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "EnableMigrationInputProperties"
         }
       }
     }
@@ -5731,18 +5925,12 @@ export const HyperVVirtualMachineDetails: msRest.CompositeMapper = {
   }
 };
 
-export const IdentityInformation: msRest.CompositeMapper = {
-  serializedName: "IdentityInformation",
+export const IdentityProviderDetails: msRest.CompositeMapper = {
+  serializedName: "IdentityProviderDetails",
   type: {
     name: "Composite",
-    className: "IdentityInformation",
+    className: "IdentityProviderDetails",
     modelProperties: {
-      identityProviderType: {
-        serializedName: "identityProviderType",
-        type: {
-          name: "String"
-        }
-      },
       tenantId: {
         serializedName: "tenantId",
         type: {
@@ -5769,12 +5957,6 @@ export const IdentityInformation: msRest.CompositeMapper = {
       },
       aadAuthority: {
         serializedName: "aadAuthority",
-        type: {
-          name: "String"
-        }
-      },
-      certificateThumbprint: {
-        serializedName: "certificateThumbprint",
         type: {
           name: "String"
         }
@@ -8066,6 +8248,291 @@ export const MasterTargetServer: msRest.CompositeMapper = {
   }
 };
 
+export const MigrateProviderSpecificInput: msRest.CompositeMapper = {
+  serializedName: "MigrateProviderSpecificInput",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "instanceType",
+      clientName: "instanceType"
+    },
+    uberParent: "MigrateProviderSpecificInput",
+    className: "MigrateProviderSpecificInput",
+    modelProperties: {
+      instanceType: {
+        required: true,
+        serializedName: "instanceType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MigrateInputProperties: msRest.CompositeMapper = {
+  serializedName: "MigrateInputProperties",
+  type: {
+    name: "Composite",
+    className: "MigrateInputProperties",
+    modelProperties: {
+      providerSpecificDetails: {
+        required: true,
+        serializedName: "providerSpecificDetails",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "instanceType",
+            clientName: "instanceType"
+          },
+          uberParent: "MigrateProviderSpecificInput",
+          className: "MigrateProviderSpecificInput"
+        }
+      }
+    }
+  }
+};
+
+export const MigrateInput: msRest.CompositeMapper = {
+  serializedName: "MigrateInput",
+  type: {
+    name: "Composite",
+    className: "MigrateInput",
+    modelProperties: {
+      properties: {
+        required: true,
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "MigrateInputProperties"
+        }
+      }
+    }
+  }
+};
+
+export const MigrationProviderSpecificSettings: msRest.CompositeMapper = {
+  serializedName: "MigrationProviderSpecificSettings",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "instanceType",
+      clientName: "instanceType"
+    },
+    uberParent: "MigrationProviderSpecificSettings",
+    className: "MigrationProviderSpecificSettings",
+    modelProperties: {
+      instanceType: {
+        required: true,
+        serializedName: "instanceType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MigrationItemProperties: msRest.CompositeMapper = {
+  serializedName: "MigrationItemProperties",
+  type: {
+    name: "Composite",
+    className: "MigrationItemProperties",
+    modelProperties: {
+      machineName: {
+        readOnly: true,
+        serializedName: "machineName",
+        type: {
+          name: "String"
+        }
+      },
+      policyId: {
+        readOnly: true,
+        serializedName: "policyId",
+        type: {
+          name: "String"
+        }
+      },
+      policyFriendlyName: {
+        readOnly: true,
+        serializedName: "policyFriendlyName",
+        type: {
+          name: "String"
+        }
+      },
+      recoveryServicesProviderId: {
+        readOnly: true,
+        serializedName: "recoveryServicesProviderId",
+        type: {
+          name: "String"
+        }
+      },
+      migrationState: {
+        readOnly: true,
+        serializedName: "migrationState",
+        type: {
+          name: "String"
+        }
+      },
+      migrationStateDescription: {
+        readOnly: true,
+        serializedName: "migrationStateDescription",
+        type: {
+          name: "String"
+        }
+      },
+      testMigrateState: {
+        readOnly: true,
+        serializedName: "testMigrateState",
+        type: {
+          name: "String"
+        }
+      },
+      testMigrateStateDescription: {
+        readOnly: true,
+        serializedName: "testMigrateStateDescription",
+        type: {
+          name: "String"
+        }
+      },
+      health: {
+        readOnly: true,
+        serializedName: "health",
+        type: {
+          name: "String"
+        }
+      },
+      healthErrors: {
+        readOnly: true,
+        serializedName: "healthErrors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "HealthError"
+            }
+          }
+        }
+      },
+      allowedOperations: {
+        readOnly: true,
+        serializedName: "allowedOperations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      currentJob: {
+        readOnly: true,
+        serializedName: "currentJob",
+        type: {
+          name: "Composite",
+          className: "CurrentJobDetails"
+        }
+      },
+      providerSpecificDetails: {
+        serializedName: "providerSpecificDetails",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "instanceType",
+            clientName: "instanceType"
+          },
+          uberParent: "MigrationProviderSpecificSettings",
+          className: "MigrationProviderSpecificSettings"
+        }
+      }
+    }
+  }
+};
+
+export const MigrationItem: msRest.CompositeMapper = {
+  serializedName: "MigrationItem",
+  type: {
+    name: "Composite",
+    className: "MigrationItem",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "MigrationItemProperties"
+        }
+      }
+    }
+  }
+};
+
+export const MigrationItemsQueryParameter: msRest.CompositeMapper = {
+  serializedName: "MigrationItemsQueryParameter",
+  type: {
+    name: "Composite",
+    className: "MigrationItemsQueryParameter",
+    modelProperties: {
+      sourceFabricName: {
+        serializedName: "sourceFabricName",
+        type: {
+          name: "String"
+        }
+      },
+      instanceType: {
+        serializedName: "instanceType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MigrationRecoveryPointProperties: msRest.CompositeMapper = {
+  serializedName: "MigrationRecoveryPointProperties",
+  type: {
+    name: "Composite",
+    className: "MigrationRecoveryPointProperties",
+    modelProperties: {
+      recoveryPointTime: {
+        readOnly: true,
+        serializedName: "recoveryPointTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      recoveryPointType: {
+        readOnly: true,
+        serializedName: "recoveryPointType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MigrationRecoveryPoint: msRest.CompositeMapper = {
+  serializedName: "MigrationRecoveryPoint",
+  type: {
+    name: "Composite",
+    className: "MigrationRecoveryPoint",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "MigrationRecoveryPointProperties"
+        }
+      }
+    }
+  }
+};
+
 export const MobilityServiceUpdate: msRest.CompositeMapper = {
   serializedName: "MobilityServiceUpdate",
   type: {
@@ -9785,11 +10252,18 @@ export const RecoveryServicesProviderProperties: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      identityDetails: {
-        serializedName: "identityDetails",
+      authenticationIdentityDetails: {
+        serializedName: "authenticationIdentityDetails",
         type: {
           name: "Composite",
-          className: "IdentityInformation"
+          className: "IdentityProviderDetails"
+        }
+      },
+      resourceAccessIdentityDetails: {
+        serializedName: "resourceAccessIdentityDetails",
+        type: {
+          name: "Composite",
+          className: "IdentityProviderDetails"
         }
       },
       providerVersionDetails: {
@@ -10719,6 +11193,103 @@ export const TestFailoverJobDetails: msRest.CompositeMapper = {
   }
 };
 
+export const TestMigrateCleanupInputProperties: msRest.CompositeMapper = {
+  serializedName: "TestMigrateCleanupInputProperties",
+  type: {
+    name: "Composite",
+    className: "TestMigrateCleanupInputProperties",
+    modelProperties: {
+      comments: {
+        serializedName: "comments",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TestMigrateCleanupInput: msRest.CompositeMapper = {
+  serializedName: "TestMigrateCleanupInput",
+  type: {
+    name: "Composite",
+    className: "TestMigrateCleanupInput",
+    modelProperties: {
+      properties: {
+        required: true,
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "TestMigrateCleanupInputProperties"
+        }
+      }
+    }
+  }
+};
+
+export const TestMigrateProviderSpecificInput: msRest.CompositeMapper = {
+  serializedName: "TestMigrateProviderSpecificInput",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "instanceType",
+      clientName: "instanceType"
+    },
+    uberParent: "TestMigrateProviderSpecificInput",
+    className: "TestMigrateProviderSpecificInput",
+    modelProperties: {
+      instanceType: {
+        required: true,
+        serializedName: "instanceType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TestMigrateInputProperties: msRest.CompositeMapper = {
+  serializedName: "TestMigrateInputProperties",
+  type: {
+    name: "Composite",
+    className: "TestMigrateInputProperties",
+    modelProperties: {
+      providerSpecificDetails: {
+        required: true,
+        serializedName: "providerSpecificDetails",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "instanceType",
+            clientName: "instanceType"
+          },
+          uberParent: "TestMigrateProviderSpecificInput",
+          className: "TestMigrateProviderSpecificInput"
+        }
+      }
+    }
+  }
+};
+
+export const TestMigrateInput: msRest.CompositeMapper = {
+  serializedName: "TestMigrateInput",
+  type: {
+    name: "Composite",
+    className: "TestMigrateInput",
+    modelProperties: {
+      properties: {
+        required: true,
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "TestMigrateInputProperties"
+        }
+      }
+    }
+  }
+};
+
 export const UnplannedFailoverInputProperties: msRest.CompositeMapper = {
   serializedName: "UnplannedFailoverInputProperties",
   type: {
@@ -10764,6 +11335,68 @@ export const UnplannedFailoverInput: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "UnplannedFailoverInputProperties"
+        }
+      }
+    }
+  }
+};
+
+export const UpdateMigrationItemProviderSpecificInput: msRest.CompositeMapper = {
+  serializedName: "UpdateMigrationItemProviderSpecificInput",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "instanceType",
+      clientName: "instanceType"
+    },
+    uberParent: "UpdateMigrationItemProviderSpecificInput",
+    className: "UpdateMigrationItemProviderSpecificInput",
+    modelProperties: {
+      instanceType: {
+        required: true,
+        serializedName: "instanceType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const UpdateMigrationItemInputProperties: msRest.CompositeMapper = {
+  serializedName: "UpdateMigrationItemInputProperties",
+  type: {
+    name: "Composite",
+    className: "UpdateMigrationItemInputProperties",
+    modelProperties: {
+      providerSpecificDetails: {
+        required: true,
+        serializedName: "providerSpecificDetails",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "instanceType",
+            clientName: "instanceType"
+          },
+          uberParent: "UpdateMigrationItemProviderSpecificInput",
+          className: "UpdateMigrationItemProviderSpecificInput"
+        }
+      }
+    }
+  }
+};
+
+export const UpdateMigrationItemInput: msRest.CompositeMapper = {
+  serializedName: "UpdateMigrationItemInput",
+  type: {
+    name: "Composite",
+    className: "UpdateMigrationItemInput",
+    modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "UpdateMigrationItemInputProperties"
         }
       }
     }
@@ -11538,6 +12171,552 @@ export const VmNicUpdatesTaskDetails: msRest.CompositeMapper = {
   }
 };
 
+export const VMwareCbtContainerCreationInput: msRest.CompositeMapper = {
+  serializedName: "6c7da455-506f-43ff-a16a-8eb101aebb70",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ReplicationProviderSpecificContainerCreationInput.type.polymorphicDiscriminator,
+    uberParent: "ReplicationProviderSpecificContainerCreationInput",
+    className: "VMwareCbtContainerCreationInput",
+    modelProperties: {
+      ...ReplicationProviderSpecificContainerCreationInput.type.modelProperties
+    }
+  }
+};
+
+export const VMwareCbtContainerMappingInput: msRest.CompositeMapper = {
+  serializedName: "VMwareCbt",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ReplicationProviderSpecificContainerMappingInput.type.polymorphicDiscriminator,
+    uberParent: "ReplicationProviderSpecificContainerMappingInput",
+    className: "VMwareCbtContainerMappingInput",
+    modelProperties: {
+      ...ReplicationProviderSpecificContainerMappingInput.type.modelProperties,
+      keyVaultId: {
+        required: true,
+        serializedName: "keyVaultId",
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultUri: {
+        required: true,
+        serializedName: "keyVaultUri",
+        type: {
+          name: "String"
+        }
+      },
+      storageAccountId: {
+        required: true,
+        serializedName: "storageAccountId",
+        type: {
+          name: "String"
+        }
+      },
+      storageAccountSasSecretName: {
+        required: true,
+        serializedName: "storageAccountSasSecretName",
+        type: {
+          name: "String"
+        }
+      },
+      serviceBusConnectionStringSecretName: {
+        required: true,
+        serializedName: "serviceBusConnectionStringSecretName",
+        type: {
+          name: "String"
+        }
+      },
+      targetLocation: {
+        required: true,
+        serializedName: "targetLocation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VMwareCbtDiskInput: msRest.CompositeMapper = {
+  serializedName: "VMwareCbtDiskInput",
+  type: {
+    name: "Composite",
+    className: "VMwareCbtDiskInput",
+    modelProperties: {
+      diskId: {
+        required: true,
+        serializedName: "diskId",
+        type: {
+          name: "String"
+        }
+      },
+      isOSDisk: {
+        required: true,
+        serializedName: "isOSDisk",
+        type: {
+          name: "String"
+        }
+      },
+      logStorageAccountId: {
+        required: true,
+        serializedName: "logStorageAccountId",
+        type: {
+          name: "String"
+        }
+      },
+      logStorageAccountSasSecretName: {
+        required: true,
+        serializedName: "logStorageAccountSasSecretName",
+        type: {
+          name: "String"
+        }
+      },
+      diskType: {
+        serializedName: "diskType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VMwareCbtEnableMigrationInput: msRest.CompositeMapper = {
+  serializedName: "VMwareCbt",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: EnableMigrationProviderSpecificInput.type.polymorphicDiscriminator,
+    uberParent: "EnableMigrationProviderSpecificInput",
+    className: "VMwareCbtEnableMigrationInput",
+    modelProperties: {
+      ...EnableMigrationProviderSpecificInput.type.modelProperties,
+      vmwareMachineId: {
+        required: true,
+        serializedName: "vmwareMachineId",
+        type: {
+          name: "String"
+        }
+      },
+      disksToInclude: {
+        required: true,
+        serializedName: "disksToInclude",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VMwareCbtDiskInput"
+            }
+          }
+        }
+      },
+      licenseType: {
+        serializedName: "licenseType",
+        type: {
+          name: "String"
+        }
+      },
+      dataMoverRunAsAccountId: {
+        required: true,
+        serializedName: "dataMoverRunAsAccountId",
+        type: {
+          name: "String"
+        }
+      },
+      snapshotRunAsAccountId: {
+        required: true,
+        serializedName: "snapshotRunAsAccountId",
+        type: {
+          name: "String"
+        }
+      },
+      targetVmName: {
+        serializedName: "targetVmName",
+        type: {
+          name: "String"
+        }
+      },
+      targetVmSize: {
+        serializedName: "targetVmSize",
+        type: {
+          name: "String"
+        }
+      },
+      targetResourceGroupId: {
+        required: true,
+        serializedName: "targetResourceGroupId",
+        type: {
+          name: "String"
+        }
+      },
+      targetNetworkId: {
+        required: true,
+        serializedName: "targetNetworkId",
+        type: {
+          name: "String"
+        }
+      },
+      targetSubnetName: {
+        serializedName: "targetSubnetName",
+        type: {
+          name: "String"
+        }
+      },
+      targetAvailabilitySetId: {
+        serializedName: "targetAvailabilitySetId",
+        type: {
+          name: "String"
+        }
+      },
+      targetBootDiagnosticsStorageAccountId: {
+        serializedName: "targetBootDiagnosticsStorageAccountId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VMwareCbtMigrateInput: msRest.CompositeMapper = {
+  serializedName: "VMwareCbt",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: MigrateProviderSpecificInput.type.polymorphicDiscriminator,
+    uberParent: "MigrateProviderSpecificInput",
+    className: "VMwareCbtMigrateInput",
+    modelProperties: {
+      ...MigrateProviderSpecificInput.type.modelProperties,
+      performShutdown: {
+        required: true,
+        serializedName: "performShutdown",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VMwareCbtProtectedDiskDetails: msRest.CompositeMapper = {
+  serializedName: "VMwareCbtProtectedDiskDetails",
+  type: {
+    name: "Composite",
+    className: "VMwareCbtProtectedDiskDetails",
+    modelProperties: {
+      diskId: {
+        readOnly: true,
+        serializedName: "diskId",
+        type: {
+          name: "String"
+        }
+      },
+      diskName: {
+        readOnly: true,
+        serializedName: "diskName",
+        type: {
+          name: "String"
+        }
+      },
+      diskPath: {
+        readOnly: true,
+        serializedName: "diskPath",
+        type: {
+          name: "String"
+        }
+      },
+      isOSDisk: {
+        readOnly: true,
+        serializedName: "isOSDisk",
+        type: {
+          name: "String"
+        }
+      },
+      capacityInBytes: {
+        readOnly: true,
+        serializedName: "capacityInBytes",
+        type: {
+          name: "Number"
+        }
+      },
+      logStorageAccountId: {
+        readOnly: true,
+        serializedName: "logStorageAccountId",
+        type: {
+          name: "String"
+        }
+      },
+      logStorageAccountSasSecretName: {
+        readOnly: true,
+        serializedName: "logStorageAccountSasSecretName",
+        type: {
+          name: "String"
+        }
+      },
+      seedManagedDiskId: {
+        readOnly: true,
+        serializedName: "seedManagedDiskId",
+        type: {
+          name: "String"
+        }
+      },
+      targetManagedDiskId: {
+        readOnly: true,
+        serializedName: "targetManagedDiskId",
+        type: {
+          name: "String"
+        }
+      },
+      diskType: {
+        serializedName: "diskType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VMwareCbtNicDetails: msRest.CompositeMapper = {
+  serializedName: "VMwareCbtNicDetails",
+  type: {
+    name: "Composite",
+    className: "VMwareCbtNicDetails",
+    modelProperties: {
+      nicId: {
+        readOnly: true,
+        serializedName: "nicId",
+        type: {
+          name: "String"
+        }
+      },
+      isPrimaryNic: {
+        serializedName: "isPrimaryNic",
+        type: {
+          name: "String"
+        }
+      },
+      sourceIPAddress: {
+        readOnly: true,
+        serializedName: "sourceIPAddress",
+        type: {
+          name: "String"
+        }
+      },
+      sourceIPAddressType: {
+        readOnly: true,
+        serializedName: "sourceIPAddressType",
+        type: {
+          name: "String"
+        }
+      },
+      sourceNetworkId: {
+        readOnly: true,
+        serializedName: "sourceNetworkId",
+        type: {
+          name: "String"
+        }
+      },
+      targetIPAddress: {
+        serializedName: "targetIPAddress",
+        type: {
+          name: "String"
+        }
+      },
+      targetIPAddressType: {
+        serializedName: "targetIPAddressType",
+        type: {
+          name: "String"
+        }
+      },
+      targetSubnetName: {
+        serializedName: "targetSubnetName",
+        type: {
+          name: "String"
+        }
+      },
+      isSelectedForMigration: {
+        serializedName: "isSelectedForMigration",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VMwareCbtMigrationDetails: msRest.CompositeMapper = {
+  serializedName: "VMwareCbt",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: MigrationProviderSpecificSettings.type.polymorphicDiscriminator,
+    uberParent: "MigrationProviderSpecificSettings",
+    className: "VMwareCbtMigrationDetails",
+    modelProperties: {
+      ...MigrationProviderSpecificSettings.type.modelProperties,
+      vmwareMachineId: {
+        readOnly: true,
+        serializedName: "vmwareMachineId",
+        type: {
+          name: "String"
+        }
+      },
+      osType: {
+        readOnly: true,
+        serializedName: "osType",
+        type: {
+          name: "String"
+        }
+      },
+      licenseType: {
+        serializedName: "licenseType",
+        type: {
+          name: "String"
+        }
+      },
+      dataMoverRunAsAccountId: {
+        readOnly: true,
+        serializedName: "dataMoverRunAsAccountId",
+        type: {
+          name: "String"
+        }
+      },
+      snapshotRunAsAccountId: {
+        readOnly: true,
+        serializedName: "snapshotRunAsAccountId",
+        type: {
+          name: "String"
+        }
+      },
+      targetVmName: {
+        serializedName: "targetVmName",
+        type: {
+          name: "String"
+        }
+      },
+      targetVmSize: {
+        serializedName: "targetVmSize",
+        type: {
+          name: "String"
+        }
+      },
+      targetLocation: {
+        readOnly: true,
+        serializedName: "targetLocation",
+        type: {
+          name: "String"
+        }
+      },
+      targetResourceGroupId: {
+        serializedName: "targetResourceGroupId",
+        type: {
+          name: "String"
+        }
+      },
+      targetAvailabilitySetId: {
+        serializedName: "targetAvailabilitySetId",
+        type: {
+          name: "String"
+        }
+      },
+      targetBootDiagnosticsStorageAccountId: {
+        serializedName: "targetBootDiagnosticsStorageAccountId",
+        type: {
+          name: "String"
+        }
+      },
+      protectedDisks: {
+        serializedName: "protectedDisks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VMwareCbtProtectedDiskDetails"
+            }
+          }
+        }
+      },
+      targetNetworkId: {
+        serializedName: "targetNetworkId",
+        type: {
+          name: "String"
+        }
+      },
+      vmNics: {
+        serializedName: "vmNics",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VMwareCbtNicDetails"
+            }
+          }
+        }
+      },
+      migrationRecoveryPointId: {
+        readOnly: true,
+        serializedName: "migrationRecoveryPointId",
+        type: {
+          name: "String"
+        }
+      },
+      lastRecoveryPointReceived: {
+        readOnly: true,
+        serializedName: "lastRecoveryPointReceived",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const VMwareCbtNicInput: msRest.CompositeMapper = {
+  serializedName: "VMwareCbtNicInput",
+  type: {
+    name: "Composite",
+    className: "VMwareCbtNicInput",
+    modelProperties: {
+      nicId: {
+        required: true,
+        serializedName: "nicId",
+        type: {
+          name: "String"
+        }
+      },
+      isPrimaryNic: {
+        required: true,
+        serializedName: "isPrimaryNic",
+        type: {
+          name: "String"
+        }
+      },
+      targetSubnetName: {
+        serializedName: "targetSubnetName",
+        type: {
+          name: "String"
+        }
+      },
+      targetStaticIPAddress: {
+        serializedName: "targetStaticIPAddress",
+        type: {
+          name: "String"
+        }
+      },
+      isSelectedForMigration: {
+        serializedName: "isSelectedForMigration",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const VMwareCbtPolicyCreationInput: msRest.CompositeMapper = {
   serializedName: "VMwareCbt",
   type: {
@@ -11547,8 +12726,8 @@ export const VMwareCbtPolicyCreationInput: msRest.CompositeMapper = {
     className: "VMwareCbtPolicyCreationInput",
     modelProperties: {
       ...PolicyProviderSpecificInput.type.modelProperties,
-      recoveryPointHistory: {
-        serializedName: "recoveryPointHistory",
+      recoveryPointHistoryInMinutes: {
+        serializedName: "recoveryPointHistoryInMinutes",
         type: {
           name: "Number"
         }
@@ -11578,14 +12757,8 @@ export const VmwareCbtPolicyDetails: msRest.CompositeMapper = {
     className: "VmwareCbtPolicyDetails",
     modelProperties: {
       ...PolicyProviderSpecificDetails.type.modelProperties,
-      recoveryPointThresholdInMinutes: {
-        serializedName: "recoveryPointThresholdInMinutes",
-        type: {
-          name: "Number"
-        }
-      },
-      recoveryPointHistory: {
-        serializedName: "recoveryPointHistory",
+      recoveryPointHistoryInMinutes: {
+        serializedName: "recoveryPointHistoryInMinutes",
         type: {
           name: "Number"
         }
@@ -11600,6 +12773,155 @@ export const VmwareCbtPolicyDetails: msRest.CompositeMapper = {
         serializedName: "crashConsistentFrequencyInMinutes",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const VMwareCbtProtectionContainerMappingDetails: msRest.CompositeMapper = {
+  serializedName: "VMwareCbt",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ProtectionContainerMappingProviderSpecificDetails.type.polymorphicDiscriminator,
+    uberParent: "ProtectionContainerMappingProviderSpecificDetails",
+    className: "VMwareCbtProtectionContainerMappingDetails",
+    modelProperties: {
+      ...ProtectionContainerMappingProviderSpecificDetails.type.modelProperties,
+      keyVaultId: {
+        readOnly: true,
+        serializedName: "keyVaultId",
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultUri: {
+        readOnly: true,
+        serializedName: "keyVaultUri",
+        type: {
+          name: "String"
+        }
+      },
+      storageAccountId: {
+        readOnly: true,
+        serializedName: "storageAccountId",
+        type: {
+          name: "String"
+        }
+      },
+      storageAccountSasSecretName: {
+        readOnly: true,
+        serializedName: "storageAccountSasSecretName",
+        type: {
+          name: "String"
+        }
+      },
+      serviceBusConnectionStringSecretName: {
+        readOnly: true,
+        serializedName: "serviceBusConnectionStringSecretName",
+        type: {
+          name: "String"
+        }
+      },
+      targetLocation: {
+        readOnly: true,
+        serializedName: "targetLocation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VMwareCbtTestMigrateInput: msRest.CompositeMapper = {
+  serializedName: "VMwareCbt",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: TestMigrateProviderSpecificInput.type.polymorphicDiscriminator,
+    uberParent: "TestMigrateProviderSpecificInput",
+    className: "VMwareCbtTestMigrateInput",
+    modelProperties: {
+      ...TestMigrateProviderSpecificInput.type.modelProperties,
+      recoveryPointId: {
+        required: true,
+        serializedName: "recoveryPointId",
+        type: {
+          name: "String"
+        }
+      },
+      networkId: {
+        required: true,
+        serializedName: "networkId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VMwareCbtUpdateMigrationItemInput: msRest.CompositeMapper = {
+  serializedName: "VMwareCbt",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: UpdateMigrationItemProviderSpecificInput.type.polymorphicDiscriminator,
+    uberParent: "UpdateMigrationItemProviderSpecificInput",
+    className: "VMwareCbtUpdateMigrationItemInput",
+    modelProperties: {
+      ...UpdateMigrationItemProviderSpecificInput.type.modelProperties,
+      targetVmName: {
+        serializedName: "targetVmName",
+        type: {
+          name: "String"
+        }
+      },
+      targetVmSize: {
+        serializedName: "targetVmSize",
+        type: {
+          name: "String"
+        }
+      },
+      targetResourceGroupId: {
+        serializedName: "targetResourceGroupId",
+        type: {
+          name: "String"
+        }
+      },
+      targetAvailabilitySetId: {
+        serializedName: "targetAvailabilitySetId",
+        type: {
+          name: "String"
+        }
+      },
+      targetBootDiagnosticsStorageAccountId: {
+        serializedName: "targetBootDiagnosticsStorageAccountId",
+        type: {
+          name: "String"
+        }
+      },
+      targetNetworkId: {
+        serializedName: "targetNetworkId",
+        type: {
+          name: "String"
+        }
+      },
+      vmNics: {
+        serializedName: "vmNics",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VMwareCbtNicInput"
+            }
+          }
+        }
+      },
+      licenseType: {
+        serializedName: "licenseType",
+        type: {
+          name: "String"
         }
       }
     }
@@ -11839,14 +13161,16 @@ export const VMwareV2FabricCreationInput: msRest.CompositeMapper = {
     className: "VMwareV2FabricCreationInput",
     modelProperties: {
       ...FabricSpecificCreationInput.type.modelProperties,
-      keyVaultUrl: {
-        serializedName: "keyVaultUrl",
+      vmwareSiteId: {
+        required: true,
+        serializedName: "vmwareSiteId",
         type: {
           name: "String"
         }
       },
-      keyVaultResourceArmId: {
-        serializedName: "keyVaultResourceArmId",
+      migrationSolutionId: {
+        required: true,
+        serializedName: "migrationSolutionId",
         type: {
           name: "String"
         }
@@ -11864,26 +13188,23 @@ export const VMwareV2FabricSpecificDetails: msRest.CompositeMapper = {
     className: "VMwareV2FabricSpecificDetails",
     modelProperties: {
       ...FabricSpecificDetails.type.modelProperties,
-      srsServiceEndpoint: {
-        serializedName: "srsServiceEndpoint",
+      vmwareSiteId: {
+        readOnly: true,
+        serializedName: "vmwareSiteId",
         type: {
           name: "String"
         }
       },
-      rcmServiceEndpoint: {
-        serializedName: "rcmServiceEndpoint",
+      migrationSolutionId: {
+        readOnly: true,
+        serializedName: "migrationSolutionId",
         type: {
           name: "String"
         }
       },
-      keyVaultUrl: {
-        serializedName: "keyVaultUrl",
-        type: {
-          name: "String"
-        }
-      },
-      keyVaultResourceArmId: {
-        serializedName: "keyVaultResourceArmId",
+      serviceEndpoint: {
+        readOnly: true,
+        serializedName: "serviceEndpoint",
         type: {
           name: "String"
         }
@@ -12187,6 +13508,62 @@ export const ProtectionContainerCollection: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "ProtectionContainer"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MigrationItemCollection: msRest.CompositeMapper = {
+  serializedName: "MigrationItemCollection",
+  type: {
+    name: "Composite",
+    className: "MigrationItemCollection",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MigrationItem"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MigrationRecoveryPointCollection: msRest.CompositeMapper = {
+  serializedName: "MigrationRecoveryPointCollection",
+  type: {
+    name: "Composite",
+    className: "MigrationRecoveryPointCollection",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MigrationRecoveryPoint"
             }
           }
         }
@@ -12571,6 +13948,7 @@ export const discriminators = {
   'ReplicationProviderSpecificContainerMappingInput' : ReplicationProviderSpecificContainerMappingInput,
   'RecoveryPlanActionDetails' : RecoveryPlanActionDetails,
   'DisableProtectionProviderSpecificInput' : DisableProtectionProviderSpecificInput,
+  'EnableMigrationProviderSpecificInput' : EnableMigrationProviderSpecificInput,
   'EnableProtectionProviderSpecificInput' : EnableProtectionProviderSpecificInput,
   'EventProviderSpecificDetails' : EventProviderSpecificDetails,
   'EventSpecificDetails' : EventSpecificDetails,
@@ -12626,6 +14004,8 @@ export const discriminators = {
   'EventSpecificDetails.JobStatus' : JobStatusEventDetails,
   'TaskTypeDetails.JobTaskDetails' : JobTaskDetails,
   'TaskTypeDetails.ManualActionTaskDetails' : ManualActionTaskDetails,
+  'MigrateProviderSpecificInput' : MigrateProviderSpecificInput,
+  'MigrationProviderSpecificSettings' : MigrationProviderSpecificSettings,
   'NetworkMappingFabricSpecificSettings' : NetworkMappingFabricSpecificSettings,
   'ProviderSpecificFailoverInput' : ProviderSpecificFailoverInput,
   'PolicyProviderSpecificDetails' : PolicyProviderSpecificDetails,
@@ -12652,6 +14032,8 @@ export const discriminators = {
   'SwitchProtectionProviderSpecificInput' : SwitchProtectionProviderSpecificInput,
   'JobDetails.SwitchProtectionJobDetails' : SwitchProtectionJobDetails,
   'JobDetails.TestFailoverJobDetails' : TestFailoverJobDetails,
+  'TestMigrateProviderSpecificInput' : TestMigrateProviderSpecificInput,
+  'UpdateMigrationItemProviderSpecificInput' : UpdateMigrationItemProviderSpecificInput,
   'UpdateReplicationProtectedItemProviderInput' : UpdateReplicationProtectedItemProviderInput,
   'TaskTypeDetails.VirtualMachineTaskDetails' : VirtualMachineTaskDetails,
   'FabricSpecificDetails.VMM' : VmmDetails,
@@ -12663,8 +14045,16 @@ export const discriminators = {
   'FabricSpecificUpdateNetworkMappingInput.VmmToVmm' : VmmToVmmUpdateNetworkMappingInput,
   'ConfigurationSettings.VmmVirtualMachine' : VmmVirtualMachineDetails,
   'TaskTypeDetails.VmNicUpdatesTaskDetails' : VmNicUpdatesTaskDetails,
+  'ReplicationProviderSpecificContainerCreationInput.6c7da455-506f-43ff-a16a-8eb101aebb70' : VMwareCbtContainerCreationInput,
+  'ReplicationProviderSpecificContainerMappingInput.VMwareCbt' : VMwareCbtContainerMappingInput,
+  'EnableMigrationProviderSpecificInput.VMwareCbt' : VMwareCbtEnableMigrationInput,
+  'MigrateProviderSpecificInput.VMwareCbt' : VMwareCbtMigrateInput,
+  'MigrationProviderSpecificSettings.VMwareCbt' : VMwareCbtMigrationDetails,
   'PolicyProviderSpecificInput.VMwareCbt' : VMwareCbtPolicyCreationInput,
   'PolicyProviderSpecificDetails.VMwareCbt' : VmwareCbtPolicyDetails,
+  'ProtectionContainerMappingProviderSpecificDetails.VMwareCbt' : VMwareCbtProtectionContainerMappingDetails,
+  'TestMigrateProviderSpecificInput.VMwareCbt' : VMwareCbtTestMigrateInput,
+  'UpdateMigrationItemProviderSpecificInput.VMwareCbt' : VMwareCbtUpdateMigrationItemInput,
   'FabricSpecificDetails.VMware' : VMwareDetails,
   'FabricSpecificCreationInput.VMwareV2' : VMwareV2FabricCreationInput,
   'FabricSpecificDetails.VMwareV2' : VMwareV2FabricSpecificDetails,

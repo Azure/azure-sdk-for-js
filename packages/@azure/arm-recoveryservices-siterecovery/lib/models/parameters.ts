@@ -40,6 +40,18 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const deleteOption: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "deleteOption"
+  ],
+  mapper: {
+    serializedName: "deleteOption",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const eventName: msRest.OperationURLParameter = {
   parameterPath: "eventName",
   mapper: {
@@ -97,6 +109,26 @@ export const mappingName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "mappingName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const migrationItemName: msRest.OperationURLParameter = {
+  parameterPath: "migrationItemName",
+  mapper: {
+    required: true,
+    serializedName: "migrationItemName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const migrationRecoveryPointName: msRest.OperationURLParameter = {
+  parameterPath: "migrationRecoveryPointName",
+  mapper: {
+    required: true,
+    serializedName: "migrationRecoveryPointName",
     type: {
       name: "String"
     }
