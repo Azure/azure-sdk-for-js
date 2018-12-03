@@ -12,7 +12,7 @@ export * from "./credentials/Credential";
 export * from "./credentials/SharedKeyCredential";
 export * from "./credentials/TokenCredential";
 export { IIPRange } from "./IIPRange";
-export * from "./MessageIDURL";
+export * from "./MessageIdURL";
 export * from "./MessagesURL";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";

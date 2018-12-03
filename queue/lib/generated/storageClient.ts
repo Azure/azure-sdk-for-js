@@ -19,7 +19,7 @@ class StorageClient extends StorageClientContext {
   service: operations.Service;
   queue: operations.Queue;
   messages: operations.Messages;
-  messageID: operations.MessageID;
+  messageId: operations.MessageId;
 
   /**
    * @class
@@ -41,7 +41,7 @@ class StorageClient extends StorageClientContext {
     this.service = new operations.Service(this);
     this.queue = new operations.Queue(this);
     this.messages = new operations.Messages(this);
-    this.messageID = new operations.MessageID(this);
+    this.messageId = new operations.MessageId(this);
   }
 }
 

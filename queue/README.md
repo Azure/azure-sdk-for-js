@@ -103,7 +103,7 @@ For example, you can create following CORS settings for debugging. But please cu
 
 The Azure Storage SDK for JavaScript provides low-level and high-level APIs.
 
-* ServiceURL, QueueURL, MessagesURL and MessageIDURL objects provide the low-level API functionality and map one-to-one to the [Azure Storage Queue REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/queue-service-rest-api).
+* ServiceURL, QueueURL, MessagesURL and MessageIdURL objects provide the low-level API functionality and map one-to-one to the [Azure Storage Queue REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/queue-service-rest-api).
 
 ## Code Samples
 
@@ -112,7 +112,7 @@ const {
     Aborter,
     QueueURL,
     MessagesURL,
-    MessageIDURL,
+    MessageIdURL,
     ServiceURL,
     StorageURL,
     SharedKeyCredential,
@@ -192,8 +192,8 @@ async function main() {
     if (dequeueQueueResponse.length == 1) {
         const dequeueMessageItem = dequeueQueueResponse.dequeuedMessageItems[0];
         console.log(`Processing & deleting message with content: ${dequeueMessageItem.messageText}`);
-        const messageIDURL = MessageIDURL.fromMessagesURL(messagesURL, dequeueMessageItem.messageId);
-        const deleteMessageResponse = await messageIDURL.delete(Aborter.none, dequeueMessageItem.popReceipt);
+        const messageIdURL = MessageIdURL.fromMessagesURL(messagesURL, dequeueMessageItem.messageId);
+        const deleteMessageResponse = await messageIdURL.delete(Aborter.none, dequeueMessageItem.popReceipt);
         console.log(`Delete message succesfully, service assigned request Id: ${deleteMessageResponse.requestId}`);
     }
 
