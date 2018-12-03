@@ -5592,7 +5592,7 @@ export interface ContainerServiceMasterProfile {
    */
   dnsPrefix: string;
   /**
-   * @member {string} [fqdn] FDQN for the master.
+   * @member {string} [fqdn] FQDN for the master.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -5639,7 +5639,7 @@ export interface ContainerServiceAgentPoolProfile {
    */
   dnsPrefix: string;
   /**
-   * @member {string} [fqdn] FDQN for the agent pool.
+   * @member {string} [fqdn] FQDN for the agent pool.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
