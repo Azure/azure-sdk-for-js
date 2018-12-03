@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -612,7 +612,7 @@ export interface X509CertificateProperties {
    */
   keyUsage?: KeyUsageType[];
   /**
-   * @member {number} [validityInMonths] The duration that the ceritifcate is
+   * @member {number} [validityInMonths] The duration that the certificate is
    * valid in months.
    */
   validityInMonths?: number;
@@ -968,7 +968,7 @@ export interface AdministratorDetails {
    */
   lastName?: string;
   /**
-   * @member {string} [emailAddress] Email addresss.
+   * @member {string} [emailAddress] Email address.
    */
   emailAddress?: string;
   /**
@@ -1061,7 +1061,7 @@ export interface IssuerBundle {
  */
 export interface Contact {
   /**
-   * @member {string} [emailAddress] Email addresss.
+   * @member {string} [emailAddress] Email address.
    */
   emailAddress?: string;
   /**
@@ -2943,7 +2943,8 @@ export interface DeletedStorageListResult extends Array<DeletedStorageAccountIte
  */
 export interface SasDefinitionListResult extends Array<SasDefinitionItem> {
   /**
-   * @member {string} [nextLink] The URL to get the next set of SAS defintions.
+   * @member {string} [nextLink] The URL to get the next set of SAS
+   * definitions.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
