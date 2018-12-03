@@ -114,7 +114,6 @@ export interface CommandLineOptions extends minimist.ParsedArgs {
     use: boolean;
     verbose: boolean;
     whatif: boolean;
-    "ignore-version": boolean;
     getSdkType(): SdkType;
 }
 
