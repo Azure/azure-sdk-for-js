@@ -1,8 +1,6 @@
-﻿import assert from "assert";
-import * as bs from "binary-search-bounds";
+﻿import * as bs from "binary-search-bounds";
 import PriorityQueue from "priorityqueuejs";
 import semaphore from "semaphore";
-import * as util from "util";
 import {
   DocumentProducer,
   HeaderUtils,
@@ -421,10 +419,8 @@ export abstract class ParallelQueryExecutionContextBase implements IExecutionCon
               // because the documentProducer already has buffered an item
               // assert item !== undefined
               this.err = new Error(
-                util.format(
-                  `Extracted DocumentProducer from the priority queue \
+                `Extracted DocumentProducer from the priority queue \
                                             doesn't have any buffered item!`
-                )
               );
               // release the lock before invoking callback
               this.sem.leave();
@@ -454,11 +450,9 @@ export abstract class ParallelQueryExecutionContextBase implements IExecutionCon
             } else {
               try {
                 const headItem = documentProducer.fetchResults[0];
-                assert.notStrictEqual(
-                  headItem,
-                  undefined,
-                  "Extracted DocumentProducer from PQ is invalid state with no result!"
-                );
+                if (typeof headItem === "undefined") {
+                  throw new Error("Extracted DocumentProducer from PQ is invalid state with no result!");
+                }
                 this.orderByPQ.enq(documentProducer);
               } catch (e) {
                 // if comparing elements in priority queue throws exception

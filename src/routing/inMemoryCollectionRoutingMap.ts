@@ -1,4 +1,3 @@
-import assert from "assert";
 import * as bs from "binary-search-bounds"; // TODO: missing types
 import { Constants } from "../common";
 import { Range } from "../range";
@@ -63,7 +62,9 @@ export class InMemoryCollectionRoutingMap {
       InMemoryCollectionRoutingMap._vbCompareFunction
     );
     // that's an error
-    assert.ok(index >= 0, "error in collection routing map, queried partition key is less than the start range.");
+    if (index < 0) {
+      throw new Error("error in collection routing map, queried partition key is less than the start range.");
+    }
 
     return this.orderedPartitionKeyRanges[index];
   }
@@ -105,17 +106,19 @@ export class InMemoryCollectionRoutingMap {
         { v: queryRange.min, b: !queryRange.isMinInclusive },
         InMemoryCollectionRoutingMap._vbCompareFunction
       );
-      assert.ok(minIndex >= 0, "error in collection routing map, queried value is less than the start range.");
+
+      if (minIndex < 0) {
+        throw new Error("error in collection routing map, queried value is less than the start range.");
+      }
 
       const maxIndex = bs.ge(
         sortedHigh,
         { v: queryRange.max, b: queryRange.isMaxInclusive },
         InMemoryCollectionRoutingMap._vbCompareFunction
       );
-      assert.ok(
-        maxIndex < sortedHigh.length,
-        "error in collection routing map, queried value is greater than the end range."
-      );
+      if (maxIndex > sortedHigh.length) {
+        throw new Error("error in collection routing map, queried value is greater than the end range.");
+      }
 
       // the for loop doesn't invoke any async callback
       for (let j = minIndex; j < maxIndex + 1; j++) {

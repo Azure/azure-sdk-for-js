@@ -1,5 +1,3 @@
-import { isNumber } from "util";
-
 /**
  * Models vector clock bases session token. Session token has the following format:
  * {Version}#{GlobalLSN}#{RegionId1}={LocalLsn1}#{RegionId2}={LocalLsn2}....#{RegionIdN}={LocalLsnN}
@@ -48,7 +46,7 @@ export class VectorSessionToken {
     const version = parseInt(versionStr, 10);
     const globalLsn = parseFloat(globalLsnStr);
 
-    if (!isNumber(version) || !isNumber(globalLsn)) {
+    if (typeof version !== "number" || typeof globalLsn !== "number") {
       return null;
     }
 
@@ -68,7 +66,7 @@ export class VectorSessionToken {
         // TODO: log error
         return null;
       }
-      if (!isNumber(regionId)) {
+      if (typeof regionId !== "number") {
         return null;
       }
 

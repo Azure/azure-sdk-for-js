@@ -1,6 +1,3 @@
-import assert from "assert";
-import * as util from "util";
-
 /** @hidden */
 const PartitionedQueryContants = {
   QueryInfoPath: "queryInfo",
@@ -39,7 +36,9 @@ export class PartitionedQueryExecutionContextInfoParser {
     if (typeof path === "string") {
       return item[path];
     }
-    assert.ok(Array.isArray(path), util.format("%s is expected to be an array", JSON.stringify(path)));
+    if (!Array.isArray(path)) {
+      throw new Error(`JSON.stringify(path is expected to be an array`);
+    }
     for (const p of path) {
       item = item[p];
       if (item === undefined) {

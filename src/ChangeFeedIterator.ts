@@ -1,5 +1,4 @@
 /// <reference lib="esnext.asynciterable" />
-import { isNumber } from "util";
 import { ChangeFeedOptions } from "./ChangeFeedOptions";
 import { ChangeFeedResponse } from "./ChangeFeedResponse";
 import { Resource } from "./client";
@@ -99,7 +98,7 @@ export class ChangeFeedIterator<T> {
     }
     const feedOptions: FeedOptions = { initialHeaders: {}, a_im: "Incremental feed" };
 
-    if (isNumber(this.changeFeedOptions.maxItemCount)) {
+    if (typeof this.changeFeedOptions.maxItemCount === "number") {
       feedOptions.maxItemCount = this.changeFeedOptions.maxItemCount;
     }
 

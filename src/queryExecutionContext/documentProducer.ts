@@ -1,4 +1,3 @@
-import assert from "assert";
 import { FetchFunctionCallback, SqlQuerySpec } from ".";
 import { ClientContext } from "../ClientContext";
 import { Constants, Helper, StatusCodes, SubStatusCodes } from "../common";
@@ -234,7 +233,9 @@ export class DocumentProducer {
 
       const fetchResult = this.fetchResults.shift();
       this._updateStates(undefined, result === undefined);
-      assert.equal(fetchResult.feedResponse, result);
+      if (fetchResult.feedResponse !== result) {
+        throw new Error(`Expected ${fetchResult.feedResponse} to equal ${result}`);
+      }
       switch (fetchResult.fetchResultType) {
         case FetchResultType.Done:
           return { result: undefined, headers };

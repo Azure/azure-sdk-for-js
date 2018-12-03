@@ -1,4 +1,3 @@
-import assert from "assert";
 import {
   DefaultQueryExecutionContext,
   FetchFunctionCallback,
@@ -63,11 +62,12 @@ export class ProxyQueryExecutionContext implements IExecutionContext {
   }
 
   private _createPipelinedExecutionContext(partitionedExecutionInfo: PartitionedQueryExecutionContextInfo) {
-    assert.notStrictEqual(this.resourceLink, undefined, "for top/orderby resourceLink is required.");
-    assert.ok(
-      !Array.isArray(this.resourceLink) || this.resourceLink.length === 1,
-      "for top/orderby exactly one collectionLink is required"
-    );
+    if (!this.resourceLink) {
+      throw new Error("for top/orderby resourceLink is required");
+    }
+    if (Array.isArray(this.resourceLink) && this.resourceLink.length !== 1) {
+      throw new Error("for top/orderby exactly one collectionLink is required");
+    }
 
     const collectionLink = Array.isArray(this.resourceLink) ? this.resourceLink[0] : this.resourceLink;
 

@@ -1,4 +1,3 @@
-import { isNumber } from "util";
 import { TimeSpan } from "./timeSpan";
 
 export class QueryMetricsUtils {

@@ -1,4 +1,3 @@
-import assert from "assert";
 import { PartitionKeyRangeCache, QueryRange } from ".";
 import { ClientContext } from "../ClientContext";
 import { Constants } from "../common";
@@ -14,8 +13,13 @@ export class SmartRoutingMapProvider {
     this.partitionKeyRangeCache = new PartitionKeyRangeCache(clientContext);
   }
   private static _secondRangeIsAfterFirstRange(range1: QueryRange, range2: QueryRange) {
-    assert.notEqual(range1.max, undefined, "invalid arg");
-    assert.notEqual(range2.min, undefined, "invalid arg");
+    if (typeof range1.max === "undefined") {
+      throw new Error("range1 must have max");
+    }
+
+    if (typeof range2.min === "undefined") {
+      throw new Error("range2 must have min");
+    }
 
     if (range1.max > range2.min) {
       // r.min < #previous_r.max
@@ -100,20 +104,21 @@ export class SmartRoutingMapProvider {
       }
 
       const overlappingRanges = collectionRoutingMap.getOverlappingRanges(queryRange);
-      assert.ok(
-        overlappingRanges.length > 0,
-        `error: returned overlapping ranges for queryRange ${queryRange} is empty`
-      );
+      if (overlappingRanges.length <= 0) {
+        throw new Error(`error: returned overlapping ranges for queryRange ${queryRange} is empty`);
+      }
       partitionKeyRanges = partitionKeyRanges.concat(overlappingRanges);
 
       const lastKnownTargetRange = QueryRange.parsePartitionKeyRange(partitionKeyRanges[partitionKeyRanges.length - 1]);
-      assert.notEqual(lastKnownTargetRange, undefined);
+      if (!lastKnownTargetRange) {
+        throw new Error("expected lastKnowTargetRange to be truthy");
+      }
       // the overlapping ranges must contain the requested range
-      assert.ok(
-        SmartRoutingMapProvider._stringCompare(currentProvidedRange.max, lastKnownTargetRange.max) <= 0,
-        `error: returned overlapping ranges ${overlappingRanges} \
-                    does not contain the requested range ${queryRange}`
-      );
+
+      if (SmartRoutingMapProvider._stringCompare(currentProvidedRange.max, lastKnownTargetRange.max) > 0) {
+        throw new Error(`error: returned overlapping ranges ${overlappingRanges} \
+        does not contain the requested range ${queryRange}`);
+      }
 
       // the current range is contained in partitionKeyRanges just move forward
       if (++index >= sortedRanges.length) {

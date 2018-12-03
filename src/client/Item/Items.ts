@@ -11,11 +11,9 @@ import { Item } from "./Item";
 import { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
 
-import assert from "assert";
-import { isBoolean, isNumber, isString } from "util";
-
 function isChangeFeedOptions(options: unknown): options is ChangeFeedOptions {
-  return options && !(isString(options) || isBoolean(options) || isNumber(options));
+  const optionsType = typeof options;
+  return options && !(optionsType === "string" || optionsType === "boolean" || optionsType === "number");
 }
 
 /**

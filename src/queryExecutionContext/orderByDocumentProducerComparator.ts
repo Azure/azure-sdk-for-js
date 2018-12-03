@@ -1,6 +1,4 @@
-﻿import assert from "assert";
-import * as util from "util";
-import { DocumentProducer } from "./documentProducer";
+﻿import { DocumentProducer } from "./documentProducer";
 
 // TODO: this smells funny
 /** @hidden */
@@ -93,7 +91,9 @@ export class OrderByDocumentProducerComparator {
     }
 
     const compFunc = TYPEORDCOMPARATOR[type1].compFunc;
-    assert.notEqual(compFunc, undefined, "cannot find the comparison function");
+    if (typeof compFunc === "undefined") {
+      throw new Error("Cannot find the comparison function");
+    }
     // same type and type is defined compare the items
     return compFunc(item1, item2);
   }
@@ -105,13 +105,13 @@ export class OrderByDocumentProducerComparator {
   }
 
   public validateOrderByItems(res1: string[], res2: string[]) {
-    this._throwIf(res1.length !== res2.length, util.format("Expected %s, but got %s.", res1.length, res2.length));
+    this._throwIf(res1.length !== res2.length, `Expected ${res1.length}, but got ${res2.length}.`);
     this._throwIf(res1.length !== this.sortOrder.length, "orderByItems cannot have a different size than sort orders.");
 
     for (let i = 0; i < this.sortOrder.length; i++) {
       const type1 = this.getType(res1[i]);
       const type2 = this.getType(res2[i]);
-      this._throwIf(type1 !== type2, util.format("Expected %s, but got %s.", type1, type2));
+      this._throwIf(type1 !== type2, `Expected ${type1}, but got ${type2}.`);
     }
   }
 
@@ -121,7 +121,7 @@ export class OrderByDocumentProducerComparator {
       return "NoValue";
     }
     const type = typeof orderByItem.item;
-    this._throwIf(TYPEORDCOMPARATOR[type] === undefined, util.format("unrecognizable type %s", type));
+    this._throwIf(TYPEORDCOMPARATOR[type] === undefined, `unrecognizable type ${type}`);
     return type;
   }
 
