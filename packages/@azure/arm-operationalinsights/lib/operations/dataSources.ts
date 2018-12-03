@@ -53,7 +53,7 @@ export class DataSources {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, workspaceName: string, dataSourceName: string, parameters: Models.DataSource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataSource>): void;
-  createOrUpdate(resourceGroupName: string, workspaceName: string, dataSourceName: string, parameters: Models.DataSource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DataSource>): Promise<Models.DataSourcesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, workspaceName: string, dataSourceName: string, parameters: Models.DataSource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataSource>, callback?: msRest.ServiceCallback<Models.DataSource>): Promise<Models.DataSourcesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -90,7 +90,7 @@ export class DataSources {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, workspaceName: string, dataSourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, workspaceName: string, dataSourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, workspaceName: string, dataSourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -126,7 +126,7 @@ export class DataSources {
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, dataSourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataSource>): void;
-  get(resourceGroupName: string, workspaceName: string, dataSourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DataSource>): Promise<Models.DataSourcesGetResponse> {
+  get(resourceGroupName: string, workspaceName: string, dataSourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataSource>, callback?: msRest.ServiceCallback<Models.DataSource>): Promise<Models.DataSourcesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -162,7 +162,7 @@ export class DataSources {
    * @param callback The callback
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, filter: string, options: Models.DataSourcesListByWorkspaceOptionalParams, callback: msRest.ServiceCallback<Models.DataSourceListResult>): void;
-  listByWorkspace(resourceGroupName: string, workspaceName: string, filter: string, options?: Models.DataSourcesListByWorkspaceOptionalParams, callback?: msRest.ServiceCallback<Models.DataSourceListResult>): Promise<Models.DataSourcesListByWorkspaceResponse> {
+  listByWorkspace(resourceGroupName: string, workspaceName: string, filter: string, options?: Models.DataSourcesListByWorkspaceOptionalParams | msRest.ServiceCallback<Models.DataSourceListResult>, callback?: msRest.ServiceCallback<Models.DataSourceListResult>): Promise<Models.DataSourcesListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -192,7 +192,7 @@ export class DataSources {
    * @param callback The callback
    */
   listByWorkspaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataSourceListResult>): void;
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DataSourceListResult>): Promise<Models.DataSourcesListByWorkspaceNextResponse> {
+  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataSourceListResult>, callback?: msRest.ServiceCallback<Models.DataSourceListResult>): Promise<Models.DataSourcesListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
