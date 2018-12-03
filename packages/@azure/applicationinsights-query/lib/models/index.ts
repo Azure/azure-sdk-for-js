@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { ServiceClientOptions } from "@azure/ms-rest-js";
-import * as msRest from "@azure/ms-rest-js";
+import { ServiceClientOptions } from "ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 
 /**
@@ -1259,7 +1259,7 @@ export interface EventsExceptionInfo {
    */
   outerMethod?: string;
   /**
-   * @member {string} [outerAssembly] The outer assmebly of the exception
+   * @member {string} [outerAssembly] The outer assembly of the exception
    */
   outerAssembly?: string;
   /**
