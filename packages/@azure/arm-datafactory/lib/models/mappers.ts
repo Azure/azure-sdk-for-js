@@ -1394,75 +1394,6 @@ export const GitHubAccessTokenResponse: msRest.CompositeMapper = {
   }
 };
 
-export const UserAccessPolicy: msRest.CompositeMapper = {
-  serializedName: "UserAccessPolicy",
-  type: {
-    name: "Composite",
-    className: "UserAccessPolicy",
-    modelProperties: {
-      permissions: {
-        serializedName: "permissions",
-        type: {
-          name: "String"
-        }
-      },
-      accessResourcePath: {
-        serializedName: "accessResourcePath",
-        type: {
-          name: "String"
-        }
-      },
-      profileName: {
-        serializedName: "profileName",
-        type: {
-          name: "String"
-        }
-      },
-      startTime: {
-        serializedName: "startTime",
-        type: {
-          name: "String"
-        }
-      },
-      expireTime: {
-        serializedName: "expireTime",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AccessPolicyResponse: msRest.CompositeMapper = {
-  serializedName: "AccessPolicyResponse",
-  type: {
-    name: "Composite",
-    className: "AccessPolicyResponse",
-    modelProperties: {
-      policy: {
-        serializedName: "policy",
-        type: {
-          name: "Composite",
-          className: "UserAccessPolicy"
-        }
-      },
-      accessToken: {
-        serializedName: "accessToken",
-        type: {
-          name: "String"
-        }
-      },
-      dataPlaneUrl: {
-        serializedName: "dataPlaneUrl",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const PipelineReference: msRest.CompositeMapper = {
   serializedName: "PipelineReference",
   type: {
@@ -3630,15 +3561,6 @@ export const NetezzaLinkedService: msRest.CompositeMapper = {
           name: "Object"
         }
       },
-      pwd: {
-        serializedName: "typeProperties.pwd",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
-          uberParent: "SecretBase",
-          className: "AzureKeyVaultSecretReference"
-        }
-      },
       encryptedCredential: {
         serializedName: "typeProperties.encryptedCredential",
         type: {
@@ -3663,15 +3585,6 @@ export const VerticaLinkedService: msRest.CompositeMapper = {
         serializedName: "typeProperties.connectionString",
         type: {
           name: "Object"
-        }
-      },
-      pwd: {
-        serializedName: "typeProperties.pwd",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
-          uberParent: "SecretBase",
-          className: "AzureKeyVaultSecretReference"
         }
       },
       encryptedCredential: {
@@ -4565,15 +4478,6 @@ export const MariaDBLinkedService: msRest.CompositeMapper = {
           name: "Object"
         }
       },
-      pwd: {
-        serializedName: "typeProperties.pwd",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
-          uberParent: "SecretBase",
-          className: "AzureKeyVaultSecretReference"
-        }
-      },
       encryptedCredential: {
         serializedName: "typeProperties.encryptedCredential",
         type: {
@@ -5108,15 +5012,6 @@ export const GreenplumLinkedService: msRest.CompositeMapper = {
           name: "Object"
         }
       },
-      pwd: {
-        serializedName: "typeProperties.pwd",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
-          uberParent: "SecretBase",
-          className: "AzureKeyVaultSecretReference"
-        }
-      },
       encryptedCredential: {
         serializedName: "typeProperties.encryptedCredential",
         type: {
@@ -5313,15 +5208,6 @@ export const DrillLinkedService: msRest.CompositeMapper = {
           name: "Object"
         }
       },
-      pwd: {
-        serializedName: "typeProperties.pwd",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
-          uberParent: "SecretBase",
-          className: "AzureKeyVaultSecretReference"
-        }
-      },
       encryptedCredential: {
         serializedName: "typeProperties.encryptedCredential",
         type: {
@@ -5346,15 +5232,6 @@ export const CouchbaseLinkedService: msRest.CompositeMapper = {
         serializedName: "typeProperties.connectionString",
         type: {
           name: "Object"
-        }
-      },
-      credString: {
-        serializedName: "typeProperties.credString",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
-          uberParent: "SecretBase",
-          className: "AzureKeyVaultSecretReference"
         }
       },
       encryptedCredential: {
@@ -5445,15 +5322,6 @@ export const AzurePostgreSqlLinkedService: msRest.CompositeMapper = {
         serializedName: "typeProperties.connectionString",
         type: {
           name: "Object"
-        }
-      },
-      password: {
-        serializedName: "typeProperties.password",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
-          uberParent: "SecretBase",
-          className: "AzureKeyVaultSecretReference"
         }
       },
       encryptedCredential: {
@@ -6985,15 +6853,6 @@ export const PostgreSqlLinkedService: msRest.CompositeMapper = {
           className: "SecretBase"
         }
       },
-      password: {
-        serializedName: "typeProperties.password",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
-          uberParent: "SecretBase",
-          className: "AzureKeyVaultSecretReference"
-        }
-      },
       encryptedCredential: {
         serializedName: "typeProperties.encryptedCredential",
         type: {
@@ -7027,15 +6886,6 @@ export const MySqlLinkedService: msRest.CompositeMapper = {
           className: "SecretBase"
         }
       },
-      password: {
-        serializedName: "typeProperties.password",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
-          uberParent: "SecretBase",
-          className: "AzureKeyVaultSecretReference"
-        }
-      },
       encryptedCredential: {
         serializedName: "typeProperties.encryptedCredential",
         type: {
@@ -7063,15 +6913,6 @@ export const AzureMySqlLinkedService: msRest.CompositeMapper = {
           name: "Object"
         }
       },
-      password: {
-        serializedName: "typeProperties.password",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
-          uberParent: "SecretBase",
-          className: "AzureKeyVaultSecretReference"
-        }
-      },
       encryptedCredential: {
         serializedName: "typeProperties.encryptedCredential",
         type: {
@@ -7097,15 +6938,6 @@ export const OracleLinkedService: msRest.CompositeMapper = {
         serializedName: "typeProperties.connectionString",
         type: {
           name: "Object"
-        }
-      },
-      password: {
-        serializedName: "typeProperties.password",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
-          uberParent: "SecretBase",
-          className: "AzureKeyVaultSecretReference"
         }
       },
       encryptedCredential: {
@@ -7316,15 +7148,6 @@ export const CosmosDbLinkedService: msRest.CompositeMapper = {
           name: "Object"
         }
       },
-      accountKey: {
-        serializedName: "typeProperties.accountKey",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
-          uberParent: "SecretBase",
-          className: "AzureKeyVaultSecretReference"
-        }
-      },
       encryptedCredential: {
         serializedName: "typeProperties.encryptedCredential",
         type: {
@@ -7435,15 +7258,6 @@ export const AzureSqlDatabaseLinkedService: msRest.CompositeMapper = {
           name: "Object"
         }
       },
-      password: {
-        serializedName: "typeProperties.password",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
-          uberParent: "SecretBase",
-          className: "AzureKeyVaultSecretReference"
-        }
-      },
       servicePrincipalId: {
         serializedName: "typeProperties.servicePrincipalId",
         type: {
@@ -7540,15 +7354,6 @@ export const AzureSqlDWLinkedService: msRest.CompositeMapper = {
           name: "Object"
         }
       },
-      password: {
-        serializedName: "typeProperties.password",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
-          uberParent: "SecretBase",
-          className: "AzureKeyVaultSecretReference"
-        }
-      },
       servicePrincipalId: {
         serializedName: "typeProperties.servicePrincipalId",
         type: {
@@ -7599,28 +7404,16 @@ export const AzureTableStorageLinkedService: msRest.CompositeMapper = {
           name: "Object"
         }
       },
-      accountKey: {
-        serializedName: "typeProperties.accountKey",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
-          uberParent: "SecretBase",
-          className: "AzureKeyVaultSecretReference"
-        }
-      },
       sasUri: {
         serializedName: "typeProperties.sasUri",
         type: {
-          name: "Object"
-        }
-      },
-      sasToken: {
-        serializedName: "typeProperties.sasToken",
-        type: {
           name: "Composite",
-          polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
           uberParent: "SecretBase",
-          className: "AzureKeyVaultSecretReference"
+          className: "SecretBase"
         }
       },
       encryptedCredential: {
@@ -7649,28 +7442,16 @@ export const AzureBlobStorageLinkedService: msRest.CompositeMapper = {
           name: "Object"
         }
       },
-      accountKey: {
-        serializedName: "typeProperties.accountKey",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
-          uberParent: "SecretBase",
-          className: "AzureKeyVaultSecretReference"
-        }
-      },
       sasUri: {
         serializedName: "typeProperties.sasUri",
         type: {
-          name: "Object"
-        }
-      },
-      sasToken: {
-        serializedName: "typeProperties.sasToken",
-        type: {
           name: "Composite",
-          polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
           uberParent: "SecretBase",
-          className: "AzureKeyVaultSecretReference"
+          className: "SecretBase"
         }
       },
       serviceEndpoint: {
@@ -7729,28 +7510,16 @@ export const AzureStorageLinkedService: msRest.CompositeMapper = {
           name: "Object"
         }
       },
-      accountKey: {
-        serializedName: "typeProperties.accountKey",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
-          uberParent: "SecretBase",
-          className: "AzureKeyVaultSecretReference"
-        }
-      },
       sasUri: {
         serializedName: "typeProperties.sasUri",
         type: {
-          name: "Object"
-        }
-      },
-      sasToken: {
-        serializedName: "typeProperties.sasToken",
-        type: {
           name: "Composite",
-          polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
           uberParent: "SecretBase",
-          className: "AzureKeyVaultSecretReference"
+          className: "SecretBase"
         }
       },
       encryptedCredential: {
@@ -7772,13 +7541,7 @@ export const ResponsysObjectDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "ResponsysObjectDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -7792,13 +7555,7 @@ export const SalesforceMarketingCloudObjectDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "SalesforceMarketingCloudObjectDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -7812,13 +7569,7 @@ export const VerticaTableDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "VerticaTableDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -7832,13 +7583,7 @@ export const NetezzaTableDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "NetezzaTableDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -7852,13 +7597,7 @@ export const ZohoObjectDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "ZohoObjectDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -7872,13 +7611,7 @@ export const XeroObjectDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "XeroObjectDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -7892,13 +7625,7 @@ export const SquareObjectDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "SquareObjectDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -7912,13 +7639,7 @@ export const SparkObjectDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "SparkObjectDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -7932,13 +7653,7 @@ export const ShopifyObjectDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "ShopifyObjectDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -7952,13 +7667,7 @@ export const ServiceNowObjectDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "ServiceNowObjectDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -7972,13 +7681,7 @@ export const QuickBooksObjectDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "QuickBooksObjectDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -7992,13 +7695,7 @@ export const PrestoObjectDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "PrestoObjectDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -8012,13 +7709,7 @@ export const PhoenixObjectDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "PhoenixObjectDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -8032,13 +7723,7 @@ export const PaypalObjectDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "PaypalObjectDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -8052,13 +7737,7 @@ export const MarketoObjectDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "MarketoObjectDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -8072,13 +7751,7 @@ export const MariaDBTableDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "MariaDBTableDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -8092,13 +7765,7 @@ export const MagentoObjectDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "MagentoObjectDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -8112,13 +7779,7 @@ export const JiraObjectDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "JiraObjectDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -8132,13 +7793,7 @@ export const ImpalaObjectDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "ImpalaObjectDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -8152,13 +7807,7 @@ export const HubspotObjectDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "HubspotObjectDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -8172,13 +7821,7 @@ export const HiveObjectDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "HiveObjectDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -8192,13 +7835,7 @@ export const HBaseObjectDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "HBaseObjectDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -8212,13 +7849,7 @@ export const GreenplumTableDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "GreenplumTableDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -8232,13 +7863,7 @@ export const GoogleBigQueryObjectDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "GoogleBigQueryObjectDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -8252,13 +7877,7 @@ export const EloquaObjectDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "EloquaObjectDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -8272,13 +7891,7 @@ export const DrillTableDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "DrillTableDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -8292,13 +7905,7 @@ export const CouchbaseTableDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "CouchbaseTableDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -8312,13 +7919,7 @@ export const ConcurObjectDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "ConcurObjectDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -8332,13 +7933,7 @@ export const AzurePostgreSqlTableDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "AzurePostgreSqlTableDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -8352,13 +7947,7 @@ export const AmazonMWSObjectDataset: msRest.CompositeMapper = {
     uberParent: "Dataset",
     className: "AmazonMWSObjectDataset",
     modelProperties: {
-      ...Dataset.type.modelProperties,
-      tableName: {
-        serializedName: "typeProperties.tableName",
-        type: {
-          name: "Object"
-        }
-      }
+      ...Dataset.type.modelProperties
     },
     additionalProperties: Dataset.type.additionalProperties
   }
@@ -10889,6 +10478,7 @@ export const StoredProcedureParameter: msRest.CompositeMapper = {
     className: "StoredProcedureParameter",
     modelProperties: {
       value: {
+        required: true,
         serializedName: "value",
         type: {
           name: "Object"
@@ -11179,6 +10769,36 @@ export const LookupActivity: msRest.CompositeMapper = {
   }
 };
 
+export const LogStorageSettings: msRest.CompositeMapper = {
+  serializedName: "LogStorageSettings",
+  type: {
+    name: "Composite",
+    className: "LogStorageSettings",
+    modelProperties: {
+      linkedServiceName: {
+        required: true,
+        serializedName: "linkedServiceName",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      },
+      path: {
+        serializedName: "path",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
 export const DeleteActivity: msRest.CompositeMapper = {
   serializedName: "Delete",
   type: {
@@ -11192,6 +10812,33 @@ export const DeleteActivity: msRest.CompositeMapper = {
         serializedName: "typeProperties.recursive",
         type: {
           name: "Object"
+        }
+      },
+      maxConcurrentConnections: {
+        serializedName: "typeProperties.maxConcurrentConnections",
+        constraints: {
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      enableLogging: {
+        serializedName: "typeProperties.enableLogging",
+        type: {
+          name: "Object"
+        }
+      },
+      logStorageSettings: {
+        serializedName: "typeProperties.logStorageSettings",
+        type: {
+          name: "Composite",
+          className: "LogStorageSettings",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
         }
       },
       dataset: {
