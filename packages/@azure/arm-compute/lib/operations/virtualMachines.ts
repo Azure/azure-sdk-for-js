@@ -365,8 +365,7 @@ export class VirtualMachines {
   }
 
   /**
-   * Reimages (upgrade the operating system) virtual machine. This operation is only supported for
-   * differencing OS disks.
+   * Reimages the virtual machine which has an ephemeral OS disk back to its initial state.
    * @param resourceGroupName The name of the resource group.
    * @param vmName The name of the virtual machine.
    * @param [options] The optional parameters
@@ -593,8 +592,7 @@ export class VirtualMachines {
   }
 
   /**
-   * Reimages (upgrade the operating system) virtual machine. This operation is only supported for
-   * differencing OS disks.
+   * Reimages the virtual machine which has an ephemeral OS disk back to its initial state.
    * @param resourceGroupName The name of the resource group.
    * @param vmName The name of the virtual machine.
    * @param [options] The optional parameters
