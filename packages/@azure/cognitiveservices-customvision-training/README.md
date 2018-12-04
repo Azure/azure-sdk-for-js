@@ -9,7 +9,7 @@ This package contains an isomorphic SDK for TrainingAPIClient.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/cognitiveservices-customvision-training
 ```
 
@@ -19,13 +19,13 @@ npm install @azure/cognitiveservices-customvision-training
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
+```bash
 npm install @azure/ms-rest-nodeauth
 ```
 
 ##### Sample code
 
-```ts
+```typescript
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { TrainingAPIClient, TrainingAPIModels, TrainingAPIMappers } from "@azure/cognitiveservices-customvision-training";
@@ -46,7 +46,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 
