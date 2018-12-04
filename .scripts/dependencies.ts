@@ -271,6 +271,8 @@ export function updateLocalDependencies(packageFolders: PackageFolder[], localDe
   for (const packageFolder of packageFolders) {
     const packageFolderPath: string = packageFolder.folderPath;
 
+    let refreshPackageFolder: boolean = forceRefresh;
+
     const packageJson: any = getPackageJson(resolvePath(packageFolderPath, "package.json"));
 
     const localDependencies: string[] = getClonedRepositories(packageJson.dependencies);
@@ -282,31 +284,26 @@ export function updateLocalDependencies(packageFolders: PackageFolder[], localDe
       runLocalRepositoryNPMScript(localDependency, localDependencyNPMScript);
     }
 
-    const dependenciesToRefresh: string[] = [];
     for (const localDependency of allLocalDependencies) {
       if (updateLocalDependency(packageFolder, localDependency, getNewDependencyVersion)) {
-        dependenciesToRefresh.push(localDependency);
+        refreshPackageFolder = true;
       }
     }
 
-    if (forceRefresh || dependenciesToRefresh.length > 0) {
-      if (packageFolder.isLernaPackage) {
-        log(packageFolderPath, `Not refreshing dependencies since this is a lerna package.`);
-      } else {
-        const packageLockFilePath = resolvePath(packageFolderPath, "package-lock.json");
-        if (exists(packageLockFilePath)) {
-          log(packageLockFilePath, `Deleting...`);
-          deleteFile(packageLockFilePath);
-        }
-
-        const nodeModulesFolderPath = resolvePath(packageFolderPath, "node_modules");
-        if (exists(nodeModulesFolderPath)) {
-          log(nodeModulesFolderPath, `Deleting...`);
-          deleteFolder(nodeModulesFolderPath);
-        }
-
-        execute("npm install", packageFolderPath);
+    if (refreshPackageFolder) {
+      const packageLockFilePath = resolvePath(packageFolderPath, "package-lock.json");
+      if (exists(packageLockFilePath)) {
+        log(packageLockFilePath, `Deleting...`);
+        deleteFile(packageLockFilePath);
       }
+
+      const nodeModulesFolderPath = resolvePath(packageFolderPath, "node_modules");
+      if (exists(nodeModulesFolderPath)) {
+        log(nodeModulesFolderPath, `Deleting...`);
+        deleteFolder(nodeModulesFolderPath);
+      }
+
+      execute("npm install", packageFolderPath);
     }
   }
 }
