@@ -446,12 +446,12 @@ export interface SystemService {
 /**
  * @interface
  * An interface representing SslConfiguration.
- * The ssl configugation for scoring
+ * The SSL configuration for scoring
  *
  */
 export interface SslConfiguration {
   /**
-   * @member {Status} [status] Enable or disable ssl for scoring. Possible
+   * @member {Status} [status] Enable or disable SSL for scoring. Possible
    * values include: 'Disabled', 'Enabled'
    */
   status?: Status;
@@ -978,7 +978,7 @@ export interface VirtualMachineSecrets {
   computeType: "VirtualMachine";
   /**
    * @member {VirtualMachineSshCredentials} [administratorAccount] Admin
-   * creadentials for virtual machine.
+   * credentials for virtual machine.
    */
   administratorAccount?: VirtualMachineSshCredentials;
 }
