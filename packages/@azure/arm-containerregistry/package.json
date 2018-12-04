@@ -2,7 +2,7 @@
   "name": "@azure/arm-containerregistry",
   "author": "Microsoft Corporation",
   "description": "ContainerRegistryManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "0.1.0",
+  "version": "4.3.0",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^1.2.0",
     "@azure/ms-rest-js": "^1.2.0",
