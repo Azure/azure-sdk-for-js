@@ -13,9 +13,9 @@ async function main(): Promise<void> {
   const client = ns.createQueueClient(path, { receiveMode: ReceiveMode.peekLock });
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     console.log(">>> Message: ", brokeredMessage);
-    console.log("### Actual message:", brokeredMessage.body ? brokeredMessage.body.toString() : null);
+    console.log("### Actual message:", brokeredMessage.body ? brokeredMessage.body.toString() : undefined);
     await brokeredMessage.complete();
-  }
+  };
   const onError: OnError = (err: MessagingError | Error) => {
     console.log(">>>>> Error occurred: ", err);
   };

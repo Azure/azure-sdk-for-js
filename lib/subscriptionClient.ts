@@ -187,7 +187,9 @@ export class SubscriptionClient extends Client {
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peekBySequenceNumber(fromSequenceNumber: Long, messageCount?: number): Promise<ReceivedMessageInfo[]> {
-    return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, messageCount);
+    return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
+      messageCount: messageCount
+    });
   }
 
   /**

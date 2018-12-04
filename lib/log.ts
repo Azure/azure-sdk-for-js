@@ -72,14 +72,23 @@ export const ns = debugModule("azure:service-bus:namespace");
  * log statements for servicebusMessage
  */
 export const message = debugModule("azure:service-bus:servicebusMessage");
-
 /**
  * @ignore
- * log statements for servicebusMessage
+ * log statements for map
  */
 export const map = debugModule("azure:service-bus:concurrentMap");
 /**
  * @ignore
- * log statements for servicebusMessage
+ * log statements for utils
  */
 export const utils = debugModule("azure:service-bus:utils");
+/**
+ * @ignore
+ * log statements for messageSession
+ */
+export const messageSession = debugModule("azure:service-bus:messageSession");
+/**
+ * @ignore
+ * log statements for semaphore
+ */
+export const semaphore = debugModule("azure:service-bus:semaphore");

@@ -44,7 +44,7 @@ export namespace ConnectionContext {
         version: packageJsonInfo.version
       }
     };
-    // Let us create the base context and then add EventHub specific ConnectionContext properties.
+    // Let us create the base context and then add ServiceBus specific ConnectionContext properties.
     const connectionContext = ConnectionContextBase.create(parameters) as ConnectionContext;
     connectionContext.clients = {};
 

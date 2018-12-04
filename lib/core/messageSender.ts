@@ -508,8 +508,8 @@ export class MessageSender extends LinkEntity {
   }
 
   /**
-   * Creates a new sender to the given event hub, and optionally to a given partition if it is
-   * not present in the context or returns the one present in the context.
+   * Creates a new sender to the specifiec ServiceBus entity, and optionally to a given
+   * partition if it is not present in the context or returns the one present in the context.
    * @static
    * @returns {Promise<MessageSender>}
    */

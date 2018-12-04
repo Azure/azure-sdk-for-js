@@ -1,8 +1,21 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import * as Long from "long";
 import * as log from "../log";
 import { generate_uuid, string_to_uuid } from "rhea-promise";
+import { isBuffer } from "util";
+
+/**
+ * A constant that indicates whether the environment is node.js or browser based.
+ */
+export const isNode = typeof navigator === "undefined" && typeof process !== "undefined";
+
+/**
+ * Defines a concrete type that can be anything but `null` or `undefined`
+ */
+export type Concrete = string | number | boolean | symbol | object;
+
 /**
  * Provides a uniue name by appending a string guid to the given string in the following format:
  * `{name}-{uuid}`.
@@ -82,7 +95,7 @@ export function calculateRenewAfterDuration(lockedUntilUtc: Date): number {
   const remainingTime = lockedUntil - now;
   log.utils("Locked until utc  : %d", lockedUntil);
   log.utils("Current time is   : %d", now);
-  log.utils("Remaining time is :         %d", remainingTime);
+  log.utils("Remaining time is : %d", remainingTime);
   if (remainingTime < 1000) {
     return 0;
   }
@@ -90,4 +103,66 @@ export function calculateRenewAfterDuration(lockedUntilUtc: Date): number {
   const renewAfter = remainingTime - buffer;
   log.utils("Renew after       : %d", renewAfter);
   return renewAfter;
+}
+
+/**
+ * Converts the .net ticks to a JS Date object.
+ *
+ * - The epoch for the DateTimeOffset type is `0000-01-01`, while the epoch for JS Dates is
+ * `1970-01-01`.
+ * - The DateTimeOffset ticks value for the date `1970-01-01` is `621355968000000000`.
+ *   - Hence, to convert it to the JS epoch; we `subtract` the delta from the given value.
+ * - Ticks in DateTimeOffset is `1/10000000` second, while ticks in JS Date is `1/1000` second.
+ *   - Thus, we `divide` the value by `10000` to convert it to JS Date ticks.
+ *
+ * @param buf Input as a Buffer
+ * @returns Date The JS Date object.
+ */
+export function convertTicksToDate(buf: number[]): Date {
+  const epochMicroDiff: number = 621355968000000000;
+  const longValue: Long = Long.fromBytesBE(buf);
+  const timeInMS = longValue.sub(epochMicroDiff).div(10000).toNumber();
+  const result = new Date(timeInMS);
+  log.utils("The converted date is: %s", result.toString());
+  return result;
+}
+
+/**
+ * Returns the number of logical processors in the system.
+ */
+export function getProcessorCount(): number {
+  if (isNode) {
+    const os = require("os");
+    return os.cpus().length;
+  } else {
+    return navigator.hardwareConcurrency || 1;
+  }
+}
+
+/**
+ * Converts any given input to a Buffer.
+ * @param input The input that needs to be converted to a Buffer.
+ */
+export function toBuffer(input: any): Buffer {
+  let result: any;
+  log.utils("[utils.toBuffer] The given message body that needs to be converted to buffer is: ", input);
+  if (isBuffer(input)) {
+    result = input
+  } else {
+    // string, undefined, null, boolean, array, object, number should end up here
+    // coercing undefined to null as that will ensure that null value will be given to the
+    // customer on receive.
+    if (input === undefined) input = null; // tslint:disable-line
+    try {
+      const inputStr = JSON.stringify(input);
+      result = Buffer.from(inputStr, "utf8");
+    } catch (err) {
+      const msg = `An error occurred while executing JSON.stringify() on the given input ` + input
+        + `${err ? err.stack : JSON.stringify(err)}`;
+      log.error("[utils.toBuffer] " + msg);
+      throw new Error(msg);
+    }
+  }
+  log.utils("[utils.toBuffer] The converted buffer is: %O.", result);
+  return result;
 }

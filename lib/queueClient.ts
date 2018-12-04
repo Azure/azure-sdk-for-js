@@ -11,7 +11,10 @@ import { BatchingReceiver } from "./core/batchingReceiver";
 import { ServiceBusMessage, SendableMessageInfo, ReceivedMessageInfo } from "./serviceBusMessage";
 import { Client } from "./client";
 import { ReceiveMode, ReceiveOptions, OnError, OnMessage } from "./core/messageReceiver";
-import { ScheduleMessage } from "./core/managementClient";
+import { ScheduleMessage, ListSessionsResponse } from "./core/managementClient";
+import {
+  MessageSession, AcceptSessionOptions, SessionHandlerOptions, OnSessionMessage
+} from "./session/messageSession";
 
 /**
  * Describes the options that can be provided while creating the QueueClient.
@@ -62,11 +65,18 @@ export class QueueClient extends Client {
         if (this._context.streamingReceiver) {
           await this._context.streamingReceiver.close();
         }
+
         // Close the batching receiver.
         if (this._context.batchingReceiver) {
           await this._context.batchingReceiver.close();
         }
-        log.qClient("Closed the client '%s'.", this.id);
+
+        // Close all the MessageSessions.
+        for (const messageSession of Object.keys(this._context.messageSessions)) {
+          await this._context.messageSessions[messageSession].close();
+        }
+
+        log.qClient("Closed the Queue client '%s'.", this.id);
       }
     } catch (err) {
       const msg = `An error occurred while closing the queue client ` +
@@ -77,7 +87,12 @@ export class QueueClient extends Client {
   }
 
   /**
-   * Sends the given message to the ServiceBus Queue.
+   * Sends the given message to a ServiceBus Queue.
+   * - For sending a message to a `session` enabled Queue, please set the `sessionId` property of
+   * the message.
+   * - For sending a message to a `partition` enabled Queue, please set the `partitionKey` property
+   * of the message.
+   * For more information please see {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-partitioning#use-of-partition-keys Use of partition keys}
    *
    * @param data - Message to send.  Will be sent as UTF8-encoded JSON string.
    * @returns Promise<Delivery>
@@ -88,10 +103,16 @@ export class QueueClient extends Client {
   }
 
   /**
-   * Send a batch of Message to the ServiceBus Queue. The "message_annotations", "application_properties"
-   * and "properties" of the first message will be set as that of the envelope (batch message).
+   * Sends a batch of SendableMessageInfo to the ServiceBus Queue. The "message_annotations",
+   * "application_properties" and "properties" of the first message will be set as that of
+   * the envelope (batch message).
+   * - For sending a message to a `session` enabled Queue, please set the `sessionId` property of
+   * the message.
+   * - For sending a message to a `partition` enabled Queue, please set the `partitionKey` property
+   * of the message.
+   * For more information please see {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-partitioning#use-of-partition-keys Use of partition keys}
    *
-   * @param datas - An array of Message objects to be sent in a Batch message.
+   * @param datas - An array of SendableMessageInfo objects to be sent in a Batch message.
    * @return Promise<Delivery>
    */
   async sendBatch(datas: SendableMessageInfo[]): Promise<Delivery> {
@@ -205,7 +226,9 @@ export class QueueClient extends Client {
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peekBySequenceNumber(fromSequenceNumber: Long, messageCount?: number): Promise<ReceivedMessageInfo[]> {
-    return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, messageCount);
+    return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
+      messageCount: messageCount
+    });
   }
 
   /**
@@ -244,12 +267,12 @@ export class QueueClient extends Client {
   /**
    * Receives a list of deferred messages identified by `sequenceNumbers`.
    * @param sequenceNumbers A list containing the sequence numbers to receive.
-   * @returns Promise<ReceivedSBMessage[]>
+   * @returns Promise<ServiceBusMessage[]>
    * - Returns a list of messages identified by the given sequenceNumbers.
    * - Returns an empty list if no messages are found.
    * - Throws an error if the messages have not been deferred.
    */
-  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ReceivedMessageInfo[]> {
+  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
     if (this.receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
@@ -312,5 +335,45 @@ export class QueueClient extends Client {
    */
   async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
     return this._context.managementClient!.cancelScheduledMessages(sequenceNumbers);
+  }
+
+  /**
+   * Lists the sessions on the ServiceBus Queue.
+   * @param skip The number of sessions to skip
+   * @param top Maximum numer of sessions.
+   * @param lastUpdateTime Filter to include only sessions updated after a given time. Default
+   * value: 3 days ago from the current time.
+   */
+  async listMessageSessions(skip: number, top: number, lastUpdatedTime?: Date): Promise<ListSessionsResponse> {
+    return this._context.managementClient!.listMessageSessions(skip, top, lastUpdatedTime);
+  }
+
+  /**
+   * 
+   * @param options 
+   */
+  async acceptSession(options?: AcceptSessionOptions): Promise<MessageSession> {
+    if (!options) options = {};
+    this._context.isSessionEnabled = true;
+    return MessageSession.create(this._context, options);
+  }
+
+  /**
+   * Receives messages from a session enabled Queue.
+   * @param onSessionMessage The message handler to receive service bus messages from a session
+   * enabled Queue.
+   * @param onError The error handler to receive an error that occurs while receiving messages
+   * from a session enabled Queue.
+   */
+  receiveMessgesFromSessions(
+    onSessionMessage: OnSessionMessage,
+    onError: OnError,
+    options?: SessionHandlerOptions): void {
+    if (this._context.sessionManager!.isManagingSessions) {
+      throw new Error(`QueueClient for Queue '${this.name}' is already receiving messages ` +
+        `from sessions. Please close this QueueClient or create a new one and receiveMessages ` +
+        `from Sessions.`);
+    }
+    this._context.sessionManager!.manageMessageSessions(onSessionMessage, onError, options);
   }
 }

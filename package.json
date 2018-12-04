@@ -12,7 +12,7 @@
     "is-buffer": "^2.0.3",
     "long": "^4.0.0",
     "ms-rest-azure": "^2.5.9",
-    "rhea-promise": "^0.1.10",
+    "rhea-promise": "^0.1.12",
     "tslib": "^1.9.3"
   },
   "devDependencies": {

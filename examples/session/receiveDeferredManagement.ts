@@ -1,7 +1,8 @@
 import {
-  OnMessage, OnError, MessagingError, delay, ServiceBusMessage, ReceiveMode, Namespace
-} from "../lib";
+  OnSessionMessage, OnError, MessagingError, delay, ServiceBusMessage, ReceiveMode, Namespace
+} from "../../lib";
 import * as dotenv from "dotenv";
+import { MessageSession } from '../../lib/session/messageSession';
 dotenv.config();
 
 const str = process.env.SERVICEBUS_CONNECTION_STRING || "";
@@ -13,7 +14,7 @@ let ns: Namespace;
 async function main(): Promise<void> {
   ns = Namespace.createFromConnectionString(str);
   const client = ns.createQueueClient(path, { receiveMode: ReceiveMode.peekLock });
-  const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
+  const onMessage: OnSessionMessage = async (messageSession: MessageSession, brokeredMessage: ServiceBusMessage) => {
     console.log(">>> Message: ", brokeredMessage);
     console.log("### Actual message:", brokeredMessage.body ? brokeredMessage.body.toString() : undefined);
     const sequenceNumber = brokeredMessage.sequenceNumber!;
@@ -21,26 +22,16 @@ async function main(): Promise<void> {
     const result = await brokeredMessage.defer();
     console.log(">>>>> Deferred message result: ", result);
     await delay(2000);
-    const msg = await client.receiveDeferredMessage(sequenceNumber);
+    const msg = await messageSession.receiveDeferredMessage(sequenceNumber);
     console.log(">>>>> Received deferred Message: %o", msg);
-    await delay(2000);
-    console.log(">>>>> the lock token is: %s", msg!.lockToken);
-    await msg!.defer();
-    console.log("Defered message successfully...");
-    await delay(2000);
-    const msg1 = await client.receiveDeferredMessage(sequenceNumber);
-    console.log(">>>>> Received deferred Message: %o", msg1);
-    await delay(2000);
-    console.log(">>>>> the lock token is: %s", msg1!.lockToken);
-    await msg1!.complete();
-    console.log("Comepleted message, successfully...");
+    await messageSession.close();
   };
   const onError: OnError = (err: MessagingError | Error) => {
     console.log(">>>>> Error occurred: ", err);
   };
-  const rcvHandler = client.receive(onMessage, onError, { autoComplete: false });
-  await delay(3000000);
-  await rcvHandler.stop();
+  const messageSession = await client.acceptSession({ sessionId: "session-3" });
+  messageSession.receive(onMessage, onError, { autoComplete: false });
+  await delay(30000);
 }
 
 main().then(() => {

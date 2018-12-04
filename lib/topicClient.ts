@@ -53,6 +53,11 @@ export class TopicClient extends Client {
 
   /**
    * Sends the given message to the ServiceBus Topic.
+   * - For sending a message to a `session` enabled Topic, please set the `sessionId` property of
+   * the message.
+   * - For sending a message to a `partition` enabled Topic, please set the `partitionKey` property
+   * of the message.
+   * For more information please see {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-partitioning#use-of-partition-keys Use of partition keys}
    *
    * @param data - Message to send.  Will be sent as UTF8-encoded JSON string.
    * @returns Promise<Delivery>
@@ -63,11 +68,16 @@ export class TopicClient extends Client {
   }
 
   /**
-   * Sends a batch of Message to the ServiceBus Topic. The "message_annotations",
+   * Sends a batch of SendableMessageInfo to the ServiceBus Topic. The "message_annotations",
    * "application_properties" and "properties" of the first message will be set as that of
    * the envelope (batch message).
+   * - For sending a message to a `session` enabled Topic, please set the `sessionId` property of
+   * the message.
+   * - For sending a message to a `partition` enabled Topic, please set the `partitionKey` property
+   * of the message.
+   * For more information please see {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-partitioning#use-of-partition-keys Use of partition keys}
    *
-   * @param datas  An array of Message objects to be sent in a Batch message.
+   * @param datas  An array of SendableMessageInfo objects to be sent in a Batch message.
    *
    * @return Promise<Delivery>
    */

@@ -98,7 +98,8 @@ export interface ReceiveOptions extends MessageHandlerOptions {
    */
   receiveMode?: ReceiveMode;
   /**
-   * @property {string} [name] The name of the receiver. If not provided then we will set a GUID by default.
+   * @property {string} [name] The name of the receiver. If not provided then we will be a
+   * GUID by default.
    */
   name?: string;
 }
@@ -584,9 +585,9 @@ export class MessageReceiver extends LinkEntity {
 
   /**
    * Settles the message with the specified disposition.
-   * @param delivery Delivery associated with the message.
+   * @param message The ServiceBus Message that needs to be settled.
    * @param operation The disposition type.
-   * @param [options] optional parameters that can be provided while disposing the message.
+   * @param options Optional parameters that can be provided while disposing the message.
    */
   async settleMessage(message: ServiceBusMessage, operation: DispositionType, options?: DispositionOptions): Promise<any> {
     return new Promise((resolve, reject) => {
