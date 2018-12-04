@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/topicsMappers";
 import * as Parameters from "../models/parameters";
@@ -207,11 +207,11 @@ export class Topics {
   }
 
   /**
-   * Creates an authorizatio rule for the specified topic.
+   * Creates an authorization rule for the specified topic.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param parameters The shared access authorization rule.
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicsCreateOrUpdateAuthorizationRuleResponse>
@@ -221,7 +221,7 @@ export class Topics {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param parameters The shared access authorization rule.
    * @param callback The callback
    */
@@ -230,7 +230,7 @@ export class Topics {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param parameters The shared access authorization rule.
    * @param options The optional parameters
    * @param callback The callback
@@ -255,7 +255,7 @@ export class Topics {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicsGetAuthorizationRuleResponse>
    */
@@ -264,7 +264,7 @@ export class Topics {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param callback The callback
    */
   getAuthorizationRule(resourceGroupName: string, namespaceName: string, topicName: string, authorizationRuleName: string, callback: msRest.ServiceCallback<Models.SBAuthorizationRule>): void;
@@ -272,7 +272,7 @@ export class Topics {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -295,7 +295,7 @@ export class Topics {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -304,7 +304,7 @@ export class Topics {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param callback The callback
    */
   deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, topicName: string, authorizationRuleName: string, callback: msRest.ServiceCallback<void>): void;
@@ -312,7 +312,7 @@ export class Topics {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -335,7 +335,7 @@ export class Topics {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicsListKeysResponse>
    */
@@ -344,7 +344,7 @@ export class Topics {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param callback The callback
    */
   listKeys(resourceGroupName: string, namespaceName: string, topicName: string, authorizationRuleName: string, callback: msRest.ServiceCallback<Models.AccessKeys>): void;
@@ -352,7 +352,7 @@ export class Topics {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -375,7 +375,7 @@ export class Topics {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param parameters Parameters supplied to regenerate the authorization rule.
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicsRegenerateKeysResponse>
@@ -385,7 +385,7 @@ export class Topics {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param parameters Parameters supplied to regenerate the authorization rule.
    * @param callback The callback
    */
@@ -394,7 +394,7 @@ export class Topics {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param parameters Parameters supplied to regenerate the authorization rule.
    * @param options The optional parameters
    * @param callback The callback

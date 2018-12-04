@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/queuesMappers";
 import * as Parameters from "../models/parameters";
@@ -211,7 +211,7 @@ export class Queues {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param queueName The queue name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param parameters The shared access authorization rule.
    * @param [options] The optional parameters
    * @returns Promise<Models.QueuesCreateOrUpdateAuthorizationRuleResponse>
@@ -221,7 +221,7 @@ export class Queues {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param queueName The queue name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param parameters The shared access authorization rule.
    * @param callback The callback
    */
@@ -230,7 +230,7 @@ export class Queues {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param queueName The queue name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param parameters The shared access authorization rule.
    * @param options The optional parameters
    * @param callback The callback
@@ -255,7 +255,7 @@ export class Queues {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param queueName The queue name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -264,7 +264,7 @@ export class Queues {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param queueName The queue name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param callback The callback
    */
   deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, queueName: string, authorizationRuleName: string, callback: msRest.ServiceCallback<void>): void;
@@ -272,7 +272,7 @@ export class Queues {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param queueName The queue name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -295,7 +295,7 @@ export class Queues {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param queueName The queue name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param [options] The optional parameters
    * @returns Promise<Models.QueuesGetAuthorizationRuleResponse>
    */
@@ -304,7 +304,7 @@ export class Queues {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param queueName The queue name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param callback The callback
    */
   getAuthorizationRule(resourceGroupName: string, namespaceName: string, queueName: string, authorizationRuleName: string, callback: msRest.ServiceCallback<Models.SBAuthorizationRule>): void;
@@ -312,7 +312,7 @@ export class Queues {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param queueName The queue name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -335,7 +335,7 @@ export class Queues {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param queueName The queue name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param [options] The optional parameters
    * @returns Promise<Models.QueuesListKeysResponse>
    */
@@ -344,7 +344,7 @@ export class Queues {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param queueName The queue name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param callback The callback
    */
   listKeys(resourceGroupName: string, namespaceName: string, queueName: string, authorizationRuleName: string, callback: msRest.ServiceCallback<Models.AccessKeys>): void;
@@ -352,7 +352,7 @@ export class Queues {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param queueName The queue name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -375,7 +375,7 @@ export class Queues {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param queueName The queue name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param parameters Parameters supplied to regenerate the authorization rule.
    * @param [options] The optional parameters
    * @returns Promise<Models.QueuesRegenerateKeysResponse>
@@ -385,7 +385,7 @@ export class Queues {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param queueName The queue name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param parameters Parameters supplied to regenerate the authorization rule.
    * @param callback The callback
    */
@@ -394,7 +394,7 @@ export class Queues {
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param queueName The queue name.
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param parameters Parameters supplied to regenerate the authorization rule.
    * @param options The optional parameters
    * @param callback The callback

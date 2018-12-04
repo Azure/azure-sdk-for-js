@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -111,7 +111,7 @@ export interface SBSku {
  */
 export interface SBNamespace extends TrackedResource {
   /**
-   * @member {SBSku} [sku] Porperties of Sku
+   * @member {SBSku} [sku] Properties of Sku
    */
   sku?: SBSku;
   /**
@@ -156,7 +156,7 @@ export interface SBNamespace extends TrackedResource {
  */
 export interface SBNamespaceUpdateParameters extends ResourceNamespacePatch {
   /**
-   * @member {SBSku} [sku] Porperties of Sku
+   * @member {SBSku} [sku] Properties of Sku
    */
   sku?: SBSku;
   /**
@@ -295,7 +295,7 @@ export interface AccessKeys {
  * @interface
  * An interface representing RegenerateAccessKeyParameters.
  * Parameters supplied to the Regenerate Authorization Rule operation,
- * specifies which key neeeds to be reset.
+ * specifies which key needs to be reset.
  *
  */
 export interface RegenerateAccessKeyParameters {
@@ -527,7 +527,7 @@ export interface SBTopic extends Resource {
    */
   readonly subscriptionCount?: number;
   /**
-   * @member {MessageCountDetails} [countDetails] Message count deatils
+   * @member {MessageCountDetails} [countDetails] Message count details
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -706,8 +706,8 @@ export interface SBSubscription extends Resource {
  */
 export interface CheckNameAvailability {
   /**
-   * @member {string} name The Name to check the namespce name availability and
-   * The namespace name can contain only letters, numbers, and hyphens. The
+   * @member {string} name The Name to check the namespace name availability
+   * and The namespace name can contain only letters, numbers, and hyphens. The
    * namespace must start with a letter, and it must end with a letter or
    * number.
    */
@@ -793,7 +793,7 @@ export interface Operation {
 /**
  * @interface
  * An interface representing ErrorResponse.
- * Error reponse indicates ServiceBus service is not able to process the
+ * Error response indicates ServiceBus service is not able to process the
  * incoming request. The reason is provided in the error message.
  *
  */
@@ -1130,12 +1130,12 @@ export interface ArmDisasterRecovery extends Resource {
   readonly pendingReplicationOperationsCount?: number;
   /**
    * @member {string} [partnerNamespace] ARM Id of the Primary/Secondary
-   * eventhub namespace name, which is part of GEO DR pairning
+   * eventhub namespace name, which is part of GEO DR pairing
    */
   partnerNamespace?: string;
   /**
    * @member {string} [alternateName] Primary/Secondary eventhub namespace
-   * name, which is part of GEO DR pairning
+   * name, which is part of GEO DR pairing
    */
   alternateName?: string;
   /**

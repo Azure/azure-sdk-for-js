@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/namespacesMappers";
 import * as Parameters from "../models/parameters";
@@ -239,7 +239,7 @@ export class Namespaces {
    * Creates or updates an authorization rule for a namespace.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param parameters The shared access authorization rule.
    * @param [options] The optional parameters
    * @returns Promise<Models.NamespacesCreateOrUpdateAuthorizationRuleResponse>
@@ -248,7 +248,7 @@ export class Namespaces {
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param parameters The shared access authorization rule.
    * @param callback The callback
    */
@@ -256,7 +256,7 @@ export class Namespaces {
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param parameters The shared access authorization rule.
    * @param options The optional parameters
    * @param callback The callback
@@ -279,7 +279,7 @@ export class Namespaces {
    * Deletes a namespace authorization rule.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -287,14 +287,14 @@ export class Namespaces {
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param callback The callback
    */
   deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -315,7 +315,7 @@ export class Namespaces {
    * Gets an authorization rule for a namespace by rule name.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param [options] The optional parameters
    * @returns Promise<Models.NamespacesGetAuthorizationRuleResponse>
    */
@@ -323,14 +323,14 @@ export class Namespaces {
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param callback The callback
    */
   getAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, callback: msRest.ServiceCallback<Models.SBAuthorizationRule>): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -351,7 +351,7 @@ export class Namespaces {
    * Gets the primary and secondary connection strings for the namespace.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param [options] The optional parameters
    * @returns Promise<Models.NamespacesListKeysResponse>
    */
@@ -359,14 +359,14 @@ export class Namespaces {
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param callback The callback
    */
   listKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, callback: msRest.ServiceCallback<Models.AccessKeys>): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -387,7 +387,7 @@ export class Namespaces {
    * Regenerates the primary or secondary connection strings for the namespace.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param parameters Parameters supplied to regenerate the authorization rule.
    * @param [options] The optional parameters
    * @returns Promise<Models.NamespacesRegenerateKeysResponse>
@@ -396,7 +396,7 @@ export class Namespaces {
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param parameters Parameters supplied to regenerate the authorization rule.
    * @param callback The callback
    */
@@ -404,7 +404,7 @@ export class Namespaces {
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
-   * @param authorizationRuleName The authorizationrule name.
+   * @param authorizationRuleName The authorization rule name.
    * @param parameters Parameters supplied to regenerate the authorization rule.
    * @param options The optional parameters
    * @param callback The callback
