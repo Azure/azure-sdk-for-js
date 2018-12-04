@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
@@ -728,6 +728,13 @@ export const DeploymentExtended: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
       location: {
         serializedName: "location",
         type: {
@@ -1037,6 +1044,13 @@ export const ResourceGroup: msRest.CompositeMapper = {
       name: {
         readOnly: true,
         serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
         type: {
           name: "String"
         }
