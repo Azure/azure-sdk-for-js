@@ -613,7 +613,7 @@ export interface ServiceTypeHealthPolicy {
    */
   maxPercentUnhealthyReplicasPerPartition?: number;
   /**
-   * @member {number} [maxPercentUnhealthyServices] The maximum maximum allowed
+   * @member {number} [maxPercentUnhealthyServices] The maximum allowed
    * percentage of unhealthy services. Allowed values are Byte values from zero
    * to 100.
    *
@@ -26642,8 +26642,8 @@ export enum AutoScalingTriggerKind {
  */
 export enum NodeStatusFilter {
   /**
-   * This filter value will match all of the nodes excepts the ones with with
-   * status as Unknown or Removed.
+   * This filter value will match all of the nodes excepts the ones with status
+   * as Unknown or Removed.
    */
   Default = 'default',
   /**
