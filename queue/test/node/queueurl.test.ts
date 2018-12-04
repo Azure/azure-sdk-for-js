@@ -58,8 +58,7 @@ describe("QueueURL", () => {
     let error;
     try {
       await queueURL.setAccessPolicy(Aborter.none, queueAcl);
-    }
-    catch (err) {
+    } catch (err) {
       error = err;
     }
     assert.ok(error);
