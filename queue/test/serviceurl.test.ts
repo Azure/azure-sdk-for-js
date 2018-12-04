@@ -2,9 +2,7 @@ import * as assert from "assert";
 
 import { Aborter } from "../lib/Aborter";
 import { QueueURL } from "../lib/QueueURL";
-import {
-  ListQueuesIncludeType
-} from "../lib/generated/models";
+import { ListQueuesIncludeType } from "../lib/generated/models";
 import { ServiceURL } from "../lib/ServiceURL";
 import { getAlternateQSU, getQSU, getUniqueName, wait } from "./utils";
 
@@ -32,14 +30,8 @@ describe("ServiceURL", () => {
     const queueNamePrefix = getUniqueName("queue");
     const queueName1 = `${queueNamePrefix}x1`;
     const queueName2 = `${queueNamePrefix}x2`;
-    const queueURL1 = QueueURL.fromServiceURL(
-      serviceURL,
-      queueName1
-    );
-    const queueURL2 = QueueURL.fromServiceURL(
-      serviceURL,
-      queueName2
-    );
+    const queueURL1 = QueueURL.fromServiceURL(serviceURL, queueName1);
+    const queueURL2 = QueueURL.fromServiceURL(serviceURL, queueName2);
     await queueURL1.create(Aborter.none, { metadata: { key: "val" } });
     await queueURL2.create(Aborter.none, { metadata: { key: "val" } });
 

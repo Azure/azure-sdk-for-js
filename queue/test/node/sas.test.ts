@@ -33,7 +33,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     // By default, credential is always the last element of pipeline factories
     const factories = serviceURL.pipeline.factories;
-    const sharedKeyCredential = factories[factories.length - 1]; 
+    const sharedKeyCredential = factories[factories.length - 1];
 
     const sas = generateAccountSASQueryParameters(
       {
@@ -229,25 +229,31 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sharedKeyCredential as SharedKeyCredential
     );
 
-    const messageContent = "Hello World!"
+    const messageContent = "Hello World!";
 
     const messagesURL = MessagesURL.fromQueueURL(queueURL);
     const sasURLForMessages = `${messagesURL.url}?${queueSAS}`;
     const messagesURLWithSAS = new MessagesURL(
-        sasURLForMessages,
-        StorageURL.newPipeline(new AnonymousCredential())
+      sasURLForMessages,
+      StorageURL.newPipeline(new AnonymousCredential())
     );
-    const enqueueResult = await messagesURLWithSAS.enqueue(Aborter.none, messageContent);
+    const enqueueResult = await messagesURLWithSAS.enqueue(
+      Aborter.none,
+      messageContent
+    );
 
     let pResult = await messagesURL.peek(Aborter.none);
     assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
 
-    const messageIdURL = MessageIdURL.fromMessagesURL(messagesURL, enqueueResult.messageId);
+    const messageIdURL = MessageIdURL.fromMessagesURL(
+      messagesURL,
+      enqueueResult.messageId
+    );
     const sasURLForMessageId = `${messageIdURL.url}?${queueSAS}`;
     const messageIdURLWithSAS = new MessageIdURL(
-        sasURLForMessageId,
-        StorageURL.newPipeline(new AnonymousCredential())
-    )
+      sasURLForMessageId,
+      StorageURL.newPipeline(new AnonymousCredential())
+    );
 
     await messageIdURLWithSAS.delete(Aborter.none, enqueueResult.popReceipt);
 
@@ -300,25 +306,42 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       StorageURL.newPipeline(new AnonymousCredential())
     );
 
-    const messageContent = "hello"
+    const messageContent = "hello";
 
-    const eResult = await messagesURLwithSAS.enqueue(Aborter.none, messageContent);
+    const eResult = await messagesURLwithSAS.enqueue(
+      Aborter.none,
+      messageContent
+    );
     assert.ok(eResult.messageId);
     const pResult = await messagesURLwithSAS.peek(Aborter.none);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
-    const dResult = await messagesURLwithSAS.dequeue(Aborter.none, {visibilitytimeout:1});
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageText, messageContent);
+    assert.deepStrictEqual(
+      pResult.peekedMessageItems[0].messageText,
+      messageContent
+    );
+    const dResult = await messagesURLwithSAS.dequeue(Aborter.none, {
+      visibilitytimeout: 1
+    });
+    assert.deepStrictEqual(
+      dResult.dequeuedMessageItems[0].messageText,
+      messageContent
+    );
 
-    await sleep(2*1000);
+    await sleep(2 * 1000);
 
-    const messageIdURL = MessageIdURL.fromMessagesURL(messagesURL, dResult.dequeuedMessageItems[0].messageId);
+    const messageIdURL = MessageIdURL.fromMessagesURL(
+      messagesURL,
+      dResult.dequeuedMessageItems[0].messageId
+    );
 
     const sasURLForMessage = `${messageIdURL.url}?${queueSAS}`;
     const messageIdURLwithSAS = new MessageIdURL(
       sasURLForMessage,
       StorageURL.newPipeline(new AnonymousCredential())
     );
-    const deleteResult = await messageIdURLwithSAS.delete(Aborter.none, dResult.dequeuedMessageItems[0].popReceipt);
+    const deleteResult = await messageIdURLwithSAS.delete(
+      Aborter.none,
+      dResult.dequeuedMessageItems[0].popReceipt
+    );
     assert.ok(deleteResult.requestId);
 
     //const cResult = await messagesURLwithSAS.clear(Aborter.none); //This request is not authorized to perform this operation. As testing, this is service's current behavior.

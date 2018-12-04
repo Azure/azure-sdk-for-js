@@ -45,10 +45,7 @@ describe("QueueURL", () => {
   });
 
   it("create with all parameters", async () => {
-    const qURL = QueueURL.fromServiceURL(
-      serviceURL,
-      getUniqueName(queueName)
-    );
+    const qURL = QueueURL.fromServiceURL(serviceURL, getUniqueName(queueName));
     const metadata = { key: "value" };
     await qURL.create(Aborter.none, { metadata });
     const result = await qURL.getProperties(Aborter.none);
@@ -59,5 +56,4 @@ describe("QueueURL", () => {
     // delete() with default parameters has been tested in afterEach
     done();
   });
-
 });

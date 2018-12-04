@@ -38,26 +38,26 @@ export interface ISignedIdentifier {
 }
 
 export declare type QueueGetAccessPolicyResponse = {
-    signedIdentifiers: ISignedIdentifier[];
-  } & Models.QueueGetAccessPolicyHeaders & {
+  signedIdentifiers: ISignedIdentifier[];
+} & Models.QueueGetAccessPolicyHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: HttpResponse & {
       /**
-       * The underlying HTTP response.
+       * The parsed HTTP response headers.
        */
-      _response: HttpResponse & {
-        /**
-         * The parsed HTTP response headers.
-         */
-        parsedHeaders: Models.QueueGetAccessPolicyHeaders;
-        /**
-         * The response body as text (string format)
-         */
-        bodyAsText: string;
-        /**
-         * The response body as parsed JSON or XML
-         */
-        parsedBody: Models.SignedIdentifier[];
-      };
+      parsedHeaders: Models.QueueGetAccessPolicyHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Models.SignedIdentifier[];
     };
+  };
 
 /**
  * A QueueURL represents a URL to the Azure Storage queue.
@@ -119,7 +119,7 @@ export class QueueURL extends StorageURL {
   }
 
   /**
-   * Creates a new queue under the specified account. 
+   * Creates a new queue under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
@@ -165,9 +165,7 @@ export class QueueURL extends StorageURL {
    * @returns {Promise<Models.QueueDeleteResponse>}
    * @memberof QueueURL
    */
-  public async delete(
-    aborter: Aborter
-  ): Promise<Models.QueueDeleteResponse> {
+  public async delete(aborter: Aborter): Promise<Models.QueueDeleteResponse> {
     return this.queueContext.deleteMethod({
       abortSignal: aborter
     });
@@ -211,9 +209,8 @@ export class QueueURL extends StorageURL {
    * @memberof QueueURL
    */
   public async getAccessPolicy(
-    aborter: Aborter,
+    aborter: Aborter
   ): Promise<QueueGetAccessPolicyResponse> {
-
     const response = await this.queueContext.getAccessPolicy({
       abortSignal: aborter
     });
