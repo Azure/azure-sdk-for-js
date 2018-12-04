@@ -198,23 +198,23 @@ export module SendableMessageInfo {
       throw new Error("'msg' cannot be null or undefined.");
     }
 
-    if (msg.contentType && typeof msg.contentType !== "string") {
+    if (msg.contentType != undefined && typeof msg.contentType !== "string") {
       throw new Error("'contentType' must be of type 'string'");
     }
 
-    if (msg.label && typeof msg.label !== "string") {
+    if (msg.label != undefined && typeof msg.label !== "string") {
       throw new Error("'label' must be of type 'string'");
     }
 
-    if (msg.to && typeof msg.to !== "string") {
+    if (msg.to != undefined && typeof msg.to !== "string") {
       throw new Error("'to' must be of type 'string'");
     }
 
-    if (msg.replyToSessionId && typeof msg.replyToSessionId !== "string") {
+    if (msg.replyToSessionId != undefined && typeof msg.replyToSessionId !== "string") {
       throw new Error("'replyToSessionId' must be of type 'string'");
     }
 
-    if (msg.timeToLive && typeof msg.timeToLive !== "number") {
+    if (msg.timeToLive != undefined && typeof msg.timeToLive !== "number") {
       throw new Error("'timeToLive' must be of type 'number'.");
     }
 
@@ -223,38 +223,38 @@ export module SendableMessageInfo {
       throw new Error("'scheduledEnqueueTimeUtc' must be an instance of a valid 'Date'.");
     }
 
-    if (msg.partitionKey && typeof msg.partitionKey !== "string" ||
+    if (msg.partitionKey != undefined && typeof msg.partitionKey !== "string" ||
       (typeof msg.partitionKey === "string" &&
         msg.partitionKey.length > Constants.maxPartitionKeyLength)) {
       throw new Error("'partitionKey' must be of type 'string' with a length less than 128 characters.");
     }
 
-    if (msg.viaPartitionKey && typeof msg.viaPartitionKey !== "string" ||
+    if (msg.viaPartitionKey != undefined && typeof msg.viaPartitionKey !== "string" ||
       (typeof msg.partitionKey === "string" &&
         msg.partitionKey.length > Constants.maxPartitionKeyLength)) {
       throw new Error("'viaPartitionKey' must be of type 'string' with a length less than 128 characters.");
     }
 
-    if (msg.sessionId && typeof msg.sessionId !== "string") {
+    if (msg.sessionId != undefined && typeof msg.sessionId !== "string") {
       throw new Error("'sessionId' must be of type 'string'");
     }
 
-    if (msg.sessionId && typeof msg.sessionId === "string" &&
+    if (msg.sessionId != undefined && typeof msg.sessionId === "string" &&
       msg.sessionId.length > Constants.maxSessionIdLength) {
       throw new Error("Length of 'sessionId' of type 'string' cannot be greater than 128 characters.");
     }
 
-    if (msg.messageId && typeof msg.messageId !== "string" && typeof msg.messageId !== "number"
-      && !Buffer.isBuffer(msg.messageId)) {
+    if (msg.messageId != undefined && typeof msg.messageId !== "string" &&
+      typeof msg.messageId !== "number" && !Buffer.isBuffer(msg.messageId)) {
       throw new Error("'messageId' must be of type 'string' | 'number' | Buffer.");
     }
 
-    if (msg.messageId && typeof msg.messageId === "string" &&
+    if (msg.messageId != undefined && typeof msg.messageId === "string" &&
       msg.messageId.length > Constants.maxMessageIdLength) {
       throw new Error("Length of 'messageId' of type 'string' cannot be greater than 128 characters.");
     }
 
-    if (msg.correlationId && typeof msg.correlationId !== "string" &&
+    if (msg.correlationId != undefined && typeof msg.correlationId !== "string" &&
       typeof msg.correlationId !== "number" && !Buffer.isBuffer(msg.correlationId)) {
       throw new Error("'correlationId' must be of type 'string' | 'number' | Buffer.");
     }
@@ -458,19 +458,19 @@ export module ReceivedMessageInfo {
 
   export function validate(msg: ReceivedMessageInfo): void {
     SendableMessageInfo.validate(msg);
-    if (msg.lockToken && typeof msg.lockToken !== "string") {
+    if (msg.lockToken != undefined && typeof msg.lockToken !== "string") {
       throw new Error("'lockToken' must be of type 'string'.");
     }
 
-    if (msg.deliveryCount && typeof msg.deliveryCount !== "number") {
+    if (msg.deliveryCount != undefined && typeof msg.deliveryCount !== "number") {
       throw new Error("'deliveryCount' must be of type 'number'.");
     }
 
-    if (msg.sequenceNumber && !Long.isLong(msg.sequenceNumber)) {
+    if (msg.sequenceNumber != undefined && !Long.isLong(msg.sequenceNumber)) {
       throw new Error("'sequenceNumber' must be an instance of 'Long' .");
     }
 
-    if (msg.enqueuedSequenceNumber && typeof msg.enqueuedSequenceNumber !== "number") {
+    if (msg.enqueuedSequenceNumber != undefined && typeof msg.enqueuedSequenceNumber !== "number") {
       throw new Error("'enqueuedSequenceNumber' must be of type 'number'.");
     }
 
@@ -810,7 +810,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       return this._context.managementClient!.updateDispositionStatus([this.lockToken!],
         DispositionStatus.completed);
     }
-    const receiver = this._context.getReceiver(this.delivery.link.name);
+    const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
     if (receiver) {
       return receiver.settleMessage(this, DispositionType.complete);
     } else {
@@ -832,7 +832,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       return this._context.managementClient!.updateDispositionStatus([this.lockToken!],
         DispositionStatus.abandoned, { propertiesToModify: propertiesToModify });
     }
-    const receiver = this._context.getReceiver(this.delivery.link.name);
+    const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
     if (receiver) {
       return receiver.settleMessage(this, DispositionType.abandon,
         { propertiesToModify: propertiesToModify });
@@ -857,7 +857,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       return this._context.managementClient!.updateDispositionStatus([this.lockToken!],
         DispositionStatus.defered, { propertiesToModify: propertiesToModify });
     }
-    const receiver = this._context.getReceiver(this.delivery.link.name);
+    const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
     if (receiver) {
       return receiver.settleMessage(this, DispositionType.defer,
         { propertiesToModify: propertiesToModify });
@@ -889,7 +889,7 @@ export class ServiceBusMessage implements ReceivedMessage {
           deadLetterDescription: error.description
         });
     }
-    const receiver = this._context.getReceiver(this.delivery.link.name);
+    const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
     if (receiver) {
       return receiver.settleMessage(this, DispositionType.deadletter,
         { error: error });

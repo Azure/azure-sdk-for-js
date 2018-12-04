@@ -11,6 +11,8 @@ import { Client } from "./client";
 import { BatchingReceiver } from "./core/batchingReceiver";
 import { ConcurrentExpiringMap } from "./util/concurrentExpiringMap";
 import { MessageReceiver } from "./core/messageReceiver";
+import { MessageSession } from "./session/messageSession";
+import { SessionManager } from "./session/sessionManager";
 
 /**
  * @interface ClientEntityContext
@@ -30,6 +32,11 @@ export interface ClientEntityContextBase {
    */
   entityPath: string;
   /**
+   * @property {boolean} [isSessionEnabled] Indicates whether the client entity is session enabled.
+   * Default: `false`.
+   */
+  isSessionEnabled?: boolean;
+  /**
    * @property {ManagementClient} [managementClient] A reference to the management client
    * ($management endpoint) on the underlying amqp connection for the ServiceBus Client.
    */
@@ -45,6 +52,11 @@ export interface ClientEntityContextBase {
    */
   batchingReceiver?: BatchingReceiver;
   /**
+   * @property {Dictionary<MessageSession>} messageSessions A dictionary of the MessageSession
+   * objects associated with this client.
+   */
+  messageSessions: Dictionary<MessageSession>;
+  /**
    * @property {MessageSender} [sender] The ServiceBus sender associated with the client entity.
    */
   sender?: MessageSender;
@@ -53,6 +65,11 @@ export interface ClientEntityContextBase {
    * messages received using the management client.
    */
   requestResponseLockedMessages: ConcurrentExpiringMap<string>;
+  /**
+   * @property {SessionManager} [sessionManager] SessionManager is responsible for efficiently
+   * receiving messages from multiple message sessions.
+   */
+  sessionManager?: SessionManager;
 }
 
 /**
@@ -60,7 +77,7 @@ export interface ClientEntityContextBase {
  */
 export interface ClientEntityContext extends ClientEntityContextBase {
   detached(error?: AmqpError | Error): Promise<void>;
-  getReceiver(name: string): MessageReceiver | undefined;
+  getReceiver(name: string, sessionId?: string): MessageReceiver | MessageSession | undefined;
 }
 
 /**
@@ -69,6 +86,7 @@ export interface ClientEntityContext extends ClientEntityContextBase {
 export interface ClientEntityContextOptions {
   managementClientAddress?: string;
   managementClientAudience?: string;
+  isSessionEnabled?: boolean;
 }
 
 /**
@@ -89,17 +107,25 @@ export namespace ClientEntityContext {
     const entityContext: ClientEntityContextBase = {
       namespace: context,
       entityPath: entityPath,
-      requestResponseLockedMessages: new ConcurrentExpiringMap<string>()
+      requestResponseLockedMessages: new ConcurrentExpiringMap<string>(),
+      isSessionEnabled: !!options.isSessionEnabled,
+      messageSessions: {}
     };
 
-    (entityContext as ClientEntityContext).getReceiver = (name: string) => {
-      let result: MessageReceiver | undefined = undefined;
-      if (entityContext.streamingReceiver && entityContext.streamingReceiver.name === name) {
-        result = entityContext.streamingReceiver;
+    (entityContext as ClientEntityContext).sessionManager =
+      new SessionManager(entityContext as ClientEntityContext);
+
+    (entityContext as ClientEntityContext).getReceiver = (name: string, sessionId?: string) => {
+      let receiver: MessageReceiver | MessageSession | undefined = undefined;
+      if (sessionId != undefined && entityContext.messageSessions[sessionId] &&
+        entityContext.messageSessions[sessionId].name === name) {
+        receiver = entityContext.messageSessions[sessionId];
+      } else if (entityContext.streamingReceiver && entityContext.streamingReceiver.name === name) {
+        receiver = entityContext.streamingReceiver;
       } else if (entityContext.batchingReceiver && entityContext.batchingReceiver.name === name) {
-        result = entityContext.batchingReceiver;
+        receiver = entityContext.batchingReceiver;
       }
-      return result;
+      return receiver;
     };
 
     (entityContext as ClientEntityContext).detached = async (error?: AmqpError | Error) => {

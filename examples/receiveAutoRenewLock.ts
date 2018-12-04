@@ -14,14 +14,14 @@ async function main(): Promise<void> {
   // Please note: Lock duration property on the Queue was set to 45 seconds.
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     console.log(">>> Message: ", brokeredMessage);
-    console.log("### Actual message:", brokeredMessage.body ? brokeredMessage.body.toString() : null);
+    console.log("### Actual message:", brokeredMessage.body ? brokeredMessage.body.toString() : undefined);
     const time = 30000;
     console.log(">>>> Sleeping for %d seconds. Meanwhile autorenew of message lock should happen.", time / 1000);
     await delay(time);
     console.log(">>>> Sleeping for %d seconds again. Meanwhile autorenew of message lock should happen.", time / 1000);
     await delay(time);
     console.log(">>>> Now finally exiting from the message handler code...");
-  }
+  };
   const onError: OnError = (err: MessagingError | Error) => {
     console.log(">>>>> Error occurred: ", err);
   };

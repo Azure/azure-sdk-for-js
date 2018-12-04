@@ -13,14 +13,46 @@ import { ReceivedMessageInfo, ServiceBusMessage, SendableMessageInfo } from "../
 import { LinkEntity } from "./linkEntity";
 import * as log from "../log";
 import { ReceiveMode } from "./messageReceiver";
-import { reorderLockTokens } from "../util/utils";
+import { reorderLockTokens, toBuffer } from "../util/utils";
 
+/**
+ * @ignore
+ */
 export enum DispositionStatus {
   completed = "completed",
   defered = "defered",
   suspended = "suspended",
   abandoned = "abandoned",
   renewed = "renewed"
+}
+
+/**
+ * Describes the response that will be received for listing sessions.
+ * @interface ListSessionsResponse
+ */
+export interface ListSessionsResponse {
+  statusCode: number;
+  statusDescription?: string | null;
+  skip?: number;
+  sessionIds?: string[];
+}
+
+/**
+ * Describes the options that can be provided while peeking a message.
+ * @interface PeekOptions
+ */
+export interface PeekOptions {
+  /**
+   * The number of messages that need to be peeked.
+   * - **Default: `1`**.
+   */
+  messageCount?: number;
+  /**
+   * The id of the session for which the messages need to be peeked.
+   * This should only be provided if messages are being fetched from a `session enabled` Queue or
+   * Topic.
+   */
+  sessionId?: string;
 }
 
 /**
@@ -64,15 +96,15 @@ export interface ManagementClientOptions {
 
 /**
  * @class ManagementClient
- * Descibes the EventHubs Management Client that talks
+ * Descibes the ServiceBus Management Client that talks
  * to the $management endpoint over AMQP connection.
  */
 export class ManagementClient extends LinkEntity {
 
   readonly managementLock: string = `${Constants.managementRequestKey}-${generate_uuid()}`;
   /**
-   * @property {string} entityPath - The name/path of the entity (hub name) for which the management
-   * request needs to be made.
+   * @property {string} entityPath - The name/path of the entity (queue/topic/subscription name)
+   * for which the management request needs to be made.
    */
   entityPath: string;
   /**
@@ -108,9 +140,9 @@ export class ManagementClient extends LinkEntity {
   }
 
   /**
-   * Closes the AMQP management session to the Event Hub for this client,
+   * Closes the AMQP management session to the ServiceBus namespace for this client,
    * returning a promise that will be resolved when disconnection is completed.
-   * @return {Promise<void>}
+   * @return Promise<void>
    */
   async close(): Promise<void> {
     try {
@@ -141,29 +173,61 @@ export class ManagementClient extends LinkEntity {
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
-    return this.peekBySequenceNumber(this._lastPeekedSequenceNumber.add(1), messageCount);
+    return this.peekBySequenceNumber(this._lastPeekedSequenceNumber.add(1), {
+      messageCount: messageCount
+    });
+  }
+
+  /**
+   * Fetches the next batch of active messages in the current MessageSession. The first call to
+   * `peek()` fetches the first active message for this client. Each subsequent call fetches the
+   * subsequent message in the entity.
+   *
+   * Unlike a `received` message, `peeked` message will not have lock token associated with it,
+   * and hence it cannot be `Completed/Abandoned/Deferred/Deadlettered/Renewed`. Also, unlike
+   * `receive() | receiveBatch()` this method will also fetch `Deferred` messages, but
+   * **NOT** `Deadlettered` messages.
+   * @param {string} sessionId The sessionId from which messages need to be peeked.
+   * @param {number} [messageCount] The number of messages to retrieve. Default value `1`.
+   * @returns Promise<ReceivedMessageInfo[]>
+   */
+  async peekMessagesBySession(sessionId: string, messageCount?: number): Promise<ReceivedMessageInfo[]> {
+    if (sessionId == undefined) {
+      throw new Error("'sessionId' is a required parameter and must be of type 'string'.");
+    }
+    return this.peekBySequenceNumber(this._lastPeekedSequenceNumber.add(1), {
+      sessionId: sessionId,
+      messageCount: messageCount
+    });
   }
 
   /**
    * Peeks the desired number of messages from the specified sequence number.
    * @param {Long} fromSequenceNumber The sequence number from where to read the message.
-   * @param {number} [messageCount] The number of messages to retrieve. Default value `1`.
-   * @returns Promise<ReceivedSBMessage[]>
+   * @param {PeekOptions} [options] Options that can be provided while peeking messages.
+   * @returns Promise<ReceivedMessageInfo[]>
    */
-  async peekBySequenceNumber(fromSequenceNumber: Long, messageCount?: number): Promise<ReceivedMessageInfo[]> {
+  async peekBySequenceNumber(fromSequenceNumber: Long, options?: PeekOptions): Promise<ReceivedMessageInfo[]> {
+    if (!options) options = {};
     if (fromSequenceNumber == undefined || !Long.isLong(fromSequenceNumber)) {
       throw new Error("'fromSequenceNumber' is a required parameter and must be an instance of 'Long'.");
     }
-    if (messageCount != undefined && typeof messageCount !== "number") {
+    if (options.messageCount != undefined && typeof options.messageCount !== "number") {
       throw new Error("'messageCount' must be of type 'number'.");
     }
-    if (messageCount == undefined) messageCount = 1;
+    if (options.sessionId != undefined && typeof options.sessionId !== "string") {
+      throw new Error("'sessionId' must be of type 'string'.");
+    }
+    if (options.messageCount == undefined) options.messageCount = 1;
     const messageList: ReceivedMessageInfo[] = [];
     try {
       const messageBody: any = {};
       messageBody[Constants.fromSequenceNumber] =
         types.wrap_long(Buffer.from(fromSequenceNumber.toBytesBE()));
-      messageBody[Constants.messageCount] = types.wrap_int(messageCount);
+      messageBody[Constants.messageCount] = types.wrap_int(options.messageCount);
+      if (options.sessionId) {
+        messageBody[Constants.sessionIdMapKey] = options.sessionId;
+      }
       const request: AmqpMessage = {
         body: messageBody,
         message_id: generate_uuid(),
@@ -173,7 +237,8 @@ export class ManagementClient extends LinkEntity {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt("Peek by sequence number request: %O.", request);
+      log.mgmt("[%s] Peek by sequence number request body: %O.",
+        this._context.namespace.connectionId, request.body);
       log.mgmt("[%s] Acquiring lock to get the management req res link.",
         this._context.namespace.connectionId);
       await defaultLock.acquire(this.managementLock, () => { return this._init(); });
@@ -241,7 +306,7 @@ export class ManagementClient extends LinkEntity {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt("Renew Lock request: %O.", request);
+      log.mgmt("[%s] Renew message Lock request: %O.", this._context.namespace.connectionId, request);
       log.mgmt("[%s] Acquiring lock to get the management req res link.",
         this._context.namespace.connectionId);
       await defaultLock.acquire(this.managementLock, () => { return this._init(); });
@@ -322,7 +387,8 @@ export class ManagementClient extends LinkEntity {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt("Schedule messages request body: %O.", request.body);
+      log.mgmt("[%s] Schedule messages request body: %O.", this._context.namespace.connectionId,
+        request.body);
       log.mgmt("[%s] Acquiring lock to get the management req res link.",
         this._context.namespace.connectionId);
       await defaultLock.acquire(this.managementLock, () => { return this._init(); });
@@ -383,7 +449,8 @@ export class ManagementClient extends LinkEntity {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt("Cancel scheduled messages request body: %O.", request.body);
+      log.mgmt("[%s] Cancel scheduled messages request body: %O.",
+        this._context.namespace.connectionId, request.body);
       log.mgmt("[%s] Acquiring lock to get the management req res link.",
         this._context.namespace.connectionId);
       await defaultLock.acquire(this.managementLock, () => { return this._init(); });
@@ -405,12 +472,15 @@ export class ManagementClient extends LinkEntity {
    * - Returns `undefined` if no such message is found.
    * - Throws an error if the message has not been deferred.
    */
-  async receiveDeferredMessage(sequenceNumber: Long, receiveMode: ReceiveMode): Promise<ServiceBusMessage | undefined> {
+  async receiveDeferredMessage(
+    sequenceNumber: Long,
+    receiveMode: ReceiveMode,
+    sessionId?: string): Promise<ServiceBusMessage | undefined> {
     if (!Long.isLong(sequenceNumber)) {
       throw new Error("'sequenceNumber' is a required parameter and must be an instance of 'Long'.");
     }
     let message: ServiceBusMessage | undefined = undefined;
-    const messages = await this.receiveDeferredMessages([sequenceNumber], receiveMode);
+    const messages = await this.receiveDeferredMessages([sequenceNumber], receiveMode, sessionId);
     if (messages.length) {
       message = messages[0];
     }
@@ -426,13 +496,20 @@ export class ManagementClient extends LinkEntity {
    * - Returns an empty list if no messages are found.
    * - Throws an error if the messages have not been deferred.
    */
-  async receiveDeferredMessages(sequenceNumbers: Long[], receiveMode: ReceiveMode): Promise<ServiceBusMessage[]> {
+  async receiveDeferredMessages(
+    sequenceNumbers: Long[],
+    receiveMode: ReceiveMode,
+    sessionId?: string): Promise<ServiceBusMessage[]> {
     if (!Array.isArray(sequenceNumbers)) {
       throw new Error("'sequenceNumbers' is a required parameter and must be of type 'Array'.");
     }
 
     if (typeof receiveMode !== 'number') {
       throw new Error("'receiveMode' is a required parameter with value 1 or 2.");
+    }
+
+    if (sessionId && typeof sessionId !== "string") {
+      throw new Error("'sessionId' must be of type 'string'.");
     }
 
     const messageList: ServiceBusMessage[] = [];
@@ -443,6 +520,9 @@ export class ManagementClient extends LinkEntity {
         (i) => Buffer.from(i.toBytesBE())), 0x81, undefined);
       const receiverSettleMode: number = receiveMode === ReceiveMode.receiveAndDelete ? 0 : 1;
       messageBody[Constants.receiverSettleMode] = types.wrap_ubyte(receiverSettleMode);
+      if (sessionId != undefined) {
+        messageBody[Constants.sessionIdMapKey] = sessionId;
+      }
       const request: AmqpMessage = {
         body: messageBody,
         message_id: generate_uuid(),
@@ -452,7 +532,8 @@ export class ManagementClient extends LinkEntity {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt("Receive deferred messages request: %O.", request);
+      log.mgmt("[%s] Receive deferred messages request bosy: %O.",
+        this._context.namespace.connectionId, request.body);
       log.mgmt("[%s] Acquiring lock to get the management req res link.",
         this._context.namespace.connectionId);
       await defaultLock.acquire(this.managementLock, () => { return this._init(); });
@@ -519,7 +600,8 @@ export class ManagementClient extends LinkEntity {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt("Update disposition status request: %O.", request);
+      log.mgmt("[%s] Update disposition status request body: %O.",
+        this._context.namespace.connectionId, request.body);
       log.mgmt("[%s] Acquiring lock to get the management req res link.",
         this._context.namespace.connectionId);
       await defaultLock.acquire(this.managementLock, () => { return this._init(); });
@@ -532,6 +614,187 @@ export class ManagementClient extends LinkEntity {
     }
   }
 
+  /**
+   * Renews the lock for the specified session.
+   * @param sessionId Id of the session for which the lock needs to be renewed
+   * @param options Options that can be set while sending the request.
+   * @returns Promise<Date> New lock token expiry date and time in UTC format.
+   */
+  async renewSessionLock(sessionId: string, options?: SendRequestOptions): Promise<Date> {
+    if (typeof sessionId !== "string") {
+      throw new Error("'sessionId' is a required parameter and must be of type 'string'.");
+    }
+    if (!options) options = {};
+    if (options.delayInSeconds == undefined) options.delayInSeconds = 1;
+    if (options.timeoutInSeconds == undefined) options.timeoutInSeconds = 5;
+    if (options.times == undefined) options.times = 5;
+    try {
+      const messageBody: any = {};
+      messageBody[Constants.sessionIdMapKey] = sessionId;
+      const request: AmqpMessage = {
+        body: messageBody,
+        reply_to: this.replyTo,
+        application_properties: {
+          operation: Constants.operations.renewSessionLock
+        }
+      };
+      request.application_properties![Constants.trackingId] = generate_uuid();
+      log.mgmt("[%s] Renew Session Lock request body: %O.",
+        this._context.namespace.connectionId, request.body);
+      log.mgmt("[%s] Acquiring lock to get the management req res link.",
+        this._context.namespace.connectionId);
+      await defaultLock.acquire(this.managementLock, () => { return this._init(); });
+      const result = await this._mgmtReqResLink!.sendRequest(request, options);
+      const lockedUntilUtc = new Date(result.body.expiration);
+      log.mgmt("[%s] Lock for session '%s' will expire at %s.",
+        this._context.namespace.connectionId, sessionId, lockedUntilUtc.toString());
+      return lockedUntilUtc;
+    } catch (err) {
+      const error = translate(err);
+      log.error("An error occurred while sending the renew lock request to $management " +
+        "endpoint: %O", error);
+      throw error;
+    }
+  }
+
+  /**
+   * Sets the state of the specified session.
+   * @param sessionId The session for which the state needs to be set
+   * @param state The state that needs to be set.
+   * @returns Promise<void>
+   */
+  async setSessionState(sessionId: string, state: any): Promise<void> {
+    if (typeof sessionId !== "string") {
+      throw new Error("'sessionId' is a required parameter and must be of type 'string'.");
+    }
+
+    try {
+      const messageBody: any = {};
+      messageBody[Constants.sessionIdMapKey] = sessionId;
+      messageBody["session-state"] = toBuffer(state);
+      const request: AmqpMessage = {
+        body: messageBody,
+        reply_to: this.replyTo,
+        application_properties: {
+          operation: Constants.operations.setSessionState
+        }
+      };
+      request.application_properties![Constants.trackingId] = generate_uuid();
+      log.mgmt("[%s] Set Session state request body: %O.", this._context.namespace.connectionId,
+        request.body);
+      log.mgmt("[%s] Acquiring lock to get the management req res link.",
+        this._context.namespace.connectionId);
+      await defaultLock.acquire(this.managementLock, () => { return this._init(); });
+      await this._mgmtReqResLink!.sendRequest(request);
+    } catch (err) {
+      const error = translate(err);
+      log.error("An error occurred while sending the renew lock request to $management " +
+        "endpoint: %O", error);
+      throw error;
+    }
+  }
+
+  /**
+   * Gets the state of the specified session.
+   * @param sessionId The session for which the state needs to be retrieved.
+   * @returns Promise<any> The state of that session
+   */
+  async getSessionState(sessionId: string): Promise<any> {
+    if (typeof sessionId !== "string") {
+      throw new Error("'sessionId' is a required parameter and must be of type 'string'.");
+    }
+    try {
+      const messageBody: any = {};
+      messageBody[Constants.sessionIdMapKey] = sessionId;
+      const request: AmqpMessage = {
+        body: messageBody,
+        reply_to: this.replyTo,
+        application_properties: {
+          operation: Constants.operations.getSessionState
+        }
+      };
+      request.application_properties![Constants.trackingId] = generate_uuid();
+      log.mgmt("[%s] Get session state request body: %O.", this._context.namespace.connectionId,
+        request.body);
+      log.mgmt("[%s] Acquiring lock to get the management req res link.",
+        this._context.namespace.connectionId);
+      await defaultLock.acquire(this.managementLock, () => { return this._init(); });
+      const result = await this._mgmtReqResLink!.sendRequest(request);
+      return result.body["session-state"]
+        ? this._context.namespace.dataTransformer.decode(result.body["session-state"])
+        : result.body["session-state"];
+    } catch (err) {
+      const error = translate(err);
+      log.error("An error occurred while sending the renew lock request to $management " +
+        "endpoint: %O", error);
+      throw error;
+    }
+  }
+
+  /**
+   * Lists the sessions on the ServiceBus Queue/Topic.
+   * @param lastUpdateTime Filter to include only sessions updated after a given time.
+   * @param skip The number of sessions to skip
+   * @param top Maximum numer of sessions.
+   * @returns Promise<ListSessionsResponse> A list of sessions.
+   */
+  async listMessageSessions(skip: number, top: number, lastUpdatedTime?: Date): Promise<ListSessionsResponse> {
+    const defaultLastUpdatedTimeForListingSessions: number = 259200000; // 3 * 24 * 3600 * 1000
+    if (typeof skip !== "number") {
+      throw new Error("'skip' is a required parameter and must be of type 'number'.");
+    }
+    if (typeof top !== "number") {
+      throw new Error("'top' is a required parameter and must be of type 'number'.");
+    }
+    if (lastUpdatedTime && !(lastUpdatedTime instanceof Date)) {
+      throw new Error("'lastUpdatedTime' must be of type 'Date'.");
+    }
+    if (!lastUpdatedTime) {
+      lastUpdatedTime = new Date(Date.now() - defaultLastUpdatedTimeForListingSessions);
+    }
+    try {
+      const messageBody: any = {};
+      messageBody["last-updated-time"] = lastUpdatedTime;
+      messageBody["skip"] = types.wrap_int(skip);
+      messageBody["top"] = types.wrap_int(top);
+      const request: AmqpMessage = {
+        body: messageBody,
+        reply_to: this.replyTo,
+        application_properties: {
+          operation: Constants.operations.enumerateSessions
+        }
+      };
+      request.application_properties![Constants.trackingId] = generate_uuid();
+      log.mgmt("[%s] List sessions request body: %O.", this._context.namespace.connectionId,
+        request.body);
+      log.mgmt("[%s] Acquiring lock to get the management req res link.",
+        this._context.namespace.connectionId);
+      await defaultLock.acquire(this.managementLock, () => { return this._init(); });
+      const response = await this._mgmtReqResLink!.sendRequest(request);
+      const result: ListSessionsResponse = {
+        statusCode: response.application_properties!.statusCode,
+        statusDescription: response.application_properties!.statusDescription,
+      }
+      if (response && response.body) {
+        if (response.body.skip) {
+          result.skip = response.body.skip;
+        }
+        if (response.body["sessions-ids"]) {
+          result.sessionIds = response.body["sessions-ids"]
+        }
+      }
+      return result;
+    } catch (err) {
+      const error = translate(err);
+      log.error("An error occurred while sending the renew lock request to $management " +
+        "endpoint: %O", error);
+      throw error;
+    }
+  }
+
+  /**
+   * @ignore
+   */
   private async _init(): Promise<void> {
     try {
       if (!this._isMgmtRequestResponseLinkOpen()) {
@@ -575,6 +838,9 @@ export class ManagementClient extends LinkEntity {
     }
   }
 
+  /**
+   * @ignore
+   */
   private _isMgmtRequestResponseLinkOpen(): boolean {
     return this._mgmtReqResLink! && this._mgmtReqResLink!.isOpen();
   }

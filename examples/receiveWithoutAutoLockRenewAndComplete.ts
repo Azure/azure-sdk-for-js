@@ -17,7 +17,7 @@ async function main(): Promise<void> {
   // Please note: Lock duration property on the Queue was set to 15 seconds.
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     console.log(">>> Message: ", brokeredMessage);
-    console.log("### Actual message:", brokeredMessage.body ? brokeredMessage.body.toString() : null);
+    console.log("### Actual message:", brokeredMessage.body ? brokeredMessage.body.toString() : undefined);
     const time = 18000;
     console.log(">>>> Sleeping for %d seconds. Meanwhile autorenew of message lock should NOT happen.", time / 1000);
     await delay(time);
@@ -26,7 +26,7 @@ async function main(): Promise<void> {
     } catch (err) {
       console.log("This should error, since the lock would have expired: %o.", err);
     }
-  }
+  };
   const onError: OnError = (err: MessagingError | Error) => {
     console.log(">>>>> Error occurred: ", err);
   };

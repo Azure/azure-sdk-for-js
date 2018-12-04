@@ -32,7 +32,7 @@ export class ReceiveHandler {
   /**
    * Creates an instance of the ReceiveHandler.
    * @constructor
-   * @param {EventHubReceiver} receiver The underlying Message Receiver.
+   * @param {MessageReceiver} receiver The underlying Message Receiver.
    */
   constructor(receiver: MessageReceiver) {
     this._receiver = receiver;
@@ -74,7 +74,7 @@ export class ReceiveHandler {
   }
 
   /**
-   * Stops the underlying EventHubReceiver from receiving more messages.
+   * Stops the underlying MessageReceiver from receiving more messages.
    * @return {Promise<void>} Promise<void>
    */
   async stop(): Promise<void> {
@@ -140,7 +140,7 @@ export class StreamingReceiver extends MessageReceiver {
   /**
    * Starts the receiver by establishing an AMQP session and an AMQP receiver link on the session.
    *
-   * @param {OnMessage} onMessage The message handler to receive event data objects.
+   * @param {OnMessage} onMessage The message handler to receive servicebus messages.
    * @param {OnError} onError The error handler to receive an error that occurs while receivin messages.
    */
   receive(onMessage: OnMessage, onError: OnError): ReceiveHandler {
