@@ -2,7 +2,7 @@
   "name": "@azure/arm-network",
   "author": "Microsoft Corporation",
   "description": "NetworkManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^1.2.0",
     "@azure/ms-rest-js": "^1.2.0",
