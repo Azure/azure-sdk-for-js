@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/replicationLogicalNetworksMappers";
 import * as Parameters from "../models/parameters";
@@ -45,7 +45,7 @@ export class ReplicationLogicalNetworks {
    * @param callback The callback
    */
   listByReplicationFabrics(fabricName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LogicalNetworkCollection>): void;
-  listByReplicationFabrics(fabricName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogicalNetworkCollection>, callback?: msRest.ServiceCallback<Models.LogicalNetworkCollection>): Promise<Models.ReplicationLogicalNetworksListByReplicationFabricsResponse> {
+  listByReplicationFabrics(fabricName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LogicalNetworkCollection>): Promise<Models.ReplicationLogicalNetworksListByReplicationFabricsResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -77,7 +77,7 @@ export class ReplicationLogicalNetworks {
    * @param callback The callback
    */
   get(fabricName: string, logicalNetworkName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LogicalNetwork>): void;
-  get(fabricName: string, logicalNetworkName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogicalNetwork>, callback?: msRest.ServiceCallback<Models.LogicalNetwork>): Promise<Models.ReplicationLogicalNetworksGetResponse> {
+  get(fabricName: string, logicalNetworkName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LogicalNetwork>): Promise<Models.ReplicationLogicalNetworksGetResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -107,7 +107,7 @@ export class ReplicationLogicalNetworks {
    * @param callback The callback
    */
   listByReplicationFabricsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LogicalNetworkCollection>): void;
-  listByReplicationFabricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogicalNetworkCollection>, callback?: msRest.ServiceCallback<Models.LogicalNetworkCollection>): Promise<Models.ReplicationLogicalNetworksListByReplicationFabricsNextResponse> {
+  listByReplicationFabricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LogicalNetworkCollection>): Promise<Models.ReplicationLogicalNetworksListByReplicationFabricsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/applicationMappers";
 import * as Parameters from "../models/parameters";
@@ -27,37 +27,40 @@ export class Application {
   }
 
   /**
-   * Creates an application resource with the specified name, description and properties. If an
-   * application resource with the same name exists, then it is updated with the specified
-   * description and properties.
+   * Creates an application resource with the specified name and description. If an application with
+   * the same name already exists, then its description is updated to the one indicated in this
+   * request.
+   *
+   * Use network resources to provide public connectivity to the services of an application.
+   *
    * @summary Creates or updates an application resource.
    * @param resourceGroupName Azure resource group name
-   * @param applicationResourceName The identity of the application.
-   * @param applicationResourceDescription Description for creating a Application resource.
+   * @param applicationName The identity of the application.
+   * @param applicationResourceDescription Description for creating an application resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationCreateResponse>
    */
-  create(resourceGroupName: string, applicationResourceName: string, applicationResourceDescription: Models.ApplicationResourceDescription, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationCreateResponse>;
+  create(resourceGroupName: string, applicationName: string, applicationResourceDescription: Models.ApplicationResourceDescription, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationCreateResponse>;
   /**
    * @param resourceGroupName Azure resource group name
-   * @param applicationResourceName The identity of the application.
-   * @param applicationResourceDescription Description for creating a Application resource.
+   * @param applicationName The identity of the application.
+   * @param applicationResourceDescription Description for creating an application resource.
    * @param callback The callback
    */
-  create(resourceGroupName: string, applicationResourceName: string, applicationResourceDescription: Models.ApplicationResourceDescription, callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>): void;
+  create(resourceGroupName: string, applicationName: string, applicationResourceDescription: Models.ApplicationResourceDescription, callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>): void;
   /**
    * @param resourceGroupName Azure resource group name
-   * @param applicationResourceName The identity of the application.
-   * @param applicationResourceDescription Description for creating a Application resource.
+   * @param applicationName The identity of the application.
+   * @param applicationResourceDescription Description for creating an application resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, applicationResourceName: string, applicationResourceDescription: Models.ApplicationResourceDescription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>): void;
-  create(resourceGroupName: string, applicationResourceName: string, applicationResourceDescription: Models.ApplicationResourceDescription, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationResourceDescription>, callback?: msRest.ServiceCallback<Models.ApplicationResourceDescription>): Promise<Models.ApplicationCreateResponse> {
+  create(resourceGroupName: string, applicationName: string, applicationResourceDescription: Models.ApplicationResourceDescription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>): void;
+  create(resourceGroupName: string, applicationName: string, applicationResourceDescription: Models.ApplicationResourceDescription, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationResourceDescription>): Promise<Models.ApplicationCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        applicationResourceName,
+        applicationName,
         applicationResourceDescription,
         options
       },
@@ -66,33 +69,33 @@ export class Application {
   }
 
   /**
-   * Gets the information about the application resource with the given name. The information include
-   * the description and other properties of the application.
-   * @summary Gets the application resource with the given name.
+   * Gets the information about the application resource with a given name. The information includes
+   * the information about the application's services and other runtime properties.
+   * @summary Gets the application resource.
    * @param resourceGroupName Azure resource group name
-   * @param applicationResourceName The identity of the application.
+   * @param applicationName The identity of the application.
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationGetResponse>
    */
-  get(resourceGroupName: string, applicationResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationGetResponse>;
+  get(resourceGroupName: string, applicationName: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationGetResponse>;
   /**
    * @param resourceGroupName Azure resource group name
-   * @param applicationResourceName The identity of the application.
+   * @param applicationName The identity of the application.
    * @param callback The callback
    */
-  get(resourceGroupName: string, applicationResourceName: string, callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>): void;
+  get(resourceGroupName: string, applicationName: string, callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>): void;
   /**
    * @param resourceGroupName Azure resource group name
-   * @param applicationResourceName The identity of the application.
+   * @param applicationName The identity of the application.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, applicationResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>): void;
-  get(resourceGroupName: string, applicationResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationResourceDescription>, callback?: msRest.ServiceCallback<Models.ApplicationResourceDescription>): Promise<Models.ApplicationGetResponse> {
+  get(resourceGroupName: string, applicationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>): void;
+  get(resourceGroupName: string, applicationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationResourceDescription>): Promise<Models.ApplicationGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        applicationResourceName,
+        applicationName,
         options
       },
       getOperationSpec,
@@ -103,29 +106,29 @@ export class Application {
    * Deletes the application resource identified by the name.
    * @summary Deletes the application resource.
    * @param resourceGroupName Azure resource group name
-   * @param applicationResourceName The identity of the application.
+   * @param applicationName The identity of the application.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, applicationResourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, applicationName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Azure resource group name
-   * @param applicationResourceName The identity of the application.
+   * @param applicationName The identity of the application.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, applicationResourceName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, applicationName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName Azure resource group name
-   * @param applicationResourceName The identity of the application.
+   * @param applicationName The identity of the application.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, applicationResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, applicationResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, applicationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, applicationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        applicationResourceName,
+        applicationName,
         options
       },
       deleteMethodOperationSpec,
@@ -134,7 +137,7 @@ export class Application {
 
   /**
    * Gets the information about all application resources in a given resource group. The information
-   * include the description and other properties of the Application.
+   * includes the information about the application's services and other runtime properties.
    * @summary Gets all the application resources in a given resource group.
    * @param resourceGroupName Azure resource group name
    * @param [options] The optional parameters
@@ -152,7 +155,7 @@ export class Application {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>): Promise<Models.ApplicationListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>): Promise<Models.ApplicationListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -163,8 +166,8 @@ export class Application {
   }
 
   /**
-   * Gets the information about all application resources in a given resource group. The information
-   * include the description and other properties of the application.
+   * Gets the information about all application resources in a given subscription. The information
+   * includes the information about the application's services and other runtime properties.
    * @summary Gets all the application resources in a given subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationListBySubscriptionResponse>
@@ -179,7 +182,7 @@ export class Application {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>): Promise<Models.ApplicationListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>): Promise<Models.ApplicationListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -190,7 +193,7 @@ export class Application {
 
   /**
    * Gets the information about all application resources in a given resource group. The information
-   * include the description and other properties of the Application.
+   * includes the information about the application's services and other runtime properties.
    * @summary Gets all the application resources in a given resource group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -208,7 +211,7 @@ export class Application {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>): Promise<Models.ApplicationListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>): Promise<Models.ApplicationListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -219,8 +222,8 @@ export class Application {
   }
 
   /**
-   * Gets the information about all application resources in a given resource group. The information
-   * include the description and other properties of the application.
+   * Gets the information about all application resources in a given subscription. The information
+   * includes the information about the application's services and other runtime properties.
    * @summary Gets all the application resources in a given subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -238,7 +241,7 @@ export class Application {
    * @param callback The callback
    */
   listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>): Promise<Models.ApplicationListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>): Promise<Models.ApplicationListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -253,11 +256,11 @@ export class Application {
 const serializer = new msRest.Serializer(Mappers);
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.applicationResourceName
+    Parameters.applicationName
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -279,7 +282,6 @@ const createOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.ApplicationResourceDescription
     },
-    202: {},
     default: {
       bodyMapper: Mappers.ErrorModel
     }
@@ -289,11 +291,11 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.applicationResourceName
+    Parameters.applicationName
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -314,11 +316,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.applicationResourceName
+    Parameters.applicationName
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -328,7 +330,6 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {},
-    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.ErrorModel

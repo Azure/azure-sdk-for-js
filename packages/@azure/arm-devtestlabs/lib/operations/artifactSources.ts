@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/artifactSourcesMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class ArtifactSources {
    * @param callback The callback
    */
   list(resourceGroupName: string, labName: string, options: Models.ArtifactSourcesListOptionalParams, callback: msRest.ServiceCallback<Models.ArtifactSourceList>): void;
-  list(resourceGroupName: string, labName: string, options?: Models.ArtifactSourcesListOptionalParams | msRest.ServiceCallback<Models.ArtifactSourceList>, callback?: msRest.ServiceCallback<Models.ArtifactSourceList>): Promise<Models.ArtifactSourcesListResponse> {
+  list(resourceGroupName: string, labName: string, options?: Models.ArtifactSourcesListOptionalParams, callback?: msRest.ServiceCallback<Models.ArtifactSourceList>): Promise<Models.ArtifactSourcesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class ArtifactSources {
    * @param callback The callback
    */
   get(resourceGroupName: string, labName: string, name: string, options: Models.ArtifactSourcesGetOptionalParams, callback: msRest.ServiceCallback<Models.ArtifactSource>): void;
-  get(resourceGroupName: string, labName: string, name: string, options?: Models.ArtifactSourcesGetOptionalParams | msRest.ServiceCallback<Models.ArtifactSource>, callback?: msRest.ServiceCallback<Models.ArtifactSource>): Promise<Models.ArtifactSourcesGetResponse> {
+  get(resourceGroupName: string, labName: string, name: string, options?: Models.ArtifactSourcesGetOptionalParams, callback?: msRest.ServiceCallback<Models.ArtifactSource>): Promise<Models.ArtifactSourcesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -121,7 +121,7 @@ export class ArtifactSources {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, labName: string, name: string, artifactSource: Models.ArtifactSource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ArtifactSource>): void;
-  createOrUpdate(resourceGroupName: string, labName: string, name: string, artifactSource: Models.ArtifactSource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArtifactSource>, callback?: msRest.ServiceCallback<Models.ArtifactSource>): Promise<Models.ArtifactSourcesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, labName: string, name: string, artifactSource: Models.ArtifactSource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ArtifactSource>): Promise<Models.ArtifactSourcesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +158,7 @@ export class ArtifactSources {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, labName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -197,7 +197,7 @@ export class ArtifactSources {
    * @param callback The callback
    */
   update(resourceGroupName: string, labName: string, name: string, artifactSource: Models.ArtifactSourceFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ArtifactSource>): void;
-  update(resourceGroupName: string, labName: string, name: string, artifactSource: Models.ArtifactSourceFragment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArtifactSource>, callback?: msRest.ServiceCallback<Models.ArtifactSource>): Promise<Models.ArtifactSourcesUpdateResponse> {
+  update(resourceGroupName: string, labName: string, name: string, artifactSource: Models.ArtifactSourceFragment, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ArtifactSource>): Promise<Models.ArtifactSourcesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -228,7 +228,7 @@ export class ArtifactSources {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ArtifactSourceList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArtifactSourceList>, callback?: msRest.ServiceCallback<Models.ArtifactSourceList>): Promise<Models.ArtifactSourcesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ArtifactSourceList>): Promise<Models.ArtifactSourcesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

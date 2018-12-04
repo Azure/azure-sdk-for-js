@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/workflowRunOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -53,7 +53,7 @@ export class WorkflowRunOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, workflowName: string, runName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkflowRun>): void;
-  get(resourceGroupName: string, workflowName: string, runName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowRun>, callback?: msRest.ServiceCallback<Models.WorkflowRun>): Promise<Models.WorkflowRunOperationsGetResponse> {
+  get(resourceGroupName: string, workflowName: string, runName: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkflowRun>): Promise<Models.WorkflowRunOperationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -465,7 +465,11 @@ export interface AvailabilityStatusListResult extends Array<AvailabilityStatus> 
  * @readonly
  * @enum {string}
  */
-export type AvailabilityStateValues = 'Available' | 'Unavailable' | 'Unknown';
+export enum AvailabilityStateValues {
+  Available = 'Available',
+  Unavailable = 'Unavailable',
+  Unknown = 'Unknown',
+}
 
 /**
  * Defines values for ReasonChronicityTypes.
@@ -473,7 +477,10 @@ export type AvailabilityStateValues = 'Available' | 'Unavailable' | 'Unknown';
  * @readonly
  * @enum {string}
  */
-export type ReasonChronicityTypes = 'Transient' | 'Persistent';
+export enum ReasonChronicityTypes {
+  Transient = 'Transient',
+  Persistent = 'Persistent',
+}
 
 /**
  * Contains response data for the listBySubscriptionId operation.

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/loadBalancingSettingsMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class LoadBalancingSettings {
    * @param callback The callback
    */
   listByFrontDoor(resourceGroupName: string, frontDoorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoadBalancingSettingsListResult>): void;
-  listByFrontDoor(resourceGroupName: string, frontDoorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoadBalancingSettingsListResult>, callback?: msRest.ServiceCallback<Models.LoadBalancingSettingsListResult>): Promise<Models.LoadBalancingSettingsListByFrontDoorResponse> {
+  listByFrontDoor(resourceGroupName: string, frontDoorName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LoadBalancingSettingsListResult>): Promise<Models.LoadBalancingSettingsListByFrontDoorResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -86,7 +86,7 @@ export class LoadBalancingSettings {
    * @param callback The callback
    */
   get(resourceGroupName: string, frontDoorName: string, loadBalancingSettingsName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoadBalancingSettingsModel>): void;
-  get(resourceGroupName: string, frontDoorName: string, loadBalancingSettingsName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoadBalancingSettingsModel>, callback?: msRest.ServiceCallback<Models.LoadBalancingSettingsModel>): Promise<Models.LoadBalancingSettingsGetResponse> {
+  get(resourceGroupName: string, frontDoorName: string, loadBalancingSettingsName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LoadBalancingSettingsModel>): Promise<Models.LoadBalancingSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -193,7 +193,7 @@ export class LoadBalancingSettings {
    * @param callback The callback
    */
   listByFrontDoorNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoadBalancingSettingsListResult>): void;
-  listByFrontDoorNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoadBalancingSettingsListResult>, callback?: msRest.ServiceCallback<Models.LoadBalancingSettingsListResult>): Promise<Models.LoadBalancingSettingsListByFrontDoorNextResponse> {
+  listByFrontDoorNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LoadBalancingSettingsListResult>): Promise<Models.LoadBalancingSettingsListByFrontDoorNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

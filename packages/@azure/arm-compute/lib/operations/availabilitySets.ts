@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/availabilitySetsMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class AvailabilitySets {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, availabilitySetName: string, parameters: Models.AvailabilitySet, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailabilitySet>): void;
-  createOrUpdate(resourceGroupName: string, availabilitySetName: string, parameters: Models.AvailabilitySet, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailabilitySet>, callback?: msRest.ServiceCallback<Models.AvailabilitySet>): Promise<Models.AvailabilitySetsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, availabilitySetName: string, parameters: Models.AvailabilitySet, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AvailabilitySet>): Promise<Models.AvailabilitySetsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -86,7 +86,7 @@ export class AvailabilitySets {
    * @param callback The callback
    */
   update(resourceGroupName: string, availabilitySetName: string, parameters: Models.AvailabilitySetUpdate, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailabilitySet>): void;
-  update(resourceGroupName: string, availabilitySetName: string, parameters: Models.AvailabilitySetUpdate, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailabilitySet>, callback?: msRest.ServiceCallback<Models.AvailabilitySet>): Promise<Models.AvailabilitySetsUpdateResponse> {
+  update(resourceGroupName: string, availabilitySetName: string, parameters: Models.AvailabilitySetUpdate, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AvailabilitySet>): Promise<Models.AvailabilitySetsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -119,7 +119,7 @@ export class AvailabilitySets {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, availabilitySetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, availabilitySetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, availabilitySetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -151,7 +151,7 @@ export class AvailabilitySets {
    * @param callback The callback
    */
   get(resourceGroupName: string, availabilitySetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailabilitySet>): void;
-  get(resourceGroupName: string, availabilitySetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailabilitySet>, callback?: msRest.ServiceCallback<Models.AvailabilitySet>): Promise<Models.AvailabilitySetsGetResponse> {
+  get(resourceGroupName: string, availabilitySetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AvailabilitySet>): Promise<Models.AvailabilitySetsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -177,7 +177,7 @@ export class AvailabilitySets {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailabilitySetListResult>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailabilitySetListResult>, callback?: msRest.ServiceCallback<Models.AvailabilitySetListResult>): Promise<Models.AvailabilitySetsListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AvailabilitySetListResult>): Promise<Models.AvailabilitySetsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -204,7 +204,7 @@ export class AvailabilitySets {
    * @param callback The callback
    */
   list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailabilitySetListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailabilitySetListResult>, callback?: msRest.ServiceCallback<Models.AvailabilitySetListResult>): Promise<Models.AvailabilitySetsListResponse> {
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AvailabilitySetListResult>): Promise<Models.AvailabilitySetsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -236,7 +236,7 @@ export class AvailabilitySets {
    * @param callback The callback
    */
   listAvailableSizes(resourceGroupName: string, availabilitySetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineSizeListResult>): void;
-  listAvailableSizes(resourceGroupName: string, availabilitySetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineSizeListResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineSizeListResult>): Promise<Models.AvailabilitySetsListAvailableSizesResponse> {
+  listAvailableSizes(resourceGroupName: string, availabilitySetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualMachineSizeListResult>): Promise<Models.AvailabilitySetsListAvailableSizesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -265,7 +265,7 @@ export class AvailabilitySets {
    * @param callback The callback
    */
   listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailabilitySetListResult>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailabilitySetListResult>, callback?: msRest.ServiceCallback<Models.AvailabilitySetListResult>): Promise<Models.AvailabilitySetsListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AvailabilitySetListResult>): Promise<Models.AvailabilitySetsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -293,7 +293,7 @@ export class AvailabilitySets {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailabilitySetListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailabilitySetListResult>, callback?: msRest.ServiceCallback<Models.AvailabilitySetListResult>): Promise<Models.AvailabilitySetsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AvailabilitySetListResult>): Promise<Models.AvailabilitySetsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

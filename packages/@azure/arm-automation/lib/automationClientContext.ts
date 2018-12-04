@@ -9,16 +9,23 @@
  */
 
 import * as Models from "./models";
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 
 const packageName = "@azure/arm-automation";
-const packageVersion = "0.1.0";
+const packageVersion = "1.0.0-preview";
 
 export class AutomationClientContext extends msRestAzure.AzureServiceClient {
+
   credentials: msRest.ServiceClientCredentials;
+
   subscriptionId: string;
+
   countType1: Models.CountType;
+
+  acceptLanguage: string;
+
+  longRunningOperationRetryTimeout: number;
 
   /**
    * Initializes a new instance of the AutomationClient class.
@@ -43,11 +50,6 @@ export class AutomationClientContext extends msRestAzure.AzureServiceClient {
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
-      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
-
     super(credentials, options);
 
     this.acceptLanguage = 'en-US';
@@ -58,6 +60,7 @@ export class AutomationClientContext extends msRestAzure.AzureServiceClient {
     this.subscriptionId = subscriptionId;
     this.countType1 = countType1;
 
+    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }

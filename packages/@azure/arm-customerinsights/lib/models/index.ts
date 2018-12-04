@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -3040,32 +3040,66 @@ export interface PredictionListResult extends Array<PredictionResourceFormat> {
  * @readonly
  * @enum {string}
  */
-export type EntityTypes = 'None' | 'Profile' | 'Interaction' | 'Relationship';
+export enum EntityTypes {
+  None = 'None',
+  Profile = 'Profile',
+  Interaction = 'Interaction',
+  Relationship = 'Relationship',
+}
 
 /**
  * Defines values for DataSourceType.
  * Possible values include: 'Connector', 'LinkInteraction', 'SystemDefault'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: DataSourceType =
+ * <DataSourceType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type DataSourceType = 'Connector' | 'LinkInteraction' | 'SystemDefault';
+export enum DataSourceType {
+  Connector = 'Connector',
+  LinkInteraction = 'LinkInteraction',
+  SystemDefault = 'SystemDefault',
+}
 
 /**
  * Defines values for Status.
  * Possible values include: 'None', 'Active', 'Deleted'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Status = <Status>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type Status = 'None' | 'Active' | 'Deleted';
+export enum Status {
+  None = 'None',
+  Active = 'Active',
+  Deleted = 'Deleted',
+}
 
 /**
  * Defines values for ProvisioningStates.
- * Possible values include: 'Provisioning', 'Succeeded', 'Expiring', 'Deleting',
- * 'HumanIntervention', 'Failed'
+ * Possible values include: 'Provisioning', 'Succeeded', 'Expiring',
+ * 'Deleting', 'HumanIntervention', 'Failed'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ProvisioningStates =
+ * <ProvisioningStates>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ProvisioningStates = 'Provisioning' | 'Succeeded' | 'Expiring' | 'Deleting' | 'HumanIntervention' | 'Failed';
+export enum ProvisioningStates {
+  Provisioning = 'Provisioning',
+  Succeeded = 'Succeeded',
+  Expiring = 'Expiring',
+  Deleting = 'Deleting',
+  HumanIntervention = 'HumanIntervention',
+  Failed = 'Failed',
+}
 
 /**
  * Defines values for PermissionTypes.
@@ -3073,31 +3107,61 @@ export type ProvisioningStates = 'Provisioning' | 'Succeeded' | 'Expiring' | 'De
  * @readonly
  * @enum {string}
  */
-export type PermissionTypes = 'Read' | 'Write' | 'Manage';
+export enum PermissionTypes {
+  Read = 'Read',
+  Write = 'Write',
+  Manage = 'Manage',
+}
 
 /**
  * Defines values for ConnectorTypes.
- * Possible values include: 'None', 'CRM', 'AzureBlob', 'Salesforce', 'ExchangeOnline', 'Outbound'
+ * Possible values include: 'None', 'CRM', 'AzureBlob', 'Salesforce',
+ * 'ExchangeOnline', 'Outbound'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ConnectorTypes =
+ * <ConnectorTypes>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ConnectorTypes = 'None' | 'CRM' | 'AzureBlob' | 'Salesforce' | 'ExchangeOnline' | 'Outbound';
+export enum ConnectorTypes {
+  None = 'None',
+  CRM = 'CRM',
+  AzureBlob = 'AzureBlob',
+  Salesforce = 'Salesforce',
+  ExchangeOnline = 'ExchangeOnline',
+  Outbound = 'Outbound',
+}
 
 /**
  * Defines values for ConnectorStates.
- * Possible values include: 'Creating', 'Created', 'Ready', 'Expiring', 'Deleting', 'Failed'
+ * Possible values include: 'Creating', 'Created', 'Ready', 'Expiring',
+ * 'Deleting', 'Failed'
  * @readonly
  * @enum {string}
  */
-export type ConnectorStates = 'Creating' | 'Created' | 'Ready' | 'Expiring' | 'Deleting' | 'Failed';
+export enum ConnectorStates {
+  Creating = 'Creating',
+  Created = 'Created',
+  Ready = 'Ready',
+  Expiring = 'Expiring',
+  Deleting = 'Deleting',
+  Failed = 'Failed',
+}
 
 /**
  * Defines values for ErrorManagementTypes.
- * Possible values include: 'RejectAndContinue', 'StopImport', 'RejectUntilLimit'
+ * Possible values include: 'RejectAndContinue', 'StopImport',
+ * 'RejectUntilLimit'
  * @readonly
  * @enum {string}
  */
-export type ErrorManagementTypes = 'RejectAndContinue' | 'StopImport' | 'RejectUntilLimit';
+export enum ErrorManagementTypes {
+  RejectAndContinue = 'RejectAndContinue',
+  StopImport = 'StopImport',
+  RejectUntilLimit = 'RejectUntilLimit',
+}
 
 /**
  * Defines values for FrequencyTypes.
@@ -3105,7 +3169,13 @@ export type ErrorManagementTypes = 'RejectAndContinue' | 'StopImport' | 'RejectU
  * @readonly
  * @enum {string}
  */
-export type FrequencyTypes = 'Minute' | 'Hour' | 'Day' | 'Week' | 'Month';
+export enum FrequencyTypes {
+  Minute = 'Minute',
+  Hour = 'Hour',
+  Day = 'Day',
+  Week = 'Week',
+  Month = 'Month',
+}
 
 /**
  * Defines values for CompletionOperationTypes.
@@ -3113,16 +3183,28 @@ export type FrequencyTypes = 'Minute' | 'Hour' | 'Day' | 'Week' | 'Month';
  * @readonly
  * @enum {string}
  */
-export type CompletionOperationTypes = 'DoNothing' | 'DeleteFile' | 'MoveFile';
+export enum CompletionOperationTypes {
+  DoNothing = 'DoNothing',
+  DeleteFile = 'DeleteFile',
+  MoveFile = 'MoveFile',
+}
 
 /**
  * Defines values for ConnectorMappingStates.
- * Possible values include: 'Creating', 'Created', 'Failed', 'Ready', 'Running', 'Stopped',
- * 'Expiring'
+ * Possible values include: 'Creating', 'Created', 'Failed', 'Ready',
+ * 'Running', 'Stopped', 'Expiring'
  * @readonly
  * @enum {string}
  */
-export type ConnectorMappingStates = 'Creating' | 'Created' | 'Failed' | 'Ready' | 'Running' | 'Stopped' | 'Expiring';
+export enum ConnectorMappingStates {
+  Creating = 'Creating',
+  Created = 'Created',
+  Failed = 'Failed',
+  Ready = 'Ready',
+  Running = 'Running',
+  Stopped = 'Stopped',
+  Expiring = 'Expiring',
+}
 
 /**
  * Defines values for CalculationWindowTypes.
@@ -3130,15 +3212,31 @@ export type ConnectorMappingStates = 'Creating' | 'Created' | 'Failed' | 'Ready'
  * @readonly
  * @enum {string}
  */
-export type CalculationWindowTypes = 'Lifetime' | 'Hour' | 'Day' | 'Week' | 'Month';
+export enum CalculationWindowTypes {
+  Lifetime = 'Lifetime',
+  Hour = 'Hour',
+  Day = 'Day',
+  Week = 'Week',
+  Month = 'Month',
+}
 
 /**
  * Defines values for KpiFunctions.
- * Possible values include: 'Sum', 'Avg', 'Min', 'Max', 'Last', 'Count', 'None', 'CountDistinct'
+ * Possible values include: 'Sum', 'Avg', 'Min', 'Max', 'Last', 'Count',
+ * 'None', 'CountDistinct'
  * @readonly
  * @enum {string}
  */
-export type KpiFunctions = 'Sum' | 'Avg' | 'Min' | 'Max' | 'Last' | 'Count' | 'None' | 'CountDistinct';
+export enum KpiFunctions {
+  Sum = 'Sum',
+  Avg = 'Avg',
+  Min = 'Min',
+  Max = 'Max',
+  Last = 'Last',
+  Count = 'Count',
+  None = 'None',
+  CountDistinct = 'CountDistinct',
+}
 
 /**
  * Defines values for EntityType.
@@ -3146,7 +3244,12 @@ export type KpiFunctions = 'Sum' | 'Avg' | 'Min' | 'Max' | 'Last' | 'Count' | 'N
  * @readonly
  * @enum {string}
  */
-export type EntityType = 'None' | 'Profile' | 'Interaction' | 'Relationship';
+export enum EntityType {
+  None = 'None',
+  Profile = 'Profile',
+  Interaction = 'Interaction',
+  Relationship = 'Relationship',
+}
 
 /**
  * Defines values for LinkTypes.
@@ -3154,7 +3257,10 @@ export type EntityType = 'None' | 'Profile' | 'Interaction' | 'Relationship';
  * @readonly
  * @enum {string}
  */
-export type LinkTypes = 'UpdateAlways' | 'CopyIfNull';
+export enum LinkTypes {
+  UpdateAlways = 'UpdateAlways',
+  CopyIfNull = 'CopyIfNull',
+}
 
 /**
  * Defines values for InstanceOperationType.
@@ -3162,7 +3268,10 @@ export type LinkTypes = 'UpdateAlways' | 'CopyIfNull';
  * @readonly
  * @enum {string}
  */
-export type InstanceOperationType = 'Upsert' | 'Delete';
+export enum InstanceOperationType {
+  Upsert = 'Upsert',
+  Delete = 'Delete',
+}
 
 /**
  * Defines values for CardinalityTypes.
@@ -3170,35 +3279,82 @@ export type InstanceOperationType = 'Upsert' | 'Delete';
  * @readonly
  * @enum {string}
  */
-export type CardinalityTypes = 'OneToOne' | 'OneToMany' | 'ManyToMany';
+export enum CardinalityTypes {
+  OneToOne = 'OneToOne',
+  OneToMany = 'OneToMany',
+  ManyToMany = 'ManyToMany',
+}
 
 /**
  * Defines values for RoleTypes.
- * Possible values include: 'Admin', 'Reader', 'ManageAdmin', 'ManageReader', 'DataAdmin',
- * 'DataReader'
+ * Possible values include: 'Admin', 'Reader', 'ManageAdmin', 'ManageReader',
+ * 'DataAdmin', 'DataReader'
  * @readonly
  * @enum {string}
  */
-export type RoleTypes = 'Admin' | 'Reader' | 'ManageAdmin' | 'ManageReader' | 'DataAdmin' | 'DataReader';
+export enum RoleTypes {
+  Admin = 'Admin',
+  Reader = 'Reader',
+  ManageAdmin = 'ManageAdmin',
+  ManageReader = 'ManageReader',
+  DataAdmin = 'DataAdmin',
+  DataReader = 'DataReader',
+}
 
 /**
  * Defines values for CanonicalPropertyValueType.
- * Possible values include: 'Numeric', 'Categorical', 'DerivedCategorical', 'DerivedNumeric'
+ * Possible values include: 'Numeric', 'Categorical', 'DerivedCategorical',
+ * 'DerivedNumeric'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: CanonicalPropertyValueType =
+ * <CanonicalPropertyValueType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type CanonicalPropertyValueType = 'Numeric' | 'Categorical' | 'DerivedCategorical' | 'DerivedNumeric';
+export enum CanonicalPropertyValueType {
+  Numeric = 'Numeric',
+  Categorical = 'Categorical',
+  DerivedCategorical = 'DerivedCategorical',
+  DerivedNumeric = 'DerivedNumeric',
+}
 
 /**
  * Defines values for PredictionModelLifeCycle.
- * Possible values include: 'New', 'Provisioning', 'ProvisioningFailed', 'PendingDiscovering',
- * 'Discovering', 'PendingFeaturing', 'Featuring', 'FeaturingFailed', 'PendingTraining',
- * 'Training', 'TrainingFailed', 'Evaluating', 'EvaluatingFailed', 'PendingModelConfirmation',
- * 'Active', 'Deleted', 'HumanIntervention', 'Failed'
+ * Possible values include: 'New', 'Provisioning', 'ProvisioningFailed',
+ * 'PendingDiscovering', 'Discovering', 'PendingFeaturing', 'Featuring',
+ * 'FeaturingFailed', 'PendingTraining', 'Training', 'TrainingFailed',
+ * 'Evaluating', 'EvaluatingFailed', 'PendingModelConfirmation', 'Active',
+ * 'Deleted', 'HumanIntervention', 'Failed'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: PredictionModelLifeCycle =
+ * <PredictionModelLifeCycle>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type PredictionModelLifeCycle = 'New' | 'Provisioning' | 'ProvisioningFailed' | 'PendingDiscovering' | 'Discovering' | 'PendingFeaturing' | 'Featuring' | 'FeaturingFailed' | 'PendingTraining' | 'Training' | 'TrainingFailed' | 'Evaluating' | 'EvaluatingFailed' | 'PendingModelConfirmation' | 'Active' | 'Deleted' | 'HumanIntervention' | 'Failed';
+export enum PredictionModelLifeCycle {
+  New = 'New',
+  Provisioning = 'Provisioning',
+  ProvisioningFailed = 'ProvisioningFailed',
+  PendingDiscovering = 'PendingDiscovering',
+  Discovering = 'Discovering',
+  PendingFeaturing = 'PendingFeaturing',
+  Featuring = 'Featuring',
+  FeaturingFailed = 'FeaturingFailed',
+  PendingTraining = 'PendingTraining',
+  Training = 'Training',
+  TrainingFailed = 'TrainingFailed',
+  Evaluating = 'Evaluating',
+  EvaluatingFailed = 'EvaluatingFailed',
+  PendingModelConfirmation = 'PendingModelConfirmation',
+  Active = 'Active',
+  Deleted = 'Deleted',
+  HumanIntervention = 'HumanIntervention',
+  Failed = 'Failed',
+}
 
 /**
  * Contains response data for the list operation.

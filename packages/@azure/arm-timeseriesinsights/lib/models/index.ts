@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -1275,11 +1275,19 @@ export interface OperationListResult extends Array<Operation> {
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Accepted', 'Creating', 'Updating', 'Succeeded', 'Failed', 'Deleting'
+ * Possible values include: 'Accepted', 'Creating', 'Updating', 'Succeeded',
+ * 'Failed', 'Deleting'
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Accepted' | 'Creating' | 'Updating' | 'Succeeded' | 'Failed' | 'Deleting';
+export enum ProvisioningState {
+  Accepted = 'Accepted',
+  Creating = 'Creating',
+  Updating = 'Updating',
+  Succeeded = 'Succeeded',
+  Failed = 'Failed',
+  Deleting = 'Deleting',
+}
 
 /**
  * Defines values for SkuName.
@@ -1287,7 +1295,10 @@ export type ProvisioningState = 'Accepted' | 'Creating' | 'Updating' | 'Succeede
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'S1' | 'S2';
+export enum SkuName {
+  S1 = 'S1',
+  S2 = 'S2',
+}
 
 /**
  * Defines values for StorageLimitExceededBehavior.
@@ -1295,15 +1306,25 @@ export type SkuName = 'S1' | 'S2';
  * @readonly
  * @enum {string}
  */
-export type StorageLimitExceededBehavior = 'PurgeOldData' | 'PauseIngress';
+export enum StorageLimitExceededBehavior {
+  PurgeOldData = 'PurgeOldData',
+  PauseIngress = 'PauseIngress',
+}
 
 /**
  * Defines values for PropertyType.
  * Possible values include: 'String'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: PropertyType =
+ * <PropertyType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type PropertyType = 'String';
+export enum PropertyType {
+  String = 'String',
+}
 
 /**
  * Defines values for IngressState.
@@ -1311,7 +1332,13 @@ export type PropertyType = 'String';
  * @readonly
  * @enum {string}
  */
-export type IngressState = 'Disabled' | 'Ready' | 'Running' | 'Paused' | 'Unknown';
+export enum IngressState {
+  Disabled = 'Disabled',
+  Ready = 'Ready',
+  Running = 'Running',
+  Paused = 'Paused',
+  Unknown = 'Unknown',
+}
 
 /**
  * Defines values for LocalTimestampFormat.
@@ -1319,7 +1346,11 @@ export type IngressState = 'Disabled' | 'Ready' | 'Running' | 'Paused' | 'Unknow
  * @readonly
  * @enum {string}
  */
-export type LocalTimestampFormat = 'Embedded' | 'Iana' | 'TimeSpan';
+export enum LocalTimestampFormat {
+  Embedded = 'Embedded',
+  Iana = 'Iana',
+  TimeSpan = 'TimeSpan',
+}
 
 /**
  * Defines values for ReferenceDataKeyPropertyType.
@@ -1327,7 +1358,12 @@ export type LocalTimestampFormat = 'Embedded' | 'Iana' | 'TimeSpan';
  * @readonly
  * @enum {string}
  */
-export type ReferenceDataKeyPropertyType = 'String' | 'Double' | 'Bool' | 'DateTime';
+export enum ReferenceDataKeyPropertyType {
+  String = 'String',
+  Double = 'Double',
+  Bool = 'Bool',
+  DateTime = 'DateTime',
+}
 
 /**
  * Defines values for DataStringComparisonBehavior.
@@ -1335,7 +1371,10 @@ export type ReferenceDataKeyPropertyType = 'String' | 'Double' | 'Bool' | 'DateT
  * @readonly
  * @enum {string}
  */
-export type DataStringComparisonBehavior = 'Ordinal' | 'OrdinalIgnoreCase';
+export enum DataStringComparisonBehavior {
+  Ordinal = 'Ordinal',
+  OrdinalIgnoreCase = 'OrdinalIgnoreCase',
+}
 
 /**
  * Defines values for AccessPolicyRole.
@@ -1343,7 +1382,10 @@ export type DataStringComparisonBehavior = 'Ordinal' | 'OrdinalIgnoreCase';
  * @readonly
  * @enum {string}
  */
-export type AccessPolicyRole = 'Reader' | 'Contributor';
+export enum AccessPolicyRole {
+  Reader = 'Reader',
+  Contributor = 'Contributor',
+}
 
 /**
  * Contains response data for the list operation.

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
@@ -65,6 +65,19 @@ export const configName: msRest.OperationURLParameter = {
     isConstant: true,
     serializedName: "configName",
     defaultValue: '$default',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const ipFilterRuleName: msRest.OperationURLParameter = {
+  parameterPath: "ipFilterRuleName",
+  mapper: {
+    required: true,
+    serializedName: "ipFilterRuleName",
+    constraints: {
+      MinLength: 1
+    },
     type: {
       name: "String"
     }
@@ -221,6 +234,19 @@ export const topicName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "topicName",
+    constraints: {
+      MinLength: 1
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const virtualNetworkRuleName: msRest.OperationURLParameter = {
+  parameterPath: "virtualNetworkRuleName",
+  mapper: {
+    required: true,
+    serializedName: "virtualNetworkRuleName",
     constraints: {
       MinLength: 1
     },

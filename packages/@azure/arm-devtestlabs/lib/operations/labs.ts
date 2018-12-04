@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/labsMappers";
 import * as Parameters from "../models/parameters";
@@ -42,7 +42,7 @@ export class Labs {
    * @param callback The callback
    */
   listBySubscription(options: Models.LabsListBySubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.LabList>): void;
-  listBySubscription(options?: Models.LabsListBySubscriptionOptionalParams | msRest.ServiceCallback<Models.LabList>, callback?: msRest.ServiceCallback<Models.LabList>): Promise<Models.LabsListBySubscriptionResponse> {
+  listBySubscription(options?: Models.LabsListBySubscriptionOptionalParams, callback?: msRest.ServiceCallback<Models.LabList>): Promise<Models.LabsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -69,7 +69,7 @@ export class Labs {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: Models.LabsListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.LabList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.LabsListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.LabList>, callback?: msRest.ServiceCallback<Models.LabList>): Promise<Models.LabsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: Models.LabsListByResourceGroupOptionalParams, callback?: msRest.ServiceCallback<Models.LabList>): Promise<Models.LabsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -100,7 +100,7 @@ export class Labs {
    * @param callback The callback
    */
   get(resourceGroupName: string, name: string, options: Models.LabsGetOptionalParams, callback: msRest.ServiceCallback<Models.Lab>): void;
-  get(resourceGroupName: string, name: string, options?: Models.LabsGetOptionalParams | msRest.ServiceCallback<Models.Lab>, callback?: msRest.ServiceCallback<Models.Lab>): Promise<Models.LabsGetResponse> {
+  get(resourceGroupName: string, name: string, options?: Models.LabsGetOptionalParams, callback?: msRest.ServiceCallback<Models.Lab>): Promise<Models.LabsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -160,7 +160,7 @@ export class Labs {
    * @param callback The callback
    */
   update(resourceGroupName: string, name: string, lab: Models.LabFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Lab>): void;
-  update(resourceGroupName: string, name: string, lab: Models.LabFragment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Lab>, callback?: msRest.ServiceCallback<Models.Lab>): Promise<Models.LabsUpdateResponse> {
+  update(resourceGroupName: string, name: string, lab: Models.LabFragment, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Lab>): Promise<Models.LabsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -236,7 +236,7 @@ export class Labs {
    * @param callback The callback
    */
   generateUploadUri(resourceGroupName: string, name: string, generateUploadUriParameter: Models.GenerateUploadUriParameter, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GenerateUploadUriResponse>): void;
-  generateUploadUri(resourceGroupName: string, name: string, generateUploadUriParameter: Models.GenerateUploadUriParameter, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GenerateUploadUriResponse>, callback?: msRest.ServiceCallback<Models.GenerateUploadUriResponse>): Promise<Models.LabsGenerateUploadUriResponse> {
+  generateUploadUri(resourceGroupName: string, name: string, generateUploadUriParameter: Models.GenerateUploadUriParameter, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.GenerateUploadUriResponse>): Promise<Models.LabsGenerateUploadUriResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -283,7 +283,7 @@ export class Labs {
    * @param callback The callback
    */
   listVhds(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LabVhdList>): void;
-  listVhds(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LabVhdList>, callback?: msRest.ServiceCallback<Models.LabVhdList>): Promise<Models.LabsListVhdsResponse> {
+  listVhds(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LabVhdList>): Promise<Models.LabsListVhdsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -431,7 +431,7 @@ export class Labs {
    * @param callback The callback
    */
   listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LabList>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LabList>, callback?: msRest.ServiceCallback<Models.LabList>): Promise<Models.LabsListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LabList>): Promise<Models.LabsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -459,7 +459,7 @@ export class Labs {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LabList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LabList>, callback?: msRest.ServiceCallback<Models.LabList>): Promise<Models.LabsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LabList>): Promise<Models.LabsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -487,7 +487,7 @@ export class Labs {
    * @param callback The callback
    */
   listVhdsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LabVhdList>): void;
-  listVhdsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LabVhdList>, callback?: msRest.ServiceCallback<Models.LabVhdList>): Promise<Models.LabsListVhdsNextResponse> {
+  listVhdsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LabVhdList>): Promise<Models.LabsListVhdsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

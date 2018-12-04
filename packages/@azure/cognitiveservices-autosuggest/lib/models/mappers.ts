@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 
 export const ResponseBase: msRest.CompositeMapper = {
@@ -84,6 +84,8 @@ export const Response: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+              uberParent: "ResponseBase",
               className: "Action"
             }
           }
@@ -97,6 +99,8 @@ export const Response: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+              uberParent: "ResponseBase",
               className: "Action"
             }
           }
@@ -164,6 +168,8 @@ export const CreativeWork: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+              uberParent: "ResponseBase",
               className: "Thing"
             }
           }
@@ -177,6 +183,8 @@ export const CreativeWork: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+              uberParent: "ResponseBase",
               className: "Thing"
             }
           }
@@ -190,6 +198,8 @@ export const CreativeWork: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+              uberParent: "ResponseBase",
               className: "Thing"
             }
           }
@@ -200,6 +210,8 @@ export const CreativeWork: msRest.CompositeMapper = {
         serializedName: "creator",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+          uberParent: "ResponseBase",
           className: "Thing"
         }
       },
@@ -229,6 +241,8 @@ export const CreativeWork: msRest.CompositeMapper = {
         serializedName: "mainEntity",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+          uberParent: "ResponseBase",
           className: "Thing"
         }
       },
@@ -244,6 +258,8 @@ export const CreativeWork: msRest.CompositeMapper = {
         serializedName: "copyrightHolder",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+          uberParent: "ResponseBase",
           className: "Thing"
         }
       },
@@ -308,6 +324,8 @@ export const Action: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+              uberParent: "ResponseBase",
               className: "Thing"
             }
           }
@@ -400,6 +418,8 @@ export const SuggestionsSuggestionGroup: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: ResponseBase.type.polymorphicDiscriminator,
+              uberParent: "ResponseBase",
               className: "SearchAction"
             }
           }
@@ -443,6 +463,11 @@ export const SearchResultsAnswer: msRest.CompositeMapper = {
         serializedName: "queryContext",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "_type",
+            clientName: "_type"
+          },
+          uberParent: "QueryContext",
           className: "QueryContext"
         }
       }
@@ -467,6 +492,11 @@ export const Suggestions: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "_type",
+                clientName: "_type"
+              },
+              uberParent: "SuggestionsSuggestionGroup",
               className: "SuggestionsSuggestionGroup"
             }
           }
@@ -615,6 +645,11 @@ export const ErrorResponse: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "_type",
+                clientName: "_type"
+              },
+              uberParent: "ErrorModel",
               className: "ErrorModel"
             }
           }

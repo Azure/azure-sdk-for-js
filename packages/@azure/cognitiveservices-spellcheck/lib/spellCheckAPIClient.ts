@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
@@ -57,7 +57,7 @@ class SpellCheckAPIClient extends SpellCheckAPIClientContext {
    * @param callback The callback
    */
   spellChecker(text: string, options: Models.SpellCheckAPIClientSpellCheckerOptionalParams, callback: msRest.ServiceCallback<Models.SpellCheck>): void;
-  spellChecker(text: string, options?: Models.SpellCheckAPIClientSpellCheckerOptionalParams | msRest.ServiceCallback<Models.SpellCheck>, callback?: msRest.ServiceCallback<Models.SpellCheck>): Promise<Models.SpellCheckerResponse> {
+  spellChecker(text: string, options?: Models.SpellCheckAPIClientSpellCheckerOptionalParams, callback?: msRest.ServiceCallback<Models.SpellCheck>): Promise<Models.SpellCheckerResponse> {
     return this.sendOperationRequest(
       {
         text,
@@ -72,10 +72,7 @@ class SpellCheckAPIClient extends SpellCheckAPIClientContext {
 const serializer = new msRest.Serializer(Mappers);
 const spellCheckerOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "spellcheck",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  path: "bing/v7.0/spellcheck",
   queryParameters: [
     Parameters.actionType,
     Parameters.appName,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/collectionPartitionMappers";
 import * as Parameters from "../models/parameters";
@@ -63,7 +63,7 @@ export class CollectionPartition {
    * @param callback The callback
    */
   listMetrics(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PartitionMetricListResult>): void;
-  listMetrics(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PartitionMetricListResult>, callback?: msRest.ServiceCallback<Models.PartitionMetricListResult>): Promise<Models.CollectionPartitionListMetricsResponse> {
+  listMetrics(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, filter: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PartitionMetricListResult>): Promise<Models.CollectionPartitionListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -104,7 +104,7 @@ export class CollectionPartition {
    * @param callback The callback
    */
   listUsages(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, options: Models.CollectionPartitionListUsagesOptionalParams, callback: msRest.ServiceCallback<Models.PartitionUsagesResult>): void;
-  listUsages(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, options?: Models.CollectionPartitionListUsagesOptionalParams | msRest.ServiceCallback<Models.PartitionUsagesResult>, callback?: msRest.ServiceCallback<Models.PartitionUsagesResult>): Promise<Models.CollectionPartitionListUsagesResponse> {
+  listUsages(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, options?: Models.CollectionPartitionListUsagesOptionalParams, callback?: msRest.ServiceCallback<Models.PartitionUsagesResult>): Promise<Models.CollectionPartitionListUsagesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/discoveredSecuritySolutionsMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class DiscoveredSecuritySolutions {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiscoveredSecuritySolutionList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiscoveredSecuritySolutionList>, callback?: msRest.ServiceCallback<Models.DiscoveredSecuritySolutionList>): Promise<Models.DiscoveredSecuritySolutionsListResponse> {
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DiscoveredSecuritySolutionList>): Promise<Models.DiscoveredSecuritySolutionsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -65,7 +65,7 @@ export class DiscoveredSecuritySolutions {
    * @param callback The callback
    */
   listByHomeRegion(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiscoveredSecuritySolutionList>): void;
-  listByHomeRegion(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiscoveredSecuritySolutionList>, callback?: msRest.ServiceCallback<Models.DiscoveredSecuritySolutionList>): Promise<Models.DiscoveredSecuritySolutionsListByHomeRegionResponse> {
+  listByHomeRegion(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DiscoveredSecuritySolutionList>): Promise<Models.DiscoveredSecuritySolutionsListByHomeRegionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -98,7 +98,7 @@ export class DiscoveredSecuritySolutions {
    * @param callback The callback
    */
   get(resourceGroupName: string, discoveredSecuritySolutionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiscoveredSecuritySolution>): void;
-  get(resourceGroupName: string, discoveredSecuritySolutionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiscoveredSecuritySolution>, callback?: msRest.ServiceCallback<Models.DiscoveredSecuritySolution>): Promise<Models.DiscoveredSecuritySolutionsGetResponse> {
+  get(resourceGroupName: string, discoveredSecuritySolutionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DiscoveredSecuritySolution>): Promise<Models.DiscoveredSecuritySolutionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -127,7 +127,7 @@ export class DiscoveredSecuritySolutions {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiscoveredSecuritySolutionList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiscoveredSecuritySolutionList>, callback?: msRest.ServiceCallback<Models.DiscoveredSecuritySolutionList>): Promise<Models.DiscoveredSecuritySolutionsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DiscoveredSecuritySolutionList>): Promise<Models.DiscoveredSecuritySolutionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -155,7 +155,7 @@ export class DiscoveredSecuritySolutions {
    * @param callback The callback
    */
   listByHomeRegionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiscoveredSecuritySolutionList>): void;
-  listByHomeRegionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiscoveredSecuritySolutionList>, callback?: msRest.ServiceCallback<Models.DiscoveredSecuritySolutionList>): Promise<Models.DiscoveredSecuritySolutionsListByHomeRegionNextResponse> {
+  listByHomeRegionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DiscoveredSecuritySolutionList>): Promise<Models.DiscoveredSecuritySolutionsListByHomeRegionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

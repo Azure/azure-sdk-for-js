@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/testJobOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -53,7 +53,7 @@ export class TestJobOperations {
    * @param callback The callback
    */
   create(resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: Models.TestJobCreateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TestJob>): void;
-  create(resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: Models.TestJobCreateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TestJob>, callback?: msRest.ServiceCallback<Models.TestJob>): Promise<Models.TestJobCreateResponse> {
+  create(resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: Models.TestJobCreateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TestJob>): Promise<Models.TestJobCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -90,7 +90,7 @@ export class TestJobOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, automationAccountName: string, runbookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TestJob>): void;
-  get(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TestJob>, callback?: msRest.ServiceCallback<Models.TestJob>): Promise<Models.TestJobGetResponse> {
+  get(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TestJob>): Promise<Models.TestJobGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -126,7 +126,7 @@ export class TestJobOperations {
    * @param callback The callback
    */
   resume(resourceGroupName: string, automationAccountName: string, runbookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  resume(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  resume(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -162,7 +162,7 @@ export class TestJobOperations {
    * @param callback The callback
    */
   stop(resourceGroupName: string, automationAccountName: string, runbookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  stop(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  stop(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -198,7 +198,7 @@ export class TestJobOperations {
    * @param callback The callback
    */
   suspend(resourceGroupName: string, automationAccountName: string, runbookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  suspend(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  suspend(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

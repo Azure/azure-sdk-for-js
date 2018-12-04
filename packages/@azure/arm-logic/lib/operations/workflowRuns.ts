@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/workflowRunsMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class WorkflowRuns {
    * @param callback The callback
    */
   list(resourceGroupName: string, workflowName: string, options: Models.WorkflowRunsListOptionalParams, callback: msRest.ServiceCallback<Models.WorkflowRunListResult>): void;
-  list(resourceGroupName: string, workflowName: string, options?: Models.WorkflowRunsListOptionalParams | msRest.ServiceCallback<Models.WorkflowRunListResult>, callback?: msRest.ServiceCallback<Models.WorkflowRunListResult>): Promise<Models.WorkflowRunsListResponse> {
+  list(resourceGroupName: string, workflowName: string, options?: Models.WorkflowRunsListOptionalParams, callback?: msRest.ServiceCallback<Models.WorkflowRunListResult>): Promise<Models.WorkflowRunsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class WorkflowRuns {
    * @param callback The callback
    */
   get(resourceGroupName: string, workflowName: string, runName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkflowRun>): void;
-  get(resourceGroupName: string, workflowName: string, runName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowRun>, callback?: msRest.ServiceCallback<Models.WorkflowRun>): Promise<Models.WorkflowRunsGetResponse> {
+  get(resourceGroupName: string, workflowName: string, runName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkflowRun>): Promise<Models.WorkflowRunsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -118,7 +118,7 @@ export class WorkflowRuns {
    * @param callback The callback
    */
   cancel(resourceGroupName: string, workflowName: string, runName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  cancel(resourceGroupName: string, workflowName: string, runName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  cancel(resourceGroupName: string, workflowName: string, runName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -148,7 +148,7 @@ export class WorkflowRuns {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkflowRunListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowRunListResult>, callback?: msRest.ServiceCallback<Models.WorkflowRunListResult>): Promise<Models.WorkflowRunsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkflowRunListResult>): Promise<Models.WorkflowRunsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

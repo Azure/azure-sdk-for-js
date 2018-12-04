@@ -1,34 +1,24 @@
-## Azure SqlManagementClient SDK for JavaScript
-
+# Azure SqlManagementClient SDK for JavaScript
 This package contains an isomorphic SDK for SqlManagementClient.
 
-### Currently supported environments
-
+## Currently supported environments
 - Node.js version 6.x.x or higher
 - Browser JavaScript
 
-### How to Install
-
+## How to Install
 ```
 npm install @azure/arm-sql
 ```
 
-### How to use
 
-#### nodejs - Authentication, client creation and get recoverableDatabases as an example written in TypeScript.
+## How to use
 
-##### Install @azure/ms-rest-nodeauth
-
-```
-npm install @azure/ms-rest-nodeauth
-```
-
-##### Sample code
+### nodejs - Authentication, client creation and get recoverableDatabases as an example written in TypeScript.
 
 ```ts
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
+import * as msRestNodeAuth from "ms-rest-nodeauth";
 import { SqlManagementClient, SqlManagementModels, SqlManagementMappers } from "@azure/arm-sql";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
@@ -46,16 +36,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and get recoverableDatabases as an example written in JavaScript.
-
-##### Install @azure/ms-rest-browserauth
-
-```
-npm install @azure/ms-rest-browserauth
-```
-
-##### Sample code
-
+### browser - Authentication, client creation and get recoverableDatabases as an example written in JavaScript.
 See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
@@ -64,11 +45,11 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 <html lang="en">
   <head>
     <title>@azure/arm-sql sample</title>
-    <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
-    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
+    <script src="node_modules/ms-rest-js/dist/msRest.browser.js"></script>
+    <script src="node_modules/ms-rest-azure-js/dist/msRestAzure.js"></script>
+    <script src="node_modules/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/arm-sql/dist/arm-sql.js"></script>
-    <script type="text/javascript">
+    <script>
       const subscriptionId = "<Subscription_Id>";
       const authManager = new msAuth.AuthManager({
         clientId: "<client id for your Azure AD app>",
@@ -93,10 +74,10 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
       });
     </script>
   </head>
-  <body></body>
+  <body>
+  </body>
 </html>
 ```
 
-## Related projects
-
-- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
+# Related projects
+ - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)

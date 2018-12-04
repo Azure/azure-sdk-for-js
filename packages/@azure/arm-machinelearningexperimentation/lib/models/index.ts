@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -460,11 +460,18 @@ export interface ProjectListResult extends Array<Project> {
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Creating', 'Succeeded', 'Updating', 'Deleting', 'Failed'
+ * Possible values include: 'Creating', 'Succeeded', 'Updating', 'Deleting',
+ * 'Failed'
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Creating' | 'Succeeded' | 'Updating' | 'Deleting' | 'Failed';
+export enum ProvisioningState {
+  Creating = 'Creating',
+  Succeeded = 'Succeeded',
+  Updating = 'Updating',
+  Deleting = 'Deleting',
+  Failed = 'Failed',
+}
 
 /**
  * Contains response data for the list operation.

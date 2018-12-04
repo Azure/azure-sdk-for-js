@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/jobsMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class Jobs {
    * @param callback The callback
    */
   exportMethod(vaultName: string, resourceGroupName: string, options: Models.JobsExportMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  exportMethod(vaultName: string, resourceGroupName: string, options?: Models.JobsExportMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  exportMethod(vaultName: string, resourceGroupName: string, options?: Models.JobsExportMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,

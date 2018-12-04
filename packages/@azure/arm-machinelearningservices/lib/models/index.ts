@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -1131,12 +1131,25 @@ export interface PaginatedComputeResourcesList extends Array<ComputeResource> {
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Unknown', 'Updating', 'Creating', 'Deleting', 'Succeeded', 'Failed',
- * 'Canceled'
+ * Possible values include: 'Unknown', 'Updating', 'Creating', 'Deleting',
+ * 'Succeeded', 'Failed', 'Canceled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ProvisioningState =
+ * <ProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Unknown' | 'Updating' | 'Creating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled';
+export enum ProvisioningState {
+  Unknown = 'Unknown',
+  Updating = 'Updating',
+  Creating = 'Creating',
+  Deleting = 'Deleting',
+  Succeeded = 'Succeeded',
+  Failed = 'Failed',
+  Canceled = 'Canceled',
+}
 
 /**
  * Defines values for ResourceIdentityType.
@@ -1144,23 +1157,44 @@ export type ProvisioningState = 'Unknown' | 'Updating' | 'Creating' | 'Deleting'
  * @readonly
  * @enum {string}
  */
-export type ResourceIdentityType = 'SystemAssigned';
+export enum ResourceIdentityType {
+  SystemAssigned = 'SystemAssigned',
+}
 
 /**
  * Defines values for ComputeType.
- * Possible values include: 'AKS', 'BatchAI', 'DataFactory', 'VirtualMachine', 'HDInsight'
+ * Possible values include: 'AKS', 'BatchAI', 'DataFactory', 'VirtualMachine',
+ * 'HDInsight'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ComputeType =
+ * <ComputeType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ComputeType = 'AKS' | 'BatchAI' | 'DataFactory' | 'VirtualMachine' | 'HDInsight';
+export enum ComputeType {
+  AKS = 'AKS',
+  BatchAI = 'BatchAI',
+  DataFactory = 'DataFactory',
+  VirtualMachine = 'VirtualMachine',
+  HDInsight = 'HDInsight',
+}
 
 /**
  * Defines values for Status.
  * Possible values include: 'Disabled', 'Enabled'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Status = <Status>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type Status = 'Disabled' | 'Enabled';
+export enum Status {
+  Disabled = 'Disabled',
+  Enabled = 'Enabled',
+}
 
 /**
  * Contains response data for the list operation.

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/newsOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -63,7 +63,7 @@ export class NewsOperations {
    * @param callback The callback
    */
   search(query: string, options: Models.NewsSearchOptionalParams, callback: msRest.ServiceCallback<Models.News>): void;
-  search(query: string, options?: Models.NewsSearchOptionalParams | msRest.ServiceCallback<Models.News>, callback?: msRest.ServiceCallback<Models.News>): Promise<Models.NewsSearchResponse> {
+  search(query: string, options?: Models.NewsSearchOptionalParams, callback?: msRest.ServiceCallback<Models.News>): Promise<Models.NewsSearchResponse> {
     return this.client.sendOperationRequest(
       {
         query,
@@ -92,7 +92,7 @@ export class NewsOperations {
    * @param callback The callback
    */
   category(options: Models.NewsCategoryOptionalParams, callback: msRest.ServiceCallback<Models.News>): void;
-  category(options?: Models.NewsCategoryOptionalParams | msRest.ServiceCallback<Models.News>, callback?: msRest.ServiceCallback<Models.News>): Promise<Models.NewsCategoryResponse> {
+  category(options?: Models.NewsCategoryOptionalParams, callback?: msRest.ServiceCallback<Models.News>): Promise<Models.NewsCategoryResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -121,7 +121,7 @@ export class NewsOperations {
    * @param callback The callback
    */
   trending(options: Models.NewsTrendingOptionalParams, callback: msRest.ServiceCallback<Models.TrendingTopics>): void;
-  trending(options?: Models.NewsTrendingOptionalParams | msRest.ServiceCallback<Models.TrendingTopics>, callback?: msRest.ServiceCallback<Models.TrendingTopics>): Promise<Models.NewsTrendingResponse> {
+  trending(options?: Models.NewsTrendingOptionalParams, callback?: msRest.ServiceCallback<Models.TrendingTopics>): Promise<Models.NewsTrendingResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -135,10 +135,7 @@ export class NewsOperations {
 const serializer = new msRest.Serializer(Mappers);
 const searchOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "news/search",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  path: "bing/v7.0/news/search",
   queryParameters: [
     Parameters.countryCode,
     Parameters.count,
@@ -174,10 +171,7 @@ const searchOperationSpec: msRest.OperationSpec = {
 
 const categoryOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "news",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  path: "bing/v7.0/news",
   queryParameters: [
     Parameters.countryCode,
     Parameters.category,
@@ -212,10 +206,7 @@ const categoryOperationSpec: msRest.OperationSpec = {
 
 const trendingOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "news/trendingtopics",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  path: "bing/v7.0/news/trendingtopics",
   queryParameters: [
     Parameters.countryCode,
     Parameters.count,

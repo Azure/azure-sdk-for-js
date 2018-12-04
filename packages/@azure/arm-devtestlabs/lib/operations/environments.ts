@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/environmentsMappers";
 import * as Parameters from "../models/parameters";
@@ -51,7 +51,7 @@ export class Environments {
    * @param callback The callback
    */
   list(resourceGroupName: string, labName: string, userName: string, options: Models.EnvironmentsListOptionalParams, callback: msRest.ServiceCallback<Models.DtlEnvironmentList>): void;
-  list(resourceGroupName: string, labName: string, userName: string, options?: Models.EnvironmentsListOptionalParams | msRest.ServiceCallback<Models.DtlEnvironmentList>, callback?: msRest.ServiceCallback<Models.DtlEnvironmentList>): Promise<Models.EnvironmentsListResponse> {
+  list(resourceGroupName: string, labName: string, userName: string, options?: Models.EnvironmentsListOptionalParams, callback?: msRest.ServiceCallback<Models.DtlEnvironmentList>): Promise<Models.EnvironmentsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -90,7 +90,7 @@ export class Environments {
    * @param callback The callback
    */
   get(resourceGroupName: string, labName: string, userName: string, name: string, options: Models.EnvironmentsGetOptionalParams, callback: msRest.ServiceCallback<Models.DtlEnvironment>): void;
-  get(resourceGroupName: string, labName: string, userName: string, name: string, options?: Models.EnvironmentsGetOptionalParams | msRest.ServiceCallback<Models.DtlEnvironment>, callback?: msRest.ServiceCallback<Models.DtlEnvironment>): Promise<Models.EnvironmentsGetResponse> {
+  get(resourceGroupName: string, labName: string, userName: string, name: string, options?: Models.EnvironmentsGetOptionalParams, callback?: msRest.ServiceCallback<Models.DtlEnvironment>): Promise<Models.EnvironmentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -162,7 +162,7 @@ export class Environments {
    * @param callback The callback
    */
   update(resourceGroupName: string, labName: string, userName: string, name: string, dtlEnvironment: Models.DtlEnvironmentFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DtlEnvironment>): void;
-  update(resourceGroupName: string, labName: string, userName: string, name: string, dtlEnvironment: Models.DtlEnvironmentFragment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DtlEnvironment>, callback?: msRest.ServiceCallback<Models.DtlEnvironment>): Promise<Models.EnvironmentsUpdateResponse> {
+  update(resourceGroupName: string, labName: string, userName: string, name: string, dtlEnvironment: Models.DtlEnvironmentFragment, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DtlEnvironment>): Promise<Models.EnvironmentsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -240,7 +240,7 @@ export class Environments {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DtlEnvironmentList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DtlEnvironmentList>, callback?: msRest.ServiceCallback<Models.DtlEnvironmentList>): Promise<Models.EnvironmentsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DtlEnvironmentList>): Promise<Models.EnvironmentsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

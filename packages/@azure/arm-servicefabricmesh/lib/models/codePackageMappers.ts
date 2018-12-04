@@ -11,8 +11,6 @@
 export {
   discriminators,
   ContainerLogs,
-  ErrorModel,
-  ErrorErrorModel,
-  ErrorDetailsModel
+  ErrorModel
 } from "../models/mappers";
 

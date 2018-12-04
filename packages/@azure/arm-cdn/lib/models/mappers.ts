@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
@@ -461,6 +461,11 @@ export const DeliveryRule: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "name",
+                clientName: "name"
+              },
+              uberParent: "DeliveryRuleAction",
               className: "DeliveryRuleAction"
             }
           }
@@ -473,6 +478,11 @@ export const DeliveryRule: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "name",
+                clientName: "name"
+              },
+              uberParent: "DeliveryRuleCondition",
               className: "DeliveryRuleCondition"
             }
           }

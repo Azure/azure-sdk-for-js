@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/snapshotsMappers";
 import * as Parameters from "../models/parameters";
@@ -84,7 +84,7 @@ export class Snapshots {
    * @param callback The callback
    */
   get(resourceGroupName: string, snapshotName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Snapshot>): void;
-  get(resourceGroupName: string, snapshotName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Snapshot>, callback?: msRest.ServiceCallback<Models.Snapshot>): Promise<Models.SnapshotsGetResponse> {
+  get(resourceGroupName: string, snapshotName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Snapshot>): Promise<Models.SnapshotsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -127,7 +127,7 @@ export class Snapshots {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SnapshotList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SnapshotList>, callback?: msRest.ServiceCallback<Models.SnapshotList>): Promise<Models.SnapshotsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SnapshotList>): Promise<Models.SnapshotsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -152,7 +152,7 @@ export class Snapshots {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SnapshotList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SnapshotList>, callback?: msRest.ServiceCallback<Models.SnapshotList>): Promise<Models.SnapshotsListResponse> {
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SnapshotList>): Promise<Models.SnapshotsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -316,7 +316,7 @@ export class Snapshots {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SnapshotList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SnapshotList>, callback?: msRest.ServiceCallback<Models.SnapshotList>): Promise<Models.SnapshotsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SnapshotList>): Promise<Models.SnapshotsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -344,7 +344,7 @@ export class Snapshots {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SnapshotList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SnapshotList>, callback?: msRest.ServiceCallback<Models.SnapshotList>): Promise<Models.SnapshotsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SnapshotList>): Promise<Models.SnapshotsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -9,11 +9,11 @@
  */
 
 import * as Models from "./models";
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 
 const packageName = "@azure/arm-containerinstance";
-const packageVersion = "0.1.0";
+const packageVersion = "1.0.0";
 
 export class ContainerInstanceManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;

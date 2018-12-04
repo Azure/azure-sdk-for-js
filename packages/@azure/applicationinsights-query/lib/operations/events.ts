@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/eventsMappers";
 import * as Parameters from "../models/parameters";
@@ -63,7 +63,7 @@ export class Events {
    * @param callback The callback
    */
   getByType(appId: string, eventType: Models.EventType, options: Models.EventsGetByTypeOptionalParams, callback: msRest.ServiceCallback<Models.EventsResults>): void;
-  getByType(appId: string, eventType: Models.EventType, options?: Models.EventsGetByTypeOptionalParams | msRest.ServiceCallback<Models.EventsResults>, callback?: msRest.ServiceCallback<Models.EventsResults>): Promise<Models.EventsGetByTypeResponse> {
+  getByType(appId: string, eventType: Models.EventType, options?: Models.EventsGetByTypeOptionalParams, callback?: msRest.ServiceCallback<Models.EventsResults>): Promise<Models.EventsGetByTypeResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -114,7 +114,7 @@ export class Events {
    * @param callback The callback
    */
   get(appId: string, eventType: Models.EventType, eventId: string, options: Models.EventsGetOptionalParams, callback: msRest.ServiceCallback<Models.EventsResults>): void;
-  get(appId: string, eventType: Models.EventType, eventId: string, options?: Models.EventsGetOptionalParams | msRest.ServiceCallback<Models.EventsResults>, callback?: msRest.ServiceCallback<Models.EventsResults>): Promise<Models.EventsGetResponse> {
+  get(appId: string, eventType: Models.EventType, eventId: string, options?: Models.EventsGetOptionalParams, callback?: msRest.ServiceCallback<Models.EventsResults>): Promise<Models.EventsGetResponse> {
     return this.client.sendOperationRequest(
       {
         appId,

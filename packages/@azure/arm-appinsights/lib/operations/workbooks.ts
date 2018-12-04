@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/workbooksMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class Workbooks {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, category: Models.CategoryType, options: Models.WorkbooksListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.WorkbooksListResult>): void;
-  listByResourceGroup(resourceGroupName: string, category: Models.CategoryType, options?: Models.WorkbooksListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.WorkbooksListResult>, callback?: msRest.ServiceCallback<Models.WorkbooksListResult>): Promise<Models.WorkbooksListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, category: Models.CategoryType, options?: Models.WorkbooksListByResourceGroupOptionalParams, callback?: msRest.ServiceCallback<Models.WorkbooksListResult>): Promise<Models.WorkbooksListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class Workbooks {
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Workbook>): void;
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workbook>, callback?: msRest.ServiceCallback<Models.Workbook>): Promise<Models.WorkbooksGetResponse> {
+  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Workbook>): Promise<Models.WorkbooksGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -114,7 +114,7 @@ export class Workbooks {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -149,7 +149,7 @@ export class Workbooks {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, resourceName: string, workbookProperties: Models.Workbook, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Workbook>): void;
-  createOrUpdate(resourceGroupName: string, resourceName: string, workbookProperties: Models.Workbook, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workbook>, callback?: msRest.ServiceCallback<Models.Workbook>): Promise<Models.WorkbooksCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, resourceName: string, workbookProperties: Models.Workbook, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Workbook>): Promise<Models.WorkbooksCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -185,7 +185,7 @@ export class Workbooks {
    * @param callback The callback
    */
   update(resourceGroupName: string, resourceName: string, workbookProperties: Models.Workbook, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Workbook>): void;
-  update(resourceGroupName: string, resourceName: string, workbookProperties: Models.Workbook, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workbook>, callback?: msRest.ServiceCallback<Models.Workbook>): Promise<Models.WorkbooksUpdateResponse> {
+  update(resourceGroupName: string, resourceName: string, workbookProperties: Models.Workbook, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Workbook>): Promise<Models.WorkbooksUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

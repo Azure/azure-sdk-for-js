@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/machinesMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class Machines {
    * @param callback The callback
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, options: Models.MachinesListByWorkspaceOptionalParams, callback: msRest.ServiceCallback<Models.MachineCollection>): void;
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: Models.MachinesListByWorkspaceOptionalParams | msRest.ServiceCallback<Models.MachineCollection>, callback?: msRest.ServiceCallback<Models.MachineCollection>): Promise<Models.MachinesListByWorkspaceResponse> {
+  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: Models.MachinesListByWorkspaceOptionalParams, callback?: msRest.ServiceCallback<Models.MachineCollection>): Promise<Models.MachinesListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -85,7 +85,7 @@ export class Machines {
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, machineName: string, options: Models.MachinesGetOptionalParams, callback: msRest.ServiceCallback<Models.Machine>): void;
-  get(resourceGroupName: string, workspaceName: string, machineName: string, options?: Models.MachinesGetOptionalParams | msRest.ServiceCallback<Models.Machine>, callback?: msRest.ServiceCallback<Models.Machine>): Promise<Models.MachinesGetResponse> {
+  get(resourceGroupName: string, workspaceName: string, machineName: string, options?: Models.MachinesGetOptionalParams, callback?: msRest.ServiceCallback<Models.Machine>): Promise<Models.MachinesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -121,7 +121,7 @@ export class Machines {
    * @param callback The callback
    */
   getLiveness(resourceGroupName: string, workspaceName: string, machineName: string, options: Models.MachinesGetLivenessOptionalParams, callback: msRest.ServiceCallback<Models.Liveness>): void;
-  getLiveness(resourceGroupName: string, workspaceName: string, machineName: string, options?: Models.MachinesGetLivenessOptionalParams | msRest.ServiceCallback<Models.Liveness>, callback?: msRest.ServiceCallback<Models.Liveness>): Promise<Models.MachinesGetLivenessResponse> {
+  getLiveness(resourceGroupName: string, workspaceName: string, machineName: string, options?: Models.MachinesGetLivenessOptionalParams, callback?: msRest.ServiceCallback<Models.Liveness>): Promise<Models.MachinesGetLivenessResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -157,7 +157,7 @@ export class Machines {
    * @param callback The callback
    */
   listConnections(resourceGroupName: string, workspaceName: string, machineName: string, options: Models.MachinesListConnectionsOptionalParams, callback: msRest.ServiceCallback<Models.ConnectionCollection>): void;
-  listConnections(resourceGroupName: string, workspaceName: string, machineName: string, options?: Models.MachinesListConnectionsOptionalParams | msRest.ServiceCallback<Models.ConnectionCollection>, callback?: msRest.ServiceCallback<Models.ConnectionCollection>): Promise<Models.MachinesListConnectionsResponse> {
+  listConnections(resourceGroupName: string, workspaceName: string, machineName: string, options?: Models.MachinesListConnectionsOptionalParams, callback?: msRest.ServiceCallback<Models.ConnectionCollection>): Promise<Models.MachinesListConnectionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -197,7 +197,7 @@ export class Machines {
    * @param callback The callback
    */
   listProcesses(resourceGroupName: string, workspaceName: string, machineName: string, options: Models.MachinesListProcessesOptionalParams, callback: msRest.ServiceCallback<Models.ProcessCollection>): void;
-  listProcesses(resourceGroupName: string, workspaceName: string, machineName: string, options?: Models.MachinesListProcessesOptionalParams | msRest.ServiceCallback<Models.ProcessCollection>, callback?: msRest.ServiceCallback<Models.ProcessCollection>): Promise<Models.MachinesListProcessesResponse> {
+  listProcesses(resourceGroupName: string, workspaceName: string, machineName: string, options?: Models.MachinesListProcessesOptionalParams, callback?: msRest.ServiceCallback<Models.ProcessCollection>): Promise<Models.MachinesListProcessesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -233,7 +233,7 @@ export class Machines {
    * @param callback The callback
    */
   listPorts(resourceGroupName: string, workspaceName: string, machineName: string, options: Models.MachinesListPortsOptionalParams, callback: msRest.ServiceCallback<Models.PortCollection>): void;
-  listPorts(resourceGroupName: string, workspaceName: string, machineName: string, options?: Models.MachinesListPortsOptionalParams | msRest.ServiceCallback<Models.PortCollection>, callback?: msRest.ServiceCallback<Models.PortCollection>): Promise<Models.MachinesListPortsResponse> {
+  listPorts(resourceGroupName: string, workspaceName: string, machineName: string, options?: Models.MachinesListPortsOptionalParams, callback?: msRest.ServiceCallback<Models.PortCollection>): Promise<Models.MachinesListPortsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -270,7 +270,7 @@ export class Machines {
    * @param callback The callback
    */
   listMachineGroupMembership(resourceGroupName: string, workspaceName: string, machineName: string, options: Models.MachinesListMachineGroupMembershipOptionalParams, callback: msRest.ServiceCallback<Models.MachineGroupCollection>): void;
-  listMachineGroupMembership(resourceGroupName: string, workspaceName: string, machineName: string, options?: Models.MachinesListMachineGroupMembershipOptionalParams | msRest.ServiceCallback<Models.MachineGroupCollection>, callback?: msRest.ServiceCallback<Models.MachineGroupCollection>): Promise<Models.MachinesListMachineGroupMembershipResponse> {
+  listMachineGroupMembership(resourceGroupName: string, workspaceName: string, machineName: string, options?: Models.MachinesListMachineGroupMembershipOptionalParams, callback?: msRest.ServiceCallback<Models.MachineGroupCollection>): Promise<Models.MachinesListMachineGroupMembershipResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -303,7 +303,7 @@ export class Machines {
    * @param callback The callback
    */
   listByWorkspaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MachineCollection>): void;
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MachineCollection>, callback?: msRest.ServiceCallback<Models.MachineCollection>): Promise<Models.MachinesListByWorkspaceNextResponse> {
+  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MachineCollection>): Promise<Models.MachinesListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -331,7 +331,7 @@ export class Machines {
    * @param callback The callback
    */
   listConnectionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectionCollection>): void;
-  listConnectionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionCollection>, callback?: msRest.ServiceCallback<Models.ConnectionCollection>): Promise<Models.MachinesListConnectionsNextResponse> {
+  listConnectionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ConnectionCollection>): Promise<Models.MachinesListConnectionsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -363,7 +363,7 @@ export class Machines {
    * @param callback The callback
    */
   listProcessesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProcessCollection>): void;
-  listProcessesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProcessCollection>, callback?: msRest.ServiceCallback<Models.ProcessCollection>): Promise<Models.MachinesListProcessesNextResponse> {
+  listProcessesNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProcessCollection>): Promise<Models.MachinesListProcessesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -391,7 +391,7 @@ export class Machines {
    * @param callback The callback
    */
   listPortsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PortCollection>): void;
-  listPortsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PortCollection>, callback?: msRest.ServiceCallback<Models.PortCollection>): Promise<Models.MachinesListPortsNextResponse> {
+  listPortsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PortCollection>): Promise<Models.MachinesListPortsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -420,7 +420,7 @@ export class Machines {
    * @param callback The callback
    */
   listMachineGroupMembershipNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MachineGroupCollection>): void;
-  listMachineGroupMembershipNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MachineGroupCollection>, callback?: msRest.ServiceCallback<Models.MachineGroupCollection>): Promise<Models.MachinesListMachineGroupMembershipNextResponse> {
+  listMachineGroupMembershipNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MachineGroupCollection>): Promise<Models.MachinesListMachineGroupMembershipNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

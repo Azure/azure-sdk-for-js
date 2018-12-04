@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -693,115 +693,234 @@ export interface SignalRUsageList extends Array<SignalRUsage> {
 /**
  * Defines values for SignalRSkuTier.
  * Possible values include: 'Free', 'Basic', 'Standard', 'Premium'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SignalRSkuTier =
+ * <SignalRSkuTier>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SignalRSkuTier = 'Free' | 'Basic' | 'Standard' | 'Premium';
+export enum SignalRSkuTier {
+  Free = 'Free',
+  Basic = 'Basic',
+  Standard = 'Standard',
+  Premium = 'Premium',
+}
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Unknown', 'Succeeded', 'Failed', 'Canceled', 'Running', 'Creating',
- * 'Updating', 'Deleting', 'Moving'
+ * Possible values include: 'Unknown', 'Succeeded', 'Failed', 'Canceled',
+ * 'Running', 'Creating', 'Updating', 'Deleting', 'Moving'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ProvisioningState =
+ * <ProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Unknown' | 'Succeeded' | 'Failed' | 'Canceled' | 'Running' | 'Creating' | 'Updating' | 'Deleting' | 'Moving';
+export enum ProvisioningState {
+  Unknown = 'Unknown',
+  Succeeded = 'Succeeded',
+  Failed = 'Failed',
+  Canceled = 'Canceled',
+  Running = 'Running',
+  Creating = 'Creating',
+  Updating = 'Updating',
+  Deleting = 'Deleting',
+  Moving = 'Moving',
+}
 
 /**
  * Defines values for KeyType.
  * Possible values include: 'Primary', 'Secondary'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: KeyType = <KeyType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type KeyType = 'Primary' | 'Secondary';
+export enum KeyType {
+  Primary = 'Primary',
+  Secondary = 'Secondary',
+}
 
 /**
  * Defines values for ApiVersion.
  * Possible values include: '2018-03-01-preview', '2018-10-01'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ApiVersion = <ApiVersion>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ApiVersion = '2018-03-01-preview' | '2018-10-01';
+export enum ApiVersion {
+  TwoZeroOneEightHyphenMinusZeroThreeHyphenMinusZeroOneHyphenMinuspreview = '2018-03-01-preview',
+  TwoZeroOneEightHyphenMinusOneZeroHyphenMinusZeroOne = '2018-10-01',
+}
 
 /**
  * Defines values for ApiVersion1.
  * Possible values include: '2018-03-01-preview', '2018-10-01'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ApiVersion1 =
+ * <ApiVersion1>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ApiVersion1 = '2018-03-01-preview' | '2018-10-01';
+export enum ApiVersion1 {
+  TwoZeroOneEightHyphenMinusZeroThreeHyphenMinusZeroOneHyphenMinuspreview = '2018-03-01-preview',
+  TwoZeroOneEightHyphenMinusOneZeroHyphenMinusZeroOne = '2018-10-01',
+}
 
 /**
  * Defines values for ApiVersion2.
  * Possible values include: '2018-03-01-preview', '2018-10-01'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ApiVersion2 =
+ * <ApiVersion2>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ApiVersion2 = '2018-03-01-preview' | '2018-10-01';
+export enum ApiVersion2 {
+  TwoZeroOneEightHyphenMinusZeroThreeHyphenMinusZeroOneHyphenMinuspreview = '2018-03-01-preview',
+  TwoZeroOneEightHyphenMinusOneZeroHyphenMinusZeroOne = '2018-10-01',
+}
 
 /**
  * Defines values for ApiVersion3.
  * Possible values include: '2018-03-01-preview', '2018-10-01'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ApiVersion3 =
+ * <ApiVersion3>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ApiVersion3 = '2018-03-01-preview' | '2018-10-01';
+export enum ApiVersion3 {
+  TwoZeroOneEightHyphenMinusZeroThreeHyphenMinusZeroOneHyphenMinuspreview = '2018-03-01-preview',
+  TwoZeroOneEightHyphenMinusOneZeroHyphenMinusZeroOne = '2018-10-01',
+}
 
 /**
  * Defines values for ApiVersion4.
  * Possible values include: '2018-03-01-preview', '2018-10-01'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ApiVersion4 =
+ * <ApiVersion4>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ApiVersion4 = '2018-03-01-preview' | '2018-10-01';
+export enum ApiVersion4 {
+  TwoZeroOneEightHyphenMinusZeroThreeHyphenMinusZeroOneHyphenMinuspreview = '2018-03-01-preview',
+  TwoZeroOneEightHyphenMinusOneZeroHyphenMinusZeroOne = '2018-10-01',
+}
 
 /**
  * Defines values for ApiVersion5.
  * Possible values include: '2018-03-01-preview', '2018-10-01'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ApiVersion5 =
+ * <ApiVersion5>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ApiVersion5 = '2018-03-01-preview' | '2018-10-01';
+export enum ApiVersion5 {
+  TwoZeroOneEightHyphenMinusZeroThreeHyphenMinusZeroOneHyphenMinuspreview = '2018-03-01-preview',
+  TwoZeroOneEightHyphenMinusOneZeroHyphenMinusZeroOne = '2018-10-01',
+}
 
 /**
  * Defines values for ApiVersion6.
  * Possible values include: '2018-03-01-preview', '2018-10-01'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ApiVersion6 =
+ * <ApiVersion6>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ApiVersion6 = '2018-03-01-preview' | '2018-10-01';
+export enum ApiVersion6 {
+  TwoZeroOneEightHyphenMinusZeroThreeHyphenMinusZeroOneHyphenMinuspreview = '2018-03-01-preview',
+  TwoZeroOneEightHyphenMinusOneZeroHyphenMinusZeroOne = '2018-10-01',
+}
 
 /**
  * Defines values for ApiVersion7.
  * Possible values include: '2018-03-01-preview', '2018-10-01'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ApiVersion7 =
+ * <ApiVersion7>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ApiVersion7 = '2018-03-01-preview' | '2018-10-01';
+export enum ApiVersion7 {
+  TwoZeroOneEightHyphenMinusZeroThreeHyphenMinusZeroOneHyphenMinuspreview = '2018-03-01-preview',
+  TwoZeroOneEightHyphenMinusOneZeroHyphenMinusZeroOne = '2018-10-01',
+}
 
 /**
  * Defines values for ApiVersion8.
  * Possible values include: '2018-03-01-preview', '2018-10-01'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ApiVersion8 =
+ * <ApiVersion8>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ApiVersion8 = '2018-03-01-preview' | '2018-10-01';
+export enum ApiVersion8 {
+  TwoZeroOneEightHyphenMinusZeroThreeHyphenMinusZeroOneHyphenMinuspreview = '2018-03-01-preview',
+  TwoZeroOneEightHyphenMinusOneZeroHyphenMinusZeroOne = '2018-10-01',
+}
 
 /**
  * Defines values for ApiVersion9.
  * Possible values include: '2018-03-01-preview', '2018-10-01'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ApiVersion9 =
+ * <ApiVersion9>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ApiVersion9 = '2018-03-01-preview' | '2018-10-01';
+export enum ApiVersion9 {
+  TwoZeroOneEightHyphenMinusZeroThreeHyphenMinusZeroOneHyphenMinuspreview = '2018-03-01-preview',
+  TwoZeroOneEightHyphenMinusOneZeroHyphenMinusZeroOne = '2018-10-01',
+}
 
 /**
  * Defines values for ApiVersion10.
  * Possible values include: '2018-03-01-preview', '2018-10-01'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ApiVersion10 =
+ * <ApiVersion10>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ApiVersion10 = '2018-03-01-preview' | '2018-10-01';
+export enum ApiVersion10 {
+  TwoZeroOneEightHyphenMinusZeroThreeHyphenMinusZeroOneHyphenMinuspreview = '2018-03-01-preview',
+  TwoZeroOneEightHyphenMinusOneZeroHyphenMinusZeroOne = '2018-10-01',
+}
 
 /**
  * Contains response data for the list operation.

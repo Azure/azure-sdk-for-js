@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { ServiceClientOptions } from "@azure/ms-rest-js";
-import * as msRest from "@azure/ms-rest-js";
+import { ServiceClientOptions } from "ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 
 /**
@@ -1081,13 +1081,9 @@ export interface VideoDetails {
  */
 export interface VideoSearchAPIClientOptions extends ServiceClientOptions {
   /**
-   * @member {string} [endpoint] Supported Cognitive Services endpoints
-   * (protocol and hostname, for example:
-   * "https://westus.api.cognitive.microsoft.com",
-   * "https://api.cognitive.microsoft.com"). Default value:
-   * 'https://api.cognitive.microsoft.com' .
+   * @member {string} [baseUri]
    */
-  endpoint?: string;
+  baseUri?: string;
 }
 
 /**
@@ -1914,27 +1910,49 @@ export interface VideosTrendingOptionalParams extends msRest.RequestOptionsBase 
  * @readonly
  * @enum {string}
  */
-export type VideoQueryScenario = 'List' | 'SingleDominantVideo';
+export enum VideoQueryScenario {
+  List = 'List',
+  SingleDominantVideo = 'SingleDominantVideo',
+}
 
 /**
  * Defines values for ErrorCode.
- * Possible values include: 'None', 'ServerError', 'InvalidRequest', 'RateLimitExceeded',
- * 'InvalidAuthorization', 'InsufficientAuthorization'
+ * Possible values include: 'None', 'ServerError', 'InvalidRequest',
+ * 'RateLimitExceeded', 'InvalidAuthorization', 'InsufficientAuthorization'
  * @readonly
  * @enum {string}
  */
-export type ErrorCode = 'None' | 'ServerError' | 'InvalidRequest' | 'RateLimitExceeded' | 'InvalidAuthorization' | 'InsufficientAuthorization';
+export enum ErrorCode {
+  None = 'None',
+  ServerError = 'ServerError',
+  InvalidRequest = 'InvalidRequest',
+  RateLimitExceeded = 'RateLimitExceeded',
+  InvalidAuthorization = 'InvalidAuthorization',
+  InsufficientAuthorization = 'InsufficientAuthorization',
+}
 
 /**
  * Defines values for ErrorSubCode.
- * Possible values include: 'UnexpectedError', 'ResourceError', 'NotImplemented',
- * 'ParameterMissing', 'ParameterInvalidValue', 'HttpNotAllowed', 'Blocked',
- * 'AuthorizationMissing', 'AuthorizationRedundancy', 'AuthorizationDisabled',
- * 'AuthorizationExpired'
+ * Possible values include: 'UnexpectedError', 'ResourceError',
+ * 'NotImplemented', 'ParameterMissing', 'ParameterInvalidValue',
+ * 'HttpNotAllowed', 'Blocked', 'AuthorizationMissing',
+ * 'AuthorizationRedundancy', 'AuthorizationDisabled', 'AuthorizationExpired'
  * @readonly
  * @enum {string}
  */
-export type ErrorSubCode = 'UnexpectedError' | 'ResourceError' | 'NotImplemented' | 'ParameterMissing' | 'ParameterInvalidValue' | 'HttpNotAllowed' | 'Blocked' | 'AuthorizationMissing' | 'AuthorizationRedundancy' | 'AuthorizationDisabled' | 'AuthorizationExpired';
+export enum ErrorSubCode {
+  UnexpectedError = 'UnexpectedError',
+  ResourceError = 'ResourceError',
+  NotImplemented = 'NotImplemented',
+  ParameterMissing = 'ParameterMissing',
+  ParameterInvalidValue = 'ParameterInvalidValue',
+  HttpNotAllowed = 'HttpNotAllowed',
+  Blocked = 'Blocked',
+  AuthorizationMissing = 'AuthorizationMissing',
+  AuthorizationRedundancy = 'AuthorizationRedundancy',
+  AuthorizationDisabled = 'AuthorizationDisabled',
+  AuthorizationExpired = 'AuthorizationExpired',
+}
 
 /**
  * Defines values for Freshness.
@@ -1942,7 +1960,11 @@ export type ErrorSubCode = 'UnexpectedError' | 'ResourceError' | 'NotImplemented
  * @readonly
  * @enum {string}
  */
-export type Freshness = 'Day' | 'Week' | 'Month';
+export enum Freshness {
+  Day = 'Day',
+  Week = 'Week',
+  Month = 'Month',
+}
 
 /**
  * Defines values for VideoLength.
@@ -1950,7 +1972,12 @@ export type Freshness = 'Day' | 'Week' | 'Month';
  * @readonly
  * @enum {string}
  */
-export type VideoLength = 'All' | 'Short' | 'Medium' | 'Long';
+export enum VideoLength {
+  All = 'All',
+  Short = 'Short',
+  Medium = 'Medium',
+  Long = 'Long',
+}
 
 /**
  * Defines values for VideoPricing.
@@ -1958,7 +1985,11 @@ export type VideoLength = 'All' | 'Short' | 'Medium' | 'Long';
  * @readonly
  * @enum {string}
  */
-export type VideoPricing = 'All' | 'Free' | 'Paid';
+export enum VideoPricing {
+  All = 'All',
+  Free = 'Free',
+  Paid = 'Paid',
+}
 
 /**
  * Defines values for VideoResolution.
@@ -1966,7 +1997,12 @@ export type VideoPricing = 'All' | 'Free' | 'Paid';
  * @readonly
  * @enum {string}
  */
-export type VideoResolution = 'All' | 'SD480p' | 'HD720p' | 'HD1080p';
+export enum VideoResolution {
+  All = 'All',
+  SD480p = 'SD480p',
+  HD720p = 'HD720p',
+  HD1080p = 'HD1080p',
+}
 
 /**
  * Defines values for SafeSearch.
@@ -1974,7 +2010,11 @@ export type VideoResolution = 'All' | 'SD480p' | 'HD720p' | 'HD1080p';
  * @readonly
  * @enum {string}
  */
-export type SafeSearch = 'Off' | 'Moderate' | 'Strict';
+export enum SafeSearch {
+  Off = 'Off',
+  Moderate = 'Moderate',
+  Strict = 'Strict',
+}
 
 /**
  * Defines values for TextFormat.
@@ -1982,7 +2022,10 @@ export type SafeSearch = 'Off' | 'Moderate' | 'Strict';
  * @readonly
  * @enum {string}
  */
-export type TextFormat = 'Raw' | 'Html';
+export enum TextFormat {
+  Raw = 'Raw',
+  Html = 'Html',
+}
 
 /**
  * Defines values for VideoInsightModule.
@@ -1990,7 +2033,11 @@ export type TextFormat = 'Raw' | 'Html';
  * @readonly
  * @enum {string}
  */
-export type VideoInsightModule = 'All' | 'RelatedVideos' | 'VideoResult';
+export enum VideoInsightModule {
+  All = 'All',
+  RelatedVideos = 'RelatedVideos',
+  VideoResult = 'VideoResult',
+}
 
 /**
  * Contains response data for the search operation.

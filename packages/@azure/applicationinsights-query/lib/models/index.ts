@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { ServiceClientOptions } from "@azure/ms-rest-js";
-import * as msRest from "@azure/ms-rest-js";
+import { ServiceClientOptions } from "ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 
 /**
@@ -1920,51 +1920,145 @@ export interface EventsGetOptionalParams extends msRest.RequestOptionsBase {
 
 /**
  * Defines values for MetricId.
- * Possible values include: 'requests/count', 'requests/duration', 'requests/failed',
- * 'users/count', 'users/authenticated', 'pageViews/count', 'pageViews/duration',
- * 'client/processingDuration', 'client/receiveDuration', 'client/networkDuration',
- * 'client/sendDuration', 'client/totalDuration', 'dependencies/count', 'dependencies/failed',
- * 'dependencies/duration', 'exceptions/count', 'exceptions/browser', 'exceptions/server',
+ * Possible values include: 'requests/count', 'requests/duration',
+ * 'requests/failed', 'users/count', 'users/authenticated', 'pageViews/count',
+ * 'pageViews/duration', 'client/processingDuration', 'client/receiveDuration',
+ * 'client/networkDuration', 'client/sendDuration', 'client/totalDuration',
+ * 'dependencies/count', 'dependencies/failed', 'dependencies/duration',
+ * 'exceptions/count', 'exceptions/browser', 'exceptions/server',
  * 'sessions/count', 'performanceCounters/requestExecutionTime',
- * 'performanceCounters/requestsPerSecond', 'performanceCounters/requestsInQueue',
- * 'performanceCounters/memoryAvailableBytes', 'performanceCounters/exceptionsPerSecond',
- * 'performanceCounters/processCpuPercentage', 'performanceCounters/processIOBytesPerSecond',
- * 'performanceCounters/processPrivateBytes', 'performanceCounters/processorCpuPercentage',
- * 'availabilityResults/availabilityPercentage', 'availabilityResults/duration',
- * 'billing/telemetryCount', 'customEvents/count'
+ * 'performanceCounters/requestsPerSecond',
+ * 'performanceCounters/requestsInQueue',
+ * 'performanceCounters/memoryAvailableBytes',
+ * 'performanceCounters/exceptionsPerSecond',
+ * 'performanceCounters/processCpuPercentage',
+ * 'performanceCounters/processIOBytesPerSecond',
+ * 'performanceCounters/processPrivateBytes',
+ * 'performanceCounters/processorCpuPercentage',
+ * 'availabilityResults/availabilityPercentage',
+ * 'availabilityResults/duration', 'billing/telemetryCount',
+ * 'customEvents/count'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: MetricId = <MetricId>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type MetricId = 'requests/count' | 'requests/duration' | 'requests/failed' | 'users/count' | 'users/authenticated' | 'pageViews/count' | 'pageViews/duration' | 'client/processingDuration' | 'client/receiveDuration' | 'client/networkDuration' | 'client/sendDuration' | 'client/totalDuration' | 'dependencies/count' | 'dependencies/failed' | 'dependencies/duration' | 'exceptions/count' | 'exceptions/browser' | 'exceptions/server' | 'sessions/count' | 'performanceCounters/requestExecutionTime' | 'performanceCounters/requestsPerSecond' | 'performanceCounters/requestsInQueue' | 'performanceCounters/memoryAvailableBytes' | 'performanceCounters/exceptionsPerSecond' | 'performanceCounters/processCpuPercentage' | 'performanceCounters/processIOBytesPerSecond' | 'performanceCounters/processPrivateBytes' | 'performanceCounters/processorCpuPercentage' | 'availabilityResults/availabilityPercentage' | 'availabilityResults/duration' | 'billing/telemetryCount' | 'customEvents/count';
+export enum MetricId {
+  Requestscount = 'requests/count',
+  Requestsduration = 'requests/duration',
+  Requestsfailed = 'requests/failed',
+  Userscount = 'users/count',
+  Usersauthenticated = 'users/authenticated',
+  PageViewscount = 'pageViews/count',
+  PageViewsduration = 'pageViews/duration',
+  ClientprocessingDuration = 'client/processingDuration',
+  ClientreceiveDuration = 'client/receiveDuration',
+  ClientnetworkDuration = 'client/networkDuration',
+  ClientsendDuration = 'client/sendDuration',
+  ClienttotalDuration = 'client/totalDuration',
+  Dependenciescount = 'dependencies/count',
+  Dependenciesfailed = 'dependencies/failed',
+  Dependenciesduration = 'dependencies/duration',
+  Exceptionscount = 'exceptions/count',
+  Exceptionsbrowser = 'exceptions/browser',
+  Exceptionsserver = 'exceptions/server',
+  Sessionscount = 'sessions/count',
+  PerformanceCountersrequestExecutionTime = 'performanceCounters/requestExecutionTime',
+  PerformanceCountersrequestsPerSecond = 'performanceCounters/requestsPerSecond',
+  PerformanceCountersrequestsInQueue = 'performanceCounters/requestsInQueue',
+  PerformanceCountersmemoryAvailableBytes = 'performanceCounters/memoryAvailableBytes',
+  PerformanceCountersexceptionsPerSecond = 'performanceCounters/exceptionsPerSecond',
+  PerformanceCountersprocessCpuPercentage = 'performanceCounters/processCpuPercentage',
+  PerformanceCountersprocessIOBytesPerSecond = 'performanceCounters/processIOBytesPerSecond',
+  PerformanceCountersprocessPrivateBytes = 'performanceCounters/processPrivateBytes',
+  PerformanceCountersprocessorCpuPercentage = 'performanceCounters/processorCpuPercentage',
+  AvailabilityResultsavailabilityPercentage = 'availabilityResults/availabilityPercentage',
+  AvailabilityResultsduration = 'availabilityResults/duration',
+  BillingtelemetryCount = 'billing/telemetryCount',
+  CustomEventscount = 'customEvents/count',
+}
 
 /**
  * Defines values for MetricsAggregation.
  * Possible values include: 'min', 'max', 'avg', 'sum', 'count', 'unique'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: MetricsAggregation =
+ * <MetricsAggregation>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type MetricsAggregation = 'min' | 'max' | 'avg' | 'sum' | 'count' | 'unique';
+export enum MetricsAggregation {
+  Min = 'min',
+  Max = 'max',
+  Avg = 'avg',
+  Sum = 'sum',
+  Count = 'count',
+  Unique = 'unique',
+}
 
 /**
  * Defines values for MetricsSegment.
  * Possible values include: 'applicationBuild', 'applicationVersion',
- * 'authenticatedOrAnonymousTraffic', 'browser', 'browserVersion', 'city', 'cloudRoleName',
- * 'cloudServiceName', 'continent', 'countryOrRegion', 'deploymentId', 'deploymentUnit',
- * 'deviceType', 'environment', 'hostingLocation', 'instanceName'
+ * 'authenticatedOrAnonymousTraffic', 'browser', 'browserVersion', 'city',
+ * 'cloudRoleName', 'cloudServiceName', 'continent', 'countryOrRegion',
+ * 'deploymentId', 'deploymentUnit', 'deviceType', 'environment',
+ * 'hostingLocation', 'instanceName'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: MetricsSegment =
+ * <MetricsSegment>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type MetricsSegment = 'applicationBuild' | 'applicationVersion' | 'authenticatedOrAnonymousTraffic' | 'browser' | 'browserVersion' | 'city' | 'cloudRoleName' | 'cloudServiceName' | 'continent' | 'countryOrRegion' | 'deploymentId' | 'deploymentUnit' | 'deviceType' | 'environment' | 'hostingLocation' | 'instanceName';
+export enum MetricsSegment {
+  ApplicationBuild = 'applicationBuild',
+  ApplicationVersion = 'applicationVersion',
+  AuthenticatedOrAnonymousTraffic = 'authenticatedOrAnonymousTraffic',
+  Browser = 'browser',
+  BrowserVersion = 'browserVersion',
+  City = 'city',
+  CloudRoleName = 'cloudRoleName',
+  CloudServiceName = 'cloudServiceName',
+  Continent = 'continent',
+  CountryOrRegion = 'countryOrRegion',
+  DeploymentId = 'deploymentId',
+  DeploymentUnit = 'deploymentUnit',
+  DeviceType = 'deviceType',
+  Environment = 'environment',
+  HostingLocation = 'hostingLocation',
+  InstanceName = 'instanceName',
+}
 
 /**
  * Defines values for EventType.
- * Possible values include: '$all', 'traces', 'customEvents', 'pageViews', 'browserTimings',
- * 'requests', 'dependencies', 'exceptions', 'availabilityResults', 'performanceCounters',
- * 'customMetrics'
+ * Possible values include: '$all', 'traces', 'customEvents', 'pageViews',
+ * 'browserTimings', 'requests', 'dependencies', 'exceptions',
+ * 'availabilityResults', 'performanceCounters', 'customMetrics'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: EventType = <EventType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type EventType = '$all' | 'traces' | 'customEvents' | 'pageViews' | 'browserTimings' | 'requests' | 'dependencies' | 'exceptions' | 'availabilityResults' | 'performanceCounters' | 'customMetrics';
+export enum EventType {
+  All = '$all',
+  Traces = 'traces',
+  CustomEvents = 'customEvents',
+  PageViews = 'pageViews',
+  BrowserTimings = 'browserTimings',
+  Requests = 'requests',
+  Dependencies = 'dependencies',
+  Exceptions = 'exceptions',
+  AvailabilityResults = 'availabilityResults',
+  PerformanceCounters = 'performanceCounters',
+  CustomMetrics = 'customMetrics',
+}
 
 /**
  * Contains response data for the get operation.

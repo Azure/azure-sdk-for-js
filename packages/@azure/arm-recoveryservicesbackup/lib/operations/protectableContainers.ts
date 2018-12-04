@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/protectableContainersMappers";
 import * as Parameters from "../models/parameters";
@@ -53,7 +53,7 @@ export class ProtectableContainers {
    * @param callback The callback
    */
   list(vaultName: string, resourceGroupName: string, fabricName: string, options: Models.ProtectableContainersListOptionalParams, callback: msRest.ServiceCallback<Models.ProtectableContainerResourceList>): void;
-  list(vaultName: string, resourceGroupName: string, fabricName: string, options?: Models.ProtectableContainersListOptionalParams | msRest.ServiceCallback<Models.ProtectableContainerResourceList>, callback?: msRest.ServiceCallback<Models.ProtectableContainerResourceList>): Promise<Models.ProtectableContainersListResponse> {
+  list(vaultName: string, resourceGroupName: string, fabricName: string, options?: Models.ProtectableContainersListOptionalParams, callback?: msRest.ServiceCallback<Models.ProtectableContainerResourceList>): Promise<Models.ProtectableContainersListResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -83,7 +83,7 @@ export class ProtectableContainers {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectableContainerResourceList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectableContainerResourceList>, callback?: msRest.ServiceCallback<Models.ProtectableContainerResourceList>): Promise<Models.ProtectableContainersListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProtectableContainerResourceList>): Promise<Models.ProtectableContainersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

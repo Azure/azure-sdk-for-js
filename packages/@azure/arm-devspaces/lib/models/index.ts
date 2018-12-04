@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -356,20 +356,39 @@ export interface ResourceProviderOperationList extends Array<ResourceProviderOpe
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Succeeded', 'Failed', 'Canceled', 'Updating', 'Creating', 'Deleting',
- * 'Deleted'
+ * Possible values include: 'Succeeded', 'Failed', 'Canceled', 'Updating',
+ * 'Creating', 'Deleting', 'Deleted'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ProvisioningState =
+ * <ProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Succeeded' | 'Failed' | 'Canceled' | 'Updating' | 'Creating' | 'Deleting' | 'Deleted';
+export enum ProvisioningState {
+  Succeeded = 'Succeeded',
+  Failed = 'Failed',
+  Canceled = 'Canceled',
+  Updating = 'Updating',
+  Creating = 'Creating',
+  Deleting = 'Deleting',
+  Deleted = 'Deleted',
+}
 
 /**
  * Defines values for SkuTier.
  * Possible values include: 'Standard'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SkuTier = <SkuTier>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SkuTier = 'Standard';
+export enum SkuTier {
+  Standard = 'Standard',
+}
 
 /**
  * Contains response data for the getContainerHostMapping operation.

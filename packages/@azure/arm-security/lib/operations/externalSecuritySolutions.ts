@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/externalSecuritySolutionsMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class ExternalSecuritySolutions {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExternalSecuritySolutionList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExternalSecuritySolutionList>, callback?: msRest.ServiceCallback<Models.ExternalSecuritySolutionList>): Promise<Models.ExternalSecuritySolutionsListResponse> {
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExternalSecuritySolutionList>): Promise<Models.ExternalSecuritySolutionsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -65,7 +65,7 @@ export class ExternalSecuritySolutions {
    * @param callback The callback
    */
   listByHomeRegion(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExternalSecuritySolutionList>): void;
-  listByHomeRegion(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExternalSecuritySolutionList>, callback?: msRest.ServiceCallback<Models.ExternalSecuritySolutionList>): Promise<Models.ExternalSecuritySolutionsListByHomeRegionResponse> {
+  listByHomeRegion(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExternalSecuritySolutionList>): Promise<Models.ExternalSecuritySolutionsListByHomeRegionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -98,7 +98,7 @@ export class ExternalSecuritySolutions {
    * @param callback The callback
    */
   get(resourceGroupName: string, externalSecuritySolutionsName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExternalSecuritySolutionUnion>): void;
-  get(resourceGroupName: string, externalSecuritySolutionsName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExternalSecuritySolutionUnion>, callback?: msRest.ServiceCallback<Models.ExternalSecuritySolutionUnion>): Promise<Models.ExternalSecuritySolutionsGetResponse> {
+  get(resourceGroupName: string, externalSecuritySolutionsName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExternalSecuritySolutionUnion>): Promise<Models.ExternalSecuritySolutionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -127,7 +127,7 @@ export class ExternalSecuritySolutions {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExternalSecuritySolutionList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExternalSecuritySolutionList>, callback?: msRest.ServiceCallback<Models.ExternalSecuritySolutionList>): Promise<Models.ExternalSecuritySolutionsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExternalSecuritySolutionList>): Promise<Models.ExternalSecuritySolutionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -155,7 +155,7 @@ export class ExternalSecuritySolutions {
    * @param callback The callback
    */
   listByHomeRegionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExternalSecuritySolutionList>): void;
-  listByHomeRegionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExternalSecuritySolutionList>, callback?: msRest.ServiceCallback<Models.ExternalSecuritySolutionList>): Promise<Models.ExternalSecuritySolutionsListByHomeRegionNextResponse> {
+  listByHomeRegionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExternalSecuritySolutionList>): Promise<Models.ExternalSecuritySolutionsListByHomeRegionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

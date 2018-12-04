@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -543,28 +543,73 @@ export interface OperationListResult extends Array<Operation> {
 /**
  * Defines values for SkuTier.
  * Possible values include: 'Development', 'Basic', 'Standard'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SkuTier = <SkuTier>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SkuTier = 'Development' | 'Basic' | 'Standard';
+export enum SkuTier {
+  Development = 'Development',
+  Basic = 'Basic',
+  Standard = 'Standard',
+}
 
 /**
  * Defines values for State.
- * Possible values include: 'Deleting', 'Succeeded', 'Failed', 'Paused', 'Suspended',
- * 'Provisioning', 'Updating', 'Suspending', 'Pausing', 'Resuming', 'Preparing', 'Scaling'
+ * Possible values include: 'Deleting', 'Succeeded', 'Failed', 'Paused',
+ * 'Suspended', 'Provisioning', 'Updating', 'Suspending', 'Pausing',
+ * 'Resuming', 'Preparing', 'Scaling'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: State = <State>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type State = 'Deleting' | 'Succeeded' | 'Failed' | 'Paused' | 'Suspended' | 'Provisioning' | 'Updating' | 'Suspending' | 'Pausing' | 'Resuming' | 'Preparing' | 'Scaling';
+export enum State {
+  Deleting = 'Deleting',
+  Succeeded = 'Succeeded',
+  Failed = 'Failed',
+  Paused = 'Paused',
+  Suspended = 'Suspended',
+  Provisioning = 'Provisioning',
+  Updating = 'Updating',
+  Suspending = 'Suspending',
+  Pausing = 'Pausing',
+  Resuming = 'Resuming',
+  Preparing = 'Preparing',
+  Scaling = 'Scaling',
+}
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Deleting', 'Succeeded', 'Failed', 'Paused', 'Suspended',
- * 'Provisioning', 'Updating', 'Suspending', 'Pausing', 'Resuming', 'Preparing', 'Scaling'
+ * Possible values include: 'Deleting', 'Succeeded', 'Failed', 'Paused',
+ * 'Suspended', 'Provisioning', 'Updating', 'Suspending', 'Pausing',
+ * 'Resuming', 'Preparing', 'Scaling'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ProvisioningState =
+ * <ProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Deleting' | 'Succeeded' | 'Failed' | 'Paused' | 'Suspended' | 'Provisioning' | 'Updating' | 'Suspending' | 'Pausing' | 'Resuming' | 'Preparing' | 'Scaling';
+export enum ProvisioningState {
+  Deleting = 'Deleting',
+  Succeeded = 'Succeeded',
+  Failed = 'Failed',
+  Paused = 'Paused',
+  Suspended = 'Suspended',
+  Provisioning = 'Provisioning',
+  Updating = 'Updating',
+  Suspending = 'Suspending',
+  Pausing = 'Pausing',
+  Resuming = 'Resuming',
+  Preparing = 'Preparing',
+  Scaling = 'Scaling',
+}
 
 /**
  * Defines values for ConnectionMode.
@@ -572,7 +617,10 @@ export type ProvisioningState = 'Deleting' | 'Succeeded' | 'Failed' | 'Paused' |
  * @readonly
  * @enum {string}
  */
-export type ConnectionMode = 'All' | 'ReadOnly';
+export enum ConnectionMode {
+  All = 'All',
+  ReadOnly = 'ReadOnly',
+}
 
 /**
  * Defines values for Status.
@@ -580,7 +628,9 @@ export type ConnectionMode = 'All' | 'ReadOnly';
  * @readonly
  * @enum {string}
  */
-export type Status = 'Live';
+export enum Status {
+  Live = 'Live',
+}
 
 /**
  * Contains response data for the getDetails operation.

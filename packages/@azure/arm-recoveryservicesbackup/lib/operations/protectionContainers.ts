@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/protectionContainersMappers";
 import * as Parameters from "../models/parameters";
@@ -56,7 +56,7 @@ export class ProtectionContainers {
    * @param callback The callback
    */
   get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectionContainerResource>): void;
-  get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionContainerResource>, callback?: msRest.ServiceCallback<Models.ProtectionContainerResource>): Promise<Models.ProtectionContainersGetResponse> {
+  get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProtectionContainerResource>): Promise<Models.ProtectionContainersGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -105,7 +105,7 @@ export class ProtectionContainers {
    * @param callback The callback
    */
   register(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, parameters: Models.ProtectionContainerResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectionContainerResource>): void;
-  register(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, parameters: Models.ProtectionContainerResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionContainerResource>, callback?: msRest.ServiceCallback<Models.ProtectionContainerResource>): Promise<Models.ProtectionContainersRegisterResponse> {
+  register(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, parameters: Models.ProtectionContainerResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProtectionContainerResource>): Promise<Models.ProtectionContainersRegisterResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -155,7 +155,7 @@ export class ProtectionContainers {
    * @param callback The callback
    */
   unregister(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  unregister(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  unregister(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -200,7 +200,7 @@ export class ProtectionContainers {
    * @param callback The callback
    */
   inquire(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, options: Models.ProtectionContainersInquireOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  inquire(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, options?: Models.ProtectionContainersInquireOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  inquire(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, options?: Models.ProtectionContainersInquireOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -242,7 +242,7 @@ export class ProtectionContainers {
    * @param callback The callback
    */
   refresh(vaultName: string, resourceGroupName: string, fabricName: string, options: Models.ProtectionContainersRefreshOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  refresh(vaultName: string, resourceGroupName: string, fabricName: string, options?: Models.ProtectionContainersRefreshOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  refresh(vaultName: string, resourceGroupName: string, fabricName: string, options?: Models.ProtectionContainersRefreshOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,

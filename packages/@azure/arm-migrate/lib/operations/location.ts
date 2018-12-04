@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/locationMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class Location {
    * @param callback The callback
    */
   checkNameAvailability(locationName: string, parameters: Models.CheckNameAvailabilityParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
-  checkNameAvailability(locationName: string, parameters: Models.CheckNameAvailabilityParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.LocationCheckNameAvailabilityResponse> {
+  checkNameAvailability(locationName: string, parameters: Models.CheckNameAvailabilityParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.LocationCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,

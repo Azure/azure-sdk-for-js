@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/resourceGroupsMappers";
 import * as Parameters from "../models/parameters";
@@ -45,7 +45,7 @@ export class ResourceGroups {
    * @param callback The callback
    */
   checkExistence(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
-  checkExistence(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.ResourceGroupsCheckExistenceResponse> {
+  checkExistence(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<boolean>): Promise<Models.ResourceGroupsCheckExistenceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class ResourceGroups {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, parameters: Models.ResourceGroup, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceGroup>): void;
-  createOrUpdate(resourceGroupName: string, parameters: Models.ResourceGroup, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceGroup>, callback?: msRest.ServiceCallback<Models.ResourceGroup>): Promise<Models.ResourceGroupsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, parameters: Models.ResourceGroup, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceGroup>): Promise<Models.ResourceGroupsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -124,7 +124,7 @@ export class ResourceGroups {
    * @param callback The callback
    */
   get(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceGroup>): void;
-  get(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceGroup>, callback?: msRest.ServiceCallback<Models.ResourceGroup>): Promise<Models.ResourceGroupsGetResponse> {
+  get(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceGroup>): Promise<Models.ResourceGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +158,7 @@ export class ResourceGroups {
    * @param callback The callback
    */
   update(resourceGroupName: string, parameters: Models.ResourceGroupPatchable, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceGroup>): void;
-  update(resourceGroupName: string, parameters: Models.ResourceGroupPatchable, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceGroup>, callback?: msRest.ServiceCallback<Models.ResourceGroup>): Promise<Models.ResourceGroupsUpdateResponse> {
+  update(resourceGroupName: string, parameters: Models.ResourceGroupPatchable, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceGroup>): Promise<Models.ResourceGroupsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -190,7 +190,7 @@ export class ResourceGroups {
    * @param callback The callback
    */
   exportTemplate(resourceGroupName: string, parameters: Models.ExportTemplateRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceGroupExportResult>): void;
-  exportTemplate(resourceGroupName: string, parameters: Models.ExportTemplateRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceGroupExportResult>, callback?: msRest.ServiceCallback<Models.ResourceGroupExportResult>): Promise<Models.ResourceGroupsExportTemplateResponse> {
+  exportTemplate(resourceGroupName: string, parameters: Models.ExportTemplateRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceGroupExportResult>): Promise<Models.ResourceGroupsExportTemplateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -216,7 +216,7 @@ export class ResourceGroups {
    * @param callback The callback
    */
   list(options: Models.ResourceGroupsListOptionalParams, callback: msRest.ServiceCallback<Models.ResourceGroupListResult>): void;
-  list(options?: Models.ResourceGroupsListOptionalParams | msRest.ServiceCallback<Models.ResourceGroupListResult>, callback?: msRest.ServiceCallback<Models.ResourceGroupListResult>): Promise<Models.ResourceGroupsListResponse> {
+  list(options?: Models.ResourceGroupsListOptionalParams, callback?: msRest.ServiceCallback<Models.ResourceGroupListResult>): Promise<Models.ResourceGroupsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -261,7 +261,7 @@ export class ResourceGroups {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceGroupListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceGroupListResult>, callback?: msRest.ServiceCallback<Models.ResourceGroupListResult>): Promise<Models.ResourceGroupsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceGroupListResult>): Promise<Models.ResourceGroupsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

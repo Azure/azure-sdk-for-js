@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { ServiceClientOptions } from "@azure/ms-rest-js";
-import * as msRest from "@azure/ms-rest-js";
+import { ServiceClientOptions } from "ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 
 /**
@@ -3014,13 +3014,9 @@ export interface VisualSearchRequest {
  */
 export interface VisualSearchAPIClientOptions extends ServiceClientOptions {
   /**
-   * @member {string} [endpoint] Supported Cognitive Services endpoints
-   * (protocol and hostname, for example:
-   * "https://westus.api.cognitive.microsoft.com",
-   * "https://api.cognitive.microsoft.com"). Default value:
-   * 'https://api.cognitive.microsoft.com' .
+   * @member {string} [baseUri]
    */
-  endpoint?: string;
+  baseUri?: string;
 }
 
 /**
@@ -3240,60 +3236,278 @@ export interface ImagesVisualSearchOptionalParams extends msRest.RequestOptionsB
 
 /**
  * Defines values for Currency.
- * Possible values include: 'USD', 'CAD', 'GBP', 'EUR', 'COP', 'JPY', 'CNY', 'AUD', 'INR', 'AED',
- * 'AFN', 'ALL', 'AMD', 'ANG', 'AOA', 'ARS', 'AWG', 'AZN', 'BAM', 'BBD', 'BDT', 'BGN', 'BHD',
- * 'BIF', 'BMD', 'BND', 'BOB', 'BOV', 'BRL', 'BSD', 'BTN', 'BWP', 'BYR', 'BZD', 'CDF', 'CHE',
- * 'CHF', 'CHW', 'CLF', 'CLP', 'COU', 'CRC', 'CUC', 'CUP', 'CVE', 'CZK', 'DJF', 'DKK', 'DOP',
- * 'DZD', 'EGP', 'ERN', 'ETB', 'FJD', 'FKP', 'GEL', 'GHS', 'GIP', 'GMD', 'GNF', 'GTQ', 'GYD',
- * 'HKD', 'HNL', 'HRK', 'HTG', 'HUF', 'IDR', 'ILS', 'IQD', 'IRR', 'ISK', 'JMD', 'JOD', 'KES',
- * 'KGS', 'KHR', 'KMF', 'KPW', 'KRW', 'KWD', 'KYD', 'KZT', 'LAK', 'LBP', 'LKR', 'LRD', 'LSL',
- * 'LYD', 'MAD', 'MDL', 'MGA', 'MKD', 'MMK', 'MNT', 'MOP', 'MRO', 'MUR', 'MVR', 'MWK', 'MXN',
- * 'MXV', 'MYR', 'MZN', 'NAD', 'NGN', 'NIO', 'NOK', 'NPR', 'NZD', 'OMR', 'PAB', 'PEN', 'PGK',
- * 'PHP', 'PKR', 'PLN', 'PYG', 'QAR', 'RON', 'RSD', 'RUB', 'RWF', 'SAR', 'SBD', 'SCR', 'SDG',
- * 'SEK', 'SGD', 'SHP', 'SLL', 'SOS', 'SRD', 'SSP', 'STD', 'SYP', 'SZL', 'THB', 'TJS', 'TMT',
- * 'TND', 'TOP', 'TRY', 'TTD', 'TWD', 'TZS', 'UAH', 'UGX', 'UYU', 'UZS', 'VEF', 'VND', 'VUV',
- * 'WST', 'XAF', 'XCD', 'XOF', 'XPF', 'YER', 'ZAR', 'ZMW'
+ * Possible values include: 'USD', 'CAD', 'GBP', 'EUR', 'COP', 'JPY', 'CNY',
+ * 'AUD', 'INR', 'AED', 'AFN', 'ALL', 'AMD', 'ANG', 'AOA', 'ARS', 'AWG', 'AZN',
+ * 'BAM', 'BBD', 'BDT', 'BGN', 'BHD', 'BIF', 'BMD', 'BND', 'BOB', 'BOV', 'BRL',
+ * 'BSD', 'BTN', 'BWP', 'BYR', 'BZD', 'CDF', 'CHE', 'CHF', 'CHW', 'CLF', 'CLP',
+ * 'COU', 'CRC', 'CUC', 'CUP', 'CVE', 'CZK', 'DJF', 'DKK', 'DOP', 'DZD', 'EGP',
+ * 'ERN', 'ETB', 'FJD', 'FKP', 'GEL', 'GHS', 'GIP', 'GMD', 'GNF', 'GTQ', 'GYD',
+ * 'HKD', 'HNL', 'HRK', 'HTG', 'HUF', 'IDR', 'ILS', 'IQD', 'IRR', 'ISK', 'JMD',
+ * 'JOD', 'KES', 'KGS', 'KHR', 'KMF', 'KPW', 'KRW', 'KWD', 'KYD', 'KZT', 'LAK',
+ * 'LBP', 'LKR', 'LRD', 'LSL', 'LYD', 'MAD', 'MDL', 'MGA', 'MKD', 'MMK', 'MNT',
+ * 'MOP', 'MRO', 'MUR', 'MVR', 'MWK', 'MXN', 'MXV', 'MYR', 'MZN', 'NAD', 'NGN',
+ * 'NIO', 'NOK', 'NPR', 'NZD', 'OMR', 'PAB', 'PEN', 'PGK', 'PHP', 'PKR', 'PLN',
+ * 'PYG', 'QAR', 'RON', 'RSD', 'RUB', 'RWF', 'SAR', 'SBD', 'SCR', 'SDG', 'SEK',
+ * 'SGD', 'SHP', 'SLL', 'SOS', 'SRD', 'SSP', 'STD', 'SYP', 'SZL', 'THB', 'TJS',
+ * 'TMT', 'TND', 'TOP', 'TRY', 'TTD', 'TWD', 'TZS', 'UAH', 'UGX', 'UYU', 'UZS',
+ * 'VEF', 'VND', 'VUV', 'WST', 'XAF', 'XCD', 'XOF', 'XPF', 'YER', 'ZAR', 'ZMW'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Currency = <Currency>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type Currency = 'USD' | 'CAD' | 'GBP' | 'EUR' | 'COP' | 'JPY' | 'CNY' | 'AUD' | 'INR' | 'AED' | 'AFN' | 'ALL' | 'AMD' | 'ANG' | 'AOA' | 'ARS' | 'AWG' | 'AZN' | 'BAM' | 'BBD' | 'BDT' | 'BGN' | 'BHD' | 'BIF' | 'BMD' | 'BND' | 'BOB' | 'BOV' | 'BRL' | 'BSD' | 'BTN' | 'BWP' | 'BYR' | 'BZD' | 'CDF' | 'CHE' | 'CHF' | 'CHW' | 'CLF' | 'CLP' | 'COU' | 'CRC' | 'CUC' | 'CUP' | 'CVE' | 'CZK' | 'DJF' | 'DKK' | 'DOP' | 'DZD' | 'EGP' | 'ERN' | 'ETB' | 'FJD' | 'FKP' | 'GEL' | 'GHS' | 'GIP' | 'GMD' | 'GNF' | 'GTQ' | 'GYD' | 'HKD' | 'HNL' | 'HRK' | 'HTG' | 'HUF' | 'IDR' | 'ILS' | 'IQD' | 'IRR' | 'ISK' | 'JMD' | 'JOD' | 'KES' | 'KGS' | 'KHR' | 'KMF' | 'KPW' | 'KRW' | 'KWD' | 'KYD' | 'KZT' | 'LAK' | 'LBP' | 'LKR' | 'LRD' | 'LSL' | 'LYD' | 'MAD' | 'MDL' | 'MGA' | 'MKD' | 'MMK' | 'MNT' | 'MOP' | 'MRO' | 'MUR' | 'MVR' | 'MWK' | 'MXN' | 'MXV' | 'MYR' | 'MZN' | 'NAD' | 'NGN' | 'NIO' | 'NOK' | 'NPR' | 'NZD' | 'OMR' | 'PAB' | 'PEN' | 'PGK' | 'PHP' | 'PKR' | 'PLN' | 'PYG' | 'QAR' | 'RON' | 'RSD' | 'RUB' | 'RWF' | 'SAR' | 'SBD' | 'SCR' | 'SDG' | 'SEK' | 'SGD' | 'SHP' | 'SLL' | 'SOS' | 'SRD' | 'SSP' | 'STD' | 'SYP' | 'SZL' | 'THB' | 'TJS' | 'TMT' | 'TND' | 'TOP' | 'TRY' | 'TTD' | 'TWD' | 'TZS' | 'UAH' | 'UGX' | 'UYU' | 'UZS' | 'VEF' | 'VND' | 'VUV' | 'WST' | 'XAF' | 'XCD' | 'XOF' | 'XPF' | 'YER' | 'ZAR' | 'ZMW';
+export enum Currency {
+  USD = 'USD',
+  CAD = 'CAD',
+  GBP = 'GBP',
+  EUR = 'EUR',
+  COP = 'COP',
+  JPY = 'JPY',
+  CNY = 'CNY',
+  AUD = 'AUD',
+  INR = 'INR',
+  AED = 'AED',
+  AFN = 'AFN',
+  ALL = 'ALL',
+  AMD = 'AMD',
+  ANG = 'ANG',
+  AOA = 'AOA',
+  ARS = 'ARS',
+  AWG = 'AWG',
+  AZN = 'AZN',
+  BAM = 'BAM',
+  BBD = 'BBD',
+  BDT = 'BDT',
+  BGN = 'BGN',
+  BHD = 'BHD',
+  BIF = 'BIF',
+  BMD = 'BMD',
+  BND = 'BND',
+  BOB = 'BOB',
+  BOV = 'BOV',
+  BRL = 'BRL',
+  BSD = 'BSD',
+  BTN = 'BTN',
+  BWP = 'BWP',
+  BYR = 'BYR',
+  BZD = 'BZD',
+  CDF = 'CDF',
+  CHE = 'CHE',
+  CHF = 'CHF',
+  CHW = 'CHW',
+  CLF = 'CLF',
+  CLP = 'CLP',
+  COU = 'COU',
+  CRC = 'CRC',
+  CUC = 'CUC',
+  CUP = 'CUP',
+  CVE = 'CVE',
+  CZK = 'CZK',
+  DJF = 'DJF',
+  DKK = 'DKK',
+  DOP = 'DOP',
+  DZD = 'DZD',
+  EGP = 'EGP',
+  ERN = 'ERN',
+  ETB = 'ETB',
+  FJD = 'FJD',
+  FKP = 'FKP',
+  GEL = 'GEL',
+  GHS = 'GHS',
+  GIP = 'GIP',
+  GMD = 'GMD',
+  GNF = 'GNF',
+  GTQ = 'GTQ',
+  GYD = 'GYD',
+  HKD = 'HKD',
+  HNL = 'HNL',
+  HRK = 'HRK',
+  HTG = 'HTG',
+  HUF = 'HUF',
+  IDR = 'IDR',
+  ILS = 'ILS',
+  IQD = 'IQD',
+  IRR = 'IRR',
+  ISK = 'ISK',
+  JMD = 'JMD',
+  JOD = 'JOD',
+  KES = 'KES',
+  KGS = 'KGS',
+  KHR = 'KHR',
+  KMF = 'KMF',
+  KPW = 'KPW',
+  KRW = 'KRW',
+  KWD = 'KWD',
+  KYD = 'KYD',
+  KZT = 'KZT',
+  LAK = 'LAK',
+  LBP = 'LBP',
+  LKR = 'LKR',
+  LRD = 'LRD',
+  LSL = 'LSL',
+  LYD = 'LYD',
+  MAD = 'MAD',
+  MDL = 'MDL',
+  MGA = 'MGA',
+  MKD = 'MKD',
+  MMK = 'MMK',
+  MNT = 'MNT',
+  MOP = 'MOP',
+  MRO = 'MRO',
+  MUR = 'MUR',
+  MVR = 'MVR',
+  MWK = 'MWK',
+  MXN = 'MXN',
+  MXV = 'MXV',
+  MYR = 'MYR',
+  MZN = 'MZN',
+  NAD = 'NAD',
+  NGN = 'NGN',
+  NIO = 'NIO',
+  NOK = 'NOK',
+  NPR = 'NPR',
+  NZD = 'NZD',
+  OMR = 'OMR',
+  PAB = 'PAB',
+  PEN = 'PEN',
+  PGK = 'PGK',
+  PHP = 'PHP',
+  PKR = 'PKR',
+  PLN = 'PLN',
+  PYG = 'PYG',
+  QAR = 'QAR',
+  RON = 'RON',
+  RSD = 'RSD',
+  RUB = 'RUB',
+  RWF = 'RWF',
+  SAR = 'SAR',
+  SBD = 'SBD',
+  SCR = 'SCR',
+  SDG = 'SDG',
+  SEK = 'SEK',
+  SGD = 'SGD',
+  SHP = 'SHP',
+  SLL = 'SLL',
+  SOS = 'SOS',
+  SRD = 'SRD',
+  SSP = 'SSP',
+  STD = 'STD',
+  SYP = 'SYP',
+  SZL = 'SZL',
+  THB = 'THB',
+  TJS = 'TJS',
+  TMT = 'TMT',
+  TND = 'TND',
+  TOP = 'TOP',
+  TRY = 'TRY',
+  TTD = 'TTD',
+  TWD = 'TWD',
+  TZS = 'TZS',
+  UAH = 'UAH',
+  UGX = 'UGX',
+  UYU = 'UYU',
+  UZS = 'UZS',
+  VEF = 'VEF',
+  VND = 'VND',
+  VUV = 'VUV',
+  WST = 'WST',
+  XAF = 'XAF',
+  XCD = 'XCD',
+  XOF = 'XOF',
+  XPF = 'XPF',
+  YER = 'YER',
+  ZAR = 'ZAR',
+  ZMW = 'ZMW',
+}
 
 /**
  * Defines values for ItemAvailability.
- * Possible values include: 'Discontinued', 'InStock', 'InStoreOnly', 'LimitedAvailability',
- * 'OnlineOnly', 'OutOfStock', 'PreOrder', 'SoldOut'
+ * Possible values include: 'Discontinued', 'InStock', 'InStoreOnly',
+ * 'LimitedAvailability', 'OnlineOnly', 'OutOfStock', 'PreOrder', 'SoldOut'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ItemAvailability =
+ * <ItemAvailability>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ItemAvailability = 'Discontinued' | 'InStock' | 'InStoreOnly' | 'LimitedAvailability' | 'OnlineOnly' | 'OutOfStock' | 'PreOrder' | 'SoldOut';
+export enum ItemAvailability {
+  Discontinued = 'Discontinued',
+  InStock = 'InStock',
+  InStoreOnly = 'InStoreOnly',
+  LimitedAvailability = 'LimitedAvailability',
+  OnlineOnly = 'OnlineOnly',
+  OutOfStock = 'OutOfStock',
+  PreOrder = 'PreOrder',
+  SoldOut = 'SoldOut',
+}
 
 /**
  * Defines values for ErrorCode.
- * Possible values include: 'None', 'ServerError', 'InvalidRequest', 'RateLimitExceeded',
- * 'InvalidAuthorization', 'InsufficientAuthorization'
+ * Possible values include: 'None', 'ServerError', 'InvalidRequest',
+ * 'RateLimitExceeded', 'InvalidAuthorization', 'InsufficientAuthorization'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ErrorCode = <ErrorCode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ErrorCode = 'None' | 'ServerError' | 'InvalidRequest' | 'RateLimitExceeded' | 'InvalidAuthorization' | 'InsufficientAuthorization';
+export enum ErrorCode {
+  None = 'None',
+  ServerError = 'ServerError',
+  InvalidRequest = 'InvalidRequest',
+  RateLimitExceeded = 'RateLimitExceeded',
+  InvalidAuthorization = 'InvalidAuthorization',
+  InsufficientAuthorization = 'InsufficientAuthorization',
+}
 
 /**
  * Defines values for ErrorSubCode.
- * Possible values include: 'UnexpectedError', 'ResourceError', 'NotImplemented',
- * 'ParameterMissing', 'ParameterInvalidValue', 'HttpNotAllowed', 'Blocked',
- * 'AuthorizationMissing', 'AuthorizationRedundancy', 'AuthorizationDisabled',
- * 'AuthorizationExpired'
+ * Possible values include: 'UnexpectedError', 'ResourceError',
+ * 'NotImplemented', 'ParameterMissing', 'ParameterInvalidValue',
+ * 'HttpNotAllowed', 'Blocked', 'AuthorizationMissing',
+ * 'AuthorizationRedundancy', 'AuthorizationDisabled', 'AuthorizationExpired'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ErrorSubCode =
+ * <ErrorSubCode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ErrorSubCode = 'UnexpectedError' | 'ResourceError' | 'NotImplemented' | 'ParameterMissing' | 'ParameterInvalidValue' | 'HttpNotAllowed' | 'Blocked' | 'AuthorizationMissing' | 'AuthorizationRedundancy' | 'AuthorizationDisabled' | 'AuthorizationExpired';
+export enum ErrorSubCode {
+  UnexpectedError = 'UnexpectedError',
+  ResourceError = 'ResourceError',
+  NotImplemented = 'NotImplemented',
+  ParameterMissing = 'ParameterMissing',
+  ParameterInvalidValue = 'ParameterInvalidValue',
+  HttpNotAllowed = 'HttpNotAllowed',
+  Blocked = 'Blocked',
+  AuthorizationMissing = 'AuthorizationMissing',
+  AuthorizationRedundancy = 'AuthorizationRedundancy',
+  AuthorizationDisabled = 'AuthorizationDisabled',
+  AuthorizationExpired = 'AuthorizationExpired',
+}
 
 /**
  * Defines values for SafeSearch.
  * Possible values include: 'Off', 'Moderate', 'Strict'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SafeSearch = <SafeSearch>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SafeSearch = 'Off' | 'Moderate' | 'Strict';
+export enum SafeSearch {
+  Off = 'Off',
+  Moderate = 'Moderate',
+  Strict = 'Strict',
+}
 
 /**
  * Contains response data for the visualSearch operation.

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/devicesMappers";
 import * as Parameters from "../models/parameters";
@@ -61,7 +61,7 @@ export class Devices {
    * @param callback The callback
    */
   listByManager(resourceGroupName: string, managerName: string, options: Models.DevicesListByManagerOptionalParams, callback: msRest.ServiceCallback<Models.DeviceList>): void;
-  listByManager(resourceGroupName: string, managerName: string, options?: Models.DevicesListByManagerOptionalParams | msRest.ServiceCallback<Models.DeviceList>, callback?: msRest.ServiceCallback<Models.DeviceList>): Promise<Models.DevicesListByManagerResponse> {
+  listByManager(resourceGroupName: string, managerName: string, options?: Models.DevicesListByManagerOptionalParams, callback?: msRest.ServiceCallback<Models.DeviceList>): Promise<Models.DevicesListByManagerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +96,7 @@ export class Devices {
    * @param callback The callback
    */
   get(deviceName: string, resourceGroupName: string, managerName: string, options: Models.DevicesGetOptionalParams, callback: msRest.ServiceCallback<Models.Device>): void;
-  get(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.DevicesGetOptionalParams | msRest.ServiceCallback<Models.Device>, callback?: msRest.ServiceCallback<Models.Device>): Promise<Models.DevicesGetResponse> {
+  get(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.DevicesGetOptionalParams, callback?: msRest.ServiceCallback<Models.Device>): Promise<Models.DevicesGetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -148,7 +148,7 @@ export class Devices {
    * @param callback The callback
    */
   update(deviceName: string, parameters: Models.DevicePatch, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Device>): void;
-  update(deviceName: string, parameters: Models.DevicePatch, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Device>, callback?: msRest.ServiceCallback<Models.Device>): Promise<Models.DevicesUpdateResponse> {
+  update(deviceName: string, parameters: Models.DevicePatch, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Device>): Promise<Models.DevicesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -185,7 +185,7 @@ export class Devices {
    * @param callback The callback
    */
   authorizeForServiceEncryptionKeyRollover(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  authorizeForServiceEncryptionKeyRollover(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  authorizeForServiceEncryptionKeyRollover(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -249,7 +249,7 @@ export class Devices {
    * @param callback The callback
    */
   listFailoverSets(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FailoverSetsList>): void;
-  listFailoverSets(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FailoverSetsList>, callback?: msRest.ServiceCallback<Models.FailoverSetsList>): Promise<Models.DevicesListFailoverSetsResponse> {
+  listFailoverSets(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FailoverSetsList>): Promise<Models.DevicesListFailoverSetsResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -288,7 +288,7 @@ export class Devices {
    * @param callback The callback
    */
   listMetrics(deviceName: string, resourceGroupName: string, managerName: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricList>): void;
-  listMetrics(deviceName: string, resourceGroupName: string, managerName: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricList>, callback?: msRest.ServiceCallback<Models.MetricList>): Promise<Models.DevicesListMetricsResponse> {
+  listMetrics(deviceName: string, resourceGroupName: string, managerName: string, filter: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricList>): Promise<Models.DevicesListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -325,7 +325,7 @@ export class Devices {
    * @param callback The callback
    */
   listMetricDefinition(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricDefinitionList>): void;
-  listMetricDefinition(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionList>, callback?: msRest.ServiceCallback<Models.MetricDefinitionList>): Promise<Models.DevicesListMetricDefinitionResponse> {
+  listMetricDefinition(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricDefinitionList>): Promise<Models.DevicesListMetricDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -374,7 +374,7 @@ export class Devices {
    * @param callback The callback
    */
   getUpdateSummary(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Updates>): void;
-  getUpdateSummary(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Updates>, callback?: msRest.ServiceCallback<Models.Updates>): Promise<Models.DevicesGetUpdateSummaryResponse> {
+  getUpdateSummary(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Updates>): Promise<Models.DevicesGetUpdateSummaryResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -432,7 +432,7 @@ export class Devices {
    * @param callback The callback
    */
   listFailoverTargets(sourceDeviceName: string, parameters: Models.ListFailoverTargetsRequest, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FailoverTargetsList>): void;
-  listFailoverTargets(sourceDeviceName: string, parameters: Models.ListFailoverTargetsRequest, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FailoverTargetsList>, callback?: msRest.ServiceCallback<Models.FailoverTargetsList>): Promise<Models.DevicesListFailoverTargetsResponse> {
+  listFailoverTargets(sourceDeviceName: string, parameters: Models.ListFailoverTargetsRequest, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FailoverTargetsList>): Promise<Models.DevicesListFailoverTargetsResponse> {
     return this.client.sendOperationRequest(
       {
         sourceDeviceName,

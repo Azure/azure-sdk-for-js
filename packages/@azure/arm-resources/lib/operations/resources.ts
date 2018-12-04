@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/resourcesMappers";
 import * as Parameters from "../models/parameters";
@@ -45,7 +45,7 @@ export class Resources {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: Models.ResourcesListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.ResourceListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.ResourcesListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.ResourceListResult>, callback?: msRest.ServiceCallback<Models.ResourceListResult>): Promise<Models.ResourcesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: Models.ResourcesListByResourceGroupOptionalParams, callback?: msRest.ServiceCallback<Models.ResourceListResult>): Promise<Models.ResourcesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -105,7 +105,7 @@ export class Resources {
    * @param callback The callback
    */
   list(options: Models.ResourcesListOptionalParams, callback: msRest.ServiceCallback<Models.ResourceListResult>): void;
-  list(options?: Models.ResourcesListOptionalParams | msRest.ServiceCallback<Models.ResourceListResult>, callback?: msRest.ServiceCallback<Models.ResourceListResult>): Promise<Models.ResourcesListResponse> {
+  list(options?: Models.ResourcesListOptionalParams, callback?: msRest.ServiceCallback<Models.ResourceListResult>): Promise<Models.ResourcesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -150,7 +150,7 @@ export class Resources {
    * @param callback The callback
    */
   checkExistence(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
-  checkExistence(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.ResourcesCheckExistenceResponse> {
+  checkExistence(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<boolean>): Promise<Models.ResourcesCheckExistenceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -254,7 +254,7 @@ export class Resources {
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GenericResource>): void;
-  get(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GenericResource>, callback?: msRest.ServiceCallback<Models.GenericResource>): Promise<Models.ResourcesGetResponse> {
+  get(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.GenericResource>): Promise<Models.ResourcesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -296,7 +296,7 @@ export class Resources {
    * @param callback The callback
    */
   checkExistenceById(resourceId: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
-  checkExistenceById(resourceId: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.ResourcesCheckExistenceByIdResponse> {
+  checkExistenceById(resourceId: string, apiVersion: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<boolean>): Promise<Models.ResourcesCheckExistenceByIdResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
@@ -378,7 +378,7 @@ export class Resources {
    * @param callback The callback
    */
   getById(resourceId: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GenericResource>): void;
-  getById(resourceId: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GenericResource>, callback?: msRest.ServiceCallback<Models.GenericResource>): Promise<Models.ResourcesGetByIdResponse> {
+  getById(resourceId: string, apiVersion: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.GenericResource>): Promise<Models.ResourcesGetByIdResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
@@ -603,7 +603,7 @@ export class Resources {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceListResult>, callback?: msRest.ServiceCallback<Models.ResourceListResult>): Promise<Models.ResourcesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceListResult>): Promise<Models.ResourcesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -631,7 +631,7 @@ export class Resources {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceListResult>, callback?: msRest.ServiceCallback<Models.ResourceListResult>): Promise<Models.ResourcesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceListResult>): Promise<Models.ResourcesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

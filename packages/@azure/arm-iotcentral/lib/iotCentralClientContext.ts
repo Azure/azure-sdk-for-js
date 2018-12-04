@@ -9,16 +9,23 @@
  */
 
 import * as Models from "./models";
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 
 const packageName = "@azure/arm-iotcentral";
-const packageVersion = "0.1.0";
+const packageVersion = "1.0.0";
 
 export class IotCentralClientContext extends msRestAzure.AzureServiceClient {
+
   credentials: msRest.ServiceClientCredentials;
+
   subscriptionId: string;
-  apiVersion?: string;
+
+  apiVersion: string;
+
+  acceptLanguage: string;
+
+  longRunningOperationRetryTimeout: number;
 
   /**
    * Initializes a new instance of the IotCentralClient class.
@@ -37,11 +44,6 @@ export class IotCentralClientContext extends msRestAzure.AzureServiceClient {
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
-      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
-
     super(credentials, options);
 
     this.apiVersion = '2018-09-01';
@@ -52,6 +54,7 @@ export class IotCentralClientContext extends msRestAzure.AzureServiceClient {
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
 
+    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }

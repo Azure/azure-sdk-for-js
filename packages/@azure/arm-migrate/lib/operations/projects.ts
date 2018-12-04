@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/projectsMappers";
 import * as Parameters from "../models/parameters";
@@ -42,7 +42,7 @@ export class Projects {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProjectResultList>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectResultList>, callback?: msRest.ServiceCallback<Models.ProjectResultList>): Promise<Models.ProjectsListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProjectResultList>): Promise<Models.ProjectsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -70,7 +70,7 @@ export class Projects {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProjectResultList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectResultList>, callback?: msRest.ServiceCallback<Models.ProjectResultList>): Promise<Models.ProjectsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProjectResultList>): Promise<Models.ProjectsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -102,7 +102,7 @@ export class Projects {
    * @param callback The callback
    */
   get(resourceGroupName: string, projectName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Project>): void;
-  get(resourceGroupName: string, projectName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Project>, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.ProjectsGetResponse> {
+  get(resourceGroupName: string, projectName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.ProjectsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -135,7 +135,7 @@ export class Projects {
    * @param callback The callback
    */
   create(resourceGroupName: string, projectName: string, options: Models.ProjectsCreateOptionalParams, callback: msRest.ServiceCallback<Models.Project>): void;
-  create(resourceGroupName: string, projectName: string, options?: Models.ProjectsCreateOptionalParams | msRest.ServiceCallback<Models.Project>, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.ProjectsCreateResponse> {
+  create(resourceGroupName: string, projectName: string, options?: Models.ProjectsCreateOptionalParams, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.ProjectsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -169,7 +169,7 @@ export class Projects {
    * @param callback The callback
    */
   update(resourceGroupName: string, projectName: string, options: Models.ProjectsUpdateOptionalParams, callback: msRest.ServiceCallback<Models.Project>): void;
-  update(resourceGroupName: string, projectName: string, options?: Models.ProjectsUpdateOptionalParams | msRest.ServiceCallback<Models.Project>, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.ProjectsUpdateResponse> {
+  update(resourceGroupName: string, projectName: string, options?: Models.ProjectsUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.ProjectsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -202,7 +202,7 @@ export class Projects {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, projectName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, projectName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ProjectsDeleteResponse> {
+  deleteMethod(resourceGroupName: string, projectName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.ProjectsDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -235,7 +235,7 @@ export class Projects {
    * @param callback The callback
    */
   getKeys(resourceGroupName: string, projectName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProjectKey>): void;
-  getKeys(resourceGroupName: string, projectName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectKey>, callback?: msRest.ServiceCallback<Models.ProjectKey>): Promise<Models.ProjectsGetKeysResponse> {
+  getKeys(resourceGroupName: string, projectName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProjectKey>): Promise<Models.ProjectsGetKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

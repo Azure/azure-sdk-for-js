@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/formulasMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class Formulas {
    * @param callback The callback
    */
   list(resourceGroupName: string, labName: string, options: Models.FormulasListOptionalParams, callback: msRest.ServiceCallback<Models.FormulaList>): void;
-  list(resourceGroupName: string, labName: string, options?: Models.FormulasListOptionalParams | msRest.ServiceCallback<Models.FormulaList>, callback?: msRest.ServiceCallback<Models.FormulaList>): Promise<Models.FormulasListResponse> {
+  list(resourceGroupName: string, labName: string, options?: Models.FormulasListOptionalParams, callback?: msRest.ServiceCallback<Models.FormulaList>): Promise<Models.FormulasListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +83,7 @@ export class Formulas {
    * @param callback The callback
    */
   get(resourceGroupName: string, labName: string, name: string, options: Models.FormulasGetOptionalParams, callback: msRest.ServiceCallback<Models.Formula>): void;
-  get(resourceGroupName: string, labName: string, name: string, options?: Models.FormulasGetOptionalParams | msRest.ServiceCallback<Models.Formula>, callback?: msRest.ServiceCallback<Models.Formula>): Promise<Models.FormulasGetResponse> {
+  get(resourceGroupName: string, labName: string, name: string, options?: Models.FormulasGetOptionalParams, callback?: msRest.ServiceCallback<Models.Formula>): Promise<Models.FormulasGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -133,7 +133,7 @@ export class Formulas {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, labName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -172,7 +172,7 @@ export class Formulas {
    * @param callback The callback
    */
   update(resourceGroupName: string, labName: string, name: string, formula: Models.FormulaFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Formula>): void;
-  update(resourceGroupName: string, labName: string, name: string, formula: Models.FormulaFragment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Formula>, callback?: msRest.ServiceCallback<Models.Formula>): Promise<Models.FormulasUpdateResponse> {
+  update(resourceGroupName: string, labName: string, name: string, formula: Models.FormulaFragment, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Formula>): Promise<Models.FormulasUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -225,7 +225,7 @@ export class Formulas {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FormulaList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FormulaList>, callback?: msRest.ServiceCallback<Models.FormulaList>): Promise<Models.FormulasListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FormulaList>): Promise<Models.FormulasListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

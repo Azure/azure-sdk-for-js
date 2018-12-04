@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -557,7 +557,10 @@ export interface WcfRelaysListResult extends Array<WcfRelay> {
  * @readonly
  * @enum {string}
  */
-export type Relaytype = 'NetTcp' | 'Http';
+export enum Relaytype {
+  NetTcp = 'NetTcp',
+  Http = 'Http',
+}
 
 /**
  * Defines values for SkuTier.
@@ -565,15 +568,25 @@ export type Relaytype = 'NetTcp' | 'Http';
  * @readonly
  * @enum {string}
  */
-export type SkuTier = 'Standard';
+export enum SkuTier {
+  Standard = 'Standard',
+}
 
 /**
  * Defines values for ProvisioningStateEnum.
- * Possible values include: 'Created', 'Succeeded', 'Deleted', 'Failed', 'Updating', 'Unknown'
+ * Possible values include: 'Created', 'Succeeded', 'Deleted', 'Failed',
+ * 'Updating', 'Unknown'
  * @readonly
  * @enum {string}
  */
-export type ProvisioningStateEnum = 'Created' | 'Succeeded' | 'Deleted' | 'Failed' | 'Updating' | 'Unknown';
+export enum ProvisioningStateEnum {
+  Created = 'Created',
+  Succeeded = 'Succeeded',
+  Deleted = 'Deleted',
+  Failed = 'Failed',
+  Updating = 'Updating',
+  Unknown = 'Unknown',
+}
 
 /**
  * Defines values for AccessRights.
@@ -581,7 +594,11 @@ export type ProvisioningStateEnum = 'Created' | 'Succeeded' | 'Deleted' | 'Faile
  * @readonly
  * @enum {string}
  */
-export type AccessRights = 'Manage' | 'Send' | 'Listen';
+export enum AccessRights {
+  Manage = 'Manage',
+  Send = 'Send',
+  Listen = 'Listen',
+}
 
 /**
  * Defines values for KeyType.
@@ -589,16 +606,26 @@ export type AccessRights = 'Manage' | 'Send' | 'Listen';
  * @readonly
  * @enum {string}
  */
-export type KeyType = 'PrimaryKey' | 'SecondaryKey';
+export enum KeyType {
+  PrimaryKey = 'PrimaryKey',
+  SecondaryKey = 'SecondaryKey',
+}
 
 /**
  * Defines values for UnavailableReason.
- * Possible values include: 'None', 'InvalidName', 'SubscriptionIsDisabled', 'NameInUse',
- * 'NameInLockdown', 'TooManyNamespaceInCurrentSubscription'
+ * Possible values include: 'None', 'InvalidName', 'SubscriptionIsDisabled',
+ * 'NameInUse', 'NameInLockdown', 'TooManyNamespaceInCurrentSubscription'
  * @readonly
  * @enum {string}
  */
-export type UnavailableReason = 'None' | 'InvalidName' | 'SubscriptionIsDisabled' | 'NameInUse' | 'NameInLockdown' | 'TooManyNamespaceInCurrentSubscription';
+export enum UnavailableReason {
+  None = 'None',
+  InvalidName = 'InvalidName',
+  SubscriptionIsDisabled = 'SubscriptionIsDisabled',
+  NameInUse = 'NameInUse',
+  NameInLockdown = 'NameInLockdown',
+  TooManyNamespaceInCurrentSubscription = 'TooManyNamespaceInCurrentSubscription',
+}
 
 /**
  * Contains response data for the list operation.

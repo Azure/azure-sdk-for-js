@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/integrationAccountPartnersMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class IntegrationAccountPartners {
    * @param callback The callback
    */
   list(resourceGroupName: string, integrationAccountName: string, options: Models.IntegrationAccountPartnersListOptionalParams, callback: msRest.ServiceCallback<Models.IntegrationAccountPartnerListResult>): void;
-  list(resourceGroupName: string, integrationAccountName: string, options?: Models.IntegrationAccountPartnersListOptionalParams | msRest.ServiceCallback<Models.IntegrationAccountPartnerListResult>, callback?: msRest.ServiceCallback<Models.IntegrationAccountPartnerListResult>): Promise<Models.IntegrationAccountPartnersListResponse> {
+  list(resourceGroupName: string, integrationAccountName: string, options?: Models.IntegrationAccountPartnersListOptionalParams, callback?: msRest.ServiceCallback<Models.IntegrationAccountPartnerListResult>): Promise<Models.IntegrationAccountPartnersListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class IntegrationAccountPartners {
    * @param callback The callback
    */
   get(resourceGroupName: string, integrationAccountName: string, partnerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationAccountPartner>): void;
-  get(resourceGroupName: string, integrationAccountName: string, partnerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationAccountPartner>, callback?: msRest.ServiceCallback<Models.IntegrationAccountPartner>): Promise<Models.IntegrationAccountPartnersGetResponse> {
+  get(resourceGroupName: string, integrationAccountName: string, partnerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IntegrationAccountPartner>): Promise<Models.IntegrationAccountPartnersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -121,7 +121,7 @@ export class IntegrationAccountPartners {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, integrationAccountName: string, partnerName: string, partner: Models.IntegrationAccountPartner, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationAccountPartner>): void;
-  createOrUpdate(resourceGroupName: string, integrationAccountName: string, partnerName: string, partner: Models.IntegrationAccountPartner, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationAccountPartner>, callback?: msRest.ServiceCallback<Models.IntegrationAccountPartner>): Promise<Models.IntegrationAccountPartnersCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, integrationAccountName: string, partnerName: string, partner: Models.IntegrationAccountPartner, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IntegrationAccountPartner>): Promise<Models.IntegrationAccountPartnersCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +158,7 @@ export class IntegrationAccountPartners {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, integrationAccountName: string, partnerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, integrationAccountName: string, partnerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, integrationAccountName: string, partnerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -197,7 +197,7 @@ export class IntegrationAccountPartners {
    * @param callback The callback
    */
   listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, partnerName: string, listContentCallbackUrlParameter: Models.GetCallbackUrlParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): void;
-  listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, partnerName: string, listContentCallbackUrlParameter: Models.GetCallbackUrlParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>, callback?: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): Promise<Models.IntegrationAccountPartnersListContentCallbackUrlResponse> {
+  listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, partnerName: string, listContentCallbackUrlParameter: Models.GetCallbackUrlParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): Promise<Models.IntegrationAccountPartnersListContentCallbackUrlResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -228,7 +228,7 @@ export class IntegrationAccountPartners {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationAccountPartnerListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationAccountPartnerListResult>, callback?: msRest.ServiceCallback<Models.IntegrationAccountPartnerListResult>): Promise<Models.IntegrationAccountPartnersListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IntegrationAccountPartnerListResult>): Promise<Models.IntegrationAccountPartnersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

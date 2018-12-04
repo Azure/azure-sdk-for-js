@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { ServiceClientOptions } from "@azure/ms-rest-js";
-import * as msRest from "@azure/ms-rest-js";
+import { ServiceClientOptions } from "ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 
 /**
@@ -700,13 +700,9 @@ export interface Query {
  */
 export interface CustomSearchAPIClientOptions extends ServiceClientOptions {
   /**
-   * @member {string} [endpoint] Supported Cognitive Services endpoints
-   * (protocol and hostname, for example:
-   * "https://westus.api.cognitive.microsoft.com",
-   * "https://api.cognitive.microsoft.com"). Default value:
-   * 'https://api.cognitive.microsoft.com' .
+   * @member {string} [baseUri]
    */
-  endpoint?: string;
+  baseUri?: string;
 }
 
 /**
@@ -938,39 +934,82 @@ export interface CustomInstanceSearchOptionalParams extends msRest.RequestOption
 
 /**
  * Defines values for ErrorCode.
- * Possible values include: 'None', 'ServerError', 'InvalidRequest', 'RateLimitExceeded',
- * 'InvalidAuthorization', 'InsufficientAuthorization'
+ * Possible values include: 'None', 'ServerError', 'InvalidRequest',
+ * 'RateLimitExceeded', 'InvalidAuthorization', 'InsufficientAuthorization'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ErrorCode = <ErrorCode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ErrorCode = 'None' | 'ServerError' | 'InvalidRequest' | 'RateLimitExceeded' | 'InvalidAuthorization' | 'InsufficientAuthorization';
+export enum ErrorCode {
+  None = 'None',
+  ServerError = 'ServerError',
+  InvalidRequest = 'InvalidRequest',
+  RateLimitExceeded = 'RateLimitExceeded',
+  InvalidAuthorization = 'InvalidAuthorization',
+  InsufficientAuthorization = 'InsufficientAuthorization',
+}
 
 /**
  * Defines values for ErrorSubCode.
- * Possible values include: 'UnexpectedError', 'ResourceError', 'NotImplemented',
- * 'ParameterMissing', 'ParameterInvalidValue', 'HttpNotAllowed', 'Blocked',
- * 'AuthorizationMissing', 'AuthorizationRedundancy', 'AuthorizationDisabled',
- * 'AuthorizationExpired'
+ * Possible values include: 'UnexpectedError', 'ResourceError',
+ * 'NotImplemented', 'ParameterMissing', 'ParameterInvalidValue',
+ * 'HttpNotAllowed', 'Blocked', 'AuthorizationMissing',
+ * 'AuthorizationRedundancy', 'AuthorizationDisabled', 'AuthorizationExpired'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ErrorSubCode =
+ * <ErrorSubCode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type ErrorSubCode = 'UnexpectedError' | 'ResourceError' | 'NotImplemented' | 'ParameterMissing' | 'ParameterInvalidValue' | 'HttpNotAllowed' | 'Blocked' | 'AuthorizationMissing' | 'AuthorizationRedundancy' | 'AuthorizationDisabled' | 'AuthorizationExpired';
+export enum ErrorSubCode {
+  UnexpectedError = 'UnexpectedError',
+  ResourceError = 'ResourceError',
+  NotImplemented = 'NotImplemented',
+  ParameterMissing = 'ParameterMissing',
+  ParameterInvalidValue = 'ParameterInvalidValue',
+  HttpNotAllowed = 'HttpNotAllowed',
+  Blocked = 'Blocked',
+  AuthorizationMissing = 'AuthorizationMissing',
+  AuthorizationRedundancy = 'AuthorizationRedundancy',
+  AuthorizationDisabled = 'AuthorizationDisabled',
+  AuthorizationExpired = 'AuthorizationExpired',
+}
 
 /**
  * Defines values for SafeSearch.
  * Possible values include: 'Off', 'Moderate', 'Strict'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SafeSearch = <SafeSearch>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type SafeSearch = 'Off' | 'Moderate' | 'Strict';
+export enum SafeSearch {
+  Off = 'Off',
+  Moderate = 'Moderate',
+  Strict = 'Strict',
+}
 
 /**
  * Defines values for TextFormat.
  * Possible values include: 'Raw', 'Html'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: TextFormat = <TextFormat>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type TextFormat = 'Raw' | 'Html';
+export enum TextFormat {
+  Raw = 'Raw',
+  Html = 'Html',
+}
 
 /**
  * Contains response data for the search operation.

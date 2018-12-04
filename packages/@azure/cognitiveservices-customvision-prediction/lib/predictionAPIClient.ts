@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
@@ -49,7 +49,7 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * @param callback The callback
    */
   predictImageUrl(projectId: string, imageUrl: Models.ImageUrl, options: Models.PredictionAPIClientPredictImageUrlOptionalParams, callback: msRest.ServiceCallback<Models.ImagePrediction>): void;
-  predictImageUrl(projectId: string, imageUrl: Models.ImageUrl, options?: Models.PredictionAPIClientPredictImageUrlOptionalParams | msRest.ServiceCallback<Models.ImagePrediction>, callback?: msRest.ServiceCallback<Models.ImagePrediction>): Promise<Models.PredictImageUrlResponse> {
+  predictImageUrl(projectId: string, imageUrl: Models.ImageUrl, options?: Models.PredictionAPIClientPredictImageUrlOptionalParams, callback?: msRest.ServiceCallback<Models.ImagePrediction>): Promise<Models.PredictImageUrlResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -81,7 +81,7 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * @param callback The callback
    */
   predictImage(projectId: string, imageData: msRest.HttpRequestBody, options: Models.PredictionAPIClientPredictImageOptionalParams, callback: msRest.ServiceCallback<Models.ImagePrediction>): void;
-  predictImage(projectId: string, imageData: msRest.HttpRequestBody, options?: Models.PredictionAPIClientPredictImageOptionalParams | msRest.ServiceCallback<Models.ImagePrediction>, callback?: msRest.ServiceCallback<Models.ImagePrediction>): Promise<Models.PredictImageResponse> {
+  predictImage(projectId: string, imageData: msRest.HttpRequestBody, options?: Models.PredictionAPIClientPredictImageOptionalParams, callback?: msRest.ServiceCallback<Models.ImagePrediction>): Promise<Models.PredictImageResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -116,7 +116,7 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * @param callback The callback
    */
   predictImageUrlWithNoStore(projectId: string, imageUrl: Models.ImageUrl, options: Models.PredictionAPIClientPredictImageUrlWithNoStoreOptionalParams, callback: msRest.ServiceCallback<Models.ImagePrediction>): void;
-  predictImageUrlWithNoStore(projectId: string, imageUrl: Models.ImageUrl, options?: Models.PredictionAPIClientPredictImageUrlWithNoStoreOptionalParams | msRest.ServiceCallback<Models.ImagePrediction>, callback?: msRest.ServiceCallback<Models.ImagePrediction>): Promise<Models.PredictImageUrlWithNoStoreResponse> {
+  predictImageUrlWithNoStore(projectId: string, imageUrl: Models.ImageUrl, options?: Models.PredictionAPIClientPredictImageUrlWithNoStoreOptionalParams, callback?: msRest.ServiceCallback<Models.ImagePrediction>): Promise<Models.PredictImageUrlWithNoStoreResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -148,7 +148,7 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * @param callback The callback
    */
   predictImageWithNoStore(projectId: string, imageData: msRest.HttpRequestBody, options: Models.PredictionAPIClientPredictImageWithNoStoreOptionalParams, callback: msRest.ServiceCallback<Models.ImagePrediction>): void;
-  predictImageWithNoStore(projectId: string, imageData: msRest.HttpRequestBody, options?: Models.PredictionAPIClientPredictImageWithNoStoreOptionalParams | msRest.ServiceCallback<Models.ImagePrediction>, callback?: msRest.ServiceCallback<Models.ImagePrediction>): Promise<Models.PredictImageWithNoStoreResponse> {
+  predictImageWithNoStore(projectId: string, imageData: msRest.HttpRequestBody, options?: Models.PredictionAPIClientPredictImageWithNoStoreOptionalParams, callback?: msRest.ServiceCallback<Models.ImagePrediction>): Promise<Models.PredictImageWithNoStoreResponse> {
     return this.sendOperationRequest(
       {
         projectId,

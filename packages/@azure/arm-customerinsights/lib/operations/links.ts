@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/linksMappers";
 import * as Parameters from "../models/parameters";
@@ -65,7 +65,7 @@ export class Links {
    * @param callback The callback
    */
   get(resourceGroupName: string, hubName: string, linkName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LinkResourceFormat>): void;
-  get(resourceGroupName: string, hubName: string, linkName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LinkResourceFormat>, callback?: msRest.ServiceCallback<Models.LinkResourceFormat>): Promise<Models.LinksGetResponse> {
+  get(resourceGroupName: string, hubName: string, linkName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LinkResourceFormat>): Promise<Models.LinksGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -101,7 +101,7 @@ export class Links {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, hubName: string, linkName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, hubName: string, linkName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, hubName: string, linkName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -134,7 +134,7 @@ export class Links {
    * @param callback The callback
    */
   listByHub(resourceGroupName: string, hubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LinkListResult>): void;
-  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LinkListResult>, callback?: msRest.ServiceCallback<Models.LinkListResult>): Promise<Models.LinksListByHubResponse> {
+  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LinkListResult>): Promise<Models.LinksListByHubResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -185,7 +185,7 @@ export class Links {
    * @param callback The callback
    */
   listByHubNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LinkListResult>): void;
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LinkListResult>, callback?: msRest.ServiceCallback<Models.LinkListResult>): Promise<Models.LinksListByHubNextResponse> {
+  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LinkListResult>): Promise<Models.LinksListByHubNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

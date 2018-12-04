@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/integrationAccountAssembliesMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class IntegrationAccountAssemblies {
    * @param callback The callback
    */
   list(resourceGroupName: string, integrationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AssemblyCollection>): void;
-  list(resourceGroupName: string, integrationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssemblyCollection>, callback?: msRest.ServiceCallback<Models.AssemblyCollection>): Promise<Models.IntegrationAccountAssembliesListResponse> {
+  list(resourceGroupName: string, integrationAccountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AssemblyCollection>): Promise<Models.IntegrationAccountAssembliesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class IntegrationAccountAssemblies {
    * @param callback The callback
    */
   get(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AssemblyDefinition>): void;
-  get(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssemblyDefinition>, callback?: msRest.ServiceCallback<Models.AssemblyDefinition>): Promise<Models.IntegrationAccountAssembliesGetResponse> {
+  get(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AssemblyDefinition>): Promise<Models.IntegrationAccountAssembliesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -121,7 +121,7 @@ export class IntegrationAccountAssemblies {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, assemblyArtifact: Models.AssemblyDefinition, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AssemblyDefinition>): void;
-  createOrUpdate(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, assemblyArtifact: Models.AssemblyDefinition, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssemblyDefinition>, callback?: msRest.ServiceCallback<Models.AssemblyDefinition>): Promise<Models.IntegrationAccountAssembliesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, assemblyArtifact: Models.AssemblyDefinition, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AssemblyDefinition>): Promise<Models.IntegrationAccountAssembliesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +158,7 @@ export class IntegrationAccountAssemblies {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -194,7 +194,7 @@ export class IntegrationAccountAssemblies {
    * @param callback The callback
    */
   listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): void;
-  listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>, callback?: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): Promise<Models.IntegrationAccountAssembliesListContentCallbackUrlResponse> {
+  listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): Promise<Models.IntegrationAccountAssembliesListContentCallbackUrlResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

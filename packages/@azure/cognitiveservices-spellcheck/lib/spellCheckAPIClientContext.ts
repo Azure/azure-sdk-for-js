@@ -8,14 +8,13 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "./models";
 
 const packageName = "@azure/cognitiveservices-spellcheck";
-const packageVersion = "0.1.0";
+const packageVersion = "1.0.0";
 
 export class SpellCheckAPIClientContext extends msRest.ServiceClient {
-  endpoint?: string;
   credentials: msRest.ServiceClientCredentials;
 
   /**
@@ -31,20 +30,13 @@ export class SpellCheckAPIClientContext extends msRest.ServiceClient {
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
-      const defaultUserAgent = msRest.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
 
     super(credentials, options);
 
-    this.endpoint = 'https://api.cognitive.microsoft.com';
-    this.baseUri = "{Endpoint}";
+    this.baseUri = options.baseUri || this.baseUri || "https://api.cognitive.microsoft.com";
     this.requestContentType = "application/x-www-form-urlencoded";
     this.credentials = credentials;
 
-    if(options.endpoint !== null && options.endpoint !== undefined) {
-      this.endpoint = options.endpoint;
-    }
+    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
   }
 }

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/componentCurrentBillingFeaturesMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class ComponentCurrentBillingFeatures {
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>): void;
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>): Promise<Models.ComponentCurrentBillingFeaturesGetResponse> {
+  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>): Promise<Models.ComponentCurrentBillingFeaturesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -85,7 +85,7 @@ export class ComponentCurrentBillingFeatures {
    * @param callback The callback
    */
   update(resourceGroupName: string, resourceName: string, billingFeaturesProperties: Models.ApplicationInsightsComponentBillingFeatures, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>): void;
-  update(resourceGroupName: string, resourceName: string, billingFeaturesProperties: Models.ApplicationInsightsComponentBillingFeatures, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>): Promise<Models.ComponentCurrentBillingFeaturesUpdateResponse> {
+  update(resourceGroupName: string, resourceName: string, billingFeaturesProperties: Models.ApplicationInsightsComponentBillingFeatures, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>): Promise<Models.ComponentCurrentBillingFeaturesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

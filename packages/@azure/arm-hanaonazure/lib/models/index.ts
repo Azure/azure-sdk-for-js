@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -367,27 +367,72 @@ export interface HanaInstancesListResult extends Array<HanaInstance> {
 /**
  * Defines values for HanaHardwareTypeNamesEnum.
  * Possible values include: 'Cisco_UCS', 'HPE'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: HanaHardwareTypeNamesEnum =
+ * <HanaHardwareTypeNamesEnum>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type HanaHardwareTypeNamesEnum = 'Cisco_UCS' | 'HPE';
+export enum HanaHardwareTypeNamesEnum {
+  CiscoUCS = 'Cisco_UCS',
+  HPE = 'HPE',
+}
 
 /**
  * Defines values for HanaInstanceSizeNamesEnum.
- * Possible values include: 'S72m', 'S144m', 'S72', 'S144', 'S192', 'S192m', 'S192xm', 'S384',
- * 'S384m', 'S384xm', 'S384xxm', 'S576m', 'S576xm', 'S768', 'S768m', 'S768xm', 'S960m'
+ * Possible values include: 'S72m', 'S144m', 'S72', 'S144', 'S192', 'S192m',
+ * 'S192xm', 'S384', 'S384m', 'S384xm', 'S384xxm', 'S576m', 'S576xm', 'S768',
+ * 'S768m', 'S768xm', 'S960m'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: HanaInstanceSizeNamesEnum =
+ * <HanaInstanceSizeNamesEnum>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type HanaInstanceSizeNamesEnum = 'S72m' | 'S144m' | 'S72' | 'S144' | 'S192' | 'S192m' | 'S192xm' | 'S384' | 'S384m' | 'S384xm' | 'S384xxm' | 'S576m' | 'S576xm' | 'S768' | 'S768m' | 'S768xm' | 'S960m';
+export enum HanaInstanceSizeNamesEnum {
+  S72m = 'S72m',
+  S144m = 'S144m',
+  S72 = 'S72',
+  S144 = 'S144',
+  S192 = 'S192',
+  S192m = 'S192m',
+  S192xm = 'S192xm',
+  S384 = 'S384',
+  S384m = 'S384m',
+  S384xm = 'S384xm',
+  S384xxm = 'S384xxm',
+  S576m = 'S576m',
+  S576xm = 'S576xm',
+  S768 = 'S768',
+  S768m = 'S768m',
+  S768xm = 'S768xm',
+  S960m = 'S960m',
+}
 
 /**
  * Defines values for HanaInstancePowerStateEnum.
- * Possible values include: 'starting', 'started', 'stopping', 'stopped', 'restarting', 'unknown'
+ * Possible values include: 'starting', 'started', 'stopping', 'stopped',
+ * 'restarting', 'unknown'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: HanaInstancePowerStateEnum =
+ * <HanaInstancePowerStateEnum>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export type HanaInstancePowerStateEnum = 'starting' | 'started' | 'stopping' | 'stopped' | 'restarting' | 'unknown';
+export enum HanaInstancePowerStateEnum {
+  Starting = 'starting',
+  Started = 'started',
+  Stopping = 'stopping',
+  Stopped = 'stopped',
+  Restarting = 'restarting',
+  Unknown = 'unknown',
+}
 
 /**
  * Contains response data for the list operation.

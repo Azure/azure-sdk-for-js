@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/moduleOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class ModuleOperations {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, automationAccountName: string, moduleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, automationAccountName: string, moduleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, automationAccountName: string, moduleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -86,7 +86,7 @@ export class ModuleOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, automationAccountName: string, moduleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Module>): void;
-  get(resourceGroupName: string, automationAccountName: string, moduleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Module>, callback?: msRest.ServiceCallback<Models.Module>): Promise<Models.ModuleGetResponse> {
+  get(resourceGroupName: string, automationAccountName: string, moduleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Module>): Promise<Models.ModuleGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -125,7 +125,7 @@ export class ModuleOperations {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, automationAccountName: string, moduleName: string, parameters: Models.ModuleCreateOrUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Module>): void;
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, moduleName: string, parameters: Models.ModuleCreateOrUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Module>, callback?: msRest.ServiceCallback<Models.Module>): Promise<Models.ModuleCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, automationAccountName: string, moduleName: string, parameters: Models.ModuleCreateOrUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Module>): Promise<Models.ModuleCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -165,7 +165,7 @@ export class ModuleOperations {
    * @param callback The callback
    */
   update(resourceGroupName: string, automationAccountName: string, moduleName: string, parameters: Models.ModuleUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Module>): void;
-  update(resourceGroupName: string, automationAccountName: string, moduleName: string, parameters: Models.ModuleUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Module>, callback?: msRest.ServiceCallback<Models.Module>): Promise<Models.ModuleUpdateResponse> {
+  update(resourceGroupName: string, automationAccountName: string, moduleName: string, parameters: Models.ModuleUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Module>): Promise<Models.ModuleUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -199,7 +199,7 @@ export class ModuleOperations {
    * @param callback The callback
    */
   listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ModuleListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ModuleListResult>, callback?: msRest.ServiceCallback<Models.ModuleListResult>): Promise<Models.ModuleListByAutomationAccountResponse> {
+  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ModuleListResult>): Promise<Models.ModuleListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -228,7 +228,7 @@ export class ModuleOperations {
    * @param callback The callback
    */
   listByAutomationAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ModuleListResult>): void;
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ModuleListResult>, callback?: msRest.ServiceCallback<Models.ModuleListResult>): Promise<Models.ModuleListByAutomationAccountNextResponse> {
+  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ModuleListResult>): Promise<Models.ModuleListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

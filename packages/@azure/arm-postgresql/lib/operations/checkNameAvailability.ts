@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/checkNameAvailabilityMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class CheckNameAvailability {
    * @param callback The callback
    */
   execute(nameAvailabilityRequest: Models.NameAvailabilityRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NameAvailability>): void;
-  execute(nameAvailabilityRequest: Models.NameAvailabilityRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NameAvailability>, callback?: msRest.ServiceCallback<Models.NameAvailability>): Promise<Models.CheckNameAvailabilityExecuteResponse> {
+  execute(nameAvailabilityRequest: Models.NameAvailabilityRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NameAvailability>): Promise<Models.CheckNameAvailabilityExecuteResponse> {
     return this.client.sendOperationRequest(
       {
         nameAvailabilityRequest,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/backupResourceVaultConfigsMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class BackupResourceVaultConfigs {
    * @param callback The callback
    */
   get(vaultName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupResourceVaultConfigResource>): void;
-  get(vaultName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupResourceVaultConfigResource>, callback?: msRest.ServiceCallback<Models.BackupResourceVaultConfigResource>): Promise<Models.BackupResourceVaultConfigsGetResponse> {
+  get(vaultName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupResourceVaultConfigResource>): Promise<Models.BackupResourceVaultConfigsGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -88,7 +88,7 @@ export class BackupResourceVaultConfigs {
    * @param callback The callback
    */
   update(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceVaultConfigResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupResourceVaultConfigResource>): void;
-  update(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceVaultConfigResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupResourceVaultConfigResource>, callback?: msRest.ServiceCallback<Models.BackupResourceVaultConfigResource>): Promise<Models.BackupResourceVaultConfigsUpdateResponse> {
+  update(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceVaultConfigResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupResourceVaultConfigResource>): Promise<Models.BackupResourceVaultConfigsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,

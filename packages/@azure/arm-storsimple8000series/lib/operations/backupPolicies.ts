@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/backupPoliciesMappers";
 import * as Parameters from "../models/parameters";
@@ -51,7 +51,7 @@ export class BackupPolicies {
    * @param callback The callback
    */
   listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupPolicyList>): void;
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupPolicyList>, callback?: msRest.ServiceCallback<Models.BackupPolicyList>): Promise<Models.BackupPoliciesListByDeviceResponse> {
+  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupPolicyList>): Promise<Models.BackupPoliciesListByDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -90,7 +90,7 @@ export class BackupPolicies {
    * @param callback The callback
    */
   get(deviceName: string, backupPolicyName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupPolicy>): void;
-  get(deviceName: string, backupPolicyName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupPolicy>, callback?: msRest.ServiceCallback<Models.BackupPolicy>): Promise<Models.BackupPoliciesGetResponse> {
+  get(deviceName: string, backupPolicyName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupPolicy>): Promise<Models.BackupPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,

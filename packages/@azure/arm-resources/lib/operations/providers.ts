@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/providersMappers";
 import * as Parameters from "../models/parameters";
@@ -44,7 +44,7 @@ export class Providers {
    * @param callback The callback
    */
   unregister(resourceProviderNamespace: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Provider>): void;
-  unregister(resourceProviderNamespace: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Provider>, callback?: msRest.ServiceCallback<Models.Provider>): Promise<Models.ProvidersUnregisterResponse> {
+  unregister(resourceProviderNamespace: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Provider>): Promise<Models.ProvidersUnregisterResponse> {
     return this.client.sendOperationRequest(
       {
         resourceProviderNamespace,
@@ -72,7 +72,7 @@ export class Providers {
    * @param callback The callback
    */
   register(resourceProviderNamespace: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Provider>): void;
-  register(resourceProviderNamespace: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Provider>, callback?: msRest.ServiceCallback<Models.Provider>): Promise<Models.ProvidersRegisterResponse> {
+  register(resourceProviderNamespace: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Provider>): Promise<Models.ProvidersRegisterResponse> {
     return this.client.sendOperationRequest(
       {
         resourceProviderNamespace,
@@ -97,7 +97,7 @@ export class Providers {
    * @param callback The callback
    */
   list(options: Models.ProvidersListOptionalParams, callback: msRest.ServiceCallback<Models.ProviderListResult>): void;
-  list(options?: Models.ProvidersListOptionalParams | msRest.ServiceCallback<Models.ProviderListResult>, callback?: msRest.ServiceCallback<Models.ProviderListResult>): Promise<Models.ProvidersListResponse> {
+  list(options?: Models.ProvidersListOptionalParams, callback?: msRest.ServiceCallback<Models.ProviderListResult>): Promise<Models.ProvidersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -124,7 +124,7 @@ export class Providers {
    * @param callback The callback
    */
   get(resourceProviderNamespace: string, options: Models.ProvidersGetOptionalParams, callback: msRest.ServiceCallback<Models.Provider>): void;
-  get(resourceProviderNamespace: string, options?: Models.ProvidersGetOptionalParams | msRest.ServiceCallback<Models.Provider>, callback?: msRest.ServiceCallback<Models.Provider>): Promise<Models.ProvidersGetResponse> {
+  get(resourceProviderNamespace: string, options?: Models.ProvidersGetOptionalParams, callback?: msRest.ServiceCallback<Models.Provider>): Promise<Models.ProvidersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceProviderNamespace,
@@ -152,7 +152,7 @@ export class Providers {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProviderListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProviderListResult>, callback?: msRest.ServiceCallback<Models.ProviderListResult>): Promise<Models.ProvidersListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProviderListResult>): Promise<Models.ProvidersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

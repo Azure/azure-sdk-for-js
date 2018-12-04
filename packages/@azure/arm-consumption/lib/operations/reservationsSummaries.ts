@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/reservationsSummariesMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class ReservationsSummaries {
    * @param callback The callback
    */
   listByReservationOrder(reservationOrderId: string, grain: Models.Datagrain, options: Models.ReservationsSummariesListByReservationOrderOptionalParams, callback: msRest.ServiceCallback<Models.ReservationSummariesListResult>): void;
-  listByReservationOrder(reservationOrderId: string, grain: Models.Datagrain, options?: Models.ReservationsSummariesListByReservationOrderOptionalParams | msRest.ServiceCallback<Models.ReservationSummariesListResult>, callback?: msRest.ServiceCallback<Models.ReservationSummariesListResult>): Promise<Models.ReservationsSummariesListByReservationOrderResponse> {
+  listByReservationOrder(reservationOrderId: string, grain: Models.Datagrain, options?: Models.ReservationsSummariesListByReservationOrderOptionalParams, callback?: msRest.ServiceCallback<Models.ReservationSummariesListResult>): Promise<Models.ReservationsSummariesListByReservationOrderResponse> {
     return this.client.sendOperationRequest(
       {
         reservationOrderId,
@@ -82,7 +82,7 @@ export class ReservationsSummaries {
    * @param callback The callback
    */
   listByReservationOrderAndReservation(reservationOrderId: string, reservationId: string, grain: Models.Datagrain, options: Models.ReservationsSummariesListByReservationOrderAndReservationOptionalParams, callback: msRest.ServiceCallback<Models.ReservationSummariesListResult>): void;
-  listByReservationOrderAndReservation(reservationOrderId: string, reservationId: string, grain: Models.Datagrain, options?: Models.ReservationsSummariesListByReservationOrderAndReservationOptionalParams | msRest.ServiceCallback<Models.ReservationSummariesListResult>, callback?: msRest.ServiceCallback<Models.ReservationSummariesListResult>): Promise<Models.ReservationsSummariesListByReservationOrderAndReservationResponse> {
+  listByReservationOrderAndReservation(reservationOrderId: string, reservationId: string, grain: Models.Datagrain, options?: Models.ReservationsSummariesListByReservationOrderAndReservationOptionalParams, callback?: msRest.ServiceCallback<Models.ReservationSummariesListResult>): Promise<Models.ReservationsSummariesListByReservationOrderAndReservationResponse> {
     return this.client.sendOperationRequest(
       {
         reservationOrderId,
@@ -112,7 +112,7 @@ export class ReservationsSummaries {
    * @param callback The callback
    */
   listByReservationOrderNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReservationSummariesListResult>): void;
-  listByReservationOrderNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationSummariesListResult>, callback?: msRest.ServiceCallback<Models.ReservationSummariesListResult>): Promise<Models.ReservationsSummariesListByReservationOrderNextResponse> {
+  listByReservationOrderNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ReservationSummariesListResult>): Promise<Models.ReservationsSummariesListByReservationOrderNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -140,7 +140,7 @@ export class ReservationsSummaries {
    * @param callback The callback
    */
   listByReservationOrderAndReservationNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReservationSummariesListResult>): void;
-  listByReservationOrderAndReservationNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationSummariesListResult>, callback?: msRest.ServiceCallback<Models.ReservationSummariesListResult>): Promise<Models.ReservationsSummariesListByReservationOrderAndReservationNextResponse> {
+  listByReservationOrderAndReservationNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ReservationSummariesListResult>): Promise<Models.ReservationsSummariesListByReservationOrderAndReservationNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
