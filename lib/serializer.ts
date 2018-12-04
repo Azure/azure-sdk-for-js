@@ -532,6 +532,10 @@ function serializeCompositeType(serializer: Serializer, mapper: CompositeMapper,
   return object;
 }
 
+function isSpecialXmlProperty(propertyName: string): boolean {
+  return ["$", "_"].includes(propertyName);
+}
+
 function deserializeCompositeType(serializer: Serializer, mapper: CompositeMapper, responseBody: any, objectName: string): any {
   if (getPolymorphicDiscriminatorRecursively(serializer, mapper)) {
     mapper = getPolymorphicMapper(serializer, mapper, responseBody, "serializedName");
@@ -539,8 +543,12 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
 
   const modelProps = resolveModelProperties(serializer, mapper, objectName);
   let instance: { [key: string]: any } = {};
+  const handledPropertyNames: string[] = [];
+
   for (const key of Object.keys(modelProps)) {
     const propertyMapper = modelProps[key];
+    const paths = splitSerializeName(modelProps[key].serializedName!);
+    handledPropertyNames.push(paths[0]);
     const { serializedName, xmlName, xmlElementName } = propertyMapper;
     let propertyObjectName = objectName;
     if (serializedName !== "" && serializedName !== undefined) {
@@ -554,6 +562,8 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
         if (headerKey.startsWith(headerCollectionPrefix)) {
           dictionary[headerKey.substring(headerCollectionPrefix.length)] = serializer.deserialize((propertyMapper as DictionaryMapper).type.value, responseBody[headerKey], propertyObjectName);
         }
+
+        handledPropertyNames.push(headerKey);
       }
       instance[key] = dictionary;
     } else if (serializer.isXML) {
@@ -574,7 +584,6 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
         instance[key] = serializer.deserialize(propertyMapper, unwrappedProperty, propertyObjectName);
       }
     } else {
-      const paths = splitSerializeName(modelProps[key].serializedName!);
       // deserialize the property if it is present in the provided responseBody instance
       let propertyInstance;
       let res = responseBody;
@@ -616,6 +625,12 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
     for (const responsePropName in responseBody) {
       if (isAdditionalProperty(responsePropName)) {
         instance[responsePropName] = serializer.deserialize(additionalPropertiesMapper, responseBody[responsePropName], objectName + '["' + responsePropName + '"]');
+      }
+    }
+  } else {
+    for (const key of Object.keys(responseBody)) {
+      if (instance[key] === undefined && !handledPropertyNames.includes(key) && !isSpecialXmlProperty(key)) {
+        instance[key] = responseBody[key];
       }
     }
   }
@@ -684,7 +699,7 @@ function getPolymorphicMapper(serializer: Serializer, mapper: CompositeMapper, o
 }
 
 function getPolymorphicDiscriminatorRecursively(serializer: Serializer, mapper: CompositeMapper): PolymorphicDiscriminator | undefined {
-  return  mapper.type.polymorphicDiscriminator
+  return mapper.type.polymorphicDiscriminator
     || getPolymorphicDiscriminatorSafely(serializer, mapper.type.uberParent)
     || getPolymorphicDiscriminatorSafely(serializer, mapper.type.className);
 }

@@ -4,6 +4,7 @@
 import assert from "assert";
 import * as msRest from "../../lib/msRest";
 import { should } from "chai";
+import "chai/register-should"
 
 import { TestClient } from "./data/TestClient/lib/testClient";
 import { Mappers } from "./data/TestClient/lib/models/mappers";
@@ -1049,11 +1050,12 @@ describe("msrest", function () {
       deserializedSawshark.siblings.length.should.equal(1);
       deserializedSawshark.siblings[0].fishtype.should.equal("mutatedshark");
       deserializedSawshark.siblings[0].species.should.equal("dangerous");
-      deserializedSawshark.siblings[0].should.not.have.property("birthday");
-      deserializedSawshark.siblings[0].should.not.have.property("age");
+      deserializedSawshark.siblings[0].birthday.should.equal("1900-01-05T01:00:00.000Z");
+      deserializedSawshark.siblings[0].age.should.equal(105);
       deserializedSawshark.siblings[0].siblings[0].fishtype.should.equal("mutatedshark");
       deserializedSawshark.siblings[0].siblings[0].species.should.equal("predator");
-      deserializedSawshark.siblings[0].siblings[0].should.not.have.property("age");
+      deserializedSawshark.siblings[0].siblings[0].should.not.have.property("birthday");
+      deserializedSawshark.siblings[0].siblings[0].age.should.equal(6);
       done();
     });
 
