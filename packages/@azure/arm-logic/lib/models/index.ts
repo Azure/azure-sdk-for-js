@@ -75,10 +75,8 @@ export interface SubResource extends BaseResource {
 export interface ResourceReference {
   /**
    * @member {string} [id] The resource id.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly id?: string;
+  id?: string;
   /**
    * @member {string} [name] Gets the resource name.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -4090,6 +4088,90 @@ export interface BatchConfiguration extends Resource {
 
 /**
  * @interface
+ * An interface representing Request.
+ * A request.
+ *
+ */
+export interface Request {
+  /**
+   * @member {any} [headers] A list of all the headers attached to the request.
+   */
+  headers?: any;
+  /**
+   * @member {string} [uri] The destination for the request.
+   */
+  uri?: string;
+  /**
+   * @member {string} [method] The HTTP method used for the request.
+   */
+  method?: string;
+}
+
+/**
+ * @interface
+ * An interface representing Response.
+ * A response.
+ *
+ */
+export interface Response {
+  /**
+   * @member {any} [headers] A list of all the headers attached to the
+   * response.
+   */
+  headers?: any;
+  /**
+   * @member {number} [statusCode] The status code of the response.
+   */
+  statusCode?: number;
+  /**
+   * @member {ContentLink} [bodyLink] Details on the location of the body
+   * content.
+   */
+  bodyLink?: ContentLink;
+}
+
+/**
+ * @interface
+ * An interface representing RequestHistoryProperties.
+ * The request history.
+ *
+ */
+export interface RequestHistoryProperties {
+  /**
+   * @member {Date} [startTime] The time the request started.
+   */
+  startTime?: Date;
+  /**
+   * @member {Date} [endTime] The time the request ended.
+   */
+  endTime?: Date;
+  /**
+   * @member {Request} [request] The request.
+   */
+  request?: Request;
+  /**
+   * @member {Response} [response] The response.
+   */
+  response?: Response;
+}
+
+/**
+ * @interface
+ * An interface representing RequestHistory.
+ * The request history.
+ *
+ * @extends Resource
+ */
+export interface RequestHistory extends Resource {
+  /**
+   * @member {RequestHistoryProperties} [properties] The request history
+   * properties.
+   */
+  properties?: RequestHistoryProperties;
+}
+
+/**
+ * @interface
  * An interface representing WorkflowsListBySubscriptionOptionalParams.
  * Optional Parameters.
  *
@@ -4484,6 +4566,20 @@ export interface ExpressionTraces extends Array<ExpressionRoot> {
  * @extends Array<WorkflowRunActionRepetitionDefinition>
  */
 export interface WorkflowRunActionRepetitionDefinitionCollection extends Array<WorkflowRunActionRepetitionDefinition> {
+}
+
+/**
+ * @interface
+ * An interface representing the RequestHistoryListResult.
+ * The list of workflow request histories.
+ *
+ * @extends Array<RequestHistory>
+ */
+export interface RequestHistoryListResult extends Array<RequestHistory> {
+  /**
+   * @member {string} [nextLink] The URL to get the next set of results.
+   */
+  nextLink?: string;
 }
 
 /**
@@ -5525,6 +5621,120 @@ export type WorkflowRunActionRepetitionsListExpressionTracesResponse = Expressio
        * The response body as parsed JSON or XML
        */
       parsedBody: ExpressionTraces;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type WorkflowRunActionRepetitionsRequestHistoriesListResponse = RequestHistoryListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RequestHistoryListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type WorkflowRunActionRepetitionsRequestHistoriesGetResponse = RequestHistory & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RequestHistory;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type WorkflowRunActionRepetitionsRequestHistoriesListNextResponse = RequestHistoryListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RequestHistoryListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type WorkflowRunActionRequestHistoriesListResponse = RequestHistoryListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RequestHistoryListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type WorkflowRunActionRequestHistoriesGetResponse = RequestHistory & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RequestHistory;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type WorkflowRunActionRequestHistoriesListNextResponse = RequestHistoryListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RequestHistoryListResult;
     };
 };
 
