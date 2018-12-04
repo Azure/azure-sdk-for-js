@@ -139,8 +139,8 @@ export interface Operation {
 export interface ResourceLinksListAtSubscriptionOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] The filter to apply on the list resource links
-   * operation. The supported filter for list resource links is targetid. For
-   * example, $filter=targetid eq {value}
+   * operation. The supported filter for list resource links is targetId. For
+   * example, $filter=targetId eq {value}
    */
   filter?: string;
 }
