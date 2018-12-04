@@ -1401,6 +1401,12 @@ export const CachedImages: msRest.CompositeMapper = {
     name: "Composite",
     className: "CachedImages",
     modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
       osType: {
         required: true,
         serializedName: "osType",

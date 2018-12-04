@@ -1032,6 +1032,10 @@ export interface ContainerExecResponse {
  */
 export interface CachedImages {
   /**
+   * @member {string} [id] The resource Id of the cached image.
+   */
+  id?: string;
+  /**
    * @member {string} osType The OS type of the cached image.
    */
   osType: string;
