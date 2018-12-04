@@ -5,3 +5,4 @@ samples
 .gitignore
 *.code-workspace
 *.tgz
+ts-test/
