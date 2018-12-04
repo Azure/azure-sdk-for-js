@@ -5,6 +5,7 @@ import { execSync } from "child_process";
 export interface PackageFolder {
   folderPath: string;
   extraFilePaths?: string[];
+  isLernaPackage?: boolean;
 }
 
 function log(filePath: string, message: string): void {
@@ -336,14 +337,6 @@ function updateLocalDependency(packageFolder: PackageFolder, dependencyName: str
 
 export function getLocalDependencyVersion(dependencyName: string): string {
   return `file:${getLocalRepositoryPath(dependencyName)}`;
-}
-
-export function getPreviewDependencyVersion(dependencyName: string): string | undefined {
-  let version: string | undefined = addCaretPrefix(getNpmPackageVersion(dependencyName, "preview"));
-  if (!version) {
-    version = getLatestDependencyVersion(dependencyName);
-  }
-  return version;
 }
 
 export function getLatestDependencyVersion(dependencyName: string): string | undefined {
