@@ -866,7 +866,7 @@ export interface VMNicDetails {
   recoveryNicIpAddressType?: string;
   /**
    * @member {boolean} [enableAcceleratedNetworkingOnRecovery] A value
-   * indicating whether the NIC has accerated networking enabled.
+   * indicating whether the NIC has accelerated networking enabled.
    */
   enableAcceleratedNetworkingOnRecovery?: boolean;
 }
@@ -1500,7 +1500,7 @@ export interface AddVCenterRequest {
 /**
  * @interface
  * An interface representing AlertProperties.
- * The proprties of an alert.
+ * The properties of an alert.
  *
  */
 export interface AlertProperties {
@@ -1983,8 +1983,8 @@ export interface FabricSpecificCreateNetworkMappingInput {
 /**
  * @interface
  * An interface representing AzureToAzureCreateNetworkMappingInput.
- * Create network mappings input properties/behaviour specific to Azure to
- * Azure Network mapping.
+ * Create network mappings input properties/behavior specific to Azure to Azure
+ * Network mapping.
  *
  */
 export interface AzureToAzureCreateNetworkMappingInput {
@@ -2213,7 +2213,7 @@ export interface InconsistentVmDetails {
  * @interface
  * An interface representing ConsistencyCheckTaskDetails.
  * This class contains monitoring details of all the inconsistent Protected
- * Entites in Vmm.
+ * Entities in Vmm.
  *
  */
 export interface ConsistencyCheckTaskDetails {
@@ -2491,7 +2491,7 @@ export interface CreateRecoveryPlanInput {
 /**
  * @interface
  * An interface representing CurrentJobDetails.
- * Current job details of the migraton item.
+ * Current job details of the migration item.
  *
  */
 export interface CurrentJobDetails {
@@ -2533,7 +2533,7 @@ export interface CurrentScenarioDetails {
 /**
  * @interface
  * An interface representing DataStore.
- * The datastore details of the MT.
+ * The data store details of the MT.
  *
  */
 export interface DataStore {
@@ -2650,7 +2650,7 @@ export interface DiscoverProtectableItemRequest {
 /**
  * @interface
  * An interface representing DiskDetails.
- * Onprem disk details data.
+ * On-prem disk details data.
  *
  */
 export interface DiskDetails {
@@ -3027,7 +3027,7 @@ export interface EventProperties {
    */
   severity?: string;
   /**
-   * @member {Date} [timeOfOccurrence] The time of occurence of the event.
+   * @member {Date} [timeOfOccurrence] The time of occurrence of the event.
    */
   timeOfOccurrence?: Date;
   /**
@@ -5190,8 +5190,8 @@ export interface InMageAzureV2ReplicationDetails {
    */
   enableRdpOnTargetOption?: string;
   /**
-   * @member {string[]} [datastores] The datastores of the on-premise machine.
-   * Value can be list of strings that contain datastore names.
+   * @member {string[]} [datastores] The data stores of the on-premise machine.
+   * Value can be list of strings that contain data store names.
    */
   datastores?: string[];
   /**
@@ -5495,7 +5495,7 @@ export interface InMageEnableProtectionInput {
    */
   multiVmGroupName: string;
   /**
-   * @member {string} [datastoreName] The target datastore name.
+   * @member {string} [datastoreName] The target data store name.
    */
   datastoreName?: string;
   /**
@@ -5850,8 +5850,8 @@ export interface InMageReplicationDetails {
    */
   azureStorageAccountId?: string;
   /**
-   * @member {string[]} [datastores] The datastores of the on-premise machine
-   * Value can be list of strings that contain datastore names
+   * @member {string[]} [datastores] The data stores of the on-premise machine
+   * Value can be list of strings that contain data store names
    */
   datastores?: string[];
   /**
@@ -5906,7 +5906,7 @@ export interface InMageReprotectInput {
    */
   runAsAccountId?: string;
   /**
-   * @member {string} [datastoreName] The target datastore name.
+   * @member {string} [datastoreName] The target data store name.
    */
   datastoreName?: string;
   /**
@@ -6022,7 +6022,7 @@ export interface JobQueryParameter {
    */
   startTime?: string;
   /**
-   * @member {string} [endTime] Date time to get jobs upto.
+   * @member {string} [endTime] Date time to get jobs up to.
    */
   endTime?: string;
   /**
@@ -6664,7 +6664,7 @@ export interface NetworkMappingProperties {
  * in structure or method signature. Since there were no base Models for
  * certain fields and methods viz NetworkMappingProperties and Load with
  * required return type, the class has been introduced in its entirety with
- * references to base models to facilitate exensions in subsequent versions.
+ * references to base models to facilitate extensions in subsequent versions.
  *
  * @extends Resource
  */
@@ -7019,7 +7019,7 @@ export interface ProtectedItemsQueryParameter {
  */
 export interface ProtectionContainerFabricSpecificDetails {
   /**
-   * @member {string} [instanceType] Gets the class type. Overriden in derived
+   * @member {string} [instanceType] Gets the class type. Overridden in derived
    * classes.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -8085,7 +8085,7 @@ export interface ReplicationProtectedItem extends Resource {
  */
 export interface ResourceHealthSummary {
   /**
-   * @member {number} [resourceCount] The count of total resources umder the
+   * @member {number} [resourceCount] The count of total resources under the
    * container.
    */
   resourceCount?: number;
@@ -8237,7 +8237,7 @@ export interface StorageClassificationProperties {
  */
 export interface StorageClassification extends Resource {
   /**
-   * @member {StorageClassificationProperties} [properties] Proprties of the
+   * @member {StorageClassificationProperties} [properties] Properties of the
    * storage object.
    */
   properties?: StorageClassificationProperties;
@@ -8265,8 +8265,8 @@ export interface StorageClassificationMappingProperties {
  */
 export interface StorageClassificationMapping extends Resource {
   /**
-   * @member {StorageClassificationMappingProperties} [properties] Proprties of
-   * the storage mappping object.
+   * @member {StorageClassificationMappingProperties} [properties] Properties
+   * of the storage mapping object.
    */
   properties?: StorageClassificationMappingProperties;
 }
@@ -8825,7 +8825,7 @@ export interface UpdateProtectionContainerMappingInput {
 /**
  * @interface
  * An interface representing UpdateRecoveryPlanInputProperties.
- * Recovery plan updation properties.
+ * Recovery plan update properties.
  *
  */
 export interface UpdateRecoveryPlanInputProperties {
@@ -8875,7 +8875,7 @@ export interface VMNicInputDetails {
   selectionType?: string;
   /**
    * @member {boolean} [enableAcceleratedNetworkingOnRecovery] Whether the NIC
-   * has accerated networking enabled.
+   * has accelerated networking enabled.
    */
   enableAcceleratedNetworkingOnRecovery?: boolean;
 }
@@ -8973,7 +8973,7 @@ export interface UpdateVCenterRequestProperties {
    */
   port?: string;
   /**
-   * @member {string} [runAsAccountId] The CS account Id which has priviliges
+   * @member {string} [runAsAccountId] The CS account Id which has privileges
    * to update the vCenter.
    */
   runAsAccountId?: string;
@@ -9053,7 +9053,7 @@ export interface VCenterProperties {
   internalId?: string;
   /**
    * @member {Date} [lastHeartbeat] The time when the last heartbeat was
-   * reveived by vCenter.
+   * received by vCenter.
    */
   lastHeartbeat?: Date;
   /**
@@ -9147,7 +9147,7 @@ export interface VmmDetails {
 /**
  * @interface
  * An interface representing VmmToAzureCreateNetworkMappingInput.
- * Create network mappings input properties/behaviour specific to Vmm to Azure
+ * Create network mappings input properties/behavior specific to Vmm to Azure
  * Network mapping.
  *
  */
@@ -9174,7 +9174,7 @@ export interface VmmToAzureNetworkMappingSettings {
 /**
  * @interface
  * An interface representing VmmToAzureUpdateNetworkMappingInput.
- * Update network mappings input properties/behaviour specific to vmm to azure.
+ * Update network mappings input properties/behavior specific to vmm to azure.
  *
  */
 export interface VmmToAzureUpdateNetworkMappingInput {
@@ -9187,7 +9187,7 @@ export interface VmmToAzureUpdateNetworkMappingInput {
 /**
  * @interface
  * An interface representing VmmToVmmCreateNetworkMappingInput.
- * Create network mappings input properties/behaviour specific to vmm to vmm
+ * Create network mappings input properties/behavior specific to vmm to vmm
  * Network mapping.
  *
  */
@@ -9214,7 +9214,7 @@ export interface VmmToVmmNetworkMappingSettings {
 /**
  * @interface
  * An interface representing VmmToVmmUpdateNetworkMappingInput.
- * Update network mappings input properties/behaviour specific to vmm to vmm.
+ * Update network mappings input properties/behavior specific to vmm to vmm.
  *
  */
 export interface VmmToVmmUpdateNetworkMappingInput {
@@ -9409,11 +9409,11 @@ export interface VMwareCbtEnableMigrationInput {
    */
   licenseType?: LicenseType;
   /**
-   * @member {string} dataMoverRunAsAccountId The data mover runas account Id.
+   * @member {string} dataMoverRunAsAccountId The data mover RunAs account Id.
    */
   dataMoverRunAsAccountId: string;
   /**
-   * @member {string} snapshotRunAsAccountId The snapshot runas account Id.
+   * @member {string} snapshotRunAsAccountId The snapshot RunAs account Id.
    */
   snapshotRunAsAccountId: string;
   /**
@@ -9623,14 +9623,14 @@ export interface VMwareCbtMigrationDetails {
    */
   licenseType?: string;
   /**
-   * @member {string} [dataMoverRunAsAccountId] The data mover runas account
+   * @member {string} [dataMoverRunAsAccountId] The data mover RunAs account
    * Id.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly dataMoverRunAsAccountId?: string;
   /**
-   * @member {string} [snapshotRunAsAccountId] The snapshot runas account Id.
+   * @member {string} [snapshotRunAsAccountId] The snapshot RunAs account Id.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
