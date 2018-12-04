@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -787,7 +787,7 @@ export interface ValidateCustomDomainOutput {
 /**
  * @interface
  * An interface representing ErrorResponse.
- * Error reponse indicates Front Door service is not able to process the
+ * Error response indicates Front Door service is not able to process the
  * incoming request. The reason is provided in the error message.
  *
  */
@@ -1031,7 +1031,7 @@ export interface CustomRule {
    */
   rateLimitDurationInMinutes?: number;
   /**
-   * @member {number} [rateLimitThreshold] Defines rate limit thresold
+   * @member {number} [rateLimitThreshold] Defines rate limit threshold
    */
   rateLimitThreshold?: number;
   /**
@@ -1083,7 +1083,7 @@ export interface ManagedRuleSet {
    */
   priority?: number;
   /**
-   * @member {number} [version] defines version of the ruleset
+   * @member {number} [version] defines version of the rule set
    */
   version?: number;
 }
@@ -1154,8 +1154,8 @@ export interface WebApplicationFirewallPolicy1 extends Resource {
  */
 export interface AzureManagedOverrideRuleGroup {
   /**
-   * @member {RuleGroupOverride} ruleGroupOverride Describes overrideruleGroup.
-   * Possible values include: 'SqlInjection', 'XSS'
+   * @member {RuleGroupOverride} ruleGroupOverride Describes override rule
+   * group. Possible values include: 'SqlInjection', 'XSS'
    */
   ruleGroupOverride: RuleGroupOverride;
   /**
@@ -1181,7 +1181,7 @@ export interface AzureManagedRuleSet {
    */
   priority?: number;
   /**
-   * @member {number} [version] defines version of the ruleset
+   * @member {number} [version] defines version of the rule set
    */
   version?: number;
   /**
@@ -1208,7 +1208,7 @@ export interface FrontDoorManagementClientOptions extends AzureServiceClientOpti
  * @interface
  * An interface representing the FrontDoorListResult.
  * Result of the request to list Front Doors. It contains a list of Front Door
- * objects and a URL link to get the the next set of results.
+ * objects and a URL link to get the next set of results.
  *
  * @extends Array<FrontDoor>
  */
@@ -1224,7 +1224,7 @@ export interface FrontDoorListResult extends Array<FrontDoor> {
  * @interface
  * An interface representing the RoutingRuleListResult.
  * Result of the request to list Routing Rules. It contains a list of Routing
- * Rule objects and a URL link to get the the next set of results.
+ * Rule objects and a URL link to get the next set of results.
  *
  * @extends Array<RoutingRule>
  */
@@ -1240,8 +1240,7 @@ export interface RoutingRuleListResult extends Array<RoutingRule> {
  * @interface
  * An interface representing the HealthProbeSettingsListResult.
  * Result of the request to list HealthProbeSettings. It contains a list of
- * HealthProbeSettings objects and a URL link to get the the next set of
- * results.
+ * HealthProbeSettings objects and a URL link to get the next set of results.
  *
  * @extends Array<HealthProbeSettingsModel>
  */
@@ -1257,7 +1256,7 @@ export interface HealthProbeSettingsListResult extends Array<HealthProbeSettings
  * @interface
  * An interface representing the LoadBalancingSettingsListResult.
  * Result of the request to list load balancing settings. It contains a list of
- * load balancing settings objects and a URL link to get the the next set of
+ * load balancing settings objects and a URL link to get the next set of
  * results.
  *
  * @extends Array<LoadBalancingSettingsModel>
@@ -1274,7 +1273,7 @@ export interface LoadBalancingSettingsListResult extends Array<LoadBalancingSett
  * @interface
  * An interface representing the BackendPoolListResult.
  * Result of the request to list Backend Pools. It contains a list of Backend
- * Pools objects and a URL link to get the the next set of results.
+ * Pools objects and a URL link to get the next set of results.
  *
  * @extends Array<BackendPool>
  */
@@ -1290,7 +1289,7 @@ export interface BackendPoolListResult extends Array<BackendPool> {
  * @interface
  * An interface representing the FrontendEndpointsListResult.
  * Result of the request to list frontend endpoints. It contains a list of
- * Frontend endpoint objects and a URL link to get the the next set of results.
+ * Frontend endpoint objects and a URL link to get the next set of results.
  *
  * @extends Array<FrontendEndpoint>
  */
@@ -1306,8 +1305,8 @@ export interface FrontendEndpointsListResult extends Array<FrontendEndpoint> {
  * @interface
  * An interface representing the WebApplicationFirewallPolicyListResult.
  * Result of the request to list WebApplicationFirewallPolicies. It contains a
- * list of WebApplicationFirewallPolicy objects and a URL link to get the the
- * next set of results.
+ * list of WebApplicationFirewallPolicy objects and a URL link to get the next
+ * set of results.
  *
  * @extends Array<WebApplicationFirewallPolicy1>
  */
