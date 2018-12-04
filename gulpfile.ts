@@ -99,9 +99,7 @@ gulp.task('codegen', async () => {
   await generateSdk(argv.azureRestAPISpecsRoot, argv.azureSDKForJSRepoRoot, argv.package, argv.use, argv.debugger);
 });
 
-type CreatePackageType = "pack" | "publish"
-
-function createPackages(type: CreatePackageType): void {
+function pack(): void {
   let errorPackages = 0;
   let upToDatePackages = 0;
   let publishedPackages = 0;
@@ -113,7 +111,7 @@ function createPackages(type: CreatePackageType): void {
     fs.mkdirSync(dropPath);
   }
 
-  const folderNamesToIgnore: string[] = [ "node_modules" ];
+  const folderNamesToIgnore: string[] = ["node_modules"];
 
   function getAllPackageFolders(folderPath: string, result?: string[]): string[] {
     if (result == undefined) {
@@ -138,7 +136,9 @@ function createPackages(type: CreatePackageType): void {
 
   const packagesToSkip: string[] = ["@azure/keyvault"];
 
-  for (const packageFolderPath of getAllPackageFolders(path.resolve(__dirname, "packages"))) {
+  const packageFolderRoot: string = path.resolve(__dirname, "packages");
+  _logger.logTrace(`INFO: Searching for package folders in ${packageFolderRoot}`);;
+  for (const packageFolderPath of getAllPackageFolders(packageFolderRoot)) {
     _logger.logTrace(`INFO: Processing ${packageFolderPath}`);
 
     const packageJsonFilePath: string = path.join(packageFolderPath, "package.json");
@@ -155,40 +155,21 @@ function createPackages(type: CreatePackageType): void {
         errorPackages++;
       }
       else {
-        let npmPackageVersion: string | undefined;
-        try {
-          const npmViewResult: { [propertyName: string]: any } = JSON.parse(
-            execSync(`npm view ${packageName} --json`, { stdio: ['pipe', 'pipe', 'ignore'] }).toString()
-          );
-          npmPackageVersion = npmViewResult['dist-tags']['latest'];
-        }
-        catch (error) {
-          // This happens if the package doesn't exist in NPM.
-        }
-
-        if (localPackageVersion === npmPackageVersion) {
-          upToDatePackages++;
-        }
-        else {
-          _logger.log(`Packing package "${packageName}" with version "${localPackageVersion}"...${args.whatif ? " (SKIPPED)" : ""}`);
-          if (!args.whatif) {
-            try {
-              npmInstall(packageFolderPath);
-              // TODO: `npm install` should be removed after we regenerate all packages.
-              execSync("npm install", { cwd: packageFolderPath });
-              execSync(`npm ${type}`, { cwd: packageFolderPath });
-              const packFileName = `${packageName.replace("/", "-").replace("@", "")}-${localPackageVersion}.tgz`
-              const packFilePath = path.join(packageFolderPath, packFileName);
-              fs.renameSync(packFilePath, path.join(dropPath, packFileName));
-              console.log(`Filename: ${packFileName}`);
-              publishedPackages++;
-            }
-            catch (error) {
-              errorPackages++;
-            }
-          } else {
-            publishedPackagesSkipped++;
+        _logger.log(`Packing package "${packageName}" with version "${localPackageVersion}"...${args.whatif ? " (SKIPPED)" : ""}`);
+        if (!args.whatif) {
+          try {
+            execSync(`npm pack`, { cwd: packageFolderPath });
+            const packFileName = `${packageName.replace("/", "-").replace("@", "")}-${localPackageVersion}.tgz`
+            const packFilePath = path.join(packageFolderPath, packFileName);
+            fs.renameSync(packFilePath, path.join(dropPath, packFileName));
+            console.log(`Filename: ${packFileName}`);
+            publishedPackages++;
           }
+          catch (error) {
+            errorPackages++;
+          }
+        } else {
+          publishedPackagesSkipped++;
         }
       }
     }
@@ -209,9 +190,7 @@ function createPackages(type: CreatePackageType): void {
   _logger.log(`Skipped packages:    ${padLeft(publishedPackagesSkipped, minimumWidth)}`);
 }
 
-gulp.task('pack', () => createPackages("pack"));
-
-gulp.task('publish', () => createPackages("publish"));
+gulp.task('pack', () => pack());
 
 gulp.task("find-missing-sdks", async () => {
   try {
