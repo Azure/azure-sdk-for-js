@@ -86,7 +86,7 @@ export interface TemplateLink {
 /**
  * @interface
  * An interface representing ParametersLink.
- * Entity representing the reference to the deployment paramaters.
+ * Entity representing the reference to the deployment parameters.
  *
  */
 export interface ParametersLink {
@@ -454,7 +454,7 @@ export interface DeploymentPropertiesExtended {
    */
   readonly timestamp?: Date;
   /**
-   * @member {any} [outputs] Key/value pairs that represent deploymentoutput.
+   * @member {any} [outputs] Key/value pairs that represent deployment output.
    */
   outputs?: any;
   /**
