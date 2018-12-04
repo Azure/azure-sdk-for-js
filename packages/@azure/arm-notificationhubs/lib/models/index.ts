@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -65,7 +65,7 @@ export interface Operation {
 /**
  * @interface
  * An interface representing ErrorResponse.
- * Error reponse indicates NotificationHubs service is not able to process the
+ * Error response indicates NotificationHubs service is not able to process the
  * incoming request. The reason is provided in the error message.
  *
  */
@@ -195,7 +195,7 @@ export interface Resource extends BaseResource {
 /**
  * @interface
  * An interface representing CheckAvailabilityResult.
- * Description of a CheckAvailibility resource.
+ * Description of a CheckAvailability resource.
  *
  * @extends Resource
  */
@@ -589,7 +589,7 @@ export interface ApnsCredential {
    */
   endpoint?: string;
   /**
-   * @member {string} [thumbprint] The Apns certificate Thumbprint
+   * @member {string} [thumbprint] The APNS certificate Thumbprint
    */
   thumbprint?: string;
   /**
@@ -667,7 +667,7 @@ export interface MpnsCredential {
    */
   certificateKey?: string;
   /**
-   * @member {string} [thumbprint] The Mpns certificate Thumbprint
+   * @member {string} [thumbprint] The MPNS certificate Thumbprint
    */
   thumbprint?: string;
 }
