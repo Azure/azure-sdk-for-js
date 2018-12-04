@@ -59,7 +59,7 @@ describe("CloudError", () => {
 
             const deserializedCloudError: CloudError = serializer.deserialize(CloudErrorMapper, cloudError, "deserializedCloudError");
 
-            expect(deserializedCloudError.name).to.not.exist;
+            expect(deserializedCloudError.name).to.equal(cloudError.name);
             expect(deserializedCloudError.code).to.be.equal(cloudError.code);
             expect(deserializedCloudError.message).to.be.equal(cloudError.message);
             expect(deserializedCloudError.target).to.not.exist;
@@ -80,10 +80,10 @@ describe("CloudError", () => {
 
             const deserializedCloudError: CloudError = serializer.deserialize(CloudErrorMapper, cloudError, "deserializedCloudError");
 
-            expect(deserializedCloudError.target).to.be.equal(cloudError.target);
-            expect(deserializedCloudError.details).to.be.deep.equal(cloudError.details);
-            expect(deserializedCloudError.innerError).to.be.equal(cloudError.innererror);
-            expect(deserializedCloudError.stack).to.not.exist;
+            expect(deserializedCloudError.target).to.equal(cloudError.target);
+            expect(deserializedCloudError.details).to.deep.equal(cloudError.details);
+            expect(deserializedCloudError.innerError).to.equal(cloudError.innererror);
+            expect(deserializedCloudError.stack).to.equal(cloudError.stack);
         });
 
         it("should correctly deserialize additionalInfo", function (done) {
