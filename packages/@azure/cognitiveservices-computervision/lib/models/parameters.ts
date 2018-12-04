@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 export const details: msRest.OperationQueryParameter = {
   parameterPath: [
@@ -16,6 +16,7 @@ export const details: msRest.OperationQueryParameter = {
     "details"
   ],
   mapper: {
+    nullable: true,
     serializedName: "details",
     type: {
       name: "Sequence",
@@ -59,9 +60,10 @@ export const height: msRest.OperationQueryParameter = {
   parameterPath: "height",
   mapper: {
     required: true,
+    nullable: false,
     serializedName: "height",
     constraints: {
-      InclusiveMaximum: 1023,
+      InclusiveMaximum: 1024,
       InclusiveMinimum: 1
     },
     type: {
@@ -132,6 +134,7 @@ export const maxCandidates: msRest.OperationQueryParameter = {
     "maxCandidates"
   ],
   mapper: {
+    nullable: true,
     serializedName: "maxCandidates",
     defaultValue: 1,
     type: {
@@ -157,6 +160,7 @@ export const model: msRest.OperationURLParameter = {
   parameterPath: "model",
   mapper: {
     required: true,
+    nullable: true,
     serializedName: "model",
     type: {
       name: "String"
@@ -179,6 +183,7 @@ export const smartCropping: msRest.OperationQueryParameter = {
     "smartCropping"
   ],
   mapper: {
+    nullable: true,
     serializedName: "smartCropping",
     defaultValue: false,
     type: {
@@ -205,7 +210,8 @@ export const visualFeatures: msRest.OperationQueryParameter = {
             "Categories",
             "Color",
             "Tags",
-            "Description"
+            "Description",
+            "Objects"
           ]
         }
       }
@@ -217,9 +223,10 @@ export const width: msRest.OperationQueryParameter = {
   parameterPath: "width",
   mapper: {
     required: true,
+    nullable: false,
     serializedName: "width",
     constraints: {
-      InclusiveMaximum: 1023,
+      InclusiveMaximum: 1024,
       InclusiveMinimum: 1
     },
     type: {

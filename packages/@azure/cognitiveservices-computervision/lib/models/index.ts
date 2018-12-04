@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 
 /**
@@ -19,21 +19,23 @@ import * as msRest from "@azure/ms-rest-js";
  */
 export interface FaceRectangle {
   /**
-   * @member {number} [left] X-coordinate of the top left point of the face.
+   * @member {number} [left] X-coordinate of the top left point of the face, in
+   * pixels.
    */
   left?: number;
   /**
-   * @member {number} [top] Y-coordinate of the top left point of the face.
+   * @member {number} [top] Y-coordinate of the top left point of the face, in
+   * pixels.
    */
   top?: number;
   /**
    * @member {number} [width] Width measured from the top-left point of the
-   * face.
+   * face, in pixels.
    */
   width?: number;
   /**
    * @member {number} [height] Height measured from the top-left point of the
-   * face.
+   * face, in pixels.
    */
   height?: number;
 }
@@ -50,11 +52,13 @@ export interface CelebritiesModel {
    */
   name?: string;
   /**
-   * @member {number} [confidence] Level of confidence ranging from 0 to 1.
+   * @member {number} [confidence] Confidence level for the celebrity
+   * recognition as a value ranging from 0 to 1.
    */
   confidence?: number;
   /**
-   * @member {FaceRectangle} [faceRectangle]
+   * @member {FaceRectangle} [faceRectangle] Location of the identified face in
+   * the image.
    */
   faceRectangle?: FaceRectangle;
 }
@@ -62,7 +66,7 @@ export interface CelebritiesModel {
 /**
  * @interface
  * An interface representing LandmarksModel.
- * A landmark recognized in the image
+ * A landmark recognized in the image.
  *
  */
 export interface LandmarksModel {
@@ -72,7 +76,7 @@ export interface LandmarksModel {
   name?: string;
   /**
    * @member {number} [confidence] Confidence level for the landmark
-   * recognition.
+   * recognition as a value ranging from 0 to 1.
    */
   confidence?: number;
 }
@@ -112,7 +116,7 @@ export interface Category {
    */
   score?: number;
   /**
-   * @member {CategoryDetail} [detail]
+   * @member {CategoryDetail} [detail] Details of the identified category.
    */
   detail?: CategoryDetail;
 }
@@ -131,12 +135,12 @@ export interface AdultInfo {
    */
   isAdultContent?: boolean;
   /**
-   * @member {boolean} [isRacyContent] A value indicating if the image is race.
+   * @member {boolean} [isRacyContent] A value indicating if the image is racy.
    */
   isRacyContent?: boolean;
   /**
-   * @member {number} [adultScore] Score from 0 to 1 that indicates how much of
-   * adult content is within the image.
+   * @member {number} [adultScore] Score from 0 to 1 that indicates how much
+   * the content is considered adult-oriented within the image.
    */
   adultScore?: number;
   /**
@@ -200,21 +204,21 @@ export interface ImageType {
 /**
  * @interface
  * An interface representing ImageTag.
- * An image caption, i.e. a brief description of what the image depicts.
+ * An entity observation in the image, along with the confidence score.
  *
  */
 export interface ImageTag {
   /**
-   * @member {string} [name] The tag value
+   * @member {string} [name] Name of the entity.
    */
   name?: string;
   /**
-   * @member {number} [confidence] The level of confidence the service has in
-   * the caption
+   * @member {number} [confidence] The level of confidence that the entity was
+   * observed.
    */
   confidence?: number;
   /**
-   * @member {string} [hint] Optional categorization for the tag
+   * @member {string} [hint] Optional hint/details for this tag.
    */
   hint?: string;
 }
@@ -227,12 +231,12 @@ export interface ImageTag {
  */
 export interface ImageCaption {
   /**
-   * @member {string} [text] The text of the caption
+   * @member {string} [text] The text of the caption.
    */
   text?: string;
   /**
    * @member {number} [confidence] The level of confidence the service has in
-   * the caption
+   * the caption.
    */
   confidence?: number;
 }
@@ -273,28 +277,115 @@ export interface FaceDescription {
    */
   gender?: Gender;
   /**
-   * @member {FaceRectangle} [faceRectangle]
+   * @member {FaceRectangle} [faceRectangle] Rectangle in the image containing
+   * the identified face.
    */
   faceRectangle?: FaceRectangle;
 }
 
 /**
  * @interface
+ * An interface representing BoundingRect.
+ * A bounding box for an area inside an image.
+ *
+ */
+export interface BoundingRect {
+  /**
+   * @member {number} [x] X-coordinate of the top left point of the area, in
+   * pixels.
+   */
+  x?: number;
+  /**
+   * @member {number} [y] Y-coordinate of the top left point of the area, in
+   * pixels.
+   */
+  y?: number;
+  /**
+   * @member {number} [w] Width measured from the top-left point of the area,
+   * in pixels.
+   */
+  w?: number;
+  /**
+   * @member {number} [h] Height measured from the top-left point of the area,
+   * in pixels.
+   */
+  h?: number;
+}
+
+/**
+ * @interface
+ * An interface representing ObjectHierarchy.
+ * An object detected inside an image.
+ *
+ */
+export interface ObjectHierarchy {
+  /**
+   * @member {string} [object] Label for the object.
+   */
+  object?: string;
+  /**
+   * @member {number} [confidence] Confidence score of having observed the
+   * object in the image, as a value ranging from 0 to 1.
+   */
+  confidence?: number;
+  /**
+   * @member {ObjectHierarchy} [parent] The parent object, from a taxonomy
+   * perspective.
+   * The parent object is a more generic form of this object.  For example, a
+   * 'bulldog' would have a parent of 'dog'.
+   */
+  parent?: ObjectHierarchy;
+}
+
+/**
+ * @interface
+ * An interface representing DetectedObject.
+ * An object detected in an image.
+ *
+ */
+export interface DetectedObject {
+  /**
+   * @member {BoundingRect} [rectangle] Approximate location of the detected
+   * object.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly rectangle?: BoundingRect;
+  /**
+   * @member {string} [object] Label for the object.
+   */
+  object?: string;
+  /**
+   * @member {number} [confidence] Confidence score of having observed the
+   * object in the image, as a value ranging from 0 to 1.
+   */
+  confidence?: number;
+  /**
+   * @member {ObjectHierarchy} [parent] The parent object, from a taxonomy
+   * perspective.
+   * The parent object is a more generic form of this object.  For example, a
+   * 'bulldog' would have a parent of 'dog'.
+   */
+  parent?: ObjectHierarchy;
+}
+
+/**
+ * @interface
  * An interface representing ImageMetadata.
- * Image metadata
+ * Image metadata.
  *
  */
 export interface ImageMetadata {
   /**
-   * @member {number} [width] Image width
+   * @member {number} [width] Image width, in pixels.
    */
   width?: number;
   /**
-   * @member {number} [height] Image height
+   * @member {number} [height] Image height, in pixels.
    */
   height?: number;
   /**
-   * @member {string} [format] Image format
+   * @member {string} [format] Image format.
    */
   format?: string;
 }
@@ -312,15 +403,18 @@ export interface ImageAnalysis {
    */
   categories?: Category[];
   /**
-   * @member {AdultInfo} [adult]
+   * @member {AdultInfo} [adult] An object describing whether the image
+   * contains adult-oriented content and/or is racy.
    */
   adult?: AdultInfo;
   /**
-   * @member {ColorInfo} [color]
+   * @member {ColorInfo} [color] An object providing additional metadata
+   * describing color attributes.
    */
   color?: ColorInfo;
   /**
-   * @member {ImageType} [imageType]
+   * @member {ImageType} [imageType] An object providing possible image types
+   * and matching confidence levels.
    */
   imageType?: ImageType;
   /**
@@ -328,7 +422,9 @@ export interface ImageAnalysis {
    */
   tags?: ImageTag[];
   /**
-   * @member {ImageDescriptionDetails} [description]
+   * @member {ImageDescriptionDetails} [description] A collection of content
+   * tags, along with a list of captions sorted by confidence level, and image
+   * metadata.
    */
   description?: ImageDescriptionDetails;
   /**
@@ -337,7 +433,117 @@ export interface ImageAnalysis {
    */
   faces?: FaceDescription[];
   /**
-   * @member {string} [requestId] Id of the request for tracking purposes.
+   * @member {DetectedObject[]} [objects] Array of objects describing what was
+   * detected in the image.
+   */
+  objects?: DetectedObject[];
+  /**
+   * @member {string} [requestId] Id of the REST API request.
+   */
+  requestId?: string;
+  /**
+   * @member {ImageMetadata} [metadata]
+   */
+  metadata?: ImageMetadata;
+}
+
+/**
+ * @interface
+ * An interface representing ImageDescription.
+ * A collection of content tags, along with a list of captions sorted by
+ * confidence level, and image metadata.
+ *
+ */
+export interface ImageDescription {
+  /**
+   * @member {string[]} [tags] A collection of image tags.
+   */
+  tags?: string[];
+  /**
+   * @member {ImageCaption[]} [captions] A list of captions, sorted by
+   * confidence level.
+   */
+  captions?: ImageCaption[];
+  /**
+   * @member {string} [requestId] Id of the REST API request.
+   */
+  requestId?: string;
+  /**
+   * @member {ImageMetadata} [metadata]
+   */
+  metadata?: ImageMetadata;
+}
+
+/**
+ * @interface
+ * An interface representing DetectResult.
+ * Result of a DetectImage call.
+ *
+ */
+export interface DetectResult {
+  /**
+   * @member {DetectedObject[]} [objects] An array of detected objects.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly objects?: DetectedObject[];
+  /**
+   * @member {string} [requestId] Id of the REST API request.
+   */
+  requestId?: string;
+  /**
+   * @member {ImageMetadata} [metadata]
+   */
+  metadata?: ImageMetadata;
+}
+
+/**
+ * @interface
+ * An interface representing ModelDescription.
+ * An object describing supported model by name and categories.
+ *
+ */
+export interface ModelDescription {
+  /**
+   * @member {string} [name] The name of the model.
+   */
+  name?: string;
+  /**
+   * @member {string[]} [categories] Categories of the model.
+   */
+  categories?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing ListModelsResult.
+ * Result of the List Domain Models operation.
+ *
+ */
+export interface ListModelsResult {
+  /**
+   * @member {ModelDescription[]} [modelsProperty] An array of supported
+   * models.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly modelsProperty?: ModelDescription[];
+}
+
+/**
+ * @interface
+ * An interface representing DomainModelResults.
+ * Result of image analysis using a specific domain model including additional
+ * metadata.
+ *
+ */
+export interface DomainModelResults {
+  /**
+   * @member {any} [result] Model-specific response.
+   */
+  result?: any;
+  /**
+   * @member {string} [requestId] Id of the REST API request.
    */
   requestId?: string;
   /**
@@ -409,7 +615,7 @@ export interface OcrRegion {
    */
   boundingBox?: string;
   /**
-   * @member {OcrLine[]} [lines]
+   * @member {OcrLine[]} [lines] An array of recognized lines of text.
    */
   lines?: OcrLine[];
 }
@@ -439,8 +645,8 @@ export interface OcrResult {
   textAngle?: number;
   /**
    * @member {string} [orientation] Orientation of the text recognized in the
-   * image. The value (up,down,left, or right) refers to the direction that the
-   * top of the recognized text is facing, after the image has been rotated
+   * image. The value (up, down, left, or right) refers to the direction that
+   * the top of the recognized text is facing, after the image has been rotated
    * around its center according to the detected text angle (see textAngle
    * property).
    */
@@ -450,130 +656,6 @@ export interface OcrResult {
    * represents a region of recognized text.
    */
   regions?: OcrRegion[];
-}
-
-/**
- * @interface
- * An interface representing ModelDescription.
- * An object describing supported model by name and categories.
- *
- */
-export interface ModelDescription {
-  /**
-   * @member {string} [name]
-   */
-  name?: string;
-  /**
-   * @member {string[]} [categories]
-   */
-  categories?: string[];
-}
-
-/**
- * @interface
- * An interface representing ListModelsResult.
- * Result of the List Domain Models operation.
- *
- */
-export interface ListModelsResult {
-  /**
-   * @member {ModelDescription[]} [modelsProperty] An array of supported
-   * models.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly modelsProperty?: ModelDescription[];
-}
-
-/**
- * @interface
- * An interface representing DomainModelResults.
- * Result of image analysis using a specific domain model including additional
- * metadata.
- *
- */
-export interface DomainModelResults {
-  /**
-   * @member {any} [result] Model-specific response
-   */
-  result?: any;
-  /**
-   * @member {string} [requestId] Id of the REST API request.
-   */
-  requestId?: string;
-  /**
-   * @member {ImageMetadata} [metadata]
-   */
-  metadata?: ImageMetadata;
-}
-
-/**
- * @interface
- * An interface representing CelebrityResults.
- * List of celebrities recognized in the image.
- *
- */
-export interface CelebrityResults {
-  /**
-   * @member {CelebritiesModel[]} [celebrities]
-   */
-  celebrities?: CelebritiesModel[];
-  /**
-   * @member {string} [requestId] Id of the REST API request.
-   */
-  requestId?: string;
-  /**
-   * @member {ImageMetadata} [metadata]
-   */
-  metadata?: ImageMetadata;
-}
-
-/**
- * @interface
- * An interface representing LandmarkResults.
- * List of landmarks recognized in the image.
- *
- */
-export interface LandmarkResults {
-  /**
-   * @member {LandmarksModel[]} [landmarks]
-   */
-  landmarks?: LandmarksModel[];
-  /**
-   * @member {string} [requestId] Id of the REST API request.
-   */
-  requestId?: string;
-  /**
-   * @member {ImageMetadata} [metadata]
-   */
-  metadata?: ImageMetadata;
-}
-
-/**
- * @interface
- * An interface representing ImageDescription.
- * A collection of content tags, along with a list of captions sorted by
- * confidence level, and image metadata.
- *
- */
-export interface ImageDescription {
-  /**
-   * @member {string[]} [tags] A collection of image tags.
-   */
-  tags?: string[];
-  /**
-   * @member {ImageCaption[]} [captions] A list of captions, sorted by
-   * confidence level.
-   */
-  captions?: ImageCaption[];
-  /**
-   * @member {string} [requestId] Id of the REST API request.
-   */
-  requestId?: string;
-  /**
-   * @member {ImageMetadata} [metadata]
-   */
-  metadata?: ImageMetadata;
 }
 
 /**
@@ -599,17 +681,50 @@ export interface TagResult {
 
 /**
  * @interface
+ * An interface representing AreaOfInterestResult.
+ * Result of AreaOfInterest operation.
+ *
+ */
+export interface AreaOfInterestResult {
+  /**
+   * @member {BoundingRect} [areaOfInterest] A bounding box for an area of
+   * interest inside an image.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly areaOfInterest?: BoundingRect;
+  /**
+   * @member {string} [requestId] Id of the REST API request.
+   */
+  requestId?: string;
+  /**
+   * @member {ImageMetadata} [metadata]
+   */
+  metadata?: ImageMetadata;
+}
+
+/**
+ * @interface
+ * An interface representing ImageUrl.
+ */
+export interface ImageUrl {
+  /**
+   * @member {string} url Publicly reachable URL of an image.
+   */
+  url: string;
+}
+
+/**
+ * @interface
  * An interface representing ComputerVisionError.
+ * Details about the API request error.
+ *
  */
 export interface ComputerVisionError {
   /**
-   * @member {ComputerVisionErrorCodes} code The error code. Possible values
-   * include: 'InvalidImageUrl', 'InvalidImageFormat', 'InvalidImageSize',
-   * 'NotSupportedVisualFeature', 'NotSupportedImage', 'InvalidDetails',
-   * 'NotSupportedLanguage', 'BadArgument', 'FailedToProcess', 'Timeout',
-   * 'InternalServerError', 'Unspecified', 'StorageException'
+   * @member {any} code The error code.
    */
-  code: ComputerVisionErrorCodes;
+  code: any;
   /**
    * @member {string} message A message explaining the error reported by the
    * service.
@@ -623,13 +738,46 @@ export interface ComputerVisionError {
 
 /**
  * @interface
- * An interface representing ImageUrl.
+ * An interface representing LandmarkResults.
+ * Result of domain-specific classifications for the domain of landmarks.
+ *
  */
-export interface ImageUrl {
+export interface LandmarkResults {
   /**
-   * @member {string} url Publicly reachable URL of an image
+   * @member {LandmarksModel[]} [landmarks] List of landmarks recognized in the
+   * image.
    */
-  url: string;
+  landmarks?: LandmarksModel[];
+  /**
+   * @member {string} [requestId] Id of the REST API request.
+   */
+  requestId?: string;
+  /**
+   * @member {ImageMetadata} [metadata]
+   */
+  metadata?: ImageMetadata;
+}
+
+/**
+ * @interface
+ * An interface representing CelebrityResults.
+ * Result of domain-specific classifications for the domain of celebrities.
+ *
+ */
+export interface CelebrityResults {
+  /**
+   * @member {CelebritiesModel[]} [celebrities] List of celebrities recognized
+   * in the image.
+   */
+  celebrities?: CelebritiesModel[];
+  /**
+   * @member {string} [requestId] Id of the REST API request.
+   */
+  requestId?: string;
+  /**
+   * @member {ImageMetadata} [metadata]
+   */
+  metadata?: ImageMetadata;
 }
 
 /**
@@ -704,23 +852,24 @@ export interface ComputerVisionClientAnalyzeImageOptionalParams extends msRest.R
   /**
    * @member {VisualFeatureTypes[]} [visualFeatures] A string indicating what
    * visual feature types to return. Multiple values should be comma-separated.
-   * Valid visual feature types include:Categories - categorizes image content
+   * Valid visual feature types include: Categories - categorizes image content
    * according to a taxonomy defined in documentation. Tags - tags the image
    * with a detailed list of words related to the image content. Description -
    * describes the image content with a complete English sentence. Faces -
    * detects if faces are present. If present, generate coordinates, gender and
    * age. ImageType - detects if image is clipart or a line drawing. Color -
    * determines the accent color, dominant color, and whether an image is
-   * black&white.Adult - detects if the image is pornographic in nature
+   * black&white. Adult - detects if the image is pornographic in nature
    * (depicts nudity or a sex act).  Sexually suggestive content is also
-   * detected.
+   * detected. Objects - detects various objects within an image, including the
+   * approximate location. The Objects argument is only available in English.
    */
   visualFeatures?: VisualFeatureTypes[];
   /**
    * @member {Details[]} [details] A string indicating which domain-specific
    * details to return. Multiple values should be comma-separated. Valid visual
-   * feature types include:Celebrities - identifies celebrities if detected in
-   * the image.
+   * feature types include: Celebrities - identifies celebrities if detected in
+   * the image, Landmarks - identifies notable landmarks in the image.
    */
   details?: Details[];
   /**
@@ -731,39 +880,6 @@ export interface ComputerVisionClientAnalyzeImageOptionalParams extends msRest.R
    * include: 'en', 'es', 'ja', 'pt', 'zh'. Default value: 'en' .
    */
   language?: Language;
-}
-
-/**
- * @interface
- * An interface representing ComputerVisionClientGenerateThumbnailOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface ComputerVisionClientGenerateThumbnailOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {boolean} [smartCropping] Boolean flag for enabling smart
-   * cropping. Default value: false .
-   */
-  smartCropping?: boolean;
-}
-
-/**
- * @interface
- * An interface representing ComputerVisionClientRecognizePrintedTextOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface ComputerVisionClientRecognizePrintedTextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {OcrLanguages} [language] The BCP-47 language code of the text to
-   * be detected in the image. The default value is 'unk'. Possible values
-   * include: 'unk', 'zh-Hans', 'zh-Hant', 'cs', 'da', 'nl', 'en', 'fi', 'fr',
-   * 'de', 'el', 'hu', 'it', 'ja', 'ko', 'nb', 'pl', 'pt', 'ru', 'es', 'sv',
-   * 'tr', 'ar', 'ro', 'sr-Cyrl', 'sr-Latn', 'sk'. Default value: 'unk' .
-   */
-  language?: OcrLanguages;
 }
 
 /**
@@ -791,12 +907,12 @@ export interface ComputerVisionClientDescribeImageOptionalParams extends msRest.
 
 /**
  * @interface
- * An interface representing ComputerVisionClientTagImageOptionalParams.
+ * An interface representing ComputerVisionClientAnalyzeImageByDomainOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface ComputerVisionClientTagImageOptionalParams extends msRest.RequestOptionsBase {
+export interface ComputerVisionClientAnalyzeImageByDomainOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {Language2} [language] The desired language for output generation.
    * If this parameter is not specified, the default value is
@@ -809,12 +925,30 @@ export interface ComputerVisionClientTagImageOptionalParams extends msRest.Reque
 
 /**
  * @interface
- * An interface representing ComputerVisionClientAnalyzeImageByDomainOptionalParams.
+ * An interface representing ComputerVisionClientRecognizePrintedTextOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface ComputerVisionClientAnalyzeImageByDomainOptionalParams extends msRest.RequestOptionsBase {
+export interface ComputerVisionClientRecognizePrintedTextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {OcrLanguages} [language] The BCP-47 language code of the text to
+   * be detected in the image. The default value is 'unk'. Possible values
+   * include: 'unk', 'zh-Hans', 'zh-Hant', 'cs', 'da', 'nl', 'en', 'fi', 'fr',
+   * 'de', 'el', 'hu', 'it', 'ja', 'ko', 'nb', 'pl', 'pt', 'ru', 'es', 'sv',
+   * 'tr', 'ar', 'ro', 'sr-Cyrl', 'sr-Latn', 'sk'. Default value: 'unk' .
+   */
+  language?: OcrLanguages;
+}
+
+/**
+ * @interface
+ * An interface representing ComputerVisionClientTagImageOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ComputerVisionClientTagImageOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {Language3} [language] The desired language for output generation.
    * If this parameter is not specified, the default value is
@@ -823,6 +957,21 @@ export interface ComputerVisionClientAnalyzeImageByDomainOptionalParams extends 
    * include: 'en', 'es', 'ja', 'pt', 'zh'. Default value: 'en' .
    */
   language?: Language3;
+}
+
+/**
+ * @interface
+ * An interface representing ComputerVisionClientGenerateThumbnailOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ComputerVisionClientGenerateThumbnailOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {boolean} [smartCropping] Boolean flag for enabling smart
+   * cropping. Default value: false .
+   */
+  smartCropping?: boolean;
 }
 
 /**
@@ -836,23 +985,24 @@ export interface ComputerVisionClientAnalyzeImageInStreamOptionalParams extends 
   /**
    * @member {VisualFeatureTypes[]} [visualFeatures] A string indicating what
    * visual feature types to return. Multiple values should be comma-separated.
-   * Valid visual feature types include:Categories - categorizes image content
+   * Valid visual feature types include: Categories - categorizes image content
    * according to a taxonomy defined in documentation. Tags - tags the image
    * with a detailed list of words related to the image content. Description -
    * describes the image content with a complete English sentence. Faces -
    * detects if faces are present. If present, generate coordinates, gender and
    * age. ImageType - detects if image is clipart or a line drawing. Color -
    * determines the accent color, dominant color, and whether an image is
-   * black&white.Adult - detects if the image is pornographic in nature
+   * black&white. Adult - detects if the image is pornographic in nature
    * (depicts nudity or a sex act).  Sexually suggestive content is also
-   * detected.
+   * detected. Objects - detects various objects within an image, including the
+   * approximate location. The Objects argument is only available in English.
    */
   visualFeatures?: VisualFeatureTypes[];
   /**
    * @member {Details[]} [details] A string indicating which domain-specific
    * details to return. Multiple values should be comma-separated. Valid visual
-   * feature types include:Celebrities - identifies celebrities if detected in
-   * the image.
+   * feature types include: Celebrities - identifies celebrities if detected in
+   * the image, Landmarks - identifies notable landmarks in the image.
    */
   details?: Details[];
   /**
@@ -863,39 +1013,6 @@ export interface ComputerVisionClientAnalyzeImageInStreamOptionalParams extends 
    * include: 'en', 'es', 'ja', 'pt', 'zh'. Default value: 'en' .
    */
   language?: Language4;
-}
-
-/**
- * @interface
- * An interface representing ComputerVisionClientGenerateThumbnailInStreamOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface ComputerVisionClientGenerateThumbnailInStreamOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {boolean} [smartCropping] Boolean flag for enabling smart
-   * cropping. Default value: false .
-   */
-  smartCropping?: boolean;
-}
-
-/**
- * @interface
- * An interface representing ComputerVisionClientRecognizePrintedTextInStreamOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface ComputerVisionClientRecognizePrintedTextInStreamOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {OcrLanguages} [language] The BCP-47 language code of the text to
-   * be detected in the image. The default value is 'unk'. Possible values
-   * include: 'unk', 'zh-Hans', 'zh-Hant', 'cs', 'da', 'nl', 'en', 'fi', 'fr',
-   * 'de', 'el', 'hu', 'it', 'ja', 'ko', 'nb', 'pl', 'pt', 'ru', 'es', 'sv',
-   * 'tr', 'ar', 'ro', 'sr-Cyrl', 'sr-Latn', 'sk'. Default value: 'unk' .
-   */
-  language?: OcrLanguages;
 }
 
 /**
@@ -923,12 +1040,27 @@ export interface ComputerVisionClientDescribeImageInStreamOptionalParams extends
 
 /**
  * @interface
- * An interface representing ComputerVisionClientTagImageInStreamOptionalParams.
+ * An interface representing ComputerVisionClientGenerateThumbnailInStreamOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface ComputerVisionClientTagImageInStreamOptionalParams extends msRest.RequestOptionsBase {
+export interface ComputerVisionClientGenerateThumbnailInStreamOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {boolean} [smartCropping] Boolean flag for enabling smart
+   * cropping. Default value: false .
+   */
+  smartCropping?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing ComputerVisionClientAnalyzeImageByDomainInStreamOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ComputerVisionClientAnalyzeImageByDomainInStreamOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {Language6} [language] The desired language for output generation.
    * If this parameter is not specified, the default value is
@@ -941,12 +1073,30 @@ export interface ComputerVisionClientTagImageInStreamOptionalParams extends msRe
 
 /**
  * @interface
- * An interface representing ComputerVisionClientAnalyzeImageByDomainInStreamOptionalParams.
+ * An interface representing ComputerVisionClientRecognizePrintedTextInStreamOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface ComputerVisionClientAnalyzeImageByDomainInStreamOptionalParams extends msRest.RequestOptionsBase {
+export interface ComputerVisionClientRecognizePrintedTextInStreamOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {OcrLanguages} [language] The BCP-47 language code of the text to
+   * be detected in the image. The default value is 'unk'. Possible values
+   * include: 'unk', 'zh-Hans', 'zh-Hant', 'cs', 'da', 'nl', 'en', 'fi', 'fr',
+   * 'de', 'el', 'hu', 'it', 'ja', 'ko', 'nb', 'pl', 'pt', 'ru', 'es', 'sv',
+   * 'tr', 'ar', 'ro', 'sr-Cyrl', 'sr-Latn', 'sk'. Default value: 'unk' .
+   */
+  language?: OcrLanguages;
+}
+
+/**
+ * @interface
+ * An interface representing ComputerVisionClientTagImageInStreamOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ComputerVisionClientTagImageInStreamOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {Language7} [language] The desired language for output generation.
    * If this parameter is not specified, the default value is
@@ -994,32 +1144,12 @@ export interface RecognizeTextInStreamHeaders {
 export type Gender = 'Male' | 'Female';
 
 /**
- * Defines values for ComputerVisionErrorCodes.
- * Possible values include: 'InvalidImageUrl', 'InvalidImageFormat', 'InvalidImageSize',
- * 'NotSupportedVisualFeature', 'NotSupportedImage', 'InvalidDetails', 'NotSupportedLanguage',
- * 'BadArgument', 'FailedToProcess', 'Timeout', 'InternalServerError', 'Unspecified',
- * 'StorageException'
- * @readonly
- * @enum {string}
- */
-export type ComputerVisionErrorCodes = 'InvalidImageUrl' | 'InvalidImageFormat' | 'InvalidImageSize' | 'NotSupportedVisualFeature' | 'NotSupportedImage' | 'InvalidDetails' | 'NotSupportedLanguage' | 'BadArgument' | 'FailedToProcess' | 'Timeout' | 'InternalServerError' | 'Unspecified' | 'StorageException';
-
-/**
  * Defines values for TextOperationStatusCodes.
  * Possible values include: 'Not Started', 'Running', 'Failed', 'Succeeded'
  * @readonly
  * @enum {string}
  */
 export type TextOperationStatusCodes = 'Not Started' | 'Running' | 'Failed' | 'Succeeded';
-
-/**
- * Defines values for VisualFeatureTypes.
- * Possible values include: 'ImageType', 'Faces', 'Adult', 'Categories', 'Color', 'Tags',
- * 'Description'
- * @readonly
- * @enum {string}
- */
-export type VisualFeatureTypes = 'ImageType' | 'Faces' | 'Adult' | 'Categories' | 'Color' | 'Tags' | 'Description';
 
 /**
  * Defines values for OcrLanguages.
@@ -1030,6 +1160,15 @@ export type VisualFeatureTypes = 'ImageType' | 'Faces' | 'Adult' | 'Categories' 
  * @enum {string}
  */
 export type OcrLanguages = 'unk' | 'zh-Hans' | 'zh-Hant' | 'cs' | 'da' | 'nl' | 'en' | 'fi' | 'fr' | 'de' | 'el' | 'hu' | 'it' | 'ja' | 'ko' | 'nb' | 'pl' | 'pt' | 'ru' | 'es' | 'sv' | 'tr' | 'ar' | 'ro' | 'sr-Cyrl' | 'sr-Latn' | 'sk';
+
+/**
+ * Defines values for VisualFeatureTypes.
+ * Possible values include: 'ImageType', 'Faces', 'Adult', 'Categories', 'Color', 'Tags',
+ * 'Description', 'Objects'
+ * @readonly
+ * @enum {string}
+ */
+export type VisualFeatureTypes = 'ImageType' | 'Faces' | 'Adult' | 'Categories' | 'Color' | 'Tags' | 'Description' | 'Objects';
 
 /**
  * Defines values for TextRecognitionMode.
@@ -1112,6 +1251,63 @@ export type Language6 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
 export type Language7 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
 
 /**
+ * Contains response data for the analyzeImage operation.
+ */
+export type AnalyzeImageResponse = ImageAnalysis & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ImageAnalysis;
+    };
+};
+
+/**
+ * Contains response data for the describeImage operation.
+ */
+export type DescribeImageResponse = ImageDescription & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ImageDescription;
+    };
+};
+
+/**
+ * Contains response data for the detectObjects operation.
+ */
+export type DetectObjectsResponse = DetectResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DetectResult;
+    };
+};
+
+/**
  * Contains response data for the listModels operation.
  */
 export type ListModelsResponse = ListModelsResult & {
@@ -1131,9 +1327,9 @@ export type ListModelsResponse = ListModelsResult & {
 };
 
 /**
- * Contains response data for the analyzeImage operation.
+ * Contains response data for the analyzeImageByDomain operation.
  */
-export type AnalyzeImageResponse = ImageAnalysis & {
+export type AnalyzeImageByDomainResponse = DomainModelResults & {
   /**
    * The underlying HTTP response.
    */
@@ -1145,7 +1341,45 @@ export type AnalyzeImageResponse = ImageAnalysis & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ImageAnalysis;
+      parsedBody: DomainModelResults;
+    };
+};
+
+/**
+ * Contains response data for the recognizePrintedText operation.
+ */
+export type RecognizePrintedTextResponse = OcrResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OcrResult;
+    };
+};
+
+/**
+ * Contains response data for the tagImage operation.
+ */
+export type TagImageResponse = TagResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagResult;
     };
 };
 
@@ -1174,9 +1408,9 @@ export type GenerateThumbnailResponse = {
 };
 
 /**
- * Contains response data for the recognizePrintedText operation.
+ * Contains response data for the getAreaOfInterest operation.
  */
-export type RecognizePrintedTextResponse = OcrResult & {
+export type GetAreaOfInterestResponse = AreaOfInterestResult & {
   /**
    * The underlying HTTP response.
    */
@@ -1188,64 +1422,7 @@ export type RecognizePrintedTextResponse = OcrResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OcrResult;
-    };
-};
-
-/**
- * Contains response data for the describeImage operation.
- */
-export type DescribeImageResponse = ImageDescription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageDescription;
-    };
-};
-
-/**
- * Contains response data for the tagImage operation.
- */
-export type TagImageResponse = TagResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagResult;
-    };
-};
-
-/**
- * Contains response data for the analyzeImageByDomain operation.
- */
-export type AnalyzeImageByDomainResponse = DomainModelResults & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainModelResults;
+      parsedBody: AreaOfInterestResult;
     };
 };
 
@@ -1303,6 +1480,63 @@ export type AnalyzeImageInStreamResponse = ImageAnalysis & {
 };
 
 /**
+ * Contains response data for the getAreaOfInterestInStream operation.
+ */
+export type GetAreaOfInterestInStreamResponse = AreaOfInterestResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AreaOfInterestResult;
+    };
+};
+
+/**
+ * Contains response data for the describeImageInStream operation.
+ */
+export type DescribeImageInStreamResponse = ImageDescription & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ImageDescription;
+    };
+};
+
+/**
+ * Contains response data for the detectObjectsInStream operation.
+ */
+export type DetectObjectsInStreamResponse = DetectResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DetectResult;
+    };
+};
+
+/**
  * Contains response data for the generateThumbnailInStream operation.
  */
 export type GenerateThumbnailInStreamResponse = {
@@ -1327,6 +1561,25 @@ export type GenerateThumbnailInStreamResponse = {
 };
 
 /**
+ * Contains response data for the analyzeImageByDomainInStream operation.
+ */
+export type AnalyzeImageByDomainInStreamResponse = DomainModelResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DomainModelResults;
+    };
+};
+
+/**
  * Contains response data for the recognizePrintedTextInStream operation.
  */
 export type RecognizePrintedTextInStreamResponse = OcrResult & {
@@ -1346,25 +1599,6 @@ export type RecognizePrintedTextInStreamResponse = OcrResult & {
 };
 
 /**
- * Contains response data for the describeImageInStream operation.
- */
-export type DescribeImageInStreamResponse = ImageDescription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageDescription;
-    };
-};
-
-/**
  * Contains response data for the tagImageInStream operation.
  */
 export type TagImageInStreamResponse = TagResult & {
@@ -1380,25 +1614,6 @@ export type TagImageInStreamResponse = TagResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: TagResult;
-    };
-};
-
-/**
- * Contains response data for the analyzeImageByDomainInStream operation.
- */
-export type AnalyzeImageByDomainInStreamResponse = DomainModelResults & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainModelResults;
     };
 };
 
