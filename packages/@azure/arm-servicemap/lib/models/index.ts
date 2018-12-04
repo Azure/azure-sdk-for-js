@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -460,7 +460,7 @@ export interface OperatingSystemConfiguration {
 /**
  * @interface
  * An interface representing VirtualMachineConfiguration.
- * Describes the virtualizaton-related configuration of a machine.
+ * Describes the virtualization-related configuration of a machine.
  *
  */
 export interface VirtualMachineConfiguration {
@@ -473,7 +473,7 @@ export interface VirtualMachineConfiguration {
   virtualMachineType?: VirtualMachineType;
   /**
    * @member {string} [nativeMachineId] The unique identifier of the virtual
-   * machine as reported by the underlying virtualization sytem.
+   * machine as reported by the underlying virtualization system.
    */
   nativeMachineId?: string;
   /**
@@ -671,7 +671,7 @@ export interface ProcessHostedService {
  */
 export interface ProcessDetails {
   /**
-   * @member {string} [persistentKey] A unique indentifier for a process,
+   * @member {string} [persistentKey] A unique identifier for a process,
    * generally resilient to process restart, computed by Service Map.
    */
   persistentKey?: string;
@@ -681,7 +681,7 @@ export interface ProcessDetails {
    */
   poolId?: number;
   /**
-   * @member {number} [firstPid] The Operating System Process Idendifier (PID)
+   * @member {number} [firstPid] The Operating System Process Identifier (PID)
    * of the first process in this process pool.
    */
   firstPid?: number;
@@ -1405,7 +1405,7 @@ export interface AzureServiceFabricClusterConfiguration {
    */
   name?: string;
   /**
-   * @member {string} [clusterId] Service Fabric cluster indentifier.
+   * @member {string} [clusterId] Service Fabric cluster identifier.
    */
   clusterId?: string;
 }
