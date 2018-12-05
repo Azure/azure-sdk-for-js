@@ -102,6 +102,9 @@ export const resourceGroupName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "resourceGroupName",
+    constraints: {
+      MinLength: 1
+    },
     type: {
       name: "String"
     }
