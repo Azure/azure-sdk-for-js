@@ -129,31 +129,34 @@ export class SubscriptionClient extends Client {
   async receiveBatch(maxMessageCount: number,
     maxWaitTimeInSeconds?: number,
     maxMessageWaitTimeoutInSeconds?: number): Promise<ServiceBusMessage[]> {
-    if (!this._context.batchingReceiver ||
-      (this._context.batchingReceiver && !this._context.batchingReceiver.isOpen()) ||
-      (this._context.batchingReceiver && !this._context.batchingReceiver.isReceivingMessages)) {
+
+    let bReceiver = this._context.batchingReceiver;
+    if (bReceiver
+      && bReceiver.isOpen()
+      && bReceiver.isReceivingMessages) {
+      const msg = `A "${bReceiver.receiverType}" receiver with id "${bReceiver.name}" has already been ` +
+        `created for the Subscription "${this.name}". Another receiveBatch() call cannot be made while the ` +
+        `previous one is active. Please wait for the previous receiveBatch() to complete and ` +
+        `then call receiveBatch() again.`;
+      throw new Error(msg);
+    }
+
+    if (!bReceiver || !bReceiver.isOpen()) {
       const options: ReceiveOptions = {
         maxConcurrentCalls: 0,
         receiveMode: this.receiveMode
       };
-      const bReceiver: BatchingReceiver = BatchingReceiver.create(this._context, options);
-      this._context.batchingReceiver = bReceiver;
-      try {
-        return await bReceiver.receive(maxMessageCount, maxWaitTimeInSeconds,
-          maxMessageWaitTimeoutInSeconds);
-      } catch (err) {
-        log.error("[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
-          "max time:\n %O", this._context.namespace.connectionId, bReceiver.name, maxMessageCount,
-          maxWaitTimeInSeconds, err);
-        throw err;
-      }
-    } else {
-      const rcvr = this._context.batchingReceiver;
-      const msg = `A "${rcvr.receiverType}" receiver with id "${rcvr.name}" has already been ` +
-        `created for the Subscription "${this.name}". Another receiveBatch() call cannot be made` +
-        `while the previous one is active. Please wait for the previous receiveBatch() to complete` +
-        `and then call receiveBatch() again.`;
-      throw new Error(msg);
+      this._context.batchingReceiver = bReceiver = BatchingReceiver.create(this._context, options);
+    }
+
+    try {
+      return await bReceiver.receive(maxMessageCount, maxWaitTimeInSeconds,
+        maxMessageWaitTimeoutInSeconds);
+    } catch (err) {
+      log.error("[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
+        "max time:\n %O", this._context.namespace.connectionId, bReceiver.name, maxMessageCount,
+        maxWaitTimeInSeconds, err);
+      throw err;
     }
   }
 
