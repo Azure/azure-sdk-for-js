@@ -1,0 +1,40 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=vsts&tabs=schema
+
+pool:
+  vmImage: "Ubuntu 16.04"
+
+strategy:
+  matrix:
+    node_6_x:
+      node_version: 6.x
+    node_8_x:
+      node_version: 8.x
+    node_10_x:
+      node_version: 10.x
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "$(node_version)"
+    displayName: "Install Node.js"
+
+  - script: |
+      npm install
+      npm run build
+    workingDirectory: "./blob"
+    displayName: "npm install and build"
+
+  - script: |
+      npm run test:node
+    workingDirectory: "./blob"
+    displayName: "npm run test:nodereporter"
+    env: { ACCOUNT_NAME: "$(ACCOUNT_NAME)", ACCOUNT_KEY: "$(ACCOUNT_KEY)" }
+
+  - task: PublishTestResults@2
+    inputs:
+      testRunner: JUnit
+      testResultsFiles: "test-results.xml"
