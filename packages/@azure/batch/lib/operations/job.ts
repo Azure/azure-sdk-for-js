@@ -233,8 +233,8 @@ export class Job {
    * When you call this API, the Batch service sets a disabled job to the enabling state. After the
    * this operation is completed, the job moves to the active state, and scheduling of new tasks
    * under the job resumes. The Batch service does not allow a task to remain in the active state for
-   * more than 7 days. Therefore, if you enable a job containing active tasks which were added more
-   * than 7 days ago, those tasks will not run.
+   * more than 180 days. Therefore, if you enable a job containing active tasks which were added more
+   * than 180 days ago, those tasks will not run.
    * @summary Enables the specified job, allowing new tasks to run.
    * @param jobId The ID of the job to enable.
    * @param [options] The optional parameters
@@ -542,15 +542,18 @@ const serializer = new msRest.Serializer(Mappers);
 const getAllLifetimeStatisticsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "lifetimejobstats",
+  urlParameters: [
+    Parameters.batchUrl
+  ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout20
+    Parameters.timeout19
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId25,
-    Parameters.returnClientRequestId25,
-    Parameters.ocpDate25
+    Parameters.clientRequestId24,
+    Parameters.returnClientRequestId24,
+    Parameters.ocpDate24
   ],
   responses: {
     200: {
@@ -568,21 +571,22 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "jobs/{jobId}",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.jobId
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout21
+    Parameters.timeout20
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId26,
-    Parameters.returnClientRequestId26,
-    Parameters.ocpDate26,
-    Parameters.ifMatch9,
-    Parameters.ifNoneMatch9,
-    Parameters.ifModifiedSince9,
-    Parameters.ifUnmodifiedSince9
+    Parameters.clientRequestId25,
+    Parameters.returnClientRequestId25,
+    Parameters.ocpDate25,
+    Parameters.ifMatch8,
+    Parameters.ifNoneMatch8,
+    Parameters.ifModifiedSince8,
+    Parameters.ifUnmodifiedSince8
   ],
   responses: {
     202: {
@@ -599,23 +603,24 @@ const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "jobs/{jobId}",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.jobId
   ],
   queryParameters: [
     Parameters.apiVersion,
     Parameters.select2,
     Parameters.expand2,
-    Parameters.timeout22
+    Parameters.timeout21
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId27,
-    Parameters.returnClientRequestId27,
-    Parameters.ocpDate27,
-    Parameters.ifMatch10,
-    Parameters.ifNoneMatch10,
-    Parameters.ifModifiedSince10,
-    Parameters.ifUnmodifiedSince10
+    Parameters.clientRequestId26,
+    Parameters.returnClientRequestId26,
+    Parameters.ocpDate26,
+    Parameters.ifMatch9,
+    Parameters.ifNoneMatch9,
+    Parameters.ifModifiedSince9,
+    Parameters.ifUnmodifiedSince9
   ],
   responses: {
     200: {
@@ -633,21 +638,22 @@ const patchOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "jobs/{jobId}",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.jobId
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout23
+    Parameters.timeout22
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId28,
-    Parameters.returnClientRequestId28,
-    Parameters.ocpDate28,
-    Parameters.ifMatch11,
-    Parameters.ifNoneMatch11,
-    Parameters.ifModifiedSince11,
-    Parameters.ifUnmodifiedSince11
+    Parameters.clientRequestId27,
+    Parameters.returnClientRequestId27,
+    Parameters.ocpDate27,
+    Parameters.ifMatch10,
+    Parameters.ifNoneMatch10,
+    Parameters.ifModifiedSince10,
+    Parameters.ifUnmodifiedSince10
   ],
   requestBody: {
     parameterPath: "jobPatchParameter",
@@ -672,21 +678,22 @@ const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "jobs/{jobId}",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.jobId
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout24
+    Parameters.timeout23
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId29,
-    Parameters.returnClientRequestId29,
-    Parameters.ocpDate29,
-    Parameters.ifMatch12,
-    Parameters.ifNoneMatch12,
-    Parameters.ifModifiedSince12,
-    Parameters.ifUnmodifiedSince12
+    Parameters.clientRequestId28,
+    Parameters.returnClientRequestId28,
+    Parameters.ocpDate28,
+    Parameters.ifMatch11,
+    Parameters.ifNoneMatch11,
+    Parameters.ifModifiedSince11,
+    Parameters.ifUnmodifiedSince11
   ],
   requestBody: {
     parameterPath: "jobUpdateParameter",
@@ -711,21 +718,22 @@ const disableOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "jobs/{jobId}/disable",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.jobId
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout25
+    Parameters.timeout24
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId30,
-    Parameters.returnClientRequestId30,
-    Parameters.ocpDate30,
-    Parameters.ifMatch13,
-    Parameters.ifNoneMatch13,
-    Parameters.ifModifiedSince13,
-    Parameters.ifUnmodifiedSince13
+    Parameters.clientRequestId29,
+    Parameters.returnClientRequestId29,
+    Parameters.ocpDate29,
+    Parameters.ifMatch12,
+    Parameters.ifNoneMatch12,
+    Parameters.ifModifiedSince12,
+    Parameters.ifUnmodifiedSince12
   ],
   requestBody: {
     parameterPath: {
@@ -752,21 +760,22 @@ const enableOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "jobs/{jobId}/enable",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.jobId
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout26
+    Parameters.timeout25
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId31,
-    Parameters.returnClientRequestId31,
-    Parameters.ocpDate31,
-    Parameters.ifMatch14,
-    Parameters.ifNoneMatch14,
-    Parameters.ifModifiedSince14,
-    Parameters.ifUnmodifiedSince14
+    Parameters.clientRequestId30,
+    Parameters.returnClientRequestId30,
+    Parameters.ocpDate30,
+    Parameters.ifMatch13,
+    Parameters.ifNoneMatch13,
+    Parameters.ifModifiedSince13,
+    Parameters.ifUnmodifiedSince13
   ],
   responses: {
     202: {
@@ -783,21 +792,22 @@ const terminateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "jobs/{jobId}/terminate",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.jobId
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout27
+    Parameters.timeout26
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId32,
-    Parameters.returnClientRequestId32,
-    Parameters.ocpDate32,
-    Parameters.ifMatch15,
-    Parameters.ifNoneMatch15,
-    Parameters.ifModifiedSince15,
-    Parameters.ifUnmodifiedSince15
+    Parameters.clientRequestId31,
+    Parameters.returnClientRequestId31,
+    Parameters.ocpDate31,
+    Parameters.ifMatch14,
+    Parameters.ifNoneMatch14,
+    Parameters.ifModifiedSince14,
+    Parameters.ifUnmodifiedSince14
   ],
   requestBody: {
     parameterPath: {
@@ -823,15 +833,18 @@ const terminateOperationSpec: msRest.OperationSpec = {
 const addOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "jobs",
+  urlParameters: [
+    Parameters.batchUrl
+  ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout28
+    Parameters.timeout27
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId33,
-    Parameters.returnClientRequestId33,
-    Parameters.ocpDate33
+    Parameters.clientRequestId32,
+    Parameters.returnClientRequestId32,
+    Parameters.ocpDate32
   ],
   requestBody: {
     parameterPath: "job",
@@ -855,19 +868,22 @@ const addOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "jobs",
+  urlParameters: [
+    Parameters.batchUrl
+  ],
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter4,
     Parameters.select3,
     Parameters.expand3,
     Parameters.maxResults5,
-    Parameters.timeout29
+    Parameters.timeout28
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId34,
-    Parameters.returnClientRequestId34,
-    Parameters.ocpDate34
+    Parameters.clientRequestId33,
+    Parameters.returnClientRequestId33,
+    Parameters.ocpDate33
   ],
   responses: {
     200: {
@@ -885,6 +901,7 @@ const listFromJobScheduleOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "jobschedules/{jobScheduleId}/jobs",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.jobScheduleId
   ],
   queryParameters: [
@@ -893,13 +910,13 @@ const listFromJobScheduleOperationSpec: msRest.OperationSpec = {
     Parameters.select4,
     Parameters.expand4,
     Parameters.maxResults6,
-    Parameters.timeout30
+    Parameters.timeout29
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId35,
-    Parameters.returnClientRequestId35,
-    Parameters.ocpDate35
+    Parameters.clientRequestId34,
+    Parameters.returnClientRequestId34,
+    Parameters.ocpDate34
   ],
   responses: {
     200: {
@@ -917,6 +934,7 @@ const listPreparationAndReleaseTaskStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "jobs/{jobId}/jobpreparationandreleasetaskstatus",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.jobId
   ],
   queryParameters: [
@@ -924,13 +942,13 @@ const listPreparationAndReleaseTaskStatusOperationSpec: msRest.OperationSpec = {
     Parameters.filter6,
     Parameters.select5,
     Parameters.maxResults7,
-    Parameters.timeout31
+    Parameters.timeout30
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId36,
-    Parameters.returnClientRequestId36,
-    Parameters.ocpDate36
+    Parameters.clientRequestId35,
+    Parameters.returnClientRequestId35,
+    Parameters.ocpDate35
   ],
   responses: {
     200: {
@@ -948,17 +966,18 @@ const getTaskCountsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "jobs/{jobId}/taskcounts",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.jobId
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout32
+    Parameters.timeout31
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId37,
-    Parameters.returnClientRequestId37,
-    Parameters.ocpDate37
+    Parameters.clientRequestId36,
+    Parameters.returnClientRequestId36,
+    Parameters.ocpDate36
   ],
   responses: {
     200: {
@@ -974,16 +993,16 @@ const getTaskCountsOperationSpec: msRest.OperationSpec = {
 
 const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  baseUrl: "https://batch.core.windows.net",
+  baseUrl: "{batchUrl}",
   path: "{nextLink}",
   urlParameters: [
     Parameters.nextPageLink
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId38,
-    Parameters.returnClientRequestId38,
-    Parameters.ocpDate38
+    Parameters.clientRequestId37,
+    Parameters.returnClientRequestId37,
+    Parameters.ocpDate37
   ],
   responses: {
     200: {
@@ -999,16 +1018,16 @@ const listNextOperationSpec: msRest.OperationSpec = {
 
 const listFromJobScheduleNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  baseUrl: "https://batch.core.windows.net",
+  baseUrl: "{batchUrl}",
   path: "{nextLink}",
   urlParameters: [
     Parameters.nextPageLink
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId39,
-    Parameters.returnClientRequestId39,
-    Parameters.ocpDate39
+    Parameters.clientRequestId38,
+    Parameters.returnClientRequestId38,
+    Parameters.ocpDate38
   ],
   responses: {
     200: {
@@ -1024,16 +1043,16 @@ const listFromJobScheduleNextOperationSpec: msRest.OperationSpec = {
 
 const listPreparationAndReleaseTaskStatusNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  baseUrl: "https://batch.core.windows.net",
+  baseUrl: "{batchUrl}",
   path: "{nextLink}",
   urlParameters: [
     Parameters.nextPageLink
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId40,
-    Parameters.returnClientRequestId40,
-    Parameters.ocpDate40
+    Parameters.clientRequestId39,
+    Parameters.returnClientRequestId39,
+    Parameters.ocpDate39
   ],
   responses: {
     200: {

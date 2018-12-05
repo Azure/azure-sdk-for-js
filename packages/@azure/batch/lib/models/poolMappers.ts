@@ -23,7 +23,6 @@ export {
   CloudServiceConfiguration,
   VirtualMachineConfiguration,
   ImageReference,
-  OSDisk,
   WindowsConfiguration,
   DataDisk,
   ContainerConfiguration,
@@ -43,6 +42,7 @@ export {
   TaskSchedulingPolicy,
   UserAccount,
   LinuxUserConfiguration,
+  WindowsUserConfiguration,
   MetadataItem,
   PoolAddHeaders,
   CloudPoolListResult,
@@ -67,8 +67,6 @@ export {
   PoolStopResizeHeaders,
   PoolUpdatePropertiesParameter,
   PoolUpdatePropertiesHeaders,
-  PoolUpgradeOSParameter,
-  PoolUpgradeOSHeaders,
   NodeRemoveParameter,
   PoolRemoveNodesHeaders
 } from "../models/mappers";

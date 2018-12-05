@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import { BaseResource, CloudError } from "@azure/ms-rest-azure-js";
 import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
@@ -49,16 +49,6 @@ export interface PoolUsageMetrics {
    * during this aggregation interval.
    */
   totalCoreHours: number;
-  /**
-   * @member {number} dataIngressGiB The cross data center network ingress to
-   * the pool during this interval, in GiB.
-   */
-  dataIngressGiB: number;
-  /**
-   * @member {number} dataEgressGiB The cross data center network egress from
-   * the pool during this interval, in GiB.
-   */
-  dataEgressGiB: number;
 }
 
 /**
@@ -716,6 +706,28 @@ export interface JobConstraints {
 
 /**
  * @interface
+ * An interface representing JobNetworkConfiguration.
+ * @summary The network configuration for the job.
+ *
+ */
+export interface JobNetworkConfiguration {
+  /**
+   * @member {string} subnetId The ARM resource identifier of the virtual
+   * network subnet which nodes running tasks from the job will join for the
+   * duration of the task. This is only supported for jobs running on
+   * VirtualMachineConfiguration pools. This is of the form
+   * /subscriptions/{subscription}/resourceGroups/{group}/providers/{provider}/virtualNetworks/{network}/subnets/{subnet}.
+   * The virtual network must be in the same region and subscription as the
+   * Azure Batch account. The specified subnet should have enough free IP
+   * addresses to accommodate the number of nodes which will run tasks from the
+   * job. For more details, see
+   * https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
+   */
+  subnetId: string;
+}
+
+/**
+ * @interface
  * An interface representing ContainerRegistry.
  * @summary A private container registry.
  *
@@ -768,24 +780,63 @@ export interface TaskContainerSettings {
 /**
  * @interface
  * An interface representing ResourceFile.
- * @summary A file to be downloaded from Azure blob storage to a compute node.
+ * @summary A single file or multiple files to be downloaded to a compute node.
  *
  */
 export interface ResourceFile {
   /**
-   * @member {string} blobSource The URL of the file within Azure Blob Storage.
-   * This URL must be readable using anonymous access; that is, the Batch
-   * service does not present any credentials when downloading the blob. There
-   * are two ways to get such a URL for a blob in Azure storage: include a
-   * Shared Access Signature (SAS) granting read permissions on the blob, or
-   * set the ACL for the blob or its container to allow public access.
+   * @member {string} [autoStorageContainerName] The storage container name in
+   * the auto storage account. The autoStorageContainerName,
+   * storageContainerUrl and httpUrl properties are mutually exclusive and one
+   * of them must be specified.
    */
-  blobSource: string;
+  autoStorageContainerName?: string;
   /**
-   * @member {string} filePath The location on the compute node to which to
-   * download the file, relative to the task's working directory.
+   * @member {string} [storageContainerUrl] The URL of the blob container
+   * within Azure Blob Storage. The autoStorageContainerName,
+   * storageContainerUrl and httpUrl properties are mutually exclusive and one
+   * of them must be specified. This URL must be readable and listable using
+   * anonymous access; that is, the Batch service does not present any
+   * credentials when downloading blobs from the container. There are two ways
+   * to get such a URL for a container in Azure storage: include a Shared
+   * Access Signature (SAS) granting read permissions on the container, or set
+   * the ACL for the container to allow public access.
    */
-  filePath: string;
+  storageContainerUrl?: string;
+  /**
+   * @member {string} [httpUrl] The URL of the file to download. The
+   * autoStorageContainerName, storageContainerUrl and httpUrl properties are
+   * mutually exclusive and one of them must be specified. If the URL points to
+   * Azure Blob Storage, it must be readable using anonymous access; that is,
+   * the Batch service does not present any credentials when downloading the
+   * blob. There are two ways to get such a URL for a blob in Azure storage:
+   * include a Shared Access Signature (SAS) granting read permissions on the
+   * blob, or set the ACL for the blob or its container to allow public access.
+   */
+  httpUrl?: string;
+  /**
+   * @member {string} [blobPrefix] The blob prefix to use when downloading
+   * blobs from an Azure Storage container. Only the blobs whose names begin
+   * with the specified prefix will be downloaded. The property is valid only
+   * when autoStorageContainerName or storageContainerUrl is used. This prefix
+   * can be a partial filename or a subdirectory. If a prefix is not specified,
+   * all the files in the container will be downloaded.
+   */
+  blobPrefix?: string;
+  /**
+   * @member {string} [filePath] The location on the compute node to which to
+   * download the file(s), relative to the task's working directory. If the
+   * httpUrl property is specified, the filePath is required and describes the
+   * path which the file will be downloaded to, including the filename.
+   * Otherwise, if the autoStorageContainerName or storageContainerUrl property
+   * is specified, filePath is optional and is the directory to download the
+   * files to. In the case where filePath is used as a directory, any directory
+   * structure already associated with the input data will be retained in full
+   * and appended to the specified filePath directory. The specified relative
+   * path cannot break out of the task's working directory (for example by
+   * using '..').
+   */
+  filePath?: string;
   /**
    * @member {string} [fileMode] The file permission mode attribute in octal
    * format. This property applies only to files being downloaded to Linux
@@ -927,7 +978,7 @@ export interface ExitConditions {
    * code not listed in the exitCodes or exitCodeRanges collection, with a
    * pre-processing error if the preProcessingError property is not present, or
    * with a file upload error if the fileUploadError property is not present.
-   * If you want non-default behaviour on exit code 0, you must list it
+   * If you want non-default behavior on exit code 0, you must list it
    * explicitly using the exitCodes or exitCodeRanges collection.
    */
   default?: ExitOptions;
@@ -959,10 +1010,7 @@ export interface AutoUserSpecification {
  * An interface representing UserIdentity.
  * @summary The definition of the user identity under which the task is run.
  *
- * Specify either the userName or autoUser property, but not both. On
- * CloudServiceConfiguration pools, this user is logged in with the INTERACTIVE
- * flag. On Windows VirtualMachineConfiguration pools, this user is logged in
- * with the BATCH flag.
+ * Specify either the userName or autoUser property, but not both.
  *
  */
 export interface UserIdentity {
@@ -1014,6 +1062,22 @@ export interface LinuxUserConfiguration {
 
 /**
  * @interface
+ * An interface representing WindowsUserConfiguration.
+ * @summary Properties used to create a user account on a Windows node.
+ *
+ */
+export interface WindowsUserConfiguration {
+  /**
+   * @member {LoginMode} [loginMode] The login mode for the user. The default
+   * value for VirtualMachineConfiguration pools is interactive and for
+   * CloudServiceConfiguration pools is batch. Possible values include:
+   * 'batch', 'interactive'
+   */
+  loginMode?: LoginMode;
+}
+
+/**
+ * @interface
  * An interface representing UserAccount.
  * @summary Properties used to create a user used to execute tasks on an Azure
  * Batch node.
@@ -1041,6 +1105,13 @@ export interface UserAccount {
    * created with the default options.
    */
   linuxUserConfiguration?: LinuxUserConfiguration;
+  /**
+   * @member {WindowsUserConfiguration} [windowsUserConfiguration] The
+   * Windows-specific user configuration for the user account. This property
+   * can only be specified if the user is on a Windows pool. If not specified
+   * and on a Windows pool, the user is created with the default options.
+   */
+  windowsUserConfiguration?: WindowsUserConfiguration;
 }
 
 /**
@@ -1061,8 +1132,9 @@ export interface TaskConstraints {
    * @member {string} [retentionTime] The minimum time to retain the task
    * directory on the compute node where it ran, from the time it completes
    * execution. After this time, the Batch service may delete the task
-   * directory and all its contents. The default is infinite, i.e. the task
-   * directory will be retained until the compute node is removed or reimaged.
+   * directory and all its contents. The default is 7 days, i.e. the task
+   * directory will be retained for 7 days unless the compute node is removed
+   * or the job is deleted.
    */
   retentionTime?: string;
   /**
@@ -1075,8 +1147,6 @@ export interface TaskConstraints {
    * initial try and 3 retries). If the maximum retry count is 0, the Batch
    * service does not retry the task after the first attempt. If the maximum
    * retry count is -1, the Batch service retries the task without limit.
-   * Resource files and application packages are only downloaded again if the
-   * task is retried on a new compute node.
    */
   maxTaskRetryCount?: number;
 }
@@ -1555,8 +1625,8 @@ export interface JobReleaseTask {
    * @member {string} [retentionTime] The minimum time to retain the task
    * directory for the Job Release task on the compute node. After this time,
    * the Batch service may delete the task directory and all its contents. The
-   * default is infinite, i.e. the task directory will be retained until the
-   * compute node is removed or reimaged.
+   * default is 7 days, i.e. the task directory will be retained for 7 days
+   * unless the compute node is removed or the job is deleted.
    */
   retentionTime?: string;
   /**
@@ -1762,41 +1832,11 @@ export interface CloudServiceConfiguration {
    */
   osFamily: string;
   /**
-   * @member {string} [targetOSVersion] The Azure Guest OS version to be
-   * installed on the virtual machines in the pool. The default value is *
-   * which specifies the latest operating system version for the specified OS
-   * family.
+   * @member {string} [osVersion] The Azure Guest OS version to be installed on
+   * the virtual machines in the pool. The default value is * which specifies
+   * the latest operating system version for the specified OS family.
    */
-  targetOSVersion?: string;
-  /**
-   * @member {string} [currentOSVersion] The Azure Guest OS Version currently
-   * installed on the virtual machines in the pool. This may differ from
-   * targetOSVersion if the pool state is Upgrading. In this case some virtual
-   * machines may be on the targetOSVersion and some may be on the
-   * currentOSVersion during the upgrade process. Once all virtual machines
-   * have upgraded, currentOSVersion is updated to be the same as
-   * targetOSVersion.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly currentOSVersion?: string;
-}
-
-/**
- * @interface
- * An interface representing OSDisk.
- * @summary Settings for the operating system disk of the virtual machine.
- *
- */
-export interface OSDisk {
-  /**
-   * @member {CachingType} [caching] The type of caching to enable for the OS
-   * disk. The default value for caching is readwrite. For information about
-   * the caching options see:
-   * https://blogs.msdn.microsoft.com/windowsazurestorage/2012/06/27/exploring-windows-azure-drives-disks-and-images/.
-   * Possible values include: 'none', 'readOnly', 'readWrite'
-   */
-  caching?: CachingType;
+  osVersion?: string;
 }
 
 /**
@@ -1884,11 +1924,6 @@ export interface VirtualMachineConfiguration {
    */
   imageReference: ImageReference;
   /**
-   * @member {OSDisk} [osDisk] Settings for the operating system disk of the
-   * Virtual Machine.
-   */
-  osDisk?: OSDisk;
-  /**
    * @member {string} nodeAgentSKUId The SKU of the Batch node agent to be
    * provisioned on compute nodes in the pool. The Batch node agent is a
    * program that runs on each node in the pool, and provides the
@@ -1903,8 +1938,7 @@ export interface VirtualMachineConfiguration {
   /**
    * @member {WindowsConfiguration} [windowsConfiguration] Windows operating
    * system settings on the virtual machine. This property must not be
-   * specified if the imageReference or osDisk property specifies a Linux OS
-   * image.
+   * specified if the imageReference property specifies a Linux OS image.
    */
   windowsConfiguration?: WindowsConfiguration;
   /**
@@ -2068,27 +2102,19 @@ export interface NetworkConfiguration {
    * Azure Batch account. The specified subnet should have enough free IP
    * addresses to accommodate the number of nodes in the pool. If the subnet
    * doesn't have enough free IP addresses, the pool will partially allocate
-   * compute nodes, and a resize error will occur. The 'MicrosoftAzureBatch'
-   * service principal must have the 'Classic Virtual Machine Contributor'
-   * Role-Based Access Control (RBAC) role for the specified VNet. The
-   * specified subnet must allow communication from the Azure Batch service to
-   * be able to schedule tasks on the compute nodes. This can be verified by
-   * checking if the specified VNet has any associated Network Security Groups
-   * (NSG). If communication to the compute nodes in the specified subnet is
-   * denied by an NSG, then the Batch service will set the state of the compute
-   * nodes to unusable. For pools created with virtualMachineConfiguration only
-   * ARM virtual networks ('Microsoft.Network/virtualNetworks') are supported,
-   * but for pools created with cloudServiceConfiguration both ARM and classic
-   * virtual networks are supported. If the specified VNet has any associated
-   * Network Security Groups (NSG), then a few reserved system ports must be
-   * enabled for inbound communication. For pools created with a virtual
-   * machine configuration, enable ports 29876 and 29877, as well as port 22
-   * for Linux and port 3389 for Windows. For pools created with a cloud
-   * service configuration, enable ports 10100, 20100, and 30100. Also enable
-   * outbound connections to Azure Storage on port 443. For more details see:
+   * compute nodes, and a resize error will occur. For pools created with
+   * virtualMachineConfiguration only ARM virtual networks
+   * ('Microsoft.Network/virtualNetworks') are supported, but for pools created
+   * with cloudServiceConfiguration both ARM and classic virtual networks are
+   * supported. For more details, see:
    * https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration
    */
   subnetId?: string;
+  /**
+   * @member {DynamicVNetAssignmentScope} [dynamicVNetAssignmentScope] The
+   * scope of dynamic vnet assignment. Possible values include: 'none', 'job'
+   */
+  dynamicVNetAssignmentScope?: DynamicVNetAssignmentScope;
   /**
    * @member {PoolEndpointConfiguration} [endpointConfiguration] The
    * configuration for endpoints on compute nodes in the Batch pool. Pool
@@ -2386,6 +2412,11 @@ export interface JobSpecification {
    * 'performExitOptionsJobAction'
    */
   onTaskFailure?: OnTaskFailure;
+  /**
+   * @member {JobNetworkConfiguration} [networkConfiguration] The network
+   * configuration for the job.
+   */
+  networkConfiguration?: JobNetworkConfiguration;
   /**
    * @member {JobConstraints} [constraints] The execution constraints for jobs
    * created under this schedule.
@@ -2924,6 +2955,11 @@ export interface CloudJob {
    */
   onTaskFailure?: OnTaskFailure;
   /**
+   * @member {JobNetworkConfiguration} [networkConfiguration] The network
+   * configuration for the job.
+   */
+  networkConfiguration?: JobNetworkConfiguration;
+  /**
    * @member {MetadataItem[]} [metadata] A list of name-value pairs associated
    * with the job as metadata. The Batch service does not assign any meaning to
    * metadata; it is solely for the use of user code.
@@ -3054,6 +3090,11 @@ export interface JobAddParameter {
    * define dependencies on each other. The default is false.
    */
   usesTaskDependencies?: boolean;
+  /**
+   * @member {JobNetworkConfiguration} [networkConfiguration] The network
+   * configuration for the job.
+   */
+  networkConfiguration?: JobNetworkConfiguration;
 }
 
 /**
@@ -3457,7 +3498,7 @@ export interface CloudPool {
   creationTime?: Date;
   /**
    * @member {PoolState} [state] The current state of the pool. Possible values
-   * include: 'active', 'deleting', 'upgrading'
+   * include: 'active', 'deleting'
    */
   state?: PoolState;
   /**
@@ -4431,8 +4472,8 @@ export interface TaskAddParameter {
   /**
    * @member {TaskConstraints} [constraints] The execution constraints that
    * apply to this task. If you do not specify constraints, the
-   * maxTaskRetryCount is the maxTaskRetryCount specified for the job, and the
-   * maxWallClockTime and retentionTime are infinite.
+   * maxTaskRetryCount is the maxTaskRetryCount specified for the job, the
+   * maxWallClockTime is infinite, and the retentionTime is 7 days.
    */
   constraints?: TaskConstraints;
   /**
@@ -4935,13 +4976,15 @@ export interface ComputeNode {
    */
   stateTransitionTime?: Date;
   /**
-   * @member {Date} [lastBootTime] The time at which the compute node was
+   * @member {Date} [lastBootTime] The last time at which the compute node was
    * started. This property may not be present if the node state is unusable.
    */
   lastBootTime?: Date;
   /**
    * @member {Date} [allocationTime] The time at which this compute node was
-   * allocated to the pool.
+   * allocated to the pool. This is the time when the node was initially
+   * allocated and doesn't change once set. It is not updated when the node is
+   * service healed or preempted.
    */
   allocationTime?: Date;
   /**
@@ -5415,21 +5458,6 @@ export interface PoolUpdatePropertiesParameter {
    * any existing metadata is removed from the pool.
    */
   metadata: MetadataItem[];
-}
-
-/**
- * @interface
- * An interface representing PoolUpgradeOSParameter.
- * @summary Options for upgrading the operating system of compute nodes in a
- * pool.
- *
- */
-export interface PoolUpgradeOSParameter {
-  /**
-   * @member {string} targetOSVersion The Azure Guest OS version to be
-   * installed on the virtual machines in the pool.
-   */
-  targetOSVersion: string;
 }
 
 /**
@@ -6527,66 +6555,6 @@ export interface PoolUpdatePropertiesOptions {
    * you are calling the REST API directly.
    */
   ocpDate?: Date;
-}
-
-/**
- * @interface
- * An interface representing PoolUpgradeOSOptions.
- * Additional parameters for upgradeOS operation.
- *
- */
-export interface PoolUpgradeOSOptions {
-  /**
-   * @member {number} [timeout] The maximum time that the server can spend
-   * processing the request, in seconds. The default is 30 seconds. Default
-   * value: 30 .
-   */
-  timeout?: number;
-  /**
-   * @member {string} [clientRequestId] The caller-generated request identity,
-   * in the form of a GUID with no decoration such as curly braces, e.g.
-   * 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * @member {boolean} [returnClientRequestId] Whether the server should return
-   * the client-request-id in the response. Default value: false .
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * @member {Date} [ocpDate] The time the request was issued. Client libraries
-   * typically set this to the current system clock time; set it explicitly if
-   * you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-  /**
-   * @member {string} [ifMatch] An ETag value associated with the version of
-   * the resource known to the client. The operation will be performed only if
-   * the resource's current ETag on the service exactly matches the value
-   * specified by the client.
-   */
-  ifMatch?: string;
-  /**
-   * @member {string} [ifNoneMatch] An ETag value associated with the version
-   * of the resource known to the client. The operation will be performed only
-   * if the resource's current ETag on the service does not match the value
-   * specified by the client.
-   */
-  ifNoneMatch?: string;
-  /**
-   * @member {Date} [ifModifiedSince] A timestamp indicating the last modified
-   * time of the resource known to the client. The operation will be performed
-   * only if the resource on the service has been modified since the specified
-   * time.
-   */
-  ifModifiedSince?: Date;
-  /**
-   * @member {Date} [ifUnmodifiedSince] A timestamp indicating the last
-   * modified time of the resource known to the client. The operation will be
-   * performed only if the resource on the service has not been modified since
-   * the specified time.
-   */
-  ifUnmodifiedSince?: Date;
 }
 
 /**
@@ -9989,21 +9957,6 @@ export interface PoolUpdatePropertiesOptionalParams extends msRest.RequestOption
 
 /**
  * @interface
- * An interface representing PoolUpgradeOSOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface PoolUpgradeOSOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {PoolUpgradeOSOptions} [poolUpgradeOSOptions] Additional
-   * parameters for the operation
-   */
-  poolUpgradeOSOptions?: PoolUpgradeOSOptions;
-}
-
-/**
- * @interface
  * An interface representing PoolRemoveNodesOptionalParams.
  * Optional Parameters.
  *
@@ -11167,18 +11120,6 @@ export interface ComputeNodeListNextOptionalParams extends msRest.RequestOptions
    * Additional parameters for the operation
    */
   computeNodeListNextOptions?: ComputeNodeListNextOptions;
-}
-
-/**
- * @interface
- * An interface representing BatchServiceClientOptions.
- * @extends AzureServiceClientOptions
- */
-export interface BatchServiceClientOptions extends AzureServiceClientOptions {
-  /**
-   * @member {string} [baseUri]
-   */
-  baseUri?: string;
 }
 
 /**
@@ -13311,48 +13252,6 @@ export interface PoolUpdatePropertiesHeaders {
 
 /**
  * @interface
- * An interface representing PoolUpgradeOSHeaders.
- * Defines headers for UpgradeOS operation.
- *
- */
-export interface PoolUpgradeOSHeaders {
-  /**
-   * @member {string} [clientRequestId] The client-request-id provided by the
-   * client during the request. This will be returned only if the
-   * return-client-request-id parameter was set to true.
-   */
-  clientRequestId: string;
-  /**
-   * @member {string} [requestId] A unique identifier for the request that was
-   * made to the Batch service. If a request is consistently failing and you
-   * have verified that the request is properly formulated, you may use this
-   * value to report the error to Microsoft. In your report, include the value
-   * of this request ID, the approximate time that the request was made, the
-   * Batch account against which the request was made, and the region that
-   * account resides in.
-   */
-  requestId: string;
-  /**
-   * @member {string} [eTag] The ETag HTTP response header. This is an opaque
-   * string. You can use it to detect whether the resource has changed between
-   * requests. In particular, you can pass the ETag to one of the
-   * If-Modified-Since, If-Unmodified-Since, If-Match or If-None-Match headers.
-   */
-  eTag: string;
-  /**
-   * @member {Date} [lastModified] The time at which the resource was last
-   * modified.
-   */
-  lastModified: Date;
-  /**
-   * @member {string} [dataServiceId] The OData ID of the resource to which the
-   * request applied.
-   */
-  dataServiceId: string;
-}
-
-/**
- * @interface
  * An interface representing PoolRemoveNodesHeaders.
  * Defines headers for RemoveNodes operation.
  *
@@ -14413,6 +14312,14 @@ export type AutoUserScope = 'task' | 'pool';
 export type ElevationLevel = 'nonadmin' | 'admin';
 
 /**
+ * Defines values for LoginMode.
+ * Possible values include: 'batch', 'interactive'
+ * @readonly
+ * @enum {string}
+ */
+export type LoginMode = 'batch' | 'interactive';
+
+/**
  * Defines values for OutputFileUploadCondition.
  * Possible values include: 'taskSuccess', 'taskFailure', 'taskCompletion'
  * @readonly
@@ -14459,6 +14366,14 @@ export type CachingType = 'none' | 'readonly' | 'readwrite';
  * @enum {string}
  */
 export type StorageAccountType = 'standard_lrs' | 'premium_lrs';
+
+/**
+ * Defines values for DynamicVNetAssignmentScope.
+ * Possible values include: 'none', 'job'
+ * @readonly
+ * @enum {string}
+ */
+export type DynamicVNetAssignmentScope = 'none' | 'job';
 
 /**
  * Defines values for InboundEndpointProtocol.
@@ -14551,11 +14466,11 @@ export type JobReleaseTaskState = 'running' | 'completed';
 
 /**
  * Defines values for PoolState.
- * Possible values include: 'active', 'deleting', 'upgrading'
+ * Possible values include: 'active', 'deleting'
  * @readonly
  * @enum {string}
  */
-export type PoolState = 'active' | 'deleting' | 'upgrading';
+export type PoolState = 'active' | 'deleting';
 
 /**
  * Defines values for AllocationState.
@@ -14960,21 +14875,6 @@ export type PoolUpdatePropertiesResponse = PoolUpdatePropertiesHeaders & {
        * The parsed HTTP response headers.
        */
       parsedHeaders: PoolUpdatePropertiesHeaders;
-    };
-};
-
-/**
- * Contains response data for the upgradeOS operation.
- */
-export type PoolUpgradeOSResponse = PoolUpgradeOSHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PoolUpgradeOSHeaders;
     };
 };
 

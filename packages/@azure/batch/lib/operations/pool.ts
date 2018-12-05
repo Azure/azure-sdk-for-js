@@ -487,54 +487,6 @@ export class Pool {
   }
 
   /**
-   * During an upgrade, the Batch service upgrades each compute node in the pool. When a compute node
-   * is chosen for upgrade, any tasks running on that node are removed from the node and returned to
-   * the queue to be rerun later (or on a different compute node). The node will be unavailable until
-   * the upgrade is complete. This operation results in temporarily reduced pool capacity as nodes
-   * are taken out of service to be upgraded. Although the Batch service tries to avoid upgrading all
-   * compute nodes at the same time, it does not guarantee to do this (particularly on small pools);
-   * therefore, the pool may be temporarily unavailable to run tasks. When this operation runs, the
-   * pool state changes to upgrading. When all compute nodes have finished upgrading, the pool state
-   * returns to active. While the upgrade is in progress, the pool's currentOSVersion reflects the OS
-   * version that nodes are upgrading from, and targetOSVersion reflects the OS version that nodes
-   * are upgrading to. Once the upgrade is complete, currentOSVersion is updated to reflect the OS
-   * version now running on all nodes. This operation can only be invoked on pools created with the
-   * cloudServiceConfiguration property.
-   * @summary Upgrades the operating system of the specified pool.
-   * @param poolId The ID of the pool to upgrade.
-   * @param targetOSVersion The Azure Guest OS version to be installed on the virtual machines in the
-   * pool.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.PoolUpgradeOSResponse>
-   */
-  upgradeOS(poolId: string, targetOSVersion: string, options?: Models.PoolUpgradeOSOptionalParams): Promise<Models.PoolUpgradeOSResponse>;
-  /**
-   * @param poolId The ID of the pool to upgrade.
-   * @param targetOSVersion The Azure Guest OS version to be installed on the virtual machines in the
-   * pool.
-   * @param callback The callback
-   */
-  upgradeOS(poolId: string, targetOSVersion: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param poolId The ID of the pool to upgrade.
-   * @param targetOSVersion The Azure Guest OS version to be installed on the virtual machines in the
-   * pool.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  upgradeOS(poolId: string, targetOSVersion: string, options: Models.PoolUpgradeOSOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  upgradeOS(poolId: string, targetOSVersion: string, options?: Models.PoolUpgradeOSOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.PoolUpgradeOSResponse> {
-    return this.client.sendOperationRequest(
-      {
-        poolId,
-        targetOSVersion,
-        options
-      },
-      upgradeOSOperationSpec,
-      callback) as Promise<Models.PoolUpgradeOSResponse>;
-  }
-
-  /**
    * This operation can only run when the allocation state of the pool is steady. When this operation
    * runs, the allocation state changes from steady to resizing.
    * @summary Removes compute nodes from the specified pool.
@@ -636,6 +588,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listUsageMetricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "poolusagemetrics",
+  urlParameters: [
+    Parameters.batchUrl
+  ],
   queryParameters: [
     Parameters.apiVersion,
     Parameters.startTime,
@@ -665,6 +620,9 @@ const listUsageMetricsOperationSpec: msRest.OperationSpec = {
 const getAllLifetimeStatisticsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "lifetimepoolstats",
+  urlParameters: [
+    Parameters.batchUrl
+  ],
   queryParameters: [
     Parameters.apiVersion,
     Parameters.timeout3
@@ -690,6 +648,9 @@ const getAllLifetimeStatisticsOperationSpec: msRest.OperationSpec = {
 const addOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "pools",
+  urlParameters: [
+    Parameters.batchUrl
+  ],
   queryParameters: [
     Parameters.apiVersion,
     Parameters.timeout4
@@ -722,6 +683,9 @@ const addOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "pools",
+  urlParameters: [
+    Parameters.batchUrl
+  ],
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter1,
@@ -752,6 +716,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "pools/{poolId}",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId
   ],
   queryParameters: [
@@ -783,6 +748,7 @@ const existsOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
   path: "pools/{poolId}",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId
   ],
   queryParameters: [
@@ -817,6 +783,7 @@ const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "pools/{poolId}",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId
   ],
   queryParameters: [
@@ -851,6 +818,7 @@ const patchOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "pools/{poolId}",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId
   ],
   queryParameters: [
@@ -890,6 +858,7 @@ const disableAutoScaleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "pools/{poolId}/disableautoscale",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId
   ],
   queryParameters: [
@@ -917,6 +886,7 @@ const enableAutoScaleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "pools/{poolId}/enableautoscale",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId
   ],
   queryParameters: [
@@ -956,6 +926,7 @@ const evaluateAutoScaleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "pools/{poolId}/evaluateautoscale",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId
   ],
   queryParameters: [
@@ -994,6 +965,7 @@ const resizeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "pools/{poolId}/resize",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId
   ],
   queryParameters: [
@@ -1033,6 +1005,7 @@ const stopResizeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "pools/{poolId}/stopresize",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId
   ],
   queryParameters: [
@@ -1064,6 +1037,7 @@ const updatePropertiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "pools/{poolId}/updateproperties",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId
   ],
   queryParameters: [
@@ -1095,10 +1069,11 @@ const updatePropertiesOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const upgradeOSOperationSpec: msRest.OperationSpec = {
+const removeNodesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "pools/{poolId}/upgradeos",
+  path: "pools/{poolId}/removenodes",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId
   ],
   queryParameters: [
@@ -1114,47 +1089,6 @@ const upgradeOSOperationSpec: msRest.OperationSpec = {
     Parameters.ifNoneMatch7,
     Parameters.ifModifiedSince7,
     Parameters.ifUnmodifiedSince7
-  ],
-  requestBody: {
-    parameterPath: {
-      targetOSVersion: "targetOSVersion"
-    },
-    mapper: {
-      ...Mappers.PoolUpgradeOSParameter,
-      required: true
-    }
-  },
-  contentType: "application/json; odata=minimalmetadata; charset=utf-8",
-  responses: {
-    202: {
-      headersMapper: Mappers.PoolUpgradeOSHeaders
-    },
-    default: {
-      bodyMapper: Mappers.BatchError
-    }
-  },
-  serializer
-};
-
-const removeNodesOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "pools/{poolId}/removenodes",
-  urlParameters: [
-    Parameters.poolId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.timeout17
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage,
-    Parameters.clientRequestId18,
-    Parameters.returnClientRequestId18,
-    Parameters.ocpDate18,
-    Parameters.ifMatch8,
-    Parameters.ifNoneMatch8,
-    Parameters.ifModifiedSince8,
-    Parameters.ifUnmodifiedSince8
   ],
   requestBody: {
     parameterPath: "nodeRemoveParameter",
@@ -1177,16 +1111,16 @@ const removeNodesOperationSpec: msRest.OperationSpec = {
 
 const listUsageMetricsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  baseUrl: "https://batch.core.windows.net",
+  baseUrl: "{batchUrl}",
   path: "{nextLink}",
   urlParameters: [
     Parameters.nextPageLink
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId19,
-    Parameters.returnClientRequestId19,
-    Parameters.ocpDate19
+    Parameters.clientRequestId18,
+    Parameters.returnClientRequestId18,
+    Parameters.ocpDate18
   ],
   responses: {
     200: {
@@ -1202,16 +1136,16 @@ const listUsageMetricsNextOperationSpec: msRest.OperationSpec = {
 
 const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  baseUrl: "https://batch.core.windows.net",
+  baseUrl: "{batchUrl}",
   path: "{nextLink}",
   urlParameters: [
     Parameters.nextPageLink
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId20,
-    Parameters.returnClientRequestId20,
-    Parameters.ocpDate20
+    Parameters.clientRequestId19,
+    Parameters.returnClientRequestId19,
+    Parameters.ocpDate19
   ],
   responses: {
     200: {

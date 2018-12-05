@@ -493,18 +493,19 @@ const addUserOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "pools/{poolId}/nodes/{nodeId}/users",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId,
     Parameters.nodeId
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout65
+    Parameters.timeout64
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId78,
-    Parameters.returnClientRequestId78,
-    Parameters.ocpDate78
+    Parameters.clientRequestId77,
+    Parameters.returnClientRequestId77,
+    Parameters.ocpDate77
   ],
   requestBody: {
     parameterPath: "user",
@@ -529,19 +530,20 @@ const deleteUserOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "pools/{poolId}/nodes/{nodeId}/users/{userName}",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId,
     Parameters.nodeId,
     Parameters.userName
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout66
+    Parameters.timeout65
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId79,
-    Parameters.returnClientRequestId79,
-    Parameters.ocpDate79
+    Parameters.clientRequestId78,
+    Parameters.returnClientRequestId78,
+    Parameters.ocpDate78
   ],
   responses: {
     200: {
@@ -558,19 +560,20 @@ const updateUserOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "pools/{poolId}/nodes/{nodeId}/users/{userName}",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId,
     Parameters.nodeId,
     Parameters.userName
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout67
+    Parameters.timeout66
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId80,
-    Parameters.returnClientRequestId80,
-    Parameters.ocpDate80
+    Parameters.clientRequestId79,
+    Parameters.returnClientRequestId79,
+    Parameters.ocpDate79
   ],
   requestBody: {
     parameterPath: "nodeUpdateUserParameter",
@@ -595,19 +598,20 @@ const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "pools/{poolId}/nodes/{nodeId}",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId,
     Parameters.nodeId
   ],
   queryParameters: [
     Parameters.apiVersion,
     Parameters.select13,
-    Parameters.timeout68
+    Parameters.timeout67
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId81,
-    Parameters.returnClientRequestId81,
-    Parameters.ocpDate81
+    Parameters.clientRequestId80,
+    Parameters.returnClientRequestId80,
+    Parameters.ocpDate80
   ],
   responses: {
     200: {
@@ -625,18 +629,19 @@ const rebootOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "pools/{poolId}/nodes/{nodeId}/reboot",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId,
     Parameters.nodeId
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout69
+    Parameters.timeout68
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId82,
-    Parameters.returnClientRequestId82,
-    Parameters.ocpDate82
+    Parameters.clientRequestId81,
+    Parameters.returnClientRequestId81,
+    Parameters.ocpDate81
   ],
   requestBody: {
     parameterPath: {
@@ -663,18 +668,19 @@ const reimageOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "pools/{poolId}/nodes/{nodeId}/reimage",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId,
     Parameters.nodeId
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout70
+    Parameters.timeout69
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId83,
-    Parameters.returnClientRequestId83,
-    Parameters.ocpDate83
+    Parameters.clientRequestId82,
+    Parameters.returnClientRequestId82,
+    Parameters.ocpDate82
   ],
   requestBody: {
     parameterPath: {
@@ -701,18 +707,19 @@ const disableSchedulingOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "pools/{poolId}/nodes/{nodeId}/disablescheduling",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId,
     Parameters.nodeId
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout71
+    Parameters.timeout70
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId84,
-    Parameters.returnClientRequestId84,
-    Parameters.ocpDate84
+    Parameters.clientRequestId83,
+    Parameters.returnClientRequestId83,
+    Parameters.ocpDate83
   ],
   requestBody: {
     parameterPath: {
@@ -739,18 +746,19 @@ const enableSchedulingOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "pools/{poolId}/nodes/{nodeId}/enablescheduling",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId,
     Parameters.nodeId
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout72
+    Parameters.timeout71
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId85,
-    Parameters.returnClientRequestId85,
-    Parameters.ocpDate85
+    Parameters.clientRequestId84,
+    Parameters.returnClientRequestId84,
+    Parameters.ocpDate84
   ],
   responses: {
     200: {
@@ -767,18 +775,19 @@ const getRemoteLoginSettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "pools/{poolId}/nodes/{nodeId}/remoteloginsettings",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId,
     Parameters.nodeId
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout73
+    Parameters.timeout72
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId86,
-    Parameters.returnClientRequestId86,
-    Parameters.ocpDate86
+    Parameters.clientRequestId85,
+    Parameters.returnClientRequestId85,
+    Parameters.ocpDate85
   ],
   responses: {
     200: {
@@ -796,18 +805,19 @@ const getRemoteDesktopOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "pools/{poolId}/nodes/{nodeId}/rdp",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId,
     Parameters.nodeId
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout74
+    Parameters.timeout73
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId87,
-    Parameters.returnClientRequestId87,
-    Parameters.ocpDate87
+    Parameters.clientRequestId86,
+    Parameters.returnClientRequestId86,
+    Parameters.ocpDate86
   ],
   responses: {
     200: {
@@ -830,18 +840,19 @@ const uploadBatchServiceLogsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "pools/{poolId}/nodes/{nodeId}/uploadbatchservicelogs",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId,
     Parameters.nodeId
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout75
+    Parameters.timeout74
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId88,
-    Parameters.returnClientRequestId88,
-    Parameters.ocpDate88
+    Parameters.clientRequestId87,
+    Parameters.returnClientRequestId87,
+    Parameters.ocpDate87
   ],
   requestBody: {
     parameterPath: "uploadBatchServiceLogsConfiguration",
@@ -867,6 +878,7 @@ const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "pools/{poolId}/nodes",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId
   ],
   queryParameters: [
@@ -874,13 +886,13 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.filter12,
     Parameters.select14,
     Parameters.maxResults13,
-    Parameters.timeout76
+    Parameters.timeout75
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId89,
-    Parameters.returnClientRequestId89,
-    Parameters.ocpDate89
+    Parameters.clientRequestId88,
+    Parameters.returnClientRequestId88,
+    Parameters.ocpDate88
   ],
   responses: {
     200: {
@@ -896,16 +908,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  baseUrl: "https://batch.core.windows.net",
+  baseUrl: "{batchUrl}",
   path: "{nextLink}",
   urlParameters: [
     Parameters.nextPageLink
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId90,
-    Parameters.returnClientRequestId90,
-    Parameters.ocpDate90
+    Parameters.clientRequestId89,
+    Parameters.returnClientRequestId89,
+    Parameters.ocpDate89
   ],
   responses: {
     200: {

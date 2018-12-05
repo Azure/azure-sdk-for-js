@@ -54,20 +54,6 @@ export const PoolUsageMetrics: msRest.CompositeMapper = {
         type: {
           name: "Number"
         }
-      },
-      dataIngressGiB: {
-        required: true,
-        serializedName: "dataIngressGiB",
-        type: {
-          name: "Number"
-        }
-      },
-      dataEgressGiB: {
-        required: true,
-        serializedName: "dataEgressGiB",
-        type: {
-          name: "Number"
-        }
       }
     }
   }
@@ -830,6 +816,23 @@ export const JobConstraints: msRest.CompositeMapper = {
   }
 };
 
+export const JobNetworkConfiguration: msRest.CompositeMapper = {
+  serializedName: "JobNetworkConfiguration",
+  type: {
+    name: "Composite",
+    className: "JobNetworkConfiguration",
+    modelProperties: {
+      subnetId: {
+        required: true,
+        serializedName: "subnetId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ContainerRegistry: msRest.CompositeMapper = {
   serializedName: "ContainerRegistry",
   type: {
@@ -896,15 +899,31 @@ export const ResourceFile: msRest.CompositeMapper = {
     name: "Composite",
     className: "ResourceFile",
     modelProperties: {
-      blobSource: {
-        required: true,
-        serializedName: "blobSource",
+      autoStorageContainerName: {
+        serializedName: "autoStorageContainerName",
+        type: {
+          name: "String"
+        }
+      },
+      storageContainerUrl: {
+        serializedName: "storageContainerUrl",
+        type: {
+          name: "String"
+        }
+      },
+      httpUrl: {
+        serializedName: "httpUrl",
+        type: {
+          name: "String"
+        }
+      },
+      blobPrefix: {
+        serializedName: "blobPrefix",
         type: {
           name: "String"
         }
       },
       filePath: {
-        required: true,
         serializedName: "filePath",
         type: {
           name: "String"
@@ -1167,6 +1186,26 @@ export const LinuxUserConfiguration: msRest.CompositeMapper = {
   }
 };
 
+export const WindowsUserConfiguration: msRest.CompositeMapper = {
+  serializedName: "WindowsUserConfiguration",
+  type: {
+    name: "Composite",
+    className: "WindowsUserConfiguration",
+    modelProperties: {
+      loginMode: {
+        serializedName: "loginMode",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "batch",
+            "interactive"
+          ]
+        }
+      }
+    }
+  }
+};
+
 export const UserAccount: msRest.CompositeMapper = {
   serializedName: "UserAccount",
   type: {
@@ -1202,6 +1241,13 @@ export const UserAccount: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "LinuxUserConfiguration"
+        }
+      },
+      windowsUserConfiguration: {
+        serializedName: "windowsUserConfiguration",
+        type: {
+          name: "Composite",
+          className: "WindowsUserConfiguration"
         }
       }
     }
@@ -1789,38 +1835,10 @@ export const CloudServiceConfiguration: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      targetOSVersion: {
-        serializedName: "targetOSVersion",
+      osVersion: {
+        serializedName: "osVersion",
         type: {
           name: "String"
-        }
-      },
-      currentOSVersion: {
-        readOnly: true,
-        serializedName: "currentOSVersion",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const OSDisk: msRest.CompositeMapper = {
-  serializedName: "OSDisk",
-  type: {
-    name: "Composite",
-    className: "OSDisk",
-    modelProperties: {
-      caching: {
-        serializedName: "caching",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "none",
-            "readonly",
-            "readwrite"
-          ]
         }
       }
     }
@@ -1942,13 +1960,6 @@ export const VirtualMachineConfiguration: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ImageReference"
-        }
-      },
-      osDisk: {
-        serializedName: "osDisk",
-        type: {
-          name: "Composite",
-          className: "OSDisk"
         }
       },
       nodeAgentSKUId: {
@@ -2123,6 +2134,16 @@ export const NetworkConfiguration: msRest.CompositeMapper = {
         serializedName: "subnetId",
         type: {
           name: "String"
+        }
+      },
+      dynamicVNetAssignmentScope: {
+        serializedName: "dynamicVNetAssignmentScope",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "none",
+            "job"
+          ]
         }
       },
       endpointConfiguration: {
@@ -2406,6 +2427,13 @@ export const JobSpecification: msRest.CompositeMapper = {
             "noaction",
             "performexitoptionsjobaction"
           ]
+        }
+      },
+      networkConfiguration: {
+        serializedName: "networkConfiguration",
+        type: {
+          name: "Composite",
+          className: "JobNetworkConfiguration"
         }
       },
       constraints: {
@@ -3058,6 +3086,13 @@ export const CloudJob: msRest.CompositeMapper = {
           ]
         }
       },
+      networkConfiguration: {
+        serializedName: "networkConfiguration",
+        type: {
+          name: "Composite",
+          className: "JobNetworkConfiguration"
+        }
+      },
       metadata: {
         serializedName: "metadata",
         type: {
@@ -3198,6 +3233,13 @@ export const JobAddParameter: msRest.CompositeMapper = {
         serializedName: "usesTaskDependencies",
         type: {
           name: "Boolean"
+        }
+      },
+      networkConfiguration: {
+        serializedName: "networkConfiguration",
+        type: {
+          name: "Composite",
+          className: "JobNetworkConfiguration"
         }
       }
     }
@@ -3675,8 +3717,7 @@ export const CloudPool: msRest.CompositeMapper = {
           name: "Enum",
           allowedValues: [
             "active",
-            "deleting",
-            "upgrading"
+            "deleting"
           ]
         }
       },
@@ -5898,23 +5939,6 @@ export const PoolUpdatePropertiesParameter: msRest.CompositeMapper = {
   }
 };
 
-export const PoolUpgradeOSParameter: msRest.CompositeMapper = {
-  serializedName: "PoolUpgradeOSParameter",
-  type: {
-    name: "Composite",
-    className: "PoolUpgradeOSParameter",
-    modelProperties: {
-      targetOSVersion: {
-        required: true,
-        serializedName: "targetOSVersion",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const PoolPatchParameter: msRest.CompositeMapper = {
   serializedName: "PoolPatchParameter",
   type: {
@@ -7000,57 +7024,6 @@ export const PoolUpdatePropertiesOptions: msRest.CompositeMapper = {
         }
       },
       ocpDate: {
-        type: {
-          name: "DateTimeRfc1123"
-        }
-      }
-    }
-  }
-};
-
-export const PoolUpgradeOSOptions: msRest.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PoolUpgradeOSOptions",
-    modelProperties: {
-      timeout: {
-        defaultValue: 30,
-        type: {
-          name: "Number"
-        }
-      },
-      clientRequestId: {
-        type: {
-          name: "Uuid"
-        }
-      },
-      returnClientRequestId: {
-        defaultValue: false,
-        type: {
-          name: "Boolean"
-        }
-      },
-      ocpDate: {
-        type: {
-          name: "DateTimeRfc1123"
-        }
-      },
-      ifMatch: {
-        type: {
-          name: "String"
-        }
-      },
-      ifNoneMatch: {
-        type: {
-          name: "String"
-        }
-      },
-      ifModifiedSince: {
-        type: {
-          name: "DateTimeRfc1123"
-        }
-      },
-      ifUnmodifiedSince: {
         type: {
           name: "DateTimeRfc1123"
         }
@@ -11953,46 +11926,6 @@ export const PoolUpdatePropertiesHeaders: msRest.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PoolUpdatePropertiesHeaders",
-    modelProperties: {
-      clientRequestId: {
-        serializedName: "client-request-id",
-        type: {
-          name: "Uuid"
-        }
-      },
-      requestId: {
-        serializedName: "request-id",
-        type: {
-          name: "Uuid"
-        }
-      },
-      eTag: {
-        serializedName: "etag",
-        type: {
-          name: "String"
-        }
-      },
-      lastModified: {
-        serializedName: "last-modified",
-        type: {
-          name: "DateTimeRfc1123"
-        }
-      },
-      dataServiceId: {
-        serializedName: "dataserviceid",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PoolUpgradeOSHeaders: msRest.CompositeMapper = {
-  serializedName: "pool-upgradeos-headers",
-  type: {
-    name: "Composite",
-    className: "PoolUpgradeOSHeaders",
     modelProperties: {
       clientRequestId: {
         serializedName: "client-request-id",
