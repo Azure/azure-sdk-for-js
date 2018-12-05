@@ -897,4 +897,30 @@ export class ServiceBusMessage implements ReceivedMessage {
       throw new Error(`Cannot find the receiver with name '${this.delivery.link.name}'.`);
     }
   }
+
+  /**
+   * Creates a clone of the current message to allow it to be re-sent to the queue
+   * @returns ServiceBusMessage
+   */
+  clone(): SendableMessageInfo {
+    // We are returning a SendableMessageInfo object because that object can then be sent to ServiceBus
+    const clone: SendableMessageInfo = {
+      body: this.body,
+      contentType: this.contentType,
+      correlationId: this.correlationId,
+      label: this.label,
+      messageId: this.messageId,
+      partitionKey: this.partitionKey,
+      replyTo: this.replyTo,
+      replyToSessionId: this.replyToSessionId,
+      scheduledEnqueueTimeUtc: this.scheduledEnqueueTimeUtc,
+      sessionId: this.sessionId,
+      timeToLive: this.timeToLive,
+      to: this.to,
+      userProperties: this.userProperties,
+      viaPartitionKey: this.viaPartitionKey
+    };
+
+    return clone;
+  }
 }
