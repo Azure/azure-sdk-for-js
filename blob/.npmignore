@@ -48,3 +48,4 @@ gulpfile.js
 rollup.config.js
 rollup.test.config.js
 *.html
+coverage/
