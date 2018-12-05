@@ -2,7 +2,7 @@ var path = require("path");
 var webpack = require("webpack");
 
 module.exports = (env, argv) => ({
-  entry: "./lib/index.js",
+  entry: "./lib/src/index.js",
   node: {
     buffer: true,
     net: "mock",

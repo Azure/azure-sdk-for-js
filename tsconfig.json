@@ -12,7 +12,8 @@
     "removeComments": false,
     "target": "es6",
     "sourceMap": true,
-    "newLine": "LF"
+    "newLine": "LF",
+    "resolveJsonModule": true
   },
   "include": ["./src/**/*", "./test/**/*.spec.ts", "./samples/MultiRegionWrite/**.ts"],
   "exclude": ["node_modules", "samples"]

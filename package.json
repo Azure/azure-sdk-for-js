@@ -11,10 +11,10 @@
     "database",
     "cloud"
   ],
-  "version": "2.1.0",
+  "version": "2.1.1",
   "author": "Microsoft Corporation",
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
+  "main": "./lib/src/index.js",
+  "types": "./lib/src/index.d.ts",
   "engine": {
     "node": ">=6.0.0"
   },
@@ -31,7 +31,7 @@
     "webpack-prod": "webpack -p",
     "build": "npm run clean && npm run check-format && npm run lint && npm run compile && npm run docs && npm run webpack",
     "build-prod": "npm run clean && npm run check-format && npm run lint && npm run compile-prod && npm run docs && npm run webpack-prod",
-    "test": "mocha -r ./src/test/common/setup.ts ./lib/test/ --recursive --timeout 100000 -i -g .*ignore.js",
+    "test": "mocha -r ./src/test/common/setup.ts ./lib/src/test/ --recursive --timeout 100000 -i -g .*ignore.js",
     "test-ts": "mocha -r ts-node/register -r ./src/test/common/setup.ts ./src/test/**/*.spec.ts --recursive --timeout 100000 -i -g .*ignore.js",
     "test-browser": "karma start ./karma.config.js --single-run",
     "ci": "npm run build && npm run test && node ts-test.js"
