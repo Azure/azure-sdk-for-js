@@ -131,18 +131,7 @@ export class QueueClient extends Client {
    * receiving more messages.
    */
   receive(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): ReceiveHandler {
-    if (!this._context.streamingReceiver || !this._context.streamingReceiver.isOpen()) {
-      if (!options) options = {};
-      const rcvOptions: ReceiveOptions = {
-        maxConcurrentCalls: options.maxConcurrentCalls || 1,
-        receiveMode: this.receiveMode,
-        autoComplete: options.autoComplete,
-        maxAutoRenewDurationInSeconds: options.maxAutoRenewDurationInSeconds
-      };
-      const sReceiver = StreamingReceiver.create(this._context, rcvOptions);
-      this._context.streamingReceiver = sReceiver;
-      return sReceiver.receive(onMessage, onError);
-    } else {
+    if (this._context.streamingReceiver && this._context.streamingReceiver.isOpen()) {
       const rcvr = this._context.streamingReceiver;
       const msg = `A "${rcvr.receiverType}" receiver with id "${rcvr.name}" has already been ` +
         `created for the Queue "${this.name}". Another receive() call cannot be made while the ` +
@@ -150,6 +139,17 @@ export class QueueClient extends Client {
         `"receiveHandler.stop()".`;
       throw new Error(msg);
     }
+
+    if (!options) options = {};
+    const rcvOptions: ReceiveOptions = {
+      maxConcurrentCalls: options.maxConcurrentCalls || 1,
+      receiveMode: this.receiveMode,
+      autoComplete: options.autoComplete,
+      maxAutoRenewDurationInSeconds: options.maxAutoRenewDurationInSeconds
+    };
+    const sReceiver = StreamingReceiver.create(this._context, rcvOptions);
+    this._context.streamingReceiver = sReceiver;
+    return sReceiver.receive(onMessage, onError);
   }
 
   /**
@@ -168,31 +168,34 @@ export class QueueClient extends Client {
   async receiveBatch(maxMessageCount: number,
     maxWaitTimeInSeconds?: number,
     maxMessageWaitTimeoutInSeconds?: number): Promise<ServiceBusMessage[]> {
-    if (!this._context.batchingReceiver ||
-      (this._context.batchingReceiver && !this._context.batchingReceiver.isOpen()) ||
-      (this._context.batchingReceiver && !this._context.batchingReceiver.isReceivingMessages)) {
-      const options: ReceiveOptions = {
-        maxConcurrentCalls: 0,
-        receiveMode: this.receiveMode
-      };
-      const bReceiver: BatchingReceiver = BatchingReceiver.create(this._context, options);
-      this._context.batchingReceiver = bReceiver;
-      try {
-        return await bReceiver.receive(maxMessageCount, maxWaitTimeInSeconds,
-          maxMessageWaitTimeoutInSeconds);
-      } catch (err) {
-        log.error("[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
-          "max time:\n %O", this._context.namespace.connectionId, bReceiver.name, maxMessageCount,
-          maxWaitTimeInSeconds, err);
-        throw err;
-      }
-    } else {
-      const rcvr = this._context.batchingReceiver;
-      const msg = `A "${rcvr.receiverType}" receiver with id "${rcvr.name}" has already been ` +
+
+    let bReceiver = this._context.batchingReceiver;
+    if (bReceiver
+      && bReceiver.isOpen()
+      && bReceiver.isReceivingMessages) {
+      const msg = `A "${bReceiver.receiverType}" receiver with id "${bReceiver.name}" has already been ` +
         `created for the Queue "${this.name}". Another receiveBatch() call cannot be made while the ` +
         `previous one is active. Please wait for the previous receiveBatch() to complete and ` +
         `then call receiveBatch() again.`;
       throw new Error(msg);
+    }
+
+    if (!bReceiver || !bReceiver.isOpen()) {
+      const options: ReceiveOptions = {
+        maxConcurrentCalls: 0,
+        receiveMode: this.receiveMode
+      };
+      this._context.batchingReceiver = bReceiver = BatchingReceiver.create(this._context, options);
+    }
+
+    try {
+      return await bReceiver.receive(maxMessageCount, maxWaitTimeInSeconds,
+        maxMessageWaitTimeoutInSeconds);
+    } catch (err) {
+      log.error("[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
+        "max time:\n %O", this._context.namespace.connectionId, bReceiver.name, maxMessageCount,
+        maxWaitTimeInSeconds, err);
+      throw err;
     }
   }
 
