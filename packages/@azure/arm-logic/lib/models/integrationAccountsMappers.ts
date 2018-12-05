@@ -109,6 +109,10 @@ export {
   ArtifactProperties,
   BatchConfigurationProperties,
   BatchReleaseCriteria,
-  BatchConfiguration
+  BatchConfiguration,
+  RequestHistory,
+  RequestHistoryProperties,
+  Request,
+  Response
 } from "../models/mappers";
 
