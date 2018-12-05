@@ -3,6 +3,8 @@
 
 import { replaceAll } from "./util/utils";
 
+type URLQueryParseState = "ParameterName" | "ParameterValue" | "Invalid";
+
 /**
  * A class that handles the query portion of a URLBuilder.
  */
@@ -74,23 +76,17 @@ export class URLQuery {
         text = text.substring(1);
       }
 
-      const enum ParseState {
-        parameterName,
-        parameterValue,
-        invalid
-      }
-
-      let currentState = ParseState.parameterName;
+      let currentState: URLQueryParseState = "ParameterName";
 
       let parameterName = "";
       let parameterValue = "";
       for (let i = 0; i < text.length; ++i) {
         const currentCharacter: string = text[i];
         switch (currentState) {
-          case ParseState.parameterName:
+          case "ParameterName":
             switch (currentCharacter) {
               case "=":
-                currentState = ParseState.parameterValue;
+                currentState = "ParameterValue";
                 break;
 
               case "&":
@@ -104,19 +100,19 @@ export class URLQuery {
             }
             break;
 
-          case ParseState.parameterValue:
+          case "ParameterValue":
             switch (currentCharacter) {
               case "=":
                 parameterName = "";
                 parameterValue = "";
-                currentState = ParseState.invalid;
+                currentState = "Invalid";
                 break;
 
               case "&":
                 result.set(parameterName, parameterValue);
                 parameterName = "";
                 parameterValue = "";
-                currentState = ParseState.parameterName;
+                currentState = "ParameterName";
                 break;
 
               default:
@@ -125,9 +121,9 @@ export class URLQuery {
             }
             break;
 
-          case ParseState.invalid:
+          case "Invalid":
             if (currentCharacter === "&") {
-              currentState = ParseState.parameterName;
+              currentState = "ParameterName";
             }
             break;
 
@@ -135,7 +131,7 @@ export class URLQuery {
             throw new Error("Unrecognized URLQuery parse state: " + currentState);
         }
       }
-      if (currentState === ParseState.parameterValue) {
+      if (currentState === "ParameterValue") {
         result.set(parameterName, parameterValue);
       }
     }
@@ -162,7 +158,7 @@ export class URLBuilder {
     if (!scheme) {
       this._scheme = undefined;
     } else {
-      this.set(scheme, URLTokenizerState.SCHEME);
+      this.set(scheme, "SCHEME");
     }
   }
 
@@ -181,7 +177,7 @@ export class URLBuilder {
     if (!host) {
       this._host = undefined;
     } else {
-      this.set(host, URLTokenizerState.SCHEME_OR_HOST);
+      this.set(host, "SCHEME_OR_HOST");
     }
   }
 
@@ -200,7 +196,7 @@ export class URLBuilder {
     if (port == undefined || port === "") {
       this._port = undefined;
     } else {
-      this.set(port.toString(), URLTokenizerState.PORT);
+      this.set(port.toString(), "PORT");
     }
   }
 
@@ -220,9 +216,9 @@ export class URLBuilder {
       this._path = undefined;
     } else {
       if (path.indexOf("://") !== -1) {
-        this.set(path, URLTokenizerState.SCHEME);
+        this.set(path, "SCHEME");
       } else {
-        this.set(path, URLTokenizerState.PATH);
+        this.set(path, "PATH");
       }
     }
   }
@@ -245,7 +241,7 @@ export class URLBuilder {
 
         path = currentPath + path;
       }
-      this.set(path, URLTokenizerState.PATH);
+      this.set(path, "PATH");
     }
   }
 
@@ -306,26 +302,26 @@ export class URLBuilder {
       const token: URLToken | undefined = tokenizer.current();
       if (token) {
         switch (token.type) {
-          case URLTokenType.SCHEME:
+          case "SCHEME":
             this._scheme = token.text || undefined;
             break;
 
-          case URLTokenType.HOST:
+          case "HOST":
             this._host = token.text || undefined;
             break;
 
-          case URLTokenType.PORT:
+          case "PORT":
             this._port = token.text || undefined;
             break;
 
-          case URLTokenType.PATH:
+          case "PATH":
             const tokenPath: string | undefined = token.text || undefined;
             if (!this._path || this._path === "/" || tokenPath !== "/") {
               this._path = tokenPath;
             }
             break;
 
-          case URLTokenType.QUERY:
+          case "QUERY":
             this._query = URLQuery.parse(token.text);
             break;
 
@@ -381,51 +377,37 @@ export class URLBuilder {
 
   public static parse(text: string): URLBuilder {
     const result = new URLBuilder();
-    result.set(text, URLTokenizerState.SCHEME_OR_HOST);
+    result.set(text, "SCHEME_OR_HOST");
     return result;
   }
 }
 
-export const enum URLTokenizerState {
-  SCHEME,
-  SCHEME_OR_HOST,
-  HOST,
-  PORT,
-  PATH,
-  QUERY,
-  DONE,
-}
+type URLTokenizerState = "SCHEME" | "SCHEME_OR_HOST" | "HOST" | "PORT" | "PATH" | "QUERY" | "DONE";
 
-export const enum URLTokenType {
-  SCHEME,
-  HOST,
-  PORT,
-  PATH,
-  QUERY
-}
+type URLTokenType = "SCHEME" | "HOST" | "PORT" | "PATH" | "QUERY";
 
 export class URLToken {
   public constructor(public readonly text: string, public readonly type: URLTokenType) {
   }
 
   public static scheme(text: string): URLToken {
-    return new URLToken(text, URLTokenType.SCHEME);
+    return new URLToken(text, "SCHEME");
   }
 
   public static host(text: string): URLToken {
-    return new URLToken(text, URLTokenType.HOST);
+    return new URLToken(text, "HOST");
   }
 
   public static port(text: string): URLToken {
-    return new URLToken(text, URLTokenType.PORT);
+    return new URLToken(text, "PORT");
   }
 
   public static path(text: string): URLToken {
-    return new URLToken(text, URLTokenType.PATH);
+    return new URLToken(text, "PATH");
   }
 
   public static query(text: string): URLToken {
-    return new URLToken(text, URLTokenType.QUERY);
+    return new URLToken(text, "QUERY");
   }
 }
 
@@ -451,7 +433,7 @@ export class URLTokenizer {
 
   public constructor(readonly _text: string, state?: URLTokenizerState) {
     this._textLength = _text ? _text.length : 0;
-    this._currentState = state != undefined ? state : URLTokenizerState.SCHEME_OR_HOST;
+    this._currentState = state != undefined ? state : "SCHEME_OR_HOST";
     this._currentIndex = 0;
   }
 
@@ -471,27 +453,27 @@ export class URLTokenizer {
       this._currentToken = undefined;
     } else {
       switch (this._currentState) {
-        case URLTokenizerState.SCHEME:
+        case "SCHEME":
           nextScheme(this);
           break;
 
-        case URLTokenizerState.SCHEME_OR_HOST:
+        case "SCHEME_OR_HOST":
           nextSchemeOrHost(this);
           break;
 
-        case URLTokenizerState.HOST:
+        case "HOST":
           nextHost(this);
           break;
 
-        case URLTokenizerState.PORT:
+        case "PORT":
           nextPort(this);
           break;
 
-        case URLTokenizerState.PATH:
+        case "PATH":
           nextPath(this);
           break;
 
-        case URLTokenizerState.QUERY:
+        case "QUERY":
           nextQuery(this);
           break;
 
@@ -595,9 +577,9 @@ function nextScheme(tokenizer: URLTokenizer): void {
   const scheme: string = readWhileLetterOrDigit(tokenizer);
   tokenizer._currentToken = URLToken.scheme(scheme);
   if (!hasCurrentCharacter(tokenizer)) {
-    tokenizer._currentState = URLTokenizerState.DONE;
+    tokenizer._currentState = "DONE";
   } else {
-    tokenizer._currentState = URLTokenizerState.HOST;
+    tokenizer._currentState = "HOST";
   }
 }
 
@@ -605,21 +587,21 @@ function nextSchemeOrHost(tokenizer: URLTokenizer): void {
   const schemeOrHost: string = readUntilCharacter(tokenizer, ":", "/", "?");
   if (!hasCurrentCharacter(tokenizer)) {
     tokenizer._currentToken = URLToken.host(schemeOrHost);
-    tokenizer._currentState = URLTokenizerState.DONE;
+    tokenizer._currentState = "DONE";
   } else if (getCurrentCharacter(tokenizer) === ":") {
     if (peekCharacters(tokenizer, 3) === "://") {
       tokenizer._currentToken = URLToken.scheme(schemeOrHost);
-      tokenizer._currentState = URLTokenizerState.HOST;
+      tokenizer._currentState = "HOST";
     } else {
       tokenizer._currentToken = URLToken.host(schemeOrHost);
-      tokenizer._currentState = URLTokenizerState.PORT;
+      tokenizer._currentState = "PORT";
     }
   } else {
     tokenizer._currentToken = URLToken.host(schemeOrHost);
     if (getCurrentCharacter(tokenizer) === "/") {
-      tokenizer._currentState = URLTokenizerState.PATH;
+      tokenizer._currentState = "PATH";
     } else {
-      tokenizer._currentState = URLTokenizerState.QUERY;
+      tokenizer._currentState = "QUERY";
     }
   }
 }
@@ -633,13 +615,13 @@ function nextHost(tokenizer: URLTokenizer): void {
   tokenizer._currentToken = URLToken.host(host);
 
   if (!hasCurrentCharacter(tokenizer)) {
-    tokenizer._currentState = URLTokenizerState.DONE;
+    tokenizer._currentState = "DONE";
   } else if (getCurrentCharacter(tokenizer) === ":") {
-    tokenizer._currentState = URLTokenizerState.PORT;
+    tokenizer._currentState = "PORT";
   } else if (getCurrentCharacter(tokenizer) === "/") {
-    tokenizer._currentState = URLTokenizerState.PATH;
+    tokenizer._currentState = "PATH";
   } else {
-    tokenizer._currentState = URLTokenizerState.QUERY;
+    tokenizer._currentState = "QUERY";
   }
 }
 
@@ -652,11 +634,11 @@ function nextPort(tokenizer: URLTokenizer): void {
   tokenizer._currentToken = URLToken.port(port);
 
   if (!hasCurrentCharacter(tokenizer)) {
-    tokenizer._currentState = URLTokenizerState.DONE;
+    tokenizer._currentState = "DONE";
   } else if (getCurrentCharacter(tokenizer) === "/") {
-    tokenizer._currentState = URLTokenizerState.PATH;
+    tokenizer._currentState = "PATH";
   } else {
-    tokenizer._currentState = URLTokenizerState.QUERY;
+    tokenizer._currentState = "QUERY";
   }
 }
 
@@ -665,9 +647,9 @@ function nextPath(tokenizer: URLTokenizer): void {
   tokenizer._currentToken = URLToken.path(path);
 
   if (!hasCurrentCharacter(tokenizer)) {
-    tokenizer._currentState = URLTokenizerState.DONE;
+    tokenizer._currentState = "DONE";
   } else {
-    tokenizer._currentState = URLTokenizerState.QUERY;
+    tokenizer._currentState = "QUERY";
   }
 }
 
@@ -678,5 +660,5 @@ function nextQuery(tokenizer: URLTokenizer): void {
 
   const query: string = readRemaining(tokenizer);
   tokenizer._currentToken = URLToken.query(query);
-  tokenizer._currentState = URLTokenizerState.DONE;
+  tokenizer._currentState = "DONE";
 }
