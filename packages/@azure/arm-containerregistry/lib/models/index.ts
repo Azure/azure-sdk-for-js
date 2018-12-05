@@ -298,6 +298,40 @@ export interface StorageAccountProperties {
 
 /**
  * @interface
+ * An interface representing VirtualNetworkRule.
+ * The virtual network rule for a container registry.
+ *
+ */
+export interface VirtualNetworkRule {
+  /**
+   * @member {string} id Resource ID of a subnet, for example:
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
+   */
+  id: string;
+}
+
+/**
+ * @interface
+ * An interface representing NetworkRuleSet.
+ * The network rule set for a container registry.
+ *
+ */
+export interface NetworkRuleSet {
+  /**
+   * @member {DefaultAction} defaultAction The default action of allow or deny
+   * when no other rules match. Possible values include: 'Allow', 'Deny'.
+   * Default value: 'Allow' .
+   */
+  defaultAction: DefaultAction;
+  /**
+   * @member {VirtualNetworkRule[]} [virtualNetworkRules] The virtual network
+   * rules.
+   */
+  virtualNetworkRules?: VirtualNetworkRule[];
+}
+
+/**
+ * @interface
  * An interface representing Resource.
  * An Azure resource.
  *
@@ -387,6 +421,11 @@ export interface Registry extends Resource {
    * SKU.
    */
   storageAccount?: StorageAccountProperties;
+  /**
+   * @member {NetworkRuleSet} [networkRuleSet] The network rule set for a
+   * container registry.
+   */
+  networkRuleSet?: NetworkRuleSet;
 }
 
 /**
@@ -417,6 +456,11 @@ export interface RegistryUpdateParameters {
    * location as the container registry.
    */
   storageAccount?: StorageAccountProperties;
+  /**
+   * @member {NetworkRuleSet} [networkRuleSet] The network rule set for a
+   * container registry.
+   */
+  networkRuleSet?: NetworkRuleSet;
 }
 
 /**
@@ -1451,7 +1495,7 @@ export interface SourceProperties {
    */
   sourceControlType: SourceControlType;
   /**
-   * @member {string} repositoryUrl The full URL to the source code respository
+   * @member {string} repositoryUrl The full URL to the source code repository
    */
   repositoryUrl: string;
   /**
@@ -1541,7 +1585,7 @@ export interface TriggerProperties {
  * @interface
  * An interface representing Task.
  * The task that has the ARM resource and task properties.
- * The  task will have all information to schedule a run against it.
+ * The task will have all information to schedule a run against it.
  *
  * @extends Resource
  */
@@ -1688,7 +1732,7 @@ export interface SourceUpdateParameters {
   sourceControlType?: SourceControlType;
   /**
    * @member {string} [repositoryUrl] The full URL to the source code
-   * respository
+   * repository
    */
   repositoryUrl?: string;
   /**
@@ -1898,7 +1942,7 @@ export interface DockerBuildRequest {
   agentConfiguration?: AgentProperties;
   /**
    * @member {string} [sourceLocation] The URL(absolute or relative) of the
-   * source context. It can be an URL to a tar or git repoistory.
+   * source context. It can be an URL to a tar or git repository.
    * If it is relative URL, the relative path should be obtained from calling
    * listBuildSourceUploadUrl API.
    */
@@ -1974,7 +2018,7 @@ export interface FileTaskRunRequest {
   agentConfiguration?: AgentProperties;
   /**
    * @member {string} [sourceLocation] The URL(absolute or relative) of the
-   * source context. It can be an URL to a tar or git repoistory.
+   * source context. It can be an URL to a tar or git repository.
    * If it is relative URL, the relative path should be obtained from calling
    * listBuildSourceUploadUrl API.
    */
@@ -2056,7 +2100,7 @@ export interface EncodedTaskRunRequest {
   agentConfiguration?: AgentProperties;
   /**
    * @member {string} [sourceLocation] The URL(absolute or relative) of the
-   * source context. It can be an URL to a tar or git repoistory.
+   * source context. It can be an URL to a tar or git repository.
    * If it is relative URL, the relative path should be obtained from calling
    * listBuildSourceUploadUrl API.
    */
@@ -2503,6 +2547,14 @@ export type SkuTier = 'Classic' | 'Basic' | 'Standard' | 'Premium';
  * @enum {string}
  */
 export type ProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled';
+
+/**
+ * Defines values for DefaultAction.
+ * Possible values include: 'Allow', 'Deny'
+ * @readonly
+ * @enum {string}
+ */
+export type DefaultAction = 'Allow' | 'Deny';
 
 /**
  * Defines values for PasswordName.
