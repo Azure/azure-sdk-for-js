@@ -5,7 +5,7 @@
     "email": "azsdkteam@microsoft.com",
     "url": "https://github.com/Azure/ms-rest-js"
   },
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
     "isomorphic",
@@ -41,7 +41,7 @@
     "ThirdPartyNotices.txt"
   ],
   "browser": {
-    "./es/lib/policies/telemetry/msRestUserAgentPolicy.js": "./es/lib/policies/telemetry/msRestUserAgentPolicy.browser.js",
+    "./es/lib/policies/msRestUserAgentPolicy.js": "./es/lib/policies/msRestUserAgentPolicy.browser.js",
     "./es/lib/util/base64.js": "./es/lib/util/base64.browser.js",
     "./es/lib/util/xml.js": "./es/lib/util/xml.browser.js",
     "./es/lib/defaultHttpClient.js": "./es/lib/defaultHttpClient.browser.js"
