@@ -147,7 +147,7 @@ export class ServerEndpoints {
   }
 
   /**
-   * Recall a serverendpoint.
+   * Recall a server endpoint.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
    * @param syncGroupName Name of Sync Group resource.
@@ -230,7 +230,7 @@ export class ServerEndpoints {
   }
 
   /**
-   * Recall a serverendpoint.
+   * Recall a server endpoint.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
    * @param syncGroupName Name of Sync Group resource.
