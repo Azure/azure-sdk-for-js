@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -274,7 +274,7 @@ export interface Resource extends BaseResource {
    */
   readonly id?: string;
   /**
-   * @member {string} [name] The name of the resouce.
+   * @member {string} [name] The name of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -479,7 +479,7 @@ export interface SignalRCreateParameters extends SignalRUpdateParameters {
  */
 export interface SignalRUsageName {
   /**
-   * @member {string} [value] The indentifier of the usage.
+   * @member {string} [value] The identifier of the usage.
    */
   value?: string;
   /**
