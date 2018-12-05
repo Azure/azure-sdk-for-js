@@ -1148,8 +1148,8 @@ export type ExternalSecuritySolutionUnion = ExternalSecuritySolution | CefExtern
  * @interface
  * An interface representing ExternalSecuritySolution.
  * Represents a security solution external to Azure Security Center which sends
- * information to an OMS workspace and whos data is displayed by Azure Security
- * Center.
+ * information to an OMS workspace and whose data is displayed by Azure
+ * Security Center.
  *
  */
 export interface ExternalSecuritySolution {
