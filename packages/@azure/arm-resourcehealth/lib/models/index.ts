@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -432,6 +432,69 @@ export interface AvailabilityStatusesListOptionalParams extends msRest.RequestOp
 
 /**
  * @interface
+ * An interface representing ChildAvailabilityStatusesGetByResourceOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ChildAvailabilityStatusesGetByResourceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] The filter to apply on the operation. For more
+   * information please see
+   * https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN
+   */
+  filter?: string;
+  /**
+   * @member {string} [expand] Setting $expand=recommendedactions in url query
+   * expands the recommendedactions in the response.
+   */
+  expand?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ChildAvailabilityStatusesListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ChildAvailabilityStatusesListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] The filter to apply on the operation. For more
+   * information please see
+   * https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN
+   */
+  filter?: string;
+  /**
+   * @member {string} [expand] Setting $expand=recommendedactions in url query
+   * expands the recommendedactions in the response.
+   */
+  expand?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ChildrenListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ChildrenListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] The filter to apply on the operation. For more
+   * information please see
+   * https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN
+   */
+  filter?: string;
+  /**
+   * @member {string} [expand] Setting $expand=recommendedactions in url query
+   * expands the recommendedactions in the response.
+   */
+  expand?: string;
+}
+
+/**
+ * @interface
  * An interface representing MicrosoftResourceHealthOptions.
  * @extends AzureServiceClientOptions
  */
@@ -593,6 +656,101 @@ export type AvailabilityStatusesListByResourceGroupNextResponse = AvailabilitySt
  * Contains response data for the listNext operation.
  */
 export type AvailabilityStatusesListNextResponse = AvailabilityStatusListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AvailabilityStatusListResult;
+    };
+};
+
+/**
+ * Contains response data for the getByResource operation.
+ */
+export type ChildAvailabilityStatusesGetByResourceResponse = AvailabilityStatus & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AvailabilityStatus;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ChildAvailabilityStatusesListResponse = AvailabilityStatusListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AvailabilityStatusListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ChildAvailabilityStatusesListNextResponse = AvailabilityStatusListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AvailabilityStatusListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ChildrenListResponse = AvailabilityStatusListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AvailabilityStatusListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ChildrenListNextResponse = AvailabilityStatusListResult & {
   /**
    * The underlying HTTP response.
    */

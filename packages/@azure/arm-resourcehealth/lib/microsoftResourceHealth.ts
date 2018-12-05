@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
@@ -18,6 +18,8 @@ import { MicrosoftResourceHealthContext } from "./microsoftResourceHealthContext
 class MicrosoftResourceHealth extends MicrosoftResourceHealthContext {
   // Operation groups
   availabilityStatuses: operations.AvailabilityStatuses;
+  childAvailabilityStatuses: operations.ChildAvailabilityStatuses;
+  children: operations.Children;
   operations: operations.Operations;
 
   /**
@@ -30,6 +32,8 @@ class MicrosoftResourceHealth extends MicrosoftResourceHealthContext {
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.MicrosoftResourceHealthOptions) {
     super(credentials, subscriptionId, options);
     this.availabilityStatuses = new operations.AvailabilityStatuses(this);
+    this.childAvailabilityStatuses = new operations.ChildAvailabilityStatuses(this);
+    this.children = new operations.Children(this);
     this.operations = new operations.Operations(this);
   }
 }
