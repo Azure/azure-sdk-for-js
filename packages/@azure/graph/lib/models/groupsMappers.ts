@@ -26,6 +26,8 @@ export {
   AppRole,
   RequiredResourceAccess,
   ResourceAccess,
+  KeyCredential,
+  PasswordCredential,
   ServicePrincipal,
   User,
   SignInName

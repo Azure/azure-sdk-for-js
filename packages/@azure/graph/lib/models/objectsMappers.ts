@@ -18,6 +18,8 @@ export {
   AppRole,
   RequiredResourceAccess,
   ResourceAccess,
+  KeyCredential,
+  PasswordCredential,
   ADGroup,
   ServicePrincipal,
   User,

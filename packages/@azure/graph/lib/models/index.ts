@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -100,9 +100,9 @@ export interface KeyCredential {
    */
   type?: string;
   /**
-   * @member {Uint8Array} [customKeyIdentifier] Custom Key Identifier
+   * @member {string} [customKeyIdentifier] Custom Key Identifier
    */
-  customKeyIdentifier?: Uint8Array;
+  customKeyIdentifier?: string;
   /**
    * @property Describes unknown properties. The value of an unknown property
    * can be of "any" type.
@@ -133,6 +133,10 @@ export interface PasswordCredential {
    * @member {string} [value] Key value.
    */
   value?: string;
+  /**
+   * @member {Uint8Array} [customKeyIdentifier] Custom Key Identifier
+   */
+  customKeyIdentifier?: Uint8Array;
   /**
    * @property Describes unknown properties. The value of an unknown property
    * can be of "any" type.
@@ -174,7 +178,7 @@ export interface ResourceAccess {
  * OAuth 2.0 permission scopes may be requested by client applications (through
  * the requiredResourceAccess collection) when calling a resource application.
  * The requiredResourceAccess property of the Application entity is a
- * collection of ReqiredResourceAccess.
+ * collection of RequiredResourceAccess.
  *
  */
 export interface RequiredResourceAccess {
@@ -444,6 +448,16 @@ export interface Application {
    * consent experience.
    */
   requiredResourceAccess?: RequiredResourceAccess[];
+  /**
+   * @member {KeyCredential[]} [keyCredentials] A collection of KeyCredential
+   * objects.
+   */
+  keyCredentials?: KeyCredential[];
+  /**
+   * @member {PasswordCredential[]} [passwordCredentials] A collection of
+   * PasswordCredential objects
+   */
+  passwordCredentials?: PasswordCredential[];
 }
 
 /**
@@ -1312,7 +1326,7 @@ export interface OAuth2GetOptionalParams extends msRest.RequestOptionsBase {
 export interface OAuth2GrantOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {Permissions} [body] The relevant app Service Principal Object Id
-   * and the Service Principal Objecit Id you want to grant.
+   * and the Service Principal Object Id you want to grant.
    */
   body?: Permissions;
 }
