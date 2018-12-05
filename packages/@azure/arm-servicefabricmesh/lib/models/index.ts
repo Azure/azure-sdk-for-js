@@ -883,7 +883,7 @@ export interface HttpHostConfig {
   /**
    * @member {HttpRouteConfig[]} routes Route information to use for routing.
    * Routes are processed in the order they are specified. Specify routes that
-   * are more specific before routes that can hamdle general cases.
+   * are more specific before routes that can handle general cases.
    */
   routes: HttpRouteConfig[];
 }
@@ -1384,7 +1384,7 @@ export interface ContainerCodePackageProperties {
   /**
    * @member {ReliableCollectionsRef[]} [reliableCollectionsRefs] A list of
    * ReliableCollection resources used by this particular code package. Please
-   * refer to ReliablecollectionsRef for more details.
+   * refer to ReliableCollectionsRef for more details.
    */
   reliableCollectionsRefs?: ReliableCollectionsRef[];
   /**
@@ -2053,7 +2053,7 @@ export interface SecretResourceDescriptionList extends Array<SecretResourceDescr
  * @interface
  * An interface representing the SecretValueResourceDescriptionList.
  * A pageable list of values of a secret resource. The information does not
- * include only the name of the value and not the actual unecrypted value.
+ * include only the name of the value and not the actual unencrypted value.
  *
  * @extends Array<SecretValueResourceDescription>
  */
@@ -2178,7 +2178,7 @@ export enum ResourceStatus {
    */
   Creating = 'Creating',
   /**
-   * Indicates the resource is being deletd. The value is 4.
+   * Indicates the resource is being deleted. The value is 4.
    */
   Deleting = 'Deleting',
   /**
