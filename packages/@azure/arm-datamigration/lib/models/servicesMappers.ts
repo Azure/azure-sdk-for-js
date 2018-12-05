@@ -192,6 +192,7 @@ export {
   MigrateSqlServerSqlMITaskOutputDatabaseLevel,
   MigrateSqlServerSqlMITaskOutputMigrationLevel,
   StartMigrationScenarioServerRoleResult,
+  OrphanedUserInfo,
   ConnectToSourceSqlServerTaskOutputAgentJobLevel,
   MigrationEligibilityInfo,
   ConnectToSourceSqlServerTaskOutputLoginLevel,

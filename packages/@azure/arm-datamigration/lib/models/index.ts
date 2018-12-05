@@ -4582,6 +4582,23 @@ export interface MigrateSqlServerSqlMITaskOutputDatabaseLevel {
 
 /**
  * @interface
+ * An interface representing OrphanedUserInfo.
+ * Information of orphaned users on the SQL server database.
+ *
+ */
+export interface OrphanedUserInfo {
+  /**
+   * @member {string} [name] Name of the orphaned user
+   */
+  name?: string;
+  /**
+   * @member {string} [databaseName] Parent DB of the user
+   */
+  databaseName?: string;
+}
+
+/**
+ * @interface
  * An interface representing StartMigrationScenarioServerRoleResult.
  * Server role migration result
  *
@@ -4682,12 +4699,11 @@ export interface MigrateSqlServerSqlMITaskOutputMigrationLevel {
    */
   readonly serverRoleResults?: { [propertyName: string]: StartMigrationScenarioServerRoleResult };
   /**
-   * @member {{ [propertyName: string]: string }} [orphanedUsers] Map of users
-   * to database name of orphaned users.
+   * @member {OrphanedUserInfo[]} [orphanedUsers] List of orphaned users.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly orphanedUsers?: { [propertyName: string]: string };
+  readonly orphanedUsers?: OrphanedUserInfo[];
   /**
    * @member {{ [propertyName: string]: string }} [databases] Selected
    * databases as a map from database name to database id

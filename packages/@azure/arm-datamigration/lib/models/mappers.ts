@@ -5201,6 +5201,28 @@ export const MigrateSqlServerSqlMITaskOutputDatabaseLevel: msRest.CompositeMappe
   }
 };
 
+export const OrphanedUserInfo: msRest.CompositeMapper = {
+  serializedName: "OrphanedUserInfo",
+  type: {
+    name: "Composite",
+    className: "OrphanedUserInfo",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      databaseName: {
+        serializedName: "databaseName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const StartMigrationScenarioServerRoleResult: msRest.CompositeMapper = {
   serializedName: "StartMigrationScenarioServerRoleResult",
   type: {
@@ -5323,10 +5345,11 @@ export const MigrateSqlServerSqlMITaskOutputMigrationLevel: msRest.CompositeMapp
         readOnly: true,
         serializedName: "orphanedUsers",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Sequence",
+          element: {
             type: {
-              name: "String"
+              name: "Composite",
+              className: "OrphanedUserInfo"
             }
           }
         }
