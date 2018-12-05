@@ -4592,7 +4592,7 @@ export interface OrphanedUserInfo {
    */
   name?: string;
   /**
-   * @member {string} [databaseName] Parent DB of the user
+   * @member {string} [databaseName] Parent database of the user
    */
   databaseName?: string;
 }
