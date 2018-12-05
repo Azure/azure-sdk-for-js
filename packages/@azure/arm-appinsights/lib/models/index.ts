@@ -17,8 +17,8 @@ export { BaseResource, CloudError };
 /**
  * @interface
  * An interface representing ErrorResponse.
- * Error reponse indicates Insights service is not able to process the incoming
- * request. The reason is provided in the error message.
+ * Error response indicates Insights service is not able to process the
+ * incoming request. The reason is provided in the error message.
  *
  */
 export interface ErrorResponse {
@@ -149,7 +149,7 @@ export interface AnnotationError {
 /**
  * @interface
  * An interface representing APIKeyRequest.
- * An Application Insights component API Key createion request definition.
+ * An Application Insights component API Key creation request definition.
  *
  */
 export interface APIKeyRequest {
@@ -177,7 +177,7 @@ export interface APIKeyRequest {
  */
 export interface ApplicationInsightsComponentAPIKey {
   /**
-   * @member {string} [id] The unique ID of the API key inside an Applciation
+   * @member {string} [id] The unique ID of the API key inside an Application
    * Insights component. It is auto generated when the API key is created.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -274,7 +274,7 @@ export interface ApplicationInsightsComponentExportRequest {
 export interface ApplicationInsightsComponentExportConfiguration {
   /**
    * @member {string} [exportId] The unique ID of the export configuration
-   * inside an Applciation Insights component. It is auto generated when the
+   * inside an Application Insights component. It is auto generated when the
    * Continuous Export configuration is created.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -754,7 +754,7 @@ export interface ApplicationInsightsComponentProactiveDetectionConfigurationRule
    */
   description?: string;
   /**
-   * @member {string} [helpUrl] URL which displays aditional info about the
+   * @member {string} [helpUrl] URL which displays additional info about the
    * proactive detection rule
    */
   helpUrl?: string;
@@ -1091,7 +1091,7 @@ export interface WorkItemCreateConfiguration {
   connectorId?: string;
   /**
    * @member {string} [connectorDataConfiguration] Serialized JSON object for
-   * detaile d properties
+   * detailed properties
    */
   connectorDataConfiguration?: string;
   /**
@@ -1801,8 +1801,8 @@ export interface ApplicationInsightsComponentAPIKeyListResult extends Array<Appl
 export interface ApplicationInsightsComponentListResult extends Array<ApplicationInsightsComponent> {
   /**
    * @member {string} [nextLink] The URI to get the next set of Application
-   * Insights component defintions if too many components where returned in the
-   * result set.
+   * Insights component definitions if too many components where returned in
+   * the result set.
    */
   nextLink?: string;
 }

@@ -194,7 +194,7 @@ export class WebTests {
   }
 
   /**
-   * Get all Application Insights web test alerts definitioned within a subscription.
+   * Get all Application Insights web test alerts definitions within a subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.WebTestsListResponse>
    */
@@ -278,7 +278,7 @@ export class WebTests {
   }
 
   /**
-   * Get all Application Insights web test alerts definitioned within a subscription.
+   * Get all Application Insights web test alerts definitions within a subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.WebTestsListNextResponse>
