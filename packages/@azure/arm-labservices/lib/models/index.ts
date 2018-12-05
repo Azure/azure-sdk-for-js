@@ -1594,12 +1594,12 @@ export interface OperationStatusResponse {
 
 /**
  * @interface
- * An interface representing PersonalPerferencesOperationsPayload.
+ * An interface representing PersonalPreferencesOperationsPayload.
  * Represents payload for any Environment operations like get, start, stop,
  * connect
  *
  */
-export interface PersonalPerferencesOperationsPayload {
+export interface PersonalPreferencesOperationsPayload {
   /**
    * @member {string} [labAccountResourceId] Resource Id of the lab account
    */

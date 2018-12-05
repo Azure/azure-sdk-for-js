@@ -129,32 +129,32 @@ export class GlobalUsers {
   /**
    * Get personal preferences for a user
    * @param userName The name of the user.
-   * @param personalPerferencesOperationsPayload Represents payload for any Environment operations
+   * @param personalPreferencesOperationsPayload Represents payload for any Environment operations
    * like get, start, stop, connect
    * @param [options] The optional parameters
    * @returns Promise<Models.GlobalUsersGetPersonalPreferencesResponse>
    */
-  getPersonalPreferences(userName: string, personalPerferencesOperationsPayload: Models.PersonalPerferencesOperationsPayload, options?: msRest.RequestOptionsBase): Promise<Models.GlobalUsersGetPersonalPreferencesResponse>;
+  getPersonalPreferences(userName: string, personalPreferencesOperationsPayload: Models.PersonalPreferencesOperationsPayload, options?: msRest.RequestOptionsBase): Promise<Models.GlobalUsersGetPersonalPreferencesResponse>;
   /**
    * @param userName The name of the user.
-   * @param personalPerferencesOperationsPayload Represents payload for any Environment operations
+   * @param personalPreferencesOperationsPayload Represents payload for any Environment operations
    * like get, start, stop, connect
    * @param callback The callback
    */
-  getPersonalPreferences(userName: string, personalPerferencesOperationsPayload: Models.PersonalPerferencesOperationsPayload, callback: msRest.ServiceCallback<Models.GetPersonalPreferencesResponse>): void;
+  getPersonalPreferences(userName: string, personalPreferencesOperationsPayload: Models.PersonalPreferencesOperationsPayload, callback: msRest.ServiceCallback<Models.GetPersonalPreferencesResponse>): void;
   /**
    * @param userName The name of the user.
-   * @param personalPerferencesOperationsPayload Represents payload for any Environment operations
+   * @param personalPreferencesOperationsPayload Represents payload for any Environment operations
    * like get, start, stop, connect
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPersonalPreferences(userName: string, personalPerferencesOperationsPayload: Models.PersonalPerferencesOperationsPayload, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GetPersonalPreferencesResponse>): void;
-  getPersonalPreferences(userName: string, personalPerferencesOperationsPayload: Models.PersonalPerferencesOperationsPayload, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GetPersonalPreferencesResponse>, callback?: msRest.ServiceCallback<Models.GetPersonalPreferencesResponse>): Promise<Models.GlobalUsersGetPersonalPreferencesResponse> {
+  getPersonalPreferences(userName: string, personalPreferencesOperationsPayload: Models.PersonalPreferencesOperationsPayload, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GetPersonalPreferencesResponse>): void;
+  getPersonalPreferences(userName: string, personalPreferencesOperationsPayload: Models.PersonalPreferencesOperationsPayload, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GetPersonalPreferencesResponse>, callback?: msRest.ServiceCallback<Models.GetPersonalPreferencesResponse>): Promise<Models.GlobalUsersGetPersonalPreferencesResponse> {
     return this.client.sendOperationRequest(
       {
         userName,
-        personalPerferencesOperationsPayload,
+        personalPreferencesOperationsPayload,
         options
       },
       getPersonalPreferencesOperationSpec,
@@ -458,9 +458,9 @@ const getPersonalPreferencesOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: "personalPerferencesOperationsPayload",
+    parameterPath: "personalPreferencesOperationsPayload",
     mapper: {
-      ...Mappers.PersonalPerferencesOperationsPayload,
+      ...Mappers.PersonalPreferencesOperationsPayload,
       required: true
     }
   },

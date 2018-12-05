@@ -20,7 +20,7 @@ export {
   OperationBatchStatusResponseItem,
   OperationStatusPayload,
   OperationStatusResponse,
-  PersonalPerferencesOperationsPayload,
+  PersonalPreferencesOperationsPayload,
   GetPersonalPreferencesResponse,
   ListEnvironmentsPayload,
   ListEnvironmentsResponse,
