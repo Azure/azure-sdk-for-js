@@ -6744,6 +6744,11 @@ export interface HDInsightLinkedService {
    * credential manager. Type: string (or Expression with resultType string).
    */
   encryptedCredential?: any;
+  /**
+   * @member {any} [isEspEnabled] Specify if the HDInsight is created with ESP
+   * (Enterprise Security Package). Type: Boolean.
+   */
+  isEspEnabled?: any;
 }
 
 /**
@@ -13366,6 +13371,17 @@ export interface HDInsightHiveActivity {
    * defines for Hive job request.
    */
   defines?: { [propertyName: string]: any };
+  /**
+   * @member {any[]} [variables] User specified arguments under hivevar
+   * namespace.
+   */
+  variables?: any[];
+  /**
+   * @member {number} [queryTimeout] Query timeout value (in minutes).
+   * Effective when the HDInsight culster is with ESP (Enterprise Security
+   * Package)
+   */
+  queryTimeout?: number;
 }
 
 /**
