@@ -28,7 +28,7 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '6.3',
+    defaultValue: '6.4',
     type: {
       name: "String"
     }
@@ -40,7 +40,7 @@ export const apiVersion2: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '6.2',
+    defaultValue: '6.3',
     type: {
       name: "String"
     }
@@ -52,7 +52,7 @@ export const apiVersion3: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '6.1',
+    defaultValue: '6.2',
     type: {
       name: "String"
     }
@@ -64,7 +64,7 @@ export const apiVersion4: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '6.0-preview',
+    defaultValue: '6.1',
     type: {
       name: "String"
     }
@@ -76,7 +76,7 @@ export const apiVersion5: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '6.2-preview',
+    defaultValue: '6.0-preview',
     type: {
       name: "String"
     }
@@ -88,7 +88,19 @@ export const apiVersion6: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '6.3-preview',
+    defaultValue: '6.4-preview',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion7: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '6.2-preview',
     type: {
       name: "String"
     }
@@ -249,6 +261,16 @@ export const codePackageName1: msRest.OperationQueryParameter = {
   mapper: {
     required: true,
     serializedName: "CodePackageName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const codePackageName2: msRest.OperationURLParameter = {
+  parameterPath: "codePackageName",
+  mapper: {
+    required: true,
+    serializedName: "codePackageName",
     type: {
       name: "String"
     }
@@ -520,6 +542,17 @@ export const forceRemove: msRest.OperationQueryParameter = {
     }
   }
 };
+export const gatewayResourceName: msRest.OperationURLParameter = {
+  parameterPath: "gatewayResourceName",
+  mapper: {
+    required: true,
+    serializedName: "gatewayResourceName",
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
 export const immediate: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -606,6 +639,17 @@ export const nameId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "nameId",
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+export const networkResourceName: msRest.OperationURLParameter = {
+  parameterPath: "networkResourceName",
+  mapper: {
+    required: true,
+    serializedName: "networkResourceName",
     type: {
       name: "String"
     }
@@ -876,6 +920,28 @@ export const restoreTimeout: msRest.OperationQueryParameter = {
       name: "Number"
     }
   }
+};
+export const secretResourceName: msRest.OperationURLParameter = {
+  parameterPath: "secretResourceName",
+  mapper: {
+    required: true,
+    serializedName: "secretResourceName",
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+export const secretValueResourceName: msRest.OperationURLParameter = {
+  parameterPath: "secretValueResourceName",
+  mapper: {
+    required: true,
+    serializedName: "secretValueResourceName",
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 export const serviceId0: msRest.OperationURLParameter = {
   parameterPath: "serviceId",
