@@ -14,6 +14,8 @@ import { LinkEntity } from "./linkEntity";
 import * as log from "../log";
 import { ReceiveMode } from "./messageReceiver";
 import { reorderLockTokens, toBuffer } from "../util/utils";
+import { Typed } from "rhea/typings/types";
+import { max32BitNumber, descriptorCodes } from "../util/constants";
 
 /**
  * @ignore
@@ -24,6 +26,79 @@ export enum DispositionStatus {
   suspended = "suspended",
   abandoned = "abandoned",
   renewed = "renewed"
+}
+
+/**
+ * Represents a description of a rule.
+ */
+export interface RuleDescription {
+  /**
+   * Filter expression used to match messages.
+   */
+  filter?: SQLExpression | CorrelationFilter;
+  /**
+   * Action to perform if the message satisfies the filtering expression.
+   */
+  action?: SQLExpression;
+  /**
+   * Represents the name of the rule.
+   */
+  name: string;
+}
+/**
+ * Represents the sql filter expression.
+ */
+export interface SQLExpression {
+  /**
+   * SQL-like condition expression that is evaluated in the broker against the arriving messages'
+   * user-defined properties and system properties. All system properties must be prefixed with
+   * `sys.` in the condition expression.
+   */
+  expression: string;
+}
+
+/**
+ * Represents the correlation filter expression.
+ * A CorrelationFilter holds a set of conditions that are matched against one of more of an 
+ * arriving message's user and system properties.
+ */
+export interface CorrelationFilter {
+  /**
+   * Identifier of the correlation.
+   */
+  correlationId?: string;
+  /**
+   * Identifier of the message.
+   */
+  messageId?: string;
+  /**
+   * Address to send to.
+   */
+  to?: string;
+  /**
+   * Address of the queue to reply to.
+   */
+  replyTo?: string;
+  /**
+   * Application specific label.
+   */
+  label?: string;
+  /**
+   * Session identifier.
+   */
+  sessionId?: string;
+  /**
+   * Session identifier to reply to.
+   */
+  replyToSessionId?: string;
+  /**
+   * Content type of the message.
+   */
+  contentType?: string;
+  /**
+   * Application specific properties of the message.
+   */
+  userProperties?: any;
 }
 
 /**
@@ -793,6 +868,224 @@ export class ManagementClient extends LinkEntity {
   }
 
   /**
+  * Get all the rules on the Subscription.
+  * @returns Promise<RuleDescription[]> A list of rules.
+  */
+  async getRules(): Promise<RuleDescription[]> {
+    try {
+      const request: AmqpMessage = {
+        body: {
+          top: types.wrap_int(max32BitNumber),
+          skip: types.wrap_int(0)
+        },
+        reply_to: this.replyTo,
+        application_properties: {
+          operation: Constants.operations.enumerateRules
+        }
+      };
+      request.application_properties![Constants.trackingId] = generate_uuid();
+
+      log.mgmt("[%s] Get rules request body: %O.", this._context.namespace.connectionId,
+        request.body);
+      log.mgmt("[%s] Acquiring lock to get the management req res link.",
+        this._context.namespace.connectionId);
+      await defaultLock.acquire(this.managementLock, () => { return this._init(); });
+
+      const response = await this._mgmtReqResLink!.sendRequest(request);
+      if (response.application_properties!.statusCode === 204 || !response.body || !Array.isArray(response.body.rules)) {
+        return [];
+      }
+
+      // Reference: https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-amqp-request-response#response-11
+      const result: { "rule-description": Typed }[] = response.body.rules || [];
+      const rules: RuleDescription[] = [];
+      result.forEach((x) => {
+        const ruleDescriptor = x['rule-description'];
+
+        // We use the first three elements of the `ruleDescriptor.value` to get filter, action, name
+        if (!ruleDescriptor
+          || !ruleDescriptor.descriptor
+          || ruleDescriptor.descriptor.value !== descriptorCodes.ruleDescriptionList
+          || !Array.isArray(ruleDescriptor.value)
+          || ruleDescriptor.value.length < 3) {
+          return;
+        }
+
+        const filtersRawData: Typed = ruleDescriptor.value[0];
+        const actionsRawData: Typed = ruleDescriptor.value[1];
+        const rule: RuleDescription = {
+          name: ruleDescriptor.value[2].value
+        };
+
+        switch (filtersRawData.descriptor.value) {
+          case descriptorCodes.trueFilterList:
+            rule.filter = {
+              expression: "1=1"
+            };
+            break;
+          case descriptorCodes.falseFilterList:
+            rule.filter = {
+              expression: "1=0"
+            };
+            break;
+          case descriptorCodes.sqlFilterList:
+            rule.filter = {
+              expression: this._safelyGetTypedValueFromArray(filtersRawData.value, 0)
+            };
+            break;
+          case descriptorCodes.correlationFilterList:
+            rule.filter = {
+              correlationId: this._safelyGetTypedValueFromArray(filtersRawData.value, 0),
+              messageId: this._safelyGetTypedValueFromArray(filtersRawData.value, 1),
+              to: this._safelyGetTypedValueFromArray(filtersRawData.value, 2),
+              replyTo: this._safelyGetTypedValueFromArray(filtersRawData.value, 3),
+              label: this._safelyGetTypedValueFromArray(filtersRawData.value, 4),
+              sessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 5),
+              replyToSessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 6),
+              contentType: this._safelyGetTypedValueFromArray(filtersRawData.value, 7),
+              userProperties: this._safelyGetTypedValueFromArray(filtersRawData.value, 8),
+            };
+            break;
+          default:
+            log.mgmt(`Found unexpected descriptor code for the filter: ${filtersRawData.descriptor.value}`)
+            break;
+        }
+
+        if (actionsRawData.descriptor.value === descriptorCodes.sqlRuleActionList
+          && Array.isArray(actionsRawData.value)
+          && actionsRawData.value.length) {
+          rule.action = {
+            expression: this._safelyGetTypedValueFromArray(actionsRawData.value, 0)
+          };
+        }
+
+        rules.push(rule);
+
+      });
+
+      return rules;
+
+    } catch (err) {
+      const error = translate(err);
+      log.error("An error occurred while sending the get rules request to $management " +
+        "endpoint: %O", error);
+      throw error;
+    }
+  }
+
+  /**
+   * Removes the rule on the Subscription identified by the given rule name.
+   * @param ruleName
+   */
+  async removeRule(ruleName: string): Promise<void> {
+    if (!ruleName || typeof ruleName !== "string") {
+      throw new Error("Cannot remove rule. Rule name is missing or is not a string.");
+    }
+    try {
+      const request: AmqpMessage = {
+        body: {
+          "rule-name": types.wrap_string(ruleName)
+        },
+        reply_to: this.replyTo,
+        application_properties: {
+          operation: Constants.operations.removeRule
+        }
+      };
+      request.application_properties![Constants.trackingId] = generate_uuid();
+
+      log.mgmt("[%s] Remove Rule request body: %O.", this._context.namespace.connectionId,
+        request.body);
+      log.mgmt("[%s] Acquiring lock to get the management req res link.",
+        this._context.namespace.connectionId);
+      await defaultLock.acquire(this.managementLock, () => { return this._init(); });
+
+      await this._mgmtReqResLink!.sendRequest(request);
+
+    } catch (err) {
+      const error = translate(err);
+      log.error("An error occurred while sending the remove rule request to $management " +
+        "endpoint: %O", error);
+      throw error;
+    }
+  }
+
+  /**
+   * Adds a rule on the subscription as defined by the given rule name, filter and action
+   * @param ruleName Name of the rule
+   * @param filter A Boolean, SQL expression or a Correlation filter
+   * @param sqlRuleActionExpression Action to perform if the message satisfies the filtering expression
+   */
+  async addRule(ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string): Promise<void> {
+    if (!ruleName || typeof ruleName !== "string") {
+      throw new Error("Cannot add rule. Rule name is missing or is not a string.");
+    }
+    if (!filter) {
+      throw new Error("Cannot add rule. Filter is missing.");
+    }
+    if (sqlRuleActionExpression && typeof sqlRuleActionExpression !== "string") {
+      throw new Error("Cannot add rule. Given action expression is not a string.");
+    }
+    try {
+      const ruleDescription: any = {};
+      switch (typeof filter) {
+        case "boolean":
+          ruleDescription["sql-filter"] = {
+            expression: filter ? "1=1" : "1=0"
+          };
+          break;
+        case "string":
+          ruleDescription["sql-filter"] = {
+            expression: filter
+          };
+          break;
+        default:
+          ruleDescription["correlation-filter"] = {
+            "correlation-id": filter.correlationId,
+            "message-id": filter.messageId,
+            "to": filter.to,
+            "reply-to": filter.replyTo,
+            "label": filter.label,
+            "session-id": filter.sessionId,
+            "reply-to-session-id": filter.replyToSessionId,
+            "content-type": filter.contentType,
+            "properties": filter.userProperties
+          };
+          break;
+      }
+
+      if (sqlRuleActionExpression && typeof sqlRuleActionExpression === "string") {
+        ruleDescription["sql-rule-action"] = sqlRuleActionExpression;
+      }
+
+      const request: AmqpMessage = {
+        body: {
+          "rule-name": types.wrap_string(ruleName),
+          "rule-description": types.wrap_map(ruleDescription)
+        },
+        reply_to: this.replyTo,
+        application_properties: {
+          operation: Constants.operations.addRule
+        }
+      };
+      request.application_properties![Constants.trackingId] = generate_uuid();
+
+      log.mgmt("[%s] Add Rule request body: %O.", this._context.namespace.connectionId,
+        request.body);
+      log.mgmt("[%s] Acquiring lock to get the management req res link.",
+        this._context.namespace.connectionId);
+      await defaultLock.acquire(this.managementLock, () => { return this._init(); });
+
+      await this._mgmtReqResLink!.sendRequest(request);
+    } catch (err) {
+      const error = translate(err);
+      log.error("An error occurred while sending the Add rule request to $management " +
+        "endpoint: %O", error);
+      throw error;
+    }
+  }
+
+
+  /**
    * @ignore
    */
   private async _init(): Promise<void> {
@@ -843,5 +1136,12 @@ export class ManagementClient extends LinkEntity {
    */
   private _isMgmtRequestResponseLinkOpen(): boolean {
     return this._mgmtReqResLink! && this._mgmtReqResLink!.isOpen();
+  }
+
+  /**
+  * Given array of typed values, returns the element in given index
+  */
+  private _safelyGetTypedValueFromArray(data: Typed[], index: number): any {
+    return (Array.isArray(data) && data.length > index && data[index]) ? data[index].value : undefined;
   }
 }
