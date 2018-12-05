@@ -117,8 +117,7 @@ const {
     StorageURL,
     SharedKeyCredential,
     AnonymousCredential,
-    TokenCredential,
-    HttpPipelineLogLevel
+    TokenCredential
 } = require(".."); // Change to "@azure/storage-queue" in your package
 
 async function main() {
@@ -141,7 +140,7 @@ async function main() {
         // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
         // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
         retryOptions: { maxTries: 4 }, // Retry options
-        telemetry: { value: "HighLevelSample V1.0.0" } // Customized telemetry string
+        telemetry: { value: "BasicSample V10.0.0" } // Customized telemetry string
     });
 
     // List queues
@@ -188,9 +187,9 @@ async function main() {
     // from this queue for a default period of 30 seconds. To finish removing the message from the queue, you call DeleteMessage. 
     // This two-step process ensures that if your code fails to process a message due to hardware or software failure, another instance 
     // of your code can get the same message and try again. 
-    const dequeueQueueResponse = await messagesURL.dequeue(Aborter.none);
-    if (dequeueQueueResponse.length == 1) {
-        const dequeueMessageItem = dequeueQueueResponse.dequeuedMessageItems[0];
+    const dequeueResponse = await messagesURL.dequeue(Aborter.none);
+    if (dequeueResponse.dequeuedMessageItems.length == 1) {
+        const dequeueMessageItem = dequeueResponse.dequeuedMessageItems[0];
         console.log(`Processing & deleting message with content: ${dequeueMessageItem.messageText}`);
         const messageIdURL = MessageIdURL.fromMessagesURL(messagesURL, dequeueMessageItem.messageId);
         const deleteMessageResponse = await messageIdURL.delete(Aborter.none, dequeueMessageItem.popReceipt);
