@@ -895,7 +895,7 @@ export interface MetricDefinition {
   readonly unit?: UnitDefinitionType;
   /**
    * @member {MetricAvailability[]} [metricAvailabilities] The list of database
-   * metric availabities for the metric.
+   * metric availabilities for the metric.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -928,7 +928,7 @@ export interface RecommendedElasticPoolMetric {
 /**
  * @interface
  * An interface representing RecommendedElasticPool.
- * Represents a recommented elastic pool.
+ * Represents a recommended elastic pool.
  *
  * @extends ProxyResource
  */
@@ -3999,7 +3999,7 @@ export interface JobSchedule {
   enabled?: boolean;
   /**
    * @member {string} [interval] Value of the schedule's recurring interval, if
-   * the scheduletype is recurring. ISO8601 duration format.
+   * the schedule type is recurring. ISO8601 duration format.
    */
   interval?: string;
 }
@@ -7524,7 +7524,7 @@ export interface JobVersionListResult extends Array<JobVersion> {
 /**
  * @interface
  * An interface representing the LongTermRetentionBackupListResult.
- * A list of long term retention bacukps.
+ * A list of long term retention backups.
  *
  * @extends Array<LongTermRetentionBackup>
  */
@@ -7588,7 +7588,7 @@ export interface ServerDnsAliasListResult extends Array<ServerDnsAlias> {
 /**
  * @interface
  * An interface representing the RestorePointListResult.
- * A list of long term retention bacukps.
+ * A list of long term retention backups.
  *
  * @extends Array<RestorePoint>
  */
