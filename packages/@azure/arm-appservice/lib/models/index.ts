@@ -10479,7 +10479,7 @@ export interface AppServiceCertificateOrderCollection extends Array<AppServiceCe
 /**
  * @interface
  * An interface representing the AppServiceCertificateCollection.
- * Collection of certitificateorder certificates.
+ * Collection of certificate order certificates.
  *
  * @extends Array<AppServiceCertificateResource>
  */
