@@ -413,7 +413,7 @@ export interface Resource extends BaseResource {
 /**
  * @interface
  * An interface representing StreamingJob.
- * A streamng job object, containing all information associated with the named
+ * A streaming job object, containing all information associated with the named
  * streaming job.
  *
  * @extends Resource
@@ -530,7 +530,7 @@ export interface StreamingJob extends Resource {
    * number of streaming units to use for the streaming job. The name property
    * of the transformation is required when specifying this property in a PUT
    * request. This property cannot be modify via a PATCH operation. You must
-   * use the PATCH API available for the individual tranformation.
+   * use the PATCH API available for the individual transformation.
    */
   transformation?: Transformation;
   /**
@@ -1944,7 +1944,7 @@ export interface StreamingJobsCreateOrReplaceOptionalParams extends msRest.Reque
   /**
    * @member {string} [ifMatch] The ETag of the streaming job. Omit this value
    * to always overwrite the current record set. Specify the last-seen ETag
-   * value to prevent accidentally overwritting concurrent changes.
+   * value to prevent accidentally overwriting concurrent changes.
    */
   ifMatch?: string;
   /**
@@ -1966,7 +1966,7 @@ export interface StreamingJobsUpdateOptionalParams extends msRest.RequestOptions
   /**
    * @member {string} [ifMatch] The ETag of the streaming job. Omit this value
    * to always overwrite the current record set. Specify the last-seen ETag
-   * value to prevent accidentally overwritting concurrent changes.
+   * value to prevent accidentally overwriting concurrent changes.
    */
   ifMatch?: string;
 }
@@ -2051,7 +2051,7 @@ export interface StreamingJobsBeginCreateOrReplaceOptionalParams extends msRest.
   /**
    * @member {string} [ifMatch] The ETag of the streaming job. Omit this value
    * to always overwrite the current record set. Specify the last-seen ETag
-   * value to prevent accidentally overwritting concurrent changes.
+   * value to prevent accidentally overwriting concurrent changes.
    */
   ifMatch?: string;
   /**
@@ -2088,7 +2088,7 @@ export interface InputsCreateOrReplaceOptionalParams extends msRest.RequestOptio
   /**
    * @member {string} [ifMatch] The ETag of the input. Omit this value to
    * always overwrite the current input. Specify the last-seen ETag value to
-   * prevent accidentally overwritting concurrent changes.
+   * prevent accidentally overwriting concurrent changes.
    */
   ifMatch?: string;
   /**
@@ -2110,7 +2110,7 @@ export interface InputsUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [ifMatch] The ETag of the input. Omit this value to
    * always overwrite the current input. Specify the last-seen ETag value to
-   * prevent accidentally overwritting concurrent changes.
+   * prevent accidentally overwriting concurrent changes.
    */
   ifMatch?: string;
 }
@@ -2183,7 +2183,7 @@ export interface OutputsCreateOrReplaceOptionalParams extends msRest.RequestOpti
   /**
    * @member {string} [ifMatch] The ETag of the output. Omit this value to
    * always overwrite the current output. Specify the last-seen ETag value to
-   * prevent accidentally overwritting concurrent changes.
+   * prevent accidentally overwriting concurrent changes.
    */
   ifMatch?: string;
   /**
@@ -2205,7 +2205,7 @@ export interface OutputsUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [ifMatch] The ETag of the output. Omit this value to
    * always overwrite the current output. Specify the last-seen ETag value to
-   * prevent accidentally overwritting concurrent changes.
+   * prevent accidentally overwriting concurrent changes.
    */
   ifMatch?: string;
 }
@@ -2278,7 +2278,7 @@ export interface TransformationsCreateOrReplaceOptionalParams extends msRest.Req
   /**
    * @member {string} [ifMatch] The ETag of the transformation. Omit this value
    * to always overwrite the current transformation. Specify the last-seen ETag
-   * value to prevent accidentally overwritting concurrent changes.
+   * value to prevent accidentally overwriting concurrent changes.
    */
   ifMatch?: string;
   /**
@@ -2300,7 +2300,7 @@ export interface TransformationsUpdateOptionalParams extends msRest.RequestOptio
   /**
    * @member {string} [ifMatch] The ETag of the transformation. Omit this value
    * to always overwrite the current transformation. Specify the last-seen ETag
-   * value to prevent accidentally overwritting concurrent changes.
+   * value to prevent accidentally overwriting concurrent changes.
    */
   ifMatch?: string;
 }
@@ -2316,7 +2316,7 @@ export interface FunctionsCreateOrReplaceOptionalParams extends msRest.RequestOp
   /**
    * @member {string} [ifMatch] The ETag of the function. Omit this value to
    * always overwrite the current function. Specify the last-seen ETag value to
-   * prevent accidentally overwritting concurrent changes.
+   * prevent accidentally overwriting concurrent changes.
    */
   ifMatch?: string;
   /**
@@ -2338,7 +2338,7 @@ export interface FunctionsUpdateOptionalParams extends msRest.RequestOptionsBase
   /**
    * @member {string} [ifMatch] The ETag of the function. Omit this value to
    * always overwrite the current function. Specify the last-seen ETag value to
-   * prevent accidentally overwritting concurrent changes.
+   * prevent accidentally overwriting concurrent changes.
    */
   ifMatch?: string;
 }
