@@ -7217,6 +7217,12 @@ export const HDInsightLinkedService: msRest.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      isEspEnabled: {
+        serializedName: "typeProperties.isEspEnabled",
+        type: {
+          name: "Object"
+        }
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
@@ -11966,6 +11972,23 @@ export const HDInsightHiveActivity: msRest.CompositeMapper = {
               name: "Object"
             }
           }
+        }
+      },
+      variables: {
+        serializedName: "typeProperties.variables",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      queryTimeout: {
+        serializedName: "typeProperties.queryTimeout",
+        type: {
+          name: "Number"
         }
       }
     },
