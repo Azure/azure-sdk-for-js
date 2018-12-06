@@ -1,4 +1,3 @@
-
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
@@ -11,7 +10,6 @@ import * as log from "../log";
  * @class ConcurrentExpiringMap<TKey>
  */
 export class ConcurrentExpiringMap<TKey> {
-
   private readonly _map: Map<TKey, Date> = new Map();
   private _cleanupScheduled: boolean = false;
   private _delayBetweenCleanupInSeconds: number;
@@ -32,8 +30,11 @@ export class ConcurrentExpiringMap<TKey> {
   set(key: TKey, expiration: Date): void {
     this._map.set(key, expiration);
     this._scheduleCleanup().catch((err) => {
-      log.error("An error occurred while scheduling the cleanup, after " +
-        "setting the key: '%s': %O", key, err);
+      log.error(
+        "An error occurred while scheduling the cleanup, after " + "setting the key: '%s': %O",
+        key,
+        err
+      );
     });
   }
 
@@ -72,8 +73,10 @@ export class ConcurrentExpiringMap<TKey> {
       }
     }
     this._scheduleCleanup().catch((err) => {
-      log.error("An error occurred while scheduling the cleanup, after " +
-        "collecting expired entries: %O", err);
+      log.error(
+        "An error occurred while scheduling the cleanup, after " + "collecting expired entries: %O",
+        err
+      );
     });
   }
 }

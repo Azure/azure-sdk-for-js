@@ -35,7 +35,6 @@ export class SessionManager {
    * requests that can be made concurrently at any given time.
    */
   private set _maxConcurrentAcceptSessionRequests(value: number) {
-
     this._maxConcurrentAcceptSessionRequests = Math.min(value, getProcessorCount());
   }
   /**
@@ -58,7 +57,8 @@ export class SessionManager {
   async manageMessageSessions(
     onSessionMessage: OnSessionMessage,
     onError: OnError,
-    options?: SessionHandlerOptions): Promise<void> {
+    options?: SessionHandlerOptions
+  ): Promise<void> {
     this.isManagingSessions = true;
     if (!options) options = {};
     if (options.maxConcurrentSessions) this.maxConcurrentSessions = options.maxConcurrentSessions;

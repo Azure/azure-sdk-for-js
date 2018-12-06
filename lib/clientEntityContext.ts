@@ -96,7 +96,11 @@ export namespace ClientEntityContext {
   /**
    * @ignore
    */
-  export function create(entityPath: string, context: ConnectionContext, options?: ClientEntityContextOptions): ClientEntityContext {
+  export function create(
+    entityPath: string,
+    context: ConnectionContext,
+    options?: ClientEntityContextOptions
+  ): ClientEntityContext {
     if (!entityPath || typeof entityPath !== "string") {
       throw new Error("'entityPath' is a required parameter and must be of type 'string'.");
     }
@@ -112,13 +116,17 @@ export namespace ClientEntityContext {
       messageSessions: {}
     };
 
-    (entityContext as ClientEntityContext).sessionManager =
-      new SessionManager(entityContext as ClientEntityContext);
+    (entityContext as ClientEntityContext).sessionManager = new SessionManager(
+      entityContext as ClientEntityContext
+    );
 
     (entityContext as ClientEntityContext).getReceiver = (name: string, sessionId?: string) => {
       let receiver: MessageReceiver | MessageSession | undefined = undefined;
-      if (sessionId != undefined && entityContext.messageSessions[sessionId] &&
-        entityContext.messageSessions[sessionId].name === name) {
+      if (
+        sessionId != undefined &&
+        entityContext.messageSessions[sessionId] &&
+        entityContext.messageSessions[sessionId].name === name
+      ) {
         receiver = entityContext.messageSessions[sessionId];
       } else if (entityContext.streamingReceiver && entityContext.streamingReceiver.name === name) {
         receiver = entityContext.streamingReceiver;
@@ -137,32 +145,50 @@ export namespace ClientEntityContext {
           log.error("[%s] calling detached on sender '%s'.", connectionId, sender.name);
           await sender.detached();
         } catch (err) {
-          log.error("[%s] An error occurred while reconnecting the sender '%s': %O.",
-            connectionId, sender.name, err);
+          log.error(
+            "[%s] An error occurred while reconnecting the sender '%s': %O.",
+            connectionId,
+            sender.name,
+            err
+          );
         }
       }
       // reconnect the batching receiver if present
       const batchingReceiver = entityContext.batchingReceiver;
       if (batchingReceiver && !batchingReceiver.isConnecting) {
         try {
-          log.error("[%s] calling detached on batching receiver '%s'.",
-            connectionId, batchingReceiver.name);
+          log.error(
+            "[%s] calling detached on batching receiver '%s'.",
+            connectionId,
+            batchingReceiver.name
+          );
           await batchingReceiver.detached(error);
         } catch (err) {
-          log.error("[%s] An error occurred while reconnecting the sender '%s': %O.",
-            connectionId, batchingReceiver.name, err);
+          log.error(
+            "[%s] An error occurred while reconnecting the sender '%s': %O.",
+            connectionId,
+            batchingReceiver.name,
+            err
+          );
         }
       }
       // reconnect the streaming receiver if present
       const streamingReceiver = entityContext.batchingReceiver;
       if (streamingReceiver && !streamingReceiver.isConnecting) {
         try {
-          log.error("[%s] calling detached on streaming receiver '%s'.",
-            connectionId, streamingReceiver.name);
+          log.error(
+            "[%s] calling detached on streaming receiver '%s'.",
+            connectionId,
+            streamingReceiver.name
+          );
           await streamingReceiver.detached(error);
         } catch (err) {
-          log.error("[%s] An error occurred while reconnecting the sender '%s': %O.",
-            connectionId, streamingReceiver.name, err);
+          log.error(
+            "[%s] An error occurred while reconnecting the sender '%s': %O.",
+            connectionId,
+            streamingReceiver.name,
+            err
+          );
         }
       }
     };
@@ -181,7 +207,10 @@ export namespace ClientEntityContext {
 }
 
 // Multiple Queue clients for the same queue should be using the same management client.
-function getManagementClient(clients: Dictionary<Client>, name: string): ManagementClient | undefined {
+function getManagementClient(
+  clients: Dictionary<Client>,
+  name: string
+): ManagementClient | undefined {
   let result: ManagementClient | undefined;
   for (const id of Object.keys(clients)) {
     if (clients[id].name === name) {

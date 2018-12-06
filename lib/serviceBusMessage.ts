@@ -3,7 +3,11 @@
 
 import * as Long from "long";
 import {
-  Delivery, uuid_to_string, AmqpError, MessageAnnotations, DeliveryAnnotations
+  Delivery,
+  uuid_to_string,
+  AmqpError,
+  MessageAnnotations,
+  DeliveryAnnotations
 } from "rhea-promise";
 import { Constants, Dictionary, AmqpMessage } from "@azure/amqp-common";
 import * as log from "./log";
@@ -192,7 +196,6 @@ export interface SendableMessageInfo {
 }
 
 export module SendableMessageInfo {
-
   export function validate(msg: SendableMessageInfo): void {
     if (!msg) {
       throw new Error("'msg' cannot be null or undefined.");
@@ -218,44 +221,73 @@ export module SendableMessageInfo {
       throw new Error("'timeToLive' must be of type 'number'.");
     }
 
-    if (msg.scheduledEnqueueTimeUtc && !(msg.scheduledEnqueueTimeUtc instanceof Date) &&
-      msg.scheduledEnqueueTimeUtc!.toString() === "Invalid Date") {
+    if (
+      msg.scheduledEnqueueTimeUtc &&
+      !(msg.scheduledEnqueueTimeUtc instanceof Date) &&
+      msg.scheduledEnqueueTimeUtc!.toString() === "Invalid Date"
+    ) {
       throw new Error("'scheduledEnqueueTimeUtc' must be an instance of a valid 'Date'.");
     }
 
-    if (msg.partitionKey != undefined && typeof msg.partitionKey !== "string" ||
+    if (
+      (msg.partitionKey != undefined && typeof msg.partitionKey !== "string") ||
       (typeof msg.partitionKey === "string" &&
-        msg.partitionKey.length > Constants.maxPartitionKeyLength)) {
-      throw new Error("'partitionKey' must be of type 'string' with a length less than 128 characters.");
+        msg.partitionKey.length > Constants.maxPartitionKeyLength)
+    ) {
+      throw new Error(
+        "'partitionKey' must be of type 'string' with a length less than 128 characters."
+      );
     }
 
-    if (msg.viaPartitionKey != undefined && typeof msg.viaPartitionKey !== "string" ||
+    if (
+      (msg.viaPartitionKey != undefined && typeof msg.viaPartitionKey !== "string") ||
       (typeof msg.partitionKey === "string" &&
-        msg.partitionKey.length > Constants.maxPartitionKeyLength)) {
-      throw new Error("'viaPartitionKey' must be of type 'string' with a length less than 128 characters.");
+        msg.partitionKey.length > Constants.maxPartitionKeyLength)
+    ) {
+      throw new Error(
+        "'viaPartitionKey' must be of type 'string' with a length less than 128 characters."
+      );
     }
 
     if (msg.sessionId != undefined && typeof msg.sessionId !== "string") {
       throw new Error("'sessionId' must be of type 'string'");
     }
 
-    if (msg.sessionId != undefined && typeof msg.sessionId === "string" &&
-      msg.sessionId.length > Constants.maxSessionIdLength) {
-      throw new Error("Length of 'sessionId' of type 'string' cannot be greater than 128 characters.");
+    if (
+      msg.sessionId != undefined &&
+      typeof msg.sessionId === "string" &&
+      msg.sessionId.length > Constants.maxSessionIdLength
+    ) {
+      throw new Error(
+        "Length of 'sessionId' of type 'string' cannot be greater than 128 characters."
+      );
     }
 
-    if (msg.messageId != undefined && typeof msg.messageId !== "string" &&
-      typeof msg.messageId !== "number" && !Buffer.isBuffer(msg.messageId)) {
+    if (
+      msg.messageId != undefined &&
+      typeof msg.messageId !== "string" &&
+      typeof msg.messageId !== "number" &&
+      !Buffer.isBuffer(msg.messageId)
+    ) {
       throw new Error("'messageId' must be of type 'string' | 'number' | Buffer.");
     }
 
-    if (msg.messageId != undefined && typeof msg.messageId === "string" &&
-      msg.messageId.length > Constants.maxMessageIdLength) {
-      throw new Error("Length of 'messageId' of type 'string' cannot be greater than 128 characters.");
+    if (
+      msg.messageId != undefined &&
+      typeof msg.messageId === "string" &&
+      msg.messageId.length > Constants.maxMessageIdLength
+    ) {
+      throw new Error(
+        "Length of 'messageId' of type 'string' cannot be greater than 128 characters."
+      );
     }
 
-    if (msg.correlationId != undefined && typeof msg.correlationId !== "string" &&
-      typeof msg.correlationId !== "number" && !Buffer.isBuffer(msg.correlationId)) {
+    if (
+      msg.correlationId != undefined &&
+      typeof msg.correlationId !== "string" &&
+      typeof msg.correlationId !== "number" &&
+      !Buffer.isBuffer(msg.correlationId)
+    ) {
       throw new Error("'correlationId' must be of type 'string' | 'number' | Buffer.");
     }
   }
@@ -320,7 +352,7 @@ export module SendableMessageInfo {
       throw new Error("'msg' cannot be null or undefined.");
     }
     const sbmsg: SendableMessageInfo = {
-      body: msg.body,
+      body: msg.body
     };
 
     if (msg.application_properties != undefined) {
@@ -455,7 +487,6 @@ export interface ReceivedMessageInfo extends SendableMessageInfo {
  * to/from AmqpMessage.
  */
 export module ReceivedMessageInfo {
-
   export function validate(msg: ReceivedMessageInfo): void {
     SendableMessageInfo.validate(msg);
     if (msg.lockToken != undefined && typeof msg.lockToken !== "string") {
@@ -474,18 +505,27 @@ export module ReceivedMessageInfo {
       throw new Error("'enqueuedSequenceNumber' must be of type 'number'.");
     }
 
-    if (msg.enqueuedTimeUtc && !(msg.enqueuedTimeUtc instanceof Date) &&
-      msg.enqueuedTimeUtc!.toString() === "Invalid Date") {
+    if (
+      msg.enqueuedTimeUtc &&
+      !(msg.enqueuedTimeUtc instanceof Date) &&
+      msg.enqueuedTimeUtc!.toString() === "Invalid Date"
+    ) {
       throw new Error("'enqueuedTimeUtc' must be an instance of a valid 'Date'.");
     }
 
-    if (msg.expiresAtUtc && !(msg.expiresAtUtc instanceof Date) &&
-      msg.expiresAtUtc!.toString() === "Invalid Date") {
+    if (
+      msg.expiresAtUtc &&
+      !(msg.expiresAtUtc instanceof Date) &&
+      msg.expiresAtUtc!.toString() === "Invalid Date"
+    ) {
       throw new Error("'expiresAtUtc' must be an instance of a valid 'Date'.");
     }
 
-    if (msg.lockedUntilUtc && !(msg.lockedUntilUtc instanceof Date) &&
-      msg.lockedUntilUtc!.toString() === "Invalid Date") {
+    if (
+      msg.lockedUntilUtc &&
+      !(msg.lockedUntilUtc instanceof Date) &&
+      msg.lockedUntilUtc!.toString() === "Invalid Date"
+    ) {
       throw new Error("'lockedUntilUtc' must be an instance of a valid 'Date'.");
     }
   }
@@ -530,7 +570,9 @@ export module ReceivedMessageInfo {
       }
       if (msg.message_annotations[Constants.sequenceNumber] != undefined) {
         if (Buffer.isBuffer(msg.message_annotations[Constants.sequenceNumber])) {
-          props.sequenceNumber = Long.fromBytesBE(msg.message_annotations[Constants.sequenceNumber]);
+          props.sequenceNumber = Long.fromBytesBE(
+            msg.message_annotations[Constants.sequenceNumber]
+          );
         } else {
           props.sequenceNumber = Long.fromNumber(msg.message_annotations[Constants.sequenceNumber]);
         }
@@ -542,7 +584,10 @@ export module ReceivedMessageInfo {
         props.lockedUntilUtc = new Date(msg.message_annotations[Constants.lockedUntil] as number);
       }
     }
-    if (msg.ttl != undefined && msg.ttl >= (Constants.maxDurationValue) - props.enqueuedTimeUtc.getTime()) {
+    if (
+      msg.ttl != undefined &&
+      msg.ttl >= Constants.maxDurationValue - props.enqueuedTimeUtc.getTime()
+    ) {
       props.expiresAtUtc = new Date(Constants.maxDurationValue);
     } else {
       props.expiresAtUtc = new Date(props.enqueuedTimeUtc.getTime() + msg.ttl!);
@@ -552,9 +597,9 @@ export module ReceivedMessageInfo {
       _delivery: delivery,
       deliveryCount: msg.delivery_count,
       lockToken: delivery
-        ? uuid_to_string(typeof delivery.tag === "string"
-          ? Buffer.from(delivery.tag)
-          : delivery.tag)
+        ? uuid_to_string(
+            typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
+          )
         : undefined,
       ...sbmsg,
       ...props
@@ -804,11 +849,16 @@ export class ServiceBusMessage implements ReceivedMessage {
    * @returns Promise<void>.
    */
   async complete(): Promise<void> {
-    log.message("[%s] Completing the message with id '%s'.", this._context.namespace.connectionId,
-      this.messageId);
+    log.message(
+      "[%s] Completing the message with id '%s'.",
+      this._context.namespace.connectionId,
+      this.messageId
+    );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
-      return this._context.managementClient!.updateDispositionStatus([this.lockToken!],
-        DispositionStatus.completed);
+      return this._context.managementClient!.updateDispositionStatus(
+        [this.lockToken!],
+        DispositionStatus.completed
+      );
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
     if (receiver) {
@@ -826,16 +876,23 @@ export class ServiceBusMessage implements ReceivedMessage {
    */
   async abandon(propertiesToModify?: Dictionary<any>): Promise<void> {
     // TODO: Figure out a mechanism to convert specified properties to message_annotations.
-    log.message("[%s] Abandoning the message with id '%s'.", this._context.namespace.connectionId,
-      this.messageId);
+    log.message(
+      "[%s] Abandoning the message with id '%s'.",
+      this._context.namespace.connectionId,
+      this.messageId
+    );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
-      return this._context.managementClient!.updateDispositionStatus([this.lockToken!],
-        DispositionStatus.abandoned, { propertiesToModify: propertiesToModify });
+      return this._context.managementClient!.updateDispositionStatus(
+        [this.lockToken!],
+        DispositionStatus.abandoned,
+        { propertiesToModify: propertiesToModify }
+      );
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
     if (receiver) {
-      return receiver.settleMessage(this, DispositionType.abandon,
-        { propertiesToModify: propertiesToModify });
+      return receiver.settleMessage(this, DispositionType.abandon, {
+        propertiesToModify: propertiesToModify
+      });
     } else {
       throw new Error(`Cannot find the receiver with name '${this.delivery.link.name}'.`);
     }
@@ -851,16 +908,23 @@ export class ServiceBusMessage implements ReceivedMessage {
    * @returns Promise<void>
    */
   async defer(propertiesToModify?: Dictionary<any>): Promise<void> {
-    log.message("[%s] Deferring the message with id '%s'.", this._context.namespace.connectionId,
-      this.messageId);
+    log.message(
+      "[%s] Deferring the message with id '%s'.",
+      this._context.namespace.connectionId,
+      this.messageId
+    );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
-      return this._context.managementClient!.updateDispositionStatus([this.lockToken!],
-        DispositionStatus.defered, { propertiesToModify: propertiesToModify });
+      return this._context.managementClient!.updateDispositionStatus(
+        [this.lockToken!],
+        DispositionStatus.defered,
+        { propertiesToModify: propertiesToModify }
+      );
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
     if (receiver) {
-      return receiver.settleMessage(this, DispositionType.defer,
-        { propertiesToModify: propertiesToModify });
+      return receiver.settleMessage(this, DispositionType.defer, {
+        propertiesToModify: propertiesToModify
+      });
     } else {
       throw new Error(`Cannot find the receiver with name '${this.delivery.link.name}'.`);
     }
@@ -880,19 +944,26 @@ export class ServiceBusMessage implements ReceivedMessage {
         description: options.deadLetterErrorDescription
       };
     }
-    log.message("[%s] Deadlettering the message with id '%s'.", this._context.namespace.connectionId,
-      this.messageId);
+    log.message(
+      "[%s] Deadlettering the message with id '%s'.",
+      this._context.namespace.connectionId,
+      this.messageId
+    );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
-      return this._context.managementClient!.updateDispositionStatus([this.lockToken!],
-        DispositionStatus.suspended, {
+      return this._context.managementClient!.updateDispositionStatus(
+        [this.lockToken!],
+        DispositionStatus.suspended,
+        {
           deadLetterReason: error.condition,
           deadLetterDescription: error.description
-        });
+        }
+      );
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
     if (receiver) {
-      return receiver.settleMessage(this, DispositionType.deadletter,
-        { error: error });
+      return receiver.settleMessage(this, DispositionType.deadletter, {
+        error: error
+      });
     } else {
       throw new Error(`Cannot find the receiver with name '${this.delivery.link.name}'.`);
     }

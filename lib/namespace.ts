@@ -3,13 +3,19 @@
 
 import * as log from "./log";
 import {
-  ApplicationTokenCredentials, DeviceTokenCredentials, UserTokenCredentials, MSITokenCredentials
+  ApplicationTokenCredentials,
+  DeviceTokenCredentials,
+  UserTokenCredentials,
+  MSITokenCredentials
 } from "ms-rest-azure";
 import { ConnectionContext } from "./connectionContext";
 import { QueueClientOptions, QueueClient } from "./queueClient";
 import { TopicClient } from "./topicClient";
 import {
-  ConnectionConfig, DataTransformer, TokenProvider, AadTokenProvider
+  ConnectionConfig,
+  DataTransformer,
+  TokenProvider,
+  AadTokenProvider
 } from "@azure/amqp-common";
 import { SubscriptionClient, SubscriptionClientOptions } from "./subscriptionClient";
 
@@ -104,12 +110,18 @@ export class Namespace {
    * creating a SubscriptionClient.
    * @returns SubscriptionClient.
    */
-  createSubscriptionClient(topicName: string, subscriptionName: string,
-    options?: SubscriptionClientOptions): SubscriptionClient {
+  createSubscriptionClient(
+    topicName: string,
+    subscriptionName: string,
+    options?: SubscriptionClientOptions
+  ): SubscriptionClient {
     const client = new SubscriptionClient(topicName, subscriptionName, this._context, options);
     this._context.clients[client.id] = client;
-    log.ns("Created the SubscriptionClient for Topic: %s and Subscription: %s",
-      topicName, subscriptionName);
+    log.ns(
+      "Created the SubscriptionClient for Topic: %s and Subscription: %s",
+      topicName,
+      subscriptionName
+    );
     return client;
   }
 
@@ -138,7 +150,8 @@ export class Namespace {
         log.ns("Closed the amqp connection '%s' on the client.", this._context.connectionId);
       }
     } catch (err) {
-      const msg = `An error occurred while closing the connection ` +
+      const msg =
+        `An error occurred while closing the connection ` +
         `"${this._context.connectionId}": ${JSON.stringify(err)}`;
       log.error(msg);
       throw new Error(msg);
@@ -152,7 +165,10 @@ export class Namespace {
    * @param {NamespaceOptions} [options] Options that can be provided during namespace creation.
    * @returns {Namespace} - An instance of the Namespace.
    */
-  static createFromConnectionString(connectionString: string, options?: NamespaceOptions): Namespace {
+  static createFromConnectionString(
+    connectionString: string,
+    options?: NamespaceOptions
+  ): Namespace {
     if (!connectionString || typeof connectionString !== "string") {
       throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
     }
@@ -171,7 +187,8 @@ export class Namespace {
   static createFromTokenProvider(
     host: string,
     tokenProvider: TokenProvider,
-    options?: NamespaceOptionsBase): Namespace {
+    options?: NamespaceOptionsBase
+  ): Namespace {
     if (!host || (host && typeof host !== "string")) {
       throw new Error("'host' is a required parameter and must be of type: 'string'.");
     }
@@ -179,7 +196,8 @@ export class Namespace {
       throw new Error("'tokenProvider' is a required parameter and must be of type: 'object'.");
     }
     if (!host.endsWith("/")) host += "/";
-    const connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;` +
+    const connectionString =
+      `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;` +
       `SharedAccessKey=defaultKeyValue`;
     if (!options) options = {};
     const nsOptions: NamespaceOptions = options;
@@ -199,16 +217,23 @@ export class Namespace {
    */
   static createFromAadTokenCredentials(
     host: string,
-    credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials,
-    options?: NamespaceOptions): Namespace {
+    credentials:
+      | ApplicationTokenCredentials
+      | UserTokenCredentials
+      | DeviceTokenCredentials
+      | MSITokenCredentials,
+    options?: NamespaceOptions
+  ): Namespace {
     if (!host || typeof host !== "string") {
       throw new Error("'host' is a required parameter and must be of type: 'string'.");
     }
 
     if (typeof credentials !== "object") {
-      throw new Error("'credentials' is a required parameter and must be an instance of " +
-        "ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | " +
-        "MSITokenCredentials.");
+      throw new Error(
+        "'credentials' is a required parameter and must be an instance of " +
+          "ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | " +
+          "MSITokenCredentials."
+      );
     }
     const tokenProvider = new AadTokenProvider(credentials);
     return Namespace.createFromTokenProvider(host, tokenProvider, options);

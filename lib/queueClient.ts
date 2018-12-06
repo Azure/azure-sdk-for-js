@@ -13,7 +13,10 @@ import { Client } from "./client";
 import { ReceiveMode, ReceiveOptions, OnError, OnMessage } from "./core/messageReceiver";
 import { ScheduleMessage, ListSessionsResponse } from "./core/managementClient";
 import {
-  MessageSession, AcceptSessionOptions, SessionHandlerOptions, OnSessionMessage
+  MessageSession,
+  AcceptSessionOptions,
+  SessionHandlerOptions,
+  OnSessionMessage
 } from "./session/messageSession";
 
 /**
@@ -79,7 +82,8 @@ export class QueueClient extends Client {
         log.qClient("Closed the Queue client '%s'.", this.id);
       }
     } catch (err) {
-      const msg = `An error occurred while closing the queue client ` +
+      const msg =
+        `An error occurred while closing the queue client ` +
         `"${this.id}": ${JSON.stringify(err)} `;
       log.error(msg);
       throw new Error(msg);
@@ -133,7 +137,8 @@ export class QueueClient extends Client {
   receive(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): ReceiveHandler {
     if (this._context.streamingReceiver && this._context.streamingReceiver.isOpen()) {
       const rcvr = this._context.streamingReceiver;
-      const msg = `A "${rcvr.receiverType}" receiver with id "${rcvr.name}" has already been ` +
+      const msg =
+        `A "${rcvr.receiverType}" receiver with id "${rcvr.name}" has already been ` +
         `created for the Queue "${this.name}". Another receive() call cannot be made while the ` +
         `previous one is active. Please stop the previous receive() by calling ` +
         `"receiveHandler.stop()".`;
@@ -165,16 +170,18 @@ export class QueueClient extends Client {
    * - **Default**: `2` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    */
-  async receiveBatch(maxMessageCount: number,
+  async receiveBatch(
+    maxMessageCount: number,
     maxWaitTimeInSeconds?: number,
-    maxMessageWaitTimeoutInSeconds?: number): Promise<ServiceBusMessage[]> {
-
+    maxMessageWaitTimeoutInSeconds?: number
+  ): Promise<ServiceBusMessage[]> {
     let bReceiver = this._context.batchingReceiver;
-    if (bReceiver
-      && bReceiver.isOpen()
-      && bReceiver.isReceivingMessages) {
-      const msg = `A "${bReceiver.receiverType}" receiver with id "${bReceiver.name}" has already been ` +
-        `created for the Queue "${this.name}". Another receiveBatch() call cannot be made while the ` +
+    if (bReceiver && bReceiver.isOpen() && bReceiver.isReceivingMessages) {
+      const msg =
+        `A "${bReceiver.receiverType}" receiver with id "${bReceiver.name}" has already been ` +
+        `created for the Queue "${
+          this.name
+        }". Another receiveBatch() call cannot be made while the ` +
         `previous one is active. Please wait for the previous receiveBatch() to complete and ` +
         `then call receiveBatch() again.`;
       throw new Error(msg);
@@ -189,12 +196,21 @@ export class QueueClient extends Client {
     }
 
     try {
-      return await bReceiver.receive(maxMessageCount, maxWaitTimeInSeconds,
-        maxMessageWaitTimeoutInSeconds);
+      return await bReceiver.receive(
+        maxMessageCount,
+        maxWaitTimeInSeconds,
+        maxMessageWaitTimeoutInSeconds
+      );
     } catch (err) {
-      log.error("[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
-        "max time:\n %O", this._context.namespace.connectionId, bReceiver.name, maxMessageCount,
-        maxWaitTimeInSeconds, err);
+      log.error(
+        "[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
+          "max time:\n %O",
+        this._context.namespace.connectionId,
+        bReceiver.name,
+        maxMessageCount,
+        maxWaitTimeInSeconds,
+        err
+      );
       throw err;
     }
   }
@@ -228,7 +244,10 @@ export class QueueClient extends Client {
    * @param [messageCount] The number of messages to retrieve. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    */
-  async peekBySequenceNumber(fromSequenceNumber: Long, messageCount?: number): Promise<ReceivedMessageInfo[]> {
+  async peekBySequenceNumber(
+    fromSequenceNumber: Long,
+    messageCount?: number
+  ): Promise<ReceivedMessageInfo[]> {
     return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
       messageCount: messageCount
     });
@@ -263,8 +282,7 @@ export class QueueClient extends Client {
     if (this.receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
-    return this._context.managementClient!.receiveDeferredMessage(sequenceNumber,
-      this.receiveMode);
+    return this._context.managementClient!.receiveDeferredMessage(sequenceNumber, this.receiveMode);
   }
 
   /**
@@ -279,8 +297,10 @@ export class QueueClient extends Client {
     if (this.receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
-    return this._context.managementClient!.receiveDeferredMessages(sequenceNumbers,
-      this.receiveMode);
+    return this._context.managementClient!.receiveDeferredMessages(
+      sequenceNumbers,
+      this.receiveMode
+    );
   }
 
   /**
@@ -297,7 +317,10 @@ export class QueueClient extends Client {
    * `const result = Long.toString();`. When deserializing it, please use
    * `Long.fromString("result");`. This will ensure that precision is preserved.
    */
-  async scheduleMessage(message: SendableMessageInfo, scheduledEnqueueTimeUtc: Date): Promise<Long> {
+  async scheduleMessage(
+    message: SendableMessageInfo,
+    scheduledEnqueueTimeUtc: Date
+  ): Promise<Long> {
     const scheduleMessages: ScheduleMessage[] = [
       { message: message, scheduledEnqueueTimeUtc: scheduledEnqueueTimeUtc }
     ];
@@ -347,13 +370,17 @@ export class QueueClient extends Client {
    * @param lastUpdateTime Filter to include only sessions updated after a given time. Default
    * value: 3 days ago from the current time.
    */
-  async listMessageSessions(skip: number, top: number, lastUpdatedTime?: Date): Promise<ListSessionsResponse> {
+  async listMessageSessions(
+    skip: number,
+    top: number,
+    lastUpdatedTime?: Date
+  ): Promise<ListSessionsResponse> {
     return this._context.managementClient!.listMessageSessions(skip, top, lastUpdatedTime);
   }
 
   /**
-   * 
-   * @param options 
+   *
+   * @param options
    */
   async acceptSession(options?: AcceptSessionOptions): Promise<MessageSession> {
     if (!options) options = {};
@@ -371,11 +398,14 @@ export class QueueClient extends Client {
   receiveMessgesFromSessions(
     onSessionMessage: OnSessionMessage,
     onError: OnError,
-    options?: SessionHandlerOptions): void {
+    options?: SessionHandlerOptions
+  ): void {
     if (this._context.sessionManager!.isManagingSessions) {
-      throw new Error(`QueueClient for Queue '${this.name}' is already receiving messages ` +
-        `from sessions. Please close this QueueClient or create a new one and receiveMessages ` +
-        `from Sessions.`);
+      throw new Error(
+        `QueueClient for Queue '${this.name}' is already receiving messages ` +
+          `from sessions. Please close this QueueClient or create a new one and receiveMessages ` +
+          `from Sessions.`
+      );
     }
     this._context.sessionManager!.manageMessageSessions(onSessionMessage, onError, options);
   }
