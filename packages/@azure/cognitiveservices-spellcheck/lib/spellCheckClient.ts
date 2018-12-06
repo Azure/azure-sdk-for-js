@@ -12,15 +12,15 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
-import { SpellCheckAPIClientContext } from "./spellCheckAPIClientContext";
+import { SpellCheckClientContext } from "./spellCheckClientContext";
 
-class SpellCheckAPIClient extends SpellCheckAPIClientContext {
+class SpellCheckClient extends SpellCheckClientContext {
   /**
-   * Initializes a new instance of the SpellCheckAPIClient class.
+   * Initializes a new instance of the SpellCheckClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.SpellCheckAPIClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.SpellCheckClientOptions) {
     super(credentials, options);
   }
 
@@ -37,7 +37,7 @@ class SpellCheckAPIClient extends SpellCheckAPIClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.SpellCheckerResponse>
    */
-  spellChecker(text: string, options?: Models.SpellCheckAPIClientSpellCheckerOptionalParams): Promise<Models.SpellCheckerResponse>;
+  spellChecker(text: string, options?: Models.SpellCheckClientSpellCheckerOptionalParams): Promise<Models.SpellCheckerResponse>;
   /**
    * @param text The text string to check for spelling and grammar errors. The combined length of the
    * text string, preContextText string, and postContextText string may not exceed 10,000 characters.
@@ -56,8 +56,8 @@ class SpellCheckAPIClient extends SpellCheckAPIClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  spellChecker(text: string, options: Models.SpellCheckAPIClientSpellCheckerOptionalParams, callback: msRest.ServiceCallback<Models.SpellCheck>): void;
-  spellChecker(text: string, options?: Models.SpellCheckAPIClientSpellCheckerOptionalParams | msRest.ServiceCallback<Models.SpellCheck>, callback?: msRest.ServiceCallback<Models.SpellCheck>): Promise<Models.SpellCheckerResponse> {
+  spellChecker(text: string, options: Models.SpellCheckClientSpellCheckerOptionalParams, callback: msRest.ServiceCallback<Models.SpellCheck>): void;
+  spellChecker(text: string, options?: Models.SpellCheckClientSpellCheckerOptionalParams | msRest.ServiceCallback<Models.SpellCheck>, callback?: msRest.ServiceCallback<Models.SpellCheck>): Promise<Models.SpellCheckerResponse> {
     return this.sendOperationRequest(
       {
         text,
@@ -115,8 +115,8 @@ const spellCheckerOperationSpec: msRest.OperationSpec = {
 };
 
 export {
-  SpellCheckAPIClient,
-  SpellCheckAPIClientContext,
-  Models as SpellCheckAPIModels,
-  Mappers as SpellCheckAPIMappers
+  SpellCheckClient,
+  SpellCheckClientContext,
+  Models as SpellCheckModels,
+  Mappers as SpellCheckMappers
 };

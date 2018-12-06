@@ -249,10 +249,10 @@ export interface ErrorResponse {
 
 /**
  * @interface
- * An interface representing SpellCheckAPIClientOptions.
+ * An interface representing SpellCheckClientOptions.
  * @extends ServiceClientOptions
  */
-export interface SpellCheckAPIClientOptions extends ServiceClientOptions {
+export interface SpellCheckClientOptions extends ServiceClientOptions {
   /**
    * @member {string} [endpoint] Supported Cognitive Services endpoints
    * (protocol and hostname, for example:
@@ -265,12 +265,12 @@ export interface SpellCheckAPIClientOptions extends ServiceClientOptions {
 
 /**
  * @interface
- * An interface representing SpellCheckAPIClientSpellCheckerOptionalParams.
+ * An interface representing SpellCheckClientSpellCheckerOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface SpellCheckAPIClientSpellCheckerOptionalParams extends msRest.RequestOptionsBase {
+export interface SpellCheckClientSpellCheckerOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [acceptLanguage] A comma-delimited list of one or more
    * languages to use for user interface strings. The list is in decreasing
