@@ -284,7 +284,7 @@ export interface EnvironmentUpdateParameters {
 export interface EnvironmentStateDetails {
   /**
    * @member {string} [code] Contains the code that represents the reason of an
-   * environment being in a particular state. Can be used to programatically
+   * environment being in a particular state. Can be used to programmatically
    * handle specific cases.
    */
   code?: string;
@@ -333,7 +333,7 @@ export interface EnvironmentStatus {
 /**
  * @interface
  * An interface representing EnvironmentResource.
- * An environment is a set of time-series data avaliable for query, and is the
+ * An environment is a set of time-series data available for query, and is the
  * top level Azure Time Series Insights resource.
  *
  * @extends TrackedResource
