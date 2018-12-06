@@ -59,7 +59,7 @@ export class Aborter implements AbortSignalLike {
    *
    * @memberof Aborter
    */
-  public onabort?: ((ev: Event) => any);
+  public onabort?: ((ev?: Event) => any);
 
   // tslint:disable-next-line:variable-name
   private _aborted: boolean = false;
@@ -193,7 +193,7 @@ export class Aborter implements AbortSignalLike {
     }
 
     this.abortEventListeners.forEach(listener => {
-      listener.call(this);
+      listener.call(this, undefined);
     });
 
     this.children.forEach(child => child.cancelByParent());
