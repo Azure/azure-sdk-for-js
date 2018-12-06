@@ -12,18 +12,18 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
-import { ImageSearchAPIClientContext } from "./imageSearchAPIClientContext";
+import { ImageSearchClientContext } from "./imageSearchClientContext";
 
-class ImageSearchAPIClient extends ImageSearchAPIClientContext {
+class ImageSearchClient extends ImageSearchClientContext {
   // Operation groups
   images: operations.ImagesOperations;
 
   /**
-   * Initializes a new instance of the ImageSearchAPIClient class.
+   * Initializes a new instance of the ImageSearchClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.ImageSearchAPIClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.ImageSearchClientOptions) {
     super(credentials, options);
     this.images = new operations.ImagesOperations(this);
   }
@@ -32,9 +32,9 @@ class ImageSearchAPIClient extends ImageSearchAPIClientContext {
 // Operation Specifications
 
 export {
-  ImageSearchAPIClient,
-  ImageSearchAPIClientContext,
-  Models as ImageSearchAPIModels,
-  Mappers as ImageSearchAPIMappers
+  ImageSearchClient,
+  ImageSearchClientContext,
+  Models as ImageSearchModels,
+  Mappers as ImageSearchMappers
 };
 export * from "./operations";
