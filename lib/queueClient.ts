@@ -399,7 +399,7 @@ export class QueueClient extends Client {
     onSessionMessage: OnSessionMessage,
     onError: OnError,
     options?: SessionHandlerOptions
-  ): void {
+  ): Promise<void> {
     if (this._context.sessionManager!.isManagingSessions) {
       throw new Error(
         `QueueClient for Queue '${this.name}' is already receiving messages ` +
@@ -407,6 +407,6 @@ export class QueueClient extends Client {
           `from Sessions.`
       );
     }
-    this._context.sessionManager!.manageMessageSessions(onSessionMessage, onError, options);
+    return this._context.sessionManager!.manageMessageSessions(onSessionMessage, onError, options);
   }
 }

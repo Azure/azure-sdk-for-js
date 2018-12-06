@@ -36,7 +36,7 @@
     "typescript": "^3.1.3"
   },
   "scripts": {
-    "tslint": "tslint -p . -c tslint.json --exclude examples/**/*.ts --exclude test/**/*.ts",
+    "tslint": "tslint -p . -c tslint.json --exclude 'examples/**/*.ts' --exclude 'test/**/*.ts'",
     "tsc": "tsc",
     "prebuild": "rimraf dist && rimraf typings",
     "build": "npm run tslint && npm run tsc",

@@ -73,7 +73,7 @@ export interface SQLExpression {
 
 /**
  * Represents the correlation filter expression.
- * A CorrelationFilter holds a set of conditions that are matched against one of more of an 
+ * A CorrelationFilter holds a set of conditions that are matched against one of more of an
  * arriving message's user and system properties.
  */
 export interface CorrelationFilter {
@@ -1036,9 +1036,9 @@ export class ManagementClient extends LinkEntity {
   }
 
   /**
-  * Get all the rules on the Subscription.
-  * @returns Promise<RuleDescription[]> A list of rules.
-  */
+   * Get all the rules on the Subscription.
+   * @returns Promise<RuleDescription[]> A list of rules.
+   */
   async getRules(): Promise<RuleDescription[]> {
     try {
       const request: AmqpMessage = {
@@ -1053,14 +1053,25 @@ export class ManagementClient extends LinkEntity {
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
 
-      log.mgmt("[%s] Get rules request body: %O.", this._context.namespace.connectionId,
-        request.body);
-      log.mgmt("[%s] Acquiring lock to get the management req res link.",
-        this._context.namespace.connectionId);
-      await defaultLock.acquire(this.managementLock, () => { return this._init(); });
+      log.mgmt(
+        "[%s] Get rules request body: %O.",
+        this._context.namespace.connectionId,
+        request.body
+      );
+      log.mgmt(
+        "[%s] Acquiring lock to get the management req res link.",
+        this._context.namespace.connectionId
+      );
+      await defaultLock.acquire(this.managementLock, () => {
+        return this._init();
+      });
 
       const response = await this._mgmtReqResLink!.sendRequest(request);
-      if (response.application_properties!.statusCode === 204 || !response.body || !Array.isArray(response.body.rules)) {
+      if (
+        response.application_properties!.statusCode === 204 ||
+        !response.body ||
+        !Array.isArray(response.body.rules)
+      ) {
         return [];
       }
 
@@ -1068,14 +1079,16 @@ export class ManagementClient extends LinkEntity {
       const result: { "rule-description": Typed }[] = response.body.rules || [];
       const rules: RuleDescription[] = [];
       result.forEach((x) => {
-        const ruleDescriptor = x['rule-description'];
+        const ruleDescriptor = x["rule-description"];
 
         // We use the first three elements of the `ruleDescriptor.value` to get filter, action, name
-        if (!ruleDescriptor
-          || !ruleDescriptor.descriptor
-          || ruleDescriptor.descriptor.value !== descriptorCodes.ruleDescriptionList
-          || !Array.isArray(ruleDescriptor.value)
-          || ruleDescriptor.value.length < 3) {
+        if (
+          !ruleDescriptor ||
+          !ruleDescriptor.descriptor ||
+          ruleDescriptor.descriptor.value !== descriptorCodes.ruleDescriptionList ||
+          !Array.isArray(ruleDescriptor.value) ||
+          ruleDescriptor.value.length < 3
+        ) {
           return;
         }
 
@@ -1111,32 +1124,36 @@ export class ManagementClient extends LinkEntity {
               sessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 5),
               replyToSessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 6),
               contentType: this._safelyGetTypedValueFromArray(filtersRawData.value, 7),
-              userProperties: this._safelyGetTypedValueFromArray(filtersRawData.value, 8),
+              userProperties: this._safelyGetTypedValueFromArray(filtersRawData.value, 8)
             };
             break;
           default:
-            log.mgmt(`Found unexpected descriptor code for the filter: ${filtersRawData.descriptor.value}`)
+            log.mgmt(
+              `Found unexpected descriptor code for the filter: ${filtersRawData.descriptor.value}`
+            );
             break;
         }
 
-        if (actionsRawData.descriptor.value === descriptorCodes.sqlRuleActionList
-          && Array.isArray(actionsRawData.value)
-          && actionsRawData.value.length) {
+        if (
+          actionsRawData.descriptor.value === descriptorCodes.sqlRuleActionList &&
+          Array.isArray(actionsRawData.value) &&
+          actionsRawData.value.length
+        ) {
           rule.action = {
             expression: this._safelyGetTypedValueFromArray(actionsRawData.value, 0)
           };
         }
 
         rules.push(rule);
-
       });
 
       return rules;
-
     } catch (err) {
       const error = translate(err);
-      log.error("An error occurred while sending the get rules request to $management " +
-        "endpoint: %O", error);
+      log.error(
+        "An error occurred while sending the get rules request to $management " + "endpoint: %O",
+        error
+      );
       throw error;
     }
   }
@@ -1161,18 +1178,26 @@ export class ManagementClient extends LinkEntity {
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
 
-      log.mgmt("[%s] Remove Rule request body: %O.", this._context.namespace.connectionId,
-        request.body);
-      log.mgmt("[%s] Acquiring lock to get the management req res link.",
-        this._context.namespace.connectionId);
-      await defaultLock.acquire(this.managementLock, () => { return this._init(); });
+      log.mgmt(
+        "[%s] Remove Rule request body: %O.",
+        this._context.namespace.connectionId,
+        request.body
+      );
+      log.mgmt(
+        "[%s] Acquiring lock to get the management req res link.",
+        this._context.namespace.connectionId
+      );
+      await defaultLock.acquire(this.managementLock, () => {
+        return this._init();
+      });
 
       await this._mgmtReqResLink!.sendRequest(request);
-
     } catch (err) {
       const error = translate(err);
-      log.error("An error occurred while sending the remove rule request to $management " +
-        "endpoint: %O", error);
+      log.error(
+        "An error occurred while sending the remove rule request to $management " + "endpoint: %O",
+        error
+      );
       throw error;
     }
   }
@@ -1183,7 +1208,11 @@ export class ManagementClient extends LinkEntity {
    * @param filter A Boolean, SQL expression or a Correlation filter
    * @param sqlRuleActionExpression Action to perform if the message satisfies the filtering expression
    */
-  async addRule(ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string): Promise<void> {
+  async addRule(
+    ruleName: string,
+    filter: boolean | string | CorrelationFilter,
+    sqlRuleActionExpression?: string
+  ): Promise<void> {
     if (!ruleName || typeof ruleName !== "string") {
       throw new Error("Cannot add rule. Rule name is missing or is not a string.");
     }
@@ -1210,13 +1239,13 @@ export class ManagementClient extends LinkEntity {
           ruleDescription["correlation-filter"] = {
             "correlation-id": filter.correlationId,
             "message-id": filter.messageId,
-            "to": filter.to,
+            to: filter.to,
             "reply-to": filter.replyTo,
-            "label": filter.label,
+            label: filter.label,
             "session-id": filter.sessionId,
             "reply-to-session-id": filter.replyToSessionId,
             "content-type": filter.contentType,
-            "properties": filter.userProperties
+            properties: filter.userProperties
           };
           break;
       }
@@ -1237,21 +1266,29 @@ export class ManagementClient extends LinkEntity {
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
 
-      log.mgmt("[%s] Add Rule request body: %O.", this._context.namespace.connectionId,
-        request.body);
-      log.mgmt("[%s] Acquiring lock to get the management req res link.",
-        this._context.namespace.connectionId);
-      await defaultLock.acquire(this.managementLock, () => { return this._init(); });
+      log.mgmt(
+        "[%s] Add Rule request body: %O.",
+        this._context.namespace.connectionId,
+        request.body
+      );
+      log.mgmt(
+        "[%s] Acquiring lock to get the management req res link.",
+        this._context.namespace.connectionId
+      );
+      await defaultLock.acquire(this.managementLock, () => {
+        return this._init();
+      });
 
       await this._mgmtReqResLink!.sendRequest(request);
     } catch (err) {
       const error = translate(err);
-      log.error("An error occurred while sending the Add rule request to $management " +
-        "endpoint: %O", error);
+      log.error(
+        "An error occurred while sending the Add rule request to $management " + "endpoint: %O",
+        error
+      );
       throw error;
     }
   }
-
 
   /**
    * @ignore
@@ -1325,9 +1362,11 @@ export class ManagementClient extends LinkEntity {
   }
 
   /**
-  * Given array of typed values, returns the element in given index
-  */
+   * Given array of typed values, returns the element in given index
+   */
   private _safelyGetTypedValueFromArray(data: Typed[], index: number): any {
-    return (Array.isArray(data) && data.length > index && data[index]) ? data[index].value : undefined;
+    return Array.isArray(data) && data.length > index && data[index]
+      ? data[index].value
+      : undefined;
   }
 }
