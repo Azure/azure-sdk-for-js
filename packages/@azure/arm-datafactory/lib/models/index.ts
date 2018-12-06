@@ -12669,6 +12669,30 @@ export interface LookupActivity {
 
 /**
  * @interface
+ * An interface representing LogStorageSettings.
+ * Log storage settings.
+ *
+ */
+export interface LogStorageSettings {
+  /**
+   * @member {LinkedServiceReference} linkedServiceName Log storage linked
+   * service reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * @member {any} [path] The path to storage for storing detailed logs of
+   * activity execution. Type: string (or Expression with resultType string).
+   */
+  path?: any;
+  /**
+   * @property Describes unknown properties. The value of an unknown property
+   * can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * @interface
  * An interface representing DeleteActivity.
  * Delete activity.
  *
@@ -12704,11 +12728,27 @@ export interface DeleteActivity {
    */
   policy?: ActivityPolicy;
   /**
-   * @member {any} [recursive] If true, files under the folder path will be
-   * deleted recursively. Default is true. Type: boolean (or Expression with
-   * resultType boolean).
+   * @member {any} [recursive] If true, files or sub-folders under current
+   * folder path will be deleted recursively. Default is false. Type: boolean
+   * (or Expression with resultType boolean).
    */
   recursive?: any;
+  /**
+   * @member {number} [maxConcurrentConnections] The max concurrent connections
+   * to connect data source at the same time.
+   */
+  maxConcurrentConnections?: number;
+  /**
+   * @member {any} [enableLogging] Whether to record detailed logs of
+   * delete-activity execution. Default value is false. Type: boolean (or
+   * Expression with resultType boolean).
+   */
+  enableLogging?: any;
+  /**
+   * @member {LogStorageSettings} [logStorageSettings] Log storage settings
+   * customer need to provide when enableLogging is true.
+   */
+  logStorageSettings?: LogStorageSettings;
   /**
    * @member {DatasetReference} dataset Delete activity dataset reference.
    */
