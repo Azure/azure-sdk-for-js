@@ -55,8 +55,12 @@ export abstract class Client {
     try {
       await this._context.detached(error);
     } catch (err) {
-      log.error("[%s] [%s] An error occurred while reconnecting the client: %O.",
-        this._context.namespace.connectionId, this.id, err);
+      log.error(
+        "[%s] [%s] An error occurred while reconnecting the client: %O.",
+        this._context.namespace.connectionId,
+        this.id,
+        err
+      );
     }
   }
 

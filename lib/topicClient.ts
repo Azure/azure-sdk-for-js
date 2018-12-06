@@ -10,8 +10,6 @@ import { SendableMessageInfo } from "./serviceBusMessage";
 import { Client } from "./client";
 import { ScheduleMessage } from "./core/managementClient";
 
-
-
 /**
  * Describes the TopicClient that is used to interact with a ServiceBus Topic.
  * @class TopicClient
@@ -44,7 +42,8 @@ export class TopicClient extends Client {
         log.topicClient("Closed the topic client '%s'.", this.id);
       }
     } catch (err) {
-      const msg = `An error occurred while closing the topic client ` +
+      const msg =
+        `An error occurred while closing the topic client ` +
         `"${this.id}": ${JSON.stringify(err)} `;
       log.error(msg);
       throw new Error(msg);
@@ -100,7 +99,10 @@ export class TopicClient extends Client {
    * `const result = Long.toString();`. When deserializing it, please use
    * `Long.fromString("result");`. This will ensure that precision is preserved.
    */
-  async scheduleMessage(message: SendableMessageInfo, scheduledEnqueueTimeUtc: Date): Promise<Long> {
+  async scheduleMessage(
+    message: SendableMessageInfo,
+    scheduledEnqueueTimeUtc: Date
+  ): Promise<Long> {
     const scheduleMessages: ScheduleMessage[] = [
       { message: message, scheduledEnqueueTimeUtc: scheduledEnqueueTimeUtc }
     ];

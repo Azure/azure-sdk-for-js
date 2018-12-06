@@ -1,11 +1,15 @@
-
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { Constants } from "@azure/amqp-common";
 import { ReceiverEvents } from "rhea-promise";
 import {
-  MessageReceiver, ReceiveOptions, OnMessage, OnError, ReceiverType, ReceiveMode
+  MessageReceiver,
+  ReceiveOptions,
+  OnMessage,
+  OnError,
+  ReceiverType,
+  ReceiveMode
 } from "./messageReceiver";
 import { ClientEntityContext } from "../clientEntityContext";
 
@@ -82,8 +86,12 @@ export class ReceiveHandler {
       try {
         await this._receiver.close();
       } catch (err) {
-        log.error("An error occurred while stopping the receiver '%s' with address '%s': %O",
-          this._receiver.name, this._receiver.address, err);
+        log.error(
+          "An error occurred while stopping the receiver '%s' with address '%s': %O",
+          this._receiver.name,
+          this._receiver.address,
+          err
+        );
       }
     }
   }
@@ -160,16 +168,22 @@ export class StreamingReceiver extends MessageReceiver {
       // It is possible that the receiver link has been established due to a previous receive() call. If that
       // is the case then add message and error event handlers to the receiver. When the receiver will be closed
       // these handlers will be automatically removed.
-      log.streaming("[%s] Receiver link is already present for '%s' due to previous receive() calls. " +
-        "Hence reusing it and attaching message and error handlers.",
-        this._context.namespace.connectionId, this.name);
+      log.streaming(
+        "[%s] Receiver link is already present for '%s' due to previous receive() calls. " +
+          "Hence reusing it and attaching message and error handlers.",
+        this._context.namespace.connectionId,
+        this.name
+      );
       this._receiver!.on(ReceiverEvents.message, this._onAmqpMessage);
       this._receiver!.on(ReceiverEvents.receiverError, this._onAmqpError);
       this._receiver!.setCreditWindow(Constants.defaultPrefetchCount);
       this._receiver!.addCredit(Constants.defaultPrefetchCount);
-      log.streaming("[%s] Receiver '%s', set the prefetch count to 1000 and " +
-        "providing a credit of the same amount.",
-        this._context.namespace.connectionId, this.name);
+      log.streaming(
+        "[%s] Receiver '%s', set the prefetch count to 1000 and " +
+          "providing a credit of the same amount.",
+        this._context.namespace.connectionId,
+        this.name
+      );
     }
     return this.receiveHandler;
   }

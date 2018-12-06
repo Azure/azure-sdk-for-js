@@ -9,7 +9,7 @@ import { BatchingReceiver } from "./core/batchingReceiver";
 import { ServiceBusMessage, ReceivedMessageInfo } from "./serviceBusMessage";
 import { Client } from "./client";
 import { ReceiveMode } from "./core/messageReceiver";
-import { CorrelationFilter, RuleDescription } from './core/managementClient';
+import { CorrelationFilter, RuleDescription } from "./core/managementClient";
 
 /**
  * Describes the options that can be provided while creating the SubscriptionClient.
@@ -52,7 +52,12 @@ export class SubscriptionClient extends Client {
    * @param context - The connection context to create the SubscriptionClient.
    * @param [options] - The SubscriptionClient options.
    */
-  constructor(topicPath: string, subscriptionName: string, context: ConnectionContext, options?: SubscriptionClientOptions) {
+  constructor(
+    topicPath: string,
+    subscriptionName: string,
+    context: ConnectionContext,
+    options?: SubscriptionClientOptions
+  ) {
     super(`${topicPath}/Subscriptions/${subscriptionName}`, context);
     if (!options) options = {};
     this.topicPath = topicPath;
@@ -79,7 +84,8 @@ export class SubscriptionClient extends Client {
         log.subscriptionClient("Closed the subscription client '%s'.", this.id);
       }
     } catch (err) {
-      const msg = `An error occurred while closing the subscription client ` +
+      const msg =
+        `An error occurred while closing the subscription client ` +
         `"${this.id}": ${JSON.stringify(err)} `;
       log.error(msg);
       throw new Error(msg);
@@ -98,8 +104,10 @@ export class SubscriptionClient extends Client {
    * @returns ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
    */
   receive(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): ReceiveHandler {
-    if (!this._context.streamingReceiver ||
-      (this._context.streamingReceiver && !this._context.streamingReceiver.isOpen())) {
+    if (
+      !this._context.streamingReceiver ||
+      (this._context.streamingReceiver && !this._context.streamingReceiver.isOpen())
+    ) {
       if (!options) options = {};
       const rcvOptions: ReceiveOptions = {
         maxConcurrentCalls: options.maxConcurrentCalls || 1,
@@ -111,8 +119,11 @@ export class SubscriptionClient extends Client {
       return sReceiver.receive(onMessage, onError);
     } else {
       const rcvr = this._context.streamingReceiver;
-      const msg = `A "${rcvr.receiverType}" receiver with id "${rcvr.name}" has already been ` +
-        `created for the Subscription "${this.name}". Another receive() call cannot be made while ` +
+      const msg =
+        `A "${rcvr.receiverType}" receiver with id "${rcvr.name}" has already been ` +
+        `created for the Subscription "${
+          this.name
+        }". Another receive() call cannot be made while ` +
         `the previous one is active. Please stop the previous receive() by calling ` +
         `"receiveHandler.stop()".`;
       throw new Error(msg);
@@ -132,16 +143,18 @@ export class SubscriptionClient extends Client {
    * - **Default**: `2` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    */
-  async receiveBatch(maxMessageCount: number,
+  async receiveBatch(
+    maxMessageCount: number,
     maxWaitTimeInSeconds?: number,
-    maxMessageWaitTimeoutInSeconds?: number): Promise<ServiceBusMessage[]> {
-
+    maxMessageWaitTimeoutInSeconds?: number
+  ): Promise<ServiceBusMessage[]> {
     let bReceiver = this._context.batchingReceiver;
-    if (bReceiver
-      && bReceiver.isOpen()
-      && bReceiver.isReceivingMessages) {
-      const msg = `A "${bReceiver.receiverType}" receiver with id "${bReceiver.name}" has already been ` +
-        `created for the Subscription "${this.name}". Another receiveBatch() call cannot be made while the ` +
+    if (bReceiver && bReceiver.isOpen() && bReceiver.isReceivingMessages) {
+      const msg =
+        `A "${bReceiver.receiverType}" receiver with id "${bReceiver.name}" has already been ` +
+        `created for the Subscription "${
+          this.name
+        }". Another receiveBatch() call cannot be made while the ` +
         `previous one is active. Please wait for the previous receiveBatch() to complete and ` +
         `then call receiveBatch() again.`;
       throw new Error(msg);
@@ -156,12 +169,21 @@ export class SubscriptionClient extends Client {
     }
 
     try {
-      return await bReceiver.receive(maxMessageCount, maxWaitTimeInSeconds,
-        maxMessageWaitTimeoutInSeconds);
+      return await bReceiver.receive(
+        maxMessageCount,
+        maxWaitTimeInSeconds,
+        maxMessageWaitTimeoutInSeconds
+      );
     } catch (err) {
-      log.error("[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
-        "max time:\n %O", this._context.namespace.connectionId, bReceiver.name, maxMessageCount,
-        maxWaitTimeInSeconds, err);
+      log.error(
+        "[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
+          "max time:\n %O",
+        this._context.namespace.connectionId,
+        bReceiver.name,
+        maxMessageCount,
+        maxWaitTimeInSeconds,
+        err
+      );
       throw err;
     }
   }
@@ -195,7 +217,10 @@ export class SubscriptionClient extends Client {
    * @param [messageCount] The number of messages to retrieve. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    */
-  async peekBySequenceNumber(fromSequenceNumber: Long, messageCount?: number): Promise<ReceivedMessageInfo[]> {
+  async peekBySequenceNumber(
+    fromSequenceNumber: Long,
+    messageCount?: number
+  ): Promise<ReceivedMessageInfo[]> {
     return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
       messageCount: messageCount
     });
@@ -230,8 +255,7 @@ export class SubscriptionClient extends Client {
     if (this.receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
-    return this._context.managementClient!.receiveDeferredMessage(sequenceNumber,
-      this.receiveMode);
+    return this._context.managementClient!.receiveDeferredMessage(sequenceNumber, this.receiveMode);
   }
 
   /**
@@ -246,8 +270,10 @@ export class SubscriptionClient extends Client {
     if (this.receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
-    return this._context.managementClient!.receiveDeferredMessages(sequenceNumbers,
-      this.receiveMode);
+    return this._context.managementClient!.receiveDeferredMessages(
+      sequenceNumbers,
+      this.receiveMode
+    );
   }
 
   //#region topic-filters
@@ -267,19 +293,22 @@ export class SubscriptionClient extends Client {
     return this._context.managementClient!.removeRule(ruleName);
   }
 
-
   /**
    * Adds a rule on the subscription as defined by the given rule name, filter and action.
    * Remember to remove the default true filter on the subscription before adding a rule,
    * otherwise, the added rule will have no affect as the true filter will always result in
    * the subscription receiving all messages.
    * @param ruleName Name of the rule
-   * @param filter A Boolean, SQL expression or a Correlation filter. For SQL Filter syntax, see 
+   * @param filter A Boolean, SQL expression or a Correlation filter. For SQL Filter syntax, see
    * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-sql-filter SQLFilter syntax}.
-   * @param sqlRuleActionExpression Action to perform if the message satisfies the filtering expression. For SQL Rule Action syntax, 
+   * @param sqlRuleActionExpression Action to perform if the message satisfies the filtering expression. For SQL Rule Action syntax,
    * see {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-sql-rule-action SQLRuleAction syntax}.
    */
-  async addRule(ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string): Promise<void> {
+  async addRule(
+    ruleName: string,
+    filter: boolean | string | CorrelationFilter,
+    sqlRuleActionExpression?: string
+  ): Promise<void> {
     return this._context.managementClient!.addRule(ruleName, filter, sqlRuleActionExpression);
   }
 

@@ -121,7 +121,10 @@ export function calculateRenewAfterDuration(lockedUntilUtc: Date): number {
 export function convertTicksToDate(buf: number[]): Date {
   const epochMicroDiff: number = 621355968000000000;
   const longValue: Long = Long.fromBytesBE(buf);
-  const timeInMS = longValue.sub(epochMicroDiff).div(10000).toNumber();
+  const timeInMS = longValue
+    .sub(epochMicroDiff)
+    .div(10000)
+    .toNumber();
   const result = new Date(timeInMS);
   log.utils("The converted date is: %s", result.toString());
   return result;
@@ -145,9 +148,12 @@ export function getProcessorCount(): number {
  */
 export function toBuffer(input: any): Buffer {
   let result: any;
-  log.utils("[utils.toBuffer] The given message body that needs to be converted to buffer is: ", input);
+  log.utils(
+    "[utils.toBuffer] The given message body that needs to be converted to buffer is: ",
+    input
+  );
   if (isBuffer(input)) {
-    result = input
+    result = input;
   } else {
     // string, undefined, null, boolean, array, object, number should end up here
     // coercing undefined to null as that will ensure that null value will be given to the
@@ -157,8 +163,10 @@ export function toBuffer(input: any): Buffer {
       const inputStr = JSON.stringify(input);
       result = Buffer.from(inputStr, "utf8");
     } catch (err) {
-      const msg = `An error occurred while executing JSON.stringify() on the given input ` + input
-        + `${err ? err.stack : JSON.stringify(err)}`;
+      const msg =
+        `An error occurred while executing JSON.stringify() on the given input ` +
+        input +
+        `${err ? err.stack : JSON.stringify(err)}`;
       log.error("[utils.toBuffer] " + msg);
       throw new Error(msg);
     }
