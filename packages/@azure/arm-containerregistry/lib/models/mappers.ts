@@ -389,6 +389,53 @@ export const StorageAccountProperties: msRest.CompositeMapper = {
   }
 };
 
+export const VirtualNetworkRule: msRest.CompositeMapper = {
+  serializedName: "VirtualNetworkRule",
+  type: {
+    name: "Composite",
+    className: "VirtualNetworkRule",
+    modelProperties: {
+      id: {
+        required: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NetworkRuleSet: msRest.CompositeMapper = {
+  serializedName: "NetworkRuleSet",
+  type: {
+    name: "Composite",
+    className: "NetworkRuleSet",
+    modelProperties: {
+      defaultAction: {
+        required: true,
+        serializedName: "defaultAction",
+        defaultValue: 'Allow',
+        type: {
+          name: "String"
+        }
+      },
+      virtualNetworkRules: {
+        serializedName: "virtualNetworkRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VirtualNetworkRule"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
@@ -495,6 +542,13 @@ export const Registry: msRest.CompositeMapper = {
           name: "Composite",
           className: "StorageAccountProperties"
         }
+      },
+      networkRuleSet: {
+        serializedName: "properties.networkRuleSet",
+        type: {
+          name: "Composite",
+          className: "NetworkRuleSet"
+        }
       }
     }
   }
@@ -535,6 +589,13 @@ export const RegistryUpdateParameters: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "StorageAccountProperties"
+        }
+      },
+      networkRuleSet: {
+        serializedName: "properties.networkRuleSet",
+        type: {
+          name: "Composite",
+          className: "NetworkRuleSet"
         }
       }
     }
