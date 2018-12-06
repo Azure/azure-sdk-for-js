@@ -12,18 +12,18 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
-import { CustomImageSearchAPIClientContext } from "./customImageSearchAPIClientContext";
+import { CustomImageSearchClientContext } from "./customImageSearchClientContext";
 
-class CustomImageSearchAPIClient extends CustomImageSearchAPIClientContext {
+class CustomImageSearchClient extends CustomImageSearchClientContext {
   // Operation groups
   customInstance: operations.CustomInstance;
 
   /**
-   * Initializes a new instance of the CustomImageSearchAPIClient class.
+   * Initializes a new instance of the CustomImageSearchClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.CustomImageSearchAPIClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.CustomImageSearchClientOptions) {
     super(credentials, options);
     this.customInstance = new operations.CustomInstance(this);
   }
@@ -32,9 +32,9 @@ class CustomImageSearchAPIClient extends CustomImageSearchAPIClientContext {
 // Operation Specifications
 
 export {
-  CustomImageSearchAPIClient,
-  CustomImageSearchAPIClientContext,
-  Models as CustomImageSearchAPIModels,
-  Mappers as CustomImageSearchAPIMappers
+  CustomImageSearchClient,
+  CustomImageSearchClientContext,
+  Models as CustomImageSearchModels,
+  Mappers as CustomImageSearchMappers
 };
 export * from "./operations";
