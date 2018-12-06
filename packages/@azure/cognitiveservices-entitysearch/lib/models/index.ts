@@ -1203,7 +1203,7 @@ export interface PostalAddress {
    */
   readonly addressCountry?: string;
   /**
-   * @member {string} [countryIso] The two letter ISO code of this countr. For
+   * @member {string} [countryIso] The two letter ISO code of this country. For
    * example, US.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -2738,10 +2738,10 @@ export interface Hotel {
 
 /**
  * @interface
- * An interface representing EntitySearchAPIClientOptions.
+ * An interface representing EntitySearchClientOptions.
  * @extends ServiceClientOptions
  */
-export interface EntitySearchAPIClientOptions extends ServiceClientOptions {
+export interface EntitySearchClientOptions extends ServiceClientOptions {
   /**
    * @member {string} [endpoint] Supported Cognitive Services endpoints
    * (protocol and hostname, for example:
