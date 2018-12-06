@@ -695,10 +695,10 @@ export interface Query {
 
 /**
  * @interface
- * An interface representing CustomSearchAPIClientOptions.
+ * An interface representing CustomSearchClientOptions.
  * @extends ServiceClientOptions
  */
-export interface CustomSearchAPIClientOptions extends ServiceClientOptions {
+export interface CustomSearchClientOptions extends ServiceClientOptions {
   /**
    * @member {string} [endpoint] Supported Cognitive Services endpoints
    * (protocol and hostname, for example:
