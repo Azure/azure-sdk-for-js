@@ -11179,6 +11179,36 @@ export const LookupActivity: msRest.CompositeMapper = {
   }
 };
 
+export const LogStorageSettings: msRest.CompositeMapper = {
+  serializedName: "LogStorageSettings",
+  type: {
+    name: "Composite",
+    className: "LogStorageSettings",
+    modelProperties: {
+      linkedServiceName: {
+        required: true,
+        serializedName: "linkedServiceName",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      },
+      path: {
+        serializedName: "path",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
 export const DeleteActivity: msRest.CompositeMapper = {
   serializedName: "Delete",
   type: {
@@ -11192,6 +11222,33 @@ export const DeleteActivity: msRest.CompositeMapper = {
         serializedName: "typeProperties.recursive",
         type: {
           name: "Object"
+        }
+      },
+      maxConcurrentConnections: {
+        serializedName: "typeProperties.maxConcurrentConnections",
+        constraints: {
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      enableLogging: {
+        serializedName: "typeProperties.enableLogging",
+        type: {
+          name: "Object"
+        }
+      },
+      logStorageSettings: {
+        serializedName: "typeProperties.logStorageSettings",
+        type: {
+          name: "Composite",
+          className: "LogStorageSettings",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
         }
       },
       dataset: {

@@ -224,6 +224,7 @@ export {
   LookupActivity,
   CopySource,
   DeleteActivity,
+  LogStorageSettings,
   SqlServerStoredProcedureActivity,
   StoredProcedureParameter,
   CustomActivity,
