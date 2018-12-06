@@ -2045,10 +2045,10 @@ export interface StructuredValue {
 
 /**
  * @interface
- * An interface representing WebSearchAPIClientOptions.
+ * An interface representing WebSearchClientOptions.
  * @extends ServiceClientOptions
  */
-export interface WebSearchAPIClientOptions extends ServiceClientOptions {
+export interface WebSearchClientOptions extends ServiceClientOptions {
   /**
    * @member {string} [endpoint] Supported Cognitive Services endpoints
    * (protocol and hostname, for example:
