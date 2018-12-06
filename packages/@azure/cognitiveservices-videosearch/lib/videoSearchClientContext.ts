@@ -14,16 +14,16 @@ import * as Models from "./models";
 const packageName = "@azure/cognitiveservices-videosearch";
 const packageVersion = "0.1.0";
 
-export class VideoSearchAPIClientContext extends msRest.ServiceClient {
+export class VideoSearchClientContext extends msRest.ServiceClient {
   endpoint?: string;
   credentials: msRest.ServiceClientCredentials;
 
   /**
-   * Initializes a new instance of the VideoSearchAPIClientContext class.
+   * Initializes a new instance of the VideoSearchClientContext class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.VideoSearchAPIClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.VideoSearchClientOptions) {
     if (credentials === null || credentials === undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
