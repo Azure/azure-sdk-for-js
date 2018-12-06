@@ -228,7 +228,7 @@ export interface FactoryRepoConfiguration {
    */
   accountName: string;
   /**
-   * @member {string} repositoryName Rrepository name.
+   * @member {string} repositoryName Repository name.
    */
   repositoryName: string;
   /**
@@ -697,11 +697,11 @@ export interface ActivityDependency {
  */
 export interface UserProperty {
   /**
-   * @member {string} name User proprety name.
+   * @member {string} name User property name.
    */
   name: string;
   /**
-   * @member {any} value User proprety value. Type: string (or Expression with
+   * @member {any} value User property value. Type: string (or Expression with
    * resultType string).
    */
   value: any;
@@ -905,7 +905,7 @@ export interface FactoryVSTSConfiguration {
    */
   accountName: string;
   /**
-   * @member {string} repositoryName Rrepository name.
+   * @member {string} repositoryName Repository name.
    */
   repositoryName: string;
   /**
@@ -946,7 +946,7 @@ export interface FactoryGitHubConfiguration {
    */
   accountName: string;
   /**
-   * @member {string} repositoryName Rrepository name.
+   * @member {string} repositoryName Repository name.
    */
   repositoryName: string;
   /**
@@ -1018,6 +1018,63 @@ export interface GitHubAccessTokenResponse {
    * @member {string} [gitHubAccessToken] GitHub access token.
    */
   gitHubAccessToken?: string;
+}
+
+/**
+ * @interface
+ * An interface representing UserAccessPolicy.
+ * Get Data Plane read only token request definition.
+ *
+ */
+export interface UserAccessPolicy {
+  /**
+   * @member {string} [permissions] The string with permissions for Data Plane
+   * access. Currently only 'r' is supported which grants read only access.
+   */
+  permissions?: string;
+  /**
+   * @member {string} [accessResourcePath] The resource path to get access
+   * relative to factory. Currently only empty string is supported which
+   * corresponds to the factory resource.
+   */
+  accessResourcePath?: string;
+  /**
+   * @member {string} [profileName] The name of the profile. Currently only the
+   * default is supported. The default value is DefaultProfile.
+   */
+  profileName?: string;
+  /**
+   * @member {string} [startTime] Start time for the token. If not specified
+   * the current time will be used.
+   */
+  startTime?: string;
+  /**
+   * @member {string} [expireTime] Expiration time for the token. Maximum
+   * duration for the token is eight hours and by default the token will expire
+   * in eight hours.
+   */
+  expireTime?: string;
+}
+
+/**
+ * @interface
+ * An interface representing AccessPolicyResponse.
+ * Get Data Plane read only token response definition.
+ *
+ */
+export interface AccessPolicyResponse {
+  /**
+   * @member {UserAccessPolicy} [policy] The user access policy.
+   */
+  policy?: UserAccessPolicy;
+  /**
+   * @member {string} [accessToken] Data Plane read only access token.
+   */
+  accessToken?: string;
+  /**
+   * @member {string} [dataPlaneUrl] Data Plane service base URL.
+   */
+  dataPlaneUrl?: string;
 }
 
 /**
@@ -2007,7 +2064,7 @@ export interface MultiplePipelineTrigger {
 /**
  * @interface
  * An interface representing BlobEventsTrigger.
- * Trigger that runs everytime a Blob event occurs.
+ * Trigger that runs every time a Blob event occurs.
  *
  */
 export interface BlobEventsTrigger {
@@ -2061,7 +2118,7 @@ export interface BlobEventsTrigger {
 /**
  * @interface
  * An interface representing BlobTrigger.
- * Trigger that runs everytime the selected Blob container changes.
+ * Trigger that runs every time the selected Blob container changes.
  *
  */
 export interface BlobTrigger {
@@ -2106,7 +2163,7 @@ export interface BlobTrigger {
 /**
  * @interface
  * An interface representing RecurrenceScheduleOccurrence.
- * The recurrence schedule occurence.
+ * The recurrence schedule occurrence.
  *
  */
 export interface RecurrenceScheduleOccurrence {
@@ -2802,6 +2859,11 @@ export interface NetezzaLinkedService {
    */
   connectionString?: any;
   /**
+   * @member {AzureKeyVaultSecretReference} [pwd] The Azure key vault secret
+   * reference of password in connection string.
+   */
+  pwd?: AzureKeyVaultSecretReference;
+  /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
    * credential manager. Type: string (or Expression with resultType string).
@@ -2844,6 +2906,11 @@ export interface VerticaLinkedService {
    * SecureString or AzureKeyVaultSecretReference.
    */
   connectionString?: any;
+  /**
+   * @member {AzureKeyVaultSecretReference} [pwd] The Azure key vault secret
+   * reference of password in connection string.
+   */
+  pwd?: AzureKeyVaultSecretReference;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -2920,7 +2987,7 @@ export interface ZohoLinkedService {
 /**
  * @interface
  * An interface representing XeroLinkedService.
- * Xero Serivce linked service.
+ * Xero Service linked service.
  *
  */
 export interface XeroLinkedService {
@@ -2991,7 +3058,7 @@ export interface XeroLinkedService {
 /**
  * @interface
  * An interface representing SquareLinkedService.
- * Square Serivce linked service.
+ * Square Service linked service.
  *
  */
 export interface SquareLinkedService {
@@ -3175,7 +3242,7 @@ export interface SparkLinkedService {
 /**
  * @interface
  * An interface representing ShopifyLinkedService.
- * Shopify Serivce linked service.
+ * Shopify Service linked service.
  *
  */
 export interface ShopifyLinkedService {
@@ -3605,7 +3672,7 @@ export interface PhoenixLinkedService {
 /**
  * @interface
  * An interface representing PaypalLinkedService.
- * Paypal Serivce linked service.
+ * Paypal Service linked service.
  *
  */
 export interface PaypalLinkedService {
@@ -3777,6 +3844,11 @@ export interface MariaDBLinkedService {
    */
   connectionString?: any;
   /**
+   * @member {AzureKeyVaultSecretReference} [pwd] The Azure key vault secret
+   * reference of password in connection string.
+   */
+  pwd?: AzureKeyVaultSecretReference;
+  /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
    * credential manager. Type: string (or Expression with resultType string).
@@ -3851,7 +3923,7 @@ export interface MagentoLinkedService {
 /**
  * @interface
  * An interface representing JiraLinkedService.
- * Jira Serivce linked service.
+ * Jira Service linked service.
  *
  */
 export interface JiraLinkedService {
@@ -4019,7 +4091,7 @@ export interface ImpalaLinkedService {
 /**
  * @interface
  * An interface representing HubspotLinkedService.
- * Hubspot Serivce linked service.
+ * Hubspot Service linked service.
  *
  */
 export interface HubspotLinkedService {
@@ -4342,6 +4414,11 @@ export interface GreenplumLinkedService {
    */
   connectionString?: any;
   /**
+   * @member {AzureKeyVaultSecretReference} [pwd] The Azure key vault secret
+   * reference of password in connection string.
+   */
+  pwd?: AzureKeyVaultSecretReference;
+  /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
    * credential manager. Type: string (or Expression with resultType string).
@@ -4555,6 +4632,11 @@ export interface DrillLinkedService {
    */
   connectionString?: any;
   /**
+   * @member {AzureKeyVaultSecretReference} [pwd] The Azure key vault secret
+   * reference of password in connection string.
+   */
+  pwd?: AzureKeyVaultSecretReference;
+  /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
    * credential manager. Type: string (or Expression with resultType string).
@@ -4598,6 +4680,11 @@ export interface CouchbaseLinkedService {
    */
   connectionString?: any;
   /**
+   * @member {AzureKeyVaultSecretReference} [credString] The Azure key vault
+   * secret reference of credString in connection string.
+   */
+  credString?: AzureKeyVaultSecretReference;
+  /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
    * credential manager. Type: string (or Expression with resultType string).
@@ -4608,7 +4695,7 @@ export interface CouchbaseLinkedService {
 /**
  * @interface
  * An interface representing ConcurLinkedService.
- * Concur Serivce linked service.
+ * Concur Service linked service.
  *
  */
 export interface ConcurLinkedService {
@@ -4711,6 +4798,11 @@ export interface AzurePostgreSqlLinkedService {
    */
   connectionString?: any;
   /**
+   * @member {AzureKeyVaultSecretReference} [password] The Azure key vault
+   * secret reference of password in connection string.
+   */
+  password?: AzureKeyVaultSecretReference;
+  /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
    * credential manager. Type: string (or Expression with resultType string).
@@ -4755,7 +4847,7 @@ export interface AmazonMWSLinkedService {
   endpoint: any;
   /**
    * @member {any} marketplaceID The Amazon Marketplace ID you want to retrieve
-   * data from. To retrive data from multiple Marketplace IDs, seperate them
+   * data from. To retrieve data from multiple Marketplace IDs, separate them
    * with a comma (,). (i.e. A2EUQ1WTGCTBG2)
    */
   marketplaceID: any;
@@ -6385,6 +6477,11 @@ export interface PostgreSqlLinkedService {
    */
   connectionString: SecretBaseUnion;
   /**
+   * @member {AzureKeyVaultSecretReference} [password] The Azure key vault
+   * secret reference of password in connection string.
+   */
+  password?: AzureKeyVaultSecretReference;
+  /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
    * credential manager. Type: string (or Expression with resultType string).
@@ -6426,6 +6523,11 @@ export interface MySqlLinkedService {
    * @member {SecretBaseUnion} connectionString The connection string.
    */
   connectionString: SecretBaseUnion;
+  /**
+   * @member {AzureKeyVaultSecretReference} [password] The Azure key vault
+   * secret reference of password in connection string.
+   */
+  password?: AzureKeyVaultSecretReference;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -6470,6 +6572,11 @@ export interface AzureMySqlLinkedService {
    */
   connectionString: any;
   /**
+   * @member {AzureKeyVaultSecretReference} [password] The Azure key vault
+   * secret reference of password in connection string.
+   */
+  password?: AzureKeyVaultSecretReference;
+  /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
    * credential manager. Type: string (or Expression with resultType string).
@@ -6512,6 +6619,11 @@ export interface OracleLinkedService {
    * SecureString or AzureKeyVaultSecretReference.
    */
   connectionString: any;
+  /**
+   * @member {AzureKeyVaultSecretReference} [password] The Azure key vault
+   * secret reference of password in connection string.
+   */
+  password?: AzureKeyVaultSecretReference;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -6755,6 +6867,11 @@ export interface CosmosDbLinkedService {
    */
   connectionString: any;
   /**
+   * @member {AzureKeyVaultSecretReference} [accountKey] The Azure key vault
+   * secret reference of accountKey in connection string.
+   */
+  accountKey?: AzureKeyVaultSecretReference;
+  /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
    * credential manager. Type: string (or Expression with resultType string).
@@ -6898,6 +7015,11 @@ export interface AzureSqlDatabaseLinkedService {
    */
   connectionString: any;
   /**
+   * @member {AzureKeyVaultSecretReference} [password] The Azure key vault
+   * secret reference of password in connection string.
+   */
+  password?: AzureKeyVaultSecretReference;
+  /**
    * @member {any} [servicePrincipalId] The ID of the service principal used to
    * authenticate against Azure SQL Database. Type: string (or Expression with
    * resultType string).
@@ -7011,6 +7133,11 @@ export interface AzureSqlDWLinkedService {
    */
   connectionString: any;
   /**
+   * @member {AzureKeyVaultSecretReference} [password] The Azure key vault
+   * secret reference of password in connection string.
+   */
+  password?: AzureKeyVaultSecretReference;
+  /**
    * @member {any} [servicePrincipalId] The ID of the service principal used to
    * authenticate against Azure SQL Data Warehouse. Type: string (or Expression
    * with resultType string).
@@ -7071,10 +7198,21 @@ export interface AzureTableStorageLinkedService {
    */
   connectionString?: any;
   /**
-   * @member {SecretBaseUnion} [sasUri] SAS URI of the Azure Storage resource.
-   * It is mutually exclusive with connectionString property.
+   * @member {AzureKeyVaultSecretReference} [accountKey] The Azure key vault
+   * secret reference of accountKey in connection string.
    */
-  sasUri?: SecretBaseUnion;
+  accountKey?: AzureKeyVaultSecretReference;
+  /**
+   * @member {any} [sasUri] SAS URI of the Azure Storage resource. It is
+   * mutually exclusive with connectionString property. Type: string,
+   * SecureString or AzureKeyVaultSecretReference.
+   */
+  sasUri?: any;
+  /**
+   * @member {AzureKeyVaultSecretReference} [sasToken] The Azure key vault
+   * secret reference of sasToken in sas uri.
+   */
+  sasToken?: AzureKeyVaultSecretReference;
   /**
    * @member {string} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -7120,11 +7258,21 @@ export interface AzureBlobStorageLinkedService {
    */
   connectionString?: any;
   /**
-   * @member {SecretBaseUnion} [sasUri] SAS URI of the Azure Blob Storage
-   * resource. It is mutually exclusive with connectionString, serviceEndpoint
-   * property.
+   * @member {AzureKeyVaultSecretReference} [accountKey] The Azure key vault
+   * secret reference of accountKey in connection string.
    */
-  sasUri?: SecretBaseUnion;
+  accountKey?: AzureKeyVaultSecretReference;
+  /**
+   * @member {any} [sasUri] SAS URI of the Azure Blob Storage resource. It is
+   * mutually exclusive with connectionString, serviceEndpoint property. Type:
+   * string, SecureString or AzureKeyVaultSecretReference.
+   */
+  sasUri?: any;
+  /**
+   * @member {AzureKeyVaultSecretReference} [sasToken] The Azure key vault
+   * secret reference of sasToken in sas uri.
+   */
+  sasToken?: AzureKeyVaultSecretReference;
   /**
    * @member {string} [serviceEndpoint] Blob service endpoint of the Azure Blob
    * Storage resource. It is mutually exclusive with connectionString, sasUri
@@ -7192,10 +7340,21 @@ export interface AzureStorageLinkedService {
    */
   connectionString?: any;
   /**
-   * @member {SecretBaseUnion} [sasUri] SAS URI of the Azure Storage resource.
-   * It is mutually exclusive with connectionString property.
+   * @member {AzureKeyVaultSecretReference} [accountKey] The Azure key vault
+   * secret reference of accountKey in connection string.
    */
-  sasUri?: SecretBaseUnion;
+  accountKey?: AzureKeyVaultSecretReference;
+  /**
+   * @member {any} [sasUri] SAS URI of the Azure Storage resource. It is
+   * mutually exclusive with connectionString property. Type: string,
+   * SecureString or AzureKeyVaultSecretReference.
+   */
+  sasUri?: any;
+  /**
+   * @member {AzureKeyVaultSecretReference} [sasToken] The Azure key vault
+   * secret reference of sasToken in sas uri.
+   */
+  sasToken?: AzureKeyVaultSecretReference;
   /**
    * @member {string} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -7245,6 +7404,11 @@ export interface ResponsysObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7288,6 +7452,11 @@ export interface SalesforceMarketingCloudObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7331,6 +7500,11 @@ export interface VerticaTableDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7374,6 +7548,11 @@ export interface NetezzaTableDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7417,12 +7596,17 @@ export interface ZohoObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
  * @interface
  * An interface representing XeroObjectDataset.
- * Xero Serivce dataset.
+ * Xero Service dataset.
  *
  */
 export interface XeroObjectDataset {
@@ -7460,12 +7644,17 @@ export interface XeroObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
  * @interface
  * An interface representing SquareObjectDataset.
- * Square Serivce dataset.
+ * Square Service dataset.
  *
  */
 export interface SquareObjectDataset {
@@ -7503,6 +7692,11 @@ export interface SquareObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7546,12 +7740,17 @@ export interface SparkObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
  * @interface
  * An interface representing ShopifyObjectDataset.
- * Shopify Serivce dataset.
+ * Shopify Service dataset.
  *
  */
 export interface ShopifyObjectDataset {
@@ -7589,6 +7788,11 @@ export interface ShopifyObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7632,6 +7836,11 @@ export interface ServiceNowObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7675,6 +7884,11 @@ export interface QuickBooksObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7718,6 +7932,11 @@ export interface PrestoObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7761,12 +7980,17 @@ export interface PhoenixObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
  * @interface
  * An interface representing PaypalObjectDataset.
- * Paypal Serivce dataset.
+ * Paypal Service dataset.
  *
  */
 export interface PaypalObjectDataset {
@@ -7804,6 +8028,11 @@ export interface PaypalObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7847,6 +8076,11 @@ export interface MarketoObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7890,6 +8124,11 @@ export interface MariaDBTableDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -7933,12 +8172,17 @@ export interface MagentoObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
  * @interface
  * An interface representing JiraObjectDataset.
- * Jira Serivce dataset.
+ * Jira Service dataset.
  *
  */
 export interface JiraObjectDataset {
@@ -7976,6 +8220,11 @@ export interface JiraObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -8019,12 +8268,17 @@ export interface ImpalaObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
  * @interface
  * An interface representing HubspotObjectDataset.
- * Hubspot Serivce dataset.
+ * Hubspot Service dataset.
  *
  */
 export interface HubspotObjectDataset {
@@ -8062,6 +8316,11 @@ export interface HubspotObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -8105,6 +8364,11 @@ export interface HiveObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -8148,6 +8412,11 @@ export interface HBaseObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -8191,6 +8460,11 @@ export interface GreenplumTableDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -8234,6 +8508,11 @@ export interface GoogleBigQueryObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -8277,6 +8556,11 @@ export interface EloquaObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -8320,6 +8604,11 @@ export interface DrillTableDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -8363,12 +8652,17 @@ export interface CouchbaseTableDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
  * @interface
  * An interface representing ConcurObjectDataset.
- * Concur Serivce dataset.
+ * Concur Service dataset.
  *
  */
 export interface ConcurObjectDataset {
@@ -8406,6 +8700,11 @@ export interface ConcurObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -8449,6 +8748,11 @@ export interface AzurePostgreSqlTableDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -8492,6 +8796,11 @@ export interface AmazonMWSObjectDataset {
    * not specified, Dataset will appear at the root level.
    */
   folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
 }
 
 /**
@@ -10903,7 +11212,7 @@ export interface ZohoSource {
 /**
  * @interface
  * An interface representing XeroSource.
- * A copy activity Xero Serivce source.
+ * A copy activity Xero Service source.
  *
  */
 export interface XeroSource {
@@ -10932,7 +11241,7 @@ export interface XeroSource {
 /**
  * @interface
  * An interface representing SquareSource.
- * A copy activity Square Serivce source.
+ * A copy activity Square Service source.
  *
  */
 export interface SquareSource {
@@ -10990,7 +11299,7 @@ export interface SparkSource {
 /**
  * @interface
  * An interface representing ShopifySource.
- * A copy activity Shopify Serivce source.
+ * A copy activity Shopify Service source.
  *
  */
 export interface ShopifySource {
@@ -11135,7 +11444,7 @@ export interface PhoenixSource {
 /**
  * @interface
  * An interface representing PaypalSource.
- * A copy activity Paypal Serivce source.
+ * A copy activity Paypal Service source.
  *
  */
 export interface PaypalSource {
@@ -11251,7 +11560,7 @@ export interface MagentoSource {
 /**
  * @interface
  * An interface representing JiraSource.
- * A copy activity Jira Serivce source.
+ * A copy activity Jira Service source.
  *
  */
 export interface JiraSource {
@@ -11309,7 +11618,7 @@ export interface ImpalaSource {
 /**
  * @interface
  * An interface representing HubspotSource.
- * A copy activity Hubspot Serivce source.
+ * A copy activity Hubspot Service source.
  *
  */
 export interface HubspotSource {
@@ -11541,7 +11850,7 @@ export interface CouchbaseSource {
 /**
  * @interface
  * An interface representing ConcurSource.
- * A copy activity Concur Serivce source.
+ * A copy activity Concur Service source.
  *
  */
 export interface ConcurSource {
@@ -11986,10 +12295,10 @@ export interface SqlDWSource {
  */
 export interface StoredProcedureParameter {
   /**
-   * @member {any} value Stored procedure parameter value. Type: string (or
+   * @member {any} [value] Stored procedure parameter value. Type: string (or
    * Expression with resultType string).
    */
-  value: any;
+  value?: any;
   /**
    * @member {StoredProcedureParameterType} [type] Stored procedure parameter
    * type. Possible values include: 'String', 'Int', 'Decimal', 'Guid',
@@ -13967,7 +14276,7 @@ export interface CopyActivity {
   sink: CopySinkUnion;
   /**
    * @member {CopyTranslatorUnion} [translator] Copy activity translator. If
-   * not specificed, tabular translator is used.
+   * not specified, tabular translator is used.
    */
   translator?: CopyTranslatorUnion;
   /**
@@ -15517,8 +15826,8 @@ export interface PipelinesGetOptionalParams extends msRest.RequestOptionsBase {
 export interface PipelinesCreateRunOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [referencePipelineRunId] The pipeline run identifier. If
-   * run ID is specified the parameters of the the specified run will be used
-   * to create a new run.
+   * run ID is specified the parameters of the specified run will be used to
+   * create a new run.
    */
   referencePipelineRunId?: string;
   /**
@@ -16360,6 +16669,25 @@ export type FactoriesGetGitHubAccessTokenResponse = GitHubAccessTokenResponse & 
        * The response body as parsed JSON or XML
        */
       parsedBody: GitHubAccessTokenResponse;
+    };
+};
+
+/**
+ * Contains response data for the getDataPlaneAccess operation.
+ */
+export type FactoriesGetDataPlaneAccessResponse = AccessPolicyResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccessPolicyResponse;
     };
 };
 
