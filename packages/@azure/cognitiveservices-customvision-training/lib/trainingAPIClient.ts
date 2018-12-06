@@ -175,7 +175,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @summary Remove a set of tags from a set of images.
    * @param projectId The project id.
    * @param imageIds Image ids. Limited to 64 images.
-   * @param tagIds Tags to be deleted from the specified images. Limted to 20 tags.
+   * @param tagIds Tags to be deleted from the specified images. Limited to 20 tags.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -183,14 +183,14 @@ class TrainingAPIClient extends TrainingAPIClientContext {
   /**
    * @param projectId The project id.
    * @param imageIds Image ids. Limited to 64 images.
-   * @param tagIds Tags to be deleted from the specified images. Limted to 20 tags.
+   * @param tagIds Tags to be deleted from the specified images. Limited to 20 tags.
    * @param callback The callback
    */
   deleteImageTags(projectId: string, imageIds: string[], tagIds: string[], callback: msRest.ServiceCallback<void>): void;
   /**
    * @param projectId The project id.
    * @param imageIds Image ids. Limited to 64 images.
-   * @param tagIds Tags to be deleted from the specified images. Limted to 20 tags.
+   * @param tagIds Tags to be deleted from the specified images. Limited to 20 tags.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -408,20 +408,20 @@ class TrainingAPIClient extends TrainingAPIClientContext {
   /**
    * @summary Delete images from the set of training images.
    * @param projectId The project id.
-   * @param imageIds Ids of the images to be deleted. Limted to 256 images per batch.
+   * @param imageIds Ids of the images to be deleted. Limited to 256 images per batch.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
   deleteImages(projectId: string, imageIds: string[], options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param projectId The project id.
-   * @param imageIds Ids of the images to be deleted. Limted to 256 images per batch.
+   * @param imageIds Ids of the images to be deleted. Limited to 256 images per batch.
    * @param callback The callback
    */
   deleteImages(projectId: string, imageIds: string[], callback: msRest.ServiceCallback<void>): void;
   /**
    * @param projectId The project id.
-   * @param imageIds Ids of the images to be deleted. Limted to 256 images per batch.
+   * @param imageIds Ids of the images to be deleted. Limited to 256 images per batch.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -510,20 +510,20 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * images and 20 tags.
    * @summary Add the specified predicted images to the set of training images.
    * @param projectId The project id.
-   * @param batch Image and tag ids. Limted to 64 images and 20 tags per batch.
+   * @param batch Image and tag ids. Limited to 64 images and 20 tags per batch.
    * @param [options] The optional parameters
    * @returns Promise<Models.CreateImagesFromPredictionsResponse>
    */
   createImagesFromPredictions(projectId: string, batch: Models.ImageIdCreateBatch, options?: msRest.RequestOptionsBase): Promise<Models.CreateImagesFromPredictionsResponse>;
   /**
    * @param projectId The project id.
-   * @param batch Image and tag ids. Limted to 64 images and 20 tags per batch.
+   * @param batch Image and tag ids. Limited to 64 images and 20 tags per batch.
    * @param callback The callback
    */
   createImagesFromPredictions(projectId: string, batch: Models.ImageIdCreateBatch, callback: msRest.ServiceCallback<Models.ImageCreateSummary>): void;
   /**
    * @param projectId The project id.
-   * @param batch Image and tag ids. Limted to 64 images and 20 tags per batch.
+   * @param batch Image and tag ids. Limited to 64 images and 20 tags per batch.
    * @param options The optional parameters
    * @param callback The callback
    */
