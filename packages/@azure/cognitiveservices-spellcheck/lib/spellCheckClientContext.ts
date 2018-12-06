@@ -14,16 +14,16 @@ import * as Models from "./models";
 const packageName = "@azure/cognitiveservices-spellcheck";
 const packageVersion = "0.1.0";
 
-export class SpellCheckAPIClientContext extends msRest.ServiceClient {
+export class SpellCheckClientContext extends msRest.ServiceClient {
   endpoint?: string;
   credentials: msRest.ServiceClientCredentials;
 
   /**
-   * Initializes a new instance of the SpellCheckAPIClientContext class.
+   * Initializes a new instance of the SpellCheckClientContext class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.SpellCheckAPIClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.SpellCheckClientOptions) {
     if (credentials === null || credentials === undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
