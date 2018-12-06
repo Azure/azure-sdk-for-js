@@ -14,16 +14,16 @@ import * as Models from "./models";
 const packageName = "@azure/cognitiveservices-websearch";
 const packageVersion = "0.1.0";
 
-export class WebSearchAPIClientContext extends msRest.ServiceClient {
+export class WebSearchClientContext extends msRest.ServiceClient {
   endpoint?: string;
   credentials: msRest.ServiceClientCredentials;
 
   /**
-   * Initializes a new instance of the WebSearchAPIClientContext class.
+   * Initializes a new instance of the WebSearchClientContext class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.WebSearchAPIClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.WebSearchClientOptions) {
     if (credentials === null || credentials === undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
