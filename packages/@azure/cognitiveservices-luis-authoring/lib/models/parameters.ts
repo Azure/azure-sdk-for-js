@@ -177,16 +177,6 @@ export const modelId: msRest.OperationURLParameter = {
     }
   }
 };
-export const ocpApimSubscriptionKey: msRest.OperationParameter = {
-  parameterPath: "ocpApimSubscriptionKey",
-  mapper: {
-    required: true,
-    serializedName: "Ocp-Apim-Subscription-Key",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const patternId: msRest.OperationURLParameter = {
   parameterPath: "patternId",
   mapper: {

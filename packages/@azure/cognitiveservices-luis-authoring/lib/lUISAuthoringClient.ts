@@ -30,12 +30,11 @@ class LUISAuthoringClient extends LUISAuthoringClientContext {
    * Initializes a new instance of the LUISAuthoringClient class.
    * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for example:
    * https://westus.api.cognitive.microsoft.com).
-   * @param ocpApimSubscriptionKey Subscription key which provides access to this API.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(endpoint: string, ocpApimSubscriptionKey: string, credentials: msRest.ServiceClientCredentials, options?: msRest.ServiceClientOptions) {
-    super(endpoint, ocpApimSubscriptionKey, credentials, options);
+  constructor(endpoint: string, credentials: msRest.ServiceClientCredentials, options?: msRest.ServiceClientOptions) {
+    super(endpoint, credentials, options);
     this.features = new operations.Features(this);
     this.examples = new operations.Examples(this);
     this.model = new operations.Model(this);

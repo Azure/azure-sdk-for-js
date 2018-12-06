@@ -56,16 +56,6 @@ export const log: msRest.OperationQueryParameter = {
     }
   }
 };
-export const ocpApimSubscriptionKey: msRest.OperationParameter = {
-  parameterPath: "ocpApimSubscriptionKey",
-  mapper: {
-    required: true,
-    serializedName: "Ocp-Apim-Subscription-Key",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const query: msRest.OperationQueryParameter = {
   parameterPath: "query",
   mapper: {

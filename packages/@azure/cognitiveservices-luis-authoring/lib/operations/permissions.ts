@@ -163,9 +163,6 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.UserAccessList
@@ -193,9 +190,6 @@ const addOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint,
     Parameters.appId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "userToAdd",
@@ -232,9 +226,6 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   requestBody: {
     parameterPath: "userToDelete",
     mapper: {
@@ -269,9 +260,6 @@ const updateOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint,
     Parameters.appId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "collaborators",

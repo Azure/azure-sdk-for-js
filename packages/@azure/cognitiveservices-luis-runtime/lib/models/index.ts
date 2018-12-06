@@ -126,7 +126,7 @@ export interface Sentiment {
  */
 export interface LuisResult {
   /**
-   * @member {string} [query] The input utterance that was analized.
+   * @member {string} [query] The input utterance that was analyzed.
    */
   query?: string;
   /**

@@ -108,9 +108,6 @@ const trainVersionOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     202: {
       bodyMapper: Mappers.EnqueueTrainingResponse
@@ -142,9 +139,6 @@ const getStatusOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {

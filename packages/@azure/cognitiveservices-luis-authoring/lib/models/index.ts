@@ -205,7 +205,7 @@ export interface ApplicationSettingUpdateObject {
 export interface PublishSettingUpdateObject {
   /**
    * @member {boolean} [sentimentAnalysis] Setting sentiment analysis as true
-   * returns the Sentiment of the input utterance along with the resopnse
+   * returns the Sentiment of the input utterance along with the response
    */
   sentimentAnalysis?: boolean;
   /**
@@ -232,12 +232,12 @@ export interface ExampleLabelObject {
    */
   text?: string;
   /**
-   * @member {EntityLabelObject[]} [entityLabels] The idenfied entities within
-   * the utterance.
+   * @member {EntityLabelObject[]} [entityLabels] The identified entities
+   * within the utterance.
    */
   entityLabels?: EntityLabelObject[];
   /**
-   * @member {string} [intentName] The idenfitied intent representing the
+   * @member {string} [intentName] The identified intent representing the
    * utterance.
    */
   intentName?: string;
@@ -1783,7 +1783,7 @@ export interface PublishSettings {
   id: string;
   /**
    * @member {boolean} isSentimentAnalysisEnabled Setting sentiment analysis as
-   * true returns the Sentiment of the input utterance along with the resopnse
+   * true returns the Sentiment of the input utterance along with the response
    */
   isSentimentAnalysisEnabled: boolean;
   /**

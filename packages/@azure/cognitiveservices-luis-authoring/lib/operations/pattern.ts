@@ -325,9 +325,6 @@ const addPatternOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   requestBody: {
     parameterPath: "pattern",
     mapper: {
@@ -368,9 +365,6 @@ const getPatternsOperationSpec: msRest.OperationSpec = {
     Parameters.skip,
     Parameters.take
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -410,9 +404,6 @@ const updatePatternsOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "patterns",
@@ -470,9 +461,6 @@ const batchAddPatternsOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   requestBody: {
     parameterPath: "patterns",
     mapper: {
@@ -529,9 +517,6 @@ const deletePatternsOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   requestBody: {
     parameterPath: "patternIds",
     mapper: {
@@ -577,9 +562,6 @@ const updatePatternOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.patternId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   requestBody: {
     parameterPath: "pattern",
     mapper: {
@@ -617,9 +599,6 @@ const deletePatternOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.patternId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -653,9 +632,6 @@ const getIntentPatternsOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.skip,
     Parameters.take
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {

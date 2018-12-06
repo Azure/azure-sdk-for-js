@@ -297,9 +297,6 @@ const cloneOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   requestBody: {
     parameterPath: [
       "options",
@@ -344,9 +341,6 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.skip,
     Parameters.take
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -387,9 +381,6 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.VersionInfo
@@ -418,9 +409,6 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "versionUpdateObject",
@@ -458,9 +446,6 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -489,9 +474,6 @@ const exportMethodOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {
@@ -523,9 +505,6 @@ const importMethodOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.versionId1
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "luisApp",
@@ -567,9 +546,6 @@ const deleteUnlabelledUtteranceOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "utterance",

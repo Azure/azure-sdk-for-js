@@ -4096,9 +4096,6 @@ const addIntentOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   requestBody: {
     parameterPath: "intentCreateObject",
     mapper: {
@@ -4144,9 +4141,6 @@ const listIntentsOperationSpec: msRest.OperationSpec = {
     Parameters.skip,
     Parameters.take
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -4186,9 +4180,6 @@ const addEntityOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "modelCreateObject",
@@ -4235,9 +4226,6 @@ const listEntitiesOperationSpec: msRest.OperationSpec = {
     Parameters.skip,
     Parameters.take
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -4277,9 +4265,6 @@ const addHierarchicalEntityOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "hierarchicalModelCreateObject",
@@ -4326,9 +4311,6 @@ const listHierarchicalEntitiesOperationSpec: msRest.OperationSpec = {
     Parameters.skip,
     Parameters.take
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -4368,9 +4350,6 @@ const addCompositeEntityOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "compositeModelCreateObject",
@@ -4417,9 +4396,6 @@ const listCompositeEntitiesOperationSpec: msRest.OperationSpec = {
     Parameters.skip,
     Parameters.take
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -4464,9 +4440,6 @@ const listClosedListsOperationSpec: msRest.OperationSpec = {
     Parameters.skip,
     Parameters.take
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -4506,9 +4479,6 @@ const addClosedListOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "closedListModelCreateObject",
@@ -4550,9 +4520,6 @@ const addPrebuiltOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "prebuiltExtractorNames",
@@ -4613,9 +4580,6 @@ const listPrebuiltsOperationSpec: msRest.OperationSpec = {
     Parameters.skip,
     Parameters.take
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -4655,9 +4619,6 @@ const listPrebuiltEntitiesOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {
@@ -4702,9 +4663,6 @@ const listModelsOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.skip,
     Parameters.take
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {
@@ -4751,9 +4709,6 @@ const examplesMethodOperationSpec: msRest.OperationSpec = {
     Parameters.skip,
     Parameters.take
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -4795,9 +4750,6 @@ const getIntentOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.intentId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.IntentClassifier
@@ -4827,9 +4779,6 @@ const updateIntentOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.intentId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "modelUpdateObject",
@@ -4871,9 +4820,6 @@ const deleteIntentOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.deleteUtterances
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -4904,9 +4850,6 @@ const getEntityOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.EntityExtractor
@@ -4936,9 +4879,6 @@ const updateEntityOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "modelUpdateObject",
@@ -4977,9 +4917,6 @@ const deleteEntityOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -5010,9 +4947,6 @@ const getHierarchicalEntityOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.hEntityId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.HierarchicalEntityExtractor
@@ -5042,9 +4976,6 @@ const updateHierarchicalEntityOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.hEntityId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "hierarchicalModelUpdateObject",
@@ -5083,9 +5014,6 @@ const deleteHierarchicalEntityOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.hEntityId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -5116,9 +5044,6 @@ const getCompositeEntityOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.cEntityId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.CompositeEntityExtractor
@@ -5148,9 +5073,6 @@ const updateCompositeEntityOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.cEntityId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "compositeModelUpdateObject",
@@ -5189,9 +5111,6 @@ const deleteCompositeEntityOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.cEntityId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -5222,9 +5141,6 @@ const getClosedListOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.clEntityId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.ClosedListEntityExtractor
@@ -5254,9 +5170,6 @@ const updateClosedListOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.clEntityId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "closedListModelUpdateObject",
@@ -5295,9 +5208,6 @@ const patchClosedListOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.clEntityId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   requestBody: {
     parameterPath: "closedListModelPatchObject",
     mapper: {
@@ -5335,9 +5245,6 @@ const deleteClosedListOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.clEntityId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -5368,9 +5275,6 @@ const getPrebuiltOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.prebuiltId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.PrebuiltEntityExtractor
@@ -5400,9 +5304,6 @@ const deletePrebuiltOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.prebuiltId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {
@@ -5435,9 +5336,6 @@ const deleteSubListOperationSpec: msRest.OperationSpec = {
     Parameters.clEntityId,
     Parameters.subListId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -5468,9 +5366,6 @@ const updateSubListOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.clEntityId,
     Parameters.subListId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "wordListBaseUpdateObject",
@@ -5511,9 +5406,6 @@ const getIntentSuggestionsOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.take
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {
@@ -5559,9 +5451,6 @@ const getEntitySuggestionsOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.take
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -5603,9 +5492,6 @@ const addSubListOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.clEntityId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   requestBody: {
     parameterPath: "wordListCreateObject",
     mapper: {
@@ -5646,9 +5532,6 @@ const addCustomPrebuiltDomainOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "prebuiltDomainObject",
@@ -5696,9 +5579,6 @@ const addCustomPrebuiltIntentOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   requestBody: {
     parameterPath: "prebuiltDomainModelCreateObject",
     mapper: {
@@ -5740,9 +5620,6 @@ const listCustomPrebuiltIntentsOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -5782,9 +5659,6 @@ const addCustomPrebuiltEntityOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "prebuiltDomainModelCreateObject",
@@ -5827,9 +5701,6 @@ const listCustomPrebuiltEntitiesOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -5869,9 +5740,6 @@ const listCustomPrebuiltModelsOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {
@@ -5914,9 +5782,6 @@ const deleteCustomPrebuiltDomainOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.domainName
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -5948,9 +5813,6 @@ const getHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
     Parameters.hEntityId,
     Parameters.hChildId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.HierarchicalChildEntity
@@ -5981,9 +5843,6 @@ const updateHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.hEntityId,
     Parameters.hChildId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "hierarchicalChildModelUpdateObject",
@@ -6023,9 +5882,6 @@ const deleteHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
     Parameters.hEntityId,
     Parameters.hChildId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -6055,9 +5911,6 @@ const addHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.hEntityId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "hierarchicalChildModelCreateObject",
@@ -6100,9 +5953,6 @@ const addCompositeEntityChildOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.cEntityId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "compositeChildModelCreateObject",
@@ -6147,9 +5997,6 @@ const deleteCompositeEntityChildOperationSpec: msRest.OperationSpec = {
     Parameters.cEntityId,
     Parameters.cChildId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -6182,9 +6029,6 @@ const getRegexEntityInfosOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.skip,
     Parameters.take
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {
@@ -6225,9 +6069,6 @@ const createRegexEntityModelOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "regexEntityExtractorCreateObj",
@@ -6274,9 +6115,6 @@ const getPatternAnyEntityInfosOperationSpec: msRest.OperationSpec = {
     Parameters.skip,
     Parameters.take
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -6316,9 +6154,6 @@ const createPatternAnyEntityModelOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "extractorCreateObject",
@@ -6362,9 +6197,6 @@ const getEntityRolesOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -6405,9 +6237,6 @@ const createEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "entityRoleCreateObject",
@@ -6451,9 +6280,6 @@ const getPrebuiltEntityRolesOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -6494,9 +6320,6 @@ const createPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "entityRoleCreateObject",
@@ -6540,9 +6363,6 @@ const getClosedListEntityRolesOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -6583,9 +6403,6 @@ const createClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "entityRoleCreateObject",
@@ -6629,9 +6446,6 @@ const getRegexEntityRolesOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -6672,9 +6486,6 @@ const createRegexEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "entityRoleCreateObject",
@@ -6718,9 +6529,6 @@ const getCompositeEntityRolesOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.cEntityId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -6761,9 +6569,6 @@ const createCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.cEntityId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "entityRoleCreateObject",
@@ -6807,9 +6612,6 @@ const getPatternAnyEntityRolesOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -6850,9 +6652,6 @@ const createPatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "entityRoleCreateObject",
@@ -6896,9 +6695,6 @@ const getHierarchicalEntityRolesOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.hEntityId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -6939,9 +6735,6 @@ const createHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.hEntityId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "entityRoleCreateObject",
@@ -6985,9 +6778,6 @@ const getCustomPrebuiltEntityRolesOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -7028,9 +6818,6 @@ const createCustomPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "entityRoleCreateObject",
@@ -7074,9 +6861,6 @@ const getExplicitListOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -7117,9 +6901,6 @@ const addExplicitListItemOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "item",
@@ -7163,9 +6944,6 @@ const getRegexEntityEntityInfoOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.regexEntityId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.RegexEntityExtractor
@@ -7195,9 +6973,6 @@ const updateRegexEntityModelOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.regexEntityId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "regexEntityUpdateObject",
@@ -7236,9 +7011,6 @@ const deleteRegexEntityModelOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.regexEntityId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -7269,9 +7041,6 @@ const getPatternAnyEntityInfoOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.PatternAnyEntityExtractor
@@ -7301,9 +7070,6 @@ const updatePatternAnyEntityModelOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "patternAnyUpdateObject",
@@ -7342,9 +7108,6 @@ const deletePatternAnyEntityModelOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -7376,9 +7139,6 @@ const getEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.EntityRole
@@ -7409,9 +7169,6 @@ const updateEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId,
     Parameters.roleId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "entityRoleUpdateObject",
@@ -7451,9 +7208,6 @@ const deleteEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -7485,9 +7239,6 @@ const getPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.EntityRole
@@ -7518,9 +7269,6 @@ const updatePrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId,
     Parameters.roleId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "entityRoleUpdateObject",
@@ -7560,9 +7308,6 @@ const deletePrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -7594,9 +7339,6 @@ const getClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.EntityRole
@@ -7627,9 +7369,6 @@ const updateClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId,
     Parameters.roleId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "entityRoleUpdateObject",
@@ -7669,9 +7408,6 @@ const deleteClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -7703,9 +7439,6 @@ const getRegexEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.EntityRole
@@ -7736,9 +7469,6 @@ const updateRegexEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId,
     Parameters.roleId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "entityRoleUpdateObject",
@@ -7778,9 +7508,6 @@ const deleteRegexEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -7812,9 +7539,6 @@ const getCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.cEntityId,
     Parameters.roleId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.EntityRole
@@ -7845,9 +7569,6 @@ const updateCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.cEntityId,
     Parameters.roleId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "entityRoleUpdateObject",
@@ -7887,9 +7608,6 @@ const deleteCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.cEntityId,
     Parameters.roleId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -7921,9 +7639,6 @@ const getPatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.EntityRole
@@ -7954,9 +7669,6 @@ const updatePatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId,
     Parameters.roleId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "entityRoleUpdateObject",
@@ -7996,9 +7708,6 @@ const deletePatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -8030,9 +7739,6 @@ const getHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.hEntityId,
     Parameters.roleId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.EntityRole
@@ -8063,9 +7769,6 @@ const updateHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.hEntityId,
     Parameters.roleId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "entityRoleUpdateObject",
@@ -8105,9 +7808,6 @@ const deleteHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.hEntityId,
     Parameters.roleId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -8139,9 +7839,6 @@ const getCustomEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.EntityRole
@@ -8172,9 +7869,6 @@ const updateCustomPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId,
     Parameters.roleId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "entityRoleUpdateObject",
@@ -8214,9 +7908,6 @@ const deleteCustomEntityRoleOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.roleId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -8248,9 +7939,6 @@ const getExplicitListItemOperationSpec: msRest.OperationSpec = {
     Parameters.entityId,
     Parameters.itemId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.ExplicitListItem
@@ -8281,9 +7969,6 @@ const updateExplicitListItemOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId,
     Parameters.itemId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "item",
@@ -8322,9 +8007,6 @@ const deleteExplicitListItemOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId,
     Parameters.itemId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {

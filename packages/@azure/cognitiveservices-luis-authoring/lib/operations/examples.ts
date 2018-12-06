@@ -177,9 +177,6 @@ const addOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   requestBody: {
     parameterPath: "exampleLabelObject",
     mapper: {
@@ -215,9 +212,6 @@ const batchOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "exampleLabelObjectArray",
@@ -296,9 +290,6 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.skip,
     Parameters.take
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -339,9 +330,6 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.exampleId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {

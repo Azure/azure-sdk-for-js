@@ -88,7 +88,7 @@ export class Apps {
   }
 
   /**
-   * Imports an application to LUIS, the application's structure should be included in in the request
+   * Imports an application to LUIS, the application's structure should be included in the request
    * body.
    * @param luisApp A LUIS application structure.
    * @param [options] The optional parameters
@@ -603,9 +603,6 @@ const addOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   requestBody: {
     parameterPath: "applicationCreateObject",
     mapper: {
@@ -649,9 +646,6 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.skip,
     Parameters.take
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -693,9 +687,6 @@ const importMethodOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.appName
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   requestBody: {
     parameterPath: "luisApp",
     mapper: {
@@ -735,9 +726,6 @@ const listCortanaEndpointsOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.PersonalAssistantsResponse
@@ -761,9 +749,6 @@ const listDomainsOperationSpec: msRest.OperationSpec = {
   path: "apps/domains",
   urlParameters: [
     Parameters.endpoint
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {
@@ -799,9 +784,6 @@ const listUsageScenariosOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -835,9 +817,6 @@ const listSupportedCulturesOperationSpec: msRest.OperationSpec = {
   path: "apps/cultures",
   urlParameters: [
     Parameters.endpoint
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {
@@ -875,9 +854,6 @@ const downloadQueryLogsOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -911,9 +887,6 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationInfoResponse
@@ -941,9 +914,6 @@ const updateOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint,
     Parameters.appId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "applicationUpdateObject",
@@ -980,9 +950,6 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -1010,9 +977,6 @@ const publishOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint,
     Parameters.appId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "applicationPublishObject",
@@ -1049,9 +1013,6 @@ const getSettingsOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationSettings
@@ -1079,9 +1040,6 @@ const updateSettingsOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint,
     Parameters.appId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "applicationSettingUpdateObject",
@@ -1118,9 +1076,6 @@ const getPublishSettingsOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.PublishSettings
@@ -1148,9 +1103,6 @@ const updatePublishSettingsOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint,
     Parameters.appId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "publishSettingUpdateObject",
@@ -1186,9 +1138,6 @@ const listEndpointsOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint,
     Parameters.appId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {
@@ -1227,9 +1176,6 @@ const listAvailableCustomPrebuiltDomainsOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -1264,9 +1210,6 @@ const addCustomPrebuiltDomainOperationSpec: msRest.OperationSpec = {
   path: "apps/customprebuiltdomains",
   urlParameters: [
     Parameters.endpoint
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "prebuiltDomainCreateObject",
@@ -1307,9 +1250,6 @@ const listAvailableCustomPrebuiltDomainsForCultureOperationSpec: msRest.Operatio
   urlParameters: [
     Parameters.endpoint,
     Parameters.culture
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {

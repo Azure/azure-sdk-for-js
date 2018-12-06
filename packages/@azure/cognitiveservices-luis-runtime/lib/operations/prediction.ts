@@ -111,9 +111,6 @@ const gETOperationSpec: msRest.OperationSpec = {
     Parameters.bingSpellCheckSubscriptionKey,
     Parameters.log
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.LuisResult
@@ -164,9 +161,6 @@ const pOSTOperationSpec: msRest.OperationSpec = {
     Parameters.spellCheck,
     Parameters.bingSpellCheckSubscriptionKey,
     Parameters.log
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: "query",

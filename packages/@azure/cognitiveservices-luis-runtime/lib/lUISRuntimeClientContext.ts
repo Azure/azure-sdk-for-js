@@ -15,23 +15,18 @@ const packageVersion = "0.1.0";
 
 export class LUISRuntimeClientContext extends msRest.ServiceClient {
   endpoint: string;
-  ocpApimSubscriptionKey: string;
   credentials: msRest.ServiceClientCredentials;
 
   /**
    * Initializes a new instance of the LUISRuntimeClientContext class.
    * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for example:
    * https://westus.api.cognitive.microsoft.com).
-   * @param ocpApimSubscriptionKey Subscription key which provides access to this API.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(endpoint: string, ocpApimSubscriptionKey: string, credentials: msRest.ServiceClientCredentials, options?: msRest.ServiceClientOptions) {
+  constructor(endpoint: string, credentials: msRest.ServiceClientCredentials, options?: msRest.ServiceClientOptions) {
     if (endpoint === null || endpoint === undefined) {
       throw new Error('\'endpoint\' cannot be null.');
-    }
-    if (ocpApimSubscriptionKey === null || ocpApimSubscriptionKey === undefined) {
-      throw new Error('\'ocpApimSubscriptionKey\' cannot be null.');
     }
     if (credentials === null || credentials === undefined) {
       throw new Error('\'credentials\' cannot be null.');
@@ -50,7 +45,6 @@ export class LUISRuntimeClientContext extends msRest.ServiceClient {
     this.baseUri = "{Endpoint}";
     this.requestContentType = "application/json; charset=utf-8";
     this.endpoint = endpoint;
-    this.ocpApimSubscriptionKey = ocpApimSubscriptionKey;
     this.credentials = credentials;
 
   }

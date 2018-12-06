@@ -248,9 +248,6 @@ const addPhraseListOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   requestBody: {
     parameterPath: "phraselistCreateObject",
     mapper: {
@@ -296,9 +293,6 @@ const listPhraseListsOperationSpec: msRest.OperationSpec = {
     Parameters.skip,
     Parameters.take
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: {
@@ -343,9 +337,6 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.skip,
     Parameters.take
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.FeaturesResponseObject
@@ -376,9 +367,6 @@ const getPhraseListOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.phraselistId
   ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.PhraseListFeatureInfo
@@ -408,9 +396,6 @@ const updatePhraseListOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.phraselistId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   requestBody: {
     parameterPath: [
@@ -448,9 +433,6 @@ const deletePhraseListOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0,
     Parameters.phraselistId
-  ],
-  headerParameters: [
-    Parameters.ocpApimSubscriptionKey
   ],
   responses: {
     200: {
