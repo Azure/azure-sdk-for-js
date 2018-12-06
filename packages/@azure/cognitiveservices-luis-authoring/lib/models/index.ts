@@ -205,7 +205,7 @@ export interface ApplicationSettingUpdateObject {
 export interface PublishSettingUpdateObject {
   /**
    * @member {boolean} [sentimentAnalysis] Setting sentiment analysis as true
-   * returns the Sentiment of the input utterance along with the resopnse
+   * returns the Sentiment of the input utterance along with the response
    */
   sentimentAnalysis?: boolean;
   /**
@@ -232,12 +232,12 @@ export interface ExampleLabelObject {
    */
   text?: string;
   /**
-   * @member {EntityLabelObject[]} [entityLabels] The idenfied entities within
-   * the utterance.
+   * @member {EntityLabelObject[]} [entityLabels] The identified entities
+   * within the utterance.
    */
   entityLabels?: EntityLabelObject[];
   /**
-   * @member {string} [intentName] The idenfitied intent representing the
+   * @member {string} [intentName] The identified intent representing the
    * utterance.
    */
   intentName?: string;
@@ -1787,7 +1787,7 @@ export interface PublishSettings {
   id: string;
   /**
    * @member {boolean} isSentimentAnalysisEnabled Setting sentiment analysis as
-   * true returns the Sentiment of the input utterance along with the resopnse
+   * true returns the Sentiment of the input utterance along with the response
    */
   isSentimentAnalysisEnabled: boolean;
   /**
@@ -6229,4 +6229,52 @@ export type 5be313cec181ae720aa2b26cResponse = {
        */
       parsedBody: any;
     };
+};
+
+/**
+ * Contains response data for the appsPackagepublishedapplicationasgzip operation.
+ */
+export type AppsPackagepublishedapplicationasgzipResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always undefined in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always undefined in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse;
+};
+
+/**
+ * Contains response data for the appsPackagetrainedapplicationasgzip operation.
+ */
+export type AppsPackagetrainedapplicationasgzipResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always undefined in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always undefined in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse;
 };

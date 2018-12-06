@@ -243,6 +243,16 @@ export const skip: msRest.OperationQueryParameter = {
     }
   }
 };
+export const slotName: msRest.OperationURLParameter = {
+  parameterPath: "slotName",
+  mapper: {
+    required: true,
+    serializedName: "slotName",
+    type: {
+      name: "Uuid"
+    }
+  }
+};
 export const subListId: msRest.OperationURLParameter = {
   parameterPath: "subListId",
   mapper: {

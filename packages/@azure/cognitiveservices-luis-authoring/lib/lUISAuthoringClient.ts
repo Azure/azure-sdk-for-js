@@ -49,7 +49,7 @@ class LUISAuthoringClient extends LUISAuthoringClientContext {
 
   /**
    * Assigns an azure account to the application.
-   * @summary apps - Assign a LUIS azure accounts to an application
+   * @summary apps - Assign a LUIS azure account to an application
    * @param appId The application ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.5be32228e8473de116325515Response>
@@ -157,6 +157,72 @@ class LUISAuthoringClient extends LUISAuthoringClientContext {
       },
       5be313cec181ae720aa2b26cOperationSpec,
       callback) as Promise<Models.5be313cec181ae720aa2b26cResponse>;
+  }
+
+  /**
+   * Packages published LUIS application as GZip.
+   * @summary package - Gets published LUIS application package in binary stream GZip format
+   * @param appId The application ID.
+   * @param slotName The publishing slot name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppsPackagepublishedapplicationasgzipResponse>
+   */
+  appsPackagepublishedapplicationasgzip(appId: string, slotName: string, options?: msRest.RequestOptionsBase): Promise<Models.AppsPackagepublishedapplicationasgzipResponse>;
+  /**
+   * @param appId The application ID.
+   * @param slotName The publishing slot name.
+   * @param callback The callback
+   */
+  appsPackagepublishedapplicationasgzip(appId: string, slotName: string, callback: msRest.ServiceCallback<any>): void;
+  /**
+   * @param appId The application ID.
+   * @param slotName The publishing slot name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  appsPackagepublishedapplicationasgzip(appId: string, slotName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  appsPackagepublishedapplicationasgzip(appId: string, slotName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppsPackagepublishedapplicationasgzipResponse> {
+    return this.sendOperationRequest(
+      {
+        appId,
+        slotName,
+        options
+      },
+      appsPackagepublishedapplicationasgzipOperationSpec,
+      callback) as Promise<Models.AppsPackagepublishedapplicationasgzipResponse>;
+  }
+
+  /**
+   * Packages trained LUIS application as GZip.
+   * @summary package - Gets trained LUIS application package in binary stream GZip format
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppsPackagetrainedapplicationasgzipResponse>
+   */
+  appsPackagetrainedapplicationasgzip(appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<Models.AppsPackagetrainedapplicationasgzipResponse>;
+  /**
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param callback The callback
+   */
+  appsPackagetrainedapplicationasgzip(appId: string, versionId: string, callback: msRest.ServiceCallback<any>): void;
+  /**
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  appsPackagetrainedapplicationasgzip(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  appsPackagetrainedapplicationasgzip(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppsPackagetrainedapplicationasgzipResponse> {
+    return this.sendOperationRequest(
+      {
+        appId,
+        versionId,
+        options
+      },
+      appsPackagetrainedapplicationasgzipOperationSpec,
+      callback) as Promise<Models.AppsPackagetrainedapplicationasgzipResponse>;
   }
 }
 
@@ -289,6 +355,74 @@ const 5be313cec181ae720aa2b26cOperationSpec: msRest.OperationSpec = {
               className: "AzureAccountInfoObject"
             }
           }
+        }
+      }
+    },
+    400: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
+  },
+  serializer
+};
+
+const appsPackagepublishedapplicationasgzipOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "package/{appId}/slot/{slotName}/gzip",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId,
+    Parameters.slotName
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Stream"
+        }
+      }
+    },
+    400: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    401: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    403: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    429: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
+  },
+  serializer
+};
+
+const appsPackagetrainedapplicationasgzipOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "package/{appId}/versions/{versionId}/gzip",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId,
+    Parameters.versionId0
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Stream"
         }
       }
     },

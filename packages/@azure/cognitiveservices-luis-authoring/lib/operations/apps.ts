@@ -88,7 +88,7 @@ export class Apps {
   }
 
   /**
-   * Imports an application to LUIS, the application's structure should be included in in the request
+   * Imports an application to LUIS, the application's structure should be included in the request
    * body.
    * @param luisApp A LUIS application structure.
    * @param [options] The optional parameters
