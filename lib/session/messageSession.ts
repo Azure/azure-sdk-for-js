@@ -1035,7 +1035,7 @@ export class MessageSession extends LinkEntity {
    * more than the configured totalAutoLockRenewDuration.
    * @ignore
    */
-  private async _ensureSessionLockRenewal(): Promise<void> {
+  private _ensureSessionLockRenewal(): void {
     if (this.autoRenewLock && Date.now() < this._totalAutoLockRenewDuration && this.isOpen()) {
       const connectionId = this._context.namespace.connectionId;
       const nextRenewalTimeout = calculateRenewAfterDuration(this.sessionLockedUntilUtc!);
@@ -1097,7 +1097,7 @@ export class MessageSession extends LinkEntity {
    * messages were received for the configured maxMessageWaitTimeoutInSeconds
    * @ignore
    */
-  private async _resetTimerOnNewMessageReceived(): Promise<void> {
+  private _resetTimerOnNewMessageReceived(): void {
     if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
     this._newMessageReceivedTimer = setTimeout(async () => {
       const msg =
