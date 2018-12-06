@@ -2,7 +2,7 @@
   "name": "@azure/arm-logic",
   "author": "Microsoft Corporation",
   "description": "LogicManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "0.1.0",
+  "version": "4.2.1",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^1.2.0",
     "@azure/ms-rest-js": "^1.2.0",
