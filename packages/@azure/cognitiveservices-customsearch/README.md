@@ -1,6 +1,6 @@
-## An isomorphic javascript sdk for - CustomSearchAPIClient
+## An isomorphic javascript sdk for - CustomSearchClient
 
-This package contains an isomorphic SDK for CustomSearchAPIClient.
+This package contains an isomorphic SDK for CustomSearchClient.
 
 ### Currently supported environments
 
@@ -9,7 +9,7 @@ This package contains an isomorphic SDK for CustomSearchAPIClient.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/cognitiveservices-customsearch
 ```
 
@@ -19,20 +19,20 @@ npm install @azure/cognitiveservices-customsearch
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
+```bash
 npm install @azure/ms-rest-nodeauth
 ```
 
 ##### Sample code
 
-```ts
+```typescript
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { CustomSearchAPIClient, CustomSearchAPIModels, CustomSearchAPIMappers } from "@azure/cognitiveservices-customsearch";
+import { CustomSearchClient, CustomSearchModels, CustomSearchMappers } from "@azure/cognitiveservices-customsearch";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new CustomSearchAPIClient(creds, subscriptionId);
+  const client = new CustomSearchClient(creds, subscriptionId);
   const customConfig = "testcustomConfig";
   const query = "testquery";
   const acceptLanguage = "testacceptLanguage";
@@ -61,7 +61,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 
@@ -89,7 +89,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.CognitiveservicesCustomsearch.CustomSearchAPIClient(res.creds, subscriptionId);
+        const client = new Azure.CognitiveservicesCustomsearch.CustomSearchClient(res.creds, subscriptionId);
         const customConfig = "testcustomConfig";
         const query = "testquery";
         const acceptLanguage = "testacceptLanguage";
