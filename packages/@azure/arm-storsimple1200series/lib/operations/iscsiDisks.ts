@@ -28,7 +28,7 @@ export class IscsiDisks {
   }
 
   /**
-   * Retrieves all the iscsi disks in a device.
+   * Retrieves all the iSCSI disks in a device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
@@ -64,9 +64,9 @@ export class IscsiDisks {
   }
 
   /**
-   * Retrieves all the disks in a iscsi server.
+   * Retrieves all the disks in a iSCSI server.
    * @param deviceName The device name.
-   * @param iscsiServerName The iscsi server name.
+   * @param iscsiServerName The iSCSI server name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param [options] The optional parameters
@@ -75,7 +75,7 @@ export class IscsiDisks {
   listByIscsiServer(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.IscsiDisksListByIscsiServerResponse>;
   /**
    * @param deviceName The device name.
-   * @param iscsiServerName The iscsi server name.
+   * @param iscsiServerName The iSCSI server name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
@@ -83,7 +83,7 @@ export class IscsiDisks {
   listByIscsiServer(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.ISCSIDiskList>): void;
   /**
    * @param deviceName The device name.
-   * @param iscsiServerName The iscsi server name.
+   * @param iscsiServerName The iSCSI server name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param options The optional parameters
@@ -104,9 +104,9 @@ export class IscsiDisks {
   }
 
   /**
-   * Returns the properties of the specified iscsi disk name.
+   * Returns the properties of the specified iSCSI disk name.
    * @param deviceName The device name.
-   * @param iscsiServerName The iscsi server name.
+   * @param iscsiServerName The iSCSI server name.
    * @param diskName The disk name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
@@ -116,7 +116,7 @@ export class IscsiDisks {
   get(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.IscsiDisksGetResponse>;
   /**
    * @param deviceName The device name.
-   * @param iscsiServerName The iscsi server name.
+   * @param iscsiServerName The iSCSI server name.
    * @param diskName The disk name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
@@ -125,7 +125,7 @@ export class IscsiDisks {
   get(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.ISCSIDisk>): void;
   /**
    * @param deviceName The device name.
-   * @param iscsiServerName The iscsi server name.
+   * @param iscsiServerName The iSCSI server name.
    * @param diskName The disk name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
@@ -148,11 +148,11 @@ export class IscsiDisks {
   }
 
   /**
-   * Creates or updates the iscsi disk.
+   * Creates or updates the iSCSI disk.
    * @param deviceName The device name.
-   * @param iscsiServerName The iscsi server name.
+   * @param iscsiServerName The iSCSI server name.
    * @param diskName The disk name.
-   * @param iscsiDisk The iscsi disk.
+   * @param iscsiDisk The iSCSI disk.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param [options] The optional parameters
@@ -164,9 +164,9 @@ export class IscsiDisks {
   }
 
   /**
-   * Deletes the iscsi disk.
+   * Deletes the iSCSI disk.
    * @param deviceName The device name.
-   * @param iscsiServerName The iscsi server name.
+   * @param iscsiServerName The iSCSI server name.
    * @param diskName The disk name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
@@ -179,10 +179,10 @@ export class IscsiDisks {
   }
 
   /**
-   * Gets the iscsi disk metrics
+   * Gets the iSCSI disk metrics
    * @param deviceName The device name.
-   * @param iscsiServerName The iscsi server name.
-   * @param diskName The iscsi disk name.
+   * @param iscsiServerName The iSCSI server name.
+   * @param diskName The iSCSI disk name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param [options] The optional parameters
@@ -191,8 +191,8 @@ export class IscsiDisks {
   listMetrics(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, options?: Models.IscsiDisksListMetricsOptionalParams): Promise<Models.IscsiDisksListMetricsResponse>;
   /**
    * @param deviceName The device name.
-   * @param iscsiServerName The iscsi server name.
-   * @param diskName The iscsi disk name.
+   * @param iscsiServerName The iSCSI server name.
+   * @param diskName The iSCSI disk name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
@@ -200,8 +200,8 @@ export class IscsiDisks {
   listMetrics(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.MetricList>): void;
   /**
    * @param deviceName The device name.
-   * @param iscsiServerName The iscsi server name.
-   * @param diskName The iscsi disk name.
+   * @param iscsiServerName The iSCSI server name.
+   * @param diskName The iSCSI disk name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param options The optional parameters
@@ -223,10 +223,10 @@ export class IscsiDisks {
   }
 
   /**
-   * Retrieves metric definitions for all metric aggregated at the iscsi disk.
+   * Retrieves metric definitions for all metric aggregated at the iSCSI disk.
    * @param deviceName The device name.
-   * @param iscsiServerName The iscsi server name.
-   * @param diskName The iscsi disk name.
+   * @param iscsiServerName The iSCSI server name.
+   * @param diskName The iSCSI disk name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param [options] The optional parameters
@@ -235,8 +235,8 @@ export class IscsiDisks {
   listMetricDefinition(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.IscsiDisksListMetricDefinitionResponse>;
   /**
    * @param deviceName The device name.
-   * @param iscsiServerName The iscsi server name.
-   * @param diskName The iscsi disk name.
+   * @param iscsiServerName The iSCSI server name.
+   * @param diskName The iSCSI disk name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
@@ -244,8 +244,8 @@ export class IscsiDisks {
   listMetricDefinition(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.MetricDefinitionList>): void;
   /**
    * @param deviceName The device name.
-   * @param iscsiServerName The iscsi server name.
-   * @param diskName The iscsi disk name.
+   * @param iscsiServerName The iSCSI server name.
+   * @param diskName The iSCSI disk name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param options The optional parameters
@@ -267,11 +267,11 @@ export class IscsiDisks {
   }
 
   /**
-   * Creates or updates the iscsi disk.
+   * Creates or updates the iSCSI disk.
    * @param deviceName The device name.
-   * @param iscsiServerName The iscsi server name.
+   * @param iscsiServerName The iSCSI server name.
    * @param diskName The disk name.
-   * @param iscsiDisk The iscsi disk.
+   * @param iscsiDisk The iSCSI disk.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param [options] The optional parameters
@@ -293,9 +293,9 @@ export class IscsiDisks {
   }
 
   /**
-   * Deletes the iscsi disk.
+   * Deletes the iSCSI disk.
    * @param deviceName The device name.
-   * @param iscsiServerName The iscsi server name.
+   * @param iscsiServerName The iSCSI server name.
    * @param diskName The disk name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name

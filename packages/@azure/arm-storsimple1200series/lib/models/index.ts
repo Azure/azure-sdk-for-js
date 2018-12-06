@@ -80,7 +80,7 @@ export interface AlertSource {
 /**
  * @interface
  * An interface representing AlertErrorDetails.
- * Errordetails for the alert
+ * Error details for the alert
  *
  */
 export interface AlertErrorDetails {
@@ -93,7 +93,7 @@ export interface AlertErrorDetails {
    */
   errorMessage?: string;
   /**
-   * @member {number} [occurences] Number of occurences.
+   * @member {number} [occurences] Number of occurrences.
    */
   occurences?: number;
 }
@@ -230,7 +230,7 @@ export interface AlertSettings extends BaseModel {
   alertNotificationCulture: string;
   /**
    * @member {string[]} [additionalRecipientEmailList] List of email addresses
-   * (apart from admin/coadmin of subscription) to whom the alert emails need
+   * (apart from admin/co-admin of subscription) to whom the alert emails need
    * to be sent
    */
   additionalRecipientEmailList?: string[];
@@ -471,7 +471,7 @@ export interface BackupScheduleGroup extends BaseModel {
 /**
  * @interface
  * An interface representing ChapSettings.
- * Challenge-Handshake Authentical Protocol (CHAP) setting
+ * Challenge-Handshake Authentication Protocol (CHAP) setting
  *
  * @extends BaseModel
  */
@@ -556,7 +556,7 @@ export interface FileShare extends BaseModel {
 /**
  * @interface
  * An interface representing ISCSIDisk.
- * The iscsi disk.
+ * The iSCSI disk.
  *
  * @extends BaseModel
  */
@@ -617,7 +617,7 @@ export interface CloneRequest {
    */
   targetDeviceId: string;
   /**
-   * @member {string} targetAccessPointId Accesspoint Id on which clone job
+   * @member {string} targetAccessPointId Access point Id on which clone job
    * will performed.
    */
   targetAccessPointId: string;
@@ -924,7 +924,7 @@ export interface FileServer extends BaseModel {
  */
 export interface IPConfig {
   /**
-   * @member {string} ipAddress The ipaddress of the network adapter, either
+   * @member {string} ipAddress The IP address of the network adapter, either
    * ipv4 or ipv6.
    */
   ipAddress: string;
@@ -941,7 +941,7 @@ export interface IPConfig {
 /**
  * @interface
  * An interface representing ISCSIServer.
- * The iscsi server.
+ * The iSCSI server.
  *
  * @extends BaseModel
  */
@@ -1234,7 +1234,7 @@ export interface JobFilter {
 /**
  * @interface
  * An interface representing ManagerIntrinsicSettings.
- * Intrinsic settings which refers to the type of the Storsimple manager
+ * Intrinsic settings which refers to the type of the StorSimple manager
  *
  */
 export interface ManagerIntrinsicSettings {
@@ -1840,7 +1840,7 @@ export interface Updates extends BaseModel {
   regularUpdatesAvailable?: boolean;
   /**
    * @member {boolean} [rebootRequiredForInstall] Set to true if
-   * RegularUpdatesAvailable is true and if atleast one of the updateItems
+   * RegularUpdatesAvailable is true and if at least one of the updateItems
    * detected has needs a reboot to install.
    */
   rebootRequiredForInstall?: boolean;
@@ -1988,11 +1988,11 @@ export interface UploadCertificateResponse extends BaseModel {
    */
   validTo: Date;
   /**
-   * @member {string} thumbprint Certificate thumbrprint
+   * @member {string} thumbprint Certificate thumbprint
    */
   thumbprint: string;
   /**
-   * @member {string} friendlyName Certificate friendlyname
+   * @member {string} friendlyName Certificate friendly name
    */
   friendlyName: string;
   /**
@@ -2221,7 +2221,7 @@ export interface StorSimpleManagementClientOptions extends AzureServiceClientOpt
 /**
  * @interface
  * An interface representing the ManagerList.
- * List of storsimple Managers under a particular resourceGroup
+ * List of StorSimple Managers under a particular resourceGroup
  *
  * @extends Array<Manager>
  */
