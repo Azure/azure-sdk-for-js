@@ -1937,11 +1937,11 @@ export const OperationStatusResponse: msRest.CompositeMapper = {
   }
 };
 
-export const PersonalPerferencesOperationsPayload: msRest.CompositeMapper = {
-  serializedName: "PersonalPerferencesOperationsPayload",
+export const PersonalPreferencesOperationsPayload: msRest.CompositeMapper = {
+  serializedName: "PersonalPreferencesOperationsPayload",
   type: {
     name: "Composite",
-    className: "PersonalPerferencesOperationsPayload",
+    className: "PersonalPreferencesOperationsPayload",
     modelProperties: {
       labAccountResourceId: {
         serializedName: "labAccountResourceId",
