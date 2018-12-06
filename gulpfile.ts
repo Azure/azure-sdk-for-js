@@ -155,21 +155,36 @@ function pack(): void {
         errorPackages++;
       }
       else {
-        _logger.log(`Packing package "${packageName}" with version "${localPackageVersion}"...${args.whatif ? " (SKIPPED)" : ""}`);
-        if (!args.whatif) {
-          try {
-            execSync(`npm pack`, { cwd: packageFolderPath });
-            const packFileName = `${packageName.replace("/", "-").replace("@", "")}-${localPackageVersion}.tgz`
-            const packFilePath = path.join(packageFolderPath, packFileName);
-            fs.renameSync(packFilePath, path.join(dropPath, packFileName));
-            console.log(`Filename: ${packFileName}`);
-            publishedPackages++;
-          }
-          catch (error) {
-            errorPackages++;
-          }
+        let npmPackageVersion: string | undefined;
+        try {
+          const npmViewResult: { [propertyName: string]: any } = JSON.parse(
+            execSync(`npm view ${packageName} --json`, { stdio: ['pipe', 'pipe', 'ignore'] }).toString()
+          );
+          npmPackageVersion = npmViewResult['dist-tags']['latest'];
+        }
+        catch (error) {
+          // This happens if the package doesn't exist in NPM.
+        }
+
+        if (localPackageVersion === npmPackageVersion) {
+          upToDatePackages++;
         } else {
-          publishedPackagesSkipped++;
+          _logger.log(`Packing package "${packageName}" with version "${localPackageVersion}"...${args.whatif ? " (SKIPPED)" : ""}`);
+          if (!args.whatif) {
+            try {
+              execSync(`npm pack`, { cwd: packageFolderPath });
+              const packFileName = `${packageName.replace("/", "-").replace("@", "")}-${localPackageVersion}.tgz`
+              const packFilePath = path.join(packageFolderPath, packFileName);
+              fs.renameSync(packFilePath, path.join(dropPath, packFileName));
+              console.log(`Filename: ${packFileName}`);
+              publishedPackages++;
+            }
+            catch (error) {
+              errorPackages++;
+            }
+          } else {
+            publishedPackagesSkipped++;
+          }
         }
       }
     }
