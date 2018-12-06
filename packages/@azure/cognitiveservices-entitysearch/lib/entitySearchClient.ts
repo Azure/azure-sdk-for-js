@@ -12,18 +12,18 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
-import { EntitySearchAPIClientContext } from "./entitySearchAPIClientContext";
+import { EntitySearchClientContext } from "./entitySearchClientContext";
 
-class EntitySearchAPIClient extends EntitySearchAPIClientContext {
+class EntitySearchClient extends EntitySearchClientContext {
   // Operation groups
   entities: operations.EntitiesOperations;
 
   /**
-   * Initializes a new instance of the EntitySearchAPIClient class.
+   * Initializes a new instance of the EntitySearchClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.EntitySearchAPIClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.EntitySearchClientOptions) {
     super(credentials, options);
     this.entities = new operations.EntitiesOperations(this);
   }
@@ -32,9 +32,9 @@ class EntitySearchAPIClient extends EntitySearchAPIClientContext {
 // Operation Specifications
 
 export {
-  EntitySearchAPIClient,
-  EntitySearchAPIClientContext,
-  Models as EntitySearchAPIModels,
-  Mappers as EntitySearchAPIMappers
+  EntitySearchClient,
+  EntitySearchClientContext,
+  Models as EntitySearchModels,
+  Mappers as EntitySearchMappers
 };
 export * from "./operations";
