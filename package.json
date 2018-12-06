@@ -47,6 +47,7 @@
     "minimist": "^1.2.0",
     "nodegit": "^0.23.0",
     "path": "^0.12.7",
+    "plugin-error": "^1.0.1",
     "ts-node": "^7.0.1",
     "typescript": "^3.1.6",
     "webpack": "^4.26.1",

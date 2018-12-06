@@ -7,6 +7,7 @@
 import { execSync } from "child_process";
 import * as fs from "fs";
 import gulp from "gulp";
+import PluginError from "plugin-error";
 import * as path from "path";
 import { Argv, CommandLineOptions, getCommandLineOptions } from "./.scripts/commandLine";
 import { endsWith, npmInstall, npmRunBuild } from "./.scripts/common";
@@ -16,9 +17,32 @@ import { Logger } from "./.scripts/logger";
 import { findMissingSdks, findWrongPackages } from "./.scripts/packages";
 import { getPackageFolderPathFromPackageArgument } from "./.scripts/readme";
 
+enum PackagesToPack {
+  All,
+  DifferentVersion,
+  BranchHasChanges
+}
+
+function getPackagesToPack(toPackArgument: string | undefined): PackagesToPack {
+  let result: PackagesToPack = PackagesToPack.DifferentVersion;
+  if (toPackArgument) {
+    const toPackArgumentLower: string = toPackArgument.toLowerCase();
+    for (const option in PackagesToPack) {
+      if (option.toLowerCase() === toPackArgumentLower) {
+        result = PackagesToPack[option] as any;
+        break;
+      }
+    }
+  }
+  return result;
+}
+
 const args: CommandLineOptions = getCommandLineOptions();
 const _logger: Logger = Logger.get();
 const azureSDKForJSRepoRoot: string = args["azure-sdk-for-js-repo-root"] || __dirname;
+const packagesToPack: PackagesToPack = getPackagesToPack(args["to-pack"] || process.env["to-pack"]);
+const headReference: string | undefined = args["head-reference"] || process.env["headReference"];
+const baseReference: string | undefined = args["base-reference"] || process.env["baseReference"];
 
 gulp.task('default', () => {
   _logger.log('gulp build --package <package-name>');
@@ -42,6 +66,8 @@ gulp.task('default', () => {
   _logger.log('    The name of the package to publish. If no package is specified, then all packages will be published.');
   _logger.log('  --whatif');
   _logger.log('    Don\'t actually publish packages, but just indicate which packages would be published.');
+  _logger.log("  --to-pack");
+  _logger.log(`    Which packages should be packed. Options are "All", "DifferentVersion", "BranchHasChanges".`)
 });
 
 gulp.task("install", async () => {
@@ -99,39 +125,51 @@ gulp.task('codegen', async () => {
   await generateSdk(argv.azureRestAPISpecsRoot, argv.azureSDKForJSRepoRoot, argv.package, argv.use, argv.debugger);
 });
 
+const folderNamesToIgnore: string[] = ["node_modules"];
+
+function getAllPackageFolders(folderPath: string, result?: string[]): string[] {
+  if (result == undefined) {
+    result = [];
+  }
+
+  const folderName: string = path.basename(folderPath);
+  if (folderNamesToIgnore.indexOf(folderName) === -1 && fs.existsSync(folderPath) && fs.lstatSync(folderPath).isDirectory()) {
+    const packageJsonFilePath: string = path.join(folderPath, "package.json");
+    if (fs.existsSync(packageJsonFilePath) && fs.lstatSync(packageJsonFilePath).isFile()) {
+      result.push(folderPath);
+    }
+
+    for (const folderEntryName of fs.readdirSync(folderPath)) {
+      const folderEntryPath: string = path.join(folderPath, folderEntryName);
+      getAllPackageFolders(folderEntryPath, result);
+    }
+  }
+
+  return result;
+}
+
 function pack(): void {
   let errorPackages = 0;
   let upToDatePackages = 0;
   let publishedPackages = 0;
   let publishedPackagesSkipped = 0;
 
+  if (packagesToPack === PackagesToPack.BranchHasChanges) {
+    let errorMessage: string | undefined;
+    if (!baseReference) {
+      errorMessage = "base-reference argument must be specified on command line or in an environment variable when packing packages with changes in branch.";
+    } else if (!headReference) {
+      errorMessage = "head-reference argument must be specified on command line or in an environment variable when packing packages with changes in branch.";
+    }
+    if (errorMessage) {
+      throw new PluginError("pack", { message: errorMessage });
+    }
+  }
+
   // `./drop/` folder
   const dropPath = path.join(azureSDKForJSRepoRoot, "drop");
   if (!fs.existsSync(dropPath)) {
     fs.mkdirSync(dropPath);
-  }
-
-  const folderNamesToIgnore: string[] = ["node_modules"];
-
-  function getAllPackageFolders(folderPath: string, result?: string[]): string[] {
-    if (result == undefined) {
-      result = [];
-    }
-
-    const folderName: string = path.basename(folderPath);
-    if (folderNamesToIgnore.indexOf(folderName) === -1 && fs.existsSync(folderPath) && fs.lstatSync(folderPath).isDirectory()) {
-      const packageJsonFilePath: string = path.join(folderPath, "package.json");
-      if (fs.existsSync(packageJsonFilePath) && fs.lstatSync(packageJsonFilePath).isFile()) {
-        result.push(folderPath);
-      }
-
-      for (const folderEntryName of fs.readdirSync(folderPath)) {
-        const folderEntryPath: string = path.join(folderPath, folderEntryName);
-        getAllPackageFolders(folderEntryPath, result);
-      }
-    }
-
-    return result;
   }
 
   const packagesToSkip: string[] = ["@azure/keyvault"];
@@ -155,20 +193,32 @@ function pack(): void {
         errorPackages++;
       }
       else {
-        let npmPackageVersion: string | undefined;
-        try {
-          const npmViewResult: { [propertyName: string]: any } = JSON.parse(
-            execSync(`npm view ${packageName} --json`, { stdio: ['pipe', 'pipe', 'ignore'] }).toString()
-          );
-          npmPackageVersion = npmViewResult['dist-tags']['latest'];
-        }
-        catch (error) {
-          // This happens if the package doesn't exist in NPM.
+        let shouldPack: boolean = false;
+
+        if (packagesToPack === PackagesToPack.All) {
+          shouldPack = true;
+        } else if (packagesToPack === PackagesToPack.DifferentVersion) {
+          let npmPackageVersion: string | undefined;
+          try {
+            const npmViewResult: { [propertyName: string]: any } = JSON.parse(
+              execSync(`npm view ${packageName} --json`, { stdio: ['pipe', 'pipe', 'ignore'] }).toString()
+            );
+            npmPackageVersion = npmViewResult['dist-tags']['latest'];
+          }
+          catch (error) {
+            // This happens if the package doesn't exist in NPM.
+          }
+
+          if (localPackageVersion === npmPackageVersion) {
+            upToDatePackages++;
+          } else {
+            shouldPack = true;
+          }
+        } else if (packagesToPack === PackagesToPack.BranchHasChanges) {
+          throw new PluginError("pack", { message: "BranchHasChanges is not yet supported." });
         }
 
-        if (localPackageVersion === npmPackageVersion) {
-          upToDatePackages++;
-        } else {
+        if (shouldPack) {
           _logger.log(`Packing package "${packageName}" with version "${localPackageVersion}"...${args.whatif ? " (SKIPPED)" : ""}`);
           if (!args.whatif) {
             try {
@@ -203,6 +253,10 @@ function pack(): void {
   _logger.log(`Up to date packages: ${padLeft(upToDatePackages, minimumWidth)}`);
   _logger.log(`Packed packages:     ${padLeft(publishedPackages, minimumWidth)}`);
   _logger.log(`Skipped packages:    ${padLeft(publishedPackagesSkipped, minimumWidth)}`);
+
+  if (errorPackages !== 0) {
+    throw new PluginError("pack", { message: "Some packages failed to pack." });
+  }
 }
 
 gulp.task('pack', () => pack());
