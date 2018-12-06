@@ -178,8 +178,6 @@ export interface OpenShiftManagedClusterAgentPoolProfile {
   name: string;
   /**
    * @member {number} count Number of agents (VMs) to host docker containers.
-   * Allowed values must be in the range of 1 to 5 (inclusive). The default
-   * value is 2.
    */
   count: number;
   /**
