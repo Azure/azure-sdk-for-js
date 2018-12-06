@@ -14,16 +14,16 @@ import * as Models from "./models";
 const packageName = "@azure/cognitiveservices-entitysearch";
 const packageVersion = "0.1.0";
 
-export class EntitySearchAPIClientContext extends msRest.ServiceClient {
+export class EntitySearchClientContext extends msRest.ServiceClient {
   endpoint?: string;
   credentials: msRest.ServiceClientCredentials;
 
   /**
-   * Initializes a new instance of the EntitySearchAPIClientContext class.
+   * Initializes a new instance of the EntitySearchClientContext class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.EntitySearchAPIClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.EntitySearchClientOptions) {
     if (credentials === null || credentials === undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
