@@ -44,12 +44,13 @@
             }
         ],
         "no-internal-module": true,
-        "no-trailing-whitespace": true,
+        "jsdoc-format": true,
         "no-inferrable-types": [true],
         "no-null-keyword": true,
-        "prefer-const": true,
+        "no-return-await": true,
         "no-switch-case-fall-through": true,
-        "triple-equals": [true, "allow-undefined-check"],
-        "jsdoc-format": true
+        "no-trailing-whitespace": true,
+        "prefer-const": true,
+        "triple-equals": [true, "allow-undefined-check"]
     }
 }
