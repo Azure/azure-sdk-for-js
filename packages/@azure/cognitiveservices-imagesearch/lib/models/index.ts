@@ -1045,7 +1045,7 @@ export interface ImageObject {
    * of the number of websites where you can buy an apple pie. To indicate the
    * number of offers in your UX, include badging such as a shopping cart icon
    * that contains the count. When the user clicks on the icon, use
-   * imageInisghtsToken to get the list of websites.
+   * imageInsightsToken to get the list of websites.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -2616,10 +2616,10 @@ export interface Person {
 
 /**
  * @interface
- * An interface representing ImageSearchAPIClientOptions.
+ * An interface representing ImageSearchClientOptions.
  * @extends ServiceClientOptions
  */
-export interface ImageSearchAPIClientOptions extends ServiceClientOptions {
+export interface ImageSearchClientOptions extends ServiceClientOptions {
   /**
    * @member {string} [endpoint] Supported Cognitive Services endpoints
    * (protocol and hostname, for example:
