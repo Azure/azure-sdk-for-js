@@ -40,6 +40,8 @@ export {
   Sku,
   Status,
   StorageAccountProperties,
+  NetworkRuleSet,
+  VirtualNetworkRule,
   Replication,
   Webhook
 } from "../models/mappers";

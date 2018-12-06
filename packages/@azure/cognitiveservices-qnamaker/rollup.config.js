@@ -6,15 +6,15 @@ import sourcemaps from "rollup-plugin-sourcemaps";
  * @type {rollup.RollupFileOptions}
  */
 const config = {
-  input: "./esm/trainingAPIClient.js",
+  input: "./esm/qnAMakerClient.js",
   external: [
     "@azure/ms-rest-js",
     "@azure/ms-rest-azure-js"
   ],
   output: {
-    file: "./dist/cognitiveservices-customvision-training.js",
+    file: "./dist/cognitiveservices-qnamaker.js",
     format: "umd",
-    name: "Azure.CognitiveservicesCustomvisionTraining",
+    name: "Azure.CognitiveservicesQnamaker",
     sourcemap: true,
     globals: {
       "@azure/ms-rest-js": "msRest",
