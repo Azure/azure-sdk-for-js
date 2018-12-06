@@ -12,18 +12,18 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
-import { NewsSearchAPIClientContext } from "./newsSearchAPIClientContext";
+import { NewsSearchClientContext } from "./newsSearchClientContext";
 
-class NewsSearchAPIClient extends NewsSearchAPIClientContext {
+class NewsSearchClient extends NewsSearchClientContext {
   // Operation groups
   news: operations.NewsOperations;
 
   /**
-   * Initializes a new instance of the NewsSearchAPIClient class.
+   * Initializes a new instance of the NewsSearchClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.NewsSearchAPIClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.NewsSearchClientOptions) {
     super(credentials, options);
     this.news = new operations.NewsOperations(this);
   }
@@ -32,9 +32,9 @@ class NewsSearchAPIClient extends NewsSearchAPIClientContext {
 // Operation Specifications
 
 export {
-  NewsSearchAPIClient,
-  NewsSearchAPIClientContext,
-  Models as NewsSearchAPIModels,
-  Mappers as NewsSearchAPIMappers
+  NewsSearchClient,
+  NewsSearchClientContext,
+  Models as NewsSearchModels,
+  Mappers as NewsSearchMappers
 };
 export * from "./operations";

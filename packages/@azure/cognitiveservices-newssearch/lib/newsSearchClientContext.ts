@@ -14,16 +14,16 @@ import * as Models from "./models";
 const packageName = "@azure/cognitiveservices-newssearch";
 const packageVersion = "0.1.0";
 
-export class NewsSearchAPIClientContext extends msRest.ServiceClient {
+export class NewsSearchClientContext extends msRest.ServiceClient {
   endpoint?: string;
   credentials: msRest.ServiceClientCredentials;
 
   /**
-   * Initializes a new instance of the NewsSearchAPIClientContext class.
+   * Initializes a new instance of the NewsSearchClientContext class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.NewsSearchAPIClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.NewsSearchClientOptions) {
     if (credentials === null || credentials === undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
