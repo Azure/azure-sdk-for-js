@@ -44,18 +44,6 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     }
   }
 };
-export const apiVersion2: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2018-12-01',
-    type: {
-      name: "String"
-    }
-  }
-};
 export const applicationGatewayName: msRest.OperationURLParameter = {
   parameterPath: "applicationGatewayName",
   mapper: {
