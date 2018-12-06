@@ -1,6 +1,6 @@
-## An isomorphic javascript sdk for - VideoSearchAPIClient
+## An isomorphic javascript sdk for - VideoSearchClient
 
-This package contains an isomorphic SDK for VideoSearchAPIClient.
+This package contains an isomorphic SDK for VideoSearchClient.
 
 ### Currently supported environments
 
@@ -9,7 +9,7 @@ This package contains an isomorphic SDK for VideoSearchAPIClient.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/cognitiveservices-videosearch
 ```
 
@@ -19,20 +19,20 @@ npm install @azure/cognitiveservices-videosearch
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
+```bash
 npm install @azure/ms-rest-nodeauth
 ```
 
 ##### Sample code
 
-```ts
+```typescript
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { VideoSearchAPIClient, VideoSearchAPIModels, VideoSearchAPIMappers } from "@azure/cognitiveservices-videosearch";
+import { VideoSearchClient, VideoSearchModels, VideoSearchMappers } from "@azure/cognitiveservices-videosearch";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new VideoSearchAPIClient(creds, subscriptionId);
+  const client = new VideoSearchClient(creds, subscriptionId);
   const query = "testquery";
   const acceptLanguage = "testacceptLanguage";
   const userAgent = "testuserAgent";
@@ -65,7 +65,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 
@@ -93,7 +93,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.CognitiveservicesVideosearch.VideoSearchAPIClient(res.creds, subscriptionId);
+        const client = new Azure.CognitiveservicesVideosearch.VideoSearchClient(res.creds, subscriptionId);
         const query = "testquery";
         const acceptLanguage = "testacceptLanguage";
         const userAgent = "testuserAgent";
