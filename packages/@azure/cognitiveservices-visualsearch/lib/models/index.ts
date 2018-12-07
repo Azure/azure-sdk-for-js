@@ -3009,10 +3009,10 @@ export interface VisualSearchRequest {
 
 /**
  * @interface
- * An interface representing VisualSearchAPIClientOptions.
+ * An interface representing VisualSearchClientOptions.
  * @extends ServiceClientOptions
  */
-export interface VisualSearchAPIClientOptions extends ServiceClientOptions {
+export interface VisualSearchClientOptions extends ServiceClientOptions {
   /**
    * @member {string} [endpoint] Supported Cognitive Services endpoints
    * (protocol and hostname, for example:
