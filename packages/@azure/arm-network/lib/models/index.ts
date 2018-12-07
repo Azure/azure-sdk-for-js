@@ -156,21 +156,22 @@ export interface SecurityRule extends SubResource {
   protocol: SecurityRuleProtocol;
   /**
    * @member {string} [sourcePortRange] The source port or range. Integer or
-   * range between 0 and 65535. Asterix '*' can also be used to match all
+   * range between 0 and 65535. Asterisks '*' can also be used to match all
    * ports.
    */
   sourcePortRange?: string;
   /**
    * @member {string} [destinationPortRange] The destination port or range.
-   * Integer or range between 0 and 65535. Asterix '*' can also be used to
+   * Integer or range between 0 and 65535. Asterisks '*' can also be used to
    * match all ports.
    */
   destinationPortRange?: string;
   /**
    * @member {string} [sourceAddressPrefix] The CIDR or source IP range.
-   * Asterix '*' can also be used to match all source IPs. Default tags such as
-   * 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If
-   * this is an ingress rule, specifies where network traffic originates from.
+   * Asterisks '*' can also be used to match all source IPs. Default tags such
+   * as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.
+   * If this is an ingress rule, specifies where network traffic originates
+   * from.
    */
   sourceAddressPrefix?: string;
   /**
@@ -184,7 +185,7 @@ export interface SecurityRule extends SubResource {
   sourceApplicationSecurityGroups?: ApplicationSecurityGroup[];
   /**
    * @member {string} [destinationAddressPrefix] The destination address
-   * prefix. CIDR or destination IP range. Asterix '*' can also be used to
+   * prefix. CIDR or destination IP range. Asterisks '*' can also be used to
    * match all source IPs. Default tags such as 'VirtualNetwork',
    * 'AzureLoadBalancer' and 'Internet' can also be used.
    */
@@ -223,7 +224,7 @@ export interface SecurityRule extends SubResource {
   priority?: number;
   /**
    * @member {SecurityRuleDirection} direction The direction of the rule. The
-   * direction specifies if rule will be evaluated on incoming or outcoming
+   * direction specifies if rule will be evaluated on incoming or outgoing
    * traffic. Possible values are: 'Inbound' and 'Outbound'. Possible values
    * include: 'Inbound', 'Outbound'
    */
@@ -867,7 +868,7 @@ export interface IPConfiguration extends SubResource {
 export interface IPConfigurationProfile extends SubResource {
   /**
    * @member {Subnet} [subnet] The reference of the subnet resource to create a
-   * contatainer network interface ip configruation.
+   * container network interface ip configuration.
    */
   subnet?: Subnet;
   /**
@@ -2591,16 +2592,16 @@ export interface ApplicationGatewayWebApplicationFirewallConfiguration {
    */
   requestBodyCheck?: boolean;
   /**
-   * @member {number} [maxRequestBodySize] Maxium request body size for WAF.
+   * @member {number} [maxRequestBodySize] Maximum request body size for WAF.
    */
   maxRequestBodySize?: number;
   /**
-   * @member {number} [maxRequestBodySizeInKb] Maxium request body size in Kb
+   * @member {number} [maxRequestBodySizeInKb] Maximum request body size in Kb
    * for WAF.
    */
   maxRequestBodySizeInKb?: number;
   /**
-   * @member {number} [fileUploadLimitInMb] Maxium file upload size in Mb for
+   * @member {number} [fileUploadLimitInMb] Maximum file upload size in Mb for
    * WAF.
    */
   fileUploadLimitInMb?: number;
@@ -3594,7 +3595,7 @@ export interface ExpressRouteCircuitPeeringConfig {
   advertisedPublicPrefixes?: string[];
   /**
    * @member {string[]} [advertisedCommunities] The communities of bgp peering.
-   * Spepcified for microsoft peering
+   * Specified for microsoft peering
    */
   advertisedCommunities?: string[];
   /**
@@ -3743,7 +3744,7 @@ export interface ExpressRouteCircuitConnection extends SubResource {
   readonly circuitConnectionStatus?: CircuitConnectionStatus;
   /**
    * @member {string} [provisioningState] Provisioning state of the circuit
-   * connection resource. Possible values are: 'Succeded', 'Updating',
+   * connection resource. Possible values are: 'Succeeded', 'Updating',
    * 'Deleting', and 'Failed'.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -4836,7 +4837,7 @@ export interface ExpressRoutePort extends Resource {
    */
   encapsulation?: ExpressRoutePortsEncapsulation;
   /**
-   * @member {string} [etherType] Ethertype of the physical port.
+   * @member {string} [etherType] Ether type of the physical port.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -5381,13 +5382,13 @@ export interface EffectiveNetworkSecurityRule {
   /**
    * @member {string[]} [sourcePortRanges] The source port ranges. Expected
    * values include a single integer between 0 and 65535, a range using '-' as
-   * seperator (e.g. 100-400), or an asterix (*)
+   * separator (e.g. 100-400), or an asterisk (*)
    */
   sourcePortRanges?: string[];
   /**
    * @member {string[]} [destinationPortRanges] The destination port ranges.
    * Expected values include a single integer between 0 and 65535, a range
-   * using '-' as seperator (e.g. 100-400), or an asterix (*)
+   * using '-' as separator (e.g. 100-400), or an asterisk (*)
    */
   destinationPortRanges?: string[];
   /**
@@ -5402,14 +5403,14 @@ export interface EffectiveNetworkSecurityRule {
   /**
    * @member {string[]} [sourceAddressPrefixes] The source address prefixes.
    * Expected values include CIDR IP ranges, Default Tags (VirtualNetwork,
-   * AureLoadBalancer, Internet), System Tags, and the asterix (*).
+   * AzureLoadBalancer, Internet), System Tags, and the asterisk (*).
    */
   sourceAddressPrefixes?: string[];
   /**
    * @member {string[]} [destinationAddressPrefixes] The destination address
    * prefixes. Expected values include CIDR IP ranges, Default Tags
-   * (VirtualNetwork, AureLoadBalancer, Internet), System Tags, and the asterix
-   * (*).
+   * (VirtualNetwork, AzureLoadBalancer, Internet), System Tags, and the
+   * asterisk (*).
    */
   destinationAddressPrefixes?: string[];
   /**
@@ -5556,7 +5557,7 @@ export interface EffectiveRouteListResult {
 /**
  * @interface
  * An interface representing ContainerNetworkInterfaceConfiguration.
- * Container network interface configruation child resource.
+ * Container network interface configuration child resource.
  *
  * @extends SubResource
  */
@@ -5654,7 +5655,7 @@ export interface ContainerNetworkInterface extends SubResource {
    */
   containerNetworkInterfaceConfiguration?: ContainerNetworkInterfaceConfiguration;
   /**
-   * @member {Container} [container] Reference to the conatinaer to which this
+   * @member {Container} [container] Reference to the container to which this
    * container network interface is attached.
    */
   container?: Container;
@@ -7315,7 +7316,7 @@ export interface ConnectionStateSnapshot {
 /**
  * @interface
  * An interface representing ConnectionMonitorQueryResult.
- * List of connection states snaphots.
+ * List of connection states snapshots.
  *
  */
 export interface ConnectionMonitorQueryResult {
@@ -7361,9 +7362,8 @@ export interface NetworkConfigurationDiagnosticProfile {
    */
   destination: string;
   /**
-   * @member {string} destinationPort Traffice destination port. Accepted
-   * values are '*', port (for example, 3389) and port range (for example,
-   * 80-100).
+   * @member {string} destinationPort Traffic destination port. Accepted values
+   * are '*', port (for example, 3389) and port range (for example, 80-100).
    */
   destinationPort: string;
 }
@@ -9404,8 +9404,7 @@ export interface P2SVpnServerConfiguration extends SubResource {
   radiusServerAddress?: string;
   /**
    * @member {string} [radiusServerSecret] The radius secret property of the
-   * P2SVpnServerConfiguration resource for for point to site client
-   * connection.
+   * P2SVpnServerConfiguration resource for point to site client connection.
    */
   radiusServerSecret?: string;
   /**
@@ -9981,7 +9980,7 @@ export interface P2SVpnGateway extends Resource {
   vpnClientAddressPool?: AddressSpace;
   /**
    * @member {VpnClientConnectionHealth} [vpnClientConnectionHealth] All P2S
-   * vpnclients' connection health status.
+   * VPN clients' connection health status.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
