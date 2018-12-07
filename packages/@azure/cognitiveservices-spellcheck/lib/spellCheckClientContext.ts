@@ -11,19 +11,19 @@
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 
-const packageName = "@azure/cognitiveservices-websearch";
+const packageName = "@azure/cognitiveservices-spellcheck";
 const packageVersion = "0.1.0";
 
-export class WebSearchAPIClientContext extends msRest.ServiceClient {
+export class SpellCheckClientContext extends msRest.ServiceClient {
   endpoint?: string;
   credentials: msRest.ServiceClientCredentials;
 
   /**
-   * Initializes a new instance of the WebSearchAPIClientContext class.
+   * Initializes a new instance of the SpellCheckClientContext class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.WebSearchAPIClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.SpellCheckClientOptions) {
     if (credentials === null || credentials === undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
@@ -40,7 +40,7 @@ export class WebSearchAPIClientContext extends msRest.ServiceClient {
 
     this.endpoint = 'https://api.cognitive.microsoft.com';
     this.baseUri = "{Endpoint}";
-    this.requestContentType = "application/json; charset=utf-8";
+    this.requestContentType = "application/x-www-form-urlencoded";
     this.credentials = credentials;
 
     if(options.endpoint !== null && options.endpoint !== undefined) {

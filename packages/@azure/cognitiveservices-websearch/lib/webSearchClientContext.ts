@@ -11,19 +11,19 @@
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 
-const packageName = "@azure/cognitiveservices-visualsearch";
+const packageName = "@azure/cognitiveservices-websearch";
 const packageVersion = "0.1.0";
 
-export class VisualSearchAPIClientContext extends msRest.ServiceClient {
+export class WebSearchClientContext extends msRest.ServiceClient {
   endpoint?: string;
   credentials: msRest.ServiceClientCredentials;
 
   /**
-   * Initializes a new instance of the VisualSearchAPIClientContext class.
+   * Initializes a new instance of the WebSearchClientContext class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.VisualSearchAPIClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.WebSearchClientOptions) {
     if (credentials === null || credentials === undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
@@ -40,7 +40,7 @@ export class VisualSearchAPIClientContext extends msRest.ServiceClient {
 
     this.endpoint = 'https://api.cognitive.microsoft.com';
     this.baseUri = "{Endpoint}";
-    this.requestContentType = "multipart/form-data";
+    this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
 
     if(options.endpoint !== null && options.endpoint !== undefined) {

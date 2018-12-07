@@ -12,29 +12,29 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
-import { VisualSearchAPIClientContext } from "./visualSearchAPIClientContext";
+import { VideoSearchClientContext } from "./videoSearchClientContext";
 
-class VisualSearchAPIClient extends VisualSearchAPIClientContext {
+class VideoSearchClient extends VideoSearchClientContext {
   // Operation groups
-  images: operations.Images;
+  videos: operations.VideosOperations;
 
   /**
-   * Initializes a new instance of the VisualSearchAPIClient class.
+   * Initializes a new instance of the VideoSearchClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.VisualSearchAPIClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.VideoSearchClientOptions) {
     super(credentials, options);
-    this.images = new operations.Images(this);
+    this.videos = new operations.VideosOperations(this);
   }
 }
 
 // Operation Specifications
 
 export {
-  VisualSearchAPIClient,
-  VisualSearchAPIClientContext,
-  Models as VisualSearchAPIModels,
-  Mappers as VisualSearchAPIMappers
+  VideoSearchClient,
+  VideoSearchClientContext,
+  Models as VideoSearchModels,
+  Mappers as VideoSearchMappers
 };
 export * from "./operations";
