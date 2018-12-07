@@ -15,7 +15,7 @@ describe("Aborter", () => {
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
   });
 
-  it("Should not abort after calling abort()", async () => {
+  it.only("Should not abort after calling abort()", async () => {
     await containerURL.create(Aborter.none);
   });
 

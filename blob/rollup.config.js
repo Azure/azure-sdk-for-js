@@ -86,7 +86,7 @@ const browserRollupConfigFactory = isProduction => {
 };
 
 export default [
-  nodeRollupConfigFactory(),
+  browserRollupConfigFactory(false),
   browserRollupConfigFactory(true),
-  browserRollupConfigFactory(false)
+  nodeRollupConfigFactory()
 ];

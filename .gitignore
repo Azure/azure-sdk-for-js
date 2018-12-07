@@ -57,6 +57,9 @@ typings/
 /blob/typings/
 /blob/browser/
 /blob/dist-*/
+/blob/temp
+
+test*.xml
 
 # Visual Studio Code
 .vscode/

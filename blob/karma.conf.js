@@ -14,7 +14,10 @@ module.exports = function(config) {
       "karma-edge-launcher",
       "karma-firefox-launcher",
       "karma-ie-launcher",
-      "karma-env-preprocessor"
+      "karma-env-preprocessor",
+      "karma-coverage",
+      "karma-remap-coverage",
+      "karma-junit-reporter"
     ],
 
     // list of files / patterns to load in the browser
@@ -30,7 +33,10 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      "**/*.js": ["env"]
+      "**/*.js": ["env"],
+      // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
+      // Preprocess source file to calculate code coverage, however this will make source file unreadable
+      "dist-test/index.browser.js": ["coverage"]
     },
 
     // inject following environment values into browser testing with window.__env__
@@ -41,7 +47,30 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["mocha"],
+    reporters: ["mocha", "coverage", "remap-coverage", "junit"],
+
+    coverageReporter: { type: "in-memory" },
+
+    // Coverage report settings
+    remapCoverageReporter: {
+      "text-summary": null, // to show summary in console
+      html: "./coverage-browser"
+    },
+
+    // Exclude coverage calculation for following files
+    remapOptions: {
+      exclude: /node_modules|tests/g
+    },
+
+    junitReporter: {
+      outputDir: "", // results will be saved as $outputDir/$browserName.xml
+      outputFile: "", // if included, results will be saved as $outputDir/$browserName/$outputFile
+      suite: "", // suite will become the package name attribute in xml testsuite element
+      useBrowserName: true, // add browser name to report and classes names
+      nameFormatter: undefined, // function (browser, result) to customize the name attribute in xml testcase element
+      classNameFormatter: undefined, // function (browser, result) to customize the classname attribute in xml testcase element
+      properties: {} // key value pair of properties to add to the <properties> section of the report
+    },
 
     // web server port
     port: 9876,
