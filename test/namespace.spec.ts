@@ -35,6 +35,7 @@ describe("Create Namespace", function() {
         "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
       );
       namespace.should.be.an.instanceof(Namespace);
+      should.equal(namespace.name, "sb://a/");
     });
   });
 });
@@ -119,6 +120,20 @@ describe("Errors when send/receive to/from non existing Namespace", function() {
   it("throws when sending data via a topicClient to a non existing namespace", function() {
     const client = namespace.createTopicClient("some-name");
     const sendPromise = client.send({ body: "hello" }).catch(testError);
+
+    return sendPromise.then(() => should.equal(errorWasThrown, true));
+  });
+
+  it("throws when sending batch data via a queueClient to a non existing namespace", function() {
+    const client = namespace.createQueueClient("some-name");
+    const sendPromise = client.sendBatch([{ body: "hello" }]).catch(testError);
+
+    return sendPromise.then(() => should.equal(errorWasThrown, true));
+  });
+
+  it("throws when sending batch data via a topicClient to a non existing namespace", function() {
+    const client = namespace.createTopicClient("some-name");
+    const sendPromise = client.sendBatch([{ body: "hello" }]).catch(testError);
 
     return sendPromise.then(() => should.equal(errorWasThrown, true));
   });
