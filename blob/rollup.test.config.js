@@ -1,16 +1,13 @@
 import multi from "rollup-plugin-multi-entry";
 import baseConfig from "./rollup.config";
-const [node, browser] = baseConfig;
+import sourcemaps from "rollup-plugin-sourcemaps";
+const [browser] = baseConfig;
 
-node.input = ["dist-esm/test/*.js", "dist-esm/test/node/*.js"];
-node.output.file = "dist-test/index.js";
-node.plugins.unshift(multi());
-node.external.push("assert", "path");
-node.context = "null";
-
-browser.input = ["dist-esm/test/*.js", "dist-esm/test/browser/*.js"];
+browser.input = ["dist-esm/tests/*.js", "dist-esm/tests/browser/*.js"];
+browser.output.sourcemap = "inline";
 browser.output.file = "dist-test/index.browser.js";
 browser.plugins.unshift(multi());
+browser.plugins.unshift(sourcemaps());
 browser.context = "null";
 
-export default [node, browser];
+export default [browser];
