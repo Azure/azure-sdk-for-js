@@ -108,14 +108,14 @@ export class BlobURL extends StorageURL {
    * Creates a BlobURL object from an ContainerURL object.
    *
    * @static
-   * @param {ContainerURL} containerURL
-   * @param {string} blobName
+   * @param {ContainerURL} containerURL A ContainerURL object
+   * @param {string} blobName A blob name
    * @returns
    * @memberof BlobURL
    */
   public static fromContainerURL(containerURL: ContainerURL, blobName: string) {
     return new BlobURL(
-      appendToURLPath(containerURL.url, blobName),
+      appendToURLPath(containerURL.url, encodeURIComponent(blobName)),
       containerURL.pipeline
     );
   }

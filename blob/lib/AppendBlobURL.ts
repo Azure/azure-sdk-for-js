@@ -38,8 +38,8 @@ export class AppendBlobURL extends BlobURL {
    * Creates a AppendBlobURL object from ContainerURL instance.
    *
    * @static
-   * @param {ContainerURL} containerURL
-   * @param {string} blobName
+   * @param {ContainerURL} containerURL A ContainerURL object
+   * @param {string} blobName A blob name will be URI encoded
    * @returns {AppendBlobURL}
    * @memberof AppendBlobURL
    */
@@ -48,7 +48,7 @@ export class AppendBlobURL extends BlobURL {
     blobName: string
   ): AppendBlobURL {
     return new AppendBlobURL(
-      appendToURLPath(containerURL.url, blobName),
+      appendToURLPath(containerURL.url, encodeURIComponent(blobName)),
       containerURL.pipeline
     );
   }

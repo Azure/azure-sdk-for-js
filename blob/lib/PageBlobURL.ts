@@ -65,8 +65,8 @@ export class PageBlobURL extends BlobURL {
    * Creates a PageBlobURL object from ContainerURL instance.
    *
    * @static
-   * @param {ContainerURL} containerURL
-   * @param {string} blobName
+   * @param {ContainerURL} containerURL A ContainerURL object
+   * @param {string} blobName A blob name
    * @returns {PageBlobURL}
    * @memberof PageBlobURL
    */
@@ -75,7 +75,7 @@ export class PageBlobURL extends BlobURL {
     blobName: string
   ): PageBlobURL {
     return new PageBlobURL(
-      appendToURLPath(containerURL.url, blobName),
+      appendToURLPath(containerURL.url, encodeURIComponent(blobName)),
       containerURL.pipeline
     );
   }
