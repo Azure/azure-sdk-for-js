@@ -126,7 +126,7 @@ export interface AlertErrorDetails {
    */
   errorMessage?: string;
   /**
-   * @member {number} [occurences] The number of occurences
+   * @member {number} [occurences] The number of occurrences
    */
   occurences?: number;
 }
@@ -511,7 +511,7 @@ export interface BackupPolicy extends BaseModel {
   readonly schedulesCount?: number;
   /**
    * @member {ScheduledBackupStatus} [scheduledBackupStatus] Indicates whether
-   * atleast one of the schedules in the backup policy is active or not.
+   * at least one of the schedules in the backup policy is active or not.
    * Possible values include: 'Disabled', 'Enabled'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -627,7 +627,7 @@ export interface Time {
  */
 export interface BandwidthSchedule {
   /**
-   * @member {Time} start The start time of the schdule.
+   * @member {Time} start The start time of the schedule.
    */
   start: Time;
   /**
@@ -1490,7 +1490,7 @@ export interface FailoverTarget {
    */
   deviceSoftwareVersion?: string;
   /**
-   * @member {number} [dataContainersCount] The count of datacontainers on the
+   * @member {number} [dataContainersCount] The count of data containers on the
    * device.
    */
   dataContainersCount?: number;
@@ -1822,7 +1822,7 @@ export interface ListFailoverTargetsRequest {
 /**
  * @interface
  * An interface representing ManagerIntrinsicSettings.
- * Intrinsic settings which refers to the type of the Storsimple Manager.
+ * Intrinsic settings which refers to the type of the StorSimple Manager.
  *
  */
 export interface ManagerIntrinsicSettings {
