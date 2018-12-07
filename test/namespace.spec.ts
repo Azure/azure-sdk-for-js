@@ -17,26 +17,24 @@ function testFalsyValues(testFn: Function) {
 }
 
 describe("Create Namespace", function() {
-  describe(".fromConnectionString", function() {
-    it("throws when there is no connection string", function() {
-      testFalsyValues(function(value: any) {
-        const test = function() {
-          return Namespace.createFromConnectionString(value);
-        };
-        test.should.throw(
-          Error,
-          "'connectionString' is a required parameter and must be of type: 'string'."
-        );
-      });
-    });
-
-    it("creates an Namespace from a connection string", function() {
-      const namespace = Namespace.createFromConnectionString(
-        "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
+  it("throws when there is no connection string", function() {
+    testFalsyValues(function(value: any) {
+      const test = function() {
+        return Namespace.createFromConnectionString(value);
+      };
+      test.should.throw(
+        Error,
+        "'connectionString' is a required parameter and must be of type: 'string'."
       );
-      namespace.should.be.an.instanceof(Namespace);
-      should.equal(namespace.name, "sb://a/");
     });
+  });
+
+  it("creates an Namespace from a connection string", function() {
+    const namespace = Namespace.createFromConnectionString(
+      "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
+    );
+    namespace.should.be.an.instanceof(Namespace);
+    should.equal(namespace.name, "sb://a/");
   });
 });
 
