@@ -55,8 +55,8 @@ describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
       throw new Error("Please use an empty queue for integration testing");
     }
 
-    const peekedTopicMsg = await subscriptionClient.peek();
-    if (peekedTopicMsg.length) {
+    const peekedSubscriptionMsg = await subscriptionClient.peek();
+    if (peekedSubscriptionMsg.length) {
       throw new Error("Please use an empty Subscription for integration testing");
     }
   });
@@ -80,6 +80,9 @@ describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
     should.equal(msgs[0].messageId, testMessage.messageId);
 
     await msgs[0].complete();
+
+    const peekedQueueMsg = await queueClient.peek();
+    should.equal(peekedQueueMsg.length, 0);
   });
 
   it("Simple send and recieveBatch using Topics and Subscriptions", async function() {
@@ -97,6 +100,9 @@ describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
     should.equal(msgs[0].messageId, testMessage.messageId);
 
     await msgs[0].complete();
+
+    const peekedSubscriptionMsg = await subscriptionClient.peek();
+    should.equal(peekedSubscriptionMsg.length, 0);
   });
 
   it("Simple sendBatch and multiple recieveBatch using Queues", async function() {
@@ -127,6 +133,9 @@ describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
 
     await msgs1[0].complete();
     await msgs2[0].complete();
+
+    const peekedQueueMsg = await queueClient.peek();
+    should.equal(peekedQueueMsg.length, 0);
   });
 
   it("Simple sendBatch and multiple recieveBatch using Topics and Subscriptions", async function() {
@@ -157,6 +166,9 @@ describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
 
     await msgs1[0].complete();
     await msgs2[0].complete();
+
+    const peekedSubscriptionMsg = await subscriptionClient.peek();
+    should.equal(peekedSubscriptionMsg.length, 0);
   });
 
   it("Streaming Receiver using Queues", async function() {
@@ -174,28 +186,29 @@ describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
     await queueClient.sendBatch(testMessages);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    const onMessage = (msg: ServiceBusMessage) => {
-      receivedMsgs.push(msg);
-      return Promise.resolve();
-    };
-    const onError = (err: Error) => {
-      should.not.exist(err);
-    };
-    const receiveListener = queueClient.receive(onMessage, onError);
+    const receiveListener = queueClient.receive(
+      (msg: ServiceBusMessage) => {
+        receivedMsgs.push(msg);
+        return Promise.resolve();
+      },
+      (err: Error) => {
+        should.not.exist(err);
+      }
+    );
 
-    const timeoutPromise = new Promise((resolve) => {
-      setTimeout(() => {
-        should.equal(receivedMsgs.length, 2);
-        should.equal(receivedMsgs[0].body, testMessages[0].body);
-        should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
-        should.equal(receivedMsgs[1].body, testMessages[1].body);
-        should.equal(receivedMsgs[1].messageId, testMessages[1].messageId);
+    const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 1000));
 
-        return receiveListener.stop().then(() => resolve());
-      }, 1000);
+    return timeoutPromise.then(async () => {
+      should.equal(receivedMsgs.length, 2);
+      should.equal(receivedMsgs[0].body, testMessages[0].body);
+      should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
+      should.equal(receivedMsgs[1].body, testMessages[1].body);
+      should.equal(receivedMsgs[1].messageId, testMessages[1].messageId);
+
+      await receiveListener.stop();
+      const peekedQueueMsg = await subscriptionClient.peek();
+      should.equal(peekedQueueMsg.length, 0);
     });
-
-    return timeoutPromise;
   });
 
   it("Streaming Receiver using Topics and Subscriptions", async function() {
@@ -213,27 +226,28 @@ describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
     await topicClient.sendBatch(testMessages);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    const onMessage = (msg: ServiceBusMessage) => {
-      receivedMsgs.push(msg);
-      return Promise.resolve();
-    };
-    const onError = (err: Error) => {
-      should.not.exist(err);
-    };
-    const receiveListener = subscriptionClient.receive(onMessage, onError);
+    const receiveListener = subscriptionClient.receive(
+      (msg: ServiceBusMessage) => {
+        receivedMsgs.push(msg);
+        return Promise.resolve();
+      },
+      (err: Error) => {
+        should.not.exist(err);
+      }
+    );
 
-    const timeoutPromise = new Promise((resolve) => {
-      setTimeout(() => {
-        should.equal(receivedMsgs.length, 2);
-        should.equal(receivedMsgs[0].body, testMessages[0].body);
-        should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
-        should.equal(receivedMsgs[1].body, testMessages[1].body);
-        should.equal(receivedMsgs[1].messageId, testMessages[1].messageId);
+    const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 1000));
 
-        return receiveListener.stop().then(() => resolve());
-      }, 1000);
+    return timeoutPromise.then(async () => {
+      should.equal(receivedMsgs.length, 2);
+      should.equal(receivedMsgs[0].body, testMessages[0].body);
+      should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
+      should.equal(receivedMsgs[1].body, testMessages[1].body);
+      should.equal(receivedMsgs[1].messageId, testMessages[1].messageId);
+
+      await receiveListener.stop();
+      const peekedSubscriptionMsg = await subscriptionClient.peek();
+      should.equal(peekedSubscriptionMsg.length, 0);
     });
-
-    return timeoutPromise;
   });
 });
