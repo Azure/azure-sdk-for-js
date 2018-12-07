@@ -543,7 +543,7 @@ export interface Evaluate {
    */
   isImageAdultClassified?: boolean;
   /**
-   * @member {number} [racyClassificationScore] The racy classication score.
+   * @member {number} [racyClassificationScore] The racy classification score.
    */
   racyClassificationScore?: number;
   /**
