@@ -171,3 +171,115 @@ describe("Errors when send/receive to/from non existing Namespace", function() {
     return testPromise;
   });
 });
+
+describe("Errors when send/receive to/from non existing Queue/Topic/Subscription", function() {
+  let namespace: Namespace;
+  let errorWasThrown: boolean;
+  beforeEach(() => {
+    if (!process.env.SERVICEBUS_CONNECTION_STRING) {
+      throw "define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests.";
+    }
+    namespace = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+    errorWasThrown = false;
+  });
+  afterEach(() => {
+    return namespace.close();
+  });
+
+  const testError = (err: Error, entityPath: string) => {
+    should.equal(err.name, "MessagingEntityNotFoundError");
+    should.equal(
+      err.message.startsWith(
+        `The messaging entity '${namespace.name}${entityPath}' could not be found.`
+      ),
+      true
+    );
+    errorWasThrown = true;
+  };
+
+  it("throws when sending data to a non existing queue", async function() {
+    const client = namespace.createQueueClient("some-name");
+    const sendPromise = client.send({ body: "hello" }).catch((err) => testError(err, "some-name"));
+
+    return sendPromise.then(() => should.equal(errorWasThrown, true));
+  });
+
+  it("throws when sending data to a non existing topic", function() {
+    const client = namespace.createTopicClient("some-name");
+    const sendPromise = client.send({ body: "hello" }).catch((err) => testError(err, "some-name"));
+
+    return sendPromise.then(() => should.equal(errorWasThrown, true));
+  });
+
+  it("throws when sending batch data to a non existing queue", async function() {
+    const client = namespace.createQueueClient("some-name");
+    const sendPromise = client
+      .sendBatch([{ body: "hello" }])
+      .catch((err) => testError(err, "some-name"));
+
+    return sendPromise.then(() => should.equal(errorWasThrown, true));
+  });
+
+  it("throws when sending batch data to a non existing topic", function() {
+    const client = namespace.createTopicClient("some-name");
+    const sendPromise = client
+      .sendBatch([{ body: "hello" }])
+      .catch((err) => testError(err, "some-name"));
+
+    return sendPromise.then(() => should.equal(errorWasThrown, true));
+  });
+
+  it("throws when receiving batch data from a non existing queue", async function() {
+    const client = namespace.createQueueClient("some-name");
+    const receivePromise = client.receiveBatch(1).catch((err) => testError(err, "some-name"));
+
+    return receivePromise.then(() => should.equal(errorWasThrown, true));
+  });
+
+  it("throws when receiving batch data from a non existing subscription", function() {
+    const client = namespace.createSubscriptionClient("some-topic-name", "some-subscription-name");
+    const receivePromise = client
+      .receiveBatch(1)
+      .catch((err) => testError(err, "some-topic-name/Subscriptions/some-subscription-name"));
+
+    return receivePromise.then(() => should.equal(errorWasThrown, true));
+  });
+
+  it("throws when receving streaming data from a non existing queue", function() {
+    const client = namespace.createQueueClient("some-name");
+    const onMessage = async () => {
+      throw "onMessage should not have been called when receive call is made from a non existing namespace";
+    };
+    const receiveHandler = client.receive(onMessage, (err) => testError(err, "some-name"));
+
+    const testPromise = new Promise((resolve) => {
+      setTimeout(() => {
+        should.equal(errorWasThrown, true);
+        receiveHandler.stop();
+        resolve();
+      }, 1000);
+    });
+
+    return testPromise;
+  });
+
+  it("throws when receving streaming data from a non existing subscription", function() {
+    const client = namespace.createSubscriptionClient("some-topic-name", "some-subscription-name");
+    const onMessage = async () => {
+      throw "onMessage should not have been called when receive call is made from a non existing namespace";
+    };
+    const receiveHandler = client.receive(onMessage, (err) =>
+      testError(err, "some-topic-name/Subscriptions/some-subscription-name")
+    );
+
+    const testPromise = new Promise((resolve) => {
+      setTimeout(() => {
+        should.equal(errorWasThrown, true);
+        receiveHandler.stop();
+        resolve();
+      }, 1000);
+    });
+
+    return testPromise;
+  });
+});
