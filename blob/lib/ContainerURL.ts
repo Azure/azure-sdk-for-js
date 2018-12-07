@@ -134,15 +134,16 @@ export interface IContainerListBlobsSegmentOptions {
 export class ContainerURL extends StorageURL {
   /**
    * Creates a ContainerURL object from ServiceURL
-   * @param serviceURL
-   * @param containerName
+   *
+   * @param serviceURL A ServiceURL object
+   * @param containerName A container name
    */
   public static fromServiceURL(
     serviceURL: ServiceURL,
     containerName: string
   ): ContainerURL {
     return new ContainerURL(
-      appendToURLPath(serviceURL.url, containerName),
+      appendToURLPath(serviceURL.url, encodeURIComponent(containerName)),
       serviceURL.pipeline
     );
   }

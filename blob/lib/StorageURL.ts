@@ -12,6 +12,7 @@ import {
 } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 import { SERVICE_VERSION } from "./utils/constants";
+import { escapeURL } from "./utils/utils.common";
 
 export { deserializationPolicy };
 
@@ -108,10 +109,10 @@ export abstract class StorageURL {
    * @memberof StorageURL
    */
   protected constructor(url: string, pipeline: Pipeline) {
-    this.url = url;
+    this.url = escapeURL(url);
     this.pipeline = pipeline;
     this.storageClientContext = new StorageClientContext(
-      url,
+      this.url,
       SERVICE_VERSION,
       pipeline.toServiceClientOptions()
     );

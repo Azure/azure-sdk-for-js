@@ -52,8 +52,8 @@ export class BlockBlobURL extends BlobURL {
    * Creates a BlockBlobURL object from ContainerURL instance.
    *
    * @static
-   * @param {ContainerURL} containerURL
-   * @param {string} blobName
+   * @param {ContainerURL} containerURL A ContainerURL object
+   * @param {string} blobName A blob name
    * @returns {BlockBlobURL}
    * @memberof BlockBlobURL
    */
@@ -62,7 +62,7 @@ export class BlockBlobURL extends BlobURL {
     blobName: string
   ): BlockBlobURL {
     return new BlockBlobURL(
-      appendToURLPath(containerURL.url, blobName),
+      appendToURLPath(containerURL.url, encodeURIComponent(blobName)),
       containerURL.pipeline
     );
   }
