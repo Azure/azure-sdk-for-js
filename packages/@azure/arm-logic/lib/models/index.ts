@@ -1818,15 +1818,15 @@ export interface X12ValidationSettings {
    */
   checkDuplicateTransactionSetControlNumber: boolean;
   /**
-   * @member {boolean} validateEdiTypes The value indicating whether to Whether
+   * @member {boolean} validateEDITypes The value indicating whether to Whether
    * to validate EDI types.
    */
-  validateEdiTypes: boolean;
+  validateEDITypes: boolean;
   /**
-   * @member {boolean} validateXsdTypes The value indicating whether to Whether
+   * @member {boolean} validateXSDTypes The value indicating whether to Whether
    * to validate XSD types.
    */
-  validateXsdTypes: boolean;
+  validateXSDTypes: boolean;
   /**
    * @member {boolean} allowLeadingAndTrailingSpacesAndZeroes The value
    * indicating whether to allow leading and trailing spaces and zeroes.
@@ -2239,15 +2239,15 @@ export interface X12ValidationOverride {
    */
   messageId: string;
   /**
-   * @member {boolean} validateEdiTypes The value indicating whether to
+   * @member {boolean} validateEDITypes The value indicating whether to
    * validate EDI types.
    */
-  validateEdiTypes: boolean;
+  validateEDITypes: boolean;
   /**
-   * @member {boolean} validateXsdTypes The value indicating whether to
+   * @member {boolean} validateXSDTypes The value indicating whether to
    * validate XSD types.
    */
-  validateXsdTypes: boolean;
+  validateXSDTypes: boolean;
   /**
    * @member {boolean} allowLeadingAndTrailingSpacesAndZeroes The value
    * indicating whether to allow leading and trailing spaces and zeroes.
@@ -2496,15 +2496,15 @@ export interface EdifactValidationSettings {
    */
   checkDuplicateTransactionSetControlNumber: boolean;
   /**
-   * @member {boolean} validateEdiTypes The value indicating whether to Whether
+   * @member {boolean} validateEDITypes The value indicating whether to Whether
    * to validate EDI types.
    */
-  validateEdiTypes: boolean;
+  validateEDITypes: boolean;
   /**
-   * @member {boolean} validateXsdTypes The value indicating whether to Whether
+   * @member {boolean} validateXSDTypes The value indicating whether to Whether
    * to validate XSD types.
    */
-  validateXsdTypes: boolean;
+  validateXSDTypes: boolean;
   /**
    * @member {boolean} allowLeadingAndTrailingSpacesAndZeroes The value
    * indicating whether to allow leading and trailing spaces and zeroes.
@@ -3053,15 +3053,15 @@ export interface EdifactValidationOverride {
    */
   enforceCharacterSet: boolean;
   /**
-   * @member {boolean} validateEdiTypes The value indicating whether to
+   * @member {boolean} validateEDITypes The value indicating whether to
    * validate EDI types.
    */
-  validateEdiTypes: boolean;
+  validateEDITypes: boolean;
   /**
-   * @member {boolean} validateXsdTypes The value indicating whether to
+   * @member {boolean} validateXSDTypes The value indicating whether to
    * validate XSD types.
    */
-  validateXsdTypes: boolean;
+  validateXSDTypes: boolean;
   /**
    * @member {boolean} allowLeadingAndTrailingSpacesAndZeroes The value
    * indicating whether to allow leading and trailing spaces and zeroes.

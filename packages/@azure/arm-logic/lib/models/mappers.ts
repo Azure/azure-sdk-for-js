@@ -2338,16 +2338,16 @@ export const X12ValidationSettings: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
-      validateEdiTypes: {
+      validateEDITypes: {
         required: true,
-        serializedName: "validateEdiTypes",
+        serializedName: "validateEDITypes",
         type: {
           name: "Boolean"
         }
       },
-      validateXsdTypes: {
+      validateXSDTypes: {
         required: true,
-        serializedName: "validateXsdTypes",
+        serializedName: "validateXSDTypes",
         type: {
           name: "Boolean"
         }
@@ -2926,16 +2926,16 @@ export const X12ValidationOverride: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      validateEdiTypes: {
+      validateEDITypes: {
         required: true,
-        serializedName: "validateEdiTypes",
+        serializedName: "validateEDITypes",
         type: {
           name: "Boolean"
         }
       },
-      validateXsdTypes: {
+      validateXSDTypes: {
         required: true,
-        serializedName: "validateXsdTypes",
+        serializedName: "validateXSDTypes",
         type: {
           name: "Boolean"
         }
@@ -3331,16 +3331,16 @@ export const EdifactValidationSettings: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
-      validateEdiTypes: {
+      validateEDITypes: {
         required: true,
-        serializedName: "validateEdiTypes",
+        serializedName: "validateEDITypes",
         type: {
           name: "Boolean"
         }
       },
-      validateXsdTypes: {
+      validateXSDTypes: {
         required: true,
-        serializedName: "validateXsdTypes",
+        serializedName: "validateXSDTypes",
         type: {
           name: "Boolean"
         }
@@ -4077,16 +4077,16 @@ export const EdifactValidationOverride: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
-      validateEdiTypes: {
+      validateEDITypes: {
         required: true,
-        serializedName: "validateEdiTypes",
+        serializedName: "validateEDITypes",
         type: {
           name: "Boolean"
         }
       },
-      validateXsdTypes: {
+      validateXSDTypes: {
         required: true,
-        serializedName: "validateXsdTypes",
+        serializedName: "validateXSDTypes",
         type: {
           name: "Boolean"
         }
