@@ -35,19 +35,57 @@ describe("Errors when receive from non existing Queue/Topic/Subscription", funct
     errorWasThrown = true;
   };
 
-  it("throws when receiving data from a non existing queue", async function() {
+  it("throws when receiving batch data from a non existing queue", async function() {
     const client = namespace.createQueueClient("some-name");
     const receivePromise = client.receiveBatch(1).catch((err) => testError(err, "some-name"));
 
     return receivePromise.then(() => should.equal(errorWasThrown, true));
   });
 
-  it("throws when receiving data from a non existing subscription", function() {
+  it("throws when receiving batch data from a non existing subscription", function() {
     const client = namespace.createSubscriptionClient("some-topic-name", "some-subscription-name");
     const receivePromise = client
       .receiveBatch(1)
       .catch((err) => testError(err, "some-topic-name/Subscriptions/some-subscription-name"));
 
     return receivePromise.then(() => should.equal(errorWasThrown, true));
+  });
+
+  it("throws when receving streaming data from a non existing queue", function() {
+    const client = namespace.createQueueClient("some-name");
+    const onMessage = async () => {
+      throw "onMessage should not have been called when receive call is made from a non existing namespace";
+    };
+    const receiveHandler = client.receive(onMessage, (err) => testError(err, "some-name"));
+
+    const testPromise = new Promise((resolve) => {
+      setTimeout(() => {
+        should.equal(errorWasThrown, true);
+        receiveHandler.stop();
+        resolve();
+      }, 1000);
+    });
+
+    return testPromise;
+  });
+
+  it("throws when receving streaming data from a non existing subscription", function() {
+    const client = namespace.createSubscriptionClient("some-topic-name", "some-subscription-name");
+    const onMessage = async () => {
+      throw "onMessage should not have been called when receive call is made from a non existing namespace";
+    };
+    const receiveHandler = client.receive(onMessage, (err) =>
+      testError(err, "some-topic-name/Subscriptions/some-subscription-name")
+    );
+
+    const testPromise = new Promise((resolve) => {
+      setTimeout(() => {
+        should.equal(errorWasThrown, true);
+        receiveHandler.stop();
+        resolve();
+      }, 1000);
+    });
+
+    return testPromise;
   });
 });

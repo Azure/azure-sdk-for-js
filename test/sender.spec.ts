@@ -43,4 +43,18 @@ describe("Errors when send to non existing Queue/Topic", function() {
 
     return sendPromise.then(() => should.equal(errorWasThrown, true));
   });
+
+  it("throws when sending batch data to a non existing queue", async function() {
+    const client = namespace.createQueueClient("some-name");
+    const sendPromise = client.sendBatch([{ body: "hello" }]).catch(testError);
+
+    return sendPromise.then(() => should.equal(errorWasThrown, true));
+  });
+
+  it("throws when sending batch data to a non existing topic", function() {
+    const client = namespace.createTopicClient("some-name");
+    const sendPromise = client.sendBatch([{ body: "hello" }]).catch(testError);
+
+    return sendPromise.then(() => should.equal(errorWasThrown, true));
+  });
 });
