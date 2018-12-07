@@ -52,7 +52,7 @@ export class Marketplaces {
   }
 
   /**
-   * Lists the marketplaces for a scope by billing period and subscripotionId. Marketplaces are
+   * Lists the marketplaces for a scope by billing period and subscriptionId. Marketplaces are
    * available via this API only for May 1, 2014 or later.
    * @param billingPeriodName Billing Period Name.
    * @param [options] The optional parameters
@@ -358,7 +358,7 @@ export class Marketplaces {
   }
 
   /**
-   * Lists the marketplaces for a scope by billing period and subscripotionId. Marketplaces are
+   * Lists the marketplaces for a scope by billing period and subscriptionId. Marketplaces are
    * available via this API only for May 1, 2014 or later.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
