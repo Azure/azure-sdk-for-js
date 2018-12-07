@@ -710,6 +710,12 @@ export const SqlStorageUpdateSettings: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      startingDeviceId: {
+        serializedName: "startingDeviceId",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -723,12 +729,6 @@ export const AdditionalFeaturesServerConfigurations: msRest.CompositeMapper = {
     modelProperties: {
       isRServicesEnabled: {
         serializedName: "isRServicesEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      backupPermissionsForAzureBackupSvc: {
-        serializedName: "backupPermissionsForAzureBackupSvc",
         type: {
           name: "Boolean"
         }

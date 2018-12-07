@@ -48,8 +48,8 @@ export interface LoadBalancerConfiguration {
    */
   publicIpAddressResourceId?: string;
   /**
-   * @member {string} [loadBalancerResourceId] Subnet used to include private
-   * IP.
+   * @member {string} [loadBalancerResourceId] Resource id of the load
+   * balancer.
    */
   loadBalancerResourceId?: string;
   /**
@@ -300,10 +300,10 @@ export interface SqlVirtualMachineGroup extends TrackedResource {
    */
   sqlImageOffer?: string;
   /**
-   * @member {SqlImageSku} [sqlImageSku] SQL image sku. Possible values
-   * include: 'Developer', 'Express', 'Standard', 'Enterprise', 'Web'
+   * @member {SqlVmGroupImageSku} [sqlImageSku] SQL image sku. Possible values
+   * include: 'Developer', 'Enterprise'
    */
-  sqlImageSku?: SqlImageSku;
+  sqlImageSku?: SqlVmGroupImageSku;
   /**
    * @member {ScaleType} [scaleType] Scale type. Possible values include: 'HA'
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -584,6 +584,11 @@ export interface SqlStorageUpdateSettings {
    * to apply to SQL Server. Possible values include: 'NEW', 'EXTEND', 'ADD'
    */
   diskConfigurationType?: DiskConfigurationType;
+  /**
+   * @member {number} [startingDeviceId] Device id of the first disk to be
+   * updated.
+   */
+  startingDeviceId?: number;
 }
 
 /**
@@ -598,11 +603,6 @@ export interface AdditionalFeaturesServerConfigurations {
    * 2016 onwards).
    */
   isRServicesEnabled?: boolean;
-  /**
-   * @member {boolean} [backupPermissionsForAzureBackupSvc] Enable or disable
-   * Azure Backup service.
-   */
-  backupPermissionsForAzureBackupSvc?: boolean;
 }
 
 /**
@@ -824,12 +824,12 @@ export interface SqlVirtualMachineListResult extends Array<SqlVirtualMachine> {
 export type OperationOrigin = 'user' | 'system';
 
 /**
- * Defines values for SqlImageSku.
- * Possible values include: 'Developer', 'Express', 'Standard', 'Enterprise', 'Web'
+ * Defines values for SqlVmGroupImageSku.
+ * Possible values include: 'Developer', 'Enterprise'
  * @readonly
  * @enum {string}
  */
-export type SqlImageSku = 'Developer' | 'Express' | 'Standard' | 'Enterprise' | 'Web';
+export type SqlVmGroupImageSku = 'Developer' | 'Enterprise';
 
 /**
  * Defines values for ScaleType.
@@ -870,6 +870,14 @@ export type IdentityType = 'SystemAssigned';
  * @enum {string}
  */
 export type SqlServerLicenseType = 'PAYG' | 'AHUB';
+
+/**
+ * Defines values for SqlImageSku.
+ * Possible values include: 'Developer', 'Express', 'Standard', 'Enterprise', 'Web'
+ * @readonly
+ * @enum {string}
+ */
+export type SqlImageSku = 'Developer' | 'Express' | 'Standard' | 'Enterprise' | 'Web';
 
 /**
  * Defines values for DayOfWeek.

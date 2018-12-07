@@ -1,6 +1,6 @@
-## An isomorphic javascript sdk for - NewsSearchAPIClient
+## An isomorphic javascript sdk for - NewsSearchClient
 
-This package contains an isomorphic SDK for NewsSearchAPIClient.
+This package contains an isomorphic SDK for NewsSearchClient.
 
 ### Currently supported environments
 
@@ -9,7 +9,7 @@ This package contains an isomorphic SDK for NewsSearchAPIClient.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/cognitiveservices-newssearch
 ```
 
@@ -19,20 +19,20 @@ npm install @azure/cognitiveservices-newssearch
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
+```bash
 npm install @azure/ms-rest-nodeauth
 ```
 
 ##### Sample code
 
-```ts
+```typescript
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { NewsSearchAPIClient, NewsSearchAPIModels, NewsSearchAPIMappers } from "@azure/cognitiveservices-newssearch";
+import { NewsSearchClient, NewsSearchModels, NewsSearchMappers } from "@azure/cognitiveservices-newssearch";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new NewsSearchAPIClient(creds, subscriptionId);
+  const client = new NewsSearchClient(creds, subscriptionId);
   const query = "testquery";
   const acceptLanguage = "testacceptLanguage";
   const userAgent = "testuserAgent";
@@ -63,7 +63,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 
@@ -91,7 +91,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.CognitiveservicesNewssearch.NewsSearchAPIClient(res.creds, subscriptionId);
+        const client = new Azure.CognitiveservicesNewssearch.NewsSearchClient(res.creds, subscriptionId);
         const query = "testquery";
         const acceptLanguage = "testacceptLanguage";
         const userAgent = "testuserAgent";

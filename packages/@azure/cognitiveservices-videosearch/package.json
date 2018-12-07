@@ -1,10 +1,10 @@
 {
   "name": "@azure/cognitiveservices-videosearch",
   "author": "Microsoft Corporation",
-  "description": "VideoSearchAPIClient Library with typescript type definitions for node.js and browser.",
-  "version": "0.1.0",
+  "description": "VideoSearchClient Library with typescript type definitions for node.js and browser.",
+  "version": "2.0.0",
   "dependencies": {
-    "@azure/ms-rest-js": "^1.1.0",
+    "@azure/ms-rest-js": "^1.2.0",
     "tslib": "^1.9.3"
   },
   "keywords": [
@@ -16,12 +16,13 @@
   ],
   "license": "MIT",
   "main": "./dist/cognitiveservices-videosearch.js",
-  "module": "./esm/videoSearchAPIClient.js",
-  "types": "./esm/videoSearchAPIClient.d.ts",
+  "module": "./esm/videoSearchClient.js",
+  "types": "./esm/videoSearchClient.d.ts",
   "devDependencies": {
     "typescript": "^3.1.1",
     "rollup": "^0.66.2",
     "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
     "uglify-js": "^3.4.9"
   },
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/@azure/cognitiveservices-videosearch",
@@ -42,6 +43,7 @@
     "esm/**/*.d.ts",
     "esm/**/*.d.ts.map",
     "lib/**/*.ts",
+    "README.md",
     "rollup.config.js",
     "tsconfig.json"
   ],
