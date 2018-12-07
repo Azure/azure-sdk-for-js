@@ -25,6 +25,9 @@ describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
   let subscriptionClient: SubscriptionClient;
 
   beforeEach(async () => {
+    // The tests in this file expect the env variables to contain the connection string and
+    // the names of empty queue/topic/subscription that are to be tested
+
     if (!process.env.SERVICEBUS_CONNECTION_STRING) {
       throw new Error(
         "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
@@ -65,7 +68,7 @@ describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
     return namespace.close();
   });
 
-  it("Simple send and recieveBatch using Queues", async function() {
+  it("Simple send and receiveBatch using Queues", async function() {
     const testMessage: SendableMessageInfo = {
       body: "hello",
       messageId: `test message ${generateUuid}`
@@ -85,7 +88,7 @@ describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
     should.equal(peekedQueueMsg.length, 0);
   });
 
-  it("Simple send and recieveBatch using Topics and Subscriptions", async function() {
+  it("Simple send and receiveBatch using Topics and Subscriptions", async function() {
     const testMessage: SendableMessageInfo = {
       body: "hello",
       messageId: `test message ${generateUuid}`
@@ -105,7 +108,7 @@ describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
     should.equal(peekedSubscriptionMsg.length, 0);
   });
 
-  it("Simple sendBatch and multiple recieveBatch using Queues", async function() {
+  it("Simple sendBatch and multiple receiveBatch using Queues", async function() {
     const testMessages: SendableMessageInfo[] = [
       {
         body: "hello1",
@@ -138,7 +141,7 @@ describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
     should.equal(peekedQueueMsg.length, 0);
   });
 
-  it("Simple sendBatch and multiple recieveBatch using Topics and Subscriptions", async function() {
+  it("Simple sendBatch and multiple receiveBatch using Topics and Subscriptions", async function() {
     const testMessages: SendableMessageInfo[] = [
       {
         body: "hello1",
