@@ -1828,12 +1828,12 @@ export interface Operation {
 /**
  * @interface
  * An interface representing GetSsisObjectMetadataRequest.
- * The request payload of get ssis object metadata.
+ * The request payload of get SSIS object metadata.
  *
  */
 export interface GetSsisObjectMetadataRequest {
   /**
-   * @member {string} [metadataPath] Metadata path
+   * @member {string} [metadataPath] Metadata path.
    */
   metadataPath?: string;
 }
@@ -6757,6 +6757,11 @@ export interface HDInsightLinkedService {
    * credential manager. Type: string (or Expression with resultType string).
    */
   encryptedCredential?: any;
+  /**
+   * @member {any} [isEspEnabled] Specify if the HDInsight is created with ESP
+   * (Enterprise Security Package). Type: Boolean.
+   */
+  isEspEnabled?: any;
 }
 
 /**
@@ -12677,6 +12682,30 @@ export interface LookupActivity {
 
 /**
  * @interface
+ * An interface representing LogStorageSettings.
+ * Log storage settings.
+ *
+ */
+export interface LogStorageSettings {
+  /**
+   * @member {LinkedServiceReference} linkedServiceName Log storage linked
+   * service reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * @member {any} [path] The path to storage for storing detailed logs of
+   * activity execution. Type: string (or Expression with resultType string).
+   */
+  path?: any;
+  /**
+   * @property Describes unknown properties. The value of an unknown property
+   * can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * @interface
  * An interface representing DeleteActivity.
  * Delete activity.
  *
@@ -12712,11 +12741,27 @@ export interface DeleteActivity {
    */
   policy?: ActivityPolicy;
   /**
-   * @member {any} [recursive] If true, files under the folder path will be
-   * deleted recursively. Default is true. Type: boolean (or Expression with
-   * resultType boolean).
+   * @member {any} [recursive] If true, files or sub-folders under current
+   * folder path will be deleted recursively. Default is false. Type: boolean
+   * (or Expression with resultType boolean).
    */
   recursive?: any;
+  /**
+   * @member {number} [maxConcurrentConnections] The max concurrent connections
+   * to connect data source at the same time.
+   */
+  maxConcurrentConnections?: number;
+  /**
+   * @member {any} [enableLogging] Whether to record detailed logs of
+   * delete-activity execution. Default value is false. Type: boolean (or
+   * Expression with resultType boolean).
+   */
+  enableLogging?: any;
+  /**
+   * @member {LogStorageSettings} [logStorageSettings] Log storage settings
+   * customer need to provide when enableLogging is true.
+   */
+  logStorageSettings?: LogStorageSettings;
   /**
    * @member {DatasetReference} dataset Delete activity dataset reference.
    */
@@ -13379,6 +13424,17 @@ export interface HDInsightHiveActivity {
    * defines for Hive job request.
    */
   defines?: { [propertyName: string]: any };
+  /**
+   * @member {any[]} [variables] User specified arguments under hivevar
+   * namespace.
+   */
+  variables?: any[];
+  /**
+   * @member {number} [queryTimeout] Query timeout value (in minutes).
+   * Effective when the HDInsight culster is with ESP (Enterprise Security
+   * Package)
+   */
+  queryTimeout?: number;
 }
 
 /**
@@ -15455,7 +15511,7 @@ export interface IntegrationRuntimeNodeIpAddress {
 /**
  * @interface
  * An interface representing SsisObjectMetadata.
- * Ssis object metadata.
+ * SSIS object metadata.
  *
  */
 export interface SsisObjectMetadata {
@@ -15480,12 +15536,12 @@ export interface SsisObjectMetadata {
 /**
  * @interface
  * An interface representing SsisObjectMetadataListResponse.
- * A list of Ssis object metadata.
+ * A list of SSIS object metadata.
  *
  */
 export interface SsisObjectMetadataListResponse {
   /**
-   * @member {SsisObjectMetadata[]} [value] List of Ssis object metadata
+   * @member {SsisObjectMetadata[]} [value] List of SSIS object metadata.
    */
   value?: SsisObjectMetadata[];
   /**
@@ -15746,7 +15802,7 @@ export interface IntegrationRuntimesGetOptionalParams extends msRest.RequestOpti
 export interface IntegrationRuntimeObjectMetadataGetOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {GetSsisObjectMetadataRequest} [getMetadataRequest] The parameters
-   * for getting a ssis object metadata.
+   * for getting a SSIS object metadata.
    */
   getMetadataRequest?: GetSsisObjectMetadataRequest;
 }

@@ -28,7 +28,7 @@ export class IntegrationRuntimeObjectMetadata {
   }
 
   /**
-   * Refresh a ssis integration runtime object metadata.
+   * Refresh a SSIS integration runtime object metadata.
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param integrationRuntimeName The integration runtime name.
@@ -41,7 +41,7 @@ export class IntegrationRuntimeObjectMetadata {
   }
 
   /**
-   * Get a ssis integration runtime object metadata by specified path. The return is pageable
+   * Get a SSIS integration runtime object metadata by specified path. The return is pageable
    * metadata list.
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -78,7 +78,7 @@ export class IntegrationRuntimeObjectMetadata {
   }
 
   /**
-   * Refresh a ssis integration runtime object metadata.
+   * Refresh a SSIS integration runtime object metadata.
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param integrationRuntimeName The integration runtime name.
