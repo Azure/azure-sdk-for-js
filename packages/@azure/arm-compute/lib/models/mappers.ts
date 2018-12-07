@@ -3785,6 +3785,17 @@ export const VirtualMachineScaleSetExtension: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      provisionAfterExtensions: {
+        serializedName: "properties.provisionAfterExtensions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }

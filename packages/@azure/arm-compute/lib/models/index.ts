@@ -3150,6 +3150,11 @@ export interface VirtualMachineScaleSetExtension extends SubResourceReadOnly {
    * the server.**
    */
   readonly provisioningState?: string;
+  /**
+   * @member {string[]} [provisionAfterExtensions] Collection of extension
+   * names after which this extension needs to be provisioned.
+   */
+  provisionAfterExtensions?: string[];
 }
 
 /**
