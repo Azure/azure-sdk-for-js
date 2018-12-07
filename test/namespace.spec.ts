@@ -197,7 +197,7 @@ describe("Errors when send/receive to/from non existing Queue/Topic/Subscription
     errorWasThrown = true;
   };
 
-  it("throws when sending data to a non existing queue", async function() {
+  it("throws when sending data to a non existing queue", function() {
     const client = namespace.createQueueClient("some-name");
     const sendPromise = client.send({ body: "hello" }).catch((err) => testError(err, "some-name"));
 
@@ -211,7 +211,7 @@ describe("Errors when send/receive to/from non existing Queue/Topic/Subscription
     return sendPromise.then(() => should.equal(errorWasThrown, true));
   });
 
-  it("throws when sending batch data to a non existing queue", async function() {
+  it("throws when sending batch data to a non existing queue", function() {
     const client = namespace.createQueueClient("some-name");
     const sendPromise = client
       .sendBatch([{ body: "hello" }])
@@ -229,7 +229,7 @@ describe("Errors when send/receive to/from non existing Queue/Topic/Subscription
     return sendPromise.then(() => should.equal(errorWasThrown, true));
   });
 
-  it("throws when receiving batch data from a non existing queue", async function() {
+  it("throws when receiving batch data from a non existing queue", function() {
     const client = namespace.createQueueClient("some-name");
     const receivePromise = client.receiveBatch(1).catch((err) => testError(err, "some-name"));
 

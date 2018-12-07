@@ -18,7 +18,7 @@ import {
   SubscriptionClient
 } from "../lib";
 
-describe("Errors when send/receive to/from Queue/Topic/Subscription", function() {
+describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
   let namespace: Namespace;
   let queueClient: QueueClient;
   let topicClient: TopicClient;
