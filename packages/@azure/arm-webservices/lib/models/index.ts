@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -576,7 +576,7 @@ export interface WebServiceProperties {
   payloadsInBlobStorage?: boolean;
   /**
    * @member {BlobLocation} [payloadsLocation] The URI of the payload blob.
-   * This paramater contains a value only if the payloadsInBlobStorage
+   * This parameter contains a value only if the payloadsInBlobStorage
    * parameter is set to true. Otherwise is set to null.
    */
   payloadsLocation?: BlobLocation;
@@ -866,7 +866,7 @@ export interface WebServicePropertiesForGraph {
   payloadsInBlobStorage?: boolean;
   /**
    * @member {BlobLocation} [payloadsLocation] The URI of the payload blob.
-   * This paramater contains a value only if the payloadsInBlobStorage
+   * This parameter contains a value only if the payloadsInBlobStorage
    * parameter is set to true. Otherwise is set to null.
    */
   payloadsLocation?: BlobLocation;
