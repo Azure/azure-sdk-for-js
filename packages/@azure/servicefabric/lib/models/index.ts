@@ -7455,7 +7455,7 @@ export interface ChaosTargetFilter {
    */
   nodeTypeInclusionList?: string[];
   /**
-   * @member {string[]} [applicationInclusionList] A list of application URI's
+   * @member {string[]} [applicationInclusionList] A list of application URIs
    * to include in Chaos faults.
    * All replicas belonging to services of these applications are amenable to
    * replica faults (restart replica, remove replica, move primary, and move
