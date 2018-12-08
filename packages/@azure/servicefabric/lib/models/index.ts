@@ -17112,7 +17112,7 @@ export interface ContainerCodePackageProperties {
   /**
    * @member {ReliableCollectionsRef[]} [reliableCollectionsRefs] A list of
    * ReliableCollection resources used by this particular code package. Please
-   * refer to ReliablecollectionsRef for more details.
+   * refer to ReliableCollectionsRef for more details.
    */
   reliableCollectionsRefs?: ReliableCollectionsRef[];
   /**
