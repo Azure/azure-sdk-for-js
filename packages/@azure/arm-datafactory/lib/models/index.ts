@@ -1839,6 +1839,31 @@ export interface GetSsisObjectMetadataRequest {
 }
 
 /**
+ * @interface
+ * An interface representing SsisObjectMetadataStatusResponse.
+ * The status of the operation.
+ *
+ */
+export interface SsisObjectMetadataStatusResponse {
+  /**
+   * @member {string} [status] The status of the operation.
+   */
+  status?: string;
+  /**
+   * @member {string} [name] The operation name.
+   */
+  name?: string;
+  /**
+   * @member {string} [properties] The operation properties.
+   */
+  properties?: string;
+  /**
+   * @member {string} [error] The operation error message.
+   */
+  error?: string;
+}
+
+/**
  * Contains the possible cases for DependencyReference.
  */
 export type DependencyReferenceUnion = DependencyReference | SelfDependencyTumblingWindowTriggerReference | TriggerDependencyReferenceUnion;
@@ -17072,6 +17097,25 @@ export type IntegrationRuntimesListByFactoryNextResponse = IntegrationRuntimeLis
 };
 
 /**
+ * Contains response data for the refresh operation.
+ */
+export type IntegrationRuntimeObjectMetadataRefreshResponse = SsisObjectMetadataStatusResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SsisObjectMetadataStatusResponse;
+    };
+};
+
+/**
  * Contains response data for the get operation.
  */
 export type IntegrationRuntimeObjectMetadataGetResponse = SsisObjectMetadataListResponse & {
@@ -17087,6 +17131,25 @@ export type IntegrationRuntimeObjectMetadataGetResponse = SsisObjectMetadataList
        * The response body as parsed JSON or XML
        */
       parsedBody: SsisObjectMetadataListResponse;
+    };
+};
+
+/**
+ * Contains response data for the beginRefresh operation.
+ */
+export type IntegrationRuntimeObjectMetadataBeginRefreshResponse = SsisObjectMetadataStatusResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SsisObjectMetadataStatusResponse;
     };
 };
 

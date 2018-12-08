@@ -2495,6 +2495,40 @@ export const GetSsisObjectMetadataRequest: msRest.CompositeMapper = {
   }
 };
 
+export const SsisObjectMetadataStatusResponse: msRest.CompositeMapper = {
+  serializedName: "SsisObjectMetadataStatusResponse",
+  type: {
+    name: "Composite",
+    className: "SsisObjectMetadataStatusResponse",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "String"
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DependencyReference: msRest.CompositeMapper = {
   serializedName: "DependencyReference",
   type: {

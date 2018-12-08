@@ -10,6 +10,7 @@
 
 export {
   discriminators,
+  SsisObjectMetadataStatusResponse,
   CloudError,
   GetSsisObjectMetadataRequest,
   SsisObjectMetadataListResponse,

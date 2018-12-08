@@ -33,11 +33,11 @@ export class IntegrationRuntimeObjectMetadata {
    * @param factoryName The factory name.
    * @param integrationRuntimeName The integration runtime name.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<Models.IntegrationRuntimeObjectMetadataRefreshResponse>
    */
-  refresh(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  refresh(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimeObjectMetadataRefreshResponse> {
     return this.beginRefresh(resourceGroupName,factoryName,integrationRuntimeName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.IntegrationRuntimeObjectMetadataRefreshResponse>;
   }
 
   /**
@@ -149,7 +149,9 @@ const beginRefreshOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
-    200: {},
+    200: {
+      bodyMapper: Mappers.SsisObjectMetadataStatusResponse
+    },
     202: {},
     default: {
       bodyMapper: Mappers.CloudError
