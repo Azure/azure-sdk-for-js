@@ -109,7 +109,7 @@ export interface FabricErrorError {
    * - "FABRIC_E_SINGLE_INSTANCE_APPLICATION_ALREADY_EXISTS"
    * - "FABRIC_E_SINGLE_INSTANCE_APPLICATION_NOT_FOUND"
    * - "FABRIC_E_VOLUME_ALREADY_EXISTS"
-   * - "ABRIC_E_VOLUME_NOT_FOUND"
+   * - "FABRIC_E_VOLUME_NOT_FOUND"
    * - "SerializationError"
    *
    * - Possible values of the error code for HTTP status code 503 (Service
@@ -3651,7 +3651,7 @@ export interface Epoch {
    */
   configurationVersion?: string;
   /**
-   * @member {string} [dataLossVersion] The current dataloss number of this
+   * @member {string} [dataLossVersion] The current data loss number of this
    * Epoch. The data loss number property is an increasing value which is
    * updated whenever data loss is suspected, as when loss of a quorum of
    * replicas in the replica set that includes the Primary replica.
@@ -11622,8 +11622,7 @@ export interface PartitionBackupConfigurationInfo {
    */
   serviceName?: string;
   /**
-   * @member {string} [partitionId] The partition ID indentifying the
-   * partition.
+   * @member {string} [partitionId] The partition ID identifying the partition.
    */
   partitionId?: string;
 }
@@ -11699,8 +11698,7 @@ export interface PartitionBackupEntity {
    */
   serviceName?: string;
   /**
-   * @member {string} [partitionId] The partition ID indentifying the
-   * partition.
+   * @member {string} [partitionId] The partition ID identifying the partition.
    */
   partitionId?: string;
 }
@@ -16646,7 +16644,7 @@ export interface HttpHostConfig {
   /**
    * @member {HttpRouteConfig[]} routes Route information to use for routing.
    * Routes are processed in the order they are specified. Specify routes that
-   * are more specific before routes that can hamdle general cases.
+   * are more specific before routes that can handle general cases.
    */
   routes: HttpRouteConfig[];
 }
@@ -24921,7 +24919,7 @@ export enum EntryPointStatus {
 export enum ChaosStatus {
   /**
    * Indicates an invalid Chaos status. All Service Fabric enumerations have
-   * the invalid type. The valus is zero.
+   * the invalid type. The value is zero.
    */
   Invalid = 'Invalid',
   /**
@@ -24949,7 +24947,7 @@ export enum ChaosStatus {
 export enum ChaosScheduleStatus {
   /**
    * Indicates an invalid Chaos Schedule status. All Service Fabric
-   * enumerations have the invalid type. The valus is zero.
+   * enumerations have the invalid type. The value is zero.
    */
   Invalid = 'Invalid',
   /**
@@ -26393,7 +26391,7 @@ export enum ResourceStatus {
    */
   Creating = 'Creating',
   /**
-   * Indicates the resource is being deletd. The value is 4.
+   * Indicates the resource is being deleted. The value is 4.
    */
   Deleting = 'Deleting',
   /**
