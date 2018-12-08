@@ -1753,7 +1753,7 @@ export interface ImageObject {
    * of the number of websites where you can buy an apple pie. To indicate the
    * number of offers in your UX, include badging such as a shopping cart icon
    * that contains the count. When the user clicks on the icon, use
-   * imageInisghtsToken in a subsequent Visual Search API call to get the list
+   * imageInsightsToken in a subsequent Visual Search API call to get the list
    * of shopping websites.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -1774,7 +1774,7 @@ export interface ImageObject {
    */
   readonly accentColor?: string;
   /**
-   * @member {string} [visualWords] For interal use only.
+   * @member {string} [visualWords] For internal use only.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
