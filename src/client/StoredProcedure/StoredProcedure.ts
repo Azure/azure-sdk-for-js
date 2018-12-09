@@ -18,7 +18,7 @@ export class StoredProcedure {
     return UriFactory.createStoredProcedureUri(this.container.database.id, this.container.id, this.id);
   }
   /**
-   * Creates a new isntance of {@link StoredProcedure} linked to the parent {@link Container}.
+   * Creates a new instance of {@link StoredProcedure} linked to the parent {@link Container}.
    * @param container The parent {@link Container}.
    * @param id The id of the given {@link StoredProcedure}.
    * @hidden
@@ -93,7 +93,7 @@ export class StoredProcedure {
    * Execute the given {@link StoredProcedure}.
    *
    * The specified type, T, is not enforced by the client.
-   * Be sure to validate the response from the stored procudure matches the type, T, you provide.
+   * Be sure to validate the response from the stored procedure matches the type, T, you provide.
    *
    * @param params Array of parameters to pass as arguments to the given {@link StoredProcedure}.
    * @param options Additional options, such as the partition key to invoke the {@link StoredProcedure} on.

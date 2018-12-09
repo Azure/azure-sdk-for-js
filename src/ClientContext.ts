@@ -202,7 +202,7 @@ export class ClientContext {
     }
   }
 
-  // Most cases, things return the defintion + the system resource props
+  // Most cases, things return the definition + the system resource props
   public async create<T>(
     body: T,
     path: string,

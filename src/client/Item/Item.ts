@@ -89,7 +89,7 @@ export class Item {
    *
    * There is no set schema for JSON items. They may contain any number of custom properties.
    *
-   * @param body The definition to replace the existing {@link Item}'s defintion with.
+   * @param body The definition to replace the existing {@link Item}'s definition with.
    * @param options Additional options for the request, such as the partition key.
    */
   public replace(body: ItemDefinition, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
@@ -101,7 +101,7 @@ export class Item {
    *
    * There is no set schema for JSON items. They may contain any number of custom properties.
    *
-   * @param body The definition to replace the existing {@link Item}'s defintion with.
+   * @param body The definition to replace the existing {@link Item}'s definition with.
    * @param options Additional options for the request, such as the partition key.
    */
   public replace<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;

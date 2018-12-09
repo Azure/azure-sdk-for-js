@@ -92,7 +92,7 @@ export class Permissions {
    * Upsert a permission.
    *
    * A permission represents a per-User Permission to access a
-   * specific resource e.g. Item or Cotnainer.
+   * specific resource e.g. Item or Container.
    */
   public async upsert(body: PermissionDefinition, options?: RequestOptions): Promise<PermissionResponse> {
     const err = {};
