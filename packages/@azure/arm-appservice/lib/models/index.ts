@@ -2966,7 +2966,7 @@ export interface Domain extends Resource {
 /**
  * @interface
  * An interface representing DomainAvailablilityCheckResult.
- * Domain availablility check result.
+ * Domain availability check result.
  *
  */
 export interface DomainAvailablilityCheckResult {
