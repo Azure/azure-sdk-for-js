@@ -900,6 +900,7 @@ export class MessageReceiver extends LinkEntity {
         );
       }
     } catch (err) {
+      this.isConnecting = false;
       err = translate(err);
       log.error(
         "[%s] An error occured while creating the receiver '%s': %O",
