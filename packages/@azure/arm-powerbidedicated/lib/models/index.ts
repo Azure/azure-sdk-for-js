@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -148,7 +148,7 @@ export interface DedicatedCapacity extends Resource {
   readonly state?: State;
   /**
    * @member {ProvisioningState} [provisioningState] The current deployment
-   * state of PowerBI Dedicatedresource. The provisioningState is to indicate
+   * state of PowerBI Dedicated resource. The provisioningState is to indicate
    * states for resource provisioning. Possible values include: 'Deleting',
    * 'Succeeded', 'Failed', 'Paused', 'Suspended', 'Provisioning', 'Updating',
    * 'Suspending', 'Pausing', 'Resuming', 'Preparing', 'Scaling'
@@ -265,7 +265,7 @@ export interface CheckCapacityNameAvailabilityParameters {
    */
   name?: string;
   /**
-   * @member {string} [type] The resource type of powerbi dedicated. Default
+   * @member {string} [type] The resource type of PowerBI dedicated. Default
    * value: 'Microsoft.PowerBIDedicated/capacities' .
    */
   type?: string;
@@ -274,13 +274,13 @@ export interface CheckCapacityNameAvailabilityParameters {
 /**
  * @interface
  * An interface representing CheckCapacityNameAvailabilityResult.
- * The checking result of capacity name availibility.
+ * The checking result of capacity name availability.
  *
  */
 export interface CheckCapacityNameAvailabilityResult {
   /**
-   * @member {boolean} [nameAvailable] Indicator of availablity of the capacity
-   * name.
+   * @member {boolean} [nameAvailable] Indicator of availability of the
+   * capacity name.
    */
   nameAvailable?: boolean;
   /**
