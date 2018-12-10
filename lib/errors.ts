@@ -121,6 +121,14 @@ export enum ConditionErrorNameMapper {
    */
   "com.microsoft:timeout" = "ServiceUnavailableError", // Retryable
   /**
+   * Error is thrown when no new meesages are received for the specified time.
+   */
+  "com.microsoft:message-wait-timeout" = "MessageWaitTimeout",
+  /**
+   * Error is thrown when timeout happens for the said operation.
+   */
+  "amqp:operation-timeout" = "OperationTimeoutError",
+  /**
    * Error is thrown when an argument has a value that is out of the admissible range.
    */
   "com.microsoft:argument-out-of-range" = "ArgumentOutOfRangeError",
@@ -230,7 +238,6 @@ export enum ConditionErrorNameMapper {
    * {@link https://nodejs.org/dist/latest-v8.x/docs/api/all.html#errors_class_system_error}
    */
   "system:error" = "SystemError"
-
 }
 
 /**
@@ -319,6 +326,14 @@ export enum ErrorNameConditionMapper {
    * Error is thrown when the service is unavailable. The operation should be retried.
    */
   ServiceUnavailableError = "com.microsoft:timeout", // Retryable
+  /**
+   * Error is thrown when no new meesages are received for the specified time.
+   */
+  MessageWaitTimeout = "com.microsoft:message-wait-timeout",
+  /**
+   * Error is thrown when timeout happens for the said operation.
+   */
+  OperationTimeoutError = "amqp:operation-timeout",
   /**
    * Error is thrown when an argument has a value that is out of the admissible range.
    */
