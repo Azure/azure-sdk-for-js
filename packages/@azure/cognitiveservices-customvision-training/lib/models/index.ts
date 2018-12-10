@@ -1002,7 +1002,8 @@ export interface Project {
    */
   readonly created?: Date;
   /**
-   * @member {Date} [lastModified] Gets the date this project was last modifed.
+   * @member {Date} [lastModified] Gets the date this project was last
+   * modified.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
