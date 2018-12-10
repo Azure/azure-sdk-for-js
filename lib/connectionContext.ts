@@ -106,7 +106,7 @@ export namespace ConnectionContext {
             connectionContext.connection.id,
             client.id
           );
-          client.detached().catch((err) => {
+          client.detached(connectionError || contextError).catch((err) => {
             log.error(
               "[%s] An error occurred while reconnecting the sender '%s': %O.",
               connectionContext.connection.id,
