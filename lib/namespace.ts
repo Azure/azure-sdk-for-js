@@ -82,6 +82,9 @@ export class Namespace {
    * @returns QueueClient.
    */
   createQueueClient(queueName: string, options?: QueueClientOptions): QueueClient {
+    if (!queueName || typeof queueName !== "string") {
+      throw new Error("'queueName' is a required parameter and must be of type 'string'.");
+    }
     const client = new QueueClient(queueName, this._context, options);
     this._context.clients[client.id] = client;
     log.ns("Created the QueueClient for Queue: %s", queueName);
@@ -95,6 +98,9 @@ export class Namespace {
    * @returns TopicClient.
    */
   createTopicClient(topicName: string): TopicClient {
+    if (!topicName || typeof topicName !== "string") {
+      throw new Error("'topicName' is a required parameter and must be of type 'string'.");
+    }
     const client = new TopicClient(topicName, this._context);
     this._context.clients[client.id] = client;
     log.ns("Created the TopicClient for Topic: %s", topicName);
@@ -115,6 +121,12 @@ export class Namespace {
     subscriptionName: string,
     options?: SubscriptionClientOptions
   ): SubscriptionClient {
+    if (!topicName || typeof topicName !== "string") {
+      throw new Error("'topicName' is a required parameter and must be of type 'string'.");
+    }
+    if (!subscriptionName || typeof subscriptionName !== "string") {
+      throw new Error("'subscriptionName' is a required parameter and must be of type 'string'.");
+    }
     const client = new SubscriptionClient(topicName, subscriptionName, this._context, options);
     this._context.clients[client.id] = client;
     log.ns(
