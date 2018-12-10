@@ -3958,6 +3958,12 @@ export interface VirtualMachineScaleSetVM extends Resource {
    */
   readonly latestModelApplied?: boolean;
   /**
+   * @member {boolean} [protectFromScaleIn] Specifies whether the virtual
+   * machine instance shouldn't be considered for deletion during a scale-in
+   * operation
+   */
+  protectFromScaleIn?: boolean;
+  /**
    * @member {string} [vmId] Azure VM unique ID.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
