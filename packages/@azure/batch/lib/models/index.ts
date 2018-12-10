@@ -827,7 +827,7 @@ export interface ExitOptions {
    * the task, if the task completes with the given exit condition and the
    * job's onTaskFailed property is 'performExitOptionsJobAction'. The default
    * is none for exit code 0 and terminate for all other exit conditions. If
-   * the job's onTaskFailed property is noaction, then specifying this property
+   * the job's onTaskFailed property is noAction, then specifying this property
    * returns an error and the add task request fails with an invalid property
    * value error; if you are calling the REST API directly, the HTTP status
    * code is 400 (Bad Request). Possible values include: 'none', 'disable',
@@ -927,7 +927,7 @@ export interface ExitConditions {
    * code not listed in the exitCodes or exitCodeRanges collection, with a
    * pre-processing error if the preProcessingError property is not present, or
    * with a file upload error if the fileUploadError property is not present.
-   * If you want non-default behaviour on exit code 0, you must list it
+   * If you want non-default behavior on exit code 0, you must list it
    * explicitly using the exitCodes or exitCodeRanges collection.
    */
   default?: ExitOptions;
@@ -1451,7 +1451,7 @@ export interface JobPreparationTask {
   /**
    * @member {UserIdentity} [userIdentity] The user identity under which the
    * Job Preparation task runs. If omitted, the task runs as a
-   * non-administrative user unique to the task on Windows nodes, or a a
+   * non-administrative user unique to the task on Windows nodes, or a
    * non-administrative user unique to the pool on Linux nodes.
    */
   userIdentity?: UserIdentity;
@@ -1909,7 +1909,7 @@ export interface VirtualMachineConfiguration {
   windowsConfiguration?: WindowsConfiguration;
   /**
    * @member {DataDisk[]} [dataDisks] The configuration for data disks attached
-   * to the comptue nodes in the pool. This property must be specified if the
+   * to the compute nodes in the pool. This property must be specified if the
    * compute nodes in the pool need to have empty data disks attached to them.
    * This cannot be updated. Each node gets its own disk (the disk is not a
    * file share). Existing disks cannot be attached, each attached disk is
@@ -4917,7 +4917,7 @@ export interface ComputeNode {
   /**
    * @member {ComputeNodeState} [state] The current state of the compute node.
    * The low-priority node has been preempted. Tasks which were running on the
-   * node when it was pre-empted will be rescheduled when another node becomes
+   * node when it was preempted will be rescheduled when another node becomes
    * available. Possible values include: 'idle', 'rebooting', 'reimaging',
    * 'running', 'unusable', 'creating', 'starting', 'waitingForStartTask',
    * 'startTaskFailed', 'unknown', 'leavingPool', 'offline', 'preempted'
