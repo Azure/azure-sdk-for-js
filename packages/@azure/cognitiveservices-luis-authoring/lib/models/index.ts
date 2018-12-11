@@ -2717,6 +2717,21 @@ export interface AppsImportMethodOptionalParams extends msRest.RequestOptionsBas
 
 /**
  * @interface
+ * An interface representing AppsDeleteMethodOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface AppsDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {boolean} [force] A flag to indicate whether to force an
+   * operation. Default value: false .
+   */
+  force?: boolean;
+}
+
+/**
+ * @interface
  * An interface representing VersionsCloneOptionalParams.
  * Optional Parameters.
  *
@@ -2807,12 +2822,12 @@ export interface PatternGetIntentPatternsOptionalParams extends msRest.RequestOp
 
 /**
  * @interface
- * An interface representing LUISAuthoringClient5be32228e8473de116325515OptionalParams.
+ * An interface representing AzureAccountsAssignToAppOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface LUISAuthoringClient5be32228e8473de116325515OptionalParams extends msRest.RequestOptionsBase {
+export interface AzureAccountsAssignToAppOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {AzureAccountInfoObject} [azureAccountInfoObject] The azure
    * account information object.
@@ -2822,12 +2837,12 @@ export interface LUISAuthoringClient5be32228e8473de116325515OptionalParams exten
 
 /**
  * @interface
- * An interface representing LUISAuthoringClient5be32554f8591db3a86232e1OptionalParams.
+ * An interface representing AzureAccountsRemoveFromAppOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface LUISAuthoringClient5be32554f8591db3a86232e1OptionalParams extends msRest.RequestOptionsBase {
+export interface AzureAccountsRemoveFromAppOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {AzureAccountInfoObject} [azureAccountInfoObject] The azure
    * account information object.
@@ -5676,6 +5691,54 @@ export type AppsListAvailableCustomPrebuiltDomainsForCultureResponse = Array<Pre
 };
 
 /**
+ * Contains response data for the packagePublishedApplicationAsGzip operation.
+ */
+export type AppsPackagePublishedApplicationAsGzipResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always undefined in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always undefined in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse;
+};
+
+/**
+ * Contains response data for the packageTrainedApplicationAsGzip operation.
+ */
+export type AppsPackageTrainedApplicationAsGzipResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always undefined in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always undefined in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse;
+};
+
+/**
  * Contains response data for the clone operation.
  */
 export type VersionsCloneResponse = {
@@ -6140,9 +6203,9 @@ export type SettingsUpdateResponse = OperationStatus & {
 };
 
 /**
- * Contains response data for the 5be32228e8473de116325515 operation.
+ * Contains response data for the assignToApp operation.
  */
-export type 5be32228e8473de116325515Response = {
+export type AzureAccountsAssignToAppResponse = {
   /**
    * The parsed response body.
    */
@@ -6163,9 +6226,9 @@ export type 5be32228e8473de116325515Response = {
 };
 
 /**
- * Contains response data for the 5be32028a1d48f88cfd57e20 operation.
+ * Contains response data for the getAssigned operation.
  */
-export type 5be32028a1d48f88cfd57e20Response = {
+export type AzureAccountsGetAssignedResponse = {
   /**
    * The parsed response body.
    */
@@ -6186,9 +6249,9 @@ export type 5be32028a1d48f88cfd57e20Response = {
 };
 
 /**
- * Contains response data for the 5be32554f8591db3a86232e1 operation.
+ * Contains response data for the removeFromApp operation.
  */
-export type 5be32554f8591db3a86232e1Response = {
+export type AzureAccountsRemoveFromAppResponse = {
   /**
    * The parsed response body.
    */
@@ -6209,9 +6272,9 @@ export type 5be32554f8591db3a86232e1Response = {
 };
 
 /**
- * Contains response data for the 5be313cec181ae720aa2b26c operation.
+ * Contains response data for the getUserLUISAccounts operation.
  */
-export type 5be313cec181ae720aa2b26cResponse = {
+export type AzureAccountsGetUserLUISAccountsResponse = {
   /**
    * The parsed response body.
    */
@@ -6229,52 +6292,4 @@ export type 5be313cec181ae720aa2b26cResponse = {
        */
       parsedBody: any;
     };
-};
-
-/**
- * Contains response data for the appsPackagepublishedapplicationasgzip operation.
- */
-export type AppsPackagepublishedapplicationasgzipResponse = {
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always undefined in node.js.
-   */
-  blobBody?: Promise<Blob>;
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream.
-   * Always undefined in the browser.
-   */
-  readableStreamBody?: NodeJS.ReadableStream;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse;
-};
-
-/**
- * Contains response data for the appsPackagetrainedapplicationasgzip operation.
- */
-export type AppsPackagetrainedapplicationasgzipResponse = {
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always undefined in node.js.
-   */
-  blobBody?: Promise<Blob>;
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream.
-   * Always undefined in the browser.
-   */
-  readableStreamBody?: NodeJS.ReadableStream;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse;
 };

@@ -127,6 +127,19 @@ export const exampleId: msRest.OperationURLParameter = {
     }
   }
 };
+export const force: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "force"
+  ],
+  mapper: {
+    serializedName: "force",
+    defaultValue: false,
+    type: {
+      name: "Boolean"
+    }
+  }
+};
 export const hChildId: msRest.OperationURLParameter = {
   parameterPath: "hChildId",
   mapper: {
