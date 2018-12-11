@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
@@ -17,7 +17,7 @@ import { ComputerVisionClientContext } from "./computerVisionClientContext";
 class ComputerVisionClient extends ComputerVisionClientContext {
   /**
    * Initializes a new instance of the ComputerVisionClient class.
-   * @param endpoint Supported Cognitive Services endpoints
+   * @param endpoint Supported Cognitive Services endpoints.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
@@ -26,10 +26,109 @@ class ComputerVisionClient extends ComputerVisionClientContext {
   }
 
   /**
+   * This operation extracts a rich set of visual features based on the image content.
+   * Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL. Within
+   * your request, there is an optional parameter to allow you to choose which features to return. By
+   * default, image categories are returned in the response.
+   * A successful response will be returned in JSON. If the request failed, the response will contain
+   * an error code and a message to help understand what went wrong.
+   * @param url Publicly reachable URL of an image.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AnalyzeImageResponse>
+   */
+  analyzeImage(url: string, options?: Models.ComputerVisionClientAnalyzeImageOptionalParams): Promise<Models.AnalyzeImageResponse>;
+  /**
+   * @param url Publicly reachable URL of an image.
+   * @param callback The callback
+   */
+  analyzeImage(url: string, callback: msRest.ServiceCallback<Models.ImageAnalysis>): void;
+  /**
+   * @param url Publicly reachable URL of an image.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  analyzeImage(url: string, options: Models.ComputerVisionClientAnalyzeImageOptionalParams, callback: msRest.ServiceCallback<Models.ImageAnalysis>): void;
+  analyzeImage(url: string, options?: Models.ComputerVisionClientAnalyzeImageOptionalParams | msRest.ServiceCallback<Models.ImageAnalysis>, callback?: msRest.ServiceCallback<Models.ImageAnalysis>): Promise<Models.AnalyzeImageResponse> {
+    return this.sendOperationRequest(
+      {
+        url,
+        options
+      },
+      analyzeImageOperationSpec,
+      callback) as Promise<Models.AnalyzeImageResponse>;
+  }
+
+  /**
+   * This operation generates a description of an image in human readable language with complete
+   * sentences. The description is based on a collection of content tags, which are also returned by
+   * the operation. More than one description can be generated for each image. Descriptions are
+   * ordered by their confidence score. All descriptions are in English.
+   * Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+   * A successful response will be returned in JSON. If the request failed, the response will contain
+   * an error code and a message to help understand what went wrong.
+   * @param url Publicly reachable URL of an image.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DescribeImageResponse>
+   */
+  describeImage(url: string, options?: Models.ComputerVisionClientDescribeImageOptionalParams): Promise<Models.DescribeImageResponse>;
+  /**
+   * @param url Publicly reachable URL of an image.
+   * @param callback The callback
+   */
+  describeImage(url: string, callback: msRest.ServiceCallback<Models.ImageDescription>): void;
+  /**
+   * @param url Publicly reachable URL of an image.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  describeImage(url: string, options: Models.ComputerVisionClientDescribeImageOptionalParams, callback: msRest.ServiceCallback<Models.ImageDescription>): void;
+  describeImage(url: string, options?: Models.ComputerVisionClientDescribeImageOptionalParams | msRest.ServiceCallback<Models.ImageDescription>, callback?: msRest.ServiceCallback<Models.ImageDescription>): Promise<Models.DescribeImageResponse> {
+    return this.sendOperationRequest(
+      {
+        url,
+        options
+      },
+      describeImageOperationSpec,
+      callback) as Promise<Models.DescribeImageResponse>;
+  }
+
+  /**
+   * Performs object detection on the specified image.
+   * Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+   * A successful response will be returned in JSON. If the request failed, the response will contain
+   * an error code and a message to help understand what went wrong.
+   * @param url Publicly reachable URL of an image.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DetectObjectsResponse>
+   */
+  detectObjects(url: string, options?: msRest.RequestOptionsBase): Promise<Models.DetectObjectsResponse>;
+  /**
+   * @param url Publicly reachable URL of an image.
+   * @param callback The callback
+   */
+  detectObjects(url: string, callback: msRest.ServiceCallback<Models.DetectResult>): void;
+  /**
+   * @param url Publicly reachable URL of an image.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  detectObjects(url: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DetectResult>): void;
+  detectObjects(url: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectResult>, callback?: msRest.ServiceCallback<Models.DetectResult>): Promise<Models.DetectObjectsResponse> {
+    return this.sendOperationRequest(
+      {
+        url,
+        options
+      },
+      detectObjectsOperationSpec,
+      callback) as Promise<Models.DetectObjectsResponse>;
+  }
+
+  /**
    * This operation returns the list of domain-specific models that are supported by the Computer
-   * Vision API.  Currently, the API only supports one domain-specific model: a celebrity recognizer.
-   * A successful response will be returned in JSON.  If the request failed, the response will
-   * contain an error code and a message to help understand what went wrong.
+   * Vision API. Currently, the API supports following domain-specific models: celebrity recognizer,
+   * landmark recognizer.
+   * A successful response will be returned in JSON. If the request failed, the response will contain
+   * an error code and a message to help understand what went wrong.
    * @param [options] The optional parameters
    * @returns Promise<Models.ListModelsResponse>
    */
@@ -53,61 +152,157 @@ class ComputerVisionClient extends ComputerVisionClientContext {
   }
 
   /**
-   * This operation extracts a rich set of visual features based on the image content. Two input
-   * methods are supported -- (1) Uploading an image or (2) specifying an image URL.  Within your
-   * request, there is an optional parameter to allow you to choose which features to return.  By
-   * default, image categories are returned in the response.
-   * @param url Publicly reachable URL of an image
+   * This operation recognizes content within an image by applying a domain-specific model. The list
+   * of domain-specific models that are supported by the Computer Vision API can be retrieved using
+   * the /models GET request. Currently, the API provides following domain-specific models:
+   * celebrities, landmarks.
+   * Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+   * A successful response will be returned in JSON.
+   * If the request failed, the response will contain an error code and a message to help understand
+   * what went wrong.
+   * @param model The domain-specific content to recognize.
+   * @param url Publicly reachable URL of an image.
    * @param [options] The optional parameters
-   * @returns Promise<Models.AnalyzeImageResponse>
+   * @returns Promise<Models.AnalyzeImageByDomainResponse>
    */
-  analyzeImage(url: string, options?: Models.ComputerVisionClientAnalyzeImageOptionalParams): Promise<Models.AnalyzeImageResponse>;
+  analyzeImageByDomain(model: string, url: string, options?: Models.ComputerVisionClientAnalyzeImageByDomainOptionalParams): Promise<Models.AnalyzeImageByDomainResponse>;
   /**
-   * @param url Publicly reachable URL of an image
+   * @param model The domain-specific content to recognize.
+   * @param url Publicly reachable URL of an image.
    * @param callback The callback
    */
-  analyzeImage(url: string, callback: msRest.ServiceCallback<Models.ImageAnalysis>): void;
+  analyzeImageByDomain(model: string, url: string, callback: msRest.ServiceCallback<Models.DomainModelResults>): void;
   /**
-   * @param url Publicly reachable URL of an image
+   * @param model The domain-specific content to recognize.
+   * @param url Publicly reachable URL of an image.
    * @param options The optional parameters
    * @param callback The callback
    */
-  analyzeImage(url: string, options: Models.ComputerVisionClientAnalyzeImageOptionalParams, callback: msRest.ServiceCallback<Models.ImageAnalysis>): void;
-  analyzeImage(url: string, options?: Models.ComputerVisionClientAnalyzeImageOptionalParams | msRest.ServiceCallback<Models.ImageAnalysis>, callback?: msRest.ServiceCallback<Models.ImageAnalysis>): Promise<Models.AnalyzeImageResponse> {
+  analyzeImageByDomain(model: string, url: string, options: Models.ComputerVisionClientAnalyzeImageByDomainOptionalParams, callback: msRest.ServiceCallback<Models.DomainModelResults>): void;
+  analyzeImageByDomain(model: string, url: string, options?: Models.ComputerVisionClientAnalyzeImageByDomainOptionalParams | msRest.ServiceCallback<Models.DomainModelResults>, callback?: msRest.ServiceCallback<Models.DomainModelResults>): Promise<Models.AnalyzeImageByDomainResponse> {
+    return this.sendOperationRequest(
+      {
+        model,
+        url,
+        options
+      },
+      analyzeImageByDomainOperationSpec,
+      callback) as Promise<Models.AnalyzeImageByDomainResponse>;
+  }
+
+  /**
+   * Optical Character Recognition (OCR) detects text in an image and extracts the recognized
+   * characters into a machine-usable character stream.
+   * Upon success, the OCR results will be returned.
+   * Upon failure, the error code together with an error message will be returned. The error code can
+   * be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage,
+   * NotSupportedLanguage, or InternalServerError.
+   * @param detectOrientation Whether detect the text orientation in the image. With
+   * detectOrientation=true the OCR service tries to detect the image orientation and correct it
+   * before further processing (e.g. if it's upside-down).
+   * @param url Publicly reachable URL of an image.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RecognizePrintedTextResponse>
+   */
+  recognizePrintedText(detectOrientation: boolean, url: string, options?: Models.ComputerVisionClientRecognizePrintedTextOptionalParams): Promise<Models.RecognizePrintedTextResponse>;
+  /**
+   * @param detectOrientation Whether detect the text orientation in the image. With
+   * detectOrientation=true the OCR service tries to detect the image orientation and correct it
+   * before further processing (e.g. if it's upside-down).
+   * @param url Publicly reachable URL of an image.
+   * @param callback The callback
+   */
+  recognizePrintedText(detectOrientation: boolean, url: string, callback: msRest.ServiceCallback<Models.OcrResult>): void;
+  /**
+   * @param detectOrientation Whether detect the text orientation in the image. With
+   * detectOrientation=true the OCR service tries to detect the image orientation and correct it
+   * before further processing (e.g. if it's upside-down).
+   * @param url Publicly reachable URL of an image.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  recognizePrintedText(detectOrientation: boolean, url: string, options: Models.ComputerVisionClientRecognizePrintedTextOptionalParams, callback: msRest.ServiceCallback<Models.OcrResult>): void;
+  recognizePrintedText(detectOrientation: boolean, url: string, options?: Models.ComputerVisionClientRecognizePrintedTextOptionalParams | msRest.ServiceCallback<Models.OcrResult>, callback?: msRest.ServiceCallback<Models.OcrResult>): Promise<Models.RecognizePrintedTextResponse> {
+    return this.sendOperationRequest(
+      {
+        detectOrientation,
+        url,
+        options
+      },
+      recognizePrintedTextOperationSpec,
+      callback) as Promise<Models.RecognizePrintedTextResponse>;
+  }
+
+  /**
+   * This operation generates a list of words, or tags, that are relevant to the content of the
+   * supplied image. The Computer Vision API can return tags based on objects, living beings, scenery
+   * or actions found in images. Unlike categories, tags are not organized according to a
+   * hierarchical classification system, but correspond to image content. Tags may contain hints to
+   * avoid ambiguity or provide context, for example the tag "cello" may be accompanied by the hint
+   * "musical instrument". All tags are in English.
+   * Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+   * A successful response will be returned in JSON. If the request failed, the response will contain
+   * an error code and a message to help understand what went wrong.
+   * @param url Publicly reachable URL of an image.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TagImageResponse>
+   */
+  tagImage(url: string, options?: Models.ComputerVisionClientTagImageOptionalParams): Promise<Models.TagImageResponse>;
+  /**
+   * @param url Publicly reachable URL of an image.
+   * @param callback The callback
+   */
+  tagImage(url: string, callback: msRest.ServiceCallback<Models.TagResult>): void;
+  /**
+   * @param url Publicly reachable URL of an image.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  tagImage(url: string, options: Models.ComputerVisionClientTagImageOptionalParams, callback: msRest.ServiceCallback<Models.TagResult>): void;
+  tagImage(url: string, options?: Models.ComputerVisionClientTagImageOptionalParams | msRest.ServiceCallback<Models.TagResult>, callback?: msRest.ServiceCallback<Models.TagResult>): Promise<Models.TagImageResponse> {
     return this.sendOperationRequest(
       {
         url,
         options
       },
-      analyzeImageOperationSpec,
-      callback) as Promise<Models.AnalyzeImageResponse>;
+      tagImageOperationSpec,
+      callback) as Promise<Models.TagImageResponse>;
   }
 
   /**
    * This operation generates a thumbnail image with the user-specified width and height. By default,
    * the service analyzes the image, identifies the region of interest (ROI), and generates smart
    * cropping coordinates based on the ROI. Smart cropping helps when you specify an aspect ratio
-   * that differs from that of the input image. A successful response contains the thumbnail image
-   * binary. If the request failed, the response contains an error code and a message to help
-   * determine what went wrong.
-   * @param width Width of the thumbnail. It must be between 1 and 1024. Recommended minimum of 50.
-   * @param height Height of the thumbnail. It must be between 1 and 1024. Recommended minimum of 50.
-   * @param url Publicly reachable URL of an image
+   * that differs from that of the input image.
+   * A successful response contains the thumbnail image binary. If the request failed, the response
+   * contains an error code and a message to help determine what went wrong.
+   * Upon failure, the error code and an error message are returned. The error code could be one of
+   * InvalidImageUrl, InvalidImageFormat, InvalidImageSize, InvalidThumbnailSize, NotSupportedImage,
+   * FailedToProcess, Timeout, or InternalServerError.
+   * @param width Width of the thumbnail, in pixels. It must be between 1 and 1024. Recommended
+   * minimum of 50.
+   * @param height Height of the thumbnail, in pixels. It must be between 1 and 1024. Recommended
+   * minimum of 50.
+   * @param url Publicly reachable URL of an image.
    * @param [options] The optional parameters
    * @returns Promise<Models.GenerateThumbnailResponse>
    */
   generateThumbnail(width: number, height: number, url: string, options?: Models.ComputerVisionClientGenerateThumbnailOptionalParams): Promise<Models.GenerateThumbnailResponse>;
   /**
-   * @param width Width of the thumbnail. It must be between 1 and 1024. Recommended minimum of 50.
-   * @param height Height of the thumbnail. It must be between 1 and 1024. Recommended minimum of 50.
-   * @param url Publicly reachable URL of an image
+   * @param width Width of the thumbnail, in pixels. It must be between 1 and 1024. Recommended
+   * minimum of 50.
+   * @param height Height of the thumbnail, in pixels. It must be between 1 and 1024. Recommended
+   * minimum of 50.
+   * @param url Publicly reachable URL of an image.
    * @param callback The callback
    */
   generateThumbnail(width: number, height: number, url: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param width Width of the thumbnail. It must be between 1 and 1024. Recommended minimum of 50.
-   * @param height Height of the thumbnail. It must be between 1 and 1024. Recommended minimum of 50.
-   * @param url Publicly reachable URL of an image
+   * @param width Width of the thumbnail, in pixels. It must be between 1 and 1024. Recommended
+   * minimum of 50.
+   * @param height Height of the thumbnail, in pixels. It must be between 1 and 1024. Recommended
+   * minimum of 50.
+   * @param url Publicly reachable URL of an image.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -125,149 +320,36 @@ class ComputerVisionClient extends ComputerVisionClientContext {
   }
 
   /**
-   * Optical Character Recognition (OCR) detects printed text in an image and extracts the recognized
-   * characters into a machine-usable character stream.   Upon success, the OCR results will be
-   * returned. Upon failure, the error code together with an error message will be returned. The
-   * error code can be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize,
-   * NotSupportedImage,  NotSupportedLanguage, or InternalServerError.
-   * @param detectOrientation Whether detect the text orientation in the image. With
-   * detectOrientation=true the OCR service tries to detect the image orientation and correct it
-   * before further processing (e.g. if it's upside-down).
-   * @param url Publicly reachable URL of an image
+   * This operation returns a bounding box around the most important area of the image.
+   * A successful response will be returned in JSON. If the request failed, the response contains an
+   * error code and a message to help determine what went wrong.
+   * Upon failure, the error code and an error message are returned. The error code could be one of
+   * InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, FailedToProcess,
+   * Timeout, or InternalServerError.
+   * @param url Publicly reachable URL of an image.
    * @param [options] The optional parameters
-   * @returns Promise<Models.RecognizePrintedTextResponse>
+   * @returns Promise<Models.GetAreaOfInterestResponse>
    */
-  recognizePrintedText(detectOrientation: boolean, url: string, options?: Models.ComputerVisionClientRecognizePrintedTextOptionalParams): Promise<Models.RecognizePrintedTextResponse>;
+  getAreaOfInterest(url: string, options?: msRest.RequestOptionsBase): Promise<Models.GetAreaOfInterestResponse>;
   /**
-   * @param detectOrientation Whether detect the text orientation in the image. With
-   * detectOrientation=true the OCR service tries to detect the image orientation and correct it
-   * before further processing (e.g. if it's upside-down).
-   * @param url Publicly reachable URL of an image
+   * @param url Publicly reachable URL of an image.
    * @param callback The callback
    */
-  recognizePrintedText(detectOrientation: boolean, url: string, callback: msRest.ServiceCallback<Models.OcrResult>): void;
+  getAreaOfInterest(url: string, callback: msRest.ServiceCallback<Models.AreaOfInterestResult>): void;
   /**
-   * @param detectOrientation Whether detect the text orientation in the image. With
-   * detectOrientation=true the OCR service tries to detect the image orientation and correct it
-   * before further processing (e.g. if it's upside-down).
-   * @param url Publicly reachable URL of an image
+   * @param url Publicly reachable URL of an image.
    * @param options The optional parameters
    * @param callback The callback
    */
-  recognizePrintedText(detectOrientation: boolean, url: string, options: Models.ComputerVisionClientRecognizePrintedTextOptionalParams, callback: msRest.ServiceCallback<Models.OcrResult>): void;
-  recognizePrintedText(detectOrientation: boolean, url: string, options?: Models.ComputerVisionClientRecognizePrintedTextOptionalParams | msRest.ServiceCallback<Models.OcrResult>, callback?: msRest.ServiceCallback<Models.OcrResult>): Promise<Models.RecognizePrintedTextResponse> {
-    return this.sendOperationRequest(
-      {
-        detectOrientation,
-        url,
-        options
-      },
-      recognizePrintedTextOperationSpec,
-      callback) as Promise<Models.RecognizePrintedTextResponse>;
-  }
-
-  /**
-   * This operation generates a description of an image in human readable language with complete
-   * sentences.  The description is based on a collection of content tags, which are also returned by
-   * the operation. More than one description can be generated for each image.  Descriptions are
-   * ordered by their confidence score. All descriptions are in English. Two input methods are
-   * supported -- (1) Uploading an image or (2) specifying an image URL.A successful response will be
-   * returned in JSON.  If the request failed, the response will contain an error code and a message
-   * to help understand what went wrong.
-   * @param url Publicly reachable URL of an image
-   * @param [options] The optional parameters
-   * @returns Promise<Models.DescribeImageResponse>
-   */
-  describeImage(url: string, options?: Models.ComputerVisionClientDescribeImageOptionalParams): Promise<Models.DescribeImageResponse>;
-  /**
-   * @param url Publicly reachable URL of an image
-   * @param callback The callback
-   */
-  describeImage(url: string, callback: msRest.ServiceCallback<Models.ImageDescription>): void;
-  /**
-   * @param url Publicly reachable URL of an image
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  describeImage(url: string, options: Models.ComputerVisionClientDescribeImageOptionalParams, callback: msRest.ServiceCallback<Models.ImageDescription>): void;
-  describeImage(url: string, options?: Models.ComputerVisionClientDescribeImageOptionalParams | msRest.ServiceCallback<Models.ImageDescription>, callback?: msRest.ServiceCallback<Models.ImageDescription>): Promise<Models.DescribeImageResponse> {
+  getAreaOfInterest(url: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AreaOfInterestResult>): void;
+  getAreaOfInterest(url: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AreaOfInterestResult>, callback?: msRest.ServiceCallback<Models.AreaOfInterestResult>): Promise<Models.GetAreaOfInterestResponse> {
     return this.sendOperationRequest(
       {
         url,
         options
       },
-      describeImageOperationSpec,
-      callback) as Promise<Models.DescribeImageResponse>;
-  }
-
-  /**
-   * This operation generates a list of words, or tags, that are relevant to the content of the
-   * supplied image. The Computer Vision API can return tags based on objects, living beings, scenery
-   * or actions found in images. Unlike categories, tags are not organized according to a
-   * hierarchical classification system, but correspond to image content. Tags may contain hints to
-   * avoid ambiguity or provide context, for example the tag 'cello' may be accompanied by the hint
-   * 'musical instrument'. All tags are in English.
-   * @param url Publicly reachable URL of an image
-   * @param [options] The optional parameters
-   * @returns Promise<Models.TagImageResponse>
-   */
-  tagImage(url: string, options?: Models.ComputerVisionClientTagImageOptionalParams): Promise<Models.TagImageResponse>;
-  /**
-   * @param url Publicly reachable URL of an image
-   * @param callback The callback
-   */
-  tagImage(url: string, callback: msRest.ServiceCallback<Models.TagResult>): void;
-  /**
-   * @param url Publicly reachable URL of an image
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  tagImage(url: string, options: Models.ComputerVisionClientTagImageOptionalParams, callback: msRest.ServiceCallback<Models.TagResult>): void;
-  tagImage(url: string, options?: Models.ComputerVisionClientTagImageOptionalParams | msRest.ServiceCallback<Models.TagResult>, callback?: msRest.ServiceCallback<Models.TagResult>): Promise<Models.TagImageResponse> {
-    return this.sendOperationRequest(
-      {
-        url,
-        options
-      },
-      tagImageOperationSpec,
-      callback) as Promise<Models.TagImageResponse>;
-  }
-
-  /**
-   * This operation recognizes content within an image by applying a domain-specific model.  The list
-   * of domain-specific models that are supported by the Computer Vision API can be retrieved using
-   * the /models GET request.  Currently, the API only provides a single domain-specific model:
-   * celebrities. Two input methods are supported -- (1) Uploading an image or (2) specifying an
-   * image URL. A successful response will be returned in JSON.  If the request failed, the response
-   * will contain an error code and a message to help understand what went wrong.
-   * @param model The domain-specific content to recognize.
-   * @param url Publicly reachable URL of an image
-   * @param [options] The optional parameters
-   * @returns Promise<Models.AnalyzeImageByDomainResponse>
-   */
-  analyzeImageByDomain(model: string, url: string, options?: Models.ComputerVisionClientAnalyzeImageByDomainOptionalParams): Promise<Models.AnalyzeImageByDomainResponse>;
-  /**
-   * @param model The domain-specific content to recognize.
-   * @param url Publicly reachable URL of an image
-   * @param callback The callback
-   */
-  analyzeImageByDomain(model: string, url: string, callback: msRest.ServiceCallback<Models.DomainModelResults>): void;
-  /**
-   * @param model The domain-specific content to recognize.
-   * @param url Publicly reachable URL of an image
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  analyzeImageByDomain(model: string, url: string, options: Models.ComputerVisionClientAnalyzeImageByDomainOptionalParams, callback: msRest.ServiceCallback<Models.DomainModelResults>): void;
-  analyzeImageByDomain(model: string, url: string, options?: Models.ComputerVisionClientAnalyzeImageByDomainOptionalParams | msRest.ServiceCallback<Models.DomainModelResults>, callback?: msRest.ServiceCallback<Models.DomainModelResults>): Promise<Models.AnalyzeImageByDomainResponse> {
-    return this.sendOperationRequest(
-      {
-        model,
-        url,
-        options
-      },
-      analyzeImageByDomainOperationSpec,
-      callback) as Promise<Models.AnalyzeImageByDomainResponse>;
+      getAreaOfInterestOperationSpec,
+      callback) as Promise<Models.GetAreaOfInterestResponse>;
   }
 
   /**
@@ -275,20 +357,20 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * field called 'Operation-Location'. The 'Operation-Location' field contains the URL that you must
    * use for your Get Recognize Text Operation Result operation.
    * @param mode Type of text to recognize. Possible values include: 'Handwritten', 'Printed'
-   * @param url Publicly reachable URL of an image
+   * @param url Publicly reachable URL of an image.
    * @param [options] The optional parameters
    * @returns Promise<Models.RecognizeTextResponse>
    */
   recognizeText(mode: Models.TextRecognitionMode, url: string, options?: msRest.RequestOptionsBase): Promise<Models.RecognizeTextResponse>;
   /**
    * @param mode Type of text to recognize. Possible values include: 'Handwritten', 'Printed'
-   * @param url Publicly reachable URL of an image
+   * @param url Publicly reachable URL of an image.
    * @param callback The callback
    */
   recognizeText(mode: Models.TextRecognitionMode, url: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param mode Type of text to recognize. Possible values include: 'Handwritten', 'Printed'
-   * @param url Publicly reachable URL of an image
+   * @param url Publicly reachable URL of an image.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -335,6 +417,11 @@ class ComputerVisionClient extends ComputerVisionClientContext {
 
   /**
    * This operation extracts a rich set of visual features based on the image content.
+   * Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL. Within
+   * your request, there is an optional parameter to allow you to choose which features to return. By
+   * default, image categories are returned in the response.
+   * A successful response will be returned in JSON. If the request failed, the response will contain
+   * an error code and a message to help understand what went wrong.
    * @param image An image stream.
    * @param [options] The optional parameters
    * @returns Promise<Models.AnalyzeImageInStreamResponse>
@@ -362,29 +449,136 @@ class ComputerVisionClient extends ComputerVisionClientContext {
   }
 
   /**
+   * This operation returns a bounding box around the most important area of the image.
+   * A successful response will be returned in JSON. If the request failed, the response contains an
+   * error code and a message to help determine what went wrong.
+   * Upon failure, the error code and an error message are returned. The error code could be one of
+   * InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, FailedToProcess,
+   * Timeout, or InternalServerError.
+   * @param image An image stream.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetAreaOfInterestInStreamResponse>
+   */
+  getAreaOfInterestInStream(image: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase): Promise<Models.GetAreaOfInterestInStreamResponse>;
+  /**
+   * @param image An image stream.
+   * @param callback The callback
+   */
+  getAreaOfInterestInStream(image: msRest.HttpRequestBody, callback: msRest.ServiceCallback<Models.AreaOfInterestResult>): void;
+  /**
+   * @param image An image stream.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAreaOfInterestInStream(image: msRest.HttpRequestBody, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AreaOfInterestResult>): void;
+  getAreaOfInterestInStream(image: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AreaOfInterestResult>, callback?: msRest.ServiceCallback<Models.AreaOfInterestResult>): Promise<Models.GetAreaOfInterestInStreamResponse> {
+    return this.sendOperationRequest(
+      {
+        image,
+        options
+      },
+      getAreaOfInterestInStreamOperationSpec,
+      callback) as Promise<Models.GetAreaOfInterestInStreamResponse>;
+  }
+
+  /**
+   * This operation generates a description of an image in human readable language with complete
+   * sentences. The description is based on a collection of content tags, which are also returned by
+   * the operation. More than one description can be generated for each image. Descriptions are
+   * ordered by their confidence score. All descriptions are in English.
+   * Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+   * A successful response will be returned in JSON. If the request failed, the response will contain
+   * an error code and a message to help understand what went wrong.
+   * @param image An image stream.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DescribeImageInStreamResponse>
+   */
+  describeImageInStream(image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientDescribeImageInStreamOptionalParams): Promise<Models.DescribeImageInStreamResponse>;
+  /**
+   * @param image An image stream.
+   * @param callback The callback
+   */
+  describeImageInStream(image: msRest.HttpRequestBody, callback: msRest.ServiceCallback<Models.ImageDescription>): void;
+  /**
+   * @param image An image stream.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  describeImageInStream(image: msRest.HttpRequestBody, options: Models.ComputerVisionClientDescribeImageInStreamOptionalParams, callback: msRest.ServiceCallback<Models.ImageDescription>): void;
+  describeImageInStream(image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientDescribeImageInStreamOptionalParams | msRest.ServiceCallback<Models.ImageDescription>, callback?: msRest.ServiceCallback<Models.ImageDescription>): Promise<Models.DescribeImageInStreamResponse> {
+    return this.sendOperationRequest(
+      {
+        image,
+        options
+      },
+      describeImageInStreamOperationSpec,
+      callback) as Promise<Models.DescribeImageInStreamResponse>;
+  }
+
+  /**
+   * Performs object detection on the specified image.
+   * Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+   * A successful response will be returned in JSON. If the request failed, the response will contain
+   * an error code and a message to help understand what went wrong.
+   * @param image An image stream.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DetectObjectsInStreamResponse>
+   */
+  detectObjectsInStream(image: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase): Promise<Models.DetectObjectsInStreamResponse>;
+  /**
+   * @param image An image stream.
+   * @param callback The callback
+   */
+  detectObjectsInStream(image: msRest.HttpRequestBody, callback: msRest.ServiceCallback<Models.DetectResult>): void;
+  /**
+   * @param image An image stream.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  detectObjectsInStream(image: msRest.HttpRequestBody, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DetectResult>): void;
+  detectObjectsInStream(image: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectResult>, callback?: msRest.ServiceCallback<Models.DetectResult>): Promise<Models.DetectObjectsInStreamResponse> {
+    return this.sendOperationRequest(
+      {
+        image,
+        options
+      },
+      detectObjectsInStreamOperationSpec,
+      callback) as Promise<Models.DetectObjectsInStreamResponse>;
+  }
+
+  /**
    * This operation generates a thumbnail image with the user-specified width and height. By default,
    * the service analyzes the image, identifies the region of interest (ROI), and generates smart
    * cropping coordinates based on the ROI. Smart cropping helps when you specify an aspect ratio
-   * that differs from that of the input image. A successful response contains the thumbnail image
-   * binary. If the request failed, the response contains an error code and a message to help
-   * determine what went wrong.
-   * @param width Width of the thumbnail. It must be between 1 and 1024. Recommended minimum of 50.
-   * @param height Height of the thumbnail. It must be between 1 and 1024. Recommended minimum of 50.
+   * that differs from that of the input image.
+   * A successful response contains the thumbnail image binary. If the request failed, the response
+   * contains an error code and a message to help determine what went wrong.
+   * Upon failure, the error code and an error message are returned. The error code could be one of
+   * InvalidImageUrl, InvalidImageFormat, InvalidImageSize, InvalidThumbnailSize, NotSupportedImage,
+   * FailedToProcess, Timeout, or InternalServerError.
+   * @param width Width of the thumbnail, in pixels. It must be between 1 and 1024. Recommended
+   * minimum of 50.
+   * @param height Height of the thumbnail, in pixels. It must be between 1 and 1024. Recommended
+   * minimum of 50.
    * @param image An image stream.
    * @param [options] The optional parameters
    * @returns Promise<Models.GenerateThumbnailInStreamResponse>
    */
   generateThumbnailInStream(width: number, height: number, image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientGenerateThumbnailInStreamOptionalParams): Promise<Models.GenerateThumbnailInStreamResponse>;
   /**
-   * @param width Width of the thumbnail. It must be between 1 and 1024. Recommended minimum of 50.
-   * @param height Height of the thumbnail. It must be between 1 and 1024. Recommended minimum of 50.
+   * @param width Width of the thumbnail, in pixels. It must be between 1 and 1024. Recommended
+   * minimum of 50.
+   * @param height Height of the thumbnail, in pixels. It must be between 1 and 1024. Recommended
+   * minimum of 50.
    * @param image An image stream.
    * @param callback The callback
    */
   generateThumbnailInStream(width: number, height: number, image: msRest.HttpRequestBody, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param width Width of the thumbnail. It must be between 1 and 1024. Recommended minimum of 50.
-   * @param height Height of the thumbnail. It must be between 1 and 1024. Recommended minimum of 50.
+   * @param width Width of the thumbnail, in pixels. It must be between 1 and 1024. Recommended
+   * minimum of 50.
+   * @param height Height of the thumbnail, in pixels. It must be between 1 and 1024. Recommended
+   * minimum of 50.
    * @param image An image stream.
    * @param options The optional parameters
    * @param callback The callback
@@ -403,11 +597,51 @@ class ComputerVisionClient extends ComputerVisionClientContext {
   }
 
   /**
-   * Optical Character Recognition (OCR) detects printed text in an image and extracts the recognized
-   * characters into a machine-usable character stream.   Upon success, the OCR results will be
-   * returned. Upon failure, the error code together with an error message will be returned. The
-   * error code can be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize,
-   * NotSupportedImage,  NotSupportedLanguage, or InternalServerError.
+   * This operation recognizes content within an image by applying a domain-specific model. The list
+   * of domain-specific models that are supported by the Computer Vision API can be retrieved using
+   * the /models GET request. Currently, the API provides following domain-specific models:
+   * celebrities, landmarks.
+   * Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+   * A successful response will be returned in JSON.
+   * If the request failed, the response will contain an error code and a message to help understand
+   * what went wrong.
+   * @param model The domain-specific content to recognize.
+   * @param image An image stream.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AnalyzeImageByDomainInStreamResponse>
+   */
+  analyzeImageByDomainInStream(model: string, image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientAnalyzeImageByDomainInStreamOptionalParams): Promise<Models.AnalyzeImageByDomainInStreamResponse>;
+  /**
+   * @param model The domain-specific content to recognize.
+   * @param image An image stream.
+   * @param callback The callback
+   */
+  analyzeImageByDomainInStream(model: string, image: msRest.HttpRequestBody, callback: msRest.ServiceCallback<Models.DomainModelResults>): void;
+  /**
+   * @param model The domain-specific content to recognize.
+   * @param image An image stream.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  analyzeImageByDomainInStream(model: string, image: msRest.HttpRequestBody, options: Models.ComputerVisionClientAnalyzeImageByDomainInStreamOptionalParams, callback: msRest.ServiceCallback<Models.DomainModelResults>): void;
+  analyzeImageByDomainInStream(model: string, image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientAnalyzeImageByDomainInStreamOptionalParams | msRest.ServiceCallback<Models.DomainModelResults>, callback?: msRest.ServiceCallback<Models.DomainModelResults>): Promise<Models.AnalyzeImageByDomainInStreamResponse> {
+    return this.sendOperationRequest(
+      {
+        model,
+        image,
+        options
+      },
+      analyzeImageByDomainInStreamOperationSpec,
+      callback) as Promise<Models.AnalyzeImageByDomainInStreamResponse>;
+  }
+
+  /**
+   * Optical Character Recognition (OCR) detects text in an image and extracts the recognized
+   * characters into a machine-usable character stream.
+   * Upon success, the OCR results will be returned.
+   * Upon failure, the error code together with an error message will be returned. The error code can
+   * be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage,
+   * NotSupportedLanguage, or InternalServerError.
    * @param detectOrientation Whether detect the text orientation in the image. With
    * detectOrientation=true the OCR service tries to detect the image orientation and correct it
    * before further processing (e.g. if it's upside-down).
@@ -445,46 +679,15 @@ class ComputerVisionClient extends ComputerVisionClientContext {
   }
 
   /**
-   * This operation generates a description of an image in human readable language with complete
-   * sentences.  The description is based on a collection of content tags, which are also returned by
-   * the operation. More than one description can be generated for each image.  Descriptions are
-   * ordered by their confidence score. All descriptions are in English. Two input methods are
-   * supported -- (1) Uploading an image or (2) specifying an image URL.A successful response will be
-   * returned in JSON.  If the request failed, the response will contain an error code and a message
-   * to help understand what went wrong.
-   * @param image An image stream.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.DescribeImageInStreamResponse>
-   */
-  describeImageInStream(image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientDescribeImageInStreamOptionalParams): Promise<Models.DescribeImageInStreamResponse>;
-  /**
-   * @param image An image stream.
-   * @param callback The callback
-   */
-  describeImageInStream(image: msRest.HttpRequestBody, callback: msRest.ServiceCallback<Models.ImageDescription>): void;
-  /**
-   * @param image An image stream.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  describeImageInStream(image: msRest.HttpRequestBody, options: Models.ComputerVisionClientDescribeImageInStreamOptionalParams, callback: msRest.ServiceCallback<Models.ImageDescription>): void;
-  describeImageInStream(image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientDescribeImageInStreamOptionalParams | msRest.ServiceCallback<Models.ImageDescription>, callback?: msRest.ServiceCallback<Models.ImageDescription>): Promise<Models.DescribeImageInStreamResponse> {
-    return this.sendOperationRequest(
-      {
-        image,
-        options
-      },
-      describeImageInStreamOperationSpec,
-      callback) as Promise<Models.DescribeImageInStreamResponse>;
-  }
-
-  /**
    * This operation generates a list of words, or tags, that are relevant to the content of the
    * supplied image. The Computer Vision API can return tags based on objects, living beings, scenery
    * or actions found in images. Unlike categories, tags are not organized according to a
    * hierarchical classification system, but correspond to image content. Tags may contain hints to
-   * avoid ambiguity or provide context, for example the tag 'cello' may be accompanied by the hint
-   * 'musical instrument'. All tags are in English.
+   * avoid ambiguity or provide context, for example the tag "cello" may be accompanied by the hint
+   * "musical instrument". All tags are in English.
+   * Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+   * A successful response will be returned in JSON. If the request failed, the response will contain
+   * an error code and a message to help understand what went wrong.
    * @param image An image stream.
    * @param [options] The optional parameters
    * @returns Promise<Models.TagImageInStreamResponse>
@@ -509,43 +712,6 @@ class ComputerVisionClient extends ComputerVisionClientContext {
       },
       tagImageInStreamOperationSpec,
       callback) as Promise<Models.TagImageInStreamResponse>;
-  }
-
-  /**
-   * This operation recognizes content within an image by applying a domain-specific model.  The list
-   * of domain-specific models that are supported by the Computer Vision API can be retrieved using
-   * the /models GET request.  Currently, the API only provides a single domain-specific model:
-   * celebrities. Two input methods are supported -- (1) Uploading an image or (2) specifying an
-   * image URL. A successful response will be returned in JSON.  If the request failed, the response
-   * will contain an error code and a message to help understand what went wrong.
-   * @param model The domain-specific content to recognize.
-   * @param image An image stream.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.AnalyzeImageByDomainInStreamResponse>
-   */
-  analyzeImageByDomainInStream(model: string, image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientAnalyzeImageByDomainInStreamOptionalParams): Promise<Models.AnalyzeImageByDomainInStreamResponse>;
-  /**
-   * @param model The domain-specific content to recognize.
-   * @param image An image stream.
-   * @param callback The callback
-   */
-  analyzeImageByDomainInStream(model: string, image: msRest.HttpRequestBody, callback: msRest.ServiceCallback<Models.DomainModelResults>): void;
-  /**
-   * @param model The domain-specific content to recognize.
-   * @param image An image stream.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  analyzeImageByDomainInStream(model: string, image: msRest.HttpRequestBody, options: Models.ComputerVisionClientAnalyzeImageByDomainInStreamOptionalParams, callback: msRest.ServiceCallback<Models.DomainModelResults>): void;
-  analyzeImageByDomainInStream(model: string, image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientAnalyzeImageByDomainInStreamOptionalParams | msRest.ServiceCallback<Models.DomainModelResults>, callback?: msRest.ServiceCallback<Models.DomainModelResults>): Promise<Models.AnalyzeImageByDomainInStreamResponse> {
-    return this.sendOperationRequest(
-      {
-        model,
-        image,
-        options
-      },
-      analyzeImageByDomainInStreamOperationSpec,
-      callback) as Promise<Models.AnalyzeImageByDomainInStreamResponse>;
   }
 
   /**
@@ -585,23 +751,6 @@ class ComputerVisionClient extends ComputerVisionClientContext {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const listModelsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "models",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ListModelsResult
-    },
-    default: {
-      bodyMapper: Mappers.ComputerVisionError
-    }
-  },
-  serializer
-};
-
 const analyzeImageOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "analyze",
@@ -625,6 +774,168 @@ const analyzeImageOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ImageAnalysis
+    },
+    default: {
+      bodyMapper: Mappers.ComputerVisionError
+    }
+  },
+  serializer
+};
+
+const describeImageOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "describe",
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  queryParameters: [
+    Parameters.maxCandidates,
+    Parameters.language0
+  ],
+  requestBody: {
+    parameterPath: {
+      url: "url"
+    },
+    mapper: {
+      ...Mappers.ImageUrl,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.ImageDescription
+    },
+    default: {
+      bodyMapper: Mappers.ComputerVisionError
+    }
+  },
+  serializer
+};
+
+const detectObjectsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "detect",
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  requestBody: {
+    parameterPath: {
+      url: "url"
+    },
+    mapper: {
+      ...Mappers.ImageUrl,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.DetectResult
+    },
+    default: {
+      bodyMapper: Mappers.ComputerVisionError
+    }
+  },
+  serializer
+};
+
+const listModelsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "models",
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListModelsResult
+    },
+    default: {
+      bodyMapper: Mappers.ComputerVisionError
+    }
+  },
+  serializer
+};
+
+const analyzeImageByDomainOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "models/{model}/analyze",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.model
+  ],
+  queryParameters: [
+    Parameters.language0
+  ],
+  requestBody: {
+    parameterPath: {
+      url: "url"
+    },
+    mapper: {
+      ...Mappers.ImageUrl,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.DomainModelResults
+    },
+    default: {
+      bodyMapper: Mappers.ComputerVisionError
+    }
+  },
+  serializer
+};
+
+const recognizePrintedTextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "ocr",
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  queryParameters: [
+    Parameters.detectOrientation,
+    Parameters.language1
+  ],
+  requestBody: {
+    parameterPath: {
+      url: "url"
+    },
+    mapper: {
+      ...Mappers.ImageUrl,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.OcrResult
+    },
+    default: {
+      bodyMapper: Mappers.ComputerVisionError
+    }
+  },
+  serializer
+};
+
+const tagImageOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "tag",
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  queryParameters: [
+    Parameters.language0
+  ],
+  requestBody: {
+    parameterPath: {
+      url: "url"
+    },
+    mapper: {
+      ...Mappers.ImageUrl,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.TagResult
     },
     default: {
       bodyMapper: Mappers.ComputerVisionError
@@ -667,16 +978,12 @@ const generateThumbnailOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const recognizePrintedTextOperationSpec: msRest.OperationSpec = {
+const getAreaOfInterestOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "ocr",
+  path: "areaOfInterest",
   urlParameters: [
     Parameters.endpoint
   ],
-  queryParameters: [
-    Parameters.detectOrientation,
-    Parameters.language1
-  ],
   requestBody: {
     parameterPath: {
       url: "url"
@@ -688,96 +995,7 @@ const recognizePrintedTextOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.OcrResult
-    },
-    default: {
-      bodyMapper: Mappers.ComputerVisionError
-    }
-  },
-  serializer
-};
-
-const describeImageOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "describe",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.maxCandidates,
-    Parameters.language0
-  ],
-  requestBody: {
-    parameterPath: {
-      url: "url"
-    },
-    mapper: {
-      ...Mappers.ImageUrl,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.ImageDescription
-    },
-    default: {
-      bodyMapper: Mappers.ComputerVisionError
-    }
-  },
-  serializer
-};
-
-const tagImageOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "tag",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.language0
-  ],
-  requestBody: {
-    parameterPath: {
-      url: "url"
-    },
-    mapper: {
-      ...Mappers.ImageUrl,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.TagResult
-    },
-    default: {
-      bodyMapper: Mappers.ComputerVisionError
-    }
-  },
-  serializer
-};
-
-const analyzeImageByDomainOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "models/{model}/analyze",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.model
-  ],
-  queryParameters: [
-    Parameters.language0
-  ],
-  requestBody: {
-    parameterPath: {
-      url: "url"
-    },
-    mapper: {
-      ...Mappers.ImageUrl,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.DomainModelResults
+      bodyMapper: Mappers.AreaOfInterestResult
     },
     default: {
       bodyMapper: Mappers.ComputerVisionError
@@ -866,16 +1084,11 @@ const analyzeImageInStreamOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const generateThumbnailInStreamOperationSpec: msRest.OperationSpec = {
+const getAreaOfInterestInStreamOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "generateThumbnail",
+  path: "areaOfInterest",
   urlParameters: [
     Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.width,
-    Parameters.height,
-    Parameters.smartCropping
   ],
   requestBody: {
     parameterPath: "image",
@@ -890,42 +1103,7 @@ const generateThumbnailInStreamOperationSpec: msRest.OperationSpec = {
   contentType: "application/octet-stream",
   responses: {
     200: {
-      bodyMapper: {
-        serializedName: "parsedResponse",
-        type: {
-          name: "Stream"
-        }
-      }
-    },
-    default: {}
-  },
-  serializer
-};
-
-const recognizePrintedTextInStreamOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "ocr",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.language1,
-    Parameters.detectOrientation
-  ],
-  requestBody: {
-    parameterPath: "image",
-    mapper: {
-      required: true,
-      serializedName: "Image",
-      type: {
-        name: "Stream"
-      }
-    }
-  },
-  contentType: "application/octet-stream",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OcrResult
+      bodyMapper: Mappers.AreaOfInterestResult
     },
     default: {
       bodyMapper: Mappers.ComputerVisionError
@@ -966,14 +1144,11 @@ const describeImageInStreamOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const tagImageInStreamOperationSpec: msRest.OperationSpec = {
+const detectObjectsInStreamOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "tag",
+  path: "detect",
   urlParameters: [
     Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.language0
   ],
   requestBody: {
     parameterPath: "image",
@@ -988,11 +1163,47 @@ const tagImageInStreamOperationSpec: msRest.OperationSpec = {
   contentType: "application/octet-stream",
   responses: {
     200: {
-      bodyMapper: Mappers.TagResult
+      bodyMapper: Mappers.DetectResult
     },
     default: {
       bodyMapper: Mappers.ComputerVisionError
     }
+  },
+  serializer
+};
+
+const generateThumbnailInStreamOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "generateThumbnail",
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  queryParameters: [
+    Parameters.width,
+    Parameters.height,
+    Parameters.smartCropping
+  ],
+  requestBody: {
+    parameterPath: "image",
+    mapper: {
+      required: true,
+      serializedName: "Image",
+      type: {
+        name: "Stream"
+      }
+    }
+  },
+  contentType: "application/octet-stream",
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Stream"
+        }
+      }
+    },
+    default: {}
   },
   serializer
 };
@@ -1021,6 +1232,69 @@ const analyzeImageByDomainInStreamOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.DomainModelResults
+    },
+    default: {
+      bodyMapper: Mappers.ComputerVisionError
+    }
+  },
+  serializer
+};
+
+const recognizePrintedTextInStreamOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "ocr",
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  queryParameters: [
+    Parameters.detectOrientation,
+    Parameters.language1
+  ],
+  requestBody: {
+    parameterPath: "image",
+    mapper: {
+      required: true,
+      serializedName: "Image",
+      type: {
+        name: "Stream"
+      }
+    }
+  },
+  contentType: "application/octet-stream",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OcrResult
+    },
+    default: {
+      bodyMapper: Mappers.ComputerVisionError
+    }
+  },
+  serializer
+};
+
+const tagImageInStreamOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "tag",
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  queryParameters: [
+    Parameters.language0
+  ],
+  requestBody: {
+    parameterPath: "image",
+    mapper: {
+      required: true,
+      serializedName: "Image",
+      type: {
+        name: "Stream"
+      }
+    }
+  },
+  contentType: "application/octet-stream",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TagResult
     },
     default: {
       bodyMapper: Mappers.ComputerVisionError
