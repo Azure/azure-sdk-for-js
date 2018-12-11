@@ -15,7 +15,7 @@ import { generateAllMissingSdks, generateMissingSdk, generateSdk, generateTsRead
 import { Logger } from "./.scripts/logger";
 import { findMissingSdks, findWrongPackages } from "./.scripts/packages";
 import { getPackageFolderPathFromPackageArgument } from "./.scripts/readme";
-import { contains, gitDiff, GitDiffResult, npmInstall, npmRun, NPMViewResult, NPMScope, gitBranch } from "@ts-common/azure-js-dev-tools";
+import { contains, gitDiff, GitDiffResult, npmInstall, npmRun, NPMViewResult, NPMScope, gitBranch, gitStatus } from "@ts-common/azure-js-dev-tools";
 
 enum PackagesToPack {
   All,
@@ -53,6 +53,22 @@ const packagesToPack: PackagesToPack = getPackagesToPackArgument(getArgument("to
 const headReference: string | undefined = getArgument("head-reference", "headReference");
 const baseReference: string | undefined = getArgument("base-reference", "baseReference");
 
+function getDropFolderPath(): string {
+  let result: string | undefined = getArgument("drop");
+  if (!result) {
+    result = "drop";
+  }
+  if (!path.isAbsolute(result)) {
+    result = path.join(azureSDKForJSRepoRoot, result);
+  }
+  return result;
+}
+
+const dropFolderPath: string = getDropFolderPath();
+if (!fs.existsSync(dropFolderPath)) {
+  fs.mkdirSync(dropFolderPath);
+}
+
 gulp.task('default', () => {
   _logger.log('gulp build --package <package-name>');
   _logger.log('  --package');
@@ -70,13 +86,15 @@ gulp.task('default', () => {
   _logger.log('  --package');
   _logger.log('    NPM package to regenerate. If no package is specified, then all packages will be regenerated.');
   _logger.log();
-  _logger.log('gulp pack [--package <package name>] [--whatif]');
+  _logger.log('gulp pack [--package <package name>] [--whatif] [--to-pack <to-pack option>] [--drop <drop folder path>]');
   _logger.log('  --package');
   _logger.log('    The name of the package to pack. If no package is specified, then all packages will be packed.');
   _logger.log('  --whatif');
   _logger.log('    Don\'t actually pack packages, but just indicate which packages would be packed.');
   _logger.log("  --to-pack");
-  _logger.log(`    Which packages should be packed. Options are "All", "DifferentVersion", "BranchHasChanges".`)
+  _logger.log(`    Which packages should be packed. Options are "All", "DifferentVersion", "BranchHasChanges".`);
+  _logger.log(`  --drop`);
+  _logger.log(`    The folder where packed tarballs will be put. Defaults to "<azure-sdk-for-js-root>/drop/".`);
 });
 
 gulp.task("install", async () => {
@@ -161,7 +179,7 @@ function pack(): void {
   let packedPackages = 0;
   let skippedPackages = 0;
 
-  let changedFiles: string[] | undefined;
+  let changedFiles: string[] = [];
 
   if (packagesToPack === PackagesToPack.BranchHasChanges) {
     let packBaseReference: string | undefined = baseReference;
@@ -174,10 +192,15 @@ function pack(): void {
     if (!packHeadReference) {
       packHeadReference = gitBranch().currentBranch;
       _logger.log(`No head-reference argument specified on command line or in environment variables. Defaulting to "${packHeadReference}".`);
+
+      const modifiedFiles: string[] | undefined = gitStatus().modifiedFiles;
+      if (modifiedFiles) {
+        changedFiles.push(...modifiedFiles);
+      }
     }
 
     const diffResult: GitDiffResult = gitDiff(packBaseReference, packHeadReference);
-    changedFiles = diffResult.filesChanged;
+    changedFiles.push(...diffResult.filesChanged);
     if (!changedFiles || changedFiles.length === 0) {
       _logger.logTrace(`Found no changes between "${packBaseReference}" and "${packHeadReference}.`);
     } else {
@@ -186,12 +209,6 @@ function pack(): void {
         _logger.logTrace(changedFilePath);
       }
     }
-  }
-
-  // `./drop/` folder
-  const dropPath = path.join(azureSDKForJSRepoRoot, "drop");
-  if (!fs.existsSync(dropPath)) {
-    fs.mkdirSync(dropPath);
   }
 
   const packagesToSkip: string[] = ["@azure/keyvault"];
@@ -244,7 +261,7 @@ function pack(): void {
               npm.pack();
               const packFileName = `${packageName.replace("/", "-").replace("@", "")}-${localPackageVersion}.tgz`
               const packFilePath = path.join(packageFolderPath, packFileName);
-              fs.renameSync(packFilePath, path.join(dropPath, packFileName));
+              fs.renameSync(packFilePath, path.join(dropFolderPath, packFileName));
               _logger.log(`Filename: ${packFileName}`);
               packedPackages++;
             }
