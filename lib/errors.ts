@@ -121,7 +121,7 @@ export enum ConditionErrorNameMapper {
    */
   "com.microsoft:timeout" = "ServiceUnavailableError", // Retryable
   /**
-   * Error is thrown when no new meesages are received for the specified time.
+   * Error is thrown when no new messages are received for the specified time.
    */
   "com.microsoft:message-wait-timeout" = "MessageWaitTimeout",
   /**
@@ -327,7 +327,7 @@ export enum ErrorNameConditionMapper {
    */
   ServiceUnavailableError = "com.microsoft:timeout", // Retryable
   /**
-   * Error is thrown when no new meesages are received for the specified time.
+   * Error is thrown when no new messages are received for the specified time.
    */
   MessageWaitTimeout = "com.microsoft:message-wait-timeout",
   /**
