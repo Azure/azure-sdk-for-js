@@ -203,7 +203,7 @@ function pack(): void {
     const diffResult: GitDiffResult = gitDiff(packBaseReference, packHeadReference);
     changedFiles.push(...diffResult.filesChanged);
     if (!changedFiles || changedFiles.length === 0) {
-      _logger.logTrace(`Found no changes between "${packBaseReference}" and "${packHeadReference}.`);
+      _logger.logTrace(`Found no changes between "${packBaseReference}" and "${packHeadReference}".`);
     } else {
       _logger.logTrace(`Found the following changed files`)
       for (const changedFilePath of changedFiles) {
