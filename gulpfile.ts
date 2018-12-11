@@ -15,7 +15,7 @@ import { generateAllMissingSdks, generateMissingSdk, generateSdk, generateTsRead
 import { Logger } from "./.scripts/logger";
 import { findMissingSdks, findWrongPackages } from "./.scripts/packages";
 import { getPackageFolderPathFromPackageArgument } from "./.scripts/readme";
-import { contains, gitDiff, GitDiffResult, npmInstall, npmRun, NPMViewResult, NPMScope, gitBranch, gitStatus } from "@ts-common/azure-js-dev-tools";
+import { contains, gitDiff, GitDiffResult, npmInstall, npmRun, NPMViewResult, NPMScope, gitStatus, GitStatusResult } from "@ts-common/azure-js-dev-tools";
 
 enum PackagesToPack {
   All,
@@ -190,10 +190,11 @@ function pack(): void {
 
     let packHeadReference: string | undefined = headReference;
     if (!packHeadReference) {
-      packHeadReference = gitBranch().currentBranch;
+      const statusResult: GitStatusResult = gitStatus();
+      packHeadReference = statusResult.localBranch!;
       _logger.log(`No head-reference argument specified on command line or in environment variables. Defaulting to "${packHeadReference}".`);
 
-      const modifiedFiles: string[] | undefined = gitStatus().modifiedFiles;
+      const modifiedFiles: string[] | undefined = statusResult.modifiedFiles;
       if (modifiedFiles) {
         changedFiles.push(...modifiedFiles);
       }
