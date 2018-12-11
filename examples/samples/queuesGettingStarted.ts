@@ -1,4 +1,13 @@
-import { OnMessage, OnError, MessagingError, delay, ServiceBusMessage, ReceiveMode, generateUuid, Namespace } from "../lib";
+import {
+  OnMessage,
+  OnError,
+  MessagingError,
+  delay,
+  ServiceBusMessage,
+  ReceiveMode,
+  generateUuid,
+  Namespace
+} from "../../lib";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -33,12 +42,12 @@ async function sendMessage(): Promise<void> {
         body: JSON.stringify(data[i]),
         contentType: "application/json",
         label: "Scientist",
-        messageId: generateUuid(),
-      }
+        messageId: generateUuid()
+      };
       await sendClient.send(message);
       console.log("Sent message number:", i + 1);
     }
-    console.log("\n>>>>>> Total Sent messages: %d\n", data.length);
+    console.log("\n>>>>>>> Total Sent messages: %d\n", data.length);
   } catch (err) {
     console.log("Error while sending", err);
   }
@@ -50,12 +59,17 @@ async function receiveMessage(): Promise<void> {
   const receiveClient = nsRcv.createQueueClient(path, { receiveMode: ReceiveMode.peekLock });
   try {
     const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
-      if (brokeredMessage.label === 'Scientist' &&
-        brokeredMessage.contentType === 'application/json') {
-        console.log("Message Received:", brokeredMessage.body ? brokeredMessage.body.toString() : null);
+      if (
+        brokeredMessage.label === "Scientist" &&
+        brokeredMessage.contentType === "application/json"
+      ) {
+        console.log(
+          "Message Received:",
+          brokeredMessage.body ? brokeredMessage.body.toString() : null
+        );
       }
       await brokeredMessage.complete();
-    }
+    };
     const onError: OnError = (err: MessagingError | Error) => {
       console.log(">>>>> Error occurred: ", err);
     };
@@ -68,8 +82,10 @@ async function receiveMessage(): Promise<void> {
   return nsRcv.close();
 }
 
-main().then(() => {
-  console.log("\n>>>> sample Done!!!!");
-}).catch((err) => {
-  console.log("error: ", err);
-});
+main()
+  .then(() => {
+    console.log("\n>>>> sample Done!!!!");
+  })
+  .catch((err) => {
+    console.log("error: ", err);
+  });
