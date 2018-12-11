@@ -6,15 +6,15 @@ import sourcemaps from "rollup-plugin-sourcemaps";
  * @type {rollup.RollupFileOptions}
  */
 const config = {
-  input: "./esm/hDInsightManagementClient.js",
+  input: "./esm/localSearchClient.js",
   external: [
     "@azure/ms-rest-js",
     "@azure/ms-rest-azure-js"
   ],
   output: {
-    file: "./dist/arm-hdinsight.js",
+    file: "./dist/cognitiveservices-localsearch.js",
     format: "umd",
-    name: "Azure.ArmHdinsight",
+    name: "Azure.CognitiveservicesLocalsearch",
     sourcemap: true,
     globals: {
       "@azure/ms-rest-js": "msRest",
