@@ -1,3 +1,6 @@
+### 2018-12-10 0.1.8
+- Exposed `operationTimeoutInSeconds` as an optional property of `CreateConnectionContextBaseParameters`.
+
 ### 2018-10-19 0.1.7
 - message_id in the request for `RequestResponseLink.sendRequest()` should be different in every attempt.
 
