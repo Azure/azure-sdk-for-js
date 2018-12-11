@@ -877,7 +877,7 @@ export interface ExitOptions {
    * the task, if the task completes with the given exit condition and the
    * job's onTaskFailed property is 'performExitOptionsJobAction'. The default
    * is none for exit code 0 and terminate for all other exit conditions. If
-   * the job's onTaskFailed property is noAction, then specifying this property
+   * the job's onTaskFailed property is noaction, then specifying this property
    * returns an error and the add task request fails with an invalid property
    * value error; if you are calling the REST API directly, the HTTP status
    * code is 400 (Bad Request). Possible values include: 'none', 'disable',
@@ -1942,7 +1942,7 @@ export interface VirtualMachineConfiguration {
   windowsConfiguration?: WindowsConfiguration;
   /**
    * @member {DataDisk[]} [dataDisks] The configuration for data disks attached
-   * to the compute nodes in the pool. This property must be specified if the
+   * to the comptue nodes in the pool. This property must be specified if the
    * compute nodes in the pool need to have empty data disks attached to them.
    * This cannot be updated. Each node gets its own disk (the disk is not a
    * file share). Existing disks cannot be attached, each attached disk is
@@ -4957,7 +4957,7 @@ export interface ComputeNode {
   /**
    * @member {ComputeNodeState} [state] The current state of the compute node.
    * The low-priority node has been preempted. Tasks which were running on the
-   * node when it was preempted will be rescheduled when another node becomes
+   * node when it was pre-empted will be rescheduled when another node becomes
    * available. Possible values include: 'idle', 'rebooting', 'reimaging',
    * 'running', 'unusable', 'creating', 'starting', 'waitingForStartTask',
    * 'startTaskFailed', 'unknown', 'leavingPool', 'offline', 'preempted'
