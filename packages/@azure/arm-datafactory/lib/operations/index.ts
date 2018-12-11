@@ -11,6 +11,7 @@
 export * from "./operations";
 export * from "./factories";
 export * from "./integrationRuntimes";
+export * from "./integrationRuntimeObjectMetadata";
 export * from "./integrationRuntimeNodes";
 export * from "./linkedServices";
 export * from "./datasets";

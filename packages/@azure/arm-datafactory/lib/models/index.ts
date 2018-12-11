@@ -1826,6 +1826,44 @@ export interface Operation {
 }
 
 /**
+ * @interface
+ * An interface representing GetSsisObjectMetadataRequest.
+ * The request payload of get SSIS object metadata.
+ *
+ */
+export interface GetSsisObjectMetadataRequest {
+  /**
+   * @member {string} [metadataPath] Metadata path.
+   */
+  metadataPath?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SsisObjectMetadataStatusResponse.
+ * The status of the operation.
+ *
+ */
+export interface SsisObjectMetadataStatusResponse {
+  /**
+   * @member {string} [status] The status of the operation.
+   */
+  status?: string;
+  /**
+   * @member {string} [name] The operation name.
+   */
+  name?: string;
+  /**
+   * @member {string} [properties] The operation properties.
+   */
+  properties?: string;
+  /**
+   * @member {string} [error] The operation error message.
+   */
+  error?: string;
+}
+
+/**
  * Contains the possible cases for DependencyReference.
  */
 export type DependencyReferenceUnion = DependencyReference | SelfDependencyTumblingWindowTriggerReference | TriggerDependencyReferenceUnion;
@@ -15497,6 +15535,49 @@ export interface IntegrationRuntimeNodeIpAddress {
 
 /**
  * @interface
+ * An interface representing SsisObjectMetadata.
+ * SSIS object metadata.
+ *
+ */
+export interface SsisObjectMetadata {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "SsisObjectMetadata";
+  /**
+   * @member {number} [id] Metadata id.
+   */
+  id?: number;
+  /**
+   * @member {string} [name] Metadata name.
+   */
+  name?: string;
+  /**
+   * @member {string} [description] Metadata description.
+   */
+  description?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SsisObjectMetadataListResponse.
+ * A list of SSIS object metadata.
+ *
+ */
+export interface SsisObjectMetadataListResponse {
+  /**
+   * @member {SsisObjectMetadata[]} [value] List of SSIS object metadata.
+   */
+  value?: SsisObjectMetadata[];
+  /**
+   * @member {string} [nextLink] The link to the next page of results, if any
+   * remaining results exist.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing IntegrationRuntimeNodeMonitoringData.
  * Monitoring data for integration runtime node.
  *
@@ -15734,6 +15815,21 @@ export interface IntegrationRuntimesGetOptionalParams extends msRest.RequestOpti
    * tag, or if * was provided, then no content will be returned.
    */
   ifNoneMatch?: string;
+}
+
+/**
+ * @interface
+ * An interface representing IntegrationRuntimeObjectMetadataGetOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface IntegrationRuntimeObjectMetadataGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {GetSsisObjectMetadataRequest} [getMetadataRequest] The parameters
+   * for getting a SSIS object metadata.
+   */
+  getMetadataRequest?: GetSsisObjectMetadataRequest;
 }
 
 /**
@@ -16510,6 +16606,14 @@ export type IntegrationRuntimeLicenseType = 'BasePrice' | 'LicenseIncluded';
 export type IntegrationRuntimeEdition = 'Standard' | 'Enterprise';
 
 /**
+ * Defines values for SsisObjectMetadataType.
+ * Possible values include: 'Folder', 'Project', 'Package', 'Environment'
+ * @readonly
+ * @enum {string}
+ */
+export type SsisObjectMetadataType = 'Folder' | 'Project' | 'Package' | 'Environment';
+
+/**
  * Defines values for IntegrationRuntimeAuthKeyName.
  * Possible values include: 'authKey1', 'authKey2'
  * @readonly
@@ -16989,6 +17093,63 @@ export type IntegrationRuntimesListByFactoryNextResponse = IntegrationRuntimeLis
        * The response body as parsed JSON or XML
        */
       parsedBody: IntegrationRuntimeListResponse;
+    };
+};
+
+/**
+ * Contains response data for the refresh operation.
+ */
+export type IntegrationRuntimeObjectMetadataRefreshResponse = SsisObjectMetadataStatusResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SsisObjectMetadataStatusResponse;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IntegrationRuntimeObjectMetadataGetResponse = SsisObjectMetadataListResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SsisObjectMetadataListResponse;
+    };
+};
+
+/**
+ * Contains response data for the beginRefresh operation.
+ */
+export type IntegrationRuntimeObjectMetadataBeginRefreshResponse = SsisObjectMetadataStatusResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SsisObjectMetadataStatusResponse;
     };
 };
 
