@@ -36,9 +36,10 @@ export class Logger {
     private _cache: string[];
     _loggingLevel: LoggingLevel;
 
-    constructor(loggingLevel: string) {
-        const lowerCaseLevel = loggingLevel.toLowerCase();
-        const capitalizedLevel = lowerCaseLevel.charAt(0).toUpperCase() + lowerCaseLevel.slice(1);
+    constructor(loggingLevel: string | string[]) {
+        const lastLoggingLevel: string = (typeof loggingLevel === "string" ? loggingLevel : loggingLevel[loggingLevel.length - 1]);
+        const lowerCaseLevel: string = lastLoggingLevel.toLowerCase();
+        const capitalizedLevel: string = lowerCaseLevel.charAt(0).toUpperCase() + lowerCaseLevel.slice(1);
         this._loggingLevel = LoggingLevel[capitalizedLevel as any] as any;
         this._cache = [];
     }
