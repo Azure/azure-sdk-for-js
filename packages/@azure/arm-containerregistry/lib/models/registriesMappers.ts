@@ -24,6 +24,7 @@ export {
   StorageAccountProperties,
   NetworkRuleSet,
   VirtualNetworkRule,
+  IPRule,
   RegistryUpdateParameters,
   RegistryListResult,
   RegistryListCredentialsResult,
