@@ -190,7 +190,7 @@ function pack(): void {
 
     let packHeadReference: string | undefined = headReference;
     if (!packHeadReference) {
-      const statusResult: GitStatusResult = gitStatus();
+      const statusResult: GitStatusResult = gitStatus({ log: (text: string) => _logger.logTrace(text), showOutput: true });
       packHeadReference = statusResult.localBranch!;
       _logger.log(`No head-reference argument specified on command line or in environment variables. Defaulting to "${packHeadReference}".`);
 
