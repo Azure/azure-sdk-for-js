@@ -24,7 +24,7 @@ enum PackagesToPack {
 }
 
 function getPackagesToPackArgument(toPackArgument: string | undefined): PackagesToPack {
-  let result: PackagesToPack = PackagesToPack.DifferentVersion;
+  let result: PackagesToPack = PackagesToPack.BranchHasChanges;
   if (toPackArgument) {
     const toPackArgumentLower: string = toPackArgument.toLowerCase();
     for (const option in PackagesToPack) {
@@ -249,7 +249,7 @@ function pack(): void {
 
           shouldPack = localPackageVersion !== npmPackageVersion;
         } else if (packagesToPack === PackagesToPack.BranchHasChanges) {
-          shouldPack = !!changedFiles && contains(changedFiles, (changedFilePath: string) => changedFilePath.startsWith(packageFolderPath + "/"));
+          shouldPack = !!changedFiles && contains(changedFiles, (changedFilePath: string) => changedFilePath.startsWith(packageFolderPath + path.sep));
         }
 
         if (!shouldPack) {
