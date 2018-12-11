@@ -19,7 +19,7 @@ class MicrosoftResourceHealth extends MicrosoftResourceHealthContext {
   // Operation groups
   availabilityStatuses: operations.AvailabilityStatuses;
   childAvailabilityStatuses: operations.ChildAvailabilityStatuses;
-  children: operations.Children;
+  childResources: operations.ChildResources;
   operations: operations.Operations;
 
   /**
@@ -33,7 +33,7 @@ class MicrosoftResourceHealth extends MicrosoftResourceHealthContext {
     super(credentials, subscriptionId, options);
     this.availabilityStatuses = new operations.AvailabilityStatuses(this);
     this.childAvailabilityStatuses = new operations.ChildAvailabilityStatuses(this);
-    this.children = new operations.Children(this);
+    this.childResources = new operations.ChildResources(this);
     this.operations = new operations.Operations(this);
   }
 }

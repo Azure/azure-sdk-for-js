@@ -474,12 +474,12 @@ export interface ChildAvailabilityStatusesListOptionalParams extends msRest.Requ
 
 /**
  * @interface
- * An interface representing ChildrenListOptionalParams.
+ * An interface representing ChildResourcesListOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface ChildrenListOptionalParams extends msRest.RequestOptionsBase {
+export interface ChildResourcesListOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] The filter to apply on the operation. For more
    * information please see
@@ -731,7 +731,7 @@ export type ChildAvailabilityStatusesListNextResponse = AvailabilityStatusListRe
 /**
  * Contains response data for the list operation.
  */
-export type ChildrenListResponse = AvailabilityStatusListResult & {
+export type ChildResourcesListResponse = AvailabilityStatusListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -750,7 +750,7 @@ export type ChildrenListResponse = AvailabilityStatusListResult & {
 /**
  * Contains response data for the listNext operation.
  */
-export type ChildrenListNextResponse = AvailabilityStatusListResult & {
+export type ChildResourcesListNextResponse = AvailabilityStatusListResult & {
   /**
    * The underlying HTTP response.
    */

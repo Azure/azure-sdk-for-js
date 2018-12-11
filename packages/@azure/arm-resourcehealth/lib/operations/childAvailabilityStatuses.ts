@@ -129,7 +129,7 @@ export class ChildAvailabilityStatuses {
 const serializer = new msRest.Serializer(Mappers);
 const getByResourceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{resourceUri}/providers/Microsoft.ResourceHealth/child/availabilityStatuses/current",
+  path: "{resourceUri}/providers/Microsoft.ResourceHealth/childAvailabilityStatuses/current",
   urlParameters: [
     Parameters.resourceUri
   ],
@@ -154,7 +154,7 @@ const getByResourceOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{resourceUri}/providers/Microsoft.ResourceHealth/child/availabilityStatuses",
+  path: "{resourceUri}/providers/Microsoft.ResourceHealth/childAvailabilityStatuses",
   urlParameters: [
     Parameters.resourceUri
   ],
