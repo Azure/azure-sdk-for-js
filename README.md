@@ -2,6 +2,7 @@
 
 * @azure/storage-blob [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-blob.svg)](https://badge.fury.io/js/%40azure%2Fstorage-blob)
 * @azure/storage-file [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-file.svg)](https://badge.fury.io/js/%40azure%2Fstorage-file)
+* @azure/storage-queue [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-queue.svg)](https://badge.fury.io/js/%40azure%2Fstorage-queue)
 * [API Reference documentation](https://docs.microsoft.com/en-us/javascript/api/overview/azure/storage/client?view=azure-node-preview)
 
 ## Introduction
@@ -23,6 +24,10 @@ Please note that this version of the SDK is a compete overhaul of the current [A
   * Create/List/Delete File Shares
   * Create/List/Delete File Directories
   * Create/Read/List/Update/Delete Files
+* Queue Storage
+  * Get/Set Queue Service Properties
+  * Create/List/Delete Queues
+  * Enqueue/Dequeue/Peek/Clear/Update/Delete Queue Messages
 * Features new
   * Asynchronous I/O for all operations using the async methods
   * HttpPipeline which enables a high degree of per-request configurability
@@ -56,6 +61,7 @@ There are differences between Node.js and browsers runtime. When getting start w
   * `generateAccountSASQueryParameters()`
   * `generateBlobSASQueryParameters()`
   * `generateFileSASQueryParameters()`
+  * `generateQueueSASQueryParameters()`
 * Parallel uploading and downloading
   * `uploadFileToBlockBlob()`
   * `uploadStreamToBlockBlob()`
@@ -101,12 +107,14 @@ To use the SDK with JS bundle in the browsers, simply add a script tag to your H
 ```html
 <script src="https://mydomain/azure-storage.blob.min.js"></script>
 <script src="https://mydomain/azure-storage.file.min.js"></script>
+<script src="https://mydomain/azure-storage.queue.min.js"></script>
 ```
 
 The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) standard, if no module system found, following global variable(s) will be exported:
 
 * `azblob`
 * `azfile`
+* `azqueue`
 
 #### Download
 
@@ -114,6 +122,7 @@ Download latest released JS bundles from links in the [GitHub release page](http
 
 * Blob [https://aka.ms/downloadazurestoragejsblob](https://aka.ms/downloadazurestoragejsblob)
 * File [https://aka.ms/downloadazurestoragejsfile](https://aka.ms/downloadazurestoragejsfile)
+* Queue [https://aka.ms/downloadazurestoragejsqueue](https://aka.ms/downloadazurestoragejsqueue)
 
 ### CORS
 
@@ -272,6 +281,8 @@ main()
 * [Blob Storage Examples - Test Cases](https://github.com/azure/azure-storage-js/tree/master/blob/test/)
 * [File Storage Examples](https://github.com/azure/azure-storage-js/tree/master/file/samples)
 * [File Storage Examples - Test Cases](https://github.com/azure/azure-storage-js/tree/master/file/test/)
+* [Queue Storage Examples](https://github.com/azure/azure-storage-js/tree/master/queue/samples)
+* [Queue Storage Examples - Test Cases](https://github.com/azure/azure-storage-js/tree/master/queue/test/)
 
 ## License
 

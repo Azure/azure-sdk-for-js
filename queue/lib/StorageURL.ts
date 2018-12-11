@@ -11,7 +11,6 @@ import {
   TelemetryPolicyFactory
 } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
-import { SERVICE_VERSION } from "./utils/constants";
 
 export { deserializationPolicy };
 
@@ -36,7 +35,7 @@ export interface INewPipelineOptions {
 }
 
 /**
- * A ServiceURL represents a based URL class for ServiceURL, ContainerURL and etc.
+ * A ServiceURL represents a based URL class for ServiceURL, QueueURL and etc.
  *
  * @export
  * @class StorageURL
@@ -112,7 +111,6 @@ export abstract class StorageURL {
     this.pipeline = pipeline;
     this.storageClientContext = new StorageClientContext(
       url,
-      SERVICE_VERSION,
       pipeline.toServiceClientOptions()
     );
   }
