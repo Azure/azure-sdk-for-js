@@ -8,7 +8,15 @@
  * regenerated.
  */
 
-export * from "./availabilityStatuses";
-export * from "./childAvailabilityStatuses";
-export * from "./childResources";
-export * from "./operations";
+export {
+  AvailabilityStatus,
+  AvailabilityStatusProperties,
+  AvailabilityStatusPropertiesRecentlyResolvedState,
+  RecommendedAction,
+  ServiceImpactingEvent,
+  ServiceImpactingEventStatus,
+  ServiceImpactingEventIncidentProperties,
+  ErrorResponse,
+  AvailabilityStatusListResult
+} from "../models/mappers";
+
