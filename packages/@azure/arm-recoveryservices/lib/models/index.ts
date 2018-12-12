@@ -497,6 +497,62 @@ export interface Resource extends BaseResource {
 
 /**
  * @interface
+ * An interface representing ResourceNameAvailabilityInput.
+ * Resource information, as sent to the regional resource provider from Global
+ * RP.
+ *
+ */
+export interface ResourceNameAvailabilityInput {
+  /**
+   * @member {string} [type]
+   */
+  type?: string;
+  /**
+   * @member {string} [name]
+   */
+  name?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ResourceNameAvailabilityResponse.
+ * Response for check name availability API. Resource provider will set
+ * availability as true | false.
+ *
+ */
+export interface ResourceNameAvailabilityResponse {
+  /**
+   * @member {boolean} [nameAvailable]
+   */
+  nameAvailable?: boolean;
+  /**
+   * @member {string} [reason]
+   */
+  reason?: string;
+  /**
+   * @member {string} [message]
+   */
+  message?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ResourceNameAvailabilityResponseResource.
+ * Response for check name availability API. Resource provider will set
+ * availability as true | false.
+ *
+ * @extends Resource
+ */
+export interface ResourceNameAvailabilityResponseResource extends Resource {
+  /**
+   * @member {ResourceNameAvailabilityResponse} [properties]
+   * ResourceNameAvailabilityResponseResource properties
+   */
+  properties?: ResourceNameAvailabilityResponse;
+}
+
+/**
+ * @interface
  * An interface representing Sku.
  * Identifies the unique system identifier for each Azure resource.
  *
@@ -886,6 +942,25 @@ export type ReplicationUsagesListResponse = ReplicationUsageList & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ReplicationUsageList;
+    };
+};
+
+/**
+ * Contains response data for the post operation.
+ */
+export type CheckResourceNameAvailabilityPostResponse = ResourceNameAvailabilityResponseResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceNameAvailabilityResponseResource;
     };
 };
 

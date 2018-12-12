@@ -16,6 +16,8 @@ export {
   CloudError,
   VaultCertificateResponse,
   ResourceCertificateDetails,
+  ResourceNameAvailabilityResponseResource,
+  ResourceNameAvailabilityResponse,
   TrackedResource,
   PatchTrackedResource,
   Vault,

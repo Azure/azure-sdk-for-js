@@ -11,6 +11,7 @@
 export * from "./vaultCertificates";
 export * from "./registeredIdentities";
 export * from "./replicationUsages";
+export * from "./checkResourceNameAvailability";
 export * from "./vaults";
 export * from "./operations";
 export * from "./vaultExtendedInfoOperations";

@@ -20,6 +20,7 @@ class RecoveryServicesClient extends RecoveryServicesClientContext {
   vaultCertificates: operations.VaultCertificates;
   registeredIdentities: operations.RegisteredIdentities;
   replicationUsages: operations.ReplicationUsages;
+  checkResourceNameAvailability: operations.CheckResourceNameAvailability;
   vaults: operations.Vaults;
   operations: operations.Operations;
   vaultExtendedInfo: operations.VaultExtendedInfoOperations;
@@ -36,6 +37,7 @@ class RecoveryServicesClient extends RecoveryServicesClientContext {
     this.vaultCertificates = new operations.VaultCertificates(this);
     this.registeredIdentities = new operations.RegisteredIdentities(this);
     this.replicationUsages = new operations.ReplicationUsages(this);
+    this.checkResourceNameAvailability = new operations.CheckResourceNameAvailability(this);
     this.vaults = new operations.Vaults(this);
     this.operations = new operations.Operations(this);
     this.vaultExtendedInfo = new operations.VaultExtendedInfoOperations(this);
