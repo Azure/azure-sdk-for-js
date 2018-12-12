@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
@@ -45,11 +45,16 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
-export const applicationId: msRest.OperationURLParameter = {
-  parameterPath: "applicationId",
+export const applicationName: msRest.OperationURLParameter = {
+  parameterPath: "applicationName",
   mapper: {
     required: true,
-    serializedName: "applicationId",
+    serializedName: "applicationName",
+    constraints: {
+      MaxLength: 64,
+      MinLength: 1,
+      Pattern: /^[a-zA-Z0-9_-]+$/
+    },
     type: {
       name: "String"
     }
@@ -186,11 +191,16 @@ export const subscriptionId: msRest.OperationURLParameter = {
     }
   }
 };
-export const version: msRest.OperationURLParameter = {
-  parameterPath: "version",
+export const versionName: msRest.OperationURLParameter = {
+  parameterPath: "versionName",
   mapper: {
     required: true,
-    serializedName: "version",
+    serializedName: "versionName",
+    constraints: {
+      MaxLength: 64,
+      MinLength: 1,
+      Pattern: /^[a-zA-Z0-9_-][a-zA-Z0-9_.-]*$/
+    },
     type: {
       name: "String"
     }

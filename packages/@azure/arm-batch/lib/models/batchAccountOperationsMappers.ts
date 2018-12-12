@@ -32,9 +32,10 @@ export {
   CloudServiceConfiguration,
   VirtualMachineConfiguration,
   ImageReference,
-  OSDisk,
   WindowsConfiguration,
   DataDisk,
+  ContainerConfiguration,
+  ContainerRegistry,
   ScaleSettings,
   FixedScaleSettings,
   AutoScaleSettings,
@@ -47,15 +48,19 @@ export {
   TaskSchedulingPolicy,
   UserAccount,
   LinuxUserConfiguration,
+  WindowsUserConfiguration,
   MetadataItem,
   StartTask,
   ResourceFile,
   EnvironmentSetting,
   UserIdentity,
   AutoUserSpecification,
+  TaskContainerSettings,
   CertificateReference,
   ApplicationPackageReference,
   ResizeOperationStatus,
-  ResizeError
+  ResizeError,
+  Application,
+  ApplicationPackage
 } from "../models/mappers";
 
