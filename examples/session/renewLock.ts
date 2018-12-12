@@ -15,14 +15,20 @@ async function main(): Promise<void> {
   await delay(10000);
   console.log("Sleeping for 10 seconds..");
   const result = await messageSession.renewLock();
-  console.log("Session renew lock result for sessionId '%s': %O / %s", messageSession.sessionId,
-    result, result.toString());
+  console.log(
+    "Session renew lock result for sessionId '%s': %O / %s",
+    messageSession.sessionId,
+    result,
+    result.toString()
+  );
   await messageSession.close();
 }
 
-main().then(() => {
-  console.log(">>>> Calling close....");
-  return ns.close();
-}).catch((err) => {
-  console.log("error: ", err);
-});
+main()
+  .then(() => {
+    console.log(">>>> Calling close....");
+    return ns.close();
+  })
+  .catch((err) => {
+    console.log("error: ", err);
+  });

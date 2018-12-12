@@ -14,13 +14,18 @@ async function main(): Promise<void> {
   const messageSession = await client.acceptSession({ sessionId: "session-1" });
   const result = await messageSession.peek(10);
   console.log(">>> Peeked messages for sessionId '%s': %O", messageSession.sessionId, result);
-  console.log(">>> Number of messages for sessionId '%s': %d", messageSession.sessionId,
-    result.length);
+  console.log(
+    ">>> Number of messages for sessionId '%s': %d",
+    messageSession.sessionId,
+    result.length
+  );
 }
 
-main().then(() => {
-  console.log(">>>> Calling close....");
-  return ns.close();
-}).catch((err) => {
-  console.log("error: ", err);
-});
+main()
+  .then(() => {
+    console.log(">>>> Calling close....");
+    return ns.close();
+  })
+  .catch((err) => {
+    console.log("error: ", err);
+  });

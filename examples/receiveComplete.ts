@@ -1,4 +1,12 @@
-import { OnMessage, OnError, MessagingError, delay, ServiceBusMessage, ReceiveMode, Namespace } from "../lib";
+import {
+  OnMessage,
+  OnError,
+  MessagingError,
+  delay,
+  ServiceBusMessage,
+  ReceiveMode,
+  Namespace
+} from "../lib";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -13,7 +21,10 @@ async function main(): Promise<void> {
   const client = ns.createQueueClient(path, { receiveMode: ReceiveMode.peekLock });
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     console.log(">>> Message: ", brokeredMessage);
-    console.log("### Actual message:", brokeredMessage.body ? brokeredMessage.body.toString() : undefined);
+    console.log(
+      "### Actual message:",
+      brokeredMessage.body ? brokeredMessage.body.toString() : undefined
+    );
     await brokeredMessage.complete();
   };
   const onError: OnError = (err: MessagingError | Error) => {
@@ -24,9 +35,11 @@ async function main(): Promise<void> {
   await rcvHandler.stop();
 }
 
-main().then(() => {
-  console.log(">>>> Calling close....");
-  return ns.close();
-}).catch((err) => {
-  console.log("error: ", err);
-});
+main()
+  .then(() => {
+    console.log(">>>> Calling close....");
+    return ns.close();
+  })
+  .catch((err) => {
+    console.log("error: ", err);
+  });

@@ -13,7 +13,9 @@ async function main(): Promise<void> {
   const client = ns.createQueueClient(path);
   const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now
   const sequenceNumber = await client.scheduleMessage(
-    { body: "Hello sb world!!" + scheduleTime.toString() }, scheduleTime);
+    { body: "Hello sb world!!" + scheduleTime.toString() },
+    scheduleTime
+  );
   console.log("***********Created sender and sent the message... %d", sequenceNumber);
   await delay(3000);
   console.log(">>>> Cancelling the scheduled message");
@@ -21,9 +23,11 @@ async function main(): Promise<void> {
   console.log(">>>>>>>> Done cancelling the scheduled message..");
 }
 
-main().then(() => {
-  console.log(">>>> Calling close....");
-  return ns.close();
-}).catch((err) => {
-  console.log("error: ", err);
-});
+main()
+  .then(() => {
+    console.log(">>>> Calling close....");
+    return ns.close();
+  })
+  .catch((err) => {
+    console.log("error: ", err);
+  });

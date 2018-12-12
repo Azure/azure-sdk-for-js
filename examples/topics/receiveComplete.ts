@@ -14,7 +14,10 @@ async function main(): Promise<void> {
   ns = Namespace.createFromConnectionString(str);
   const client = ns.createSubscriptionClient(topic, subscription);
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
-    console.log("### Actual message:", brokeredMessage.body ? brokeredMessage.body.toString() : undefined);
+    console.log(
+      "### Actual message:",
+      brokeredMessage.body ? brokeredMessage.body.toString() : undefined
+    );
     await brokeredMessage.complete();
   };
   const onError: OnError = (err: MessagingError | Error) => {
@@ -25,10 +28,12 @@ async function main(): Promise<void> {
   await rcvHandler.stop();
 }
 
-main().then(() => {
-  console.log(">>>> Calling close....");
-  return ns.close();
-}).catch((err) => {
-  console.log("error: ", err);
-  return ns.close();
-});
+main()
+  .then(() => {
+    console.log(">>>> Calling close....");
+    return ns.close();
+  })
+  .catch((err) => {
+    console.log("error: ", err);
+    return ns.close();
+  });

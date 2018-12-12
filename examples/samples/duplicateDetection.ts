@@ -38,15 +38,19 @@ async function main(): Promise<void> {
   const receivedMessages = await client.receiveBatch(2);
 
   if (receivedMessages.length > 1) {
-    console.log("Received more messages then expected. Is Duplicate Detection enabled on the queue?");
+    console.log(
+      "Received more messages then expected. Is Duplicate Detection enabled on the queue?"
+    );
   }
 
   await client.close();
 }
 
-main().then(() => {
-  console.log(">>>> Calling close....");
-  return ns.close();
-}).catch((err) => {
-  console.log("error: ", err);
-});
+main()
+  .then(() => {
+    console.log(">>>> Calling close....");
+    return ns.close();
+  })
+  .catch((err) => {
+    console.log("error: ", err);
+  });
