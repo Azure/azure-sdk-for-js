@@ -16,9 +16,11 @@ async function main(): Promise<void> {
   console.log(result);
 }
 
-main().then(() => {
-  console.log(">>>> Calling close....");
-  return ns.close();
-}).catch((err) => {
-  console.log("error: ", err);
-});
+main()
+  .then(() => {
+    console.log(">>>> Calling close....");
+    return ns.close();
+  })
+  .catch((err) => {
+    console.log("error: ", err);
+  });

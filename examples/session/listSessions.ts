@@ -17,9 +17,11 @@ async function main(): Promise<void> {
   await client.close();
 }
 
-main().then(() => {
-  console.log(">>>> Calling close....");
-  return ns.close();
-}).catch((err) => {
-  console.log("error: ", err);
-});
+main()
+  .then(() => {
+    console.log(">>>> Calling close....");
+    return ns.close();
+  })
+  .catch((err) => {
+    console.log("error: ", err);
+  });

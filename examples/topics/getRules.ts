@@ -19,13 +19,15 @@ async function main(): Promise<void> {
   const subscriptionClientSqlFilter = ns.createSubscriptionClient(topic, subscriptionSqlFilter);
   await getRules(subscriptionClientSqlFilter);
 
-  const subscriptionClientCorrelationFilter = ns.createSubscriptionClient(topic, subscriptionCorrelationFilter);
+  const subscriptionClientCorrelationFilter = ns.createSubscriptionClient(
+    topic,
+    subscriptionCorrelationFilter
+  );
   await getRules(subscriptionClientCorrelationFilter);
 
   await subscriptionClientNoFilter.close();
   await subscriptionClientSqlFilter.close();
   await subscriptionClientCorrelationFilter.close();
-
 }
 
 async function getRules(client: SubscriptionClient): Promise<void> {
@@ -42,11 +44,12 @@ async function getRules(client: SubscriptionClient): Promise<void> {
   }
 }
 
-
-main().then(() => {
-  console.log(">>>> Calling close....");
-  return ns.close();
-}).catch((err) => {
-  console.log("error: ", err);
-  return ns.close();
-});
+main()
+  .then(() => {
+    console.log(">>>> Calling close....");
+    return ns.close();
+  })
+  .catch((err) => {
+    console.log("error: ", err);
+    return ns.close();
+  });

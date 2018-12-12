@@ -1,6 +1,6 @@
 import { Namespace, SubscriptionClient, generateUuid } from "../../lib";
 import * as dotenv from "dotenv";
-import { CorrelationFilter } from '../../lib/core/managementClient';
+import { CorrelationFilter } from "../../lib/core/managementClient";
 dotenv.config();
 
 const str = process.env.SERVICEBUS_CONNECTION_STRING || "";
@@ -16,7 +16,7 @@ const redMessage = {
   body: "Red Message",
   label: "Red Message",
   userProperties: {
-    "Color": "Red"
+    Color: "Red"
   }
 };
 
@@ -25,7 +25,7 @@ const blueMessage = {
   body: "Blue Message",
   label: "Blue Message",
   userProperties: {
-    "Color": "Blue"
+    Color: "Blue"
   }
 };
 
@@ -34,7 +34,7 @@ const yellowMessage = {
   body: "Yellow Message",
   label: "Yellow Message",
   userProperties: {
-    "Color": "Yellow"
+    Color: "Yellow"
   }
 };
 
@@ -49,9 +49,14 @@ async function main(): Promise<void> {
   await removeAllRules(subscriptionClientSqlFilter);
   await testAddedRule(subscriptionClientSqlFilter, "YellowSqlRule", "Color = 'Yellow'");
 
-  const subscriptionClientCorrelationFilter = ns.createSubscriptionClient(topic, subscriptionCorrelationFilter);
+  const subscriptionClientCorrelationFilter = ns.createSubscriptionClient(
+    topic,
+    subscriptionCorrelationFilter
+  );
   await removeAllRules(subscriptionClientCorrelationFilter);
-  await testAddedRule(subscriptionClientCorrelationFilter, "CorrelationRule", { label: blueMessage.label });
+  await testAddedRule(subscriptionClientCorrelationFilter, "CorrelationRule", {
+    label: blueMessage.label
+  });
 
   await subscriptionClientNoFilter.close();
   await subscriptionClientSqlFilter.close();
@@ -60,7 +65,6 @@ async function main(): Promise<void> {
   const topicClient = ns.createTopicClient(topic);
   await topicClient.sendBatch([redMessage, blueMessage, yellowMessage]);
   await topicClient.close();
-
 }
 
 async function removeAllRules(client: SubscriptionClient): Promise<boolean> {
@@ -88,7 +92,12 @@ async function removeAllRules(client: SubscriptionClient): Promise<boolean> {
   return true;
 }
 
-async function testAddedRule(client: SubscriptionClient, ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string): Promise<void> {
+async function testAddedRule(
+  client: SubscriptionClient,
+  ruleName: string,
+  filter: boolean | string | CorrelationFilter,
+  sqlRuleActionExpression?: string
+): Promise<void> {
   await client.addRule(ruleName, filter, sqlRuleActionExpression);
   const rules = await client.getRules();
   if (rules.find((rule) => rule.name === ruleName)) {
@@ -99,10 +108,12 @@ async function testAddedRule(client: SubscriptionClient, ruleName: string, filte
   }
 }
 
-main().then(() => {
-  console.log(">>>> Calling close....");
-  return ns.close();
-}).catch((err) => {
-  console.log("error: ", err);
-  return ns.close();
-});
+main()
+  .then(() => {
+    console.log(">>>> Calling close....");
+    return ns.close();
+  })
+  .catch((err) => {
+    console.log("error: ", err);
+    return ns.close();
+  });

@@ -15,12 +15,13 @@ async function main(): Promise<void> {
   console.log(">>>>>>> Number of received messages: %d.", result.length);
   console.log(">>>>>>> List of received messages: %O.", result);
   await delay(30000);
-
 }
 
-main().then(() => {
-  console.log(">>>> Calling close....");
-  return ns.close();
-}).catch((err) => {
-  console.log("error: ", err);
-});
+main()
+  .then(() => {
+    console.log(">>>> Calling close....");
+    return ns.close();
+  })
+  .catch((err) => {
+    console.log("error: ", err);
+  });

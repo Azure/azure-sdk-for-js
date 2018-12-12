@@ -1,5 +1,11 @@
 import {
-  OnMessage, OnError, MessagingError, delay, ServiceBusMessage, ReceiveMode, Namespace,
+  OnMessage,
+  OnError,
+  MessagingError,
+  delay,
+  ServiceBusMessage,
+  ReceiveMode,
+  Namespace,
   MessageHandlerOptions
 } from "../lib";
 import * as dotenv from "dotenv";
@@ -17,9 +23,15 @@ async function main(): Promise<void> {
   // Please note: Lock duration property on the Queue was set to 15 seconds.
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     console.log(">>> Message: ", brokeredMessage);
-    console.log("### Actual message:", brokeredMessage.body ? brokeredMessage.body.toString() : undefined);
+    console.log(
+      "### Actual message:",
+      brokeredMessage.body ? brokeredMessage.body.toString() : undefined
+    );
     const time = 18000;
-    console.log(">>>> Sleeping for %d seconds. Meanwhile autorenew of message lock should NOT happen.", time / 1000);
+    console.log(
+      ">>>> Sleeping for %d seconds. Meanwhile autorenew of message lock should NOT happen.",
+      time / 1000
+    );
     await delay(time);
     try {
       await brokeredMessage.complete();
@@ -39,9 +51,11 @@ async function main(): Promise<void> {
   await rcvHandler.stop();
 }
 
-main().then(() => {
-  console.log(">>>> Calling close....");
-  return ns.close();
-}).catch((err) => {
-  console.log("error: ", err);
-});
+main()
+  .then(() => {
+    console.log(">>>> Calling close....");
+    return ns.close();
+  })
+  .catch((err) => {
+    console.log("error: ", err);
+  });

@@ -21,7 +21,7 @@ async function main(): Promise<void> {
     {
       message: { body: "Hello sb world!!" + scheduleTime2.toString() },
       scheduledEnqueueTimeUtc: scheduleTime2
-    },
+    }
   ];
   const sequenceNumbers = await client.scheduleMessages(messages);
   console.log("***********Created sender and sent the message... %o", sequenceNumbers);
@@ -31,9 +31,11 @@ async function main(): Promise<void> {
   console.log(">>>>>>>> Done cancelling scheduled messages..");
 }
 
-main().then(() => {
-  console.log(">>>> Calling close....");
-  return ns.close();
-}).catch((err) => {
-  console.log("error: ", err);
-});
+main()
+  .then(() => {
+    console.log(">>>> Calling close....");
+    return ns.close();
+  })
+  .catch((err) => {
+    console.log("error: ", err);
+  });

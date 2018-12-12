@@ -17,7 +17,7 @@ async function main(): Promise<void> {
     body: "Red Message",
     label: "Red Message",
     userProperties: {
-      "Color": "Red"
+      Color: "Red"
     }
   });
 
@@ -25,7 +25,7 @@ async function main(): Promise<void> {
     body: "Blue Message",
     label: "Blue Message",
     userProperties: {
-      "Color": "Blue"
+      Color: "Blue"
     }
   });
 
@@ -33,16 +33,17 @@ async function main(): Promise<void> {
     body: "Yellow Message",
     label: "Yellow Message",
     userProperties: {
-      "Color": "Yellow"
+      Color: "Yellow"
     }
   });
-
 }
 
-main().then(() => {
-  console.log(">>>> Calling close....");
-  return ns.close();
-}).catch((err) => {
-  console.log("error: ", err);
-  return ns.close();
-});
+main()
+  .then(() => {
+    console.log(">>>> Calling close....");
+    return ns.close();
+  })
+  .catch((err) => {
+    console.log("error: ", err);
+    return ns.close();
+  });
