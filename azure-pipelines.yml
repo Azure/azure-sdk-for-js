@@ -21,11 +21,11 @@ steps:
     verbose: false
 
 - task: Npm@1
-  displayName: 'npm run build -- --logging-level=trace'
+  displayName: 'npm run build'
   inputs:
     command: custom
     verbose: false
-    customCommand: 'run build -- --logging-level=trace'
+    customCommand: 'run build -- --logging-level=trace --head-reference=$(System.PullRequest.SourceBranch) --base-reference=$(System.PullRequest.TargetBranch)'
 
 - task: PublishBuildArtifacts@1
   inputs:
