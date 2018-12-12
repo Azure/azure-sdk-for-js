@@ -965,6 +965,27 @@ export const OperationsMonitoringProperties: msRest.CompositeMapper = {
   }
 };
 
+export const IotHubPropertiesDeviceStreams: msRest.CompositeMapper = {
+  serializedName: "IotHubProperties_deviceStreams",
+  type: {
+    name: "Composite",
+    className: "IotHubPropertiesDeviceStreams",
+    modelProperties: {
+      streamingEndpoints: {
+        serializedName: "streamingEndpoints",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const IotHubProperties: msRest.CompositeMapper = {
   serializedName: "IotHubProperties",
   type: {
@@ -1083,6 +1104,13 @@ export const IotHubProperties: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "OperationsMonitoringProperties"
+        }
+      },
+      deviceStreams: {
+        serializedName: "deviceStreams",
+        type: {
+          name: "Composite",
+          className: "IotHubPropertiesDeviceStreams"
         }
       },
       features: {
@@ -1237,6 +1265,13 @@ export const OperationDisplay: msRest.CompositeMapper = {
       operation: {
         readOnly: true,
         serializedName: "operation",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        readOnly: true,
+        serializedName: "description",
         type: {
           name: "String"
         }
@@ -1808,14 +1843,14 @@ export const RoutingTwinProperties: msRest.CompositeMapper = {
     name: "Composite",
     className: "RoutingTwinProperties",
     modelProperties: {
-      desiredProperties: {
-        serializedName: "desiredProperties",
+      desired: {
+        serializedName: "desired",
         type: {
           name: "Object"
         }
       },
-      reportedProperties: {
-        serializedName: "reportedProperties",
+      reported: {
+        serializedName: "reported",
         type: {
           name: "Object"
         }
