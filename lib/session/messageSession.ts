@@ -610,7 +610,7 @@ export class MessageSession extends LinkEntity {
     }
 
     const brokeredMessages: ServiceBusMessage[] = [];
-    let timeOver = false;
+
     this._isReceivingMessages = true;
     return new Promise<ServiceBusMessage[]>((resolve, reject) => {
       let onReceiveMessage: OnAmqpEventAsPromise;
@@ -629,20 +629,15 @@ export class MessageSession extends LinkEntity {
         this._receiver!.addCredit(0);
       };
       // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
-      const finalAction = (timeOver: boolean, data?: ServiceBusMessage) => {
+      const finalAction = () => {
+        if (this._newMessageReceivedTimer) {
+          clearTimeout(this._newMessageReceivedTimer);
+        }
+        // Resetting the mode. Now anyone can call receive() again.
         if (this._receiver) {
-          this._receiver.removeListener(ReceiverEvents.receiverError, this._onError!);
           this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-          this._onError = undefined;
         }
-        if (!data) {
-          data = brokeredMessages.length
-            ? brokeredMessages[brokeredMessages.length - 1]
-            : undefined;
-        }
-        if (!timeOver) {
-          clearTimeout(waitTimer);
-        }
+        clearTimeout(waitTimer);
         this._isReceivingMessages = false;
         resetCreditWindow();
         resolve(brokeredMessages);
@@ -650,14 +645,13 @@ export class MessageSession extends LinkEntity {
 
       // Action to be performed after the max wait time is over.
       actionAfterWaitTimeout = () => {
-        timeOver = true;
         log.batching(
           "[%s] Batching Receiver '%s'  max wait time in seconds %d over.",
           this._context.namespace.connectionId,
           this.name,
           maxWaitTimeInSeconds
         );
-        return finalAction(timeOver);
+        return finalAction();
       };
 
       // Action to be performed on the "message" event.
@@ -668,11 +662,11 @@ export class MessageSession extends LinkEntity {
           context.message!,
           context.delivery!
         );
-        if (brokeredMessages.length <= maxMessageCount) {
+        if (brokeredMessages.length < maxMessageCount) {
           brokeredMessages.push(data);
         }
         if (brokeredMessages.length === maxMessageCount) {
-          finalAction(timeOver, data);
+          finalAction();
         }
       };
 
@@ -880,7 +874,7 @@ export class MessageSession extends LinkEntity {
    * Creates a new AMQP receiver under a new AMQP session.
    * @ignore
    */
-  private async _init(options?: ReceiverOptions): Promise<void> {
+  private async _init(): Promise<void> {
     const connectionId = this._context.namespace.connectionId;
     try {
       if (!this.isOpen() && !this.isConnecting) {
@@ -893,21 +887,9 @@ export class MessageSession extends LinkEntity {
         );
         this.isConnecting = true;
         await this._negotiateClaim();
-        if (!options) {
-          options = this._createMessageSessionOptions({
-            onClose: (context: EventContext) =>
-              this._onAmqpClose(context).catch(() => {
-                /* */
-              }),
-            onSessionClose: (context: EventContext) =>
-              this._onSessionClose(context).catch(() => {
-                /* */
-              }),
-            onError: this._onAmqpError,
-            onSessionError: this._onSessionError,
-            onSettled: this._onSettled
-          });
-        }
+
+        const options = this._createMessageSessionOptions();
+
         log.error(
           "[%s] Trying to create receiver '%s' with options %O",
           connectionId,
@@ -999,9 +981,7 @@ export class MessageSession extends LinkEntity {
    * Creates the options that need to be specified while creating an AMQP receiver link.
    * @ignore
    */
-  private _createMessageSessionOptions(
-    options: CreateMessageSessionReceiverLinkOptions
-  ): ReceiverOptions {
+  private _createMessageSessionOptions(): ReceiverOptions {
     const rcvrOptions: ReceiverOptions = {
       name: this.name,
       autoaccept: false,
@@ -1015,16 +995,16 @@ export class MessageSession extends LinkEntity {
       },
       credit_window: 0,
       onClose: (context) =>
-        (options.onClose || this._onAmqpClose)(context).catch(() => {
+        this._onAmqpClose(context).catch(() => {
           /* */
         }),
       onSessionClose: (context) =>
-        (options.onSessionClose || this._onSessionClose)(context).catch(() => {
+        this._onSessionClose(context).catch(() => {
           /* */
         }),
-      onError: options.onError || this._onAmqpError,
-      onSessionError: options.onSessionError || this._onSessionError,
-      onSettled: options.onSettled || this._onSettled
+      onError: this._onAmqpError,
+      onSessionError: this._onSessionError,
+      onSettled: this._onSettled
     };
     (rcvrOptions.source as any).filter[Constants.sessionFilterName] = this.sessionId;
     return rcvrOptions;
