@@ -22,6 +22,7 @@ export {
   StorageAccountProperties,
   NetworkRuleSet,
   VirtualNetworkRule,
+  IPRule,
   Webhook,
   Task,
   PlatformProperties,

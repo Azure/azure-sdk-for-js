@@ -299,15 +299,40 @@ export interface StorageAccountProperties {
 /**
  * @interface
  * An interface representing VirtualNetworkRule.
- * The virtual network rule for a container registry.
+ * Virtual network rule.
  *
  */
 export interface VirtualNetworkRule {
   /**
-   * @member {string} id Resource ID of a subnet, for example:
+   * @member {Action} [action] The action of virtual network rule. Possible
+   * values include: 'Allow'. Default value: 'Allow' .
+   */
+  action?: Action;
+  /**
+   * @member {string} virtualNetworkResourceId Resource ID of a subnet, for
+   * example:
    * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
    */
-  id: string;
+  virtualNetworkResourceId: string;
+}
+
+/**
+ * @interface
+ * An interface representing IPRule.
+ * IP rule with specific IP or IP range in CIDR format.
+ *
+ */
+export interface IPRule {
+  /**
+   * @member {Action} [action] The action of IP ACL rule. Possible values
+   * include: 'Allow'. Default value: 'Allow' .
+   */
+  action?: Action;
+  /**
+   * @member {string} iPAddressOrRange Specifies the IP or IP range in CIDR
+   * format. Only IPV4 address is allowed.
+   */
+  iPAddressOrRange: string;
 }
 
 /**
@@ -328,6 +353,10 @@ export interface NetworkRuleSet {
    * rules.
    */
   virtualNetworkRules?: VirtualNetworkRule[];
+  /**
+   * @member {IPRule[]} [ipRules] The IP ACL rules.
+   */
+  ipRules?: IPRule[];
 }
 
 /**
@@ -1495,7 +1524,7 @@ export interface SourceProperties {
    */
   sourceControlType: SourceControlType;
   /**
-   * @member {string} repositoryUrl The full URL to the source code respository
+   * @member {string} repositoryUrl The full URL to the source code repository
    */
   repositoryUrl: string;
   /**
@@ -1732,7 +1761,7 @@ export interface SourceUpdateParameters {
   sourceControlType?: SourceControlType;
   /**
    * @member {string} [repositoryUrl] The full URL to the source code
-   * respository
+   * repository
    */
   repositoryUrl?: string;
   /**
@@ -1942,7 +1971,7 @@ export interface DockerBuildRequest {
   agentConfiguration?: AgentProperties;
   /**
    * @member {string} [sourceLocation] The URL(absolute or relative) of the
-   * source context. It can be an URL to a tar or git repoistory.
+   * source context. It can be an URL to a tar or git repository.
    * If it is relative URL, the relative path should be obtained from calling
    * listBuildSourceUploadUrl API.
    */
@@ -2018,7 +2047,7 @@ export interface FileTaskRunRequest {
   agentConfiguration?: AgentProperties;
   /**
    * @member {string} [sourceLocation] The URL(absolute or relative) of the
-   * source context. It can be an URL to a tar or git repoistory.
+   * source context. It can be an URL to a tar or git repository.
    * If it is relative URL, the relative path should be obtained from calling
    * listBuildSourceUploadUrl API.
    */
@@ -2100,7 +2129,7 @@ export interface EncodedTaskRunRequest {
   agentConfiguration?: AgentProperties;
   /**
    * @member {string} [sourceLocation] The URL(absolute or relative) of the
-   * source context. It can be an URL to a tar or git repoistory.
+   * source context. It can be an URL to a tar or git repository.
    * If it is relative URL, the relative path should be obtained from calling
    * listBuildSourceUploadUrl API.
    */
@@ -2555,6 +2584,14 @@ export type ProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeede
  * @enum {string}
  */
 export type DefaultAction = 'Allow' | 'Deny';
+
+/**
+ * Defines values for Action.
+ * Possible values include: 'Allow'
+ * @readonly
+ * @enum {string}
+ */
+export type Action = 'Allow';
 
 /**
  * Defines values for PasswordName.
