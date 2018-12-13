@@ -4,7 +4,7 @@
  * license information.
  */
 
-import { contains, gitDiff, GitDiffResult, gitStatus, GitStatusResult, normalize, npmInstall, npmRun, NPMScope, NPMViewResult } from "@ts-common/azure-js-dev-tools";
+import { contains, gitDiff, GitDiffResult, gitStatus, GitStatusResult, normalize, npmInstall, npmRun, NPMScope, NPMViewResult, RunOptions, joinPath } from "@ts-common/azure-js-dev-tools";
 import * as fs from "fs";
 import gulp from "gulp";
 import * as path from "path";
@@ -174,6 +174,12 @@ function getAllPackageFolders(folderPath: string, result?: string[]): string[] {
 }
 
 function pack(): void {
+  const runOptions: RunOptions = {
+    log: (text: string) => _logger.logTrace(text),
+    showCommand: true,
+    showOutput: true
+  };
+
   let errorPackages = 0;
   let upToDatePackages = 0;
   let packedPackages = 0;
@@ -190,7 +196,7 @@ function pack(): void {
 
     let packHeadReference: string | undefined = headReference;
     if (!packHeadReference) {
-      const statusResult: GitStatusResult = gitStatus({ log: (text: string) => _logger.logTrace(text), showOutput: true });
+      const statusResult: GitStatusResult = gitStatus(runOptions);
       packHeadReference = statusResult.localBranch!;
       _logger.log(`No head-reference argument specified on command line or in environment variables. Defaulting to "${packHeadReference}".`);
 
@@ -200,7 +206,7 @@ function pack(): void {
       }
     }
 
-    const diffResult: GitDiffResult = gitDiff(packBaseReference, packHeadReference);
+    const diffResult: GitDiffResult = gitDiff(packBaseReference, packHeadReference, runOptions);
     changedFiles.push(...diffResult.filesChanged);
     if (!changedFiles || changedFiles.length === 0) {
       _logger.logTrace(`Found no changes between "${packBaseReference}" and "${packHeadReference}".`);
@@ -220,7 +226,7 @@ function pack(): void {
     _logger.logTrace(`INFO: Processing ${packageFolderPath}`);
 
     const npm = new NPMScope({ executionFolderPath: packageFolderPath });
-    const packageJsonFilePath: string = path.join(packageFolderPath, "package.json");
+    const packageJsonFilePath: string = joinPath(packageFolderPath, "package.json");
     const packageJson: { [propertyName: string]: any } = require(packageJsonFilePath);
     const packageName: string = packageJson.name;
 
@@ -241,7 +247,7 @@ function pack(): void {
         } else if (packagesToPack === PackagesToPack.DifferentVersion) {
           let npmPackageVersion: string | undefined;
           try {
-            const npmViewResult: NPMViewResult = npm.view({ packageName: packageName });
+            const npmViewResult: NPMViewResult = npm.view({ packageName: packageName, ...runOptions });
             npmPackageVersion = npmViewResult["dist-tags"] && npmViewResult["dist-tags"]["latest"];
           }
           catch (error) {
@@ -260,7 +266,7 @@ function pack(): void {
           _logger.log(`Packing package "${packageName}" with version "${localPackageVersion}"...${args.whatif ? " (SKIPPED)" : ""}`);
           if (!args.whatif) {
             try {
-              npm.pack({ log: (text: string) => _logger.logTrace(text), showCommand: true, showOutput: true });
+              npm.pack(runOptions);
               const packFileName = `${packageName.replace("/", "-").replace("@", "")}-${localPackageVersion}.tgz`
               const packFilePath = path.join(packageFolderPath, packFileName);
               fs.renameSync(packFilePath, path.join(dropFolderPath, packFileName));
