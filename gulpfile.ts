@@ -4,10 +4,11 @@
  * license information.
  */
 
+import { contains, gitDiff, GitDiffResult, gitStatus, GitStatusResult, normalize, npmInstall, npmRun, NPMScope, NPMViewResult } from "@ts-common/azure-js-dev-tools";
 import * as fs from "fs";
 import gulp from "gulp";
-import PluginError from "plugin-error";
 import * as path from "path";
+import PluginError from "plugin-error";
 import { Argv, CommandLineOptions, getCommandLineOptions } from "./.scripts/commandLine";
 import { endsWith } from "./.scripts/common";
 import { getDataFromPullRequest } from "./.scripts/github";
@@ -15,7 +16,6 @@ import { generateAllMissingSdks, generateMissingSdk, generateSdk, generateTsRead
 import { Logger } from "./.scripts/logger";
 import { findMissingSdks, findWrongPackages } from "./.scripts/packages";
 import { getPackageFolderPathFromPackageArgument } from "./.scripts/readme";
-import { contains, gitDiff, GitDiffResult, npmInstall, npmRun, NPMViewResult, NPMScope, gitStatus, GitStatusResult } from "@ts-common/azure-js-dev-tools";
 
 enum PackagesToPack {
   All,
@@ -250,7 +250,8 @@ function pack(): void {
 
           shouldPack = localPackageVersion !== npmPackageVersion;
         } else if (packagesToPack === PackagesToPack.BranchHasChanges) {
-          shouldPack = !!changedFiles && contains(changedFiles, (changedFilePath: string) => changedFilePath.startsWith(packageFolderPath + path.sep));
+          const packageFolderPathWithSep: string = normalize(packageFolderPath + path.posix.sep);
+          shouldPack = !!changedFiles && contains(changedFiles, (changedFilePath: string) => normalize(changedFilePath).startsWith(packageFolderPathWithSep));
         }
 
         if (!shouldPack) {
@@ -259,7 +260,7 @@ function pack(): void {
           _logger.log(`Packing package "${packageName}" with version "${localPackageVersion}"...${args.whatif ? " (SKIPPED)" : ""}`);
           if (!args.whatif) {
             try {
-              npm.pack();
+              npm.pack({ log: (text: string) => _logger.logTrace(text), showCommand: true, showOutput: true });
               const packFileName = `${packageName.replace("/", "-").replace("@", "")}-${localPackageVersion}.tgz`
               const packFilePath = path.join(packageFolderPath, packFileName);
               fs.renameSync(packFilePath, path.join(dropFolderPath, packFileName));
