@@ -2966,7 +2966,7 @@ export interface Domain extends Resource {
 /**
  * @interface
  * An interface representing DomainAvailablilityCheckResult.
- * Domain availablility check result.
+ * Domain availability check result.
  *
  */
 export interface DomainAvailablilityCheckResult {
@@ -10479,7 +10479,7 @@ export interface AppServiceCertificateOrderCollection extends Array<AppServiceCe
 /**
  * @interface
  * An interface representing the AppServiceCertificateCollection.
- * Collection of certitificateorder certificates.
+ * Collection of certificate order certificates.
  *
  * @extends Array<AppServiceCertificateResource>
  */
