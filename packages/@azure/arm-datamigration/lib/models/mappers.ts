@@ -5341,9 +5341,9 @@ export const MigrateSqlServerSqlMITaskOutputMigrationLevel: msRest.CompositeMapp
           }
         }
       },
-      orphanedUsers: {
+      orphanedUsersInfo: {
         readOnly: true,
-        serializedName: "orphanedUsers",
+        serializedName: "orphanedUsersInfo",
         type: {
           name: "Sequence",
           element: {

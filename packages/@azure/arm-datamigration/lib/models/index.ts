@@ -4699,11 +4699,11 @@ export interface MigrateSqlServerSqlMITaskOutputMigrationLevel {
    */
   readonly serverRoleResults?: { [propertyName: string]: StartMigrationScenarioServerRoleResult };
   /**
-   * @member {OrphanedUserInfo[]} [orphanedUsers] List of orphaned users.
+   * @member {OrphanedUserInfo[]} [orphanedUsersInfo] List of orphaned users.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly orphanedUsers?: OrphanedUserInfo[];
+  readonly orphanedUsersInfo?: OrphanedUserInfo[];
   /**
    * @member {{ [propertyName: string]: string }} [databases] Selected
    * databases as a map from database name to database id
