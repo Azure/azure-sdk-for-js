@@ -148,8 +148,8 @@ export interface StorageBlobDeadLetterDestination {
    */
   endpointType: "StorageBlob";
   /**
-   * @member {string} [resourceId] The Azure Resource ID of the storage blob
-   * container that is the destination of the deadletter events. For example:
+   * @member {string} [resourceId] The Azure Resource ID of the storage account
+   * that is the destination of the deadletter events. For example:
    * /subscriptions/{AzureSubscriptionId}/resourceGroups/{ResourceGroupName}/providers/microsoft.Storage/storageAccounts/{StorageAccountName}
    */
   resourceId?: string;
