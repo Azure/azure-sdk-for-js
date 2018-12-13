@@ -74,6 +74,8 @@ class SqlManagementClient extends SqlManagementClientContext {
   serverDnsAliases: operations.ServerDnsAliases;
   serverSecurityAlertPolicies: operations.ServerSecurityAlertPolicies;
   restorePoints: operations.RestorePoints;
+  managedDatabaseSecurityAlertPolicies: operations.ManagedDatabaseSecurityAlertPolicies;
+  managedServerSecurityAlertPolicies: operations.ManagedServerSecurityAlertPolicies;
   databaseOperations: operations.DatabaseOperations;
   elasticPoolOperations: operations.ElasticPoolOperations;
   capabilities: operations.Capabilities;
@@ -155,6 +157,8 @@ class SqlManagementClient extends SqlManagementClientContext {
     this.serverDnsAliases = new operations.ServerDnsAliases(this);
     this.serverSecurityAlertPolicies = new operations.ServerSecurityAlertPolicies(this);
     this.restorePoints = new operations.RestorePoints(this);
+    this.managedDatabaseSecurityAlertPolicies = new operations.ManagedDatabaseSecurityAlertPolicies(this);
+    this.managedServerSecurityAlertPolicies = new operations.ManagedServerSecurityAlertPolicies(this);
     this.databaseOperations = new operations.DatabaseOperations(this);
     this.elasticPoolOperations = new operations.ElasticPoolOperations(this);
     this.capabilities = new operations.Capabilities(this);

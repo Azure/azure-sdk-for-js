@@ -88,6 +88,8 @@ export {
   AutomaticTuningServerOptions,
   ServerDnsAlias,
   RestorePoint,
+  ManagedDatabaseSecurityAlertPolicy,
+  ManagedServerSecurityAlertPolicy,
   DatabaseOperation,
   ElasticPoolOperation,
   Database,
