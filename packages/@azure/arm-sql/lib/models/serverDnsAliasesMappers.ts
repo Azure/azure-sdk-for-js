@@ -90,6 +90,8 @@ export {
   AutomaticTuningServerOptions,
   ServerSecurityAlertPolicy,
   RestorePoint,
+  ManagedDatabaseSecurityAlertPolicy,
+  ManagedServerSecurityAlertPolicy,
   DatabaseOperation,
   ElasticPoolOperation,
   Database,

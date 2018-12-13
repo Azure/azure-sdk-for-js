@@ -4952,6 +4952,12 @@ export const ManagedDatabase: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      restorableDroppedDatabaseId: {
+        serializedName: "properties.restorableDroppedDatabaseId",
+        type: {
+          name: "String"
+        }
+      },
       storageContainerSasToken: {
         serializedName: "properties.storageContainerSasToken",
         type: {
@@ -4961,6 +4967,12 @@ export const ManagedDatabase: msRest.CompositeMapper = {
       failoverGroupId: {
         readOnly: true,
         serializedName: "properties.failoverGroupId",
+        type: {
+          name: "String"
+        }
+      },
+      recoverableDatabaseId: {
+        serializedName: "properties.recoverableDatabaseId",
         type: {
           name: "String"
         }
@@ -5039,6 +5051,12 @@ export const ManagedDatabaseUpdate: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      restorableDroppedDatabaseId: {
+        serializedName: "properties.restorableDroppedDatabaseId",
+        type: {
+          name: "String"
+        }
+      },
       storageContainerSasToken: {
         serializedName: "properties.storageContainerSasToken",
         type: {
@@ -5048,6 +5066,12 @@ export const ManagedDatabaseUpdate: msRest.CompositeMapper = {
       failoverGroupId: {
         readOnly: true,
         serializedName: "properties.failoverGroupId",
+        type: {
+          name: "String"
+        }
+      },
+      recoverableDatabaseId: {
+        serializedName: "properties.recoverableDatabaseId",
         type: {
           name: "String"
         }
@@ -5262,6 +5286,13 @@ export const ServerSecurityAlertPolicy: msRest.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      creationTime: {
+        readOnly: true,
+        serializedName: "properties.creationTime",
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
@@ -5328,6 +5359,158 @@ export const CreateDatabaseRestorePointDefinition: msRest.CompositeMapper = {
         serializedName: "restorePointLabel",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedDatabaseSecurityAlertPolicy: msRest.CompositeMapper = {
+  serializedName: "ManagedDatabaseSecurityAlertPolicy",
+  type: {
+    name: "Composite",
+    className: "ManagedDatabaseSecurityAlertPolicy",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      state: {
+        required: true,
+        serializedName: "properties.state",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "New",
+            "Enabled",
+            "Disabled"
+          ]
+        }
+      },
+      disabledAlerts: {
+        serializedName: "properties.disabledAlerts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      emailAddresses: {
+        serializedName: "properties.emailAddresses",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      emailAccountAdmins: {
+        serializedName: "properties.emailAccountAdmins",
+        type: {
+          name: "Boolean"
+        }
+      },
+      storageEndpoint: {
+        serializedName: "properties.storageEndpoint",
+        type: {
+          name: "String"
+        }
+      },
+      storageAccountAccessKey: {
+        serializedName: "properties.storageAccountAccessKey",
+        type: {
+          name: "String"
+        }
+      },
+      retentionDays: {
+        serializedName: "properties.retentionDays",
+        type: {
+          name: "Number"
+        }
+      },
+      creationTime: {
+        readOnly: true,
+        serializedName: "properties.creationTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedServerSecurityAlertPolicy: msRest.CompositeMapper = {
+  serializedName: "ManagedServerSecurityAlertPolicy",
+  type: {
+    name: "Composite",
+    className: "ManagedServerSecurityAlertPolicy",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      state: {
+        required: true,
+        serializedName: "properties.state",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "New",
+            "Enabled",
+            "Disabled"
+          ]
+        }
+      },
+      disabledAlerts: {
+        serializedName: "properties.disabledAlerts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      emailAddresses: {
+        serializedName: "properties.emailAddresses",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      emailAccountAdmins: {
+        serializedName: "properties.emailAccountAdmins",
+        type: {
+          name: "Boolean"
+        }
+      },
+      storageEndpoint: {
+        serializedName: "properties.storageEndpoint",
+        type: {
+          name: "String"
+        }
+      },
+      storageAccountAccessKey: {
+        serializedName: "properties.storageAccountAccessKey",
+        type: {
+          name: "String"
+        }
+      },
+      retentionDays: {
+        serializedName: "properties.retentionDays",
+        type: {
+          name: "Number"
+        }
+      },
+      creationTime: {
+        readOnly: true,
+        serializedName: "properties.creationTime",
+        type: {
+          name: "DateTime"
         }
       }
     }

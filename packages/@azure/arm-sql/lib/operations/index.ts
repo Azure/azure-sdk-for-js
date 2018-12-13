@@ -65,6 +65,8 @@ export * from "./serverAutomaticTuningOperations";
 export * from "./serverDnsAliases";
 export * from "./serverSecurityAlertPolicies";
 export * from "./restorePoints";
+export * from "./managedDatabaseSecurityAlertPolicies";
+export * from "./managedServerSecurityAlertPolicies";
 export * from "./databaseOperations";
 export * from "./elasticPoolOperations";
 export * from "./capabilities";

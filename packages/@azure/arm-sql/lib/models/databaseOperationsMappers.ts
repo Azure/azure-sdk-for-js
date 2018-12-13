@@ -90,6 +90,8 @@ export {
   ServerDnsAlias,
   ServerSecurityAlertPolicy,
   RestorePoint,
+  ManagedDatabaseSecurityAlertPolicy,
+  ManagedServerSecurityAlertPolicy,
   ElasticPoolOperation,
   Database,
   ElasticPool,
