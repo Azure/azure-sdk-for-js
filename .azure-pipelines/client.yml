@@ -61,6 +61,13 @@ jobs:
           versionSpec: '$(node.version)'
         displayName: 'Install Node.js $(node.version)'
 
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'i --package-lock-only'
+          workingDir: '$(source.path)'
+        displayName: 'npm i --package-lock-only'
+
       - powershell: "npm audit --json | ConvertFrom-Json | Select-Object  -expandProperty 'metadata' | select-object -expandproperty 'vulnerabilities' | %{ if ($_.low + $_.moderate + $_.high + $_.critical -ne 0) { write-error 'FAILED! Your package has vulnerabilities. Check npm audit' }}"
         workingDirectory: '$(source.path)'
         displayName: 'npm audit'
