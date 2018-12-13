@@ -4,21 +4,70 @@
  * license information.
  */
 
-import { execSync } from "child_process";
+import { contains, gitDiff, GitDiffResult, gitStatus, GitStatusResult, normalize, npmInstall, npmRun, NPMScope, NPMViewResult, RunOptions, joinPath } from "@ts-common/azure-js-dev-tools";
 import * as fs from "fs";
 import gulp from "gulp";
 import * as path from "path";
+import PluginError from "plugin-error";
 import { Argv, CommandLineOptions, getCommandLineOptions } from "./.scripts/commandLine";
-import { endsWith, npmInstall, npmRunBuild } from "./.scripts/common";
+import { endsWith } from "./.scripts/common";
 import { getDataFromPullRequest } from "./.scripts/github";
 import { generateAllMissingSdks, generateMissingSdk, generateSdk, generateTsReadme, regenerate } from "./.scripts/gulp";
 import { Logger } from "./.scripts/logger";
 import { findMissingSdks, findWrongPackages } from "./.scripts/packages";
 import { getPackageFolderPathFromPackageArgument } from "./.scripts/readme";
 
+enum PackagesToPack {
+  All,
+  DifferentVersion,
+  BranchHasChanges
+}
+
+function getPackagesToPackArgument(toPackArgument: string | undefined): PackagesToPack {
+  let result: PackagesToPack = PackagesToPack.BranchHasChanges;
+  if (toPackArgument) {
+    const toPackArgumentLower: string = toPackArgument.toLowerCase();
+    for (const option in PackagesToPack) {
+      if (option.toLowerCase() === toPackArgumentLower) {
+        result = PackagesToPack[option] as any;
+        break;
+      }
+    }
+  }
+  return result;
+}
+
 const args: CommandLineOptions = getCommandLineOptions();
 const _logger: Logger = Logger.get();
-const azureSDKForJSRepoRoot: string = args["azure-sdk-for-js-repo-root"] || __dirname;
+
+function getArgument(argumentName: string, environmentVariableName?: string, defaultValue?: string): string | undefined {
+  let rawArgument: string | string[] | undefined = args[argumentName] || process.env[environmentVariableName || argumentName] || defaultValue;
+  if (Array.isArray(rawArgument)) {
+    rawArgument = rawArgument[rawArgument.length - 1];
+  }
+  return rawArgument;
+}
+
+const azureSDKForJSRepoRoot: string = getArgument("azure-sdk-for-js-repo-root", undefined, __dirname)!;
+const packagesToPack: PackagesToPack = getPackagesToPackArgument(getArgument("to-pack"));
+const headReference: string | undefined = getArgument("head-reference", "headReference");
+const baseReference: string | undefined = getArgument("base-reference", "baseReference");
+
+function getDropFolderPath(): string {
+  let result: string | undefined = getArgument("drop");
+  if (!result) {
+    result = "drop";
+  }
+  if (!path.isAbsolute(result)) {
+    result = path.join(azureSDKForJSRepoRoot, result);
+  }
+  return result;
+}
+
+const dropFolderPath: string = getDropFolderPath();
+if (!fs.existsSync(dropFolderPath)) {
+  fs.mkdirSync(dropFolderPath);
+}
 
 gulp.task('default', () => {
   _logger.log('gulp build --package <package-name>');
@@ -37,11 +86,15 @@ gulp.task('default', () => {
   _logger.log('  --package');
   _logger.log('    NPM package to regenerate. If no package is specified, then all packages will be regenerated.');
   _logger.log();
-  _logger.log('gulp pack [--package <package name>] [--whatif]');
+  _logger.log('gulp pack [--package <package name>] [--whatif] [--to-pack <to-pack option>] [--drop <drop folder path>]');
   _logger.log('  --package');
-  _logger.log('    The name of the package to publish. If no package is specified, then all packages will be published.');
+  _logger.log('    The name of the package to pack. If no package is specified, then all packages will be packed.');
   _logger.log('  --whatif');
-  _logger.log('    Don\'t actually publish packages, but just indicate which packages would be published.');
+  _logger.log('    Don\'t actually pack packages, but just indicate which packages would be packed.');
+  _logger.log("  --to-pack");
+  _logger.log(`    Which packages should be packed. Options are "All", "DifferentVersion", "BranchHasChanges".`);
+  _logger.log(`  --drop`);
+  _logger.log(`    The folder where packed tarballs will be put. Defaults to "<azure-sdk-for-js-root>/drop/".`);
 });
 
 gulp.task("install", async () => {
@@ -56,8 +109,7 @@ gulp.task("install", async () => {
     argv.azureSDKForJSRepoRoot,
   );
   if (packageFolderPath) {
-    _logger.logWithPath(packageFolderPath, "npm install");
-    npmInstall(packageFolderPath);
+    npmInstall({ executionFolderPath: packageFolderPath });
   }
 });
 
@@ -73,8 +125,7 @@ gulp.task("build", async () => {
     argv.azureSDKForJSRepoRoot,
   );
   if (packageFolderPath) {
-    _logger.logWithPath(packageFolderPath, "npm run build");
-    npmRunBuild(packageFolderPath);
+    npmRun("build", { executionFolderPath: packageFolderPath });
   }
 });
 
@@ -99,39 +150,72 @@ gulp.task('codegen', async () => {
   await generateSdk(argv.azureRestAPISpecsRoot, argv.azureSDKForJSRepoRoot, argv.package, argv.use, argv.debugger);
 });
 
-function pack(): void {
-  let errorPackages = 0;
-  let upToDatePackages = 0;
-  let publishedPackages = 0;
-  let publishedPackagesSkipped = 0;
+const folderNamesToIgnore: string[] = ["node_modules"];
 
-  // `./drop/` folder
-  const dropPath = path.join(azureSDKForJSRepoRoot, "drop");
-  if (!fs.existsSync(dropPath)) {
-    fs.mkdirSync(dropPath);
+function getAllPackageFolders(folderPath: string, result?: string[]): string[] {
+  if (result == undefined) {
+    result = [];
   }
 
-  const folderNamesToIgnore: string[] = ["node_modules"];
-
-  function getAllPackageFolders(folderPath: string, result?: string[]): string[] {
-    if (result == undefined) {
-      result = [];
+  const folderName: string = path.basename(folderPath);
+  if (folderNamesToIgnore.indexOf(folderName) === -1 && fs.existsSync(folderPath) && fs.lstatSync(folderPath).isDirectory()) {
+    const packageJsonFilePath: string = path.join(folderPath, "package.json");
+    if (fs.existsSync(packageJsonFilePath) && fs.lstatSync(packageJsonFilePath).isFile()) {
+      result.push(folderPath);
     }
 
-    const folderName: string = path.basename(folderPath);
-    if (folderNamesToIgnore.indexOf(folderName) === -1 && fs.existsSync(folderPath) && fs.lstatSync(folderPath).isDirectory()) {
-      const packageJsonFilePath: string = path.join(folderPath, "package.json");
-      if (fs.existsSync(packageJsonFilePath) && fs.lstatSync(packageJsonFilePath).isFile()) {
-        result.push(folderPath);
-      }
+    for (const folderEntryName of fs.readdirSync(folderPath)) {
+      const folderEntryPath: string = path.join(folderPath, folderEntryName);
+      getAllPackageFolders(folderEntryPath, result);
+    }
+  }
 
-      for (const folderEntryName of fs.readdirSync(folderPath)) {
-        const folderEntryPath: string = path.join(folderPath, folderEntryName);
-        getAllPackageFolders(folderEntryPath, result);
+  return result;
+}
+
+function pack(): void {
+  const runOptions: RunOptions = {
+    log: (text: string) => _logger.logTrace(text),
+    showCommand: true,
+    showOutput: true
+  };
+
+  let errorPackages = 0;
+  let upToDatePackages = 0;
+  let packedPackages = 0;
+  let skippedPackages = 0;
+
+  let changedFiles: string[] = [];
+
+  if (packagesToPack === PackagesToPack.BranchHasChanges) {
+    let packBaseReference: string | undefined = baseReference;
+    if (!packBaseReference) {
+      packBaseReference = "master";
+      _logger.log(`No base-reference argument specified on command line or in environment variables. Defaulting to "${packBaseReference}".`);
+    }
+
+    let packHeadReference: string | undefined = headReference;
+    if (!packHeadReference) {
+      const statusResult: GitStatusResult = gitStatus(runOptions);
+      packHeadReference = statusResult.localBranch!;
+      _logger.log(`No head-reference argument specified on command line or in environment variables. Defaulting to "${packHeadReference}".`);
+
+      const modifiedFiles: string[] | undefined = statusResult.modifiedFiles;
+      if (modifiedFiles) {
+        changedFiles.push(...modifiedFiles);
       }
     }
 
-    return result;
+    const diffResult: GitDiffResult = gitDiff(packBaseReference, packHeadReference, runOptions);
+    changedFiles.push(...diffResult.filesChanged);
+    if (!changedFiles || changedFiles.length === 0) {
+      _logger.logTrace(`Found no changes between "${packBaseReference}" and "${packHeadReference}".`);
+    } else {
+      _logger.logTrace(`Found the following changed files`)
+      for (const changedFilePath of changedFiles) {
+        _logger.logTrace(changedFilePath);
+      }
+    }
   }
 
   const packagesToSkip: string[] = ["@azure/keyvault"];
@@ -141,13 +225,14 @@ function pack(): void {
   for (const packageFolderPath of getAllPackageFolders(packageFolderRoot)) {
     _logger.logTrace(`INFO: Processing ${packageFolderPath}`);
 
-    const packageJsonFilePath: string = path.join(packageFolderPath, "package.json");
+    const npm = new NPMScope({ executionFolderPath: packageFolderPath });
+    const packageJsonFilePath: string = joinPath(packageFolderPath, "package.json");
     const packageJson: { [propertyName: string]: any } = require(packageJsonFilePath);
     const packageName: string = packageJson.name;
 
     if (packagesToSkip.indexOf(packageName) !== -1) {
       _logger.log(`INFO: Skipping package ${packageName}`);
-      ++publishedPackagesSkipped;
+      ++skippedPackages;
     } else if (!args.package || args.package === packageName || endsWith(packageName, `-${args.package}`)) {
       const localPackageVersion: string = packageJson.version;
       if (!localPackageVersion) {
@@ -155,35 +240,44 @@ function pack(): void {
         errorPackages++;
       }
       else {
-        let npmPackageVersion: string | undefined;
-        try {
-          const npmViewResult: { [propertyName: string]: any } = JSON.parse(
-            execSync(`npm view ${packageName} --json`, { stdio: ['pipe', 'pipe', 'ignore'] }).toString()
-          );
-          npmPackageVersion = npmViewResult['dist-tags']['latest'];
-        }
-        catch (error) {
-          // This happens if the package doesn't exist in NPM.
+        let shouldPack: boolean = false;
+
+        if (packagesToPack === PackagesToPack.All) {
+          shouldPack = true;
+        } else if (packagesToPack === PackagesToPack.DifferentVersion) {
+          let npmPackageVersion: string | undefined;
+          try {
+            const npmViewResult: NPMViewResult = npm.view({ packageName: packageName, ...runOptions });
+            npmPackageVersion = npmViewResult["dist-tags"] && npmViewResult["dist-tags"]["latest"];
+          }
+          catch (error) {
+            // This happens if the package doesn't exist in NPM.
+          }
+
+          shouldPack = localPackageVersion !== npmPackageVersion;
+        } else if (packagesToPack === PackagesToPack.BranchHasChanges) {
+          const packageFolderPathWithSep: string = normalize(packageFolderPath + path.posix.sep);
+          shouldPack = !!changedFiles && contains(changedFiles, (changedFilePath: string) => normalize(changedFilePath).startsWith(packageFolderPathWithSep));
         }
 
-        if (localPackageVersion === npmPackageVersion) {
+        if (!shouldPack) {
           upToDatePackages++;
         } else {
           _logger.log(`Packing package "${packageName}" with version "${localPackageVersion}"...${args.whatif ? " (SKIPPED)" : ""}`);
           if (!args.whatif) {
             try {
-              execSync(`npm pack`, { cwd: packageFolderPath });
+              npm.pack(runOptions);
               const packFileName = `${packageName.replace("/", "-").replace("@", "")}-${localPackageVersion}.tgz`
               const packFilePath = path.join(packageFolderPath, packFileName);
-              fs.renameSync(packFilePath, path.join(dropPath, packFileName));
-              console.log(`Filename: ${packFileName}`);
-              publishedPackages++;
+              fs.renameSync(packFilePath, path.join(dropFolderPath, packFileName));
+              _logger.log(`Filename: ${packFileName}`);
+              packedPackages++;
             }
             catch (error) {
               errorPackages++;
             }
           } else {
-            publishedPackagesSkipped++;
+            skippedPackages++;
           }
         }
       }
@@ -197,12 +291,16 @@ function pack(): void {
     }
     return result;
   }
-  const minimumWidth: number = Math.max(errorPackages, upToDatePackages, publishedPackages, publishedPackagesSkipped).toString().length;
+  const minimumWidth: number = Math.max(errorPackages, upToDatePackages, packedPackages, skippedPackages).toString().length;
   _logger.log();
   _logger.log(`Error packages:      ${padLeft(errorPackages, minimumWidth)}`);
   _logger.log(`Up to date packages: ${padLeft(upToDatePackages, minimumWidth)}`);
-  _logger.log(`Packed packages:     ${padLeft(publishedPackages, minimumWidth)}`);
-  _logger.log(`Skipped packages:    ${padLeft(publishedPackagesSkipped, minimumWidth)}`);
+  _logger.log(`Packed packages:     ${padLeft(packedPackages, minimumWidth)}`);
+  _logger.log(`Skipped packages:    ${padLeft(skippedPackages, minimumWidth)}`);
+
+  if (errorPackages !== 0) {
+    throw new PluginError("pack", { message: "Some packages failed to pack." });
+  }
 }
 
 gulp.task('pack', () => pack());
