@@ -26,3 +26,7 @@ jobs:
       artifactName: dist
       downloadPath: $(System.DefaultWorkingDirectory)
   - script: 'npm test'
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFiles: '**/test-results.xml'
+      testRunTitle: 'Test results for JavaScript'
