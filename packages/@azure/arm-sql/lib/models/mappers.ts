@@ -4952,6 +4952,12 @@ export const ManagedDatabase: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      restorableDroppedDatabaseId: {
+        serializedName: "properties.restorableDroppedDatabaseId",
+        type: {
+          name: "String"
+        }
+      },
       storageContainerSasToken: {
         serializedName: "properties.storageContainerSasToken",
         type: {
@@ -4961,6 +4967,12 @@ export const ManagedDatabase: msRest.CompositeMapper = {
       failoverGroupId: {
         readOnly: true,
         serializedName: "properties.failoverGroupId",
+        type: {
+          name: "String"
+        }
+      },
+      recoverableDatabaseId: {
+        serializedName: "properties.recoverableDatabaseId",
         type: {
           name: "String"
         }
@@ -5039,6 +5051,12 @@ export const ManagedDatabaseUpdate: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      restorableDroppedDatabaseId: {
+        serializedName: "properties.restorableDroppedDatabaseId",
+        type: {
+          name: "String"
+        }
+      },
       storageContainerSasToken: {
         serializedName: "properties.storageContainerSasToken",
         type: {
@@ -5048,6 +5066,12 @@ export const ManagedDatabaseUpdate: msRest.CompositeMapper = {
       failoverGroupId: {
         readOnly: true,
         serializedName: "properties.failoverGroupId",
+        type: {
+          name: "String"
+        }
+      },
+      recoverableDatabaseId: {
+        serializedName: "properties.recoverableDatabaseId",
         type: {
           name: "String"
         }
