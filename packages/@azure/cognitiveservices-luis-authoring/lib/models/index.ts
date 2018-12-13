@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 
 
 /**
@@ -205,7 +205,7 @@ export interface ApplicationSettingUpdateObject {
 export interface PublishSettingUpdateObject {
   /**
    * @member {boolean} [sentimentAnalysis] Setting sentiment analysis as true
-   * returns the Sentiment of the input utterance along with the resopnse
+   * returns the Sentiment of the input utterance along with the response
    */
   sentimentAnalysis?: boolean;
   /**
@@ -232,12 +232,12 @@ export interface ExampleLabelObject {
    */
   text?: string;
   /**
-   * @member {EntityLabelObject[]} [entityLabels] The idenfied entities within
-   * the utterance.
+   * @member {EntityLabelObject[]} [entityLabels] The identified entities
+   * within the utterance.
    */
   entityLabels?: EntityLabelObject[];
   /**
-   * @member {string} [intentName] The idenfitied intent representing the
+   * @member {string} [intentName] The identified intent representing the
    * utterance.
    */
   intentName?: string;
@@ -1722,6 +1722,10 @@ export interface EndpointInfo {
    */
   endpointRegion?: string;
   /**
+   * @member {string} [failedRegions] Regions where publishing failed.
+   */
+  failedRegions?: string;
+  /**
    * @member {string} [publishedDateTime] Timestamp when was last published.
    */
   publishedDateTime?: string;
@@ -1783,7 +1787,7 @@ export interface PublishSettings {
   id: string;
   /**
    * @member {boolean} isSentimentAnalysisEnabled Setting sentiment analysis as
-   * true returns the Sentiment of the input utterance along with the resopnse
+   * true returns the Sentiment of the input utterance along with the response
    */
   isSentimentAnalysisEnabled: boolean;
   /**
@@ -2301,6 +2305,27 @@ export interface AppVersionSettingObject {
 
 /**
  * @interface
+ * An interface representing AzureAccountInfoObject.
+ * Defines the azure account information object.
+ *
+ */
+export interface AzureAccountInfoObject {
+  /**
+   * @member {string} azureSubscriptionId The id for the azure subscription.
+   */
+  azureSubscriptionId: string;
+  /**
+   * @member {string} resourceGroup The azure resource group name.
+   */
+  resourceGroup: string;
+  /**
+   * @member {string} accountName The azure account name.
+   */
+  accountName: string;
+}
+
+/**
+ * @interface
  * An interface representing HierarchicalChildModelUpdateObject.
  */
 export interface HierarchicalChildModelUpdateObject {
@@ -2692,6 +2717,21 @@ export interface AppsImportMethodOptionalParams extends msRest.RequestOptionsBas
 
 /**
  * @interface
+ * An interface representing AppsDeleteMethodOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface AppsDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {boolean} [force] A flag to indicate whether to force an
+   * operation. Default value: false .
+   */
+  force?: boolean;
+}
+
+/**
+ * @interface
  * An interface representing VersionsCloneOptionalParams.
  * Optional Parameters.
  *
@@ -2778,6 +2818,36 @@ export interface PatternGetIntentPatternsOptionalParams extends msRest.RequestOp
    * is 500. Default is 100. Default value: 100 .
    */
   take?: number;
+}
+
+/**
+ * @interface
+ * An interface representing AzureAccountsAssignToAppOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface AzureAccountsAssignToAppOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {AzureAccountInfoObject} [azureAccountInfoObject] The azure
+   * account information object.
+   */
+  azureAccountInfoObject?: AzureAccountInfoObject;
+}
+
+/**
+ * @interface
+ * An interface representing AzureAccountsRemoveFromAppOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface AzureAccountsRemoveFromAppOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {AzureAccountInfoObject} [azureAccountInfoObject] The azure
+   * account information object.
+   */
+  azureAccountInfoObject?: AzureAccountInfoObject;
 }
 
 /**
@@ -5617,6 +5687,54 @@ export type AppsListAvailableCustomPrebuiltDomainsForCultureResponse = Array<Pre
 };
 
 /**
+ * Contains response data for the packagePublishedApplicationAsGzip operation.
+ */
+export type AppsPackagePublishedApplicationAsGzipResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always undefined in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always undefined in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse;
+};
+
+/**
+ * Contains response data for the packageTrainedApplicationAsGzip operation.
+ */
+export type AppsPackageTrainedApplicationAsGzipResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always undefined in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always undefined in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse;
+};
+
+/**
  * Contains response data for the clone operation.
  */
 export type VersionsCloneResponse = {
@@ -6077,5 +6195,81 @@ export type SettingsUpdateResponse = OperationStatus & {
        * The response body as parsed JSON or XML
        */
       parsedBody: OperationStatus;
+    };
+};
+
+/**
+ * Contains response data for the assignToApp operation.
+ */
+export type AzureAccountsAssignToAppResponse = OperationStatus & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatus;
+    };
+};
+
+/**
+ * Contains response data for the getAssigned operation.
+ */
+export type AzureAccountsGetAssignedResponse = Array<AzureAccountInfoObject> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AzureAccountInfoObject[];
+    };
+};
+
+/**
+ * Contains response data for the removeFromApp operation.
+ */
+export type AzureAccountsRemoveFromAppResponse = OperationStatus & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatus;
+    };
+};
+
+/**
+ * Contains response data for the getUserLUISAccounts operation.
+ */
+export type AzureAccountsGetUserLUISAccountsResponse = Array<AzureAccountInfoObject> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AzureAccountInfoObject[];
     };
 };

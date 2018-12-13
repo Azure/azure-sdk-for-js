@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/appsMappers";
 import * as Parameters from "../models/parameters";
@@ -88,7 +88,7 @@ export class Apps {
   }
 
   /**
-   * Imports an application to LUIS, the application's structure should be included in in the request
+   * Imports an application to LUIS, the application's structure should be included in the request
    * body.
    * @param luisApp A LUIS application structure.
    * @param [options] The optional parameters
@@ -306,7 +306,7 @@ export class Apps {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsDeleteMethodResponse>
    */
-  deleteMethod(appId: string, options?: msRest.RequestOptionsBase): Promise<Models.AppsDeleteMethodResponse>;
+  deleteMethod(appId: string, options?: Models.AppsDeleteMethodOptionalParams): Promise<Models.AppsDeleteMethodResponse>;
   /**
    * @param appId The application ID.
    * @param callback The callback
@@ -317,8 +317,8 @@ export class Apps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteMethod(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AppsDeleteMethodResponse> {
+  deleteMethod(appId: string, options: Models.AppsDeleteMethodOptionalParams, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteMethod(appId: string, options?: Models.AppsDeleteMethodOptionalParams | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AppsDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -593,6 +593,72 @@ export class Apps {
       listAvailableCustomPrebuiltDomainsForCultureOperationSpec,
       callback) as Promise<Models.AppsListAvailableCustomPrebuiltDomainsForCultureResponse>;
   }
+
+  /**
+   * Packages published LUIS application as GZip.
+   * @summary package - Gets published LUIS application package in binary stream GZip format
+   * @param appId The application ID.
+   * @param slotName The publishing slot name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppsPackagePublishedApplicationAsGzipResponse>
+   */
+  packagePublishedApplicationAsGzip(appId: string, slotName: string, options?: msRest.RequestOptionsBase): Promise<Models.AppsPackagePublishedApplicationAsGzipResponse>;
+  /**
+   * @param appId The application ID.
+   * @param slotName The publishing slot name.
+   * @param callback The callback
+   */
+  packagePublishedApplicationAsGzip(appId: string, slotName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param appId The application ID.
+   * @param slotName The publishing slot name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  packagePublishedApplicationAsGzip(appId: string, slotName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  packagePublishedApplicationAsGzip(appId: string, slotName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.AppsPackagePublishedApplicationAsGzipResponse> {
+    return this.client.sendOperationRequest(
+      {
+        appId,
+        slotName,
+        options
+      },
+      packagePublishedApplicationAsGzipOperationSpec,
+      callback) as Promise<Models.AppsPackagePublishedApplicationAsGzipResponse>;
+  }
+
+  /**
+   * Packages trained LUIS application as GZip.
+   * @summary package - Gets trained LUIS application package in binary stream GZip format
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppsPackageTrainedApplicationAsGzipResponse>
+   */
+  packageTrainedApplicationAsGzip(appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<Models.AppsPackageTrainedApplicationAsGzipResponse>;
+  /**
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param callback The callback
+   */
+  packageTrainedApplicationAsGzip(appId: string, versionId: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  packageTrainedApplicationAsGzip(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  packageTrainedApplicationAsGzip(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.AppsPackageTrainedApplicationAsGzipResponse> {
+    return this.client.sendOperationRequest(
+      {
+        appId,
+        versionId,
+        options
+      },
+      packageTrainedApplicationAsGzipOperationSpec,
+      callback) as Promise<Models.AppsPackageTrainedApplicationAsGzipResponse>;
+  }
 }
 
 // Operation Specifications
@@ -860,6 +926,9 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId
   ],
+  queryParameters: [
+    Parameters.force
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -887,6 +956,9 @@ const publishOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     201: {
+      bodyMapper: Mappers.ProductionOrStagingEndpointInfo
+    },
+    207: {
       bodyMapper: Mappers.ProductionOrStagingEndpointInfo
     },
     default: {
@@ -1086,6 +1158,54 @@ const listAvailableCustomPrebuiltDomainsForCultureOperationSpec: msRest.Operatio
               className: "PrebuiltDomain"
             }
           }
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const packagePublishedApplicationAsGzipOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "package/{appId}/slot/{slotName}/gzip",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId,
+    Parameters.slotName
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Stream"
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const packageTrainedApplicationAsGzipOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "package/{appId}/versions/{versionId}/gzip",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId,
+    Parameters.versionId0
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Stream"
         }
       }
     },

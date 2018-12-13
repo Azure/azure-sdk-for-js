@@ -8,13 +8,9 @@
  * regenerated.
  */
 
-export * from "./features";
-export * from "./examples";
-export * from "./model";
-export * from "./apps";
-export * from "./versions";
-export * from "./train";
-export * from "./permissions";
-export * from "./pattern";
-export * from "./settings";
-export * from "./azureAccounts";
+export {
+  AzureAccountInfoObject,
+  OperationStatus,
+  ErrorResponse
+} from "../models/mappers";
+

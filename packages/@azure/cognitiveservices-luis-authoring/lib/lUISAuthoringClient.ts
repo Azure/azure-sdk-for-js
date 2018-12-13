@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
@@ -25,6 +25,7 @@ class LUISAuthoringClient extends LUISAuthoringClientContext {
   permissions: operations.Permissions;
   pattern: operations.Pattern;
   settings: operations.Settings;
+  azureAccounts: operations.AzureAccounts;
 
   /**
    * Initializes a new instance of the LUISAuthoringClient class.
@@ -44,6 +45,7 @@ class LUISAuthoringClient extends LUISAuthoringClientContext {
     this.permissions = new operations.Permissions(this);
     this.pattern = new operations.Pattern(this);
     this.settings = new operations.Settings(this);
+    this.azureAccounts = new operations.AzureAccounts(this);
   }
 }
 
