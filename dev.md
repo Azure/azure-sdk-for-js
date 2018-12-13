@@ -75,7 +75,7 @@ Extra environment variables you can use:
 - `MOCHA_TIMEOUT`: time in milliseconds before timeout (default is different per test, mostly 10-20 seconds). Useful to set to 999999 during debugging.
 - `ACCOUNT_HOST`: account endpoint for testing (default is the emulator running on localhost:8081
 - `ACCOUNT_KEY`: masterkey for testing (default is the emulators default key)
-- `TESTS_MULTIREGION`: enables tests that require a multi-region write enabled database account with at least two regions.
+- `TESTS_MULTIREGION`: enables tests that require a multi-region write enabled database account with at least two regions, and disables tests that won't work with multi-region write enabled.
 
 ## VS Code
 
