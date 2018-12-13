@@ -28,7 +28,7 @@ export class IscsiServers {
   }
 
   /**
-   * Retrieves all the iscsi in a device.
+   * Retrieves all the iSCSI in a device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
@@ -64,9 +64,9 @@ export class IscsiServers {
   }
 
   /**
-   * Returns the properties of the specified iscsi server name.
+   * Returns the properties of the specified iSCSI server name.
    * @param deviceName The device name.
-   * @param iscsiServerName The iscsi server name.
+   * @param iscsiServerName The iSCSI server name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param [options] The optional parameters
@@ -75,7 +75,7 @@ export class IscsiServers {
   get(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.IscsiServersGetResponse>;
   /**
    * @param deviceName The device name.
-   * @param iscsiServerName The iscsi server name.
+   * @param iscsiServerName The iSCSI server name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
@@ -83,7 +83,7 @@ export class IscsiServers {
   get(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.ISCSIServer>): void;
   /**
    * @param deviceName The device name.
-   * @param iscsiServerName The iscsi server name.
+   * @param iscsiServerName The iSCSI server name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param options The optional parameters
@@ -104,10 +104,10 @@ export class IscsiServers {
   }
 
   /**
-   * Creates or updates the iscsi server.
+   * Creates or updates the iSCSI server.
    * @param deviceName The device name.
-   * @param iscsiServerName The iscsi server name.
-   * @param iscsiServer The iscsi server.
+   * @param iscsiServerName The iSCSI server name.
+   * @param iscsiServer The iSCSI server.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param [options] The optional parameters
@@ -119,9 +119,9 @@ export class IscsiServers {
   }
 
   /**
-   * Deletes the iscsi server.
+   * Deletes the iSCSI server.
    * @param deviceName The device name.
-   * @param iscsiServerName The iscsi server name.
+   * @param iscsiServerName The iSCSI server name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param [options] The optional parameters
@@ -133,9 +133,9 @@ export class IscsiServers {
   }
 
   /**
-   * Backup the iscsi server now.
+   * Backup the iSCSI server now.
    * @param deviceName The device name.
-   * @param iscsiServerName The iscsi server name.
+   * @param iscsiServerName The iSCSI server name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param [options] The optional parameters
@@ -147,9 +147,9 @@ export class IscsiServers {
   }
 
   /**
-   * Gets the iscsi server metrics
-   * @param deviceName The devie name.
-   * @param iscsiServerName The iscsi server name.
+   * Gets the iSCSI server metrics
+   * @param deviceName The device name.
+   * @param iscsiServerName The iSCSI server name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param [options] The optional parameters
@@ -157,16 +157,16 @@ export class IscsiServers {
    */
   listMetrics(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options?: Models.IscsiServersListMetricsOptionalParams): Promise<Models.IscsiServersListMetricsResponse>;
   /**
-   * @param deviceName The devie name.
-   * @param iscsiServerName The iscsi server name.
+   * @param deviceName The device name.
+   * @param iscsiServerName The iSCSI server name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
   listMetrics(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.MetricList>): void;
   /**
-   * @param deviceName The devie name.
-   * @param iscsiServerName The iscsi server name.
+   * @param deviceName The device name.
+   * @param iscsiServerName The iSCSI server name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param options The optional parameters
@@ -187,9 +187,9 @@ export class IscsiServers {
   }
 
   /**
-   * Retrieves metric definitions for all metrics aggregated at iscsi server.
-   * @param deviceName The devie name.
-   * @param iscsiServerName The iscsi server name.
+   * Retrieves metric definitions for all metrics aggregated at iSCSI server.
+   * @param deviceName The device name.
+   * @param iscsiServerName The iSCSI server name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param [options] The optional parameters
@@ -197,16 +197,16 @@ export class IscsiServers {
    */
   listMetricDefinition(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.IscsiServersListMetricDefinitionResponse>;
   /**
-   * @param deviceName The devie name.
-   * @param iscsiServerName The iscsi server name.
+   * @param deviceName The device name.
+   * @param iscsiServerName The iSCSI server name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
   listMetricDefinition(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.MetricDefinitionList>): void;
   /**
-   * @param deviceName The devie name.
-   * @param iscsiServerName The iscsi server name.
+   * @param deviceName The device name.
+   * @param iscsiServerName The iSCSI server name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param options The optional parameters
@@ -227,7 +227,7 @@ export class IscsiServers {
   }
 
   /**
-   * Retrieves all the iscsi servers in a manager.
+   * Retrieves all the iSCSI servers in a manager.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param [options] The optional parameters
@@ -259,10 +259,10 @@ export class IscsiServers {
   }
 
   /**
-   * Creates or updates the iscsi server.
+   * Creates or updates the iSCSI server.
    * @param deviceName The device name.
-   * @param iscsiServerName The iscsi server name.
-   * @param iscsiServer The iscsi server.
+   * @param iscsiServerName The iSCSI server name.
+   * @param iscsiServer The iSCSI server.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param [options] The optional parameters
@@ -283,9 +283,9 @@ export class IscsiServers {
   }
 
   /**
-   * Deletes the iscsi server.
+   * Deletes the iSCSI server.
    * @param deviceName The device name.
-   * @param iscsiServerName The iscsi server name.
+   * @param iscsiServerName The iSCSI server name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param [options] The optional parameters
@@ -305,9 +305,9 @@ export class IscsiServers {
   }
 
   /**
-   * Backup the iscsi server now.
+   * Backup the iSCSI server now.
    * @param deviceName The device name.
-   * @param iscsiServerName The iscsi server name.
+   * @param iscsiServerName The iSCSI server name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param [options] The optional parameters

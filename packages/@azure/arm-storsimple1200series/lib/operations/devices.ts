@@ -186,7 +186,7 @@ export class Devices {
   }
 
   /**
-   * Downloads udpates on the device.
+   * Downloads updates on the device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
@@ -553,7 +553,7 @@ export class Devices {
   }
 
   /**
-   * Downloads udpates on the device.
+   * Downloads updates on the device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
