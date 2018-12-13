@@ -38,6 +38,7 @@ export {
   StorageAccountProperties,
   NetworkRuleSet,
   VirtualNetworkRule,
+  IPRule,
   Replication,
   Webhook,
   ProxyResource,

@@ -34,6 +34,7 @@ export {
   StorageAccountProperties,
   NetworkRuleSet,
   VirtualNetworkRule,
+  IPRule,
   Replication,
   Task,
   PlatformProperties,

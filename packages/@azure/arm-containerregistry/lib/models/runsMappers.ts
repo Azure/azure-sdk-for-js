@@ -42,6 +42,7 @@ export {
   StorageAccountProperties,
   NetworkRuleSet,
   VirtualNetworkRule,
+  IPRule,
   Replication,
   Webhook
 } from "../models/mappers";

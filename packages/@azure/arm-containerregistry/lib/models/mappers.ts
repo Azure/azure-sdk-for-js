@@ -395,9 +395,40 @@ export const VirtualNetworkRule: msRest.CompositeMapper = {
     name: "Composite",
     className: "VirtualNetworkRule",
     modelProperties: {
-      id: {
+      action: {
+        serializedName: "action",
+        defaultValue: 'Allow',
+        type: {
+          name: "String"
+        }
+      },
+      virtualNetworkResourceId: {
         required: true,
         serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IPRule: msRest.CompositeMapper = {
+  serializedName: "IPRule",
+  type: {
+    name: "Composite",
+    className: "IPRule",
+    modelProperties: {
+      action: {
+        serializedName: "action",
+        defaultValue: 'Allow',
+        type: {
+          name: "String"
+        }
+      },
+      iPAddressOrRange: {
+        required: true,
+        serializedName: "value",
         type: {
           name: "String"
         }
@@ -428,6 +459,18 @@ export const NetworkRuleSet: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "VirtualNetworkRule"
+            }
+          }
+        }
+      },
+      ipRules: {
+        serializedName: "ipRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IPRule"
             }
           }
         }
