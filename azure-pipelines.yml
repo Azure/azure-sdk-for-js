@@ -25,7 +25,7 @@ steps:
   inputs:
     command: custom
     verbose: false
-    customCommand: 'run build -- --logging-level=trace --head-reference=$(System.PullRequest.SourceBranch) --base-reference=$(System.PullRequest.TargetBranch)'
+    customCommand: 'run build -- --to-pack=BranchHasChanges --head-reference=$(System.PullRequest.SourceBranch) --base-reference=$(System.PullRequest.TargetBranch) --logging-level=trace '
 
 - task: PublishBuildArtifacts@1
   inputs:
