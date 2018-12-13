@@ -1,0 +1,88 @@
+trigger:
+  - master
+
+# pipeline-variables:
+#   source.path: directory to build packages
+#   test.path: directory to run tests
+
+variables:
+  node.version: '10.x'
+
+jobs:
+  - job: 'Publish'
+
+    pool:
+      vmImage: 'ubuntu-16.04'
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '$(node.version)'
+        displayName: 'Install Node.js $(node.version)'
+
+      - task: Npm@1
+        inputs:
+          command: 'install'
+          workingDir: '$(source.path)'
+        displayName: 'npm install'
+
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'run build'
+          workingDir: '$(source.path)'
+        displayName: 'npm run build'
+
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'pack'
+          workingDir: '$(source.path)'
+        displayName: 'npm pack'
+
+      - task: CopyFiles@2
+        inputs:
+          sourceFolder: '$(source.path)'
+          contents: '*.tgz'
+          targetFolder: $(Build.ArtifactStagingDirectory)
+        displayName: 'Copy Package'
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Package'
+
+  - job: 'Audit'
+
+    pool:
+      vmImage: 'ubuntu-16.04'
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '$(node.version)'
+        displayName: 'Install Node.js $(node.version)'
+
+      - powershell: "npm audit --json | ConvertFrom-Json | Select-Object  -expandProperty 'metadata' | select-object -expandproperty 'vulnerabilities' | %{ if ($_.low + $_.moderate + $_.high + $_.critical -ne 0) { write-error 'FAILED! Your package has vulnerabilities. Check npm audit' }}"
+        workingDirectory: '$(source.path)'
+        displayName: 'npm audit'
+
+      - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
+        # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
+        # builds should be sufficient.
+        condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
+        displayName: 'Component Detection'
+
+  - template: client.test.yml
+    parameters:
+      name: Linux
+      vmImage: 'ubuntu-16.04'
+
+  - template: client.test.yml
+    parameters:
+      name: macOS
+      vmImage: 'macOS-10.13'
+
+  - template: client.test.yml
+    parameters:
+      name: Windows
+      vmImage: 'vs2017-win2016'
+

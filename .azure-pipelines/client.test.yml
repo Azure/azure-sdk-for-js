@@ -1,0 +1,46 @@
+parameters:
+  name: ''
+  vmImage: ''
+
+jobs:
+  - job: ${{ format('Test_{0}', parameters.name) }}
+    dependsOn:
+      - 'Publish'
+
+    pool:
+      vmImage: ${{ parameters.vmImage }}
+
+    strategy:
+      matrix:
+        Node6:
+          node.version: '6.x'
+        Node8:
+          node.version: '8.x'
+        Node10:
+          node.version: '10.x'
+        Node11:
+          node.version: '11.x'
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '$(node.version)'
+        displayName: 'Install Node.js $(node.version)'
+
+      - task: Npm@1
+        inputs:
+          command: 'install'
+        displayName: 'npm install'
+
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'run mocha -- $(test.path) --reporter mocha-junit-reporter'
+        displayName: 'npm run mocha'
+
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFiles: '**/test-results.xml'
+          testRunTitle: ${{ format('{0} Node $(node.version)', parameters.name) }}
+        condition: succeededOrFailed()
+        displayName: 'Publish test results'
