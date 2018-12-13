@@ -11,6 +11,7 @@
 import * as msRest from "ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
+import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { ContainerInstanceManagementClientContext } from "./containerInstanceManagementClientContext";
 
@@ -38,9 +39,115 @@ class ContainerInstanceManagementClient extends ContainerInstanceManagementClien
     this.container = new operations.ContainerOperations(this);
     this.serviceAssociationLink = new operations.ServiceAssociationLink(this);
   }
+
+  /**
+   * Get the list of cached images on specific OS type for a subscription in a region.
+   * @summary Get the list of cached images.
+   * @param location The identifier for the physical azure location.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ListCachedImagesResponse>
+   */
+  listCachedImages(location: string, options?: msRest.RequestOptionsBase): Promise<Models.ListCachedImagesResponse>;
+  /**
+   * @param location The identifier for the physical azure location.
+   * @param callback The callback
+   */
+  listCachedImages(location: string, callback: msRest.ServiceCallback<Models.CachedImagesListResult>): void;
+  /**
+   * @param location The identifier for the physical azure location.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listCachedImages(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CachedImagesListResult>): void;
+  listCachedImages(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CachedImagesListResult>, callback?: msRest.ServiceCallback<Models.CachedImagesListResult>): Promise<Models.ListCachedImagesResponse> {
+    return this.sendOperationRequest(
+      {
+        location,
+        options
+      },
+      listCachedImagesOperationSpec,
+      callback) as Promise<Models.ListCachedImagesResponse>;
+  }
+
+  /**
+   * Get the list of CPU/memory/GPU capabilities of a region.
+   * @summary Get the list of capabilities of the location.
+   * @param location The identifier for the physical azure location.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ListCapabilitiesResponse>
+   */
+  listCapabilities(location: string, options?: msRest.RequestOptionsBase): Promise<Models.ListCapabilitiesResponse>;
+  /**
+   * @param location The identifier for the physical azure location.
+   * @param callback The callback
+   */
+  listCapabilities(location: string, callback: msRest.ServiceCallback<Models.CapabilitiesListResult>): void;
+  /**
+   * @param location The identifier for the physical azure location.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listCapabilities(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CapabilitiesListResult>): void;
+  listCapabilities(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CapabilitiesListResult>, callback?: msRest.ServiceCallback<Models.CapabilitiesListResult>): Promise<Models.ListCapabilitiesResponse> {
+    return this.sendOperationRequest(
+      {
+        location,
+        options
+      },
+      listCapabilitiesOperationSpec,
+      callback) as Promise<Models.ListCapabilitiesResponse>;
+  }
 }
 
 // Operation Specifications
+const serializer = new msRest.Serializer(Mappers);
+const listCachedImagesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/cachedImages",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.CachedImagesListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listCapabilitiesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/capabilities",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.CapabilitiesListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
 
 export {
   ContainerInstanceManagementClient,
