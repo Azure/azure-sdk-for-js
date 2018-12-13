@@ -160,7 +160,7 @@ export interface Resource extends BaseResource {
   name?: string;
   /**
    * @member {string} [type] The type of the resource. Ex-
-   * Microsoft.Network/trafficmanagerProfiles.
+   * Microsoft.Network/trafficManagerProfiles.
    */
   type?: string;
 }

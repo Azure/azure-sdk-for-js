@@ -9,7 +9,7 @@ This package contains an isomorphic SDK for TrafficManagerManagementClient.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/arm-trafficmanager
 ```
 
@@ -19,13 +19,13 @@ npm install @azure/arm-trafficmanager
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
+```bash
 npm install @azure/ms-rest-nodeauth
 ```
 
 ##### Sample code
 
-```ts
+```typescript
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
@@ -51,7 +51,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 
