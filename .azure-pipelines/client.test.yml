@@ -12,8 +12,6 @@ jobs:
 
     strategy:
       matrix:
-        Node6:
-          node.version: '6.x'
         Node8:
           node.version: '8.x'
         Node10:
