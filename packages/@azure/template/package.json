@@ -1,7 +1,7 @@
 {
-  "name": "anps",
-  "version": "1.0.0",
-  "description": "azure package",
+  "name": "@azure/template",
+  "version": "0.1.0",
+  "description": "Template Library with typescript type definitions for node.js and browser.",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
@@ -19,7 +19,7 @@
     "test": "mocha test-dist/**/*.js --reporter spec",
     "pretest": "npm run build-test"
   },
-  "repository": "github:Azure/anps",
+  "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
     "cloud"
@@ -27,12 +27,12 @@
   "author": "Microsoft Corporation",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/azure/anps/issues"
+    "url": "https://github.com/azure/azure-sdk-for-js/issues"
   },
   "engine": {
     "node": ">=6.0.0"
   },
-  "homepage": "https://github.com/azure/anps#readme",
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/@azure/template",
   "devDependencies": {
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.7.1",
