@@ -28,7 +28,7 @@ describe("Change Feed Iterator", function() {
       await removeAllDatabases();
     });
 
-    describe("Should only find items after start time", function() {
+    (process.env.TESTS_MULTIREGION ? describe.skip : describe)("Should only find items after start time", function() {
       let container: Container;
 
       // create container and two items
