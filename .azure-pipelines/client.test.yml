@@ -30,13 +30,15 @@ jobs:
       - task: Npm@1
         inputs:
           command: 'install'
+          workingDir: '$(test.path)'
         displayName: 'npm install'
 
       - task: Npm@1
         inputs:
           command: 'custom'
-          customCommand: 'run mocha -- $(test.path) --reporter mocha-junit-reporter'
-        displayName: 'npm run mocha'
+          customCommand: 'run test -- --reporter mocha-junit-reporter'
+          workingDir: '$(test.path)'
+        displayName: 'npm run test'
 
       - task: PublishTestResults@2
         inputs:
