@@ -24,26 +24,19 @@ async function main(): Promise<void> {
     messageSession: MessageSession,
     brokeredMessage: ServiceBusMessage
   ) => {
-    console.log(">>> Message: ", brokeredMessage);
+    console.log(">>> MessageSession: ", messageSession.sessionId);
     console.log(
       "### Actual message:",
       brokeredMessage.body ? brokeredMessage.body.toString() : undefined
     );
-    const sequenceNumber = brokeredMessage.sequenceNumber!;
-    console.log(">>>>>> SequenceNumber: %d", sequenceNumber.toNumber());
-    const result = await brokeredMessage.defer();
-    console.log(">>>>> Deferred message result: ", result);
-    await delay(2000);
-    const msg = await messageSession.receiveDeferredMessage(sequenceNumber);
-    console.log(">>>>> Received deferred Message: %o", msg);
-    await messageSession.close();
+    // await brokeredMessage.complete();
   };
   const onError: OnError = (err: MessagingError | Error) => {
     console.log(">>>>> Error occurred: ", err);
   };
-  const messageSession = await client.acceptSession({ sessionId: "session-3" });
-  messageSession.receive(onMessage, onError, { autoComplete: false });
-  await delay(30000);
+  client.receiveMessgesFromSessions(onMessage, onError);
+  await delay(80000);
+  await client.close();
 }
 
 main()
