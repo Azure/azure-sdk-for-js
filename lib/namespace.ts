@@ -164,7 +164,7 @@ export class Namespace {
     } catch (err) {
       const msg =
         `An error occurred while closing the connection ` +
-        `"${this._context.connectionId}": ${JSON.stringify(err)}`;
+        `"${this._context.connectionId}": ${err ? err.stack : JSON.stringify(err)}`;
       log.error(msg);
       throw new Error(msg);
     }

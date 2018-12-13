@@ -92,3 +92,8 @@ export const messageSession = debugModule("azure:service-bus:messageSession");
  * log statements for semaphore
  */
 export const semaphore = debugModule("azure:service-bus:semaphore");
+/**
+ * @ignore
+ * log statements for sessionManager
+ */
+export const sessionManager = debugModule("azure:service-bus:sessionManager");

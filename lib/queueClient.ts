@@ -18,6 +18,7 @@ import {
   SessionHandlerOptions,
   OnSessionMessage
 } from "./session/messageSession";
+import { EntityType } from "./session/sessionManager";
 
 /**
  * Describes the options that can be provided while creating the QueueClient.
@@ -60,23 +61,44 @@ export class QueueClient extends Client {
   async close(): Promise<any> {
     try {
       if (this._context.namespace.connection && this._context.namespace.connection.isOpen()) {
+        const connectionId = this._context.namespace.connectionId;
         // Close the sender.
         if (this._context.sender) {
+          log.qClient("[%s] Closing the Sender for queue '%s'.", connectionId, this.name);
           await this._context.sender.close();
         }
+
+        // Close the sessionManager.
+        if (this._context.sessionManager) {
+          log.qClient("[%s] Closing the SessionMaanger for queue '%s'.", connectionId, this.name);
+          this._context.sessionManager.close();
+        }
+
         // Close the streaming receiver.
         if (this._context.streamingReceiver) {
+          log.qClient(
+            "[%s] Closing the StreamingReceiver for queue '%s'.",
+            connectionId,
+            this.name
+          );
           await this._context.streamingReceiver.close();
         }
 
         // Close the batching receiver.
         if (this._context.batchingReceiver) {
+          log.qClient("[%s] Closing the BatchingReceiver for queue '%s'.", connectionId, this.name);
           await this._context.batchingReceiver.close();
         }
 
         // Close all the MessageSessions.
-        for (const messageSession of Object.keys(this._context.messageSessions)) {
-          await this._context.messageSessions[messageSession].close();
+        for (const messageSessionId of Object.keys(this._context.messageSessions)) {
+          log.qClient(
+            "[%s] Closing the MessageSession '%s' for queue '%s'.",
+            connectionId,
+            messageSessionId,
+            this.name
+          );
+          await this._context.messageSessions[messageSessionId].close();
         }
 
         log.qClient("Closed the Queue client '%s'.", this.id);
@@ -379,8 +401,8 @@ export class QueueClient extends Client {
   }
 
   /**
-   *
-   * @param options
+   * Accept a new session on the ServiceBus Queue.
+   * @param options Optional parameters that can be provided while accepting sessions.
    */
   async acceptSession(options?: AcceptSessionOptions): Promise<MessageSession> {
     if (!options) options = {};
@@ -400,13 +422,11 @@ export class QueueClient extends Client {
     onError: OnError,
     options?: SessionHandlerOptions
   ): Promise<void> {
-    if (this._context.sessionManager!.isManagingSessions) {
-      throw new Error(
-        `QueueClient for Queue '${this.name}' is already receiving messages ` +
-          `from sessions. Please close this QueueClient or create a new one and receiveMessages ` +
-          `from Sessions.`
-      );
-    }
-    return this._context.sessionManager!.manageMessageSessions(onSessionMessage, onError, options);
+    return this._context.sessionManager!.manageMessageSessions(
+      EntityType.queue,
+      onSessionMessage,
+      onError,
+      options
+    );
   }
 }
