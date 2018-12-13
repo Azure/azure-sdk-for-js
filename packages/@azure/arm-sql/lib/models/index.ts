@@ -4360,9 +4360,9 @@ export interface ManagedDatabase extends TrackedResource {
    */
   collation?: string;
   /**
-   * @member {ManagedDatabaseStatus} [status] Status for the database. Possible
+   * @member {ManagedDatabaseStatus} [status] Status of the database. Possible
    * values include: 'Online', 'Offline', 'Shutdown', 'Creating',
-   * 'Inaccessible'
+   * 'Inaccessible', 'Updating'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -4406,8 +4406,10 @@ export interface ManagedDatabase extends TrackedResource {
    * SourceManagedInstanceName and PointInTime must be specified.
    * RestoreExternalBackup: Create a database by restoring from external backup
    * files. Collation, StorageContainerUri and StorageContainerSasToken must be
-   * specified. Possible values include: 'Default', 'RestoreExternalBackup',
-   * 'PointInTimeRestore'
+   * specified. Recovery: Creates a database by restoring a geo-replicated
+   * backup. RecoverableDatabaseId must be specified as the recoverable
+   * database resource ID to restore. Possible values include: 'Default',
+   * 'RestoreExternalBackup', 'PointInTimeRestore', 'Recovery'
    */
   createMode?: ManagedDatabaseCreateMode;
   /**
@@ -4422,6 +4424,11 @@ export interface ManagedDatabase extends TrackedResource {
    */
   sourceDatabaseId?: string;
   /**
+   * @member {string} [restorableDroppedDatabaseId] The restorable dropped
+   * database resource id to restore when creating this database.
+   */
+  restorableDroppedDatabaseId?: string;
+  /**
    * @member {string} [storageContainerSasToken] Conditional. If createMode is
    * RestoreExternalBackup, this value is required. Specifies the storage
    * container sas token.
@@ -4434,6 +4441,11 @@ export interface ManagedDatabase extends TrackedResource {
    * the server.**
    */
   readonly failoverGroupId?: string;
+  /**
+   * @member {string} [recoverableDatabaseId] The resource identifier of the
+   * recoverable database associated with create operation of this database.
+   */
+  recoverableDatabaseId?: string;
 }
 
 /**
@@ -4448,9 +4460,9 @@ export interface ManagedDatabaseUpdate {
    */
   collation?: string;
   /**
-   * @member {ManagedDatabaseStatus} [status] Status for the database. Possible
+   * @member {ManagedDatabaseStatus} [status] Status of the database. Possible
    * values include: 'Online', 'Offline', 'Shutdown', 'Creating',
-   * 'Inaccessible'
+   * 'Inaccessible', 'Updating'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -4494,8 +4506,10 @@ export interface ManagedDatabaseUpdate {
    * SourceManagedInstanceName and PointInTime must be specified.
    * RestoreExternalBackup: Create a database by restoring from external backup
    * files. Collation, StorageContainerUri and StorageContainerSasToken must be
-   * specified. Possible values include: 'Default', 'RestoreExternalBackup',
-   * 'PointInTimeRestore'
+   * specified. Recovery: Creates a database by restoring a geo-replicated
+   * backup. RecoverableDatabaseId must be specified as the recoverable
+   * database resource ID to restore. Possible values include: 'Default',
+   * 'RestoreExternalBackup', 'PointInTimeRestore', 'Recovery'
    */
   createMode?: ManagedDatabaseCreateMode;
   /**
@@ -4510,6 +4524,11 @@ export interface ManagedDatabaseUpdate {
    */
   sourceDatabaseId?: string;
   /**
+   * @member {string} [restorableDroppedDatabaseId] The restorable dropped
+   * database resource id to restore when creating this database.
+   */
+  restorableDroppedDatabaseId?: string;
+  /**
    * @member {string} [storageContainerSasToken] Conditional. If createMode is
    * RestoreExternalBackup, this value is required. Specifies the storage
    * container sas token.
@@ -4522,6 +4541,11 @@ export interface ManagedDatabaseUpdate {
    * the server.**
    */
   readonly failoverGroupId?: string;
+  /**
+   * @member {string} [recoverableDatabaseId] The resource identifier of the
+   * recoverable database associated with create operation of this database.
+   */
+  recoverableDatabaseId?: string;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Resource tags.
    */
@@ -8181,11 +8205,11 @@ export type JobTargetGroupMembershipType = 'Include' | 'Exclude';
 
 /**
  * Defines values for ManagedDatabaseStatus.
- * Possible values include: 'Online', 'Offline', 'Shutdown', 'Creating', 'Inaccessible'
+ * Possible values include: 'Online', 'Offline', 'Shutdown', 'Creating', 'Inaccessible', 'Updating'
  * @readonly
  * @enum {string}
  */
-export type ManagedDatabaseStatus = 'Online' | 'Offline' | 'Shutdown' | 'Creating' | 'Inaccessible';
+export type ManagedDatabaseStatus = 'Online' | 'Offline' | 'Shutdown' | 'Creating' | 'Inaccessible' | 'Updating';
 
 /**
  * Defines values for CatalogCollationType.
@@ -8197,11 +8221,11 @@ export type CatalogCollationType = 'DATABASE_DEFAULT' | 'SQL_Latin1_General_CP1_
 
 /**
  * Defines values for ManagedDatabaseCreateMode.
- * Possible values include: 'Default', 'RestoreExternalBackup', 'PointInTimeRestore'
+ * Possible values include: 'Default', 'RestoreExternalBackup', 'PointInTimeRestore', 'Recovery'
  * @readonly
  * @enum {string}
  */
-export type ManagedDatabaseCreateMode = 'Default' | 'RestoreExternalBackup' | 'PointInTimeRestore';
+export type ManagedDatabaseCreateMode = 'Default' | 'RestoreExternalBackup' | 'PointInTimeRestore' | 'Recovery';
 
 /**
  * Defines values for AutomaticTuningServerMode.
