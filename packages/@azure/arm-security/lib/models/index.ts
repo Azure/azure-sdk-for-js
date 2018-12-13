@@ -659,11 +659,12 @@ export interface Alert extends Resource {
    */
   readonly actionTaken?: string;
   /**
-   * @member {string} [reportedSeverity] Estimated severity of this alert
+   * @member {ReportedSeverity} [reportedSeverity] Estimated severity of this
+   * alert. Possible values include: 'Silent', 'Information', 'Low', 'High'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly reportedSeverity?: string;
+  readonly reportedSeverity?: ReportedSeverity;
   /**
    * @member {string} [compromisedEntity] The entity that the incident happened
    * on
@@ -696,6 +697,13 @@ export interface Alert extends Resource {
    * the server.**
    */
   readonly canBeInvestigated?: boolean;
+  /**
+   * @member {boolean} [isIncident] Whether this alert is for incident type or
+   * not (otherwise - single alert)
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isIncident?: boolean;
   /**
    * @member {AlertEntity[]} [entities] objects that are related to this alerts
    */
@@ -1973,6 +1981,14 @@ export type AutoProvision = 'On' | 'Off';
  * @enum {string}
  */
 export type SettingKind = 'DataExportSetting';
+
+/**
+ * Defines values for ReportedSeverity.
+ * Possible values include: 'Silent', 'Information', 'Low', 'High'
+ * @readonly
+ * @enum {string}
+ */
+export type ReportedSeverity = 'Silent' | 'Information' | 'Low' | 'High';
 
 /**
  * Defines values for SecurityFamily.
