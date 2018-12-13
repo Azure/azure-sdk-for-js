@@ -38,14 +38,14 @@ export class AzureAccounts {
    * @param appId The application ID.
    * @param callback The callback
    */
-  assignToApp(appId: string, callback: msRest.ServiceCallback<any>): void;
+  assignToApp(appId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
    * @param appId The application ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  assignToApp(appId: string, options: Models.AzureAccountsAssignToAppOptionalParams, callback: msRest.ServiceCallback<any>): void;
-  assignToApp(appId: string, options?: Models.AzureAccountsAssignToAppOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AzureAccountsAssignToAppResponse> {
+  assignToApp(appId: string, options: Models.AzureAccountsAssignToAppOptionalParams, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  assignToApp(appId: string, options?: Models.AzureAccountsAssignToAppOptionalParams | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AzureAccountsAssignToAppResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -67,14 +67,14 @@ export class AzureAccounts {
    * @param appId The application ID.
    * @param callback The callback
    */
-  getAssigned(appId: string, callback: msRest.ServiceCallback<any>): void;
+  getAssigned(appId: string, callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
   /**
    * @param appId The application ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAssigned(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  getAssigned(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AzureAccountsGetAssignedResponse> {
+  getAssigned(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
+  getAssigned(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureAccountInfoObject[]>, callback?: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): Promise<Models.AzureAccountsGetAssignedResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -96,14 +96,14 @@ export class AzureAccounts {
    * @param appId The application ID.
    * @param callback The callback
    */
-  removeFromApp(appId: string, callback: msRest.ServiceCallback<any>): void;
+  removeFromApp(appId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
    * @param appId The application ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  removeFromApp(appId: string, options: Models.AzureAccountsRemoveFromAppOptionalParams, callback: msRest.ServiceCallback<any>): void;
-  removeFromApp(appId: string, options?: Models.AzureAccountsRemoveFromAppOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AzureAccountsRemoveFromAppResponse> {
+  removeFromApp(appId: string, options: Models.AzureAccountsRemoveFromAppOptionalParams, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  removeFromApp(appId: string, options?: Models.AzureAccountsRemoveFromAppOptionalParams | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AzureAccountsRemoveFromAppResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -123,13 +123,13 @@ export class AzureAccounts {
   /**
    * @param callback The callback
    */
-  getUserLUISAccounts(callback: msRest.ServiceCallback<any>): void;
+  getUserLUISAccounts(callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  getUserLUISAccounts(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  getUserLUISAccounts(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AzureAccountsGetUserLUISAccountsResponse> {
+  getUserLUISAccounts(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
+  getUserLUISAccounts(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureAccountInfoObject[]>, callback?: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): Promise<Models.AzureAccountsGetUserLUISAccountsResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -159,19 +159,9 @@ const assignToAppOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.OperationStatus
     },
-    400: {
+    default: {
       bodyMapper: Mappers.ErrorResponse
-    },
-    401: {
-      bodyMapper: Mappers.ErrorResponse
-    },
-    403: {
-      bodyMapper: Mappers.ErrorResponse
-    },
-    429: {
-      bodyMapper: Mappers.ErrorResponse
-    },
-    default: {}
+    }
   },
   serializer
 };
@@ -198,19 +188,9 @@ const getAssignedOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    400: {
+    default: {
       bodyMapper: Mappers.ErrorResponse
-    },
-    401: {
-      bodyMapper: Mappers.ErrorResponse
-    },
-    403: {
-      bodyMapper: Mappers.ErrorResponse
-    },
-    429: {
-      bodyMapper: Mappers.ErrorResponse
-    },
-    default: {}
+    }
   },
   serializer
 };
@@ -233,19 +213,9 @@ const removeFromAppOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatus
     },
-    400: {
+    default: {
       bodyMapper: Mappers.ErrorResponse
-    },
-    401: {
-      bodyMapper: Mappers.ErrorResponse
-    },
-    403: {
-      bodyMapper: Mappers.ErrorResponse
-    },
-    429: {
-      bodyMapper: Mappers.ErrorResponse
-    },
-    default: {}
+    }
   },
   serializer
 };
@@ -271,19 +241,9 @@ const getUserLUISAccountsOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    400: {
+    default: {
       bodyMapper: Mappers.ErrorResponse
-    },
-    401: {
-      bodyMapper: Mappers.ErrorResponse
-    },
-    403: {
-      bodyMapper: Mappers.ErrorResponse
-    },
-    429: {
-      bodyMapper: Mappers.ErrorResponse
-    },
-    default: {}
+    }
   },
   serializer
 };

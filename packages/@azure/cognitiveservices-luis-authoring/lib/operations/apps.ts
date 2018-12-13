@@ -343,7 +343,7 @@ export class Apps {
    * that the application is published to.
    * @param callback The callback
    */
-  publish(appId: string, applicationPublishObject: Models.ApplicationPublishObject, callback: msRest.ServiceCallback<any>): void;
+  publish(appId: string, applicationPublishObject: Models.ApplicationPublishObject, callback: msRest.ServiceCallback<Models.ProductionOrStagingEndpointInfo>): void;
   /**
    * @param appId The application ID.
    * @param applicationPublishObject The application publish object. The region is the target region
@@ -351,8 +351,8 @@ export class Apps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  publish(appId: string, applicationPublishObject: Models.ApplicationPublishObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  publish(appId: string, applicationPublishObject: Models.ApplicationPublishObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppsPublishResponse> {
+  publish(appId: string, applicationPublishObject: Models.ApplicationPublishObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProductionOrStagingEndpointInfo>): void;
+  publish(appId: string, applicationPublishObject: Models.ApplicationPublishObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProductionOrStagingEndpointInfo>, callback?: msRest.ServiceCallback<Models.ProductionOrStagingEndpointInfo>): Promise<Models.AppsPublishResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -608,15 +608,15 @@ export class Apps {
    * @param slotName The publishing slot name.
    * @param callback The callback
    */
-  packagePublishedApplicationAsGzip(appId: string, slotName: string, callback: msRest.ServiceCallback<any>): void;
+  packagePublishedApplicationAsGzip(appId: string, slotName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param appId The application ID.
    * @param slotName The publishing slot name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  packagePublishedApplicationAsGzip(appId: string, slotName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  packagePublishedApplicationAsGzip(appId: string, slotName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppsPackagePublishedApplicationAsGzipResponse> {
+  packagePublishedApplicationAsGzip(appId: string, slotName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  packagePublishedApplicationAsGzip(appId: string, slotName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.AppsPackagePublishedApplicationAsGzipResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -641,15 +641,15 @@ export class Apps {
    * @param versionId The version ID.
    * @param callback The callback
    */
-  packageTrainedApplicationAsGzip(appId: string, versionId: string, callback: msRest.ServiceCallback<any>): void;
+  packageTrainedApplicationAsGzip(appId: string, versionId: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  packageTrainedApplicationAsGzip(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  packageTrainedApplicationAsGzip(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppsPackageTrainedApplicationAsGzipResponse> {
+  packageTrainedApplicationAsGzip(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  packageTrainedApplicationAsGzip(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.AppsPackageTrainedApplicationAsGzipResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -961,14 +961,6 @@ const publishOperationSpec: msRest.OperationSpec = {
     207: {
       bodyMapper: Mappers.ProductionOrStagingEndpointInfo
     },
-    503: {
-      bodyMapper: {
-        serializedName: "parsedResponse",
-        type: {
-          name: "String"
-        }
-      }
-    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -1193,19 +1185,9 @@ const packagePublishedApplicationAsGzipOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    400: {
+    default: {
       bodyMapper: Mappers.ErrorResponse
-    },
-    401: {
-      bodyMapper: Mappers.ErrorResponse
-    },
-    403: {
-      bodyMapper: Mappers.ErrorResponse
-    },
-    429: {
-      bodyMapper: Mappers.ErrorResponse
-    },
-    default: {}
+    }
   },
   serializer
 };
@@ -1227,19 +1209,9 @@ const packageTrainedApplicationAsGzipOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    400: {
+    default: {
       bodyMapper: Mappers.ErrorResponse
-    },
-    401: {
-      bodyMapper: Mappers.ErrorResponse
-    },
-    403: {
-      bodyMapper: Mappers.ErrorResponse
-    },
-    429: {
-      bodyMapper: Mappers.ErrorResponse
-    },
-    default: {}
+    }
   },
   serializer
 };

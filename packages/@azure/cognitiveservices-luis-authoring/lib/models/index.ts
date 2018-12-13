@@ -5509,11 +5509,7 @@ export type AppsDeleteMethodResponse = OperationStatus & {
 /**
  * Contains response data for the publish operation.
  */
-export type AppsPublishResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: any;
+export type AppsPublishResponse = ProductionOrStagingEndpointInfo & {
   /**
    * The underlying HTTP response.
    */
@@ -5525,7 +5521,7 @@ export type AppsPublishResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: any;
+      parsedBody: ProductionOrStagingEndpointInfo;
     };
 };
 
@@ -6205,11 +6201,7 @@ export type SettingsUpdateResponse = OperationStatus & {
 /**
  * Contains response data for the assignToApp operation.
  */
-export type AzureAccountsAssignToAppResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: any;
+export type AzureAccountsAssignToAppResponse = OperationStatus & {
   /**
    * The underlying HTTP response.
    */
@@ -6221,18 +6213,14 @@ export type AzureAccountsAssignToAppResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: any;
+      parsedBody: OperationStatus;
     };
 };
 
 /**
  * Contains response data for the getAssigned operation.
  */
-export type AzureAccountsGetAssignedResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: any;
+export type AzureAccountsGetAssignedResponse = Array<AzureAccountInfoObject> & {
   /**
    * The underlying HTTP response.
    */
@@ -6244,18 +6232,14 @@ export type AzureAccountsGetAssignedResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: any;
+      parsedBody: AzureAccountInfoObject[];
     };
 };
 
 /**
  * Contains response data for the removeFromApp operation.
  */
-export type AzureAccountsRemoveFromAppResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: any;
+export type AzureAccountsRemoveFromAppResponse = OperationStatus & {
   /**
    * The underlying HTTP response.
    */
@@ -6267,18 +6251,14 @@ export type AzureAccountsRemoveFromAppResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: any;
+      parsedBody: OperationStatus;
     };
 };
 
 /**
  * Contains response data for the getUserLUISAccounts operation.
  */
-export type AzureAccountsGetUserLUISAccountsResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: any;
+export type AzureAccountsGetUserLUISAccountsResponse = Array<AzureAccountInfoObject> & {
   /**
    * The underlying HTTP response.
    */
@@ -6290,6 +6270,6 @@ export type AzureAccountsGetUserLUISAccountsResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: any;
+      parsedBody: AzureAccountInfoObject[];
     };
 };
