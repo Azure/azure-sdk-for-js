@@ -42,7 +42,7 @@ jobs:
       - task: CopyFiles@2
         inputs:
           sourceFolder: 'packages'
-          contents: '*.tgz'
+          contents: '**\*.tgz'
           targetFolder: $(Build.ArtifactStagingDirectory)
         displayName: 'Copy Package'
 
