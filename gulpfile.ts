@@ -218,7 +218,7 @@ function pack(): void {
     }
   }
 
-  const packagesToSkip: string[] = ["@azure/keyvault"];
+  const packagesToSkip: string[] = ["@azure/keyvault", "@azure/template"];
 
   const packageFolderRoot: string = path.resolve(__dirname, "packages");
   _logger.logTrace(`INFO: Searching for package folders in ${packageFolderRoot}`);;
