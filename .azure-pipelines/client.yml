@@ -1,10 +1,6 @@
 trigger:
   - master
 
-# pipeline-variables:
-#   source.path: directory to build packages
-#   test.path: directory to run tests
-
 variables:
   node.version: '10.x'
 
@@ -23,26 +19,29 @@ jobs:
       - task: Npm@1
         inputs:
           command: 'install'
-          workingDir: '$(source.path)'
         displayName: 'npm install'
 
       - task: Npm@1
         inputs:
           command: 'custom'
-          customCommand: 'run build'
-          workingDir: '$(source.path)'
-        displayName: 'npm run build'
+        displayName: 'run install-client'
+        displayName: 'npm run install-client'
 
       - task: Npm@1
         inputs:
           command: 'custom'
-          customCommand: 'pack'
-          workingDir: '$(source.path)'
-        displayName: 'npm pack'
+          customCommand: 'run build-client'
+        displayName: 'npm run build-client'
+
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'run pack-client'
+        displayName: 'npm run pack-client'
 
       - task: CopyFiles@2
         inputs:
-          sourceFolder: '$(source.path)'
+          sourceFolder: 'packages'
           contents: '*.tgz'
           targetFolder: $(Build.ArtifactStagingDirectory)
         displayName: 'Copy Package'
@@ -63,14 +62,14 @@ jobs:
 
       - task: Npm@1
         inputs:
-          command: 'custom'
-          customCommand: 'i --package-lock-only'
-          workingDir: '$(source.path)'
-        displayName: 'npm i --package-lock-only'
+          command: 'install'
+        displayName: 'npm install'
 
-      - powershell: "npm audit --json | ConvertFrom-Json | Select-Object  -expandProperty 'metadata' | select-object -expandproperty 'vulnerabilities' | %{ if ($_.low + $_.moderate + $_.high + $_.critical -ne 0) { write-error 'FAILED! Your package has vulnerabilities. Check npm audit' }}"
-        workingDirectory: '$(source.path)'
-        displayName: 'npm audit'
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'run audit-client'
+        displayName: 'npm run audit-client'
 
       - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
         # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
