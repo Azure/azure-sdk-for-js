@@ -30,42 +30,30 @@ export class CheckSkuAvailability {
    * Check available SKUs.
    * @param location Resource location.
    * @param skus The SKU of the resource.
-   * @param kind The Kind of the resource. Possible values include: 'Bing.Autosuggest.v7',
-   * 'Bing.CustomSearch', 'Bing.Search.v7', 'Bing.Speech', 'Bing.SpellCheck.v7', 'ComputerVision',
-   * 'ContentModerator', 'CustomSpeech', 'CustomVision.Prediction', 'CustomVision.Training',
-   * 'Emotion', 'Face', 'LUIS', 'QnAMaker', 'SpeakerRecognition', 'SpeechTranslation',
-   * 'TextAnalytics', 'TextTranslation', 'WebLM'
+   * @param kind The Kind of the resource.
    * @param type The Type of the resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.CheckSkuAvailabilityListResponse>
    */
-  list(location: string, skus: Models.SkuName[], kind: Models.Kind, type: string, options?: msRest.RequestOptionsBase): Promise<Models.CheckSkuAvailabilityListResponse>;
+  list(location: string, skus: string[], kind: string, type: string, options?: msRest.RequestOptionsBase): Promise<Models.CheckSkuAvailabilityListResponse>;
   /**
    * @param location Resource location.
    * @param skus The SKU of the resource.
-   * @param kind The Kind of the resource. Possible values include: 'Bing.Autosuggest.v7',
-   * 'Bing.CustomSearch', 'Bing.Search.v7', 'Bing.Speech', 'Bing.SpellCheck.v7', 'ComputerVision',
-   * 'ContentModerator', 'CustomSpeech', 'CustomVision.Prediction', 'CustomVision.Training',
-   * 'Emotion', 'Face', 'LUIS', 'QnAMaker', 'SpeakerRecognition', 'SpeechTranslation',
-   * 'TextAnalytics', 'TextTranslation', 'WebLM'
+   * @param kind The Kind of the resource.
    * @param type The Type of the resource.
    * @param callback The callback
    */
-  list(location: string, skus: Models.SkuName[], kind: Models.Kind, type: string, callback: msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>): void;
+  list(location: string, skus: string[], kind: string, type: string, callback: msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>): void;
   /**
    * @param location Resource location.
    * @param skus The SKU of the resource.
-   * @param kind The Kind of the resource. Possible values include: 'Bing.Autosuggest.v7',
-   * 'Bing.CustomSearch', 'Bing.Search.v7', 'Bing.Speech', 'Bing.SpellCheck.v7', 'ComputerVision',
-   * 'ContentModerator', 'CustomSpeech', 'CustomVision.Prediction', 'CustomVision.Training',
-   * 'Emotion', 'Face', 'LUIS', 'QnAMaker', 'SpeakerRecognition', 'SpeechTranslation',
-   * 'TextAnalytics', 'TextTranslation', 'WebLM'
+   * @param kind The Kind of the resource.
    * @param type The Type of the resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(location: string, skus: Models.SkuName[], kind: Models.Kind, type: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>): void;
-  list(location: string, skus: Models.SkuName[], kind: Models.Kind, type: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>, callback?: msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>): Promise<Models.CheckSkuAvailabilityListResponse> {
+  list(location: string, skus: string[], kind: string, type: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>): void;
+  list(location: string, skus: string[], kind: string, type: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>, callback?: msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>): Promise<Models.CheckSkuAvailabilityListResponse> {
     return this.client.sendOperationRequest(
       {
         location,
