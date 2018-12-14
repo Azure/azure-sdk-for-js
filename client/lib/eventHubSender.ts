@@ -100,7 +100,7 @@ export class EventHubSender extends LinkEntity {
           "The associated error is: %O", this._context.connectionId, this.name,
           this.address, senderError);
       }
-      if (sender && !sender.isClosed()) {
+      if (sender && !sender.isItselfClosed()) {
         if (!this.isConnecting) {
           log.error("[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
             "and the sdk did not initiate this. The sender is not reconnecting. Hence, calling " +
@@ -128,7 +128,7 @@ export class EventHubSender extends LinkEntity {
           "The associated error is: %O", this._context.connectionId, this.name,
           this.address, sessionError);
       }
-      if (sender && !sender.isSessionClosed()) {
+      if (sender && !sender.isSessionItselfClosed()) {
         if (!this.isConnecting) {
           log.error("[%s] 'session_close' event occurred on the session of sender '%s' with " +
             "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
@@ -156,13 +156,11 @@ export class EventHubSender extends LinkEntity {
    */
   async detached(senderError?: AmqpError | Error): Promise<void> {
     try {
-      const wasCloseInitiated = this._sender && this._sender.isClosed();
+      const wasCloseInitiated = this._sender && this._sender.isItselfClosed();
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
       await this._closeLink(this._sender);
-      // For session_close and sender_close this should attempt to reopen
-      // only when the sender(sdk) did not initiate the close) OR
-      // if an error is present and the error is retryable.
+      // We should attempt to reopen only when the sender(sdk) did not initiate the close
       let shouldReopen = false;
       if (senderError && !wasCloseInitiated) {
         const translatedError = translate(senderError);
