@@ -226,7 +226,7 @@ export class EventHubReceiver extends LinkEntity {
         log.error("[%s] An error occurred for Receiver '%s': %O.",
           this._context.connectionId, this.name, ehError);
         if (!ehError.retryable) {
-          if (receiver && !receiver.isClosed()) {
+          if (receiver && !receiver.isItselfClosed()) {
             log.error("[%s] Since the user did not close the receiver and the error is not " +
               "retryable, we let the user know about it by calling the user's error handler.",
               this._context.connectionId);
@@ -250,7 +250,7 @@ export class EventHubReceiver extends LinkEntity {
         const ehError = translate(sessionError);
         log.error("[%s] An error occurred on the session for Receiver '%s': %O.",
           this._context.connectionId, this.name, ehError);
-        if (receiver && !receiver.isSessionClosed() && !ehError.retryable) {
+        if (receiver && !receiver.isSessionItselfClosed() && !ehError.retryable) {
           log.error("[%s] Since the user did not close the receiver and the session error is not " +
             "retryable, we let the user know about it by calling the user's error handler.",
             this._context.connectionId);
@@ -267,7 +267,7 @@ export class EventHubReceiver extends LinkEntity {
           "The associated error is: %O", this._context.connectionId, this.name,
           this.address, receiverError);
       }
-      if (receiver && !receiver.isClosed()) {
+      if (receiver && !receiver.isItselfClosed()) {
         if (!this.isConnecting) {
           log.error("[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
             "and the sdk did not initiate this. The receiver is not reconnecting. Hence, calling " +
@@ -296,7 +296,7 @@ export class EventHubReceiver extends LinkEntity {
           this.address, sessionError);
       }
 
-      if (receiver && !receiver.isSessionClosed()) {
+      if (receiver && !receiver.isSessionItselfClosed()) {
         if (!this.isConnecting) {
           log.error("[%s] 'session_close' event occurred on the session of receiver '%s' with " +
             "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
@@ -324,13 +324,11 @@ export class EventHubReceiver extends LinkEntity {
    */
   async detached(receiverError?: AmqpError | Error): Promise<void> {
     try {
-      const wasCloseInitiated = this._receiver && this._receiver.isClosed();
+      const wasCloseInitiated = this._receiver && this._receiver.isItselfClosed();
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
       await this._closeLink(this._receiver);
-      // For session_close and receiver_close this should attempt to reopen
-      // only when the receiver(sdk) did not initiate the close) OR
-      // if an error is present and the error is retryable.
+      // We should attempt to reopen only when the receiver(sdk) did not initiate the close
       let shouldReopen = false;
       if (receiverError && !wasCloseInitiated) {
         const translatedError = translate(receiverError);
