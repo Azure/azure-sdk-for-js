@@ -92,6 +92,7 @@ dist/
 *.d.ts.map
 *.js
 *.js.map
+test-results.xml
 
 # Rollup
 !rollup.config.js
