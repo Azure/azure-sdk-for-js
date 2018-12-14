@@ -1,4 +1,4 @@
-### 2018-12-14 1.0.7
+### 2018-12-14 1.0.8
 - Use `isItselfClosed()` instead of `isClosed()` in rhea to correctly determine if the sdk initiated close on receiver/sender. 
 This ensures that on connection issues like the ECONNRESET error, the receivers get re-connected properly thus fixing the [bug 174](https://github.com/Azure/azure-event-hubs-node/issues/174)
 
