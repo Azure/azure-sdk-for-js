@@ -22,11 +22,10 @@ export { BaseResource, CloudError };
  */
 export interface Sku {
   /**
-   * @member {SkuName} name Gets or sets the sku name. Required for account
-   * creation, optional for update. Possible values include: 'F0', 'P0', 'P1',
-   * 'P2', 'S0', 'S1', 'S2', 'S3', 'S4', 'S5', 'S6'
+   * @member {string} name Gets or sets the sku name. Required for account
+   * creation, optional for update.
    */
-  name: SkuName;
+  name: string;
   /**
    * @member {SkuTier} [tier] Gets the sku tier. This is based on the SKU name.
    * Possible values include: 'Free', 'Standard', 'Premium'
@@ -48,15 +47,9 @@ export interface CognitiveServicesAccountCreateParameters {
    */
   sku: Sku;
   /**
-   * @member {Kind} kind Required. Gets or sets the Kind of the resource.
-   * Possible values include: 'Bing.Autosuggest.v7', 'Bing.CustomSearch',
-   * 'Bing.Search.v7', 'Bing.Speech', 'Bing.SpellCheck.v7', 'ComputerVision',
-   * 'ContentModerator', 'CustomSpeech', 'CustomVision.Prediction',
-   * 'CustomVision.Training', 'Emotion', 'Face', 'LUIS', 'QnAMaker',
-   * 'SpeakerRecognition', 'SpeechTranslation', 'TextAnalytics',
-   * 'TextTranslation', 'WebLM'
+   * @member {string} kind Required. Gets or sets the Kind of the resource.
    */
-  kind: Kind;
+  kind: string;
   /**
    * @member {string} location Required. Gets or sets the location of the
    * resource. This will be one of the supported and registered Azure Geo
@@ -415,18 +408,13 @@ export interface OperationEntity {
  */
 export interface CheckSkuAvailabilityParameter {
   /**
-   * @member {SkuName[]} skus The SKU of the resource.
+   * @member {string[]} skus The SKU of the resource.
    */
-  skus: SkuName[];
+  skus: string[];
   /**
-   * @member {Kind} kind The Kind of the resource. Possible values include:
-   * 'Bing.Autosuggest.v7', 'Bing.CustomSearch', 'Bing.Search.v7',
-   * 'Bing.Speech', 'Bing.SpellCheck.v7', 'ComputerVision', 'ContentModerator',
-   * 'CustomSpeech', 'CustomVision.Prediction', 'CustomVision.Training',
-   * 'Emotion', 'Face', 'LUIS', 'QnAMaker', 'SpeakerRecognition',
-   * 'SpeechTranslation', 'TextAnalytics', 'TextTranslation', 'WebLM'
+   * @member {string} kind The Kind of the resource.
    */
-  kind: Kind;
+  kind: string;
   /**
    * @member {string} type The Type of the resource.
    */
@@ -441,24 +429,17 @@ export interface CheckSkuAvailabilityParameter {
  */
 export interface CheckSkuAvailabilityResult {
   /**
-   * @member {Kind} [kind] The Kind of the resource. Possible values include:
-   * 'Bing.Autosuggest.v7', 'Bing.CustomSearch', 'Bing.Search.v7',
-   * 'Bing.Speech', 'Bing.SpellCheck.v7', 'ComputerVision', 'ContentModerator',
-   * 'CustomSpeech', 'CustomVision.Prediction', 'CustomVision.Training',
-   * 'Emotion', 'Face', 'LUIS', 'QnAMaker', 'SpeakerRecognition',
-   * 'SpeechTranslation', 'TextAnalytics', 'TextTranslation', 'WebLM'
+   * @member {string} [kind] The Kind of the resource.
    */
-  kind?: Kind;
+  kind?: string;
   /**
    * @member {string} [type] The Type of the resource.
    */
   type?: string;
   /**
-   * @member {SkuName} [skuName] The SKU of Cognitive Services account.
-   * Possible values include: 'F0', 'P0', 'P1', 'P2', 'S0', 'S1', 'S2', 'S3',
-   * 'S4', 'S5', 'S6'
+   * @member {string} [skuName] The SKU of Cognitive Services account.
    */
-  skuName?: SkuName;
+  skuName?: string;
   /**
    * @member {boolean} [skuAvailable] Indicates the given SKU is available or
    * not.
@@ -692,31 +673,12 @@ export interface OperationEntityListResult extends Array<OperationEntity> {
 }
 
 /**
- * Defines values for SkuName.
- * Possible values include: 'F0', 'P0', 'P1', 'P2', 'S0', 'S1', 'S2', 'S3', 'S4', 'S5', 'S6'
- * @readonly
- * @enum {string}
- */
-export type SkuName = 'F0' | 'P0' | 'P1' | 'P2' | 'S0' | 'S1' | 'S2' | 'S3' | 'S4' | 'S5' | 'S6';
-
-/**
  * Defines values for SkuTier.
  * Possible values include: 'Free', 'Standard', 'Premium'
  * @readonly
  * @enum {string}
  */
 export type SkuTier = 'Free' | 'Standard' | 'Premium';
-
-/**
- * Defines values for Kind.
- * Possible values include: 'Bing.Autosuggest.v7', 'Bing.CustomSearch', 'Bing.Search.v7',
- * 'Bing.Speech', 'Bing.SpellCheck.v7', 'ComputerVision', 'ContentModerator', 'CustomSpeech',
- * 'CustomVision.Prediction', 'CustomVision.Training', 'Emotion', 'Face', 'LUIS', 'QnAMaker',
- * 'SpeakerRecognition', 'SpeechTranslation', 'TextAnalytics', 'TextTranslation', 'WebLM'
- * @readonly
- * @enum {string}
- */
-export type Kind = 'Bing.Autosuggest.v7' | 'Bing.CustomSearch' | 'Bing.Search.v7' | 'Bing.Speech' | 'Bing.SpellCheck.v7' | 'ComputerVision' | 'ContentModerator' | 'CustomSpeech' | 'CustomVision.Prediction' | 'CustomVision.Training' | 'Emotion' | 'Face' | 'LUIS' | 'QnAMaker' | 'SpeakerRecognition' | 'SpeechTranslation' | 'TextAnalytics' | 'TextTranslation' | 'WebLM';
 
 /**
  * Defines values for ProvisioningState.
