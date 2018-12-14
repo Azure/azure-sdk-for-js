@@ -6,7 +6,6 @@ const repositoryRootFolderPath: string = join(__dirname, "..");
 const nodeModulesBinFolderPath: string = join(repositoryRootFolderPath, "node_modules/.bin/");
 const tsNodeFilePath: string = join(nodeModulesBinFolderPath, "ts-node");
 const testServerFolderPath: string = join(repositoryRootFolderPath, "testserver");
-const mochaExecutable = join(nodeModulesBinFolderPath, "_mocha");
 const mochaChromeFilePath: string = join(nodeModulesBinFolderPath, "mocha-chrome");
 
 interface ServerProcess extends ChildProcess {
@@ -76,7 +75,7 @@ function stopTestServer(testServer: ServerProcess): void {
 
 function runNodeJsUnitTests(): number {
   console.log(`Running Node.js Unit Tests...`);
-  return executeSync(mochaExecutable, repositoryRootFolderPath).status;
+  return executeSync(`nyc mocha`, repositoryRootFolderPath).status;
 }
 
 function runBrowserUnitTests(): number {
