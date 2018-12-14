@@ -24,7 +24,7 @@ jobs:
       - task: Npm@1
         inputs:
           command: 'custom'
-        displayName: 'run install-client'
+          customCommand: 'run install-client'
         displayName: 'npm run install-client'
 
       - task: Npm@1
