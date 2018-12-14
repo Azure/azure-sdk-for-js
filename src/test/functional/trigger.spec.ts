@@ -1,5 +1,5 @@
 import assert from "assert";
-import { DocumentBase } from "../..";
+import { TriggerOperation, TriggerType } from "../..";
 import { Container, TriggerDefinition } from "../../client";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
@@ -30,8 +30,8 @@ describe("NodeJS CRUD Tests", function() {
       const triggerDefinition: TriggerDefinition = {
         id: "sample trigger",
         body: "serverScript() { var x = 10; }",
-        triggerType: DocumentBase.TriggerType.Pre,
-        triggerOperation: DocumentBase.TriggerOperation.All
+        triggerType: TriggerType.Pre,
+        triggerOperation: TriggerOperation.All
       };
       // tslint:enable:no-var-keyword
       // tslint:enable:prefer-const
@@ -98,8 +98,8 @@ describe("NodeJS CRUD Tests", function() {
       const triggerDefinition: TriggerDefinition = {
         id: "sample trigger",
         body: "serverScript() { var x = 10; }",
-        triggerType: DocumentBase.TriggerType.Pre,
-        triggerOperation: DocumentBase.TriggerOperation.All
+        triggerType: TriggerType.Pre,
+        triggerOperation: TriggerOperation.All
       };
       // tslint:enable:no-var-keyword
       // tslint:enable:prefer-const
@@ -173,14 +173,14 @@ describe("NodeJS CRUD Tests", function() {
             .getRequest()
             .setBody(item);
         },
-        triggerType: DocumentBase.TriggerType.Pre,
-        triggerOperation: DocumentBase.TriggerOperation.All
+        triggerType: TriggerType.Pre,
+        triggerOperation: TriggerOperation.All
       },
       {
         id: "t2",
         body: "function() { }", // trigger already stringified
-        triggerType: DocumentBase.TriggerType.Pre,
-        triggerOperation: DocumentBase.TriggerOperation.All
+        triggerType: TriggerType.Pre,
+        triggerOperation: TriggerOperation.All
       },
       {
         id: "t3",
@@ -193,8 +193,8 @@ describe("NodeJS CRUD Tests", function() {
             .getRequest()
             .setBody(item);
         },
-        triggerType: DocumentBase.TriggerType.Pre,
-        triggerOperation: DocumentBase.TriggerOperation.All
+        triggerType: TriggerType.Pre,
+        triggerOperation: TriggerOperation.All
       },
       {
         id: "response1",
@@ -208,14 +208,14 @@ describe("NodeJS CRUD Tests", function() {
             .getBody();
           if (postbody.id !== "TESTING POST TRIGGERt1") throw "name mismatch";
         },
-        triggerType: DocumentBase.TriggerType.Post,
-        triggerOperation: DocumentBase.TriggerOperation.All
+        triggerType: TriggerType.Post,
+        triggerOperation: TriggerOperation.All
       },
       {
         id: "triggerOpType",
         body: "function() { }",
-        triggerType: DocumentBase.TriggerType.Post,
-        triggerOperation: DocumentBase.TriggerOperation.Delete
+        triggerType: TriggerType.Post,
+        triggerOperation: TriggerOperation.Delete
       }
     ];
     // tslint:enable:no-var-keyword

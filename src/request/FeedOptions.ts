@@ -1,4 +1,4 @@
-import { IHeaders } from "..";
+import { IHeaders } from "../index";
 
 /**
  * The feed options and query methods.

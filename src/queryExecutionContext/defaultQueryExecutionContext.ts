@@ -1,8 +1,8 @@
-import { IExecutionContext } from ".";
 import { ClientContext } from "../ClientContext";
 import { Constants } from "../common";
 import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
 import { Response } from "../request";
+import { IExecutionContext } from "./index";
 import { SqlQuerySpec } from "./SqlQuerySpec";
 
 /** @hidden */

@@ -1,7 +1,7 @@
 ﻿import * as http from "http";
 import * as net from "net";
 import * as url from "url";
-import { CosmosClient, DocumentBase } from "../..";
+import { ConnectionPolicy, CosmosClient } from "../../index";
 import { endpoint, masterKey } from "../common/_testConfig";
 import { addEntropy } from "../common/TestHelpers";
 
@@ -28,7 +28,7 @@ if (!isBrowser()) {
     });
 
     const proxyPort = 8989;
-    const connectionPolicy = new DocumentBase.ConnectionPolicy();
+    const connectionPolicy = new ConnectionPolicy();
     connectionPolicy.ProxyUrl = "http://127.0.0.1:8989";
 
     it("nativeApi Client Should successfully execute request", async function() {

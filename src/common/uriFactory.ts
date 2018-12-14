@@ -1,4 +1,4 @@
-﻿import { Constants, Helper } from ".";
+﻿import { Constants, Helper } from "./index";
 
 /** @hidden */
 export class UriFactory {

@@ -1,5 +1,5 @@
 import assert from "assert";
-import { DocumentBase } from "../..";
+import { PartitionKind, PermissionMode } from "../..";
 import { PermissionDefinition } from "../../client";
 import {
   createOrUpsertPermission,
@@ -28,7 +28,7 @@ describe("NodeJS CRUD Tests", function() {
         const beforeCreateCount = permissions.length;
         const permissionDef: PermissionDefinition = {
           id: "new permission",
-          permissionMode: DocumentBase.PermissionMode.Read,
+          permissionMode: PermissionMode.Read,
           resource: container.url
         };
 
@@ -59,18 +59,14 @@ describe("NodeJS CRUD Tests", function() {
         const { result: results } = await user.permissions.query(querySpec).toArray();
         assert(results.length > 0, "number of results for the query should be > 0");
 
-        permissionDef.permissionMode = DocumentBase.PermissionMode.All;
+        permissionDef.permissionMode = PermissionMode.All;
         const { body: replacedPermission } = await replaceOrUpsertPermission(
           user,
           permissionDef,
           undefined,
           isUpsertTest
         );
-        assert.equal(
-          replacedPermission.permissionMode,
-          DocumentBase.PermissionMode.All,
-          "permission mode should change"
-        );
+        assert.equal(replacedPermission.permissionMode, PermissionMode.All, "permission mode should change");
         assert.equal(permissionDef.id, replacedPermission.id, "permission id should stay the same");
 
         // to change the id of an existing resourcewe have to use replace
@@ -107,7 +103,7 @@ describe("NodeJS CRUD Tests", function() {
         const partitionKey = "id";
         const containerDefinition = {
           id: "coll1",
-          partitionKey: { paths: ["/" + partitionKey], kind: DocumentBase.PartitionKind.Hash }
+          partitionKey: { paths: ["/" + partitionKey], kind: PartitionKind.Hash }
         };
         const container = await getTestContainer(
           "permission CRUD over multiple partitions",
@@ -125,7 +121,7 @@ describe("NodeJS CRUD Tests", function() {
         const beforeCreateCount = permissions.length;
         const permissionDefinition = {
           id: "new permission",
-          permissionMode: DocumentBase.PermissionMode.Read,
+          permissionMode: PermissionMode.Read,
           resource: container.url,
           resourcePartitionKey: [1]
         };
@@ -159,18 +155,14 @@ describe("NodeJS CRUD Tests", function() {
         assert(results.length > 0, "number of results for the query should be > 0");
 
         // Replace permission
-        permissionDef.permissionMode = DocumentBase.PermissionMode.All;
+        permissionDef.permissionMode = PermissionMode.All;
         const { body: replacedPermission } = await replaceOrUpsertPermission(
           user,
           permissionDef,
           undefined,
           isUpsertTest
         );
-        assert.equal(
-          replacedPermission.permissionMode,
-          DocumentBase.PermissionMode.All,
-          "permission mode should change"
-        );
+        assert.equal(replacedPermission.permissionMode, PermissionMode.All, "permission mode should change");
         assert.equal(replacedPermission.id, permissionDef.id, "permission id should stay the same");
         assert.equal(
           JSON.stringify(replacedPermission.resourcePartitionKey),

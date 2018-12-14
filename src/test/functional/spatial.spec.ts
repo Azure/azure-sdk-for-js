@@ -1,5 +1,5 @@
 import assert from "assert";
-import { Database, DocumentBase } from "../..";
+import { Database, DataType, IndexKind } from "../..";
 import { createOrUpsertItem, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
 describe("NodeJS CRUD Tests", function() {
@@ -21,8 +21,8 @@ describe("NodeJS CRUD Tests", function() {
               path: '/"Location"/?',
               indexes: [
                 {
-                  kind: DocumentBase.IndexKind.Spatial,
-                  dataType: DocumentBase.DataType.Point
+                  kind: IndexKind.Spatial,
+                  dataType: DataType.Point
                 }
               ]
             },

@@ -1,15 +1,14 @@
 import { Agent, AgentOptions } from "https";
 import * as tunnel from "tunnel";
 import * as url from "url";
-import { Constants, RequestOptions } from ".";
 import { Database, Databases } from "./client/Database";
 import { Offer, Offers } from "./client/Offer";
 import { ClientContext } from "./ClientContext";
-import { Helper, Platform } from "./common";
+import { Constants, Helper, Platform } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { DatabaseAccount } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
-import { CosmosResponse } from "./request";
+import { CosmosResponse, RequestOptions } from "./request";
 
 /**
  * Provides a client-side logical representation of the Azure Cosmos DB database account.

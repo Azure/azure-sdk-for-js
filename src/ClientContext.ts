@@ -1,9 +1,17 @@
-import { Constants, CosmosClientOptions, IHeaders, QueryIterator, RequestOptions, Response, SqlQuerySpec } from ".";
 import { PartitionKeyRange } from "./client/Container/PartitionKeyRange";
 import { Resource } from "./client/Resource";
 import { Helper, StatusCodes, SubStatusCodes } from "./common";
 import { ConnectionPolicy, ConsistencyLevel, DatabaseAccount, QueryCompatibilityMode } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
+import {
+  Constants,
+  CosmosClientOptions,
+  IHeaders,
+  QueryIterator,
+  RequestOptions,
+  Response,
+  SqlQuerySpec
+} from "./index";
 import { FetchFunctionCallback } from "./queryExecutionContext";
 import { FeedOptions, RequestHandler } from "./request";
 import { ErrorResponse, getHeaders } from "./request/request";

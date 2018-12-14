@@ -1,6 +1,6 @@
 import assert from "assert";
 import { Agent } from "http";
-import { CosmosClient, DocumentBase } from "../..";
+import { ConnectionPolicy, CosmosClient } from "../..";
 import { endpoint, masterKey } from "../common/_testConfig";
 import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
@@ -9,7 +9,7 @@ describe("NodeJS CRUD Tests", function() {
 
   describe("Validate client request timeout", function() {
     it("nativeApi Client Should throw exception", async function() {
-      const connectionPolicy = new DocumentBase.ConnectionPolicy();
+      const connectionPolicy = new ConnectionPolicy();
       // making timeout 5 ms to make sure it will throw
       // (create database request takes 10ms-15ms to finish on emulator)
       connectionPolicy.RequestTimeout = 1;

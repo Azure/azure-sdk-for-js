@@ -1,7 +1,7 @@
-import { IHeaders } from "..";
 import { Response } from "../../request/request";
 import { AverageAggregator, CountAggregator, MaxAggregator, MinAggregator, SumAggregator } from "../Aggregators";
 import { IExecutionContext } from "../IExecutionContext";
+import { IHeaders } from "../index";
 import { IEndpointComponent } from "./IEndpointComponent";
 
 /** @hidden */

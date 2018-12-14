@@ -1,5 +1,5 @@
 import assert from "assert";
-import { Constants, CosmosClient, DocumentBase } from "../..";
+import { Constants, CosmosClient, PartitionKind } from "../..";
 import { Container } from "../../client";
 import { endpoint, masterKey } from "../common/_testConfig";
 import { bulkInsertItems, getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
@@ -76,7 +76,7 @@ describe("NodeJS CRUD Tests", function() {
         id: "coll1",
         partitionKey: {
           paths: ["/" + partitionKey],
-          kind: DocumentBase.PartitionKind.Hash
+          kind: PartitionKind.Hash
         }
       };
 

@@ -1,4 +1,3 @@
-import * as DocumentBase from "./documents";
 export {
   ConnectionMode,
   ConsistencyLevel,
@@ -22,7 +21,6 @@ export {
   UserDefinedFunctionType
 } from "./documents";
 
-export { DocumentBase, DocumentBase as AzureDocuments };
 export { Constants, UriFactory } from "./common";
 export { RetryOptions } from "./retry";
 export { Response, RequestOptions, FeedOptions, MediaOptions, ErrorResponse } from "./request";

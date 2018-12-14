@@ -1,4 +1,4 @@
-import { IHeaders } from "..";
+import { IHeaders } from "../index";
 
 /**
  * Options associated with upload media.

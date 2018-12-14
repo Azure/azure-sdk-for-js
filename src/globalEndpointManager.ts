@@ -1,9 +1,9 @@
-﻿import * as url from "url";
-import { RequestOptions } from ".";
+import * as url from "url";
 import { Constants, Helper } from "./common";
 import { CosmosClient } from "./CosmosClient";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { DatabaseAccount } from "./documents";
+import { RequestOptions } from "./index";
 import { LocationCache } from "./LocationCache";
 import { CosmosResponse } from "./request";
 import { RequestContext } from "./request/RequestContext";

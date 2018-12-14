@@ -1,3 +1,6 @@
+import { ClientContext } from "../ClientContext";
+import { StatusCodes, SubStatusCodes } from "../common";
+import { Response } from "../request/request";
 import {
   DefaultQueryExecutionContext,
   FetchFunctionCallback,
@@ -5,10 +8,7 @@ import {
   PartitionedQueryExecutionContextInfo,
   PipelinedQueryExecutionContext,
   SqlQuerySpec
-} from ".";
-import { ClientContext } from "../ClientContext";
-import { StatusCodes, SubStatusCodes } from "../common";
-import { Response } from "../request/request";
+} from "./index";
 
 /** @hidden */
 export class ProxyQueryExecutionContext implements IExecutionContext {

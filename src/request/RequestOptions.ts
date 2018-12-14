@@ -1,5 +1,5 @@
-import { IHeaders } from "..";
 import { PartitionKey } from "../documents";
+import { IHeaders } from "../index";
 
 /**
  * Options that can be specified for a requested issued to the Azure Cosmos DB servers.=

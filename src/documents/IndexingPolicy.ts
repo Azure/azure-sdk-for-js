@@ -1,4 +1,4 @@
-import { DataType, IndexingMode, IndexKind } from ".";
+import { DataType, IndexingMode, IndexKind } from "./index";
 
 export interface IndexingPolicy {
   /** The indexing mode (consistent or lazy) {@link IndexingMode}. */

@@ -1,4 +1,4 @@
-import { IHeaders } from "..";
+import { IHeaders } from "../index";
 
 export interface ErrorResponse {
   code?: number;

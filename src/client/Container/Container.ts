@@ -1,7 +1,8 @@
-import { PartitionKey } from "../..";
 import { ClientContext } from "../../ClientContext";
 import { Helper, UriFactory } from "../../common";
 import { PartitionKeyDefinition } from "../../documents";
+import { PartitionKey } from "../../index";
+import { QueryIterator } from "../../queryIterator";
 import { CosmosResponse, FeedOptions, RequestOptions } from "../../request";
 import { Conflict, Conflicts } from "../Conflict";
 import { Database } from "../Database";
@@ -11,6 +12,7 @@ import { Trigger, Triggers } from "../Trigger";
 import { UserDefinedFunction, UserDefinedFunctions } from "../UserDefinedFunction";
 import { ContainerDefinition } from "./ContainerDefinition";
 import { ContainerResponse } from "./ContainerResponse";
+import { PartitionKeyRange } from "./PartitionKeyRange";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -207,7 +209,7 @@ export class Container {
     };
   }
 
-  public readPartitionKeyRanges(feedOptions?: FeedOptions) {
+  public readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange> {
     feedOptions = feedOptions || {};
     return this.clientContext.queryPartitionKeyRanges(this.url, undefined, feedOptions);
   }

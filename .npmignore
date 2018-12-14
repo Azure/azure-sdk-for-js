@@ -6,3 +6,7 @@ samples
 *.code-workspace
 *.tgz
 ts-test/
+dist-test/
+dist-esm/test
+src/
+lib/

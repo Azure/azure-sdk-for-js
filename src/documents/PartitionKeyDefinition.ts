@@ -1,4 +1,4 @@
-import { PartitionKind } from ".";
+import { PartitionKind } from "./index";
 
 export interface PartitionKeyDefinition {
   paths: string[];

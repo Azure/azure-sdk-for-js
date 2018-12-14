@@ -1,5 +1,5 @@
 import assert from "assert";
-import { Constants, CosmosClient, DocumentBase } from "../..";
+import { Constants, PartitionKind } from "../..";
 import { Container, StoredProcedureDefinition } from "../../client";
 import { bulkInsertItems, getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
@@ -265,7 +265,7 @@ describe("NodeJS CRUD Tests", function() {
 
     const containerDefinition = {
       id: "coll1",
-      partitionKey: { paths: ["/" + partitionKey], kind: DocumentBase.PartitionKind.Hash }
+      partitionKey: { paths: ["/" + partitionKey], kind: PartitionKind.Hash }
     };
 
     const { body: containerResult } = await database.containers.create(containerDefinition, { offerThroughput: 12000 });

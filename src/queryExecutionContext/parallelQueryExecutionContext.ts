@@ -1,11 +1,11 @@
+import { ClientContext } from "../ClientContext";
+import { PARITIONKEYRANGE } from "../routing";
 import {
   DocumentProducer,
   IExecutionContext,
   ParallelQueryExecutionContextBase,
   PartitionedQueryExecutionContextInfo
-} from ".";
-import { ClientContext } from "../ClientContext";
-import { PARITIONKEYRANGE } from "../routing";
+} from "./index";
 
 /** @hidden */
 export class ParallelQueryExecutionContext extends ParallelQueryExecutionContextBase implements IExecutionContext {

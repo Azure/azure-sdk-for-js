@@ -1,6 +1,5 @@
-﻿import { RequestOptions } from "https";
+import { RequestOptions } from "https";
 import * as url from "url";
-import { EndpointDiscoveryRetryPolicy, ResourceThrottleRetryPolicy, SessionRetryPolicy } from ".";
 import { Constants, Helper, StatusCodes, SubStatusCodes } from "../common";
 import { ConnectionPolicy } from "../documents";
 import { GlobalEndpointManager } from "../globalEndpointManager";
@@ -8,6 +7,7 @@ import { Response } from "../request";
 import { LocationRouting } from "../request/LocationRouting";
 import { RequestContext } from "../request/RequestContext";
 import { DefaultRetryPolicy } from "./defaultRetryPolicy";
+import { EndpointDiscoveryRetryPolicy, ResourceThrottleRetryPolicy, SessionRetryPolicy } from "./index";
 import { IRetryPolicy } from "./IRetryPolicy";
 import { RetryContext } from "./RetryContext";
 

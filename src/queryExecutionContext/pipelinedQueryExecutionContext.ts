@@ -1,12 +1,3 @@
-import {
-  HeaderUtils,
-  IExecutionContext,
-  IHeaders,
-  OrderByQueryExecutionContext,
-  ParallelQueryExecutionContext,
-  PartitionedQueryExecutionContextInfo,
-  PartitionedQueryExecutionContextInfoParser
-} from ".";
 import { ClientContext } from "../ClientContext";
 import { Response } from "../request/request";
 import {
@@ -15,6 +6,15 @@ import {
   OrderByEndpointComponent,
   TopEndpointComponent
 } from "./EndpointComponent";
+import {
+  HeaderUtils,
+  IExecutionContext,
+  IHeaders,
+  OrderByQueryExecutionContext,
+  ParallelQueryExecutionContext,
+  PartitionedQueryExecutionContextInfo,
+  PartitionedQueryExecutionContextInfoParser
+} from "./index";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements IExecutionContext {

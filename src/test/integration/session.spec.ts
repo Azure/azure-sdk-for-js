@@ -1,9 +1,9 @@
 import assert from "assert";
 import * as sinon from "sinon";
-import { Constants, CosmosClient, IHeaders } from "../..";
 import { ClientContext } from "../../ClientContext";
 import { Helper } from "../../common";
 import { ConsistencyLevel, PartitionKind } from "../../documents";
+import { Constants, CosmosClient, IHeaders } from "../../index";
 import { RequestHandler } from "../../request";
 import { SessionContainer } from "../../session/sessionContainer";
 import { VectorSessionToken } from "../../session/VectorSessionToken";

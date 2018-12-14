@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "module": "commonjs",
+    "module": "esnext",
     "moduleResolution": "node",
     "importHelpers": true,
     "noImplicitAny": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "outDir": "./lib",
+    "outDir": "./dist-esm",
     "preserveConstEnums": true,
     "removeComments": false,
     "target": "es6",

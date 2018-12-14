@@ -1,7 +1,7 @@
 import semaphore from "semaphore";
-import { CollectionRoutingMapFactory, InMemoryCollectionRoutingMap, QueryRange } from ".";
 import { ClientContext } from "../ClientContext";
 import { Helper } from "../common";
+import { CollectionRoutingMapFactory, InMemoryCollectionRoutingMap, QueryRange } from "./index";
 
 /** @hidden */
 export class PartitionKeyRangeCache {

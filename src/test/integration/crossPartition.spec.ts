@@ -1,8 +1,8 @@
 import assert from "assert";
 import * as util from "util";
-import { Constants } from "../..";
 import { Container, ContainerDefinition } from "../../client";
 import { DataType, IndexKind, PartitionKind } from "../../documents";
+import { Constants } from "../../index";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";

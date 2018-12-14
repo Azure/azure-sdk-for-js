@@ -13,37 +13,37 @@
   ],
   "version": "3.0.0-0",
   "author": "Microsoft Corporation",
-  "main": "./lib/src/index.js",
-  "types": "./lib/src/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist-esm/src/index.js",
+  "types": "./dist/index.d.ts",
   "engine": {
     "node": ">=6.0.0"
   },
   "scripts": {
-    "clean": "rimraf lib",
+    "clean": "rimraf dist && rimraf dist-esm && rimraf dist-test",
     "lint": "tslint --project tsconfig.json",
     "format": "prettier --write --config .prettierrc.json \"src/**/*.ts\"",
     "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\"",
     "compile": "echo Using TypeScript && tsc --version && tsc --pretty",
-    "compile-prod": "echo Using TypeScript && tsc --version && tsc -p tsconfig.prod.json --pretty",
-    "docs": "typedoc --excludePrivate --exclude \"**/test/**\" --mode file --out ./lib/docs ./src",
+    "docs": "typedoc --excludePrivate --exclude \"**/test/**\" --mode file --out ./dist/docs ./src",
+    "bundle": "rollup -c",
+    "bundle-types": "node bundle-types.js",
+    "build": "npm run clean && npm run check-format && npm run lint && npm run compile && npm run docs && npm run bundle && npm run bundle-types",
+    "test": "mocha -r ./src/test/common/setup.ts ./dist-test/index.js --timeout 100000 -i",
     "prepack": "npm install && npm run build",
-    "webpack": "webpack -d",
-    "webpack-prod": "webpack -p",
-    "build": "npm run clean && npm run check-format && npm run lint && npm run compile && npm run docs && npm run webpack",
-    "build-prod": "npm run clean && npm run check-format && npm run lint && npm run compile-prod && npm run docs && npm run webpack-prod",
-    "test": "mocha -r ./src/test/common/setup.ts ./lib/src/test/ --recursive --timeout 100000 -i -g .*ignore.js",
-    "test-ts": "mocha -r ts-node/register -r ./src/test/common/setup.ts ./src/test/**/*.spec.ts --recursive --timeout 100000 -i -g .*ignore.js",
     "test-browser": "karma start ./karma.config.js --single-run",
     "ci": "npm run build && npm run test && node ts-test.js"
   },
   "devDependencies": {
+    "@microsoft/api-extractor": "6.3.0",
     "@types/mocha": "^5.2.5",
-    "@types/node": "^8.10.22",
+    "@types/node": "^10.5.8",
     "@types/priorityqueuejs": "^1.0.1",
     "@types/semaphore": "^1.1.0",
     "@types/sinon": "^4.3.3",
     "@types/tunnel": "^0.0.0",
     "@types/underscore": "^1.8.8",
+    "cross-env": "5.2.0",
     "execa": "1.0.0",
     "karma": "^3.0.0",
     "karma-chrome-launcher": "^2.2.0",
@@ -59,14 +59,16 @@
     "mocha-multi-reporters": "^1.1.6",
     "prettier": "^1.14.0",
     "requirejs": "^2.3.5",
+    "rollup": "^0.64.1",
+    "rollup-plugin-json": "3.1.0",
+    "rollup-plugin-local-resolve": "^1.0.7",
+    "rollup-plugin-multi-entry": "2.0.2",
     "sinon": "^5.1.1",
     "ts-node": "^6.2.0",
     "tslint": "5.11.0",
     "tslint-config-prettier": "^1.14.0",
     "typedoc": "0.13.0",
-    "typescript": "3.1.4",
-    "webpack": "^4.16.3",
-    "webpack-cli": "^2.1.5"
+    "typescript": "3.2.2"
   },
   "dependencies": {
     "binary-search-bounds": "2.0.3",
@@ -81,5 +83,8 @@
     "type": "git",
     "url": "https://github.com/Azure/azure-cosmos-js"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "tsdoc": {
+    "tsdocFlavor": "AEDoc"
+  }
 }

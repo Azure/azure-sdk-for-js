@@ -261,6 +261,9 @@ lib/**
 
 *.tgz
 
+dist-esm/
+dist-test/
+temp/
 ts-test/package-lock.json
 ts-test/package.json
 ts-test/*.js

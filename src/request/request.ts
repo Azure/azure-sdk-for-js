@@ -1,5 +1,5 @@
-import { ClientRequest, ClientResponse } from "http"; // TYPES ONLY
-import * as https from "https"; // TYPES ONLY
+import http from "http";
+import https from "https";
 import { Socket } from "net";
 import { Stream } from "stream";
 import * as url from "url";
@@ -11,8 +11,8 @@ import { IHeaders } from "../queryExecutionContext";
 import { ErrorResponse } from "./ErrorResponse";
 export { ErrorResponse }; // Should refactor this out
 
-import { FeedOptions, MediaOptions, RequestOptions } from ".";
 import { AuthHandler, AuthOptions } from "../auth";
+import { FeedOptions, MediaOptions, RequestOptions } from "./index";
 import { Response } from "./Response";
 export { Response }; // Should refactor this out
 
@@ -64,7 +64,7 @@ export function createRequestObject(
 
     const isMedia = requestOptions.path.indexOf("//media") === 0;
 
-    const httpsRequest: ClientRequest = https.request(requestOptions, (response: ClientResponse) => {
+    const httpsRequest: http.ClientRequest = https.request(requestOptions, (response: http.IncomingMessage) => {
       // In case of media response, return the stream to the user and the user will need
       // to handle reading the stream.
       if (isMedia && connectionPolicy.MediaReadMode === MediaReadMode.Streamed) {
@@ -81,7 +81,7 @@ export function createRequestObject(
         response.setEncoding("utf8");
       }
 
-      response.on("data", chunk => {
+      response.on("data", (chunk: any) => {
         data += chunk;
       });
       response.on("end", () => {
@@ -131,7 +131,7 @@ export function createRequestObject(
  * @param {object} data - the data body returned from the executon of a request.
  * @hidden
  */
-function getErrorBody(response: ClientResponse, data: string, headers: IHeaders): ErrorResponse {
+function getErrorBody(response: http.IncomingMessage, data: string, headers: IHeaders): ErrorResponse {
   const errorBody: ErrorResponse = {
     code: response.statusCode,
     body: data,

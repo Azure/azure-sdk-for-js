@@ -1,6 +1,6 @@
-import { ConsistencyLevel } from ".";
 import { Constants } from "../common";
 import { IHeaders } from "../queryExecutionContext";
+import { ConsistencyLevel } from "./index";
 
 /**
  * Represents a DatabaseAccount in the Azure Cosmos DB database service.

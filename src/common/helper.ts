@@ -1,7 +1,7 @@
-﻿import { Constants } from ".";
-import { IHeaders } from "..";
 import { ConnectionPolicy } from "../documents";
+import { IHeaders } from "../index";
 import { RequestContext } from "../request/RequestContext";
+import { Constants } from "./index";
 
 /** @hidden */
 const Regexes = Constants.RegularExpressions;

@@ -1,7 +1,7 @@
-import { Container } from ".";
 import { CosmosResponse } from "../../request/CosmosResponse";
 import { Resource } from "../Resource";
 import { ContainerDefinition } from "./ContainerDefinition";
+import { Container } from "./index";
 
 /** Response object for Container operations */
 export interface ContainerResponse extends CosmosResponse<ContainerDefinition & Resource, Container> {

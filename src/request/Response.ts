@@ -1,4 +1,4 @@
-import { IHeaders } from "..";
+import { IHeaders } from "../index";
 
 export interface Response<T> {
   headers?: IHeaders;
