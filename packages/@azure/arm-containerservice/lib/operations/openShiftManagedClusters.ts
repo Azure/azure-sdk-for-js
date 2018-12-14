@@ -84,23 +84,23 @@ export class OpenShiftManagedClusters {
   }
 
   /**
-   * Gets the details of the managed openshift cluster with a specified resource group and name.
-   * @summary Gets a openshift managed cluster.
+   * Gets the details of the managed OpenShift cluster with a specified resource group and name.
+   * @summary Gets a OpenShift managed cluster.
    * @param resourceGroupName The name of the resource group.
-   * @param resourceName The name of the openshift managed cluster resource.
+   * @param resourceName The name of the OpenShift managed cluster resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.OpenShiftManagedClustersGetResponse>
    */
   get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.OpenShiftManagedClustersGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
-   * @param resourceName The name of the openshift managed cluster resource.
+   * @param resourceName The name of the OpenShift managed cluster resource.
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.OpenShiftManagedCluster>): void;
   /**
    * @param resourceGroupName The name of the resource group.
-   * @param resourceName The name of the openshift managed cluster resource.
+   * @param resourceName The name of the OpenShift managed cluster resource.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -117,11 +117,11 @@ export class OpenShiftManagedClusters {
   }
 
   /**
-   * Creates or updates a openshift managed cluster with the specified configuration for agents and
+   * Creates or updates a OpenShift managed cluster with the specified configuration for agents and
    * OpenShift version.
-   * @summary Creates or updates an openshift managed cluster.
+   * @summary Creates or updates an OpenShift managed cluster.
    * @param resourceGroupName The name of the resource group.
-   * @param resourceName The name of the openshift managed cluster resource.
+   * @param resourceName The name of the OpenShift managed cluster resource.
    * @param parameters Parameters supplied to the Create or Update an OpenShift Managed Cluster
    * operation.
    * @param [options] The optional parameters
@@ -133,10 +133,10 @@ export class OpenShiftManagedClusters {
   }
 
   /**
-   * Updates an openshift managed cluster with the specified tags.
-   * @summary Updates tags on an openshift managed cluster.
+   * Updates an OpenShift managed cluster with the specified tags.
+   * @summary Updates tags on an OpenShift managed cluster.
    * @param resourceGroupName The name of the resource group.
-   * @param resourceName The name of the openshift managed cluster resource.
+   * @param resourceName The name of the OpenShift managed cluster resource.
    * @param parameters Parameters supplied to the Update OpenShift Managed Cluster Tags operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.OpenShiftManagedClustersUpdateTagsResponse>
@@ -147,10 +147,10 @@ export class OpenShiftManagedClusters {
   }
 
   /**
-   * Deletes the openshift managed cluster with a specified resource group and name.
-   * @summary Deletes an openshift managed cluster.
+   * Deletes the OpenShift managed cluster with a specified resource group and name.
+   * @summary Deletes an OpenShift managed cluster.
    * @param resourceGroupName The name of the resource group.
-   * @param resourceName The name of the openshift managed cluster resource.
+   * @param resourceName The name of the OpenShift managed cluster resource.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -160,11 +160,11 @@ export class OpenShiftManagedClusters {
   }
 
   /**
-   * Creates or updates a openshift managed cluster with the specified configuration for agents and
+   * Creates or updates a OpenShift managed cluster with the specified configuration for agents and
    * OpenShift version.
-   * @summary Creates or updates an openshift managed cluster.
+   * @summary Creates or updates an OpenShift managed cluster.
    * @param resourceGroupName The name of the resource group.
-   * @param resourceName The name of the openshift managed cluster resource.
+   * @param resourceName The name of the OpenShift managed cluster resource.
    * @param parameters Parameters supplied to the Create or Update an OpenShift Managed Cluster
    * operation.
    * @param [options] The optional parameters
@@ -183,10 +183,10 @@ export class OpenShiftManagedClusters {
   }
 
   /**
-   * Updates an openshift managed cluster with the specified tags.
-   * @summary Updates tags on an openshift managed cluster.
+   * Updates an OpenShift managed cluster with the specified tags.
+   * @summary Updates tags on an OpenShift managed cluster.
    * @param resourceGroupName The name of the resource group.
-   * @param resourceName The name of the openshift managed cluster resource.
+   * @param resourceName The name of the OpenShift managed cluster resource.
    * @param parameters Parameters supplied to the Update OpenShift Managed Cluster Tags operation.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -204,10 +204,10 @@ export class OpenShiftManagedClusters {
   }
 
   /**
-   * Deletes the openshift managed cluster with a specified resource group and name.
-   * @summary Deletes an openshift managed cluster.
+   * Deletes the OpenShift managed cluster with a specified resource group and name.
+   * @summary Deletes an OpenShift managed cluster.
    * @param resourceGroupName The name of the resource group.
-   * @param resourceName The name of the openshift managed cluster resource.
+   * @param resourceName The name of the OpenShift managed cluster resource.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
