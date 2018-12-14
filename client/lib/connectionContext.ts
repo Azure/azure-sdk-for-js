@@ -129,7 +129,7 @@ export namespace ConnectionContext {
           if (!sender.isConnecting) {
             log.error("[%s] calling detached on sender '%s' with address '%s'.",
               connectionContext.connection.id, sender.name, sender.address);
-            sender.detached().catch((err) => {
+            sender.detached(connectionError || contextError).catch((err) => {
               log.error("[%s] An error occurred while reconnecting the sender '%s' with adress '%s' %O.",
                 connectionContext.connection.id, sender.name, sender.address, err);
             });
@@ -145,7 +145,7 @@ export namespace ConnectionContext {
           if (!receiver.isConnecting) {
             log.error("[%s] calling detached on receiver '%s' with address '%s'.",
               connectionContext.connection.id, receiver.name, receiver.address);
-            receiver.detached().catch((err) => {
+            receiver.detached(connectionError || contextError).catch((err) => {
               log.error("[%s] An error occurred while reconnecting the receiver '%s' with adress '%s' %O.",
                 connectionContext.connection.id, receiver.name, receiver.address, err);
             });
