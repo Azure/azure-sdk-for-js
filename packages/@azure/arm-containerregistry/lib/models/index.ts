@@ -2635,11 +2635,11 @@ export type WebhookStatus = 'enabled' | 'disabled';
 
 /**
  * Defines values for WebhookAction.
- * Possible values include: 'push', 'delete', 'quarantine'
+ * Possible values include: 'push', 'delete', 'quarantine', 'chart_push', 'chart_delete'
  * @readonly
  * @enum {string}
  */
-export type WebhookAction = 'push' | 'delete' | 'quarantine';
+export type WebhookAction = 'push' | 'delete' | 'quarantine' | 'chart_push' | 'chart_delete';
 
 /**
  * Defines values for RunStatus.
