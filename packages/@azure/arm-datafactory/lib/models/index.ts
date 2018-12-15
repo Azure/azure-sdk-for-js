@@ -13456,7 +13456,7 @@ export interface HDInsightHiveActivity {
   variables?: any[];
   /**
    * @member {number} [queryTimeout] Query timeout value (in minutes).
-   * Effective when the HDInsight culster is with ESP (Enterprise Security
+   * Effective when the HDInsight cluster is with ESP (Enterprise Security
    * Package)
    */
   queryTimeout?: number;
