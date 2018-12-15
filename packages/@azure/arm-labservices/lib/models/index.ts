@@ -1413,7 +1413,7 @@ export interface ListEnvironmentsPayload {
  */
 export interface ListEnvironmentsResponse {
   /**
-   * @member {EnvironmentDetails[]} [environments] List of all the evironments
+   * @member {EnvironmentDetails[]} [environments] List of all the environments
    */
   environments?: EnvironmentDetails[];
 }
