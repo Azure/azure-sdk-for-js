@@ -1,3 +1,6 @@
+### 2018-12-15 0.1.9
+- Added constants for rule and filter descriptors as defined in the [service bus docs](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-amqp-request-response#rule-operations)
+
 ### 2018-12-10 0.1.8
 - Exposed `operationTimeoutInSeconds` as an optional property of `CreateConnectionContextBaseParameters`.
 
