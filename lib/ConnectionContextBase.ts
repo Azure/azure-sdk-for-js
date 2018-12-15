@@ -114,6 +114,12 @@ export interface CreateConnectionContextBaseParameters {
    * the connection config. If `true` it must be present, `false` otherwise. Default value false.
    */
   isEntityPathRequired?: boolean;
+  /**
+   * @property {number} [operationTimeoutInSeconds] - The duration in which the promise should
+   * complete (resolve/reject). If it is not completed, then the Promise will be rejected after
+   * timeout occurs. Default: `60 seconds`.
+   */
+  operationTimeoutInSeconds?: number;
 }
 
 export module ConnectionContextBase {
@@ -147,7 +153,8 @@ export module ConnectionContextBase {
         "user-agent": userAgent,
         platform: `(${os.arch()}-${os.type()}-${os.release()})`,
         framework: `Node/${process.version}`
-      }
+      },
+      operationTimeoutInSeconds: parameters.operationTimeoutInSeconds
     };
 
     const connection = new Connection(connectionOptions);
