@@ -116,6 +116,36 @@ export const expand: msRest.OperationQueryParameter = {
     }
   }
 };
+export const extendedResourceName: msRest.OperationURLParameter = {
+  parameterPath: "extendedResourceName",
+  mapper: {
+    required: true,
+    serializedName: "extendedResourceName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const extendedResourceProvider: msRest.OperationURLParameter = {
+  parameterPath: "extendedResourceProvider",
+  mapper: {
+    required: true,
+    serializedName: "extendedResourceProvider",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const extendedResourceType: msRest.OperationURLParameter = {
+  parameterPath: "extendedResourceType",
+  mapper: {
+    required: true,
+    serializedName: "extendedResourceType",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const externalSecuritySolutionsName: msRest.OperationURLParameter = {
   parameterPath: "externalSecuritySolutionsName",
   mapper: {
@@ -180,6 +210,16 @@ export const nextPageLink: msRest.OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+export const northSouthResourceName: msRest.OperationURLParameter = {
+  parameterPath: "northSouthResourceName",
+  mapper: {
+    required: true,
+    serializedName: "northSouthResourceName",
+    type: {
+      name: "String"
+    }
+  }
 };
 export const pricingName: msRest.OperationURLParameter = {
   parameterPath: "pricingName",

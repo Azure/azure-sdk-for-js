@@ -1749,6 +1749,165 @@ export const AadConnectivityState1: msRest.CompositeMapper = {
   }
 };
 
+export const TrafficHardeningRule: msRest.CompositeMapper = {
+  serializedName: "TrafficHardeningRule",
+  type: {
+    name: "Composite",
+    className: "TrafficHardeningRule",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      direction: {
+        serializedName: "direction",
+        type: {
+          name: "String"
+        }
+      },
+      destinationPort: {
+        serializedName: "destinationPort",
+        type: {
+          name: "Number"
+        }
+      },
+      protocols: {
+        serializedName: "protocols",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      allowRemoteAddresses: {
+        serializedName: "allowRemoteAddresses",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const TrafficAlertTrafficItem: msRest.CompositeMapper = {
+  serializedName: "TrafficAlert_trafficItem",
+  type: {
+    name: "Composite",
+    className: "TrafficAlertTrafficItem",
+    modelProperties: {
+      remoteAddress: {
+        serializedName: "remoteAddress",
+        type: {
+          name: "String"
+        }
+      },
+      attempts: {
+        serializedName: "attempts",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const TrafficAlert: msRest.CompositeMapper = {
+  serializedName: "TrafficAlert",
+  type: {
+    name: "Composite",
+    className: "TrafficAlert",
+    modelProperties: {
+      detectionDate: {
+        serializedName: "detectionDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      direction: {
+        serializedName: "direction",
+        type: {
+          name: "String"
+        }
+      },
+      destinationPort: {
+        serializedName: "destinationPort",
+        type: {
+          name: "Number"
+        }
+      },
+      protocol: {
+        serializedName: "protocol",
+        type: {
+          name: "String"
+        }
+      },
+      traffic: {
+        serializedName: "traffic",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TrafficAlertTrafficItem"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const NorthSouthHardenings: msRest.CompositeMapper = {
+  serializedName: "NorthSouthHardenings",
+  type: {
+    name: "Composite",
+    className: "NorthSouthHardenings",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      trafficHardeningRules: {
+        serializedName: "properties.trafficHardeningRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TrafficHardeningRule"
+            }
+          }
+        }
+      },
+      trafficAlerts: {
+        serializedName: "properties.trafficAlerts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TrafficAlert"
+            }
+          }
+        }
+      },
+      rulesCalculationTime: {
+        serializedName: "properties.rulesCalculationTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const ConnectedResource: msRest.CompositeMapper = {
   serializedName: "ConnectedResource",
   type: {
@@ -2293,6 +2452,34 @@ export const ExternalSecuritySolutionList: msRest.CompositeMapper = {
       },
       nextLink: {
         readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NorthSouthHardeningsList: msRest.CompositeMapper = {
+  serializedName: "NorthSouthHardeningsList",
+  type: {
+    name: "Composite",
+    className: "NorthSouthHardeningsList",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NorthSouthHardenings"
+            }
+          }
+        }
+      },
+      nextLink: {
         serializedName: "nextLink",
         type: {
           name: "String"

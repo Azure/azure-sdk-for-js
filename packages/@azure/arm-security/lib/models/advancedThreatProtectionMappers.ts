@@ -29,6 +29,10 @@ export {
   AscLocation,
   Alert,
   AlertEntity,
-  AlertConfidenceReason
+  AlertConfidenceReason,
+  NorthSouthHardenings,
+  TrafficHardeningRule,
+  TrafficAlert,
+  TrafficAlertTrafficItem
 } from "../models/mappers";
 

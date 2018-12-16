@@ -10,14 +10,18 @@
 
 export {
   discriminators,
-  AutoProvisioningSettingList,
-  AutoProvisioningSetting,
+  NorthSouthHardeningsList,
+  NorthSouthHardenings,
   Resource,
   BaseResource,
+  TrafficHardeningRule,
+  TrafficAlert,
+  TrafficAlertTrafficItem,
   CloudError,
   SecurityContact,
   Pricing,
   WorkspaceSetting,
+  AutoProvisioningSetting,
   Compliance,
   ComplianceSegment,
   AdvancedThreatProtectionSetting,
@@ -30,10 +34,6 @@ export {
   AscLocation,
   Alert,
   AlertEntity,
-  AlertConfidenceReason,
-  NorthSouthHardenings,
-  TrafficHardeningRule,
-  TrafficAlert,
-  TrafficAlertTrafficItem
+  AlertConfidenceReason
 } from "../models/mappers";
 

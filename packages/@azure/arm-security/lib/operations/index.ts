@@ -23,5 +23,6 @@ export * from "./alerts";
 export * from "./discoveredSecuritySolutions";
 export * from "./jitNetworkAccessPolicies";
 export * from "./externalSecuritySolutions";
+export * from "./northSouthHardeningsOperations";
 export * from "./topology";
 export * from "./allowedConnections";

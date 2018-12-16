@@ -1440,6 +1440,114 @@ export interface AadConnectivityState1 {
 
 /**
  * @interface
+ * An interface representing TrafficHardeningRule.
+ * A north-south traffic hardening rule
+ *
+ */
+export interface TrafficHardeningRule {
+  /**
+   * @member {string} [name] The name of the rule
+   */
+  name?: string;
+  /**
+   * @member {NorthSouthTrafficDirection} [direction] The rule;s traffic
+   * direction. Possible values include: 'Inbound', 'Outbound'
+   */
+  direction?: NorthSouthTrafficDirection;
+  /**
+   * @member {number} [destinationPort] The rule's destination port
+   */
+  destinationPort?: number;
+  /**
+   * @member {NorthSouthProtocol[]} [protocols] The rule's transport protocol
+   */
+  protocols?: NorthSouthProtocol[];
+  /**
+   * @member {string[]} [allowRemoteAddresses] The remote addresses that should
+   * be able to communicate with the Azure resource on the rule's destination
+   * port and protocol
+   */
+  allowRemoteAddresses?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing TrafficAlertTrafficItem.
+ */
+export interface TrafficAlertTrafficItem {
+  /**
+   * @member {string} [remoteAddress] The IP address of the remote host that is
+   * associated with the traffic
+   */
+  remoteAddress?: string;
+  /**
+   * @member {number} [attempts] The detected number of packets sent to or from
+   * the remote address (depends on the direction of the traffic)
+   */
+  attempts?: number;
+}
+
+/**
+ * @interface
+ * An interface representing TrafficAlert.
+ * A north-south traffic hardening alert
+ *
+ */
+export interface TrafficAlert {
+  /**
+   * @member {Date} [detectionDate] the date (UTC) that the traffic was
+   * detected
+   */
+  detectionDate?: Date;
+  /**
+   * @member {NorthSouthTrafficDirection} [direction] The alert's traffic
+   * direction. Possible values include: 'Inbound', 'Outbound'
+   */
+  direction?: NorthSouthTrafficDirection;
+  /**
+   * @member {number} [destinationPort] The alert's deStination port
+   */
+  destinationPort?: number;
+  /**
+   * @member {NorthSouthProtocol} [protocol] The alert's transport protocol.
+   * Possible values include: 'TCP', 'UDP'
+   */
+  protocol?: NorthSouthProtocol;
+  /**
+   * @member {TrafficAlertTrafficItem[]} [traffic] The traffic that was
+   * detected and raised the alert
+   */
+  traffic?: TrafficAlertTrafficItem[];
+}
+
+/**
+ * @interface
+ * An interface representing NorthSouthHardenings.
+ * The resource whose properties describes the North-south hardening settings
+ * for some Azure resource
+ *
+ * @extends Resource
+ */
+export interface NorthSouthHardenings extends Resource {
+  /**
+   * @member {TrafficHardeningRule[]} [trafficHardeningRules] The set of
+   * North-south traffic hardening rules
+   */
+  trafficHardeningRules?: TrafficHardeningRule[];
+  /**
+   * @member {TrafficAlert[]} [trafficAlerts] The set of North-south hardening
+   * alerts associated with the Azure resource
+   */
+  trafficAlerts?: TrafficAlert[];
+  /**
+   * @member {Date} [rulesCalculationTime] The UTC time on which the traffic
+   * hardening rules were calculated
+   */
+  rulesCalculationTime?: Date;
+}
+
+/**
+ * @interface
  * An interface representing ConnectedResource.
  * Describes properties of a connected resource
  *
@@ -1906,6 +2014,20 @@ export interface ExternalSecuritySolutionList extends Array<ExternalSecuritySolu
 
 /**
  * @interface
+ * An interface representing the NorthSouthHardeningsList.
+ * Response for ListNorthSouthHardenings API service call
+ *
+ * @extends Array<NorthSouthHardenings>
+ */
+export interface NorthSouthHardeningsList extends Array<NorthSouthHardenings> {
+  /**
+   * @member {string} [nextLink] The URL to get the next set of results
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the TopologyList.
  * @extends Array<TopologyResource>
  */
@@ -2021,6 +2143,22 @@ export type AadConnectivityState = 'Discovered' | 'NotLicensed' | 'Connected';
  * @enum {string}
  */
 export type ExternalSecuritySolutionKind = 'CEF' | 'ATA' | 'AAD';
+
+/**
+ * Defines values for NorthSouthProtocol.
+ * Possible values include: 'TCP', 'UDP'
+ * @readonly
+ * @enum {string}
+ */
+export type NorthSouthProtocol = 'TCP' | 'UDP';
+
+/**
+ * Defines values for NorthSouthTrafficDirection.
+ * Possible values include: 'Inbound', 'Outbound'
+ * @readonly
+ * @enum {string}
+ */
+export type NorthSouthTrafficDirection = 'Inbound' | 'Outbound';
 
 /**
  * Defines values for ConnectionType.
@@ -3592,6 +3730,101 @@ export type ExternalSecuritySolutionsListByHomeRegionNextResponse = ExternalSecu
        * The response body as parsed JSON or XML
        */
       parsedBody: ExternalSecuritySolutionList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type NorthSouthHardeningsListResponse = NorthSouthHardeningsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NorthSouthHardeningsList;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type NorthSouthHardeningsListByResourceGroupResponse = NorthSouthHardeningsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NorthSouthHardeningsList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type NorthSouthHardeningsGetResponse = NorthSouthHardenings & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NorthSouthHardenings;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type NorthSouthHardeningsListNextResponse = NorthSouthHardeningsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NorthSouthHardeningsList;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type NorthSouthHardeningsListByResourceGroupNextResponse = NorthSouthHardeningsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NorthSouthHardeningsList;
     };
 };
 

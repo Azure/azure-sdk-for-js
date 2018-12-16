@@ -30,6 +30,10 @@ export {
   InformationProtectionKeyword,
   SecurityTask,
   SecurityTaskParameters,
-  AscLocation
+  AscLocation,
+  NorthSouthHardenings,
+  TrafficHardeningRule,
+  TrafficAlert,
+  TrafficAlertTrafficItem
 } from "../models/mappers";
 
