@@ -493,7 +493,7 @@ export interface RoutingStorageContainerProperties {
   maxChunkSizeInBytes?: number;
   /**
    * @member {string} [encoding] Encoding that is used to serialize messages to
-   * blobs. Supported values are 'avro' and 'avroDeflate'. Default value is
+   * blobs. Supported values are 'avro' and 'avrodeflate'. Default value is
    * 'avro'.
    */
   encoding?: string;
