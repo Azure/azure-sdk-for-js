@@ -861,6 +861,207 @@ export const Operation: msRest.CompositeMapper = {
   }
 };
 
+export const Attributes: msRest.CompositeMapper = {
+  serializedName: "Attributes",
+  type: {
+    name: "Composite",
+    className: "Attributes",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      notBefore: {
+        serializedName: "nbf",
+        type: {
+          name: "UnixTime"
+        }
+      },
+      expires: {
+        serializedName: "exp",
+        type: {
+          name: "UnixTime"
+        }
+      },
+      created: {
+        readOnly: true,
+        serializedName: "created",
+        type: {
+          name: "UnixTime"
+        }
+      },
+      updated: {
+        readOnly: true,
+        serializedName: "updated",
+        type: {
+          name: "UnixTime"
+        }
+      }
+    }
+  }
+};
+
+export const SecretAttributes: msRest.CompositeMapper = {
+  serializedName: "SecretAttributes",
+  type: {
+    name: "Composite",
+    className: "SecretAttributes",
+    modelProperties: {
+      ...Attributes.type.modelProperties
+    }
+  }
+};
+
+export const SecretProperties: msRest.CompositeMapper = {
+  serializedName: "SecretProperties",
+  type: {
+    name: "Composite",
+    className: "SecretProperties",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      },
+      contentType: {
+        serializedName: "contentType",
+        type: {
+          name: "String"
+        }
+      },
+      attributes: {
+        serializedName: "attributes",
+        type: {
+          name: "Composite",
+          className: "SecretAttributes"
+        }
+      },
+      secretUri: {
+        readOnly: true,
+        serializedName: "secretUri",
+        type: {
+          name: "String"
+        }
+      },
+      secretUriWithVersion: {
+        readOnly: true,
+        serializedName: "secretUriWithVersion",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SecretPatchProperties: msRest.CompositeMapper = {
+  serializedName: "SecretPatchProperties",
+  type: {
+    name: "Composite",
+    className: "SecretPatchProperties",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      },
+      contentType: {
+        serializedName: "contentType",
+        type: {
+          name: "String"
+        }
+      },
+      attributes: {
+        serializedName: "attributes",
+        type: {
+          name: "Composite",
+          className: "SecretAttributes"
+        }
+      }
+    }
+  }
+};
+
+export const SecretCreateOrUpdateParameters: msRest.CompositeMapper = {
+  serializedName: "SecretCreateOrUpdateParameters",
+  type: {
+    name: "Composite",
+    className: "SecretCreateOrUpdateParameters",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      properties: {
+        required: true,
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "SecretProperties"
+        }
+      }
+    }
+  }
+};
+
+export const SecretPatchParameters: msRest.CompositeMapper = {
+  serializedName: "SecretPatchParameters",
+  type: {
+    name: "Composite",
+    className: "SecretPatchParameters",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "SecretPatchProperties"
+        }
+      }
+    }
+  }
+};
+
+export const Secret: msRest.CompositeMapper = {
+  serializedName: "Secret",
+  type: {
+    name: "Composite",
+    className: "Secret",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        required: true,
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "SecretProperties"
+        }
+      }
+    }
+  }
+};
+
 export const VaultListResult: msRest.CompositeMapper = {
   serializedName: "VaultListResult",
   type: {
@@ -959,6 +1160,34 @@ export const OperationListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "Operation"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SecretListResult: msRest.CompositeMapper = {
+  serializedName: "SecretListResult",
+  type: {
+    name: "Composite",
+    className: "SecretListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Secret"
             }
           }
         }

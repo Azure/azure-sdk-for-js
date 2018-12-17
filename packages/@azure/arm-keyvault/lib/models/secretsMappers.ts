@@ -9,8 +9,18 @@
  */
 
 export {
-  VaultCreateOrUpdateParameters,
+  SecretCreateOrUpdateParameters,
   BaseResource,
+  SecretProperties,
+  SecretAttributes,
+  Attributes,
+  Secret,
+  Resource,
+  CloudError,
+  SecretPatchParameters,
+  SecretPatchProperties,
+  SecretListResult,
+  VaultCreateOrUpdateParameters,
   VaultProperties,
   Sku,
   AccessPolicyEntry,
@@ -18,26 +28,10 @@ export {
   NetworkRuleSet,
   IPRule,
   VirtualNetworkRule,
-  Vault,
-  Resource,
-  CloudError,
   VaultPatchParameters,
   VaultPatchProperties,
   VaultAccessPolicyParameters,
   VaultAccessPolicyProperties,
-  VaultListResult,
-  DeletedVaultListResult,
-  DeletedVault,
-  DeletedVaultProperties,
-  ResourceListResult,
-  VaultCheckNameAvailabilityParameters,
-  CheckNameAvailabilityResult,
-  SecretCreateOrUpdateParameters,
-  SecretProperties,
-  SecretAttributes,
-  Attributes,
-  SecretPatchParameters,
-  SecretPatchProperties,
-  Secret
+  Vault
 } from "../models/mappers";
 

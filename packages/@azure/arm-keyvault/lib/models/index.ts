@@ -648,6 +648,160 @@ export interface Operation {
 
 /**
  * @interface
+ * An interface representing Attributes.
+ * The object attributes managed by the KeyVault service.
+ *
+ */
+export interface Attributes {
+  /**
+   * @member {boolean} [enabled] Determines whether the object is enabled.
+   */
+  enabled?: boolean;
+  /**
+   * @member {Date} [notBefore] Not before date in UTC.
+   */
+  notBefore?: Date;
+  /**
+   * @member {Date} [expires] Expiry date in UTC.
+   */
+  expires?: Date;
+  /**
+   * @member {Date} [created] Creation time in UTC.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly created?: Date;
+  /**
+   * @member {Date} [updated] Last updated time in UTC.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly updated?: Date;
+}
+
+/**
+ * @interface
+ * An interface representing SecretAttributes.
+ * The secret management attributes.
+ *
+ * @extends Attributes
+ */
+export interface SecretAttributes extends Attributes {
+}
+
+/**
+ * @interface
+ * An interface representing SecretProperties.
+ * Properties of the secret
+ *
+ */
+export interface SecretProperties {
+  /**
+   * @member {string} [value] The value of the secret. NOTE: 'value' will never
+   * be returned from the service, as APIs using this model are is intended for
+   * internal use in ARM deployments. Users should use the data-plane REST
+   * service for interaction with vault secrets.
+   */
+  value?: string;
+  /**
+   * @member {string} [contentType] The content type of the secret.
+   */
+  contentType?: string;
+  /**
+   * @member {SecretAttributes} [attributes] The attributes of the secret.
+   */
+  attributes?: SecretAttributes;
+  /**
+   * @member {string} [secretUri] The URI to retrieve the current version of
+   * the secret.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly secretUri?: string;
+  /**
+   * @member {string} [secretUriWithVersion] The URI to retrieve the specific
+   * version of the secret.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly secretUriWithVersion?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SecretPatchProperties.
+ * Properties of the secret
+ *
+ */
+export interface SecretPatchProperties {
+  /**
+   * @member {string} [value] The value of the secret.
+   */
+  value?: string;
+  /**
+   * @member {string} [contentType] The content type of the secret.
+   */
+  contentType?: string;
+  /**
+   * @member {SecretAttributes} [attributes] The attributes of the secret.
+   */
+  attributes?: SecretAttributes;
+}
+
+/**
+ * @interface
+ * An interface representing SecretCreateOrUpdateParameters.
+ * Parameters for creating or updating a secret
+ *
+ * @extends BaseResource
+ */
+export interface SecretCreateOrUpdateParameters extends BaseResource {
+  /**
+   * @member {{ [propertyName: string]: string }} [tags] The tags that will be
+   * assigned to the secret.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * @member {SecretProperties} properties Properties of the secret
+   */
+  properties: SecretProperties;
+}
+
+/**
+ * @interface
+ * An interface representing SecretPatchParameters.
+ * Parameters for patching a secret
+ *
+ * @extends BaseResource
+ */
+export interface SecretPatchParameters extends BaseResource {
+  /**
+   * @member {{ [propertyName: string]: string }} [tags] The tags that will be
+   * assigned to the secret.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * @member {SecretPatchProperties} [properties] Properties of the secret
+   */
+  properties?: SecretPatchProperties;
+}
+
+/**
+ * @interface
+ * An interface representing Secret.
+ * Resource information with extended details.
+ *
+ * @extends Resource
+ */
+export interface Secret extends Resource {
+  /**
+   * @member {SecretProperties} properties Properties of the secret
+   */
+  properties: SecretProperties;
+}
+
+/**
+ * @interface
  * An interface representing VaultsListByResourceGroupOptionalParams.
  * Optional Parameters.
  *
@@ -682,6 +836,20 @@ export interface VaultsListBySubscriptionOptionalParams extends msRest.RequestOp
  * @extends RequestOptionsBase
  */
 export interface VaultsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {number} [top] Maximum number of results to return.
+   */
+  top?: number;
+}
+
+/**
+ * @interface
+ * An interface representing SecretsListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface SecretsListOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {number} [top] Maximum number of results to return.
    */
@@ -755,6 +923,20 @@ export interface ResourceListResult extends Array<Resource> {
 export interface OperationListResult extends Array<Operation> {
   /**
    * @member {string} [nextLink] The URL to get the next set of operations.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the SecretListResult.
+ * List of secrets
+ *
+ * @extends Array<Secret>
+ */
+export interface SecretListResult extends Array<Secret> {
+  /**
+   * @member {string} [nextLink] The URL to get the next set of secrets.
    */
   nextLink?: string;
 }
@@ -1163,5 +1345,100 @@ export type OperationsListNextResponse = OperationListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: OperationListResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type SecretsCreateOrUpdateResponse = Secret & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Secret;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type SecretsUpdateResponse = Secret & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Secret;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SecretsGetResponse = Secret & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Secret;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type SecretsListResponse = SecretListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type SecretsListNextResponse = SecretListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretListResult;
     };
 };

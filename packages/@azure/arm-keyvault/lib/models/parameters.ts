@@ -100,6 +100,29 @@ export const resourceGroupName: msRest.OperationURLParameter = {
     }
   }
 };
+export const secretName0: msRest.OperationURLParameter = {
+  parameterPath: "secretName",
+  mapper: {
+    required: true,
+    serializedName: "secretName",
+    constraints: {
+      Pattern: /^[a-zA-Z0-9-]{1,127}$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const secretName1: msRest.OperationURLParameter = {
+  parameterPath: "secretName",
+  mapper: {
+    required: true,
+    serializedName: "secretName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {

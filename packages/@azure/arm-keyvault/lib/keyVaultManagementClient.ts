@@ -19,6 +19,7 @@ class KeyVaultManagementClient extends KeyVaultManagementClientContext {
   // Operation groups
   vaults: operations.Vaults;
   operations: operations.Operations;
+  secrets: operations.Secrets;
 
   /**
    * Initializes a new instance of the KeyVaultManagementClient class.
@@ -31,6 +32,7 @@ class KeyVaultManagementClient extends KeyVaultManagementClientContext {
     super(credentials, subscriptionId, options);
     this.vaults = new operations.Vaults(this);
     this.operations = new operations.Operations(this);
+    this.secrets = new operations.Secrets(this);
   }
 }
 

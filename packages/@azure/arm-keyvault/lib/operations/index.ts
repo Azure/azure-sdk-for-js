@@ -10,3 +10,4 @@
 
 export * from "./vaults";
 export * from "./operations";
+export * from "./secrets";
