@@ -1,5 +1,3 @@
-import { checkPackageJsonVersion, getAzureDevOpsLogger, getConsoleLogger, Logger } from "@ts-common/azure-js-dev-tools";
-import * as yargs from "yargs";
+import { checkPackageJsonVersion } from "@ts-common/azure-js-dev-tools";
 
-const logger: Logger = yargs.argv["azure-devops"] ? getAzureDevOpsLogger() : getConsoleLogger();
-process.exitCode = checkPackageJsonVersion(__dirname, logger);
+process.exitCode = checkPackageJsonVersion(__dirname);
