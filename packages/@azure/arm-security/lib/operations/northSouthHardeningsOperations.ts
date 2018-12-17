@@ -311,7 +311,7 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const enforceOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{extendedResourceProvider}/{extendedResourceType}/{extendedResourceName}/providers/Microsoft.Security/northSouthHardenings/{northSouthResourceName}/enforce",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{extendedResourceProvider}/{extendedResourceType}/{extendedResourceName}/providers/Microsoft.Security/northSouthHardenings/{northSouthResourceName}/{trafficHardeningsRulesEnforceAction}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
