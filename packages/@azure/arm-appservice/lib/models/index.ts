@@ -6780,7 +6780,7 @@ export interface ProcessThreadInfo extends ProxyOnlyResource {
    */
   userProcessorTime?: string;
   /**
-   * @member {string} [priviledgedProcessorTime] Priviledged processor time.
+   * @member {string} [priviledgedProcessorTime] Privileged processor time.
    */
   priviledgedProcessorTime?: string;
   /**
