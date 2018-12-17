@@ -535,7 +535,10 @@ export class MessageSession extends LinkEntity {
         } catch (err) {
           const error = translate(err);
           // Nothing much to do if user's message handler throws. Let us try abandoning the message.
-          if (this.receiveMode === ReceiveMode.peekLock) {
+          if (
+            this.receiveMode === ReceiveMode.peekLock &&
+            this.isOpen() // only try to abandon the messages if the connection is still open
+          ) {
             try {
               log.error(
                 "[%s] Abandoning the message with id '%s' on the receiver '%s' since " +
