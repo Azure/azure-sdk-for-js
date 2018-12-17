@@ -1505,7 +1505,7 @@ export interface TrafficAlert {
    */
   direction?: NorthSouthTrafficDirection;
   /**
-   * @member {number} [destinationPort] The alert's deStination port
+   * @member {number} [destinationPort] The alert's destination port
    */
   destinationPort?: number;
   /**
