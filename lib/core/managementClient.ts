@@ -29,7 +29,7 @@ import * as log from "../log";
 import { ReceiveMode } from "./messageReceiver";
 import { reorderLockTokens, toBuffer } from "../util/utils";
 import { Typed } from "rhea/typings/types";
-import { max32BitNumber, descriptorCodes } from "../util/constants";
+import { max32BitNumber } from "../util/constants";
 
 /**
  * @ignore
@@ -1085,7 +1085,7 @@ export class ManagementClient extends LinkEntity {
         if (
           !ruleDescriptor ||
           !ruleDescriptor.descriptor ||
-          ruleDescriptor.descriptor.value !== descriptorCodes.ruleDescriptionList ||
+          ruleDescriptor.descriptor.value !== Constants.descriptorCodes.ruleDescriptionList ||
           !Array.isArray(ruleDescriptor.value) ||
           ruleDescriptor.value.length < 3
         ) {
@@ -1099,22 +1099,22 @@ export class ManagementClient extends LinkEntity {
         };
 
         switch (filtersRawData.descriptor.value) {
-          case descriptorCodes.trueFilterList:
+          case Constants.descriptorCodes.trueFilterList:
             rule.filter = {
               expression: "1=1"
             };
             break;
-          case descriptorCodes.falseFilterList:
+          case Constants.descriptorCodes.falseFilterList:
             rule.filter = {
               expression: "1=0"
             };
             break;
-          case descriptorCodes.sqlFilterList:
+          case Constants.descriptorCodes.sqlFilterList:
             rule.filter = {
               expression: this._safelyGetTypedValueFromArray(filtersRawData.value, 0)
             };
             break;
-          case descriptorCodes.correlationFilterList:
+          case Constants.descriptorCodes.correlationFilterList:
             rule.filter = {
               correlationId: this._safelyGetTypedValueFromArray(filtersRawData.value, 0),
               messageId: this._safelyGetTypedValueFromArray(filtersRawData.value, 1),
@@ -1135,7 +1135,7 @@ export class ManagementClient extends LinkEntity {
         }
 
         if (
-          actionsRawData.descriptor.value === descriptorCodes.sqlRuleActionList &&
+          actionsRawData.descriptor.value === Constants.descriptorCodes.sqlRuleActionList &&
           Array.isArray(actionsRawData.value) &&
           actionsRawData.value.length
         ) {
