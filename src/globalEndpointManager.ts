@@ -102,7 +102,7 @@ export class GlobalEndpointManager {
    *   We skip the refreshing if EnableEndpointDiscovery is set to False
    */
   public async refreshEndpointList(): Promise<void> {
-    if (!this.isRefreshing) {
+    if (!this.isRefreshing && this.enableEndpointDiscovery) {
       this.isRefreshing = true;
       let shouldRefresh = false;
       const databaseAccount = await this.getDatabaseAccountFromAnyEndpoint();
