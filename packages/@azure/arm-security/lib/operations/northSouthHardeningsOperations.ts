@@ -129,6 +129,53 @@ export class NorthSouthHardeningsOperations {
   }
 
   /**
+   * Enforces the given collections of traffic hardenings rule's on the VM's NSG
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param extendedResourceProvider Resource provider name of the base resource
+   * @param extendedResourceType Type of the base resource
+   * @param extendedResourceName The name of the base resource
+   * @param northSouthResourceName Name of a north-south resource.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  enforce(resourceGroupName: string, extendedResourceProvider: string, extendedResourceType: string, extendedResourceName: string, northSouthResourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param extendedResourceProvider Resource provider name of the base resource
+   * @param extendedResourceType Type of the base resource
+   * @param extendedResourceName The name of the base resource
+   * @param northSouthResourceName Name of a north-south resource.
+   * @param callback The callback
+   */
+  enforce(resourceGroupName: string, extendedResourceProvider: string, extendedResourceType: string, extendedResourceName: string, northSouthResourceName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param extendedResourceProvider Resource provider name of the base resource
+   * @param extendedResourceType Type of the base resource
+   * @param extendedResourceName The name of the base resource
+   * @param northSouthResourceName Name of a north-south resource.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  enforce(resourceGroupName: string, extendedResourceProvider: string, extendedResourceType: string, extendedResourceName: string, northSouthResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  enforce(resourceGroupName: string, extendedResourceProvider: string, extendedResourceType: string, extendedResourceName: string, northSouthResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        extendedResourceProvider,
+        extendedResourceType,
+        extendedResourceName,
+        northSouthResourceName,
+        options
+      },
+      enforceOperationSpec,
+      callback);
+  }
+
+  /**
    * Gets a list of north-south hardening resources for the subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -255,6 +302,34 @@ const getOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.NorthSouthHardenings
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const enforceOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{extendedResourceProvider}/{extendedResourceType}/{extendedResourceName}/providers/Microsoft.Security/northSouthHardenings/{northSouthResourceName}/enforce",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.extendedResourceProvider,
+    Parameters.extendedResourceType,
+    Parameters.extendedResourceName,
+    Parameters.northSouthResourceName,
+    Parameters.trafficHardeningsRulesEnforceAction
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

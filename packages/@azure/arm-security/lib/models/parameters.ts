@@ -353,6 +353,18 @@ export const topologyResourceName: msRest.OperationURLParameter = {
     }
   }
 };
+export const trafficHardeningsRulesEnforceAction: msRest.OperationURLParameter = {
+  parameterPath: "trafficHardeningsRulesEnforceAction",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "trafficHardeningsRulesEnforceAction",
+    defaultValue: 'enforce',
+    type: {
+      name: "String"
+    }
+  }
+};
 export const workspaceSettingName: msRest.OperationURLParameter = {
   parameterPath: "workspaceSettingName",
   mapper: {
