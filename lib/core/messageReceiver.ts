@@ -437,7 +437,8 @@ export class MessageReceiver extends LinkEntity {
         // Nothing much to do if user's message handler throws. Let us try abandoning the message.
         if (
           error.name !== ConditionErrorNameMapper["com.microsoft:message-lock-lost"] &&
-          this.receiveMode === ReceiveMode.peekLock
+          this.receiveMode === ReceiveMode.peekLock &&
+          this.isOpen() // only try to abandon the messages if the connection is still open
         ) {
           try {
             log.error(
