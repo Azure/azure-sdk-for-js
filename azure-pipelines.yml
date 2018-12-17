@@ -54,3 +54,19 @@ jobs:
   - task: PublishBuildArtifacts@1
     inputs:
       pathtoPublish: $(Build.SourcesDirectory)/drop
+- job: Check_PackageJson_Version_Number
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  steps:
+  - task: Npm@1
+    displayName: 'npm install'
+    inputs:
+      command: custom
+      verbose: false
+      customCommand: install
+  - task: Npm@1
+    displayName: 'npm run check:packagejsonversion -- --azure-devops'
+    inputs:
+      command: custom
+      verbose: false
+      customCommand: run check:packagejsonversion -- --azure-devops
