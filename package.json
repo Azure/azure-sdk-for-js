@@ -41,11 +41,11 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@azure/ms-rest-js": "^1.2.0",
+    "@azure/ms-rest-js": "^1.2.3",
     "tslib": "^1.9.2"
   },
   "devDependencies": {
-    "@ts-common/azure-js-dev-tools": "^0.4.9",
+    "@ts-common/azure-js-dev-tools": "file:C:/Users/daschult/Sources/azure-js-dev-tools",
     "@types/chai": "^4.1.4",
     "@types/mocha": "^5.2.1",
     "@types/node": "^10.9.4",
@@ -104,8 +104,8 @@
     "test:coverage": "npm run test && opn coverage/index.html",
     "prepack": "npm install && npm run build",
     "publish-preview": "npm test && shx rm -rf dist/test && node ./.scripts/publish",
-    "local": "npm explore @ts-common/azure-js-dev-tools -- npm run local",
-    "latest": "npm explore @ts-common/azure-js-dev-tools -- npm run latest",
+    "local": "ts-node ./.scripts/local.ts",
+    "latest": "ts-node ./.scripts/latest.ts",
     "check:packagejsonversion": "ts-node ./.scripts/checkPackageJsonVersion.ts"
   },
   "sideEffects": false
