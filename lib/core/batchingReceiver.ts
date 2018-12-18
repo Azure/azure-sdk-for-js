@@ -96,6 +96,7 @@ export class BatchingReceiver extends MessageReceiver {
         if (this._receiver) {
           this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
           this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+          this._receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
         }
 
         clearTimeout(waitTimer);
@@ -232,7 +233,7 @@ export class BatchingReceiver extends MessageReceiver {
         const receiver = this._receiver || context.receiver!;
         receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
         receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-        receiver.session.removeListener(SessionEvents.sessionError, onReceiveError);
+        receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
         const sessionError = context.session && context.session.error;
         let error = new MessagingError("An error occuured while receiving messages.");
         if (sessionError) {
@@ -347,7 +348,7 @@ export class BatchingReceiver extends MessageReceiver {
         addCreditAndSetTimer(true);
         this._receiver!.on(ReceiverEvents.message, onReceiveMessage);
         this._receiver!.on(ReceiverEvents.receiverError, onReceiveError);
-        this._receiver!.session.on(SessionEvents.sessionError, onReceiveError);
+        this._receiver!.session.on(SessionEvents.sessionError, onSessionError);
       }
     });
   }
