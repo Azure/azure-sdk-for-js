@@ -8,7 +8,7 @@ import {
   PublicAccessType
 } from "../../lib/generated/models";
 import { PageBlobURL } from "../../lib/PageBlobURL";
-import { getBSU, getUniqueName } from "../utils";
+import { getBSU, getUniqueName, sleep } from "../utils";
 
 describe("PageBlobURL", () => {
   const serviceURL = getBSU();
@@ -53,6 +53,7 @@ describe("PageBlobURL", () => {
     );
     let copySource = pageBlobURL.withSnapshot(snapshotResult.snapshot!).url;
     await destPageBlobURL.startCopyIncremental(Aborter.none, copySource);
+    sleep(1000);
     let listBlobResponse = await containerURL.listBlobFlatSegment(
       Aborter.none,
       undefined,

@@ -93,9 +93,6 @@ function escape(text: string): string {
 export function appendToURLPath(url: string, name: string): string {
   const urlParsed = URLBuilder.parse(url);
 
-  // Escape "?" otherwise string after "?" will be treated as URL parameters
-  name = escape(name);
-
   let path = urlParsed.getPath();
   path = path
     ? path.endsWith("/")

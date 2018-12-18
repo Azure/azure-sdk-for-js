@@ -3,6 +3,7 @@ import { BlockBlobURL } from "../lib/BlockBlobURL";
 import { ContainerURL } from "../lib/ContainerURL";
 import { getBSU, getUniqueName } from "./utils/index";
 import * as assert from "assert";
+import { appendToURLPath } from "../lib/utils/utils.common";
 
 describe("Special Naming Tests", () => {
   const serviceURL = getBSU();
@@ -35,7 +36,7 @@ describe("Special Naming Tests", () => {
   it("Should work with special container and blob names with spaces in URL string", async () => {
     const blobName: string = getUniqueName("blob empty");
     const blockBlobURL = new BlockBlobURL(
-      `${containerURL.url}/${blobName}`,
+      appendToURLPath(containerURL.url, blobName),
       containerURL.pipeline
     );
 
@@ -69,7 +70,7 @@ describe("Special Naming Tests", () => {
   it("Should work with special container and blob names with / in URL string", async () => {
     const blobName: string = getUniqueName("////blob/empty /another");
     const blockBlobURL = new BlockBlobURL(
-      `${containerURL.url}/${blobName}`,
+      appendToURLPath(containerURL.url, blobName),
       containerURL.pipeline
     );
 
@@ -104,7 +105,7 @@ describe("Special Naming Tests", () => {
   it("Should work with special container and blob names uppercase in URL string", async () => {
     const blobName: string = getUniqueName("////Upper/blob/empty /another");
     const blockBlobURL = new BlockBlobURL(
-      `${containerURL.url}/${blobName}`,
+      appendToURLPath(containerURL.url, blobName),
       containerURL.pipeline
     );
 
@@ -143,7 +144,7 @@ describe("Special Naming Tests", () => {
       "////Upper/blob/empty /another 汉字"
     );
     const blockBlobURL = new BlockBlobURL(
-      `${containerURL.url}/${blobName}`,
+      appendToURLPath(containerURL.url, blobName),
       containerURL.pipeline
     );
 
@@ -186,9 +187,10 @@ describe("Special Naming Tests", () => {
       // There are 2 special cases for a URL string:
       // Escape "%" when creating XXXURL object with URL strings
       // Escape "?" otherwise string after "?" will be treated as URL parameters
-      `${containerURL.url}/${blobName}`
-        .replace(/%/g, "%25")
-        .replace(/\?/g, "%3F"),
+      appendToURLPath(
+        containerURL.url,
+        blobName.replace(/%/g, "%25").replace(/\?/g, "%3F")
+      ),
       containerURL.pipeline
     );
 
@@ -244,7 +246,7 @@ describe("Special Naming Tests", () => {
   it("Should work with special blob name Russian in URL string", async () => {
     const blobName: string = getUniqueName("ру́сский язы́к");
     const blockBlobURL = new BlockBlobURL(
-      `${containerURL.url}/${blobName}`,
+      appendToURLPath(containerURL.url, blobName),
       containerURL.pipeline
     );
 
@@ -299,7 +301,7 @@ describe("Special Naming Tests", () => {
   it("Should work with special blob name Arabic in URL string", async () => {
     const blobName: string = getUniqueName("عربي/عربى");
     const blockBlobURL = new BlockBlobURL(
-      `${containerURL.url}/${blobName}`,
+      appendToURLPath(containerURL.url, blobName),
       containerURL.pipeline
     );
 
@@ -354,7 +356,7 @@ describe("Special Naming Tests", () => {
   it("Should work with special blob name Japanese in URL string", async () => {
     const blobName: string = getUniqueName("にっぽんご/にほんご");
     const blockBlobURL = new BlockBlobURL(
-      `${containerURL.url}/${blobName}`,
+      appendToURLPath(containerURL.url, blobName),
       containerURL.pipeline
     );
 
