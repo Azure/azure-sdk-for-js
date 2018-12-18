@@ -81,11 +81,12 @@ const browserRollupConfigFactory = isProduction => {
         output: {
           preamble: banner
         }
-      }),
-      visualizer({
-        filename: "./statistics.html",
-        sourcemap: true
       })
+      // Comment visualizer because it only works on Node.js 8+; Uncomment it to get bundle analysis report
+      // visualizer({
+      //   filename: "./statistics.html",
+      //   sourcemap: true
+      // })
     );
   }
 
