@@ -122,8 +122,8 @@
     "test:server": "ts-node -T testserver",
     "test:coverage": "npm run test && opn coverage/index.html",
     "publish-preview": "mocha --no-colors && shx rm -rf dist/test && node ./.scripts/publish",
-    "local": "npm explore @ts-common/azure-js-dev-tools -- npm run local",
-    "latest": "npm explore @ts-common/azure-js-dev-tools -- npm run latest",
+    "local": "ts-node ./.scripts/local.ts",
+    "latest": "ts-node ./.scripts/latest.ts",
     "prepack": "npm i && npm run build",
     "check:packagejsonversion": "ts-node ./.scripts/checkPackageJsonVersion.ts"
   },
