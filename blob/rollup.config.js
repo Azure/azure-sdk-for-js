@@ -15,7 +15,7 @@ const banner = [
 
 const nodeRollupConfigFactory = () => {
   return {
-    external: ["ms-rest-js", "crypto", "fs", "events", "os"],
+    external: ["ms-rest-js", "crypto", "fs", "events", "os", "stream"],
     input: "dist-esm/lib/index.js",
     output: {
       file: "dist/index.js",
@@ -61,7 +61,14 @@ const browserRollupConfigFactory = isProduction => {
       commonjs({
         namedExports: {
           events: ["EventEmitter"],
-          assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual"]
+          assert: [
+            "ok",
+            "deepEqual",
+            "equal",
+            "fail",
+            "deepStrictEqual",
+            "notDeepEqual"
+          ]
         }
       })
     ]
