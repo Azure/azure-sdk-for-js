@@ -257,8 +257,9 @@ function pack(): void {
         } else if (toPack === PackagesToPack.DifferentVersion) {
           let npmPackageVersion: string | undefined;
           try {
-            const npmViewResult: NPMViewResult = npm.view({ packageName: packageName, ...runOptions });
-            npmPackageVersion = npmViewResult["dist-tags"] && npmViewResult["dist-tags"]["latest"];
+            const npmViewResult: NPMViewResult = npm.view({ packageName, ...runOptions, showOutput: false });
+            const distTags: { [tag: string]: string } | undefined = npmViewResult["dist-tags"];
+            npmPackageVersion = distTags && distTags["latest"];
           }
           catch (error) {
             // This happens if the package doesn't exist in NPM.
