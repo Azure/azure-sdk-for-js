@@ -49,7 +49,8 @@ function getArgument(argumentName: string, environmentVariableName?: string, def
 }
 
 const azureSDKForJSRepoRoot: string = getArgument("azure-sdk-for-js-repo-root", undefined, __dirname)!;
-const packagesToPack: PackagesToPack = getPackagesToPackArgument(getArgument("to-pack"));
+const rawToPack: string | undefined = getArgument("to-pack");
+let toPack: PackagesToPack = getPackagesToPackArgument(rawToPack);
 const headReference: string | undefined = getArgument("head-reference", "headReference");
 const baseReference: string | undefined = getArgument("base-reference", "baseReference");
 
@@ -185,9 +186,9 @@ function pack(): void {
   let packedPackages = 0;
   let skippedPackages = 0;
 
-  let changedFiles: string[] = [];
+  const changedFiles: string[] = [];
 
-  if (packagesToPack === PackagesToPack.BranchHasChanges) {
+  if (toPack === PackagesToPack.BranchHasChanges) {
     let packBaseReference: string | undefined = baseReference;
     if (!packBaseReference) {
       packBaseReference = "master";
@@ -206,14 +207,23 @@ function pack(): void {
       }
     }
 
-    const diffResult: GitDiffResult = gitDiff(packBaseReference, packHeadReference, runOptions);
-    changedFiles.push(...diffResult.filesChanged);
-    if (!changedFiles || changedFiles.length === 0) {
-      _logger.logTrace(`Found no changes between "${packBaseReference}" and "${packHeadReference}".`);
+    if (packBaseReference === packHeadReference) {
+      if (rawToPack) {
+        _logger.logWarn(`The base-reference "${packBaseReference}" is equal to the head-reference "${packHeadReference}". This will result in nothing getting packed because there won't be any changes detected. Please change either the base or head-reference.`);
+      } else {
+        toPack = PackagesToPack.DifferentVersion;
+        _logger.log(`The base-reference "${packBaseReference}" is equal to the head-reference "${packHeadReference}" which means there won't be any changes to pack. Switching "to-pack" to be "${PackagesToPack[toPack]}".`);
+      }
     } else {
-      _logger.logTrace(`Found the following changed files`)
-      for (const changedFilePath of changedFiles) {
-        _logger.logTrace(changedFilePath);
+      const diffResult: GitDiffResult = gitDiff(packBaseReference, packHeadReference, runOptions);
+      changedFiles.push(...diffResult.filesChanged);
+      if (!changedFiles || changedFiles.length === 0) {
+        _logger.logTrace(`Found no changes between "${packBaseReference}" and "${packHeadReference}".`);
+      } else {
+        _logger.logTrace(`Found the following changed files`)
+        for (const changedFilePath of changedFiles) {
+          _logger.logTrace(changedFilePath);
+        }
       }
     }
   }
@@ -242,9 +252,9 @@ function pack(): void {
       else {
         let shouldPack: boolean = false;
 
-        if (packagesToPack === PackagesToPack.All) {
+        if (toPack === PackagesToPack.All) {
           shouldPack = true;
-        } else if (packagesToPack === PackagesToPack.DifferentVersion) {
+        } else if (toPack === PackagesToPack.DifferentVersion) {
           let npmPackageVersion: string | undefined;
           try {
             const npmViewResult: NPMViewResult = npm.view({ packageName: packageName, ...runOptions });
@@ -255,7 +265,7 @@ function pack(): void {
           }
 
           shouldPack = localPackageVersion !== npmPackageVersion;
-        } else if (packagesToPack === PackagesToPack.BranchHasChanges) {
+        } else if (toPack === PackagesToPack.BranchHasChanges) {
           const packageFolderPathWithSep: string = normalize(packageFolderPath + path.posix.sep);
           shouldPack = !!changedFiles && contains(changedFiles, (changedFilePath: string) => normalize(changedFilePath).startsWith(packageFolderPathWithSep));
         }

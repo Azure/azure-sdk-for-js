@@ -28,7 +28,7 @@
     "url": "http://github.com/Azure/azure-sdk-for-js/issues"
   },
   "scripts": {
-    "build": "gulp pack --to-pack=BranchHasChanges --logging-level=info"
+    "build": "gulp pack --logging-level=info"
   },
   "devDependencies": {
     "@octokit/rest": "15.17.0",
