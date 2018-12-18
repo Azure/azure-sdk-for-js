@@ -6,7 +6,7 @@
 
 jobs:
   - job: nodejslinux
-    displayName: Node.js LTS Versions Regression Under Linux
+    displayName: Linux
     pool:
       vmImage: "ubuntu-16.04"
     strategy:
@@ -41,7 +41,7 @@ jobs:
           testResultsFiles: "test-results.xml"
 
   - job: nodejswin
-    displayName: Node.js LTS Versions Regression Under Windows
+    displayName: Windows
     pool:
       vmImage: "vs2017-win2016"
     strategy:
@@ -76,7 +76,7 @@ jobs:
           testResultsFiles: "test-results.xml"
 
   - job: nodejsmac
-    displayName: Node.js LTS Versions Regression Under Mac
+    displayName: Mac
     pool:
       vmImage: "macOS-10.13"
     strategy:
@@ -130,4 +130,4 @@ jobs:
           npm run test:browser
         workingDirectory: "./blob"
         displayName: "npm run test:browser"
-        env: { ACCOUNT_NAME: "$(ACCOUNT_NAME)", ACCOUNT_KEY: "$(ACCOUNT_SAS)" }
+        env: { ACCOUNT_NAME: "$(ACCOUNT_NAME)", ACCOUNT_SAS: "$(ACCOUNT_SAS)" }
