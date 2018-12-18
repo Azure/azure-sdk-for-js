@@ -254,6 +254,13 @@ export const RoutingRule: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      redirectConfiguration: {
+        serializedName: "properties.redirectConfiguration",
+        type: {
+          name: "Composite",
+          className: "RedirectConfiguration"
+        }
+      },
       resourceState: {
         serializedName: "properties.resourceState",
         type: {
@@ -267,7 +274,6 @@ export const RoutingRule: msRest.CompositeMapper = {
         }
       },
       type: {
-        readOnly: true,
         serializedName: "type",
         type: {
           name: "String"
@@ -695,6 +701,64 @@ export const CacheConfiguration: msRest.CompositeMapper = {
   }
 };
 
+export const RedirectConfiguration: msRest.CompositeMapper = {
+  serializedName: "RedirectConfiguration",
+  type: {
+    name: "Composite",
+    className: "RedirectConfiguration",
+    modelProperties: {
+      redirectType: {
+        serializedName: "redirectType",
+        type: {
+          name: "String"
+        }
+      },
+      destinationProtocol: {
+        serializedName: "destinationProtocol",
+        type: {
+          name: "String"
+        }
+      },
+      destinationHost: {
+        serializedName: "destinationHost",
+        type: {
+          name: "String"
+        }
+      },
+      destinationPath: {
+        serializedName: "destinationPath",
+        type: {
+          name: "String"
+        }
+      },
+      destinationFragment: {
+        serializedName: "destinationFragment",
+        type: {
+          name: "String"
+        }
+      },
+      preservePath: {
+        serializedName: "preservePath",
+        type: {
+          name: "Boolean"
+        }
+      },
+      preserveQueryString: {
+        serializedName: "preserveQueryString",
+        type: {
+          name: "Boolean"
+        }
+      },
+      extraQueryString: {
+        serializedName: "extraQueryString",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const RoutingRuleUpdateParameters: msRest.CompositeMapper = {
   serializedName: "RoutingRuleUpdateParameters",
   type: {
@@ -765,6 +829,13 @@ export const RoutingRuleUpdateParameters: msRest.CompositeMapper = {
         serializedName: "enabledState",
         type: {
           name: "String"
+        }
+      },
+      redirectConfiguration: {
+        serializedName: "redirectConfiguration",
+        type: {
+          name: "Composite",
+          className: "RedirectConfiguration"
         }
       }
     }

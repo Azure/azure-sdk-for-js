@@ -180,6 +180,11 @@ export interface RoutingRule extends SubResource {
    */
   enabledState?: FrontDoorEnabledState;
   /**
+   * @member {RedirectConfiguration} [redirectConfiguration] A reference to the
+   * redirect routing configuration.
+   */
+  redirectConfiguration?: RedirectConfiguration;
+  /**
    * @member {FrontDoorResourceState} [resourceState] Resource status. Possible
    * values include: 'Creating', 'Enabling', 'Enabled', 'Disabling',
    * 'Disabled', 'Deleting'
@@ -190,11 +195,10 @@ export interface RoutingRule extends SubResource {
    */
   name?: string;
   /**
-   * @member {string} [type] Resource type.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {RoutingRuleType} [type] Resource type. Possible values include:
+   * 'Forward', 'Redirect'
    */
-  readonly type?: string;
+  type?: RoutingRuleType;
 }
 
 /**
@@ -533,6 +537,59 @@ export interface CacheConfiguration {
 
 /**
  * @interface
+ * An interface representing RedirectConfiguration.
+ * The configuration for a redirect routing rule. This object is needed only if
+ * the type property of RoutingRule is set to Redirect.
+ *
+ */
+export interface RedirectConfiguration {
+  /**
+   * @member {FrontDoorRedirectProtocol} [redirectType] The redirect type the
+   * rule will use when redirecting traffic. Possible values include:
+   * 'Moved(301)', 'Found(302)', 'TemporaryRedirect(307)',
+   * 'PermanentRedirect(308)'
+   */
+  redirectType?: FrontDoorRedirectProtocol;
+  /**
+   * @member {FrontDoorDestinationProtocol} [destinationProtocol] The protocol
+   * of the destination where the traffic is forwarded to. Possible values
+   * include: 'MatchRequest', 'Htt', 'Https'
+   */
+  destinationProtocol?: FrontDoorDestinationProtocol;
+  /**
+   * @member {string} [destinationHost] If left blank, then we will use the
+   * incoming host as the destination host.
+   */
+  destinationHost?: string;
+  /**
+   * @member {string} [destinationPath] Path cannot be empty and must start
+   * with /.
+   */
+  destinationPath?: string;
+  /**
+   * @member {string} [destinationFragment] Fragment is the part of the URL
+   * that comes after #. Do not include the #.
+   */
+  destinationFragment?: string;
+  /**
+   * @member {boolean} [preservePath] Indicates whether the path is preserved.
+   */
+  preservePath?: boolean;
+  /**
+   * @member {boolean} [preserveQueryString] Indicates whether the query string
+   * is preserved.
+   */
+  preserveQueryString?: boolean;
+  /**
+   * @member {string} [extraQueryString] Any string to be added to the query
+   * string in the destination URL. ? and & will be added automatically so do
+   * not include them.
+   */
+  extraQueryString?: string;
+}
+
+/**
+ * @interface
  * An interface representing RoutingRuleUpdateParameters.
  * Routing rules to apply to an endpoint
  *
@@ -579,6 +636,11 @@ export interface RoutingRuleUpdateParameters {
    * include: 'Enabled', 'Disabled'
    */
   enabledState?: FrontDoorEnabledState;
+  /**
+   * @member {RedirectConfiguration} [redirectConfiguration] A reference to the
+   * redirect routing configuration.
+   */
+  redirectConfiguration?: RedirectConfiguration;
 }
 
 /**
@@ -1327,6 +1389,14 @@ export interface WebApplicationFirewallPolicyListResult extends Array<WebApplica
 export type FrontDoorResourceState = 'Creating' | 'Enabling' | 'Enabled' | 'Disabling' | 'Disabled' | 'Deleting';
 
 /**
+ * Defines values for RoutingRuleType.
+ * Possible values include: 'Forward', 'Redirect'
+ * @readonly
+ * @enum {string}
+ */
+export type RoutingRuleType = 'Forward' | 'Redirect';
+
+/**
  * Defines values for CustomHttpsProvisioningState.
  * Possible values include: 'Enabling', 'Enabled', 'Disabling', 'Disabled', 'Failed'
  * @readonly
@@ -1409,6 +1479,23 @@ export type FrontDoorQuery = 'StripNone' | 'StripAll';
  * @enum {string}
  */
 export type DynamicCompressionEnabled = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for FrontDoorRedirectProtocol.
+ * Possible values include: 'Moved(301)', 'Found(302)', 'TemporaryRedirect(307)',
+ * 'PermanentRedirect(308)'
+ * @readonly
+ * @enum {string}
+ */
+export type FrontDoorRedirectProtocol = 'Moved(301)' | 'Found(302)' | 'TemporaryRedirect(307)' | 'PermanentRedirect(308)';
+
+/**
+ * Defines values for FrontDoorDestinationProtocol.
+ * Possible values include: 'MatchRequest', 'Htt', 'Https'
+ * @readonly
+ * @enum {string}
+ */
+export type FrontDoorDestinationProtocol = 'MatchRequest' | 'Htt' | 'Https';
 
 /**
  * Defines values for SessionAffinityEnabledState.

@@ -15,6 +15,7 @@ export {
   SubResource,
   BaseResource,
   CacheConfiguration,
+  RedirectConfiguration,
   ErrorResponse,
   LoadBalancingSettingsModel,
   HealthProbeSettingsModel,

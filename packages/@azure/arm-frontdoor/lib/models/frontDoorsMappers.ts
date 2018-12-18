@@ -17,6 +17,7 @@ export {
   RoutingRule,
   SubResource,
   CacheConfiguration,
+  RedirectConfiguration,
   LoadBalancingSettingsModel,
   HealthProbeSettingsModel,
   BackendPool,

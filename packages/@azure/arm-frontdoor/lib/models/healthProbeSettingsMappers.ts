@@ -17,6 +17,7 @@ export {
   ErrorResponse,
   RoutingRule,
   CacheConfiguration,
+  RedirectConfiguration,
   LoadBalancingSettingsModel,
   BackendPool,
   Backend,

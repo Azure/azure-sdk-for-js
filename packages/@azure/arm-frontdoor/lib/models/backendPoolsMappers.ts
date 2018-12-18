@@ -18,6 +18,7 @@ export {
   ErrorResponse,
   RoutingRule,
   CacheConfiguration,
+  RedirectConfiguration,
   LoadBalancingSettingsModel,
   HealthProbeSettingsModel,
   FrontendEndpoint,
