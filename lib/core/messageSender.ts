@@ -128,7 +128,7 @@ export class MessageSender extends LinkEntity {
           senderError
         );
       }
-      if (sender && !sender.isClosed()) {
+      if (sender && !sender.isItselfClosed()) {
         if (!this.isConnecting) {
           log.error(
             "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
@@ -174,7 +174,7 @@ export class MessageSender extends LinkEntity {
           sessionError
         );
       }
-      if (sender && !sender.isSessionClosed()) {
+      if (sender && !sender.isSessionItselfClosed()) {
         if (!this.isConnecting) {
           log.error(
             "[%s] 'session_close' event occurred on the session of sender '%s' with " +
@@ -216,13 +216,11 @@ export class MessageSender extends LinkEntity {
    */
   async detached(senderError?: AmqpError | Error): Promise<void> {
     try {
-      const wasCloseInitiated = this._sender && this._sender.isClosed();
+      const wasCloseInitiated = this._sender && this._sender.isItselfClosed();
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
       await this._closeLink(this._sender);
-      // For session_close and sender_close this should attempt to reopen
-      // only when the sender(sdk) did not initiate the close) OR
-      // if an error is present and the error is retryable.
+      // We should attempt to reopen only when the sender(sdk) did not initiate the close
       let shouldReopen = false;
       if (senderError && !wasCloseInitiated) {
         const translatedError = translate(senderError);
