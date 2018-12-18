@@ -265,6 +265,7 @@ function pack(): void {
             // This happens if the package doesn't exist in NPM.
           }
 
+          _logger.logTrace(`Local version: ${localPackageVersion}, NPM version: ${npmPackageVersion}`);
           shouldPack = localPackageVersion !== npmPackageVersion;
         } else if (toPack === PackagesToPack.BranchHasChanges) {
           const packageFolderPathWithSep: string = normalize(packageFolderPath + path.posix.sep);
