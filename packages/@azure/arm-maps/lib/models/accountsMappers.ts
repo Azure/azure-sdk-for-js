@@ -14,6 +14,7 @@ export {
   MapsAccount,
   Resource,
   BaseResource,
+  MapsAccountProperties,
   ErrorModel,
   ErrorDetailsItem,
   MapsAccountUpdateParameters,

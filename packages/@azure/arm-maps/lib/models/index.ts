@@ -129,6 +129,19 @@ export interface Sku {
 
 /**
  * @interface
+ * An interface representing MapsAccountProperties.
+ * Additional Map account properties
+ *
+ */
+export interface MapsAccountProperties {
+  /**
+   * @member {string} [xMsClientId] A unique identifier for the maps account
+   */
+  xMsClientId?: string;
+}
+
+/**
+ * @interface
  * An interface representing MapsAccount.
  * An Azure resource which represents access to a suite of Maps REST APIs.
  *
@@ -157,6 +170,12 @@ export interface MapsAccount extends Resource {
    * the server.**
    */
   readonly sku?: Sku;
+  /**
+   * @member {MapsAccountProperties} [properties] The map account properties.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly properties?: MapsAccountProperties;
 }
 
 /**
