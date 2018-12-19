@@ -4,9 +4,11 @@
     ],
     "exclude": [
       "**/*.d.ts",
+      "lib/BlobDownloadResponse.browser.ts",
+      "lib/highlevel.browser.ts",
       "lib/highlevel.common.ts",
       "lib/models.ts",
-      "lib/generated/storageClient.ts"
+      "lib/generated/lib/storageClient.ts"
     ],
     "extension": [
       ".ts"
