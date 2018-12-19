@@ -144,6 +144,22 @@ export const Sku: msRest.CompositeMapper = {
   }
 };
 
+export const MapsAccountProperties: msRest.CompositeMapper = {
+  serializedName: "MapsAccountProperties",
+  type: {
+    name: "Composite",
+    className: "MapsAccountProperties",
+    modelProperties: {
+      xMsClientId: {
+        serializedName: "x-ms-client-id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const MapsAccount: msRest.CompositeMapper = {
   serializedName: "MapsAccount",
   type: {
@@ -176,6 +192,14 @@ export const MapsAccount: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Sku"
+        }
+      },
+      properties: {
+        readOnly: true,
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "MapsAccountProperties"
         }
       }
     }
