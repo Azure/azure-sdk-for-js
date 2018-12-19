@@ -56,7 +56,7 @@
     "xml2js": "^0.4.19"
   },
   "devDependencies": {
-    "@ts-common/azure-js-dev-tools": "^0.4.9",
+    "@ts-common/azure-js-dev-tools": "^0.5.1",
     "@types/chai": "^4.1.7",
     "@types/express": "^4.16.0",
     "@types/form-data": "^2.2.1",
@@ -122,8 +122,8 @@
     "test:server": "ts-node -T testserver",
     "test:coverage": "npm run test && opn coverage/index.html",
     "publish-preview": "mocha --no-colors && shx rm -rf dist/test && node ./.scripts/publish",
-    "local": "npm explore @ts-common/azure-js-dev-tools -- npm run local",
-    "latest": "npm explore @ts-common/azure-js-dev-tools -- npm run latest",
+    "local": "ts-node ./.scripts/local.ts",
+    "latest": "ts-node ./.scripts/latest.ts",
     "prepack": "npm i && npm run build",
     "check:packagejsonversion": "ts-node ./.scripts/checkPackageJsonVersion.ts"
   },
