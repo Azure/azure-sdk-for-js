@@ -53,7 +53,7 @@ export DEBUG=azure:service-bus:error,azure-amqp-common:error,rhea-promise:error,
       node your-test-script.js &> out.log
     ```
 
-## Examples ##
+## Examples 
 
 Please take a look at the [examples](https://github.com/Azure/azure-service-bus-node/tree/master/examples) directory for detailed examples.
 
@@ -76,6 +76,10 @@ npm i
 ```
 npm run build
 ```
+
+## Run/Debug tests 
+
+If you want to run or debug tests in this project, please see our [Test README](https://github.com/Azure/azure-service-bus-node/blob/master/test/README.md).
 
 ## AMQP Dependencies ##
 It depends on [rhea-promise](https://github.com/amqp/rhea-promise) library for managing connections, sending and receiving messages over the [AMQP](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
