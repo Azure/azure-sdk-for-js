@@ -329,6 +329,20 @@ export interface ErrorResponse {
 
 /**
  * @interface
+ * An interface representing Tags.
+ * Tags field of the HANA instance.
+ *
+ */
+export interface Tags {
+  /**
+   * @member {{ [propertyName: string]: string }} [tags] Tags field of the HANA
+   * instance.
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * @interface
  * An interface representing HanaManagementClientOptions.
  * @extends AzureServiceClientOptions
  */
@@ -450,6 +464,25 @@ export type HanaInstancesListByResourceGroupResponse = HanaInstancesListResult &
  * Contains response data for the get operation.
  */
 export type HanaInstancesGetResponse = HanaInstance & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HanaInstance;
+    };
+};
+
+/**
+ * Contains response data for the updateTags operation.
+ */
+export type HanaInstancesUpdateTagsResponse = HanaInstance & {
   /**
    * The underlying HTTP response.
    */

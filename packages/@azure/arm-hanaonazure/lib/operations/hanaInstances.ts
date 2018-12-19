@@ -117,6 +117,47 @@ export class HanaInstances {
   }
 
   /**
+   * Patches the Tags field of a SAP HANA instance for the specified subscription, resource group,
+   * and instance name.
+   * @summary Patches the Tags field of a SAP HANA instance.
+   * @param resourceGroupName Name of the resource group.
+   * @param hanaInstanceName Name of the SAP HANA on Azure instance.
+   * @param hanaInstancePatchTagsParameter Request body that contains the new Tags field for the HANA
+   * instance
+   * @param [options] The optional parameters
+   * @returns Promise<Models.HanaInstancesUpdateTagsResponse>
+   */
+  updateTags(resourceGroupName: string, hanaInstanceName: string, hanaInstancePatchTagsParameter: Models.Tags, options?: msRest.RequestOptionsBase): Promise<Models.HanaInstancesUpdateTagsResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group.
+   * @param hanaInstanceName Name of the SAP HANA on Azure instance.
+   * @param hanaInstancePatchTagsParameter Request body that contains the new Tags field for the HANA
+   * instance
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, hanaInstanceName: string, hanaInstancePatchTagsParameter: Models.Tags, callback: msRest.ServiceCallback<Models.HanaInstance>): void;
+  /**
+   * @param resourceGroupName Name of the resource group.
+   * @param hanaInstanceName Name of the SAP HANA on Azure instance.
+   * @param hanaInstancePatchTagsParameter Request body that contains the new Tags field for the HANA
+   * instance
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, hanaInstanceName: string, hanaInstancePatchTagsParameter: Models.Tags, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HanaInstance>): void;
+  updateTags(resourceGroupName: string, hanaInstanceName: string, hanaInstancePatchTagsParameter: Models.Tags, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HanaInstance>, callback?: msRest.ServiceCallback<Models.HanaInstance>): Promise<Models.HanaInstancesUpdateTagsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        hanaInstanceName,
+        hanaInstancePatchTagsParameter,
+        options
+      },
+      updateTagsOperationSpec,
+      callback) as Promise<Models.HanaInstancesUpdateTagsResponse>;
+  }
+
+  /**
    * The operation to restart a SAP HANA instance.
    * @param resourceGroupName Name of the resource group.
    * @param hanaInstanceName Name of the SAP HANA on Azure instance.
@@ -272,6 +313,38 @@ const getOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.HanaInstance
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const updateTagsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.hanaInstanceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "hanaInstancePatchTagsParameter",
+    mapper: {
+      ...Mappers.Tags,
+      required: true
+    }
+  },
   responses: {
     200: {
       bodyMapper: Mappers.HanaInstance

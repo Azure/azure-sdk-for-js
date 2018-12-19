@@ -367,6 +367,27 @@ export const ErrorResponse: msRest.CompositeMapper = {
   }
 };
 
+export const Tags: msRest.CompositeMapper = {
+  serializedName: "Tags",
+  type: {
+    name: "Composite",
+    className: "Tags",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const OperationList: msRest.CompositeMapper = {
   serializedName: "OperationList",
   type: {
