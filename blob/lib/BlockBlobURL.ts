@@ -53,7 +53,7 @@ export class BlockBlobURL extends BlobURL {
    *
    * @static
    * @param {ContainerURL} containerURL A ContainerURL object
-   * @param {string} blobName A blob name
+   * @param {string} blobName A block blob name
    * @returns {BlockBlobURL}
    * @memberof BlockBlobURL
    */
@@ -90,10 +90,17 @@ export class BlockBlobURL extends BlobURL {
 
   /**
    * Creates an instance of BlockBlobURL.
+   * This method accepts an encoded URL or non-encoded URL pointing to a block blob.
+   * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+   * If a blob name includes ? or %, blob name must be encoded in the URL.
+   *
    * @param {string} url A URL string pointing to Azure Storage block blob, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer/blockblob". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer/blockblob?sasString".
+   *                     This method accepts an encoded URL or non-encoded URL pointing to a blob.
+   *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+   *                     If a blob name includes ? or %, blob name must be encoded in the URL.
    * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlockBlobURL

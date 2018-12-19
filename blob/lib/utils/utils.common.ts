@@ -13,9 +13,9 @@ import { isNode, URLBuilder } from "ms-rest-js";
  *
  * This is what legacy V2 SDK does, simple and works for most of the cases.
  * - When customer URL string is "http://account.blob.core.windows.net/con/b:",
- *   SDK will encode it to "http://account.blob.core.windows.net/con/b%3A" and send to Sever. A blob named "b:" will be created.
+ *   SDK will encode it to "http://account.blob.core.windows.net/con/b%3A" and send to server. A blob named "b:" will be created.
  * - When customer URL string is "http://account.blob.core.windows.net/con/b%3A",
- *   SDK will encode it to "http://account.blob.core.windows.net/con/b%253A" and send to Server. A blob named "b%3A" will be created.
+ *   SDK will encode it to "http://account.blob.core.windows.net/con/b%253A" and send to server. A blob named "b%3A" will be created.
  *
  * But this strategy will make it not possible to create a blob with "?" in it's name. Because when customer URL string is
  * "http://account.blob.core.windows.net/con/blob?name", the "?name" will be treated as URL paramter instead of blob name.
@@ -27,26 +27,25 @@ import { isNode, URLBuilder } from "ms-rest-js";
  *
  * This is what V10 Blob Go SDK does. It accepts a URL type in Go, and call url.EscapedPath() to escape the special chars unescaped.
  * - When customer URL string is "http://account.blob.core.windows.net/con/b:",
- *   SDK will escape ":" like "http://account.blob.core.windows.net/con/b%3A" and send to Sever. A blob named "b:" will be created.
+ *   SDK will escape ":" like "http://account.blob.core.windows.net/con/b%3A" and send to server. A blob named "b:" will be created.
  * - When customer URL string is "http://account.blob.core.windows.net/con/b%3A",
- *   There is no special characters, so send "http://account.blob.core.windows.net/con/b%3A" to Server. A blob named "b:" will be created.
+ *   There is no special characters, so send "http://account.blob.core.windows.net/con/b%3A" to server. A blob named "b:" will be created.
  * - When customer URL string is "http://account.blob.core.windows.net/con/b%253A",
- *   There is no special characters, so send "http://account.blob.core.windows.net/con/b%253A" to Server. A blob named "b%3A" will be created.
+ *   There is no special characters, so send "http://account.blob.core.windows.net/con/b%253A" to server. A blob named "b%3A" will be created.
  *
  * This strategy gives us flexibility to create with any special characters. But "%" will be treated as a special characters, if the URL string
  * is not encoded, there shouldn't a "%" in the URL string, otherwise the URL is not a valid URL.
- * If customer needs to create a blob with "%" in it's blob name, he need use "%25" insead of "%" directly. Just like above 3rd sample.
+ * If customer needs to create a blob with "%" in it's blob name, use "%25" insead of "%". Just like above 3rd sample.
  * And following URL strings are invalid:
  * - "http://account.blob.core.windows.net/con/b%"
  * - "http://account.blob.core.windows.net/con/b%2"
  * - "http://account.blob.core.windows.net/con/b%G"
  *
- * Another special character is "?", use "%2F" to represent a "?" in a URL string.
+ * Another special character is "?", use "%2F" to represent a blob name with "?" in a URL string.
  *
  * ### Strategy for containerName, blobName or other specific XXXName parameters in methods such as `BlobURL.fromContainerURL(containerURL, blobName)`
  *
  * We will apply strategy one, and call encodeURIComponent for these parameters like blobName. Because what customers passes in is a plain name instead of a URL.
- *
  *
  * @see https://docs.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
  * @see https://docs.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-shares--directories--files--and-metadata
@@ -55,7 +54,7 @@ import { isNode, URLBuilder } from "ms-rest-js";
  * @param {string} url
  * @returns {string}
  */
-export function escapeURL(url: string): string {
+export function escapeURLPath(url: string): string {
   const urlParsed = URLBuilder.parse(url);
 
   let path = urlParsed.getPath();
@@ -78,7 +77,7 @@ function escape(text: string): string {
     .replace(/%2F/g, "/") // Don't escape for "/"
     .replace(/'/g, "%27") // Escape for "'"
     .replace(/\+/g, "%20")
-    .replace(/%25/g, "%"); // Revert encoded transfer for "%"
+    .replace(/%25/g, "%"); // Revert encoded "%"
 }
 
 /**

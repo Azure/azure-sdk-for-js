@@ -12,7 +12,7 @@ import {
 } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 import { SERVICE_VERSION } from "./utils/constants";
-import { escapeURL } from "./utils/utils.common";
+import { escapeURLPath } from "./utils/utils.common";
 
 export { deserializationPolicy };
 
@@ -85,7 +85,7 @@ export abstract class StorageURL {
   public readonly pipeline: Pipeline;
 
   /**
-   * URL string value.
+   * Encoded URL string value.
    *
    * @type {string}
    * @memberof StorageURL
@@ -109,7 +109,7 @@ export abstract class StorageURL {
    * @memberof StorageURL
    */
   protected constructor(url: string, pipeline: Pipeline) {
-    this.url = escapeURL(url);
+    this.url = escapeURLPath(url);
     this.pipeline = pipeline;
     this.storageClientContext = new StorageClientContext(
       this.url,

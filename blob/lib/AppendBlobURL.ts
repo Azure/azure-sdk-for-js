@@ -39,7 +39,7 @@ export class AppendBlobURL extends BlobURL {
    *
    * @static
    * @param {ContainerURL} containerURL A ContainerURL object
-   * @param {string} blobName A blob name will be URI encoded
+   * @param {string} blobName An append blob name
    * @returns {AppendBlobURL}
    * @memberof AppendBlobURL
    */
@@ -76,10 +76,17 @@ export class AppendBlobURL extends BlobURL {
 
   /**
    * Creates an instance of AppendBlobURL.
+   * This method accepts an encoded URL or non-encoded URL pointing to an append blob.
+   * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+   * If a blob name includes ? or %, blob name must be encoded in the URL.
+   *
    * @param {string} url A URL string pointing to Azure Storage append blob, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer/appendblob". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer/appendblob?sasString".
+   *                     This method accepts an encoded URL or non-encoded URL pointing to a blob.
+   *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+   *                     If a blob name includes ? or %, blob name must be encoded in the URL.
    * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof AppendBlobURL
