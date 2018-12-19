@@ -46,6 +46,7 @@ jobs:
         inputs:
           contents: 'packages/**/*.tgz'
           targetFolder: $(Build.ArtifactStagingDirectory)
+          flattenFolders: true
         displayName: 'Copy Packages'
 
       - task: PublishBuildArtifacts@1
