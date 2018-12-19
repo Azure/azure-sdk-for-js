@@ -1,10 +1,6 @@
 trigger:
   - master
 
-# pipeline-variables:
-#   source.path: directory to build packages
-#   test.path: directory to run tests
-
 variables:
   node.version: '10.x'
 
@@ -20,32 +16,38 @@ jobs:
           versionSpec: '$(node.version)'
         displayName: 'Install Node.js $(node.version)'
 
+      # Reduce build time by only installing the "npm-run-all" package, which is the minimum required to run the
+      # composite script commands.
       - task: Npm@1
         inputs:
-          command: 'install'
-          workingDir: '$(source.path)'
-        displayName: 'npm install'
+          command: 'custom'
+          customCommand: 'install npm-run-all'
+        displayName: 'npm install npm-run-all'
 
       - task: Npm@1
         inputs:
           command: 'custom'
-          customCommand: 'run build'
-          workingDir: '$(source.path)'
-        displayName: 'npm run build'
+          customCommand: 'run install-client'
+        displayName: 'npm run install-client'
 
       - task: Npm@1
         inputs:
           command: 'custom'
-          customCommand: 'pack'
-          workingDir: '$(source.path)'
-        displayName: 'npm pack'
+          customCommand: 'run build-client'
+        displayName: 'npm run build-client'
+
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'run pack-client'
+        displayName: 'npm run pack-client'
 
       - task: CopyFiles@2
         inputs:
-          sourceFolder: '$(source.path)'
-          contents: '*.tgz'
+          contents: 'packages/**/*.tgz'
           targetFolder: $(Build.ArtifactStagingDirectory)
-        displayName: 'Copy Package'
+          flattenFolders: true
+        displayName: 'Copy Packages'
 
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Package'
@@ -63,14 +65,14 @@ jobs:
 
       - task: Npm@1
         inputs:
-          command: 'custom'
-          customCommand: 'i --package-lock-only'
-          workingDir: '$(source.path)'
-        displayName: 'npm i --package-lock-only'
+          command: 'install'
+        displayName: 'npm install'
 
-      - powershell: "npm audit --json | ConvertFrom-Json | Select-Object  -expandProperty 'metadata' | select-object -expandproperty 'vulnerabilities' | %{ if ($_.low + $_.moderate + $_.high + $_.critical -ne 0) { write-error 'FAILED! Your package has vulnerabilities. Check npm audit' }}"
-        workingDirectory: '$(source.path)'
-        displayName: 'npm audit'
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'run audit-client'
+        displayName: 'npm run audit-client'
 
       - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
         # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
