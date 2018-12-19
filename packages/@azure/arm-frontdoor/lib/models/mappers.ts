@@ -188,6 +188,12 @@ export const RoutingRule: msRest.CompositeMapper = {
     className: "RoutingRule",
     modelProperties: {
       ...SubResource.type.modelProperties,
+      routeType: {
+        serializedName: "properties.routeType",
+        type: {
+          name: "String"
+        }
+      },
       frontendEndpoints: {
         serializedName: "properties.frontendEndpoints",
         type: {
@@ -274,6 +280,7 @@ export const RoutingRule: msRest.CompositeMapper = {
         }
       },
       type: {
+        readOnly: true,
         serializedName: "type",
         type: {
           name: "String"
@@ -765,6 +772,12 @@ export const RoutingRuleUpdateParameters: msRest.CompositeMapper = {
     name: "Composite",
     className: "RoutingRuleUpdateParameters",
     modelProperties: {
+      routeType: {
+        serializedName: "routeType",
+        type: {
+          name: "String"
+        }
+      },
       frontendEndpoints: {
         serializedName: "frontendEndpoints",
         type: {

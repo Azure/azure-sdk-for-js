@@ -139,6 +139,11 @@ export interface SubResource extends BaseResource {
  */
 export interface RoutingRule extends SubResource {
   /**
+   * @member {FrontDoorRouteType} [routeType] Route type. Possible values
+   * include: 'Forward', 'Redirect'
+   */
+  routeType?: FrontDoorRouteType;
+  /**
    * @member {SubResource[]} [frontendEndpoints] Frontend endpoints associated
    * with this rule
    */
@@ -195,10 +200,11 @@ export interface RoutingRule extends SubResource {
    */
   name?: string;
   /**
-   * @member {RoutingRuleType} [type] Resource type. Possible values include:
-   * 'Forward', 'Redirect'
+   * @member {string} [type] Resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  type?: RoutingRuleType;
+  readonly type?: string;
 }
 
 /**
@@ -553,7 +559,7 @@ export interface RedirectConfiguration {
   /**
    * @member {FrontDoorDestinationProtocol} [destinationProtocol] The protocol
    * of the destination where the traffic is forwarded to. Possible values
-   * include: 'MatchRequest', 'Htt', 'Https'
+   * include: 'MatchRequest', 'Http', 'Https'
    */
   destinationProtocol?: FrontDoorDestinationProtocol;
   /**
@@ -595,6 +601,11 @@ export interface RedirectConfiguration {
  *
  */
 export interface RoutingRuleUpdateParameters {
+  /**
+   * @member {FrontDoorRouteType} [routeType] Route type. Possible values
+   * include: 'Forward', 'Redirect'
+   */
+  routeType?: FrontDoorRouteType;
   /**
    * @member {SubResource[]} [frontendEndpoints] Frontend endpoints associated
    * with this rule
@@ -1389,14 +1400,6 @@ export interface WebApplicationFirewallPolicyListResult extends Array<WebApplica
 export type FrontDoorResourceState = 'Creating' | 'Enabling' | 'Enabled' | 'Disabling' | 'Disabled' | 'Deleting';
 
 /**
- * Defines values for RoutingRuleType.
- * Possible values include: 'Forward', 'Redirect'
- * @readonly
- * @enum {string}
- */
-export type RoutingRuleType = 'Forward' | 'Redirect';
-
-/**
  * Defines values for CustomHttpsProvisioningState.
  * Possible values include: 'Enabling', 'Enabled', 'Disabling', 'Disabled', 'Failed'
  * @readonly
@@ -1449,6 +1452,14 @@ export type FrontDoorCertificateType = 'Dedicated';
 export type FrontDoorEnabledState = 'Enabled' | 'Disabled';
 
 /**
+ * Defines values for FrontDoorRouteType.
+ * Possible values include: 'Forward', 'Redirect'
+ * @readonly
+ * @enum {string}
+ */
+export type FrontDoorRouteType = 'Forward' | 'Redirect';
+
+/**
  * Defines values for FrontDoorProtocol.
  * Possible values include: 'Http', 'Https'
  * @readonly
@@ -1491,11 +1502,11 @@ export type FrontDoorRedirectProtocol = 'Moved(301)' | 'Found(302)' | 'Temporary
 
 /**
  * Defines values for FrontDoorDestinationProtocol.
- * Possible values include: 'MatchRequest', 'Htt', 'Https'
+ * Possible values include: 'MatchRequest', 'Http', 'Https'
  * @readonly
  * @enum {string}
  */
-export type FrontDoorDestinationProtocol = 'MatchRequest' | 'Htt' | 'Https';
+export type FrontDoorDestinationProtocol = 'MatchRequest' | 'Http' | 'Https';
 
 /**
  * Defines values for SessionAffinityEnabledState.
