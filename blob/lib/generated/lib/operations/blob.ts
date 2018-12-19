@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/blobMappers";
 import * as Parameters from "../models/parameters";
@@ -29,20 +29,20 @@ export class Blob {
   /**
    * The Download operation reads or downloads a blob from the system, including its metadata and
    * properties. You can also call Download to read a snapshot.
-   *
-   * @param {BlobDownloadOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobDownloadResponse>
    */
-  download(): Promise<Models.BlobDownloadResponse>;
-  download(options: Models.BlobDownloadOptionalParams): Promise<Models.BlobDownloadResponse>;
+  download(options?: Models.BlobDownloadOptionalParams): Promise<Models.BlobDownloadResponse>;
+  /**
+   * @param callback The callback
+   */
   download(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   download(options: Models.BlobDownloadOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  download(options?: Models.BlobDownloadOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobDownloadResponse> {
+  download(options?: Models.BlobDownloadOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobDownloadResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -54,20 +54,20 @@ export class Blob {
   /**
    * The Get Properties operation returns all user-defined metadata, standard HTTP properties, and
    * system properties for the blob. It does not return the content of the blob.
-   *
-   * @param {BlobGetPropertiesOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobGetPropertiesResponse>
    */
-  getProperties(): Promise<Models.BlobGetPropertiesResponse>;
-  getProperties(options: Models.BlobGetPropertiesOptionalParams): Promise<Models.BlobGetPropertiesResponse>;
+  getProperties(options?: Models.BlobGetPropertiesOptionalParams): Promise<Models.BlobGetPropertiesResponse>;
+  /**
+   * @param callback The callback
+   */
   getProperties(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   getProperties(options: Models.BlobGetPropertiesOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  getProperties(options?: Models.BlobGetPropertiesOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobGetPropertiesResponse> {
+  getProperties(options?: Models.BlobGetPropertiesOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -89,20 +89,20 @@ export class Blob {
    * deleted. You can then use the Undelete Blob API to restore a soft-deleted blob. All other
    * operations on a soft-deleted blob or snapshot causes the service to return an HTTP status code
    * of 404 (ResourceNotFound).
-   *
-   * @param {BlobDeleteMethodOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobDeleteResponse>
    */
-  deleteMethod(): Promise<Models.BlobDeleteResponse>;
-  deleteMethod(options: Models.BlobDeleteMethodOptionalParams): Promise<Models.BlobDeleteResponse>;
+  deleteMethod(options?: Models.BlobDeleteMethodOptionalParams): Promise<Models.BlobDeleteResponse>;
+  /**
+   * @param callback The callback
+   */
   deleteMethod(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   deleteMethod(options: Models.BlobDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(options?: Models.BlobDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobDeleteResponse> {
+  deleteMethod(options?: Models.BlobDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -113,20 +113,20 @@ export class Blob {
 
   /**
    * Undelete a blob that was previously soft deleted
-   *
-   * @param {BlobUndeleteOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobUndeleteResponse>
    */
-  undelete(): Promise<Models.BlobUndeleteResponse>;
-  undelete(options: Models.BlobUndeleteOptionalParams): Promise<Models.BlobUndeleteResponse>;
+  undelete(options?: Models.BlobUndeleteOptionalParams): Promise<Models.BlobUndeleteResponse>;
+  /**
+   * @param callback The callback
+   */
   undelete(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   undelete(options: Models.BlobUndeleteOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  undelete(options?: Models.BlobUndeleteOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobUndeleteResponse> {
+  undelete(options?: Models.BlobUndeleteOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobUndeleteResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -137,20 +137,20 @@ export class Blob {
 
   /**
    * The Set HTTP Headers operation sets system properties on the blob
-   *
-   * @param {BlobSetHTTPHeadersOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobSetHTTPHeadersResponse>
    */
-  setHTTPHeaders(): Promise<Models.BlobSetHTTPHeadersResponse>;
-  setHTTPHeaders(options: Models.BlobSetHTTPHeadersOptionalParams): Promise<Models.BlobSetHTTPHeadersResponse>;
+  setHTTPHeaders(options?: Models.BlobSetHTTPHeadersOptionalParams): Promise<Models.BlobSetHTTPHeadersResponse>;
+  /**
+   * @param callback The callback
+   */
   setHTTPHeaders(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   setHTTPHeaders(options: Models.BlobSetHTTPHeadersOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  setHTTPHeaders(options?: Models.BlobSetHTTPHeadersOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobSetHTTPHeadersResponse> {
+  setHTTPHeaders(options?: Models.BlobSetHTTPHeadersOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobSetHTTPHeadersResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -162,20 +162,20 @@ export class Blob {
   /**
    * The Set Blob Metadata operation sets user-defined metadata for the specified blob as one or more
    * name-value pairs
-   *
-   * @param {BlobSetMetadataOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobSetMetadataResponse>
    */
-  setMetadata(): Promise<Models.BlobSetMetadataResponse>;
-  setMetadata(options: Models.BlobSetMetadataOptionalParams): Promise<Models.BlobSetMetadataResponse>;
+  setMetadata(options?: Models.BlobSetMetadataOptionalParams): Promise<Models.BlobSetMetadataResponse>;
+  /**
+   * @param callback The callback
+   */
   setMetadata(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   setMetadata(options: Models.BlobSetMetadataOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  setMetadata(options?: Models.BlobSetMetadataOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobSetMetadataResponse> {
+  setMetadata(options?: Models.BlobSetMetadataOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobSetMetadataResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -187,20 +187,20 @@ export class Blob {
   /**
    * [Update] The Lease Blob operation establishes and manages a lock on a blob for write and delete
    * operations
-   *
-   * @param {BlobAcquireLeaseOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobAcquireLeaseResponse>
    */
-  acquireLease(): Promise<Models.BlobAcquireLeaseResponse>;
-  acquireLease(options: Models.BlobAcquireLeaseOptionalParams): Promise<Models.BlobAcquireLeaseResponse>;
+  acquireLease(options?: Models.BlobAcquireLeaseOptionalParams): Promise<Models.BlobAcquireLeaseResponse>;
+  /**
+   * @param callback The callback
+   */
   acquireLease(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   acquireLease(options: Models.BlobAcquireLeaseOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  acquireLease(options?: Models.BlobAcquireLeaseOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobAcquireLeaseResponse> {
+  acquireLease(options?: Models.BlobAcquireLeaseOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobAcquireLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -212,22 +212,23 @@ export class Blob {
   /**
    * [Update] The Lease Blob operation establishes and manages a lock on a blob for write and delete
    * operations
-   *
-   * @param {string} leaseId Specifies the current lease ID on the resource.
-   *
-   * @param {BlobReleaseLeaseOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobReleaseLeaseResponse>
    */
-  releaseLease(leaseId: string): Promise<Models.BlobReleaseLeaseResponse>;
-  releaseLease(leaseId: string, options: Models.BlobReleaseLeaseOptionalParams): Promise<Models.BlobReleaseLeaseResponse>;
+  releaseLease(leaseId: string, options?: Models.BlobReleaseLeaseOptionalParams): Promise<Models.BlobReleaseLeaseResponse>;
+  /**
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param callback The callback
+   */
   releaseLease(leaseId: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   releaseLease(leaseId: string, options: Models.BlobReleaseLeaseOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  releaseLease(leaseId: string, options?: Models.BlobReleaseLeaseOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobReleaseLeaseResponse> {
+  releaseLease(leaseId: string, options?: Models.BlobReleaseLeaseOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobReleaseLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         leaseId,
@@ -240,22 +241,23 @@ export class Blob {
   /**
    * [Update] The Lease Blob operation establishes and manages a lock on a blob for write and delete
    * operations
-   *
-   * @param {string} leaseId Specifies the current lease ID on the resource.
-   *
-   * @param {BlobRenewLeaseOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobRenewLeaseResponse>
    */
-  renewLease(leaseId: string): Promise<Models.BlobRenewLeaseResponse>;
-  renewLease(leaseId: string, options: Models.BlobRenewLeaseOptionalParams): Promise<Models.BlobRenewLeaseResponse>;
+  renewLease(leaseId: string, options?: Models.BlobRenewLeaseOptionalParams): Promise<Models.BlobRenewLeaseResponse>;
+  /**
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param callback The callback
+   */
   renewLease(leaseId: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   renewLease(leaseId: string, options: Models.BlobRenewLeaseOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  renewLease(leaseId: string, options?: Models.BlobRenewLeaseOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobRenewLeaseResponse> {
+  renewLease(leaseId: string, options?: Models.BlobRenewLeaseOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobRenewLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         leaseId,
@@ -268,26 +270,32 @@ export class Blob {
   /**
    * [Update] The Lease Blob operation establishes and manages a lock on a blob for write and delete
    * operations
-   *
-   * @param {string} leaseId Specifies the current lease ID on the resource.
-   *
-   * @param {string} proposedLeaseId Proposed lease ID, in a GUID string format. The Blob service
-   * returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid
-   * Constructor (String) for a list of valid GUID string formats.
-   *
-   * @param {BlobChangeLeaseOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param proposedLeaseId Proposed lease ID, in a GUID string format. The Blob service returns 400
+   * (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor
+   * (String) for a list of valid GUID string formats.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobChangeLeaseResponse>
    */
-  changeLease(leaseId: string, proposedLeaseId: string): Promise<Models.BlobChangeLeaseResponse>;
-  changeLease(leaseId: string, proposedLeaseId: string, options: Models.BlobChangeLeaseOptionalParams): Promise<Models.BlobChangeLeaseResponse>;
+  changeLease(leaseId: string, proposedLeaseId: string, options?: Models.BlobChangeLeaseOptionalParams): Promise<Models.BlobChangeLeaseResponse>;
+  /**
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param proposedLeaseId Proposed lease ID, in a GUID string format. The Blob service returns 400
+   * (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor
+   * (String) for a list of valid GUID string formats.
+   * @param callback The callback
+   */
   changeLease(leaseId: string, proposedLeaseId: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param proposedLeaseId Proposed lease ID, in a GUID string format. The Blob service returns 400
+   * (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor
+   * (String) for a list of valid GUID string formats.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   changeLease(leaseId: string, proposedLeaseId: string, options: Models.BlobChangeLeaseOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  changeLease(leaseId: string, proposedLeaseId: string, options?: Models.BlobChangeLeaseOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobChangeLeaseResponse> {
+  changeLease(leaseId: string, proposedLeaseId: string, options?: Models.BlobChangeLeaseOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobChangeLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         leaseId,
@@ -301,20 +309,20 @@ export class Blob {
   /**
    * [Update] The Lease Blob operation establishes and manages a lock on a blob for write and delete
    * operations
-   *
-   * @param {BlobBreakLeaseOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobBreakLeaseResponse>
    */
-  breakLease(): Promise<Models.BlobBreakLeaseResponse>;
-  breakLease(options: Models.BlobBreakLeaseOptionalParams): Promise<Models.BlobBreakLeaseResponse>;
+  breakLease(options?: Models.BlobBreakLeaseOptionalParams): Promise<Models.BlobBreakLeaseResponse>;
+  /**
+   * @param callback The callback
+   */
   breakLease(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   breakLease(options: Models.BlobBreakLeaseOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  breakLease(options?: Models.BlobBreakLeaseOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobBreakLeaseResponse> {
+  breakLease(options?: Models.BlobBreakLeaseOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobBreakLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -325,20 +333,20 @@ export class Blob {
 
   /**
    * The Create Snapshot operation creates a read-only snapshot of a blob
-   *
-   * @param {BlobCreateSnapshotOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobCreateSnapshotResponse>
    */
-  createSnapshot(): Promise<Models.BlobCreateSnapshotResponse>;
-  createSnapshot(options: Models.BlobCreateSnapshotOptionalParams): Promise<Models.BlobCreateSnapshotResponse>;
+  createSnapshot(options?: Models.BlobCreateSnapshotOptionalParams): Promise<Models.BlobCreateSnapshotResponse>;
+  /**
+   * @param callback The callback
+   */
   createSnapshot(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   createSnapshot(options: Models.BlobCreateSnapshotOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  createSnapshot(options?: Models.BlobCreateSnapshotOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobCreateSnapshotResponse> {
+  createSnapshot(options?: Models.BlobCreateSnapshotOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobCreateSnapshotResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -349,25 +357,32 @@ export class Blob {
 
   /**
    * The Start Copy From URL operation copies a blob or an internet resource to a new blob.
-   *
-   * @param {string} copySource Specifies the name of the source page blob snapshot. This value is a
-   * URL of up to 2 KB in length that specifies a page blob snapshot. The value should be URL-encoded
-   * as it would appear in a request URI. The source blob must either be public or must be
-   * authenticated via a shared access signature.
-   *
-   * @param {BlobStartCopyFromURLOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param copySource Specifies the name of the source page blob snapshot. This value is a URL of up
+   * to 2 KB in length that specifies a page blob snapshot. The value should be URL-encoded as it
+   * would appear in a request URI. The source blob must either be public or must be authenticated
+   * via a shared access signature.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobStartCopyFromURLResponse>
    */
-  startCopyFromURL(copySource: string): Promise<Models.BlobStartCopyFromURLResponse>;
-  startCopyFromURL(copySource: string, options: Models.BlobStartCopyFromURLOptionalParams): Promise<Models.BlobStartCopyFromURLResponse>;
+  startCopyFromURL(copySource: string, options?: Models.BlobStartCopyFromURLOptionalParams): Promise<Models.BlobStartCopyFromURLResponse>;
+  /**
+   * @param copySource Specifies the name of the source page blob snapshot. This value is a URL of up
+   * to 2 KB in length that specifies a page blob snapshot. The value should be URL-encoded as it
+   * would appear in a request URI. The source blob must either be public or must be authenticated
+   * via a shared access signature.
+   * @param callback The callback
+   */
   startCopyFromURL(copySource: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param copySource Specifies the name of the source page blob snapshot. This value is a URL of up
+   * to 2 KB in length that specifies a page blob snapshot. The value should be URL-encoded as it
+   * would appear in a request URI. The source blob must either be public or must be authenticated
+   * via a shared access signature.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   startCopyFromURL(copySource: string, options: Models.BlobStartCopyFromURLOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  startCopyFromURL(copySource: string, options?: Models.BlobStartCopyFromURLOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobStartCopyFromURLResponse> {
+  startCopyFromURL(copySource: string, options?: Models.BlobStartCopyFromURLOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobStartCopyFromURLResponse> {
     return this.client.sendOperationRequest(
       {
         copySource,
@@ -380,23 +395,26 @@ export class Blob {
   /**
    * The Abort Copy From URL operation aborts a pending Copy From URL operation, and leaves a
    * destination blob with zero length and full metadata.
-   *
-   * @param {string} copyId The copy identifier provided in the x-ms-copy-id header of the original
-   * Copy Blob operation.
-   *
-   * @param {BlobAbortCopyFromURLOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param copyId The copy identifier provided in the x-ms-copy-id header of the original Copy Blob
+   * operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobAbortCopyFromURLResponse>
    */
-  abortCopyFromURL(copyId: string): Promise<Models.BlobAbortCopyFromURLResponse>;
-  abortCopyFromURL(copyId: string, options: Models.BlobAbortCopyFromURLOptionalParams): Promise<Models.BlobAbortCopyFromURLResponse>;
+  abortCopyFromURL(copyId: string, options?: Models.BlobAbortCopyFromURLOptionalParams): Promise<Models.BlobAbortCopyFromURLResponse>;
+  /**
+   * @param copyId The copy identifier provided in the x-ms-copy-id header of the original Copy Blob
+   * operation.
+   * @param callback The callback
+   */
   abortCopyFromURL(copyId: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param copyId The copy identifier provided in the x-ms-copy-id header of the original Copy Blob
+   * operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   abortCopyFromURL(copyId: string, options: Models.BlobAbortCopyFromURLOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  abortCopyFromURL(copyId: string, options?: Models.BlobAbortCopyFromURLOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobAbortCopyFromURLResponse> {
+  abortCopyFromURL(copyId: string, options?: Models.BlobAbortCopyFromURLOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobAbortCopyFromURLResponse> {
     return this.client.sendOperationRequest(
       {
         copyId,
@@ -412,23 +430,26 @@ export class Blob {
    * only). A premium page blob's tier determines the allowed size, IOPS, and bandwidth of the blob.
    * A block blob's tier determines Hot/Cool/Archive storage type. This operation does not update the
    * blob's ETag.
-   *
-   * @param {AccessTier} tier Indicates the tier to be set on the blob. Possible values include:
-   * 'P4', 'P6', 'P10', 'P20', 'P30', 'P40', 'P50', 'Hot', 'Cool', 'Archive'
-   *
-   * @param {BlobSetTierOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param tier Indicates the tier to be set on the blob. Possible values include: 'P4', 'P6',
+   * 'P10', 'P20', 'P30', 'P40', 'P50', 'Hot', 'Cool', 'Archive'
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobSetTierResponse>
    */
-  setTier(tier: Models.AccessTier): Promise<Models.BlobSetTierResponse>;
-  setTier(tier: Models.AccessTier, options: Models.BlobSetTierOptionalParams): Promise<Models.BlobSetTierResponse>;
+  setTier(tier: Models.AccessTier, options?: Models.BlobSetTierOptionalParams): Promise<Models.BlobSetTierResponse>;
+  /**
+   * @param tier Indicates the tier to be set on the blob. Possible values include: 'P4', 'P6',
+   * 'P10', 'P20', 'P30', 'P40', 'P50', 'Hot', 'Cool', 'Archive'
+   * @param callback The callback
+   */
   setTier(tier: Models.AccessTier, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param tier Indicates the tier to be set on the blob. Possible values include: 'P4', 'P6',
+   * 'P10', 'P20', 'P30', 'P40', 'P50', 'Hot', 'Cool', 'Archive'
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   setTier(tier: Models.AccessTier, options: Models.BlobSetTierOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  setTier(tier: Models.AccessTier, options?: Models.BlobSetTierOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobSetTierResponse> {
+  setTier(tier: Models.AccessTier, options?: Models.BlobSetTierOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobSetTierResponse> {
     return this.client.sendOperationRequest(
       {
         tier,
@@ -440,20 +461,20 @@ export class Blob {
 
   /**
    * Returns the sku name and account kind
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobGetAccountInfoResponse>
    */
-  getAccountInfo(): Promise<Models.BlobGetAccountInfoResponse>;
-  getAccountInfo(options: msRest.RequestOptionsBase): Promise<Models.BlobGetAccountInfoResponse>;
+  getAccountInfo(options?: msRest.RequestOptionsBase): Promise<Models.BlobGetAccountInfoResponse>;
+  /**
+   * @param callback The callback
+   */
   getAccountInfo(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   getAccountInfo(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getAccountInfo(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobGetAccountInfoResponse> {
+  getAccountInfo(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobGetAccountInfoResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -461,7 +482,6 @@ export class Blob {
       getAccountInfoOperationSpec,
       callback) as Promise<Models.BlobGetAccountInfoResponse>;
   }
-
 }
 
 // Operation Specifications

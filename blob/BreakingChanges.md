@@ -1,5 +1,11 @@
 # Breaking Changes
 
+2018.12 10.3.0
+
+* Updated convenience layer methods enum type parameters into typescript union types, this will help reducing bundle footprint.
+* Updated URL encoding strategy for `url` parameters of `new XXXURL(url, pipeline)` methods, such as `new BlobURL(url, pipeline)`.
+  * URL will accept both encoded or non-encoded URL string. It will escape non-escaped special characters, like Chinese characters. However, if blob name includes `?` or `%`, `url` must be encoded manually.
+
 2018.11 10.2.0-preview
 
 * Updated names of exported interfaces `IHTTPPipelineLogger` & `IHTTPClient` to `IHttpPipelineLogger` & `IHttpClient`.

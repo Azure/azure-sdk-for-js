@@ -2,7 +2,7 @@ import {
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptions
-} from "ms-rest-js";
+} from "@azure/ms-rest-js";
 
 import { CredentialPolicy } from "../policies/CredentialPolicy";
 

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/containerMappers";
 import * as Parameters from "../models/parameters";
@@ -29,20 +29,20 @@ export class Container {
   /**
    * creates a new container under the specified account. If the container with the same name already
    * exists, the operation fails
-   *
-   * @param {ContainerCreateOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ContainerCreateResponse>
    */
-  create(): Promise<Models.ContainerCreateResponse>;
-  create(options: Models.ContainerCreateOptionalParams): Promise<Models.ContainerCreateResponse>;
+  create(options?: Models.ContainerCreateOptionalParams): Promise<Models.ContainerCreateResponse>;
+  /**
+   * @param callback The callback
+   */
   create(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   create(options: Models.ContainerCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(options?: Models.ContainerCreateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerCreateResponse> {
+  create(options?: Models.ContainerCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerCreateResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -54,20 +54,20 @@ export class Container {
   /**
    * returns all user-defined metadata and system properties for the specified container. The data
    * returned does not include the container's list of blobs
-   *
-   * @param {ContainerGetPropertiesOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ContainerGetPropertiesResponse>
    */
-  getProperties(): Promise<Models.ContainerGetPropertiesResponse>;
-  getProperties(options: Models.ContainerGetPropertiesOptionalParams): Promise<Models.ContainerGetPropertiesResponse>;
+  getProperties(options?: Models.ContainerGetPropertiesOptionalParams): Promise<Models.ContainerGetPropertiesResponse>;
+  /**
+   * @param callback The callback
+   */
   getProperties(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   getProperties(options: Models.ContainerGetPropertiesOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  getProperties(options?: Models.ContainerGetPropertiesOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerGetPropertiesResponse> {
+  getProperties(options?: Models.ContainerGetPropertiesOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -79,20 +79,20 @@ export class Container {
   /**
    * operation marks the specified container for deletion. The container and any blobs contained
    * within it are later deleted during garbage collection
-   *
-   * @param {ContainerDeleteMethodOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ContainerDeleteResponse>
    */
-  deleteMethod(): Promise<Models.ContainerDeleteResponse>;
-  deleteMethod(options: Models.ContainerDeleteMethodOptionalParams): Promise<Models.ContainerDeleteResponse>;
+  deleteMethod(options?: Models.ContainerDeleteMethodOptionalParams): Promise<Models.ContainerDeleteResponse>;
+  /**
+   * @param callback The callback
+   */
   deleteMethod(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   deleteMethod(options: Models.ContainerDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(options?: Models.ContainerDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerDeleteResponse> {
+  deleteMethod(options?: Models.ContainerDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -103,20 +103,20 @@ export class Container {
 
   /**
    * operation sets one or more user-defined name-value pairs for the specified container.
-   *
-   * @param {ContainerSetMetadataOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ContainerSetMetadataResponse>
    */
-  setMetadata(): Promise<Models.ContainerSetMetadataResponse>;
-  setMetadata(options: Models.ContainerSetMetadataOptionalParams): Promise<Models.ContainerSetMetadataResponse>;
+  setMetadata(options?: Models.ContainerSetMetadataOptionalParams): Promise<Models.ContainerSetMetadataResponse>;
+  /**
+   * @param callback The callback
+   */
   setMetadata(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   setMetadata(options: Models.ContainerSetMetadataOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  setMetadata(options?: Models.ContainerSetMetadataOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerSetMetadataResponse> {
+  setMetadata(options?: Models.ContainerSetMetadataOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerSetMetadataResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -128,20 +128,20 @@ export class Container {
   /**
    * gets the permissions for the specified container. The permissions indicate whether container
    * data may be accessed publicly.
-   *
-   * @param {ContainerGetAccessPolicyOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ContainerGetAccessPolicyResponse>
    */
-  getAccessPolicy(): Promise<Models.ContainerGetAccessPolicyResponse>;
-  getAccessPolicy(options: Models.ContainerGetAccessPolicyOptionalParams): Promise<Models.ContainerGetAccessPolicyResponse>;
+  getAccessPolicy(options?: Models.ContainerGetAccessPolicyOptionalParams): Promise<Models.ContainerGetAccessPolicyResponse>;
+  /**
+   * @param callback The callback
+   */
   getAccessPolicy(callback: msRest.ServiceCallback<Models.SignedIdentifier[]>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   getAccessPolicy(options: Models.ContainerGetAccessPolicyOptionalParams, callback: msRest.ServiceCallback<Models.SignedIdentifier[]>): void;
-  getAccessPolicy(options?: Models.ContainerGetAccessPolicyOptionalParams, callback?: msRest.ServiceCallback<Models.SignedIdentifier[]>): Promise<Models.ContainerGetAccessPolicyResponse> {
+  getAccessPolicy(options?: Models.ContainerGetAccessPolicyOptionalParams | msRest.ServiceCallback<Models.SignedIdentifier[]>, callback?: msRest.ServiceCallback<Models.SignedIdentifier[]>): Promise<Models.ContainerGetAccessPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -153,20 +153,20 @@ export class Container {
   /**
    * sets the permissions for the specified container. The permissions indicate whether blobs in a
    * container may be accessed publicly.
-   *
-   * @param {ContainerSetAccessPolicyOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ContainerSetAccessPolicyResponse>
    */
-  setAccessPolicy(): Promise<Models.ContainerSetAccessPolicyResponse>;
-  setAccessPolicy(options: Models.ContainerSetAccessPolicyOptionalParams): Promise<Models.ContainerSetAccessPolicyResponse>;
+  setAccessPolicy(options?: Models.ContainerSetAccessPolicyOptionalParams): Promise<Models.ContainerSetAccessPolicyResponse>;
+  /**
+   * @param callback The callback
+   */
   setAccessPolicy(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   setAccessPolicy(options: Models.ContainerSetAccessPolicyOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  setAccessPolicy(options?: Models.ContainerSetAccessPolicyOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerSetAccessPolicyResponse> {
+  setAccessPolicy(options?: Models.ContainerSetAccessPolicyOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerSetAccessPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -178,20 +178,20 @@ export class Container {
   /**
    * [Update] establishes and manages a lock on a container for delete operations. The lock duration
    * can be 15 to 60 seconds, or can be infinite
-   *
-   * @param {ContainerAcquireLeaseOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ContainerAcquireLeaseResponse>
    */
-  acquireLease(): Promise<Models.ContainerAcquireLeaseResponse>;
-  acquireLease(options: Models.ContainerAcquireLeaseOptionalParams): Promise<Models.ContainerAcquireLeaseResponse>;
+  acquireLease(options?: Models.ContainerAcquireLeaseOptionalParams): Promise<Models.ContainerAcquireLeaseResponse>;
+  /**
+   * @param callback The callback
+   */
   acquireLease(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   acquireLease(options: Models.ContainerAcquireLeaseOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  acquireLease(options?: Models.ContainerAcquireLeaseOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerAcquireLeaseResponse> {
+  acquireLease(options?: Models.ContainerAcquireLeaseOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerAcquireLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -203,22 +203,23 @@ export class Container {
   /**
    * [Update] establishes and manages a lock on a container for delete operations. The lock duration
    * can be 15 to 60 seconds, or can be infinite
-   *
-   * @param {string} leaseId Specifies the current lease ID on the resource.
-   *
-   * @param {ContainerReleaseLeaseOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ContainerReleaseLeaseResponse>
    */
-  releaseLease(leaseId: string): Promise<Models.ContainerReleaseLeaseResponse>;
-  releaseLease(leaseId: string, options: Models.ContainerReleaseLeaseOptionalParams): Promise<Models.ContainerReleaseLeaseResponse>;
+  releaseLease(leaseId: string, options?: Models.ContainerReleaseLeaseOptionalParams): Promise<Models.ContainerReleaseLeaseResponse>;
+  /**
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param callback The callback
+   */
   releaseLease(leaseId: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   releaseLease(leaseId: string, options: Models.ContainerReleaseLeaseOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  releaseLease(leaseId: string, options?: Models.ContainerReleaseLeaseOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerReleaseLeaseResponse> {
+  releaseLease(leaseId: string, options?: Models.ContainerReleaseLeaseOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerReleaseLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         leaseId,
@@ -231,22 +232,23 @@ export class Container {
   /**
    * [Update] establishes and manages a lock on a container for delete operations. The lock duration
    * can be 15 to 60 seconds, or can be infinite
-   *
-   * @param {string} leaseId Specifies the current lease ID on the resource.
-   *
-   * @param {ContainerRenewLeaseOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ContainerRenewLeaseResponse>
    */
-  renewLease(leaseId: string): Promise<Models.ContainerRenewLeaseResponse>;
-  renewLease(leaseId: string, options: Models.ContainerRenewLeaseOptionalParams): Promise<Models.ContainerRenewLeaseResponse>;
+  renewLease(leaseId: string, options?: Models.ContainerRenewLeaseOptionalParams): Promise<Models.ContainerRenewLeaseResponse>;
+  /**
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param callback The callback
+   */
   renewLease(leaseId: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   renewLease(leaseId: string, options: Models.ContainerRenewLeaseOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  renewLease(leaseId: string, options?: Models.ContainerRenewLeaseOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerRenewLeaseResponse> {
+  renewLease(leaseId: string, options?: Models.ContainerRenewLeaseOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerRenewLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         leaseId,
@@ -259,20 +261,20 @@ export class Container {
   /**
    * [Update] establishes and manages a lock on a container for delete operations. The lock duration
    * can be 15 to 60 seconds, or can be infinite
-   *
-   * @param {ContainerBreakLeaseOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ContainerBreakLeaseResponse>
    */
-  breakLease(): Promise<Models.ContainerBreakLeaseResponse>;
-  breakLease(options: Models.ContainerBreakLeaseOptionalParams): Promise<Models.ContainerBreakLeaseResponse>;
+  breakLease(options?: Models.ContainerBreakLeaseOptionalParams): Promise<Models.ContainerBreakLeaseResponse>;
+  /**
+   * @param callback The callback
+   */
   breakLease(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   breakLease(options: Models.ContainerBreakLeaseOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  breakLease(options?: Models.ContainerBreakLeaseOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerBreakLeaseResponse> {
+  breakLease(options?: Models.ContainerBreakLeaseOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerBreakLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -284,26 +286,32 @@ export class Container {
   /**
    * [Update] establishes and manages a lock on a container for delete operations. The lock duration
    * can be 15 to 60 seconds, or can be infinite
-   *
-   * @param {string} leaseId Specifies the current lease ID on the resource.
-   *
-   * @param {string} proposedLeaseId Proposed lease ID, in a GUID string format. The Blob service
-   * returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid
-   * Constructor (String) for a list of valid GUID string formats.
-   *
-   * @param {ContainerChangeLeaseOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param proposedLeaseId Proposed lease ID, in a GUID string format. The Blob service returns 400
+   * (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor
+   * (String) for a list of valid GUID string formats.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ContainerChangeLeaseResponse>
    */
-  changeLease(leaseId: string, proposedLeaseId: string): Promise<Models.ContainerChangeLeaseResponse>;
-  changeLease(leaseId: string, proposedLeaseId: string, options: Models.ContainerChangeLeaseOptionalParams): Promise<Models.ContainerChangeLeaseResponse>;
+  changeLease(leaseId: string, proposedLeaseId: string, options?: Models.ContainerChangeLeaseOptionalParams): Promise<Models.ContainerChangeLeaseResponse>;
+  /**
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param proposedLeaseId Proposed lease ID, in a GUID string format. The Blob service returns 400
+   * (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor
+   * (String) for a list of valid GUID string formats.
+   * @param callback The callback
+   */
   changeLease(leaseId: string, proposedLeaseId: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param proposedLeaseId Proposed lease ID, in a GUID string format. The Blob service returns 400
+   * (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor
+   * (String) for a list of valid GUID string formats.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   changeLease(leaseId: string, proposedLeaseId: string, options: Models.ContainerChangeLeaseOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  changeLease(leaseId: string, proposedLeaseId: string, options?: Models.ContainerChangeLeaseOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerChangeLeaseResponse> {
+  changeLease(leaseId: string, proposedLeaseId: string, options?: Models.ContainerChangeLeaseOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerChangeLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         leaseId,
@@ -316,20 +324,20 @@ export class Container {
 
   /**
    * [Update] The List Blobs operation returns a list of the blobs under the specified container
-   *
-   * @param {ContainerListBlobFlatSegmentOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ContainerListBlobFlatSegmentResponse>
    */
-  listBlobFlatSegment(): Promise<Models.ContainerListBlobFlatSegmentResponse>;
-  listBlobFlatSegment(options: Models.ContainerListBlobFlatSegmentOptionalParams): Promise<Models.ContainerListBlobFlatSegmentResponse>;
+  listBlobFlatSegment(options?: Models.ContainerListBlobFlatSegmentOptionalParams): Promise<Models.ContainerListBlobFlatSegmentResponse>;
+  /**
+   * @param callback The callback
+   */
   listBlobFlatSegment(callback: msRest.ServiceCallback<Models.ListBlobsFlatSegmentResponse>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listBlobFlatSegment(options: Models.ContainerListBlobFlatSegmentOptionalParams, callback: msRest.ServiceCallback<Models.ListBlobsFlatSegmentResponse>): void;
-  listBlobFlatSegment(options?: Models.ContainerListBlobFlatSegmentOptionalParams, callback?: msRest.ServiceCallback<Models.ListBlobsFlatSegmentResponse>): Promise<Models.ContainerListBlobFlatSegmentResponse> {
+  listBlobFlatSegment(options?: Models.ContainerListBlobFlatSegmentOptionalParams | msRest.ServiceCallback<Models.ListBlobsFlatSegmentResponse>, callback?: msRest.ServiceCallback<Models.ListBlobsFlatSegmentResponse>): Promise<Models.ContainerListBlobFlatSegmentResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -340,25 +348,32 @@ export class Container {
 
   /**
    * [Update] The List Blobs operation returns a list of the blobs under the specified container
-   *
-   * @param {string} delimiter When the request includes this parameter, the operation returns a
-   * BlobPrefix element in the response body that acts as a placeholder for all blobs whose names
-   * begin with the same substring up to the appearance of the delimiter character. The delimiter may
-   * be a single character or a string.
-   *
-   * @param {ContainerListBlobHierarchySegmentOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param delimiter When the request includes this parameter, the operation returns a BlobPrefix
+   * element in the response body that acts as a placeholder for all blobs whose names begin with the
+   * same substring up to the appearance of the delimiter character. The delimiter may be a single
+   * character or a string.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ContainerListBlobHierarchySegmentResponse>
    */
-  listBlobHierarchySegment(delimiter: string): Promise<Models.ContainerListBlobHierarchySegmentResponse>;
-  listBlobHierarchySegment(delimiter: string, options: Models.ContainerListBlobHierarchySegmentOptionalParams): Promise<Models.ContainerListBlobHierarchySegmentResponse>;
+  listBlobHierarchySegment(delimiter: string, options?: Models.ContainerListBlobHierarchySegmentOptionalParams): Promise<Models.ContainerListBlobHierarchySegmentResponse>;
+  /**
+   * @param delimiter When the request includes this parameter, the operation returns a BlobPrefix
+   * element in the response body that acts as a placeholder for all blobs whose names begin with the
+   * same substring up to the appearance of the delimiter character. The delimiter may be a single
+   * character or a string.
+   * @param callback The callback
+   */
   listBlobHierarchySegment(delimiter: string, callback: msRest.ServiceCallback<Models.ListBlobsHierarchySegmentResponse>): void;
+  /**
+   * @param delimiter When the request includes this parameter, the operation returns a BlobPrefix
+   * element in the response body that acts as a placeholder for all blobs whose names begin with the
+   * same substring up to the appearance of the delimiter character. The delimiter may be a single
+   * character or a string.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listBlobHierarchySegment(delimiter: string, options: Models.ContainerListBlobHierarchySegmentOptionalParams, callback: msRest.ServiceCallback<Models.ListBlobsHierarchySegmentResponse>): void;
-  listBlobHierarchySegment(delimiter: string, options?: Models.ContainerListBlobHierarchySegmentOptionalParams, callback?: msRest.ServiceCallback<Models.ListBlobsHierarchySegmentResponse>): Promise<Models.ContainerListBlobHierarchySegmentResponse> {
+  listBlobHierarchySegment(delimiter: string, options?: Models.ContainerListBlobHierarchySegmentOptionalParams | msRest.ServiceCallback<Models.ListBlobsHierarchySegmentResponse>, callback?: msRest.ServiceCallback<Models.ListBlobsHierarchySegmentResponse>): Promise<Models.ContainerListBlobHierarchySegmentResponse> {
     return this.client.sendOperationRequest(
       {
         delimiter,
@@ -370,20 +385,20 @@ export class Container {
 
   /**
    * Returns the sku name and account kind
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ContainerGetAccountInfoResponse>
    */
-  getAccountInfo(): Promise<Models.ContainerGetAccountInfoResponse>;
-  getAccountInfo(options: msRest.RequestOptionsBase): Promise<Models.ContainerGetAccountInfoResponse>;
+  getAccountInfo(options?: msRest.RequestOptionsBase): Promise<Models.ContainerGetAccountInfoResponse>;
+  /**
+   * @param callback The callback
+   */
   getAccountInfo(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   getAccountInfo(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getAccountInfo(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerGetAccountInfoResponse> {
+  getAccountInfo(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerGetAccountInfoResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -391,7 +406,6 @@ export class Container {
       getAccountInfoOperationSpec,
       callback) as Promise<Models.ContainerGetAccountInfoResponse>;
   }
-
 }
 
 // Operation Specifications

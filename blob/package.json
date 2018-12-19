@@ -1,6 +1,6 @@
 {
   "name": "@azure/storage-blob",
-  "version": "10.2.0-preview",
+  "version": "10.3.0",
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob",
   "main": "./dist/index.js",
   "module": "./dist-esm/lib/index.js",
@@ -17,8 +17,8 @@
     "node": ">=6.5.0"
   },
   "dependencies": {
+    "@azure/ms-rest-js": "1.2.3",
     "events": "3.0.0",
-    "ms-rest-js": "0.22.425",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
@@ -68,7 +68,7 @@
     "build:test": "rollup -c rollup.test.config.js",
     "build:nodebrowser": "rollup -c",
     "build:es6": "tsc -p tsconfig.json",
-    "build:autorest": "autorest ./swagger/README.md --typescript --use=@microsoft.azure/autorest.typescript@2.0.476",
+    "build:autorest": "autorest ./swagger/README.md --typescript --use=@microsoft.azure/autorest.typescript@2.1.3",
     "build:browserzip": "gulp zip",
     "clean": "rimraf dist dist-esm dist-test typings temp browser/*.js* browser/*.zip statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml"
   },

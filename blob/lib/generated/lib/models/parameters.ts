@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export const access: msRest.OperationParameter = {
   parameterPath: [
@@ -1062,7 +1062,9 @@ export const version: msRest.OperationParameter = {
   parameterPath: "version",
   mapper: {
     required: true,
+    isConstant: true,
     serializedName: "x-ms-version",
+    defaultValue: '2018-03-28',
     type: {
       name: "String"
     }

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/pageBlobMappers";
 import * as Parameters from "../models/parameters";
@@ -28,25 +28,29 @@ export class PageBlob {
 
   /**
    * The Create operation creates a new page blob.
-   *
-   * @param {number} contentLength The length of the request.
-   *
-   * @param {number} blobContentLength This header specifies the maximum size for the page blob, up
-   * to 1 TB. The page blob size must be aligned to a 512-byte boundary.
-   *
-   * @param {PageBlobCreateOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param contentLength The length of the request.
+   * @param blobContentLength This header specifies the maximum size for the page blob, up to 1 TB.
+   * The page blob size must be aligned to a 512-byte boundary.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PageBlobCreateResponse>
    */
-  create(contentLength: number, blobContentLength: number): Promise<Models.PageBlobCreateResponse>;
-  create(contentLength: number, blobContentLength: number, options: Models.PageBlobCreateOptionalParams): Promise<Models.PageBlobCreateResponse>;
+  create(contentLength: number, blobContentLength: number, options?: Models.PageBlobCreateOptionalParams): Promise<Models.PageBlobCreateResponse>;
+  /**
+   * @param contentLength The length of the request.
+   * @param blobContentLength This header specifies the maximum size for the page blob, up to 1 TB.
+   * The page blob size must be aligned to a 512-byte boundary.
+   * @param callback The callback
+   */
   create(contentLength: number, blobContentLength: number, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param contentLength The length of the request.
+   * @param blobContentLength This header specifies the maximum size for the page blob, up to 1 TB.
+   * The page blob size must be aligned to a 512-byte boundary.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   create(contentLength: number, blobContentLength: number, options: Models.PageBlobCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(contentLength: number, blobContentLength: number, options?: Models.PageBlobCreateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobCreateResponse> {
+  create(contentLength: number, blobContentLength: number, options?: Models.PageBlobCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobCreateResponse> {
     return this.client.sendOperationRequest(
       {
         contentLength,
@@ -59,24 +63,26 @@ export class PageBlob {
 
   /**
    * The Upload Pages operation writes a range of pages to a page blob
-   *
-   * @param {msRest.HttpRequestBody} body Initial data
-   *
-   * @param {number} contentLength The length of the request.
-   *
-   * @param {PageBlobUploadPagesOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param body Initial data
+   * @param contentLength The length of the request.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PageBlobUploadPagesResponse>
    */
-  uploadPages(body: msRest.HttpRequestBody, contentLength: number): Promise<Models.PageBlobUploadPagesResponse>;
-  uploadPages(body: msRest.HttpRequestBody, contentLength: number, options: Models.PageBlobUploadPagesOptionalParams): Promise<Models.PageBlobUploadPagesResponse>;
+  uploadPages(body: msRest.HttpRequestBody, contentLength: number, options?: Models.PageBlobUploadPagesOptionalParams): Promise<Models.PageBlobUploadPagesResponse>;
+  /**
+   * @param body Initial data
+   * @param contentLength The length of the request.
+   * @param callback The callback
+   */
   uploadPages(body: msRest.HttpRequestBody, contentLength: number, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param body Initial data
+   * @param contentLength The length of the request.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   uploadPages(body: msRest.HttpRequestBody, contentLength: number, options: Models.PageBlobUploadPagesOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  uploadPages(body: msRest.HttpRequestBody, contentLength: number, options?: Models.PageBlobUploadPagesOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobUploadPagesResponse> {
+  uploadPages(body: msRest.HttpRequestBody, contentLength: number, options?: Models.PageBlobUploadPagesOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobUploadPagesResponse> {
     return this.client.sendOperationRequest(
       {
         body,
@@ -89,22 +95,23 @@ export class PageBlob {
 
   /**
    * The Clear Pages operation clears a set of pages from a page blob
-   *
-   * @param {number} contentLength The length of the request.
-   *
-   * @param {PageBlobClearPagesOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param contentLength The length of the request.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PageBlobClearPagesResponse>
    */
-  clearPages(contentLength: number): Promise<Models.PageBlobClearPagesResponse>;
-  clearPages(contentLength: number, options: Models.PageBlobClearPagesOptionalParams): Promise<Models.PageBlobClearPagesResponse>;
+  clearPages(contentLength: number, options?: Models.PageBlobClearPagesOptionalParams): Promise<Models.PageBlobClearPagesResponse>;
+  /**
+   * @param contentLength The length of the request.
+   * @param callback The callback
+   */
   clearPages(contentLength: number, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param contentLength The length of the request.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   clearPages(contentLength: number, options: Models.PageBlobClearPagesOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  clearPages(contentLength: number, options?: Models.PageBlobClearPagesOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobClearPagesResponse> {
+  clearPages(contentLength: number, options?: Models.PageBlobClearPagesOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobClearPagesResponse> {
     return this.client.sendOperationRequest(
       {
         contentLength,
@@ -117,20 +124,20 @@ export class PageBlob {
   /**
    * The Get Page Ranges operation returns the list of valid page ranges for a page blob or snapshot
    * of a page blob
-   *
-   * @param {PageBlobGetPageRangesOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PageBlobGetPageRangesResponse>
    */
-  getPageRanges(): Promise<Models.PageBlobGetPageRangesResponse>;
-  getPageRanges(options: Models.PageBlobGetPageRangesOptionalParams): Promise<Models.PageBlobGetPageRangesResponse>;
+  getPageRanges(options?: Models.PageBlobGetPageRangesOptionalParams): Promise<Models.PageBlobGetPageRangesResponse>;
+  /**
+   * @param callback The callback
+   */
   getPageRanges(callback: msRest.ServiceCallback<Models.PageList>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   getPageRanges(options: Models.PageBlobGetPageRangesOptionalParams, callback: msRest.ServiceCallback<Models.PageList>): void;
-  getPageRanges(options?: Models.PageBlobGetPageRangesOptionalParams, callback?: msRest.ServiceCallback<Models.PageList>): Promise<Models.PageBlobGetPageRangesResponse> {
+  getPageRanges(options?: Models.PageBlobGetPageRangesOptionalParams | msRest.ServiceCallback<Models.PageList>, callback?: msRest.ServiceCallback<Models.PageList>): Promise<Models.PageBlobGetPageRangesResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -142,20 +149,20 @@ export class PageBlob {
   /**
    * [Update] The Get Page Ranges Diff operation returns the list of valid page ranges for a page
    * blob that were changed between target blob and previous snapshot.
-   *
-   * @param {PageBlobGetPageRangesDiffOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PageBlobGetPageRangesDiffResponse>
    */
-  getPageRangesDiff(): Promise<Models.PageBlobGetPageRangesDiffResponse>;
-  getPageRangesDiff(options: Models.PageBlobGetPageRangesDiffOptionalParams): Promise<Models.PageBlobGetPageRangesDiffResponse>;
+  getPageRangesDiff(options?: Models.PageBlobGetPageRangesDiffOptionalParams): Promise<Models.PageBlobGetPageRangesDiffResponse>;
+  /**
+   * @param callback The callback
+   */
   getPageRangesDiff(callback: msRest.ServiceCallback<Models.PageList>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   getPageRangesDiff(options: Models.PageBlobGetPageRangesDiffOptionalParams, callback: msRest.ServiceCallback<Models.PageList>): void;
-  getPageRangesDiff(options?: Models.PageBlobGetPageRangesDiffOptionalParams, callback?: msRest.ServiceCallback<Models.PageList>): Promise<Models.PageBlobGetPageRangesDiffResponse> {
+  getPageRangesDiff(options?: Models.PageBlobGetPageRangesDiffOptionalParams | msRest.ServiceCallback<Models.PageList>, callback?: msRest.ServiceCallback<Models.PageList>): Promise<Models.PageBlobGetPageRangesDiffResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -166,23 +173,26 @@ export class PageBlob {
 
   /**
    * Resize the Blob
-   *
-   * @param {number} blobContentLength This header specifies the maximum size for the page blob, up
-   * to 1 TB. The page blob size must be aligned to a 512-byte boundary.
-   *
-   * @param {PageBlobResizeOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param blobContentLength This header specifies the maximum size for the page blob, up to 1 TB.
+   * The page blob size must be aligned to a 512-byte boundary.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PageBlobResizeResponse>
    */
-  resize(blobContentLength: number): Promise<Models.PageBlobResizeResponse>;
-  resize(blobContentLength: number, options: Models.PageBlobResizeOptionalParams): Promise<Models.PageBlobResizeResponse>;
+  resize(blobContentLength: number, options?: Models.PageBlobResizeOptionalParams): Promise<Models.PageBlobResizeResponse>;
+  /**
+   * @param blobContentLength This header specifies the maximum size for the page blob, up to 1 TB.
+   * The page blob size must be aligned to a 512-byte boundary.
+   * @param callback The callback
+   */
   resize(blobContentLength: number, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param blobContentLength This header specifies the maximum size for the page blob, up to 1 TB.
+   * The page blob size must be aligned to a 512-byte boundary.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   resize(blobContentLength: number, options: Models.PageBlobResizeOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  resize(blobContentLength: number, options?: Models.PageBlobResizeOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobResizeResponse> {
+  resize(blobContentLength: number, options?: Models.PageBlobResizeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobResizeResponse> {
     return this.client.sendOperationRequest(
       {
         blobContentLength,
@@ -194,25 +204,29 @@ export class PageBlob {
 
   /**
    * Update the sequence number of the blob
-   *
-   * @param {SequenceNumberActionType} sequenceNumberAction Required if the x-ms-blob-sequence-number
-   * header is set for the request. This property applies to page blobs only. This property indicates
-   * how the service should modify the blob's sequence number. Possible values include: 'max',
-   * 'update', 'increment'
-   *
-   * @param {PageBlobUpdateSequenceNumberOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param sequenceNumberAction Required if the x-ms-blob-sequence-number header is set for the
+   * request. This property applies to page blobs only. This property indicates how the service
+   * should modify the blob's sequence number. Possible values include: 'max', 'update', 'increment'
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PageBlobUpdateSequenceNumberResponse>
    */
-  updateSequenceNumber(sequenceNumberAction: Models.SequenceNumberActionType): Promise<Models.PageBlobUpdateSequenceNumberResponse>;
-  updateSequenceNumber(sequenceNumberAction: Models.SequenceNumberActionType, options: Models.PageBlobUpdateSequenceNumberOptionalParams): Promise<Models.PageBlobUpdateSequenceNumberResponse>;
+  updateSequenceNumber(sequenceNumberAction: Models.SequenceNumberActionType, options?: Models.PageBlobUpdateSequenceNumberOptionalParams): Promise<Models.PageBlobUpdateSequenceNumberResponse>;
+  /**
+   * @param sequenceNumberAction Required if the x-ms-blob-sequence-number header is set for the
+   * request. This property applies to page blobs only. This property indicates how the service
+   * should modify the blob's sequence number. Possible values include: 'max', 'update', 'increment'
+   * @param callback The callback
+   */
   updateSequenceNumber(sequenceNumberAction: Models.SequenceNumberActionType, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param sequenceNumberAction Required if the x-ms-blob-sequence-number header is set for the
+   * request. This property applies to page blobs only. This property indicates how the service
+   * should modify the blob's sequence number. Possible values include: 'max', 'update', 'increment'
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   updateSequenceNumber(sequenceNumberAction: Models.SequenceNumberActionType, options: Models.PageBlobUpdateSequenceNumberOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  updateSequenceNumber(sequenceNumberAction: Models.SequenceNumberActionType, options?: Models.PageBlobUpdateSequenceNumberOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobUpdateSequenceNumberResponse> {
+  updateSequenceNumber(sequenceNumberAction: Models.SequenceNumberActionType, options?: Models.PageBlobUpdateSequenceNumberOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobUpdateSequenceNumberResponse> {
     return this.client.sendOperationRequest(
       {
         sequenceNumberAction,
@@ -228,25 +242,32 @@ export class PageBlob {
    * copied snapshot are transferred to the destination. The copied snapshots are complete copies of
    * the original snapshot and can be read or copied from as usual. This API is supported since REST
    * version 2016-05-31.
-   *
-   * @param {string} copySource Specifies the name of the source page blob snapshot. This value is a
-   * URL of up to 2 KB in length that specifies a page blob snapshot. The value should be URL-encoded
-   * as it would appear in a request URI. The source blob must either be public or must be
-   * authenticated via a shared access signature.
-   *
-   * @param {PageBlobCopyIncrementalOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param copySource Specifies the name of the source page blob snapshot. This value is a URL of up
+   * to 2 KB in length that specifies a page blob snapshot. The value should be URL-encoded as it
+   * would appear in a request URI. The source blob must either be public or must be authenticated
+   * via a shared access signature.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PageBlobCopyIncrementalResponse>
    */
-  copyIncremental(copySource: string): Promise<Models.PageBlobCopyIncrementalResponse>;
-  copyIncremental(copySource: string, options: Models.PageBlobCopyIncrementalOptionalParams): Promise<Models.PageBlobCopyIncrementalResponse>;
+  copyIncremental(copySource: string, options?: Models.PageBlobCopyIncrementalOptionalParams): Promise<Models.PageBlobCopyIncrementalResponse>;
+  /**
+   * @param copySource Specifies the name of the source page blob snapshot. This value is a URL of up
+   * to 2 KB in length that specifies a page blob snapshot. The value should be URL-encoded as it
+   * would appear in a request URI. The source blob must either be public or must be authenticated
+   * via a shared access signature.
+   * @param callback The callback
+   */
   copyIncremental(copySource: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param copySource Specifies the name of the source page blob snapshot. This value is a URL of up
+   * to 2 KB in length that specifies a page blob snapshot. The value should be URL-encoded as it
+   * would appear in a request URI. The source blob must either be public or must be authenticated
+   * via a shared access signature.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   copyIncremental(copySource: string, options: Models.PageBlobCopyIncrementalOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  copyIncremental(copySource: string, options?: Models.PageBlobCopyIncrementalOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobCopyIncrementalResponse> {
+  copyIncremental(copySource: string, options?: Models.PageBlobCopyIncrementalOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobCopyIncrementalResponse> {
     return this.client.sendOperationRequest(
       {
         copySource,
@@ -255,7 +276,6 @@ export class PageBlob {
       copyIncrementalOperationSpec,
       callback) as Promise<Models.PageBlobCopyIncrementalResponse>;
   }
-
 }
 
 // Operation Specifications

@@ -1,4 +1,4 @@
-import { RestError, TransferProgressEvent } from "ms-rest-js";
+import { RestError, TransferProgressEvent } from "@azure/ms-rest-js";
 import { Readable } from "stream";
 
 import { Aborter } from "../Aborter";

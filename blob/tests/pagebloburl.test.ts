@@ -4,7 +4,6 @@ import { bodyToString, getBSU, getUniqueName } from "./utils";
 import { Aborter } from "../lib/Aborter";
 import { BlobURL } from "../lib/BlobURL";
 import { ContainerURL } from "../lib/ContainerURL";
-import * as Models from "../lib/generated/models";
 import { PageBlobURL } from "../lib/PageBlobURL";
 
 describe("PageBlobURL", () => {
@@ -173,26 +172,15 @@ describe("PageBlobURL", () => {
     await pageBlobURL.create(Aborter.none, 1024);
     let propertiesResponse = await pageBlobURL.getProperties(Aborter.none);
 
-    await pageBlobURL.updateSequenceNumber(
-      Aborter.none,
-      Models.SequenceNumberActionType.Increment
-    );
+    await pageBlobURL.updateSequenceNumber(Aborter.none, "increment");
     propertiesResponse = await pageBlobURL.getProperties(Aborter.none);
     assert.equal(propertiesResponse.blobSequenceNumber!, 1);
 
-    await pageBlobURL.updateSequenceNumber(
-      Aborter.none,
-      Models.SequenceNumberActionType.Update,
-      10
-    );
+    await pageBlobURL.updateSequenceNumber(Aborter.none, "update", 10);
     propertiesResponse = await pageBlobURL.getProperties(Aborter.none);
     assert.equal(propertiesResponse.blobSequenceNumber!, 10);
 
-    await pageBlobURL.updateSequenceNumber(
-      Aborter.none,
-      Models.SequenceNumberActionType.Max,
-      100
-    );
+    await pageBlobURL.updateSequenceNumber(Aborter.none, "max", 100);
     propertiesResponse = await pageBlobURL.getProperties(Aborter.none);
     assert.equal(propertiesResponse.blobSequenceNumber!, 100);
   });

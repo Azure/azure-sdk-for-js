@@ -1,4 +1,4 @@
-import { generateUuid } from "ms-rest-js";
+import { generateUuid } from "@azure/ms-rest-js";
 
 import { Aborter } from "./Aborter";
 import { BlockBlobURL } from "./BlockBlobURL";

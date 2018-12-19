@@ -1,4 +1,4 @@
-import { RequestPolicy, RequestPolicyOptions } from "ms-rest-js";
+import { RequestPolicy, RequestPolicyOptions } from "@azure/ms-rest-js";
 
 import { Credential } from "../credentials/Credential";
 import { TokenCredentialPolicy } from "../policies/TokenCredentialPolicy";

@@ -2,11 +2,6 @@ import * as assert from "assert";
 
 import { Aborter } from "../lib/Aborter";
 import { ContainerURL } from "../lib/ContainerURL";
-import {
-  LeaseStateType,
-  LeaseStatusType,
-  ListContainersIncludeType
-} from "../lib/generated/models";
 import { ServiceURL } from "../lib/ServiceURL";
 import { getAlternateBSU, getBSU, getUniqueName, wait } from "./utils";
 
@@ -51,7 +46,7 @@ describe("ServiceURL", () => {
       Aborter.none,
       undefined,
       {
-        include: ListContainersIncludeType.Metadata,
+        include: "metadata",
         maxresults: 1,
         prefix: containerNamePrefix
       }
@@ -66,11 +61,11 @@ describe("ServiceURL", () => {
     assert.ok(!result1.containerItems![0].properties.publicAccess);
     assert.deepEqual(
       result1.containerItems![0].properties.leaseState,
-      LeaseStateType.Available
+      "available"
     );
     assert.deepEqual(
       result1.containerItems![0].properties.leaseStatus,
-      LeaseStatusType.Unlocked
+      "unlocked"
     );
     assert.deepEqual(result1.containerItems![0].metadata!.key, "val");
 
@@ -78,7 +73,7 @@ describe("ServiceURL", () => {
       Aborter.none,
       result1.nextMarker,
       {
-        include: ListContainersIncludeType.Metadata,
+        include: "metadata",
         maxresults: 1,
         prefix: containerNamePrefix
       }
@@ -93,11 +88,11 @@ describe("ServiceURL", () => {
     assert.ok(!result2.containerItems![0].properties.publicAccess);
     assert.deepEqual(
       result2.containerItems![0].properties.leaseState,
-      LeaseStateType.Available
+      "available"
     );
     assert.deepEqual(
       result2.containerItems![0].properties.leaseStatus,
-      LeaseStatusType.Unlocked
+      "unlocked"
     );
     assert.deepEqual(result2.containerItems![0].metadata!.key, "val");
 

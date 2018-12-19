@@ -1,11 +1,11 @@
 import * as fs from "fs";
-import { generateUuid, TransferProgressEvent } from "ms-rest-js";
+import { generateUuid, TransferProgressEvent } from "@azure/ms-rest-js";
 import { Readable } from "stream";
 
 import { Aborter } from "./Aborter";
 import { BlobURL } from "./BlobURL";
 import { BlockBlobURL } from "./BlockBlobURL";
-import { BlobHTTPHeaders } from "./generated/models";
+import { BlobHTTPHeaders } from "./generated/lib/models";
 import {
   BlobUploadCommonResponse,
   IDownloadFromBlobOptions,

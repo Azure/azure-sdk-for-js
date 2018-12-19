@@ -2,8 +2,8 @@ import * as assert from "assert";
 
 import { Aborter } from "../../lib/Aborter";
 import { ContainerURL } from "../../lib/ContainerURL";
-import { PublicAccessType } from "../../lib/generated/models";
 import { getBSU, getUniqueName } from "../utils";
+import { PublicAccessType } from "../../lib/generated/lib/models/index";
 
 describe("ContainerURL", () => {
   const serviceURL = getBSU();
@@ -30,7 +30,7 @@ describe("ContainerURL", () => {
   });
 
   it("setAccessPolicy", async () => {
-    const access = PublicAccessType.Blob;
+    const access: PublicAccessType = "blob";
     const containerAcl = [
       {
         accessPolicy: {

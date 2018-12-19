@@ -4,7 +4,6 @@ import { Aborter } from "../lib/Aborter";
 import { BlobURL } from "../lib/BlobURL";
 import { BlockBlobURL } from "../lib/BlockBlobURL";
 import { ContainerURL } from "../lib/ContainerURL";
-import { BlockListType, PublicAccessType } from "../lib/generated/models";
 import { base64encode, bodyToString, getBSU, getUniqueName } from "./utils";
 
 describe("BlockBlobURL", () => {
@@ -81,7 +80,7 @@ describe("BlockBlobURL", () => {
     );
     const listResponse = await blockBlobURL.getBlockList(
       Aborter.none,
-      BlockListType.Uncommitted
+      "uncommitted"
     );
     assert.equal(listResponse.uncommittedBlocks!.length, 2);
     assert.equal(listResponse.uncommittedBlocks![0].name, base64encode("1"));
@@ -97,10 +96,7 @@ describe("BlockBlobURL", () => {
     // When testing is in Node.js environment with shared key, setAccessPolicy will work
     // But in browsers testing with SAS tokens, below will throw an exception, ignore it
     try {
-      await containerURL.setAccessPolicy(
-        Aborter.none,
-        PublicAccessType.Container
-      );
+      await containerURL.setAccessPolicy(Aborter.none, "container");
       // tslint:disable-next-line:no-empty
     } catch (err) {}
 
@@ -117,7 +113,7 @@ describe("BlockBlobURL", () => {
 
     const listResponse = await newBlockBlobURL.getBlockList(
       Aborter.none,
-      BlockListType.Uncommitted
+      "uncommitted"
     );
     assert.equal(listResponse.uncommittedBlocks!.length, 1);
     assert.equal(listResponse.uncommittedBlocks![0].name, base64encode("1"));
@@ -131,10 +127,7 @@ describe("BlockBlobURL", () => {
     // When testing is in Node.js environment with shared key, setAccessPolicy will work
     // But in browsers testing with SAS tokens, below will throw an exception, ignore it
     try {
-      await containerURL.setAccessPolicy(
-        Aborter.none,
-        PublicAccessType.Container
-      );
+      await containerURL.setAccessPolicy(Aborter.none, "container");
       // tslint:disable-next-line:no-empty
     } catch (err) {}
 
@@ -166,7 +159,7 @@ describe("BlockBlobURL", () => {
 
     const listResponse = await newBlockBlobURL.getBlockList(
       Aborter.none,
-      BlockListType.Uncommitted
+      "uncommitted"
     );
     assert.equal(listResponse.uncommittedBlocks!.length, 3);
     assert.equal(listResponse.uncommittedBlocks![0].name, base64encode("1"));
@@ -206,7 +199,7 @@ describe("BlockBlobURL", () => {
     ]);
     const listResponse = await blockBlobURL.getBlockList(
       Aborter.none,
-      BlockListType.Committed
+      "committed"
     );
     assert.equal(listResponse.committedBlocks!.length, 2);
     assert.equal(listResponse.committedBlocks![0].name, base64encode("1"));
@@ -252,7 +245,7 @@ describe("BlockBlobURL", () => {
 
     const listResponse = await blockBlobURL.getBlockList(
       Aborter.none,
-      BlockListType.Committed
+      "committed"
     );
     assert.equal(listResponse.committedBlocks!.length, 2);
     assert.equal(listResponse.committedBlocks![0].name, base64encode("1"));
@@ -291,10 +284,7 @@ describe("BlockBlobURL", () => {
       body.length
     );
     await blockBlobURL.commitBlockList(Aborter.none, [base64encode("2")]);
-    const listResponse = await blockBlobURL.getBlockList(
-      Aborter.none,
-      BlockListType.All
-    );
+    const listResponse = await blockBlobURL.getBlockList(Aborter.none, "all");
     assert.equal(listResponse.committedBlocks!.length, 1);
     assert.equal(listResponse.uncommittedBlocks!.length, 0);
     assert.equal(listResponse.committedBlocks![0].name, base64encode("2"));

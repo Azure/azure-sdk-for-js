@@ -1,5 +1,5 @@
 import * as Crypto from "crypto";
-import { RequestPolicy, RequestPolicyOptions } from "ms-rest-js";
+import { RequestPolicy, RequestPolicyOptions } from "@azure/ms-rest-js";
 
 import { SharedKeyCredentialPolicy } from "../policies/SharedKeyCredentialPolicy";
 import { Credential } from "./Credential";

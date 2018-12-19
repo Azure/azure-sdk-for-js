@@ -1,4 +1,4 @@
-import { AbortSignalLike, isNode } from "ms-rest-js";
+import { AbortSignalLike, isNode } from "@azure/ms-rest-js";
 
 /**
  * An aborter instance implements AbortSignal interface, can abort HTTP requests.
