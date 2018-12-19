@@ -1,8 +1,7 @@
 import { ClientContext } from "../../ClientContext";
-import { Helper, UriFactory } from "../../common";
+import { createDocumentUri, getIdFromLink, getPathFromLink, isResourceValid } from "../../common";
 import { RequestOptions } from "../../request";
 import { Container } from "../Container";
-import { Resource } from "../Resource";
 import { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
 
@@ -16,7 +15,7 @@ export class Item {
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
   public get url() {
-    return UriFactory.createDocumentUri(this.container.database.id, this.container.id, this.id);
+    return createDocumentUri(this.container.database.id, this.container.id, this.id);
   }
 
   /**
@@ -72,8 +71,8 @@ export class Item {
     if ((!options || !options.partitionKey) && this.primaryKey) {
       options.partitionKey = this.primaryKey;
     }
-    const path = Helper.getPathFromLink(this.url);
-    const id = Helper.getIdFromLink(this.url);
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
     const response = await this.clientContext.read<T>(path, "docs", id, undefined, options);
 
     return {
@@ -116,12 +115,12 @@ export class Item {
     }
 
     const err = {};
-    if (!Helper.isResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
 
-    const path = Helper.getPathFromLink(this.url);
-    const id = Helper.getIdFromLink(this.url);
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
 
     const response = await this.clientContext.replace<T>(body, path, "docs", id, undefined, options);
     return {
@@ -151,8 +150,8 @@ export class Item {
     if ((!options || !options.partitionKey) && this.primaryKey) {
       options.partitionKey = this.primaryKey;
     }
-    const path = Helper.getPathFromLink(this.url);
-    const id = Helper.getIdFromLink(this.url);
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
 
     const response = await this.clientContext.delete<T>(path, "docs", id, undefined, options);
     return {

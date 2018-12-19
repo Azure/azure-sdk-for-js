@@ -1,7 +1,8 @@
 import semaphore from "semaphore";
 import { ClientContext } from "../ClientContext";
-import { Helper } from "../common";
-import { CollectionRoutingMapFactory, InMemoryCollectionRoutingMap, QueryRange } from "./index";
+import { getIdFromLink } from "../common";
+import { createCompleteRoutingMap } from "./CollectionRoutingMapFactory";
+import { InMemoryCollectionRoutingMap, QueryRange } from "./index";
 
 /** @hidden */
 export class PartitionKeyRangeCache {
@@ -22,7 +23,7 @@ export class PartitionKeyRangeCache {
    * @ignore
    */
   public async onCollectionRoutingMap(collectionLink: string): Promise<InMemoryCollectionRoutingMap> {
-    const collectionId = Helper.getIdFromLink(collectionLink);
+    const collectionId = getIdFromLink(collectionLink);
 
     let collectionRoutingMap = this.collectionRoutingMapByCollectionId[collectionId];
     if (collectionRoutingMap === undefined) {
@@ -34,7 +35,7 @@ export class PartitionKeyRangeCache {
             try {
               const { result: resources } = await this.clientContext.queryPartitionKeyRanges(collectionLink).toArray();
 
-              crm = CollectionRoutingMapFactory.createCompleteRoutingMap(resources.map(r => [r, true]), collectionId);
+              crm = createCompleteRoutingMap(resources.map(r => [r, true]), collectionId);
 
               this.collectionRoutingMapByCollectionId[collectionId] = crm;
               this.sem.leave();

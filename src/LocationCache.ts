@@ -1,4 +1,4 @@
-import { Constants, Helper, ResourceType } from "./common";
+import { Constants, isReadRequest, ResourceType } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { DatabaseAccount, Location } from "./documents";
 import { LocationInfo } from "./LocationInfo";
@@ -115,7 +115,7 @@ export class LocationCache {
     // then default to the first two write locations, alternating (or the default endpoint)
     if (
       request.locationRouting.ignorePreferredLocation ||
-      (!Helper.isReadRequest(request) && !this.canUseMultipleWriteLocations(request))
+      (!isReadRequest(request) && !this.canUseMultipleWriteLocations(request))
     ) {
       const currentInfo = this.locationInfo;
       if (currentInfo.orderedWriteLocations.length > 0) {
@@ -127,9 +127,7 @@ export class LocationCache {
       }
     } else {
       // If we're using preferred regions, then choose the correct endpoint based on the location index
-      const endpoints = Helper.isReadRequest(request)
-        ? this.locationInfo.readEndpoints
-        : this.locationInfo.writeEndpoints;
+      const endpoints = isReadRequest(request) ? this.locationInfo.readEndpoints : this.locationInfo.writeEndpoints;
       return endpoints[locationIndex % endpoints.length];
     }
   }

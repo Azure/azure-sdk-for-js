@@ -1,5 +1,5 @@
 import { ClientContext } from "../../ClientContext";
-import { Helper } from "../../common";
+import { getIdFromLink, getPathFromLink } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions } from "../../request";
@@ -30,8 +30,8 @@ export class Conflicts {
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
-    const path = Helper.getPathFromLink(this.container.url, "conflicts");
-    const id = Helper.getIdFromLink(this.container.url);
+    const path = getPathFromLink(this.container.url, "conflicts");
+    const id = getIdFromLink(this.container.url);
 
     return new QueryIterator(this.clientContext, query, options, innerOptions => {
       return this.clientContext.queryFeed(path, "conflicts", id, result => result.Conflicts, query, innerOptions);

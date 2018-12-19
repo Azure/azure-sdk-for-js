@@ -4,7 +4,7 @@ import * as url from "url";
 import { Database, Databases } from "./client/Database";
 import { Offer, Offers } from "./client/Offer";
 import { ClientContext } from "./ClientContext";
-import { Constants, Helper, Platform } from "./common";
+import { Constants, getPlatformDefaultHeaders, getUserAgent, parseConnectionPolicy } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { DatabaseAccount } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
@@ -59,7 +59,7 @@ export class CosmosClient {
       options.auth.key = options.key;
     }
 
-    options.connectionPolicy = Helper.parseConnectionPolicy(options.connectionPolicy);
+    options.connectionPolicy = parseConnectionPolicy(options.connectionPolicy);
 
     options.defaultHeaders = options.defaultHeaders || {};
     options.defaultHeaders[Constants.HttpHeaders.CacheControl] = "no-cache";
@@ -68,12 +68,12 @@ export class CosmosClient {
       options.defaultHeaders[Constants.HttpHeaders.ConsistencyLevel] = options.consistencyLevel;
     }
 
-    const platformDefaultHeaders = Platform.getPlatformDefaultHeaders() || {};
+    const platformDefaultHeaders = getPlatformDefaultHeaders() || {};
     for (const platformDefaultHeader of Object.keys(platformDefaultHeaders)) {
       options.defaultHeaders[platformDefaultHeader] = platformDefaultHeaders[platformDefaultHeader];
     }
 
-    options.defaultHeaders[Constants.HttpHeaders.UserAgent] = Platform.getUserAgent();
+    options.defaultHeaders[Constants.HttpHeaders.UserAgent] = getUserAgent();
 
     if (!this.options.agent) {
       // Initialize request agent

@@ -1,5 +1,5 @@
 import QueryMetricsConstants from "./queryMetricsConstants";
-import { QueryMetricsUtils } from "./queryMetricsUtils";
+import { parseDelimitedString, timeSpanFromMetrics } from "./queryMetricsUtils";
 import { TimeSpan } from "./timeSpan";
 
 export class QueryPreparationTimes {
@@ -76,13 +76,13 @@ export class QueryPreparationTimes {
    * @instance
    */
   public static createFromDelimitedString(delimitedString: string) {
-    const metrics = QueryMetricsUtils.parseDelimitedString(delimitedString);
+    const metrics = parseDelimitedString(delimitedString);
 
     return new QueryPreparationTimes(
-      QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.QueryCompileTimeInMs),
-      QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.LogicalPlanBuildTimeInMs),
-      QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.PhysicalPlanBuildTimeInMs),
-      QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.QueryOptimizationTimeInMs)
+      timeSpanFromMetrics(metrics, QueryMetricsConstants.QueryCompileTimeInMs),
+      timeSpanFromMetrics(metrics, QueryMetricsConstants.LogicalPlanBuildTimeInMs),
+      timeSpanFromMetrics(metrics, QueryMetricsConstants.PhysicalPlanBuildTimeInMs),
+      timeSpanFromMetrics(metrics, QueryMetricsConstants.QueryOptimizationTimeInMs)
     );
   }
 }

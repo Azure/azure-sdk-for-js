@@ -1,4 +1,4 @@
-﻿import { Helper } from "../common";
+﻿import { isReadRequest } from "../common";
 import { GlobalEndpointManager } from "../globalEndpointManager";
 import { ErrorResponse } from "../request/request";
 import { RequestContext } from "../request/RequestContext";
@@ -57,7 +57,7 @@ export class EndpointDiscoveryRetryPolicy implements IRetryPolicy {
 
     this.currentRetryAttemptCount++;
 
-    if (Helper.isReadRequest(this.request)) {
+    if (isReadRequest(this.request)) {
       this.globalEndpointManager.markCurrentLocationUnavailableForRead(locationEndpoint);
     } else {
       this.globalEndpointManager.markCurrentLocationUnavailableForWrite(locationEndpoint);

@@ -2,12 +2,12 @@ import assert from "assert";
 import * as os from "os";
 import * as util from "util";
 import * as packageJson from "../../../package.json";
-import { Platform } from "../../common";
+import { getSafeUserAgentSegmentInfo, getUserAgent } from "../../common/index";
 import { Constants } from "../../index";
 
-describe("Platform.getUserAgent", function() {
+describe("getUserAgent", function() {
   it("getUserAgent()", function() {
-    const userAgent = Platform.getUserAgent();
+    const userAgent = getUserAgent();
     const expectedUserAgent = util.format(
       "%s/%s Nodejs/%s azure-cosmos-js/%s",
       os.platform(),
@@ -18,21 +18,21 @@ describe("Platform.getUserAgent", function() {
     assert.strictEqual(userAgent, expectedUserAgent, "invalid UserAgent format");
   });
 
-  describe("Platform._getSafeUserAgentSegmentInfo()", function() {
+  describe("Platform.getSafeUserAgentSegmentInfo()", function() {
     it("Removing spaces", function() {
-      const safeString = Platform._getSafeUserAgentSegmentInfo("a b    c");
+      const safeString = getSafeUserAgentSegmentInfo("a b    c");
       assert.strictEqual(safeString, "abc");
     });
     it("empty string handling", function() {
-      const safeString = Platform._getSafeUserAgentSegmentInfo("");
+      const safeString = getSafeUserAgentSegmentInfo("");
       assert.strictEqual(safeString, "unknown");
     });
     it("undefined", function() {
-      const safeString = Platform._getSafeUserAgentSegmentInfo(undefined);
+      const safeString = getSafeUserAgentSegmentInfo(undefined);
       assert.strictEqual(safeString, "unknown");
     });
     it("null", function() {
-      const safeString = Platform._getSafeUserAgentSegmentInfo(null);
+      const safeString = getSafeUserAgentSegmentInfo(null);
       assert.strictEqual(safeString, "unknown");
     });
   });

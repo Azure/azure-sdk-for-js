@@ -1,23 +1,8 @@
 import assert from "assert";
 import { RequestOptions } from "../..";
 import { Container, ContainerDefinition } from "../../client";
-import { Helper } from "../../common";
+import { sleep } from "../../common";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
-
-function hasDupeKey(items: any[]) {
-  if (items && items.length === 0) {
-    return false;
-  }
-  const key = items[0].key;
-  let hasDupe = false;
-  for (const item of items) {
-    if (item.key !== key) {
-      hasDupe = true;
-      break;
-    }
-  }
-  return hasDupe;
-}
 
 describe("Change Feed Iterator", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
@@ -43,7 +28,7 @@ describe("Change Feed Iterator", function() {
       it("should fetch updated items only with start time", async function() {
         await container.items.create({ id: "item1" });
         const date = new Date();
-        await Helper.sleep(3000);
+        await sleep(3000);
         await container.items.create({ id: "item2" });
         const iterator = container.items.readChangeFeed({ startTime: date });
 

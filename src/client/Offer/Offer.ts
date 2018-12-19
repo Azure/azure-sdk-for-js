@@ -1,5 +1,5 @@
 import { ClientContext } from "../../ClientContext";
-import { Constants, Helper } from "../../common";
+import { Constants, isResourceValid } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
 import { RequestOptions } from "../../request";
 import { OfferDefinition } from "./OfferDefinition";
@@ -44,7 +44,7 @@ export class Offer {
    */
   public async replace(body: OfferDefinition, options?: RequestOptions): Promise<OfferResponse> {
     const err = {};
-    if (!Helper.isResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
     const response = await this.clientContext.replace<OfferDefinition>(

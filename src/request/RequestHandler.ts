@@ -4,7 +4,7 @@ import * as querystring from "querystring";
 import { ConnectionPolicy } from "../documents";
 import { GlobalEndpointManager } from "../globalEndpointManager";
 import { Constants, IHeaders } from "../index";
-import { RetryUtility } from "../retry";
+import * as RetryUtility from "../retry/retryUtility";
 import { bodyFromData, createRequestObject, parse, Response } from "./request";
 import { RequestContext } from "./RequestContext";
 

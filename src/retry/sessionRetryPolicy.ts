@@ -1,4 +1,4 @@
-﻿import { Helper } from "../common";
+﻿import { isReadRequest } from "../common";
 import { ConnectionPolicy } from "../documents";
 import { GlobalEndpointManager } from "../globalEndpointManager";
 import { ErrorResponse } from "../request/request";
@@ -48,7 +48,7 @@ export class SessionRetryPolicy implements IRetryPolicy {
 
     if (this.globalEndpointManager.canUseMultipleWriteLocations(this.request)) {
       // If we can write to multiple locations, we should against every write endpoint until we succeed
-      const endpoints = Helper.isReadRequest(this.request)
+      const endpoints = isReadRequest(this.request)
         ? await this.globalEndpointManager.getReadEndpoints()
         : await this.globalEndpointManager.getWriteEndpoints();
       if (this.currentRetryAttemptCount > endpoints.length) {

@@ -1,5 +1,5 @@
 import { ClientContext } from "../../ClientContext";
-import { Helper, UriFactory } from "../../common";
+import { createUserDefinedFunctionUri, getIdFromLink, getPathFromLink, isResourceValid } from "../../common";
 import { RequestOptions } from "../../request";
 import { Container } from "../Container";
 import { UserDefinedFunctionDefinition } from "./UserDefinedFunctionDefinition";
@@ -15,7 +15,7 @@ export class UserDefinedFunction {
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
   public get url() {
-    return UriFactory.createUserDefinedFunctionUri(this.container.database.id, this.container.id, this.id);
+    return createUserDefinedFunctionUri(this.container.database.id, this.container.id, this.id);
   }
   /**
    * @hidden
@@ -33,8 +33,8 @@ export class UserDefinedFunction {
    * @param options
    */
   public async read(options?: RequestOptions): Promise<UserDefinedFunctionResponse> {
-    const path = Helper.getPathFromLink(this.url);
-    const id = Helper.getIdFromLink(this.url);
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
 
     const response = await this.clientContext.read<UserDefinedFunctionDefinition>(path, "udfs", id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, userDefinedFunction: this, udf: this };
@@ -54,12 +54,12 @@ export class UserDefinedFunction {
     }
 
     const err = {};
-    if (!Helper.isResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
 
-    const path = Helper.getPathFromLink(this.url);
-    const id = Helper.getIdFromLink(this.url);
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
 
     const response = await this.clientContext.replace<UserDefinedFunctionDefinition>(
       body,
@@ -77,8 +77,8 @@ export class UserDefinedFunction {
    * @param options
    */
   public async delete(options?: RequestOptions): Promise<UserDefinedFunctionResponse> {
-    const path = Helper.getPathFromLink(this.url);
-    const id = Helper.getIdFromLink(this.url);
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
 
     const response = await this.clientContext.delete(path, "udfs", id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, userDefinedFunction: this, udf: this };

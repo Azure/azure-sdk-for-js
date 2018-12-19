@@ -1,7 +1,7 @@
 import { ClientContext } from "../../ClientContext";
-import { Helper, StatusCodes } from "../../common";
+import { isResourceValid, StatusCodes } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
-import { FetchFunctionCallback, HeaderUtils, SqlQuerySpec } from "../../queryExecutionContext";
+import { FetchFunctionCallback, mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
 import { Resource } from "../Resource";
@@ -83,7 +83,7 @@ export class Databases {
    */
   public async create(body: DatabaseDefinition, options?: RequestOptions): Promise<DatabaseResponse> {
     const err = {};
-    if (!Helper.isResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
 
@@ -135,7 +135,7 @@ export class Databases {
       if (err.code === StatusCodes.NotFound) {
         const createResponse = await this.create(body, options);
         // Must merge the headers to capture RU costskaty
-        HeaderUtils.mergeHeaders(createResponse.headers, err.headers);
+        mergeHeaders(createResponse.headers, err.headers);
         return createResponse;
       } else {
         throw err;

@@ -1,5 +1,6 @@
-﻿import assert from "assert";
-import { CollectionRoutingMapFactory, InMemoryCollectionRoutingMap, QueryRange } from "../../routing";
+import assert from "assert";
+import { QueryRange } from "../../routing";
+import { createCompleteRoutingMap } from "../../routing/CollectionRoutingMapFactory";
 
 describe("InMemoryCollectionRoutingMap Tests", function() {
   describe("getOverlappingRanges", function() {
@@ -23,10 +24,7 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
       { id: "4", minInclusive: "05C1E9CD673398", maxExclusive: "FF" }
     ];
     const partitionRangeWithInfo = partitionKeyRanges.map(r => [r, true]);
-    const collectionRoutingMap = CollectionRoutingMapFactory.createCompleteRoutingMap(
-      partitionRangeWithInfo,
-      "sample collection id"
-    );
+    const collectionRoutingMap = createCompleteRoutingMap(partitionRangeWithInfo, "sample collection id");
 
     it("queryCompleteRange", function() {
       const completeRange = new QueryRange("", "FF", true, false);
@@ -99,10 +97,7 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
       ]
     ];
 
-    const collectionRoutingMap = CollectionRoutingMapFactory.createCompleteRoutingMap(
-      partitionRangeWithInfo,
-      "sample collection id"
-    );
+    const collectionRoutingMap = createCompleteRoutingMap(partitionRangeWithInfo, "sample collection id");
 
     it("validate _orderedPartitionKeyRanges", function() {
       assert.equal("0", collectionRoutingMap.getOrderedParitionKeyRanges()[0].id);
@@ -195,10 +190,7 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
         ];
         const collectionUniqueId = "";
         try {
-          const collectionRoutingMap = CollectionRoutingMapFactory.createCompleteRoutingMap(
-            partitionRangeWithInfo,
-            "sample collection id"
-          );
+          const collectionRoutingMap = createCompleteRoutingMap(partitionRangeWithInfo, "sample collection id");
           assert.fail("must throw exception");
         } catch (e) {
           assert.equal(e.message, "Ranges overlap");
@@ -225,10 +217,7 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
             2
           ]
         ];
-        let collectionRoutingMap = CollectionRoutingMapFactory.createCompleteRoutingMap(
-          partitionRangeWithInfo,
-          "sample collection id"
-        );
+        let collectionRoutingMap = createCompleteRoutingMap(partitionRangeWithInfo, "sample collection id");
         assert.equal(collectionRoutingMap, null);
 
         partitionRangeWithInfo = [
@@ -249,10 +238,7 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
             2
           ]
         ];
-        collectionRoutingMap = CollectionRoutingMapFactory.createCompleteRoutingMap(
-          partitionRangeWithInfo,
-          "sample collection id"
-        );
+        collectionRoutingMap = createCompleteRoutingMap(partitionRangeWithInfo, "sample collection id");
         assert.notEqual(collectionRoutingMap, null);
       });
     });

@@ -1,5 +1,5 @@
 import * as url from "url";
-import { Constants, Helper } from "./common";
+import { Constants, sleep } from "./common";
 import { CosmosClient } from "./CosmosClient";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { DatabaseAccount } from "./documents";
@@ -136,7 +136,7 @@ export class GlobalEndpointManager {
           if (!shouldRefresh) {
             break;
           }
-          await Helper.sleep(this.backgroundRefreshTimeIntervalInMS);
+          await sleep(this.backgroundRefreshTimeIntervalInMS);
         } while (shouldRefresh);
       } catch (err) {
         /* swallow error */

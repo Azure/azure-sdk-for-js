@@ -1,7 +1,7 @@
 import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
-import { Helper } from "../../common";
+import { generateGuidId, getIdFromLink, getPathFromLink, isResourceValid } from "../../common";
 import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
@@ -62,8 +62,8 @@ export class Items {
    */
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
-    const path = Helper.getPathFromLink(this.container.url, "docs");
-    const id = Helper.getIdFromLink(this.container.url);
+    const path = getPathFromLink(this.container.url, "docs");
+    const id = getIdFromLink(this.container.url);
 
     const fetchFunction: FetchFunctionCallback = (innerOptions: FeedOptions) => {
       return this.clientContext.queryFeed(
@@ -135,8 +135,8 @@ export class Items {
       throw new Error("changeFeedOptions must be a valid object");
     }
 
-    const path = Helper.getPathFromLink(this.container.url, "docs");
-    const id = Helper.getIdFromLink(this.container.url);
+    const path = getPathFromLink(this.container.url, "docs");
+    const id = getIdFromLink(this.container.url);
     return new ChangeFeedIterator<T>(
       this.clientContext,
       id,
@@ -211,16 +211,16 @@ export class Items {
     // Generate random document id if the id is missing in the payload and
     // options.disableAutomaticIdGeneration != true
     if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
-      body.id = Helper.generateGuidId();
+      body.id = generateGuidId();
     }
 
     const err = {};
-    if (!Helper.isResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
 
-    const path = Helper.getPathFromLink(this.container.url, "docs");
-    const id = Helper.getIdFromLink(this.container.url);
+    const path = getPathFromLink(this.container.url, "docs");
+    const id = getIdFromLink(this.container.url);
 
     const response = await this.clientContext.create<T>(body, path, "docs", id, undefined, options);
 
@@ -268,16 +268,16 @@ export class Items {
     // Generate random document id if the id is missing in the payload and
     // options.disableAutomaticIdGeneration != true
     if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
-      body.id = Helper.generateGuidId();
+      body.id = generateGuidId();
     }
 
     const err = {};
-    if (!Helper.isResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
 
-    const path = Helper.getPathFromLink(this.container.url, "docs");
-    const id = Helper.getIdFromLink(this.container.url);
+    const path = getPathFromLink(this.container.url, "docs");
+    const id = getIdFromLink(this.container.url);
 
     const response = (await this.clientContext.upsert<T>(body, path, "docs", id, undefined, options)) as T & Resource;
 

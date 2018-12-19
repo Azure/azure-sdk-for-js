@@ -1,5 +1,5 @@
 import { ClientContext } from "../../ClientContext";
-import { Helper, UriFactory } from "../../common";
+import { createUserUri, getIdFromLink, getPathFromLink, isResourceValid } from "../../common";
 import { RequestOptions } from "../../request";
 import { Database } from "../Database";
 import { Permission, Permissions } from "../Permission";
@@ -24,7 +24,7 @@ export class User {
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
   public get url() {
-    return UriFactory.createUserUri(this.database.id, this.id);
+    return createUserUri(this.database.id, this.id);
   }
   /**
    * @hidden
@@ -54,8 +54,8 @@ export class User {
    * @param options
    */
   public async read(options?: RequestOptions): Promise<UserResponse> {
-    const path = Helper.getPathFromLink(this.url);
-    const id = Helper.getIdFromLink(this.url);
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
     const response = await this.clientContext.read<UserDefinition>(path, "users", id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, user: this };
   }
@@ -67,12 +67,12 @@ export class User {
    */
   public async replace(body: UserDefinition, options?: RequestOptions): Promise<UserResponse> {
     const err = {};
-    if (!Helper.isResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
 
-    const path = Helper.getPathFromLink(this.url);
-    const id = Helper.getIdFromLink(this.url);
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
 
     const response = await this.clientContext.replace<UserDefinition>(body, path, "users", id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, user: this };
@@ -83,8 +83,8 @@ export class User {
    * @param options
    */
   public async delete(options?: RequestOptions): Promise<UserResponse> {
-    const path = Helper.getPathFromLink(this.url);
-    const id = Helper.getIdFromLink(this.url);
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
 
     const response = await this.clientContext.delete<UserDefinition>(path, "users", id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, user: this };

@@ -1,5 +1,5 @@
 import { ClientContext } from "../../ClientContext";
-import { Helper } from "../../common";
+import { getIdFromLink, getPathFromLink, isResourceValid } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
@@ -54,8 +54,8 @@ export class StoredProcedures {
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
-    const path = Helper.getPathFromLink(this.container.url, "sprocs");
-    const id = Helper.getIdFromLink(this.container.url);
+    const path = getPathFromLink(this.container.url, "sprocs");
+    const id = getIdFromLink(this.container.url);
 
     return new QueryIterator(this.clientContext, query, options, innerOptions => {
       return this.clientContext.queryFeed(path, "sprocs", id, result => result.StoredProcedures, query, innerOptions);
@@ -89,12 +89,12 @@ export class StoredProcedures {
     }
 
     const err = {};
-    if (!Helper.isResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
 
-    const path = Helper.getPathFromLink(this.container.url, "sprocs");
-    const id = Helper.getIdFromLink(this.container.url);
+    const path = getPathFromLink(this.container.url, "sprocs");
+    const id = getIdFromLink(this.container.url);
 
     const response = await this.clientContext.create<StoredProcedureDefinition>(
       body,
@@ -124,12 +124,12 @@ export class StoredProcedures {
     }
 
     const err = {};
-    if (!Helper.isResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
 
-    const path = Helper.getPathFromLink(this.container.url, "sprocs");
-    const id = Helper.getIdFromLink(this.container.url);
+    const path = getPathFromLink(this.container.url, "sprocs");
+    const id = getIdFromLink(this.container.url);
 
     const response = await this.clientContext.upsert<StoredProcedureDefinition>(
       body,

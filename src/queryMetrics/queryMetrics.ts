@@ -1,6 +1,6 @@
 import { ClientSideMetrics } from "./clientSideMetrics";
 import QueryMetricsConstants from "./queryMetricsConstants";
-import { QueryMetricsUtils } from "./queryMetricsUtils";
+import { parseDelimitedString, timeSpanFromMetrics } from "./queryMetricsUtils";
 import { QueryPreparationTimes } from "./queryPreparationTime";
 import { RuntimeExecutionTimes } from "./runtimeExecutionTimes";
 import { TimeSpan } from "./timeSpan";
@@ -182,7 +182,7 @@ export class QueryMetrics {
    * @instance
    */
   public static createFromDelimitedString(delimitedString: string, clientSideMetrics?: ClientSideMetrics) {
-    const metrics = QueryMetricsUtils.parseDelimitedString(delimitedString);
+    const metrics = parseDelimitedString(delimitedString);
 
     const indexHitRatio = metrics[QueryMetricsConstants.IndexHitRatio] || 0;
     const retrievedDocumentCount = metrics[QueryMetricsConstants.RetrievedDocumentCount] || 0;
@@ -190,10 +190,7 @@ export class QueryMetrics {
     const outputDocumentCount = metrics[QueryMetricsConstants.OutputDocumentCount] || 0;
     const outputDocumentSize = metrics[QueryMetricsConstants.OutputDocumentSize] || 0;
     const retrievedDocumentSize = metrics[QueryMetricsConstants.RetrievedDocumentSize] || 0;
-    const totalQueryExecutionTime = QueryMetricsUtils.timeSpanFromMetrics(
-      metrics,
-      QueryMetricsConstants.TotalQueryExecutionTimeInMs
-    );
+    const totalQueryExecutionTime = timeSpanFromMetrics(metrics, QueryMetricsConstants.TotalQueryExecutionTimeInMs);
     return new QueryMetrics(
       retrievedDocumentCount,
       retrievedDocumentSize,
@@ -202,11 +199,11 @@ export class QueryMetrics {
       indexHitCount,
       totalQueryExecutionTime,
       QueryPreparationTimes.createFromDelimitedString(delimitedString),
-      QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.IndexLookupTimeInMs),
-      QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.DocumentLoadTimeInMs),
-      QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.VMExecutionTimeInMs),
+      timeSpanFromMetrics(metrics, QueryMetricsConstants.IndexLookupTimeInMs),
+      timeSpanFromMetrics(metrics, QueryMetricsConstants.DocumentLoadTimeInMs),
+      timeSpanFromMetrics(metrics, QueryMetricsConstants.VMExecutionTimeInMs),
       RuntimeExecutionTimes.createFromDelimitedString(delimitedString),
-      QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.DocumentWriteTimeInMs),
+      timeSpanFromMetrics(metrics, QueryMetricsConstants.DocumentWriteTimeInMs),
       clientSideMetrics || ClientSideMetrics.zero
     );
   }

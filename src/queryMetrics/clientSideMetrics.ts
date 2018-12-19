@@ -1,5 +1,3 @@
-import { QueryMetricsUtils } from "./queryMetricsUtils";
-
 export class ClientSideMetrics {
   constructor(public readonly requestCharge: number) {}
 

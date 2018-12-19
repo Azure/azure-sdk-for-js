@@ -1,5 +1,5 @@
 import QueryMetricsConstants from "./queryMetricsConstants";
-import { QueryMetricsUtils } from "./queryMetricsUtils";
+import { parseDelimitedString, timeSpanFromMetrics } from "./queryMetricsUtils";
 import { TimeSpan } from "./timeSpan";
 
 export class RuntimeExecutionTimes {
@@ -74,15 +74,12 @@ export class RuntimeExecutionTimes {
    * Returns a new instance of the RuntimeExecutionTimes class this is deserialized from a delimited string.
    */
   public static createFromDelimitedString(delimitedString: string) {
-    const metrics = QueryMetricsUtils.parseDelimitedString(delimitedString);
+    const metrics = parseDelimitedString(delimitedString);
 
-    const vmExecutionTime = QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.VMExecutionTimeInMs);
-    const indexLookupTime = QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.IndexLookupTimeInMs);
-    const documentLoadTime = QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.DocumentLoadTimeInMs);
-    const documentWriteTime = QueryMetricsUtils.timeSpanFromMetrics(
-      metrics,
-      QueryMetricsConstants.DocumentWriteTimeInMs
-    );
+    const vmExecutionTime = timeSpanFromMetrics(metrics, QueryMetricsConstants.VMExecutionTimeInMs);
+    const indexLookupTime = timeSpanFromMetrics(metrics, QueryMetricsConstants.IndexLookupTimeInMs);
+    const documentLoadTime = timeSpanFromMetrics(metrics, QueryMetricsConstants.DocumentLoadTimeInMs);
+    const documentWriteTime = timeSpanFromMetrics(metrics, QueryMetricsConstants.DocumentWriteTimeInMs);
 
     let queryEngineExecutionTime = TimeSpan.zero;
     queryEngineExecutionTime = queryEngineExecutionTime.add(vmExecutionTime);
@@ -91,8 +88,8 @@ export class RuntimeExecutionTimes {
     queryEngineExecutionTime = queryEngineExecutionTime.subtract(documentWriteTime);
     return new RuntimeExecutionTimes(
       queryEngineExecutionTime,
-      QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.SystemFunctionExecuteTimeInMs),
-      QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.UserDefinedFunctionExecutionTimeInMs)
+      timeSpanFromMetrics(metrics, QueryMetricsConstants.SystemFunctionExecuteTimeInMs),
+      timeSpanFromMetrics(metrics, QueryMetricsConstants.UserDefinedFunctionExecutionTimeInMs)
     );
   }
 }

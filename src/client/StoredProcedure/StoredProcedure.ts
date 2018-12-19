@@ -1,5 +1,5 @@
 import { ClientContext } from "../../ClientContext";
-import { Helper, UriFactory } from "../../common";
+import { createStoredProcedureUri, getIdFromLink, getPathFromLink, isResourceValid } from "../../common";
 import { CosmosResponse, RequestOptions } from "../../request";
 import { Container } from "../Container";
 import { StoredProcedureDefinition } from "./StoredProcedureDefinition";
@@ -15,7 +15,7 @@ export class StoredProcedure {
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
   public get url() {
-    return UriFactory.createStoredProcedureUri(this.container.database.id, this.container.id, this.id);
+    return createStoredProcedureUri(this.container.database.id, this.container.id, this.id);
   }
   /**
    * Creates a new instance of {@link StoredProcedure} linked to the parent {@link Container}.
@@ -34,8 +34,8 @@ export class StoredProcedure {
    * @param options
    */
   public async read(options?: RequestOptions): Promise<StoredProcedureResponse> {
-    const path = Helper.getPathFromLink(this.url);
-    const id = Helper.getIdFromLink(this.url);
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
     const response = await this.clientContext.read<StoredProcedureDefinition>(path, "sprocs", id, undefined, options);
 
     return { body: response.result, headers: response.headers, ref: this, storedProcedure: this, sproc: this };
@@ -52,12 +52,12 @@ export class StoredProcedure {
     }
 
     const err = {};
-    if (!Helper.isResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
 
-    const path = Helper.getPathFromLink(this.url);
-    const id = Helper.getIdFromLink(this.url);
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
 
     const response = await this.clientContext.replace<StoredProcedureDefinition>(
       body,
@@ -76,8 +76,8 @@ export class StoredProcedure {
    * @param options
    */
   public async delete(options?: RequestOptions): Promise<StoredProcedureResponse> {
-    const path = Helper.getPathFromLink(this.url);
-    const id = Helper.getIdFromLink(this.url);
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
 
     const response = await this.clientContext.delete<StoredProcedureDefinition>(path, "sprocs", id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, storedProcedure: this, sproc: this };

@@ -1,10 +1,10 @@
 import { ClientContext } from "../ClientContext";
-import { Constants, Helper, StatusCodes, SubStatusCodes } from "../common";
+import { Constants, getIdFromLink, getPathFromLink, StatusCodes, SubStatusCodes } from "../common";
 import { FeedOptions } from "../request";
 import { Response } from "../request/request";
 import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
 import { FetchResult, FetchResultType } from "./FetchResult";
-import { HeaderUtils, IHeaders } from "./headerUtils";
+import { getInitialHeader, IHeaders, mergeHeaders } from "./headerUtils";
 import { FetchFunctionCallback, SqlQuerySpec } from "./index";
 
 /** @hidden */
@@ -62,7 +62,7 @@ export class DocumentProducer {
 
     this.previousContinuationToken = undefined;
     this.continuationToken = undefined;
-    this.respHeaders = HeaderUtils.getInitialHeader();
+    this.respHeaders = getInitialHeader();
 
     // tslint:disable-next-line:no-shadowed-variable
     this.internalExecutionContext = new DefaultQueryExecutionContext(clientContext, query, options, this.fetchFunction);
@@ -93,8 +93,8 @@ export class DocumentProducer {
   }
 
   public fetchFunction: FetchFunctionCallback = async (options: any) => {
-    const path = Helper.getPathFromLink(this.collectionLink, "docs");
-    const id = Helper.getIdFromLink(this.collectionLink);
+    const path = getPathFromLink(this.collectionLink, "docs");
+    const id = getIdFromLink(this.collectionLink);
 
     return this.clientContext.queryFeed(
       path,
@@ -124,7 +124,7 @@ export class DocumentProducer {
 
   private _getAndResetActiveResponseHeaders() {
     const ret = this.respHeaders;
-    this.respHeaders = HeaderUtils.getInitialHeader();
+    this.respHeaders = getInitialHeader();
     return ret;
   }
 
@@ -294,7 +294,7 @@ export class DocumentProducer {
       if (result === undefined) {
         return { result: undefined, headers };
       }
-      HeaderUtils.mergeHeaders(this.respHeaders, headers);
+      mergeHeaders(this.respHeaders, headers);
 
       return this.current();
     } catch (err) {

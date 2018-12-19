@@ -1,4 +1,4 @@
-﻿import { Constants, Helper } from "../common";
+import { Constants, getContainerLink, trimSlashes } from "../common";
 import { IHeaders } from "../queryExecutionContext";
 import { SessionContext } from "./SessionContext";
 import { VectorSessionToken } from "./VectorSessionToken";
@@ -17,15 +17,15 @@ export class SessionContainer {
     if (!request) {
       throw new Error("request cannot be null");
     }
-    const collectionName = Helper.getContainerLink(Helper.trimSlashes(request.resourceAddress));
+    const collectionName = getContainerLink(trimSlashes(request.resourceAddress));
     const rangeIdToTokenMap = this.getPartitionKeyRangeIdToTokenMap(collectionName);
     return SessionContainer.getCombinedSessionTokenString(rangeIdToTokenMap);
   }
 
   public remove(request: SessionContext) {
     let collectionResourceId: string;
-    const resourceAddress = Helper.trimSlashes(request.resourceAddress);
-    const collectionName = Helper.getContainerLink(resourceAddress);
+    const resourceAddress = trimSlashes(request.resourceAddress);
+    const collectionName = getContainerLink(resourceAddress);
     if (collectionName) {
       collectionResourceId = this.collectionNameToCollectionResourceId.get(collectionName);
       this.collectionNameToCollectionResourceId.delete(collectionName);
@@ -149,9 +149,9 @@ export class SessionContainer {
   private getContainerName(request: SessionContext, headers: IHeaders) {
     let ownerFullName = headers[Constants.HttpHeaders.OwnerFullName];
     if (!ownerFullName) {
-      ownerFullName = Helper.trimSlashes(request.resourceAddress);
+      ownerFullName = trimSlashes(request.resourceAddress);
     }
 
-    return Helper.getContainerLink(ownerFullName as string);
+    return getContainerLink(ownerFullName as string);
   }
 }

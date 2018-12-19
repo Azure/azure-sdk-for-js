@@ -21,7 +21,7 @@ export {
   UserDefinedFunctionType
 } from "./documents";
 
-export { Constants, UriFactory } from "./common";
+export { Constants } from "./common";
 export { RetryOptions } from "./retry";
 export { Response, RequestOptions, FeedOptions, MediaOptions, ErrorResponse } from "./request";
 export { IHeaders, SqlParameter, SqlQuerySpec } from "./queryExecutionContext";

@@ -4,14 +4,14 @@ import { Socket } from "net";
 import { Stream } from "stream";
 import * as url from "url";
 
-import { Constants, Helper } from "../common";
+import { Constants, jsonStringifyAndEscapeNonASCII } from "../common";
 import { ConnectionPolicy, MediaReadMode } from "../documents";
 import { IHeaders } from "../queryExecutionContext";
 
 import { ErrorResponse } from "./ErrorResponse";
 export { ErrorResponse }; // Should refactor this out
 
-import { AuthHandler, AuthOptions } from "../auth";
+import { AuthOptions, getAuthorizationHeader } from "../auth";
 import { FeedOptions, MediaOptions, RequestOptions } from "./index";
 import { Response } from "./Response";
 export { Response }; // Should refactor this out
@@ -261,7 +261,7 @@ export async function getHeaders(
     if (partitionKey === null || !Array.isArray(partitionKey)) {
       partitionKey = [partitionKey as string];
     }
-    headers[Constants.HttpHeaders.PartitionKey] = Helper.jsonStringifyAndEscapeNonASCII(partitionKey);
+    headers[Constants.HttpHeaders.PartitionKey] = jsonStringifyAndEscapeNonASCII(partitionKey);
   }
 
   if (authOptions.masterKey || authOptions.key || authOptions.tokenProvider) {
@@ -300,7 +300,7 @@ export async function getHeaders(
     authOptions.tokenProvider ||
     authOptions.permissionFeed
   ) {
-    const token = await AuthHandler.getAuthorizationHeader(authOptions, verb, path, resourceId, resourceType, headers);
+    const token = await getAuthorizationHeader(authOptions, verb, path, resourceId, resourceType, headers);
     headers[Constants.HttpHeaders.Authorization] = token;
   }
   return headers;

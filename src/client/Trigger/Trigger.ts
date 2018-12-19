@@ -1,5 +1,5 @@
 import { ClientContext } from "../../ClientContext";
-import { Helper, UriFactory } from "../../common";
+import { createTriggerUri, getIdFromLink, getPathFromLink, isResourceValid } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
 import { RequestOptions } from "../../request";
 import { Container } from "../Container";
@@ -16,7 +16,7 @@ export class Trigger {
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
   public get url() {
-    return UriFactory.createTriggerUri(this.container.database.id, this.container.id, this.id);
+    return createTriggerUri(this.container.database.id, this.container.id, this.id);
   }
 
   private client: CosmosClient;
@@ -39,8 +39,8 @@ export class Trigger {
    * @param options
    */
   public async read(options?: RequestOptions): Promise<TriggerResponse> {
-    const path = Helper.getPathFromLink(this.url);
-    const id = Helper.getIdFromLink(this.url);
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
 
     const response = await this.clientContext.read<TriggerDefinition>(path, "triggers", id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, trigger: this };
@@ -57,12 +57,12 @@ export class Trigger {
     }
 
     const err = {};
-    if (!Helper.isResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
 
-    const path = Helper.getPathFromLink(this.url);
-    const id = Helper.getIdFromLink(this.url);
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
 
     const response = await this.clientContext.replace<TriggerDefinition>(
       body,
@@ -81,8 +81,8 @@ export class Trigger {
    * @param options
    */
   public async delete(options?: RequestOptions): Promise<TriggerResponse> {
-    const path = Helper.getPathFromLink(this.url);
-    const id = Helper.getIdFromLink(this.url);
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
 
     const response = await this.clientContext.delete<TriggerDefinition>(path, "triggers", id, undefined, options);
 
