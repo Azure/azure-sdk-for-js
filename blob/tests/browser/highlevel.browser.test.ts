@@ -53,10 +53,7 @@ describe("Highelvel", () => {
     const aborter = Aborter.timeout(1);
 
     try {
-      await uploadBrowserDataToBlockBlob(aborter, tempFile1, blockBlobURL, {
-        blockSize: 4 * 1024 * 1024,
-        parallelism: 2
-      });
+      await uploadBrowserDataToBlockBlob(aborter, tempFile1, blockBlobURL);
       assert.fail();
     } catch (err) {
       assert.ok((err.code as string).toLowerCase().includes("abort"));
