@@ -27,8 +27,6 @@ export class ConnectionPolicy {
    * This is intended to be used only when targeting emulator endpoint to avoid failing your requests with SSL related error.
    */
   public DisableSSLVerification = false;
-  /** Http/Https proxy url */
-  public ProxyUrl = "";
   /**
    * The flag that enables writes on any locations (regions) for geo-replicated database accounts in the Azure Cosmos DB service.
    * Default is `false`.

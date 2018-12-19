@@ -1,5 +1,4 @@
 import { Agent, AgentOptions } from "https";
-import * as tunnel from "tunnel";
 import * as url from "url";
 import { Database, Databases } from "./client/Database";
 import { Offer, Offers } from "./client/Offer";
@@ -74,35 +73,6 @@ export class CosmosClient {
     }
 
     options.defaultHeaders[Constants.HttpHeaders.UserAgent] = getUserAgent();
-
-    if (!this.options.agent) {
-      // Initialize request agent
-      const requestAgentOptions: AgentOptions & tunnel.HttpsOverHttpsOptions & tunnel.HttpsOverHttpOptions = {
-        keepAlive: true,
-        maxSockets: 256,
-        maxFreeSockets: 256
-      };
-      if (!!this.options.connectionPolicy.ProxyUrl) {
-        const proxyUrl = url.parse(this.options.connectionPolicy.ProxyUrl);
-        const port = parseInt(proxyUrl.port, 10);
-        requestAgentOptions.proxy = {
-          host: proxyUrl.hostname,
-          port,
-          headers: {}
-        };
-
-        if (!!proxyUrl.auth) {
-          requestAgentOptions.proxy.proxyAuth = proxyUrl.auth;
-        }
-
-        this.options.agent =
-          proxyUrl.protocol.toLowerCase() === "https:"
-            ? tunnel.httpsOverHttps(requestAgentOptions)
-            : tunnel.httpsOverHttp(requestAgentOptions); // TODO: type coersion
-      } else {
-        this.options.agent = new Agent(requestAgentOptions); // TODO: Move to request?
-      }
-    }
 
     const globalEndpointManager = new GlobalEndpointManager(this.options, async (opts: RequestOptions) =>
       this.getDatabaseAccount(opts)

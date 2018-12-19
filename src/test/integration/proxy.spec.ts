@@ -1,7 +1,8 @@
 ﻿import * as http from "http";
 import * as net from "net";
+import ProxyAgent from "proxy-agent";
 import * as url from "url";
-import { ConnectionPolicy, CosmosClient } from "../../index";
+import { CosmosClient } from "../../index";
 import { endpoint, masterKey } from "../common/_testConfig";
 import { addEntropy } from "../common/TestHelpers";
 
@@ -28,8 +29,7 @@ if (!isBrowser()) {
     });
 
     const proxyPort = 8989;
-    const connectionPolicy = new ConnectionPolicy();
-    connectionPolicy.ProxyUrl = "http://127.0.0.1:8989";
+    const agent = new ProxyAgent(`http://127.0.0.1:${8989}`);
 
     it("nativeApi Client Should successfully execute request", async function() {
       return new Promise((resolve, reject) => {
@@ -38,7 +38,7 @@ if (!isBrowser()) {
             const client = new CosmosClient({
               endpoint,
               auth: { masterKey },
-              connectionPolicy
+              agent
             });
             // create database
             await client.databases.create({
@@ -62,7 +62,7 @@ if (!isBrowser()) {
             const client = new CosmosClient({
               endpoint,
               auth: { masterKey },
-              connectionPolicy
+              agent
             });
             // create database
             await client.databases.create({
