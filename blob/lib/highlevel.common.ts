@@ -1,6 +1,6 @@
-import { HttpResponse, TransferProgressEvent } from "ms-rest-js";
+import { HttpResponse, TransferProgressEvent } from "@azure/ms-rest-js";
 
-import * as Models from "./generated/models";
+import * as Models from "./generated/lib/models";
 import { IBlobAccessConditions } from "./models";
 
 /**

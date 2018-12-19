@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 
 
 /**
@@ -951,12 +951,12 @@ export interface AppendPositionAccessConditions {
  */
 export interface ServiceSetPropertiesOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
@@ -974,12 +974,12 @@ export interface ServiceSetPropertiesOptionalParams extends msRest.RequestOption
  */
 export interface ServiceGetPropertiesOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
@@ -997,12 +997,12 @@ export interface ServiceGetPropertiesOptionalParams extends msRest.RequestOption
  */
 export interface ServiceGetStatisticsOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
@@ -1051,12 +1051,12 @@ export interface ServiceListContainersSegmentOptionalParams extends msRest.Reque
    */
   include?: ListContainersIncludeType;
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
@@ -1074,12 +1074,12 @@ export interface ServiceListContainersSegmentOptionalParams extends msRest.Reque
  */
 export interface ContainerCreateOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {{ [propertyName: string]: string }} [metadata] Optional.
    * Specifies a user-defined name-value pair associated with the blob. If no
@@ -1115,12 +1115,12 @@ export interface ContainerCreateOptionalParams extends msRest.RequestOptionsBase
  */
 export interface ContainerGetPropertiesOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
@@ -1143,12 +1143,12 @@ export interface ContainerGetPropertiesOptionalParams extends msRest.RequestOpti
  */
 export interface ContainerDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
@@ -1176,12 +1176,12 @@ export interface ContainerDeleteMethodOptionalParams extends msRest.RequestOptio
  */
 export interface ContainerSetMetadataOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {{ [propertyName: string]: string }} [metadata] Optional.
    * Specifies a user-defined name-value pair associated with the blob. If no
@@ -1221,12 +1221,12 @@ export interface ContainerSetMetadataOptionalParams extends msRest.RequestOption
  */
 export interface ContainerGetAccessPolicyOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
@@ -1253,12 +1253,12 @@ export interface ContainerSetAccessPolicyOptionalParams extends msRest.RequestOp
    */
   containerAcl?: SignedIdentifier[];
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {PublicAccessType} [access] Specifies whether data in the
    * container may be accessed publicly and the level of access. Possible
@@ -1292,12 +1292,12 @@ export interface ContainerSetAccessPolicyOptionalParams extends msRest.RequestOp
  */
 export interface ContainerAcquireLeaseOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {number} [duration] Specifies the duration of the lease, in
    * seconds, or negative one (-1) for a lease that never expires. A
@@ -1334,12 +1334,12 @@ export interface ContainerAcquireLeaseOptionalParams extends msRest.RequestOptio
  */
 export interface ContainerReleaseLeaseOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
@@ -1362,12 +1362,12 @@ export interface ContainerReleaseLeaseOptionalParams extends msRest.RequestOptio
  */
 export interface ContainerRenewLeaseOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
@@ -1390,12 +1390,12 @@ export interface ContainerRenewLeaseOptionalParams extends msRest.RequestOptions
  */
 export interface ContainerBreakLeaseOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {number} [breakPeriod] For a break operation, proposed duration
    * the lease should continue before it is broken, in seconds, between 0 and
@@ -1430,12 +1430,12 @@ export interface ContainerBreakLeaseOptionalParams extends msRest.RequestOptions
  */
 export interface ContainerChangeLeaseOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
@@ -1488,12 +1488,12 @@ export interface ContainerListBlobFlatSegmentOptionalParams extends msRest.Reque
    */
   include?: ListBlobsIncludeItem[];
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
@@ -1541,12 +1541,12 @@ export interface ContainerListBlobHierarchySegmentOptionalParams extends msRest.
    */
   include?: ListBlobsIncludeItem[];
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
@@ -1572,12 +1572,12 @@ export interface BlobDownloadOptionalParams extends msRest.RequestOptionsBase {
    */
   snapshot?: string;
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [range] Return only the bytes of the blob in the
    * specified range.
@@ -1624,12 +1624,12 @@ export interface BlobGetPropertiesOptionalParams extends msRest.RequestOptionsBa
    */
   snapshot?: string;
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
@@ -1665,12 +1665,12 @@ export interface BlobDeleteMethodOptionalParams extends msRest.RequestOptionsBas
    */
   snapshot?: string;
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {DeleteSnapshotsOptionType} [deleteSnapshots] Required if the blob
    * has associated snapshots. Specify one of the following two options:
@@ -1706,12 +1706,12 @@ export interface BlobDeleteMethodOptionalParams extends msRest.RequestOptionsBas
  */
 export interface BlobUndeleteOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
@@ -1729,12 +1729,12 @@ export interface BlobUndeleteOptionalParams extends msRest.RequestOptionsBase {
  */
 export interface BlobSetHTTPHeadersOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
@@ -1767,12 +1767,12 @@ export interface BlobSetHTTPHeadersOptionalParams extends msRest.RequestOptionsB
  */
 export interface BlobSetMetadataOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {{ [propertyName: string]: string }} [metadata] Optional.
    * Specifies a user-defined name-value pair associated with the blob. If no
@@ -1812,12 +1812,12 @@ export interface BlobSetMetadataOptionalParams extends msRest.RequestOptionsBase
  */
 export interface BlobAcquireLeaseOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {number} [duration] Specifies the duration of the lease, in
    * seconds, or negative one (-1) for a lease that never expires. A
@@ -1854,12 +1854,12 @@ export interface BlobAcquireLeaseOptionalParams extends msRest.RequestOptionsBas
  */
 export interface BlobReleaseLeaseOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
@@ -1882,12 +1882,12 @@ export interface BlobReleaseLeaseOptionalParams extends msRest.RequestOptionsBas
  */
 export interface BlobRenewLeaseOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
@@ -1910,12 +1910,12 @@ export interface BlobRenewLeaseOptionalParams extends msRest.RequestOptionsBase 
  */
 export interface BlobChangeLeaseOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
@@ -1938,12 +1938,12 @@ export interface BlobChangeLeaseOptionalParams extends msRest.RequestOptionsBase
  */
 export interface BlobBreakLeaseOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {number} [breakPeriod] For a break operation, proposed duration
    * the lease should continue before it is broken, in seconds, between 0 and
@@ -1978,12 +1978,12 @@ export interface BlobBreakLeaseOptionalParams extends msRest.RequestOptionsBase 
  */
 export interface BlobCreateSnapshotOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {{ [propertyName: string]: string }} [metadata] Optional.
    * Specifies a user-defined name-value pair associated with the blob. If no
@@ -2023,12 +2023,12 @@ export interface BlobCreateSnapshotOptionalParams extends msRest.RequestOptionsB
  */
 export interface BlobStartCopyFromURLOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {{ [propertyName: string]: string }} [metadata] Optional.
    * Specifies a user-defined name-value pair associated with the blob. If no
@@ -2073,12 +2073,12 @@ export interface BlobStartCopyFromURLOptionalParams extends msRest.RequestOption
  */
 export interface BlobAbortCopyFromURLOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
@@ -2101,12 +2101,12 @@ export interface BlobAbortCopyFromURLOptionalParams extends msRest.RequestOption
  */
 export interface BlobSetTierOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
@@ -2129,12 +2129,12 @@ export interface BlobSetTierOptionalParams extends msRest.RequestOptionsBase {
  */
 export interface PageBlobCreateOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {{ [propertyName: string]: string }} [metadata] Optional.
    * Specifies a user-defined name-value pair associated with the blob. If no
@@ -2191,12 +2191,12 @@ export interface PageBlobUploadPagesOptionalParams extends msRest.RequestOptions
    */
   transactionalContentMD5?: Uint8Array;
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [range] Return only the bytes of the blob in the
    * specified range.
@@ -2234,12 +2234,12 @@ export interface PageBlobUploadPagesOptionalParams extends msRest.RequestOptions
  */
 export interface PageBlobClearPagesOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [range] Return only the bytes of the blob in the
    * specified range.
@@ -2285,12 +2285,12 @@ export interface PageBlobGetPageRangesOptionalParams extends msRest.RequestOptio
    */
   snapshot?: string;
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [range] Return only the bytes of the blob in the
    * specified range.
@@ -2331,12 +2331,12 @@ export interface PageBlobGetPageRangesDiffOptionalParams extends msRest.RequestO
    */
   snapshot?: string;
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [prevsnapshot] Optional in version 2015-07-08 and newer.
    * The prevsnapshot parameter is a DateTime value that specifies that the
@@ -2379,12 +2379,12 @@ export interface PageBlobGetPageRangesDiffOptionalParams extends msRest.RequestO
  */
 export interface PageBlobResizeOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
@@ -2412,12 +2412,12 @@ export interface PageBlobResizeOptionalParams extends msRest.RequestOptionsBase 
  */
 export interface PageBlobUpdateSequenceNumberOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {number} [blobSequenceNumber] Set for page blobs only. The
    * sequence number is a user-controlled value that you can use to track
@@ -2452,12 +2452,12 @@ export interface PageBlobUpdateSequenceNumberOptionalParams extends msRest.Reque
  */
 export interface PageBlobCopyIncrementalOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
@@ -2480,12 +2480,12 @@ export interface PageBlobCopyIncrementalOptionalParams extends msRest.RequestOpt
  */
 export interface AppendBlobCreateOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {{ [propertyName: string]: string }} [metadata] Optional.
    * Specifies a user-defined name-value pair associated with the blob. If no
@@ -2530,12 +2530,12 @@ export interface AppendBlobCreateOptionalParams extends msRest.RequestOptionsBas
  */
 export interface AppendBlobAppendBlockOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {Uint8Array} [transactionalContentMD5] Specify the transactional
    * md5 for the body, to be validated by the service.
@@ -2573,12 +2573,12 @@ export interface AppendBlobAppendBlockOptionalParams extends msRest.RequestOptio
  */
 export interface BlockBlobUploadOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {{ [propertyName: string]: string }} [metadata] Optional.
    * Specifies a user-defined name-value pair associated with the blob. If no
@@ -2628,12 +2628,12 @@ export interface BlockBlobStageBlockOptionalParams extends msRest.RequestOptions
    */
   transactionalContentMD5?: Uint8Array;
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
@@ -2666,12 +2666,12 @@ export interface BlockBlobStageBlockFromURLOptionalParams extends msRest.Request
    */
   sourceContentMD5?: Uint8Array;
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
@@ -2694,12 +2694,12 @@ export interface BlockBlobStageBlockFromURLOptionalParams extends msRest.Request
  */
 export interface BlockBlobCommitBlockListOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {{ [propertyName: string]: string }} [metadata] Optional.
    * Specifies a user-defined name-value pair associated with the blob. If no
@@ -2752,12 +2752,12 @@ export interface BlockBlobGetBlockListOptionalParams extends msRest.RequestOptio
    */
   snapshot?: string;
   /**
-   * @member {number} [timeout] The timeout parameter is expressed in seconds.
-   * For more information, see <a
+   * @member {number} [timeoutParameter] The timeout parameter is expressed in
+   * seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeout?: number;
+  timeoutParameter?: number;
   /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
@@ -3428,8 +3428,8 @@ export interface ContainerChangeLeaseHeaders {
  */
 export interface ContainerListBlobFlatSegmentHeaders {
   /**
-   * @member {string} [contentType] The content type specified for the blob.
-   * The default content type is 'application/octet-stream'
+   * @member {string} [contentType] The media type of the body of the response.
+   * For List Blobs this is 'application/xml'
    */
   contentType?: string;
   /**
@@ -3462,8 +3462,8 @@ export interface ContainerListBlobFlatSegmentHeaders {
  */
 export interface ContainerListBlobHierarchySegmentHeaders {
   /**
-   * @member {string} [contentType] The content type specified for the blob.
-   * The default content type is 'application/octet-stream'
+   * @member {string} [contentType] The media type of the body of the response.
+   * For List Blobs this is 'application/xml'
    */
   contentType?: string;
   /**
@@ -3552,8 +3552,8 @@ export interface BlobDownloadHeaders {
    */
   contentLength?: number;
   /**
-   * @member {string} [contentType] The content type specified for the blob.
-   * The default content type is 'application/octet-stream'
+   * @member {string} [contentType] The media type of the body of the response.
+   * For Download Blob this is 'application/octet-stream'
    */
   contentType?: string;
   /**
@@ -4837,8 +4837,8 @@ export interface BlockBlobGetBlockListHeaders {
    */
   eTag?: string;
   /**
-   * @member {string} [contentType] The content type specified for the blob.
-   * The default content type is 'application/octet-stream'
+   * @member {string} [contentType] The media type of the body of the response.
+   * For Get Block List this is 'application/xml'
    */
   contentType?: string;
   /**
@@ -5281,18 +5281,10 @@ export interface AppendBlobAppendBlockHeaders {
 /**
  * Defines values for PublicAccessType.
  * Possible values include: 'container', 'blob'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PublicAccessType =
- * <PublicAccessType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PublicAccessType {
-  Container = 'container',
-  Blob = 'blob',
-}
+export type PublicAccessType = 'container' | 'blob';
 
 /**
  * Defines values for CopyStatusType.
@@ -5300,12 +5292,7 @@ export enum PublicAccessType {
  * @readonly
  * @enum {string}
  */
-export enum CopyStatusType {
-  Pending = 'pending',
-  Success = 'success',
-  Aborted = 'aborted',
-  Failed = 'failed',
-}
+export type CopyStatusType = 'pending' | 'success' | 'aborted' | 'failed';
 
 /**
  * Defines values for LeaseDurationType.
@@ -5313,25 +5300,15 @@ export enum CopyStatusType {
  * @readonly
  * @enum {string}
  */
-export enum LeaseDurationType {
-  Infinite = 'infinite',
-  Fixed = 'fixed',
-}
+export type LeaseDurationType = 'infinite' | 'fixed';
 
 /**
  * Defines values for LeaseStateType.
- * Possible values include: 'available', 'leased', 'expired', 'breaking',
- * 'broken'
+ * Possible values include: 'available', 'leased', 'expired', 'breaking', 'broken'
  * @readonly
  * @enum {string}
  */
-export enum LeaseStateType {
-  Available = 'available',
-  Leased = 'leased',
-  Expired = 'expired',
-  Breaking = 'breaking',
-  Broken = 'broken',
-}
+export type LeaseStateType = 'available' | 'leased' | 'expired' | 'breaking' | 'broken';
 
 /**
  * Defines values for LeaseStatusType.
@@ -5339,51 +5316,23 @@ export enum LeaseStateType {
  * @readonly
  * @enum {string}
  */
-export enum LeaseStatusType {
-  Locked = 'locked',
-  Unlocked = 'unlocked',
-}
+export type LeaseStatusType = 'locked' | 'unlocked';
 
 /**
  * Defines values for AccessTier.
- * Possible values include: 'P4', 'P6', 'P10', 'P20', 'P30', 'P40', 'P50',
- * 'Hot', 'Cool', 'Archive'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AccessTier = <AccessTier>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'P4', 'P6', 'P10', 'P20', 'P30', 'P40', 'P50', 'Hot', 'Cool', 'Archive'
  * @readonly
  * @enum {string}
  */
-export enum AccessTier {
-  P4 = 'P4',
-  P6 = 'P6',
-  P10 = 'P10',
-  P20 = 'P20',
-  P30 = 'P30',
-  P40 = 'P40',
-  P50 = 'P50',
-  Hot = 'Hot',
-  Cool = 'Cool',
-  Archive = 'Archive',
-}
+export type AccessTier = 'P4' | 'P6' | 'P10' | 'P20' | 'P30' | 'P40' | 'P50' | 'Hot' | 'Cool' | 'Archive';
 
 /**
  * Defines values for ArchiveStatus.
- * Possible values include: 'rehydrate-pending-to-hot',
- * 'rehydrate-pending-to-cool'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ArchiveStatus =
- * <ArchiveStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'rehydrate-pending-to-hot', 'rehydrate-pending-to-cool'
  * @readonly
  * @enum {string}
  */
-export enum ArchiveStatus {
-  RehydratePendingToHot = 'rehydrate-pending-to-hot',
-  RehydratePendingToCool = 'rehydrate-pending-to-cool',
-}
+export type ArchiveStatus = 'rehydrate-pending-to-hot' | 'rehydrate-pending-to-cool';
 
 /**
  * Defines values for BlobType.
@@ -5391,187 +5340,55 @@ export enum ArchiveStatus {
  * @readonly
  * @enum {string}
  */
-export enum BlobType {
-  BlockBlob = 'BlockBlob',
-  PageBlob = 'PageBlob',
-  AppendBlob = 'AppendBlob',
-}
+export type BlobType = 'BlockBlob' | 'PageBlob' | 'AppendBlob';
 
 /**
  * Defines values for StorageErrorCode.
- * Possible values include: 'AccountAlreadyExists', 'AccountBeingCreated',
- * 'AccountIsDisabled', 'AuthenticationFailed', 'ConditionHeadersNotSupported',
- * 'ConditionNotMet', 'EmptyMetadataKey', 'InsufficientAccountPermissions',
- * 'InternalError', 'InvalidAuthenticationInfo', 'InvalidHeaderValue',
- * 'InvalidHttpVerb', 'InvalidInput', 'InvalidMd5', 'InvalidMetadata',
- * 'InvalidQueryParameterValue', 'InvalidRange', 'InvalidResourceName',
- * 'InvalidUri', 'InvalidXmlDocument', 'InvalidXmlNodeValue', 'Md5Mismatch',
- * 'MetadataTooLarge', 'MissingContentLengthHeader',
- * 'MissingRequiredQueryParameter', 'MissingRequiredHeader',
- * 'MissingRequiredXmlNode', 'MultipleConditionHeadersNotSupported',
- * 'OperationTimedOut', 'OutOfRangeInput', 'OutOfRangeQueryParameterValue',
- * 'RequestBodyTooLarge', 'ResourceTypeMismatch', 'RequestUrlFailedToParse',
- * 'ResourceAlreadyExists', 'ResourceNotFound', 'ServerBusy',
- * 'UnsupportedHeader', 'UnsupportedXmlNode', 'UnsupportedQueryParameter',
- * 'UnsupportedHttpVerb', 'AppendPositionConditionNotMet', 'BlobAlreadyExists',
- * 'BlobNotFound', 'BlobOverwritten', 'BlobTierInadequateForContentLength',
- * 'BlockCountExceedsLimit', 'BlockListTooLong', 'CannotChangeToLowerTier',
- * 'CannotVerifyCopySource', 'ContainerAlreadyExists', 'ContainerBeingDeleted',
- * 'ContainerDisabled', 'ContainerNotFound',
- * 'ContentLengthLargerThanTierLimit', 'CopyAcrossAccountsNotSupported',
- * 'CopyIdMismatch', 'FeatureVersionMismatch', 'IncrementalCopyBlobMismatch',
- * 'IncrementalCopyOfEralierVersionSnapshotNotAllowed',
- * 'IncrementalCopySourceMustBeSnapshot', 'InfiniteLeaseDurationRequired',
- * 'InvalidBlobOrBlock', 'InvalidBlobTier', 'InvalidBlobType',
- * 'InvalidBlockId', 'InvalidBlockList', 'InvalidOperation',
- * 'InvalidPageRange', 'InvalidSourceBlobType', 'InvalidSourceBlobUrl',
- * 'InvalidVersionForPageBlobOperation', 'LeaseAlreadyPresent',
- * 'LeaseAlreadyBroken', 'LeaseIdMismatchWithBlobOperation',
- * 'LeaseIdMismatchWithContainerOperation',
- * 'LeaseIdMismatchWithLeaseOperation', 'LeaseIdMissing',
+ * Possible values include: 'AccountAlreadyExists', 'AccountBeingCreated', 'AccountIsDisabled',
+ * 'AuthenticationFailed', 'ConditionHeadersNotSupported', 'ConditionNotMet', 'EmptyMetadataKey',
+ * 'InsufficientAccountPermissions', 'InternalError', 'InvalidAuthenticationInfo',
+ * 'InvalidHeaderValue', 'InvalidHttpVerb', 'InvalidInput', 'InvalidMd5', 'InvalidMetadata',
+ * 'InvalidQueryParameterValue', 'InvalidRange', 'InvalidResourceName', 'InvalidUri',
+ * 'InvalidXmlDocument', 'InvalidXmlNodeValue', 'Md5Mismatch', 'MetadataTooLarge',
+ * 'MissingContentLengthHeader', 'MissingRequiredQueryParameter', 'MissingRequiredHeader',
+ * 'MissingRequiredXmlNode', 'MultipleConditionHeadersNotSupported', 'OperationTimedOut',
+ * 'OutOfRangeInput', 'OutOfRangeQueryParameterValue', 'RequestBodyTooLarge',
+ * 'ResourceTypeMismatch', 'RequestUrlFailedToParse', 'ResourceAlreadyExists', 'ResourceNotFound',
+ * 'ServerBusy', 'UnsupportedHeader', 'UnsupportedXmlNode', 'UnsupportedQueryParameter',
+ * 'UnsupportedHttpVerb', 'AppendPositionConditionNotMet', 'BlobAlreadyExists', 'BlobNotFound',
+ * 'BlobOverwritten', 'BlobTierInadequateForContentLength', 'BlockCountExceedsLimit',
+ * 'BlockListTooLong', 'CannotChangeToLowerTier', 'CannotVerifyCopySource',
+ * 'ContainerAlreadyExists', 'ContainerBeingDeleted', 'ContainerDisabled', 'ContainerNotFound',
+ * 'ContentLengthLargerThanTierLimit', 'CopyAcrossAccountsNotSupported', 'CopyIdMismatch',
+ * 'FeatureVersionMismatch', 'IncrementalCopyBlobMismatch',
+ * 'IncrementalCopyOfEralierVersionSnapshotNotAllowed', 'IncrementalCopySourceMustBeSnapshot',
+ * 'InfiniteLeaseDurationRequired', 'InvalidBlobOrBlock', 'InvalidBlobTier', 'InvalidBlobType',
+ * 'InvalidBlockId', 'InvalidBlockList', 'InvalidOperation', 'InvalidPageRange',
+ * 'InvalidSourceBlobType', 'InvalidSourceBlobUrl', 'InvalidVersionForPageBlobOperation',
+ * 'LeaseAlreadyPresent', 'LeaseAlreadyBroken', 'LeaseIdMismatchWithBlobOperation',
+ * 'LeaseIdMismatchWithContainerOperation', 'LeaseIdMismatchWithLeaseOperation', 'LeaseIdMissing',
  * 'LeaseIsBreakingAndCannotBeAcquired', 'LeaseIsBreakingAndCannotBeChanged',
- * 'LeaseIsBrokenAndCannotBeRenewed', 'LeaseLost',
- * 'LeaseNotPresentWithBlobOperation', 'LeaseNotPresentWithContainerOperation',
- * 'LeaseNotPresentWithLeaseOperation', 'MaxBlobSizeConditionNotMet',
- * 'NoPendingCopyOperation', 'OperationNotAllowedOnIncrementalCopyBlob',
- * 'PendingCopyOperation', 'PreviousSnapshotCannotBeNewer',
- * 'PreviousSnapshotNotFound', 'PreviousSnapshotOperationNotSupported',
- * 'SequenceNumberConditionNotMet', 'SequenceNumberIncrementTooLarge',
- * 'SnapshotCountExceeded', 'SnaphotOperationRateExceeded', 'SnapshotsPresent',
- * 'SourceConditionNotMet', 'SystemInUse', 'TargetConditionNotMet',
- * 'UnauthorizedBlobOverwrite', 'BlobBeingRehydrated', 'BlobArchived',
- * 'BlobNotArchived'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: StorageErrorCode =
- * <StorageErrorCode>"someUnknownValueThatWillStillBeValid";
+ * 'LeaseIsBrokenAndCannotBeRenewed', 'LeaseLost', 'LeaseNotPresentWithBlobOperation',
+ * 'LeaseNotPresentWithContainerOperation', 'LeaseNotPresentWithLeaseOperation',
+ * 'MaxBlobSizeConditionNotMet', 'NoPendingCopyOperation',
+ * 'OperationNotAllowedOnIncrementalCopyBlob', 'PendingCopyOperation',
+ * 'PreviousSnapshotCannotBeNewer', 'PreviousSnapshotNotFound',
+ * 'PreviousSnapshotOperationNotSupported', 'SequenceNumberConditionNotMet',
+ * 'SequenceNumberIncrementTooLarge', 'SnapshotCountExceeded', 'SnaphotOperationRateExceeded',
+ * 'SnapshotsPresent', 'SourceConditionNotMet', 'SystemInUse', 'TargetConditionNotMet',
+ * 'UnauthorizedBlobOverwrite', 'BlobBeingRehydrated', 'BlobArchived', 'BlobNotArchived'
  * @readonly
  * @enum {string}
  */
-export enum StorageErrorCode {
-  AccountAlreadyExists = 'AccountAlreadyExists',
-  AccountBeingCreated = 'AccountBeingCreated',
-  AccountIsDisabled = 'AccountIsDisabled',
-  AuthenticationFailed = 'AuthenticationFailed',
-  ConditionHeadersNotSupported = 'ConditionHeadersNotSupported',
-  ConditionNotMet = 'ConditionNotMet',
-  EmptyMetadataKey = 'EmptyMetadataKey',
-  InsufficientAccountPermissions = 'InsufficientAccountPermissions',
-  InternalError = 'InternalError',
-  InvalidAuthenticationInfo = 'InvalidAuthenticationInfo',
-  InvalidHeaderValue = 'InvalidHeaderValue',
-  InvalidHttpVerb = 'InvalidHttpVerb',
-  InvalidInput = 'InvalidInput',
-  InvalidMd5 = 'InvalidMd5',
-  InvalidMetadata = 'InvalidMetadata',
-  InvalidQueryParameterValue = 'InvalidQueryParameterValue',
-  InvalidRange = 'InvalidRange',
-  InvalidResourceName = 'InvalidResourceName',
-  InvalidUri = 'InvalidUri',
-  InvalidXmlDocument = 'InvalidXmlDocument',
-  InvalidXmlNodeValue = 'InvalidXmlNodeValue',
-  Md5Mismatch = 'Md5Mismatch',
-  MetadataTooLarge = 'MetadataTooLarge',
-  MissingContentLengthHeader = 'MissingContentLengthHeader',
-  MissingRequiredQueryParameter = 'MissingRequiredQueryParameter',
-  MissingRequiredHeader = 'MissingRequiredHeader',
-  MissingRequiredXmlNode = 'MissingRequiredXmlNode',
-  MultipleConditionHeadersNotSupported = 'MultipleConditionHeadersNotSupported',
-  OperationTimedOut = 'OperationTimedOut',
-  OutOfRangeInput = 'OutOfRangeInput',
-  OutOfRangeQueryParameterValue = 'OutOfRangeQueryParameterValue',
-  RequestBodyTooLarge = 'RequestBodyTooLarge',
-  ResourceTypeMismatch = 'ResourceTypeMismatch',
-  RequestUrlFailedToParse = 'RequestUrlFailedToParse',
-  ResourceAlreadyExists = 'ResourceAlreadyExists',
-  ResourceNotFound = 'ResourceNotFound',
-  ServerBusy = 'ServerBusy',
-  UnsupportedHeader = 'UnsupportedHeader',
-  UnsupportedXmlNode = 'UnsupportedXmlNode',
-  UnsupportedQueryParameter = 'UnsupportedQueryParameter',
-  UnsupportedHttpVerb = 'UnsupportedHttpVerb',
-  AppendPositionConditionNotMet = 'AppendPositionConditionNotMet',
-  BlobAlreadyExists = 'BlobAlreadyExists',
-  BlobNotFound = 'BlobNotFound',
-  BlobOverwritten = 'BlobOverwritten',
-  BlobTierInadequateForContentLength = 'BlobTierInadequateForContentLength',
-  BlockCountExceedsLimit = 'BlockCountExceedsLimit',
-  BlockListTooLong = 'BlockListTooLong',
-  CannotChangeToLowerTier = 'CannotChangeToLowerTier',
-  CannotVerifyCopySource = 'CannotVerifyCopySource',
-  ContainerAlreadyExists = 'ContainerAlreadyExists',
-  ContainerBeingDeleted = 'ContainerBeingDeleted',
-  ContainerDisabled = 'ContainerDisabled',
-  ContainerNotFound = 'ContainerNotFound',
-  ContentLengthLargerThanTierLimit = 'ContentLengthLargerThanTierLimit',
-  CopyAcrossAccountsNotSupported = 'CopyAcrossAccountsNotSupported',
-  CopyIdMismatch = 'CopyIdMismatch',
-  FeatureVersionMismatch = 'FeatureVersionMismatch',
-  IncrementalCopyBlobMismatch = 'IncrementalCopyBlobMismatch',
-  IncrementalCopyOfEralierVersionSnapshotNotAllowed = 'IncrementalCopyOfEralierVersionSnapshotNotAllowed',
-  IncrementalCopySourceMustBeSnapshot = 'IncrementalCopySourceMustBeSnapshot',
-  InfiniteLeaseDurationRequired = 'InfiniteLeaseDurationRequired',
-  InvalidBlobOrBlock = 'InvalidBlobOrBlock',
-  InvalidBlobTier = 'InvalidBlobTier',
-  InvalidBlobType = 'InvalidBlobType',
-  InvalidBlockId = 'InvalidBlockId',
-  InvalidBlockList = 'InvalidBlockList',
-  InvalidOperation = 'InvalidOperation',
-  InvalidPageRange = 'InvalidPageRange',
-  InvalidSourceBlobType = 'InvalidSourceBlobType',
-  InvalidSourceBlobUrl = 'InvalidSourceBlobUrl',
-  InvalidVersionForPageBlobOperation = 'InvalidVersionForPageBlobOperation',
-  LeaseAlreadyPresent = 'LeaseAlreadyPresent',
-  LeaseAlreadyBroken = 'LeaseAlreadyBroken',
-  LeaseIdMismatchWithBlobOperation = 'LeaseIdMismatchWithBlobOperation',
-  LeaseIdMismatchWithContainerOperation = 'LeaseIdMismatchWithContainerOperation',
-  LeaseIdMismatchWithLeaseOperation = 'LeaseIdMismatchWithLeaseOperation',
-  LeaseIdMissing = 'LeaseIdMissing',
-  LeaseIsBreakingAndCannotBeAcquired = 'LeaseIsBreakingAndCannotBeAcquired',
-  LeaseIsBreakingAndCannotBeChanged = 'LeaseIsBreakingAndCannotBeChanged',
-  LeaseIsBrokenAndCannotBeRenewed = 'LeaseIsBrokenAndCannotBeRenewed',
-  LeaseLost = 'LeaseLost',
-  LeaseNotPresentWithBlobOperation = 'LeaseNotPresentWithBlobOperation',
-  LeaseNotPresentWithContainerOperation = 'LeaseNotPresentWithContainerOperation',
-  LeaseNotPresentWithLeaseOperation = 'LeaseNotPresentWithLeaseOperation',
-  MaxBlobSizeConditionNotMet = 'MaxBlobSizeConditionNotMet',
-  NoPendingCopyOperation = 'NoPendingCopyOperation',
-  OperationNotAllowedOnIncrementalCopyBlob = 'OperationNotAllowedOnIncrementalCopyBlob',
-  PendingCopyOperation = 'PendingCopyOperation',
-  PreviousSnapshotCannotBeNewer = 'PreviousSnapshotCannotBeNewer',
-  PreviousSnapshotNotFound = 'PreviousSnapshotNotFound',
-  PreviousSnapshotOperationNotSupported = 'PreviousSnapshotOperationNotSupported',
-  SequenceNumberConditionNotMet = 'SequenceNumberConditionNotMet',
-  SequenceNumberIncrementTooLarge = 'SequenceNumberIncrementTooLarge',
-  SnapshotCountExceeded = 'SnapshotCountExceeded',
-  SnaphotOperationRateExceeded = 'SnaphotOperationRateExceeded',
-  SnapshotsPresent = 'SnapshotsPresent',
-  SourceConditionNotMet = 'SourceConditionNotMet',
-  SystemInUse = 'SystemInUse',
-  TargetConditionNotMet = 'TargetConditionNotMet',
-  UnauthorizedBlobOverwrite = 'UnauthorizedBlobOverwrite',
-  BlobBeingRehydrated = 'BlobBeingRehydrated',
-  BlobArchived = 'BlobArchived',
-  BlobNotArchived = 'BlobNotArchived',
-}
+export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 'AccountIsDisabled' | 'AuthenticationFailed' | 'ConditionHeadersNotSupported' | 'ConditionNotMet' | 'EmptyMetadataKey' | 'InsufficientAccountPermissions' | 'InternalError' | 'InvalidAuthenticationInfo' | 'InvalidHeaderValue' | 'InvalidHttpVerb' | 'InvalidInput' | 'InvalidMd5' | 'InvalidMetadata' | 'InvalidQueryParameterValue' | 'InvalidRange' | 'InvalidResourceName' | 'InvalidUri' | 'InvalidXmlDocument' | 'InvalidXmlNodeValue' | 'Md5Mismatch' | 'MetadataTooLarge' | 'MissingContentLengthHeader' | 'MissingRequiredQueryParameter' | 'MissingRequiredHeader' | 'MissingRequiredXmlNode' | 'MultipleConditionHeadersNotSupported' | 'OperationTimedOut' | 'OutOfRangeInput' | 'OutOfRangeQueryParameterValue' | 'RequestBodyTooLarge' | 'ResourceTypeMismatch' | 'RequestUrlFailedToParse' | 'ResourceAlreadyExists' | 'ResourceNotFound' | 'ServerBusy' | 'UnsupportedHeader' | 'UnsupportedXmlNode' | 'UnsupportedQueryParameter' | 'UnsupportedHttpVerb' | 'AppendPositionConditionNotMet' | 'BlobAlreadyExists' | 'BlobNotFound' | 'BlobOverwritten' | 'BlobTierInadequateForContentLength' | 'BlockCountExceedsLimit' | 'BlockListTooLong' | 'CannotChangeToLowerTier' | 'CannotVerifyCopySource' | 'ContainerAlreadyExists' | 'ContainerBeingDeleted' | 'ContainerDisabled' | 'ContainerNotFound' | 'ContentLengthLargerThanTierLimit' | 'CopyAcrossAccountsNotSupported' | 'CopyIdMismatch' | 'FeatureVersionMismatch' | 'IncrementalCopyBlobMismatch' | 'IncrementalCopyOfEralierVersionSnapshotNotAllowed' | 'IncrementalCopySourceMustBeSnapshot' | 'InfiniteLeaseDurationRequired' | 'InvalidBlobOrBlock' | 'InvalidBlobTier' | 'InvalidBlobType' | 'InvalidBlockId' | 'InvalidBlockList' | 'InvalidOperation' | 'InvalidPageRange' | 'InvalidSourceBlobType' | 'InvalidSourceBlobUrl' | 'InvalidVersionForPageBlobOperation' | 'LeaseAlreadyPresent' | 'LeaseAlreadyBroken' | 'LeaseIdMismatchWithBlobOperation' | 'LeaseIdMismatchWithContainerOperation' | 'LeaseIdMismatchWithLeaseOperation' | 'LeaseIdMissing' | 'LeaseIsBreakingAndCannotBeAcquired' | 'LeaseIsBreakingAndCannotBeChanged' | 'LeaseIsBrokenAndCannotBeRenewed' | 'LeaseLost' | 'LeaseNotPresentWithBlobOperation' | 'LeaseNotPresentWithContainerOperation' | 'LeaseNotPresentWithLeaseOperation' | 'MaxBlobSizeConditionNotMet' | 'NoPendingCopyOperation' | 'OperationNotAllowedOnIncrementalCopyBlob' | 'PendingCopyOperation' | 'PreviousSnapshotCannotBeNewer' | 'PreviousSnapshotNotFound' | 'PreviousSnapshotOperationNotSupported' | 'SequenceNumberConditionNotMet' | 'SequenceNumberIncrementTooLarge' | 'SnapshotCountExceeded' | 'SnaphotOperationRateExceeded' | 'SnapshotsPresent' | 'SourceConditionNotMet' | 'SystemInUse' | 'TargetConditionNotMet' | 'UnauthorizedBlobOverwrite' | 'BlobBeingRehydrated' | 'BlobArchived' | 'BlobNotArchived';
 
 /**
  * Defines values for GeoReplicationStatusType.
  * Possible values include: 'live', 'bootstrap', 'unavailable'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: GeoReplicationStatusType =
- * <GeoReplicationStatusType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum GeoReplicationStatusType {
-  Live = 'live',
-  Bootstrap = 'bootstrap',
-  Unavailable = 'unavailable',
-}
+export type GeoReplicationStatusType = 'live' | 'bootstrap' | 'unavailable';
 
 /**
  * Defines values for BlockListType.
@@ -5579,11 +5396,7 @@ export enum GeoReplicationStatusType {
  * @readonly
  * @enum {string}
  */
-export enum BlockListType {
-  Committed = 'committed',
-  Uncommitted = 'uncommitted',
-  All = 'all',
-}
+export type BlockListType = 'committed' | 'uncommitted' | 'all';
 
 /**
  * Defines values for DeleteSnapshotsOptionType.
@@ -5591,25 +5404,15 @@ export enum BlockListType {
  * @readonly
  * @enum {string}
  */
-export enum DeleteSnapshotsOptionType {
-  Include = 'include',
-  Only = 'only',
-}
+export type DeleteSnapshotsOptionType = 'include' | 'only';
 
 /**
  * Defines values for ListBlobsIncludeItem.
- * Possible values include: 'snapshots', 'metadata', 'uncommittedblobs',
- * 'copy', 'deleted'
+ * Possible values include: 'snapshots', 'metadata', 'uncommittedblobs', 'copy', 'deleted'
  * @readonly
  * @enum {string}
  */
-export enum ListBlobsIncludeItem {
-  Snapshots = 'snapshots',
-  Metadata = 'metadata',
-  Uncommittedblobs = 'uncommittedblobs',
-  Copy = 'copy',
-  Deleted = 'deleted',
-}
+export type ListBlobsIncludeItem = 'snapshots' | 'metadata' | 'uncommittedblobs' | 'copy' | 'deleted';
 
 /**
  * Defines values for ListContainersIncludeType.
@@ -5617,9 +5420,7 @@ export enum ListBlobsIncludeItem {
  * @readonly
  * @enum {string}
  */
-export enum ListContainersIncludeType {
-  Metadata = 'metadata',
-}
+export type ListContainersIncludeType = 'metadata';
 
 /**
  * Defines values for SequenceNumberActionType.
@@ -5627,26 +5428,16 @@ export enum ListContainersIncludeType {
  * @readonly
  * @enum {string}
  */
-export enum SequenceNumberActionType {
-  Max = 'max',
-  Update = 'update',
-  Increment = 'increment',
-}
+export type SequenceNumberActionType = 'max' | 'update' | 'increment';
 
 /**
  * Defines values for SkuName.
- * Possible values include: 'Standard_LRS', 'Standard_GRS', 'Standard_RAGRS',
- * 'Standard_ZRS', 'Premium_LRS'
+ * Possible values include: 'Standard_LRS', 'Standard_GRS', 'Standard_RAGRS', 'Standard_ZRS',
+ * 'Premium_LRS'
  * @readonly
  * @enum {string}
  */
-export enum SkuName {
-  StandardLRS = 'Standard_LRS',
-  StandardGRS = 'Standard_GRS',
-  StandardRAGRS = 'Standard_RAGRS',
-  StandardZRS = 'Standard_ZRS',
-  PremiumLRS = 'Premium_LRS',
-}
+export type SkuName = 'Standard_LRS' | 'Standard_GRS' | 'Standard_RAGRS' | 'Standard_ZRS' | 'Premium_LRS';
 
 /**
  * Defines values for AccountKind.
@@ -5654,11 +5445,7 @@ export enum SkuName {
  * @readonly
  * @enum {string}
  */
-export enum AccountKind {
-  Storage = 'Storage',
-  BlobStorage = 'BlobStorage',
-  StorageV2 = 'StorageV2',
-}
+export type AccountKind = 'Storage' | 'BlobStorage' | 'StorageV2';
 
 /**
  * Contains response data for the setProperties operation.

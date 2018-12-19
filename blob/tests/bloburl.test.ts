@@ -1,18 +1,10 @@
 import * as assert from "assert";
 
-import { isNode } from "ms-rest-js";
+import { isNode } from "@azure/ms-rest-js";
 import { Aborter } from "../lib/Aborter";
 import { BlobURL } from "../lib/BlobURL";
 import { BlockBlobURL } from "../lib/BlockBlobURL";
 import { ContainerURL } from "../lib/ContainerURL";
-import {
-  AccessTier,
-  BlobType,
-  LeaseDurationType,
-  LeaseStateType,
-  LeaseStatusType,
-  ListBlobsIncludeItem
-} from "../lib/generated/models";
 import { bodyToString, getBSU, getUniqueName, sleep } from "./utils";
 
 describe("BlobURL", () => {
@@ -78,7 +70,7 @@ describe("BlobURL", () => {
     await blobURL.setHTTPHeaders(Aborter.none, {});
     const result = await blobURL.getProperties(Aborter.none);
 
-    assert.deepStrictEqual(result.blobType, BlobType.BlockBlob);
+    assert.deepStrictEqual(result.blobType, "BlockBlob");
     assert.ok(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
     assert.ok(!result.cacheControl);
@@ -103,7 +95,7 @@ describe("BlobURL", () => {
     await blobURL.setHTTPHeaders(Aborter.none, headers);
     const result = await blobURL.getProperties(Aborter.none);
     assert.ok(result.date);
-    assert.deepStrictEqual(result.blobType, BlobType.BlockBlob);
+    assert.deepStrictEqual(result.blobType, "BlockBlob");
     assert.ok(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
     assert.deepStrictEqual(result.cacheControl, headers.blobCacheControl);
@@ -123,9 +115,9 @@ describe("BlobURL", () => {
     await blobURL.acquireLease(Aborter.none, guid, duration);
 
     const result = await blobURL.getProperties(Aborter.none);
-    assert.equal(result.leaseDuration, LeaseDurationType.Fixed);
-    assert.equal(result.leaseState, LeaseStateType.Leased);
-    assert.equal(result.leaseStatus, LeaseStatusType.Locked);
+    assert.equal(result.leaseDuration, "fixed");
+    assert.equal(result.leaseState, "leased");
+    assert.equal(result.leaseStatus, "locked");
 
     await blobURL.releaseLease(Aborter.none, guid);
   });
@@ -136,9 +128,9 @@ describe("BlobURL", () => {
     await blobURL.acquireLease(Aborter.none, guid, duration);
 
     const result = await blobURL.getProperties(Aborter.none);
-    assert.equal(result.leaseDuration, LeaseDurationType.Infinite);
-    assert.equal(result.leaseState, LeaseStateType.Leased);
-    assert.equal(result.leaseStatus, LeaseStatusType.Locked);
+    assert.equal(result.leaseDuration, "infinite");
+    assert.equal(result.leaseState, "leased");
+    assert.equal(result.leaseStatus, "locked");
 
     await blobURL.releaseLease(Aborter.none, guid);
   });
@@ -149,21 +141,21 @@ describe("BlobURL", () => {
     await blobURL.acquireLease(Aborter.none, guid, duration);
 
     const result = await blobURL.getProperties(Aborter.none);
-    assert.equal(result.leaseDuration, LeaseDurationType.Fixed);
-    assert.equal(result.leaseState, LeaseStateType.Leased);
-    assert.equal(result.leaseStatus, LeaseStatusType.Locked);
+    assert.equal(result.leaseDuration, "fixed");
+    assert.equal(result.leaseState, "leased");
+    assert.equal(result.leaseStatus, "locked");
 
     await sleep(16 * 1000);
     const result2 = await blobURL.getProperties(Aborter.none);
     assert.ok(!result2.leaseDuration);
-    assert.equal(result2.leaseState, LeaseStateType.Expired);
-    assert.equal(result2.leaseStatus, LeaseStatusType.Unlocked);
+    assert.equal(result2.leaseState, "expired");
+    assert.equal(result2.leaseStatus, "unlocked");
 
     await blobURL.renewLease(Aborter.none, guid);
     const result3 = await blobURL.getProperties(Aborter.none);
-    assert.equal(result3.leaseDuration, LeaseDurationType.Fixed);
-    assert.equal(result3.leaseState, LeaseStateType.Leased);
-    assert.equal(result3.leaseStatus, LeaseStatusType.Locked);
+    assert.equal(result3.leaseDuration, "fixed");
+    assert.equal(result3.leaseState, "leased");
+    assert.equal(result3.leaseStatus, "locked");
 
     await blobURL.releaseLease(Aborter.none, guid);
   });
@@ -174,9 +166,9 @@ describe("BlobURL", () => {
     await blobURL.acquireLease(Aborter.none, guid, duration);
 
     const result = await blobURL.getProperties(Aborter.none);
-    assert.equal(result.leaseDuration, LeaseDurationType.Fixed);
-    assert.equal(result.leaseState, LeaseStateType.Leased);
-    assert.equal(result.leaseStatus, LeaseStatusType.Locked);
+    assert.equal(result.leaseDuration, "fixed");
+    assert.equal(result.leaseState, "leased");
+    assert.equal(result.leaseStatus, "locked");
 
     const newGuid = "3c7e72ebb4304526bc53d8ecef03798f";
     await blobURL.changeLease(Aborter.none, guid, newGuid);
@@ -191,23 +183,23 @@ describe("BlobURL", () => {
     await blobURL.acquireLease(Aborter.none, guid, duration);
 
     const result = await blobURL.getProperties(Aborter.none);
-    assert.equal(result.leaseDuration, LeaseDurationType.Fixed);
-    assert.equal(result.leaseState, LeaseStateType.Leased);
-    assert.equal(result.leaseStatus, LeaseStatusType.Locked);
+    assert.equal(result.leaseDuration, "fixed");
+    assert.equal(result.leaseState, "leased");
+    assert.equal(result.leaseStatus, "locked");
 
     await blobURL.breakLease(Aborter.none, 3);
 
     const result2 = await blobURL.getProperties(Aborter.none);
     assert.ok(!result2.leaseDuration);
-    assert.equal(result2.leaseState, LeaseStateType.Breaking);
-    assert.equal(result2.leaseStatus, LeaseStatusType.Locked);
+    assert.equal(result2.leaseState, "breaking");
+    assert.equal(result2.leaseStatus, "locked");
 
     await sleep(3 * 1000);
 
     const result3 = await blobURL.getProperties(Aborter.none);
     assert.ok(!result3.leaseDuration);
-    assert.equal(result3.leaseState, LeaseStateType.Broken);
-    assert.equal(result3.leaseStatus, LeaseStatusType.Unlocked);
+    assert.equal(result3.leaseState, "broken");
+    assert.equal(result3.leaseStatus, "unlocked");
   });
 
   it("delete", async () => {
@@ -229,7 +221,7 @@ describe("BlobURL", () => {
       Aborter.none,
       undefined,
       {
-        include: [ListBlobsIncludeItem.Snapshots]
+        include: ["snapshots"]
       }
     );
 
@@ -248,7 +240,7 @@ describe("BlobURL", () => {
       Aborter.none,
       undefined,
       {
-        include: [ListBlobsIncludeItem.Snapshots]
+        include: ["snapshots"]
       }
     );
 
@@ -291,7 +283,7 @@ describe("BlobURL", () => {
       Aborter.none,
       undefined,
       {
-        include: [ListBlobsIncludeItem.Deleted]
+        include: ["deleted"]
       }
     );
     assert.ok(result.segment.blobItems![0].deleted);
@@ -301,7 +293,7 @@ describe("BlobURL", () => {
       Aborter.none,
       undefined,
       {
-        include: [ListBlobsIncludeItem.Deleted]
+        include: ["deleted"]
       }
     );
     assert.ok(!result2.segment.blobItems![0].deleted);
@@ -342,17 +334,17 @@ describe("BlobURL", () => {
   });
 
   it("setTier set default to cool", async () => {
-    await blockBlobURL.setTier(Aborter.none, AccessTier.Cool);
+    await blockBlobURL.setTier(Aborter.none, "Cool");
     const properties = await blockBlobURL.getProperties(Aborter.none);
     assert.equal(properties.accessTier!.toLowerCase(), "cool");
   });
 
   it("setTier set archive to hot", async () => {
-    await blockBlobURL.setTier(Aborter.none, AccessTier.Archive);
+    await blockBlobURL.setTier(Aborter.none, "Archive");
     let properties = await blockBlobURL.getProperties(Aborter.none);
     assert.equal(properties.accessTier!.toLowerCase(), "archive");
 
-    await blockBlobURL.setTier(Aborter.none, AccessTier.Hot);
+    await blockBlobURL.setTier(Aborter.none, "Hot");
     properties = await blockBlobURL.getProperties(Aborter.none);
     if (properties.archiveStatus) {
       assert.equal(

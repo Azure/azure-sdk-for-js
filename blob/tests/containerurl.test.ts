@@ -4,13 +4,6 @@ import { Aborter } from "../lib/Aborter";
 import { BlobURL } from "../lib/BlobURL";
 import { BlockBlobURL } from "../lib/BlockBlobURL";
 import { ContainerURL } from "../lib/ContainerURL";
-import {
-  LeaseDurationType,
-  LeaseStateType,
-  LeaseStatusType,
-  ListBlobsIncludeItem,
-  PublicAccessType
-} from "../lib/generated/models";
 import { getBSU, getUniqueName, sleep } from "./utils";
 
 describe("ContainerURL", () => {
@@ -45,8 +38,8 @@ describe("ContainerURL", () => {
     assert.ok(result.eTag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(!result.leaseDuration);
-    assert.equal(result.leaseState, LeaseStateType.Available);
-    assert.equal(result.leaseStatus, LeaseStatusType.Unlocked);
+    assert.equal(result.leaseState, "available");
+    assert.equal(result.leaseStatus, "unlocked");
     assert.ok(result.requestId);
     assert.ok(result.version);
     assert.ok(result.date);
@@ -64,7 +57,7 @@ describe("ContainerURL", () => {
       getUniqueName(containerName)
     );
     const metadata = { key: "value" };
-    const access = PublicAccessType.Container;
+    const access = "container";
     await cURL.create(Aborter.none, { metadata, access });
     const result = await cURL.getProperties(Aborter.none);
     assert.deepEqual(result.blobPublicAccess, access);
@@ -82,9 +75,9 @@ describe("ContainerURL", () => {
     await containerURL.acquireLease(Aborter.none, guid, duration);
 
     const result = await containerURL.getProperties(Aborter.none);
-    assert.equal(result.leaseDuration, LeaseDurationType.Fixed);
-    assert.equal(result.leaseState, LeaseStateType.Leased);
-    assert.equal(result.leaseStatus, LeaseStatusType.Locked);
+    assert.equal(result.leaseDuration, "fixed");
+    assert.equal(result.leaseState, "leased");
+    assert.equal(result.leaseStatus, "locked");
 
     await containerURL.releaseLease(Aborter.none, guid);
   });
@@ -95,9 +88,9 @@ describe("ContainerURL", () => {
     await containerURL.acquireLease(Aborter.none, guid, duration);
 
     const result = await containerURL.getProperties(Aborter.none);
-    assert.equal(result.leaseDuration, LeaseDurationType.Infinite);
-    assert.equal(result.leaseState, LeaseStateType.Leased);
-    assert.equal(result.leaseStatus, LeaseStatusType.Locked);
+    assert.equal(result.leaseDuration, "infinite");
+    assert.equal(result.leaseState, "leased");
+    assert.equal(result.leaseStatus, "locked");
 
     await containerURL.releaseLease(Aborter.none, guid);
   });
@@ -108,21 +101,21 @@ describe("ContainerURL", () => {
     await containerURL.acquireLease(Aborter.none, guid, duration);
 
     const result = await containerURL.getProperties(Aborter.none);
-    assert.equal(result.leaseDuration, LeaseDurationType.Fixed);
-    assert.equal(result.leaseState, LeaseStateType.Leased);
-    assert.equal(result.leaseStatus, LeaseStatusType.Locked);
+    assert.equal(result.leaseDuration, "fixed");
+    assert.equal(result.leaseState, "leased");
+    assert.equal(result.leaseStatus, "locked");
 
     await sleep(16 * 1000);
     const result2 = await containerURL.getProperties(Aborter.none);
     assert.ok(!result2.leaseDuration);
-    assert.equal(result2.leaseState, LeaseStateType.Expired);
-    assert.equal(result2.leaseStatus, LeaseStatusType.Unlocked);
+    assert.equal(result2.leaseState, "expired");
+    assert.equal(result2.leaseStatus, "unlocked");
 
     await containerURL.renewLease(Aborter.none, guid);
     const result3 = await containerURL.getProperties(Aborter.none);
-    assert.equal(result3.leaseDuration, LeaseDurationType.Fixed);
-    assert.equal(result3.leaseState, LeaseStateType.Leased);
-    assert.equal(result3.leaseStatus, LeaseStatusType.Locked);
+    assert.equal(result3.leaseDuration, "fixed");
+    assert.equal(result3.leaseState, "leased");
+    assert.equal(result3.leaseStatus, "locked");
 
     await containerURL.releaseLease(Aborter.none, guid);
   });
@@ -133,9 +126,9 @@ describe("ContainerURL", () => {
     await containerURL.acquireLease(Aborter.none, guid, duration);
 
     const result = await containerURL.getProperties(Aborter.none);
-    assert.equal(result.leaseDuration, LeaseDurationType.Fixed);
-    assert.equal(result.leaseState, LeaseStateType.Leased);
-    assert.equal(result.leaseStatus, LeaseStatusType.Locked);
+    assert.equal(result.leaseDuration, "fixed");
+    assert.equal(result.leaseState, "leased");
+    assert.equal(result.leaseStatus, "locked");
 
     const newGuid = "3c7e72ebb4304526bc53d8ecef03798f";
     await containerURL.changeLease(Aborter.none, guid, newGuid);
@@ -150,23 +143,23 @@ describe("ContainerURL", () => {
     await containerURL.acquireLease(Aborter.none, guid, duration);
 
     const result = await containerURL.getProperties(Aborter.none);
-    assert.equal(result.leaseDuration, LeaseDurationType.Fixed);
-    assert.equal(result.leaseState, LeaseStateType.Leased);
-    assert.equal(result.leaseStatus, LeaseStatusType.Locked);
+    assert.equal(result.leaseDuration, "fixed");
+    assert.equal(result.leaseState, "leased");
+    assert.equal(result.leaseStatus, "locked");
 
     await containerURL.breakLease(Aborter.none, 3);
 
     const result2 = await containerURL.getProperties(Aborter.none);
     assert.ok(!result2.leaseDuration);
-    assert.equal(result2.leaseState, LeaseStateType.Breaking);
-    assert.equal(result2.leaseStatus, LeaseStatusType.Locked);
+    assert.equal(result2.leaseState, "breaking");
+    assert.equal(result2.leaseStatus, "locked");
 
     await sleep(3 * 1000);
 
     const result3 = await containerURL.getProperties(Aborter.none);
     assert.ok(!result3.leaseDuration);
-    assert.equal(result3.leaseState, LeaseStateType.Broken);
-    assert.equal(result3.leaseStatus, LeaseStatusType.Unlocked);
+    assert.equal(result3.leaseState, "broken");
+    assert.equal(result3.leaseStatus, "unlocked");
   });
 
   it("listBlobFlatSegment with default parameters", async () => {
@@ -217,11 +210,11 @@ describe("ContainerURL", () => {
       undefined,
       {
         include: [
-          ListBlobsIncludeItem.Snapshots,
-          ListBlobsIncludeItem.Metadata,
-          ListBlobsIncludeItem.Uncommittedblobs,
-          ListBlobsIncludeItem.Copy,
-          ListBlobsIncludeItem.Deleted
+          "snapshots",
+          "metadata",
+          "uncommittedblobs",
+          "copy",
+          "deleted"
         ],
         maxresults: 1,
         prefix
@@ -238,11 +231,11 @@ describe("ContainerURL", () => {
       result.nextMarker,
       {
         include: [
-          ListBlobsIncludeItem.Snapshots,
-          ListBlobsIncludeItem.Metadata,
-          ListBlobsIncludeItem.Uncommittedblobs,
-          ListBlobsIncludeItem.Copy,
-          ListBlobsIncludeItem.Deleted
+          "snapshots",
+          "metadata",
+          "uncommittedblobs",
+          "copy",
+          "deleted"
         ],
         maxresults: 2,
         prefix
@@ -321,12 +314,7 @@ describe("ContainerURL", () => {
       delimiter,
       undefined,
       {
-        include: [
-          ListBlobsIncludeItem.Metadata,
-          ListBlobsIncludeItem.Uncommittedblobs,
-          ListBlobsIncludeItem.Copy,
-          ListBlobsIncludeItem.Deleted
-        ],
+        include: ["metadata", "uncommittedblobs", "copy", "deleted"],
         maxresults: 1,
         prefix
       }
@@ -342,12 +330,7 @@ describe("ContainerURL", () => {
       delimiter,
       result.nextMarker,
       {
-        include: [
-          ListBlobsIncludeItem.Metadata,
-          ListBlobsIncludeItem.Uncommittedblobs,
-          ListBlobsIncludeItem.Copy,
-          ListBlobsIncludeItem.Deleted
-        ],
+        include: ["metadata", "uncommittedblobs", "copy", "deleted"],
         maxresults: 2,
         prefix
       }
@@ -363,12 +346,7 @@ describe("ContainerURL", () => {
       delimiter,
       undefined,
       {
-        include: [
-          ListBlobsIncludeItem.Metadata,
-          ListBlobsIncludeItem.Uncommittedblobs,
-          ListBlobsIncludeItem.Copy,
-          ListBlobsIncludeItem.Deleted
-        ],
+        include: ["metadata", "uncommittedblobs", "copy", "deleted"],
         maxresults: 2,
         prefix: `${prefix}0${delimiter}`
       }

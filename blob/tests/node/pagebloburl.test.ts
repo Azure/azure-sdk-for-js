@@ -3,10 +3,6 @@ import * as assert from "assert";
 import { Aborter } from "../../lib/Aborter";
 import { BlobURL } from "../../lib/BlobURL";
 import { ContainerURL } from "../../lib/ContainerURL";
-import {
-  ListBlobsIncludeItem,
-  PublicAccessType
-} from "../../lib/generated/models";
 import { PageBlobURL } from "../../lib/PageBlobURL";
 import { getBSU, getUniqueName, sleep } from "../utils";
 
@@ -47,10 +43,7 @@ describe("PageBlobURL", () => {
       getUniqueName("page")
     );
 
-    await containerURL.setAccessPolicy(
-      Aborter.none,
-      PublicAccessType.Container
-    );
+    await containerURL.setAccessPolicy(Aborter.none, "container");
     let copySource = pageBlobURL.withSnapshot(snapshotResult.snapshot!).url;
     await destPageBlobURL.startCopyIncremental(Aborter.none, copySource);
     sleep(1000);
@@ -58,7 +51,7 @@ describe("PageBlobURL", () => {
       Aborter.none,
       undefined,
       {
-        include: [ListBlobsIncludeItem.Copy, ListBlobsIncludeItem.Snapshots]
+        include: ["copy", "snapshots"]
       }
     );
 
@@ -74,7 +67,7 @@ describe("PageBlobURL", () => {
       Aborter.none,
       undefined,
       {
-        include: [ListBlobsIncludeItem.Copy, ListBlobsIncludeItem.Snapshots]
+        include: ["copy", "snapshots"]
       }
     );
 

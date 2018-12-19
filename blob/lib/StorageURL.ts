@@ -1,8 +1,8 @@
-import { deserializationPolicy, RequestPolicyFactory } from "ms-rest-js";
+import { deserializationPolicy, RequestPolicyFactory } from "@azure/ms-rest-js";
 
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
 import { Credential } from "./credentials/Credential";
-import { StorageClientContext } from "./generated/storageClientContext";
+import { StorageClientContext } from "./generated/lib/storageClientContext";
 import { LoggingPolicyFactory } from "./LoggingPolicyFactory";
 import { IHttpClient, IHttpPipelineLogger, Pipeline } from "./Pipeline";
 import { IRetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
@@ -11,7 +11,6 @@ import {
   TelemetryPolicyFactory
 } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
-import { SERVICE_VERSION } from "./utils/constants";
 import { escapeURLPath } from "./utils/utils.common";
 
 export { deserializationPolicy };
@@ -113,8 +112,11 @@ export abstract class StorageURL {
     this.pipeline = pipeline;
     this.storageClientContext = new StorageClientContext(
       this.url,
-      SERVICE_VERSION,
       pipeline.toServiceClientOptions()
     );
+
+    // Override protocol layer's default content-type
+    const storageClientContext = this.storageClientContext as any;
+    storageClientContext.requestContentType = undefined;
   }
 }

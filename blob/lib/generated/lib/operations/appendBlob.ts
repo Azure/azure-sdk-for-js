@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/appendBlobMappers";
 import * as Parameters from "../models/parameters";
@@ -28,22 +28,23 @@ export class AppendBlob {
 
   /**
    * The Create Append Blob operation creates a new append blob.
-   *
-   * @param {number} contentLength The length of the request.
-   *
-   * @param {AppendBlobCreateOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param contentLength The length of the request.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppendBlobCreateResponse>
    */
-  create(contentLength: number): Promise<Models.AppendBlobCreateResponse>;
-  create(contentLength: number, options: Models.AppendBlobCreateOptionalParams): Promise<Models.AppendBlobCreateResponse>;
+  create(contentLength: number, options?: Models.AppendBlobCreateOptionalParams): Promise<Models.AppendBlobCreateResponse>;
+  /**
+   * @param contentLength The length of the request.
+   * @param callback The callback
+   */
   create(contentLength: number, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param contentLength The length of the request.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   create(contentLength: number, options: Models.AppendBlobCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(contentLength: number, options?: Models.AppendBlobCreateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.AppendBlobCreateResponse> {
+  create(contentLength: number, options?: Models.AppendBlobCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.AppendBlobCreateResponse> {
     return this.client.sendOperationRequest(
       {
         contentLength,
@@ -57,24 +58,26 @@ export class AppendBlob {
    * The Append Block operation commits a new block of data to the end of an existing append blob.
    * The Append Block operation is permitted only if the blob was created with x-ms-blob-type set to
    * AppendBlob. Append Block is supported only on version 2015-02-21 version or later.
-   *
-   * @param {msRest.HttpRequestBody} body Initial data
-   *
-   * @param {number} contentLength The length of the request.
-   *
-   * @param {AppendBlobAppendBlockOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param body Initial data
+   * @param contentLength The length of the request.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppendBlobAppendBlockResponse>
    */
-  appendBlock(body: msRest.HttpRequestBody, contentLength: number): Promise<Models.AppendBlobAppendBlockResponse>;
-  appendBlock(body: msRest.HttpRequestBody, contentLength: number, options: Models.AppendBlobAppendBlockOptionalParams): Promise<Models.AppendBlobAppendBlockResponse>;
+  appendBlock(body: msRest.HttpRequestBody, contentLength: number, options?: Models.AppendBlobAppendBlockOptionalParams): Promise<Models.AppendBlobAppendBlockResponse>;
+  /**
+   * @param body Initial data
+   * @param contentLength The length of the request.
+   * @param callback The callback
+   */
   appendBlock(body: msRest.HttpRequestBody, contentLength: number, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param body Initial data
+   * @param contentLength The length of the request.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   appendBlock(body: msRest.HttpRequestBody, contentLength: number, options: Models.AppendBlobAppendBlockOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  appendBlock(body: msRest.HttpRequestBody, contentLength: number, options?: Models.AppendBlobAppendBlockOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.AppendBlobAppendBlockResponse> {
+  appendBlock(body: msRest.HttpRequestBody, contentLength: number, options?: Models.AppendBlobAppendBlockOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.AppendBlobAppendBlockResponse> {
     return this.client.sendOperationRequest(
       {
         body,
@@ -84,7 +87,6 @@ export class AppendBlob {
       appendBlockOperationSpec,
       callback) as Promise<Models.AppendBlobAppendBlockResponse>;
   }
-
 }
 
 // Operation Specifications

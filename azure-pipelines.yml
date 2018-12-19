@@ -5,8 +5,8 @@
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=vsts&tabs=schema
 
 jobs:
-  - job: nodejslinux
-    displayName: Linux
+  - job: blobnodejslinux
+    displayName: Blob Linux
     pool:
       vmImage: "ubuntu-16.04"
     strategy:
@@ -38,10 +38,10 @@ jobs:
       - task: PublishTestResults@2
         inputs:
           testRunner: JUnit
-          testResultsFiles: "test-results.xml"
+          testResultsFiles: "./blob/test-results.xml"
 
-  - job: nodejswin
-    displayName: Windows
+  - job: blobnodejswin
+    displayName: Blob Windows
     pool:
       vmImage: "vs2017-win2016"
     strategy:
@@ -73,10 +73,10 @@ jobs:
       - task: PublishTestResults@2
         inputs:
           testRunner: JUnit
-          testResultsFiles: "test-results.xml"
+          testResultsFiles: "./blob/test-results.xml"
 
-  - job: nodejsmac
-    displayName: Mac
+  - job: blobnodejsmac
+    displayName: Blob Mac
     pool:
       vmImage: "macOS-10.13"
     strategy:
@@ -108,10 +108,10 @@ jobs:
       - task: PublishTestResults@2
         inputs:
           testRunner: JUnit
-          testResultsFiles: "test-results.xml"
+          testResultsFiles: "./blob/test-results.xml"
 
-  - job: browser
-    displayName: Browser Regression
+  - job: blobbrowser
+    displayName: Blob Browser
     pool:
       vmImage: "Ubuntu 16.04"
     steps:
@@ -135,4 +135,4 @@ jobs:
       - task: PublishTestResults@2
         inputs:
           testRunner: JUnit
-          testResultsFiles: "test-results.browser.xml"
+          testResultsFiles: "./blob/test-results.browser.xml"

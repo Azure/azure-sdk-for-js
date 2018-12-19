@@ -1,10 +1,10 @@
-import { HttpRequestBody, TransferProgressEvent } from "ms-rest-js";
+import { HttpRequestBody, TransferProgressEvent } from "@azure/ms-rest-js";
 
-import * as Models from "../lib/generated/models";
+import * as Models from "../lib/generated/lib/models";
 import { Aborter } from "./Aborter";
 import { BlobURL } from "./BlobURL";
 import { ContainerURL } from "./ContainerURL";
-import { PageBlob } from "./generated/operations";
+import { PageBlob } from "./generated/lib/operations";
 import { rangeToString } from "./IRange";
 import {
   IBlobAccessConditions,

@@ -1,4 +1,4 @@
-import { isNode, URLBuilder } from "ms-rest-js";
+import { isNode, URLBuilder } from "@azure/ms-rest-js";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.

@@ -1,5 +1,13 @@
 # Changelog
 
+2018.12 10.3.0
+
+* [Breaking] Updated convenience layer methods enum type parameters into typescript union types, this will help reducing bundle footprint.
+* [Breaking] Updated URL encoding strategy for `url` parameters of `new XXXURL(url, pipeline)` methods, such as `new BlobURL(url, pipeline)`.
+  * URL will accept both encoded or non-encoded URL string. It will escape non-escaped special characters, like Chinese characters. However, if blob name includes `?` or `%`, `url` must be encoded manually.
+* Updated dependency `ms-rest-js` to `@azure/ms-rest-js`.
+* Fixed `Aborter.timeout()` misleading scale description.
+
 2018.11 10.2.0-preview
 
 * [Breaking] Updated names of exported interfaces `IHTTPPipelineLogger` & `IHTTPClient` to `IHttpPipelineLogger` & `IHttpClient`.

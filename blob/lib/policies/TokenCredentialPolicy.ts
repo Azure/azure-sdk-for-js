@@ -3,7 +3,7 @@ import {
   RequestPolicy,
   RequestPolicyOptions,
   WebResource
-} from "ms-rest-js";
+} from "@azure/ms-rest-js";
 
 import { TokenCredential } from "../credentials/TokenCredential";
 import { HeaderConstants } from "../utils/constants";

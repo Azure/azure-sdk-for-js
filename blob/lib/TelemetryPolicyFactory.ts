@@ -3,7 +3,7 @@ import {
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptions
-} from "ms-rest-js";
+} from "@azure/ms-rest-js";
 import * as os from "os";
 
 import { TelemetryPolicy } from "./policies/TelemetryPolicy";
