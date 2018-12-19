@@ -66,7 +66,7 @@ export class PageBlobURL extends BlobURL {
    *
    * @static
    * @param {ContainerURL} containerURL A ContainerURL object
-   * @param {string} blobName A blob name
+   * @param {string} blobName A page blob name
    * @returns {PageBlobURL}
    * @memberof PageBlobURL
    */
@@ -103,10 +103,17 @@ export class PageBlobURL extends BlobURL {
 
   /**
    * Creates an instance of PageBlobURL.
+   * This method accepts an encoded URL or non-encoded URL pointing to a page blob.
+   * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+   * If a blob name includes ? or %, blob name must be encoded in the URL.
+   *
    * @param {string} url A URL string pointing to Azure Storage page blob, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob?sasString".
+   *                     This method accepts an encoded URL or non-encoded URL pointing to a blob.
+   *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+   *                     If a blob name includes ? or %, blob name must be encoded in the URL.
    * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof PageBlobURL
