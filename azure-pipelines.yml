@@ -30,9 +30,9 @@ jobs:
         displayName: "npm install and build"
 
       - script: |
-          npm run test:nodereporter
+          npm run test:node
         workingDirectory: "./blob"
-        displayName: "npm run test:nodereporter"
+        displayName: "npm run test:node"
         env: { ACCOUNT_NAME: "$(ACCOUNT_NAME)", ACCOUNT_KEY: "$(ACCOUNT_KEY)" }
 
       - task: PublishTestResults@2
@@ -65,9 +65,9 @@ jobs:
         displayName: "npm install and build"
 
       - script: |
-          npm run test:nodereporter
+          npm run test:node
         workingDirectory: "./blob"
-        displayName: "npm run test:nodereporter"
+        displayName: "npm run test:node"
         env: { ACCOUNT_NAME: "$(ACCOUNT_NAME)", ACCOUNT_KEY: "$(ACCOUNT_KEY)" }
 
       - task: PublishTestResults@2
@@ -100,9 +100,9 @@ jobs:
         displayName: "npm install and build"
 
       - script: |
-          npm run test:nodereporter
+          npm run test:node
         workingDirectory: "./blob"
-        displayName: "npm run test:nodereporter"
+        displayName: "npm run test:node"
         env: { ACCOUNT_NAME: "$(ACCOUNT_NAME)", ACCOUNT_KEY: "$(ACCOUNT_KEY)" }
 
       - task: PublishTestResults@2
@@ -131,3 +131,8 @@ jobs:
         workingDirectory: "./blob"
         displayName: "npm run test:browser"
         env: { ACCOUNT_NAME: "$(ACCOUNT_NAME)", ACCOUNT_SAS: "$(ACCOUNT_SAS)" }
+
+      - task: PublishTestResults@2
+        inputs:
+          testRunner: JUnit
+          testResultsFiles: "test-results.browser.xml"

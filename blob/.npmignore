@@ -54,3 +54,4 @@ test*.xml
 *.tgz
 coverage-browser
 .nycrc
+mocha.reporter.config.json
