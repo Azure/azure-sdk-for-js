@@ -41,11 +41,11 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@azure/ms-rest-js": "^1.2.3",
+    "@azure/ms-rest-js": "^1.2.4",
     "tslib": "^1.9.2"
   },
   "devDependencies": {
-    "@ts-common/azure-js-dev-tools": "file:C:/Users/daschult/Sources/azure-js-dev-tools",
+    "@ts-common/azure-js-dev-tools": "^0.5.1",
     "@types/chai": "^4.1.4",
     "@types/mocha": "^5.2.1",
     "@types/node": "^10.9.4",
