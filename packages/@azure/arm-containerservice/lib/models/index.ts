@@ -2167,44 +2167,6 @@ export type ManagedClustersBeginUpdateTagsResponse = ManagedCluster & {
 };
 
 /**
- * Contains response data for the beginResetServicePrincipalProfile operation.
- */
-export type ManagedClustersBeginResetServicePrincipalProfileResponse = ManagedCluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedCluster;
-    };
-};
-
-/**
- * Contains response data for the beginResetAADProfile operation.
- */
-export type ManagedClustersBeginResetAADProfileResponse = ManagedCluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedCluster;
-    };
-};
-
-/**
  * Contains response data for the listNext operation.
  */
 export type ManagedClustersListNextResponse = ManagedClusterListResult & {
