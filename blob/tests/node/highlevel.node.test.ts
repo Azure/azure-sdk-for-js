@@ -114,6 +114,28 @@ describe("Highlevel", () => {
     assert.ok(downloadedData.equals(uploadedData));
   });
 
+  it("uploadFileToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES and configed parallism threshold", async () => {
+    await uploadFileToBlockBlob(Aborter.none, tempFileSmall, blockBlobURL, {
+      parallelismThreshold: 0
+    });
+
+    const downloadResponse = await blockBlobURL.download(Aborter.none, 0);
+    const downloadedFile = path.join(
+      tempFolderPath,
+      getUniqueName("downloadfile.")
+    );
+    await readStreamToLocalFile(
+      downloadResponse.readableStreamBody!,
+      downloadedFile
+    );
+
+    const downloadedData = await fs.readFileSync(downloadedFile);
+    const uploadedData = await fs.readFileSync(tempFileSmall);
+
+    fs.unlinkSync(downloadedFile);
+    assert.ok(downloadedData.equals(uploadedData));
+  });
+
   it("uploadFileToBlockBlob should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     const aborter = Aborter.timeout(1);
 
