@@ -4,7 +4,7 @@
  * license information.
  */
 
-import { contains, gitDiff, GitDiffResult, gitStatus, GitStatusResult, normalize, npmInstall, npmRun, NPMScope, NPMViewResult, RunOptions, joinPath } from "@ts-common/azure-js-dev-tools";
+import { contains, gitDiff, GitDiffResult, gitStatus, GitStatusResult, joinPath, normalize, npmInstall, npmRun, NPMScope, NPMViewResult, RunOptions, StringMap } from "@ts-common/azure-js-dev-tools";
 import * as fs from "fs";
 import gulp from "gulp";
 import * as path from "path";
@@ -257,8 +257,8 @@ function pack(): void {
         } else if (toPack === PackagesToPack.DifferentVersion) {
           let npmPackageVersion: string | undefined;
           try {
-            const npmViewResult: NPMViewResult = npm.view({ packageName, ...runOptions, showOutput: false });
-            const distTags: { [tag: string]: string } | undefined = npmViewResult["dist-tags"];
+            const npmViewResult: NPMViewResult = npm.view({ packageName, ...runOptions, showCommand: false, showOutput: false });
+            const distTags: StringMap<string> | undefined = npmViewResult["dist-tags"];
             npmPackageVersion = distTags && distTags["latest"];
           }
           catch (error) {
