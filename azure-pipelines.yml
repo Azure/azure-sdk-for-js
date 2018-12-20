@@ -2,7 +2,7 @@ trigger:
 - master
 
 jobs:
-- job: Check_PackageJson_Version_Number
+- job: Check_Everything
   pool:
     vmImage: 'Ubuntu 16.04'
   steps:
@@ -13,27 +13,11 @@ jobs:
       verbose: false
       customCommand: install
   - task: Npm@1
-    displayName: 'npm run check:packagejsonversion -- --azure-devops'
+    displayName: 'npm run check:everything -- --azure-devops'
     inputs:
       command: custom
       verbose: false
-      customCommand: run check:packagejsonversion -- --azure-devops
-- job: Check_Tests_For_Only
-  pool:
-    vmImage: 'Ubuntu 16.04'
-  steps:
-  - task: Npm@1
-    displayName: 'npm install'
-    inputs:
-      command: custom
-      verbose: false
-      customCommand: install
-  - task: Npm@1
-    displayName: 'npm run check:testsforonly -- --azure-devops'
-    inputs:
-      command: custom
-      verbose: false
-      customCommand: run check:testsforonly -- --azure-devops
+      customCommand: run check:everything -- --azure-devops
 - job: Pack
   pool:
     vmImage: 'Ubuntu 16.04'
