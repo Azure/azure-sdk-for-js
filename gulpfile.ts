@@ -4,7 +4,7 @@
  * license information.
  */
 
-import { contains, gitDiff, GitDiffResult, gitStatus, GitStatusResult, normalize, npmInstall, npmRun, NPMScope, NPMViewResult, RunOptions, joinPath } from "@ts-common/azure-js-dev-tools";
+import { contains, gitDiff, GitDiffResult, gitStatus, GitStatusResult, joinPath, normalize, npmInstall, npmRun, NPMScope, NPMViewResult, RunOptions, StringMap } from "@ts-common/azure-js-dev-tools";
 import * as fs from "fs";
 import gulp from "gulp";
 import * as path from "path";
