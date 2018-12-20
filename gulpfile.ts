@@ -422,9 +422,12 @@ gulp.task("regenerate", async () => {
     }
 
     const branchName = argv.branch || pullRequestData.branchName;
-    const packageName = argv.package || pullRequestData.packageName;
-
     if (!branchName) {
+      throw new Error("Unable to find the name of the branch. Please specify the --branch parameter");
+    }
+
+    const packageName: string | undefined = argv.package || pullRequestData.packageName;
+    if (!packageName) {
       throw new Error("Unable to find the name of the package. Please specify the --package parameter");
     }
 
