@@ -9,15 +9,13 @@
  */
 
 export {
-  ServerAzureADAdministrator,
-  ProxyResource,
+  RestorableDroppedManagedDatabaseListResult,
+  RestorableDroppedManagedDatabase,
+  TrackedResource,
   Resource,
   BaseResource,
   CloudError,
-  ServerAdministratorListResult,
-  RecoverableDatabase,
-  RestorableDroppedDatabase,
-  TrackedResource,
+  ProxyResource,
   ServerConnectionPolicy,
   DatabaseSecurityAlertPolicy,
   DataMaskingPolicy,
@@ -28,6 +26,7 @@ export {
   RecommendedElasticPool,
   RecommendedElasticPoolMetric,
   ReplicationLink,
+  ServerAzureADAdministrator,
   ServerCommunicationLink,
   ServiceObjective,
   ElasticPoolActivity,
@@ -88,7 +87,6 @@ export {
   AutomaticTuningServerOptions,
   ServerDnsAlias,
   ServerSecurityAlertPolicy,
-  RestorableDroppedManagedDatabase,
   RestorePoint,
   ManagedDatabaseSecurityAlertPolicy,
   ManagedServerSecurityAlertPolicy,
@@ -110,6 +108,8 @@ export {
   ManagedInstanceKey,
   ManagedInstanceEncryptionProtector,
   ManagedInstanceVulnerabilityAssessment,
-  ServerVulnerabilityAssessment
+  ServerVulnerabilityAssessment,
+  RecoverableDatabase,
+  RestorableDroppedDatabase
 } from "../models/mappers";
 
