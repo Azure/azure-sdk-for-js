@@ -123,6 +123,19 @@ describe("Highelvel", () => {
     assert.equal(uploadedString, downloadedString);
   });
 
+  it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES and configed parallism threshold", async () => {
+    await uploadBrowserDataToBlockBlob(Aborter.none, tempFile2, blockBlobURL, {
+      blockSize: 512 * 1024,
+      parallelismThreshold: 0
+    });
+
+    const downloadResponse = await blockBlobURL.download(Aborter.none, 0);
+    const downloadedString = await bodyToString(downloadResponse);
+    const uploadedString = await blobToString(tempFile2);
+
+    assert.equal(uploadedString, downloadedString);
+  });
+
   it("uploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     if (isIE()) {
       assert.ok(

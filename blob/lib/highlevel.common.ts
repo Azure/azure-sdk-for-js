@@ -11,12 +11,23 @@ import { IBlobAccessConditions } from "./models";
  */
 export interface IUploadToBlockBlobOptions {
   /**
-   * Destination block blob size.
+   * Destination block blob size in bytes.
    *
    * @type {number}
    * @memberof IUploadToBlockBlobOptions
    */
   blockSize?: number;
+
+  /**
+   * Blob size threshold in bytes to start concurrency uploading.
+   * Default value is 256MB, blob size less than this option will
+   * be uploaded via one I/O operation without concurrency.
+   * You can customize a value less equal than the default value.
+   *
+   * @type {number}
+   * @memberof IUploadToBlockBlobOptions
+   */
+  parallelismThreshold?: number;
 
   /**
    * Progress updater.

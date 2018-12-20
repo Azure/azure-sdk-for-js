@@ -7,6 +7,7 @@
   * URL will accept both encoded or non-encoded URL string. It will escape non-escaped special characters, like Chinese characters. However, if blob name includes `?` or `%`, `url` must be encoded manually.
 * Updated dependency `ms-rest-js` to `@azure/ms-rest-js`.
 * Fixed `Aborter.timeout()` misleading scale description.
+* Added option `parallelismThreshold` to customize concurrency upload threshold in bytes for highlevel uploading APIs, like `uploadBrowserDataToBlockBlob` or `uploadFileToBlockBlob`.
 
 2018.11 10.2.0-preview
 
