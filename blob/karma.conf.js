@@ -102,6 +102,8 @@ module.exports = function(config) {
     concurrency: 1,
 
     browserNoActivityTimeout: 600000,
+    browserDisconnectTimeout: 10000,
+    browserDisconnectTolerance: 3,
 
     client: {
       mocha: {
