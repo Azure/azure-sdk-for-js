@@ -257,8 +257,8 @@ function pack(): void {
         } else if (toPack === PackagesToPack.DifferentVersion) {
           let npmPackageVersion: string | undefined;
           try {
-            const npmViewResult: NPMViewResult = npm.view({ packageName, ...runOptions, showOutput: false });
-            const distTags: { [tag: string]: string } | undefined = npmViewResult["dist-tags"];
+            const npmViewResult: NPMViewResult = npm.view({ packageName, ...runOptions, showCommand: false, showOutput: false });
+            const distTags: StringMap<string> | undefined = npmViewResult["dist-tags"];
             npmPackageVersion = distTags && distTags["latest"];
           }
           catch (error) {
