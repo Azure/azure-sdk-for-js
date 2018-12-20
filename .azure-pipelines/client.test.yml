@@ -25,11 +25,9 @@ jobs:
           versionSpec: '$(node.version)'
         displayName: 'Install Node.js $(node.version)'
 
-      # Rather than running "npm install" in the repo root, reduce build time by only installing the "npm-run-all" package,
-      # which is the minimum required to run the composite script commands.
-      # 
-      # Also, "npm install" in the repo root fails when using Node11 on Windows or Linux
-      # (https://github.com/Azure/azure-sdk-for-js/issues/845)
+      # Reduce build time by only installing the "npm-run-all" package, which is the minimum required to run the
+      # composite script commands.
+      # Also, "npm install" fails when using Node11 on Windows or Linux (https://github.com/Azure/azure-sdk-for-js/issues/845)
       - task: Npm@1
         inputs:
           command: 'custom'

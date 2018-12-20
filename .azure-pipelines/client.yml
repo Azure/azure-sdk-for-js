@@ -16,8 +16,8 @@ jobs:
           versionSpec: '$(node.version)'
         displayName: 'Install Node.js $(node.version)'
 
-      # Rather than running "npm install" in the repo root, reduce build time by only installing the "npm-run-all" package,
-      # which is the minimum required to run the composite script commands.
+      # Reduce build time by only installing the "npm-run-all" package, which is the minimum required to run the
+      # composite script commands.
       - task: Npm@1
         inputs:
           command: 'custom'
@@ -63,13 +63,10 @@ jobs:
           versionSpec: '$(node.version)'
         displayName: 'Install Node.js $(node.version)'
 
-      # Rather than running "npm install" in the repo root, reduce build time by only installing the "npm-run-all" package,
-      # which is the minimum required to run the composite script commands.
       - task: Npm@1
         inputs:
-          command: 'custom'
-          customCommand: 'install npm-run-all'
-        displayName: 'npm install npm-run-all'
+          command: 'install'
+        displayName: 'npm install'
 
       - task: Npm@1
         inputs:
