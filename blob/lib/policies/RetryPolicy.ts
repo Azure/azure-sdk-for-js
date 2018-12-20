@@ -7,7 +7,7 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptions,
   RestError,
-  WebResource,
+  WebResource
 } from "@azure/ms-rest-js";
 
 import { IRetryOptions } from "../RetryPolicyFactory";
@@ -58,7 +58,7 @@ const DEFAULT_RETRY_OPTIONS: IRetryOptions = {
   retryDelayInMs: 4 * 1000,
   retryPolicyType: RetryPolicyType.EXPONENTIAL,
   secondaryHost: "",
-  tryTimeoutInMs: 60 * 1000
+  tryTimeoutInMs: undefined
 };
 
 /**
@@ -181,11 +181,13 @@ export class RetryPolicy extends BaseRequestPolicy {
     }
 
     // Set the server-side timeout query parameter "timeout=[seconds]"
-    newRequest.url = setURLParameter(
-      newRequest.url,
-      URLConstants.Parameters.TIMEOUT,
-      Math.floor(this.retryOptions.tryTimeoutInMs! / 1000).toString()
-    );
+    if (this.retryOptions.tryTimeoutInMs) {
+      newRequest.url = setURLParameter(
+        newRequest.url,
+        URLConstants.Parameters.TIMEOUT,
+        Math.floor(this.retryOptions.tryTimeoutInMs! / 1000).toString()
+      );
+    }
 
     let response: HttpOperationResponse | undefined;
     try {

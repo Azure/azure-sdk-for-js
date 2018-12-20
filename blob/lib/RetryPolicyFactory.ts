@@ -33,12 +33,10 @@ export interface IRetryOptions {
 
   /**
    * Optional. Indicates the maximum time in ms allowed for any single try of an HTTP request.
-   * A value of zero or undefined means that you accept our default timeout, 60s or 60 * 1000ms.
+   * A value of zero or undefined means no default timeout on SDK client, Azure
+   * Storage server's default timeout policy will be used.
    *
-   * NOTE: When transferring large amounts of data, the default TryTimeout will probably
-   * not be sufficient. You should override this value based on the bandwidth available to
-   * the host machine and proximity to the Storage service. A good starting point may be something
-   * like (60 seconds per MB of anticipated-payload-size)
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-blob-service-operations
    *
    * @type {number}
    * @memberof IRetryOptions

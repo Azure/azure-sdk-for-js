@@ -8,6 +8,7 @@
 * Updated dependency `ms-rest-js` to `@azure/ms-rest-js`.
 * Fixed `Aborter.timeout()` misleading scale description.
 * Added option `parallelismThreshold` to customize concurrency upload threshold in bytes for highlevel uploading APIs, like `uploadBrowserDataToBlockBlob` or `uploadFileToBlockBlob`.
+* Removed default 60s server timeout value for retry options `tryTimeoutInMs` to avoid large blob download stream unexcepted ending.
 
 2018.11 10.2.0-preview
 
