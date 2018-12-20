@@ -79,6 +79,8 @@ export {
   ApplicationGatewayBackendHealthHttpSettings,
   ApplicationGatewayBackendHealthServer,
   ApplicationGatewayAvailableServerVariablesResult,
+  ErrorModel,
+  ErrorDetails,
   ApplicationGatewayAvailableRequestHeadersResult,
   ApplicationGatewayAvailableResponseHeadersResult,
   ApplicationGatewayAvailableWafRuleSetsResult,

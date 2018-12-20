@@ -645,7 +645,7 @@ const listAvailableServerVariablesOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ApplicationGatewayAvailableServerVariablesResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorModel
     }
   },
   serializer
@@ -668,7 +668,7 @@ const listAvailableRequestHeadersOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ApplicationGatewayAvailableRequestHeadersResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorModel
     }
   },
   serializer
@@ -691,7 +691,7 @@ const listAvailableResponseHeadersOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ApplicationGatewayAvailableResponseHeadersResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorModel
     }
   },
   serializer
