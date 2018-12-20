@@ -5,7 +5,7 @@
     "email": "azsdkteam@microsoft.com",
     "url": "https://github.com/Azure/ms-rest-azure-js"
   },
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Isomorphic Azure client runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
     "isomorphic",
@@ -45,7 +45,7 @@
     "tslib": "^1.9.2"
   },
   "devDependencies": {
-    "@ts-common/azure-js-dev-tools": "^0.5.1",
+    "@ts-common/azure-js-dev-tools": "^0.5.5",
     "@types/chai": "^4.1.4",
     "@types/mocha": "^5.2.1",
     "@types/node": "^10.9.4",
@@ -106,7 +106,8 @@
     "publish-preview": "npm test && shx rm -rf dist/test && node ./.scripts/publish",
     "local": "ts-node ./.scripts/local.ts",
     "latest": "ts-node ./.scripts/latest.ts",
-    "check:packagejsonversion": "ts-node ./.scripts/checkPackageJsonVersion.ts"
+    "check:packagejsonversion": "ts-node ./.scripts/checkPackageJsonVersion.ts",
+    "check:testsforonly": "ts-node ./.scripts/checkTestsForOnly.ts"
   },
   "sideEffects": false
 }
