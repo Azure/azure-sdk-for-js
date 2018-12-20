@@ -3029,6 +3029,52 @@ export interface ApplicationGatewaySslPredefinedPolicy extends SubResource {
 
 /**
  * @interface
+ * An interface representing ErrorDetails.
+ */
+export interface ErrorDetails {
+  /**
+   * @member {string} [code]
+   */
+  code?: string;
+  /**
+   * @member {string} [target]
+   */
+  target?: string;
+  /**
+   * @member {string} [message]
+   */
+  message?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ErrorModel.
+ */
+export interface ErrorModel {
+  /**
+   * @member {string} [code]
+   */
+  code?: string;
+  /**
+   * @member {string} [message]
+   */
+  message?: string;
+  /**
+   * @member {string} [target]
+   */
+  target?: string;
+  /**
+   * @member {ErrorDetails[]} [details]
+   */
+  details?: ErrorDetails[];
+  /**
+   * @member {string} [innerError]
+   */
+  innerError?: string;
+}
+
+/**
+ * @interface
  * An interface representing TagsObject.
  * Tags object for patch operations.
  *
@@ -5302,52 +5348,6 @@ export interface LoadBalancer extends Resource {
    * the resource is updated.
    */
   etag?: string;
-}
-
-/**
- * @interface
- * An interface representing ErrorDetails.
- */
-export interface ErrorDetails {
-  /**
-   * @member {string} [code]
-   */
-  code?: string;
-  /**
-   * @member {string} [target]
-   */
-  target?: string;
-  /**
-   * @member {string} [message]
-   */
-  message?: string;
-}
-
-/**
- * @interface
- * An interface representing ErrorModel.
- */
-export interface ErrorModel {
-  /**
-   * @member {string} [code]
-   */
-  code?: string;
-  /**
-   * @member {string} [message]
-   */
-  message?: string;
-  /**
-   * @member {string} [target]
-   */
-  target?: string;
-  /**
-   * @member {ErrorDetails[]} [details]
-   */
-  details?: ErrorDetails[];
-  /**
-   * @member {string} [innerError]
-   */
-  innerError?: string;
 }
 
 /**
