@@ -937,7 +937,10 @@ export class ServiceBusMessage implements ReceivedMessage {
    * @returns Promise<void>
    */
   async deadLetter(options?: DeadLetterOptions): Promise<void> {
-    let error: AmqpError = {};
+    let error: AmqpError = {
+      condition: "",
+      description: ""
+    };
     if (options) {
       error = {
         condition: options.deadletterReason,
