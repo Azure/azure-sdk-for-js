@@ -747,13 +747,13 @@ export const RedirectConfiguration: msRest.CompositeMapper = {
       preservePath: {
         serializedName: "preservePath",
         type: {
-          name: "Boolean"
+          name: "String"
         }
       },
       preserveQueryString: {
         serializedName: "preserveQueryString",
         type: {
-          name: "Boolean"
+          name: "String"
         }
       },
       extraQueryString: {

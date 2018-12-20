@@ -139,8 +139,10 @@ export interface SubResource extends BaseResource {
  */
 export interface RoutingRule extends SubResource {
   /**
-   * @member {FrontDoorRouteType} [routeType] Route type. Possible values
-   * include: 'Forward', 'Redirect'
+   * @member {FrontDoorRouteType} [routeType] The type of a routing rule. It
+   * must be set to Redirect for a redirect routing rule. To be
+   * backwards-compatible, it is not needed for a forwarding routing rule.
+   * Possible values include: 'Forwarding', 'Redirect'
    */
   routeType?: FrontDoorRouteType;
   /**
@@ -186,7 +188,8 @@ export interface RoutingRule extends SubResource {
   enabledState?: FrontDoorEnabledState;
   /**
    * @member {RedirectConfiguration} [redirectConfiguration] A reference to the
-   * redirect routing configuration.
+   * redirect routing configuration. It is null for a forward-routing rule. But
+   * it must not be null if the routeType property is set to Redirect.
    */
   redirectConfiguration?: RedirectConfiguration;
   /**
@@ -551,9 +554,8 @@ export interface CacheConfiguration {
 export interface RedirectConfiguration {
   /**
    * @member {FrontDoorRedirectProtocol} [redirectType] The redirect type the
-   * rule will use when redirecting traffic. Possible values include:
-   * 'Moved(301)', 'Found(302)', 'TemporaryRedirect(307)',
-   * 'PermanentRedirect(308)'
+   * rule will use when redirecting traffic. Possible values include: 'Moved',
+   * 'Found', 'TemporaryRedirect', 'PermanentRedirect'
    */
   redirectType?: FrontDoorRedirectProtocol;
   /**
@@ -578,14 +580,16 @@ export interface RedirectConfiguration {
    */
   destinationFragment?: string;
   /**
-   * @member {boolean} [preservePath] Indicates whether the path is preserved.
+   * @member {FrontDoorPreservePath} [preservePath] Indicates whether the path
+   * is preserved. Possible values include: 'Yes', 'No'
    */
-  preservePath?: boolean;
+  preservePath?: FrontDoorPreservePath;
   /**
-   * @member {boolean} [preserveQueryString] Indicates whether the query string
-   * is preserved.
+   * @member {FrontDoorPreserveQueryString} [preserveQueryString] Indicates
+   * whether the query string is preserved. Possible values include: 'Yes',
+   * 'No'
    */
-  preserveQueryString?: boolean;
+  preserveQueryString?: FrontDoorPreserveQueryString;
   /**
    * @member {string} [extraQueryString] Any string to be added to the query
    * string in the destination URL. ? and & will be added automatically so do
@@ -602,8 +606,10 @@ export interface RedirectConfiguration {
  */
 export interface RoutingRuleUpdateParameters {
   /**
-   * @member {FrontDoorRouteType} [routeType] Route type. Possible values
-   * include: 'Forward', 'Redirect'
+   * @member {FrontDoorRouteType} [routeType] The type of a routing rule. It
+   * must be set to Redirect for a redirect routing rule. To be
+   * backwards-compatible, it is not needed for a forwarding routing rule.
+   * Possible values include: 'Forwarding', 'Redirect'
    */
   routeType?: FrontDoorRouteType;
   /**
@@ -649,7 +655,8 @@ export interface RoutingRuleUpdateParameters {
   enabledState?: FrontDoorEnabledState;
   /**
    * @member {RedirectConfiguration} [redirectConfiguration] A reference to the
-   * redirect routing configuration.
+   * redirect routing configuration. It is null for a forward-routing rule. But
+   * it must not be null if the routeType property is set to Redirect.
    */
   redirectConfiguration?: RedirectConfiguration;
 }
@@ -1453,11 +1460,11 @@ export type FrontDoorEnabledState = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for FrontDoorRouteType.
- * Possible values include: 'Forward', 'Redirect'
+ * Possible values include: 'Forwarding', 'Redirect'
  * @readonly
  * @enum {string}
  */
-export type FrontDoorRouteType = 'Forward' | 'Redirect';
+export type FrontDoorRouteType = 'Forwarding' | 'Redirect';
 
 /**
  * Defines values for FrontDoorProtocol.
@@ -1493,12 +1500,11 @@ export type DynamicCompressionEnabled = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for FrontDoorRedirectProtocol.
- * Possible values include: 'Moved(301)', 'Found(302)', 'TemporaryRedirect(307)',
- * 'PermanentRedirect(308)'
+ * Possible values include: 'Moved', 'Found', 'TemporaryRedirect', 'PermanentRedirect'
  * @readonly
  * @enum {string}
  */
-export type FrontDoorRedirectProtocol = 'Moved(301)' | 'Found(302)' | 'TemporaryRedirect(307)' | 'PermanentRedirect(308)';
+export type FrontDoorRedirectProtocol = 'Moved' | 'Found' | 'TemporaryRedirect' | 'PermanentRedirect';
 
 /**
  * Defines values for FrontDoorDestinationProtocol.
@@ -1507,6 +1513,22 @@ export type FrontDoorRedirectProtocol = 'Moved(301)' | 'Found(302)' | 'Temporary
  * @enum {string}
  */
 export type FrontDoorDestinationProtocol = 'MatchRequest' | 'Http' | 'Https';
+
+/**
+ * Defines values for FrontDoorPreservePath.
+ * Possible values include: 'Yes', 'No'
+ * @readonly
+ * @enum {string}
+ */
+export type FrontDoorPreservePath = 'Yes' | 'No';
+
+/**
+ * Defines values for FrontDoorPreserveQueryString.
+ * Possible values include: 'Yes', 'No'
+ * @readonly
+ * @enum {string}
+ */
+export type FrontDoorPreserveQueryString = 'Yes' | 'No';
 
 /**
  * Defines values for SessionAffinityEnabledState.
