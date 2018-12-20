@@ -1,4 +1,14 @@
-import { Namespace, SubscriptionClient, TopicClient, SendableMessageInfo, OnMessage, OnError, MessagingError, delay, ServiceBusMessage } from "../../lib";
+import {
+  Namespace,
+  SubscriptionClient,
+  TopicClient,
+  SendableMessageInfo,
+  OnMessage,
+  OnError,
+  MessagingError,
+  delay,
+  ServiceBusMessage
+} from "../../lib";
 import * as dotenv from "dotenv";
 import { CorrelationFilter } from "../../lib/core/managementClient";
 dotenv.config();
@@ -35,9 +45,16 @@ async function main(): Promise<void> {
   await addRules(subscriptionClientAllOrders, "AllOrders", "1=1");
 
   //The second subscription selects all messages with a SQL filter with the user property 'color' having the value 'blue' and the 'quantity' user property having the value 10.
-  const subscriptionClientColorBlueSize10Orders = ns.createSubscriptionClient(topic, subscriptionColorBlueSize10Orders);
+  const subscriptionClientColorBlueSize10Orders = ns.createSubscriptionClient(
+    topic,
+    subscriptionColorBlueSize10Orders
+  );
   await removeAllRules(subscriptionClientColorBlueSize10Orders);
-  await addRules(subscriptionClientColorBlueSize10Orders, "ColorBlueSize10Orders", "color = 'blue' AND quantity = 10");
+  await addRules(
+    subscriptionClientColorBlueSize10Orders,
+    "ColorBlueSize10Orders",
+    "color = 'blue' AND quantity = 10"
+  );
 
   //The third subscription selects all messages with a SQL filter with the user property 'color' having the value 'red'.
   const subscriptionClientColorRed = ns.createSubscriptionClient(topic, subscriptionColorRed);
@@ -45,7 +62,10 @@ async function main(): Promise<void> {
   await addRules(subscriptionClientColorRed, "ColorRed", "color = 'red'");
 
   //The forth subscription selects all messages using a correlation filter with the Label property having the value 'red' and the CorrelationId property having the value 'high'
-  const subscriptionClientHighPriorityOrders = ns.createSubscriptionClient(topic, subscriptionHighPriorityOrders);
+  const subscriptionClientHighPriorityOrders = ns.createSubscriptionClient(
+    topic,
+    subscriptionHighPriorityOrders
+  );
   await removeAllRules(subscriptionClientHighPriorityOrders);
   await addRules(subscriptionClientHighPriorityOrders, "CorrelationRule", {
     label: "red",
@@ -102,7 +122,9 @@ async function SendOrder(topicClient: TopicClient, order: any): Promise<void> {
   };
 
   await topicClient.send(message);
-  console.log(`Sent order with Color: ${order.Color}, Quantity: ${order.Quantity}, Priority:${order.Priority}`);
+  console.log(
+    `Sent order with Color: ${order.Color}, Quantity: ${order.Quantity}, Priority:${order.Priority}`
+  );
 }
 
 async function receiveAllMessagesFromSubscription(client: SubscriptionClient): Promise<void> {
@@ -110,9 +132,15 @@ async function receiveAllMessagesFromSubscription(client: SubscriptionClient): P
 
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     var color = brokeredMessage.userProperties ? brokeredMessage.userProperties.color : undefined;
-    var quantity = brokeredMessage.userProperties ? brokeredMessage.userProperties.quantity : undefined;
-    var priority = brokeredMessage.userProperties ? brokeredMessage.userProperties.priority : undefined;
-    console.log(`Received order with Color: ${color} , Quantity: ${quantity}, Priority:${priority}`);
+    var quantity = brokeredMessage.userProperties
+      ? brokeredMessage.userProperties.quantity
+      : undefined;
+    var priority = brokeredMessage.userProperties
+      ? brokeredMessage.userProperties.priority
+      : undefined;
+    console.log(
+      `Received order with Color: ${color} , Quantity: ${quantity}, Priority:${priority}`
+    );
     await brokeredMessage.complete();
   };
   const onError: OnError = (err: MessagingError | Error) => {
@@ -148,7 +176,12 @@ async function removeAllRules(client: SubscriptionClient): Promise<boolean> {
   return true;
 }
 
-async function addRules(client: SubscriptionClient, ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string): Promise<void> {
+async function addRules(
+  client: SubscriptionClient,
+  ruleName: string,
+  filter: boolean | string | CorrelationFilter,
+  sqlRuleActionExpression?: string
+): Promise<void> {
   await client.addRule(ruleName, filter, sqlRuleActionExpression);
   const rules = await client.getRules();
   if (rules.find((rule) => rule.name === ruleName)) {
