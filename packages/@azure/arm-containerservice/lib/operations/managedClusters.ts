@@ -304,11 +304,11 @@ export class ManagedClusters {
    * @param parameters Parameters supplied to the Reset Service Principal Profile operation for a
    * Managed Cluster.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ManagedClustersResetServicePrincipalProfileResponse>
+   * @returns Promise<msRest.RestResponse>
    */
-  resetServicePrincipalProfile(resourceGroupName: string, resourceName: string, parameters: Models.ManagedClusterServicePrincipalProfile, options?: msRest.RequestOptionsBase): Promise<Models.ManagedClustersResetServicePrincipalProfileResponse> {
+  resetServicePrincipalProfile(resourceGroupName: string, resourceName: string, parameters: Models.ManagedClusterServicePrincipalProfile, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
     return this.beginResetServicePrincipalProfile(resourceGroupName,resourceName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ManagedClustersResetServicePrincipalProfileResponse>;
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -779,9 +779,7 @@ const beginResetServicePrincipalProfileOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
-    202: {
-      bodyMapper: Mappers.ManagedCluster
-    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
