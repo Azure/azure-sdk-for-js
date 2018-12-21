@@ -25,14 +25,14 @@ async function main(): Promise<void> {
 async function sendMessage(): Promise<void> {
   const nsSend = Namespace.createFromConnectionString(str);
   const sendClient = nsSend.createQueueClient(path);
-  var data = [
+  const data = [
     { step: 1, title: "Shop" },
     { step: 2, title: "Unpack" },
     { step: 3, title: "Prepare" },
     { step: 4, title: "Cook" },
     { step: 5, title: "Eat" }
   ];
-  var promises = new Array();
+  const promises = new Array();
   for (let index = 0; index < data.length; index++) {
     const message: SendableMessageInfo = {
       body: data[index],
@@ -61,8 +61,8 @@ async function sendMessage(): Promise<void> {
 async function receiveMessage(): Promise<void> {
   const nsRcv = Namespace.createFromConnectionString(str);
   const receiveClient = nsRcv.createQueueClient(path, { receiveMode: ReceiveMode.peekLock });
-  var deferredSteps = new Map();
-  var lastProcessedRecipeStep = 0;
+  const deferredSteps = new Map();
+  let lastProcessedRecipeStep = 0;
   try {
     const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
       if (
@@ -71,7 +71,7 @@ async function receiveMessage(): Promise<void> {
       ) {
         const message = brokeredMessage.body;
         // now let's check whether the step we received is the step we expect at this stage of the workflow
-        if (message.step == lastProcessedRecipeStep + 1) {
+        if (message.step === lastProcessedRecipeStep + 1) {
           console.log("Message Received:", message);
           lastProcessedRecipeStep++;
           await brokeredMessage.complete();
@@ -101,7 +101,7 @@ async function receiveMessage(): Promise<void> {
     console.log("Deferred Messages count:", deferredSteps.size);
     // Now we process the deferrred messages
     while (deferredSteps.size > 0) {
-      var step = lastProcessedRecipeStep + 1;
+      const step = lastProcessedRecipeStep + 1;
       const sequenceNumber = deferredSteps.get(step);
       const message = await receiveClient.receiveDeferredMessage(sequenceNumber);
       if (message) {
