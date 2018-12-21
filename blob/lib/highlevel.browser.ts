@@ -87,12 +87,15 @@ async function UploadSeekableBlobToBlockBlob(
     );
   }
 
-  if (options.parallelismThreshold !== 0 && !options.parallelismThreshold) {
-    options.parallelismThreshold = BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES;
+  if (
+    options.singleBlobUploadThresholdInBytes !== 0 &&
+    !options.singleBlobUploadThresholdInBytes
+  ) {
+    options.singleBlobUploadThresholdInBytes = BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES;
   }
   if (
-    options.parallelismThreshold < 0 ||
-    options.parallelismThreshold > BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES
+    options.singleBlobUploadThresholdInBytes < 0 ||
+    options.singleBlobUploadThresholdInBytes > BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES
   ) {
     throw new RangeError(
       `parallelismThreshold option must be >= 0 and <= ${BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES}`
@@ -103,7 +106,7 @@ async function UploadSeekableBlobToBlockBlob(
     if (size > BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES * BLOCK_BLOB_MAX_BLOCKS) {
       throw new RangeError(`${size} is too larger to upload to a block blob.`);
     }
-    if (size > options.parallelismThreshold) {
+    if (size > options.singleBlobUploadThresholdInBytes) {
       options.blockSize = Math.ceil(size / BLOCK_BLOB_MAX_BLOCKS);
       if (options.blockSize < DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES) {
         options.blockSize = DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES;
@@ -117,7 +120,7 @@ async function UploadSeekableBlobToBlockBlob(
     options.blobAccessConditions = {};
   }
 
-  if (size <= options.parallelismThreshold) {
+  if (size <= options.singleBlobUploadThresholdInBytes) {
     return blockBlobURL.upload(aborter, blobFactory(0, size), size, options);
   }
 
