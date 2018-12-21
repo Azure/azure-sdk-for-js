@@ -27,7 +27,7 @@ export interface IUploadToBlockBlobOptions {
    * @type {number}
    * @memberof IUploadToBlockBlobOptions
    */
-  parallelismThreshold?: number;
+  singleBlobUploadThresholdInBytes?: number;
 
   /**
    * Progress updater.

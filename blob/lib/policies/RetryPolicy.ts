@@ -58,7 +58,7 @@ const DEFAULT_RETRY_OPTIONS: IRetryOptions = {
   retryDelayInMs: 4 * 1000,
   retryPolicyType: RetryPolicyType.EXPONENTIAL,
   secondaryHost: "",
-  tryTimeoutInMs: undefined
+  tryTimeoutInMs: undefined // Use server side default timeout strategy
 };
 
 /**

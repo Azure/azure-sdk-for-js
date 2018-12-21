@@ -100,7 +100,8 @@ export class BlockBlobURL extends BlobURL {
    *                     "https://myaccount.blob.core.windows.net/mycontainer/blockblob?sasString".
    *                     This method accepts an encoded URL or non-encoded URL pointing to a blob.
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
-   *                     If a blob name includes ? or %, blob name must be encoded in the URL.
+   *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
+   *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
    * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlockBlobURL

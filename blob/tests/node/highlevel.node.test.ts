@@ -116,7 +116,7 @@ describe("Highlevel", () => {
 
   it("uploadFileToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES and configed parallism threshold", async () => {
     await uploadFileToBlockBlob(Aborter.none, tempFileSmall, blockBlobURL, {
-      parallelismThreshold: 0
+      singleBlobUploadThresholdInBytes: 0
     });
 
     const downloadResponse = await blockBlobURL.download(Aborter.none, 0);

@@ -108,6 +108,7 @@ export abstract class StorageURL {
    * @memberof StorageURL
    */
   protected constructor(url: string, pipeline: Pipeline) {
+    // URL should be encoded and only once, protocol layer shouldn't encode URL again
     this.url = escapeURLPath(url);
     this.pipeline = pipeline;
     this.storageClientContext = new StorageClientContext(
