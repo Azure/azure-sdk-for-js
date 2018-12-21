@@ -480,9 +480,9 @@ export type HanaInstancesGetResponse = HanaInstance & {
 };
 
 /**
- * Contains response data for the updateTags operation.
+ * Contains response data for the update operation.
  */
-export type HanaInstancesUpdateTagsResponse = HanaInstance & {
+export type HanaInstancesUpdateResponse = HanaInstance & {
   /**
    * The underlying HTTP response.
    */

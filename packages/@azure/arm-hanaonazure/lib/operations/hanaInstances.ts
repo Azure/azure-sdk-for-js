@@ -124,16 +124,16 @@ export class HanaInstances {
    * @param hanaInstanceName Name of the SAP HANA on Azure instance.
    * @param tagsParameter Request body that only contains the new Tags field
    * @param [options] The optional parameters
-   * @returns Promise<Models.HanaInstancesUpdateTagsResponse>
+   * @returns Promise<Models.HanaInstancesUpdateResponse>
    */
-  updateTags(resourceGroupName: string, hanaInstanceName: string, tagsParameter: Models.Tags, options?: msRest.RequestOptionsBase): Promise<Models.HanaInstancesUpdateTagsResponse>;
+  update(resourceGroupName: string, hanaInstanceName: string, tagsParameter: Models.Tags, options?: msRest.RequestOptionsBase): Promise<Models.HanaInstancesUpdateResponse>;
   /**
    * @param resourceGroupName Name of the resource group.
    * @param hanaInstanceName Name of the SAP HANA on Azure instance.
    * @param tagsParameter Request body that only contains the new Tags field
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, hanaInstanceName: string, tagsParameter: Models.Tags, callback: msRest.ServiceCallback<Models.HanaInstance>): void;
+  update(resourceGroupName: string, hanaInstanceName: string, tagsParameter: Models.Tags, callback: msRest.ServiceCallback<Models.HanaInstance>): void;
   /**
    * @param resourceGroupName Name of the resource group.
    * @param hanaInstanceName Name of the SAP HANA on Azure instance.
@@ -141,8 +141,8 @@ export class HanaInstances {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, hanaInstanceName: string, tagsParameter: Models.Tags, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HanaInstance>): void;
-  updateTags(resourceGroupName: string, hanaInstanceName: string, tagsParameter: Models.Tags, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HanaInstance>, callback?: msRest.ServiceCallback<Models.HanaInstance>): Promise<Models.HanaInstancesUpdateTagsResponse> {
+  update(resourceGroupName: string, hanaInstanceName: string, tagsParameter: Models.Tags, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HanaInstance>): void;
+  update(resourceGroupName: string, hanaInstanceName: string, tagsParameter: Models.Tags, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HanaInstance>, callback?: msRest.ServiceCallback<Models.HanaInstance>): Promise<Models.HanaInstancesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -150,8 +150,8 @@ export class HanaInstances {
         tagsParameter,
         options
       },
-      updateTagsOperationSpec,
-      callback) as Promise<Models.HanaInstancesUpdateTagsResponse>;
+      updateOperationSpec,
+      callback) as Promise<Models.HanaInstancesUpdateResponse>;
   }
 
   /**
@@ -321,7 +321,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateTagsOperationSpec: msRest.OperationSpec = {
+const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}",
   urlParameters: [
