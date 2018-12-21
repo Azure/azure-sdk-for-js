@@ -325,11 +325,11 @@ export interface CustomDomain {
    */
   name: string;
   /**
-   * @member {boolean} [useSubDomain] Indicates whether indirect CName
+   * @member {boolean} [useSubDomainName] Indicates whether indirect CName
    * validation is enabled. Default value is false. This should only be set on
    * updates.
    */
-  useSubDomain?: boolean;
+  useSubDomainName?: boolean;
 }
 
 /**

@@ -425,8 +425,8 @@ export const CustomDomain: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      useSubDomain: {
-        serializedName: "useSubDomain",
+      useSubDomainName: {
+        serializedName: "useSubDomainName",
         type: {
           name: "Boolean"
         }
