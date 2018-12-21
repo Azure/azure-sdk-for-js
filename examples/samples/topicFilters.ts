@@ -22,10 +22,10 @@ const subscriptionHighPriorityOrders = process.env.SUBSCRIPTION_HIGH_PRIORITY ||
 
 console.log("str: ", str);
 console.log("path: ", topic);
-console.log("SUBSCRIPTION_ALL_MESSAGES: ", subscriptionAllMessages);
-console.log("SUBSCRIPTION_COLOR_BLUE_ORDER_10: ", subscriptionColorBlueSize10Orders);
-console.log("SUBSCRIPTION_CORRELATION_COLOR_RED: ", subscriptionColorRed);
-console.log("SUBSCRIPTION_HIGH_PRIORITY: ", subscriptionHighPriorityOrders);
+console.log("subscription all messages: ", subscriptionAllMessages);
+console.log("subscription color blue size 10 orders: ", subscriptionColorBlueSize10Orders);
+console.log("subscription color red: ", subscriptionColorRed);
+console.log("subscription high priority orders: ", subscriptionHighPriorityOrders);
 
 let ns: Namespace;
 
