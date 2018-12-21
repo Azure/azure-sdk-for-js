@@ -122,35 +122,32 @@ export class HanaInstances {
    * @summary Patches the Tags field of a SAP HANA instance.
    * @param resourceGroupName Name of the resource group.
    * @param hanaInstanceName Name of the SAP HANA on Azure instance.
-   * @param hanaInstancePatchTagsParameter Request body that contains the new Tags field for the HANA
-   * instance
+   * @param tagsParameter Request body that only contains the new Tags field
    * @param [options] The optional parameters
    * @returns Promise<Models.HanaInstancesUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, hanaInstanceName: string, hanaInstancePatchTagsParameter: Models.Tags, options?: msRest.RequestOptionsBase): Promise<Models.HanaInstancesUpdateTagsResponse>;
+  updateTags(resourceGroupName: string, hanaInstanceName: string, tagsParameter: Models.Tags, options?: msRest.RequestOptionsBase): Promise<Models.HanaInstancesUpdateTagsResponse>;
   /**
    * @param resourceGroupName Name of the resource group.
    * @param hanaInstanceName Name of the SAP HANA on Azure instance.
-   * @param hanaInstancePatchTagsParameter Request body that contains the new Tags field for the HANA
-   * instance
+   * @param tagsParameter Request body that only contains the new Tags field
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, hanaInstanceName: string, hanaInstancePatchTagsParameter: Models.Tags, callback: msRest.ServiceCallback<Models.HanaInstance>): void;
+  updateTags(resourceGroupName: string, hanaInstanceName: string, tagsParameter: Models.Tags, callback: msRest.ServiceCallback<Models.HanaInstance>): void;
   /**
    * @param resourceGroupName Name of the resource group.
    * @param hanaInstanceName Name of the SAP HANA on Azure instance.
-   * @param hanaInstancePatchTagsParameter Request body that contains the new Tags field for the HANA
-   * instance
+   * @param tagsParameter Request body that only contains the new Tags field
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, hanaInstanceName: string, hanaInstancePatchTagsParameter: Models.Tags, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HanaInstance>): void;
-  updateTags(resourceGroupName: string, hanaInstanceName: string, hanaInstancePatchTagsParameter: Models.Tags, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HanaInstance>, callback?: msRest.ServiceCallback<Models.HanaInstance>): Promise<Models.HanaInstancesUpdateTagsResponse> {
+  updateTags(resourceGroupName: string, hanaInstanceName: string, tagsParameter: Models.Tags, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HanaInstance>): void;
+  updateTags(resourceGroupName: string, hanaInstanceName: string, tagsParameter: Models.Tags, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HanaInstance>, callback?: msRest.ServiceCallback<Models.HanaInstance>): Promise<Models.HanaInstancesUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         hanaInstanceName,
-        hanaInstancePatchTagsParameter,
+        tagsParameter,
         options
       },
       updateTagsOperationSpec,
@@ -339,7 +336,7 @@ const updateTagsOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: "hanaInstancePatchTagsParameter",
+    parameterPath: "tagsParameter",
     mapper: {
       ...Mappers.Tags,
       required: true
