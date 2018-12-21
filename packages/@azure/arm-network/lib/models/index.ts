@@ -12431,6 +12431,25 @@ export type ApplicationSecurityGroupsCreateOrUpdateResponse = ApplicationSecurit
 };
 
 /**
+ * Contains response data for the updateTags operation.
+ */
+export type ApplicationSecurityGroupsUpdateTagsResponse = ApplicationSecurityGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApplicationSecurityGroup;
+    };
+};
+
+/**
  * Contains response data for the listAll operation.
  */
 export type ApplicationSecurityGroupsListAllResponse = ApplicationSecurityGroupListResult & {
@@ -12472,6 +12491,25 @@ export type ApplicationSecurityGroupsListResponse = ApplicationSecurityGroupList
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type ApplicationSecurityGroupsBeginCreateOrUpdateResponse = ApplicationSecurityGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApplicationSecurityGroup;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateTags operation.
+ */
+export type ApplicationSecurityGroupsBeginUpdateTagsResponse = ApplicationSecurityGroup & {
   /**
    * The underlying HTTP response.
    */
