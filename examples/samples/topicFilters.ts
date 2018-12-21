@@ -22,10 +22,10 @@ const subscriptionHighPriorityOrders = process.env.SUBSCRIPTION_HIGH_PRIORITY ||
 
 console.log("str: ", str);
 console.log("path: ", topic);
-console.log("Subscription 1: ", subscriptionAllMessages);
-console.log("Subscription 2: ", subscriptionColorBlueSize10Orders);
-console.log("Subscription 3: ", subscriptionColorRed);
-console.log("Subscription 4: ", subscriptionHighPriorityOrders);
+console.log("SUBSCRIPTION_ALL_MESSAGES: ", subscriptionAllMessages);
+console.log("SUBSCRIPTION_COLOR_BLUE_ORDER_10: ", subscriptionColorBlueSize10Orders);
+console.log("SUBSCRIPTION_CORRELATION_COLOR_RED: ", subscriptionColorRed);
+console.log("SUBSCRIPTION_HIGH_PRIORITY: ", subscriptionHighPriorityOrders);
 
 let ns: Namespace;
 
@@ -34,17 +34,16 @@ let ns: Namespace;
 // Each receiver will receive matching messages depending on the filter associated with a subscription.
 
 async function main(): Promise<void> {
-  var promises = new Array();
   ns = Namespace.createFromConnectionString(str);
 
-  //Add different filter definitions in all the subscriptions.
+  // Add different filter definitions in all the subscriptions.
 
-  //The first subscription selects all messages with a "true" filter, which is a SQL filter with an expression that is trivially true.
+  // The first subscription selects all messages with a "true" filter, which is a SQL filter with an expression that is trivially true.
   const subscriptionClientAllOrders = ns.createSubscriptionClient(topic, subscriptionAllMessages);
   await removeAllRules(subscriptionClientAllOrders);
   await addRules(subscriptionClientAllOrders, "AllOrders", "1=1");
 
-  //The second subscription selects all messages with a SQL filter with the user property 'color' having the value 'blue' and the 'quantity' user property having the value 10.
+  // The second subscription selects all messages with a SQL filter with the user property 'color' having the value 'blue' and the 'quantity' user property having the value 10.
   const subscriptionClientColorBlueSize10Orders = ns.createSubscriptionClient(
     topic,
     subscriptionColorBlueSize10Orders
@@ -56,12 +55,12 @@ async function main(): Promise<void> {
     "color = 'blue' AND quantity = 10"
   );
 
-  //The third subscription selects all messages with a SQL filter with the user property 'color' having the value 'red'.
+  // The third subscription selects all messages with a SQL filter with the user property 'color' having the value 'red'.
   const subscriptionClientColorRed = ns.createSubscriptionClient(topic, subscriptionColorRed);
   await removeAllRules(subscriptionClientColorRed);
   await addRules(subscriptionClientColorRed, "ColorRed", "color = 'red'");
 
-  //The forth subscription selects all messages using a correlation filter with the Label property having the value 'red' and the CorrelationId property having the value 'high'
+  // The forth subscription selects all messages using a correlation filter with the Label property having the value 'red' and the CorrelationId property having the value 'high'
   const subscriptionClientHighPriorityOrders = ns.createSubscriptionClient(
     topic,
     subscriptionHighPriorityOrders
@@ -80,10 +79,11 @@ async function main(): Promise<void> {
   // Create client for the topic.
   const topicClient = ns.createTopicClient(topic);
 
-  //Create a message sender from the topic client.
+  // Create a message sender from the topic client.
   console.log("\nSending orders to topic.");
+  const promises = new Array();
 
-  //Now we can start sending orders.
+  // Now we can start sending orders.
   promises.push(SendOrder(topicClient, { Color: "blue", Quantity: 5, Priority: "low" }));
   promises.push(SendOrder(topicClient, { Color: "red", Quantity: 10, Priority: "high" }));
   promises.push(SendOrder(topicClient, { Color: "yellow", Quantity: 5, Priority: "low" }));
@@ -131,11 +131,11 @@ async function receiveAllMessagesFromSubscription(client: SubscriptionClient): P
   console.log(`\nReceiving messages from subscription  ${client.name}.\n`);
 
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
-    var color = brokeredMessage.userProperties ? brokeredMessage.userProperties.color : undefined;
-    var quantity = brokeredMessage.userProperties
+    const color = brokeredMessage.userProperties ? brokeredMessage.userProperties.color : undefined;
+    const quantity = brokeredMessage.userProperties
       ? brokeredMessage.userProperties.quantity
       : undefined;
-    var priority = brokeredMessage.userProperties
+    const priority = brokeredMessage.userProperties
       ? brokeredMessage.userProperties.priority
       : undefined;
     console.log(
