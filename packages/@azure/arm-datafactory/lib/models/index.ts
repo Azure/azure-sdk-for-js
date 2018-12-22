@@ -1864,6 +1864,40 @@ export interface SsisObjectMetadataStatusResponse {
 }
 
 /**
+ * @interface
+ * An interface representing ExposureControlRequest.
+ * The exposure control request.
+ *
+ */
+export interface ExposureControlRequest {
+  /**
+   * @member {string} [featureName] The feature name.
+   */
+  featureName?: string;
+  /**
+   * @member {string} [featureType] The feature type.
+   */
+  featureType?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ExposureControlResponse.
+ * The exposure control response.
+ *
+ */
+export interface ExposureControlResponse {
+  /**
+   * @member {string} [featureName] The feature name.
+   */
+  featureName?: string;
+  /**
+   * @member {string} [value] The feature value.
+   */
+  value?: string;
+}
+
+/**
  * Contains the possible cases for DependencyReference.
  */
 export type DependencyReferenceUnion = DependencyReference | SelfDependencyTumblingWindowTriggerReference | TriggerDependencyReferenceUnion;
@@ -16846,6 +16880,44 @@ export type FactoriesListByResourceGroupNextResponse = FactoryListResponse & {
        * The response body as parsed JSON or XML
        */
       parsedBody: FactoryListResponse;
+    };
+};
+
+/**
+ * Contains response data for the getFeature operation.
+ */
+export type ExposureControlGetFeatureResponse = ExposureControlResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExposureControlResponse;
+    };
+};
+
+/**
+ * Contains response data for the getFeatureForSubscription operation.
+ */
+export type ExposureControlGetFeatureForSubscriptionResponse = ExposureControlResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExposureControlResponse;
     };
 };
 
