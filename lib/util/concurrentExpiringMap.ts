@@ -50,8 +50,12 @@ export class ConcurrentExpiringMap<TKey> {
     return result;
   }
 
+  clear(): void {
+    this._map.clear();
+  }
+
   private async _scheduleCleanup(): Promise<void> {
-    if (this._cleanupScheduled || this._map.size < 0) {
+    if (this._cleanupScheduled || this._map.size === 0) {
       return;
     }
 
@@ -64,6 +68,10 @@ export class ConcurrentExpiringMap<TKey> {
   }
 
   private async _collectExpiredEntries(): Promise<void> {
+    if (this._map.size === 0) {
+      return;
+    }
+
     await delay(this._delayBetweenCleanupInSeconds);
     this._cleanupScheduled = false;
     for (const key of this._map.keys()) {
