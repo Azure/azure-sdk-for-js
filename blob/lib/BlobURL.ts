@@ -190,10 +190,6 @@ export class BlobURL extends StorageURL {
    * * In Node.js, data returns in a Readable stream readableStreamBody
    * * In browsers, data returns in a promise blobBody
    *
-   * WARNING: In Node.js, abort or network error during reading from response stream will NOT
-   * trigger any error, readable stream will end immediately. You need to check downloaded data
-   * length when stream ends.
-   *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
