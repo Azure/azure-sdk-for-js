@@ -3,7 +3,7 @@ import { uglify } from "rollup-plugin-uglify";
 import replace from "rollup-plugin-replace";
 import commonjs from "rollup-plugin-commonjs";
 import shim from "rollup-plugin-shim";
-import visualizer from "rollup-plugin-visualizer";
+//import visualizer from "rollup-plugin-visualizer";
 
 const version = require("./package.json").version;
 const banner = [
@@ -15,7 +15,7 @@ const banner = [
 
 const nodeRollupConfigFactory = () => {
     return {
-        external: ["ms-rest-js", "crypto", "fs", "os"],
+        external: ["@azure/ms-rest-js", "crypto", "fs", "os"],
         input: "dist-esm/lib/index.js",
         output: {
             file: "dist/index.js",
@@ -73,11 +73,12 @@ const browserRollupConfigFactory = isProduction => {
                 output: {
                     preamble: banner
                 }
-            }),
-            visualizer({
-                filename: "./statistics.html",
-                sourcemap: true
             })
+            // Comment visualizer because it only works on Node.js 8+; Uncomment it to get bundle analysis report
+            // visualizer({
+            //   filename: "./statistics.html",
+            //   sourcemap: true
+            // })
         );
     }
 
@@ -85,7 +86,7 @@ const browserRollupConfigFactory = isProduction => {
 };
 
 export default [
-    nodeRollupConfigFactory(),
+    browserRollupConfigFactory(false),
     browserRollupConfigFactory(true),
-    browserRollupConfigFactory(false)
+    nodeRollupConfigFactory()
 ];

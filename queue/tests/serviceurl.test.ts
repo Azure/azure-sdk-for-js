@@ -2,7 +2,6 @@ import * as assert from "assert";
 
 import { Aborter } from "../lib/Aborter";
 import { QueueURL } from "../lib/QueueURL";
-import { ListQueuesIncludeType } from "../lib/generated/models";
 import { ServiceURL } from "../lib/ServiceURL";
 import { getAlternateQSU, getQSU, getUniqueName, wait } from "./utils";
 
@@ -39,7 +38,7 @@ describe("ServiceURL", () => {
       Aborter.none,
       undefined,
       {
-        include: ListQueuesIncludeType.Metadata,
+        include: 'metadata',
         maxresults: 1,
         prefix: queueNamePrefix
       }
@@ -54,7 +53,7 @@ describe("ServiceURL", () => {
       Aborter.none,
       result1.nextMarker,
       {
-        include: ListQueuesIncludeType.Metadata,
+        include: 'metadata',
         maxresults: 1,
         prefix: queueNamePrefix
       }
@@ -147,7 +146,7 @@ describe("ServiceURL", () => {
     assert.deepEqual(result.hourMetrics, serviceProperties.hourMetrics);
   });
 
-  it("getStatistics with default/all parameters", done => {
+  it("getStatistics with default/all parameters secondary", done => {
     let serviceURL: ServiceURL | undefined;
     try {
       serviceURL = getAlternateQSU();

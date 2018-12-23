@@ -1,4 +1,4 @@
-import { RequestPolicy, RequestPolicyOptions, WebResource } from "ms-rest-js";
+import { RequestPolicy, RequestPolicyOptions, WebResource } from "@azure/ms-rest-js";
 import { SharedKeyCredential } from "../credentials/SharedKeyCredential";
 import { HeaderConstants } from "../utils/constants";
 import { getURLPath, getURLQueries } from "../utils/utils.common";
@@ -52,7 +52,7 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
       typeof request.body === "string" &&
       request.body.length > 0
     ) {
-      request.headers.set(HeaderConstants.CONTENT_LENGTH, request.body.length);
+      request.headers.set(HeaderConstants.CONTENT_LENGTH, request.body ? Buffer.byteLength(request.body,'utf8') : 0);
     }
 
     const stringToSign: string =

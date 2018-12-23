@@ -39,6 +39,23 @@ describe("QueueURL", () => {
     assert.ok(result.date);
   });
 
+  it("getPropertis negative", async () => {
+    const queueName2 = getUniqueName("queue")
+    const queueURL2 = QueueURL.fromServiceURL(serviceURL, queueName2)
+    let error;
+    try {
+      await queueURL2.getProperties(Aborter.none);
+    } catch (err) {
+      error = err;
+    }
+    assert.ok(error);
+    assert.ok(error.statusCode);
+    assert.deepEqual(error.statusCode, 404)
+    assert.ok(error.response)
+    assert.ok(error.response.body)
+    assert.ok(error.response.body.includes("QueueNotFound"))
+  })
+
   it("create with default parameters", done => {
     // create() with default parameters has been tested in beforeEach
     done();
@@ -50,6 +67,23 @@ describe("QueueURL", () => {
     await qURL.create(Aborter.none, { metadata });
     const result = await qURL.getProperties(Aborter.none);
     assert.deepEqual(result.metadata, metadata);
+  });
+
+  // create with invalid queue name
+  it("create negative", async() => {
+    const qURL = QueueURL.fromServiceURL(serviceURL, "");
+    let error;
+    try {
+      await qURL.create(Aborter.none);
+    } catch(err) {
+      error = err;
+    }
+    assert.ok(error);
+    assert.ok(error.statusCode);
+    assert.deepEqual(error.statusCode, 400)
+    assert.ok(error.response)
+    assert.ok(error.response.body)
+    assert.ok(error.response.body.includes("InvalidResourceName"))
   });
 
   it("delete", done => {

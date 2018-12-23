@@ -8,7 +8,7 @@ import {
   RequestPolicyOptions,
   RestError,
   WebResource
-} from "ms-rest-js";
+} from "@azure/ms-rest-js";
 
 import { IRetryOptions } from "../RetryPolicyFactory";
 import { URLConstants } from "../utils/constants";
@@ -58,7 +58,7 @@ const DEFAULT_RETRY_OPTIONS: IRetryOptions = {
   retryDelayInMs: 4 * 1000,
   retryPolicyType: RetryPolicyType.EXPONENTIAL,
   secondaryHost: "",
-  tryTimeoutInMs: 60 * 1000
+  tryTimeoutInMs: 30 * 1000 //https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations
 };
 
 /**

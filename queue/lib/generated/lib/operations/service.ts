@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/serviceMappers";
 import * as Parameters from "../models/parameters";
@@ -29,22 +29,23 @@ export class Service {
   /**
    * Sets properties for a storage account's Queue service endpoint, including properties for Storage
    * Analytics and CORS (Cross-Origin Resource Sharing) rules
-   *
-   * @param {StorageServiceProperties} storageServiceProperties The StorageService properties.
-   *
-   * @param {ServiceSetPropertiesOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param storageServiceProperties The StorageService properties.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ServiceSetPropertiesResponse>
    */
-  setProperties(storageServiceProperties: Models.StorageServiceProperties): Promise<Models.ServiceSetPropertiesResponse>;
-  setProperties(storageServiceProperties: Models.StorageServiceProperties, options: Models.ServiceSetPropertiesOptionalParams): Promise<Models.ServiceSetPropertiesResponse>;
+  setProperties(storageServiceProperties: Models.StorageServiceProperties, options?: Models.ServiceSetPropertiesOptionalParams): Promise<Models.ServiceSetPropertiesResponse>;
+  /**
+   * @param storageServiceProperties The StorageService properties.
+   * @param callback The callback
+   */
   setProperties(storageServiceProperties: Models.StorageServiceProperties, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param storageServiceProperties The StorageService properties.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   setProperties(storageServiceProperties: Models.StorageServiceProperties, options: Models.ServiceSetPropertiesOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  setProperties(storageServiceProperties: Models.StorageServiceProperties, options?: Models.ServiceSetPropertiesOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ServiceSetPropertiesResponse> {
+  setProperties(storageServiceProperties: Models.StorageServiceProperties, options?: Models.ServiceSetPropertiesOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ServiceSetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         storageServiceProperties,
@@ -57,20 +58,20 @@ export class Service {
   /**
    * gets the properties of a storage account's Queue service, including properties for Storage
    * Analytics and CORS (Cross-Origin Resource Sharing) rules.
-   *
-   * @param {ServiceGetPropertiesOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ServiceGetPropertiesResponse>
    */
-  getProperties(): Promise<Models.ServiceGetPropertiesResponse>;
-  getProperties(options: Models.ServiceGetPropertiesOptionalParams): Promise<Models.ServiceGetPropertiesResponse>;
+  getProperties(options?: Models.ServiceGetPropertiesOptionalParams): Promise<Models.ServiceGetPropertiesResponse>;
+  /**
+   * @param callback The callback
+   */
   getProperties(callback: msRest.ServiceCallback<Models.StorageServiceProperties>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   getProperties(options: Models.ServiceGetPropertiesOptionalParams, callback: msRest.ServiceCallback<Models.StorageServiceProperties>): void;
-  getProperties(options?: Models.ServiceGetPropertiesOptionalParams, callback?: msRest.ServiceCallback<Models.StorageServiceProperties>): Promise<Models.ServiceGetPropertiesResponse> {
+  getProperties(options?: Models.ServiceGetPropertiesOptionalParams | msRest.ServiceCallback<Models.StorageServiceProperties>, callback?: msRest.ServiceCallback<Models.StorageServiceProperties>): Promise<Models.ServiceGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -83,20 +84,20 @@ export class Service {
    * Retrieves statistics related to replication for the Queue service. It is only available on the
    * secondary location endpoint when read-access geo-redundant replication is enabled for the
    * storage account.
-   *
-   * @param {ServiceGetStatisticsOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ServiceGetStatisticsResponse>
    */
-  getStatistics(): Promise<Models.ServiceGetStatisticsResponse>;
-  getStatistics(options: Models.ServiceGetStatisticsOptionalParams): Promise<Models.ServiceGetStatisticsResponse>;
+  getStatistics(options?: Models.ServiceGetStatisticsOptionalParams): Promise<Models.ServiceGetStatisticsResponse>;
+  /**
+   * @param callback The callback
+   */
   getStatistics(callback: msRest.ServiceCallback<Models.StorageServiceStats>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   getStatistics(options: Models.ServiceGetStatisticsOptionalParams, callback: msRest.ServiceCallback<Models.StorageServiceStats>): void;
-  getStatistics(options?: Models.ServiceGetStatisticsOptionalParams, callback?: msRest.ServiceCallback<Models.StorageServiceStats>): Promise<Models.ServiceGetStatisticsResponse> {
+  getStatistics(options?: Models.ServiceGetStatisticsOptionalParams | msRest.ServiceCallback<Models.StorageServiceStats>, callback?: msRest.ServiceCallback<Models.StorageServiceStats>): Promise<Models.ServiceGetStatisticsResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -107,20 +108,20 @@ export class Service {
 
   /**
    * The List Queues Segment operation returns a list of the queues under the specified account
-   *
-   * @param {ServiceListQueuesSegmentOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ServiceListQueuesSegmentResponse>
    */
-  listQueuesSegment(): Promise<Models.ServiceListQueuesSegmentResponse>;
-  listQueuesSegment(options: Models.ServiceListQueuesSegmentOptionalParams): Promise<Models.ServiceListQueuesSegmentResponse>;
+  listQueuesSegment(options?: Models.ServiceListQueuesSegmentOptionalParams): Promise<Models.ServiceListQueuesSegmentResponse>;
+  /**
+   * @param callback The callback
+   */
   listQueuesSegment(callback: msRest.ServiceCallback<Models.ListQueuesSegmentResponse>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listQueuesSegment(options: Models.ServiceListQueuesSegmentOptionalParams, callback: msRest.ServiceCallback<Models.ListQueuesSegmentResponse>): void;
-  listQueuesSegment(options?: Models.ServiceListQueuesSegmentOptionalParams, callback?: msRest.ServiceCallback<Models.ListQueuesSegmentResponse>): Promise<Models.ServiceListQueuesSegmentResponse> {
+  listQueuesSegment(options?: Models.ServiceListQueuesSegmentOptionalParams | msRest.ServiceCallback<Models.ListQueuesSegmentResponse>, callback?: msRest.ServiceCallback<Models.ListQueuesSegmentResponse>): Promise<Models.ServiceListQueuesSegmentResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -128,7 +129,6 @@ export class Service {
       listQueuesSegmentOperationSpec,
       callback) as Promise<Models.ServiceListQueuesSegmentResponse>;
   }
-
 }
 
 // Operation Specifications

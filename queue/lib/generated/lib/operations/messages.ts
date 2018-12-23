@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/messagesMappers";
 import * as Parameters from "../models/parameters";
@@ -28,20 +28,20 @@ export class Messages {
 
   /**
    * The Dequeue operation retrieves one or more messages from the front of the queue.
-   *
-   * @param {MessagesDequeueOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.MessagesDequeueResponse>
    */
-  dequeue(): Promise<Models.MessagesDequeueResponse>;
-  dequeue(options: Models.MessagesDequeueOptionalParams): Promise<Models.MessagesDequeueResponse>;
+  dequeue(options?: Models.MessagesDequeueOptionalParams): Promise<Models.MessagesDequeueResponse>;
+  /**
+   * @param callback The callback
+   */
   dequeue(callback: msRest.ServiceCallback<Models.DequeuedMessageItem[]>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   dequeue(options: Models.MessagesDequeueOptionalParams, callback: msRest.ServiceCallback<Models.DequeuedMessageItem[]>): void;
-  dequeue(options?: Models.MessagesDequeueOptionalParams, callback?: msRest.ServiceCallback<Models.DequeuedMessageItem[]>): Promise<Models.MessagesDequeueResponse> {
+  dequeue(options?: Models.MessagesDequeueOptionalParams | msRest.ServiceCallback<Models.DequeuedMessageItem[]>, callback?: msRest.ServiceCallback<Models.DequeuedMessageItem[]>): Promise<Models.MessagesDequeueResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -52,20 +52,20 @@ export class Messages {
 
   /**
    * The Clear operation deletes all messages from the specified queue.
-   *
-   * @param {MessagesClearOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.MessagesClearResponse>
    */
-  clear(): Promise<Models.MessagesClearResponse>;
-  clear(options: Models.MessagesClearOptionalParams): Promise<Models.MessagesClearResponse>;
+  clear(options?: Models.MessagesClearOptionalParams): Promise<Models.MessagesClearResponse>;
+  /**
+   * @param callback The callback
+   */
   clear(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   clear(options: Models.MessagesClearOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  clear(options?: Models.MessagesClearOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.MessagesClearResponse> {
+  clear(options?: Models.MessagesClearOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.MessagesClearResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -80,22 +80,23 @@ export class Messages {
    * message must be in a format that can be included in an XML request with UTF-8 encoding. The
    * encoded message can be up to 64 KB in size for versions 2011-08-18 and newer, or 8 KB in size
    * for previous versions.
-   *
-   * @param {QueueMessage} queueMessage A Message object which can be stored in a Queue
-   *
-   * @param {MessagesEnqueueOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param queueMessage A Message object which can be stored in a Queue
+   * @param [options] The optional parameters
+   * @returns Promise<Models.MessagesEnqueueResponse>
    */
-  enqueue(queueMessage: Models.QueueMessage): Promise<Models.MessagesEnqueueResponse>;
-  enqueue(queueMessage: Models.QueueMessage, options: Models.MessagesEnqueueOptionalParams): Promise<Models.MessagesEnqueueResponse>;
+  enqueue(queueMessage: Models.QueueMessage, options?: Models.MessagesEnqueueOptionalParams): Promise<Models.MessagesEnqueueResponse>;
+  /**
+   * @param queueMessage A Message object which can be stored in a Queue
+   * @param callback The callback
+   */
   enqueue(queueMessage: Models.QueueMessage, callback: msRest.ServiceCallback<Models.EnqueuedMessage[]>): void;
+  /**
+   * @param queueMessage A Message object which can be stored in a Queue
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   enqueue(queueMessage: Models.QueueMessage, options: Models.MessagesEnqueueOptionalParams, callback: msRest.ServiceCallback<Models.EnqueuedMessage[]>): void;
-  enqueue(queueMessage: Models.QueueMessage, options?: Models.MessagesEnqueueOptionalParams, callback?: msRest.ServiceCallback<Models.EnqueuedMessage[]>): Promise<Models.MessagesEnqueueResponse> {
+  enqueue(queueMessage: Models.QueueMessage, options?: Models.MessagesEnqueueOptionalParams | msRest.ServiceCallback<Models.EnqueuedMessage[]>, callback?: msRest.ServiceCallback<Models.EnqueuedMessage[]>): Promise<Models.MessagesEnqueueResponse> {
     return this.client.sendOperationRequest(
       {
         queueMessage,
@@ -108,20 +109,20 @@ export class Messages {
   /**
    * The Peek operation retrieves one or more messages from the front of the queue, but does not
    * alter the visibility of the message.
-   *
-   * @param {MessagesPeekOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.MessagesPeekResponse>
    */
-  peek(): Promise<Models.MessagesPeekResponse>;
-  peek(options: Models.MessagesPeekOptionalParams): Promise<Models.MessagesPeekResponse>;
+  peek(options?: Models.MessagesPeekOptionalParams): Promise<Models.MessagesPeekResponse>;
+  /**
+   * @param callback The callback
+   */
   peek(callback: msRest.ServiceCallback<Models.PeekedMessageItem[]>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   peek(options: Models.MessagesPeekOptionalParams, callback: msRest.ServiceCallback<Models.PeekedMessageItem[]>): void;
-  peek(options?: Models.MessagesPeekOptionalParams, callback?: msRest.ServiceCallback<Models.PeekedMessageItem[]>): Promise<Models.MessagesPeekResponse> {
+  peek(options?: Models.MessagesPeekOptionalParams | msRest.ServiceCallback<Models.PeekedMessageItem[]>, callback?: msRest.ServiceCallback<Models.PeekedMessageItem[]>): Promise<Models.MessagesPeekResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -129,7 +130,6 @@ export class Messages {
       peekOperationSpec,
       callback) as Promise<Models.MessagesPeekResponse>;
   }
-
 }
 
 // Operation Specifications

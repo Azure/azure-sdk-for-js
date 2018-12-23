@@ -1,0 +1,23 @@
+{
+    "include": [
+      "lib/**/*.ts"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "lib/models.ts",
+      "lib/generated/lib/storageClient.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text-summary",
+      "html"
+    ],
+    "sourceMap": true,
+    "instrument": true,
+    "all": true
+  }

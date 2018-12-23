@@ -1,7 +1,7 @@
-import * as Models from "../lib/generated/models";
+import * as Models from "../lib/generated/lib/models";
 import { Aborter } from "./Aborter";
-import { ListQueuesIncludeType } from "./generated/models/index";
-import { Service } from "./generated/operations";
+import { ListQueuesIncludeType } from "./generated/lib/models/index";
+import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
 import { StorageURL } from "./StorageURL";
 
@@ -50,7 +50,7 @@ export class ServiceURL extends StorageURL {
   /**
    * Creates an instance of ServiceURL.
    * @param {string} url A URL string pointing to Azure Storage queue service, such as
-   *                     "https://myaccount.queue.core.windows.net". You can Append a SAS
+   *                     "https://myaccount.queue.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.queue.core.windows.net?sasString".
    * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
