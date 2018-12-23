@@ -9,6 +9,7 @@
 * Fixed `Aborter.timeout()` misleading scale description.
 * Added option `singleBlobUploadThresholdInBytes` to customize concurrency upload threshold in bytes for highlevel uploading APIs, like `uploadBrowserDataToBlockBlob` or `uploadFileToBlockBlob`.
 * Removed default 60s server timeout value for retry options `tryTimeoutInMs` to avoid large blob download stream unexcepted ending.
+* Fixed a issue that when body is string with special characters, `BlockBlobULR.upload` will fail to upload.
 
 2018.11 10.2.0-preview
 
