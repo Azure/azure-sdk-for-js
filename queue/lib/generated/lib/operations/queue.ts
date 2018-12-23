@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/queueMappers";
 import * as Parameters from "../models/parameters";
@@ -28,20 +28,20 @@ export class Queue {
 
   /**
    * creates a new queue under the given account.
-   *
-   * @param {QueueCreateOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.QueueCreateResponse>
    */
-  create(): Promise<Models.QueueCreateResponse>;
-  create(options: Models.QueueCreateOptionalParams): Promise<Models.QueueCreateResponse>;
+  create(options?: Models.QueueCreateOptionalParams): Promise<Models.QueueCreateResponse>;
+  /**
+   * @param callback The callback
+   */
   create(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   create(options: Models.QueueCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(options?: Models.QueueCreateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.QueueCreateResponse> {
+  create(options?: Models.QueueCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.QueueCreateResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -52,20 +52,20 @@ export class Queue {
 
   /**
    * operation permanently deletes the specified queue
-   *
-   * @param {QueueDeleteMethodOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.QueueDeleteResponse>
    */
-  deleteMethod(): Promise<Models.QueueDeleteResponse>;
-  deleteMethod(options: Models.QueueDeleteMethodOptionalParams): Promise<Models.QueueDeleteResponse>;
+  deleteMethod(options?: Models.QueueDeleteMethodOptionalParams): Promise<Models.QueueDeleteResponse>;
+  /**
+   * @param callback The callback
+   */
   deleteMethod(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   deleteMethod(options: Models.QueueDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(options?: Models.QueueDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.QueueDeleteResponse> {
+  deleteMethod(options?: Models.QueueDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.QueueDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -77,20 +77,20 @@ export class Queue {
   /**
    * Retrieves user-defined metadata and queue properties on the specified queue. Metadata is
    * associated with the queue as name-values pairs.
-   *
-   * @param {QueueGetPropertiesOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.QueueGetPropertiesResponse>
    */
-  getProperties(): Promise<Models.QueueGetPropertiesResponse>;
-  getProperties(options: Models.QueueGetPropertiesOptionalParams): Promise<Models.QueueGetPropertiesResponse>;
+  getProperties(options?: Models.QueueGetPropertiesOptionalParams): Promise<Models.QueueGetPropertiesResponse>;
+  /**
+   * @param callback The callback
+   */
   getProperties(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   getProperties(options: Models.QueueGetPropertiesOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  getProperties(options?: Models.QueueGetPropertiesOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.QueueGetPropertiesResponse> {
+  getProperties(options?: Models.QueueGetPropertiesOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.QueueGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -102,20 +102,20 @@ export class Queue {
   /**
    * sets user-defined metadata on the specified queue. Metadata is associated with the queue as
    * name-value pairs.
-   *
-   * @param {QueueSetMetadataOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.QueueSetMetadataResponse>
    */
-  setMetadata(): Promise<Models.QueueSetMetadataResponse>;
-  setMetadata(options: Models.QueueSetMetadataOptionalParams): Promise<Models.QueueSetMetadataResponse>;
+  setMetadata(options?: Models.QueueSetMetadataOptionalParams): Promise<Models.QueueSetMetadataResponse>;
+  /**
+   * @param callback The callback
+   */
   setMetadata(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   setMetadata(options: Models.QueueSetMetadataOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  setMetadata(options?: Models.QueueSetMetadataOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.QueueSetMetadataResponse> {
+  setMetadata(options?: Models.QueueSetMetadataOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.QueueSetMetadataResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -127,20 +127,20 @@ export class Queue {
   /**
    * returns details about any stored access policies specified on the queue that may be used with
    * Shared Access Signatures.
-   *
-   * @param {QueueGetAccessPolicyOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.QueueGetAccessPolicyResponse>
    */
-  getAccessPolicy(): Promise<Models.QueueGetAccessPolicyResponse>;
-  getAccessPolicy(options: Models.QueueGetAccessPolicyOptionalParams): Promise<Models.QueueGetAccessPolicyResponse>;
+  getAccessPolicy(options?: Models.QueueGetAccessPolicyOptionalParams): Promise<Models.QueueGetAccessPolicyResponse>;
+  /**
+   * @param callback The callback
+   */
   getAccessPolicy(callback: msRest.ServiceCallback<Models.SignedIdentifier[]>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   getAccessPolicy(options: Models.QueueGetAccessPolicyOptionalParams, callback: msRest.ServiceCallback<Models.SignedIdentifier[]>): void;
-  getAccessPolicy(options?: Models.QueueGetAccessPolicyOptionalParams, callback?: msRest.ServiceCallback<Models.SignedIdentifier[]>): Promise<Models.QueueGetAccessPolicyResponse> {
+  getAccessPolicy(options?: Models.QueueGetAccessPolicyOptionalParams | msRest.ServiceCallback<Models.SignedIdentifier[]>, callback?: msRest.ServiceCallback<Models.SignedIdentifier[]>): Promise<Models.QueueGetAccessPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -151,20 +151,20 @@ export class Queue {
 
   /**
    * sets stored access policies for the queue that may be used with Shared Access Signatures
-   *
-   * @param {QueueSetAccessPolicyOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.QueueSetAccessPolicyResponse>
    */
-  setAccessPolicy(): Promise<Models.QueueSetAccessPolicyResponse>;
-  setAccessPolicy(options: Models.QueueSetAccessPolicyOptionalParams): Promise<Models.QueueSetAccessPolicyResponse>;
+  setAccessPolicy(options?: Models.QueueSetAccessPolicyOptionalParams): Promise<Models.QueueSetAccessPolicyResponse>;
+  /**
+   * @param callback The callback
+   */
   setAccessPolicy(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   setAccessPolicy(options: Models.QueueSetAccessPolicyOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  setAccessPolicy(options?: Models.QueueSetAccessPolicyOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.QueueSetAccessPolicyResponse> {
+  setAccessPolicy(options?: Models.QueueSetAccessPolicyOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.QueueSetAccessPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -172,7 +172,6 @@ export class Queue {
       setAccessPolicyOperationSpec,
       callback) as Promise<Models.QueueSetAccessPolicyResponse>;
   }
-
 }
 
 // Operation Specifications

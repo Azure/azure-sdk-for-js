@@ -1,6 +1,6 @@
-import * as Models from "./generated/models";
+import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
-import { MessageId } from "./generated/operations";
+import { MessageId } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
 import { MessagesURL } from "./MessagesURL";
 import { StorageURL } from "./StorageURL";

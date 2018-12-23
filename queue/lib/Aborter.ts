@@ -1,4 +1,4 @@
-import { AbortSignalLike, isNode } from "ms-rest-js";
+import { AbortSignalLike, isNode } from "@azure/ms-rest-js";
 
 /**
  * An aborter instance implements AbortSignal interface, can abort HTTP requests.
@@ -42,11 +42,11 @@ export class Aborter implements AbortSignalLike {
   }
 
   /**
-   * Creates a new Aborter instance with timeout in million-seconds.
+   * Creates a new Aborter instance with timeout in milliseconds.
    * Set parameter timeout to 0 will not create a timer.
    *
    * @static
-   * @param {number} {timeout} in million-seconds
+   * @param {number} {timeout} in milliseconds
    * @returns {Aborter}
    * @memberof Aborter
    */
@@ -67,7 +67,7 @@ export class Aborter implements AbortSignalLike {
   private readonly parent?: Aborter;
   private readonly children: Aborter[] = []; // When child object calls dispose(), remove child from here
   private readonly abortEventListeners: Array<
-    (this: AbortSignalLike, ev: any) => any
+    (this: AbortSignalLike, ev?: any) => any
   > = [];
   // Pipeline proxies need to use "abortSignal as Aborter" in order to access non AbortSignalLike methods
   // immutable primitive types

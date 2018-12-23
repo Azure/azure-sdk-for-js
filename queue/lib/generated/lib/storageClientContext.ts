@@ -8,31 +8,20 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 
-const packageName = "";
-const packageVersion = "";
+const packageName = "azure-storage-queue";
+const packageVersion = "1.0.0";
 
 export class StorageClientContext extends msRest.ServiceClient {
   url: string;
   version: string;
 
   /**
-   * @class
    * Initializes a new instance of the StorageClientContext class.
-   * @constructor
-   *
-   * @param {string} url - The URL of the service account, queue or message that is the targe of the desired operation.
-   *
-   * @param {object} [options] - The parameter options
-   *
-   * @param {Array} [options.filters] - Filters to be added to the request pipeline
-   *
-   * @param {object} [options.requestOptions] - The request options. Detailed info can be found at
-   * {@link https://github.github.io/fetch/#Request Options doc}
-   *
-   * @param {boolean} [options.noRetryPolicy] - If set to true, turn off default retry policy
-   *
+   * @param url The URL of the service account, queue or message that is the targe of the desired
+   * operation.
+   * @param [options] The parameter options
    */
   constructor(url: string, options?: msRest.ServiceClientOptions) {
     if (url === null || url === undefined) {
@@ -42,6 +31,10 @@ export class StorageClientContext extends msRest.ServiceClient {
     if (!options) {
       options = {};
     }
+    if(!options.userAgent) {
+      const defaultUserAgent = msRest.getDefaultUserAgentValue();
+      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
+    }
 
     super(undefined, options);
 
@@ -50,6 +43,5 @@ export class StorageClientContext extends msRest.ServiceClient {
     this.requestContentType = "application/json; charset=utf-8";
     this.url = url;
 
-    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
   }
 }
