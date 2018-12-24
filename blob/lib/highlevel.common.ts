@@ -27,7 +27,7 @@ export interface IUploadToBlockBlobOptions {
    * @type {number}
    * @memberof IUploadToBlockBlobOptions
    */
-  singleBlobUploadThresholdInBytes?: number;
+  maxSingleShotSize?: number;
 
   /**
    * Progress updater.
