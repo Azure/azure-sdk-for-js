@@ -1,24 +1,22 @@
 import * as assert from "assert";
 
 import {
+  Aborter,
   AccountSASPermissions,
   AccountSASResourceTypes,
   AccountSASServices,
   AnonymousCredential,
   BlobSASPermissions,
   ContainerSASPermissions,
+  ContainerURL,
   generateAccountSASQueryParameters,
   generateBlobSASQueryParameters,
+  PageBlobURL,
   ServiceURL,
   SharedKeyCredential,
   StorageURL
 } from "../../lib";
-import { Aborter } from "../../lib/Aborter";
-import {
-  ContainerURL,
-  PageBlobURL,
-  SASProtocol
-} from "../../lib/index.browser";
+import { SASProtocol } from "../../lib/SASQueryParameters";
 import { getBSU, getUniqueName } from "../utils";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
