@@ -33,7 +33,7 @@ jobs:
           npm run test:node
         workingDirectory: "./blob"
         displayName: "npm run test:node"
-        env: { ACCOUNT_NAME: "$(ACCOUNT_NAME)", ACCOUNT_KEY: "$(ACCOUNT_KEY)" }
+        env: { ACCOUNT_NAME: "$(ACCOUNT-NAME)", ACCOUNT_KEY: "$(ACCOUNT-KEY)" }
 
       - task: PublishTestResults@2
         inputs:
@@ -68,7 +68,7 @@ jobs:
           npm run test:node
         workingDirectory: "./blob"
         displayName: "npm run test:node"
-        env: { ACCOUNT_NAME: "$(ACCOUNT_NAME)", ACCOUNT_KEY: "$(ACCOUNT_KEY)" }
+        env: { ACCOUNT_NAME: "$(ACCOUNT-NAME)", ACCOUNT_KEY: "$(ACCOUNT-KEY)" }
 
       - task: PublishTestResults@2
         inputs:
@@ -103,7 +103,7 @@ jobs:
           npm run test:node
         workingDirectory: "./blob"
         displayName: "npm run test:node"
-        env: { ACCOUNT_NAME: "$(ACCOUNT_NAME)", ACCOUNT_KEY: "$(ACCOUNT_KEY)" }
+        env: { ACCOUNT_NAME: "$(ACCOUNT-NAME)", ACCOUNT_KEY: "$(ACCOUNT-KEY)" }
 
       - task: PublishTestResults@2
         inputs:
@@ -130,7 +130,7 @@ jobs:
           npm run test:browser
         workingDirectory: "./blob"
         displayName: "npm run test:browser"
-        env: { ACCOUNT_NAME: "$(ACCOUNT_NAME)", ACCOUNT_SAS: "$(ACCOUNT_SAS)" }
+        env: { ACCOUNT_NAME: "$(ACCOUNT-NAME)", ACCOUNT_SAS: "$(ACCOUNT-SAS)" }
 
       - task: PublishTestResults@2
         inputs:
