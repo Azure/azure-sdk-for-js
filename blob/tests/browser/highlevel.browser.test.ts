@@ -126,7 +126,7 @@ describe("Highelvel", () => {
   it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES and configed parallism threshold", async () => {
     await uploadBrowserDataToBlockBlob(Aborter.none, tempFile2, blockBlobURL, {
       blockSize: 512 * 1024,
-      singleBlobUploadThresholdInBytes: 0
+      maxSingleShotSize: 0
     });
 
     const downloadResponse = await blockBlobURL.download(Aborter.none, 0);
