@@ -4,7 +4,7 @@ import { Aborter } from "../../lib/Aborter";
 import { BlobURL } from "../../lib/BlobURL";
 import { BlockBlobURL } from "../../lib/BlockBlobURL";
 import { ContainerURL } from "../../lib/ContainerURL";
-import { getBSU, getUniqueName } from "../utils";
+import { bodyToString, getBSU, getUniqueName } from "../utils";
 
 describe("BlockBlobURL Node.js only", () => {
   const serviceURL = getBSU();
@@ -46,5 +46,15 @@ describe("BlockBlobURL Node.js only", () => {
     });
 
     assert.deepStrictEqual(downloadedBody, body);
+  });
+
+  it("upload with Chinese string body and default parameters", async () => {
+    const body: string = getUniqueName("randomstring你好");
+    await blockBlobURL.upload(Aborter.none, body, Buffer.byteLength(body));
+    const result = await blobURL.download(Aborter.none, 0);
+    assert.deepStrictEqual(
+      await bodyToString(result, Buffer.byteLength(body)),
+      body
+    );
   });
 });
