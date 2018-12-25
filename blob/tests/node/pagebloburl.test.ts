@@ -45,8 +45,35 @@ describe("PageBlobURL", () => {
 
     await containerURL.setAccessPolicy(Aborter.none, "container");
     let copySource = pageBlobURL.withSnapshot(snapshotResult.snapshot!).url;
-    await destPageBlobURL.startCopyIncremental(Aborter.none, copySource);
-    sleep(10000); // Sleep to avoid failure because of sever latency
+    let copyResponse = await destPageBlobURL.startCopyIncremental(
+      Aborter.none,
+      copySource
+    );
+
+    async function waitForCopy(retries = 0) {
+      if (retries >= 30) {
+        throw new Error("Check copy status exceed max retries counts");
+      }
+
+      switch (copyResponse.copyStatus) {
+        case "success":
+          return;
+        case "aborted":
+          throw new Error("Copy unexcepted aborted.");
+        case "pending":
+          await sleep(3000);
+          copyResponse = await destPageBlobURL.getProperties(Aborter.none);
+          await waitForCopy(++retries);
+          return;
+        case "failed":
+          throw new Error("Copy failed.");
+        default:
+          return;
+      }
+    }
+
+    await waitForCopy();
+
     let listBlobResponse = await containerURL.listBlobFlatSegment(
       Aborter.none,
       undefined,
@@ -61,7 +88,12 @@ describe("PageBlobURL", () => {
     snapshotResult = await pageBlobURL.createSnapshot(Aborter.none);
     assert.ok(snapshotResult.snapshot);
     copySource = pageBlobURL.withSnapshot(snapshotResult.snapshot!).url;
-    await destPageBlobURL.startCopyIncremental(Aborter.none, copySource);
+    copyResponse = await destPageBlobURL.startCopyIncremental(
+      Aborter.none,
+      copySource
+    );
+
+    await waitForCopy();
 
     listBlobResponse = await containerURL.listBlobFlatSegment(
       Aborter.none,
