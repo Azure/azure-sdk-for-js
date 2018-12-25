@@ -46,7 +46,7 @@ describe("PageBlobURL", () => {
     await containerURL.setAccessPolicy(Aborter.none, "container");
     let copySource = pageBlobURL.withSnapshot(snapshotResult.snapshot!).url;
     await destPageBlobURL.startCopyIncremental(Aborter.none, copySource);
-    sleep(3000); // Sleep to avoid failure because of sever latency
+    sleep(10000); // Sleep to avoid failure because of sever latency
     let listBlobResponse = await containerURL.listBlobFlatSegment(
       Aborter.none,
       undefined,
