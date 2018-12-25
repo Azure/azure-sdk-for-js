@@ -26,7 +26,8 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       // polyfill service supporting IE11 missing features
-      "https://cdn.polyfill.io/v2/polyfill.min.js?features=Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes",
+      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes&flags=always
+      "./node_modules/@babel/polyfill/dist/polyfill.js",
       "dist-test/index.browser.js"
     ],
 
