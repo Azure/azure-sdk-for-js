@@ -57,7 +57,8 @@ module.exports = function(config) {
     // Coverage report settings
     remapCoverageReporter: {
       "text-summary": null, // to show summary in console
-      html: "./coverage-browser"
+      html: "./coverage-browser",
+      cobertura: "./coverage-browser/cobertura-coverage.xml"
     },
 
     // Exclude coverage calculation for following files

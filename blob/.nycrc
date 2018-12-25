@@ -18,7 +18,8 @@
     ],
     "reporter": [
       "text-summary",
-      "html"
+      "html",
+      "cobertura"
     ],
     "sourceMap": true,
     "instrument": true,

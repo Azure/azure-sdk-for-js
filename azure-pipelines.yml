@@ -39,6 +39,13 @@ jobs:
         inputs:
           testRunner: JUnit
           testResultsFiles: "./blob/test-results.xml"
+        condition: succeededOrFailed()
+
+      - task: PublishCodeCoverageResults@1
+        inputs:
+          codeCoverageTool: Cobertura
+          summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/*coverage.xml"
+          reportDirectory: "$(System.DefaultWorkingDirectory)/**/coverage"
 
   - job: blobnodejswin
     displayName: Blob Windows
@@ -74,6 +81,13 @@ jobs:
         inputs:
           testRunner: JUnit
           testResultsFiles: "./blob/test-results.xml"
+        condition: succeededOrFailed()
+
+      - task: PublishCodeCoverageResults@1
+        inputs:
+          codeCoverageTool: Cobertura
+          summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/*coverage.xml"
+          reportDirectory: "$(System.DefaultWorkingDirectory)/**/coverage"
 
   - job: blobnodejsmac
     displayName: Blob Mac
@@ -109,6 +123,13 @@ jobs:
         inputs:
           testRunner: JUnit
           testResultsFiles: "./blob/test-results.xml"
+        condition: succeededOrFailed()
+
+      - task: PublishCodeCoverageResults@1
+        inputs:
+          codeCoverageTool: Cobertura
+          summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/*coverage.xml"
+          reportDirectory: "$(System.DefaultWorkingDirectory)/**/coverage"
 
   - job: blobbrowser
     displayName: Blob Browser
@@ -136,3 +157,10 @@ jobs:
         inputs:
           testRunner: JUnit
           testResultsFiles: "./blob/test-results.browser.xml"
+        condition: succeededOrFailed()
+
+      - task: PublishCodeCoverageResults@1
+        inputs:
+          codeCoverageTool: Cobertura
+          summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/*coverage.xml"
+          reportDirectory: "$(System.DefaultWorkingDirectory)/**/coverage-browser"
