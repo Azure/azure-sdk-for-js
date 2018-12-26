@@ -1315,6 +1315,24 @@ describe("msrest", function () {
         assert.strictEqual(15, result.sibling.age);
       });
 
+      it("should be deserialized properly when responseBody is an empty string", function () {
+        const fish: msRest.CompositeMapper = {
+          serializedName: "Fish",
+          type: {
+            name: "Composite",
+            className: "Fish",
+            modelProperties: {}
+          }
+        };
+
+        const mappers = {
+          Fish: fish
+        };
+        const serializer = new msRest.Serializer(mappers);
+        const result: any = serializer.deserialize(fish, "", "mockFishProperty");
+
+        assert.deepEqual(result, {});
+      });
     });
 
     describe("polymorphic composite type array", () => {
@@ -1463,11 +1481,11 @@ describe("msrest", function () {
 
       const mappers = {
         discriminators: {
-          "Fish" : Fish,
-          "Fish.salmon" : Salmon,
-          "Fish.shark" : Shark,
-          "Fish.sawshark" : Sawshark,
-          "Fish.goblin" : Goblinshark,
+          "Fish": Fish,
+          "Fish.salmon": Salmon,
+          "Fish.shark": Shark,
+          "Fish.sawshark": Sawshark,
+          "Fish.goblin": Goblinshark,
         },
         Fish,
         Salmon,
@@ -1514,7 +1532,7 @@ describe("msrest", function () {
         assert.equal(result.siblings[2].jawsize, 5);
       });
 
-      it("should be serialized with child properties", function() {
+      it("should be serialized with child properties", function () {
         const body = {
           "fishtype": "salmon",
           "location": "alaska",
