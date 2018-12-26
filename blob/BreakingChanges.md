@@ -6,6 +6,7 @@
 * Updated URL encoding strategy for `url` parameters of `new XXXURL(url, pipeline)` methods, such as `new BlobURL(url, pipeline)`.
   * URL will accept both encoded or non-encoded URL string. It will escape non-escaped special characters, like Chinese characters. However, if blob name includes `?` or `%`, `url` must be encoded manually.
 * `SASQueryParameters` is not going to be exported in browser bundle, and exported in Node.js runtime.
+* IE11 needs `Array.prototype.includes` polyfill loaded.
 
 2018.11 10.2.0-preview
 

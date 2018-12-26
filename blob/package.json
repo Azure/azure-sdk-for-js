@@ -22,7 +22,6 @@
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@babel/polyfill": "^7.2.5",
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.12.3",
     "assert": "^1.4.1",
