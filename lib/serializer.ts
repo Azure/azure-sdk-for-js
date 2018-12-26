@@ -627,7 +627,7 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
         instance[responsePropName] = serializer.deserialize(additionalPropertiesMapper, responseBody[responsePropName], objectName + '["' + responsePropName + '"]');
       }
     }
-  } else {
+  } else if (responseBody) {
     for (const key of Object.keys(responseBody)) {
       if (instance[key] === undefined && !handledPropertyNames.includes(key) && !isSpecialXmlProperty(key)) {
         instance[key] = responseBody[key];
