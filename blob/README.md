@@ -37,6 +37,7 @@ This library depends on following ES6 features which need external polyfills loa
 * `String.prototype.endsWith`
 * `String.prototype.repeat`
 * `String.prototype.includes`
+* `Array.prototype.includes`
 
 #### Differences between Node.js and browsers
 
