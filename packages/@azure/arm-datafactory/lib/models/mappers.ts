@@ -2558,12 +2558,14 @@ export const ExposureControlResponse: msRest.CompositeMapper = {
     className: "ExposureControlResponse",
     modelProperties: {
       featureName: {
+        readOnly: true,
         serializedName: "featureName",
         type: {
           name: "String"
         }
       },
       value: {
+        readOnly: true,
         serializedName: "value",
         type: {
           name: "String"

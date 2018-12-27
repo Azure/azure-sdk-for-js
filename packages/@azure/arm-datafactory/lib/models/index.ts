@@ -1889,12 +1889,16 @@ export interface ExposureControlRequest {
 export interface ExposureControlResponse {
   /**
    * @member {string} [featureName] The feature name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  featureName?: string;
+  readonly featureName?: string;
   /**
    * @member {string} [value] The feature value.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  value?: string;
+  readonly value?: string;
 }
 
 /**
@@ -16903,9 +16907,9 @@ export type ExposureControlGetFeatureResponse = ExposureControlResponse & {
 };
 
 /**
- * Contains response data for the getFeatureForSubscription operation.
+ * Contains response data for the getFeatureBySubscription operation.
  */
-export type ExposureControlGetFeatureForSubscriptionResponse = ExposureControlResponse & {
+export type ExposureControlGetFeatureBySubscriptionResponse = ExposureControlResponse & {
   /**
    * The underlying HTTP response.
    */

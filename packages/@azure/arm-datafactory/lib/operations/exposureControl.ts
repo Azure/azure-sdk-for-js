@@ -64,16 +64,16 @@ export class ExposureControl {
    * @param factoryName The factory name.
    * @param exposureControlRequest The exposure control request.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ExposureControlGetFeatureForSubscriptionResponse>
+   * @returns Promise<Models.ExposureControlGetFeatureBySubscriptionResponse>
    */
-  getFeatureForSubscription(resourceGroupName: string, factoryName: string, exposureControlRequest: Models.ExposureControlRequest, options?: msRest.RequestOptionsBase): Promise<Models.ExposureControlGetFeatureForSubscriptionResponse>;
+  getFeatureBySubscription(resourceGroupName: string, factoryName: string, exposureControlRequest: Models.ExposureControlRequest, options?: msRest.RequestOptionsBase): Promise<Models.ExposureControlGetFeatureBySubscriptionResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param exposureControlRequest The exposure control request.
    * @param callback The callback
    */
-  getFeatureForSubscription(resourceGroupName: string, factoryName: string, exposureControlRequest: Models.ExposureControlRequest, callback: msRest.ServiceCallback<Models.ExposureControlResponse>): void;
+  getFeatureBySubscription(resourceGroupName: string, factoryName: string, exposureControlRequest: Models.ExposureControlRequest, callback: msRest.ServiceCallback<Models.ExposureControlResponse>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -81,8 +81,8 @@ export class ExposureControl {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getFeatureForSubscription(resourceGroupName: string, factoryName: string, exposureControlRequest: Models.ExposureControlRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExposureControlResponse>): void;
-  getFeatureForSubscription(resourceGroupName: string, factoryName: string, exposureControlRequest: Models.ExposureControlRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExposureControlResponse>, callback?: msRest.ServiceCallback<Models.ExposureControlResponse>): Promise<Models.ExposureControlGetFeatureForSubscriptionResponse> {
+  getFeatureBySubscription(resourceGroupName: string, factoryName: string, exposureControlRequest: Models.ExposureControlRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExposureControlResponse>): void;
+  getFeatureBySubscription(resourceGroupName: string, factoryName: string, exposureControlRequest: Models.ExposureControlRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExposureControlResponse>, callback?: msRest.ServiceCallback<Models.ExposureControlResponse>): Promise<Models.ExposureControlGetFeatureBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -90,8 +90,8 @@ export class ExposureControl {
         exposureControlRequest,
         options
       },
-      getFeatureForSubscriptionOperationSpec,
-      callback) as Promise<Models.ExposureControlGetFeatureForSubscriptionResponse>;
+      getFeatureBySubscriptionOperationSpec,
+      callback) as Promise<Models.ExposureControlGetFeatureBySubscriptionResponse>;
   }
 }
 
@@ -128,7 +128,7 @@ const getFeatureOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getFeatureForSubscriptionOperationSpec: msRest.OperationSpec = {
+const getFeatureBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/getFeatureValue",
   urlParameters: [
