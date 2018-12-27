@@ -49,6 +49,7 @@ export {
   TargetProperties,
   AzureQueryProperties,
   TagSettingsProperties,
+  NonAzureQueryProperties,
   ScheduleProperties,
   SoftwareUpdateConfigurationTasks,
   TaskProperties,

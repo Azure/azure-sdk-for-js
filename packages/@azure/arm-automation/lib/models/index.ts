@@ -2177,6 +2177,24 @@ export interface AzureQueryProperties {
 
 /**
  * @interface
+ * An interface representing NonAzureQueryProperties.
+ * Non Azure query for the update configuration.
+ *
+ */
+export interface NonAzureQueryProperties {
+  /**
+   * @member {string} [functionAlias] Log Analytics Saved Search name.
+   */
+  functionAlias?: string;
+  /**
+   * @member {string} [workspaceId] Workspace Id for Log Analytics in which the
+   * saved Search is resided.
+   */
+  workspaceId?: string;
+}
+
+/**
+ * @interface
  * An interface representing TargetProperties.
  * Group specific to the update configuration.
  *
@@ -2187,6 +2205,11 @@ export interface TargetProperties {
    * the software update configuration.
    */
   azureQueries?: AzureQueryProperties[];
+  /**
+   * @member {NonAzureQueryProperties[]} [nonAzureQueries] List of non Azure
+   * queries in the software update configuration.
+   */
+  nonAzureQueries?: NonAzureQueryProperties[];
 }
 
 /**

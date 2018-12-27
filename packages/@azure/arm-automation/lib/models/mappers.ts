@@ -3010,6 +3010,28 @@ export const AzureQueryProperties: msRest.CompositeMapper = {
   }
 };
 
+export const NonAzureQueryProperties: msRest.CompositeMapper = {
+  serializedName: "NonAzureQueryProperties",
+  type: {
+    name: "Composite",
+    className: "NonAzureQueryProperties",
+    modelProperties: {
+      functionAlias: {
+        serializedName: "functionAlias",
+        type: {
+          name: "String"
+        }
+      },
+      workspaceId: {
+        serializedName: "workspaceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const TargetProperties: msRest.CompositeMapper = {
   serializedName: "TargetProperties",
   type: {
@@ -3024,6 +3046,18 @@ export const TargetProperties: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "AzureQueryProperties"
+            }
+          }
+        }
+      },
+      nonAzureQueries: {
+        serializedName: "nonAzureQueries",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NonAzureQueryProperties"
             }
           }
         }
