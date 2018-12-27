@@ -109,7 +109,7 @@ async function uploadResetableStreamToBlockBlob(
     options.maxSingleShotSize > BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES
   ) {
     throw new RangeError(
-      `parallelismThreshold option must be >= 0 and <= ${BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES}`
+      `maxSingleShotSize option must be >= 0 and <= ${BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES}`
     );
   }
 

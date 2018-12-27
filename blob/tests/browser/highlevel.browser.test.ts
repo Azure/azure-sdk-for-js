@@ -123,7 +123,7 @@ describe("Highelvel", () => {
     assert.equal(uploadedString, downloadedString);
   });
 
-  it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES and configed parallism threshold", async () => {
+  it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES and configured maxSingleShotSize", async () => {
     await uploadBrowserDataToBlockBlob(Aborter.none, tempFile2, blockBlobURL, {
       blockSize: 512 * 1024,
       maxSingleShotSize: 0
