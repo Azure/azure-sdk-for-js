@@ -821,7 +821,7 @@ export interface DscConfigurationParameter {
   type?: string;
   /**
    * @member {boolean} [isMandatory] Gets or sets a Boolean value to indicate
-   * whether the parameter is mandatory or not.
+   * whether the parameter is madatory or not.
    */
   isMandatory?: boolean;
   /**
@@ -982,7 +982,7 @@ export interface DscConfigurationUpdateParameters {
 /**
  * @interface
  * An interface representing RunAsCredentialAssociationProperty.
- * Definition of RunAs credential to use for hybrid worker.
+ * Definition of runas credential to use for hybrid worker.
  *
  */
 export interface RunAsCredentialAssociationProperty {
@@ -1811,7 +1811,7 @@ export interface VariableCreateOrUpdateParameters {
 /**
  * @interface
  * An interface representing Variable.
- * Definition of the variable.
+ * Definition of the varible.
  *
  * @extends ProxyResource
  */
@@ -2166,13 +2166,31 @@ export interface AzureQueryProperties {
    */
   scope?: string[];
   /**
-   * @member {string[]} [locations] List of locations to scope the query to.
+   * @member {string[]} [location] List of locations to scope the query to.
    */
-  locations?: string[];
+  location?: string[];
   /**
    * @member {TagSettingsProperties} [tagSettings] Tag settings for the VM.
    */
   tagSettings?: TagSettingsProperties;
+}
+
+/**
+ * @interface
+ * An interface representing NonAzureQueryProperties.
+ * Non Azure query for the update configuration.
+ *
+ */
+export interface NonAzureQueryProperties {
+  /**
+   * @member {string} [functionAlias] Log Analytics Saved Search name.
+   */
+  functionAlias?: string;
+  /**
+   * @member {string} [workspaceId] Workspace Id for Log Analytics in which the
+   * saved Search is resided.
+   */
+  workspaceId?: string;
 }
 
 /**
@@ -2187,12 +2205,17 @@ export interface TargetProperties {
    * the software update configuration.
    */
   azureQueries?: AzureQueryProperties[];
+  /**
+   * @member {NonAzureQueryProperties[]} [nonAzureQueries] List of non Azure
+   * queries in the software update configuration.
+   */
+  nonAzureQueries?: NonAzureQueryProperties[];
 }
 
 /**
  * @interface
  * An interface representing UpdateConfiguration.
- * Update specific properties of the software update configuration.
+ * Update specifc properties of the software update configuration.
  *
  */
 export interface UpdateConfiguration {
@@ -2231,41 +2254,6 @@ export interface UpdateConfiguration {
    * configuration.
    */
   targets?: TargetProperties;
-}
-
-/**
- * @interface
- * An interface representing TaskProperties.
- * Task properties of the software update configuration.
- *
- */
-export interface TaskProperties {
-  /**
-   * @member {{ [propertyName: string]: string }} [parameters] Gets or sets the
-   * parameters of the task.
-   */
-  parameters?: { [propertyName: string]: string };
-  /**
-   * @member {string} [source] Gets or sets the name of the runbook.
-   */
-  source?: string;
-}
-
-/**
- * @interface
- * An interface representing SoftwareUpdateConfigurationTasks.
- * Task properties of the software update configuration.
- *
- */
-export interface SoftwareUpdateConfigurationTasks {
-  /**
-   * @member {TaskProperties} [preTask] Pre task properties.
-   */
-  preTask?: TaskProperties;
-  /**
-   * @member {TaskProperties} [postTask] Post task properties.
-   */
-  postTask?: TaskProperties;
 }
 
 /**
@@ -2312,18 +2300,18 @@ export interface SoftwareUpdateConfiguration extends BaseResource {
    */
   readonly provisioningState?: string;
   /**
-   * @member {ErrorResponse} [error] Details of provisioning error
+   * @member {ErrorResponse} [error] detailes of provisioning error
    */
   error?: ErrorResponse;
   /**
-   * @member {Date} [creationTime] Creation time of the resource, which only
+   * @member {Date} [creationTime] Creation time of theresource, which only
    * appears in the response.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly creationTime?: Date;
   /**
-   * @member {string} [createdBy] CreatedBy property, which only appears in the
+   * @member {string} [createdBy] createdBy property, which only appears in the
    * response.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -2337,17 +2325,12 @@ export interface SoftwareUpdateConfiguration extends BaseResource {
    */
   readonly lastModifiedTime?: Date;
   /**
-   * @member {string} [lastModifiedBy] LastModifiedBy property, which only
+   * @member {string} [lastModifiedBy] lastModifiedBy property, which only
    * appears in the response.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly lastModifiedBy?: string;
-  /**
-   * @member {SoftwareUpdateConfigurationTasks} [tasks] Tasks information for
-   * the Software update configuration.
-   */
-  tasks?: SoftwareUpdateConfigurationTasks;
 }
 
 /**
@@ -2464,46 +2447,6 @@ export interface UpdateConfigurationNavigation {
 
 /**
  * @interface
- * An interface representing SoftareUpdateConfigurationRunTaskProperties.
- * Task properties of the software update configuration.
- *
- */
-export interface SoftareUpdateConfigurationRunTaskProperties {
-  /**
-   * @member {string} [status] The status of the task.
-   */
-  status?: string;
-  /**
-   * @member {string} [source] The name of the source of the task.
-   */
-  source?: string;
-  /**
-   * @member {string} [jobId] The job id of the task.
-   */
-  jobId?: string;
-}
-
-/**
- * @interface
- * An interface representing SoftareUpdateConfigurationRunTasks.
- * Software update configuration run tasks model.
- *
- */
-export interface SoftareUpdateConfigurationRunTasks {
-  /**
-   * @member {SoftareUpdateConfigurationRunTaskProperties} [preTask] Pre task
-   * properties.
-   */
-  preTask?: SoftareUpdateConfigurationRunTaskProperties;
-  /**
-   * @member {SoftareUpdateConfigurationRunTaskProperties} [postTask] Post task
-   * properties.
-   */
-  postTask?: SoftareUpdateConfigurationRunTaskProperties;
-}
-
-/**
- * @interface
  * An interface representing SoftwareUpdateConfigurationRun.
  * Software update configuration Run properties.
  *
@@ -2533,7 +2476,7 @@ export interface SoftwareUpdateConfigurationRun {
    */
   readonly status?: string;
   /**
-   * @member {string} [configuredDuration] Configured duration for the software
+   * @member {string} [configuredDuration] configured duration for the software
    * update configuration run.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -2547,7 +2490,7 @@ export interface SoftwareUpdateConfigurationRun {
    */
   readonly osType?: string;
   /**
-   * @member {Date} [startTime] Start time of the software update configuration
+   * @member {Date} [startTime] Etart time of the software update configuration
    * run.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -2574,14 +2517,14 @@ export interface SoftwareUpdateConfigurationRun {
    */
   readonly failedCount?: number;
   /**
-   * @member {Date} [creationTime] Creation time of the resource, which only
+   * @member {Date} [creationTime] Creation time of theresource, which only
    * appears in the response.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly creationTime?: Date;
   /**
-   * @member {string} [createdBy] CreatedBy property, which only appears in the
+   * @member {string} [createdBy] createdBy property, which only appears in the
    * response.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -2595,17 +2538,12 @@ export interface SoftwareUpdateConfigurationRun {
    */
   readonly lastModifiedTime?: Date;
   /**
-   * @member {string} [lastModifiedBy] LastModifiedBy property, which only
+   * @member {string} [lastModifiedBy] lastModifiedBy property, which only
    * appears in the response.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly lastModifiedBy?: string;
-  /**
-   * @member {SoftareUpdateConfigurationRunTasks} [tasks] Software update
-   * configuration tasks triggered in this run
-   */
-  tasks?: SoftareUpdateConfigurationRunTasks;
 }
 
 /**
@@ -2735,7 +2673,7 @@ export interface SoftwareUpdateConfigurationMachineRun {
    */
   job?: JobNavigation;
   /**
-   * @member {Date} [creationTime] Creation time of the resource, which only
+   * @member {Date} [creationTime] Creation time of theresource, which only
    * appears in the response.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -2762,10 +2700,6 @@ export interface SoftwareUpdateConfigurationMachineRun {
    * the server.**
    */
   readonly lastModifiedBy?: string;
-  /**
-   * @member {ErrorResponse} [error] Details of provisioning error
-   */
-  error?: ErrorResponse;
 }
 
 /**
@@ -2996,7 +2930,7 @@ export interface SourceControlSyncJob {
   readonly endTime?: Date;
   /**
    * @member {SyncType} [syncType] The sync type. Possible values include:
-   * 'PartialSync', 'FullSync'
+   * 'IncrementalSync', 'FullSync'
    */
   syncType?: SyncType;
 }
@@ -3055,12 +2989,12 @@ export interface SourceControlSyncJobById {
   readonly endTime?: Date;
   /**
    * @member {SyncType} [syncType] The sync type. Possible values include:
-   * 'PartialSync', 'FullSync'
+   * 'IncrementalSync', 'FullSync'
    */
   syncType?: SyncType;
   /**
-   * @member {string} [exception] The exceptions that occurred while running
-   * the sync job.
+   * @member {string} [exception] The exceptions that occured while running the
+   * sync job.
    */
   exception?: string;
 }
@@ -3611,7 +3545,7 @@ export interface AgentRegistrationKeys {
 /**
  * @interface
  * An interface representing AgentRegistration.
- * Definition of the agent registration information type.
+ * Definition of the agent registration infomration type.
  *
  */
 export interface AgentRegistration {
@@ -3679,8 +3613,8 @@ export interface DscNode extends ProxyResource {
    */
   accountId?: string;
   /**
-   * @member {string} [dscNodeName] Gets or sets the name of the dsc node
-   * configuration.
+   * @member {string} [dscNodeName] Gets or sets the name of the dsc
+   * nodeconfiguration.
    */
   dscNodeName?: string;
   /**
@@ -3728,8 +3662,8 @@ export interface AgentRegistrationRegenerateKeyParameter {
  */
 export interface DscNodeUpdateParametersProperties {
   /**
-   * @member {string} [name] Gets or sets the name of the dsc node
-   * configuration.
+   * @member {string} [name] Gets or sets the name of the dsc
+   * nodeconfiguration.
    */
   name?: string;
 }
@@ -3919,7 +3853,7 @@ export interface DscNodeConfiguration extends ProxyResource {
    */
   source?: string;
   /**
-   * @member {number} [nodeCount] Number of nodes with this node configuration
+   * @member {number} [nodeCount] Number of nodes with this nodeconfiguration
    * assigned
    */
   nodeCount?: number;
@@ -4022,7 +3956,7 @@ export interface RunbookParameter {
   type?: string;
   /**
    * @member {boolean} [isMandatory] Gets or sets a Boolean value to indicate
-   * whether the parameter is mandatory or not.
+   * whether the parameter is madatory or not.
    */
   isMandatory?: boolean;
   /**
@@ -4250,7 +4184,7 @@ export interface RunbookUpdateParameters {
 /**
  * @interface
  * An interface representing RunbookDraftUndoEditResult.
- * The response model for the undo edit runbook operation.
+ * The response model for the undoedit runbook operation.
  *
  */
 export interface RunbookDraftUndoEditResult {
@@ -4359,7 +4293,7 @@ export interface TestJob {
 /**
  * @interface
  * An interface representing RunbookCreateOrUpdateDraftProperties.
- * The parameters supplied to the create or update draft runbook properties.
+ * The parameters supplied to the create or update dratft runbook properties.
  *
  */
 export interface RunbookCreateOrUpdateDraftProperties {
@@ -4648,7 +4582,7 @@ export interface SoftwareUpdateConfigurationRunsListOptionalParams extends msRes
    */
   filter?: string;
   /**
-   * @member {string} [skip] Number of entries you skip before returning
+   * @member {string} [skip] number of entries you skip before returning
    * results
    */
   skip?: string;
@@ -5613,11 +5547,11 @@ export type ProvisioningState = 'Completed' | 'Failed' | 'Running';
 
 /**
  * Defines values for SyncType.
- * Possible values include: 'PartialSync', 'FullSync'
+ * Possible values include: 'IncrementalSync', 'FullSync'
  * @readonly
  * @enum {string}
  */
-export type SyncType = 'PartialSync' | 'FullSync';
+export type SyncType = 'IncrementalSync' | 'FullSync';
 
 /**
  * Defines values for StreamType.

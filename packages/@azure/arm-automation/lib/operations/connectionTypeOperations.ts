@@ -27,10 +27,10 @@ export class ConnectionTypeOperations {
   }
 
   /**
-   * Delete the connection type.
+   * Delete the connectiontype.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param connectionTypeName The name of connection type.
+   * @param connectionTypeName The name of connectiontype.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -38,14 +38,14 @@ export class ConnectionTypeOperations {
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param connectionTypeName The name of connection type.
+   * @param connectionTypeName The name of connectiontype.
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, automationAccountName: string, connectionTypeName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param connectionTypeName The name of connection type.
+   * @param connectionTypeName The name of connectiontype.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -63,10 +63,10 @@ export class ConnectionTypeOperations {
   }
 
   /**
-   * Retrieve the connection type identified by connection type name.
+   * Retrieve the connectiontype identified by connectiontype name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param connectionTypeName The name of connection type.
+   * @param connectionTypeName The name of connectiontype.
    * @param [options] The optional parameters
    * @returns Promise<Models.ConnectionTypeGetResponse>
    */
@@ -74,14 +74,14 @@ export class ConnectionTypeOperations {
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param connectionTypeName The name of connection type.
+   * @param connectionTypeName The name of connectiontype.
    * @param callback The callback
    */
   get(resourceGroupName: string, automationAccountName: string, connectionTypeName: string, callback: msRest.ServiceCallback<Models.ConnectionType>): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param connectionTypeName The name of connection type.
+   * @param connectionTypeName The name of connectiontype.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -99,12 +99,12 @@ export class ConnectionTypeOperations {
   }
 
   /**
-   * Create a connection type.
+   * Create a connectiontype.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param connectionTypeName The parameters supplied to the create or update connection type
+   * @param connectionTypeName The parameters supplied to the create or update connectiontype
    * operation.
-   * @param parameters The parameters supplied to the create or update connection type operation.
+   * @param parameters The parameters supplied to the create or update connectiontype operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ConnectionTypeCreateOrUpdateResponse>
    */
@@ -112,18 +112,18 @@ export class ConnectionTypeOperations {
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param connectionTypeName The parameters supplied to the create or update connection type
+   * @param connectionTypeName The parameters supplied to the create or update connectiontype
    * operation.
-   * @param parameters The parameters supplied to the create or update connection type operation.
+   * @param parameters The parameters supplied to the create or update connectiontype operation.
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, automationAccountName: string, connectionTypeName: string, parameters: Models.ConnectionTypeCreateOrUpdateParameters, callback: msRest.ServiceCallback<Models.ConnectionType>): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param connectionTypeName The parameters supplied to the create or update connection type
+   * @param connectionTypeName The parameters supplied to the create or update connectiontype
    * operation.
-   * @param parameters The parameters supplied to the create or update connection type operation.
+   * @param parameters The parameters supplied to the create or update connectiontype operation.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -142,7 +142,7 @@ export class ConnectionTypeOperations {
   }
 
   /**
-   * Retrieve a list of connection types.
+   * Retrieve a list of connectiontypes.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param [options] The optional parameters
@@ -174,7 +174,7 @@ export class ConnectionTypeOperations {
   }
 
   /**
-   * Retrieve a list of connection types.
+   * Retrieve a list of connectiontypes.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ConnectionTypeListByAutomationAccountNextResponse>

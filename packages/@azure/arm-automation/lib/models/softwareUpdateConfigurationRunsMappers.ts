@@ -11,8 +11,6 @@
 export {
   SoftwareUpdateConfigurationRun,
   UpdateConfigurationNavigation,
-  SoftareUpdateConfigurationRunTasks,
-  SoftareUpdateConfigurationRunTaskProperties,
   ErrorResponse,
   SoftwareUpdateConfigurationRunListResult
 } from "../models/mappers";
