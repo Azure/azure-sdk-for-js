@@ -47,6 +47,8 @@ export {
   TagSettingsProperties,
   NonAzureQueryProperties,
   ScheduleProperties,
+  SoftwareUpdateConfigurationTasks,
+  TaskProperties,
   SourceControl,
   Job,
   JobCollectionItem,

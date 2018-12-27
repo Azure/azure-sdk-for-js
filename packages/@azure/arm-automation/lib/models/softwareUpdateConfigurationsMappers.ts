@@ -22,6 +22,8 @@ export {
   AdvancedSchedule,
   AdvancedScheduleMonthlyOccurrence,
   ErrorResponse,
+  SoftwareUpdateConfigurationTasks,
+  TaskProperties,
   SoftwareUpdateConfigurationListResult,
   SoftwareUpdateConfigurationCollectionItem,
   CollectionItemUpdateConfiguration,
