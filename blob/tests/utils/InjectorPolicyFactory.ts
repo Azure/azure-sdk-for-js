@@ -6,7 +6,7 @@ import {
 import { InjectorPolicy, Injector } from "./InjectorPolicy";
 
 /**
- * InjectorPolicyFactory is a factory class inject customized errors for retry policy testing.
+ * InjectorPolicyFactory is a factory class which injects customized errors for retry policy testing.
  *
  * @export
  * @class InjectorPolicyFactory
