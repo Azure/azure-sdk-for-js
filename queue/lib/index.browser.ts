@@ -19,7 +19,6 @@ export * from "./policies/TokenCredentialPolicy";
 export * from "./QueueURL"
 export * from "./QueueSASPermissions";
 export * from "./UniqueRequestIDPolicyFactory";
-export * from "./SASQueryParameters";
 export * from "./ServiceURL";
 export * from "./StorageURL";
 export { Models, RestError };
