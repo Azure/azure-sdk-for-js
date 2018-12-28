@@ -26,7 +26,8 @@ module.exports = function(config) {
         // list of files / patterns to load in the browser
         files: [
             // polyfill service supporting IE11 missing features
-            "https://cdn.polyfill.io/v2/polyfill.min.js?features=Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes",
+            // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
+            "https://cdn.polyfill.io/v2/polyfill.js?features=Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
             "dist-test/index.browser.js"
         ],
 
@@ -57,7 +58,8 @@ module.exports = function(config) {
         // Coverage report settings
         remapCoverageReporter: {
             "text-summary": null, // to show summary in console
-            html: "./coverage-browser"
+            html: "./coverage-browser",
+            cobertura: "./coverage-browser/cobertura-coverage.xml"
         },
 
         // Exclude coverage calculation for following files
@@ -102,6 +104,8 @@ module.exports = function(config) {
         concurrency: 1,
 
         browserNoActivityTimeout: 600000,
+        browserDisconnectTimeout: 10000,
+        browserDisconnectTolerance: 3,
 
         client: {
             mocha: {

@@ -27,13 +27,16 @@ This SDK is compatible with Node.js and browsers, and validated against LTS Node
 
 You need polyfills to make this library work with IE11. The easiest way is to use [@babel/polyfill](https://babeljs.io/docs/en/babel-polyfill), or [polyfill service](https://polyfill.io/v2/docs/).
 Or you can load separate polyfills for missed ES feature(s).
-This library depends on following ES6 features which need external polyfills loaded.
+This library depends on following ES features which need external polyfills loaded.
 
 * `Promise`
 * `String.prototype.startsWith`
 * `String.prototype.endsWith`
 * `String.prototype.repeat`
 * `String.prototype.includes`
+* `Array.prototype.includes`
+* `Object.keys` (Override IE11's `Object.keys` with ES6 polyfill forcely to enable [ES6 behavior](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
+
 
 #### Differences between Node.js and browsers
 

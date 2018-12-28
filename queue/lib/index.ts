@@ -28,4 +28,5 @@ export * from "./IQueueSASSignatureValues"
 export * from "./UniqueRequestIDPolicyFactory";
 export * from "./ServiceURL";
 export * from "./StorageURL";
+export * from "./SASQueryParameters";
 export { Models, RestError };
