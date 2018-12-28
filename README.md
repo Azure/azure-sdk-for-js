@@ -281,11 +281,11 @@ main()
 ## More Samples
 
 * [Blob Storage Examples](https://github.com/azure/azure-storage-js/tree/master/blob/samples)
-* [Blob Storage Examples - Test Cases](https://github.com/azure/azure-storage-js/tree/master/blob/test/)
+* [Blob Storage Examples - Test Cases](https://github.com/azure/azure-storage-js/tree/master/blob/tests/)
 * [File Storage Examples](https://github.com/azure/azure-storage-js/tree/master/file/samples)
 * [File Storage Examples - Test Cases](https://github.com/azure/azure-storage-js/tree/master/file/test/)
 * [Queue Storage Examples](https://github.com/azure/azure-storage-js/tree/master/queue/samples)
-* [Queue Storage Examples - Test Cases](https://github.com/azure/azure-storage-js/tree/master/queue/test/)
+* [Queue Storage Examples - Test Cases](https://github.com/azure/azure-storage-js/tree/master/queue/tests/)
 
 ## License
 

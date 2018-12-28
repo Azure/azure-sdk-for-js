@@ -1,6 +1,7 @@
 # Azure Storage SDK V10 for JavaScript - Queue
 
-[![npm version](https://badge.fury.io/js/%40azure%2Fstorage-queue.svg)](https://badge.fury.io/js/%40azure%2Fstorage-queue)
+* [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-queue.svg)](https://badge.fury.io/js/%40azure%2Fstorage-queue)
+* [API Reference documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/storage-queue/index?view=azure-node-preview)
 
 ## Introduction
 
@@ -217,7 +218,7 @@ main()
 ## More Code Samples
 
 * [Queue Storage Examples](https://github.com/azure/azure-storage-js/tree/master/queue/samples)
-* [Queue Storage Examples - Test Cases](https://github.com/azure/azure-storage-js/tree/master/queue/test/)
+* [Queue Storage Examples - Test Cases](https://github.com/azure/azure-storage-js/tree/master/queue/tests/)
 
 ## License
 
