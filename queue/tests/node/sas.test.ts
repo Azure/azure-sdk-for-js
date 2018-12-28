@@ -5,7 +5,10 @@ import {
   AccountSASResourceTypes,
   AccountSASServices,
   AnonymousCredential,
+  MessagesURL,
+  MessageIdURL,
   QueueSASPermissions,
+  QueueURL,
   generateAccountSASQueryParameters,
   generateQueueSASQueryParameters,
   ServiceURL,
@@ -13,12 +16,7 @@ import {
   StorageURL
 } from "../../lib";
 import { Aborter } from "../../lib/Aborter";
-import {
-  QueueURL,
-  MessagesURL,
-  MessageIdURL,
-  SASProtocol
-} from "../../lib/index.browser";
+import { SASProtocol } from "../../lib/SASQueryParameters";
 import { getQSU, getUniqueName, sleep } from "../utils/index";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
