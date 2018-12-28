@@ -171,7 +171,8 @@ export class MessagesURL extends StorageURL {
   /**
    * Enqueue adds a new message to the back of a queue. The visibility timeout specifies how long
    * the message should be invisible to Dequeue and Peek operations.
-   * The message content must be a UTF-8 encoded string that is up to 64KB in size.
+   * The message content is up to 64KB in size, and must be in a format that can be included in an XML request with UTF-8 encoding. 
+   * To include markup in the message, the contents of the message must either be XML-escaped or Base64-encode. 
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/put-message
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
