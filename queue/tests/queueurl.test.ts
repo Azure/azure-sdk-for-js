@@ -90,4 +90,26 @@ describe("QueueURL", () => {
     // delete() with default parameters has been tested in afterEach
     done();
   });
+
+  // getAccessPolicy and setAccessPolicy is in node's cases.
+  it("setAccessPolicy negative", async () => {
+    const queueAcl = [
+      {
+        accessPolicy: {
+          expiry: new Date("2018-12-31T11:22:33.4567890Z"),
+          permission: "rwdl",
+          start: new Date("2017-12-31T11:22:33.4567890Z")
+        },
+        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
+      }
+    ];
+
+    let error;
+    try {
+      await queueURL.setAccessPolicy(Aborter.none, queueAcl);
+    } catch (err) {
+      error = err;
+    }
+    assert.ok(error); // For browser, permission denied; For node, invalid permission
+  });
 });
