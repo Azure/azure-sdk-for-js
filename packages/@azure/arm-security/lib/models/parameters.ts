@@ -148,6 +148,16 @@ export const informationProtectionPolicyName: msRest.OperationURLParameter = {
     }
   }
 };
+export const iotSecurityGroupName: msRest.OperationURLParameter = {
+  parameterPath: "iotSecurityGroupName",
+  mapper: {
+    required: true,
+    serializedName: "iotSecurityGroupName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const jitNetworkAccessPolicyInitiateType: msRest.OperationURLParameter = {
   parameterPath: "jitNetworkAccessPolicyInitiateType",
   mapper: {

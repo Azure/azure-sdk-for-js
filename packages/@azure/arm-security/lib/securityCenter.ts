@@ -23,6 +23,7 @@ class SecurityCenter extends SecurityCenterContext {
   autoProvisioningSettings: operations.AutoProvisioningSettings;
   compliances: operations.Compliances;
   advancedThreatProtection: operations.AdvancedThreatProtection;
+  iotSecurityGroups: operations.IotSecurityGroups;
   settings: operations.Settings;
   informationProtectionPolicies: operations.InformationProtectionPolicies;
   operations: operations.Operations;
@@ -51,6 +52,7 @@ class SecurityCenter extends SecurityCenterContext {
     this.autoProvisioningSettings = new operations.AutoProvisioningSettings(this);
     this.compliances = new operations.Compliances(this);
     this.advancedThreatProtection = new operations.AdvancedThreatProtection(this);
+    this.iotSecurityGroups = new operations.IotSecurityGroups(this);
     this.settings = new operations.Settings(this);
     this.informationProtectionPolicies = new operations.InformationProtectionPolicies(this);
     this.operations = new operations.Operations(this);

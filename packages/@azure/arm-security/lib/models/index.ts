@@ -403,6 +403,171 @@ export interface InformationProtectionPolicy extends Resource {
 
 /**
  * @interface
+ * An interface representing CustomAlertRule.
+ * A custom alert rule
+ *
+ */
+export interface CustomAlertRule {
+  /**
+   * @member {string} [displayName] The display name of the custom alert.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly displayName?: string;
+  /**
+   * @member {string} [description] The description of the custom alert.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly description?: string;
+  /**
+   * @member {boolean} isEnabled Whether the custom alert is enabled.
+   */
+  isEnabled: boolean;
+  /**
+   * @member {string} ruleType The type of the custom alert rule.
+   */
+  ruleType: string;
+}
+
+/**
+ * @interface
+ * An interface representing ThresholdCustomAlertRule.
+ * A custom alert rule that checks if a value (depends on the custom alert
+ * type) is within the given range.
+ *
+ * @extends CustomAlertRule
+ */
+export interface ThresholdCustomAlertRule extends CustomAlertRule {
+  /**
+   * @member {number} minThreshold The minimum threshold.
+   */
+  minThreshold: number;
+  /**
+   * @member {number} maxThreshold The maximum threshold.
+   */
+  maxThreshold: number;
+}
+
+/**
+ * @interface
+ * An interface representing TimeWindowCustomAlertRule.
+ * A custom alert rule that checks if the number of activities (depends on the
+ * custom alert type) in a time window is within the given range.
+ *
+ */
+export interface TimeWindowCustomAlertRule {
+  /**
+   * @member {string} [displayName] The display name of the custom alert.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly displayName?: string;
+  /**
+   * @member {string} [description] The description of the custom alert.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly description?: string;
+  /**
+   * @member {boolean} isEnabled Whether the custom alert is enabled.
+   */
+  isEnabled: boolean;
+  /**
+   * @member {string} ruleType The type of the custom alert rule.
+   */
+  ruleType: string;
+  /**
+   * @member {number} minThreshold The minimum threshold.
+   */
+  minThreshold: number;
+  /**
+   * @member {number} maxThreshold The maximum threshold.
+   */
+  maxThreshold: number;
+  /**
+   * @member {string} timeWindowSize The time window size in iso8601 format.
+   */
+  timeWindowSize: string;
+}
+
+/**
+ * @interface
+ * An interface representing AllowlistCustomAlertRule.
+ * A custom alert rule that checks if a value (depends on the custom alert
+ * type) is allowed
+ *
+ * @extends CustomAlertRule
+ */
+export interface AllowlistCustomAlertRule extends CustomAlertRule {
+  /**
+   * @member {string[]} allowlistValues The values to allow. The format of the
+   * values depends on the rule type.
+   */
+  allowlistValues: string[];
+}
+
+/**
+ * @interface
+ * An interface representing DenylistCustomAlertRule.
+ * A custom alert rule that checks if a value (depends on the custom alert
+ * type) is denied
+ *
+ * @extends CustomAlertRule
+ */
+export interface DenylistCustomAlertRule extends CustomAlertRule {
+  /**
+   * @member {string[]} denylistValues The values to deny. The format of the
+   * values depends on the rule type.
+   */
+  denylistValues: string[];
+}
+
+/**
+ * @interface
+ * An interface representing IotSecurityGroup.
+ * The IoT security group resource
+ *
+ * @extends Resource
+ */
+export interface IotSecurityGroup extends Resource {
+  /**
+   * @member {ThresholdCustomAlertRule[]} [thresholdRules] A list of threshold
+   * custom alert rules.
+   */
+  thresholdRules?: ThresholdCustomAlertRule[];
+  /**
+   * @member {TimeWindowCustomAlertRule[]} [timeWindowRules] A list of time
+   * window custom alert rules.
+   */
+  timeWindowRules?: TimeWindowCustomAlertRule[];
+  /**
+   * @member {AllowlistCustomAlertRule[]} [allowlistRules] A list of allow-list
+   * custom alert rules.
+   */
+  allowlistRules?: AllowlistCustomAlertRule[];
+  /**
+   * @member {DenylistCustomAlertRule[]} [denylistRules] A list of deny-list
+   * custom alert rules.
+   */
+  denylistRules?: DenylistCustomAlertRule[];
+}
+
+/**
+ * @interface
+ * An interface representing IotSecurityGroupList.
+ * List of IoT security groups
+ *
+ */
+export interface IotSecurityGroupList {
+  /**
+   * @member {IotSecurityGroup[]} [value] List of IoT security group objects
+   */
+  value?: IotSecurityGroup[];
+}
+
+/**
+ * @interface
  * An interface representing Location.
  * Describes an Azure resource with location
  *
@@ -2604,6 +2769,63 @@ export type AdvancedThreatProtectionCreateResponse = AdvancedThreatProtectionSet
        * The response body as parsed JSON or XML
        */
       parsedBody: AdvancedThreatProtectionSetting;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type IotSecurityGroupsListResponse = IotSecurityGroupList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IotSecurityGroupList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IotSecurityGroupsGetResponse = IotSecurityGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IotSecurityGroup;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type IotSecurityGroupsCreateOrUpdateResponse = IotSecurityGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IotSecurityGroup;
     };
 };
 

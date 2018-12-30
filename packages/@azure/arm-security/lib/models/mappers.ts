@@ -474,6 +474,255 @@ export const InformationProtectionPolicy: msRest.CompositeMapper = {
   }
 };
 
+export const CustomAlertRule: msRest.CompositeMapper = {
+  serializedName: "CustomAlertRule",
+  type: {
+    name: "Composite",
+    className: "CustomAlertRule",
+    modelProperties: {
+      displayName: {
+        readOnly: true,
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        readOnly: true,
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      isEnabled: {
+        required: true,
+        serializedName: "isEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      ruleType: {
+        required: true,
+        serializedName: "ruleType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ThresholdCustomAlertRule: msRest.CompositeMapper = {
+  serializedName: "ThresholdCustomAlertRule",
+  type: {
+    name: "Composite",
+    className: "ThresholdCustomAlertRule",
+    modelProperties: {
+      ...CustomAlertRule.type.modelProperties,
+      minThreshold: {
+        required: true,
+        serializedName: "minThreshold",
+        type: {
+          name: "Number"
+        }
+      },
+      maxThreshold: {
+        required: true,
+        serializedName: "maxThreshold",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const TimeWindowCustomAlertRule: msRest.CompositeMapper = {
+  serializedName: "TimeWindowCustomAlertRule",
+  type: {
+    name: "Composite",
+    className: "TimeWindowCustomAlertRule",
+    modelProperties: {
+      displayName: {
+        readOnly: true,
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        readOnly: true,
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      isEnabled: {
+        required: true,
+        serializedName: "isEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      ruleType: {
+        required: true,
+        serializedName: "ruleType",
+        type: {
+          name: "String"
+        }
+      },
+      minThreshold: {
+        required: true,
+        serializedName: "minThreshold",
+        type: {
+          name: "Number"
+        }
+      },
+      maxThreshold: {
+        required: true,
+        serializedName: "maxThreshold",
+        type: {
+          name: "Number"
+        }
+      },
+      timeWindowSize: {
+        required: true,
+        serializedName: "timeWindowSize",
+        type: {
+          name: "TimeSpan"
+        }
+      }
+    }
+  }
+};
+
+export const AllowlistCustomAlertRule: msRest.CompositeMapper = {
+  serializedName: "AllowlistCustomAlertRule",
+  type: {
+    name: "Composite",
+    className: "AllowlistCustomAlertRule",
+    modelProperties: {
+      ...CustomAlertRule.type.modelProperties,
+      allowlistValues: {
+        required: true,
+        serializedName: "allowlistValues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DenylistCustomAlertRule: msRest.CompositeMapper = {
+  serializedName: "DenylistCustomAlertRule",
+  type: {
+    name: "Composite",
+    className: "DenylistCustomAlertRule",
+    modelProperties: {
+      ...CustomAlertRule.type.modelProperties,
+      denylistValues: {
+        required: true,
+        serializedName: "denylistValues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const IotSecurityGroup: msRest.CompositeMapper = {
+  serializedName: "IotSecurityGroup",
+  type: {
+    name: "Composite",
+    className: "IotSecurityGroup",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      thresholdRules: {
+        serializedName: "properties.thresholdRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ThresholdCustomAlertRule"
+            }
+          }
+        }
+      },
+      timeWindowRules: {
+        serializedName: "properties.timeWindowRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TimeWindowCustomAlertRule"
+            }
+          }
+        }
+      },
+      allowlistRules: {
+        serializedName: "properties.allowlistRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AllowlistCustomAlertRule"
+            }
+          }
+        }
+      },
+      denylistRules: {
+        serializedName: "properties.denylistRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DenylistCustomAlertRule"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const IotSecurityGroupList: msRest.CompositeMapper = {
+  serializedName: "IotSecurityGroupList",
+  type: {
+    name: "Composite",
+    className: "IotSecurityGroupList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IotSecurityGroup"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const Location: msRest.CompositeMapper = {
   serializedName: "Location",
   type: {

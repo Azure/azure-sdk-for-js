@@ -28,6 +28,12 @@ export {
   SensitivityLabel,
   InformationType,
   InformationProtectionKeyword,
+  IotSecurityGroup,
+  ThresholdCustomAlertRule,
+  CustomAlertRule,
+  TimeWindowCustomAlertRule,
+  AllowlistCustomAlertRule,
+  DenylistCustomAlertRule,
   SecurityTask,
   SecurityTaskParameters,
   AscLocation
