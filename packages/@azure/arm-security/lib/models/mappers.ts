@@ -239,38 +239,13 @@ export const AdvancedThreatProtectionSetting: msRest.CompositeMapper = {
   }
 };
 
-export const Setting: msRest.CompositeMapper = {
-  serializedName: "Setting",
+export const SettingResource: msRest.CompositeMapper = {
+  serializedName: "SettingResource",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: {
-      serializedName: "kind",
-      clientName: "kind"
-    },
-    uberParent: "Setting",
-    className: "Setting",
+    className: "SettingResource",
     modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
+      ...Resource.type.modelProperties,
       kind: {
         required: true,
         serializedName: "kind",
@@ -278,6 +253,17 @@ export const Setting: msRest.CompositeMapper = {
           name: "String"
         }
       }
+    }
+  }
+};
+
+export const Setting: msRest.CompositeMapper = {
+  serializedName: "Setting",
+  type: {
+    name: "Composite",
+    className: "Setting",
+    modelProperties: {
+      ...SettingResource.type.modelProperties
     }
   }
 };
@@ -286,8 +272,6 @@ export const DataExportSetting: msRest.CompositeMapper = {
   serializedName: "DataExportSetting",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Setting.type.polymorphicDiscriminator,
-    uberParent: "Setting",
     className: "DataExportSetting",
     modelProperties: {
       ...Setting.type.modelProperties,
@@ -296,22 +280,6 @@ export const DataExportSetting: msRest.CompositeMapper = {
         serializedName: "properties.enabled",
         type: {
           name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const SettingKind1: msRest.CompositeMapper = {
-  serializedName: "SettingKind",
-  type: {
-    name: "Composite",
-    className: "SettingKind1",
-    modelProperties: {
-      kind: {
-        serializedName: "kind",
-        type: {
-          name: "String"
         }
       }
     }
@@ -2042,11 +2010,6 @@ export const SettingsList: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "kind",
-                clientName: "kind"
-              },
-              uberParent: "Setting",
               className: "Setting"
             }
           }
@@ -2363,8 +2326,6 @@ export const AllowedConnectionsList: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'Setting' : Setting,
-  'Setting.DataExportSetting' : DataExportSetting,
   'ExternalSecuritySolution' : ExternalSecuritySolution,
   'ExternalSecuritySolution.CEF' : CefExternalSecuritySolution,
   'ExternalSecuritySolution.ATA' : AtaExternalSecuritySolution,
