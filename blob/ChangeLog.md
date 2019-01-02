@@ -1,5 +1,7 @@
 # Changelog
 
+* Improved comments for `BlockBlobURL.upload()`.
+
 2018.12 10.3.0
 
 * [Breaking] Updated convenience layer methods enum type parameters into typescript union types, this will help reducing bundle footprint.
