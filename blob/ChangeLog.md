@@ -1,6 +1,7 @@
 # Changelog
 
 * Improved comments for `BlockBlobURL.upload()`.
+* Exported `HttpRequestBody` type for who wants to implement a customized HTTP client.
 
 2018.12 10.3.0
 

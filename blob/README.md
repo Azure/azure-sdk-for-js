@@ -255,7 +255,7 @@ main()
 ## More Code Samples
 
 * [Blob Storage Examples](https://github.com/azure/azure-storage-js/tree/master/blob/samples)
-* [Blob Storage Examples - Test Cases](https://github.com/azure/azure-storage-js/tree/master/blob/test/)
+* [Blob Storage Examples - Test Cases](https://github.com/azure/azure-storage-js/tree/master/blob/tests/)
 
 ## License
 
