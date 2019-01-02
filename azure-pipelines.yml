@@ -21,6 +21,13 @@ steps:
     verbose: false
 
 - task: Npm@1
+  displayName: 'npm run check:everything'
+  inputs:
+    command: custom
+    verbose: false
+    customCommand: 'run check:everything -- --head-reference=origin/$(System.PullRequest.SourceBranch) --base-reference=origin/$(System.PullRequest.TargetBranch) --azure-devops'
+
+- task: Npm@1
   displayName: 'npm run build'
   inputs:
     command: custom
