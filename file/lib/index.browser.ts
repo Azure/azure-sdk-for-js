@@ -20,7 +20,6 @@ export * from "./LoggingPolicyFactory";
 export * from "./TelemetryPolicyFactory";
 export * from "./UniqueRequestIDPolicyFactory";
 export * from "./BrowserPolicyFactory";
-export * from "./SASQueryParameters";
 export * from "./ServiceURL";
 export * from "./StorageURL";
 export { Models, RestError };
