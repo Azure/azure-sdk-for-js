@@ -6,6 +6,7 @@ import { DirectoryURL } from "../../lib/DirectoryURL";
 import { FileURL } from "../../lib/FileURL";
 import { ShareURL } from "../../lib/ShareURL";
 import { bodyToString, getBSU, getUniqueName } from "../utils";
+import { Buffer } from "buffer";
 
 describe("BlockBlobURL Node.js only", () => {
   const serviceURL = getBSU();
@@ -60,5 +61,15 @@ describe("BlockBlobURL Node.js only", () => {
     );
     const result = await fileURL.download(Aborter.none, 0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
+  });
+
+  it("upload with Chinese string body and default parameters", async () => {
+    const body: string = getUniqueName("randomstring你好");
+    const bodyLength = Buffer.byteLength(body);
+
+    await fileURL.create(Aborter.none, bodyLength);
+    await fileURL.uploadRange(Aborter.none, body, 0, bodyLength);
+    const result = await fileURL.download(Aborter.none, 0);
+    assert.deepStrictEqual(await bodyToString(result, bodyLength), body);
   });
 });
