@@ -13,6 +13,7 @@ export {
   ApplicationSecurityGroup,
   Resource,
   BaseResource,
+  TagsObject,
   ApplicationSecurityGroupListResult,
   SubResource,
   SecurityRule,

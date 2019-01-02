@@ -2868,6 +2868,48 @@ export interface ApplicationGateway extends Resource {
 
 /**
  * @interface
+ * An interface representing ApplicationGatewayAvailableServerVariablesResult.
+ * Response for ApplicationGatewayAvailableServerVariables API service call.
+ *
+ */
+export interface ApplicationGatewayAvailableServerVariablesResult {
+  /**
+   * @member {string[]} [value] The list of supported server variables in
+   * application gateway.
+   */
+  value?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationGatewayAvailableRequestHeadersResult.
+ * Response for ApplicationGatewayAvailableRequestHeaders API service call.
+ *
+ */
+export interface ApplicationGatewayAvailableRequestHeadersResult {
+  /**
+   * @member {string[]} [value] The list of supported request headers in
+   * application gateway.
+   */
+  value?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationGatewayAvailableResponseHeadersResult.
+ * Response for ApplicationGatewayAvailableResponeHeaders API service call.
+ *
+ */
+export interface ApplicationGatewayAvailableResponseHeadersResult {
+  /**
+   * @member {string[]} [value] The list of supported response header in
+   * application gateway.
+   */
+  value?: string[];
+}
+
+/**
+ * @interface
  * An interface representing ApplicationGatewayFirewallRule.
  * A web application firewall rule.
  *
@@ -3008,6 +3050,52 @@ export interface ApplicationGatewaySslPredefinedPolicy extends SubResource {
    * values include: 'TLSv1_0', 'TLSv1_1', 'TLSv1_2'
    */
   minProtocolVersion?: ApplicationGatewaySslProtocol;
+}
+
+/**
+ * @interface
+ * An interface representing ErrorDetails.
+ */
+export interface ErrorDetails {
+  /**
+   * @member {string} [code]
+   */
+  code?: string;
+  /**
+   * @member {string} [target]
+   */
+  target?: string;
+  /**
+   * @member {string} [message]
+   */
+  message?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ErrorModel.
+ */
+export interface ErrorModel {
+  /**
+   * @member {string} [code]
+   */
+  code?: string;
+  /**
+   * @member {string} [message]
+   */
+  message?: string;
+  /**
+   * @member {string} [target]
+   */
+  target?: string;
+  /**
+   * @member {ErrorDetails[]} [details]
+   */
+  details?: ErrorDetails[];
+  /**
+   * @member {string} [innerError]
+   */
+  innerError?: string;
 }
 
 /**
@@ -5285,52 +5373,6 @@ export interface LoadBalancer extends Resource {
    * the resource is updated.
    */
   etag?: string;
-}
-
-/**
- * @interface
- * An interface representing ErrorDetails.
- */
-export interface ErrorDetails {
-  /**
-   * @member {string} [code]
-   */
-  code?: string;
-  /**
-   * @member {string} [target]
-   */
-  target?: string;
-  /**
-   * @member {string} [message]
-   */
-  message?: string;
-}
-
-/**
- * @interface
- * An interface representing ErrorModel.
- */
-export interface ErrorModel {
-  /**
-   * @member {string} [code]
-   */
-  code?: string;
-  /**
-   * @member {string} [message]
-   */
-  message?: string;
-  /**
-   * @member {string} [target]
-   */
-  target?: string;
-  /**
-   * @member {ErrorDetails[]} [details]
-   */
-  details?: ErrorDetails[];
-  /**
-   * @member {string} [innerError]
-   */
-  innerError?: string;
 }
 
 /**
@@ -12236,6 +12278,63 @@ export type ApplicationGatewaysBackendHealthResponse = ApplicationGatewayBackend
 };
 
 /**
+ * Contains response data for the listAvailableServerVariables operation.
+ */
+export type ApplicationGatewaysListAvailableServerVariablesResponse = ApplicationGatewayAvailableServerVariablesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApplicationGatewayAvailableServerVariablesResult;
+    };
+};
+
+/**
+ * Contains response data for the listAvailableRequestHeaders operation.
+ */
+export type ApplicationGatewaysListAvailableRequestHeadersResponse = ApplicationGatewayAvailableRequestHeadersResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApplicationGatewayAvailableRequestHeadersResult;
+    };
+};
+
+/**
+ * Contains response data for the listAvailableResponseHeaders operation.
+ */
+export type ApplicationGatewaysListAvailableResponseHeadersResponse = ApplicationGatewayAvailableResponseHeadersResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApplicationGatewayAvailableResponseHeadersResult;
+    };
+};
+
+/**
  * Contains response data for the listAvailableWafRuleSets operation.
  */
 export type ApplicationGatewaysListAvailableWafRuleSetsResponse = ApplicationGatewayAvailableWafRuleSetsResult & {
@@ -12464,6 +12563,25 @@ export type ApplicationSecurityGroupsCreateOrUpdateResponse = ApplicationSecurit
 };
 
 /**
+ * Contains response data for the updateTags operation.
+ */
+export type ApplicationSecurityGroupsUpdateTagsResponse = ApplicationSecurityGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApplicationSecurityGroup;
+    };
+};
+
+/**
  * Contains response data for the listAll operation.
  */
 export type ApplicationSecurityGroupsListAllResponse = ApplicationSecurityGroupListResult & {
@@ -12505,6 +12623,25 @@ export type ApplicationSecurityGroupsListResponse = ApplicationSecurityGroupList
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type ApplicationSecurityGroupsBeginCreateOrUpdateResponse = ApplicationSecurityGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApplicationSecurityGroup;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateTags operation.
+ */
+export type ApplicationSecurityGroupsBeginUpdateTagsResponse = ApplicationSecurityGroup & {
   /**
    * The underlying HTTP response.
    */
