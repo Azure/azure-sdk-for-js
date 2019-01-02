@@ -9,7 +9,6 @@
 * [Breaking] IE11 needs `Array.prototype.includes` and `Object.keys` polyfills loaded.
 * Updated dependency `ms-rest-js` to `@azure/ms-rest-js`.
 * Fixed `Aborter.timeout()` misleading scale description.
-* Added option `maxSingleShotSize` to customize concurrency upload threshold in bytes for highlevel uploading APIs, like `uploadBrowserDataToAzureFile` or `uploadFileToAzureFile`.
 * Removed default 60s server timeout value for retry options `tryTimeoutInMs` to avoid large blob download stream unexpected ending.
 * Fixed an issue that when body is string with special characters, `FileURL.uploadRange` will fail to upload.
 
