@@ -3819,6 +3819,69 @@ export const ApplicationGateway: msRest.CompositeMapper = {
   }
 };
 
+export const ApplicationGatewayAvailableServerVariablesResult: msRest.CompositeMapper = {
+  serializedName: "ApplicationGatewayAvailableServerVariablesResult",
+  type: {
+    name: "Composite",
+    className: "ApplicationGatewayAvailableServerVariablesResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ApplicationGatewayAvailableRequestHeadersResult: msRest.CompositeMapper = {
+  serializedName: "ApplicationGatewayAvailableRequestHeadersResult",
+  type: {
+    name: "Composite",
+    className: "ApplicationGatewayAvailableRequestHeadersResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ApplicationGatewayAvailableResponseHeadersResult: msRest.CompositeMapper = {
+  serializedName: "ApplicationGatewayAvailableResponseHeadersResult",
+  type: {
+    name: "Composite",
+    className: "ApplicationGatewayAvailableResponseHeadersResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ApplicationGatewayFirewallRule: msRest.CompositeMapper = {
   serializedName: "ApplicationGatewayFirewallRule",
   type: {
@@ -4021,6 +4084,80 @@ export const ApplicationGatewaySslPredefinedPolicy: msRest.CompositeMapper = {
       },
       minProtocolVersion: {
         serializedName: "properties.minProtocolVersion",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorDetails: msRest.CompositeMapper = {
+  serializedName: "ErrorDetails",
+  type: {
+    name: "Composite",
+    className: "ErrorDetails",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorModel: msRest.CompositeMapper = {
+  serializedName: "Error",
+  type: {
+    name: "Composite",
+    className: "ErrorModel",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetails"
+            }
+          }
+        }
+      },
+      innerError: {
+        serializedName: "innerError",
         type: {
           name: "String"
         }
@@ -6987,80 +7124,6 @@ export const LoadBalancer: msRest.CompositeMapper = {
       },
       etag: {
         serializedName: "etag",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorDetails: msRest.CompositeMapper = {
-  serializedName: "ErrorDetails",
-  type: {
-    name: "Composite",
-    className: "ErrorDetails",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "target",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorModel: msRest.CompositeMapper = {
-  serializedName: "Error",
-  type: {
-    name: "Composite",
-    className: "ErrorModel",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "target",
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        serializedName: "details",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorDetails"
-            }
-          }
-        }
-      },
-      innerError: {
-        serializedName: "innerError",
         type: {
           name: "String"
         }

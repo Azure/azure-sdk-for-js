@@ -186,6 +186,78 @@ export class ApplicationGateways {
   }
 
   /**
+   * Lists all available server variables.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ApplicationGatewaysListAvailableServerVariablesResponse>
+   */
+  listAvailableServerVariables(options?: msRest.RequestOptionsBase): Promise<Models.ApplicationGatewaysListAvailableServerVariablesResponse>;
+  /**
+   * @param callback The callback
+   */
+  listAvailableServerVariables(callback: msRest.ServiceCallback<Models.ApplicationGatewayAvailableServerVariablesResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listAvailableServerVariables(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationGatewayAvailableServerVariablesResult>): void;
+  listAvailableServerVariables(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationGatewayAvailableServerVariablesResult>, callback?: msRest.ServiceCallback<Models.ApplicationGatewayAvailableServerVariablesResult>): Promise<Models.ApplicationGatewaysListAvailableServerVariablesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        options
+      },
+      listAvailableServerVariablesOperationSpec,
+      callback) as Promise<Models.ApplicationGatewaysListAvailableServerVariablesResponse>;
+  }
+
+  /**
+   * Lists all available request headers.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ApplicationGatewaysListAvailableRequestHeadersResponse>
+   */
+  listAvailableRequestHeaders(options?: msRest.RequestOptionsBase): Promise<Models.ApplicationGatewaysListAvailableRequestHeadersResponse>;
+  /**
+   * @param callback The callback
+   */
+  listAvailableRequestHeaders(callback: msRest.ServiceCallback<Models.ApplicationGatewayAvailableRequestHeadersResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listAvailableRequestHeaders(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationGatewayAvailableRequestHeadersResult>): void;
+  listAvailableRequestHeaders(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationGatewayAvailableRequestHeadersResult>, callback?: msRest.ServiceCallback<Models.ApplicationGatewayAvailableRequestHeadersResult>): Promise<Models.ApplicationGatewaysListAvailableRequestHeadersResponse> {
+    return this.client.sendOperationRequest(
+      {
+        options
+      },
+      listAvailableRequestHeadersOperationSpec,
+      callback) as Promise<Models.ApplicationGatewaysListAvailableRequestHeadersResponse>;
+  }
+
+  /**
+   * Lists all available response headers.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ApplicationGatewaysListAvailableResponseHeadersResponse>
+   */
+  listAvailableResponseHeaders(options?: msRest.RequestOptionsBase): Promise<Models.ApplicationGatewaysListAvailableResponseHeadersResponse>;
+  /**
+   * @param callback The callback
+   */
+  listAvailableResponseHeaders(callback: msRest.ServiceCallback<Models.ApplicationGatewayAvailableResponseHeadersResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listAvailableResponseHeaders(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationGatewayAvailableResponseHeadersResult>): void;
+  listAvailableResponseHeaders(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationGatewayAvailableResponseHeadersResult>, callback?: msRest.ServiceCallback<Models.ApplicationGatewayAvailableResponseHeadersResult>): Promise<Models.ApplicationGatewaysListAvailableResponseHeadersResponse> {
+    return this.client.sendOperationRequest(
+      {
+        options
+      },
+      listAvailableResponseHeadersOperationSpec,
+      callback) as Promise<Models.ApplicationGatewaysListAvailableResponseHeadersResponse>;
+  }
+
+  /**
    * Lists all available web application firewall rule sets.
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationGatewaysListAvailableWafRuleSetsResponse>
@@ -551,6 +623,75 @@ const listAllOperationSpec: msRest.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listAvailableServerVariablesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableServerVariables",
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationGatewayAvailableServerVariablesResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  serializer
+};
+
+const listAvailableRequestHeadersOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableRequestHeaders",
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationGatewayAvailableRequestHeadersResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  serializer
+};
+
+const listAvailableResponseHeadersOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableResponseHeaders",
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationGatewayAvailableResponseHeadersResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
     }
   },
   serializer
