@@ -57,7 +57,7 @@ const DEFAULT_RETRY_OPTIONS: IRetryOptions = {
   maxTries: 4,
   retryDelayInMs: 4 * 1000,
   retryPolicyType: RetryPolicyType.EXPONENTIAL,
-  tryTimeoutInMs: 60 * 1000
+  tryTimeoutInMs: undefined // Use server side default timeout strategy
 };
 
 /**
@@ -161,11 +161,13 @@ export class RetryPolicy extends BaseRequestPolicy {
     const isPrimaryRetry = true; // File doesn't suport secondary endpoint
 
     // Set the server-side timeout query parameter "timeout=[seconds]"
-    newRequest.url = setURLParameter(
-      newRequest.url,
-      URLConstants.Parameters.TIMEOUT,
-      Math.floor(this.retryOptions.tryTimeoutInMs! / 1000).toString()
-    );
+    if (this.retryOptions.tryTimeoutInMs) {
+      newRequest.url = setURLParameter(
+        newRequest.url,
+        URLConstants.Parameters.TIMEOUT,
+        Math.floor(this.retryOptions.tryTimeoutInMs! / 1000).toString()
+      );
+    }
 
     let response: HttpOperationResponse | undefined;
     try {
