@@ -12,7 +12,6 @@
 * Added option `maxSingleShotSize` to customize concurrency upload threshold in bytes for highlevel uploading APIs, like `uploadBrowserDataToAzureFile` or `uploadFileToAzureFile`.
 * Removed default 60s server timeout value for retry options `tryTimeoutInMs` to avoid large blob download stream unexpected ending.
 * Fixed an issue that when body is string with special characters, `FileURL.uploadRange` will fail to upload.
-* Added samples covering all APIs.
 
 2018.12 Version 10.0.0-preview
 
