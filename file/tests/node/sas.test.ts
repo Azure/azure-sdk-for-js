@@ -9,13 +9,13 @@ import {
   ServiceURL,
   SharedKeyCredential,
   StorageURL,
+  SASProtocol
 } from "../../lib";
 import { Aborter } from "../../lib/Aborter";
 import { DirectoryURL } from "../../lib/DirectoryURL";
 import { FileSASPermissions } from "../../lib/FileSASPermissions";
 import { FileURL } from "../../lib/FileURL";
 import { generateFileSASQueryParameters } from "../../lib/IFileSASSignatureValues";
-import { SASProtocol } from "../../lib/index.browser";
 import { ShareSASPermissions } from "../../lib/ShareSASPermissions";
 import { ShareURL } from "../../lib/ShareURL";
 import { getBSU, getUniqueName } from "../utils";

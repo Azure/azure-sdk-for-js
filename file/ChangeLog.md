@@ -11,6 +11,7 @@
 * Fixed `Aborter.timeout()` misleading scale description.
 * Removed default 60s server timeout value for retry options `tryTimeoutInMs` to avoid large blob download stream unexpected ending.
 * Fixed an issue that when body is string with special characters, `FileURL.uploadRange` will fail to upload.
+* Exported `HttpRequestBody` type for who wants to implement a customized HTTP client.
 
 2018.12 Version 10.0.0-preview
 
