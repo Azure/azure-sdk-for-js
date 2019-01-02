@@ -145,7 +145,8 @@ describe("BlobURL", () => {
     assert.equal(result.leaseState, "leased");
     assert.equal(result.leaseStatus, "locked");
 
-    await sleep(16 * 1000);
+    await sleep(20 * 1000);
+
     const result2 = await blobURL.getProperties(Aborter.none);
     assert.ok(!result2.leaseDuration);
     assert.equal(result2.leaseState, "expired");
@@ -187,14 +188,14 @@ describe("BlobURL", () => {
     assert.equal(result.leaseState, "leased");
     assert.equal(result.leaseStatus, "locked");
 
-    await blobURL.breakLease(Aborter.none, 3);
+    await blobURL.breakLease(Aborter.none, 5);
 
     const result2 = await blobURL.getProperties(Aborter.none);
     assert.ok(!result2.leaseDuration);
     assert.equal(result2.leaseState, "breaking");
     assert.equal(result2.leaseStatus, "locked");
 
-    await sleep(3 * 1000);
+    await sleep(5 * 1000);
 
     const result3 = await blobURL.getProperties(Aborter.none);
     assert.ok(!result3.leaseDuration);
