@@ -34,14 +34,11 @@ async function main(): Promise<void> {
   const subscription2Client = ns.createSubscriptionClient(topic, subscription2);
   const subscription3Client = ns.createSubscriptionClient(topic, subscription3);
 
-  //we are setting up receive handlers here
-  setupReceiveHandlers(subscription1Client);
-  setupReceiveHandlers(subscription2Client);
-  setupReceiveHandlers(subscription3Client);
-
   await sendMessage(client);
 
-  await delay(2000);
+  await receiveMessage(subscription1Client);
+  await receiveMessage(subscription2Client);
+  await receiveMessage(subscription3Client);
 
   await subscription1Client.close();
   await subscription2Client.close();
@@ -49,7 +46,7 @@ async function main(): Promise<void> {
 }
 
 async function sendMessage(client: TopicClient): Promise<void> {
-  var data = [
+  const data = [
     { name: "Einstein", firstName: "Albert" },
     { name: "Heisenberg", firstName: "Werner" },
     { name: "Curie", firstName: "Marie" },
@@ -75,7 +72,7 @@ async function sendMessage(client: TopicClient): Promise<void> {
   }
 }
 
-async function setupReceiveHandlers(client: SubscriptionClient): Promise<void> {
+async function receiveMessage(client: SubscriptionClient): Promise<void> {
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     console.log(`subscription: ${client.name}  Retrieved: ${brokeredMessage.body}`);
   };
