@@ -29,6 +29,7 @@
   },
   "scripts": {
     "build": "gulp pack --logging-level=info",
+    "check:everything": "ts-node ./.scripts/checkEverything.ts",
     "install-client-keyvault": "cd packages/@azure/keyvault && npm install",
     "install-client-template": "cd packages/@azure/template && npm install",
     "install-client": "npm-run-all -p -l install-client-*",
@@ -46,7 +47,7 @@
   },
   "devDependencies": {
     "@octokit/rest": "15.17.0",
-    "@ts-common/azure-js-dev-tools": "^0.6.0",
+    "@ts-common/azure-js-dev-tools": "^0.6.8",
     "@types/glob": "^7.1.1",
     "@types/gulp": "^4.0.5",
     "@types/js-yaml": "^3.11.2",
