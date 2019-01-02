@@ -1,3 +1,6 @@
+// https://github.com/karma-runner/karma-chrome-launcher
+process.env.CHROME_BIN = require("puppeteer").executablePath();
+
 module.exports = function(config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -14,13 +17,17 @@ module.exports = function(config) {
       "karma-edge-launcher",
       "karma-firefox-launcher",
       "karma-ie-launcher",
-      "karma-env-preprocessor"
+      "karma-env-preprocessor",
+      "karma-coverage",
+      "karma-remap-coverage",
+      "karma-junit-reporter"
     ],
 
     // list of files / patterns to load in the browser
     files: [
       // polyfill service supporting IE11 missing features
-      "https://cdn.polyfill.io/v2/polyfill.min.js?features=Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes",
+      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
+      "https://cdn.polyfill.io/v2/polyfill.js?features=Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
       "dist-test/index.browser.js"
     ],
 
@@ -30,7 +37,10 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      "**/*.js": ["env"]
+      "**/*.js": ["env"],
+      // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
+      // Preprocess source file to calculate code coverage, however this will make source file unreadable
+      "dist-test/index.browser.js": ["coverage"]
     },
 
     // inject following environment values into browser testing with window.__env__
@@ -41,7 +51,31 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["mocha"],
+    reporters: ["mocha", "coverage", "remap-coverage", "junit"],
+
+    coverageReporter: { type: "in-memory" },
+
+    // Coverage report settings
+    remapCoverageReporter: {
+      "text-summary": null, // to show summary in console
+      html: "./coverage-browser",
+      cobertura: "./coverage-browser/cobertura-coverage.xml"
+    },
+
+    // Exclude coverage calculation for following files
+    remapOptions: {
+      exclude: /node_modules|tests/g
+    },
+
+    junitReporter: {
+      outputDir: "", // results will be saved as $outputDir/$browserName.xml
+      outputFile: "test-results.browser.xml", // if included, results will be saved as $outputDir/$browserName/$outputFile
+      suite: "", // suite will become the package name attribute in xml testsuite element
+      useBrowserName: false, // add browser name to report and classes names
+      nameFormatter: undefined, // function (browser, result) to customize the name attribute in xml testcase element
+      classNameFormatter: undefined, // function (browser, result) to customize the classname attribute in xml testcase element
+      properties: {} // key value pair of properties to add to the <properties> section of the report
+    },
 
     // web server port
     port: 9876,
@@ -58,8 +92,8 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    // 'Chrome', 'Firefox', 'Edge', 'IE'
-    browsers: ["Chrome"],
+    // 'ChromeHeadless', 'Chrome', 'Firefox', 'Edge', 'IE'
+    browsers: ["ChromeHeadless"],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
@@ -70,6 +104,8 @@ module.exports = function(config) {
     concurrency: 1,
 
     browserNoActivityTimeout: 600000,
+    browserDisconnectTimeout: 10000,
+    browserDisconnectTolerance: 3,
 
     client: {
       mocha: {

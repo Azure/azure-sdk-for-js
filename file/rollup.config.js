@@ -1,9 +1,9 @@
-import commonjs from "rollup-plugin-commonjs";
 import nodeResolve from "rollup-plugin-node-resolve";
-import replace from "rollup-plugin-replace";
-import shim from "rollup-plugin-shim";
 import { uglify } from "rollup-plugin-uglify";
-import visualizer from "rollup-plugin-visualizer";
+import replace from "rollup-plugin-replace";
+import commonjs from "rollup-plugin-commonjs";
+import shim from "rollup-plugin-shim";
+// import visualizer from "rollup-plugin-visualizer";
 
 const version = require("./package.json").version;
 const banner = [
@@ -67,9 +67,9 @@ const browserRollupConfigFactory = isProduction => {
             "equal",
             "fail",
             "deepStrictEqual",
-            "notEqual",
+            "notDeepStrictEqual",
             "notDeepEqual",
-            "notDeepStrictEqual"
+            "notEqual"
           ]
         }
       })
@@ -83,11 +83,12 @@ const browserRollupConfigFactory = isProduction => {
         output: {
           preamble: banner
         }
-      }),
-      visualizer({
-        filename: "./statistics.html",
-        sourcemap: true
       })
+      // Comment visualizer because it only works on Node.js 8+; Uncomment it to get bundle analysis report
+      // visualizer({
+      //   filename: "./statistics.html",
+      //   sourcemap: true
+      // })
     );
   }
 
@@ -95,7 +96,7 @@ const browserRollupConfigFactory = isProduction => {
 };
 
 export default [
-  nodeRollupConfigFactory(),
   browserRollupConfigFactory(false),
-  browserRollupConfigFactory(true)
+  browserRollupConfigFactory(true),
+  nodeRollupConfigFactory()
 ];

@@ -1,9 +1,10 @@
 # browser #
 browser/azure-storage.file.js
+browser/azure-storage.file.js.map
 
 # dist-esm #
 !dist-esm/lib/**/*.js
-dist-esm/test
+dist-esm/tests
 dist-esm/samples
 
 # dist-test #
@@ -20,14 +21,14 @@ swagger/
 
 # typings #
 !typings/lib/**/*.d.ts
-typings/test
+typings/tests
 typings/samples
 
 # git #
 .git*
 
 # Test #
-test/
+tests/
 
 # Others #
 .vscode/
@@ -39,7 +40,6 @@ gulpfile.js
 .DS_Store
 tsconfig.json
 tslint.json
-*.js.map
 *.zip
 package-lock.json
 karma.conf.js
@@ -48,3 +48,10 @@ gulpfile.js
 rollup.config.js
 rollup.test.config.js
 *.html
+coverage/
+.nyc_output/
+test*.xml
+*.tgz
+coverage-browser
+.nycrc
+mocha.reporter.config.json
