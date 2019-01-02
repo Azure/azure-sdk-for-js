@@ -1,11 +1,4 @@
-import {
-  delay,
-  SendableMessageInfo,
-  QueueClient,
-  ReceiveMode,
-  generateUuid,
-  Namespace
-} from "../../lib";
+import { SendableMessageInfo, QueueClient, ReceiveMode, generateUuid, Namespace } from "../../lib";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -60,17 +53,16 @@ async function peekMessages(): Promise<void> {
 
   try {
     const count = 10;
-    const peekedMessage = await receiveClient.peek(count);
+    const peekedMessages = await receiveClient.peek(count);
     for (let i = 0; i < count; i++) {
       console.log(
-        `Peeked message ${i}:   
-          ID - ${peekedMessage[i].messageId} , 
-          messageBody - ${peekedMessage[i].body}, 
-          label - ${peekedMessage[i].label}`
+        `Peeked message ${i}:
+          ID - ${peekedMessages[i].messageId} ,
+          messageBody - ${peekedMessages[i].body},
+          label - ${peekedMessages[i].label}`
       );
     }
     console.log("\n>>>> Browsed the Messages.\n");
-    await delay(1000);
   } catch (err) {
     console.log("Error while peeking: ", err);
   }
