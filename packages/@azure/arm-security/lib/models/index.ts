@@ -205,39 +205,29 @@ export interface AdvancedThreatProtectionSetting extends Resource {
 }
 
 /**
- * Contains the possible cases for Setting.
+ * @interface
+ * An interface representing SettingResource.
+ * The kind of the security setting
+ *
+ * @extends Resource
  */
-export type SettingUnion = Setting | DataExportSetting;
+export interface SettingResource extends Resource {
+  /**
+   * @member {SettingKind} kind the kind of the settings string
+   * (DataExportSetting). Possible values include: 'DataExportSetting',
+   * 'AlertSuppressionSetting'
+   */
+  kind: SettingKind;
+}
 
 /**
  * @interface
  * An interface representing Setting.
  * Represents a security setting in Azure Security Center.
  *
+ * @extends SettingResource
  */
-export interface Setting {
-  /**
-   * @member {string} kind Polymorphic Discriminator
-   */
-  kind: "Setting";
-  /**
-   * @member {string} [id] Resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [name] Resource name
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {string} [type] Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
+export interface Setting extends SettingResource {
 }
 
 /**
@@ -245,48 +235,13 @@ export interface Setting {
  * An interface representing DataExportSetting.
  * Represents a data export setting
  *
+ * @extends Setting
  */
-export interface DataExportSetting {
-  /**
-   * @member {string} kind Polymorphic Discriminator
-   */
-  kind: "DataExportSetting";
-  /**
-   * @member {string} [id] Resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [name] Resource name
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {string} [type] Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
+export interface DataExportSetting extends Setting {
   /**
    * @member {boolean} enabled Is the data export setting is enabled
    */
   enabled: boolean;
-}
-
-/**
- * @interface
- * An interface representing SettingKind1.
- * The kind of the security setting
- *
- */
-export interface SettingKind1 {
-  /**
-   * @member {SettingKind} [kind] the kind of the settings string. Possible
-   * values include: 'DataExportSetting'
-   */
-  kind?: SettingKind;
 }
 
 /**
@@ -1771,9 +1726,9 @@ export interface ComplianceList extends Array<Compliance> {
  * An interface representing the SettingsList.
  * Subscription settings list.
  *
- * @extends Array<SettingUnion>
+ * @extends Array<Setting>
  */
-export interface SettingsList extends Array<SettingUnion> {
+export interface SettingsList extends Array<Setting> {
   /**
    * @member {string} [nextLink] The URI to fetch the next page.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -1968,11 +1923,11 @@ export type AutoProvision = 'On' | 'Off';
 
 /**
  * Defines values for SettingKind.
- * Possible values include: 'DataExportSetting'
+ * Possible values include: 'DataExportSetting', 'AlertSuppressionSetting'
  * @readonly
  * @enum {string}
  */
-export type SettingKind = 'DataExportSetting';
+export type SettingKind = 'DataExportSetting' | 'AlertSuppressionSetting';
 
 /**
  * Defines values for SecurityFamily.
@@ -2629,7 +2584,7 @@ export type SettingsListResponse = SettingsList & {
 /**
  * Contains response data for the get operation.
  */
-export type SettingsGetResponse = SettingUnion & {
+export type SettingsGetResponse = Setting & {
   /**
    * The underlying HTTP response.
    */
@@ -2641,14 +2596,14 @@ export type SettingsGetResponse = SettingUnion & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SettingUnion;
+      parsedBody: Setting;
     };
 };
 
 /**
  * Contains response data for the update operation.
  */
-export type SettingsUpdateResponse = SettingUnion & {
+export type SettingsUpdateResponse = Setting & {
   /**
    * The underlying HTTP response.
    */
@@ -2660,7 +2615,7 @@ export type SettingsUpdateResponse = SettingUnion & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SettingUnion;
+      parsedBody: Setting;
     };
 };
 

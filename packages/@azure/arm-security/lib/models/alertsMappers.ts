@@ -24,12 +24,15 @@ export {
   Compliance,
   ComplianceSegment,
   AdvancedThreatProtectionSetting,
+  SettingResource,
   InformationProtectionPolicy,
   SensitivityLabel,
   InformationType,
   InformationProtectionKeyword,
   SecurityTask,
   SecurityTaskParameters,
-  AscLocation
+  AscLocation,
+  Setting,
+  DataExportSetting
 } from "../models/mappers";
 
