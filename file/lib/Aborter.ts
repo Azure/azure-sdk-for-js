@@ -66,11 +66,11 @@ export class Aborter implements AbortSignalLike {
   }
 
   /**
-   * Creates a new Aborter instance with timeout in million-seconds.
+   * Creates a new Aborter instance with timeout in milliseconds.
    * Set parameter timeout to 0 will not create a timer.
    *
    * @static
-   * @param {number} {timeout} in million-seconds
+   * @param {number} {timeout} in milliseconds
    * @returns {Aborter}
    * @memberof Aborter
    */
