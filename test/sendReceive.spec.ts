@@ -30,7 +30,7 @@ const testMessages: SendableMessageInfo[] = [
   }
 ];
 
-function testReceivedMessages(receivedMsgs: ServiceBusMessage[]) {
+function testReceivedMessages(receivedMsgs: ServiceBusMessage[]): void {
   should.equal(receivedMsgs.length, 2);
   should.equal(receivedMsgs[0].body, testMessages[0].body);
   should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
@@ -41,12 +41,12 @@ function testReceivedMessages(receivedMsgs: ServiceBusMessage[]) {
 async function testPeekMsgsLength(
   client: QueueClient | SubscriptionClient,
   expectedPeekLength: number
-) {
+): Promise<void> {
   const peekedMsgs = await client.peek(expectedPeekLength + 1);
   should.equal(peekedMsgs.length, expectedPeekLength);
 }
 
-describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
+describe("Simple send/receive to/from Queue/Topic/Subscription", function(): void {
   let namespace: Namespace;
   let queueClient: QueueClient;
   let topicClient: TopicClient;
@@ -96,7 +96,7 @@ describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
     return namespace.close();
   });
 
-  it("Simple send and receiveBatch using Queues", async function() {
+  it("Simple send and receiveBatch using Queues", async function(): Promise<void> {
     await queueClient.send(testMessages[0]);
     const msgs = await queueClient.receiveBatch(1);
 
@@ -110,7 +110,9 @@ describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
     await testPeekMsgsLength(queueClient, 0);
   });
 
-  it("Simple send and receiveBatch using Topics and Subscriptions", async function() {
+  it("Simple send and receiveBatch using Topics and Subscriptions", async function(): Promise<
+    void
+  > {
     await topicClient.send(testMessages[0]);
     const msgs = await subscriptionClient.receiveBatch(1);
 
@@ -126,7 +128,7 @@ describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
 
   // We test for mutilple receiveBatch specifically to ensure that batchingRecevier on a client is reused
   // See https://github.com/Azure/azure-service-bus-node/issues/31
-  it("Simple sendBatch and multiple receiveBatch using Queues", async function() {
+  it("Simple sendBatch and multiple receiveBatch using Queues", async function(): Promise<void> {
     await queueClient.sendBatch(testMessages);
     const msgs1 = await queueClient.receiveBatch(1);
     const msgs2 = await queueClient.receiveBatch(1);
@@ -151,7 +153,9 @@ describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
 
   // We test for mutilple receiveBatch specifically to ensure that batchingRecevier on a client is reused
   // See https://github.com/Azure/azure-service-bus-node/issues/31
-  it("Simple sendBatch and multiple receiveBatch using Topics and Subscriptions", async function() {
+  it("Simple sendBatch and multiple receiveBatch using Topics and Subscriptions", async function(): Promise<
+    void
+  > {
     await topicClient.sendBatch(testMessages);
     const msgs1 = await subscriptionClient.receiveBatch(1);
     const msgs2 = await subscriptionClient.receiveBatch(1);
@@ -174,7 +178,9 @@ describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
     await testPeekMsgsLength(subscriptionClient, 0);
   });
 
-  it("Streaming Receiver and autoComplete removes the message from Queue", async function() {
+  it("Streaming Receiver and autoComplete removes the message from Queue", async function(): Promise<
+    void
+  > {
     await queueClient.sendBatch(testMessages);
 
     const receivedMsgs: ServiceBusMessage[] = [];
@@ -196,7 +202,9 @@ describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
     await testPeekMsgsLength(queueClient, 0);
   });
 
-  it("Streaming Receiver and autoComplete removes the message from Subscription", async function() {
+  it("Streaming Receiver and autoComplete removes the message from Subscription", async function(): Promise<
+    void
+  > {
     await topicClient.sendBatch(testMessages);
 
     const receivedMsgs: ServiceBusMessage[] = [];
@@ -218,11 +226,13 @@ describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
     await testPeekMsgsLength(subscriptionClient, 0);
   });
 
-  it("Streaming Receiver without autoComplete, no manual complete retains the message in Queue", async function() {
+  it("Streaming Receiver without autoComplete, no manual complete retains the message in Queue", async function(): Promise<
+    void
+  > {
     await queueClient.sendBatch(testMessages);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    let receiveListener = queueClient.receive(
+    const receiveListener = queueClient.receive(
       (msg: ServiceBusMessage) => {
         receivedMsgs.push(msg);
         return Promise.resolve();
@@ -244,11 +254,13 @@ describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
     await receiveListener.stop();
   });
 
-  it("Streaming Receiver without autoComplete, no manual complete retains the message in Subscription", async function() {
+  it("Streaming Receiver without autoComplete, no manual complete retains the message in Subscription", async function(): Promise<
+    void
+  > {
     await topicClient.sendBatch(testMessages);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    let receiveListener = subscriptionClient.receive(
+    const receiveListener = subscriptionClient.receive(
       (msg: ServiceBusMessage) => {
         receivedMsgs.push(msg);
         return Promise.resolve();
@@ -270,11 +282,13 @@ describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
     await receiveListener.stop();
   });
 
-  it("Streaming Receiver without autoComplete, manual complete removes the message from Queue", async function() {
+  it("Streaming Receiver without autoComplete, manual complete removes the message from Queue", async function(): Promise<
+    void
+  > {
     await queueClient.sendBatch(testMessages);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    let receiveListener = queueClient.receive(
+    const receiveListener = queueClient.receive(
       (msg: ServiceBusMessage) => {
         receivedMsgs.push(msg);
         return msg.complete();
@@ -294,11 +308,13 @@ describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
     await receiveListener.stop();
   });
 
-  it("Streaming Receiver without autoComplete, manual complete removes the message from Subscription", async function() {
+  it("Streaming Receiver without autoComplete, manual complete removes the message from Subscription", async function(): Promise<
+    void
+  > {
     await topicClient.sendBatch(testMessages);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    let receiveListener = subscriptionClient.receive(
+    const receiveListener = subscriptionClient.receive(
       (msg: ServiceBusMessage) => {
         receivedMsgs.push(msg);
         return msg.complete();
@@ -318,7 +334,9 @@ describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
     await receiveListener.stop();
   });
 
-  it("Abandoned message is retained in the Queue with incremented deliveryCount", async function() {
+  it("Abandoned message is retained in the Queue with incremented deliveryCount", async function(): Promise<
+    void
+  > {
     await queueClient.send(testMessages[0]);
 
     let receivedMsgs = await queueClient.receiveBatch(1);
@@ -341,7 +359,9 @@ describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
     await receivedMsgs[0].complete();
   });
 
-  it("Abandoned message is retained in the Subscription with incremented deliveryCount", async function() {
+  it("Abandoned message is retained in the Subscription with incremented deliveryCount", async function(): Promise<
+    void
+  > {
     await topicClient.send(testMessages[0]);
 
     let receivedMsgs = await subscriptionClient.receiveBatch(1);
@@ -362,5 +382,41 @@ describe("Simple send/receive to/from Queue/Topic/Subscription", function() {
     should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
 
     await receivedMsgs[0].complete();
+  });
+
+  it("Schedule message using Queues", async function(): Promise<void> {
+    const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from now
+    await queueClient.scheduleMessage(testMessages[0], scheduleTime);
+
+    const msgs = await queueClient.receiveBatch(1);
+    const msgEnqueueTime = msgs[0].enqueuedTimeUtc ? msgs[0].enqueuedTimeUtc.valueOf() : 0;
+
+    should.equal(Array.isArray(msgs), true);
+    should.equal(msgs.length, 1);
+    should.equal(msgEnqueueTime - scheduleTime.valueOf() >= 0, true); // checking received message enqueue time is greater or equal to the scheduled time.
+    should.equal(msgs[0].body, testMessages[0].body);
+    should.equal(msgs[0].messageId, testMessages[0].messageId);
+
+    await msgs[0].complete();
+
+    await testPeekMsgsLength(queueClient, 0);
+  });
+
+  it("Schedule message using Topics and Subscriptions", async function(): Promise<void> {
+    const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from now
+    await topicClient.scheduleMessage(testMessages[0], scheduleTime);
+
+    const msgs = await subscriptionClient.receiveBatch(1);
+    const msgEnqueueTime = msgs[0].enqueuedTimeUtc ? msgs[0].enqueuedTimeUtc.valueOf() : 0;
+
+    should.equal(Array.isArray(msgs), true);
+    should.equal(msgs.length, 1);
+    should.equal(msgs[0].body, testMessages[0].body);
+    should.equal(msgEnqueueTime - scheduleTime.valueOf() >= 0, true); // checking received message enqueue time is greater or equal to the scheduled time.
+    should.equal(msgs[0].messageId, testMessages[0].messageId);
+
+    await msgs[0].complete();
+
+    await testPeekMsgsLength(subscriptionClient, 0);
   });
 });
