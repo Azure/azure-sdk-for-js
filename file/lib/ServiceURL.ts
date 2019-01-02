@@ -1,6 +1,6 @@
-import * as Models from "../lib/generated/models";
+import * as Models from "../lib/generated/lib/models";
 import { Aborter } from "./Aborter";
-import { Service } from "./generated/operations";
+import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
 import { StorageURL } from "./StorageURL";
 

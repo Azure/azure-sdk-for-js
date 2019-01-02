@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
@@ -22,19 +22,10 @@ class StorageClient extends StorageClientContext {
   file: operations.File;
 
   /**
-   * @class
    * Initializes a new instance of the StorageClient class.
-   * @constructor
-   *
-   * @param {object} [options] - The parameter options
-   *
-   * @param {Array} [options.filters] - Filters to be added to the request pipeline
-   *
-   * @param {object} [options.requestOptions] - The request options. Detailed info can be found at
-   * {@link https://github.github.io/fetch/#Request Options doc}
-   *
-   * @param {boolean} [options.noRetryPolicy] - If set to true, turn off default retry policy
-   *
+   * @param url The URL of the service account, share, directory or file that is the target of the
+   * desired operation.
+   * @param [options] The parameter options
    */
   constructor(url: string, options?: msRest.ServiceClientOptions) {
     super(url, options);

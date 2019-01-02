@@ -1,4 +1,4 @@
-import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "ms-rest-js";
+import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/ms-rest-js";
 
 import { UniqueRequestIDPolicy } from "./policies/UniqueRequestIDPolicy";
 

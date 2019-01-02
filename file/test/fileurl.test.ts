@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { isNode } from "ms-rest-js";
+import { isNode } from "@azure/ms-rest-js";
 
 import { Aborter } from "../lib/Aborter";
 import { DirectoryURL } from "../lib/DirectoryURL";

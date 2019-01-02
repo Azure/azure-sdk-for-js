@@ -1,4 +1,4 @@
-import { isNode, URLBuilder } from "ms-rest-js";
+import { isNode, URLBuilder } from "@azure/ms-rest-js";
 
 /**
  * Append a string to URL path. Will remove duplicated "/" in front of the string

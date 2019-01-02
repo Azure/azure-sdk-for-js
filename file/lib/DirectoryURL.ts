@@ -1,6 +1,6 @@
 import { Aborter } from "./Aborter";
-import * as Models from "./generated/models";
-import { Directory } from "./generated/operations";
+import * as Models from "./generated/lib/models";
+import { Directory } from "./generated/lib/operations";
 import { IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { ShareURL } from "./ShareURL";
