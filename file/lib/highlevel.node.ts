@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import { TransferProgressEvent } from "ms-rest-js";
+import { TransferProgressEvent } from "@azure/ms-rest-js";
 import { Readable } from "stream";
 import { Aborter } from "./Aborter";
 import { FileURL } from "./FileURL";

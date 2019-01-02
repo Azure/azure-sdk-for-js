@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/directoryMappers";
 import * as Parameters from "../models/parameters";
@@ -28,20 +28,20 @@ export class Directory {
 
   /**
    * Creates a new directory under the specified share or parent directory.
-   *
-   * @param {DirectoryCreateOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DirectoryCreateResponse>
    */
-  create(): Promise<Models.DirectoryCreateResponse>;
-  create(options: Models.DirectoryCreateOptionalParams): Promise<Models.DirectoryCreateResponse>;
+  create(options?: Models.DirectoryCreateOptionalParams): Promise<Models.DirectoryCreateResponse>;
+  /**
+   * @param callback The callback
+   */
   create(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   create(options: Models.DirectoryCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(options?: Models.DirectoryCreateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.DirectoryCreateResponse> {
+  create(options?: Models.DirectoryCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.DirectoryCreateResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -54,20 +54,20 @@ export class Directory {
    * Returns all system properties for the specified directory, and can also be used to check the
    * existence of a directory. The data returned does not include the files in the directory or any
    * subdirectories.
-   *
-   * @param {DirectoryGetPropertiesOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DirectoryGetPropertiesResponse>
    */
-  getProperties(): Promise<Models.DirectoryGetPropertiesResponse>;
-  getProperties(options: Models.DirectoryGetPropertiesOptionalParams): Promise<Models.DirectoryGetPropertiesResponse>;
+  getProperties(options?: Models.DirectoryGetPropertiesOptionalParams): Promise<Models.DirectoryGetPropertiesResponse>;
+  /**
+   * @param callback The callback
+   */
   getProperties(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   getProperties(options: Models.DirectoryGetPropertiesOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  getProperties(options?: Models.DirectoryGetPropertiesOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.DirectoryGetPropertiesResponse> {
+  getProperties(options?: Models.DirectoryGetPropertiesOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.DirectoryGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -79,20 +79,20 @@ export class Directory {
   /**
    * Removes the specified empty directory. Note that the directory must be empty before it can be
    * deleted.
-   *
-   * @param {DirectoryDeleteMethodOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DirectoryDeleteResponse>
    */
-  deleteMethod(): Promise<Models.DirectoryDeleteResponse>;
-  deleteMethod(options: Models.DirectoryDeleteMethodOptionalParams): Promise<Models.DirectoryDeleteResponse>;
+  deleteMethod(options?: Models.DirectoryDeleteMethodOptionalParams): Promise<Models.DirectoryDeleteResponse>;
+  /**
+   * @param callback The callback
+   */
   deleteMethod(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   deleteMethod(options: Models.DirectoryDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(options?: Models.DirectoryDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.DirectoryDeleteResponse> {
+  deleteMethod(options?: Models.DirectoryDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.DirectoryDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -103,20 +103,20 @@ export class Directory {
 
   /**
    * Updates user defined metadata for the specified directory.
-   *
-   * @param {DirectorySetMetadataOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DirectorySetMetadataResponse>
    */
-  setMetadata(): Promise<Models.DirectorySetMetadataResponse>;
-  setMetadata(options: Models.DirectorySetMetadataOptionalParams): Promise<Models.DirectorySetMetadataResponse>;
+  setMetadata(options?: Models.DirectorySetMetadataOptionalParams): Promise<Models.DirectorySetMetadataResponse>;
+  /**
+   * @param callback The callback
+   */
   setMetadata(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   setMetadata(options: Models.DirectorySetMetadataOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  setMetadata(options?: Models.DirectorySetMetadataOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.DirectorySetMetadataResponse> {
+  setMetadata(options?: Models.DirectorySetMetadataOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.DirectorySetMetadataResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -128,20 +128,20 @@ export class Directory {
   /**
    * Returns a list of files or directories under the specified share or directory. It lists the
    * contents only for a single level of the directory hierarchy.
-   *
-   * @param {DirectoryListFilesAndDirectoriesSegmentOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse>
    */
-  listFilesAndDirectoriesSegment(): Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse>;
-  listFilesAndDirectoriesSegment(options: Models.DirectoryListFilesAndDirectoriesSegmentOptionalParams): Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse>;
+  listFilesAndDirectoriesSegment(options?: Models.DirectoryListFilesAndDirectoriesSegmentOptionalParams): Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse>;
+  /**
+   * @param callback The callback
+   */
   listFilesAndDirectoriesSegment(callback: msRest.ServiceCallback<Models.ListFilesAndDirectoriesSegmentResponse>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listFilesAndDirectoriesSegment(options: Models.DirectoryListFilesAndDirectoriesSegmentOptionalParams, callback: msRest.ServiceCallback<Models.ListFilesAndDirectoriesSegmentResponse>): void;
-  listFilesAndDirectoriesSegment(options?: Models.DirectoryListFilesAndDirectoriesSegmentOptionalParams, callback?: msRest.ServiceCallback<Models.ListFilesAndDirectoriesSegmentResponse>): Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse> {
+  listFilesAndDirectoriesSegment(options?: Models.DirectoryListFilesAndDirectoriesSegmentOptionalParams | msRest.ServiceCallback<Models.ListFilesAndDirectoriesSegmentResponse>, callback?: msRest.ServiceCallback<Models.ListFilesAndDirectoriesSegmentResponse>): Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -149,7 +149,6 @@ export class Directory {
       listFilesAndDirectoriesSegmentOperationSpec,
       callback) as Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse>;
   }
-
 }
 
 // Operation Specifications

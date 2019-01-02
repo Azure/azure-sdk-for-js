@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/shareMappers";
 import * as Parameters from "../models/parameters";
@@ -29,20 +29,20 @@ export class Share {
   /**
    * Creates a new share under the specified account. If the share with the same name already exists,
    * the operation fails.
-   *
-   * @param {ShareCreateOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ShareCreateResponse>
    */
-  create(): Promise<Models.ShareCreateResponse>;
-  create(options: Models.ShareCreateOptionalParams): Promise<Models.ShareCreateResponse>;
+  create(options?: Models.ShareCreateOptionalParams): Promise<Models.ShareCreateResponse>;
+  /**
+   * @param callback The callback
+   */
   create(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   create(options: Models.ShareCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(options?: Models.ShareCreateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ShareCreateResponse> {
+  create(options?: Models.ShareCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ShareCreateResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -54,20 +54,20 @@ export class Share {
   /**
    * Returns all user-defined metadata and system properties for the specified share or share
    * snapshot. The data returned does not include the share's list of files.
-   *
-   * @param {ShareGetPropertiesOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ShareGetPropertiesResponse>
    */
-  getProperties(): Promise<Models.ShareGetPropertiesResponse>;
-  getProperties(options: Models.ShareGetPropertiesOptionalParams): Promise<Models.ShareGetPropertiesResponse>;
+  getProperties(options?: Models.ShareGetPropertiesOptionalParams): Promise<Models.ShareGetPropertiesResponse>;
+  /**
+   * @param callback The callback
+   */
   getProperties(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   getProperties(options: Models.ShareGetPropertiesOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  getProperties(options?: Models.ShareGetPropertiesOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ShareGetPropertiesResponse> {
+  getProperties(options?: Models.ShareGetPropertiesOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ShareGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -79,20 +79,20 @@ export class Share {
   /**
    * Operation marks the specified share or share snapshot for deletion. The share or share snapshot
    * and any files contained within it are later deleted during garbage collection.
-   *
-   * @param {ShareDeleteMethodOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ShareDeleteResponse>
    */
-  deleteMethod(): Promise<Models.ShareDeleteResponse>;
-  deleteMethod(options: Models.ShareDeleteMethodOptionalParams): Promise<Models.ShareDeleteResponse>;
+  deleteMethod(options?: Models.ShareDeleteMethodOptionalParams): Promise<Models.ShareDeleteResponse>;
+  /**
+   * @param callback The callback
+   */
   deleteMethod(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   deleteMethod(options: Models.ShareDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(options?: Models.ShareDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ShareDeleteResponse> {
+  deleteMethod(options?: Models.ShareDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ShareDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -103,20 +103,20 @@ export class Share {
 
   /**
    * Creates a read-only snapshot of a share.
-   *
-   * @param {ShareCreateSnapshotOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ShareCreateSnapshotResponse>
    */
-  createSnapshot(): Promise<Models.ShareCreateSnapshotResponse>;
-  createSnapshot(options: Models.ShareCreateSnapshotOptionalParams): Promise<Models.ShareCreateSnapshotResponse>;
+  createSnapshot(options?: Models.ShareCreateSnapshotOptionalParams): Promise<Models.ShareCreateSnapshotResponse>;
+  /**
+   * @param callback The callback
+   */
   createSnapshot(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   createSnapshot(options: Models.ShareCreateSnapshotOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  createSnapshot(options?: Models.ShareCreateSnapshotOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ShareCreateSnapshotResponse> {
+  createSnapshot(options?: Models.ShareCreateSnapshotOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ShareCreateSnapshotResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -127,20 +127,20 @@ export class Share {
 
   /**
    * Sets quota for the specified share.
-   *
-   * @param {ShareSetQuotaOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ShareSetQuotaResponse>
    */
-  setQuota(): Promise<Models.ShareSetQuotaResponse>;
-  setQuota(options: Models.ShareSetQuotaOptionalParams): Promise<Models.ShareSetQuotaResponse>;
+  setQuota(options?: Models.ShareSetQuotaOptionalParams): Promise<Models.ShareSetQuotaResponse>;
+  /**
+   * @param callback The callback
+   */
   setQuota(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   setQuota(options: Models.ShareSetQuotaOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  setQuota(options?: Models.ShareSetQuotaOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ShareSetQuotaResponse> {
+  setQuota(options?: Models.ShareSetQuotaOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ShareSetQuotaResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -151,20 +151,20 @@ export class Share {
 
   /**
    * Sets one or more user-defined name-value pairs for the specified share.
-   *
-   * @param {ShareSetMetadataOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ShareSetMetadataResponse>
    */
-  setMetadata(): Promise<Models.ShareSetMetadataResponse>;
-  setMetadata(options: Models.ShareSetMetadataOptionalParams): Promise<Models.ShareSetMetadataResponse>;
+  setMetadata(options?: Models.ShareSetMetadataOptionalParams): Promise<Models.ShareSetMetadataResponse>;
+  /**
+   * @param callback The callback
+   */
   setMetadata(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   setMetadata(options: Models.ShareSetMetadataOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  setMetadata(options?: Models.ShareSetMetadataOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ShareSetMetadataResponse> {
+  setMetadata(options?: Models.ShareSetMetadataOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ShareSetMetadataResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -175,20 +175,20 @@ export class Share {
 
   /**
    * Returns information about stored access policies specified on the share.
-   *
-   * @param {ShareGetAccessPolicyOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ShareGetAccessPolicyResponse>
    */
-  getAccessPolicy(): Promise<Models.ShareGetAccessPolicyResponse>;
-  getAccessPolicy(options: Models.ShareGetAccessPolicyOptionalParams): Promise<Models.ShareGetAccessPolicyResponse>;
+  getAccessPolicy(options?: Models.ShareGetAccessPolicyOptionalParams): Promise<Models.ShareGetAccessPolicyResponse>;
+  /**
+   * @param callback The callback
+   */
   getAccessPolicy(callback: msRest.ServiceCallback<Models.SignedIdentifier[]>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   getAccessPolicy(options: Models.ShareGetAccessPolicyOptionalParams, callback: msRest.ServiceCallback<Models.SignedIdentifier[]>): void;
-  getAccessPolicy(options?: Models.ShareGetAccessPolicyOptionalParams, callback?: msRest.ServiceCallback<Models.SignedIdentifier[]>): Promise<Models.ShareGetAccessPolicyResponse> {
+  getAccessPolicy(options?: Models.ShareGetAccessPolicyOptionalParams | msRest.ServiceCallback<Models.SignedIdentifier[]>, callback?: msRest.ServiceCallback<Models.SignedIdentifier[]>): Promise<Models.ShareGetAccessPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -199,20 +199,20 @@ export class Share {
 
   /**
    * Sets a stored access policy for use with shared access signatures.
-   *
-   * @param {ShareSetAccessPolicyOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ShareSetAccessPolicyResponse>
    */
-  setAccessPolicy(): Promise<Models.ShareSetAccessPolicyResponse>;
-  setAccessPolicy(options: Models.ShareSetAccessPolicyOptionalParams): Promise<Models.ShareSetAccessPolicyResponse>;
+  setAccessPolicy(options?: Models.ShareSetAccessPolicyOptionalParams): Promise<Models.ShareSetAccessPolicyResponse>;
+  /**
+   * @param callback The callback
+   */
   setAccessPolicy(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   setAccessPolicy(options: Models.ShareSetAccessPolicyOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  setAccessPolicy(options?: Models.ShareSetAccessPolicyOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ShareSetAccessPolicyResponse> {
+  setAccessPolicy(options?: Models.ShareSetAccessPolicyOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ShareSetAccessPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -223,20 +223,20 @@ export class Share {
 
   /**
    * Retrieves statistics related to the share.
-   *
-   * @param {ShareGetStatisticsOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ShareGetStatisticsResponse>
    */
-  getStatistics(): Promise<Models.ShareGetStatisticsResponse>;
-  getStatistics(options: Models.ShareGetStatisticsOptionalParams): Promise<Models.ShareGetStatisticsResponse>;
+  getStatistics(options?: Models.ShareGetStatisticsOptionalParams): Promise<Models.ShareGetStatisticsResponse>;
+  /**
+   * @param callback The callback
+   */
   getStatistics(callback: msRest.ServiceCallback<Models.ShareStats>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   getStatistics(options: Models.ShareGetStatisticsOptionalParams, callback: msRest.ServiceCallback<Models.ShareStats>): void;
-  getStatistics(options?: Models.ShareGetStatisticsOptionalParams, callback?: msRest.ServiceCallback<Models.ShareStats>): Promise<Models.ShareGetStatisticsResponse> {
+  getStatistics(options?: Models.ShareGetStatisticsOptionalParams | msRest.ServiceCallback<Models.ShareStats>, callback?: msRest.ServiceCallback<Models.ShareStats>): Promise<Models.ShareGetStatisticsResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -244,7 +244,6 @@ export class Share {
       getStatisticsOperationSpec,
       callback) as Promise<Models.ShareGetStatisticsResponse>;
   }
-
 }
 
 // Operation Specifications

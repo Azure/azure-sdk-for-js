@@ -1,4 +1,4 @@
-import { TransferProgressEvent } from "ms-rest-js";
+import { TransferProgressEvent } from "@azure/ms-rest-js";
 
 import { IFileHTTPHeaders, IMetadata } from "./models";
 

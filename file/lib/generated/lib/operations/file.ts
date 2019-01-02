@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/fileMappers";
 import * as Parameters from "../models/parameters";
@@ -28,22 +28,23 @@ export class File {
 
   /**
    * Creates a new file or replaces a file. Note it only initializes the file with no content.
-   *
-   * @param {number} fileContentLength Specifies the maximum size for the file, up to 1 TB.
-   *
-   * @param {FileCreateOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param fileContentLength Specifies the maximum size for the file, up to 1 TB.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FileCreateResponse>
    */
-  create(fileContentLength: number): Promise<Models.FileCreateResponse>;
-  create(fileContentLength: number, options: Models.FileCreateOptionalParams): Promise<Models.FileCreateResponse>;
+  create(fileContentLength: number, options?: Models.FileCreateOptionalParams): Promise<Models.FileCreateResponse>;
+  /**
+   * @param fileContentLength Specifies the maximum size for the file, up to 1 TB.
+   * @param callback The callback
+   */
   create(fileContentLength: number, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param fileContentLength Specifies the maximum size for the file, up to 1 TB.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   create(fileContentLength: number, options: Models.FileCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(fileContentLength: number, options?: Models.FileCreateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.FileCreateResponse> {
+  create(fileContentLength: number, options?: Models.FileCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileCreateResponse> {
     return this.client.sendOperationRequest(
       {
         fileContentLength,
@@ -55,20 +56,20 @@ export class File {
 
   /**
    * Reads or downloads a file from the system, including its metadata and properties.
-   *
-   * @param {FileDownloadOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FileDownloadResponse>
    */
-  download(): Promise<Models.FileDownloadResponse>;
-  download(options: Models.FileDownloadOptionalParams): Promise<Models.FileDownloadResponse>;
+  download(options?: Models.FileDownloadOptionalParams): Promise<Models.FileDownloadResponse>;
+  /**
+   * @param callback The callback
+   */
   download(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   download(options: Models.FileDownloadOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  download(options?: Models.FileDownloadOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.FileDownloadResponse> {
+  download(options?: Models.FileDownloadOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileDownloadResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -80,20 +81,20 @@ export class File {
   /**
    * Returns all user-defined metadata, standard HTTP properties, and system properties for the file.
    * It does not return the content of the file.
-   *
-   * @param {FileGetPropertiesOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FileGetPropertiesResponse>
    */
-  getProperties(): Promise<Models.FileGetPropertiesResponse>;
-  getProperties(options: Models.FileGetPropertiesOptionalParams): Promise<Models.FileGetPropertiesResponse>;
+  getProperties(options?: Models.FileGetPropertiesOptionalParams): Promise<Models.FileGetPropertiesResponse>;
+  /**
+   * @param callback The callback
+   */
   getProperties(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   getProperties(options: Models.FileGetPropertiesOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  getProperties(options?: Models.FileGetPropertiesOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.FileGetPropertiesResponse> {
+  getProperties(options?: Models.FileGetPropertiesOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -104,20 +105,20 @@ export class File {
 
   /**
    * removes the file from the storage account.
-   *
-   * @param {FileDeleteMethodOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FileDeleteResponse>
    */
-  deleteMethod(): Promise<Models.FileDeleteResponse>;
-  deleteMethod(options: Models.FileDeleteMethodOptionalParams): Promise<Models.FileDeleteResponse>;
+  deleteMethod(options?: Models.FileDeleteMethodOptionalParams): Promise<Models.FileDeleteResponse>;
+  /**
+   * @param callback The callback
+   */
   deleteMethod(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   deleteMethod(options: Models.FileDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(options?: Models.FileDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.FileDeleteResponse> {
+  deleteMethod(options?: Models.FileDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -128,20 +129,20 @@ export class File {
 
   /**
    * Sets HTTP headers on the file.
-   *
-   * @param {FileSetHTTPHeadersOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FileSetHTTPHeadersResponse>
    */
-  setHTTPHeaders(): Promise<Models.FileSetHTTPHeadersResponse>;
-  setHTTPHeaders(options: Models.FileSetHTTPHeadersOptionalParams): Promise<Models.FileSetHTTPHeadersResponse>;
+  setHTTPHeaders(options?: Models.FileSetHTTPHeadersOptionalParams): Promise<Models.FileSetHTTPHeadersResponse>;
+  /**
+   * @param callback The callback
+   */
   setHTTPHeaders(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   setHTTPHeaders(options: Models.FileSetHTTPHeadersOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  setHTTPHeaders(options?: Models.FileSetHTTPHeadersOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.FileSetHTTPHeadersResponse> {
+  setHTTPHeaders(options?: Models.FileSetHTTPHeadersOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileSetHTTPHeadersResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -152,20 +153,20 @@ export class File {
 
   /**
    * Updates user-defined metadata for the specified file.
-   *
-   * @param {FileSetMetadataOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FileSetMetadataResponse>
    */
-  setMetadata(): Promise<Models.FileSetMetadataResponse>;
-  setMetadata(options: Models.FileSetMetadataOptionalParams): Promise<Models.FileSetMetadataResponse>;
+  setMetadata(options?: Models.FileSetMetadataOptionalParams): Promise<Models.FileSetMetadataResponse>;
+  /**
+   * @param callback The callback
+   */
   setMetadata(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   setMetadata(options: Models.FileSetMetadataOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  setMetadata(options?: Models.FileSetMetadataOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.FileSetMetadataResponse> {
+  setMetadata(options?: Models.FileSetMetadataOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileSetMetadataResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -176,36 +177,59 @@ export class File {
 
   /**
    * Upload a range of bytes to a file.
-   *
-   * @param {string} range Specifies the range of bytes to be written. Both the start and end of the
-   * range must be specified. For an update operation, the range can be up to 4 MB in size. For a
-   * clear operation, the range can be up to the value of the file's full size. The File service
-   * accepts only a single byte range for the Range and 'x-ms-range' headers, and the byte range must
-   * be specified in the following format: bytes=startByte-endByte.
-   *
-   * @param {FileRangeWriteType} fileRangeWrite Specify one of the following options: - Update:
-   * Writes the bytes specified by the request body into the specified range. The Range and
-   * Content-Length headers must match to perform the update. - Clear: Clears the specified range and
-   * releases the space used in storage for that range. To clear a range, set the Content-Length
-   * header to zero, and set the Range header to a value that indicates the range to clear, up to
-   * maximum file size. Possible values include: 'update', 'clear'
-   *
-   * @param {number} contentLength Specifies the number of bytes being transmitted in the request
-   * body. When the x-ms-write header is set to clear, the value of this header must be set to zero.
-   *
-   * @param {FileUploadRangeOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param range Specifies the range of bytes to be written. Both the start and end of the range
+   * must be specified. For an update operation, the range can be up to 4 MB in size. For a clear
+   * operation, the range can be up to the value of the file's full size. The File service accepts
+   * only a single byte range for the Range and 'x-ms-range' headers, and the byte range must be
+   * specified in the following format: bytes=startByte-endByte.
+   * @param fileRangeWrite Specify one of the following options: - Update: Writes the bytes specified
+   * by the request body into the specified range. The Range and Content-Length headers must match to
+   * perform the update. - Clear: Clears the specified range and releases the space used in storage
+   * for that range. To clear a range, set the Content-Length header to zero, and set the Range
+   * header to a value that indicates the range to clear, up to maximum file size. Possible values
+   * include: 'update', 'clear'
+   * @param contentLength Specifies the number of bytes being transmitted in the request body. When
+   * the x-ms-write header is set to clear, the value of this header must be set to zero.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FileUploadRangeResponse>
    */
-  uploadRange(range: string, fileRangeWrite: Models.FileRangeWriteType, contentLength: number): Promise<Models.FileUploadRangeResponse>;
-  uploadRange(range: string, fileRangeWrite: Models.FileRangeWriteType, contentLength: number, options: Models.FileUploadRangeOptionalParams): Promise<Models.FileUploadRangeResponse>;
+  uploadRange(range: string, fileRangeWrite: Models.FileRangeWriteType, contentLength: number, options?: Models.FileUploadRangeOptionalParams): Promise<Models.FileUploadRangeResponse>;
+  /**
+   * @param range Specifies the range of bytes to be written. Both the start and end of the range
+   * must be specified. For an update operation, the range can be up to 4 MB in size. For a clear
+   * operation, the range can be up to the value of the file's full size. The File service accepts
+   * only a single byte range for the Range and 'x-ms-range' headers, and the byte range must be
+   * specified in the following format: bytes=startByte-endByte.
+   * @param fileRangeWrite Specify one of the following options: - Update: Writes the bytes specified
+   * by the request body into the specified range. The Range and Content-Length headers must match to
+   * perform the update. - Clear: Clears the specified range and releases the space used in storage
+   * for that range. To clear a range, set the Content-Length header to zero, and set the Range
+   * header to a value that indicates the range to clear, up to maximum file size. Possible values
+   * include: 'update', 'clear'
+   * @param contentLength Specifies the number of bytes being transmitted in the request body. When
+   * the x-ms-write header is set to clear, the value of this header must be set to zero.
+   * @param callback The callback
+   */
   uploadRange(range: string, fileRangeWrite: Models.FileRangeWriteType, contentLength: number, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param range Specifies the range of bytes to be written. Both the start and end of the range
+   * must be specified. For an update operation, the range can be up to 4 MB in size. For a clear
+   * operation, the range can be up to the value of the file's full size. The File service accepts
+   * only a single byte range for the Range and 'x-ms-range' headers, and the byte range must be
+   * specified in the following format: bytes=startByte-endByte.
+   * @param fileRangeWrite Specify one of the following options: - Update: Writes the bytes specified
+   * by the request body into the specified range. The Range and Content-Length headers must match to
+   * perform the update. - Clear: Clears the specified range and releases the space used in storage
+   * for that range. To clear a range, set the Content-Length header to zero, and set the Range
+   * header to a value that indicates the range to clear, up to maximum file size. Possible values
+   * include: 'update', 'clear'
+   * @param contentLength Specifies the number of bytes being transmitted in the request body. When
+   * the x-ms-write header is set to clear, the value of this header must be set to zero.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   uploadRange(range: string, fileRangeWrite: Models.FileRangeWriteType, contentLength: number, options: Models.FileUploadRangeOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  uploadRange(range: string, fileRangeWrite: Models.FileRangeWriteType, contentLength: number, options?: Models.FileUploadRangeOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.FileUploadRangeResponse> {
+  uploadRange(range: string, fileRangeWrite: Models.FileRangeWriteType, contentLength: number, options?: Models.FileUploadRangeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileUploadRangeResponse> {
     return this.client.sendOperationRequest(
       {
         range,
@@ -219,20 +243,20 @@ export class File {
 
   /**
    * Returns the list of valid ranges for a file.
-   *
-   * @param {FileGetRangeListOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FileGetRangeListResponse>
    */
-  getRangeList(): Promise<Models.FileGetRangeListResponse>;
-  getRangeList(options: Models.FileGetRangeListOptionalParams): Promise<Models.FileGetRangeListResponse>;
+  getRangeList(options?: Models.FileGetRangeListOptionalParams): Promise<Models.FileGetRangeListResponse>;
+  /**
+   * @param callback The callback
+   */
   getRangeList(callback: msRest.ServiceCallback<Models.Range[]>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   getRangeList(options: Models.FileGetRangeListOptionalParams, callback: msRest.ServiceCallback<Models.Range[]>): void;
-  getRangeList(options?: Models.FileGetRangeListOptionalParams, callback?: msRest.ServiceCallback<Models.Range[]>): Promise<Models.FileGetRangeListResponse> {
+  getRangeList(options?: Models.FileGetRangeListOptionalParams | msRest.ServiceCallback<Models.Range[]>, callback?: msRest.ServiceCallback<Models.Range[]>): Promise<Models.FileGetRangeListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -243,28 +267,41 @@ export class File {
 
   /**
    * Copies a blob or file to a destination file within the storage account.
-   *
-   * @param {string} copySource Specifies the URL of the source file or blob, up to 2 KB in length.
-   * To copy a file to another file within the same storage account, you may use Shared Key to
-   * authenticate the source file. If you are copying a file from another storage account, or if you
-   * are copying a blob from the same storage account or another storage account, then you must
-   * authenticate the source file or blob using a shared access signature. If the source is a public
-   * blob, no authentication is required to perform the copy operation. A file in a share snapshot
-   * can also be specified as a copy source.
-   *
-   * @param {FileStartCopyOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param copySource Specifies the URL of the source file or blob, up to 2 KB in length. To copy a
+   * file to another file within the same storage account, you may use Shared Key to authenticate the
+   * source file. If you are copying a file from another storage account, or if you are copying a
+   * blob from the same storage account or another storage account, then you must authenticate the
+   * source file or blob using a shared access signature. If the source is a public blob, no
+   * authentication is required to perform the copy operation. A file in a share snapshot can also be
+   * specified as a copy source.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FileStartCopyResponse>
    */
-  startCopy(copySource: string): Promise<Models.FileStartCopyResponse>;
-  startCopy(copySource: string, options: Models.FileStartCopyOptionalParams): Promise<Models.FileStartCopyResponse>;
+  startCopy(copySource: string, options?: Models.FileStartCopyOptionalParams): Promise<Models.FileStartCopyResponse>;
+  /**
+   * @param copySource Specifies the URL of the source file or blob, up to 2 KB in length. To copy a
+   * file to another file within the same storage account, you may use Shared Key to authenticate the
+   * source file. If you are copying a file from another storage account, or if you are copying a
+   * blob from the same storage account or another storage account, then you must authenticate the
+   * source file or blob using a shared access signature. If the source is a public blob, no
+   * authentication is required to perform the copy operation. A file in a share snapshot can also be
+   * specified as a copy source.
+   * @param callback The callback
+   */
   startCopy(copySource: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param copySource Specifies the URL of the source file or blob, up to 2 KB in length. To copy a
+   * file to another file within the same storage account, you may use Shared Key to authenticate the
+   * source file. If you are copying a file from another storage account, or if you are copying a
+   * blob from the same storage account or another storage account, then you must authenticate the
+   * source file or blob using a shared access signature. If the source is a public blob, no
+   * authentication is required to perform the copy operation. A file in a share snapshot can also be
+   * specified as a copy source.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   startCopy(copySource: string, options: Models.FileStartCopyOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  startCopy(copySource: string, options?: Models.FileStartCopyOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.FileStartCopyResponse> {
+  startCopy(copySource: string, options?: Models.FileStartCopyOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileStartCopyResponse> {
     return this.client.sendOperationRequest(
       {
         copySource,
@@ -277,23 +314,26 @@ export class File {
   /**
    * Aborts a pending Copy File operation, and leaves a destination file with zero length and full
    * metadata.
-   *
-   * @param {string} copyId The copy identifier provided in the x-ms-copy-id header of the original
-   * Copy File operation.
-   *
-   * @param {FileAbortCopyOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param copyId The copy identifier provided in the x-ms-copy-id header of the original Copy File
+   * operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FileAbortCopyResponse>
    */
-  abortCopy(copyId: string): Promise<Models.FileAbortCopyResponse>;
-  abortCopy(copyId: string, options: Models.FileAbortCopyOptionalParams): Promise<Models.FileAbortCopyResponse>;
+  abortCopy(copyId: string, options?: Models.FileAbortCopyOptionalParams): Promise<Models.FileAbortCopyResponse>;
+  /**
+   * @param copyId The copy identifier provided in the x-ms-copy-id header of the original Copy File
+   * operation.
+   * @param callback The callback
+   */
   abortCopy(copyId: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param copyId The copy identifier provided in the x-ms-copy-id header of the original Copy File
+   * operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   abortCopy(copyId: string, options: Models.FileAbortCopyOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  abortCopy(copyId: string, options?: Models.FileAbortCopyOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.FileAbortCopyResponse> {
+  abortCopy(copyId: string, options?: Models.FileAbortCopyOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileAbortCopyResponse> {
     return this.client.sendOperationRequest(
       {
         copyId,
@@ -302,7 +342,6 @@ export class File {
       abortCopyOperationSpec,
       callback) as Promise<Models.FileAbortCopyResponse>;
   }
-
 }
 
 // Operation Specifications

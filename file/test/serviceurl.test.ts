@@ -1,7 +1,6 @@
 import * as assert from "assert";
 
 import { Aborter } from "../lib/Aborter";
-import { ListSharesIncludeType } from "../lib/generated/models";
 import { ShareURL } from "../lib/ShareURL";
 import { getBSU, getUniqueName, wait } from "./utils";
 
@@ -41,10 +40,7 @@ describe("ServiceURL", () => {
       Aborter.none,
       undefined,
       {
-        include: [
-          ListSharesIncludeType.Metadata,
-          ListSharesIncludeType.Snapshots
-        ],
+        include: ["metadata", "snapshots"],
         maxresults: 1,
         prefix: shareNamePrefix
       }
@@ -61,10 +57,7 @@ describe("ServiceURL", () => {
       Aborter.none,
       result1.nextMarker,
       {
-        include: [
-          ListSharesIncludeType.Metadata,
-          ListSharesIncludeType.Snapshots
-        ],
+        include: ["metadata", "snapshots"],
         maxresults: 1,
         prefix: shareNamePrefix
       }

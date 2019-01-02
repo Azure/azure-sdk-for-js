@@ -3,12 +3,12 @@ import {
   HttpResponse,
   isNode,
   TransferProgressEvent
-} from "ms-rest-js";
+} from "@azure/ms-rest-js";
 import { Aborter } from "./Aborter";
 import { DirectoryURL } from "./DirectoryURL";
 import { FileDownloadResponse } from "./FileDownloadResponse";
-import * as Models from "./generated/models";
-import { File } from "./generated/operations";
+import * as Models from "./generated/lib/models";
+import { File } from "./generated/lib/operations";
 import { IRange, rangeToString } from "./IRange";
 import { IFileHTTPHeaders, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
@@ -477,7 +477,7 @@ export class FileURL extends StorageURL {
 
     return this.context.uploadRange(
       rangeToString({ count: contentLength, offset }),
-      Models.FileRangeWriteType.Update,
+      "update",
       contentLength,
       {
         abortSignal: aborter,
@@ -510,7 +510,7 @@ export class FileURL extends StorageURL {
 
     return this.context.uploadRange(
       rangeToString({ count: contentLength, offset }),
-      Models.FileRangeWriteType.Clear,
+      "clear",
       0,
       {
         abortSignal: aborter
