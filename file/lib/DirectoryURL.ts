@@ -48,33 +48,33 @@ export interface IDirectoryListFilesAndDirectoriesSegmentOptions {
  */
 export class DirectoryURL extends StorageURL {
   /**
-   * Creates a DirectoryURL object from ShareURL
+   * Creates a DirectoryURL object from ShareURL.
    *
-   * @param shareURL
-   * @param directoryName
+   * @param shareURL A ShareURL object
+   * @param directoryName A directory name
    */
   public static fromShareURL(
     shareURL: ShareURL,
     directoryName: string
   ): DirectoryURL {
     return new DirectoryURL(
-      appendToURLPath(shareURL.url, directoryName),
+      appendToURLPath(shareURL.url, encodeURIComponent(directoryName)),
       shareURL.pipeline
     );
   }
 
   /**
-   * Creates a DirectoryURL object from an existing DirectoryURL
+   * Creates a DirectoryURL object from an existing DirectoryURL.
    *
-   * @param directoryURL
-   * @param directoryName
+   * @param directoryURL A DirectoryURl object
+   * @param directoryName A subdirectory name
    */
   public static fromDirectoryURL(
     directoryURL: DirectoryURL,
     directoryName: string
   ): DirectoryURL {
     return new DirectoryURL(
-      appendToURLPath(directoryURL.url, directoryName),
+      appendToURLPath(directoryURL.url, encodeURIComponent(directoryName)),
       directoryURL.pipeline
     );
   }
@@ -95,6 +95,10 @@ export class DirectoryURL extends StorageURL {
    *                     "https://myaccount.file.core.windows.net/myshare/mydirectory". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.file.core.windows.net/myshare/mydirectory?sasString".
+   *                     This method accepts an encoded URL or non-encoded URL pointing to a directory.
+   *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+   *                     However, if a directory name includes %, directory name must be encoded in the URL.
+   *                     Such as a directory named "mydir%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydir%25".
    * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof DirectoryURL

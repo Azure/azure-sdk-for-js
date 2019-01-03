@@ -1,6 +1,86 @@
 import { isNode, URLBuilder } from "@azure/ms-rest-js";
 
 /**
+ * Reserved URL characters must be properly escaped for Storage services like Blob or File.
+ *
+ * ## URL encode and escape strategy for JSv10 SDKs
+ *
+ * When customers pass a URL string into XXXURL classes constructor, the URL string may already be URL encoded or not.
+ * But before sending to Azure Storage server, the URL must be encoded. However, it's hard for a SDK to guess whether the URL
+ * string has been encoded or not. We have 2 potential strategies, and chose strategy two for the XXXURL constructors.
+ *
+ * ### Strategy One: Assume the customer URL string is not encoded, and always encode URL string in SDK.
+ *
+ * This is what legacy V2 SDK does, simple and works for most of the cases.
+ * - When customer URL string is "http://account.blob.core.windows.net/con/b:",
+ *   SDK will encode it to "http://account.blob.core.windows.net/con/b%3A" and send to server. A blob named "b:" will be created.
+ * - When customer URL string is "http://account.blob.core.windows.net/con/b%3A",
+ *   SDK will encode it to "http://account.blob.core.windows.net/con/b%253A" and send to server. A blob named "b%3A" will be created.
+ *
+ * But this strategy will make it not possible to create a blob with "?" in it's name. Because when customer URL string is
+ * "http://account.blob.core.windows.net/con/blob?name", the "?name" will be treated as URL paramter instead of blob name.
+ * If customer URL string is "http://account.blob.core.windows.net/con/blob%3Fname", a blob named "blob%3Fname" will be created.
+ * V2 SDK doesn't have this issue because it doesn't allow customer pass in a full URL, it accepts a separate blob name and encodeURIComponent for it.
+ * We cannot accept a SDK cannot create a blob name with "?". So we implement strategy two:
+ *
+ * ### Strategy Two: SDK doesn't assume the URL has been encoded or not. It will just escape the special characters.
+ *
+ * This is what V10 Blob Go SDK does. It accepts a URL type in Go, and call url.EscapedPath() to escape the special chars unescaped.
+ * - When customer URL string is "http://account.blob.core.windows.net/con/b:",
+ *   SDK will escape ":" like "http://account.blob.core.windows.net/con/b%3A" and send to server. A blob named "b:" will be created.
+ * - When customer URL string is "http://account.blob.core.windows.net/con/b%3A",
+ *   There is no special characters, so send "http://account.blob.core.windows.net/con/b%3A" to server. A blob named "b:" will be created.
+ * - When customer URL string is "http://account.blob.core.windows.net/con/b%253A",
+ *   There is no special characters, so send "http://account.blob.core.windows.net/con/b%253A" to server. A blob named "b%3A" will be created.
+ *
+ * This strategy gives us flexibility to create with any special characters. But "%" will be treated as a special characters, if the URL string
+ * is not encoded, there shouldn't a "%" in the URL string, otherwise the URL is not a valid URL.
+ * If customer needs to create a blob with "%" in it's blob name, use "%25" insead of "%". Just like above 3rd sample.
+ * And following URL strings are invalid:
+ * - "http://account.blob.core.windows.net/con/b%"
+ * - "http://account.blob.core.windows.net/con/b%2"
+ * - "http://account.blob.core.windows.net/con/b%G"
+ *
+ * Another special character is "?", use "%2F" to represent a blob name with "?" in a URL string.
+ *
+ * ### Strategy for containerName, blobName or other specific XXXName parameters in methods such as `BlobURL.fromContainerURL(containerURL, blobName)`
+ *
+ * We will apply strategy one, and call encodeURIComponent for these parameters like blobName. Because what customers passes in is a plain name instead of a URL.
+ *
+ * @see https://docs.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
+ * @see https://docs.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-shares--directories--files--and-metadata
+ *
+ * @export
+ * @param {string} url
+ * @returns {string}
+ */
+export function escapeURLPath(url: string): string {
+  const urlParsed = URLBuilder.parse(url);
+
+  let path = urlParsed.getPath();
+  path = path || "/";
+
+  path = escape(path);
+  urlParsed.setPath(path);
+
+  return urlParsed.toString();
+}
+
+/**
+ * Internal escape method implemented Strategy Two mentioned in escapeURL() description.
+ *
+ * @param {string} text
+ * @returns {string}
+ */
+function escape(text: string): string {
+  return encodeURIComponent(text)
+    .replace(/%2F/g, "/") // Don't escape for "/"
+    .replace(/'/g, "%27") // Escape for "'"
+    .replace(/\+/g, "%20")
+    .replace(/%25/g, "%"); // Revert encoded "%"
+}
+
+/**
  * Append a string to URL path. Will remove duplicated "/" in front of the string
  * when URL path ends with a "/".
  *
