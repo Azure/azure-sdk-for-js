@@ -92,7 +92,7 @@ export module Argv {
     }
 
     export const Global = {
-        loggingLevel: yargs.options(Argv.Options.Common).argv["logging-level"],
+        loggingLevel: yargs.options(Argv.Options.Common).argv["logging-level"] as string,
     }
 
     export function combine(...configs: YargsMapping[]): YargsMapping {
