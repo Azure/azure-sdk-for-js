@@ -291,7 +291,7 @@ export const CloudEndpoint: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "properties.backupEnabled",
         type: {
-          name: "Boolean"
+          name: "String"
         }
       },
       provisioningState: {
@@ -468,6 +468,18 @@ export const ServerEndpointCreateParameters: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      offlineDataTransfer: {
+        serializedName: "properties.offlineDataTransfer",
+        type: {
+          name: "String"
+        }
+      },
+      offlineDataTransferShareName: {
+        serializedName: "properties.offlineDataTransferShareName",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -585,6 +597,189 @@ export const ServerEndpointUpdateParameters: msRest.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      offlineDataTransfer: {
+        serializedName: "properties.offlineDataTransfer",
+        type: {
+          name: "String"
+        }
+      },
+      offlineDataTransferShareName: {
+        serializedName: "properties.offlineDataTransferShareName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SyncSessionStatus: msRest.CompositeMapper = {
+  serializedName: "SyncSessionStatus",
+  type: {
+    name: "Composite",
+    className: "SyncSessionStatus",
+    modelProperties: {
+      lastSyncResult: {
+        serializedName: "lastSyncResult",
+        type: {
+          name: "Number"
+        }
+      },
+      lastSyncTimestamp: {
+        serializedName: "lastSyncTimestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastSyncSuccessTimestamp: {
+        serializedName: "lastSyncSuccessTimestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastSyncPerItemErrorCount: {
+        serializedName: "lastSyncPerItemErrorCount",
+        constraints: {
+          InclusiveMaximum: 2147483647,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const SyncProgressStatus: msRest.CompositeMapper = {
+  serializedName: "SyncProgressStatus",
+  type: {
+    name: "Composite",
+    className: "SyncProgressStatus",
+    modelProperties: {
+      progressTimestamp: {
+        serializedName: "progressTimestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      syncDirection: {
+        serializedName: "syncDirection",
+        type: {
+          name: "String"
+        }
+      },
+      perItemErrorCount: {
+        serializedName: "perItemErrorCount",
+        constraints: {
+          InclusiveMaximum: 2147483647,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      appliedItemCount: {
+        serializedName: "appliedItemCount",
+        constraints: {
+          InclusiveMaximum: 2147483647,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      totalItemCount: {
+        serializedName: "totalItemCount",
+        constraints: {
+          InclusiveMaximum: 2147483647,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      appliedBytes: {
+        serializedName: "appliedBytes",
+        constraints: {
+          InclusiveMaximum: 2147483647,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      totalBytes: {
+        serializedName: "totalBytes",
+        constraints: {
+          InclusiveMaximum: 2147483647,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ServerEndpointHealth: msRest.CompositeMapper = {
+  serializedName: "ServerEndpointHealth",
+  type: {
+    name: "Composite",
+    className: "ServerEndpointHealth",
+    modelProperties: {
+      downloadHealth: {
+        serializedName: "downloadHealth",
+        type: {
+          name: "String"
+        }
+      },
+      uploadHealth: {
+        serializedName: "uploadHealth",
+        type: {
+          name: "String"
+        }
+      },
+      combinedHealth: {
+        serializedName: "combinedHealth",
+        type: {
+          name: "String"
+        }
+      },
+      lastUpdatedTimestamp: {
+        serializedName: "lastUpdatedTimestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      uploadStatus: {
+        serializedName: "uploadStatus",
+        type: {
+          name: "Composite",
+          className: "SyncSessionStatus"
+        }
+      },
+      downloadStatus: {
+        serializedName: "downloadStatus",
+        type: {
+          name: "Composite",
+          className: "SyncSessionStatus"
+        }
+      },
+      currentProgress: {
+        serializedName: "currentProgress",
+        type: {
+          name: "Composite",
+          className: "SyncProgressStatus"
+        }
+      },
+      offlineDataTransferStatus: {
+        serializedName: "offlineDataTransferStatus",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -662,7 +857,34 @@ export const ServerEndpoint: msRest.CompositeMapper = {
       syncStatus: {
         serializedName: "properties.syncStatus",
         type: {
-          name: "Object"
+          name: "Composite",
+          className: "ServerEndpointHealth"
+        }
+      },
+      offlineDataTransfer: {
+        serializedName: "properties.offlineDataTransfer",
+        type: {
+          name: "String"
+        }
+      },
+      offlineDataTransferStorageAccountResourceId: {
+        readOnly: true,
+        serializedName: "properties.offlineDataTransferStorageAccountResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      offlineDataTransferStorageAccountTenantId: {
+        readOnly: true,
+        serializedName: "properties.offlineDataTransferStorageAccountTenantId",
+        type: {
+          name: "String"
+        }
+      },
+      offlineDataTransferShareName: {
+        serializedName: "properties.offlineDataTransferShareName",
+        type: {
+          name: "String"
         }
       }
     }
@@ -694,8 +916,8 @@ export const RegisteredServer: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      serverManagementtErrorCode: {
-        serializedName: "properties.serverManagementtErrorCode",
+      serverManagementErrorCode: {
+        serializedName: "properties.serverManagementErrorCode",
         type: {
           name: "Number"
         }
