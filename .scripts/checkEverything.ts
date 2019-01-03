@@ -1,19 +1,10 @@
-import { checkEverything, contains, fileExistsSync, getChildFolderPaths, getDefaultLogger, getName, gitDiff, GitDiffResult, gitStatus, GitStatusResult, joinPath, Logger, normalize, resolvePath } from "@ts-common/azure-js-dev-tools";
+import { checkEverything, contains, fileExistsSync, getArgument, getChildFolderPaths, getDefaultLogger, getName, gitDiff, GitDiffResult, gitStatus, GitStatusResult, joinPath, Logger, normalize, resolvePath } from "@ts-common/azure-js-dev-tools";
 import * as path from "path";
-import * as yargs from "yargs";
 
-const logger: Logger = getDefaultLogger({ logVerbose: true });
+const logger: Logger = getDefaultLogger();
 
-function getArgument(argumentName: string, environmentVariableName?: string, defaultValue?: string): string | undefined {
-  let rawArgument: string | string[] | undefined = yargs.argv[argumentName] || process.env[environmentVariableName || argumentName] || defaultValue;
-  if (Array.isArray(rawArgument)) {
-    rawArgument = rawArgument[rawArgument.length - 1];
-  }
-  return rawArgument;
-}
-
-const headReference: string | undefined = getArgument("head-reference", "headReference");
-const baseReference: string | undefined = getArgument("base-reference", "baseReference");
+const headReference: string | undefined = getArgument("head-reference", { environmentVariableName: "headReference" });
+const baseReference: string | undefined = getArgument("base-reference", { environmentVariableName: "baseReference" });
 
 const changedFiles: string[] = [];
 
