@@ -32,6 +32,7 @@ export {
   PublicIPAddressSku,
   IPConfiguration,
   PublicIPAddressDnsSettings,
+  DdosSettings,
   IpTag,
   NetworkInterfaceDnsSettings,
   RouteTable,
