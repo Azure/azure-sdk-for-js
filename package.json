@@ -49,7 +49,7 @@
   },
   "devDependencies": {
     "@octokit/rest": "15.17.0",
-    "@ts-common/azure-js-dev-tools": "file:C:/Users/daschult/Sources/azure-js-dev-tools",
+    "@ts-common/azure-js-dev-tools": "^0.7.0",
     "@types/glob": "^7.1.1",
     "@types/gulp": "^4.0.5",
     "@types/js-yaml": "^3.11.2",
