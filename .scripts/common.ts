@@ -8,7 +8,7 @@ import { execSync } from "child_process";
 import * as fssync from "fs";
 import { promises as fs } from "fs";
 import * as path from "path";
-import * as yargs from "yargs";
+import { getChildFolderPaths, fileExistsSync, joinPath, readPackageJsonFileSync, PackageJson, getName } from '@ts-common/azure-js-dev-tools';
 
 export function arrayContains<T>(array: T[], el: T): boolean {
   return array.indexOf(el) != -1
@@ -90,4 +90,25 @@ export function findAzureRestApiSpecsRepositoryPathSync(): string | undefined {
 
 function containsDirectorySync(directoryName: string, parentPath: string): boolean {
   return fssync.existsSync(path.resolve(parentPath, directoryName));
+}
+
+function isPackageFolderPath(folderPath: string, packagesToIgnore: string[]): boolean {
+  let result = false;
+  const packageJsonFilePath: string = joinPath(folderPath, "package.json");
+  if (fileExistsSync(packageJsonFilePath)) {
+    const packageJson: PackageJson = readPackageJsonFileSync(packageJsonFilePath);
+    result = !contains(packagesToIgnore, packageJson.name!);
+  }
+  return result;
+}
+
+export const packagesToIgnore: string[] = ["@azure/keyvault", "@azure/template"];
+export const folderNamesToIgnore: string[] = ["node_modules"];
+
+export function getPackageFolderPaths(packagesFolderPath: string): string[] | undefined {
+  return getChildFolderPaths(packagesFolderPath, {
+    recursive: true,
+    condition: (folderPath: string) => isPackageFolderPath(folderPath, packagesToIgnore),
+    folderCondition: (folderPath: string) => !contains(folderNamesToIgnore, getName(folderPath))
+  });
 }

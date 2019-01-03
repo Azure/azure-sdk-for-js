@@ -10,7 +10,7 @@ import gulp from "gulp";
 import * as path from "path";
 import PluginError from "plugin-error";
 import { Argv, CommandLineOptions, getCommandLineOptions } from "./.scripts/commandLine";
-import { endsWith } from "./.scripts/common";
+import { endsWith, getPackageFolderPaths, packagesToIgnore } from "./.scripts/common";
 import { getDataFromPullRequest } from "./.scripts/github";
 import { generateAllMissingSdks, generateMissingSdk, generateSdk, generateTsReadme, regenerate } from "./.scripts/gulp";
 import { Logger } from "./.scripts/logger";
@@ -151,29 +151,6 @@ gulp.task('codegen', async () => {
   await generateSdk(argv.azureRestAPISpecsRoot, argv.azureSDKForJSRepoRoot, argv.package, argv.use, argv.debugger);
 });
 
-const folderNamesToIgnore: string[] = ["node_modules"];
-
-function getAllPackageFolders(folderPath: string, result?: string[]): string[] {
-  if (result == undefined) {
-    result = [];
-  }
-
-  const folderName: string = path.basename(folderPath);
-  if (folderNamesToIgnore.indexOf(folderName) === -1 && fs.existsSync(folderPath) && fs.lstatSync(folderPath).isDirectory()) {
-    const packageJsonFilePath: string = path.join(folderPath, "package.json");
-    if (fs.existsSync(packageJsonFilePath) && fs.lstatSync(packageJsonFilePath).isFile()) {
-      result.push(folderPath);
-    }
-
-    for (const folderEntryName of fs.readdirSync(folderPath)) {
-      const folderEntryPath: string = path.join(folderPath, folderEntryName);
-      getAllPackageFolders(folderEntryPath, result);
-    }
-  }
-
-  return result;
-}
-
 function pack(): void {
   const runOptions: RunOptions = {
     log: (text: string) => _logger.logTrace(text),
@@ -228,73 +205,77 @@ function pack(): void {
     }
   }
 
-  const packagesToSkip: string[] = ["@azure/keyvault", "@azure/template"];
-
   const packageFolderRoot: string = path.resolve(__dirname, "packages");
-  _logger.logTrace(`INFO: Searching for package folders in ${packageFolderRoot}`);;
-  for (const packageFolderPath of getAllPackageFolders(packageFolderRoot)) {
-    _logger.logTrace(`INFO: Processing ${packageFolderPath}`);
-
-    const npm = new NPMScope({ executionFolderPath: packageFolderPath });
-    const packageJsonFilePath: string = joinPath(packageFolderPath, "package.json");
-    const packageJson: { [propertyName: string]: any } = require(packageJsonFilePath);
-    const packageName: string = packageJson.name;
-
-    if (packagesToSkip.indexOf(packageName) !== -1) {
-      _logger.log(`INFO: Skipping package ${packageName}`);
-      ++skippedPackages;
-    } else if (!args.package || args.package === packageName || endsWith(packageName, `-${args.package}`)) {
-      const localPackageVersion: string = packageJson.version;
-      if (!localPackageVersion) {
-        _logger.log(`ERROR: "${packageJsonFilePath}" doesn't have a version specified.`);
-        errorPackages++;
-      }
-      else {
-        let shouldPack: boolean = false;
-
-        if (toPack === PackagesToPack.All) {
-          shouldPack = true;
-        } else if (toPack === PackagesToPack.DifferentVersion) {
-          let npmPackageVersion: string | undefined;
-          try {
-            const npmViewResult: NPMViewResult = npm.view({ packageName, ...runOptions, showCommand: false, showOutput: false });
-            const distTags: StringMap<string> | undefined = npmViewResult["dist-tags"];
-            npmPackageVersion = distTags && distTags["latest"];
-          }
-          catch (error) {
-            // This happens if the package doesn't exist in NPM.
-          }
-
-          _logger.logTrace(`Local version: ${localPackageVersion}, NPM version: ${npmPackageVersion}`);
-          shouldPack = localPackageVersion !== npmPackageVersion;
-        } else if (toPack === PackagesToPack.BranchHasChanges) {
-          const packageFolderPathWithSep: string = normalize(packageFolderPath + path.posix.sep);
-          shouldPack = !!changedFiles && contains(changedFiles, (changedFilePath: string) => normalize(changedFilePath).startsWith(packageFolderPathWithSep));
+  _logger.logTrace(`INFO: Searching for package folders in ${packageFolderRoot}`);
+  const packageFolderPaths: string[] | undefined = getPackageFolderPaths(packageFolderRoot);
+  if (!packageFolderPaths) {
+    _logger.logTrace(`INFO: The folder ${packageFolderPaths} doesn't exist.`);
+  } else {
+    for (const packageFolderPath of packageFolderPaths) {
+      _logger.logTrace(`INFO: Processing ${packageFolderPath}`);
+  
+      const npm = new NPMScope({ executionFolderPath: packageFolderPath });
+      const packageJsonFilePath: string = joinPath(packageFolderPath, "package.json");
+      const packageJson: { [propertyName: string]: any } = require(packageJsonFilePath);
+      const packageName: string = packageJson.name;
+  
+      if (packagesToIgnore.indexOf(packageName) !== -1) {
+        _logger.log(`INFO: Skipping package ${packageName}`);
+        ++skippedPackages;
+      } else if (!args.package || args.package === packageName || endsWith(packageName, `-${args.package}`)) {
+        const localPackageVersion: string = packageJson.version;
+        if (!localPackageVersion) {
+          _logger.log(`ERROR: "${packageJsonFilePath}" doesn't have a version specified.`);
+          errorPackages++;
         }
-
-        if (!shouldPack) {
-          upToDatePackages++;
-        } else {
-          _logger.log(`Packing package "${packageName}" with version "${localPackageVersion}"...${args.whatif ? " (SKIPPED)" : ""}`);
-          if (!args.whatif) {
+        else {
+          let shouldPack: boolean = false;
+  
+          if (toPack === PackagesToPack.All) {
+            shouldPack = true;
+          } else if (toPack === PackagesToPack.DifferentVersion) {
+            let npmPackageVersion: string | undefined;
             try {
-              npm.pack(runOptions);
-              const packFileName = `${packageName.replace("/", "-").replace("@", "")}-${localPackageVersion}.tgz`
-              const packFilePath = path.join(packageFolderPath, packFileName);
-              fs.renameSync(packFilePath, path.join(dropFolderPath, packFileName));
-              _logger.log(`Filename: ${packFileName}`);
-              packedPackages++;
+              const npmViewResult: NPMViewResult = npm.view({ packageName, ...runOptions, showCommand: false, showOutput: false });
+              const distTags: StringMap<string> | undefined = npmViewResult["dist-tags"];
+              npmPackageVersion = distTags && distTags["latest"];
             }
             catch (error) {
-              errorPackages++;
+              // This happens if the package doesn't exist in NPM.
             }
+  
+            _logger.logTrace(`Local version: ${localPackageVersion}, NPM version: ${npmPackageVersion}`);
+            shouldPack = localPackageVersion !== npmPackageVersion;
+          } else if (toPack === PackagesToPack.BranchHasChanges) {
+            const packageFolderPathWithSep: string = normalize(packageFolderPath + path.posix.sep);
+            shouldPack = !!changedFiles && contains(changedFiles, (changedFilePath: string) => normalize(changedFilePath).startsWith(packageFolderPathWithSep));
+          }
+  
+          if (!shouldPack) {
+            upToDatePackages++;
           } else {
-            skippedPackages++;
+            _logger.log(`Packing package "${packageName}" with version "${localPackageVersion}"...${args.whatif ? " (SKIPPED)" : ""}`);
+            if (!args.whatif) {
+              try {
+                npm.pack(runOptions);
+                const packFileName = `${packageName.replace("/", "-").replace("@", "")}-${localPackageVersion}.tgz`
+                const packFilePath = path.join(packageFolderPath, packFileName);
+                fs.renameSync(packFilePath, path.join(dropFolderPath, packFileName));
+                _logger.log(`Filename: ${packFileName}`);
+                packedPackages++;
+              }
+              catch (error) {
+                errorPackages++;
+              }
+            } else {
+              skippedPackages++;
+            }
           }
         }
       }
     }
   }
+  
 
   function padLeft(value: number, minimumWidth: number, padCharacter: string = " "): string {
     let result: string = value.toString();
