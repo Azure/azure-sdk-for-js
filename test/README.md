@@ -4,7 +4,7 @@
 - Have a file by the name `.env` in the root folder of this project.
 - This file should contain the below environment variables pointing to the various Service Bus resources
     - SERVICEBUS_CONNECTION_STRING
-    - QUEUE_NAME
+    - QUEUE_NAME (without sessions enabled)
     - TOPIC_NAME
     - SUBSCRIPTION_NAME
 
