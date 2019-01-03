@@ -8,8 +8,10 @@
  * regenerated.
  */
 
-export * from "./operations";
-export * from "./workspaces";
-export * from "./usages";
-export * from "./virtualMachineSizes";
-export * from "./machineLearningCompute";
+export {
+  discriminators,
+  VirtualMachineSizeListResult,
+  VirtualMachineSize,
+  CloudError
+} from "../models/mappers";
+

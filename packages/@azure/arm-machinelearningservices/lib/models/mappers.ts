@@ -160,12 +160,6 @@ export const Workspace: msRest.CompositeMapper = {
           name: "DateTime"
         }
       },
-      batchaiWorkspace: {
-        serializedName: "properties.batchaiWorkspace",
-        type: {
-          name: "String"
-        }
-      },
       keyVault: {
         serializedName: "properties.keyVault",
         type: {
@@ -240,6 +234,135 @@ export const WorkspaceUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
+export const UsageName: msRest.CompositeMapper = {
+  serializedName: "UsageName",
+  type: {
+    name: "Composite",
+    className: "UsageName",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      },
+      localizedValue: {
+        readOnly: true,
+        serializedName: "localizedValue",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Usage: msRest.CompositeMapper = {
+  serializedName: "Usage",
+  type: {
+    name: "Composite",
+    className: "Usage",
+    modelProperties: {
+      unit: {
+        readOnly: true,
+        serializedName: "unit",
+        type: {
+          name: "String"
+        }
+      },
+      currentValue: {
+        readOnly: true,
+        serializedName: "currentValue",
+        type: {
+          name: "Number"
+        }
+      },
+      limit: {
+        readOnly: true,
+        serializedName: "limit",
+        type: {
+          name: "Number"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "Composite",
+          className: "UsageName"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualMachineSize: msRest.CompositeMapper = {
+  serializedName: "VirtualMachineSize",
+  type: {
+    name: "Composite",
+    className: "VirtualMachineSize",
+    modelProperties: {
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      family: {
+        readOnly: true,
+        serializedName: "family",
+        type: {
+          name: "String"
+        }
+      },
+      vCPUs: {
+        readOnly: true,
+        serializedName: "vCPUs",
+        type: {
+          name: "Number"
+        }
+      },
+      osVhdSizeMB: {
+        readOnly: true,
+        serializedName: "osVhdSizeMB",
+        type: {
+          name: "Number"
+        }
+      },
+      maxResourceVolumeMB: {
+        readOnly: true,
+        serializedName: "maxResourceVolumeMB",
+        type: {
+          name: "Number"
+        }
+      },
+      memoryGB: {
+        readOnly: true,
+        serializedName: "memoryGB",
+        type: {
+          name: "Number"
+        }
+      },
+      lowPriorityCapable: {
+        readOnly: true,
+        serializedName: "lowPriorityCapable",
+        type: {
+          name: "Boolean"
+        }
+      },
+      premiumIO: {
+        readOnly: true,
+        serializedName: "premiumIO",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const Identity: msRest.CompositeMapper = {
   serializedName: "Identity",
   type: {
@@ -267,6 +390,23 @@ export const Identity: msRest.CompositeMapper = {
           allowedValues: [
             "SystemAssigned"
           ]
+        }
+      }
+    }
+  }
+};
+
+export const ResourceId: msRest.CompositeMapper = {
+  serializedName: "ResourceId",
+  type: {
+    name: "Composite",
+    className: "ResourceId",
+    modelProperties: {
+      id: {
+        required: true,
+        serializedName: "id",
+        type: {
+          name: "String"
         }
       }
     }
@@ -403,20 +543,21 @@ export const ErrorResponse: msRest.CompositeMapper = {
     className: "ErrorResponse",
     modelProperties: {
       code: {
-        required: true,
+        readOnly: true,
         serializedName: "code",
         type: {
           name: "String"
         }
       },
       message: {
-        required: true,
+        readOnly: true,
         serializedName: "message",
         type: {
           name: "String"
         }
       },
       details: {
+        readOnly: true,
         serializedName: "details",
         type: {
           name: "Sequence",
@@ -439,6 +580,7 @@ export const MachineLearningServiceError: msRest.CompositeMapper = {
     className: "MachineLearningServiceError",
     modelProperties: {
       error: {
+        readOnly: true,
         serializedName: "error",
         type: {
           name: "Composite",
@@ -510,6 +652,13 @@ export const Compute: msRest.CompositeMapper = {
               className: "MachineLearningServiceError"
             }
           }
+        }
+      },
+      isAttachedCompute: {
+        readOnly: true,
+        serializedName: "isAttachedCompute",
+        type: {
+          name: "Boolean"
         }
       },
       computeType: {
@@ -611,6 +760,49 @@ export const SslConfiguration: msRest.CompositeMapper = {
   }
 };
 
+export const AksNetworkingConfiguration: msRest.CompositeMapper = {
+  serializedName: "AksNetworkingConfiguration",
+  type: {
+    name: "Composite",
+    className: "AksNetworkingConfiguration",
+    modelProperties: {
+      subnetId: {
+        serializedName: "subnetId",
+        type: {
+          name: "String"
+        }
+      },
+      serviceCidr: {
+        serializedName: "serviceCidr",
+        constraints: {
+          Pattern: /^([0-9]{1,3}\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$/
+        },
+        type: {
+          name: "String"
+        }
+      },
+      dnsServiceIP: {
+        serializedName: "dnsServiceIP",
+        constraints: {
+          Pattern: /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/
+        },
+        type: {
+          name: "String"
+        }
+      },
+      dockerBridgeCidr: {
+        serializedName: "dockerBridgeCidr",
+        constraints: {
+          Pattern: /^([0-9]{1,3}\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$/
+        },
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AKSProperties: msRest.CompositeMapper = {
   serializedName: "AKS_properties",
   type: {
@@ -624,6 +816,7 @@ export const AKSProperties: msRest.CompositeMapper = {
         }
       },
       systemServices: {
+        readOnly: true,
         serializedName: "systemServices",
         type: {
           name: "Sequence",
@@ -655,6 +848,13 @@ export const AKSProperties: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SslConfiguration"
+        }
+      },
+      aksNetworkingConfiguration: {
+        serializedName: "aksNetworkingConfiguration",
+        type: {
+          name: "Composite",
+          className: "AksNetworkingConfiguration"
         }
       }
     }
@@ -688,6 +888,7 @@ export const ScaleSettings: msRest.CompositeMapper = {
     className: "ScaleSettings",
     modelProperties: {
       maxNodeCount: {
+        required: true,
         serializedName: "maxNodeCount",
         type: {
           name: "Number"
@@ -695,25 +896,107 @@ export const ScaleSettings: msRest.CompositeMapper = {
       },
       minNodeCount: {
         serializedName: "minNodeCount",
+        defaultValue: 0,
         type: {
           name: "Number"
         }
       },
-      autoScaleEnabled: {
-        serializedName: "autoScaleEnabled",
+      nodeIdleTimeBeforeScaleDown: {
+        serializedName: "nodeIdleTimeBeforeScaleDown",
         type: {
-          name: "Boolean"
+          name: "TimeSpan"
         }
       }
     }
   }
 };
 
-export const BatchAIProperties: msRest.CompositeMapper = {
-  serializedName: "BatchAI_properties",
+export const UserAccountCredentials: msRest.CompositeMapper = {
+  serializedName: "UserAccountCredentials",
   type: {
     name: "Composite",
-    className: "BatchAIProperties",
+    className: "UserAccountCredentials",
+    modelProperties: {
+      adminUserName: {
+        required: true,
+        serializedName: "adminUserName",
+        type: {
+          name: "String"
+        }
+      },
+      adminUserSshPublicKey: {
+        serializedName: "adminUserSshPublicKey",
+        type: {
+          name: "String"
+        }
+      },
+      adminUserPassword: {
+        serializedName: "adminUserPassword",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NodeStateCounts: msRest.CompositeMapper = {
+  serializedName: "NodeStateCounts",
+  type: {
+    name: "Composite",
+    className: "NodeStateCounts",
+    modelProperties: {
+      idleNodeCount: {
+        readOnly: true,
+        serializedName: "idleNodeCount",
+        type: {
+          name: "Number"
+        }
+      },
+      runningNodeCount: {
+        readOnly: true,
+        serializedName: "runningNodeCount",
+        type: {
+          name: "Number"
+        }
+      },
+      preparingNodeCount: {
+        readOnly: true,
+        serializedName: "preparingNodeCount",
+        type: {
+          name: "Number"
+        }
+      },
+      unusableNodeCount: {
+        readOnly: true,
+        serializedName: "unusableNodeCount",
+        type: {
+          name: "Number"
+        }
+      },
+      leavingNodeCount: {
+        readOnly: true,
+        serializedName: "leavingNodeCount",
+        type: {
+          name: "Number"
+        }
+      },
+      preemptedNodeCount: {
+        readOnly: true,
+        serializedName: "preemptedNodeCount",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AmlComputeProperties: msRest.CompositeMapper = {
+  serializedName: "AmlCompute_properties",
+  type: {
+    name: "Composite",
+    className: "AmlComputeProperties",
     modelProperties: {
       vmSize: {
         serializedName: "vmSize",
@@ -733,25 +1016,88 @@ export const BatchAIProperties: msRest.CompositeMapper = {
           name: "Composite",
           className: "ScaleSettings"
         }
+      },
+      userAccountCredentials: {
+        serializedName: "userAccountCredentials",
+        type: {
+          name: "Composite",
+          className: "UserAccountCredentials"
+        }
+      },
+      subnet: {
+        serializedName: "subnet",
+        type: {
+          name: "Composite",
+          className: "ResourceId"
+        }
+      },
+      allocationState: {
+        readOnly: true,
+        serializedName: "allocationState",
+        type: {
+          name: "String"
+        }
+      },
+      allocationStateTransitionTime: {
+        readOnly: true,
+        serializedName: "allocationStateTransitionTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      errors: {
+        readOnly: true,
+        serializedName: "errors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MachineLearningServiceError"
+            }
+          }
+        }
+      },
+      currentNodeCount: {
+        readOnly: true,
+        serializedName: "currentNodeCount",
+        type: {
+          name: "Number"
+        }
+      },
+      targetNodeCount: {
+        readOnly: true,
+        serializedName: "targetNodeCount",
+        type: {
+          name: "Number"
+        }
+      },
+      nodeStateCounts: {
+        readOnly: true,
+        serializedName: "nodeStateCounts",
+        type: {
+          name: "Composite",
+          className: "NodeStateCounts"
+        }
       }
     }
   }
 };
 
-export const BatchAI: msRest.CompositeMapper = {
-  serializedName: "BatchAI",
+export const AmlCompute: msRest.CompositeMapper = {
+  serializedName: "AmlCompute",
   type: {
     name: "Composite",
     polymorphicDiscriminator: Compute.type.polymorphicDiscriminator,
     uberParent: "Compute",
-    className: "BatchAI",
+    className: "AmlCompute",
     modelProperties: {
       ...Compute.type.modelProperties,
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "BatchAIProperties"
+          className: "AmlComputeProperties"
         }
       }
     }
@@ -909,6 +1255,78 @@ export const DataFactory: msRest.CompositeMapper = {
   }
 };
 
+export const DatabricksProperties: msRest.CompositeMapper = {
+  serializedName: "Databricks_properties",
+  type: {
+    name: "Composite",
+    className: "DatabricksProperties",
+    modelProperties: {
+      databricksAccessToken: {
+        serializedName: "databricksAccessToken",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Databricks: msRest.CompositeMapper = {
+  serializedName: "Databricks",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Compute.type.polymorphicDiscriminator,
+    uberParent: "Compute",
+    className: "Databricks",
+    modelProperties: {
+      ...Compute.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "DatabricksProperties"
+        }
+      }
+    }
+  }
+};
+
+export const DataLakeAnalyticsProperties: msRest.CompositeMapper = {
+  serializedName: "DataLakeAnalytics_properties",
+  type: {
+    name: "Composite",
+    className: "DataLakeAnalyticsProperties",
+    modelProperties: {
+      dataLakeStoreAccountName: {
+        serializedName: "dataLakeStoreAccountName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataLakeAnalytics: msRest.CompositeMapper = {
+  serializedName: "DataLakeAnalytics",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Compute.type.polymorphicDiscriminator,
+    uberParent: "Compute",
+    className: "DataLakeAnalytics",
+    modelProperties: {
+      ...Compute.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "DataLakeAnalyticsProperties"
+        }
+      }
+    }
+  }
+};
+
 export const ServicePrincipalCredentials: msRest.CompositeMapper = {
   serializedName: "ServicePrincipalCredentials",
   type: {
@@ -927,6 +1345,109 @@ export const ServicePrincipalCredentials: msRest.CompositeMapper = {
         serializedName: "clientSecret",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ClusterUpdateParameters: msRest.CompositeMapper = {
+  serializedName: "ClusterUpdateParameters",
+  type: {
+    name: "Composite",
+    className: "ClusterUpdateParameters",
+    modelProperties: {
+      scaleSettings: {
+        serializedName: "properties.scaleSettings",
+        type: {
+          name: "Composite",
+          className: "ScaleSettings"
+        }
+      }
+    }
+  }
+};
+
+export const ComputeNodesInformation: msRest.CompositeMapper = {
+  serializedName: "ComputeNodesInformation",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "computeType",
+      clientName: "computeType"
+    },
+    uberParent: "ComputeNodesInformation",
+    className: "ComputeNodesInformation",
+    modelProperties: {
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      computeType: {
+        required: true,
+        serializedName: "computeType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AmlComputeNodeInformation: msRest.CompositeMapper = {
+  serializedName: "AmlCompute",
+  type: {
+    name: "Composite",
+    className: "AmlComputeNodeInformation",
+    modelProperties: {
+      nodeId: {
+        readOnly: true,
+        serializedName: "nodeId",
+        type: {
+          name: "String"
+        }
+      },
+      ipAddress: {
+        readOnly: true,
+        serializedName: "ipAddress",
+        type: {
+          name: "String"
+        }
+      },
+      port: {
+        readOnly: true,
+        serializedName: "port",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AmlComputeNodesInformation: msRest.CompositeMapper = {
+  serializedName: "AmlCompute",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ComputeNodesInformation.type.polymorphicDiscriminator,
+    uberParent: "ComputeNodesInformation",
+    className: "AmlComputeNodesInformation",
+    modelProperties: {
+      ...ComputeNodesInformation.type.modelProperties,
+      nodes: {
+        readOnly: true,
+        serializedName: "nodes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AmlComputeNodeInformation"
+            }
+          }
         }
       }
     }
@@ -1006,6 +1527,25 @@ export const VirtualMachineSecrets: msRest.CompositeMapper = {
   }
 };
 
+export const DatabricksComputeSecrets: msRest.CompositeMapper = {
+  serializedName: "Databricks",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ComputeSecrets.type.polymorphicDiscriminator,
+    uberParent: "ComputeSecrets",
+    className: "DatabricksComputeSecrets",
+    modelProperties: {
+      ...ComputeSecrets.type.modelProperties,
+      databricksAccessToken: {
+        serializedName: "databricksAccessToken",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const MachineLearningComputeCreateOrUpdateHeaders: msRest.CompositeMapper = {
   serializedName: "machinelearningcompute-createorupdate-headers",
   type: {
@@ -1027,28 +1567,6 @@ export const MachineLearningComputeDeleteHeaders: msRest.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MachineLearningComputeDeleteHeaders",
-    modelProperties: {
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      },
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MachineLearningComputeSystemUpdateHeaders: msRest.CompositeMapper = {
-  serializedName: "machinelearningcompute-systemupdate-headers",
-  type: {
-    name: "Composite",
-    className: "MachineLearningComputeSystemUpdateHeaders",
     modelProperties: {
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
@@ -1116,6 +1634,58 @@ export const WorkspaceListResult: msRest.CompositeMapper = {
   }
 };
 
+export const ListUsagesResult: msRest.CompositeMapper = {
+  serializedName: "ListUsagesResult",
+  type: {
+    name: "Composite",
+    className: "ListUsagesResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Usage"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualMachineSizeListResult: msRest.CompositeMapper = {
+  serializedName: "VirtualMachineSizeListResult",
+  type: {
+    name: "Composite",
+    className: "VirtualMachineSizeListResult",
+    modelProperties: {
+      amlCompute: {
+        serializedName: "amlCompute",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VirtualMachineSize"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const PaginatedComputeResourcesList: msRest.CompositeMapper = {
   serializedName: "PaginatedComputeResourcesList",
   type: {
@@ -1147,11 +1717,16 @@ export const PaginatedComputeResourcesList: msRest.CompositeMapper = {
 export const discriminators = {
   'Compute' : Compute,
   'Compute.AKS' : AKS,
-  'Compute.BatchAI' : BatchAI,
+  'Compute.AmlCompute' : AmlCompute,
   'Compute.VirtualMachine' : VirtualMachine,
   'Compute.HDInsight' : HDInsight,
   'Compute.DataFactory' : DataFactory,
+  'Compute.Databricks' : Databricks,
+  'Compute.DataLakeAnalytics' : DataLakeAnalytics,
+  'ComputeNodesInformation' : ComputeNodesInformation,
+  'ComputeNodesInformation.AmlCompute' : AmlComputeNodesInformation,
   'ComputeSecrets' : ComputeSecrets,
   'ComputeSecrets.AKS' : AksComputeSecrets,
-  'ComputeSecrets.VirtualMachine' : VirtualMachineSecrets
+  'ComputeSecrets.VirtualMachine' : VirtualMachineSecrets,
+  'ComputeSecrets.Databricks' : DatabricksComputeSecrets
 };
