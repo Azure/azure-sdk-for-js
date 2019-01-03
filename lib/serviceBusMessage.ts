@@ -855,10 +855,14 @@ export class ServiceBusMessage implements ReceivedMessage {
       this.messageId
     );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
-      return this._context.managementClient!.updateDispositionStatus(
+      await this._context.managementClient!.updateDispositionStatus(
         [this.lockToken!],
         DispositionStatus.completed
       );
+
+      // Remove the message from the internal map of deferred messages
+      this._context.requestResponseLockedMessages.delete(this.lockToken!);
+      return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
     if (receiver) {
@@ -882,11 +886,15 @@ export class ServiceBusMessage implements ReceivedMessage {
       this.messageId
     );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
-      return this._context.managementClient!.updateDispositionStatus(
+      await this._context.managementClient!.updateDispositionStatus(
         [this.lockToken!],
         DispositionStatus.abandoned,
         { propertiesToModify: propertiesToModify }
       );
+
+      // Remove the message from the internal map of deferred messages
+      this._context.requestResponseLockedMessages.delete(this.lockToken!);
+      return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
     if (receiver) {
@@ -914,11 +922,15 @@ export class ServiceBusMessage implements ReceivedMessage {
       this.messageId
     );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
-      return this._context.managementClient!.updateDispositionStatus(
+      await this._context.managementClient!.updateDispositionStatus(
         [this.lockToken!],
         DispositionStatus.defered,
         { propertiesToModify: propertiesToModify }
       );
+
+      // Remove the message from the internal map of deferred messages
+      this._context.requestResponseLockedMessages.delete(this.lockToken!);
+      return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
     if (receiver) {
@@ -953,7 +965,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       this.messageId
     );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
-      return this._context.managementClient!.updateDispositionStatus(
+      await this._context.managementClient!.updateDispositionStatus(
         [this.lockToken!],
         DispositionStatus.suspended,
         {
@@ -961,6 +973,10 @@ export class ServiceBusMessage implements ReceivedMessage {
           deadLetterDescription: error.description
         }
       );
+
+      // Remove the message from the internal map of deferred messages
+      this._context.requestResponseLockedMessages.delete(this.lockToken!);
+      return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
     if (receiver) {
