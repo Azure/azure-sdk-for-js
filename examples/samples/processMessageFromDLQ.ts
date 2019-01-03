@@ -15,7 +15,7 @@ let ns: Namespace;
   This sample demonstrates retrieving a message from a dead letter queue, editing it and
   sending it back to the main queue.
 
-  Prior to running this sample, run the sample in movingMessagesToDLQ.ts file to move a message 
+  Prior to running this sample, run the sample in movingMessagesToDLQ.ts file to move a message
   to the Dead Letter Queue
 */
 async function main(): Promise<void> {
@@ -59,5 +59,5 @@ async function fixAndResendMessage(oldMessage: ServiceBusMessage): Promise<void>
 
 main().catch((err) => {
   console.log(">>>>> Error occurred: ", err);
-  ns.close();
+  return ns.close();
 });

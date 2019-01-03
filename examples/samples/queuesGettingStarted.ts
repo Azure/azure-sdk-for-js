@@ -24,7 +24,7 @@ async function main(): Promise<void> {
 async function sendMessage(): Promise<void> {
   const nsSend = Namespace.createFromConnectionString(str);
   const sendClient = nsSend.createQueueClient(path);
-  var data = [
+  const data = [
     { name: "Einstein", firstName: "Albert" },
     { name: "Heisenberg", firstName: "Werner" },
     { name: "Curie", firstName: "Marie" },
@@ -38,7 +38,7 @@ async function sendMessage(): Promise<void> {
   ];
   try {
     for (let i = 0; i < data.length; i++) {
-      var message = {
+      const message = {
         body: JSON.stringify(data[i]),
         contentType: "application/json",
         label: "Scientist",
@@ -65,7 +65,7 @@ async function receiveMessage(): Promise<void> {
       ) {
         console.log(
           "Message Received:",
-          brokeredMessage.body ? brokeredMessage.body.toString() : null
+          brokeredMessage.body ? brokeredMessage.body.toString() : undefined
         );
       }
       await brokeredMessage.complete();

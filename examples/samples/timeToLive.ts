@@ -86,5 +86,5 @@ async function receiveMessageFromQueue(givenQueuePath: string): Promise<void> {
 
 main().catch((err) => {
   console.log(">>>>> Error occurred: ", err);
-  ns.close();
+  return ns.close();
 });

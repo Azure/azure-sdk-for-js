@@ -55,7 +55,7 @@ async function sendMessage(): Promise<void> {
   }
   // wait until all the send tasks are complete
   await Promise.all(promises);
-  nsSend.close();
+  await nsSend.close();
 }
 
 async function receiveMessage(): Promise<void> {
@@ -117,7 +117,7 @@ async function receiveMessage(): Promise<void> {
   } catch (err) {
     console.log("Error while receiving: ", err);
   }
-  nsRcv.close();
+  await nsRcv.close();
 }
 
 main()

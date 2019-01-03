@@ -71,7 +71,7 @@ async function receiveMessages(queueClient: QueueClient): Promise<void> {
   const onError: OnError = (err: MessagingError | Error) => {
     console.log(">>>>> Error occurred: ", err);
   };
-  queueClient.receiveMessgesFromSessions(onMessage, onError);
+  await queueClient.receiveMessagesFromSessions(onMessage, onError);
   await delay(10000);
 }
 
@@ -81,5 +81,4 @@ main()
   })
   .catch((err) => {
     console.log("error: ", err);
-    ns.close();
   });
