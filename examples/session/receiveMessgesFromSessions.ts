@@ -34,7 +34,7 @@ async function main(): Promise<void> {
   const onError: OnError = (err: MessagingError | Error) => {
     console.log(">>>>> Error occurred: ", err);
   };
-  client.receiveMessgesFromSessions(onMessage, onError);
+  await client.receiveMessagesFromSessions(onMessage, onError);
   await delay(80000);
   await client.close();
 }

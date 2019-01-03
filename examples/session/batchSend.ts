@@ -11,7 +11,7 @@ let ns: Namespace;
 async function main(): Promise<void> {
   ns = Namespace.createFromConnectionString(str);
   const client = ns.createQueueClient(path);
-  let messages: SendableMessageInfo[] = [];
+  const messages: SendableMessageInfo[] = [];
 
   for (let i = 0; i < 10; i++) {
     const sessionId = i % 2 === 0 ? "even-session" : "odd-session";
