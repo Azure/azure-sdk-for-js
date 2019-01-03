@@ -25,7 +25,7 @@ steps:
   inputs:
     command: custom
     verbose: false
-    customCommand: 'run check:everything -- --head-reference=origin/$(System.PullRequest.SourceBranch) --base-reference=origin/$(System.PullRequest.TargetBranch) --azure-devops'
+    customCommand: 'run check:everything -- --head-reference=origin/$(System.PullRequest.SourceBranch) --base-reference=origin/$(System.PullRequest.TargetBranch) --azure-devops --verbose'
 
 - task: Npm@1
   displayName: 'npm run build'
