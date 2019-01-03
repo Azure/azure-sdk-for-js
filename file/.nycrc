@@ -7,7 +7,10 @@
       "lib/FileDownloadResponse.browser.ts",
       "lib/highlevel.browser.ts",
       "lib/highlevel.common.ts",
+      "lib/policies/BrowserPolicy.ts",
       "lib/models.ts",
+      "lib/index.browser.ts",
+      "lib/utils/utils.browser.ts",
       "lib/generated/lib/storageClient.ts"
     ],
     "extension": [

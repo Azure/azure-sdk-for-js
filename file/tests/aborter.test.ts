@@ -15,6 +15,11 @@ describe("Aborter", () => {
     shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
   });
 
+  it("should set value and get value successfully", async () => {
+    const aborter = Aborter.none.withValue("mykey", "myvalue");
+    assert.deepStrictEqual(aborter.getValue("mykey"), "myvalue");
+  });
+
   it("Should not abort after calling abort()", async () => {
     await shareURL.create(Aborter.none);
     await shareURL.delete(Aborter.none);
