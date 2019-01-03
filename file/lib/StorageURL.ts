@@ -11,6 +11,7 @@ import {
   TelemetryPolicyFactory
 } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
+import { escapeURLPath } from "./utils/utils.common";
 
 export { deserializationPolicy };
 
@@ -107,10 +108,12 @@ export abstract class StorageURL {
    * @memberof StorageURL
    */
   protected constructor(url: string, pipeline: Pipeline) {
-    this.url = url;
+    // URL should be encoded and only once, protocol layer shouldn't encode URL again
+    this.url = escapeURLPath(url);
+
     this.pipeline = pipeline;
     this.storageClientContext = new StorageClientContext(
-      url,
+      this.url,
       pipeline.toServiceClientOptions()
     );
 

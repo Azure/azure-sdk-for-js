@@ -160,14 +160,14 @@ export class FileURL extends StorageURL {
    * Creates a FileURL object from a DirectoryURL object.
    *
    * @static
-   * @param {DirectoryURL} directoryURL
-   * @param {string} fileName
+   * @param {DirectoryURL} directoryURL A DirectoryURL object
+   * @param {string} fileName A file name
    * @returns
    * @memberof FileURL
    */
   public static fromDirectoryURL(directoryURL: DirectoryURL, fileName: string) {
     return new FileURL(
-      appendToURLPath(directoryURL.url, fileName),
+      appendToURLPath(directoryURL.url, encodeURIComponent(fileName)),
       directoryURL.pipeline
     );
   }
@@ -188,6 +188,10 @@ export class FileURL extends StorageURL {
    *                     "https://myaccount.file.core.windows.net/myshare/mydirectory/file". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.file.core.windows.net/myshare/mydirectory/file?sasString".
+   *                     This method accepts an encoded URL or non-encoded URL pointing to a file.
+   *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+   *                     However, if a file or directory name includes %, file or directory name must be encoded in the URL.
+   *                     Such as a file named "myfile%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydirectory/myfile%25".
    * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof FileURL
