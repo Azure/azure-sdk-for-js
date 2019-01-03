@@ -20,6 +20,25 @@ export enum SdkType {
 }
 
 export module Argv {
+    export interface CommonOptions {
+        "logging-level": string | undefined;
+    }
+
+    export interface GenerateOptions {
+        "skip-spec": boolean;
+        "skip-sdk": boolean;
+    }
+
+    export interface PackageOptions {
+        package: string;
+        type: SdkType;
+    }
+
+    export interface RepositoryOptions {
+        azureSDKForJSRepoRoot: string;
+        azureRestAPISpecsRoot: string;
+    }
+
     export const Options: { [key: string]: YargsMapping } = {
         Common: {
             "logging-level": {
@@ -44,11 +63,13 @@ export module Argv {
             "package": {
                 alias: ["p", "package-name"],
                 string: true,
+                demand: true,
                 description: "Name of the manipulated package e.g. @azure/arm-servicebus"
             },
             "type": {
                 alias: "sdk-type",
                 string: true,
+                demand: true,
                 coerce: parseSdkType,
                 choices: ["rm", "data", "control"],
                 description: "Type of SDK to manipulate."
@@ -71,7 +92,7 @@ export module Argv {
     }
 
     export const Global = {
-        loggingLevel: yargs.options(Argv.Options.Common).argv["logging-level"],
+        loggingLevel: yargs.options(Argv.Options.Common).argv["logging-level"] as string,
     }
 
     export function combine(...configs: YargsMapping[]): YargsMapping {
