@@ -85,7 +85,7 @@ const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.RecoveryServices/operations",
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage

@@ -10,16 +10,16 @@
 
 import * as msRest from "ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/backupJobsMappers";
+import * as Mappers from "../models/backupProtectionContainersInFabricMappers";
 import * as Parameters from "../models/parameters";
 import { RecoveryServicesBackupClientContext } from "../recoveryServicesBackupClientContext";
 
-/** Class representing a BackupJobs. */
-export class BackupJobs {
+/** Class representing a BackupProtectionContainersInFabric. */
+export class BackupProtectionContainersInFabric {
   private readonly client: RecoveryServicesBackupClientContext;
 
   /**
-   * Create a BackupJobs.
+   * Create a BackupProtectionContainersInFabric.
    * @param {RecoveryServicesBackupClientContext} client Reference to the service client.
    */
   constructor(client: RecoveryServicesBackupClientContext) {
@@ -27,66 +27,70 @@ export class BackupJobs {
   }
 
   /**
-   * Provides a pageable list of jobs.
+   * Lists the containers registered to a backup fabric.
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
+   * @param fabricName
    * @param [options] The optional parameters
-   * @returns Promise<Models.BackupJobsListResponse>
+   * @returns Promise<Models.BackupProtectionContainersInFabricListResponse>
    */
-  list(vaultName: string, resourceGroupName: string, options?: Models.BackupJobsListOptionalParams): Promise<Models.BackupJobsListResponse>;
+  list(vaultName: string, resourceGroupName: string, fabricName: string, options?: Models.BackupProtectionContainersInFabricListOptionalParams): Promise<Models.BackupProtectionContainersInFabricListResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
+   * @param fabricName
    * @param callback The callback
    */
-  list(vaultName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.JobResourceList>): void;
+  list(vaultName: string, resourceGroupName: string, fabricName: string, callback: msRest.ServiceCallback<Models.ProtectionContainerResourceList>): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
+   * @param fabricName
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(vaultName: string, resourceGroupName: string, options: Models.BackupJobsListOptionalParams, callback: msRest.ServiceCallback<Models.JobResourceList>): void;
-  list(vaultName: string, resourceGroupName: string, options?: Models.BackupJobsListOptionalParams | msRest.ServiceCallback<Models.JobResourceList>, callback?: msRest.ServiceCallback<Models.JobResourceList>): Promise<Models.BackupJobsListResponse> {
+  list(vaultName: string, resourceGroupName: string, fabricName: string, options: Models.BackupProtectionContainersInFabricListOptionalParams, callback: msRest.ServiceCallback<Models.ProtectionContainerResourceList>): void;
+  list(vaultName: string, resourceGroupName: string, fabricName: string, options?: Models.BackupProtectionContainersInFabricListOptionalParams | msRest.ServiceCallback<Models.ProtectionContainerResourceList>, callback?: msRest.ServiceCallback<Models.ProtectionContainerResourceList>): Promise<Models.BackupProtectionContainersInFabricListResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
         resourceGroupName,
+        fabricName,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.BackupJobsListResponse>;
+      callback) as Promise<Models.BackupProtectionContainersInFabricListResponse>;
   }
 
   /**
-   * Provides a pageable list of jobs.
+   * Lists the containers registered to a backup fabric.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.BackupJobsListNextResponse>
+   * @returns Promise<Models.BackupProtectionContainersInFabricListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.BackupJobsListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.BackupProtectionContainersInFabricListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.JobResourceList>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ProtectionContainerResourceList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobResourceList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobResourceList>, callback?: msRest.ServiceCallback<Models.JobResourceList>): Promise<Models.BackupJobsListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectionContainerResourceList>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionContainerResourceList>, callback?: msRest.ServiceCallback<Models.ProtectionContainerResourceList>): Promise<Models.BackupProtectionContainersInFabricListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.BackupJobsListNextResponse>;
+      callback) as Promise<Models.BackupProtectionContainersInFabricListNextResponse>;
   }
 }
 
@@ -94,23 +98,23 @@ export class BackupJobs {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupJobs",
+  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.fabricName
   ],
   queryParameters: [
-    Parameters.apiVersion2,
-    Parameters.filter,
-    Parameters.skipToken
+    Parameters.apiVersion0,
+    Parameters.filter
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.JobResourceList
+      bodyMapper: Mappers.ProtectionContainerResourceList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -131,7 +135,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.JobResourceList
+      bodyMapper: Mappers.ProtectionContainerResourceList
     },
     default: {
       bodyMapper: Mappers.CloudError

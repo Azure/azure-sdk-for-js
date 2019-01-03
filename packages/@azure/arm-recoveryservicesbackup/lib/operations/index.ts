@@ -8,6 +8,14 @@
  * regenerated.
  */
 
+export * from "./backupFabrics";
+export * from "./scopedBackupPolicies";
+export * from "./scopedProtectionPolicies";
+export * from "./scopedProtectionPolicyOperationResults";
+export * from "./scopedProtectionPolicyOperationStatuses";
+export * from "./backupProtectionContainersInFabric";
+export * from "./backupProtectedItemsInContainer";
+export * from "./protectionContainers";
 export * from "./protectionIntentOperations";
 export * from "./backupStatus";
 export * from "./featureSupport";
@@ -24,7 +32,6 @@ export * from "./backupResourceVaultConfigs";
 export * from "./backupEngines";
 export * from "./protectionContainerRefreshOperationResults";
 export * from "./protectableContainers";
-export * from "./protectionContainers";
 export * from "./backupWorkloadItems";
 export * from "./protectionContainerOperationResults";
 export * from "./protectedItems";
