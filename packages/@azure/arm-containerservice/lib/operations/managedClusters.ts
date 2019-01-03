@@ -779,6 +779,7 @@ const beginResetServicePrincipalProfileOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
+    200: {},
     202: {},
     default: {
       bodyMapper: Mappers.CloudError
@@ -809,6 +810,7 @@ const beginResetAADProfileOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
+    200: {},
     202: {},
     default: {
       bodyMapper: Mappers.CloudError
