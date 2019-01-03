@@ -1,0 +1,55 @@
+{
+  "name": "@azure/service-bus",
+  "version": "0.1.0",
+  "description": "Azure ServiceBus SDK for JS",
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "main": "./dist/lib/index.js",
+  "types": "./typings/lib/index.d.ts",
+  "dependencies": {
+    "@azure/amqp-common": "^0.1.9",
+    "debug": "^3.1.0",
+    "is-buffer": "^2.0.3",
+    "long": "^4.0.0",
+    "ms-rest-azure": "^2.5.9",
+    "rhea-promise": "^0.1.13",
+    "tslib": "^1.9.3"
+  },
+  "devDependencies": {
+    "@types/async-lock": "^1.1.0",
+    "@types/chai": "^4.1.6",
+    "@types/chai-as-promised": "^7.1.0",
+    "@types/debug": "^0.0.31",
+    "@types/dotenv": "^4.0.3",
+    "@types/long": "^4.0.0",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^8.0.37",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "dotenv": "^6.1.0",
+    "mocha": "^5.2.0",
+    "nyc": "^11.8.0",
+    "prettier": "^1.15.3",
+    "rimraf": "^2.6.2",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.2.1"
+  },
+  "scripts": {
+    "tslint": "tslint -p . -c tslint.json",
+    "tsc": "tsc",
+    "prebuild": "rimraf dist && rimraf typings",
+    "build": "npm run tslint && npm run tsc",
+    "test": "npm run build",
+    "unit": "nyc --reporter=lcov --reporter=text-lcov mocha -r ts-node/register -t 50000 test/**/*.spec.ts",
+    "prepack": "npm i && npm run build"
+  },
+  "homepage": "http://github.com/azure/azure-servcie-bus-node",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/azure/azure-servcie-bus-node.git"
+  },
+  "bugs": {
+    "url": "http://github.com/Azure/azure-servcie-bus-node/issues"
+  }
+}

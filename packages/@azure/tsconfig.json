@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "newLine": "LF",
+    "target": "es2015",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "noImplicitReturns": true,
+    "outDir": "dist",
+    "allowJs": false,
+    "noUnusedLocals":true,
+    "strict": true,
+    "declaration": true,
+    "declarationDir": "./typings",
+    "declarationMap": true
+  },
+  "compileOnSave": true,
+  "exclude": [
+    "node_modules",
+    "typings/**"
+  ],
+  "include": [
+    "./lib/**/*.ts",
+    "./examples/**/*.ts"
+  ]
+}
