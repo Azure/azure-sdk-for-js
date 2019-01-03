@@ -1,5 +1,5 @@
 import { ClientContext } from "../../ClientContext";
-import { createTriggerUri, getIdFromLink, getPathFromLink, isResourceValid } from "../../common";
+import { createTriggerUri, getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
 import { RequestOptions } from "../../request";
 import { Container } from "../Container";
@@ -42,7 +42,13 @@ export class Trigger {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.read<TriggerDefinition>(path, "triggers", id, undefined, options);
+    const response = await this.clientContext.read<TriggerDefinition>(
+      path,
+      ResourceType.trigger,
+      id,
+      undefined,
+      options
+    );
     return { body: response.result, headers: response.headers, ref: this, trigger: this };
   }
 
@@ -67,7 +73,7 @@ export class Trigger {
     const response = await this.clientContext.replace<TriggerDefinition>(
       body,
       path,
-      "triggers",
+      ResourceType.trigger,
       id,
       undefined,
       options
@@ -84,7 +90,13 @@ export class Trigger {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<TriggerDefinition>(path, "triggers", id, undefined, options);
+    const response = await this.clientContext.delete<TriggerDefinition>(
+      path,
+      ResourceType.trigger,
+      id,
+      undefined,
+      options
+    );
 
     return { body: response.result, headers: response.headers, ref: this, trigger: this };
   }

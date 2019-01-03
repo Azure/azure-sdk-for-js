@@ -1,5 +1,5 @@
 import { ClientContext } from "../../ClientContext";
-import { isResourceValid, StatusCodes } from "../../common";
+import { isResourceValid, ResourceType, StatusCodes } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
 import { FetchFunctionCallback, mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
@@ -62,7 +62,14 @@ export class Databases {
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     const cb: FetchFunctionCallback = innerOptions => {
-      return this.clientContext.queryFeed("/dbs", "dbs", "", result => result.Databases, query, innerOptions);
+      return this.clientContext.queryFeed(
+        "/dbs",
+        ResourceType.database,
+        "",
+        result => result.Databases,
+        query,
+        innerOptions
+      );
     };
     return new QueryIterator(this.clientContext, query, options, cb);
   }
@@ -91,7 +98,7 @@ export class Databases {
     const response = await this.clientContext.create<DatabaseDefinition>(
       body,
       path,
-      "dbs",
+      ResourceType.database,
       undefined,
       undefined,
       options

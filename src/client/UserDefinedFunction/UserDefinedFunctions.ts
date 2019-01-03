@@ -1,5 +1,5 @@
 import { ClientContext } from "../../ClientContext";
-import { getIdFromLink, getPathFromLink, isResourceValid } from "../../common";
+import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
@@ -34,11 +34,18 @@ export class UserDefinedFunctions {
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
-    const path = getPathFromLink(this.container.url, "udfs");
+    const path = getPathFromLink(this.container.url, ResourceType.udf);
     const id = getIdFromLink(this.container.url);
 
     return new QueryIterator(this.clientContext, query, options, innerOptions => {
-      return this.clientContext.queryFeed(path, "udfs", id, result => result.UserDefinedFunctions, query, innerOptions);
+      return this.clientContext.queryFeed(
+        path,
+        ResourceType.udf,
+        id,
+        result => result.UserDefinedFunctions,
+        query,
+        innerOptions
+      );
     });
   }
 
@@ -75,13 +82,13 @@ export class UserDefinedFunctions {
       throw err;
     }
 
-    const path = getPathFromLink(this.container.url, "udfs");
+    const path = getPathFromLink(this.container.url, ResourceType.udf);
     const id = getIdFromLink(this.container.url);
 
     const response = await this.clientContext.create<UserDefinedFunctionDefinition>(
       body,
       path,
-      "udfs",
+      ResourceType.udf,
       id,
       undefined,
       options
@@ -111,13 +118,13 @@ export class UserDefinedFunctions {
       throw err;
     }
 
-    const path = getPathFromLink(this.container.url, "udfs");
+    const path = getPathFromLink(this.container.url, ResourceType.udf);
     const id = getIdFromLink(this.container.url);
 
     const response = await this.clientContext.upsert<UserDefinedFunctionDefinition>(
       body,
       path,
-      "udfs",
+      ResourceType.udf,
       id,
       undefined,
       options

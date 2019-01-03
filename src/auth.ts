@@ -1,12 +1,12 @@
-import createHmac from "create-hmac";
+import { generateHeaders } from "@azure/cosmos-sign";
 import { PermissionDefinition } from "./client";
-import { getResourceIdFromPath } from "./common";
+import { Constants, getResourceIdFromPath, HTTPMethod, ResourceType } from "./common";
 import { IHeaders } from "./queryExecutionContext";
 
 /** @hidden */
 export interface IRequestInfo {
   [index: string]: any;
-  verb: string;
+  verb: HTTPMethod;
   path: string;
   resourceId: string;
   resourceType: string;
@@ -31,14 +31,14 @@ export interface AuthOptions {
   permissionFeed?: PermissionDefinition[]; // TODO: any
 }
 
-export async function getAuthorizationHeader(
+export async function setAuthorizationHeader(
   authOptions: AuthOptions,
-  verb: string,
+  verb: HTTPMethod,
   path: string,
   resourceId: string,
-  resourceType: string,
+  resourceType: ResourceType,
   headers: IHeaders
-): Promise<string> {
+): Promise<void> {
   if (authOptions.permissionFeed) {
     authOptions.resourceTokens = {};
     for (const permission of authOptions.permissionFeed) {
@@ -54,11 +54,13 @@ export async function getAuthorizationHeader(
 
   if (authOptions.masterKey || authOptions.key) {
     const key = authOptions.masterKey || authOptions.key;
-    return encodeURIComponent(getAuthorizationTokenUsingMasterKey(verb, resourceId, resourceType, headers, key));
+    getAuthorizationTokenUsingMasterKey(verb, resourceId, resourceType, headers, key);
   } else if (authOptions.resourceTokens) {
-    return encodeURIComponent(getAuthorizationTokenUsingResourceTokens(authOptions.resourceTokens, path, resourceId));
+    headers[Constants.HttpHeaders.Authorization] = encodeURIComponent(
+      getAuthorizationTokenUsingResourceTokens(authOptions.resourceTokens, path, resourceId)
+    );
   } else if (authOptions.tokenProvider) {
-    return encodeURIComponent(
+    headers[Constants.HttpHeaders.Authorization] = encodeURIComponent(
       await getAuthorizationTokenUsingTokenProvider(authOptions.tokenProvider, {
         verb,
         path,
@@ -71,34 +73,13 @@ export async function getAuthorizationHeader(
 }
 
 function getAuthorizationTokenUsingMasterKey(
-  verb: string,
+  verb: HTTPMethod,
   resourceId: string,
-  resourceType: string,
+  resourceType: ResourceType,
   headers: IHeaders,
   masterKey: string
 ) {
-  const key = Buffer.from(masterKey, "base64");
-
-  const text =
-    (verb || "").toLowerCase() +
-    "\n" +
-    (resourceType || "").toLowerCase() +
-    "\n" +
-    (resourceId || "") +
-    "\n" +
-    ((headers["x-ms-date"] as string) || "").toLowerCase() +
-    "\n" +
-    ((headers["date"] as string) || "").toLowerCase() +
-    "\n";
-
-  const body = Buffer.from(text, "utf8");
-  const signature = createHmac("sha256", key)
-    .update(body)
-    .digest("base64");
-  const MasterToken = "master";
-  const TokenVersion = "1.0";
-
-  return `type=${MasterToken}&ver=${TokenVersion}&sig=${signature}`;
+  headers = Object.assign(headers, generateHeaders(masterKey, verb, resourceType, resourceId));
 }
 
 // TODO: Resource tokens

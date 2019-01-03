@@ -1,5 +1,5 @@
 import { ClientContext } from "../../ClientContext";
-import { createStoredProcedureUri, getIdFromLink, getPathFromLink, isResourceValid } from "../../common";
+import { createStoredProcedureUri, getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
 import { CosmosResponse, RequestOptions } from "../../request";
 import { Container } from "../Container";
 import { StoredProcedureDefinition } from "./StoredProcedureDefinition";
@@ -36,7 +36,13 @@ export class StoredProcedure {
   public async read(options?: RequestOptions): Promise<StoredProcedureResponse> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
-    const response = await this.clientContext.read<StoredProcedureDefinition>(path, "sprocs", id, undefined, options);
+    const response = await this.clientContext.read<StoredProcedureDefinition>(
+      path,
+      ResourceType.sproc,
+      id,
+      undefined,
+      options
+    );
 
     return { body: response.result, headers: response.headers, ref: this, storedProcedure: this, sproc: this };
   }
@@ -62,7 +68,7 @@ export class StoredProcedure {
     const response = await this.clientContext.replace<StoredProcedureDefinition>(
       body,
       path,
-      "sprocs",
+      ResourceType.sproc,
       id,
       undefined,
       options
@@ -79,7 +85,13 @@ export class StoredProcedure {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<StoredProcedureDefinition>(path, "sprocs", id, undefined, options);
+    const response = await this.clientContext.delete<StoredProcedureDefinition>(
+      path,
+      ResourceType.sproc,
+      id,
+      undefined,
+      options
+    );
     return { body: response.result, headers: response.headers, ref: this, storedProcedure: this, sproc: this };
   }
 

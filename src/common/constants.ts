@@ -15,15 +15,6 @@ export const Constants = {
     Xml: "application/xml"
   },
 
-  HttpMethods: {
-    Get: "GET",
-    Post: "POST",
-    Put: "PUT",
-    Delete: "DELETE",
-    Head: "HEAD",
-    Options: "OPTIONS"
-  },
-
   HttpHeaders: {
     Authorization: "authorization",
     ETag: "etag",
@@ -250,6 +241,7 @@ export const Constants = {
 };
 
 export enum ResourceType {
+  none = "",
   database = "dbs",
   offer = "offers",
   user = "users",
@@ -259,5 +251,13 @@ export enum ResourceType {
   sproc = "sprocs",
   udf = "udfs",
   trigger = "triggers",
-  item = "docs"
+  item = "docs",
+  pkranges = "pkranges"
+}
+
+export enum HTTPMethod {
+  get = "GET",
+  post = "POST",
+  put = "PUT",
+  delete = "DELETE"
 }

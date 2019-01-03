@@ -1,5 +1,5 @@
 import { ClientContext } from "../../ClientContext";
-import { getIdFromLink, getPathFromLink, isResourceValid } from "../../common";
+import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
@@ -35,11 +35,18 @@ export class Permissions {
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
-    const path = getPathFromLink(this.user.url, "permissions");
+    const path = getPathFromLink(this.user.url, ResourceType.permission);
     const id = getIdFromLink(this.user.url);
 
     return new QueryIterator(this.clientContext, query, options, innerOptions => {
-      return this.clientContext.queryFeed(path, "permissions", id, result => result.Permissions, query, innerOptions);
+      return this.clientContext.queryFeed(
+        path,
+        ResourceType.permission,
+        id,
+        result => result.Permissions,
+        query,
+        innerOptions
+      );
     });
   }
 
@@ -68,13 +75,13 @@ export class Permissions {
       throw err;
     }
 
-    const path = getPathFromLink(this.user.url, "permissions");
+    const path = getPathFromLink(this.user.url, ResourceType.permission);
     const id = getIdFromLink(this.user.url);
 
     const response = await this.clientContext.create<PermissionDefinition, PermissionBody>(
       body,
       path,
-      "permissions",
+      ResourceType.permission,
       id,
       undefined,
       options
@@ -100,13 +107,13 @@ export class Permissions {
       throw err;
     }
 
-    const path = getPathFromLink(this.user.url, "permissions");
+    const path = getPathFromLink(this.user.url, ResourceType.permission);
     const id = getIdFromLink(this.user.url);
 
     const response = await this.clientContext.upsert<PermissionDefinition, PermissionBody>(
       body,
       path,
-      "permissions",
+      ResourceType.permission,
       id,
       undefined,
       options

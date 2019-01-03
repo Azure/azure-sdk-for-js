@@ -1,5 +1,5 @@
 import { ClientContext } from "../../ClientContext";
-import { getIdFromLink, getPathFromLink, isResourceValid, StatusCodes } from "../../common";
+import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType, StatusCodes } from "../../common";
 import { mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
@@ -57,13 +57,13 @@ export class Containers {
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
-    const path = getPathFromLink(this.database.url, "colls");
+    const path = getPathFromLink(this.database.url, ResourceType.container);
     const id = getIdFromLink(this.database.url);
 
     return new QueryIterator(this.clientContext, query, options, innerOptions => {
       return this.clientContext.queryFeed<ContainerDefinition>(
         path,
-        "colls",
+        ResourceType.container,
         id,
         result => result.DocumentCollections,
         query,
@@ -94,10 +94,17 @@ export class Containers {
     if (!isResourceValid(body, err)) {
       throw err;
     }
-    const path = getPathFromLink(this.database.url, "colls");
+    const path = getPathFromLink(this.database.url, ResourceType.container);
     const id = getIdFromLink(this.database.url);
 
-    const response = await this.clientContext.create<ContainerDefinition>(body, path, "colls", id, undefined, options);
+    const response = await this.clientContext.create<ContainerDefinition>(
+      body,
+      path,
+      ResourceType.container,
+      id,
+      undefined,
+      options
+    );
     const ref = new Container(this.database, response.result.id, this.clientContext);
     return {
       body: response.result,

@@ -1,5 +1,5 @@
 import { ClientContext } from "../ClientContext";
-import { Constants, getIdFromLink, getPathFromLink, StatusCodes, SubStatusCodes } from "../common";
+import { Constants, getIdFromLink, getPathFromLink, ResourceType, StatusCodes, SubStatusCodes } from "../common";
 import { FeedOptions } from "../request";
 import { Response } from "../request/request";
 import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
@@ -93,12 +93,12 @@ export class DocumentProducer {
   }
 
   public fetchFunction: FetchFunctionCallback = async (options: any) => {
-    const path = getPathFromLink(this.collectionLink, "docs");
+    const path = getPathFromLink(this.collectionLink, ResourceType.item);
     const id = getIdFromLink(this.collectionLink);
 
     return this.clientContext.queryFeed(
       path,
-      "docs",
+      ResourceType.item,
       id,
       (result: any) => result.Documents, // TODO: any
       this.query,

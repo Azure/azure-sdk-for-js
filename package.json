@@ -72,8 +72,8 @@
     "typescript": "3.2.2"
   },
   "dependencies": {
+    "@azure/cosmos-sign": "1.0.2",
     "binary-search-bounds": "2.0.3",
-    "create-hmac": "^1.1.7",
     "priorityqueuejs": "1.0.0",
     "semaphore": "1.0.5",
     "stream-http": "^2.8.3",

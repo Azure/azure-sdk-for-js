@@ -1,5 +1,5 @@
 import { ClientContext } from "../../ClientContext";
-import { getIdFromLink, getPathFromLink, isResourceValid } from "../../common";
+import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
@@ -34,11 +34,18 @@ export class Triggers {
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
-    const path = getPathFromLink(this.container.url, "triggers");
+    const path = getPathFromLink(this.container.url, ResourceType.trigger);
     const id = getIdFromLink(this.container.url);
 
     return new QueryIterator(this.clientContext, query, options, innerOptions => {
-      return this.clientContext.queryFeed(path, "triggers", id, result => result.Triggers, query, innerOptions);
+      return this.clientContext.queryFeed(
+        path,
+        ResourceType.trigger,
+        id,
+        result => result.Triggers,
+        query,
+        innerOptions
+      );
     });
   }
 
@@ -73,10 +80,17 @@ export class Triggers {
       throw err;
     }
 
-    const path = getPathFromLink(this.container.url, "triggers");
+    const path = getPathFromLink(this.container.url, ResourceType.trigger);
     const id = getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.create<TriggerDefinition>(body, path, "triggers", id, undefined, options);
+    const response = await this.clientContext.create<TriggerDefinition>(
+      body,
+      path,
+      ResourceType.trigger,
+      id,
+      undefined,
+      options
+    );
     const ref = new Trigger(this.container, response.result.id, this.clientContext);
     return { body: response.result, headers: response.headers, ref, trigger: ref };
   }
@@ -101,10 +115,17 @@ export class Triggers {
       throw err;
     }
 
-    const path = getPathFromLink(this.container.url, "triggers");
+    const path = getPathFromLink(this.container.url, ResourceType.trigger);
     const id = getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.upsert<TriggerDefinition>(body, path, "triggers", id, undefined, options);
+    const response = await this.clientContext.upsert<TriggerDefinition>(
+      body,
+      path,
+      ResourceType.trigger,
+      id,
+      undefined,
+      options
+    );
     const ref = new Trigger(this.container, response.result.id, this.clientContext);
     return { body: response.result, headers: response.headers, ref, trigger: ref };
   }

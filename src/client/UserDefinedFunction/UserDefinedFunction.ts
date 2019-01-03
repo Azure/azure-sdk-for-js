@@ -1,5 +1,11 @@
 import { ClientContext } from "../../ClientContext";
-import { createUserDefinedFunctionUri, getIdFromLink, getPathFromLink, isResourceValid } from "../../common";
+import {
+  createUserDefinedFunctionUri,
+  getIdFromLink,
+  getPathFromLink,
+  isResourceValid,
+  ResourceType
+} from "../../common";
 import { RequestOptions } from "../../request";
 import { Container } from "../Container";
 import { UserDefinedFunctionDefinition } from "./UserDefinedFunctionDefinition";
@@ -36,7 +42,13 @@ export class UserDefinedFunction {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.read<UserDefinedFunctionDefinition>(path, "udfs", id, undefined, options);
+    const response = await this.clientContext.read<UserDefinedFunctionDefinition>(
+      path,
+      ResourceType.udf,
+      id,
+      undefined,
+      options
+    );
     return { body: response.result, headers: response.headers, ref: this, userDefinedFunction: this, udf: this };
   }
 
@@ -64,7 +76,7 @@ export class UserDefinedFunction {
     const response = await this.clientContext.replace<UserDefinedFunctionDefinition>(
       body,
       path,
-      "udfs",
+      ResourceType.udf,
       id,
       undefined,
       options
@@ -80,7 +92,7 @@ export class UserDefinedFunction {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete(path, "udfs", id, undefined, options);
+    const response = await this.clientContext.delete(path, ResourceType.udf, id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, userDefinedFunction: this, udf: this };
   }
 }

@@ -1,5 +1,5 @@
 import { ClientContext } from "../../ClientContext";
-import { createUserUri, getIdFromLink, getPathFromLink, isResourceValid } from "../../common";
+import { createUserUri, getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
 import { RequestOptions } from "../../request";
 import { Database } from "../Database";
 import { Permission, Permissions } from "../Permission";
@@ -56,7 +56,7 @@ export class User {
   public async read(options?: RequestOptions): Promise<UserResponse> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
-    const response = await this.clientContext.read<UserDefinition>(path, "users", id, undefined, options);
+    const response = await this.clientContext.read<UserDefinition>(path, ResourceType.user, id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, user: this };
   }
 
@@ -74,7 +74,14 @@ export class User {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<UserDefinition>(body, path, "users", id, undefined, options);
+    const response = await this.clientContext.replace<UserDefinition>(
+      body,
+      path,
+      ResourceType.user,
+      id,
+      undefined,
+      options
+    );
     return { body: response.result, headers: response.headers, ref: this, user: this };
   }
 
@@ -86,7 +93,7 @@ export class User {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<UserDefinition>(path, "users", id, undefined, options);
+    const response = await this.clientContext.delete<UserDefinition>(path, ResourceType.user, id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, user: this };
   }
 }

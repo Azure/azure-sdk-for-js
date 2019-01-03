@@ -1,5 +1,5 @@
 import { ClientContext } from "../../ClientContext";
-import { createPermissionUri, getIdFromLink, getPathFromLink, isResourceValid } from "../../common";
+import { createPermissionUri, getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
 import { RequestOptions } from "../../request/RequestOptions";
 import { User } from "../User";
 import { PermissionBody } from "./PermissionBody";
@@ -35,7 +35,7 @@ export class Permission {
 
     const response = await this.clientContext.read<PermissionDefinition & PermissionBody>(
       path,
-      "permissions",
+      ResourceType.permission,
       id,
       undefined,
       options
@@ -65,7 +65,7 @@ export class Permission {
     const response = await this.clientContext.replace<PermissionDefinition & PermissionBody>(
       body,
       path,
-      "permissions",
+      ResourceType.permission,
       id,
       undefined,
       options
@@ -88,7 +88,7 @@ export class Permission {
 
     const response = await this.clientContext.delete<PermissionDefinition & PermissionBody>(
       path,
-      "permissions",
+      ResourceType.permission,
       id,
       undefined,
       options

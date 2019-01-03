@@ -1,5 +1,5 @@
 import { ClientContext } from "../../ClientContext";
-import { createDocumentUri, getIdFromLink, getPathFromLink, isResourceValid } from "../../common";
+import { createDocumentUri, getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
 import { RequestOptions } from "../../request";
 import { Container } from "../Container";
 import { ItemDefinition } from "./ItemDefinition";
@@ -73,7 +73,7 @@ export class Item {
     }
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
-    const response = await this.clientContext.read<T>(path, "docs", id, undefined, options);
+    const response = await this.clientContext.read<T>(path, ResourceType.item, id, undefined, options);
 
     return {
       body: response.result,
@@ -122,7 +122,7 @@ export class Item {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<T>(body, path, "docs", id, undefined, options);
+    const response = await this.clientContext.replace<T>(body, path, ResourceType.item, id, undefined, options);
     return {
       body: response.result,
       headers: response.headers,
@@ -153,7 +153,7 @@ export class Item {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<T>(path, "docs", id, undefined, options);
+    const response = await this.clientContext.delete<T>(path, ResourceType.item, id, undefined, options);
     return {
       body: response.result,
       headers: response.headers,

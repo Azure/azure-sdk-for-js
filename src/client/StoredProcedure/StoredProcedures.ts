@@ -1,5 +1,5 @@
 import { ClientContext } from "../../ClientContext";
-import { getIdFromLink, getPathFromLink, isResourceValid } from "../../common";
+import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
@@ -54,11 +54,18 @@ export class StoredProcedures {
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
-    const path = getPathFromLink(this.container.url, "sprocs");
+    const path = getPathFromLink(this.container.url, ResourceType.sproc);
     const id = getIdFromLink(this.container.url);
 
     return new QueryIterator(this.clientContext, query, options, innerOptions => {
-      return this.clientContext.queryFeed(path, "sprocs", id, result => result.StoredProcedures, query, innerOptions);
+      return this.clientContext.queryFeed(
+        path,
+        ResourceType.sproc,
+        id,
+        result => result.StoredProcedures,
+        query,
+        innerOptions
+      );
     });
   }
 
@@ -93,13 +100,13 @@ export class StoredProcedures {
       throw err;
     }
 
-    const path = getPathFromLink(this.container.url, "sprocs");
+    const path = getPathFromLink(this.container.url, ResourceType.sproc);
     const id = getIdFromLink(this.container.url);
 
     const response = await this.clientContext.create<StoredProcedureDefinition>(
       body,
       path,
-      "sprocs",
+      ResourceType.sproc,
       id,
       undefined,
       options
@@ -128,13 +135,13 @@ export class StoredProcedures {
       throw err;
     }
 
-    const path = getPathFromLink(this.container.url, "sprocs");
+    const path = getPathFromLink(this.container.url, ResourceType.sproc);
     const id = getIdFromLink(this.container.url);
 
     const response = await this.clientContext.upsert<StoredProcedureDefinition>(
       body,
       path,
-      "sprocs",
+      ResourceType.sproc,
       id,
       undefined,
       options

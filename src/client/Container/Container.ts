@@ -1,5 +1,12 @@
 import { ClientContext } from "../../ClientContext";
-import { createDocumentCollectionUri, getIdFromLink, getPathFromLink, isResourceValid, parsePath } from "../../common";
+import {
+  createDocumentCollectionUri,
+  getIdFromLink,
+  getPathFromLink,
+  isResourceValid,
+  parsePath,
+  ResourceType
+} from "../../common";
 import { PartitionKeyDefinition } from "../../documents";
 import { PartitionKey } from "../../index";
 import { QueryIterator } from "../../queryIterator";
@@ -141,7 +148,13 @@ export class Container {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.read<ContainerDefinition>(path, "colls", id, undefined, options);
+    const response = await this.clientContext.read<ContainerDefinition>(
+      path,
+      ResourceType.container,
+      id,
+      undefined,
+      options
+    );
     this.clientContext.partitionKeyDefinitionCache[this.url] = response.result.partitionKey;
     return {
       body: response.result,
@@ -161,7 +174,14 @@ export class Container {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<ContainerDefinition>(body, path, "colls", id, undefined, options);
+    const response = await this.clientContext.replace<ContainerDefinition>(
+      body,
+      path,
+      ResourceType.container,
+      id,
+      undefined,
+      options
+    );
     return {
       body: response.result,
       headers: response.headers,
@@ -175,7 +195,13 @@ export class Container {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<ContainerDefinition>(path, "colls", id, undefined, options);
+    const response = await this.clientContext.delete<ContainerDefinition>(
+      path,
+      ResourceType.container,
+      id,
+      undefined,
+      options
+    );
     return {
       body: response.result,
       headers: response.headers,
