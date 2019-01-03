@@ -69,7 +69,6 @@ export module Argv {
             "type": {
                 alias: "sdk-type",
                 string: true,
-                demand: true,
                 coerce: parseSdkType,
                 choices: ["rm", "data", "control"],
                 description: "Type of SDK to manipulate."
