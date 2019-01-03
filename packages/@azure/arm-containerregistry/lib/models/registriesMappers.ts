@@ -22,6 +22,8 @@ export {
   Sku,
   Status,
   StorageAccountProperties,
+  NetworkRuleSet,
+  VirtualNetworkRule,
   RegistryUpdateParameters,
   RegistryListResult,
   RegistryListCredentialsResult,

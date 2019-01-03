@@ -12,17 +12,17 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/imagesOperationsMappers";
 import * as Parameters from "../models/parameters";
-import { ImageSearchAPIClientContext } from "../imageSearchAPIClientContext";
+import { ImageSearchClientContext } from "../imageSearchClientContext";
 
 /** Class representing a ImagesOperations. */
 export class ImagesOperations {
-  private readonly client: ImageSearchAPIClientContext;
+  private readonly client: ImageSearchClientContext;
 
   /**
    * Create a ImagesOperations.
-   * @param {ImageSearchAPIClientContext} client Reference to the service client.
+   * @param {ImageSearchClientContext} client Reference to the service client.
    */
-  constructor(client: ImageSearchAPIClientContext) {
+  constructor(client: ImageSearchClientContext) {
     this.client = client;
   }
 

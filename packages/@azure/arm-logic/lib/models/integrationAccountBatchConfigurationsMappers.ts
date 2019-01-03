@@ -99,6 +99,10 @@ export {
   RepetitionIndex,
   AssemblyDefinition,
   AssemblyProperties,
-  ArtifactContentPropertiesDefinition
+  ArtifactContentPropertiesDefinition,
+  RequestHistory,
+  RequestHistoryProperties,
+  Request,
+  Response
 } from "../models/mappers";
 

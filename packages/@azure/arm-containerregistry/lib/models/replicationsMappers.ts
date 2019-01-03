@@ -20,6 +20,8 @@ export {
   Registry,
   Sku,
   StorageAccountProperties,
+  NetworkRuleSet,
+  VirtualNetworkRule,
   Webhook,
   Task,
   PlatformProperties,

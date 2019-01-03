@@ -32,6 +32,8 @@ export {
   Sku,
   Status,
   StorageAccountProperties,
+  NetworkRuleSet,
+  VirtualNetworkRule,
   Replication,
   Task,
   PlatformProperties,

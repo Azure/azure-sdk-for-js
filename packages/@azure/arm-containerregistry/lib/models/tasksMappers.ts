@@ -36,6 +36,8 @@ export {
   Sku,
   Status,
   StorageAccountProperties,
+  NetworkRuleSet,
+  VirtualNetworkRule,
   Replication,
   Webhook,
   ProxyResource,
