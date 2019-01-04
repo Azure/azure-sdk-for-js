@@ -45,7 +45,7 @@ jobs:
       - task: Npm@1
         inputs:
           command: 'custom'
-          customCommand: 'run test-client'
+          customCommand: 'run test-client -- -- -- --reporter mocha-junit-reporter'
         displayName: 'npm run test-client'
 
       - task: PublishTestResults@2

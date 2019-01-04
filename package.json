@@ -41,8 +41,8 @@
     "pack-client-keyvault": "cd packages/@azure/keyvault && npm pack",
     "pack-client-template": "cd packages/@azure/template && npm pack",
     "pack-client": "npm-run-all -p -l pack-client-*",
-    "test-client-template": "cd packages/@azure/template && npm run test -- --reporter mocha-junit-reporter",
-    "test-client": "npm-run-all -p -l test-client-*",
+    "test-client-template": "cd packages/@azure/template && npm run test",
+    "test-client": "npm-run-all -p -l \"test-client-* -- {@}\"",
     "audit-client-keyvault": "cd packages/@azure/keyvault && npm i --package-lock-only && npm audit",
     "audit-client-template": "cd packages/@azure/template && npm i --package-lock-only && npm audit",
     "audit-client": "npm-run-all -p -l audit-client-*"
