@@ -949,14 +949,13 @@ export class ServiceBusMessage implements ReceivedMessage {
    * @returns Promise<void>
    */
   async deadLetter(options?: DeadLetterOptions): Promise<void> {
-    let error: AmqpError = {
-      condition: "",
-      description: ""
+    const error: AmqpError = {
+      condition: Constants.deadLetterName
     };
     if (options) {
-      error = {
-        condition: options.deadletterReason,
-        description: options.deadLetterErrorDescription
+      error.info = {
+        DeadLetterReason: options.deadletterReason,
+        DeadLetterErrorDescription: options.deadLetterErrorDescription
       };
     }
     log.message(
