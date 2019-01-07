@@ -52,7 +52,7 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
       typeof request.body === "string" &&
       request.body.length > 0
     ) {
-      request.headers.set(HeaderConstants.CONTENT_LENGTH, request.body ? Buffer.byteLength(request.body,'utf8') : 0);
+      request.headers.set(HeaderConstants.CONTENT_LENGTH, Buffer.byteLength(request.body));
     }
 
     const stringToSign: string =
