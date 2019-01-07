@@ -44,6 +44,7 @@ export {
   PublicIPAddress,
   PublicIPAddressSku,
   PublicIPAddressDnsSettings,
+  DdosSettings,
   IpTag,
   IPConfigurationProfile,
   ResourceNavigationLink,
