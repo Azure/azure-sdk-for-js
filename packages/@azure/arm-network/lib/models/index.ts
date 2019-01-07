@@ -1843,9 +1843,10 @@ export interface ApplicationGatewayTrustedRootCertificate extends SubResource {
    */
   data?: string;
   /**
-   * @member {string} [keyvaultSecretId] KeyVault Secret Id for certificate.
+   * @member {string} [keyVaultSecretId] Secret Id of (base-64 encoded
+   * unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault.
    */
-  keyvaultSecretId?: string;
+  keyVaultSecretId?: string;
   /**
    * @member {string} [provisioningState] Provisioning state of the trusted
    * root certificate resource. Possible values are: 'Updating', 'Deleting',
@@ -1891,6 +1892,11 @@ export interface ApplicationGatewaySslCertificate extends SubResource {
    * corresponding to pfx specified in data. Only applicable in GET request.
    */
   publicCertData?: string;
+  /**
+   * @member {string} [keyVaultSecretId] Secret Id of (base-64 encoded
+   * unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault.
+   */
+  keyVaultSecretId?: string;
   /**
    * @member {string} [provisioningState] Provisioning state of the SSL
    * certificate resource Possible values are: 'Updating', 'Deleting', and
@@ -2107,6 +2113,11 @@ export interface ApplicationGatewayPathRule extends SubResource {
    */
   redirectConfiguration?: SubResource;
   /**
+   * @member {SubResource} [rewriteRuleSet] Rewrite rule set resource of URL
+   * path map path rule.
+   */
+  rewriteRuleSet?: SubResource;
+  /**
    * @member {string} [provisioningState] Path rule of URL path map resource.
    * Possible values are: 'Updating', 'Deleting', and 'Failed'.
    */
@@ -2259,6 +2270,11 @@ export interface ApplicationGatewayRequestRoutingRule extends SubResource {
    */
   urlPathMap?: SubResource;
   /**
+   * @member {SubResource} [rewriteRuleSet] Rewrite Rule Set resource in Basic
+   * rule of the application gateway.
+   */
+  rewriteRuleSet?: SubResource;
+  /**
    * @member {SubResource} [redirectConfiguration] Redirect configuration
    * resource of the application gateway.
    */
@@ -2283,6 +2299,96 @@ export interface ApplicationGatewayRequestRoutingRule extends SubResource {
    * @member {string} [type] Type of the resource.
    */
   type?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationGatewayHeaderConfiguration.
+ * Header configuration of the Actions set in Application Gateway.
+ *
+ */
+export interface ApplicationGatewayHeaderConfiguration {
+  /**
+   * @member {string} [headerName] Header name of the header configuration
+   */
+  headerName?: string;
+  /**
+   * @member {string} [headerValue] Header value of the header configuration
+   */
+  headerValue?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationGatewayRewriteRuleActionSet.
+ * Set of actions in the Rewrite Rule in Application Gateway.
+ *
+ */
+export interface ApplicationGatewayRewriteRuleActionSet {
+  /**
+   * @member {ApplicationGatewayHeaderConfiguration[]}
+   * [requestHeaderConfigurations] Request Header Actions in the Action Set
+   */
+  requestHeaderConfigurations?: ApplicationGatewayHeaderConfiguration[];
+  /**
+   * @member {ApplicationGatewayHeaderConfiguration[]}
+   * [responseHeaderConfigurations] Response Header Actions in the Action Set
+   */
+  responseHeaderConfigurations?: ApplicationGatewayHeaderConfiguration[];
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationGatewayRewriteRule.
+ * Rewrite rule of an application gateway.
+ *
+ */
+export interface ApplicationGatewayRewriteRule {
+  /**
+   * @member {string} [name] Name of the rewrite rule that is unique within an
+   * Application Gateway.
+   */
+  name?: string;
+  /**
+   * @member {ApplicationGatewayRewriteRuleActionSet} [actionSet] Set of
+   * actions to be done as part of the rewrite Rule.
+   */
+  actionSet?: ApplicationGatewayRewriteRuleActionSet;
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationGatewayRewriteRuleSet.
+ * Rewrite rule set of an application gateway.
+ *
+ * @extends SubResource
+ */
+export interface ApplicationGatewayRewriteRuleSet extends SubResource {
+  /**
+   * @member {ApplicationGatewayRewriteRule[]} [rewriteRules] Rewrite rules in
+   * the rewrite rule set.
+   */
+  rewriteRules?: ApplicationGatewayRewriteRule[];
+  /**
+   * @member {string} [provisioningState] Provisioning state of the rewrite
+   * rule set resource. Possible values are: 'Updating', 'Deleting', and
+   * 'Failed'.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {string} [name] Name of the rewrite rule set that is unique within
+   * an Application Gateway.
+   */
+  name?: string;
+  /**
+   * @member {string} [etag] A unique read-only string that changes whenever
+   * the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly etag?: string;
 }
 
 /**
@@ -2367,6 +2473,11 @@ export interface ApplicationGatewayUrlPathMap extends SubResource {
    * settings resource of URL path map.
    */
   defaultBackendHttpSettings?: SubResource;
+  /**
+   * @member {SubResource} [defaultRewriteRuleSet] Default Rewrite rule set
+   * resource of URL path map.
+   */
+  defaultRewriteRuleSet?: SubResource;
   /**
    * @member {SubResource} [defaultRedirectConfiguration] Default redirect
    * configuration resource of URL path map.
@@ -2516,6 +2627,67 @@ export interface ApplicationGatewayAutoscaleConfiguration {
 
 /**
  * @interface
+ * An interface representing ManagedServiceIdentityUserAssignedIdentitiesValue.
+ */
+export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
+  /**
+   * @member {string} [principalId] The principal id of user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * @member {string} [clientId] The client id of user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly clientId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ManagedServiceIdentity.
+ * Identity for the resource.
+ *
+ */
+export interface ManagedServiceIdentity {
+  /**
+   * @member {string} [principalId] The principal id of the system assigned
+   * identity. This property will only be provided for a system assigned
+   * identity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * @member {string} [tenantId] The tenant id of the system assigned identity.
+   * This property will only be provided for a system assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * @member {ResourceIdentityType} [type] The type of identity used for the
+   * resource. The type 'SystemAssigned, UserAssigned' includes both an
+   * implicitly created identity and a set of user assigned identities. The
+   * type 'None' will remove any identities from the virtual machine. Possible
+   * values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,
+   * UserAssigned', 'None'
+   */
+  type?: ResourceIdentityType;
+  /**
+   * @member {{ [propertyName: string]:
+   * ManagedServiceIdentityUserAssignedIdentitiesValue }}
+   * [userAssignedIdentities] The list of user identities associated with
+   * resource. The user identity dictionary key references will be ARM resource
+   * ids in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+   */
+  userAssignedIdentities?: { [propertyName: string]: ManagedServiceIdentityUserAssignedIdentitiesValue };
+}
+
+/**
+ * @interface
  * An interface representing ApplicationGateway.
  * Application gateway resource
  *
@@ -2605,6 +2777,11 @@ export interface ApplicationGateway extends Resource {
    */
   requestRoutingRules?: ApplicationGatewayRequestRoutingRule[];
   /**
+   * @member {ApplicationGatewayRewriteRuleSet[]} [rewriteRuleSets] Rewrite
+   * rules for the application gateway resource.
+   */
+  rewriteRuleSets?: ApplicationGatewayRewriteRuleSet[];
+  /**
    * @member {ApplicationGatewayRedirectConfiguration[]}
    * [redirectConfigurations] Redirect configurations of the application
    * gateway resource.
@@ -2657,6 +2834,11 @@ export interface ApplicationGateway extends Resource {
    * resource needs to come from.
    */
   zones?: string[];
+  /**
+   * @member {ManagedServiceIdentity} [identity] The identity of the
+   * application gateway, if configured.
+   */
+  identity?: ManagedServiceIdentity;
 }
 
 /**
@@ -2859,8 +3041,10 @@ export interface AzureFirewallIPConfiguration extends SubResource {
   /**
    * @member {string} [privateIPAddress] The Firewall Internal Load Balancer IP
    * to be used as the next hop in User Defined Routes.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  privateIPAddress?: string;
+  readonly privateIPAddress?: string;
   /**
    * @member {SubResource} [subnet] Reference of the subnet resource. This
    * resource must be named 'AzureFirewallSubnet'.
@@ -5383,11 +5567,11 @@ export interface ContainerNetworkInterfaceConfiguration extends SubResource {
    */
   ipConfigurations?: IPConfigurationProfile[];
   /**
-   * @member {ContainerNetworkInterface[]} [containerNetworkInterfaces] A list
-   * of container network interfaces created from this container network
-   * interface configuration.
+   * @member {SubResource[]} [containerNetworkInterfaces] A list of container
+   * network interfaces created from this container network interface
+   * configuration.
    */
-  containerNetworkInterfaces?: ContainerNetworkInterface[];
+  containerNetworkInterfaces?: SubResource[];
   /**
    * @member {string} [provisioningState] The provisioning state of the
    * resource.
@@ -6308,6 +6492,25 @@ export interface RetentionPolicyParameters {
 
 /**
  * @interface
+ * An interface representing FlowLogFormatParameters.
+ * Parameters that define the flow log format.
+ *
+ */
+export interface FlowLogFormatParameters {
+  /**
+   * @member {FlowLogFormatType} [type] The file type of flow log. Possible
+   * values include: 'JSON'
+   */
+  type?: FlowLogFormatType;
+  /**
+   * @member {number} [version] The version (revision) of the flow log. Default
+   * value: 0 .
+   */
+  version?: number;
+}
+
+/**
+ * @interface
  * An interface representing FlowLogStatusParameters.
  * Parameters that define a resource to query flow log and traffic analytics
  * (optional) status.
@@ -6344,6 +6547,11 @@ export interface TrafficAnalyticsConfigurationProperties {
    * @member {string} workspaceResourceId Resource Id of the attached workspace
    */
   workspaceResourceId: string;
+  /**
+   * @member {number} [trafficAnalyticsInterval] The interval in minutes which
+   * would decide how frequently TA service should do flow analytics
+   */
+  trafficAnalyticsInterval?: number;
 }
 
 /**
@@ -6386,6 +6594,10 @@ export interface FlowLogInformation {
    * @member {RetentionPolicyParameters} [retentionPolicy]
    */
   retentionPolicy?: RetentionPolicyParameters;
+  /**
+   * @member {FlowLogFormatParameters} [format]
+   */
+  format?: FlowLogFormatParameters;
   /**
    * @member {TrafficAnalyticsProperties} [flowAnalyticsConfiguration]
    */
@@ -10303,6 +10515,21 @@ export interface ExpressRouteCircuitPeeringListResult extends Array<ExpressRoute
 
 /**
  * @interface
+ * An interface representing the ExpressRouteCircuitConnectionListResult.
+ * Response for ListConnections API service call retrieves all global reach
+ * connections that belongs to a Private Peering for an ExpressRouteCircuit.
+ *
+ * @extends Array<ExpressRouteCircuitConnection>
+ */
+export interface ExpressRouteCircuitConnectionListResult extends Array<ExpressRouteCircuitConnection> {
+  /**
+   * @member {string} [nextLink] The URL to get the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the ExpressRouteCircuitListResult.
  * Response for ListExpressRouteCircuit API service call.
  *
@@ -10895,20 +11122,6 @@ export interface VirtualNetworkPeeringListResult extends Array<VirtualNetworkPee
 
 /**
  * @interface
- * An interface representing the VirtualNetworkTapListResult.
- * Response for ListVirtualNetworkTap API service call.
- *
- * @extends Array<VirtualNetworkTap>
- */
-export interface VirtualNetworkTapListResult extends Array<VirtualNetworkTap> {
-  /**
-   * @member {string} [nextLink] The URL to get the next set of results.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
  * An interface representing the VirtualNetworkGatewayListResult.
  * Response for the ListVirtualNetworkGateways API service call.
  *
@@ -10969,6 +11182,20 @@ export interface LocalNetworkGatewayListResult extends Array<LocalNetworkGateway
    * the server.**
    */
   readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the VirtualNetworkTapListResult.
+ * Response for ListVirtualNetworkTap API service call.
+ *
+ * @extends Array<VirtualNetworkTap>
+ */
+export interface VirtualNetworkTapListResult extends Array<VirtualNetworkTap> {
+  /**
+   * @member {string} [nextLink] The URL to get the next set of results.
+   */
+  nextLink?: string;
 }
 
 /**
@@ -11293,6 +11520,15 @@ export type ApplicationGatewayOperationalState = 'Stopped' | 'Starting' | 'Runni
 export type ApplicationGatewayFirewallMode = 'Detection' | 'Prevention';
 
 /**
+ * Defines values for ResourceIdentityType.
+ * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
+ * 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
+
+/**
  * Defines values for ProvisioningState.
  * Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'
  * @readonly
@@ -11549,6 +11785,14 @@ export type PcStatus = 'NotStarted' | 'Running' | 'Stopped' | 'Error' | 'Unknown
  * @enum {string}
  */
 export type PcError = 'InternalError' | 'AgentStopped' | 'CaptureFailed' | 'LocalFileFailed' | 'StorageFailed';
+
+/**
+ * Defines values for FlowLogFormatType.
+ * Possible values include: 'JSON'
+ * @readonly
+ * @enum {string}
+ */
+export type FlowLogFormatType = 'JSON';
 
 /**
  * Defines values for Protocol.
@@ -12966,6 +13210,25 @@ export type ExpressRouteCircuitConnectionsCreateOrUpdateResponse = ExpressRouteC
 };
 
 /**
+ * Contains response data for the list operation.
+ */
+export type ExpressRouteCircuitConnectionsListResponse = ExpressRouteCircuitConnectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteCircuitConnectionListResult;
+    };
+};
+
+/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type ExpressRouteCircuitConnectionsBeginCreateOrUpdateResponse = ExpressRouteCircuitConnection & {
@@ -12981,6 +13244,25 @@ export type ExpressRouteCircuitConnectionsBeginCreateOrUpdateResponse = ExpressR
        * The response body as parsed JSON or XML
        */
       parsedBody: ExpressRouteCircuitConnection;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ExpressRouteCircuitConnectionsListNextResponse = ExpressRouteCircuitConnectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteCircuitConnectionListResult;
     };
 };
 
@@ -18514,177 +18796,6 @@ export type VirtualNetworkPeeringsListNextResponse = VirtualNetworkPeeringListRe
 };
 
 /**
- * Contains response data for the get operation.
- */
-export type VirtualNetworkTapsGetResponse = VirtualNetworkTap & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTap;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type VirtualNetworkTapsCreateOrUpdateResponse = VirtualNetworkTap & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTap;
-    };
-};
-
-/**
- * Contains response data for the updateTags operation.
- */
-export type VirtualNetworkTapsUpdateTagsResponse = VirtualNetworkTap & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTap;
-    };
-};
-
-/**
- * Contains response data for the listAll operation.
- */
-export type VirtualNetworkTapsListAllResponse = VirtualNetworkTapListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTapListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type VirtualNetworkTapsListByResourceGroupResponse = VirtualNetworkTapListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTapListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type VirtualNetworkTapsBeginCreateOrUpdateResponse = VirtualNetworkTap & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTap;
-    };
-};
-
-/**
- * Contains response data for the beginUpdateTags operation.
- */
-export type VirtualNetworkTapsBeginUpdateTagsResponse = VirtualNetworkTap & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTap;
-    };
-};
-
-/**
- * Contains response data for the listAllNext operation.
- */
-export type VirtualNetworkTapsListAllNextResponse = VirtualNetworkTapListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTapListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type VirtualNetworkTapsListByResourceGroupNextResponse = VirtualNetworkTapListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTapListResult;
-    };
-};
-
-/**
  * Contains response data for the createOrUpdate operation.
  */
 export type VirtualNetworkGatewaysCreateOrUpdateResponse = VirtualNetworkGateway & {
@@ -19625,6 +19736,177 @@ export type LocalNetworkGatewaysListNextResponse = LocalNetworkGatewayListResult
        * The response body as parsed JSON or XML
        */
       parsedBody: LocalNetworkGatewayListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type VirtualNetworkTapsGetResponse = VirtualNetworkTap & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTap;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type VirtualNetworkTapsCreateOrUpdateResponse = VirtualNetworkTap & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTap;
+    };
+};
+
+/**
+ * Contains response data for the updateTags operation.
+ */
+export type VirtualNetworkTapsUpdateTagsResponse = VirtualNetworkTap & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTap;
+    };
+};
+
+/**
+ * Contains response data for the listAll operation.
+ */
+export type VirtualNetworkTapsListAllResponse = VirtualNetworkTapListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTapListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type VirtualNetworkTapsListByResourceGroupResponse = VirtualNetworkTapListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTapListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type VirtualNetworkTapsBeginCreateOrUpdateResponse = VirtualNetworkTap & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTap;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateTags operation.
+ */
+export type VirtualNetworkTapsBeginUpdateTagsResponse = VirtualNetworkTap & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTap;
+    };
+};
+
+/**
+ * Contains response data for the listAllNext operation.
+ */
+export type VirtualNetworkTapsListAllNextResponse = VirtualNetworkTapListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTapListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type VirtualNetworkTapsListByResourceGroupNextResponse = VirtualNetworkTapListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTapListResult;
     };
 };
 

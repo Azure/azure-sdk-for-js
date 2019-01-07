@@ -6,7 +6,7 @@ This package contains an isomorphic SDK for ContainerRegistryManagementClient.
 - Browser JavaScript
 
 ## How to Install
-```
+```bash
 npm install @azure/arm-containerregistry
 ```
 
@@ -15,7 +15,13 @@ npm install @azure/arm-containerregistry
 
 ### nodejs - Authentication, client creation and get registries as an example written in TypeScript.
 
-```ts
+```bash
+npm install @azure/ms-rest-nodeauth
+```
+
+##### Sample code
+
+```typescript
 import * as msRest from "ms-rest-js";
 import * as msRestAzure from "ms-rest-azure-js";
 import * as msRestNodeAuth from "ms-rest-nodeauth";
@@ -35,7 +41,16 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-### browser - Authentication, client creation and get registries as an example written in JavaScript.
+#### browser - Authentication, client creation and get registries as an example written in JavaScript.
+
+##### Install @azure/ms-rest-browserauth
+
+```bash
+npm install @azure/ms-rest-browserauth
+```
+
+##### Sample code
+
 See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html

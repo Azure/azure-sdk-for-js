@@ -299,40 +299,15 @@ export interface StorageAccountProperties {
 /**
  * @interface
  * An interface representing VirtualNetworkRule.
- * Virtual network rule.
+ * The virtual network rule for a container registry.
  *
  */
 export interface VirtualNetworkRule {
   /**
-   * @member {Action} [action] The action of virtual network rule. Possible
-   * values include: 'Allow'. Default value: 'Allow' .
-   */
-  action?: Action;
-  /**
-   * @member {string} virtualNetworkResourceId Resource ID of a subnet, for
-   * example:
+   * @member {string} id Resource ID of a subnet, for example:
    * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
    */
-  virtualNetworkResourceId: string;
-}
-
-/**
- * @interface
- * An interface representing IPRule.
- * IP rule with specific IP or IP range in CIDR format.
- *
- */
-export interface IPRule {
-  /**
-   * @member {Action} [action] The action of IP ACL rule. Possible values
-   * include: 'Allow'. Default value: 'Allow' .
-   */
-  action?: Action;
-  /**
-   * @member {string} iPAddressOrRange Specifies the IP or IP range in CIDR
-   * format. Only IPV4 address is allowed.
-   */
-  iPAddressOrRange: string;
+  id: string;
 }
 
 /**
@@ -353,10 +328,6 @@ export interface NetworkRuleSet {
    * rules.
    */
   virtualNetworkRules?: VirtualNetworkRule[];
-  /**
-   * @member {IPRule[]} [ipRules] The IP ACL rules.
-   */
-  ipRules?: IPRule[];
 }
 
 /**

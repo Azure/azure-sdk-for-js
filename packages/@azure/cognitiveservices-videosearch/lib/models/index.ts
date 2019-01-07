@@ -1076,10 +1076,10 @@ export interface VideoDetails {
 
 /**
  * @interface
- * An interface representing VideoSearchAPIClientOptions.
+ * An interface representing VideoSearchClientOptions.
  * @extends ServiceClientOptions
  */
-export interface VideoSearchAPIClientOptions extends ServiceClientOptions {
+export interface VideoSearchClientOptions extends ServiceClientOptions {
   /**
    * @member {string} [endpoint] Supported Cognitive Services endpoints
    * (protocol and hostname, for example:
