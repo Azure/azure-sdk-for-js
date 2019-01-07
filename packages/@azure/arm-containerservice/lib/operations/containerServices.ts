@@ -339,7 +339,7 @@ const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/containerServices/{containerServiceName}",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.containerServiceName,
     Parameters.subscriptionId
   ],
@@ -364,7 +364,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/containerServices",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -413,7 +413,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/containerServices/{containerServiceName}",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.containerServiceName,
     Parameters.subscriptionId
   ],
@@ -451,7 +451,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/containerServices/{containerServiceName}",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.containerServiceName,
     Parameters.subscriptionId
   ],
