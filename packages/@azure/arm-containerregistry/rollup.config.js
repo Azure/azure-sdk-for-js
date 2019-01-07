@@ -17,8 +17,8 @@ const config = {
     name: "Azure.ArmContainerregistry",
     sourcemap: true,
     globals: {
-      "ms-rest-js": "msRest",
-      "ms-rest-azure-js": "msRestAzure"
+      "@azure/ms-rest-js": "msRest",
+      "@azure/ms-rest-azure-js": "msRestAzure"
     },
     banner: `/*
  * Copyright (c) Microsoft Corporation. All rights reserved.

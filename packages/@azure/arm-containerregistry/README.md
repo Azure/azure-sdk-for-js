@@ -1,19 +1,23 @@
-# Azure ContainerRegistryManagementClient SDK for JavaScript
+## Azure ContainerRegistryManagementClient SDK for JavaScript
+
 This package contains an isomorphic SDK for ContainerRegistryManagementClient.
 
-## Currently supported environments
+### Currently supported environments
+
 - Node.js version 6.x.x or higher
 - Browser JavaScript
 
-## How to Install
+### How to Install
+
 ```bash
 npm install @azure/arm-containerregistry
 ```
 
+### How to use
 
-## How to use
+#### nodejs - Authentication, client creation and get registries as an example written in TypeScript.
 
-### nodejs - Authentication, client creation and get registries as an example written in TypeScript.
+##### Install @azure/ms-rest-nodeauth
 
 ```bash
 npm install @azure/ms-rest-nodeauth
@@ -22,9 +26,9 @@ npm install @azure/ms-rest-nodeauth
 ##### Sample code
 
 ```typescript
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
-import * as msRestNodeAuth from "ms-rest-nodeauth";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { ContainerRegistryManagementClient, ContainerRegistryManagementModels, ContainerRegistryManagementMappers } from "@azure/arm-containerregistry";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
@@ -59,11 +63,11 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 <html lang="en">
   <head>
     <title>@azure/arm-containerregistry sample</title>
-    <script src="node_modules/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/ms-rest-azure-js/dist/msRestAzure.js"></script>
-    <script src="node_modules/ms-rest-browserauth/dist/msAuth.js"></script>
+    <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
+    <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
+    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/arm-containerregistry/dist/arm-containerregistry.js"></script>
-    <script>
+    <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
       const authManager = new msAuth.AuthManager({
         clientId: "<client id for your Azure AD app>",
@@ -87,10 +91,10 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
       });
     </script>
   </head>
-  <body>
-  </body>
+  <body></body>
 </html>
 ```
 
-# Related projects
- - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
+## Related projects
+
+- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
