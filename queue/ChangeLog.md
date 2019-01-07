@@ -9,6 +9,7 @@
 * Updated server timeout value for retry options `tryTimeoutInMs` to 30 seconds.
 * Fixed `Aborter.timeout()` misleading scale description.
 * Fixed an issue that enqueue/dequeue/peek fail to work with some utf8 characters.
+* Exported HttpRequestBody type for who wants to implement a customized HTTP client.  
 
 2018.12 Version 10.0.0-preview
 
