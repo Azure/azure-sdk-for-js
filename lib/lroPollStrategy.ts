@@ -397,7 +397,15 @@ class LocationLROPollStrategy extends LROPollStrategy {
         lroPollState.resource = getResponseBody(result);
       } else if (400 <= statusCode && statusCode <= 499) {
         const resultBody: string = result.bodyAsText!;
-        throw new RestError(resultBody, undefined, statusCode, stripRequest(result.request), result, resultBody);
+        let errorMessage: string = resultBody;
+        try {
+          const resultObject = JSON.parse(resultBody);
+          errorMessage = resultObject.message;
+        } catch (parseError) {
+          // Ignore the exception, use resultBody as the error message
+        }
+
+        throw new RestError(errorMessage, undefined, statusCode, stripRequest(result.request), result, resultBody);
       } else {
         throw new Error(`The response with status code ${statusCode} from polling for long running operation url "${lroPollState.locationHeaderValue}" is not valid.`);
       }
