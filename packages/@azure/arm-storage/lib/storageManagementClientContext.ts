@@ -18,6 +18,7 @@ const packageVersion = "7.0.0";
 export class StorageManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
   subscriptionId: string;
+  apiVersion?: string;
 
   /**
    * Initializes a new instance of the StorageManagementClient class.
@@ -43,6 +44,7 @@ export class StorageManagementClientContext extends msRestAzure.AzureServiceClie
 
     super(credentials, options);
 
+    this.apiVersion = '2018-11-09';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

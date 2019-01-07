@@ -130,7 +130,7 @@ const setServicePropertiesOperationSpec: msRest.OperationSpec = {
     Parameters.blobServicesName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -163,7 +163,7 @@ const getServicePropertiesOperationSpec: msRest.OperationSpec = {
     Parameters.blobServicesName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
