@@ -507,7 +507,7 @@ class AzureAsyncOperationLROPollStrategy extends LROPollStrategy {
       if (lroPollState.locationHeaderValue) {
         const initialResponseStatusCode: number = initialResponse.status;
         if (initialRequestMethod === "POST") {
-          result = initialResponseStatusCode === 200 || initialResponseStatusCode === 201 || initialResponseStatusCode === 202;
+          result = initialResponseStatusCode === 200 || initialResponseStatusCode === 201;
         } else if (initialRequestMethod === "DELETE") {
           result = initialResponseStatusCode === 200 || initialResponseStatusCode === 202;
         }
