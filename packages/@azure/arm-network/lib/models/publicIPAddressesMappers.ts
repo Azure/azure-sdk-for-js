@@ -42,6 +42,7 @@ export {
   ServiceAssociationLink,
   Delegation,
   PublicIPAddressDnsSettings,
+  DdosSettings,
   IpTag,
   TagsObject,
   PublicIPAddressListResult,
