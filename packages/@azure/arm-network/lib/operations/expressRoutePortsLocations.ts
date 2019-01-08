@@ -28,7 +28,7 @@ export class ExpressRoutePortsLocations {
 
   /**
    * Retrieves all ExpressRoutePort peering locations. Does not return available bandwidths for each
-   * location. Available bandwidths can only be obtained when retriving a specific peering location.
+   * location. Available bandwidths can only be obtained when retrieving a specific peering location.
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRoutePortsLocationsListResponse>
    */
@@ -82,7 +82,7 @@ export class ExpressRoutePortsLocations {
 
   /**
    * Retrieves all ExpressRoutePort peering locations. Does not return available bandwidths for each
-   * location. Available bandwidths can only be obtained when retriving a specific peering location.
+   * location. Available bandwidths can only be obtained when retrieving a specific peering location.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRoutePortsLocationsListNextResponse>
