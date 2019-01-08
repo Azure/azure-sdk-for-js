@@ -822,7 +822,7 @@ export class MessageSession extends LinkEntity {
    * Gets the state of the MessageSession.
    * @returns Promise<any> The state of that session
    */
-  async getState(): Promise<void> {
+  async getState(): Promise<any> {
     return this._context.managementClient!.getSessionState(this.sessionId!);
   }
 
