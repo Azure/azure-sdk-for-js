@@ -13004,9 +13004,10 @@ export interface SSISExecutionParameter {
  */
 export interface SSISPackageLocation {
   /**
-   * @member {string} packagePath The SSIS package path.
+   * @member {any} packagePath The SSIS package path. Type: string (or
+   * Expression with resultType string).
    */
-  packagePath: string;
+  packagePath: any;
 }
 
 /**
@@ -13050,20 +13051,21 @@ export interface ExecuteSSISPackageActivity {
    */
   packageLocation: SSISPackageLocation;
   /**
-   * @member {SSISExecutionRuntime} [runtime] Specifies the runtime to execute
-   * SSIS package. Possible values include: 'x64', 'x86'
+   * @member {any} [runtime] Specifies the runtime to execute SSIS package. The
+   * value should be "x86" or "x64". Type: string (or Expression with
+   * resultType string).
    */
-  runtime?: SSISExecutionRuntime;
+  runtime?: any;
   /**
-   * @member {string} [loggingLevel] The logging level of SSIS package
-   * execution.
+   * @member {any} [loggingLevel] The logging level of SSIS package execution.
+   * Type: string (or Expression with resultType string).
    */
-  loggingLevel?: string;
+  loggingLevel?: any;
   /**
-   * @member {string} [environmentPath] The environment path to execute the
-   * SSIS package.
+   * @member {any} [environmentPath] The environment path to execute the SSIS
+   * package. Type: string (or Expression with resultType string).
    */
-  environmentPath?: string;
+  environmentPath?: any;
   /**
    * @member {IntegrationRuntimeReference} connectVia The integration runtime
    * reference.
@@ -16523,14 +16525,6 @@ export type StoredProcedureParameterType = 'String' | 'Int' | 'Decimal' | 'Guid'
 export type SalesforceSourceReadBehavior = 'Query' | 'QueryAll';
 
 /**
- * Defines values for SSISExecutionRuntime.
- * Possible values include: 'x64', 'x86'
- * @readonly
- * @enum {string}
- */
-export type SSISExecutionRuntime = 'x64' | 'x86';
-
-/**
  * Defines values for HDInsightActivityDebugInfoOption.
  * Possible values include: 'None', 'Always', 'Failure'
  * @readonly
@@ -16888,28 +16882,9 @@ export type FactoriesListByResourceGroupNextResponse = FactoryListResponse & {
 };
 
 /**
- * Contains response data for the getFeature operation.
+ * Contains response data for the getFeatureValue operation.
  */
-export type ExposureControlGetFeatureResponse = ExposureControlResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExposureControlResponse;
-    };
-};
-
-/**
- * Contains response data for the getFeatureBySubscription operation.
- */
-export type ExposureControlGetFeatureBySubscriptionResponse = ExposureControlResponse & {
+export type ExposureControlGetFeatureValueResponse = ExposureControlResponse & {
   /**
    * The underlying HTTP response.
    */

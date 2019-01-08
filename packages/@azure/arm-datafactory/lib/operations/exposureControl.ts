@@ -31,110 +31,42 @@ export class ExposureControl {
    * @param locationId The location identifier.
    * @param exposureControlRequest The exposure control request.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ExposureControlGetFeatureResponse>
+   * @returns Promise<Models.ExposureControlGetFeatureValueResponse>
    */
-  getFeature(locationId: string, exposureControlRequest: Models.ExposureControlRequest, options?: msRest.RequestOptionsBase): Promise<Models.ExposureControlGetFeatureResponse>;
+  getFeatureValue(locationId: string, exposureControlRequest: Models.ExposureControlRequest, options?: msRest.RequestOptionsBase): Promise<Models.ExposureControlGetFeatureValueResponse>;
   /**
    * @param locationId The location identifier.
    * @param exposureControlRequest The exposure control request.
    * @param callback The callback
    */
-  getFeature(locationId: string, exposureControlRequest: Models.ExposureControlRequest, callback: msRest.ServiceCallback<Models.ExposureControlResponse>): void;
+  getFeatureValue(locationId: string, exposureControlRequest: Models.ExposureControlRequest, callback: msRest.ServiceCallback<Models.ExposureControlResponse>): void;
   /**
    * @param locationId The location identifier.
    * @param exposureControlRequest The exposure control request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getFeature(locationId: string, exposureControlRequest: Models.ExposureControlRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExposureControlResponse>): void;
-  getFeature(locationId: string, exposureControlRequest: Models.ExposureControlRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExposureControlResponse>, callback?: msRest.ServiceCallback<Models.ExposureControlResponse>): Promise<Models.ExposureControlGetFeatureResponse> {
+  getFeatureValue(locationId: string, exposureControlRequest: Models.ExposureControlRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExposureControlResponse>): void;
+  getFeatureValue(locationId: string, exposureControlRequest: Models.ExposureControlRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExposureControlResponse>, callback?: msRest.ServiceCallback<Models.ExposureControlResponse>): Promise<Models.ExposureControlGetFeatureValueResponse> {
     return this.client.sendOperationRequest(
       {
         locationId,
         exposureControlRequest,
         options
       },
-      getFeatureOperationSpec,
-      callback) as Promise<Models.ExposureControlGetFeatureResponse>;
-  }
-
-  /**
-   * Get exposure control feature for specific data factory.
-   * @param resourceGroupName The resource group name.
-   * @param factoryName The factory name.
-   * @param exposureControlRequest The exposure control request.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ExposureControlGetFeatureBySubscriptionResponse>
-   */
-  getFeatureBySubscription(resourceGroupName: string, factoryName: string, exposureControlRequest: Models.ExposureControlRequest, options?: msRest.RequestOptionsBase): Promise<Models.ExposureControlGetFeatureBySubscriptionResponse>;
-  /**
-   * @param resourceGroupName The resource group name.
-   * @param factoryName The factory name.
-   * @param exposureControlRequest The exposure control request.
-   * @param callback The callback
-   */
-  getFeatureBySubscription(resourceGroupName: string, factoryName: string, exposureControlRequest: Models.ExposureControlRequest, callback: msRest.ServiceCallback<Models.ExposureControlResponse>): void;
-  /**
-   * @param resourceGroupName The resource group name.
-   * @param factoryName The factory name.
-   * @param exposureControlRequest The exposure control request.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getFeatureBySubscription(resourceGroupName: string, factoryName: string, exposureControlRequest: Models.ExposureControlRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExposureControlResponse>): void;
-  getFeatureBySubscription(resourceGroupName: string, factoryName: string, exposureControlRequest: Models.ExposureControlRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExposureControlResponse>, callback?: msRest.ServiceCallback<Models.ExposureControlResponse>): Promise<Models.ExposureControlGetFeatureBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        factoryName,
-        exposureControlRequest,
-        options
-      },
-      getFeatureBySubscriptionOperationSpec,
-      callback) as Promise<Models.ExposureControlGetFeatureBySubscriptionResponse>;
+      getFeatureValueOperationSpec,
+      callback) as Promise<Models.ExposureControlGetFeatureValueResponse>;
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const getFeatureOperationSpec: msRest.OperationSpec = {
+const getFeatureValueOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.DataFactory/locations/{locationId}/getFeatureValue",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.locationId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "exposureControlRequest",
-    mapper: {
-      ...Mappers.ExposureControlRequest,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.ExposureControlResponse
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const getFeatureBySubscriptionOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/getFeatureValue",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.factoryName
   ],
   queryParameters: [
     Parameters.apiVersion

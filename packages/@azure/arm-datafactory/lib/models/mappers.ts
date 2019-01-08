@@ -11536,7 +11536,7 @@ export const SSISPackageLocation: msRest.CompositeMapper = {
         required: true,
         serializedName: "packagePath",
         type: {
-          name: "String"
+          name: "Object"
         }
       }
     }
@@ -11563,19 +11563,19 @@ export const ExecuteSSISPackageActivity: msRest.CompositeMapper = {
       runtime: {
         serializedName: "typeProperties.runtime",
         type: {
-          name: "String"
+          name: "Object"
         }
       },
       loggingLevel: {
         serializedName: "typeProperties.loggingLevel",
         type: {
-          name: "String"
+          name: "Object"
         }
       },
       environmentPath: {
         serializedName: "typeProperties.environmentPath",
         type: {
-          name: "String"
+          name: "Object"
         }
       },
       connectVia: {
